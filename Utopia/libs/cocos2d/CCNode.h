@@ -35,6 +35,10 @@
 #import "ccConfig.h"
 #import "Support/CCArray.h"
 
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+@class CCGestureRecognizer;
+#endif
+
 enum {
 	kCCNodeTagInvalid = -1,
 };
@@ -165,6 +169,12 @@ enum {
 	BOOL isInverseDirty_:1;
 #if	CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
 	BOOL isTransformGLDirty_:1;
+#endif
+    
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+    CCArray* gestureRecognizers_;
+    CGSize touchableArea_;
+    BOOL isTouchEnabled_;
 #endif
 }
 
@@ -474,6 +484,29 @@ enum {
  Called internally by onExit
  */
 -(void) pauseSchedulerAndActions;
+
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+-(void) addGestureRecognizer:(CCGestureRecognizer*)gestureRecognizer;
+-(void) removeGestureRecognizer:(CCGestureRecognizer*)gestureRecognizer;
+-(void) stopAllGestureRecognizers;
+-(void) startAllGestureRecognizers;
+
+/*  used to see if a touch is in a nodes touchAble area, if the area isn't set
+    the content size is used */
+-(BOOL) isPointInArea:(CGPoint)pt;
+-(BOOL) isNodeInTreeTouched:(CGPoint)pt;
+
+/* property for getting/setting touchable area */
+@property(nonatomic,assign) CGSize touchableArea;
+@property(nonatomic,readonly) CCArray *gestureRecognizers;
+
+/** whether or not it will receive Touch events.
+  You can enable / disable touch events with this property.
+  Only the touches of this node will be affected. This "method" is not propagated to it's children.
+  @since v0.8.1
+  */
+@property(nonatomic,assign) BOOL isTouchEnabled;
+#endif
 
 
 // transformation methods

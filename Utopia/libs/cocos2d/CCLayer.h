@@ -49,7 +49,6 @@
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 @interface CCLayer : CCNode <UIAccelerometerDelegate, CCStandardTouchDelegate, CCTargetedTouchDelegate>
 {
-	BOOL isTouchEnabled_;
 	BOOL isAccelerometerEnabled_;
 }
 /** If isTouchEnabled, this method is called onEnter. Override it to change the
@@ -67,15 +66,6 @@
  */
 -(void) registerWithTouchDispatcher;
 
-/** whether or not it will receive Touch events.
- You can enable / disable touch events with this property.
- Only the touches of this node will be affected. This "method" is not propagated to it's children.
- 
- Valid on iOS and Mac OS X v10.6 and later.
-
- @since v0.8.1
- */
-@property(nonatomic,assign) BOOL isTouchEnabled;
 /** whether or not it will receive Accelerometer events
  You can enable / disable accelerometer events with this property.
  

@@ -56,8 +56,6 @@
 		[self setContentSize:s];
 		self.isRelativeAnchorPoint = NO;
 
-		isTouchEnabled_ = NO;
-
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 		isAccelerometerEnabled_ = NO;
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
@@ -95,15 +93,11 @@
 	}
 }
 
--(BOOL) isTouchEnabled
-{
-	return isTouchEnabled_;
-}
-
 -(void) setIsTouchEnabled:(BOOL)enabled
 {
 	if( isTouchEnabled_ != enabled ) {
-		isTouchEnabled_ = enabled;
+        // CCNode needs to remove any gesture recognizers
+        [super setIsTouchEnabled:enabled];
 		if( isRunning_ ) {
 			if( enabled )
 				[self registerWithTouchDispatcher];

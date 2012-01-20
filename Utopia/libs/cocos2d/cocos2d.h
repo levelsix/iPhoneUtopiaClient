@@ -130,6 +130,7 @@
 #import "Platforms/iOS/CCTouchHandler.h"
 #import "Platforms/iOS/EAGLView.h"
 #import "Platforms/iOS/CCDirectorIOS.h"
+#import "Platforms/iOS/CCGestureRecognizer.h"
 
 #elif defined(__MAC_OS_X_VERSION_MAX_ALLOWED)
 #import "Platforms/Mac/MacGLView.h"

@@ -1,0 +1,408 @@
+//ALL REQUEST PROTOS SHOULD INCLUDE A MinimumUserProto AS REQUIRED that represents which client sent it/triggered it 
+
+import "Info.proto";
+
+package com.lvl6.proto;
+
+option java_outer_classname = "EventProto";
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message ChatRequestProto {
+    required MinimumUserProto sender = 1; 
+	repeated MinimumUserProto recipients = 2;
+	required string message = 3;
+}
+
+																						//DONE
+message ChatResponseProto {
+    required MinimumUserProto sender = 1; 
+	required string message = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message BattleRequestProto {
+    required MinimumUserProto attacker = 1; 
+    required MinimumUserProto defender = 2; 
+    required int32 attackerBonus = 3;						//1-100, 100 is best, 1 is bad
+}
+
+																						//DONE
+message BattleResponseProto {
+    required MinimumUserProto attacker = 1;
+    required MinimumUserProto defender = 2;
+	required BattleStatus status = 3;
+
+	optional int32 winnerUserId = 4;
+	optional int32 coinsGained = 5;
+	optional FullEquipProto equipGained = 6;
+    optional int32 expGained = 7;
+    optional int32 winnerHealthLoss = 8;
+    optional int32 loserHealthLoss = 9;
+    
+    
+    enum BattleStatus {
+		SUCCESS = 0; 
+		ATTACKER_NOT_ENOUGH_HEALTH = 1;
+		DEFENDER_NOT_ENOUGH_HEALTH = 2;
+		ATTACKER_NOT_ENOUGH_STAMINA = 3;
+		LEVEL_DIFFERENCE_TOO_HIGH = 4;
+		OPPONENT_ON_SAME_SIDE = 5;
+	} 
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message VaultRequestProto {
+   enum VaultRequestType {
+		DEPOSIT = 0; 
+		WITHDRAW = 1;
+	} 
+	required MinimumUserProto sender = 1;
+	optional VaultRequestType requestType = 2;
+	optional int32 amount = 3;
+}
+
+																						//DONE
+message VaultResponseProto {
+	required MinimumUserProto sender = 1;
+	optional int32 vaultAmount = 2;
+	optional int32 coinAmount = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+message ArmoryRequestProto {
+   enum ArmoryRequestType {
+		BUY = 0; 
+		SELL = 1;
+	} 
+	required MinimumUserProto sender = 1;
+	required ArmoryRequestType requestType = 2;
+	required int32 quantity = 3;
+	required int32 equipId = 4;	
+}
+
+message ArmoryResponseProto {
+	required MinimumUserProto sender = 1;
+	required ArmoryStatus status = 2;
+	
+	enum ArmoryStatus {
+		SUCCESS = 0; 
+		NOT_ENOUGH_EQUIP_TO_SELL = 1;
+		NOT_ENOUGH_CURRENCY_TO_BUY = 2;
+		CANNOT_SELL_DIAMOND_EQUIP = 3;
+		OTHER_FAIL = 4;
+	} 
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message ClericHealRequestProto {
+	required MinimumUserProto sender = 1;
+}
+
+																						//DONE
+message ClericHealResponseProto {
+	required MinimumUserProto sender = 1;
+	optional int32 cost = 2;
+	optional HealStatus status = 3;
+	
+	enum HealStatus {
+		SUCCESS = 0; 
+		USER_NOT_ENOUGH_VAULT = 1;
+		OTHER_FAIL = 2;
+	} 
+}
+
+//------------------------------------------------------------------------------------------
+
+message StartupRequestProto {				//client will also send ChangeUserLocationRequestProto
+     required string udid = 1;
+     required float versionNum = 2;	//1.0->2.0 critical, 1.0->1.1 minor. server checks db for latest vnum
+}
+
+message StartupResponseProto {
+     optional FullUserProto sender = 1;
+     required StartupStatus startupStatus= 2;
+     required UpdateStatus updateStatus= 3;
+     optional int32 maxCityIdAccessibleToUser = 4;     //cityids must be in order of min_level
+     optional FullUserStructureProto structures = 5;
+     required bool updateAvailable = 6;
+     optional int32 questLog = 7;  
+     
+     enum UpdateStatus {
+     	NO_UPDATE = 0;
+     	MINOR_UPDATE = 1;
+     	MAJOR_UPDATE = 2;
+     }
+     
+	enum StartupStatus {
+		USER_IN_DB = 0; 
+		USER_NOT_IN_DB = 1;
+	}    
+}
+
+//------------------------------------------------------------------------------------------
+//CALLED: AFTER THE TUTORIAL
+
+message UserCreateRequestProto {
+     required string udid = 1;
+     repeated FullUserStructureProto structures = 2;
+     required LocationProto userLocation = 3;						
+     required CoordinateProto aviaryCoordinates = 4;
+     required CoordinateProto refineryCoordinates = 5;
+     required CoordinateProto carpenterCoordinates = 6;     
+     optional int32 referrerCode = 7;
+}
+//CREATE UTILITY METHOD- unlockCityRankOneForCityId(int cityId)
+message UserCreateResponseProto {
+	required FullUserProto sender = 1;
+	required StartupStatus status = 2;
+	
+    enum StartupStatus {
+		SUCCESS = 0; 
+		FAIL = 1;
+	}  
+}
+
+//------------------------------------------------------------------------------------------
+
+message ChangeUserLocationRequestProto {
+     required MinimumUserProto sender = 1;
+     optional int32 cityId = 2;
+     required LocationProto userLocation = 3;    
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RetrieveTasksForCityRequestProto {
+     required MinimumUserProto sender = 1;
+     optional int32 cityId = 2;
+}
+
+																						//DONE
+message RetrieveTasksForCityResponseProto {
+     required MinimumUserProto sender = 1;
+     repeated FullTaskProto tasks = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RetrieveEquipmentForArmoryRequestProto {
+     required MinimumUserProto sender = 1;
+}
+																						//DONE
+message RetrieveEquipmentForArmoryResponseProto {
+     required MinimumUserProto sender = 1;
+     repeated FullEquipProto equips = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message TaskActionRequestProto {
+	required MinimumUserProto sender = 1;
+	required int32 taskId = 2;
+}
+
+																						//DONE
+message TaskActionResponseProto {
+	required MinimumUserProto sender = 1;
+	required TaskActionStatus status = 2;
+	optional bool taskCompleted = 3;
+	optional bool cityRankedUp = 4;
+	optional int32 lootEquipId = 5;
+	optional int32 coinsGained = 6;
+	
+	optional int32 coinBonusIfCityRankup = 7;
+	optional int32 expBonusIfCityRankup = 8;
+	
+	enum TaskActionStatus {
+		SUCCESS = 0; 
+		USER_NOT_ENOUGH_ENERGY = 1;
+		USER_NOT_ALL_REQUIRED_ITEMS = 2;
+		INVALID_TASK_ID = 3;
+	} 
+}
+
+//------------------------------------------------------------------------------------------
+
+message PurchaseStructureRequestProto {
+	required MinimumUserProto sender = 1;
+	required CoordinateProto structCoordinates = 2;
+	required int32 structId = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+message PlaceCriticalStructureRequestProto {
+	required MinimumUserProto sender = 1;
+	required CoordinateProto critStructCoordinates = 2;
+	required int32 critStructId = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+message MoveCriticalStructureRequestProto {
+	required MinimumUserProto sender = 1;
+	required CoordinateProto critStructCoordinates = 2;
+	required CritStructType critStruct = 3;
+	
+	enum CritStructType {
+		AVIARY = 0;
+		LUMBERMILL = 1;
+		CARPENTER = 2;
+		VAULT = 3;
+		ARMORY = 4;
+		CLERIC = 5;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+message MoveUserStructureRequestProto {
+	required MinimumUserProto sender = 1;
+	required CoordinateProto oldStructCoordinates = 2;
+	required CoordinateProto curStructCoordinates = 3;
+	required int32 structId = 4;
+}
+
+//------------------------------------------------------------------------------------------
+
+message LevelUpResponseProto {
+     required FullUserProto sender = 1;
+     optional int32 maxCityIdAccessibleToUser = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+message InAppPurchaseRequestProto {
+	required MinimumUserProto sender = 1;
+	required string receipt = 2;
+}
+
+message InAppPurchaseResponseProto {
+	required MinimumUserProto sender = 1;
+	required InAppPurchaseStatus status = 2;
+	optional int32 diamondsGained = 3;
+	
+	enum InAppPurchaseStatus {
+		SUCCESS = 0;
+		FAIL = 1;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message UpdateClientUserResponseProto {
+     required FullUserProto sender = 1;
+     required int64 timeOfUserUpdate = 2;				//new Date().getTime(); milliseconds since 1/1/70
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RetrieveCurrentMarketplacePostsRequestProto {
+	required MinimumUserProto sender = 1;
+}
+
+																						//DONE
+message RetrieveCurrentMarketplacePostsResponseProto {
+     required MinimumUserProto sender = 1;
+     repeated FullMarketplacePostProto marketplacePosts = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message PostToMarketplaceRequestProto {
+	required MinimumUserProto sender = 1;
+	required MarketplacePostType postType = 2;
+	optional int32 postedEquipId = 3;
+	optional int32 postedWood = 4;
+	optional int32 postedDiamonds = 5;
+	optional int32 postedCoins = 6;
+	optional int32 diamondCost = 7;
+	optional int32 coinCost = 8;
+	optional int32 woodCost = 9;
+}
+
+																						//DONE
+message PostToMarketplaceResponseProto {
+     required MinimumUserProto sender = 1;
+     required PostToMarketplaceStatus status = 2;
+    
+    enum PostToMarketplaceStatus {
+		SUCCESS = 0;
+		NEGATIVE_POST = 1;
+		NOT_ENOUGH_EQUIP = 2;
+		NOT_ENOUGH_WOOD = 3;
+		NOT_ENOUGH_DIAMONDS = 4;
+		NOT_ENOUGH_COINS = 5;
+		NEGATIVE_COST = 6;
+		NO_COST = 7;
+		OTHER_FAIL = 8;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RetractMarketplacePostRequestProto {
+	required MinimumUserProto sender = 1;
+	required int32 marketplacePostId = 2;
+}
+
+																						//DONE
+message RetractMarketplacePostResponseProto {
+     required MinimumUserProto sender = 1;
+     required RetractMarketplacePostStatus status = 2;
+
+	enum RetractMarketplacePostStatus {
+		SUCCESS = 0;
+		NOT_REQUESTERS_POST = 1;
+		POST_NO_LONGER_EXISTS = 2;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message PurchaseFromMarketplaceRequestProto {
+	required MinimumUserProto sender = 1;
+	required int32 marketplacePostId = 2;
+	required int32 posterId = 3;
+}
+
+																						//DONE
+message PurchaseFromMarketplaceResponseProto {
+     required MinimumUserProto sender = 1;
+     required PurchaseFromMarketplaceStatus status = 2;
+
+	enum PurchaseFromMarketplaceStatus {
+		SUCCESS = 0;
+		NOT_ENOUGH_MATERIALS = 1;
+		POST_NO_LONGER_EXISTS = 2;
+		PURCHASER_IS_SELLER = 3;
+		OTHER_FAIL = 4;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+message UseSkillPointRequestProto {
+	required MinimumUserProto sender = 1;
+}
+
+message UseSkillPointResponseProto {
+     required MinimumUserProto sender = 1;
+}
