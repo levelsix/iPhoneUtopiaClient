@@ -34,7 +34,8 @@
 - (void) sendInAppPurchaseMessage: (NSString *) receipt;
 
 // Marketplace messages
-- (void) sendRetrieveCurrentMarketplacePostsMessage;
+- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId;
+- (void) sendRetrieveCurrentMarketplacePostsMessageFromSenderBeforePostId: (int)postId;
 - (void) sendCoinPostToMarketplaceMessage:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendWoodPostToMarketplaceMessage:(int)woodPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendDiamondPostToMarketplaceMessage:(int)dmdPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;

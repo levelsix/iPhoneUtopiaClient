@@ -48,10 +48,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                setUserType: UserTypeBadArcher] 
               build] retain];
   
-//  for (int i = 0; i < 100; i++) {
-//    [self sendCoinPostToMarketplaceMessage:10 wood:arc4random()%30 coins:arc4random()%100 diamonds:arc4random()%20];
-//  }
-  [self sendRetrieveCurrentMarketplacePostsMessage];
+  //  for (int i = 0; i < 100; i++) {
+  //    [self sendCoinPostToMarketplaceMessage:10 wood:arc4random()%30 coins:arc4random()%100 diamonds:arc4random()%20];
+  //  }
+  [self sendRetrieveCurrentMarketplacePostsMessageFromSenderBeforePostId:30];
   //  [self sendStartupMessage];
   //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
@@ -195,12 +195,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[iapReq data] withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
-- (void) sendRetrieveCurrentMarketplacePostsMessage {
-  RetrieveCurrentMarketplacePostsRequestProto *mktReq = [[[RetrieveCurrentMarketplacePostsRequestProto builder]
-                                                          setSender:_sender]
-                                                         build];
+- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId {
+  RetrieveCurrentMarketplacePostsRequestProto_Builder *mktReq = [[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender];
   
-  [self sendData:[mktReq data] withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
+  if (postId) {
+    [mktReq setBeforeThisPostId:postId];
+  }
+  
+  [self sendData:[[mktReq build] data] withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
+}
+
+- (void) sendRetrieveCurrentMarketplacePostsMessageFromSenderBeforePostId: (int)postId {
+  RetrieveCurrentMarketplacePostsRequestProto_Builder *mktReq = [[[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender] setFromSender:YES];
+  
+  if (postId) {
+    [mktReq setBeforeThisPostId:postId];
+  }
+  
+  [self sendData:[[mktReq build] data] withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
 }
 
 - (void) sendCoinPostToMarketplaceMessage:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
