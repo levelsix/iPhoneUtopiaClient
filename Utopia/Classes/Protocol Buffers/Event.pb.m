@@ -9007,6 +9007,8 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 
 @interface RetrieveCurrentMarketplacePostsRequestProto ()
 @property (retain) MinimumUserProto* sender;
+@property int32_t beforeThisPostId;
+@property BOOL fromSender;
 @end
 
 @implementation RetrieveCurrentMarketplacePostsRequestProto
@@ -9018,6 +9020,25 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasBeforeThisPostId {
+  return !!hasBeforeThisPostId_;
+}
+- (void) setHasBeforeThisPostId:(BOOL) value {
+  hasBeforeThisPostId_ = !!value;
+}
+@synthesize beforeThisPostId;
+- (BOOL) hasFromSender {
+  return !!hasFromSender_;
+}
+- (void) setHasFromSender:(BOOL) value {
+  hasFromSender_ = !!value;
+}
+- (BOOL) fromSender {
+  return !!fromSender_;
+}
+- (void) setFromSender:(BOOL) value {
+  fromSender_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -9025,6 +9046,8 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.beforeThisPostId = 0;
+    self.fromSender = NO;
   }
   return self;
 }
@@ -9053,6 +9076,12 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasBeforeThisPostId) {
+    [output writeInt32:2 value:self.beforeThisPostId];
+  }
+  if (self.hasFromSender) {
+    [output writeBool:3 value:self.fromSender];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -9064,6 +9093,12 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   size = 0;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBeforeThisPostId) {
+    size += computeInt32Size(2, self.beforeThisPostId);
+  }
+  if (self.hasFromSender) {
+    size += computeBoolSize(3, self.fromSender);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -9143,6 +9178,12 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasBeforeThisPostId) {
+    [self setBeforeThisPostId:other.beforeThisPostId];
+  }
+  if (other.hasFromSender) {
+    [self setFromSender:other.fromSender];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9171,6 +9212,14 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setBeforeThisPostId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setFromSender:[input readBool]];
         break;
       }
     }
@@ -9204,6 +9253,38 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBeforeThisPostId {
+  return result.hasBeforeThisPostId;
+}
+- (int32_t) beforeThisPostId {
+  return result.beforeThisPostId;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value {
+  result.hasBeforeThisPostId = YES;
+  result.beforeThisPostId = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearBeforeThisPostId {
+  result.hasBeforeThisPostId = NO;
+  result.beforeThisPostId = 0;
+  return self;
+}
+- (BOOL) hasFromSender {
+  return result.hasFromSender;
+}
+- (BOOL) fromSender {
+  return result.fromSender;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFromSender:(BOOL) value {
+  result.hasFromSender = YES;
+  result.fromSender = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender {
+  result.hasFromSender = NO;
+  result.fromSender = NO;
   return self;
 }
 @end
@@ -11304,6 +11385,7 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 
 @interface UseSkillPointRequestProto ()
 @property (retain) MinimumUserProto* sender;
+@property UseSkillPointRequestProto_BoostType boostType;
 @end
 
 @implementation UseSkillPointRequestProto
@@ -11315,6 +11397,13 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasBoostType {
+  return !!hasBoostType_;
+}
+- (void) setHasBoostType:(BOOL) value {
+  hasBoostType_ = !!value;
+}
+@synthesize boostType;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -11322,6 +11411,7 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.boostType = UseSkillPointRequestProto_BoostTypeAttack;
   }
   return self;
 }
@@ -11341,6 +11431,9 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasBoostType) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -11349,6 +11442,9 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBoostType) {
+    [output writeEnum:2 value:self.boostType];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -11361,6 +11457,9 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   size = 0;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBoostType) {
+    size += computeEnumSize(2, self.boostType);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11395,6 +11494,18 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
 }
 @end
 
+BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_BoostType value) {
+  switch (value) {
+    case UseSkillPointRequestProto_BoostTypeAttack:
+    case UseSkillPointRequestProto_BoostTypeDefense:
+    case UseSkillPointRequestProto_BoostTypeEnergy:
+    case UseSkillPointRequestProto_BoostTypeHealth:
+    case UseSkillPointRequestProto_BoostTypeStamina:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface UseSkillPointRequestProto_Builder()
 @property (retain) UseSkillPointRequestProto* result;
 @end
@@ -11440,6 +11551,9 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasBoostType) {
+    [self setBoostType:other.boostType];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11468,6 +11582,15 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (UseSkillPointRequestProto_BoostTypeIsValidValue(value)) {
+          [self setBoostType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
         break;
       }
     }
@@ -11503,10 +11626,27 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
+- (BOOL) hasBoostType {
+  return result.hasBoostType;
+}
+- (UseSkillPointRequestProto_BoostType) boostType {
+  return result.boostType;
+}
+- (UseSkillPointRequestProto_Builder*) setBoostType:(UseSkillPointRequestProto_BoostType) value {
+  result.hasBoostType = YES;
+  result.boostType = value;
+  return self;
+}
+- (UseSkillPointRequestProto_Builder*) clearBoostType {
+  result.hasBoostType = NO;
+  result.boostType = UseSkillPointRequestProto_BoostTypeAttack;
+  return self;
+}
 @end
 
 @interface UseSkillPointResponseProto ()
 @property (retain) MinimumUserProto* sender;
+@property UseSkillPointResponseProto_UseSkillPointStatus status;
 @end
 
 @implementation UseSkillPointResponseProto
@@ -11518,6 +11658,13 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -11525,6 +11672,7 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.status = UseSkillPointResponseProto_UseSkillPointStatusSuccess;
   }
   return self;
 }
@@ -11544,6 +11692,9 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasStatus) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -11552,6 +11703,9 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -11564,6 +11718,9 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
   size = 0;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11598,6 +11755,16 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
 }
 @end
 
+BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointResponseProto_UseSkillPointStatus value) {
+  switch (value) {
+    case UseSkillPointResponseProto_UseSkillPointStatusSuccess:
+    case UseSkillPointResponseProto_UseSkillPointStatusNotEnoughSkillPoints:
+    case UseSkillPointResponseProto_UseSkillPointStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface UseSkillPointResponseProto_Builder()
 @property (retain) UseSkillPointResponseProto* result;
 @end
@@ -11643,6 +11810,9 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11671,6 +11841,15 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
         break;
       }
     }
@@ -11704,6 +11883,490 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
 - (UseSkillPointResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (UseSkillPointResponseProto_UseSkillPointStatus) status {
+  return result.status;
+}
+- (UseSkillPointResponseProto_Builder*) setStatus:(UseSkillPointResponseProto_UseSkillPointStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (UseSkillPointResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = UseSkillPointResponseProto_UseSkillPointStatusSuccess;
+  return self;
+}
+@end
+
+@interface GenerateAttackListRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation GenerateAttackListRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [GenerateAttackListRequestProto class]) {
+    defaultGenerateAttackListRequestProtoInstance = [[GenerateAttackListRequestProto alloc] init];
+  }
+}
++ (GenerateAttackListRequestProto*) defaultInstance {
+  return defaultGenerateAttackListRequestProtoInstance;
+}
+- (GenerateAttackListRequestProto*) defaultInstance {
+  return defaultGenerateAttackListRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (GenerateAttackListRequestProto*) parseFromData:(NSData*) data {
+  return (GenerateAttackListRequestProto*)[[[GenerateAttackListRequestProto builder] mergeFromData:data] build];
+}
++ (GenerateAttackListRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GenerateAttackListRequestProto*)[[[GenerateAttackListRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (GenerateAttackListRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (GenerateAttackListRequestProto*)[[[GenerateAttackListRequestProto builder] mergeFromInputStream:input] build];
+}
++ (GenerateAttackListRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GenerateAttackListRequestProto*)[[[GenerateAttackListRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GenerateAttackListRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (GenerateAttackListRequestProto*)[[[GenerateAttackListRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (GenerateAttackListRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GenerateAttackListRequestProto*)[[[GenerateAttackListRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GenerateAttackListRequestProto_Builder*) builder {
+  return [[[GenerateAttackListRequestProto_Builder alloc] init] autorelease];
+}
++ (GenerateAttackListRequestProto_Builder*) builderWithPrototype:(GenerateAttackListRequestProto*) prototype {
+  return [[GenerateAttackListRequestProto builder] mergeFrom:prototype];
+}
+- (GenerateAttackListRequestProto_Builder*) builder {
+  return [GenerateAttackListRequestProto builder];
+}
+@end
+
+@interface GenerateAttackListRequestProto_Builder()
+@property (retain) GenerateAttackListRequestProto* result;
+@end
+
+@implementation GenerateAttackListRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[GenerateAttackListRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (GenerateAttackListRequestProto_Builder*) clear {
+  self.result = [[[GenerateAttackListRequestProto alloc] init] autorelease];
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clone {
+  return [GenerateAttackListRequestProto builderWithPrototype:result];
+}
+- (GenerateAttackListRequestProto*) defaultInstance {
+  return [GenerateAttackListRequestProto defaultInstance];
+}
+- (GenerateAttackListRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (GenerateAttackListRequestProto*) buildPartial {
+  GenerateAttackListRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (GenerateAttackListRequestProto_Builder*) mergeFrom:(GenerateAttackListRequestProto*) other {
+  if (other == [GenerateAttackListRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (GenerateAttackListRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (GenerateAttackListRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (GenerateAttackListRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface GenerateAttackListResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableEnemiesList;
+@end
+
+@implementation GenerateAttackListResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableEnemiesList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableEnemiesList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [GenerateAttackListResponseProto class]) {
+    defaultGenerateAttackListResponseProtoInstance = [[GenerateAttackListResponseProto alloc] init];
+  }
+}
++ (GenerateAttackListResponseProto*) defaultInstance {
+  return defaultGenerateAttackListResponseProtoInstance;
+}
+- (GenerateAttackListResponseProto*) defaultInstance {
+  return defaultGenerateAttackListResponseProtoInstance;
+}
+- (NSArray*) enemiesList {
+  return mutableEnemiesList;
+}
+- (FullUserProto*) enemiesAtIndex:(int32_t) index {
+  id value = [mutableEnemiesList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (FullUserProto* element in self.enemiesList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullUserProto* element in self.enemiesList) {
+    [output writeMessage:2 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullUserProto* element in self.enemiesList) {
+    size += computeMessageSize(2, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (GenerateAttackListResponseProto*) parseFromData:(NSData*) data {
+  return (GenerateAttackListResponseProto*)[[[GenerateAttackListResponseProto builder] mergeFromData:data] build];
+}
++ (GenerateAttackListResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GenerateAttackListResponseProto*)[[[GenerateAttackListResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (GenerateAttackListResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (GenerateAttackListResponseProto*)[[[GenerateAttackListResponseProto builder] mergeFromInputStream:input] build];
+}
++ (GenerateAttackListResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GenerateAttackListResponseProto*)[[[GenerateAttackListResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GenerateAttackListResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (GenerateAttackListResponseProto*)[[[GenerateAttackListResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (GenerateAttackListResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (GenerateAttackListResponseProto*)[[[GenerateAttackListResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (GenerateAttackListResponseProto_Builder*) builder {
+  return [[[GenerateAttackListResponseProto_Builder alloc] init] autorelease];
+}
++ (GenerateAttackListResponseProto_Builder*) builderWithPrototype:(GenerateAttackListResponseProto*) prototype {
+  return [[GenerateAttackListResponseProto builder] mergeFrom:prototype];
+}
+- (GenerateAttackListResponseProto_Builder*) builder {
+  return [GenerateAttackListResponseProto builder];
+}
+@end
+
+@interface GenerateAttackListResponseProto_Builder()
+@property (retain) GenerateAttackListResponseProto* result;
+@end
+
+@implementation GenerateAttackListResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[GenerateAttackListResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (GenerateAttackListResponseProto_Builder*) clear {
+  self.result = [[[GenerateAttackListResponseProto alloc] init] autorelease];
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) clone {
+  return [GenerateAttackListResponseProto builderWithPrototype:result];
+}
+- (GenerateAttackListResponseProto*) defaultInstance {
+  return [GenerateAttackListResponseProto defaultInstance];
+}
+- (GenerateAttackListResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (GenerateAttackListResponseProto*) buildPartial {
+  GenerateAttackListResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (GenerateAttackListResponseProto_Builder*) mergeFrom:(GenerateAttackListResponseProto*) other {
+  if (other == [GenerateAttackListResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableEnemiesList.count > 0) {
+    if (result.mutableEnemiesList == nil) {
+      result.mutableEnemiesList = [NSMutableArray array];
+    }
+    [result.mutableEnemiesList addObjectsFromArray:other.mutableEnemiesList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (GenerateAttackListResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addEnemies:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (GenerateAttackListResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (GenerateAttackListResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) enemiesList {
+  if (result.mutableEnemiesList == nil) { return [NSArray array]; }
+  return result.mutableEnemiesList;
+}
+- (FullUserProto*) enemiesAtIndex:(int32_t) index {
+  return [result enemiesAtIndex:index];
+}
+- (GenerateAttackListResponseProto_Builder*) replaceEnemiesAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableEnemiesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) addAllEnemies:(NSArray*) values {
+  if (result.mutableEnemiesList == nil) {
+    result.mutableEnemiesList = [NSMutableArray array];
+  }
+  [result.mutableEnemiesList addObjectsFromArray:values];
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) clearEnemiesList {
+  result.mutableEnemiesList = nil;
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) addEnemies:(FullUserProto*) value {
+  if (result.mutableEnemiesList == nil) {
+    result.mutableEnemiesList = [NSMutableArray array];
+  }
+  [result.mutableEnemiesList addObject:value];
   return self;
 }
 @end

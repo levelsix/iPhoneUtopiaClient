@@ -38,6 +38,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetractPostFromMarketplaceEvent:
     case EventProtocolRequestCPurchaseFromMarketplaceEvent:
     case EventProtocolRequestCUseSkillPointEvent:
+    case EventProtocolRequestCGenerateAttackListEvent:
       return YES;
     default:
       return NO;
@@ -61,6 +62,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetractPostFromMarketplaceEvent:
     case EventProtocolResponseSPurchaseFromMarketplaceEvent:
     case EventProtocolResponseSUseSkillPointEvent:
+    case EventProtocolResponseSGenerateAttackListEvent:
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
       return YES;

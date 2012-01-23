@@ -34,6 +34,10 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GenerateAttackListRequestProto;
+@class GenerateAttackListRequestProto_Builder;
+@class GenerateAttackListResponseProto;
+@class GenerateAttackListResponseProto_Builder;
 @class InAppPurchaseRequestProto;
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
@@ -221,6 +225,24 @@ typedef enum {
 } PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus;
 
 BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidValue(PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus value);
+
+typedef enum {
+  UseSkillPointRequestProto_BoostTypeAttack = 0,
+  UseSkillPointRequestProto_BoostTypeDefense = 1,
+  UseSkillPointRequestProto_BoostTypeEnergy = 2,
+  UseSkillPointRequestProto_BoostTypeHealth = 3,
+  UseSkillPointRequestProto_BoostTypeStamina = 4,
+} UseSkillPointRequestProto_BoostType;
+
+BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_BoostType value);
+
+typedef enum {
+  UseSkillPointResponseProto_UseSkillPointStatusSuccess = 0,
+  UseSkillPointResponseProto_UseSkillPointStatusNotEnoughSkillPoints = 1,
+  UseSkillPointResponseProto_UseSkillPointStatusOtherFail = 2,
+} UseSkillPointResponseProto_UseSkillPointStatus;
+
+BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointResponseProto_UseSkillPointStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -2285,11 +2307,19 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 
 @interface RetrieveCurrentMarketplacePostsRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasFromSender_:1;
+  BOOL hasBeforeThisPostId_:1;
   BOOL hasSender_:1;
+  BOOL fromSender_:1;
+  int32_t beforeThisPostId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
+- (BOOL) hasBeforeThisPostId;
+- (BOOL) hasFromSender;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t beforeThisPostId;
+- (BOOL) fromSender;
 
 + (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
 - (RetrieveCurrentMarketplacePostsRequestProto*) defaultInstance;
@@ -2331,6 +2361,16 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBeforeThisPostId;
+- (int32_t) beforeThisPostId;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearBeforeThisPostId;
+
+- (BOOL) hasFromSender;
+- (BOOL) fromSender;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) setFromSender:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsRequestProto_Builder*) clearFromSender;
 @end
 
 @interface RetrieveCurrentMarketplacePostsResponseProto : PBGeneratedMessage {
@@ -2822,10 +2862,14 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 @interface UseSkillPointRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasBoostType_:1;
   MinimumUserProto* sender;
+  UseSkillPointRequestProto_BoostType boostType;
 }
 - (BOOL) hasSender;
+- (BOOL) hasBoostType;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) UseSkillPointRequestProto_BoostType boostType;
 
 + (UseSkillPointRequestProto*) defaultInstance;
 - (UseSkillPointRequestProto*) defaultInstance;
@@ -2867,15 +2911,24 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 - (UseSkillPointRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (UseSkillPointRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UseSkillPointRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBoostType;
+- (UseSkillPointRequestProto_BoostType) boostType;
+- (UseSkillPointRequestProto_Builder*) setBoostType:(UseSkillPointRequestProto_BoostType) value;
+- (UseSkillPointRequestProto_Builder*) clearBoostType;
 @end
 
 @interface UseSkillPointResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  UseSkillPointResponseProto_UseSkillPointStatus status;
 }
 - (BOOL) hasSender;
+- (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) UseSkillPointResponseProto_UseSkillPointStatus status;
 
 + (UseSkillPointResponseProto*) defaultInstance;
 - (UseSkillPointResponseProto*) defaultInstance;
@@ -2917,5 +2970,120 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 - (UseSkillPointResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (UseSkillPointResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (UseSkillPointResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (UseSkillPointResponseProto_UseSkillPointStatus) status;
+- (UseSkillPointResponseProto_Builder*) setStatus:(UseSkillPointResponseProto_UseSkillPointStatus) value;
+- (UseSkillPointResponseProto_Builder*) clearStatus;
+@end
+
+@interface GenerateAttackListRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (GenerateAttackListRequestProto*) defaultInstance;
+- (GenerateAttackListRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (GenerateAttackListRequestProto_Builder*) builder;
++ (GenerateAttackListRequestProto_Builder*) builder;
++ (GenerateAttackListRequestProto_Builder*) builderWithPrototype:(GenerateAttackListRequestProto*) prototype;
+
++ (GenerateAttackListRequestProto*) parseFromData:(NSData*) data;
++ (GenerateAttackListRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GenerateAttackListRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (GenerateAttackListRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GenerateAttackListRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (GenerateAttackListRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface GenerateAttackListRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  GenerateAttackListRequestProto* result;
+}
+
+- (GenerateAttackListRequestProto*) defaultInstance;
+
+- (GenerateAttackListRequestProto_Builder*) clear;
+- (GenerateAttackListRequestProto_Builder*) clone;
+
+- (GenerateAttackListRequestProto*) build;
+- (GenerateAttackListRequestProto*) buildPartial;
+
+- (GenerateAttackListRequestProto_Builder*) mergeFrom:(GenerateAttackListRequestProto*) other;
+- (GenerateAttackListRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (GenerateAttackListRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (GenerateAttackListRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (GenerateAttackListRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (GenerateAttackListRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (GenerateAttackListRequestProto_Builder*) clearSender;
+@end
+
+@interface GenerateAttackListResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableEnemiesList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) enemiesList;
+- (FullUserProto*) enemiesAtIndex:(int32_t) index;
+
++ (GenerateAttackListResponseProto*) defaultInstance;
+- (GenerateAttackListResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (GenerateAttackListResponseProto_Builder*) builder;
++ (GenerateAttackListResponseProto_Builder*) builder;
++ (GenerateAttackListResponseProto_Builder*) builderWithPrototype:(GenerateAttackListResponseProto*) prototype;
+
++ (GenerateAttackListResponseProto*) parseFromData:(NSData*) data;
++ (GenerateAttackListResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GenerateAttackListResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (GenerateAttackListResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (GenerateAttackListResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (GenerateAttackListResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface GenerateAttackListResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  GenerateAttackListResponseProto* result;
+}
+
+- (GenerateAttackListResponseProto*) defaultInstance;
+
+- (GenerateAttackListResponseProto_Builder*) clear;
+- (GenerateAttackListResponseProto_Builder*) clone;
+
+- (GenerateAttackListResponseProto*) build;
+- (GenerateAttackListResponseProto*) buildPartial;
+
+- (GenerateAttackListResponseProto_Builder*) mergeFrom:(GenerateAttackListResponseProto*) other;
+- (GenerateAttackListResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (GenerateAttackListResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (GenerateAttackListResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (GenerateAttackListResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (GenerateAttackListResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (GenerateAttackListResponseProto_Builder*) clearSender;
+
+- (NSArray*) enemiesList;
+- (FullUserProto*) enemiesAtIndex:(int32_t) index;
+- (GenerateAttackListResponseProto_Builder*) replaceEnemiesAtIndex:(int32_t) index with:(FullUserProto*) value;
+- (GenerateAttackListResponseProto_Builder*) addEnemies:(FullUserProto*) value;
+- (GenerateAttackListResponseProto_Builder*) addAllEnemies:(NSArray*) values;
+- (GenerateAttackListResponseProto_Builder*) clearEnemiesList;
 @end
 

@@ -119,7 +119,7 @@
 
 - (void) awakeFromNib {
   [super awakeFromNib];
-  self.curQuestsLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];
+  self.curQuestsLabel.font = [UIFont fontWithName:@"Adobe Jenson Pro" size:18];
   
   for (int i = 0; i < 15; i++) {
     UIView *view = [[QuestItemView alloc] initWithFrame:CGRectMake(0, QUEST_ITEM_HEIGHT*i+self.scrollView.topGradient.frame.size.height, self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT)];

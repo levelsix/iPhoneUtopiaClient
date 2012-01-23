@@ -112,6 +112,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(EventController);
 
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto {
   NSLog(@"Retrieve mkt response received");
+  for (FullMarketplacePostProto *p in [proto marketplacePostsList]) {
+    NSLog(@"%d: %@", [p id], [NSDate dateWithTimeIntervalSince1970:[p timeOfPost]/1000.0]);
+  }
 }
 
 - (void) handlePostToMarketplaceResponseProto: (PostToMarketplaceResponseProto *) proto {

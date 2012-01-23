@@ -48,6 +48,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                setUserType: UserTypeBadArcher] 
               build] retain];
   
+//  for (int i = 0; i < 100; i++) {
+//    [self sendCoinPostToMarketplaceMessage:10 wood:arc4random()%30 coins:arc4random()%100 diamonds:arc4random()%20];
+//  }
+  [self sendRetrieveCurrentMarketplacePostsMessage];
   //  [self sendStartupMessage];
   //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];

@@ -36,6 +36,7 @@
   int _tasksCompleted;
   int _numReferrals;
   
+  NSMutableArray *_marketplacePosts;
 }
 
 @property (assign) BOOL connected;
@@ -63,6 +64,8 @@
 @property (assign) int experience;
 @property (assign) int tasksCompleted;
 @property (assign) int numReferrals;
+
+@property (retain) NSMutableArray *_marketplacePosts;
 
 + (GameState *) sharedGameState;
 + (NSString *) font;

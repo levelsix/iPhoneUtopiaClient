@@ -34,6 +34,10 @@
 @class FullUserProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
+@class GenerateAttackListRequestProto;
+@class GenerateAttackListRequestProto_Builder;
+@class GenerateAttackListResponseProto;
+@class GenerateAttackListResponseProto_Builder;
 @class InAppPurchaseRequestProto;
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
@@ -115,6 +119,7 @@ typedef enum {
   EventProtocolRequestCRetractPostFromMarketplaceEvent = 13,
   EventProtocolRequestCPurchaseFromMarketplaceEvent = 14,
   EventProtocolRequestCUseSkillPointEvent = 15,
+  EventProtocolRequestCGenerateAttackListEvent = 16,
 } EventProtocolRequest;
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -136,6 +141,7 @@ typedef enum {
   EventProtocolResponseSRetractPostFromMarketplaceEvent = 13,
   EventProtocolResponseSPurchaseFromMarketplaceEvent = 14,
   EventProtocolResponseSUseSkillPointEvent = 15,
+  EventProtocolResponseSGenerateAttackListEvent = 16,
   EventProtocolResponseSLevelUpEvent = 19,
   EventProtocolResponseSUpdateClientUserEvent = 20,
 } EventProtocolResponse;
