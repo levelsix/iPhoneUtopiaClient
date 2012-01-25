@@ -13,6 +13,7 @@
 #import "MapViewController.h"
 #import "IAPHelper.h"
 #import "DiamondShopViewController.h"
+#import "ArmoryViewController.h"
 
 @implementation DoorViewController
 

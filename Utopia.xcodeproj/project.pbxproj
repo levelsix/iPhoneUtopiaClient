@@ -41,6 +41,33 @@
 		CF5EE03814CDEDE50063F1E0 /* Event.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE03414CDEDE50063F1E0 /* Event.proto */; };
 		CF5EE03914CDEDE50063F1E0 /* Info.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE03514CDEDE50063F1E0 /* Info.proto */; };
 		CF5EE03A14CDEDE50063F1E0 /* Protocols.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE03614CDEDE50063F1E0 /* Protocols.proto */; };
+		CF5EE04314CFEE8F0063F1E0 /* ArmoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */; };
+		CF5EE04414CFEE8F0063F1E0 /* ArmoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */; };
+		CF5EE05D14CFEF2B0063F1E0 /* nameplaque.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04514CFEF2B0063F1E0 /* nameplaque.png */; };
+		CF5EE05E14CFEF2B0063F1E0 /* nameplaque@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04614CFEF2B0063F1E0 /* nameplaque@2x.png */; };
+		CF5EE05F14CFEF2B0063F1E0 /* pricequant.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04714CFEF2B0063F1E0 /* pricequant.png */; };
+		CF5EE06014CFEF2B0063F1E0 /* pricequant@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04814CFEF2B0063F1E0 /* pricequant@2x.png */; };
+		CF5EE06114CFEF2B0063F1E0 /* shelf.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04914CFEF2B0063F1E0 /* shelf.png */; };
+		CF5EE06214CFEF2B0063F1E0 /* shelf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04A14CFEF2B0063F1E0 /* shelf@2x.png */; };
+		CF5EE06314CFEF2B0063F1E0 /* storebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04B14CFEF2B0063F1E0 /* storebg.png */; };
+		CF5EE06414CFEF2B0063F1E0 /* storebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04C14CFEF2B0063F1E0 /* storebg@2x.png */; };
+		CF5EE06514CFEF2B0063F1E0 /* storebuy.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04D14CFEF2B0063F1E0 /* storebuy.png */; };
+		CF5EE06614CFEF2B0063F1E0 /* storebuy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04E14CFEF2B0063F1E0 /* storebuy@2x.png */; };
+		CF5EE06714CFEF2B0063F1E0 /* storecoinbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04F14CFEF2B0063F1E0 /* storecoinbg.png */; };
+		CF5EE06814CFEF2B0063F1E0 /* storecoinbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05014CFEF2B0063F1E0 /* storecoinbg@2x.png */; };
+		CF5EE06914CFEF2B0063F1E0 /* storesell.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05114CFEF2B0063F1E0 /* storesell.png */; };
+		CF5EE06A14CFEF2B0063F1E0 /* storesell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05214CFEF2B0063F1E0 /* storesell@2x.png */; };
+		CF5EE06B14CFEF2B0063F1E0 /* storesilvercoin.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05314CFEF2B0063F1E0 /* storesilvercoin.png */; };
+		CF5EE06C14CFEF2B0063F1E0 /* storesilvercoin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05414CFEF2B0063F1E0 /* storesilvercoin@2x.png */; };
+		CF5EE06D14CFEF2B0063F1E0 /* underquilt.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05514CFEF2B0063F1E0 /* underquilt.png */; };
+		CF5EE06E14CFEF2B0063F1E0 /* underquilt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05614CFEF2B0063F1E0 /* underquilt@2x.png */; };
+		CF5EE06F14CFEF2B0063F1E0 /* undershelfgradient.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05714CFEF2B0063F1E0 /* undershelfgradient.png */; };
+		CF5EE07014CFEF2B0063F1E0 /* undershelfgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05814CFEF2B0063F1E0 /* undershelfgradient@2x.png */; };
+		CF5EE07114CFEF2B0063F1E0 /* yellowattack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05914CFEF2B0063F1E0 /* yellowattack.png */; };
+		CF5EE07214CFEF2B0063F1E0 /* yellowattack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05A14CFEF2B0063F1E0 /* yellowattack@2x.png */; };
+		CF5EE07314CFEF2B0063F1E0 /* yellowdefense.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05B14CFEF2B0063F1E0 /* yellowdefense.png */; };
+		CF5EE07414CFEF2B0063F1E0 /* yellowdefense@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE05C14CFEF2B0063F1E0 /* yellowdefense@2x.png */; };
+		CF5EE07614CFF3C30063F1E0 /* ArmoryItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE07514CFF3C20063F1E0 /* ArmoryItemView.xib */; };
 		CF70C0B814B681E8000A9C02 /* circleButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C0B714B681E8000A9C02 /* circleButton.png */; };
 		CF75F4A614C4DB4A0022499E /* barmask-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF75F49A14C4DB4A0022499E /* barmask-hd.png */; };
 		CF75F4A714C4DB4A0022499E /* barmask.png in Resources */ = {isa = PBXBuildFile; fileRef = CF75F49B14C4DB4A0022499E /* barmask.png */; };
@@ -340,6 +367,34 @@
 		CF5EE03414CDEDE50063F1E0 /* Event.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Event.proto; sourceTree = "<group>"; };
 		CF5EE03514CDEDE50063F1E0 /* Info.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Info.proto; sourceTree = "<group>"; };
 		CF5EE03614CDEDE50063F1E0 /* Protocols.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Protocols.proto; sourceTree = "<group>"; };
+		CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArmoryViewController.h; path = ArmoryMenu/ArmoryViewController.h; sourceTree = "<group>"; };
+		CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArmoryViewController.m; path = ArmoryMenu/ArmoryViewController.m; sourceTree = "<group>"; };
+		CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryViewController.xib; path = ArmoryMenu/ArmoryViewController.xib; sourceTree = "<group>"; };
+		CF5EE04514CFEF2B0063F1E0 /* nameplaque.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nameplaque.png; sourceTree = "<group>"; };
+		CF5EE04614CFEF2B0063F1E0 /* nameplaque@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nameplaque@2x.png"; sourceTree = "<group>"; };
+		CF5EE04714CFEF2B0063F1E0 /* pricequant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pricequant.png; sourceTree = "<group>"; };
+		CF5EE04814CFEF2B0063F1E0 /* pricequant@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pricequant@2x.png"; sourceTree = "<group>"; };
+		CF5EE04914CFEF2B0063F1E0 /* shelf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shelf.png; sourceTree = "<group>"; };
+		CF5EE04A14CFEF2B0063F1E0 /* shelf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shelf@2x.png"; sourceTree = "<group>"; };
+		CF5EE04B14CFEF2B0063F1E0 /* storebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storebg.png; sourceTree = "<group>"; };
+		CF5EE04C14CFEF2B0063F1E0 /* storebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storebg@2x.png"; sourceTree = "<group>"; };
+		CF5EE04D14CFEF2B0063F1E0 /* storebuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storebuy.png; sourceTree = "<group>"; };
+		CF5EE04E14CFEF2B0063F1E0 /* storebuy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storebuy@2x.png"; sourceTree = "<group>"; };
+		CF5EE04F14CFEF2B0063F1E0 /* storecoinbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storecoinbg.png; sourceTree = "<group>"; };
+		CF5EE05014CFEF2B0063F1E0 /* storecoinbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storecoinbg@2x.png"; sourceTree = "<group>"; };
+		CF5EE05114CFEF2B0063F1E0 /* storesell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storesell.png; sourceTree = "<group>"; };
+		CF5EE05214CFEF2B0063F1E0 /* storesell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storesell@2x.png"; sourceTree = "<group>"; };
+		CF5EE05314CFEF2B0063F1E0 /* storesilvercoin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storesilvercoin.png; sourceTree = "<group>"; };
+		CF5EE05414CFEF2B0063F1E0 /* storesilvercoin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storesilvercoin@2x.png"; sourceTree = "<group>"; };
+		CF5EE05514CFEF2B0063F1E0 /* underquilt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = underquilt.png; sourceTree = "<group>"; };
+		CF5EE05614CFEF2B0063F1E0 /* underquilt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "underquilt@2x.png"; sourceTree = "<group>"; };
+		CF5EE05714CFEF2B0063F1E0 /* undershelfgradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undershelfgradient.png; sourceTree = "<group>"; };
+		CF5EE05814CFEF2B0063F1E0 /* undershelfgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undershelfgradient@2x.png"; sourceTree = "<group>"; };
+		CF5EE05914CFEF2B0063F1E0 /* yellowattack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowattack.png; sourceTree = "<group>"; };
+		CF5EE05A14CFEF2B0063F1E0 /* yellowattack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowattack@2x.png"; sourceTree = "<group>"; };
+		CF5EE05B14CFEF2B0063F1E0 /* yellowdefense.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yellowdefense.png; sourceTree = "<group>"; };
+		CF5EE05C14CFEF2B0063F1E0 /* yellowdefense@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowdefense@2x.png"; sourceTree = "<group>"; };
+		CF5EE07514CFF3C20063F1E0 /* ArmoryItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryItemView.xib; sourceTree = "<group>"; };
 		CF70C0B714B681E8000A9C02 /* circleButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circleButton.png; sourceTree = "<group>"; };
 		CF75F49A14C4DB4A0022499E /* barmask-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barmask-hd.png"; sourceTree = "<group>"; };
 		CF75F49B14C4DB4A0022499E /* barmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barmask.png; sourceTree = "<group>"; };
@@ -799,6 +854,17 @@
 			name = MarketplaceMenu;
 			sourceTree = "<group>";
 		};
+		CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */,
+				CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */,
+				CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */,
+				CF5EE07514CFF3C20063F1E0 /* ArmoryItemView.xib */,
+			);
+			name = ArmoryMenu;
+			sourceTree = "<group>";
+		};
 		CFBAA00C14B3D52F007AB82F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -854,6 +920,7 @@
 		CFBAA01D14B3D52F007AB82F /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */,
 				CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */,
 				CF3D0A5814CB88EA00D972B4 /* DiamondMenu */,
 				CF3D0A5D14CB88EA00D972B4 /* MapMenu */,
@@ -1307,6 +1374,30 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF5EE04514CFEF2B0063F1E0 /* nameplaque.png */,
+				CF5EE04614CFEF2B0063F1E0 /* nameplaque@2x.png */,
+				CF5EE04714CFEF2B0063F1E0 /* pricequant.png */,
+				CF5EE04814CFEF2B0063F1E0 /* pricequant@2x.png */,
+				CF5EE04914CFEF2B0063F1E0 /* shelf.png */,
+				CF5EE04A14CFEF2B0063F1E0 /* shelf@2x.png */,
+				CF5EE04B14CFEF2B0063F1E0 /* storebg.png */,
+				CF5EE04C14CFEF2B0063F1E0 /* storebg@2x.png */,
+				CF5EE04D14CFEF2B0063F1E0 /* storebuy.png */,
+				CF5EE04E14CFEF2B0063F1E0 /* storebuy@2x.png */,
+				CF5EE04F14CFEF2B0063F1E0 /* storecoinbg.png */,
+				CF5EE05014CFEF2B0063F1E0 /* storecoinbg@2x.png */,
+				CF5EE05114CFEF2B0063F1E0 /* storesell.png */,
+				CF5EE05214CFEF2B0063F1E0 /* storesell@2x.png */,
+				CF5EE05314CFEF2B0063F1E0 /* storesilvercoin.png */,
+				CF5EE05414CFEF2B0063F1E0 /* storesilvercoin@2x.png */,
+				CF5EE05514CFEF2B0063F1E0 /* underquilt.png */,
+				CF5EE05614CFEF2B0063F1E0 /* underquilt@2x.png */,
+				CF5EE05714CFEF2B0063F1E0 /* undershelfgradient.png */,
+				CF5EE05814CFEF2B0063F1E0 /* undershelfgradient@2x.png */,
+				CF5EE05914CFEF2B0063F1E0 /* yellowattack.png */,
+				CF5EE05A14CFEF2B0063F1E0 /* yellowattack@2x.png */,
+				CF5EE05B14CFEF2B0063F1E0 /* yellowdefense.png */,
+				CF5EE05C14CFEF2B0063F1E0 /* yellowdefense@2x.png */,
 				CF11126414C914EA00F6FD75 /* mysterybox.png */,
 				CF11126514C914EA00F6FD75 /* mysterybox@2x.png */,
 				CF11126614C914EA00F6FD75 /* silvercoin.png */,
@@ -1607,6 +1698,32 @@
 				CF5EE03814CDEDE50063F1E0 /* Event.proto in Resources */,
 				CF5EE03914CDEDE50063F1E0 /* Info.proto in Resources */,
 				CF5EE03A14CDEDE50063F1E0 /* Protocols.proto in Resources */,
+				CF5EE04414CFEE8F0063F1E0 /* ArmoryViewController.xib in Resources */,
+				CF5EE05D14CFEF2B0063F1E0 /* nameplaque.png in Resources */,
+				CF5EE05E14CFEF2B0063F1E0 /* nameplaque@2x.png in Resources */,
+				CF5EE05F14CFEF2B0063F1E0 /* pricequant.png in Resources */,
+				CF5EE06014CFEF2B0063F1E0 /* pricequant@2x.png in Resources */,
+				CF5EE06114CFEF2B0063F1E0 /* shelf.png in Resources */,
+				CF5EE06214CFEF2B0063F1E0 /* shelf@2x.png in Resources */,
+				CF5EE06314CFEF2B0063F1E0 /* storebg.png in Resources */,
+				CF5EE06414CFEF2B0063F1E0 /* storebg@2x.png in Resources */,
+				CF5EE06514CFEF2B0063F1E0 /* storebuy.png in Resources */,
+				CF5EE06614CFEF2B0063F1E0 /* storebuy@2x.png in Resources */,
+				CF5EE06714CFEF2B0063F1E0 /* storecoinbg.png in Resources */,
+				CF5EE06814CFEF2B0063F1E0 /* storecoinbg@2x.png in Resources */,
+				CF5EE06914CFEF2B0063F1E0 /* storesell.png in Resources */,
+				CF5EE06A14CFEF2B0063F1E0 /* storesell@2x.png in Resources */,
+				CF5EE06B14CFEF2B0063F1E0 /* storesilvercoin.png in Resources */,
+				CF5EE06C14CFEF2B0063F1E0 /* storesilvercoin@2x.png in Resources */,
+				CF5EE06D14CFEF2B0063F1E0 /* underquilt.png in Resources */,
+				CF5EE06E14CFEF2B0063F1E0 /* underquilt@2x.png in Resources */,
+				CF5EE06F14CFEF2B0063F1E0 /* undershelfgradient.png in Resources */,
+				CF5EE07014CFEF2B0063F1E0 /* undershelfgradient@2x.png in Resources */,
+				CF5EE07114CFEF2B0063F1E0 /* yellowattack.png in Resources */,
+				CF5EE07214CFEF2B0063F1E0 /* yellowattack@2x.png in Resources */,
+				CF5EE07314CFEF2B0063F1E0 /* yellowdefense.png in Resources */,
+				CF5EE07414CFEF2B0063F1E0 /* yellowdefense@2x.png in Resources */,
+				CF5EE07614CFF3C30063F1E0 /* ArmoryItemView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1739,6 +1856,7 @@
 				CF3D0A6E14CB88EA00D972B4 /* QuestLogController.m in Sources */,
 				CF3D0A7014CB88EA00D972B4 /* ShopMenuController.m in Sources */,
 				CF5EDDEC14CBEEDA0063F1E0 /* MarketplaceViewController.m in Sources */,
+				CF5EE04314CFEE8F0063F1E0 /* ArmoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

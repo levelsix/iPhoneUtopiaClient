@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "MaskedSprite.h"
 #import "QuestLogController.h"
+#import "ArmoryViewController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
@@ -254,7 +255,8 @@
   
   [self runAction: [CCSequence actions:
                     [CCDelayTime actionWithDuration:dur], 
-                    [CCCallFunc actionWithTarget:self selector:@selector(enableButton)], nil]];
+                    [CCCallFunc actionWithTarget:self selector:@selector(enableButton)],
+                    [CCCallFunc actionWithTarget:self selector:@selector(openArmory)], nil]];
 }
 
 - (void) buttonClicked: (CCMenuItem *) clickedButton {
@@ -292,6 +294,10 @@
 
 - (void) openQuestLog {
   [QuestLogController displayView];
+}
+
+- (void) openArmory {
+  [ArmoryViewController displayView];
 }
 
 - (void) enableButton {
