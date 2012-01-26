@@ -43,4 +43,6 @@
 - (void) sendRetractMarketplacePostMessage: (int)postId;
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
 
+- (void) sendGenerateAttackListMessage;
+
 @end

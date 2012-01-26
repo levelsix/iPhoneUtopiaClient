@@ -51,7 +51,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   //  for (int i = 0; i < 100; i++) {
   //    [self sendCoinPostToMarketplaceMessage:10 wood:arc4random()%30 coins:arc4random()%100 diamonds:arc4random()%20];
   //  }
-  [self sendRetrieveCurrentMarketplacePostsMessageFromSenderBeforePostId:30];
+  [self sendGenerateAttackListMessage];
   //  [self sendStartupMessage];
   //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
@@ -284,6 +284,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                                  build];
   
   [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPurchaseFromMarketplaceEvent];
+}
+
+- (void) sendGenerateAttackListMessage {
+  GenerateAttackListRequestProto *attReq = [[[GenerateAttackListRequestProto builder]
+                                             setSender:_sender]
+                                            build];
+  
+  [self sendData:[attReq data] withMessageType:EventProtocolRequestCGenerateAttackListEvent];
 }
 
 - (void) closeDownConnection {

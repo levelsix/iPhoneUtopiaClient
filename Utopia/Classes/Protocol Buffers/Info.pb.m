@@ -2542,7 +2542,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 @end
 
 @interface FullTaskProto ()
-@property int32_t id;
+@property int32_t taskId;
 @property (retain) NSString* name;
 @property int32_t cityId;
 @property int32_t numRequiredForCompletion;
@@ -2557,13 +2557,13 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 
 @implementation FullTaskProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasTaskId {
+  return !!hasTaskId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasTaskId:(BOOL) value {
+  hasTaskId_ = !!value;
 }
-@synthesize id;
+@synthesize taskId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -2635,7 +2635,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.taskId = 0;
     self.name = @"";
     self.cityId = 0;
     self.numRequiredForCompletion = 0;
@@ -2668,7 +2668,7 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   return [value intValue];
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasTaskId) {
     return NO;
   }
   if (!self.hasName) {
@@ -2701,8 +2701,8 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasTaskId) {
+    [output writeInt32:1 value:self.taskId];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -2743,8 +2743,8 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasTaskId) {
+    size += computeInt32Size(1, self.taskId);
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
@@ -2856,8 +2856,8 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (other == [FullTaskProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasTaskId) {
+    [self setTaskId:other.taskId];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -2914,7 +2914,7 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setTaskId:[input readInt32]];
         break;
       }
       case 18: {
@@ -2960,20 +2960,20 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasTaskId {
+  return result.hasTaskId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) taskId {
+  return result.taskId;
 }
-- (FullTaskProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (FullTaskProto_Builder*) setTaskId:(int32_t) value {
+  result.hasTaskId = YES;
+  result.taskId = value;
   return self;
 }
-- (FullTaskProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (FullTaskProto_Builder*) clearTaskId {
+  result.hasTaskId = NO;
+  result.taskId = 0;
   return self;
 }
 - (BOOL) hasName {
@@ -3596,7 +3596,7 @@ static LocationProto* defaultLocationProtoInstance = nil;
 @end
 
 @interface FullMarketplacePostProto ()
-@property int32_t id;
+@property int32_t marketplacePostId;
 @property int32_t posterId;
 @property MarketplacePostType postType;
 @property int64_t timeOfPost;
@@ -3611,13 +3611,13 @@ static LocationProto* defaultLocationProtoInstance = nil;
 
 @implementation FullMarketplacePostProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasMarketplacePostId {
+  return !!hasMarketplacePostId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasMarketplacePostId:(BOOL) value {
+  hasMarketplacePostId_ = !!value;
 }
-@synthesize id;
+@synthesize marketplacePostId;
 - (BOOL) hasPosterId {
   return !!hasPosterId_;
 }
@@ -3693,7 +3693,7 @@ static LocationProto* defaultLocationProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.marketplacePostId = 0;
     self.posterId = 0;
     self.postType = MarketplacePostTypeEquipPost;
     self.timeOfPost = 0L;
@@ -3720,7 +3720,7 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   return defaultFullMarketplacePostProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasMarketplacePostId) {
     return NO;
   }
   if (!self.hasPosterId) {
@@ -3735,8 +3735,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasMarketplacePostId) {
+    [output writeInt32:1 value:self.marketplacePostId];
   }
   if (self.hasPosterId) {
     [output writeInt32:2 value:self.posterId];
@@ -3777,8 +3777,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasMarketplacePostId) {
+    size += computeInt32Size(1, self.marketplacePostId);
   }
   if (self.hasPosterId) {
     size += computeInt32Size(2, self.posterId);
@@ -3885,8 +3885,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (other == [FullMarketplacePostProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasMarketplacePostId) {
+    [self setMarketplacePostId:other.marketplacePostId];
   }
   if (other.hasPosterId) {
     [self setPosterId:other.posterId];
@@ -3940,7 +3940,7 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setMarketplacePostId:[input readInt32]];
         break;
       }
       case 16: {
@@ -3991,20 +3991,20 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasMarketplacePostId {
+  return result.hasMarketplacePostId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) marketplacePostId {
+  return result.marketplacePostId;
 }
-- (FullMarketplacePostProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (FullMarketplacePostProto_Builder*) setMarketplacePostId:(int32_t) value {
+  result.hasMarketplacePostId = YES;
+  result.marketplacePostId = value;
   return self;
 }
-- (FullMarketplacePostProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (FullMarketplacePostProto_Builder*) clearMarketplacePostId {
+  result.hasMarketplacePostId = NO;
+  result.marketplacePostId = 0;
   return self;
 }
 - (BOOL) hasPosterId {

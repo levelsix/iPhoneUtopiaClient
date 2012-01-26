@@ -61,6 +61,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(EventController);
     case EventProtocolResponseSRetractPostFromMarketplaceEvent:
       responseClass = [RetractMarketplacePostResponseProto class];
       break;
+    case EventProtocolResponseSGenerateAttackListEvent:
+      responseClass = [GenerateAttackListResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -113,7 +116,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(EventController);
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto {
   NSLog(@"Retrieve mkt response received");
   for (FullMarketplacePostProto *p in [proto marketplacePostsList]) {
-    NSLog(@"%d: %@", [p id], [NSDate dateWithTimeIntervalSince1970:[p timeOfPost]/1000.0]);
+    NSLog(@"%d: %@", [p posterId], [NSDate dateWithTimeIntervalSince1970:[p timeOfPost]/1000.0]);
   }
 }
 
@@ -127,6 +130,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(EventController);
 
 - (void) handleRetractMarketplacePostResponseProto: (RetractMarketplacePostResponseProto *) proto {
   NSLog(@"Retract marketplace response received");
+}
+
+- (void) handleGenerateAttackListResponseProto: (GenerateAttackListResponseProto *) proto {
+  NSLog(@"Generate attack list response received.");
+}
+
+- (void) handleUseSkillPointResponseProto: (UseSkillPointResponseProto *) proto {
+  NSLog(@"Use skill point response received.");
 }
 
 @end

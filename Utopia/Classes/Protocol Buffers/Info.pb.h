@@ -639,7 +639,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @interface FullTaskProto : PBGeneratedMessage {
 @private
   BOOL hasChanceOfEquipLoot_:1;
-  BOOL hasId_:1;
+  BOOL hasTaskId_:1;
   BOOL hasCityId_:1;
   BOOL hasNumRequiredForCompletion_:1;
   BOOL hasEnergyCost_:1;
@@ -649,7 +649,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasName_:1;
   Float32 chanceOfEquipLoot;
-  int32_t id;
+  int32_t taskId;
   int32_t cityId;
   int32_t numRequiredForCompletion;
   int32_t energyCost;
@@ -660,7 +660,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   NSString* name;
   NSMutableArray* mutablePotentialLootEquipIdsList;
 }
-- (BOOL) hasId;
+- (BOOL) hasTaskId;
 - (BOOL) hasName;
 - (BOOL) hasCityId;
 - (BOOL) hasNumRequiredForCompletion;
@@ -670,7 +670,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasChanceOfEquipLoot;
 - (BOOL) hasExpGained;
 - (BOOL) hasAssetNumWithinCity;
-@property (readonly) int32_t id;
+@property (readonly) int32_t taskId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t cityId;
 @property (readonly) int32_t numRequiredForCompletion;
@@ -717,10 +717,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (FullTaskProto_Builder*) setId:(int32_t) value;
-- (FullTaskProto_Builder*) clearId;
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (FullTaskProto_Builder*) setTaskId:(int32_t) value;
+- (FullTaskProto_Builder*) clearTaskId;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -892,7 +892,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @interface FullMarketplacePostProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfPost_:1;
-  BOOL hasId_:1;
+  BOOL hasMarketplacePostId_:1;
   BOOL hasPosterId_:1;
   BOOL hasPostedEquipId_:1;
   BOOL hasPostedWood_:1;
@@ -903,7 +903,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   BOOL hasWoodCost_:1;
   BOOL hasPostType_:1;
   int64_t timeOfPost;
-  int32_t id;
+  int32_t marketplacePostId;
   int32_t posterId;
   int32_t postedEquipId;
   int32_t postedWood;
@@ -914,7 +914,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   int32_t woodCost;
   MarketplacePostType postType;
 }
-- (BOOL) hasId;
+- (BOOL) hasMarketplacePostId;
 - (BOOL) hasPosterId;
 - (BOOL) hasPostType;
 - (BOOL) hasTimeOfPost;
@@ -925,7 +925,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
 - (BOOL) hasWoodCost;
-@property (readonly) int32_t id;
+@property (readonly) int32_t marketplacePostId;
 @property (readonly) int32_t posterId;
 @property (readonly) MarketplacePostType postType;
 @property (readonly) int64_t timeOfPost;
@@ -971,10 +971,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullMarketplacePostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullMarketplacePostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (FullMarketplacePostProto_Builder*) setId:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearId;
+- (BOOL) hasMarketplacePostId;
+- (int32_t) marketplacePostId;
+- (FullMarketplacePostProto_Builder*) setMarketplacePostId:(int32_t) value;
+- (FullMarketplacePostProto_Builder*) clearMarketplacePostId;
 
 - (BOOL) hasPosterId;
 - (int32_t) posterId;
