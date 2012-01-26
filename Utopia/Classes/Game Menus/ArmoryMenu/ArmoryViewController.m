@@ -26,12 +26,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
+  self.scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"storebackbg.png"]];
+  
   UINib *nib = [UINib nibWithNibName:@"ArmoryItemView" bundle:nil];
   for (int i = 0; i < 10; i++) {
     // Make a new itemView for each product
     [nib instantiateWithOwner:self options:nil];
     
-    self.itemView.frame = CGRectMake(i*self.itemView.frame.size.width,0, self.itemView.frame.size.width, self.itemView.frame.size.height);
+    self.itemView.frame = CGRectMake(i*self.itemView.frame.size.width,63, self.itemView.frame.size.width, self.itemView.frame.size.height);
     
     [self.scrollView addSubview:self.itemView];
   }
