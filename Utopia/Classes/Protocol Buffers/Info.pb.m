@@ -43,6 +43,28 @@ BOOL MarketplacePostTypeIsValidValue(MarketplacePostType value) {
       return NO;
   }
 }
+BOOL MarketplaceJobRequirementTypeIsValidValue(MarketplaceJobRequirementType value) {
+  switch (value) {
+    case MarketplaceJobRequirementTypeBuy:
+    case MarketplaceJobRequirementTypeSell:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL CritStructTypeIsValidValue(CritStructType value) {
+  switch (value) {
+    case CritStructTypeAviary:
+    case CritStructTypeLumbermill:
+    case CritStructTypeCarpenter:
+    case CritStructTypeVault:
+    case CritStructTypeArmory:
+    case CritStructTypeMarketplace:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface MinimumUserProto ()
 @property int32_t userId;
 @property (retain) NSString* name;
@@ -314,7 +336,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t defense;
 @property int32_t stamina;
 @property int32_t energy;
-@property int32_t health;
 @property int32_t skillPoints;
 @property int32_t healthMax;
 @property int32_t energyMax;
@@ -322,6 +343,9 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t diamonds;
 @property int32_t coins;
 @property int32_t wood;
+@property int32_t marketplaceDiamondsEarnings;
+@property int32_t marketplaceCoinsEarnings;
+@property int32_t marketplaceWoodEarnings;
 @property int32_t vaultBalance;
 @property int32_t experience;
 @property int32_t tasksCompleted;
@@ -332,6 +356,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t numReferrals;
 @property (retain) NSString* udid;
 @property (retain) LocationProto* userLocation;
+@property int32_t numPostsInMarketplace;
 @end
 
 @implementation FullUserProto
@@ -392,13 +417,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasEnergy_ = !!value;
 }
 @synthesize energy;
-- (BOOL) hasHealth {
-  return !!hasHealth_;
-}
-- (void) setHasHealth:(BOOL) value {
-  hasHealth_ = !!value;
-}
-@synthesize health;
 - (BOOL) hasSkillPoints {
   return !!hasSkillPoints_;
 }
@@ -448,6 +466,27 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasWood_ = !!value;
 }
 @synthesize wood;
+- (BOOL) hasMarketplaceDiamondsEarnings {
+  return !!hasMarketplaceDiamondsEarnings_;
+}
+- (void) setHasMarketplaceDiamondsEarnings:(BOOL) value {
+  hasMarketplaceDiamondsEarnings_ = !!value;
+}
+@synthesize marketplaceDiamondsEarnings;
+- (BOOL) hasMarketplaceCoinsEarnings {
+  return !!hasMarketplaceCoinsEarnings_;
+}
+- (void) setHasMarketplaceCoinsEarnings:(BOOL) value {
+  hasMarketplaceCoinsEarnings_ = !!value;
+}
+@synthesize marketplaceCoinsEarnings;
+- (BOOL) hasMarketplaceWoodEarnings {
+  return !!hasMarketplaceWoodEarnings_;
+}
+- (void) setHasMarketplaceWoodEarnings:(BOOL) value {
+  hasMarketplaceWoodEarnings_ = !!value;
+}
+@synthesize marketplaceWoodEarnings;
 - (BOOL) hasVaultBalance {
   return !!hasVaultBalance_;
 }
@@ -518,6 +557,13 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasUserLocation_ = !!value;
 }
 @synthesize userLocation;
+- (BOOL) hasNumPostsInMarketplace {
+  return !!hasNumPostsInMarketplace_;
+}
+- (void) setHasNumPostsInMarketplace:(BOOL) value {
+  hasNumPostsInMarketplace_ = !!value;
+}
+@synthesize numPostsInMarketplace;
 - (void) dealloc {
   self.name = nil;
   self.armyCode = nil;
@@ -535,7 +581,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.defense = 0;
     self.stamina = 0;
     self.energy = 0;
-    self.health = 0;
     self.skillPoints = 0;
     self.healthMax = 0;
     self.energyMax = 0;
@@ -543,6 +588,9 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.diamonds = 0;
     self.coins = 0;
     self.wood = 0;
+    self.marketplaceDiamondsEarnings = 0;
+    self.marketplaceCoinsEarnings = 0;
+    self.marketplaceWoodEarnings = 0;
     self.vaultBalance = 0;
     self.experience = 0;
     self.tasksCompleted = 0;
@@ -553,6 +601,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.numReferrals = 0;
     self.udid = @"";
     self.userLocation = [LocationProto defaultInstance];
+    self.numPostsInMarketplace = 0;
   }
   return self;
 }
@@ -593,9 +642,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasEnergy) {
     return NO;
   }
-  if (!self.hasHealth) {
-    return NO;
-  }
   if (!self.hasSkillPoints) {
     return NO;
   }
@@ -615,6 +661,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
     return NO;
   }
   if (!self.hasWood) {
+    return NO;
+  }
+  if (!self.hasMarketplaceDiamondsEarnings) {
+    return NO;
+  }
+  if (!self.hasMarketplaceCoinsEarnings) {
+    return NO;
+  }
+  if (!self.hasMarketplaceWoodEarnings) {
     return NO;
   }
   if (!self.hasVaultBalance) {
@@ -647,6 +702,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasUserLocation) {
     return NO;
   }
+  if (!self.hasNumPostsInMarketplace) {
+    return NO;
+  }
   if (!self.userLocation.isInitialized) {
     return NO;
   }
@@ -677,9 +735,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasEnergy) {
     [output writeInt32:8 value:self.energy];
   }
-  if (self.hasHealth) {
-    [output writeInt32:9 value:self.health];
-  }
   if (self.hasSkillPoints) {
     [output writeInt32:10 value:self.skillPoints];
   }
@@ -701,35 +756,47 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasWood) {
     [output writeInt32:16 value:self.wood];
   }
+  if (self.hasMarketplaceDiamondsEarnings) {
+    [output writeInt32:17 value:self.marketplaceDiamondsEarnings];
+  }
+  if (self.hasMarketplaceCoinsEarnings) {
+    [output writeInt32:18 value:self.marketplaceCoinsEarnings];
+  }
+  if (self.hasMarketplaceWoodEarnings) {
+    [output writeInt32:19 value:self.marketplaceWoodEarnings];
+  }
   if (self.hasVaultBalance) {
-    [output writeInt32:17 value:self.vaultBalance];
+    [output writeInt32:20 value:self.vaultBalance];
   }
   if (self.hasExperience) {
-    [output writeInt32:18 value:self.experience];
+    [output writeInt32:21 value:self.experience];
   }
   if (self.hasTasksCompleted) {
-    [output writeInt32:19 value:self.tasksCompleted];
+    [output writeInt32:22 value:self.tasksCompleted];
   }
   if (self.hasBattlesWon) {
-    [output writeInt32:20 value:self.battlesWon];
+    [output writeInt32:23 value:self.battlesWon];
   }
   if (self.hasBattlesLost) {
-    [output writeInt32:21 value:self.battlesLost];
+    [output writeInt32:24 value:self.battlesLost];
   }
   if (self.hasHourlyCoins) {
-    [output writeInt32:22 value:self.hourlyCoins];
+    [output writeInt32:25 value:self.hourlyCoins];
   }
   if (self.hasArmyCode) {
-    [output writeString:23 value:self.armyCode];
+    [output writeString:26 value:self.armyCode];
   }
   if (self.hasNumReferrals) {
-    [output writeInt32:24 value:self.numReferrals];
+    [output writeInt32:27 value:self.numReferrals];
   }
   if (self.hasUdid) {
-    [output writeString:25 value:self.udid];
+    [output writeString:28 value:self.udid];
   }
   if (self.hasUserLocation) {
-    [output writeMessage:26 value:self.userLocation];
+    [output writeMessage:29 value:self.userLocation];
+  }
+  if (self.hasNumPostsInMarketplace) {
+    [output writeInt32:30 value:self.numPostsInMarketplace];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -764,9 +831,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasEnergy) {
     size += computeInt32Size(8, self.energy);
   }
-  if (self.hasHealth) {
-    size += computeInt32Size(9, self.health);
-  }
   if (self.hasSkillPoints) {
     size += computeInt32Size(10, self.skillPoints);
   }
@@ -788,35 +852,47 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasWood) {
     size += computeInt32Size(16, self.wood);
   }
+  if (self.hasMarketplaceDiamondsEarnings) {
+    size += computeInt32Size(17, self.marketplaceDiamondsEarnings);
+  }
+  if (self.hasMarketplaceCoinsEarnings) {
+    size += computeInt32Size(18, self.marketplaceCoinsEarnings);
+  }
+  if (self.hasMarketplaceWoodEarnings) {
+    size += computeInt32Size(19, self.marketplaceWoodEarnings);
+  }
   if (self.hasVaultBalance) {
-    size += computeInt32Size(17, self.vaultBalance);
+    size += computeInt32Size(20, self.vaultBalance);
   }
   if (self.hasExperience) {
-    size += computeInt32Size(18, self.experience);
+    size += computeInt32Size(21, self.experience);
   }
   if (self.hasTasksCompleted) {
-    size += computeInt32Size(19, self.tasksCompleted);
+    size += computeInt32Size(22, self.tasksCompleted);
   }
   if (self.hasBattlesWon) {
-    size += computeInt32Size(20, self.battlesWon);
+    size += computeInt32Size(23, self.battlesWon);
   }
   if (self.hasBattlesLost) {
-    size += computeInt32Size(21, self.battlesLost);
+    size += computeInt32Size(24, self.battlesLost);
   }
   if (self.hasHourlyCoins) {
-    size += computeInt32Size(22, self.hourlyCoins);
+    size += computeInt32Size(25, self.hourlyCoins);
   }
   if (self.hasArmyCode) {
-    size += computeStringSize(23, self.armyCode);
+    size += computeStringSize(26, self.armyCode);
   }
   if (self.hasNumReferrals) {
-    size += computeInt32Size(24, self.numReferrals);
+    size += computeInt32Size(27, self.numReferrals);
   }
   if (self.hasUdid) {
-    size += computeStringSize(25, self.udid);
+    size += computeStringSize(28, self.udid);
   }
   if (self.hasUserLocation) {
-    size += computeMessageSize(26, self.userLocation);
+    size += computeMessageSize(29, self.userLocation);
+  }
+  if (self.hasNumPostsInMarketplace) {
+    size += computeInt32Size(30, self.numPostsInMarketplace);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -917,9 +993,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasEnergy) {
     [self setEnergy:other.energy];
   }
-  if (other.hasHealth) {
-    [self setHealth:other.health];
-  }
   if (other.hasSkillPoints) {
     [self setSkillPoints:other.skillPoints];
   }
@@ -940,6 +1013,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasWood) {
     [self setWood:other.wood];
+  }
+  if (other.hasMarketplaceDiamondsEarnings) {
+    [self setMarketplaceDiamondsEarnings:other.marketplaceDiamondsEarnings];
+  }
+  if (other.hasMarketplaceCoinsEarnings) {
+    [self setMarketplaceCoinsEarnings:other.marketplaceCoinsEarnings];
+  }
+  if (other.hasMarketplaceWoodEarnings) {
+    [self setMarketplaceWoodEarnings:other.marketplaceWoodEarnings];
   }
   if (other.hasVaultBalance) {
     [self setVaultBalance:other.vaultBalance];
@@ -970,6 +1052,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasUserLocation) {
     [self mergeUserLocation:other.userLocation];
+  }
+  if (other.hasNumPostsInMarketplace) {
+    [self setNumPostsInMarketplace:other.numPostsInMarketplace];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1029,10 +1114,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setEnergy:[input readInt32]];
         break;
       }
-      case 72: {
-        [self setHealth:[input readInt32]];
-        break;
-      }
       case 80: {
         [self setSkillPoints:[input readInt32]];
         break;
@@ -1062,48 +1143,64 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         break;
       }
       case 136: {
-        [self setVaultBalance:[input readInt32]];
+        [self setMarketplaceDiamondsEarnings:[input readInt32]];
         break;
       }
       case 144: {
-        [self setExperience:[input readInt32]];
+        [self setMarketplaceCoinsEarnings:[input readInt32]];
         break;
       }
       case 152: {
-        [self setTasksCompleted:[input readInt32]];
+        [self setMarketplaceWoodEarnings:[input readInt32]];
         break;
       }
       case 160: {
-        [self setBattlesWon:[input readInt32]];
+        [self setVaultBalance:[input readInt32]];
         break;
       }
       case 168: {
-        [self setBattlesLost:[input readInt32]];
+        [self setExperience:[input readInt32]];
         break;
       }
       case 176: {
-        [self setHourlyCoins:[input readInt32]];
+        [self setTasksCompleted:[input readInt32]];
         break;
       }
-      case 186: {
-        [self setArmyCode:[input readString]];
+      case 184: {
+        [self setBattlesWon:[input readInt32]];
         break;
       }
       case 192: {
-        [self setNumReferrals:[input readInt32]];
+        [self setBattlesLost:[input readInt32]];
         break;
       }
-      case 202: {
-        [self setUdid:[input readString]];
+      case 200: {
+        [self setHourlyCoins:[input readInt32]];
         break;
       }
       case 210: {
+        [self setArmyCode:[input readString]];
+        break;
+      }
+      case 216: {
+        [self setNumReferrals:[input readInt32]];
+        break;
+      }
+      case 226: {
+        [self setUdid:[input readString]];
+        break;
+      }
+      case 234: {
         LocationProto_Builder* subBuilder = [LocationProto builder];
         if (self.hasUserLocation) {
           [subBuilder mergeFrom:self.userLocation];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setUserLocation:[subBuilder buildPartial]];
+        break;
+      }
+      case 240: {
+        [self setNumPostsInMarketplace:[input readInt32]];
         break;
       }
     }
@@ -1237,22 +1334,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.energy = 0;
   return self;
 }
-- (BOOL) hasHealth {
-  return result.hasHealth;
-}
-- (int32_t) health {
-  return result.health;
-}
-- (FullUserProto_Builder*) setHealth:(int32_t) value {
-  result.hasHealth = YES;
-  result.health = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearHealth {
-  result.hasHealth = NO;
-  result.health = 0;
-  return self;
-}
 - (BOOL) hasSkillPoints {
   return result.hasSkillPoints;
 }
@@ -1363,6 +1444,54 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearWood {
   result.hasWood = NO;
   result.wood = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceDiamondsEarnings {
+  return result.hasMarketplaceDiamondsEarnings;
+}
+- (int32_t) marketplaceDiamondsEarnings {
+  return result.marketplaceDiamondsEarnings;
+}
+- (FullUserProto_Builder*) setMarketplaceDiamondsEarnings:(int32_t) value {
+  result.hasMarketplaceDiamondsEarnings = YES;
+  result.marketplaceDiamondsEarnings = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearMarketplaceDiamondsEarnings {
+  result.hasMarketplaceDiamondsEarnings = NO;
+  result.marketplaceDiamondsEarnings = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceCoinsEarnings {
+  return result.hasMarketplaceCoinsEarnings;
+}
+- (int32_t) marketplaceCoinsEarnings {
+  return result.marketplaceCoinsEarnings;
+}
+- (FullUserProto_Builder*) setMarketplaceCoinsEarnings:(int32_t) value {
+  result.hasMarketplaceCoinsEarnings = YES;
+  result.marketplaceCoinsEarnings = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearMarketplaceCoinsEarnings {
+  result.hasMarketplaceCoinsEarnings = NO;
+  result.marketplaceCoinsEarnings = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceWoodEarnings {
+  return result.hasMarketplaceWoodEarnings;
+}
+- (int32_t) marketplaceWoodEarnings {
+  return result.marketplaceWoodEarnings;
+}
+- (FullUserProto_Builder*) setMarketplaceWoodEarnings:(int32_t) value {
+  result.hasMarketplaceWoodEarnings = YES;
+  result.marketplaceWoodEarnings = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearMarketplaceWoodEarnings {
+  result.hasMarketplaceWoodEarnings = NO;
+  result.marketplaceWoodEarnings = 0;
   return self;
 }
 - (BOOL) hasVaultBalance {
@@ -1537,6 +1666,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearUserLocation {
   result.hasUserLocation = NO;
   result.userLocation = [LocationProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumPostsInMarketplace {
+  return result.hasNumPostsInMarketplace;
+}
+- (int32_t) numPostsInMarketplace {
+  return result.numPostsInMarketplace;
+}
+- (FullUserProto_Builder*) setNumPostsInMarketplace:(int32_t) value {
+  result.hasNumPostsInMarketplace = YES;
+  result.numPostsInMarketplace = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumPostsInMarketplace {
+  result.hasNumPostsInMarketplace = NO;
+  result.numPostsInMarketplace = 0;
   return self;
 }
 @end
@@ -2174,15 +2319,25 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
 @end
 
 @interface FullUserStructureProto ()
+@property int32_t id;
 @property int32_t userId;
 @property int32_t structId;
+@property int64_t lastRetrieved;
 @property (retain) CoordinateProto* coordinates;
-@property (retain) NSString* lastRetrieved;
 @property int32_t level;
+@property int64_t purchaseTime;
+@property BOOL isComplete;
 @end
 
 @implementation FullUserStructureProto
 
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
 - (BOOL) hasUserId {
   return !!hasUserId_;
 }
@@ -2197,13 +2352,6 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   hasStructId_ = !!value;
 }
 @synthesize structId;
-- (BOOL) hasCoordinates {
-  return !!hasCoordinates_;
-}
-- (void) setHasCoordinates:(BOOL) value {
-  hasCoordinates_ = !!value;
-}
-@synthesize coordinates;
 - (BOOL) hasLastRetrieved {
   return !!hasLastRetrieved_;
 }
@@ -2211,6 +2359,13 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   hasLastRetrieved_ = !!value;
 }
 @synthesize lastRetrieved;
+- (BOOL) hasCoordinates {
+  return !!hasCoordinates_;
+}
+- (void) setHasCoordinates:(BOOL) value {
+  hasCoordinates_ = !!value;
+}
+@synthesize coordinates;
 - (BOOL) hasLevel {
   return !!hasLevel_;
 }
@@ -2218,18 +2373,39 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   hasLevel_ = !!value;
 }
 @synthesize level;
+- (BOOL) hasPurchaseTime {
+  return !!hasPurchaseTime_;
+}
+- (void) setHasPurchaseTime:(BOOL) value {
+  hasPurchaseTime_ = !!value;
+}
+@synthesize purchaseTime;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value {
+  hasIsComplete_ = !!value;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value {
+  isComplete_ = !!value;
+}
 - (void) dealloc {
   self.coordinates = nil;
-  self.lastRetrieved = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
+    self.id = 0;
     self.userId = 0;
     self.structId = 0;
+    self.lastRetrieved = 0L;
     self.coordinates = [CoordinateProto defaultInstance];
-    self.lastRetrieved = @"";
     self.level = 0;
+    self.purchaseTime = 0L;
+    self.isComplete = NO;
   }
   return self;
 }
@@ -2246,6 +2422,9 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   return defaultFullUserStructureProtoInstance;
 }
 - (BOOL) isInitialized {
+  if (!self.hasId) {
+    return NO;
+  }
   if (!self.hasUserId) {
     return NO;
   }
@@ -2255,10 +2434,13 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (!self.hasCoordinates) {
     return NO;
   }
-  if (!self.hasLastRetrieved) {
+  if (!self.hasLevel) {
     return NO;
   }
-  if (!self.hasLevel) {
+  if (!self.hasPurchaseTime) {
+    return NO;
+  }
+  if (!self.hasIsComplete) {
     return NO;
   }
   if (!self.coordinates.isInitialized) {
@@ -2267,20 +2449,29 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
   if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+    [output writeInt32:2 value:self.userId];
   }
   if (self.hasStructId) {
-    [output writeInt32:2 value:self.structId];
-  }
-  if (self.hasCoordinates) {
-    [output writeMessage:3 value:self.coordinates];
+    [output writeInt32:3 value:self.structId];
   }
   if (self.hasLastRetrieved) {
-    [output writeString:4 value:self.lastRetrieved];
+    [output writeInt64:4 value:self.lastRetrieved];
+  }
+  if (self.hasCoordinates) {
+    [output writeMessage:5 value:self.coordinates];
   }
   if (self.hasLevel) {
-    [output writeInt32:5 value:self.level];
+    [output writeInt32:6 value:self.level];
+  }
+  if (self.hasPurchaseTime) {
+    [output writeInt64:7 value:self.purchaseTime];
+  }
+  if (self.hasIsComplete) {
+    [output writeBool:8 value:self.isComplete];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2291,20 +2482,29 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   }
 
   size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
   if (self.hasUserId) {
-    size += computeInt32Size(1, self.userId);
+    size += computeInt32Size(2, self.userId);
   }
   if (self.hasStructId) {
-    size += computeInt32Size(2, self.structId);
-  }
-  if (self.hasCoordinates) {
-    size += computeMessageSize(3, self.coordinates);
+    size += computeInt32Size(3, self.structId);
   }
   if (self.hasLastRetrieved) {
-    size += computeStringSize(4, self.lastRetrieved);
+    size += computeInt64Size(4, self.lastRetrieved);
+  }
+  if (self.hasCoordinates) {
+    size += computeMessageSize(5, self.coordinates);
   }
   if (self.hasLevel) {
-    size += computeInt32Size(5, self.level);
+    size += computeInt32Size(6, self.level);
+  }
+  if (self.hasPurchaseTime) {
+    size += computeInt64Size(7, self.purchaseTime);
+  }
+  if (self.hasIsComplete) {
+    size += computeBoolSize(8, self.isComplete);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2381,20 +2581,29 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (other == [FullUserStructureProto defaultInstance]) {
     return self;
   }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
   if (other.hasUserId) {
     [self setUserId:other.userId];
   }
   if (other.hasStructId) {
     [self setStructId:other.structId];
   }
-  if (other.hasCoordinates) {
-    [self mergeCoordinates:other.coordinates];
-  }
   if (other.hasLastRetrieved) {
     [self setLastRetrieved:other.lastRetrieved];
   }
+  if (other.hasCoordinates) {
+    [self mergeCoordinates:other.coordinates];
+  }
   if (other.hasLevel) {
     [self setLevel:other.level];
+  }
+  if (other.hasPurchaseTime) {
+    [self setPurchaseTime:other.purchaseTime];
+  }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2418,14 +2627,22 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setUserId:[input readInt32]];
+        [self setId:[input readInt32]];
         break;
       }
       case 16: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
         [self setStructId:[input readInt32]];
         break;
       }
-      case 26: {
+      case 32: {
+        [self setLastRetrieved:[input readInt64]];
+        break;
+      }
+      case 42: {
         CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
         if (self.hasCoordinates) {
           [subBuilder mergeFrom:self.coordinates];
@@ -2434,16 +2651,36 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         [self setCoordinates:[subBuilder buildPartial]];
         break;
       }
-      case 34: {
-        [self setLastRetrieved:[input readString]];
+      case 48: {
+        [self setLevel:[input readInt32]];
         break;
       }
-      case 40: {
-        [self setLevel:[input readInt32]];
+      case 56: {
+        [self setPurchaseTime:[input readInt64]];
+        break;
+      }
+      case 64: {
+        [self setIsComplete:[input readBool]];
         break;
       }
     }
   }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (FullUserStructureProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
 }
 - (BOOL) hasUserId {
   return result.hasUserId;
@@ -2477,6 +2714,22 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   result.structId = 0;
   return self;
 }
+- (BOOL) hasLastRetrieved {
+  return result.hasLastRetrieved;
+}
+- (int64_t) lastRetrieved {
+  return result.lastRetrieved;
+}
+- (FullUserStructureProto_Builder*) setLastRetrieved:(int64_t) value {
+  result.hasLastRetrieved = YES;
+  result.lastRetrieved = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearLastRetrieved {
+  result.hasLastRetrieved = NO;
+  result.lastRetrieved = 0L;
+  return self;
+}
 - (BOOL) hasCoordinates {
   return result.hasCoordinates;
 }
@@ -2507,22 +2760,6 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   result.coordinates = [CoordinateProto defaultInstance];
   return self;
 }
-- (BOOL) hasLastRetrieved {
-  return result.hasLastRetrieved;
-}
-- (NSString*) lastRetrieved {
-  return result.lastRetrieved;
-}
-- (FullUserStructureProto_Builder*) setLastRetrieved:(NSString*) value {
-  result.hasLastRetrieved = YES;
-  result.lastRetrieved = value;
-  return self;
-}
-- (FullUserStructureProto_Builder*) clearLastRetrieved {
-  result.hasLastRetrieved = NO;
-  result.lastRetrieved = @"";
-  return self;
-}
 - (BOOL) hasLevel {
   return result.hasLevel;
 }
@@ -2537,6 +2774,346 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 - (FullUserStructureProto_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
+  return self;
+}
+- (BOOL) hasPurchaseTime {
+  return result.hasPurchaseTime;
+}
+- (int64_t) purchaseTime {
+  return result.purchaseTime;
+}
+- (FullUserStructureProto_Builder*) setPurchaseTime:(int64_t) value {
+  result.hasPurchaseTime = YES;
+  result.purchaseTime = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearPurchaseTime {
+  result.hasPurchaseTime = NO;
+  result.purchaseTime = 0L;
+  return self;
+}
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (FullUserStructureProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
+@end
+
+@interface FullUserEquipProto ()
+@property int32_t userId;
+@property int32_t equipId;
+@property int32_t quantity;
+@property BOOL isStolen;
+@end
+
+@implementation FullUserEquipProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasEquipId {
+  return !!hasEquipId_;
+}
+- (void) setHasEquipId:(BOOL) value {
+  hasEquipId_ = !!value;
+}
+@synthesize equipId;
+- (BOOL) hasQuantity {
+  return !!hasQuantity_;
+}
+- (void) setHasQuantity:(BOOL) value {
+  hasQuantity_ = !!value;
+}
+@synthesize quantity;
+- (BOOL) hasIsStolen {
+  return !!hasIsStolen_;
+}
+- (void) setHasIsStolen:(BOOL) value {
+  hasIsStolen_ = !!value;
+}
+- (BOOL) isStolen {
+  return !!isStolen_;
+}
+- (void) setIsStolen:(BOOL) value {
+  isStolen_ = !!value;
+}
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.equipId = 0;
+    self.quantity = 0;
+    self.isStolen = NO;
+  }
+  return self;
+}
+static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
++ (void) initialize {
+  if (self == [FullUserEquipProto class]) {
+    defaultFullUserEquipProtoInstance = [[FullUserEquipProto alloc] init];
+  }
+}
++ (FullUserEquipProto*) defaultInstance {
+  return defaultFullUserEquipProtoInstance;
+}
+- (FullUserEquipProto*) defaultInstance {
+  return defaultFullUserEquipProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasEquipId) {
+    return NO;
+  }
+  if (!self.hasQuantity) {
+    return NO;
+  }
+  if (!self.hasIsStolen) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasEquipId) {
+    [output writeInt32:2 value:self.equipId];
+  }
+  if (self.hasQuantity) {
+    [output writeInt32:3 value:self.quantity];
+  }
+  if (self.hasIsStolen) {
+    [output writeBool:4 value:self.isStolen];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasEquipId) {
+    size += computeInt32Size(2, self.equipId);
+  }
+  if (self.hasQuantity) {
+    size += computeInt32Size(3, self.quantity);
+  }
+  if (self.hasIsStolen) {
+    size += computeBoolSize(4, self.isStolen);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullUserEquipProto*) parseFromData:(NSData*) data {
+  return (FullUserEquipProto*)[[[FullUserEquipProto builder] mergeFromData:data] build];
+}
++ (FullUserEquipProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserEquipProto*)[[[FullUserEquipProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullUserEquipProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullUserEquipProto*)[[[FullUserEquipProto builder] mergeFromInputStream:input] build];
+}
++ (FullUserEquipProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserEquipProto*)[[[FullUserEquipProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullUserEquipProto*)[[[FullUserEquipProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FullUserEquipProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserEquipProto*)[[[FullUserEquipProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserEquipProto_Builder*) builder {
+  return [[[FullUserEquipProto_Builder alloc] init] autorelease];
+}
++ (FullUserEquipProto_Builder*) builderWithPrototype:(FullUserEquipProto*) prototype {
+  return [[FullUserEquipProto builder] mergeFrom:prototype];
+}
+- (FullUserEquipProto_Builder*) builder {
+  return [FullUserEquipProto builder];
+}
+@end
+
+@interface FullUserEquipProto_Builder()
+@property (retain) FullUserEquipProto* result;
+@end
+
+@implementation FullUserEquipProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullUserEquipProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullUserEquipProto_Builder*) clear {
+  self.result = [[[FullUserEquipProto alloc] init] autorelease];
+  return self;
+}
+- (FullUserEquipProto_Builder*) clone {
+  return [FullUserEquipProto builderWithPrototype:result];
+}
+- (FullUserEquipProto*) defaultInstance {
+  return [FullUserEquipProto defaultInstance];
+}
+- (FullUserEquipProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullUserEquipProto*) buildPartial {
+  FullUserEquipProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullUserEquipProto_Builder*) mergeFrom:(FullUserEquipProto*) other {
+  if (other == [FullUserEquipProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasEquipId) {
+    [self setEquipId:other.equipId];
+  }
+  if (other.hasQuantity) {
+    [self setQuantity:other.quantity];
+  }
+  if (other.hasIsStolen) {
+    [self setIsStolen:other.isStolen];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullUserEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullUserEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setEquipId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setQuantity:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setIsStolen:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (FullUserEquipProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasEquipId {
+  return result.hasEquipId;
+}
+- (int32_t) equipId {
+  return result.equipId;
+}
+- (FullUserEquipProto_Builder*) setEquipId:(int32_t) value {
+  result.hasEquipId = YES;
+  result.equipId = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearEquipId {
+  result.hasEquipId = NO;
+  result.equipId = 0;
+  return self;
+}
+- (BOOL) hasQuantity {
+  return result.hasQuantity;
+}
+- (int32_t) quantity {
+  return result.quantity;
+}
+- (FullUserEquipProto_Builder*) setQuantity:(int32_t) value {
+  result.hasQuantity = YES;
+  result.quantity = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearQuantity {
+  result.hasQuantity = NO;
+  result.quantity = 0;
+  return self;
+}
+- (BOOL) hasIsStolen {
+  return result.hasIsStolen;
+}
+- (BOOL) isStolen {
+  return result.isStolen;
+}
+- (FullUserEquipProto_Builder*) setIsStolen:(BOOL) value {
+  result.hasIsStolen = YES;
+  result.isStolen = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearIsStolen {
+  result.hasIsStolen = NO;
+  result.isStolen = NO;
   return self;
 }
 @end
@@ -3600,7 +4177,7 @@ static LocationProto* defaultLocationProtoInstance = nil;
 @property int32_t posterId;
 @property MarketplacePostType postType;
 @property int64_t timeOfPost;
-@property int32_t postedEquipId;
+@property (retain) FullEquipProto* postedEquip;
 @property int32_t postedWood;
 @property int32_t postedDiamonds;
 @property int32_t postedCoins;
@@ -3639,13 +4216,13 @@ static LocationProto* defaultLocationProtoInstance = nil;
   hasTimeOfPost_ = !!value;
 }
 @synthesize timeOfPost;
-- (BOOL) hasPostedEquipId {
-  return !!hasPostedEquipId_;
+- (BOOL) hasPostedEquip {
+  return !!hasPostedEquip_;
 }
-- (void) setHasPostedEquipId:(BOOL) value {
-  hasPostedEquipId_ = !!value;
+- (void) setHasPostedEquip:(BOOL) value {
+  hasPostedEquip_ = !!value;
 }
-@synthesize postedEquipId;
+@synthesize postedEquip;
 - (BOOL) hasPostedWood {
   return !!hasPostedWood_;
 }
@@ -3689,6 +4266,7 @@ static LocationProto* defaultLocationProtoInstance = nil;
 }
 @synthesize woodCost;
 - (void) dealloc {
+  self.postedEquip = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3697,7 +4275,7 @@ static LocationProto* defaultLocationProtoInstance = nil;
     self.posterId = 0;
     self.postType = MarketplacePostTypeEquipPost;
     self.timeOfPost = 0L;
-    self.postedEquipId = 0;
+    self.postedEquip = [FullEquipProto defaultInstance];
     self.postedWood = 0;
     self.postedDiamonds = 0;
     self.postedCoins = 0;
@@ -3732,6 +4310,11 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (!self.hasTimeOfPost) {
     return NO;
   }
+  if (self.hasPostedEquip) {
+    if (!self.postedEquip.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -3747,8 +4330,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasTimeOfPost) {
     [output writeInt64:4 value:self.timeOfPost];
   }
-  if (self.hasPostedEquipId) {
-    [output writeInt32:5 value:self.postedEquipId];
+  if (self.hasPostedEquip) {
+    [output writeMessage:5 value:self.postedEquip];
   }
   if (self.hasPostedWood) {
     [output writeInt32:6 value:self.postedWood];
@@ -3789,8 +4372,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasTimeOfPost) {
     size += computeInt64Size(4, self.timeOfPost);
   }
-  if (self.hasPostedEquipId) {
-    size += computeInt32Size(5, self.postedEquipId);
+  if (self.hasPostedEquip) {
+    size += computeMessageSize(5, self.postedEquip);
   }
   if (self.hasPostedWood) {
     size += computeInt32Size(6, self.postedWood);
@@ -3897,8 +4480,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (other.hasTimeOfPost) {
     [self setTimeOfPost:other.timeOfPost];
   }
-  if (other.hasPostedEquipId) {
-    [self setPostedEquipId:other.postedEquipId];
+  if (other.hasPostedEquip) {
+    [self mergePostedEquip:other.postedEquip];
   }
   if (other.hasPostedWood) {
     [self setPostedWood:other.postedWood];
@@ -3960,8 +4543,13 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
         [self setTimeOfPost:[input readInt64]];
         break;
       }
-      case 40: {
-        [self setPostedEquipId:[input readInt32]];
+      case 42: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasPostedEquip) {
+          [subBuilder mergeFrom:self.postedEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPostedEquip:[subBuilder buildPartial]];
         break;
       }
       case 48: {
@@ -4055,20 +4643,34 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   result.timeOfPost = 0L;
   return self;
 }
-- (BOOL) hasPostedEquipId {
-  return result.hasPostedEquipId;
+- (BOOL) hasPostedEquip {
+  return result.hasPostedEquip;
 }
-- (int32_t) postedEquipId {
-  return result.postedEquipId;
+- (FullEquipProto*) postedEquip {
+  return result.postedEquip;
 }
-- (FullMarketplacePostProto_Builder*) setPostedEquipId:(int32_t) value {
-  result.hasPostedEquipId = YES;
-  result.postedEquipId = value;
+- (FullMarketplacePostProto_Builder*) setPostedEquip:(FullEquipProto*) value {
+  result.hasPostedEquip = YES;
+  result.postedEquip = value;
   return self;
 }
-- (FullMarketplacePostProto_Builder*) clearPostedEquipId {
-  result.hasPostedEquipId = NO;
-  result.postedEquipId = 0;
+- (FullMarketplacePostProto_Builder*) setPostedEquipBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setPostedEquip:[builderForValue build]];
+}
+- (FullMarketplacePostProto_Builder*) mergePostedEquip:(FullEquipProto*) value {
+  if (result.hasPostedEquip &&
+      result.postedEquip != [FullEquipProto defaultInstance]) {
+    result.postedEquip =
+      [[[FullEquipProto builderWithPrototype:result.postedEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.postedEquip = value;
+  }
+  result.hasPostedEquip = YES;
+  return self;
+}
+- (FullMarketplacePostProto_Builder*) clearPostedEquip {
+  result.hasPostedEquip = NO;
+  result.postedEquip = [FullEquipProto defaultInstance];
   return self;
 }
 - (BOOL) hasPostedWood {
@@ -4165,6 +4767,5142 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
 - (FullMarketplacePostProto_Builder*) clearWoodCost {
   result.hasWoodCost = NO;
   result.woodCost = 0;
+  return self;
+}
+@end
+
+@interface FullStructureProto ()
+@end
+
+@implementation FullStructureProto
+
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+  }
+  return self;
+}
+static FullStructureProto* defaultFullStructureProtoInstance = nil;
++ (void) initialize {
+  if (self == [FullStructureProto class]) {
+    defaultFullStructureProtoInstance = [[FullStructureProto alloc] init];
+  }
+}
++ (FullStructureProto*) defaultInstance {
+  return defaultFullStructureProtoInstance;
+}
+- (FullStructureProto*) defaultInstance {
+  return defaultFullStructureProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullStructureProto*) parseFromData:(NSData*) data {
+  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromData:data] build];
+}
++ (FullStructureProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullStructureProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromInputStream:input] build];
+}
++ (FullStructureProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullStructureProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FullStructureProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullStructureProto*)[[[FullStructureProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullStructureProto_Builder*) builder {
+  return [[[FullStructureProto_Builder alloc] init] autorelease];
+}
++ (FullStructureProto_Builder*) builderWithPrototype:(FullStructureProto*) prototype {
+  return [[FullStructureProto builder] mergeFrom:prototype];
+}
+- (FullStructureProto_Builder*) builder {
+  return [FullStructureProto builder];
+}
+@end
+
+@interface FullStructureProto_Builder()
+@property (retain) FullStructureProto* result;
+@end
+
+@implementation FullStructureProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullStructureProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullStructureProto_Builder*) clear {
+  self.result = [[[FullStructureProto alloc] init] autorelease];
+  return self;
+}
+- (FullStructureProto_Builder*) clone {
+  return [FullStructureProto builderWithPrototype:result];
+}
+- (FullStructureProto*) defaultInstance {
+  return [FullStructureProto defaultInstance];
+}
+- (FullStructureProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullStructureProto*) buildPartial {
+  FullStructureProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullStructureProto_Builder*) mergeFrom:(FullStructureProto*) other {
+  if (other == [FullStructureProto defaultInstance]) {
+    return self;
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+    }
+  }
+}
+@end
+
+@interface FullUserQuestDataLarge ()
+@property int32_t userId;
+@property int32_t questId;
+@property BOOL complete;
+@property (retain) NSMutableArray* mutableRequiredTasksProgressList;
+@property (retain) NSMutableArray* mutableRequiredDefeatTypeJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredBuildStructJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredMarketplaceJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredPossessEquipJobProgressList;
+@end
+
+@implementation FullUserQuestDataLarge
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasComplete {
+  return !!hasComplete_;
+}
+- (void) setHasComplete:(BOOL) value {
+  hasComplete_ = !!value;
+}
+- (BOOL) complete {
+  return !!complete_;
+}
+- (void) setComplete:(BOOL) value {
+  complete_ = !!value;
+}
+@synthesize mutableRequiredTasksProgressList;
+@synthesize mutableRequiredDefeatTypeJobProgressList;
+@synthesize mutableRequiredBuildStructJobProgressList;
+@synthesize mutableRequiredMarketplaceJobProgressList;
+@synthesize mutableRequiredUpgradeStructJobProgressList;
+@synthesize mutableRequiredPossessEquipJobProgressList;
+- (void) dealloc {
+  self.mutableRequiredTasksProgressList = nil;
+  self.mutableRequiredDefeatTypeJobProgressList = nil;
+  self.mutableRequiredBuildStructJobProgressList = nil;
+  self.mutableRequiredMarketplaceJobProgressList = nil;
+  self.mutableRequiredUpgradeStructJobProgressList = nil;
+  self.mutableRequiredPossessEquipJobProgressList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.questId = 0;
+    self.complete = NO;
+  }
+  return self;
+}
+static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
++ (void) initialize {
+  if (self == [FullUserQuestDataLarge class]) {
+    defaultFullUserQuestDataLargeInstance = [[FullUserQuestDataLarge alloc] init];
+  }
+}
++ (FullUserQuestDataLarge*) defaultInstance {
+  return defaultFullUserQuestDataLargeInstance;
+}
+- (FullUserQuestDataLarge*) defaultInstance {
+  return defaultFullUserQuestDataLargeInstance;
+}
+- (NSArray*) requiredTasksProgressList {
+  return mutableRequiredTasksProgressList;
+}
+- (MinimumUserTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
+  id value = [mutableRequiredTasksProgressList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) requiredDefeatTypeJobProgressList {
+  return mutableRequiredDefeatTypeJobProgressList;
+}
+- (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index {
+  id value = [mutableRequiredDefeatTypeJobProgressList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) requiredBuildStructJobProgressList {
+  return mutableRequiredBuildStructJobProgressList;
+}
+- (MinimumUserBuildStructJobProto*) requiredBuildStructJobProgressAtIndex:(int32_t) index {
+  id value = [mutableRequiredBuildStructJobProgressList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) requiredMarketplaceJobProgressList {
+  return mutableRequiredMarketplaceJobProgressList;
+}
+- (MinimumUserMarketplaceJobProto*) requiredMarketplaceJobProgressAtIndex:(int32_t) index {
+  id value = [mutableRequiredMarketplaceJobProgressList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) requiredUpgradeStructJobProgressList {
+  return mutableRequiredUpgradeStructJobProgressList;
+}
+- (MinimumUserUpgradeStructJobProto*) requiredUpgradeStructJobProgressAtIndex:(int32_t) index {
+  id value = [mutableRequiredUpgradeStructJobProgressList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) requiredPossessEquipJobProgressList {
+  return mutableRequiredPossessEquipJobProgressList;
+}
+- (MinimumUserPossessEquipJobProto*) requiredPossessEquipJobProgressAtIndex:(int32_t) index {
+  id value = [mutableRequiredPossessEquipJobProgressList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.hasComplete) {
+    return NO;
+  }
+  for (MinimumUserTaskProto* element in self.requiredTasksProgressList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (MinimumUserBuildStructJobProto* element in self.requiredBuildStructJobProgressList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (MinimumUserMarketplaceJobProto* element in self.requiredMarketplaceJobProgressList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (MinimumUserUpgradeStructJobProto* element in self.requiredUpgradeStructJobProgressList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (MinimumUserPossessEquipJobProto* element in self.requiredPossessEquipJobProgressList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasComplete) {
+    [output writeBool:3 value:self.complete];
+  }
+  for (MinimumUserTaskProto* element in self.requiredTasksProgressList) {
+    [output writeMessage:4 value:element];
+  }
+  for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
+    [output writeMessage:5 value:element];
+  }
+  for (MinimumUserBuildStructJobProto* element in self.requiredBuildStructJobProgressList) {
+    [output writeMessage:6 value:element];
+  }
+  for (MinimumUserMarketplaceJobProto* element in self.requiredMarketplaceJobProgressList) {
+    [output writeMessage:7 value:element];
+  }
+  for (MinimumUserUpgradeStructJobProto* element in self.requiredUpgradeStructJobProgressList) {
+    [output writeMessage:8 value:element];
+  }
+  for (MinimumUserPossessEquipJobProto* element in self.requiredPossessEquipJobProgressList) {
+    [output writeMessage:9 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasComplete) {
+    size += computeBoolSize(3, self.complete);
+  }
+  for (MinimumUserTaskProto* element in self.requiredTasksProgressList) {
+    size += computeMessageSize(4, element);
+  }
+  for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
+    size += computeMessageSize(5, element);
+  }
+  for (MinimumUserBuildStructJobProto* element in self.requiredBuildStructJobProgressList) {
+    size += computeMessageSize(6, element);
+  }
+  for (MinimumUserMarketplaceJobProto* element in self.requiredMarketplaceJobProgressList) {
+    size += computeMessageSize(7, element);
+  }
+  for (MinimumUserUpgradeStructJobProto* element in self.requiredUpgradeStructJobProgressList) {
+    size += computeMessageSize(8, element);
+  }
+  for (MinimumUserPossessEquipJobProto* element in self.requiredPossessEquipJobProgressList) {
+    size += computeMessageSize(9, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullUserQuestDataLarge*) parseFromData:(NSData*) data {
+  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromData:data] build];
+}
++ (FullUserQuestDataLarge*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullUserQuestDataLarge*) parseFromInputStream:(NSInputStream*) input {
+  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromInputStream:input] build];
+}
++ (FullUserQuestDataLarge*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserQuestDataLarge*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromCodedInputStream:input] build];
+}
++ (FullUserQuestDataLarge*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserQuestDataLarge_Builder*) builder {
+  return [[[FullUserQuestDataLarge_Builder alloc] init] autorelease];
+}
++ (FullUserQuestDataLarge_Builder*) builderWithPrototype:(FullUserQuestDataLarge*) prototype {
+  return [[FullUserQuestDataLarge builder] mergeFrom:prototype];
+}
+- (FullUserQuestDataLarge_Builder*) builder {
+  return [FullUserQuestDataLarge builder];
+}
+@end
+
+@interface FullUserQuestDataLarge_Builder()
+@property (retain) FullUserQuestDataLarge* result;
+@end
+
+@implementation FullUserQuestDataLarge_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullUserQuestDataLarge alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullUserQuestDataLarge_Builder*) clear {
+  self.result = [[[FullUserQuestDataLarge alloc] init] autorelease];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clone {
+  return [FullUserQuestDataLarge builderWithPrototype:result];
+}
+- (FullUserQuestDataLarge*) defaultInstance {
+  return [FullUserQuestDataLarge defaultInstance];
+}
+- (FullUserQuestDataLarge*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullUserQuestDataLarge*) buildPartial {
+  FullUserQuestDataLarge* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullUserQuestDataLarge_Builder*) mergeFrom:(FullUserQuestDataLarge*) other {
+  if (other == [FullUserQuestDataLarge defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasComplete) {
+    [self setComplete:other.complete];
+  }
+  if (other.mutableRequiredTasksProgressList.count > 0) {
+    if (result.mutableRequiredTasksProgressList == nil) {
+      result.mutableRequiredTasksProgressList = [NSMutableArray array];
+    }
+    [result.mutableRequiredTasksProgressList addObjectsFromArray:other.mutableRequiredTasksProgressList];
+  }
+  if (other.mutableRequiredDefeatTypeJobProgressList.count > 0) {
+    if (result.mutableRequiredDefeatTypeJobProgressList == nil) {
+      result.mutableRequiredDefeatTypeJobProgressList = [NSMutableArray array];
+    }
+    [result.mutableRequiredDefeatTypeJobProgressList addObjectsFromArray:other.mutableRequiredDefeatTypeJobProgressList];
+  }
+  if (other.mutableRequiredBuildStructJobProgressList.count > 0) {
+    if (result.mutableRequiredBuildStructJobProgressList == nil) {
+      result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
+    }
+    [result.mutableRequiredBuildStructJobProgressList addObjectsFromArray:other.mutableRequiredBuildStructJobProgressList];
+  }
+  if (other.mutableRequiredMarketplaceJobProgressList.count > 0) {
+    if (result.mutableRequiredMarketplaceJobProgressList == nil) {
+      result.mutableRequiredMarketplaceJobProgressList = [NSMutableArray array];
+    }
+    [result.mutableRequiredMarketplaceJobProgressList addObjectsFromArray:other.mutableRequiredMarketplaceJobProgressList];
+  }
+  if (other.mutableRequiredUpgradeStructJobProgressList.count > 0) {
+    if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
+      result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
+    }
+    [result.mutableRequiredUpgradeStructJobProgressList addObjectsFromArray:other.mutableRequiredUpgradeStructJobProgressList];
+  }
+  if (other.mutableRequiredPossessEquipJobProgressList.count > 0) {
+    if (result.mutableRequiredPossessEquipJobProgressList == nil) {
+      result.mutableRequiredPossessEquipJobProgressList = [NSMutableArray array];
+    }
+    [result.mutableRequiredPossessEquipJobProgressList addObjectsFromArray:other.mutableRequiredPossessEquipJobProgressList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullUserQuestDataLarge_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setComplete:[input readBool]];
+        break;
+      }
+      case 34: {
+        MinimumUserTaskProto_Builder* subBuilder = [MinimumUserTaskProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequiredTasksProgress:[subBuilder buildPartial]];
+        break;
+      }
+      case 42: {
+        MinimumUserDefeatTypeJobProto_Builder* subBuilder = [MinimumUserDefeatTypeJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequiredDefeatTypeJobProgress:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
+        MinimumUserBuildStructJobProto_Builder* subBuilder = [MinimumUserBuildStructJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequiredBuildStructJobProgress:[subBuilder buildPartial]];
+        break;
+      }
+      case 58: {
+        MinimumUserMarketplaceJobProto_Builder* subBuilder = [MinimumUserMarketplaceJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequiredMarketplaceJobProgress:[subBuilder buildPartial]];
+        break;
+      }
+      case 66: {
+        MinimumUserUpgradeStructJobProto_Builder* subBuilder = [MinimumUserUpgradeStructJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequiredUpgradeStructJobProgress:[subBuilder buildPartial]];
+        break;
+      }
+      case 74: {
+        MinimumUserPossessEquipJobProto_Builder* subBuilder = [MinimumUserPossessEquipJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequiredPossessEquipJobProgress:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (FullUserQuestDataLarge_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (FullUserQuestDataLarge_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasComplete {
+  return result.hasComplete;
+}
+- (BOOL) complete {
+  return result.complete;
+}
+- (FullUserQuestDataLarge_Builder*) setComplete:(BOOL) value {
+  result.hasComplete = YES;
+  result.complete = value;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearComplete {
+  result.hasComplete = NO;
+  result.complete = NO;
+  return self;
+}
+- (NSArray*) requiredTasksProgressList {
+  if (result.mutableRequiredTasksProgressList == nil) { return [NSArray array]; }
+  return result.mutableRequiredTasksProgressList;
+}
+- (MinimumUserTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
+  return [result requiredTasksProgressAtIndex:index];
+}
+- (FullUserQuestDataLarge_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserTaskProto*) value {
+  [result.mutableRequiredTasksProgressList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addAllRequiredTasksProgress:(NSArray*) values {
+  if (result.mutableRequiredTasksProgressList == nil) {
+    result.mutableRequiredTasksProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredTasksProgressList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearRequiredTasksProgressList {
+  result.mutableRequiredTasksProgressList = nil;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addRequiredTasksProgress:(MinimumUserTaskProto*) value {
+  if (result.mutableRequiredTasksProgressList == nil) {
+    result.mutableRequiredTasksProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredTasksProgressList addObject:value];
+  return self;
+}
+- (NSArray*) requiredDefeatTypeJobProgressList {
+  if (result.mutableRequiredDefeatTypeJobProgressList == nil) { return [NSArray array]; }
+  return result.mutableRequiredDefeatTypeJobProgressList;
+}
+- (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index {
+  return [result requiredDefeatTypeJobProgressAtIndex:index];
+}
+- (FullUserQuestDataLarge_Builder*) replaceRequiredDefeatTypeJobProgressAtIndex:(int32_t) index with:(MinimumUserDefeatTypeJobProto*) value {
+  [result.mutableRequiredDefeatTypeJobProgressList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addAllRequiredDefeatTypeJobProgress:(NSArray*) values {
+  if (result.mutableRequiredDefeatTypeJobProgressList == nil) {
+    result.mutableRequiredDefeatTypeJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredDefeatTypeJobProgressList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearRequiredDefeatTypeJobProgressList {
+  result.mutableRequiredDefeatTypeJobProgressList = nil;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addRequiredDefeatTypeJobProgress:(MinimumUserDefeatTypeJobProto*) value {
+  if (result.mutableRequiredDefeatTypeJobProgressList == nil) {
+    result.mutableRequiredDefeatTypeJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredDefeatTypeJobProgressList addObject:value];
+  return self;
+}
+- (NSArray*) requiredBuildStructJobProgressList {
+  if (result.mutableRequiredBuildStructJobProgressList == nil) { return [NSArray array]; }
+  return result.mutableRequiredBuildStructJobProgressList;
+}
+- (MinimumUserBuildStructJobProto*) requiredBuildStructJobProgressAtIndex:(int32_t) index {
+  return [result requiredBuildStructJobProgressAtIndex:index];
+}
+- (FullUserQuestDataLarge_Builder*) replaceRequiredBuildStructJobProgressAtIndex:(int32_t) index with:(MinimumUserBuildStructJobProto*) value {
+  [result.mutableRequiredBuildStructJobProgressList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addAllRequiredBuildStructJobProgress:(NSArray*) values {
+  if (result.mutableRequiredBuildStructJobProgressList == nil) {
+    result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredBuildStructJobProgressList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearRequiredBuildStructJobProgressList {
+  result.mutableRequiredBuildStructJobProgressList = nil;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addRequiredBuildStructJobProgress:(MinimumUserBuildStructJobProto*) value {
+  if (result.mutableRequiredBuildStructJobProgressList == nil) {
+    result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredBuildStructJobProgressList addObject:value];
+  return self;
+}
+- (NSArray*) requiredMarketplaceJobProgressList {
+  if (result.mutableRequiredMarketplaceJobProgressList == nil) { return [NSArray array]; }
+  return result.mutableRequiredMarketplaceJobProgressList;
+}
+- (MinimumUserMarketplaceJobProto*) requiredMarketplaceJobProgressAtIndex:(int32_t) index {
+  return [result requiredMarketplaceJobProgressAtIndex:index];
+}
+- (FullUserQuestDataLarge_Builder*) replaceRequiredMarketplaceJobProgressAtIndex:(int32_t) index with:(MinimumUserMarketplaceJobProto*) value {
+  [result.mutableRequiredMarketplaceJobProgressList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addAllRequiredMarketplaceJobProgress:(NSArray*) values {
+  if (result.mutableRequiredMarketplaceJobProgressList == nil) {
+    result.mutableRequiredMarketplaceJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredMarketplaceJobProgressList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearRequiredMarketplaceJobProgressList {
+  result.mutableRequiredMarketplaceJobProgressList = nil;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addRequiredMarketplaceJobProgress:(MinimumUserMarketplaceJobProto*) value {
+  if (result.mutableRequiredMarketplaceJobProgressList == nil) {
+    result.mutableRequiredMarketplaceJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredMarketplaceJobProgressList addObject:value];
+  return self;
+}
+- (NSArray*) requiredUpgradeStructJobProgressList {
+  if (result.mutableRequiredUpgradeStructJobProgressList == nil) { return [NSArray array]; }
+  return result.mutableRequiredUpgradeStructJobProgressList;
+}
+- (MinimumUserUpgradeStructJobProto*) requiredUpgradeStructJobProgressAtIndex:(int32_t) index {
+  return [result requiredUpgradeStructJobProgressAtIndex:index];
+}
+- (FullUserQuestDataLarge_Builder*) replaceRequiredUpgradeStructJobProgressAtIndex:(int32_t) index with:(MinimumUserUpgradeStructJobProto*) value {
+  [result.mutableRequiredUpgradeStructJobProgressList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addAllRequiredUpgradeStructJobProgress:(NSArray*) values {
+  if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
+    result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredUpgradeStructJobProgressList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearRequiredUpgradeStructJobProgressList {
+  result.mutableRequiredUpgradeStructJobProgressList = nil;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addRequiredUpgradeStructJobProgress:(MinimumUserUpgradeStructJobProto*) value {
+  if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
+    result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredUpgradeStructJobProgressList addObject:value];
+  return self;
+}
+- (NSArray*) requiredPossessEquipJobProgressList {
+  if (result.mutableRequiredPossessEquipJobProgressList == nil) { return [NSArray array]; }
+  return result.mutableRequiredPossessEquipJobProgressList;
+}
+- (MinimumUserPossessEquipJobProto*) requiredPossessEquipJobProgressAtIndex:(int32_t) index {
+  return [result requiredPossessEquipJobProgressAtIndex:index];
+}
+- (FullUserQuestDataLarge_Builder*) replaceRequiredPossessEquipJobProgressAtIndex:(int32_t) index with:(MinimumUserPossessEquipJobProto*) value {
+  [result.mutableRequiredPossessEquipJobProgressList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addAllRequiredPossessEquipJobProgress:(NSArray*) values {
+  if (result.mutableRequiredPossessEquipJobProgressList == nil) {
+    result.mutableRequiredPossessEquipJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredPossessEquipJobProgressList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) clearRequiredPossessEquipJobProgressList {
+  result.mutableRequiredPossessEquipJobProgressList = nil;
+  return self;
+}
+- (FullUserQuestDataLarge_Builder*) addRequiredPossessEquipJobProgress:(MinimumUserPossessEquipJobProto*) value {
+  if (result.mutableRequiredPossessEquipJobProgressList == nil) {
+    result.mutableRequiredPossessEquipJobProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredPossessEquipJobProgressList addObject:value];
+  return self;
+}
+@end
+
+@interface MinimumUserTaskProto ()
+@property int32_t userId;
+@property int32_t taskId;
+@property int32_t numTimesActed;
+@property int32_t numTimesRequired;
+@end
+
+@implementation MinimumUserTaskProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasTaskId {
+  return !!hasTaskId_;
+}
+- (void) setHasTaskId:(BOOL) value {
+  hasTaskId_ = !!value;
+}
+@synthesize taskId;
+- (BOOL) hasNumTimesActed {
+  return !!hasNumTimesActed_;
+}
+- (void) setHasNumTimesActed:(BOOL) value {
+  hasNumTimesActed_ = !!value;
+}
+@synthesize numTimesActed;
+- (BOOL) hasNumTimesRequired {
+  return !!hasNumTimesRequired_;
+}
+- (void) setHasNumTimesRequired:(BOOL) value {
+  hasNumTimesRequired_ = !!value;
+}
+@synthesize numTimesRequired;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.taskId = 0;
+    self.numTimesActed = 0;
+    self.numTimesRequired = 0;
+  }
+  return self;
+}
+static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserTaskProto class]) {
+    defaultMinimumUserTaskProtoInstance = [[MinimumUserTaskProto alloc] init];
+  }
+}
++ (MinimumUserTaskProto*) defaultInstance {
+  return defaultMinimumUserTaskProtoInstance;
+}
+- (MinimumUserTaskProto*) defaultInstance {
+  return defaultMinimumUserTaskProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasTaskId) {
+    return NO;
+  }
+  if (!self.hasNumTimesActed) {
+    return NO;
+  }
+  if (!self.hasNumTimesRequired) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasTaskId) {
+    [output writeInt32:2 value:self.taskId];
+  }
+  if (self.hasNumTimesActed) {
+    [output writeInt32:3 value:self.numTimesActed];
+  }
+  if (self.hasNumTimesRequired) {
+    [output writeInt32:4 value:self.numTimesRequired];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasTaskId) {
+    size += computeInt32Size(2, self.taskId);
+  }
+  if (self.hasNumTimesActed) {
+    size += computeInt32Size(3, self.numTimesActed);
+  }
+  if (self.hasNumTimesRequired) {
+    size += computeInt32Size(4, self.numTimesRequired);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserTaskProto*) parseFromData:(NSData*) data {
+  return (MinimumUserTaskProto*)[[[MinimumUserTaskProto builder] mergeFromData:data] build];
+}
++ (MinimumUserTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserTaskProto*)[[[MinimumUserTaskProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserTaskProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserTaskProto*)[[[MinimumUserTaskProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserTaskProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserTaskProto*)[[[MinimumUserTaskProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserTaskProto*)[[[MinimumUserTaskProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserTaskProto*)[[[MinimumUserTaskProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserTaskProto_Builder*) builder {
+  return [[[MinimumUserTaskProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserTaskProto_Builder*) builderWithPrototype:(MinimumUserTaskProto*) prototype {
+  return [[MinimumUserTaskProto builder] mergeFrom:prototype];
+}
+- (MinimumUserTaskProto_Builder*) builder {
+  return [MinimumUserTaskProto builder];
+}
+@end
+
+@interface MinimumUserTaskProto_Builder()
+@property (retain) MinimumUserTaskProto* result;
+@end
+
+@implementation MinimumUserTaskProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserTaskProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserTaskProto_Builder*) clear {
+  self.result = [[[MinimumUserTaskProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) clone {
+  return [MinimumUserTaskProto builderWithPrototype:result];
+}
+- (MinimumUserTaskProto*) defaultInstance {
+  return [MinimumUserTaskProto defaultInstance];
+}
+- (MinimumUserTaskProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserTaskProto*) buildPartial {
+  MinimumUserTaskProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserTaskProto_Builder*) mergeFrom:(MinimumUserTaskProto*) other {
+  if (other == [MinimumUserTaskProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasTaskId) {
+    [self setTaskId:other.taskId];
+  }
+  if (other.hasNumTimesActed) {
+    [self setNumTimesActed:other.numTimesActed];
+  }
+  if (other.hasNumTimesRequired) {
+    [self setNumTimesRequired:other.numTimesRequired];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setTaskId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setNumTimesActed:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setNumTimesRequired:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (MinimumUserTaskProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasTaskId {
+  return result.hasTaskId;
+}
+- (int32_t) taskId {
+  return result.taskId;
+}
+- (MinimumUserTaskProto_Builder*) setTaskId:(int32_t) value {
+  result.hasTaskId = YES;
+  result.taskId = value;
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) clearTaskId {
+  result.hasTaskId = NO;
+  result.taskId = 0;
+  return self;
+}
+- (BOOL) hasNumTimesActed {
+  return result.hasNumTimesActed;
+}
+- (int32_t) numTimesActed {
+  return result.numTimesActed;
+}
+- (MinimumUserTaskProto_Builder*) setNumTimesActed:(int32_t) value {
+  result.hasNumTimesActed = YES;
+  result.numTimesActed = value;
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) clearNumTimesActed {
+  result.hasNumTimesActed = NO;
+  result.numTimesActed = 0;
+  return self;
+}
+- (BOOL) hasNumTimesRequired {
+  return result.hasNumTimesRequired;
+}
+- (int32_t) numTimesRequired {
+  return result.numTimesRequired;
+}
+- (MinimumUserTaskProto_Builder*) setNumTimesRequired:(int32_t) value {
+  result.hasNumTimesRequired = YES;
+  result.numTimesRequired = value;
+  return self;
+}
+- (MinimumUserTaskProto_Builder*) clearNumTimesRequired {
+  result.hasNumTimesRequired = NO;
+  result.numTimesRequired = 0;
+  return self;
+}
+@end
+
+@interface MinimumUserDefeatTypeJobProto ()
+@property int32_t userId;
+@property int32_t questId;
+@property (retain) DefeatTypeJobProto* defeatTypeJobId;
+@property int32_t numDefeated;
+@end
+
+@implementation MinimumUserDefeatTypeJobProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasDefeatTypeJobId {
+  return !!hasDefeatTypeJobId_;
+}
+- (void) setHasDefeatTypeJobId:(BOOL) value {
+  hasDefeatTypeJobId_ = !!value;
+}
+@synthesize defeatTypeJobId;
+- (BOOL) hasNumDefeated {
+  return !!hasNumDefeated_;
+}
+- (void) setHasNumDefeated:(BOOL) value {
+  hasNumDefeated_ = !!value;
+}
+@synthesize numDefeated;
+- (void) dealloc {
+  self.defeatTypeJobId = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.questId = 0;
+    self.defeatTypeJobId = [DefeatTypeJobProto defaultInstance];
+    self.numDefeated = 0;
+  }
+  return self;
+}
+static MinimumUserDefeatTypeJobProto* defaultMinimumUserDefeatTypeJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserDefeatTypeJobProto class]) {
+    defaultMinimumUserDefeatTypeJobProtoInstance = [[MinimumUserDefeatTypeJobProto alloc] init];
+  }
+}
++ (MinimumUserDefeatTypeJobProto*) defaultInstance {
+  return defaultMinimumUserDefeatTypeJobProtoInstance;
+}
+- (MinimumUserDefeatTypeJobProto*) defaultInstance {
+  return defaultMinimumUserDefeatTypeJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.hasDefeatTypeJobId) {
+    return NO;
+  }
+  if (!self.hasNumDefeated) {
+    return NO;
+  }
+  if (!self.defeatTypeJobId.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasDefeatTypeJobId) {
+    [output writeMessage:3 value:self.defeatTypeJobId];
+  }
+  if (self.hasNumDefeated) {
+    [output writeInt32:4 value:self.numDefeated];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasDefeatTypeJobId) {
+    size += computeMessageSize(3, self.defeatTypeJobId);
+  }
+  if (self.hasNumDefeated) {
+    size += computeInt32Size(4, self.numDefeated);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserDefeatTypeJobProto*) parseFromData:(NSData*) data {
+  return (MinimumUserDefeatTypeJobProto*)[[[MinimumUserDefeatTypeJobProto builder] mergeFromData:data] build];
+}
++ (MinimumUserDefeatTypeJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserDefeatTypeJobProto*)[[[MinimumUserDefeatTypeJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserDefeatTypeJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserDefeatTypeJobProto*)[[[MinimumUserDefeatTypeJobProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserDefeatTypeJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserDefeatTypeJobProto*)[[[MinimumUserDefeatTypeJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserDefeatTypeJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserDefeatTypeJobProto*)[[[MinimumUserDefeatTypeJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserDefeatTypeJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserDefeatTypeJobProto*)[[[MinimumUserDefeatTypeJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserDefeatTypeJobProto_Builder*) builder {
+  return [[[MinimumUserDefeatTypeJobProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserDefeatTypeJobProto_Builder*) builderWithPrototype:(MinimumUserDefeatTypeJobProto*) prototype {
+  return [[MinimumUserDefeatTypeJobProto builder] mergeFrom:prototype];
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) builder {
+  return [MinimumUserDefeatTypeJobProto builder];
+}
+@end
+
+@interface MinimumUserDefeatTypeJobProto_Builder()
+@property (retain) MinimumUserDefeatTypeJobProto* result;
+@end
+
+@implementation MinimumUserDefeatTypeJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserDefeatTypeJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) clear {
+  self.result = [[[MinimumUserDefeatTypeJobProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) clone {
+  return [MinimumUserDefeatTypeJobProto builderWithPrototype:result];
+}
+- (MinimumUserDefeatTypeJobProto*) defaultInstance {
+  return [MinimumUserDefeatTypeJobProto defaultInstance];
+}
+- (MinimumUserDefeatTypeJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserDefeatTypeJobProto*) buildPartial {
+  MinimumUserDefeatTypeJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) mergeFrom:(MinimumUserDefeatTypeJobProto*) other {
+  if (other == [MinimumUserDefeatTypeJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasDefeatTypeJobId) {
+    [self mergeDefeatTypeJobId:other.defeatTypeJobId];
+  }
+  if (other.hasNumDefeated) {
+    [self setNumDefeated:other.numDefeated];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        DefeatTypeJobProto_Builder* subBuilder = [DefeatTypeJobProto builder];
+        if (self.hasDefeatTypeJobId) {
+          [subBuilder mergeFrom:self.defeatTypeJobId];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDefeatTypeJobId:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setNumDefeated:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasDefeatTypeJobId {
+  return result.hasDefeatTypeJobId;
+}
+- (DefeatTypeJobProto*) defeatTypeJobId {
+  return result.defeatTypeJobId;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) setDefeatTypeJobId:(DefeatTypeJobProto*) value {
+  result.hasDefeatTypeJobId = YES;
+  result.defeatTypeJobId = value;
+  return self;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) setDefeatTypeJobIdBuilder:(DefeatTypeJobProto_Builder*) builderForValue {
+  return [self setDefeatTypeJobId:[builderForValue build]];
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) mergeDefeatTypeJobId:(DefeatTypeJobProto*) value {
+  if (result.hasDefeatTypeJobId &&
+      result.defeatTypeJobId != [DefeatTypeJobProto defaultInstance]) {
+    result.defeatTypeJobId =
+      [[[DefeatTypeJobProto builderWithPrototype:result.defeatTypeJobId] mergeFrom:value] buildPartial];
+  } else {
+    result.defeatTypeJobId = value;
+  }
+  result.hasDefeatTypeJobId = YES;
+  return self;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) clearDefeatTypeJobId {
+  result.hasDefeatTypeJobId = NO;
+  result.defeatTypeJobId = [DefeatTypeJobProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumDefeated {
+  return result.hasNumDefeated;
+}
+- (int32_t) numDefeated {
+  return result.numDefeated;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) setNumDefeated:(int32_t) value {
+  result.hasNumDefeated = YES;
+  result.numDefeated = value;
+  return self;
+}
+- (MinimumUserDefeatTypeJobProto_Builder*) clearNumDefeated {
+  result.hasNumDefeated = NO;
+  result.numDefeated = 0;
+  return self;
+}
+@end
+
+@interface DefeatTypeJobProto ()
+@property int32_t id;
+@property UserType typeOfEnemy;
+@property int32_t numEnemiesToDefeat;
+@property int32_t cityId;
+@end
+
+@implementation DefeatTypeJobProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasTypeOfEnemy {
+  return !!hasTypeOfEnemy_;
+}
+- (void) setHasTypeOfEnemy:(BOOL) value {
+  hasTypeOfEnemy_ = !!value;
+}
+@synthesize typeOfEnemy;
+- (BOOL) hasNumEnemiesToDefeat {
+  return !!hasNumEnemiesToDefeat_;
+}
+- (void) setHasNumEnemiesToDefeat:(BOOL) value {
+  hasNumEnemiesToDefeat_ = !!value;
+}
+@synthesize numEnemiesToDefeat;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.typeOfEnemy = UserTypeGoodWarrior;
+    self.numEnemiesToDefeat = 0;
+    self.cityId = 0;
+  }
+  return self;
+}
+static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [DefeatTypeJobProto class]) {
+    defaultDefeatTypeJobProtoInstance = [[DefeatTypeJobProto alloc] init];
+  }
+}
++ (DefeatTypeJobProto*) defaultInstance {
+  return defaultDefeatTypeJobProtoInstance;
+}
+- (DefeatTypeJobProto*) defaultInstance {
+  return defaultDefeatTypeJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasId) {
+    return NO;
+  }
+  if (!self.hasTypeOfEnemy) {
+    return NO;
+  }
+  if (!self.hasNumEnemiesToDefeat) {
+    return NO;
+  }
+  if (!self.hasCityId) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasTypeOfEnemy) {
+    [output writeEnum:2 value:self.typeOfEnemy];
+  }
+  if (self.hasNumEnemiesToDefeat) {
+    [output writeInt32:3 value:self.numEnemiesToDefeat];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:4 value:self.cityId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasTypeOfEnemy) {
+    size += computeEnumSize(2, self.typeOfEnemy);
+  }
+  if (self.hasNumEnemiesToDefeat) {
+    size += computeInt32Size(3, self.numEnemiesToDefeat);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(4, self.cityId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (DefeatTypeJobProto*) parseFromData:(NSData*) data {
+  return (DefeatTypeJobProto*)[[[DefeatTypeJobProto builder] mergeFromData:data] build];
+}
++ (DefeatTypeJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DefeatTypeJobProto*)[[[DefeatTypeJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DefeatTypeJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DefeatTypeJobProto*)[[[DefeatTypeJobProto builder] mergeFromInputStream:input] build];
+}
++ (DefeatTypeJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DefeatTypeJobProto*)[[[DefeatTypeJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DefeatTypeJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DefeatTypeJobProto*)[[[DefeatTypeJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DefeatTypeJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DefeatTypeJobProto*)[[[DefeatTypeJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DefeatTypeJobProto_Builder*) builder {
+  return [[[DefeatTypeJobProto_Builder alloc] init] autorelease];
+}
++ (DefeatTypeJobProto_Builder*) builderWithPrototype:(DefeatTypeJobProto*) prototype {
+  return [[DefeatTypeJobProto builder] mergeFrom:prototype];
+}
+- (DefeatTypeJobProto_Builder*) builder {
+  return [DefeatTypeJobProto builder];
+}
+@end
+
+@interface DefeatTypeJobProto_Builder()
+@property (retain) DefeatTypeJobProto* result;
+@end
+
+@implementation DefeatTypeJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[DefeatTypeJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DefeatTypeJobProto_Builder*) clear {
+  self.result = [[[DefeatTypeJobProto alloc] init] autorelease];
+  return self;
+}
+- (DefeatTypeJobProto_Builder*) clone {
+  return [DefeatTypeJobProto builderWithPrototype:result];
+}
+- (DefeatTypeJobProto*) defaultInstance {
+  return [DefeatTypeJobProto defaultInstance];
+}
+- (DefeatTypeJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DefeatTypeJobProto*) buildPartial {
+  DefeatTypeJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (DefeatTypeJobProto_Builder*) mergeFrom:(DefeatTypeJobProto*) other {
+  if (other == [DefeatTypeJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasTypeOfEnemy) {
+    [self setTypeOfEnemy:other.typeOfEnemy];
+  }
+  if (other.hasNumEnemiesToDefeat) {
+    [self setNumEnemiesToDefeat:other.numEnemiesToDefeat];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DefeatTypeJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DefeatTypeJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (UserTypeIsValidValue(value)) {
+          [self setTypeOfEnemy:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setNumEnemiesToDefeat:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (DefeatTypeJobProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (DefeatTypeJobProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasTypeOfEnemy {
+  return result.hasTypeOfEnemy;
+}
+- (UserType) typeOfEnemy {
+  return result.typeOfEnemy;
+}
+- (DefeatTypeJobProto_Builder*) setTypeOfEnemy:(UserType) value {
+  result.hasTypeOfEnemy = YES;
+  result.typeOfEnemy = value;
+  return self;
+}
+- (DefeatTypeJobProto_Builder*) clearTypeOfEnemy {
+  result.hasTypeOfEnemy = NO;
+  result.typeOfEnemy = UserTypeGoodWarrior;
+  return self;
+}
+- (BOOL) hasNumEnemiesToDefeat {
+  return result.hasNumEnemiesToDefeat;
+}
+- (int32_t) numEnemiesToDefeat {
+  return result.numEnemiesToDefeat;
+}
+- (DefeatTypeJobProto_Builder*) setNumEnemiesToDefeat:(int32_t) value {
+  result.hasNumEnemiesToDefeat = YES;
+  result.numEnemiesToDefeat = value;
+  return self;
+}
+- (DefeatTypeJobProto_Builder*) clearNumEnemiesToDefeat {
+  result.hasNumEnemiesToDefeat = NO;
+  result.numEnemiesToDefeat = 0;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (DefeatTypeJobProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (DefeatTypeJobProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+@end
+
+@interface MinimumUserBuildStructJobProto ()
+@property int32_t userId;
+@property int32_t questId;
+@property (retain) BuildStructJobProto* buildStructJob;
+@property int32_t numOfStructUserHas;
+@end
+
+@implementation MinimumUserBuildStructJobProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasBuildStructJob {
+  return !!hasBuildStructJob_;
+}
+- (void) setHasBuildStructJob:(BOOL) value {
+  hasBuildStructJob_ = !!value;
+}
+@synthesize buildStructJob;
+- (BOOL) hasNumOfStructUserHas {
+  return !!hasNumOfStructUserHas_;
+}
+- (void) setHasNumOfStructUserHas:(BOOL) value {
+  hasNumOfStructUserHas_ = !!value;
+}
+@synthesize numOfStructUserHas;
+- (void) dealloc {
+  self.buildStructJob = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.questId = 0;
+    self.buildStructJob = [BuildStructJobProto defaultInstance];
+    self.numOfStructUserHas = 0;
+  }
+  return self;
+}
+static MinimumUserBuildStructJobProto* defaultMinimumUserBuildStructJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserBuildStructJobProto class]) {
+    defaultMinimumUserBuildStructJobProtoInstance = [[MinimumUserBuildStructJobProto alloc] init];
+  }
+}
++ (MinimumUserBuildStructJobProto*) defaultInstance {
+  return defaultMinimumUserBuildStructJobProtoInstance;
+}
+- (MinimumUserBuildStructJobProto*) defaultInstance {
+  return defaultMinimumUserBuildStructJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.hasBuildStructJob) {
+    return NO;
+  }
+  if (!self.hasNumOfStructUserHas) {
+    return NO;
+  }
+  if (!self.buildStructJob.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasBuildStructJob) {
+    [output writeMessage:3 value:self.buildStructJob];
+  }
+  if (self.hasNumOfStructUserHas) {
+    [output writeInt32:4 value:self.numOfStructUserHas];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasBuildStructJob) {
+    size += computeMessageSize(3, self.buildStructJob);
+  }
+  if (self.hasNumOfStructUserHas) {
+    size += computeInt32Size(4, self.numOfStructUserHas);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserBuildStructJobProto*) parseFromData:(NSData*) data {
+  return (MinimumUserBuildStructJobProto*)[[[MinimumUserBuildStructJobProto builder] mergeFromData:data] build];
+}
++ (MinimumUserBuildStructJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserBuildStructJobProto*)[[[MinimumUserBuildStructJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserBuildStructJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserBuildStructJobProto*)[[[MinimumUserBuildStructJobProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserBuildStructJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserBuildStructJobProto*)[[[MinimumUserBuildStructJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserBuildStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserBuildStructJobProto*)[[[MinimumUserBuildStructJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserBuildStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserBuildStructJobProto*)[[[MinimumUserBuildStructJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserBuildStructJobProto_Builder*) builder {
+  return [[[MinimumUserBuildStructJobProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserBuildStructJobProto_Builder*) builderWithPrototype:(MinimumUserBuildStructJobProto*) prototype {
+  return [[MinimumUserBuildStructJobProto builder] mergeFrom:prototype];
+}
+- (MinimumUserBuildStructJobProto_Builder*) builder {
+  return [MinimumUserBuildStructJobProto builder];
+}
+@end
+
+@interface MinimumUserBuildStructJobProto_Builder()
+@property (retain) MinimumUserBuildStructJobProto* result;
+@end
+
+@implementation MinimumUserBuildStructJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserBuildStructJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserBuildStructJobProto_Builder*) clear {
+  self.result = [[[MinimumUserBuildStructJobProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserBuildStructJobProto_Builder*) clone {
+  return [MinimumUserBuildStructJobProto builderWithPrototype:result];
+}
+- (MinimumUserBuildStructJobProto*) defaultInstance {
+  return [MinimumUserBuildStructJobProto defaultInstance];
+}
+- (MinimumUserBuildStructJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserBuildStructJobProto*) buildPartial {
+  MinimumUserBuildStructJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserBuildStructJobProto_Builder*) mergeFrom:(MinimumUserBuildStructJobProto*) other {
+  if (other == [MinimumUserBuildStructJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasBuildStructJob) {
+    [self mergeBuildStructJob:other.buildStructJob];
+  }
+  if (other.hasNumOfStructUserHas) {
+    [self setNumOfStructUserHas:other.numOfStructUserHas];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserBuildStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserBuildStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        BuildStructJobProto_Builder* subBuilder = [BuildStructJobProto builder];
+        if (self.hasBuildStructJob) {
+          [subBuilder mergeFrom:self.buildStructJob];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBuildStructJob:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setNumOfStructUserHas:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (MinimumUserBuildStructJobProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (MinimumUserBuildStructJobProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (MinimumUserBuildStructJobProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (MinimumUserBuildStructJobProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasBuildStructJob {
+  return result.hasBuildStructJob;
+}
+- (BuildStructJobProto*) buildStructJob {
+  return result.buildStructJob;
+}
+- (MinimumUserBuildStructJobProto_Builder*) setBuildStructJob:(BuildStructJobProto*) value {
+  result.hasBuildStructJob = YES;
+  result.buildStructJob = value;
+  return self;
+}
+- (MinimumUserBuildStructJobProto_Builder*) setBuildStructJobBuilder:(BuildStructJobProto_Builder*) builderForValue {
+  return [self setBuildStructJob:[builderForValue build]];
+}
+- (MinimumUserBuildStructJobProto_Builder*) mergeBuildStructJob:(BuildStructJobProto*) value {
+  if (result.hasBuildStructJob &&
+      result.buildStructJob != [BuildStructJobProto defaultInstance]) {
+    result.buildStructJob =
+      [[[BuildStructJobProto builderWithPrototype:result.buildStructJob] mergeFrom:value] buildPartial];
+  } else {
+    result.buildStructJob = value;
+  }
+  result.hasBuildStructJob = YES;
+  return self;
+}
+- (MinimumUserBuildStructJobProto_Builder*) clearBuildStructJob {
+  result.hasBuildStructJob = NO;
+  result.buildStructJob = [BuildStructJobProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumOfStructUserHas {
+  return result.hasNumOfStructUserHas;
+}
+- (int32_t) numOfStructUserHas {
+  return result.numOfStructUserHas;
+}
+- (MinimumUserBuildStructJobProto_Builder*) setNumOfStructUserHas:(int32_t) value {
+  result.hasNumOfStructUserHas = YES;
+  result.numOfStructUserHas = value;
+  return self;
+}
+- (MinimumUserBuildStructJobProto_Builder*) clearNumOfStructUserHas {
+  result.hasNumOfStructUserHas = NO;
+  result.numOfStructUserHas = 0;
+  return self;
+}
+@end
+
+@interface BuildStructJobProto ()
+@property int32_t id;
+@property int32_t structId;
+@property int32_t quantityRequired;
+@end
+
+@implementation BuildStructJobProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasStructId {
+  return !!hasStructId_;
+}
+- (void) setHasStructId:(BOOL) value {
+  hasStructId_ = !!value;
+}
+@synthesize structId;
+- (BOOL) hasQuantityRequired {
+  return !!hasQuantityRequired_;
+}
+- (void) setHasQuantityRequired:(BOOL) value {
+  hasQuantityRequired_ = !!value;
+}
+@synthesize quantityRequired;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.structId = 0;
+    self.quantityRequired = 0;
+  }
+  return self;
+}
+static BuildStructJobProto* defaultBuildStructJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [BuildStructJobProto class]) {
+    defaultBuildStructJobProtoInstance = [[BuildStructJobProto alloc] init];
+  }
+}
++ (BuildStructJobProto*) defaultInstance {
+  return defaultBuildStructJobProtoInstance;
+}
+- (BuildStructJobProto*) defaultInstance {
+  return defaultBuildStructJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasId) {
+    return NO;
+  }
+  if (!self.hasStructId) {
+    return NO;
+  }
+  if (!self.hasQuantityRequired) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasStructId) {
+    [output writeInt32:2 value:self.structId];
+  }
+  if (self.hasQuantityRequired) {
+    [output writeInt32:3 value:self.quantityRequired];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasStructId) {
+    size += computeInt32Size(2, self.structId);
+  }
+  if (self.hasQuantityRequired) {
+    size += computeInt32Size(3, self.quantityRequired);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (BuildStructJobProto*) parseFromData:(NSData*) data {
+  return (BuildStructJobProto*)[[[BuildStructJobProto builder] mergeFromData:data] build];
+}
++ (BuildStructJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BuildStructJobProto*)[[[BuildStructJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (BuildStructJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (BuildStructJobProto*)[[[BuildStructJobProto builder] mergeFromInputStream:input] build];
+}
++ (BuildStructJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BuildStructJobProto*)[[[BuildStructJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BuildStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (BuildStructJobProto*)[[[BuildStructJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (BuildStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (BuildStructJobProto*)[[[BuildStructJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (BuildStructJobProto_Builder*) builder {
+  return [[[BuildStructJobProto_Builder alloc] init] autorelease];
+}
++ (BuildStructJobProto_Builder*) builderWithPrototype:(BuildStructJobProto*) prototype {
+  return [[BuildStructJobProto builder] mergeFrom:prototype];
+}
+- (BuildStructJobProto_Builder*) builder {
+  return [BuildStructJobProto builder];
+}
+@end
+
+@interface BuildStructJobProto_Builder()
+@property (retain) BuildStructJobProto* result;
+@end
+
+@implementation BuildStructJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[BuildStructJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (BuildStructJobProto_Builder*) clear {
+  self.result = [[[BuildStructJobProto alloc] init] autorelease];
+  return self;
+}
+- (BuildStructJobProto_Builder*) clone {
+  return [BuildStructJobProto builderWithPrototype:result];
+}
+- (BuildStructJobProto*) defaultInstance {
+  return [BuildStructJobProto defaultInstance];
+}
+- (BuildStructJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (BuildStructJobProto*) buildPartial {
+  BuildStructJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (BuildStructJobProto_Builder*) mergeFrom:(BuildStructJobProto*) other {
+  if (other == [BuildStructJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasStructId) {
+    [self setStructId:other.structId];
+  }
+  if (other.hasQuantityRequired) {
+    [self setQuantityRequired:other.quantityRequired];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (BuildStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (BuildStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setStructId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setQuantityRequired:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (BuildStructJobProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (BuildStructJobProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasStructId {
+  return result.hasStructId;
+}
+- (int32_t) structId {
+  return result.structId;
+}
+- (BuildStructJobProto_Builder*) setStructId:(int32_t) value {
+  result.hasStructId = YES;
+  result.structId = value;
+  return self;
+}
+- (BuildStructJobProto_Builder*) clearStructId {
+  result.hasStructId = NO;
+  result.structId = 0;
+  return self;
+}
+- (BOOL) hasQuantityRequired {
+  return result.hasQuantityRequired;
+}
+- (int32_t) quantityRequired {
+  return result.quantityRequired;
+}
+- (BuildStructJobProto_Builder*) setQuantityRequired:(int32_t) value {
+  result.hasQuantityRequired = YES;
+  result.quantityRequired = value;
+  return self;
+}
+- (BuildStructJobProto_Builder*) clearQuantityRequired {
+  result.hasQuantityRequired = NO;
+  result.quantityRequired = 0;
+  return self;
+}
+@end
+
+@interface MinimumUserMarketplaceJobProto ()
+@property int32_t userId;
+@property int32_t questId;
+@property (retain) MarketplaceJobProto* marketplaceJob;
+@property int32_t numTransactionsDone;
+@end
+
+@implementation MinimumUserMarketplaceJobProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasMarketplaceJob {
+  return !!hasMarketplaceJob_;
+}
+- (void) setHasMarketplaceJob:(BOOL) value {
+  hasMarketplaceJob_ = !!value;
+}
+@synthesize marketplaceJob;
+- (BOOL) hasNumTransactionsDone {
+  return !!hasNumTransactionsDone_;
+}
+- (void) setHasNumTransactionsDone:(BOOL) value {
+  hasNumTransactionsDone_ = !!value;
+}
+@synthesize numTransactionsDone;
+- (void) dealloc {
+  self.marketplaceJob = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.questId = 0;
+    self.marketplaceJob = [MarketplaceJobProto defaultInstance];
+    self.numTransactionsDone = 0;
+  }
+  return self;
+}
+static MinimumUserMarketplaceJobProto* defaultMinimumUserMarketplaceJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserMarketplaceJobProto class]) {
+    defaultMinimumUserMarketplaceJobProtoInstance = [[MinimumUserMarketplaceJobProto alloc] init];
+  }
+}
++ (MinimumUserMarketplaceJobProto*) defaultInstance {
+  return defaultMinimumUserMarketplaceJobProtoInstance;
+}
+- (MinimumUserMarketplaceJobProto*) defaultInstance {
+  return defaultMinimumUserMarketplaceJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.hasMarketplaceJob) {
+    return NO;
+  }
+  if (!self.hasNumTransactionsDone) {
+    return NO;
+  }
+  if (!self.marketplaceJob.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasMarketplaceJob) {
+    [output writeMessage:3 value:self.marketplaceJob];
+  }
+  if (self.hasNumTransactionsDone) {
+    [output writeInt32:4 value:self.numTransactionsDone];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasMarketplaceJob) {
+    size += computeMessageSize(3, self.marketplaceJob);
+  }
+  if (self.hasNumTransactionsDone) {
+    size += computeInt32Size(4, self.numTransactionsDone);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserMarketplaceJobProto*) parseFromData:(NSData*) data {
+  return (MinimumUserMarketplaceJobProto*)[[[MinimumUserMarketplaceJobProto builder] mergeFromData:data] build];
+}
++ (MinimumUserMarketplaceJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserMarketplaceJobProto*)[[[MinimumUserMarketplaceJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserMarketplaceJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserMarketplaceJobProto*)[[[MinimumUserMarketplaceJobProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserMarketplaceJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserMarketplaceJobProto*)[[[MinimumUserMarketplaceJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserMarketplaceJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserMarketplaceJobProto*)[[[MinimumUserMarketplaceJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserMarketplaceJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserMarketplaceJobProto*)[[[MinimumUserMarketplaceJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserMarketplaceJobProto_Builder*) builder {
+  return [[[MinimumUserMarketplaceJobProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserMarketplaceJobProto_Builder*) builderWithPrototype:(MinimumUserMarketplaceJobProto*) prototype {
+  return [[MinimumUserMarketplaceJobProto builder] mergeFrom:prototype];
+}
+- (MinimumUserMarketplaceJobProto_Builder*) builder {
+  return [MinimumUserMarketplaceJobProto builder];
+}
+@end
+
+@interface MinimumUserMarketplaceJobProto_Builder()
+@property (retain) MinimumUserMarketplaceJobProto* result;
+@end
+
+@implementation MinimumUserMarketplaceJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserMarketplaceJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) clear {
+  self.result = [[[MinimumUserMarketplaceJobProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) clone {
+  return [MinimumUserMarketplaceJobProto builderWithPrototype:result];
+}
+- (MinimumUserMarketplaceJobProto*) defaultInstance {
+  return [MinimumUserMarketplaceJobProto defaultInstance];
+}
+- (MinimumUserMarketplaceJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserMarketplaceJobProto*) buildPartial {
+  MinimumUserMarketplaceJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) mergeFrom:(MinimumUserMarketplaceJobProto*) other {
+  if (other == [MinimumUserMarketplaceJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasMarketplaceJob) {
+    [self mergeMarketplaceJob:other.marketplaceJob];
+  }
+  if (other.hasNumTransactionsDone) {
+    [self setNumTransactionsDone:other.numTransactionsDone];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserMarketplaceJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        MarketplaceJobProto_Builder* subBuilder = [MarketplaceJobProto builder];
+        if (self.hasMarketplaceJob) {
+          [subBuilder mergeFrom:self.marketplaceJob];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMarketplaceJob:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setNumTransactionsDone:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceJob {
+  return result.hasMarketplaceJob;
+}
+- (MarketplaceJobProto*) marketplaceJob {
+  return result.marketplaceJob;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) setMarketplaceJob:(MarketplaceJobProto*) value {
+  result.hasMarketplaceJob = YES;
+  result.marketplaceJob = value;
+  return self;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) setMarketplaceJobBuilder:(MarketplaceJobProto_Builder*) builderForValue {
+  return [self setMarketplaceJob:[builderForValue build]];
+}
+- (MinimumUserMarketplaceJobProto_Builder*) mergeMarketplaceJob:(MarketplaceJobProto*) value {
+  if (result.hasMarketplaceJob &&
+      result.marketplaceJob != [MarketplaceJobProto defaultInstance]) {
+    result.marketplaceJob =
+      [[[MarketplaceJobProto builderWithPrototype:result.marketplaceJob] mergeFrom:value] buildPartial];
+  } else {
+    result.marketplaceJob = value;
+  }
+  result.hasMarketplaceJob = YES;
+  return self;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) clearMarketplaceJob {
+  result.hasMarketplaceJob = NO;
+  result.marketplaceJob = [MarketplaceJobProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumTransactionsDone {
+  return result.hasNumTransactionsDone;
+}
+- (int32_t) numTransactionsDone {
+  return result.numTransactionsDone;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) setNumTransactionsDone:(int32_t) value {
+  result.hasNumTransactionsDone = YES;
+  result.numTransactionsDone = value;
+  return self;
+}
+- (MinimumUserMarketplaceJobProto_Builder*) clearNumTransactionsDone {
+  result.hasNumTransactionsDone = NO;
+  result.numTransactionsDone = 0;
+  return self;
+}
+@end
+
+@interface MarketplaceJobProto ()
+@property int32_t id;
+@property MarketplaceJobRequirementType type;
+@property int32_t quantityRequired;
+@end
+
+@implementation MarketplaceJobProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value {
+  hasType_ = !!value;
+}
+@synthesize type;
+- (BOOL) hasQuantityRequired {
+  return !!hasQuantityRequired_;
+}
+- (void) setHasQuantityRequired:(BOOL) value {
+  hasQuantityRequired_ = !!value;
+}
+@synthesize quantityRequired;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.type = MarketplaceJobRequirementTypeBuy;
+    self.quantityRequired = 0;
+  }
+  return self;
+}
+static MarketplaceJobProto* defaultMarketplaceJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [MarketplaceJobProto class]) {
+    defaultMarketplaceJobProtoInstance = [[MarketplaceJobProto alloc] init];
+  }
+}
++ (MarketplaceJobProto*) defaultInstance {
+  return defaultMarketplaceJobProtoInstance;
+}
+- (MarketplaceJobProto*) defaultInstance {
+  return defaultMarketplaceJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasId) {
+    return NO;
+  }
+  if (!self.hasType) {
+    return NO;
+  }
+  if (!self.hasQuantityRequired) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasType) {
+    [output writeEnum:2 value:self.type];
+  }
+  if (self.hasQuantityRequired) {
+    [output writeInt32:3 value:self.quantityRequired];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasType) {
+    size += computeEnumSize(2, self.type);
+  }
+  if (self.hasQuantityRequired) {
+    size += computeInt32Size(3, self.quantityRequired);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MarketplaceJobProto*) parseFromData:(NSData*) data {
+  return (MarketplaceJobProto*)[[[MarketplaceJobProto builder] mergeFromData:data] build];
+}
++ (MarketplaceJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MarketplaceJobProto*)[[[MarketplaceJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MarketplaceJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MarketplaceJobProto*)[[[MarketplaceJobProto builder] mergeFromInputStream:input] build];
+}
++ (MarketplaceJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MarketplaceJobProto*)[[[MarketplaceJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MarketplaceJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MarketplaceJobProto*)[[[MarketplaceJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MarketplaceJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MarketplaceJobProto*)[[[MarketplaceJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MarketplaceJobProto_Builder*) builder {
+  return [[[MarketplaceJobProto_Builder alloc] init] autorelease];
+}
++ (MarketplaceJobProto_Builder*) builderWithPrototype:(MarketplaceJobProto*) prototype {
+  return [[MarketplaceJobProto builder] mergeFrom:prototype];
+}
+- (MarketplaceJobProto_Builder*) builder {
+  return [MarketplaceJobProto builder];
+}
+@end
+
+@interface MarketplaceJobProto_Builder()
+@property (retain) MarketplaceJobProto* result;
+@end
+
+@implementation MarketplaceJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MarketplaceJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MarketplaceJobProto_Builder*) clear {
+  self.result = [[[MarketplaceJobProto alloc] init] autorelease];
+  return self;
+}
+- (MarketplaceJobProto_Builder*) clone {
+  return [MarketplaceJobProto builderWithPrototype:result];
+}
+- (MarketplaceJobProto*) defaultInstance {
+  return [MarketplaceJobProto defaultInstance];
+}
+- (MarketplaceJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MarketplaceJobProto*) buildPartial {
+  MarketplaceJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MarketplaceJobProto_Builder*) mergeFrom:(MarketplaceJobProto*) other {
+  if (other == [MarketplaceJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
+  if (other.hasQuantityRequired) {
+    [self setQuantityRequired:other.quantityRequired];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MarketplaceJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MarketplaceJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (MarketplaceJobRequirementTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setQuantityRequired:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (MarketplaceJobProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (MarketplaceJobProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (MarketplaceJobRequirementType) type {
+  return result.type;
+}
+- (MarketplaceJobProto_Builder*) setType:(MarketplaceJobRequirementType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (MarketplaceJobProto_Builder*) clearType {
+  result.hasType = NO;
+  result.type = MarketplaceJobRequirementTypeBuy;
+  return self;
+}
+- (BOOL) hasQuantityRequired {
+  return result.hasQuantityRequired;
+}
+- (int32_t) quantityRequired {
+  return result.quantityRequired;
+}
+- (MarketplaceJobProto_Builder*) setQuantityRequired:(int32_t) value {
+  result.hasQuantityRequired = YES;
+  result.quantityRequired = value;
+  return self;
+}
+- (MarketplaceJobProto_Builder*) clearQuantityRequired {
+  result.hasQuantityRequired = NO;
+  result.quantityRequired = 0;
+  return self;
+}
+@end
+
+@interface MinimumUserUpgradeStructJobProto ()
+@property int32_t userId;
+@property int32_t questId;
+@property (retain) UpgradeStructJobProto* upgradeStructJob;
+@property BOOL isComplete;
+@end
+
+@implementation MinimumUserUpgradeStructJobProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasUpgradeStructJob {
+  return !!hasUpgradeStructJob_;
+}
+- (void) setHasUpgradeStructJob:(BOOL) value {
+  hasUpgradeStructJob_ = !!value;
+}
+@synthesize upgradeStructJob;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value {
+  hasIsComplete_ = !!value;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value {
+  isComplete_ = !!value;
+}
+- (void) dealloc {
+  self.upgradeStructJob = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.questId = 0;
+    self.upgradeStructJob = [UpgradeStructJobProto defaultInstance];
+    self.isComplete = NO;
+  }
+  return self;
+}
+static MinimumUserUpgradeStructJobProto* defaultMinimumUserUpgradeStructJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserUpgradeStructJobProto class]) {
+    defaultMinimumUserUpgradeStructJobProtoInstance = [[MinimumUserUpgradeStructJobProto alloc] init];
+  }
+}
++ (MinimumUserUpgradeStructJobProto*) defaultInstance {
+  return defaultMinimumUserUpgradeStructJobProtoInstance;
+}
+- (MinimumUserUpgradeStructJobProto*) defaultInstance {
+  return defaultMinimumUserUpgradeStructJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.hasUpgradeStructJob) {
+    return NO;
+  }
+  if (!self.hasIsComplete) {
+    return NO;
+  }
+  if (!self.upgradeStructJob.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasUpgradeStructJob) {
+    [output writeMessage:3 value:self.upgradeStructJob];
+  }
+  if (self.hasIsComplete) {
+    [output writeBool:4 value:self.isComplete];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasUpgradeStructJob) {
+    size += computeMessageSize(3, self.upgradeStructJob);
+  }
+  if (self.hasIsComplete) {
+    size += computeBoolSize(4, self.isComplete);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserUpgradeStructJobProto*) parseFromData:(NSData*) data {
+  return (MinimumUserUpgradeStructJobProto*)[[[MinimumUserUpgradeStructJobProto builder] mergeFromData:data] build];
+}
++ (MinimumUserUpgradeStructJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserUpgradeStructJobProto*)[[[MinimumUserUpgradeStructJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserUpgradeStructJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserUpgradeStructJobProto*)[[[MinimumUserUpgradeStructJobProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserUpgradeStructJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserUpgradeStructJobProto*)[[[MinimumUserUpgradeStructJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserUpgradeStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserUpgradeStructJobProto*)[[[MinimumUserUpgradeStructJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserUpgradeStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserUpgradeStructJobProto*)[[[MinimumUserUpgradeStructJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserUpgradeStructJobProto_Builder*) builder {
+  return [[[MinimumUserUpgradeStructJobProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserUpgradeStructJobProto_Builder*) builderWithPrototype:(MinimumUserUpgradeStructJobProto*) prototype {
+  return [[MinimumUserUpgradeStructJobProto builder] mergeFrom:prototype];
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) builder {
+  return [MinimumUserUpgradeStructJobProto builder];
+}
+@end
+
+@interface MinimumUserUpgradeStructJobProto_Builder()
+@property (retain) MinimumUserUpgradeStructJobProto* result;
+@end
+
+@implementation MinimumUserUpgradeStructJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserUpgradeStructJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) clear {
+  self.result = [[[MinimumUserUpgradeStructJobProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) clone {
+  return [MinimumUserUpgradeStructJobProto builderWithPrototype:result];
+}
+- (MinimumUserUpgradeStructJobProto*) defaultInstance {
+  return [MinimumUserUpgradeStructJobProto defaultInstance];
+}
+- (MinimumUserUpgradeStructJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserUpgradeStructJobProto*) buildPartial {
+  MinimumUserUpgradeStructJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) mergeFrom:(MinimumUserUpgradeStructJobProto*) other {
+  if (other == [MinimumUserUpgradeStructJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasUpgradeStructJob) {
+    [self mergeUpgradeStructJob:other.upgradeStructJob];
+  }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        UpgradeStructJobProto_Builder* subBuilder = [UpgradeStructJobProto builder];
+        if (self.hasUpgradeStructJob) {
+          [subBuilder mergeFrom:self.upgradeStructJob];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUpgradeStructJob:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setIsComplete:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasUpgradeStructJob {
+  return result.hasUpgradeStructJob;
+}
+- (UpgradeStructJobProto*) upgradeStructJob {
+  return result.upgradeStructJob;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) setUpgradeStructJob:(UpgradeStructJobProto*) value {
+  result.hasUpgradeStructJob = YES;
+  result.upgradeStructJob = value;
+  return self;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) setUpgradeStructJobBuilder:(UpgradeStructJobProto_Builder*) builderForValue {
+  return [self setUpgradeStructJob:[builderForValue build]];
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) mergeUpgradeStructJob:(UpgradeStructJobProto*) value {
+  if (result.hasUpgradeStructJob &&
+      result.upgradeStructJob != [UpgradeStructJobProto defaultInstance]) {
+    result.upgradeStructJob =
+      [[[UpgradeStructJobProto builderWithPrototype:result.upgradeStructJob] mergeFrom:value] buildPartial];
+  } else {
+    result.upgradeStructJob = value;
+  }
+  result.hasUpgradeStructJob = YES;
+  return self;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) clearUpgradeStructJob {
+  result.hasUpgradeStructJob = NO;
+  result.upgradeStructJob = [UpgradeStructJobProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (MinimumUserUpgradeStructJobProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
+@end
+
+@interface UpgradeStructJobProto ()
+@property int32_t id;
+@property int32_t structId;
+@property int32_t levelReq;
+@end
+
+@implementation UpgradeStructJobProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasStructId {
+  return !!hasStructId_;
+}
+- (void) setHasStructId:(BOOL) value {
+  hasStructId_ = !!value;
+}
+@synthesize structId;
+- (BOOL) hasLevelReq {
+  return !!hasLevelReq_;
+}
+- (void) setHasLevelReq:(BOOL) value {
+  hasLevelReq_ = !!value;
+}
+@synthesize levelReq;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.structId = 0;
+    self.levelReq = 0;
+  }
+  return self;
+}
+static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpgradeStructJobProto class]) {
+    defaultUpgradeStructJobProtoInstance = [[UpgradeStructJobProto alloc] init];
+  }
+}
++ (UpgradeStructJobProto*) defaultInstance {
+  return defaultUpgradeStructJobProtoInstance;
+}
+- (UpgradeStructJobProto*) defaultInstance {
+  return defaultUpgradeStructJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasId) {
+    return NO;
+  }
+  if (!self.hasStructId) {
+    return NO;
+  }
+  if (!self.hasLevelReq) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasStructId) {
+    [output writeInt32:2 value:self.structId];
+  }
+  if (self.hasLevelReq) {
+    [output writeInt32:3 value:self.levelReq];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasStructId) {
+    size += computeInt32Size(2, self.structId);
+  }
+  if (self.hasLevelReq) {
+    size += computeInt32Size(3, self.levelReq);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UpgradeStructJobProto*) parseFromData:(NSData*) data {
+  return (UpgradeStructJobProto*)[[[UpgradeStructJobProto builder] mergeFromData:data] build];
+}
++ (UpgradeStructJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeStructJobProto*)[[[UpgradeStructJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeStructJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpgradeStructJobProto*)[[[UpgradeStructJobProto builder] mergeFromInputStream:input] build];
+}
++ (UpgradeStructJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeStructJobProto*)[[[UpgradeStructJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpgradeStructJobProto*)[[[UpgradeStructJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpgradeStructJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeStructJobProto*)[[[UpgradeStructJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeStructJobProto_Builder*) builder {
+  return [[[UpgradeStructJobProto_Builder alloc] init] autorelease];
+}
++ (UpgradeStructJobProto_Builder*) builderWithPrototype:(UpgradeStructJobProto*) prototype {
+  return [[UpgradeStructJobProto builder] mergeFrom:prototype];
+}
+- (UpgradeStructJobProto_Builder*) builder {
+  return [UpgradeStructJobProto builder];
+}
+@end
+
+@interface UpgradeStructJobProto_Builder()
+@property (retain) UpgradeStructJobProto* result;
+@end
+
+@implementation UpgradeStructJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UpgradeStructJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpgradeStructJobProto_Builder*) clear {
+  self.result = [[[UpgradeStructJobProto alloc] init] autorelease];
+  return self;
+}
+- (UpgradeStructJobProto_Builder*) clone {
+  return [UpgradeStructJobProto builderWithPrototype:result];
+}
+- (UpgradeStructJobProto*) defaultInstance {
+  return [UpgradeStructJobProto defaultInstance];
+}
+- (UpgradeStructJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpgradeStructJobProto*) buildPartial {
+  UpgradeStructJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UpgradeStructJobProto_Builder*) mergeFrom:(UpgradeStructJobProto*) other {
+  if (other == [UpgradeStructJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasStructId) {
+    [self setStructId:other.structId];
+  }
+  if (other.hasLevelReq) {
+    [self setLevelReq:other.levelReq];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpgradeStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpgradeStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setStructId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setLevelReq:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (UpgradeStructJobProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (UpgradeStructJobProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasStructId {
+  return result.hasStructId;
+}
+- (int32_t) structId {
+  return result.structId;
+}
+- (UpgradeStructJobProto_Builder*) setStructId:(int32_t) value {
+  result.hasStructId = YES;
+  result.structId = value;
+  return self;
+}
+- (UpgradeStructJobProto_Builder*) clearStructId {
+  result.hasStructId = NO;
+  result.structId = 0;
+  return self;
+}
+- (BOOL) hasLevelReq {
+  return result.hasLevelReq;
+}
+- (int32_t) levelReq {
+  return result.levelReq;
+}
+- (UpgradeStructJobProto_Builder*) setLevelReq:(int32_t) value {
+  result.hasLevelReq = YES;
+  result.levelReq = value;
+  return self;
+}
+- (UpgradeStructJobProto_Builder*) clearLevelReq {
+  result.hasLevelReq = NO;
+  result.levelReq = 0;
+  return self;
+}
+@end
+
+@interface MinimumUserPossessEquipJobProto ()
+@property int32_t userId;
+@property int32_t questId;
+@property (retain) PossessEquipJobProto* possessEquipJobProto;
+@property BOOL isComplete;
+@end
+
+@implementation MinimumUserPossessEquipJobProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasPossessEquipJobProto {
+  return !!hasPossessEquipJobProto_;
+}
+- (void) setHasPossessEquipJobProto:(BOOL) value {
+  hasPossessEquipJobProto_ = !!value;
+}
+@synthesize possessEquipJobProto;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value {
+  hasIsComplete_ = !!value;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value {
+  isComplete_ = !!value;
+}
+- (void) dealloc {
+  self.possessEquipJobProto = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.questId = 0;
+    self.possessEquipJobProto = [PossessEquipJobProto defaultInstance];
+    self.isComplete = NO;
+  }
+  return self;
+}
+static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserPossessEquipJobProto class]) {
+    defaultMinimumUserPossessEquipJobProtoInstance = [[MinimumUserPossessEquipJobProto alloc] init];
+  }
+}
++ (MinimumUserPossessEquipJobProto*) defaultInstance {
+  return defaultMinimumUserPossessEquipJobProtoInstance;
+}
+- (MinimumUserPossessEquipJobProto*) defaultInstance {
+  return defaultMinimumUserPossessEquipJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.hasPossessEquipJobProto) {
+    return NO;
+  }
+  if (!self.hasIsComplete) {
+    return NO;
+  }
+  if (!self.possessEquipJobProto.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasPossessEquipJobProto) {
+    [output writeMessage:3 value:self.possessEquipJobProto];
+  }
+  if (self.hasIsComplete) {
+    [output writeBool:4 value:self.isComplete];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasPossessEquipJobProto) {
+    size += computeMessageSize(3, self.possessEquipJobProto);
+  }
+  if (self.hasIsComplete) {
+    size += computeBoolSize(4, self.isComplete);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserPossessEquipJobProto*) parseFromData:(NSData*) data {
+  return (MinimumUserPossessEquipJobProto*)[[[MinimumUserPossessEquipJobProto builder] mergeFromData:data] build];
+}
++ (MinimumUserPossessEquipJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserPossessEquipJobProto*)[[[MinimumUserPossessEquipJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserPossessEquipJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserPossessEquipJobProto*)[[[MinimumUserPossessEquipJobProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserPossessEquipJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserPossessEquipJobProto*)[[[MinimumUserPossessEquipJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserPossessEquipJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserPossessEquipJobProto*)[[[MinimumUserPossessEquipJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserPossessEquipJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserPossessEquipJobProto*)[[[MinimumUserPossessEquipJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserPossessEquipJobProto_Builder*) builder {
+  return [[[MinimumUserPossessEquipJobProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserPossessEquipJobProto_Builder*) builderWithPrototype:(MinimumUserPossessEquipJobProto*) prototype {
+  return [[MinimumUserPossessEquipJobProto builder] mergeFrom:prototype];
+}
+- (MinimumUserPossessEquipJobProto_Builder*) builder {
+  return [MinimumUserPossessEquipJobProto builder];
+}
+@end
+
+@interface MinimumUserPossessEquipJobProto_Builder()
+@property (retain) MinimumUserPossessEquipJobProto* result;
+@end
+
+@implementation MinimumUserPossessEquipJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserPossessEquipJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) clear {
+  self.result = [[[MinimumUserPossessEquipJobProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) clone {
+  return [MinimumUserPossessEquipJobProto builderWithPrototype:result];
+}
+- (MinimumUserPossessEquipJobProto*) defaultInstance {
+  return [MinimumUserPossessEquipJobProto defaultInstance];
+}
+- (MinimumUserPossessEquipJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserPossessEquipJobProto*) buildPartial {
+  MinimumUserPossessEquipJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) mergeFrom:(MinimumUserPossessEquipJobProto*) other {
+  if (other == [MinimumUserPossessEquipJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasPossessEquipJobProto) {
+    [self mergePossessEquipJobProto:other.possessEquipJobProto];
+  }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserPossessEquipJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        PossessEquipJobProto_Builder* subBuilder = [PossessEquipJobProto builder];
+        if (self.hasPossessEquipJobProto) {
+          [subBuilder mergeFrom:self.possessEquipJobProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPossessEquipJobProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setIsComplete:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasPossessEquipJobProto {
+  return result.hasPossessEquipJobProto;
+}
+- (PossessEquipJobProto*) possessEquipJobProto {
+  return result.possessEquipJobProto;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) setPossessEquipJobProto:(PossessEquipJobProto*) value {
+  result.hasPossessEquipJobProto = YES;
+  result.possessEquipJobProto = value;
+  return self;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) setPossessEquipJobProtoBuilder:(PossessEquipJobProto_Builder*) builderForValue {
+  return [self setPossessEquipJobProto:[builderForValue build]];
+}
+- (MinimumUserPossessEquipJobProto_Builder*) mergePossessEquipJobProto:(PossessEquipJobProto*) value {
+  if (result.hasPossessEquipJobProto &&
+      result.possessEquipJobProto != [PossessEquipJobProto defaultInstance]) {
+    result.possessEquipJobProto =
+      [[[PossessEquipJobProto builderWithPrototype:result.possessEquipJobProto] mergeFrom:value] buildPartial];
+  } else {
+    result.possessEquipJobProto = value;
+  }
+  result.hasPossessEquipJobProto = YES;
+  return self;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) clearPossessEquipJobProto {
+  result.hasPossessEquipJobProto = NO;
+  result.possessEquipJobProto = [PossessEquipJobProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return result.isComplete;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
+  return self;
+}
+- (MinimumUserPossessEquipJobProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
+  return self;
+}
+@end
+
+@interface PossessEquipJobProto ()
+@property int32_t id;
+@property int32_t equipId;
+@property int32_t quantityReq;
+@end
+
+@implementation PossessEquipJobProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasEquipId {
+  return !!hasEquipId_;
+}
+- (void) setHasEquipId:(BOOL) value {
+  hasEquipId_ = !!value;
+}
+@synthesize equipId;
+- (BOOL) hasQuantityReq {
+  return !!hasQuantityReq_;
+}
+- (void) setHasQuantityReq:(BOOL) value {
+  hasQuantityReq_ = !!value;
+}
+@synthesize quantityReq;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.equipId = 0;
+    self.quantityReq = 0;
+  }
+  return self;
+}
+static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
++ (void) initialize {
+  if (self == [PossessEquipJobProto class]) {
+    defaultPossessEquipJobProtoInstance = [[PossessEquipJobProto alloc] init];
+  }
+}
++ (PossessEquipJobProto*) defaultInstance {
+  return defaultPossessEquipJobProtoInstance;
+}
+- (PossessEquipJobProto*) defaultInstance {
+  return defaultPossessEquipJobProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasId) {
+    return NO;
+  }
+  if (!self.hasEquipId) {
+    return NO;
+  }
+  if (!self.hasQuantityReq) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasEquipId) {
+    [output writeInt32:2 value:self.equipId];
+  }
+  if (self.hasQuantityReq) {
+    [output writeInt32:3 value:self.quantityReq];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasEquipId) {
+    size += computeInt32Size(2, self.equipId);
+  }
+  if (self.hasQuantityReq) {
+    size += computeInt32Size(3, self.quantityReq);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PossessEquipJobProto*) parseFromData:(NSData*) data {
+  return (PossessEquipJobProto*)[[[PossessEquipJobProto builder] mergeFromData:data] build];
+}
++ (PossessEquipJobProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PossessEquipJobProto*)[[[PossessEquipJobProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PossessEquipJobProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PossessEquipJobProto*)[[[PossessEquipJobProto builder] mergeFromInputStream:input] build];
+}
++ (PossessEquipJobProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PossessEquipJobProto*)[[[PossessEquipJobProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PossessEquipJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PossessEquipJobProto*)[[[PossessEquipJobProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PossessEquipJobProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PossessEquipJobProto*)[[[PossessEquipJobProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PossessEquipJobProto_Builder*) builder {
+  return [[[PossessEquipJobProto_Builder alloc] init] autorelease];
+}
++ (PossessEquipJobProto_Builder*) builderWithPrototype:(PossessEquipJobProto*) prototype {
+  return [[PossessEquipJobProto builder] mergeFrom:prototype];
+}
+- (PossessEquipJobProto_Builder*) builder {
+  return [PossessEquipJobProto builder];
+}
+@end
+
+@interface PossessEquipJobProto_Builder()
+@property (retain) PossessEquipJobProto* result;
+@end
+
+@implementation PossessEquipJobProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PossessEquipJobProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PossessEquipJobProto_Builder*) clear {
+  self.result = [[[PossessEquipJobProto alloc] init] autorelease];
+  return self;
+}
+- (PossessEquipJobProto_Builder*) clone {
+  return [PossessEquipJobProto builderWithPrototype:result];
+}
+- (PossessEquipJobProto*) defaultInstance {
+  return [PossessEquipJobProto defaultInstance];
+}
+- (PossessEquipJobProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PossessEquipJobProto*) buildPartial {
+  PossessEquipJobProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PossessEquipJobProto_Builder*) mergeFrom:(PossessEquipJobProto*) other {
+  if (other == [PossessEquipJobProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasEquipId) {
+    [self setEquipId:other.equipId];
+  }
+  if (other.hasQuantityReq) {
+    [self setQuantityReq:other.quantityReq];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PossessEquipJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PossessEquipJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setEquipId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setQuantityReq:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (PossessEquipJobProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (PossessEquipJobProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasEquipId {
+  return result.hasEquipId;
+}
+- (int32_t) equipId {
+  return result.equipId;
+}
+- (PossessEquipJobProto_Builder*) setEquipId:(int32_t) value {
+  result.hasEquipId = YES;
+  result.equipId = value;
+  return self;
+}
+- (PossessEquipJobProto_Builder*) clearEquipId {
+  result.hasEquipId = NO;
+  result.equipId = 0;
+  return self;
+}
+- (BOOL) hasQuantityReq {
+  return result.hasQuantityReq;
+}
+- (int32_t) quantityReq {
+  return result.quantityReq;
+}
+- (PossessEquipJobProto_Builder*) setQuantityReq:(int32_t) value {
+  result.hasQuantityReq = YES;
+  result.quantityReq = value;
+  return self;
+}
+- (PossessEquipJobProto_Builder*) clearQuantityReq {
+  result.hasQuantityReq = NO;
+  result.quantityReq = 0;
+  return self;
+}
+@end
+
+@interface FullQuestProto ()
+@property int32_t id;
+@property int32_t cityId;
+@property (retain) NSString* name;
+@property (retain) NSString* description;
+@property (retain) NSString* doneResponse;
+@property (retain) NSString* inProgress;
+@property int32_t assetNumWithinCity;
+@property int32_t coinsGained;
+@property int32_t diamondsGained;
+@property int32_t woodGained;
+@property int32_t expGained;
+@property int32_t equipIdGained;
+@property (retain) NSMutableArray* mutableQuestsRequiredForThisList;
+@property (retain) NSMutableArray* mutableTaskReqsList;
+@property (retain) NSMutableArray* mutableUpgradeStructJobsReqsList;
+@property (retain) NSMutableArray* mutableBuildStructJobsReqsList;
+@property (retain) NSMutableArray* mutableMarketplaceJobsReqsList;
+@property (retain) NSMutableArray* mutableDefeatTypeReqsList;
+@property (retain) NSMutableArray* mutablePossessEquipJobReqsList;
+@end
+
+@implementation FullQuestProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
+}
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
+}
+@synthesize description;
+- (BOOL) hasDoneResponse {
+  return !!hasDoneResponse_;
+}
+- (void) setHasDoneResponse:(BOOL) value {
+  hasDoneResponse_ = !!value;
+}
+@synthesize doneResponse;
+- (BOOL) hasInProgress {
+  return !!hasInProgress_;
+}
+- (void) setHasInProgress:(BOOL) value {
+  hasInProgress_ = !!value;
+}
+@synthesize inProgress;
+- (BOOL) hasAssetNumWithinCity {
+  return !!hasAssetNumWithinCity_;
+}
+- (void) setHasAssetNumWithinCity:(BOOL) value {
+  hasAssetNumWithinCity_ = !!value;
+}
+@synthesize assetNumWithinCity;
+- (BOOL) hasCoinsGained {
+  return !!hasCoinsGained_;
+}
+- (void) setHasCoinsGained:(BOOL) value {
+  hasCoinsGained_ = !!value;
+}
+@synthesize coinsGained;
+- (BOOL) hasDiamondsGained {
+  return !!hasDiamondsGained_;
+}
+- (void) setHasDiamondsGained:(BOOL) value {
+  hasDiamondsGained_ = !!value;
+}
+@synthesize diamondsGained;
+- (BOOL) hasWoodGained {
+  return !!hasWoodGained_;
+}
+- (void) setHasWoodGained:(BOOL) value {
+  hasWoodGained_ = !!value;
+}
+@synthesize woodGained;
+- (BOOL) hasExpGained {
+  return !!hasExpGained_;
+}
+- (void) setHasExpGained:(BOOL) value {
+  hasExpGained_ = !!value;
+}
+@synthesize expGained;
+- (BOOL) hasEquipIdGained {
+  return !!hasEquipIdGained_;
+}
+- (void) setHasEquipIdGained:(BOOL) value {
+  hasEquipIdGained_ = !!value;
+}
+@synthesize equipIdGained;
+@synthesize mutableQuestsRequiredForThisList;
+@synthesize mutableTaskReqsList;
+@synthesize mutableUpgradeStructJobsReqsList;
+@synthesize mutableBuildStructJobsReqsList;
+@synthesize mutableMarketplaceJobsReqsList;
+@synthesize mutableDefeatTypeReqsList;
+@synthesize mutablePossessEquipJobReqsList;
+- (void) dealloc {
+  self.name = nil;
+  self.description = nil;
+  self.doneResponse = nil;
+  self.inProgress = nil;
+  self.mutableQuestsRequiredForThisList = nil;
+  self.mutableTaskReqsList = nil;
+  self.mutableUpgradeStructJobsReqsList = nil;
+  self.mutableBuildStructJobsReqsList = nil;
+  self.mutableMarketplaceJobsReqsList = nil;
+  self.mutableDefeatTypeReqsList = nil;
+  self.mutablePossessEquipJobReqsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.cityId = 0;
+    self.name = @"";
+    self.description = @"";
+    self.doneResponse = @"";
+    self.inProgress = @"";
+    self.assetNumWithinCity = 0;
+    self.coinsGained = 0;
+    self.diamondsGained = 0;
+    self.woodGained = 0;
+    self.expGained = 0;
+    self.equipIdGained = 0;
+  }
+  return self;
+}
+static FullQuestProto* defaultFullQuestProtoInstance = nil;
++ (void) initialize {
+  if (self == [FullQuestProto class]) {
+    defaultFullQuestProtoInstance = [[FullQuestProto alloc] init];
+  }
+}
++ (FullQuestProto*) defaultInstance {
+  return defaultFullQuestProtoInstance;
+}
+- (FullQuestProto*) defaultInstance {
+  return defaultFullQuestProtoInstance;
+}
+- (NSArray*) questsRequiredForThisList {
+  return mutableQuestsRequiredForThisList;
+}
+- (int32_t) questsRequiredForThisAtIndex:(int32_t) index {
+  id value = [mutableQuestsRequiredForThisList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) taskReqsList {
+  return mutableTaskReqsList;
+}
+- (int32_t) taskReqsAtIndex:(int32_t) index {
+  id value = [mutableTaskReqsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) upgradeStructJobsReqsList {
+  return mutableUpgradeStructJobsReqsList;
+}
+- (int32_t) upgradeStructJobsReqsAtIndex:(int32_t) index {
+  id value = [mutableUpgradeStructJobsReqsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) buildStructJobsReqsList {
+  return mutableBuildStructJobsReqsList;
+}
+- (int32_t) buildStructJobsReqsAtIndex:(int32_t) index {
+  id value = [mutableBuildStructJobsReqsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) marketplaceJobsReqsList {
+  return mutableMarketplaceJobsReqsList;
+}
+- (int32_t) marketplaceJobsReqsAtIndex:(int32_t) index {
+  id value = [mutableMarketplaceJobsReqsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) defeatTypeReqsList {
+  return mutableDefeatTypeReqsList;
+}
+- (int32_t) defeatTypeReqsAtIndex:(int32_t) index {
+  id value = [mutableDefeatTypeReqsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) possessEquipJobReqsList {
+  return mutablePossessEquipJobReqsList;
+}
+- (int32_t) possessEquipJobReqsAtIndex:(int32_t) index {
+  id value = [mutablePossessEquipJobReqsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  if (!self.hasId) {
+    return NO;
+  }
+  if (!self.hasCityId) {
+    return NO;
+  }
+  if (!self.hasName) {
+    return NO;
+  }
+  if (!self.hasDescription) {
+    return NO;
+  }
+  if (!self.hasDoneResponse) {
+    return NO;
+  }
+  if (!self.hasInProgress) {
+    return NO;
+  }
+  if (!self.hasAssetNumWithinCity) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:2 value:self.cityId];
+  }
+  if (self.hasName) {
+    [output writeString:3 value:self.name];
+  }
+  if (self.hasDescription) {
+    [output writeString:4 value:self.description];
+  }
+  if (self.hasDoneResponse) {
+    [output writeString:5 value:self.doneResponse];
+  }
+  if (self.hasInProgress) {
+    [output writeString:6 value:self.inProgress];
+  }
+  if (self.hasAssetNumWithinCity) {
+    [output writeInt32:7 value:self.assetNumWithinCity];
+  }
+  if (self.hasCoinsGained) {
+    [output writeInt32:8 value:self.coinsGained];
+  }
+  if (self.hasDiamondsGained) {
+    [output writeInt32:9 value:self.diamondsGained];
+  }
+  if (self.hasWoodGained) {
+    [output writeInt32:10 value:self.woodGained];
+  }
+  if (self.hasExpGained) {
+    [output writeInt32:11 value:self.expGained];
+  }
+  if (self.hasEquipIdGained) {
+    [output writeInt32:12 value:self.equipIdGained];
+  }
+  for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
+    [output writeInt32:13 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableTaskReqsList) {
+    [output writeInt32:14 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableUpgradeStructJobsReqsList) {
+    [output writeInt32:15 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
+    [output writeInt32:16 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableMarketplaceJobsReqsList) {
+    [output writeInt32:17 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableDefeatTypeReqsList) {
+    [output writeInt32:18 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutablePossessEquipJobReqsList) {
+    [output writeInt32:19 value:[value intValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(2, self.cityId);
+  }
+  if (self.hasName) {
+    size += computeStringSize(3, self.name);
+  }
+  if (self.hasDescription) {
+    size += computeStringSize(4, self.description);
+  }
+  if (self.hasDoneResponse) {
+    size += computeStringSize(5, self.doneResponse);
+  }
+  if (self.hasInProgress) {
+    size += computeStringSize(6, self.inProgress);
+  }
+  if (self.hasAssetNumWithinCity) {
+    size += computeInt32Size(7, self.assetNumWithinCity);
+  }
+  if (self.hasCoinsGained) {
+    size += computeInt32Size(8, self.coinsGained);
+  }
+  if (self.hasDiamondsGained) {
+    size += computeInt32Size(9, self.diamondsGained);
+  }
+  if (self.hasWoodGained) {
+    size += computeInt32Size(10, self.woodGained);
+  }
+  if (self.hasExpGained) {
+    size += computeInt32Size(11, self.expGained);
+  }
+  if (self.hasEquipIdGained) {
+    size += computeInt32Size(12, self.equipIdGained);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableQuestsRequiredForThisList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableTaskReqsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableTaskReqsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableUpgradeStructJobsReqsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableUpgradeStructJobsReqsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 2 * self.mutableBuildStructJobsReqsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableMarketplaceJobsReqsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 2 * self.mutableMarketplaceJobsReqsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableDefeatTypeReqsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 2 * self.mutableDefeatTypeReqsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutablePossessEquipJobReqsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 2 * self.mutablePossessEquipJobReqsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullQuestProto*) parseFromData:(NSData*) data {
+  return (FullQuestProto*)[[[FullQuestProto builder] mergeFromData:data] build];
+}
++ (FullQuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullQuestProto*)[[[FullQuestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullQuestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullQuestProto*)[[[FullQuestProto builder] mergeFromInputStream:input] build];
+}
++ (FullQuestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullQuestProto*)[[[FullQuestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullQuestProto*)[[[FullQuestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FullQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullQuestProto*)[[[FullQuestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullQuestProto_Builder*) builder {
+  return [[[FullQuestProto_Builder alloc] init] autorelease];
+}
++ (FullQuestProto_Builder*) builderWithPrototype:(FullQuestProto*) prototype {
+  return [[FullQuestProto builder] mergeFrom:prototype];
+}
+- (FullQuestProto_Builder*) builder {
+  return [FullQuestProto builder];
+}
+@end
+
+@interface FullQuestProto_Builder()
+@property (retain) FullQuestProto* result;
+@end
+
+@implementation FullQuestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullQuestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullQuestProto_Builder*) clear {
+  self.result = [[[FullQuestProto alloc] init] autorelease];
+  return self;
+}
+- (FullQuestProto_Builder*) clone {
+  return [FullQuestProto builderWithPrototype:result];
+}
+- (FullQuestProto*) defaultInstance {
+  return [FullQuestProto defaultInstance];
+}
+- (FullQuestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullQuestProto*) buildPartial {
+  FullQuestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullQuestProto_Builder*) mergeFrom:(FullQuestProto*) other {
+  if (other == [FullQuestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.hasDescription) {
+    [self setDescription:other.description];
+  }
+  if (other.hasDoneResponse) {
+    [self setDoneResponse:other.doneResponse];
+  }
+  if (other.hasInProgress) {
+    [self setInProgress:other.inProgress];
+  }
+  if (other.hasAssetNumWithinCity) {
+    [self setAssetNumWithinCity:other.assetNumWithinCity];
+  }
+  if (other.hasCoinsGained) {
+    [self setCoinsGained:other.coinsGained];
+  }
+  if (other.hasDiamondsGained) {
+    [self setDiamondsGained:other.diamondsGained];
+  }
+  if (other.hasWoodGained) {
+    [self setWoodGained:other.woodGained];
+  }
+  if (other.hasExpGained) {
+    [self setExpGained:other.expGained];
+  }
+  if (other.hasEquipIdGained) {
+    [self setEquipIdGained:other.equipIdGained];
+  }
+  if (other.mutableQuestsRequiredForThisList.count > 0) {
+    if (result.mutableQuestsRequiredForThisList == nil) {
+      result.mutableQuestsRequiredForThisList = [NSMutableArray array];
+    }
+    [result.mutableQuestsRequiredForThisList addObjectsFromArray:other.mutableQuestsRequiredForThisList];
+  }
+  if (other.mutableTaskReqsList.count > 0) {
+    if (result.mutableTaskReqsList == nil) {
+      result.mutableTaskReqsList = [NSMutableArray array];
+    }
+    [result.mutableTaskReqsList addObjectsFromArray:other.mutableTaskReqsList];
+  }
+  if (other.mutableUpgradeStructJobsReqsList.count > 0) {
+    if (result.mutableUpgradeStructJobsReqsList == nil) {
+      result.mutableUpgradeStructJobsReqsList = [NSMutableArray array];
+    }
+    [result.mutableUpgradeStructJobsReqsList addObjectsFromArray:other.mutableUpgradeStructJobsReqsList];
+  }
+  if (other.mutableBuildStructJobsReqsList.count > 0) {
+    if (result.mutableBuildStructJobsReqsList == nil) {
+      result.mutableBuildStructJobsReqsList = [NSMutableArray array];
+    }
+    [result.mutableBuildStructJobsReqsList addObjectsFromArray:other.mutableBuildStructJobsReqsList];
+  }
+  if (other.mutableMarketplaceJobsReqsList.count > 0) {
+    if (result.mutableMarketplaceJobsReqsList == nil) {
+      result.mutableMarketplaceJobsReqsList = [NSMutableArray array];
+    }
+    [result.mutableMarketplaceJobsReqsList addObjectsFromArray:other.mutableMarketplaceJobsReqsList];
+  }
+  if (other.mutableDefeatTypeReqsList.count > 0) {
+    if (result.mutableDefeatTypeReqsList == nil) {
+      result.mutableDefeatTypeReqsList = [NSMutableArray array];
+    }
+    [result.mutableDefeatTypeReqsList addObjectsFromArray:other.mutableDefeatTypeReqsList];
+  }
+  if (other.mutablePossessEquipJobReqsList.count > 0) {
+    if (result.mutablePossessEquipJobReqsList == nil) {
+      result.mutablePossessEquipJobReqsList = [NSMutableArray array];
+    }
+    [result.mutablePossessEquipJobReqsList addObjectsFromArray:other.mutablePossessEquipJobReqsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 34: {
+        [self setDescription:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setDoneResponse:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setInProgress:[input readString]];
+        break;
+      }
+      case 56: {
+        [self setAssetNumWithinCity:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setCoinsGained:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setDiamondsGained:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setWoodGained:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setExpGained:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setEquipIdGained:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self addQuestsRequiredForThis:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self addTaskReqs:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self addUpgradeStructJobsReqs:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self addBuildStructJobsReqs:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self addMarketplaceJobsReqs:[input readInt32]];
+        break;
+      }
+      case 144: {
+        [self addDefeatTypeReqs:[input readInt32]];
+        break;
+      }
+      case 152: {
+        [self addPossessEquipJobReqs:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (FullQuestProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (FullQuestProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (FullQuestProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasDescription {
+  return result.hasDescription;
+}
+- (NSString*) description {
+  return result.description;
+}
+- (FullQuestProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
+  return self;
+}
+- (BOOL) hasDoneResponse {
+  return result.hasDoneResponse;
+}
+- (NSString*) doneResponse {
+  return result.doneResponse;
+}
+- (FullQuestProto_Builder*) setDoneResponse:(NSString*) value {
+  result.hasDoneResponse = YES;
+  result.doneResponse = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearDoneResponse {
+  result.hasDoneResponse = NO;
+  result.doneResponse = @"";
+  return self;
+}
+- (BOOL) hasInProgress {
+  return result.hasInProgress;
+}
+- (NSString*) inProgress {
+  return result.inProgress;
+}
+- (FullQuestProto_Builder*) setInProgress:(NSString*) value {
+  result.hasInProgress = YES;
+  result.inProgress = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearInProgress {
+  result.hasInProgress = NO;
+  result.inProgress = @"";
+  return self;
+}
+- (BOOL) hasAssetNumWithinCity {
+  return result.hasAssetNumWithinCity;
+}
+- (int32_t) assetNumWithinCity {
+  return result.assetNumWithinCity;
+}
+- (FullQuestProto_Builder*) setAssetNumWithinCity:(int32_t) value {
+  result.hasAssetNumWithinCity = YES;
+  result.assetNumWithinCity = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearAssetNumWithinCity {
+  result.hasAssetNumWithinCity = NO;
+  result.assetNumWithinCity = 0;
+  return self;
+}
+- (BOOL) hasCoinsGained {
+  return result.hasCoinsGained;
+}
+- (int32_t) coinsGained {
+  return result.coinsGained;
+}
+- (FullQuestProto_Builder*) setCoinsGained:(int32_t) value {
+  result.hasCoinsGained = YES;
+  result.coinsGained = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearCoinsGained {
+  result.hasCoinsGained = NO;
+  result.coinsGained = 0;
+  return self;
+}
+- (BOOL) hasDiamondsGained {
+  return result.hasDiamondsGained;
+}
+- (int32_t) diamondsGained {
+  return result.diamondsGained;
+}
+- (FullQuestProto_Builder*) setDiamondsGained:(int32_t) value {
+  result.hasDiamondsGained = YES;
+  result.diamondsGained = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearDiamondsGained {
+  result.hasDiamondsGained = NO;
+  result.diamondsGained = 0;
+  return self;
+}
+- (BOOL) hasWoodGained {
+  return result.hasWoodGained;
+}
+- (int32_t) woodGained {
+  return result.woodGained;
+}
+- (FullQuestProto_Builder*) setWoodGained:(int32_t) value {
+  result.hasWoodGained = YES;
+  result.woodGained = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearWoodGained {
+  result.hasWoodGained = NO;
+  result.woodGained = 0;
+  return self;
+}
+- (BOOL) hasExpGained {
+  return result.hasExpGained;
+}
+- (int32_t) expGained {
+  return result.expGained;
+}
+- (FullQuestProto_Builder*) setExpGained:(int32_t) value {
+  result.hasExpGained = YES;
+  result.expGained = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearExpGained {
+  result.hasExpGained = NO;
+  result.expGained = 0;
+  return self;
+}
+- (BOOL) hasEquipIdGained {
+  return result.hasEquipIdGained;
+}
+- (int32_t) equipIdGained {
+  return result.equipIdGained;
+}
+- (FullQuestProto_Builder*) setEquipIdGained:(int32_t) value {
+  result.hasEquipIdGained = YES;
+  result.equipIdGained = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearEquipIdGained {
+  result.hasEquipIdGained = NO;
+  result.equipIdGained = 0;
+  return self;
+}
+- (NSArray*) questsRequiredForThisList {
+  if (result.mutableQuestsRequiredForThisList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableQuestsRequiredForThisList;
+}
+- (int32_t) questsRequiredForThisAtIndex:(int32_t) index {
+  return [result questsRequiredForThisAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceQuestsRequiredForThisAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableQuestsRequiredForThisList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addQuestsRequiredForThis:(int32_t) value {
+  if (result.mutableQuestsRequiredForThisList == nil) {
+    result.mutableQuestsRequiredForThisList = [NSMutableArray array];
+  }
+  [result.mutableQuestsRequiredForThisList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllQuestsRequiredForThis:(NSArray*) values {
+  if (result.mutableQuestsRequiredForThisList == nil) {
+    result.mutableQuestsRequiredForThisList = [NSMutableArray array];
+  }
+  [result.mutableQuestsRequiredForThisList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearQuestsRequiredForThisList {
+  result.mutableQuestsRequiredForThisList = nil;
+  return self;
+}
+- (NSArray*) taskReqsList {
+  if (result.mutableTaskReqsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableTaskReqsList;
+}
+- (int32_t) taskReqsAtIndex:(int32_t) index {
+  return [result taskReqsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceTaskReqsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableTaskReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addTaskReqs:(int32_t) value {
+  if (result.mutableTaskReqsList == nil) {
+    result.mutableTaskReqsList = [NSMutableArray array];
+  }
+  [result.mutableTaskReqsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllTaskReqs:(NSArray*) values {
+  if (result.mutableTaskReqsList == nil) {
+    result.mutableTaskReqsList = [NSMutableArray array];
+  }
+  [result.mutableTaskReqsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearTaskReqsList {
+  result.mutableTaskReqsList = nil;
+  return self;
+}
+- (NSArray*) upgradeStructJobsReqsList {
+  if (result.mutableUpgradeStructJobsReqsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableUpgradeStructJobsReqsList;
+}
+- (int32_t) upgradeStructJobsReqsAtIndex:(int32_t) index {
+  return [result upgradeStructJobsReqsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceUpgradeStructJobsReqsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableUpgradeStructJobsReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addUpgradeStructJobsReqs:(int32_t) value {
+  if (result.mutableUpgradeStructJobsReqsList == nil) {
+    result.mutableUpgradeStructJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableUpgradeStructJobsReqsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllUpgradeStructJobsReqs:(NSArray*) values {
+  if (result.mutableUpgradeStructJobsReqsList == nil) {
+    result.mutableUpgradeStructJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableUpgradeStructJobsReqsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearUpgradeStructJobsReqsList {
+  result.mutableUpgradeStructJobsReqsList = nil;
+  return self;
+}
+- (NSArray*) buildStructJobsReqsList {
+  if (result.mutableBuildStructJobsReqsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableBuildStructJobsReqsList;
+}
+- (int32_t) buildStructJobsReqsAtIndex:(int32_t) index {
+  return [result buildStructJobsReqsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceBuildStructJobsReqsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableBuildStructJobsReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addBuildStructJobsReqs:(int32_t) value {
+  if (result.mutableBuildStructJobsReqsList == nil) {
+    result.mutableBuildStructJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableBuildStructJobsReqsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllBuildStructJobsReqs:(NSArray*) values {
+  if (result.mutableBuildStructJobsReqsList == nil) {
+    result.mutableBuildStructJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableBuildStructJobsReqsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearBuildStructJobsReqsList {
+  result.mutableBuildStructJobsReqsList = nil;
+  return self;
+}
+- (NSArray*) marketplaceJobsReqsList {
+  if (result.mutableMarketplaceJobsReqsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableMarketplaceJobsReqsList;
+}
+- (int32_t) marketplaceJobsReqsAtIndex:(int32_t) index {
+  return [result marketplaceJobsReqsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceMarketplaceJobsReqsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableMarketplaceJobsReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addMarketplaceJobsReqs:(int32_t) value {
+  if (result.mutableMarketplaceJobsReqsList == nil) {
+    result.mutableMarketplaceJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableMarketplaceJobsReqsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllMarketplaceJobsReqs:(NSArray*) values {
+  if (result.mutableMarketplaceJobsReqsList == nil) {
+    result.mutableMarketplaceJobsReqsList = [NSMutableArray array];
+  }
+  [result.mutableMarketplaceJobsReqsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearMarketplaceJobsReqsList {
+  result.mutableMarketplaceJobsReqsList = nil;
+  return self;
+}
+- (NSArray*) defeatTypeReqsList {
+  if (result.mutableDefeatTypeReqsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableDefeatTypeReqsList;
+}
+- (int32_t) defeatTypeReqsAtIndex:(int32_t) index {
+  return [result defeatTypeReqsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replaceDefeatTypeReqsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableDefeatTypeReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addDefeatTypeReqs:(int32_t) value {
+  if (result.mutableDefeatTypeReqsList == nil) {
+    result.mutableDefeatTypeReqsList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeReqsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllDefeatTypeReqs:(NSArray*) values {
+  if (result.mutableDefeatTypeReqsList == nil) {
+    result.mutableDefeatTypeReqsList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeReqsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearDefeatTypeReqsList {
+  result.mutableDefeatTypeReqsList = nil;
+  return self;
+}
+- (NSArray*) possessEquipJobReqsList {
+  if (result.mutablePossessEquipJobReqsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutablePossessEquipJobReqsList;
+}
+- (int32_t) possessEquipJobReqsAtIndex:(int32_t) index {
+  return [result possessEquipJobReqsAtIndex:index];
+}
+- (FullQuestProto_Builder*) replacePossessEquipJobReqsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutablePossessEquipJobReqsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addPossessEquipJobReqs:(int32_t) value {
+  if (result.mutablePossessEquipJobReqsList == nil) {
+    result.mutablePossessEquipJobReqsList = [NSMutableArray array];
+  }
+  [result.mutablePossessEquipJobReqsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullQuestProto_Builder*) addAllPossessEquipJobReqs:(NSArray*) values {
+  if (result.mutablePossessEquipJobReqsList == nil) {
+    result.mutablePossessEquipJobReqsList = [NSMutableArray array];
+  }
+  [result.mutablePossessEquipJobReqsList addObjectsFromArray:values];
+  return self;
+}
+- (FullQuestProto_Builder*) clearPossessEquipJobReqsList {
+  result.mutablePossessEquipJobReqsList = nil;
   return self;
 }
 @end

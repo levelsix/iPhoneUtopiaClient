@@ -8,7 +8,6 @@
 
 #import "GameMap.h"
 #import "Building.h"
-#import "ShopMenuController.h"
 
 @implementation GameMap
 

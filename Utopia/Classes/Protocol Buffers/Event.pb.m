@@ -575,7 +575,8 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
 @interface BattleRequestProto ()
 @property (retain) MinimumUserProto* attacker;
 @property (retain) MinimumUserProto* defender;
-@property int32_t attackerBonus;
+@property BattleRequestProto_BattleResult battleResult;
+@property int32_t neutralCityId;
 @end
 
 @implementation BattleRequestProto
@@ -594,13 +595,20 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
   hasDefender_ = !!value;
 }
 @synthesize defender;
-- (BOOL) hasAttackerBonus {
-  return !!hasAttackerBonus_;
+- (BOOL) hasBattleResult {
+  return !!hasBattleResult_;
 }
-- (void) setHasAttackerBonus:(BOOL) value {
-  hasAttackerBonus_ = !!value;
+- (void) setHasBattleResult:(BOOL) value {
+  hasBattleResult_ = !!value;
 }
-@synthesize attackerBonus;
+@synthesize battleResult;
+- (BOOL) hasNeutralCityId {
+  return !!hasNeutralCityId_;
+}
+- (void) setHasNeutralCityId:(BOOL) value {
+  hasNeutralCityId_ = !!value;
+}
+@synthesize neutralCityId;
 - (void) dealloc {
   self.attacker = nil;
   self.defender = nil;
@@ -610,7 +618,8 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
   if ((self = [super init])) {
     self.attacker = [MinimumUserProto defaultInstance];
     self.defender = [MinimumUserProto defaultInstance];
-    self.attackerBonus = 0;
+    self.battleResult = BattleRequestProto_BattleResultAttackerWin;
+    self.neutralCityId = 0;
   }
   return self;
 }
@@ -633,7 +642,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (!self.hasDefender) {
     return NO;
   }
-  if (!self.hasAttackerBonus) {
+  if (!self.hasBattleResult) {
     return NO;
   }
   if (!self.attacker.isInitialized) {
@@ -651,8 +660,11 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (self.hasDefender) {
     [output writeMessage:2 value:self.defender];
   }
-  if (self.hasAttackerBonus) {
-    [output writeInt32:3 value:self.attackerBonus];
+  if (self.hasBattleResult) {
+    [output writeEnum:3 value:self.battleResult];
+  }
+  if (self.hasNeutralCityId) {
+    [output writeInt32:4 value:self.neutralCityId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -669,8 +681,11 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (self.hasDefender) {
     size += computeMessageSize(2, self.defender);
   }
-  if (self.hasAttackerBonus) {
-    size += computeInt32Size(3, self.attackerBonus);
+  if (self.hasBattleResult) {
+    size += computeEnumSize(3, self.battleResult);
+  }
+  if (self.hasNeutralCityId) {
+    size += computeInt32Size(4, self.neutralCityId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -705,6 +720,15 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 }
 @end
 
+BOOL BattleRequestProto_BattleResultIsValidValue(BattleRequestProto_BattleResult value) {
+  switch (value) {
+    case BattleRequestProto_BattleResultAttackerWin:
+    case BattleRequestProto_BattleResultDefenderWin:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface BattleRequestProto_Builder()
 @property (retain) BattleRequestProto* result;
 @end
@@ -753,8 +777,11 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (other.hasDefender) {
     [self mergeDefender:other.defender];
   }
-  if (other.hasAttackerBonus) {
-    [self setAttackerBonus:other.attackerBonus];
+  if (other.hasBattleResult) {
+    [self setBattleResult:other.battleResult];
+  }
+  if (other.hasNeutralCityId) {
+    [self setNeutralCityId:other.neutralCityId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -796,7 +823,16 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
         break;
       }
       case 24: {
-        [self setAttackerBonus:[input readInt32]];
+        int32_t value = [input readEnum];
+        if (BattleRequestProto_BattleResultIsValidValue(value)) {
+          [self setBattleResult:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 32: {
+        [self setNeutralCityId:[input readInt32]];
         break;
       }
     }
@@ -862,20 +898,36 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   result.defender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasAttackerBonus {
-  return result.hasAttackerBonus;
+- (BOOL) hasBattleResult {
+  return result.hasBattleResult;
 }
-- (int32_t) attackerBonus {
-  return result.attackerBonus;
+- (BattleRequestProto_BattleResult) battleResult {
+  return result.battleResult;
 }
-- (BattleRequestProto_Builder*) setAttackerBonus:(int32_t) value {
-  result.hasAttackerBonus = YES;
-  result.attackerBonus = value;
+- (BattleRequestProto_Builder*) setBattleResult:(BattleRequestProto_BattleResult) value {
+  result.hasBattleResult = YES;
+  result.battleResult = value;
   return self;
 }
-- (BattleRequestProto_Builder*) clearAttackerBonus {
-  result.hasAttackerBonus = NO;
-  result.attackerBonus = 0;
+- (BattleRequestProto_Builder*) clearBattleResult {
+  result.hasBattleResult = NO;
+  result.battleResult = BattleRequestProto_BattleResultAttackerWin;
+  return self;
+}
+- (BOOL) hasNeutralCityId {
+  return result.hasNeutralCityId;
+}
+- (int32_t) neutralCityId {
+  return result.neutralCityId;
+}
+- (BattleRequestProto_Builder*) setNeutralCityId:(int32_t) value {
+  result.hasNeutralCityId = YES;
+  result.neutralCityId = value;
+  return self;
+}
+- (BattleRequestProto_Builder*) clearNeutralCityId {
+  result.hasNeutralCityId = NO;
+  result.neutralCityId = 0;
   return self;
 }
 @end
@@ -884,12 +936,9 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 @property (retain) MinimumUserProto* attacker;
 @property (retain) MinimumUserProto* defender;
 @property BattleResponseProto_BattleStatus status;
-@property int32_t winnerUserId;
 @property int32_t coinsGained;
 @property (retain) FullEquipProto* equipGained;
 @property int32_t expGained;
-@property int32_t winnerHealthLoss;
-@property int32_t loserHealthLoss;
 @end
 
 @implementation BattleResponseProto
@@ -915,13 +964,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
-- (BOOL) hasWinnerUserId {
-  return !!hasWinnerUserId_;
-}
-- (void) setHasWinnerUserId:(BOOL) value {
-  hasWinnerUserId_ = !!value;
-}
-@synthesize winnerUserId;
 - (BOOL) hasCoinsGained {
   return !!hasCoinsGained_;
 }
@@ -943,20 +985,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   hasExpGained_ = !!value;
 }
 @synthesize expGained;
-- (BOOL) hasWinnerHealthLoss {
-  return !!hasWinnerHealthLoss_;
-}
-- (void) setHasWinnerHealthLoss:(BOOL) value {
-  hasWinnerHealthLoss_ = !!value;
-}
-@synthesize winnerHealthLoss;
-- (BOOL) hasLoserHealthLoss {
-  return !!hasLoserHealthLoss_;
-}
-- (void) setHasLoserHealthLoss:(BOOL) value {
-  hasLoserHealthLoss_ = !!value;
-}
-@synthesize loserHealthLoss;
 - (void) dealloc {
   self.attacker = nil;
   self.defender = nil;
@@ -968,12 +996,9 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
     self.attacker = [MinimumUserProto defaultInstance];
     self.defender = [MinimumUserProto defaultInstance];
     self.status = BattleResponseProto_BattleStatusSuccess;
-    self.winnerUserId = 0;
     self.coinsGained = 0;
     self.equipGained = [FullEquipProto defaultInstance];
     self.expGained = 0;
-    self.winnerHealthLoss = 0;
-    self.loserHealthLoss = 0;
   }
   return self;
 }
@@ -1022,23 +1047,14 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
-  if (self.hasWinnerUserId) {
-    [output writeInt32:4 value:self.winnerUserId];
-  }
   if (self.hasCoinsGained) {
-    [output writeInt32:5 value:self.coinsGained];
+    [output writeInt32:4 value:self.coinsGained];
   }
   if (self.hasEquipGained) {
-    [output writeMessage:6 value:self.equipGained];
+    [output writeMessage:5 value:self.equipGained];
   }
   if (self.hasExpGained) {
-    [output writeInt32:7 value:self.expGained];
-  }
-  if (self.hasWinnerHealthLoss) {
-    [output writeInt32:8 value:self.winnerHealthLoss];
-  }
-  if (self.hasLoserHealthLoss) {
-    [output writeInt32:9 value:self.loserHealthLoss];
+    [output writeInt32:6 value:self.expGained];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1058,23 +1074,14 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   if (self.hasStatus) {
     size += computeEnumSize(3, self.status);
   }
-  if (self.hasWinnerUserId) {
-    size += computeInt32Size(4, self.winnerUserId);
-  }
   if (self.hasCoinsGained) {
-    size += computeInt32Size(5, self.coinsGained);
+    size += computeInt32Size(4, self.coinsGained);
   }
   if (self.hasEquipGained) {
-    size += computeMessageSize(6, self.equipGained);
+    size += computeMessageSize(5, self.equipGained);
   }
   if (self.hasExpGained) {
-    size += computeInt32Size(7, self.expGained);
-  }
-  if (self.hasWinnerHealthLoss) {
-    size += computeInt32Size(8, self.winnerHealthLoss);
-  }
-  if (self.hasLoserHealthLoss) {
-    size += computeInt32Size(9, self.loserHealthLoss);
+    size += computeInt32Size(6, self.expGained);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1112,11 +1119,7 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
 BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStatus value) {
   switch (value) {
     case BattleResponseProto_BattleStatusSuccess:
-    case BattleResponseProto_BattleStatusAttackerNotEnoughHealth:
-    case BattleResponseProto_BattleStatusDefenderNotEnoughHealth:
-    case BattleResponseProto_BattleStatusAttackerNotEnoughStamina:
-    case BattleResponseProto_BattleStatusLevelDifferenceTooHigh:
-    case BattleResponseProto_BattleStatusOpponentOnSameSide:
+    case BattleResponseProto_BattleStatusOtherFail:
       return YES;
     default:
       return NO;
@@ -1173,9 +1176,6 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.hasWinnerUserId) {
-    [self setWinnerUserId:other.winnerUserId];
-  }
   if (other.hasCoinsGained) {
     [self setCoinsGained:other.coinsGained];
   }
@@ -1184,12 +1184,6 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   }
   if (other.hasExpGained) {
     [self setExpGained:other.expGained];
-  }
-  if (other.hasWinnerHealthLoss) {
-    [self setWinnerHealthLoss:other.winnerHealthLoss];
-  }
-  if (other.hasLoserHealthLoss) {
-    [self setLoserHealthLoss:other.loserHealthLoss];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1240,14 +1234,10 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
         break;
       }
       case 32: {
-        [self setWinnerUserId:[input readInt32]];
-        break;
-      }
-      case 40: {
         [self setCoinsGained:[input readInt32]];
         break;
       }
-      case 50: {
+      case 42: {
         FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
         if (self.hasEquipGained) {
           [subBuilder mergeFrom:self.equipGained];
@@ -1256,16 +1246,8 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
         [self setEquipGained:[subBuilder buildPartial]];
         break;
       }
-      case 56: {
+      case 48: {
         [self setExpGained:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setWinnerHealthLoss:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setLoserHealthLoss:[input readInt32]];
         break;
       }
     }
@@ -1347,22 +1329,6 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   result.status = BattleResponseProto_BattleStatusSuccess;
   return self;
 }
-- (BOOL) hasWinnerUserId {
-  return result.hasWinnerUserId;
-}
-- (int32_t) winnerUserId {
-  return result.winnerUserId;
-}
-- (BattleResponseProto_Builder*) setWinnerUserId:(int32_t) value {
-  result.hasWinnerUserId = YES;
-  result.winnerUserId = value;
-  return self;
-}
-- (BattleResponseProto_Builder*) clearWinnerUserId {
-  result.hasWinnerUserId = NO;
-  result.winnerUserId = 0;
-  return self;
-}
 - (BOOL) hasCoinsGained {
   return result.hasCoinsGained;
 }
@@ -1423,38 +1389,6 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
 - (BattleResponseProto_Builder*) clearExpGained {
   result.hasExpGained = NO;
   result.expGained = 0;
-  return self;
-}
-- (BOOL) hasWinnerHealthLoss {
-  return result.hasWinnerHealthLoss;
-}
-- (int32_t) winnerHealthLoss {
-  return result.winnerHealthLoss;
-}
-- (BattleResponseProto_Builder*) setWinnerHealthLoss:(int32_t) value {
-  result.hasWinnerHealthLoss = YES;
-  result.winnerHealthLoss = value;
-  return self;
-}
-- (BattleResponseProto_Builder*) clearWinnerHealthLoss {
-  result.hasWinnerHealthLoss = NO;
-  result.winnerHealthLoss = 0;
-  return self;
-}
-- (BOOL) hasLoserHealthLoss {
-  return result.hasLoserHealthLoss;
-}
-- (int32_t) loserHealthLoss {
-  return result.loserHealthLoss;
-}
-- (BattleResponseProto_Builder*) setLoserHealthLoss:(int32_t) value {
-  result.hasLoserHealthLoss = YES;
-  result.loserHealthLoss = value;
-  return self;
-}
-- (BattleResponseProto_Builder*) clearLoserHealthLoss {
-  result.hasLoserHealthLoss = NO;
-  result.loserHealthLoss = 0;
   return self;
 }
 @end
@@ -2632,503 +2566,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 }
 @end
 
-@interface ClericHealRequestProto ()
-@property (retain) MinimumUserProto* sender;
-@end
-
-@implementation ClericHealRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-  }
-  return self;
-}
-static ClericHealRequestProto* defaultClericHealRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ClericHealRequestProto class]) {
-    defaultClericHealRequestProtoInstance = [[ClericHealRequestProto alloc] init];
-  }
-}
-+ (ClericHealRequestProto*) defaultInstance {
-  return defaultClericHealRequestProtoInstance;
-}
-- (ClericHealRequestProto*) defaultInstance {
-  return defaultClericHealRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (ClericHealRequestProto*) parseFromData:(NSData*) data {
-  return (ClericHealRequestProto*)[[[ClericHealRequestProto builder] mergeFromData:data] build];
-}
-+ (ClericHealRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClericHealRequestProto*)[[[ClericHealRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ClericHealRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ClericHealRequestProto*)[[[ClericHealRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (ClericHealRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClericHealRequestProto*)[[[ClericHealRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ClericHealRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ClericHealRequestProto*)[[[ClericHealRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ClericHealRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClericHealRequestProto*)[[[ClericHealRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ClericHealRequestProto_Builder*) builder {
-  return [[[ClericHealRequestProto_Builder alloc] init] autorelease];
-}
-+ (ClericHealRequestProto_Builder*) builderWithPrototype:(ClericHealRequestProto*) prototype {
-  return [[ClericHealRequestProto builder] mergeFrom:prototype];
-}
-- (ClericHealRequestProto_Builder*) builder {
-  return [ClericHealRequestProto builder];
-}
-@end
-
-@interface ClericHealRequestProto_Builder()
-@property (retain) ClericHealRequestProto* result;
-@end
-
-@implementation ClericHealRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[ClericHealRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ClericHealRequestProto_Builder*) clear {
-  self.result = [[[ClericHealRequestProto alloc] init] autorelease];
-  return self;
-}
-- (ClericHealRequestProto_Builder*) clone {
-  return [ClericHealRequestProto builderWithPrototype:result];
-}
-- (ClericHealRequestProto*) defaultInstance {
-  return [ClericHealRequestProto defaultInstance];
-}
-- (ClericHealRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ClericHealRequestProto*) buildPartial {
-  ClericHealRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (ClericHealRequestProto_Builder*) mergeFrom:(ClericHealRequestProto*) other {
-  if (other == [ClericHealRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ClericHealRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ClericHealRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (ClericHealRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (ClericHealRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (ClericHealRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (ClericHealRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-@end
-
-@interface ClericHealResponseProto ()
-@property (retain) MinimumUserProto* sender;
-@property int32_t cost;
-@property ClericHealResponseProto_HealStatus status;
-@end
-
-@implementation ClericHealResponseProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasCost {
-  return !!hasCost_;
-}
-- (void) setHasCost:(BOOL) value {
-  hasCost_ = !!value;
-}
-@synthesize cost;
-- (BOOL) hasStatus {
-  return !!hasStatus_;
-}
-- (void) setHasStatus:(BOOL) value {
-  hasStatus_ = !!value;
-}
-@synthesize status;
-- (void) dealloc {
-  self.sender = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.cost = 0;
-    self.status = ClericHealResponseProto_HealStatusSuccess;
-  }
-  return self;
-}
-static ClericHealResponseProto* defaultClericHealResponseProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ClericHealResponseProto class]) {
-    defaultClericHealResponseProtoInstance = [[ClericHealResponseProto alloc] init];
-  }
-}
-+ (ClericHealResponseProto*) defaultInstance {
-  return defaultClericHealResponseProtoInstance;
-}
-- (ClericHealResponseProto*) defaultInstance {
-  return defaultClericHealResponseProtoInstance;
-}
-- (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasCost) {
-    [output writeInt32:2 value:self.cost];
-  }
-  if (self.hasStatus) {
-    [output writeEnum:3 value:self.status];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasCost) {
-    size += computeInt32Size(2, self.cost);
-  }
-  if (self.hasStatus) {
-    size += computeEnumSize(3, self.status);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (ClericHealResponseProto*) parseFromData:(NSData*) data {
-  return (ClericHealResponseProto*)[[[ClericHealResponseProto builder] mergeFromData:data] build];
-}
-+ (ClericHealResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClericHealResponseProto*)[[[ClericHealResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ClericHealResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ClericHealResponseProto*)[[[ClericHealResponseProto builder] mergeFromInputStream:input] build];
-}
-+ (ClericHealResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClericHealResponseProto*)[[[ClericHealResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ClericHealResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ClericHealResponseProto*)[[[ClericHealResponseProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ClericHealResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ClericHealResponseProto*)[[[ClericHealResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ClericHealResponseProto_Builder*) builder {
-  return [[[ClericHealResponseProto_Builder alloc] init] autorelease];
-}
-+ (ClericHealResponseProto_Builder*) builderWithPrototype:(ClericHealResponseProto*) prototype {
-  return [[ClericHealResponseProto builder] mergeFrom:prototype];
-}
-- (ClericHealResponseProto_Builder*) builder {
-  return [ClericHealResponseProto builder];
-}
-@end
-
-BOOL ClericHealResponseProto_HealStatusIsValidValue(ClericHealResponseProto_HealStatus value) {
-  switch (value) {
-    case ClericHealResponseProto_HealStatusSuccess:
-    case ClericHealResponseProto_HealStatusUserNotEnoughVault:
-    case ClericHealResponseProto_HealStatusOtherFail:
-      return YES;
-    default:
-      return NO;
-  }
-}
-@interface ClericHealResponseProto_Builder()
-@property (retain) ClericHealResponseProto* result;
-@end
-
-@implementation ClericHealResponseProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[ClericHealResponseProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ClericHealResponseProto_Builder*) clear {
-  self.result = [[[ClericHealResponseProto alloc] init] autorelease];
-  return self;
-}
-- (ClericHealResponseProto_Builder*) clone {
-  return [ClericHealResponseProto builderWithPrototype:result];
-}
-- (ClericHealResponseProto*) defaultInstance {
-  return [ClericHealResponseProto defaultInstance];
-}
-- (ClericHealResponseProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ClericHealResponseProto*) buildPartial {
-  ClericHealResponseProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (ClericHealResponseProto_Builder*) mergeFrom:(ClericHealResponseProto*) other {
-  if (other == [ClericHealResponseProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasCost) {
-    [self setCost:other.cost];
-  }
-  if (other.hasStatus) {
-    [self setStatus:other.status];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ClericHealResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ClericHealResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setCost:[input readInt32]];
-        break;
-      }
-      case 24: {
-        int32_t value = [input readEnum];
-        if (ClericHealResponseProto_HealStatusIsValidValue(value)) {
-          [self setStatus:value];
-        } else {
-          [unknownFields mergeVarintField:3 value:value];
-        }
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (ClericHealResponseProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (ClericHealResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (ClericHealResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (ClericHealResponseProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasCost {
-  return result.hasCost;
-}
-- (int32_t) cost {
-  return result.cost;
-}
-- (ClericHealResponseProto_Builder*) setCost:(int32_t) value {
-  result.hasCost = YES;
-  result.cost = value;
-  return self;
-}
-- (ClericHealResponseProto_Builder*) clearCost {
-  result.hasCost = NO;
-  result.cost = 0;
-  return self;
-}
-- (BOOL) hasStatus {
-  return result.hasStatus;
-}
-- (ClericHealResponseProto_HealStatus) status {
-  return result.status;
-}
-- (ClericHealResponseProto_Builder*) setStatus:(ClericHealResponseProto_HealStatus) value {
-  result.hasStatus = YES;
-  result.status = value;
-  return self;
-}
-- (ClericHealResponseProto_Builder*) clearStatus {
-  result.hasStatus = NO;
-  result.status = ClericHealResponseProto_HealStatusSuccess;
-  return self;
-}
-@end
-
 @interface StartupRequestProto ()
 @property (retain) NSString* udid;
 @property Float32 versionNum;
@@ -3357,8 +2794,11 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property StartupResponseProto_UpdateStatus updateStatus;
 @property int32_t maxCityIdAccessibleToUser;
 @property (retain) FullUserStructureProto* structures;
-@property BOOL updateAvailable;
 @property int32_t questLog;
+@property (retain) NSMutableArray* mutableProductIdsList;
+@property int32_t diamondCostForEnergyRefill;
+@property int32_t diamondCostForStaminaRefill;
+@property (retain) NSMutableArray* mutableUserEquipsList;
 @end
 
 @implementation StartupResponseProto
@@ -3398,18 +2838,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasStructures_ = !!value;
 }
 @synthesize structures;
-- (BOOL) hasUpdateAvailable {
-  return !!hasUpdateAvailable_;
-}
-- (void) setHasUpdateAvailable:(BOOL) value {
-  hasUpdateAvailable_ = !!value;
-}
-- (BOOL) updateAvailable {
-  return !!updateAvailable_;
-}
-- (void) setUpdateAvailable:(BOOL) value {
-  updateAvailable_ = !!value;
-}
 - (BOOL) hasQuestLog {
   return !!hasQuestLog_;
 }
@@ -3417,9 +2845,27 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasQuestLog_ = !!value;
 }
 @synthesize questLog;
+@synthesize mutableProductIdsList;
+- (BOOL) hasDiamondCostForEnergyRefill {
+  return !!hasDiamondCostForEnergyRefill_;
+}
+- (void) setHasDiamondCostForEnergyRefill:(BOOL) value {
+  hasDiamondCostForEnergyRefill_ = !!value;
+}
+@synthesize diamondCostForEnergyRefill;
+- (BOOL) hasDiamondCostForStaminaRefill {
+  return !!hasDiamondCostForStaminaRefill_;
+}
+- (void) setHasDiamondCostForStaminaRefill:(BOOL) value {
+  hasDiamondCostForStaminaRefill_ = !!value;
+}
+@synthesize diamondCostForStaminaRefill;
+@synthesize mutableUserEquipsList;
 - (void) dealloc {
   self.sender = nil;
   self.structures = nil;
+  self.mutableProductIdsList = nil;
+  self.mutableUserEquipsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3429,8 +2875,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
     self.maxCityIdAccessibleToUser = 0;
     self.structures = [FullUserStructureProto defaultInstance];
-    self.updateAvailable = NO;
     self.questLog = 0;
+    self.diamondCostForEnergyRefill = 0;
+    self.diamondCostForStaminaRefill = 0;
   }
   return self;
 }
@@ -3446,14 +2893,25 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (StartupResponseProto*) defaultInstance {
   return defaultStartupResponseProtoInstance;
 }
+- (NSArray*) productIdsList {
+  return mutableProductIdsList;
+}
+- (NSString*) productIdsAtIndex:(int32_t) index {
+  id value = [mutableProductIdsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) userEquipsList {
+  return mutableUserEquipsList;
+}
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index {
+  id value = [mutableUserEquipsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   if (!self.hasStartupStatus) {
     return NO;
   }
   if (!self.hasUpdateStatus) {
-    return NO;
-  }
-  if (!self.hasUpdateAvailable) {
     return NO;
   }
   if (self.hasSender) {
@@ -3463,6 +2921,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasStructures) {
     if (!self.structures.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullUserEquipProto* element in self.userEquipsList) {
+    if (!element.isInitialized) {
       return NO;
     }
   }
@@ -3484,11 +2947,20 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasStructures) {
     [output writeMessage:5 value:self.structures];
   }
-  if (self.hasUpdateAvailable) {
-    [output writeBool:6 value:self.updateAvailable];
-  }
   if (self.hasQuestLog) {
-    [output writeInt32:7 value:self.questLog];
+    [output writeInt32:6 value:self.questLog];
+  }
+  for (NSString* element in self.mutableProductIdsList) {
+    [output writeString:7 value:element];
+  }
+  if (self.hasDiamondCostForEnergyRefill) {
+    [output writeInt32:8 value:self.diamondCostForEnergyRefill];
+  }
+  if (self.hasDiamondCostForStaminaRefill) {
+    [output writeInt32:9 value:self.diamondCostForStaminaRefill];
+  }
+  for (FullUserEquipProto* element in self.userEquipsList) {
+    [output writeMessage:10 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3514,11 +2986,25 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasStructures) {
     size += computeMessageSize(5, self.structures);
   }
-  if (self.hasUpdateAvailable) {
-    size += computeBoolSize(6, self.updateAvailable);
-  }
   if (self.hasQuestLog) {
-    size += computeInt32Size(7, self.questLog);
+    size += computeInt32Size(6, self.questLog);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSString* element in self.mutableProductIdsList) {
+      dataSize += computeStringSizeNoTag(element);
+    }
+    size += dataSize;
+    size += 1 * self.mutableProductIdsList.count;
+  }
+  if (self.hasDiamondCostForEnergyRefill) {
+    size += computeInt32Size(8, self.diamondCostForEnergyRefill);
+  }
+  if (self.hasDiamondCostForStaminaRefill) {
+    size += computeInt32Size(9, self.diamondCostForStaminaRefill);
+  }
+  for (FullUserEquipProto* element in self.userEquipsList) {
+    size += computeMessageSize(10, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3629,11 +3115,26 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   if (other.hasStructures) {
     [self mergeStructures:other.structures];
   }
-  if (other.hasUpdateAvailable) {
-    [self setUpdateAvailable:other.updateAvailable];
-  }
   if (other.hasQuestLog) {
     [self setQuestLog:other.questLog];
+  }
+  if (other.mutableProductIdsList.count > 0) {
+    if (result.mutableProductIdsList == nil) {
+      result.mutableProductIdsList = [NSMutableArray array];
+    }
+    [result.mutableProductIdsList addObjectsFromArray:other.mutableProductIdsList];
+  }
+  if (other.hasDiamondCostForEnergyRefill) {
+    [self setDiamondCostForEnergyRefill:other.diamondCostForEnergyRefill];
+  }
+  if (other.hasDiamondCostForStaminaRefill) {
+    [self setDiamondCostForStaminaRefill:other.diamondCostForStaminaRefill];
+  }
+  if (other.mutableUserEquipsList.count > 0) {
+    if (result.mutableUserEquipsList == nil) {
+      result.mutableUserEquipsList = [NSMutableArray array];
+    }
+    [result.mutableUserEquipsList addObjectsFromArray:other.mutableUserEquipsList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -3697,11 +3198,25 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
         break;
       }
       case 48: {
-        [self setUpdateAvailable:[input readBool]];
+        [self setQuestLog:[input readInt32]];
         break;
       }
-      case 56: {
-        [self setQuestLog:[input readInt32]];
+      case 58: {
+        [self addProductIds:[input readString]];
+        break;
+      }
+      case 64: {
+        [self setDiamondCostForEnergyRefill:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setDiamondCostForStaminaRefill:[input readInt32]];
+        break;
+      }
+      case 82: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserEquips:[subBuilder buildPartial]];
         break;
       }
     }
@@ -3815,22 +3330,6 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   result.structures = [FullUserStructureProto defaultInstance];
   return self;
 }
-- (BOOL) hasUpdateAvailable {
-  return result.hasUpdateAvailable;
-}
-- (BOOL) updateAvailable {
-  return result.updateAvailable;
-}
-- (StartupResponseProto_Builder*) setUpdateAvailable:(BOOL) value {
-  result.hasUpdateAvailable = YES;
-  result.updateAvailable = value;
-  return self;
-}
-- (StartupResponseProto_Builder*) clearUpdateAvailable {
-  result.hasUpdateAvailable = NO;
-  result.updateAvailable = NO;
-  return self;
-}
 - (BOOL) hasQuestLog {
   return result.hasQuestLog;
 }
@@ -3847,10 +3346,103 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   result.questLog = 0;
   return self;
 }
+- (NSArray*) productIdsList {
+  if (result.mutableProductIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableProductIdsList;
+}
+- (NSString*) productIdsAtIndex:(int32_t) index {
+  return [result productIdsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceProductIdsAtIndex:(int32_t) index with:(NSString*) value {
+  [result.mutableProductIdsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addProductIds:(NSString*) value {
+  if (result.mutableProductIdsList == nil) {
+    result.mutableProductIdsList = [NSMutableArray array];
+  }
+  [result.mutableProductIdsList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllProductIds:(NSArray*) values {
+  if (result.mutableProductIdsList == nil) {
+    result.mutableProductIdsList = [NSMutableArray array];
+  }
+  [result.mutableProductIdsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearProductIdsList {
+  result.mutableProductIdsList = nil;
+  return self;
+}
+- (BOOL) hasDiamondCostForEnergyRefill {
+  return result.hasDiamondCostForEnergyRefill;
+}
+- (int32_t) diamondCostForEnergyRefill {
+  return result.diamondCostForEnergyRefill;
+}
+- (StartupResponseProto_Builder*) setDiamondCostForEnergyRefill:(int32_t) value {
+  result.hasDiamondCostForEnergyRefill = YES;
+  result.diamondCostForEnergyRefill = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearDiamondCostForEnergyRefill {
+  result.hasDiamondCostForEnergyRefill = NO;
+  result.diamondCostForEnergyRefill = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostForStaminaRefill {
+  return result.hasDiamondCostForStaminaRefill;
+}
+- (int32_t) diamondCostForStaminaRefill {
+  return result.diamondCostForStaminaRefill;
+}
+- (StartupResponseProto_Builder*) setDiamondCostForStaminaRefill:(int32_t) value {
+  result.hasDiamondCostForStaminaRefill = YES;
+  result.diamondCostForStaminaRefill = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearDiamondCostForStaminaRefill {
+  result.hasDiamondCostForStaminaRefill = NO;
+  result.diamondCostForStaminaRefill = 0;
+  return self;
+}
+- (NSArray*) userEquipsList {
+  if (result.mutableUserEquipsList == nil) { return [NSArray array]; }
+  return result.mutableUserEquipsList;
+}
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index {
+  return [result userEquipsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value {
+  [result.mutableUserEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserEquips:(NSArray*) values {
+  if (result.mutableUserEquipsList == nil) {
+    result.mutableUserEquipsList = [NSMutableArray array];
+  }
+  [result.mutableUserEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserEquipsList {
+  result.mutableUserEquipsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value {
+  if (result.mutableUserEquipsList == nil) {
+    result.mutableUserEquipsList = [NSMutableArray array];
+  }
+  [result.mutableUserEquipsList addObject:value];
+  return self;
+}
 @end
 
 @interface UserCreateRequestProto ()
 @property (retain) NSString* udid;
+@property (retain) NSString* name;
 @property (retain) NSMutableArray* mutableStructuresList;
 @property (retain) LocationProto* userLocation;
 @property (retain) CoordinateProto* aviaryCoordinates;
@@ -3868,6 +3460,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   hasUdid_ = !!value;
 }
 @synthesize udid;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
 @synthesize mutableStructuresList;
 - (BOOL) hasUserLocation {
   return !!hasUserLocation_;
@@ -3906,6 +3505,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @synthesize referrerCode;
 - (void) dealloc {
   self.udid = nil;
+  self.name = nil;
   self.mutableStructuresList = nil;
   self.userLocation = nil;
   self.aviaryCoordinates = nil;
@@ -3916,6 +3516,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (id) init {
   if ((self = [super init])) {
     self.udid = @"";
+    self.name = @"";
     self.userLocation = [LocationProto defaultInstance];
     self.aviaryCoordinates = [CoordinateProto defaultInstance];
     self.refineryCoordinates = [CoordinateProto defaultInstance];
@@ -3945,6 +3546,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 }
 - (BOOL) isInitialized {
   if (!self.hasUdid) {
+    return NO;
+  }
+  if (!self.hasName) {
     return NO;
   }
   if (!self.hasUserLocation) {
@@ -3982,23 +3586,26 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasUdid) {
     [output writeString:1 value:self.udid];
   }
+  if (self.hasName) {
+    [output writeString:2 value:self.name];
+  }
   for (FullUserStructureProto* element in self.structuresList) {
-    [output writeMessage:2 value:element];
+    [output writeMessage:3 value:element];
   }
   if (self.hasUserLocation) {
-    [output writeMessage:3 value:self.userLocation];
+    [output writeMessage:4 value:self.userLocation];
   }
   if (self.hasAviaryCoordinates) {
-    [output writeMessage:4 value:self.aviaryCoordinates];
+    [output writeMessage:5 value:self.aviaryCoordinates];
   }
   if (self.hasRefineryCoordinates) {
-    [output writeMessage:5 value:self.refineryCoordinates];
+    [output writeMessage:6 value:self.refineryCoordinates];
   }
   if (self.hasCarpenterCoordinates) {
-    [output writeMessage:6 value:self.carpenterCoordinates];
+    [output writeMessage:7 value:self.carpenterCoordinates];
   }
   if (self.hasReferrerCode) {
-    [output writeInt32:7 value:self.referrerCode];
+    [output writeInt32:8 value:self.referrerCode];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4012,23 +3619,26 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasUdid) {
     size += computeStringSize(1, self.udid);
   }
+  if (self.hasName) {
+    size += computeStringSize(2, self.name);
+  }
   for (FullUserStructureProto* element in self.structuresList) {
-    size += computeMessageSize(2, element);
+    size += computeMessageSize(3, element);
   }
   if (self.hasUserLocation) {
-    size += computeMessageSize(3, self.userLocation);
+    size += computeMessageSize(4, self.userLocation);
   }
   if (self.hasAviaryCoordinates) {
-    size += computeMessageSize(4, self.aviaryCoordinates);
+    size += computeMessageSize(5, self.aviaryCoordinates);
   }
   if (self.hasRefineryCoordinates) {
-    size += computeMessageSize(5, self.refineryCoordinates);
+    size += computeMessageSize(6, self.refineryCoordinates);
   }
   if (self.hasCarpenterCoordinates) {
-    size += computeMessageSize(6, self.carpenterCoordinates);
+    size += computeMessageSize(7, self.carpenterCoordinates);
   }
   if (self.hasReferrerCode) {
-    size += computeInt32Size(7, self.referrerCode);
+    size += computeInt32Size(8, self.referrerCode);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4108,6 +3718,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasUdid) {
     [self setUdid:other.udid];
   }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
   if (other.mutableStructuresList.count > 0) {
     if (result.mutableStructuresList == nil) {
       result.mutableStructuresList = [NSMutableArray array];
@@ -4155,12 +3768,16 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         break;
       }
       case 18: {
+        [self setName:[input readString]];
+        break;
+      }
+      case 26: {
         FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStructures:[subBuilder buildPartial]];
         break;
       }
-      case 26: {
+      case 34: {
         LocationProto_Builder* subBuilder = [LocationProto builder];
         if (self.hasUserLocation) {
           [subBuilder mergeFrom:self.userLocation];
@@ -4169,7 +3786,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         [self setUserLocation:[subBuilder buildPartial]];
         break;
       }
-      case 34: {
+      case 42: {
         CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
         if (self.hasAviaryCoordinates) {
           [subBuilder mergeFrom:self.aviaryCoordinates];
@@ -4178,7 +3795,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         [self setAviaryCoordinates:[subBuilder buildPartial]];
         break;
       }
-      case 42: {
+      case 50: {
         CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
         if (self.hasRefineryCoordinates) {
           [subBuilder mergeFrom:self.refineryCoordinates];
@@ -4187,7 +3804,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         [self setRefineryCoordinates:[subBuilder buildPartial]];
         break;
       }
-      case 50: {
+      case 58: {
         CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
         if (self.hasCarpenterCoordinates) {
           [subBuilder mergeFrom:self.carpenterCoordinates];
@@ -4196,7 +3813,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         [self setCarpenterCoordinates:[subBuilder buildPartial]];
         break;
       }
-      case 56: {
+      case 64: {
         [self setReferrerCode:[input readInt32]];
         break;
       }
@@ -4217,6 +3834,22 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearUdid {
   result.hasUdid = NO;
   result.udid = @"";
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (UserCreateRequestProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
   return self;
 }
 - (NSArray*) structuresList {
@@ -6665,13 +6298,13 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
 }
 @end
 
-@interface PurchaseStructureRequestProto ()
+@interface PurchaseNormStructureRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) CoordinateProto* structCoordinates;
 @property int32_t structId;
 @end
 
-@implementation PurchaseStructureRequestProto
+@implementation PurchaseNormStructureRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -6707,17 +6340,17 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
   }
   return self;
 }
-static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstance = nil;
+static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [PurchaseStructureRequestProto class]) {
-    defaultPurchaseStructureRequestProtoInstance = [[PurchaseStructureRequestProto alloc] init];
+  if (self == [PurchaseNormStructureRequestProto class]) {
+    defaultPurchaseNormStructureRequestProtoInstance = [[PurchaseNormStructureRequestProto alloc] init];
   }
 }
-+ (PurchaseStructureRequestProto*) defaultInstance {
-  return defaultPurchaseStructureRequestProtoInstance;
++ (PurchaseNormStructureRequestProto*) defaultInstance {
+  return defaultPurchaseNormStructureRequestProtoInstance;
 }
-- (PurchaseStructureRequestProto*) defaultInstance {
-  return defaultPurchaseStructureRequestProtoInstance;
+- (PurchaseNormStructureRequestProto*) defaultInstance {
+  return defaultPurchaseNormStructureRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   if (!self.hasSender) {
@@ -6769,40 +6402,40 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
   memoizedSerializedSize = size;
   return size;
 }
-+ (PurchaseStructureRequestProto*) parseFromData:(NSData*) data {
-  return (PurchaseStructureRequestProto*)[[[PurchaseStructureRequestProto builder] mergeFromData:data] build];
++ (PurchaseNormStructureRequestProto*) parseFromData:(NSData*) data {
+  return (PurchaseNormStructureRequestProto*)[[[PurchaseNormStructureRequestProto builder] mergeFromData:data] build];
 }
-+ (PurchaseStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PurchaseStructureRequestProto*)[[[PurchaseStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (PurchaseNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseNormStructureRequestProto*)[[[PurchaseNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (PurchaseStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (PurchaseStructureRequestProto*)[[[PurchaseStructureRequestProto builder] mergeFromInputStream:input] build];
++ (PurchaseNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseNormStructureRequestProto*)[[[PurchaseNormStructureRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (PurchaseStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PurchaseStructureRequestProto*)[[[PurchaseStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (PurchaseNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseNormStructureRequestProto*)[[[PurchaseNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PurchaseStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (PurchaseStructureRequestProto*)[[[PurchaseStructureRequestProto builder] mergeFromCodedInputStream:input] build];
++ (PurchaseNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseNormStructureRequestProto*)[[[PurchaseNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (PurchaseStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PurchaseStructureRequestProto*)[[[PurchaseStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (PurchaseNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseNormStructureRequestProto*)[[[PurchaseNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PurchaseStructureRequestProto_Builder*) builder {
-  return [[[PurchaseStructureRequestProto_Builder alloc] init] autorelease];
++ (PurchaseNormStructureRequestProto_Builder*) builder {
+  return [[[PurchaseNormStructureRequestProto_Builder alloc] init] autorelease];
 }
-+ (PurchaseStructureRequestProto_Builder*) builderWithPrototype:(PurchaseStructureRequestProto*) prototype {
-  return [[PurchaseStructureRequestProto builder] mergeFrom:prototype];
++ (PurchaseNormStructureRequestProto_Builder*) builderWithPrototype:(PurchaseNormStructureRequestProto*) prototype {
+  return [[PurchaseNormStructureRequestProto builder] mergeFrom:prototype];
 }
-- (PurchaseStructureRequestProto_Builder*) builder {
-  return [PurchaseStructureRequestProto builder];
+- (PurchaseNormStructureRequestProto_Builder*) builder {
+  return [PurchaseNormStructureRequestProto builder];
 }
 @end
 
-@interface PurchaseStructureRequestProto_Builder()
-@property (retain) PurchaseStructureRequestProto* result;
+@interface PurchaseNormStructureRequestProto_Builder()
+@property (retain) PurchaseNormStructureRequestProto* result;
 @end
 
-@implementation PurchaseStructureRequestProto_Builder
+@implementation PurchaseNormStructureRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -6810,34 +6443,34 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[PurchaseStructureRequestProto alloc] init] autorelease];
+    self.result = [[[PurchaseNormStructureRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (PurchaseStructureRequestProto_Builder*) clear {
-  self.result = [[[PurchaseStructureRequestProto alloc] init] autorelease];
+- (PurchaseNormStructureRequestProto_Builder*) clear {
+  self.result = [[[PurchaseNormStructureRequestProto alloc] init] autorelease];
   return self;
 }
-- (PurchaseStructureRequestProto_Builder*) clone {
-  return [PurchaseStructureRequestProto builderWithPrototype:result];
+- (PurchaseNormStructureRequestProto_Builder*) clone {
+  return [PurchaseNormStructureRequestProto builderWithPrototype:result];
 }
-- (PurchaseStructureRequestProto*) defaultInstance {
-  return [PurchaseStructureRequestProto defaultInstance];
+- (PurchaseNormStructureRequestProto*) defaultInstance {
+  return [PurchaseNormStructureRequestProto defaultInstance];
 }
-- (PurchaseStructureRequestProto*) build {
+- (PurchaseNormStructureRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (PurchaseStructureRequestProto*) buildPartial {
-  PurchaseStructureRequestProto* returnMe = [[result retain] autorelease];
+- (PurchaseNormStructureRequestProto*) buildPartial {
+  PurchaseNormStructureRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (PurchaseStructureRequestProto_Builder*) mergeFrom:(PurchaseStructureRequestProto*) other {
-  if (other == [PurchaseStructureRequestProto defaultInstance]) {
+- (PurchaseNormStructureRequestProto_Builder*) mergeFrom:(PurchaseNormStructureRequestProto*) other {
+  if (other == [PurchaseNormStructureRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -6852,10 +6485,10 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (PurchaseStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (PurchaseNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (PurchaseStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (PurchaseNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -6901,15 +6534,15 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (PurchaseStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (PurchaseNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (PurchaseStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (PurchaseNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (PurchaseStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (PurchaseNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -6920,7 +6553,7 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
   result.hasSender = YES;
   return self;
 }
-- (PurchaseStructureRequestProto_Builder*) clearSender {
+- (PurchaseNormStructureRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -6931,15 +6564,15 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
 - (CoordinateProto*) structCoordinates {
   return result.structCoordinates;
 }
-- (PurchaseStructureRequestProto_Builder*) setStructCoordinates:(CoordinateProto*) value {
+- (PurchaseNormStructureRequestProto_Builder*) setStructCoordinates:(CoordinateProto*) value {
   result.hasStructCoordinates = YES;
   result.structCoordinates = value;
   return self;
 }
-- (PurchaseStructureRequestProto_Builder*) setStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
+- (PurchaseNormStructureRequestProto_Builder*) setStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
   return [self setStructCoordinates:[builderForValue build]];
 }
-- (PurchaseStructureRequestProto_Builder*) mergeStructCoordinates:(CoordinateProto*) value {
+- (PurchaseNormStructureRequestProto_Builder*) mergeStructCoordinates:(CoordinateProto*) value {
   if (result.hasStructCoordinates &&
       result.structCoordinates != [CoordinateProto defaultInstance]) {
     result.structCoordinates =
@@ -6950,7 +6583,7 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
   result.hasStructCoordinates = YES;
   return self;
 }
-- (PurchaseStructureRequestProto_Builder*) clearStructCoordinates {
+- (PurchaseNormStructureRequestProto_Builder*) clearStructCoordinates {
   result.hasStructCoordinates = NO;
   result.structCoordinates = [CoordinateProto defaultInstance];
   return self;
@@ -6961,25 +6594,25 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
 - (int32_t) structId {
   return result.structId;
 }
-- (PurchaseStructureRequestProto_Builder*) setStructId:(int32_t) value {
+- (PurchaseNormStructureRequestProto_Builder*) setStructId:(int32_t) value {
   result.hasStructId = YES;
   result.structId = value;
   return self;
 }
-- (PurchaseStructureRequestProto_Builder*) clearStructId {
+- (PurchaseNormStructureRequestProto_Builder*) clearStructId {
   result.hasStructId = NO;
   result.structId = 0;
   return self;
 }
 @end
 
-@interface PlaceCriticalStructureRequestProto ()
+@interface PurchaseNormStructureResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) CoordinateProto* critStructCoordinates;
-@property int32_t critStructId;
+@property PurchaseNormStructureResponseProto_PurchaseNormStructureStatus status;
+@property int32_t userStructId;
 @end
 
-@implementation PlaceCriticalStructureRequestProto
+@implementation PurchaseNormStructureResponseProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -6988,59 +6621,52 @@ static PurchaseStructureRequestProto* defaultPurchaseStructureRequestProtoInstan
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasCritStructCoordinates {
-  return !!hasCritStructCoordinates_;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
 }
-- (void) setHasCritStructCoordinates:(BOOL) value {
-  hasCritStructCoordinates_ = !!value;
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
 }
-@synthesize critStructCoordinates;
-- (BOOL) hasCritStructId {
-  return !!hasCritStructId_;
+@synthesize status;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
 }
-- (void) setHasCritStructId:(BOOL) value {
-  hasCritStructId_ = !!value;
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
 }
-@synthesize critStructId;
+@synthesize userStructId;
 - (void) dealloc {
   self.sender = nil;
-  self.critStructCoordinates = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.critStructCoordinates = [CoordinateProto defaultInstance];
-    self.critStructId = 0;
+    self.status = PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess;
+    self.userStructId = 0;
   }
   return self;
 }
-static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestProtoInstance = nil;
+static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseProtoInstance = nil;
 + (void) initialize {
-  if (self == [PlaceCriticalStructureRequestProto class]) {
-    defaultPlaceCriticalStructureRequestProtoInstance = [[PlaceCriticalStructureRequestProto alloc] init];
+  if (self == [PurchaseNormStructureResponseProto class]) {
+    defaultPurchaseNormStructureResponseProtoInstance = [[PurchaseNormStructureResponseProto alloc] init];
   }
 }
-+ (PlaceCriticalStructureRequestProto*) defaultInstance {
-  return defaultPlaceCriticalStructureRequestProtoInstance;
++ (PurchaseNormStructureResponseProto*) defaultInstance {
+  return defaultPurchaseNormStructureResponseProtoInstance;
 }
-- (PlaceCriticalStructureRequestProto*) defaultInstance {
-  return defaultPlaceCriticalStructureRequestProtoInstance;
+- (PurchaseNormStructureResponseProto*) defaultInstance {
+  return defaultPurchaseNormStructureResponseProtoInstance;
 }
 - (BOOL) isInitialized {
   if (!self.hasSender) {
     return NO;
   }
-  if (!self.hasCritStructCoordinates) {
-    return NO;
-  }
-  if (!self.hasCritStructId) {
+  if (!self.hasStatus) {
     return NO;
   }
   if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.critStructCoordinates.isInitialized) {
     return NO;
   }
   return YES;
@@ -7049,11 +6675,11 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasCritStructCoordinates) {
-    [output writeMessage:2 value:self.critStructCoordinates];
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
   }
-  if (self.hasCritStructId) {
-    [output writeInt32:3 value:self.critStructId];
+  if (self.hasUserStructId) {
+    [output writeInt32:3 value:self.userStructId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -7067,50 +6693,63 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasCritStructCoordinates) {
-    size += computeMessageSize(2, self.critStructCoordinates);
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
   }
-  if (self.hasCritStructId) {
-    size += computeInt32Size(3, self.critStructId);
+  if (self.hasUserStructId) {
+    size += computeInt32Size(3, self.userStructId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (PlaceCriticalStructureRequestProto*) parseFromData:(NSData*) data {
-  return (PlaceCriticalStructureRequestProto*)[[[PlaceCriticalStructureRequestProto builder] mergeFromData:data] build];
++ (PurchaseNormStructureResponseProto*) parseFromData:(NSData*) data {
+  return (PurchaseNormStructureResponseProto*)[[[PurchaseNormStructureResponseProto builder] mergeFromData:data] build];
 }
-+ (PlaceCriticalStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PlaceCriticalStructureRequestProto*)[[[PlaceCriticalStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (PurchaseNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseNormStructureResponseProto*)[[[PurchaseNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (PlaceCriticalStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (PlaceCriticalStructureRequestProto*)[[[PlaceCriticalStructureRequestProto builder] mergeFromInputStream:input] build];
++ (PurchaseNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseNormStructureResponseProto*)[[[PurchaseNormStructureResponseProto builder] mergeFromInputStream:input] build];
 }
-+ (PlaceCriticalStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PlaceCriticalStructureRequestProto*)[[[PlaceCriticalStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (PurchaseNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseNormStructureResponseProto*)[[[PurchaseNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PlaceCriticalStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (PlaceCriticalStructureRequestProto*)[[[PlaceCriticalStructureRequestProto builder] mergeFromCodedInputStream:input] build];
++ (PurchaseNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseNormStructureResponseProto*)[[[PurchaseNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (PlaceCriticalStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (PlaceCriticalStructureRequestProto*)[[[PlaceCriticalStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (PurchaseNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseNormStructureResponseProto*)[[[PurchaseNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (PlaceCriticalStructureRequestProto_Builder*) builder {
-  return [[[PlaceCriticalStructureRequestProto_Builder alloc] init] autorelease];
++ (PurchaseNormStructureResponseProto_Builder*) builder {
+  return [[[PurchaseNormStructureResponseProto_Builder alloc] init] autorelease];
 }
-+ (PlaceCriticalStructureRequestProto_Builder*) builderWithPrototype:(PlaceCriticalStructureRequestProto*) prototype {
-  return [[PlaceCriticalStructureRequestProto builder] mergeFrom:prototype];
++ (PurchaseNormStructureResponseProto_Builder*) builderWithPrototype:(PurchaseNormStructureResponseProto*) prototype {
+  return [[PurchaseNormStructureResponseProto builder] mergeFrom:prototype];
 }
-- (PlaceCriticalStructureRequestProto_Builder*) builder {
-  return [PlaceCriticalStructureRequestProto builder];
+- (PurchaseNormStructureResponseProto_Builder*) builder {
+  return [PurchaseNormStructureResponseProto builder];
 }
 @end
 
-@interface PlaceCriticalStructureRequestProto_Builder()
-@property (retain) PlaceCriticalStructureRequestProto* result;
+BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value) {
+  switch (value) {
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughCoins:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughDiamonds:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughWood:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PurchaseNormStructureResponseProto_Builder()
+@property (retain) PurchaseNormStructureResponseProto* result;
 @end
 
-@implementation PlaceCriticalStructureRequestProto_Builder
+@implementation PurchaseNormStructureResponseProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -7118,52 +6757,52 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[PlaceCriticalStructureRequestProto alloc] init] autorelease];
+    self.result = [[[PurchaseNormStructureResponseProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) clear {
-  self.result = [[[PlaceCriticalStructureRequestProto alloc] init] autorelease];
+- (PurchaseNormStructureResponseProto_Builder*) clear {
+  self.result = [[[PurchaseNormStructureResponseProto alloc] init] autorelease];
   return self;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) clone {
-  return [PlaceCriticalStructureRequestProto builderWithPrototype:result];
+- (PurchaseNormStructureResponseProto_Builder*) clone {
+  return [PurchaseNormStructureResponseProto builderWithPrototype:result];
 }
-- (PlaceCriticalStructureRequestProto*) defaultInstance {
-  return [PlaceCriticalStructureRequestProto defaultInstance];
+- (PurchaseNormStructureResponseProto*) defaultInstance {
+  return [PurchaseNormStructureResponseProto defaultInstance];
 }
-- (PlaceCriticalStructureRequestProto*) build {
+- (PurchaseNormStructureResponseProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (PlaceCriticalStructureRequestProto*) buildPartial {
-  PlaceCriticalStructureRequestProto* returnMe = [[result retain] autorelease];
+- (PurchaseNormStructureResponseProto*) buildPartial {
+  PurchaseNormStructureResponseProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) mergeFrom:(PlaceCriticalStructureRequestProto*) other {
-  if (other == [PlaceCriticalStructureRequestProto defaultInstance]) {
+- (PurchaseNormStructureResponseProto_Builder*) mergeFrom:(PurchaseNormStructureResponseProto*) other {
+  if (other == [PurchaseNormStructureResponseProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasCritStructCoordinates) {
-    [self mergeCritStructCoordinates:other.critStructCoordinates];
+  if (other.hasStatus) {
+    [self setStatus:other.status];
   }
-  if (other.hasCritStructId) {
-    [self setCritStructId:other.critStructId];
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (PurchaseNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (PlaceCriticalStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (PurchaseNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -7187,17 +6826,17 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 18: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasCritStructCoordinates) {
-          [subBuilder mergeFrom:self.critStructCoordinates];
+      case 16: {
+        int32_t value = [input readEnum];
+        if (PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
         }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCritStructCoordinates:[subBuilder buildPartial]];
         break;
       }
       case 24: {
-        [self setCritStructId:[input readInt32]];
+        [self setUserStructId:[input readInt32]];
         break;
       }
     }
@@ -7209,15 +6848,15 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (PurchaseNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (PurchaseNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (PlaceCriticalStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (PurchaseNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -7228,66 +6867,2211 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
   result.hasSender = YES;
   return self;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) clearSender {
+- (PurchaseNormStructureResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasCritStructCoordinates {
-  return result.hasCritStructCoordinates;
+- (BOOL) hasStatus {
+  return result.hasStatus;
 }
-- (CoordinateProto*) critStructCoordinates {
-  return result.critStructCoordinates;
+- (PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) status {
+  return result.status;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) setCritStructCoordinates:(CoordinateProto*) value {
-  result.hasCritStructCoordinates = YES;
-  result.critStructCoordinates = value;
+- (PurchaseNormStructureResponseProto_Builder*) setStatus:(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
   return self;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) setCritStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setCritStructCoordinates:[builderForValue build]];
-}
-- (PlaceCriticalStructureRequestProto_Builder*) mergeCritStructCoordinates:(CoordinateProto*) value {
-  if (result.hasCritStructCoordinates &&
-      result.critStructCoordinates != [CoordinateProto defaultInstance]) {
-    result.critStructCoordinates =
-      [[[CoordinateProto builderWithPrototype:result.critStructCoordinates] mergeFrom:value] buildPartial];
-  } else {
-    result.critStructCoordinates = value;
-  }
-  result.hasCritStructCoordinates = YES;
+- (PurchaseNormStructureResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess;
   return self;
 }
-- (PlaceCriticalStructureRequestProto_Builder*) clearCritStructCoordinates {
-  result.hasCritStructCoordinates = NO;
-  result.critStructCoordinates = [CoordinateProto defaultInstance];
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (PurchaseNormStructureResponseProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
   return self;
 }
-- (BOOL) hasCritStructId {
-  return result.hasCritStructId;
-}
-- (int32_t) critStructId {
-  return result.critStructId;
-}
-- (PlaceCriticalStructureRequestProto_Builder*) setCritStructId:(int32_t) value {
-  result.hasCritStructId = YES;
-  result.critStructId = value;
-  return self;
-}
-- (PlaceCriticalStructureRequestProto_Builder*) clearCritStructId {
-  result.hasCritStructId = NO;
-  result.critStructId = 0;
+- (PurchaseNormStructureResponseProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
   return self;
 }
 @end
 
-@interface MoveCriticalStructureRequestProto ()
+@interface MoveNormStructureRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t userStructId;
+@property (retain) CoordinateProto* curStructCoordinates;
+@end
+
+@implementation MoveNormStructureRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (BOOL) hasCurStructCoordinates {
+  return !!hasCurStructCoordinates_;
+}
+- (void) setHasCurStructCoordinates:(BOOL) value {
+  hasCurStructCoordinates_ = !!value;
+}
+@synthesize curStructCoordinates;
+- (void) dealloc {
+  self.sender = nil;
+  self.curStructCoordinates = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userStructId = 0;
+    self.curStructCoordinates = [CoordinateProto defaultInstance];
+  }
+  return self;
+}
+static MoveNormStructureRequestProto* defaultMoveNormStructureRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [MoveNormStructureRequestProto class]) {
+    defaultMoveNormStructureRequestProtoInstance = [[MoveNormStructureRequestProto alloc] init];
+  }
+}
++ (MoveNormStructureRequestProto*) defaultInstance {
+  return defaultMoveNormStructureRequestProtoInstance;
+}
+- (MoveNormStructureRequestProto*) defaultInstance {
+  return defaultMoveNormStructureRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasUserStructId) {
+    return NO;
+  }
+  if (!self.hasCurStructCoordinates) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  if (!self.curStructCoordinates.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserStructId) {
+    [output writeInt32:2 value:self.userStructId];
+  }
+  if (self.hasCurStructCoordinates) {
+    [output writeMessage:3 value:self.curStructCoordinates];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserStructId) {
+    size += computeInt32Size(2, self.userStructId);
+  }
+  if (self.hasCurStructCoordinates) {
+    size += computeMessageSize(3, self.curStructCoordinates);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MoveNormStructureRequestProto*) parseFromData:(NSData*) data {
+  return (MoveNormStructureRequestProto*)[[[MoveNormStructureRequestProto builder] mergeFromData:data] build];
+}
++ (MoveNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoveNormStructureRequestProto*)[[[MoveNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MoveNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MoveNormStructureRequestProto*)[[[MoveNormStructureRequestProto builder] mergeFromInputStream:input] build];
+}
++ (MoveNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoveNormStructureRequestProto*)[[[MoveNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MoveNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MoveNormStructureRequestProto*)[[[MoveNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MoveNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoveNormStructureRequestProto*)[[[MoveNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MoveNormStructureRequestProto_Builder*) builder {
+  return [[[MoveNormStructureRequestProto_Builder alloc] init] autorelease];
+}
++ (MoveNormStructureRequestProto_Builder*) builderWithPrototype:(MoveNormStructureRequestProto*) prototype {
+  return [[MoveNormStructureRequestProto builder] mergeFrom:prototype];
+}
+- (MoveNormStructureRequestProto_Builder*) builder {
+  return [MoveNormStructureRequestProto builder];
+}
+@end
+
+@interface MoveNormStructureRequestProto_Builder()
+@property (retain) MoveNormStructureRequestProto* result;
+@end
+
+@implementation MoveNormStructureRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MoveNormStructureRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MoveNormStructureRequestProto_Builder*) clear {
+  self.result = [[[MoveNormStructureRequestProto alloc] init] autorelease];
+  return self;
+}
+- (MoveNormStructureRequestProto_Builder*) clone {
+  return [MoveNormStructureRequestProto builderWithPrototype:result];
+}
+- (MoveNormStructureRequestProto*) defaultInstance {
+  return [MoveNormStructureRequestProto defaultInstance];
+}
+- (MoveNormStructureRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MoveNormStructureRequestProto*) buildPartial {
+  MoveNormStructureRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MoveNormStructureRequestProto_Builder*) mergeFrom:(MoveNormStructureRequestProto*) other {
+  if (other == [MoveNormStructureRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  if (other.hasCurStructCoordinates) {
+    [self mergeCurStructCoordinates:other.curStructCoordinates];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MoveNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MoveNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasCurStructCoordinates) {
+          [subBuilder mergeFrom:self.curStructCoordinates];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCurStructCoordinates:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (MoveNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (MoveNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (MoveNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (MoveNormStructureRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (MoveNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (MoveNormStructureRequestProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+- (BOOL) hasCurStructCoordinates {
+  return result.hasCurStructCoordinates;
+}
+- (CoordinateProto*) curStructCoordinates {
+  return result.curStructCoordinates;
+}
+- (MoveNormStructureRequestProto_Builder*) setCurStructCoordinates:(CoordinateProto*) value {
+  result.hasCurStructCoordinates = YES;
+  result.curStructCoordinates = value;
+  return self;
+}
+- (MoveNormStructureRequestProto_Builder*) setCurStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCurStructCoordinates:[builderForValue build]];
+}
+- (MoveNormStructureRequestProto_Builder*) mergeCurStructCoordinates:(CoordinateProto*) value {
+  if (result.hasCurStructCoordinates &&
+      result.curStructCoordinates != [CoordinateProto defaultInstance]) {
+    result.curStructCoordinates =
+      [[[CoordinateProto builderWithPrototype:result.curStructCoordinates] mergeFrom:value] buildPartial];
+  } else {
+    result.curStructCoordinates = value;
+  }
+  result.hasCurStructCoordinates = YES;
+  return self;
+}
+- (MoveNormStructureRequestProto_Builder*) clearCurStructCoordinates {
+  result.hasCurStructCoordinates = NO;
+  result.curStructCoordinates = [CoordinateProto defaultInstance];
+  return self;
+}
+@end
+
+@interface MoveNormStructureResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property MoveNormStructureResponseProto_MoveNormStructureStatus status;
+@end
+
+@implementation MoveNormStructureResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = MoveNormStructureResponseProto_MoveNormStructureStatusSuccess;
+  }
+  return self;
+}
+static MoveNormStructureResponseProto* defaultMoveNormStructureResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [MoveNormStructureResponseProto class]) {
+    defaultMoveNormStructureResponseProtoInstance = [[MoveNormStructureResponseProto alloc] init];
+  }
+}
++ (MoveNormStructureResponseProto*) defaultInstance {
+  return defaultMoveNormStructureResponseProtoInstance;
+}
+- (MoveNormStructureResponseProto*) defaultInstance {
+  return defaultMoveNormStructureResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MoveNormStructureResponseProto*) parseFromData:(NSData*) data {
+  return (MoveNormStructureResponseProto*)[[[MoveNormStructureResponseProto builder] mergeFromData:data] build];
+}
++ (MoveNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoveNormStructureResponseProto*)[[[MoveNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MoveNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MoveNormStructureResponseProto*)[[[MoveNormStructureResponseProto builder] mergeFromInputStream:input] build];
+}
++ (MoveNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoveNormStructureResponseProto*)[[[MoveNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MoveNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MoveNormStructureResponseProto*)[[[MoveNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MoveNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MoveNormStructureResponseProto*)[[[MoveNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MoveNormStructureResponseProto_Builder*) builder {
+  return [[[MoveNormStructureResponseProto_Builder alloc] init] autorelease];
+}
++ (MoveNormStructureResponseProto_Builder*) builderWithPrototype:(MoveNormStructureResponseProto*) prototype {
+  return [[MoveNormStructureResponseProto builder] mergeFrom:prototype];
+}
+- (MoveNormStructureResponseProto_Builder*) builder {
+  return [MoveNormStructureResponseProto builder];
+}
+@end
+
+BOOL MoveNormStructureResponseProto_MoveNormStructureStatusIsValidValue(MoveNormStructureResponseProto_MoveNormStructureStatus value) {
+  switch (value) {
+    case MoveNormStructureResponseProto_MoveNormStructureStatusSuccess:
+    case MoveNormStructureResponseProto_MoveNormStructureStatusFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface MoveNormStructureResponseProto_Builder()
+@property (retain) MoveNormStructureResponseProto* result;
+@end
+
+@implementation MoveNormStructureResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MoveNormStructureResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MoveNormStructureResponseProto_Builder*) clear {
+  self.result = [[[MoveNormStructureResponseProto alloc] init] autorelease];
+  return self;
+}
+- (MoveNormStructureResponseProto_Builder*) clone {
+  return [MoveNormStructureResponseProto builderWithPrototype:result];
+}
+- (MoveNormStructureResponseProto*) defaultInstance {
+  return [MoveNormStructureResponseProto defaultInstance];
+}
+- (MoveNormStructureResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MoveNormStructureResponseProto*) buildPartial {
+  MoveNormStructureResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MoveNormStructureResponseProto_Builder*) mergeFrom:(MoveNormStructureResponseProto*) other {
+  if (other == [MoveNormStructureResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MoveNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MoveNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (MoveNormStructureResponseProto_MoveNormStructureStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (MoveNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (MoveNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (MoveNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (MoveNormStructureResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (MoveNormStructureResponseProto_MoveNormStructureStatus) status {
+  return result.status;
+}
+- (MoveNormStructureResponseProto_Builder*) setStatus:(MoveNormStructureResponseProto_MoveNormStructureStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (MoveNormStructureResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = MoveNormStructureResponseProto_MoveNormStructureStatusSuccess;
+  return self;
+}
+@end
+
+@interface SellNormStructureRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t userStructId;
+@property int32_t soldStructId;
+@end
+
+@implementation SellNormStructureRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (BOOL) hasSoldStructId {
+  return !!hasSoldStructId_;
+}
+- (void) setHasSoldStructId:(BOOL) value {
+  hasSoldStructId_ = !!value;
+}
+@synthesize soldStructId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userStructId = 0;
+    self.soldStructId = 0;
+  }
+  return self;
+}
+static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SellNormStructureRequestProto class]) {
+    defaultSellNormStructureRequestProtoInstance = [[SellNormStructureRequestProto alloc] init];
+  }
+}
++ (SellNormStructureRequestProto*) defaultInstance {
+  return defaultSellNormStructureRequestProtoInstance;
+}
+- (SellNormStructureRequestProto*) defaultInstance {
+  return defaultSellNormStructureRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasUserStructId) {
+    return NO;
+  }
+  if (!self.hasSoldStructId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserStructId) {
+    [output writeInt32:2 value:self.userStructId];
+  }
+  if (self.hasSoldStructId) {
+    [output writeInt32:3 value:self.soldStructId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserStructId) {
+    size += computeInt32Size(2, self.userStructId);
+  }
+  if (self.hasSoldStructId) {
+    size += computeInt32Size(3, self.soldStructId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SellNormStructureRequestProto*) parseFromData:(NSData*) data {
+  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromData:data] build];
+}
++ (SellNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SellNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SellNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SellNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SellNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SellNormStructureRequestProto*)[[[SellNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SellNormStructureRequestProto_Builder*) builder {
+  return [[[SellNormStructureRequestProto_Builder alloc] init] autorelease];
+}
++ (SellNormStructureRequestProto_Builder*) builderWithPrototype:(SellNormStructureRequestProto*) prototype {
+  return [[SellNormStructureRequestProto builder] mergeFrom:prototype];
+}
+- (SellNormStructureRequestProto_Builder*) builder {
+  return [SellNormStructureRequestProto builder];
+}
+@end
+
+@interface SellNormStructureRequestProto_Builder()
+@property (retain) SellNormStructureRequestProto* result;
+@end
+
+@implementation SellNormStructureRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SellNormStructureRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SellNormStructureRequestProto_Builder*) clear {
+  self.result = [[[SellNormStructureRequestProto alloc] init] autorelease];
+  return self;
+}
+- (SellNormStructureRequestProto_Builder*) clone {
+  return [SellNormStructureRequestProto builderWithPrototype:result];
+}
+- (SellNormStructureRequestProto*) defaultInstance {
+  return [SellNormStructureRequestProto defaultInstance];
+}
+- (SellNormStructureRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SellNormStructureRequestProto*) buildPartial {
+  SellNormStructureRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SellNormStructureRequestProto_Builder*) mergeFrom:(SellNormStructureRequestProto*) other {
+  if (other == [SellNormStructureRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  if (other.hasSoldStructId) {
+    [self setSoldStructId:other.soldStructId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SellNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SellNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setSoldStructId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SellNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SellNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SellNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SellNormStructureRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (SellNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (SellNormStructureRequestProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+- (BOOL) hasSoldStructId {
+  return result.hasSoldStructId;
+}
+- (int32_t) soldStructId {
+  return result.soldStructId;
+}
+- (SellNormStructureRequestProto_Builder*) setSoldStructId:(int32_t) value {
+  result.hasSoldStructId = YES;
+  result.soldStructId = value;
+  return self;
+}
+- (SellNormStructureRequestProto_Builder*) clearSoldStructId {
+  result.hasSoldStructId = NO;
+  result.soldStructId = 0;
+  return self;
+}
+@end
+
+@interface SellNormStructureResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property SellNormStructureResponseProto_SellNormStructureStatus status;
+@end
+
+@implementation SellNormStructureResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = SellNormStructureResponseProto_SellNormStructureStatusSuccess;
+  }
+  return self;
+}
+static SellNormStructureResponseProto* defaultSellNormStructureResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SellNormStructureResponseProto class]) {
+    defaultSellNormStructureResponseProtoInstance = [[SellNormStructureResponseProto alloc] init];
+  }
+}
++ (SellNormStructureResponseProto*) defaultInstance {
+  return defaultSellNormStructureResponseProtoInstance;
+}
+- (SellNormStructureResponseProto*) defaultInstance {
+  return defaultSellNormStructureResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SellNormStructureResponseProto*) parseFromData:(NSData*) data {
+  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromData:data] build];
+}
++ (SellNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SellNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SellNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SellNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SellNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SellNormStructureResponseProto*)[[[SellNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SellNormStructureResponseProto_Builder*) builder {
+  return [[[SellNormStructureResponseProto_Builder alloc] init] autorelease];
+}
++ (SellNormStructureResponseProto_Builder*) builderWithPrototype:(SellNormStructureResponseProto*) prototype {
+  return [[SellNormStructureResponseProto builder] mergeFrom:prototype];
+}
+- (SellNormStructureResponseProto_Builder*) builder {
+  return [SellNormStructureResponseProto builder];
+}
+@end
+
+BOOL SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(SellNormStructureResponseProto_SellNormStructureStatus value) {
+  switch (value) {
+    case SellNormStructureResponseProto_SellNormStructureStatusSuccess:
+    case SellNormStructureResponseProto_SellNormStructureStatusFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SellNormStructureResponseProto_Builder()
+@property (retain) SellNormStructureResponseProto* result;
+@end
+
+@implementation SellNormStructureResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SellNormStructureResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SellNormStructureResponseProto_Builder*) clear {
+  self.result = [[[SellNormStructureResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SellNormStructureResponseProto_Builder*) clone {
+  return [SellNormStructureResponseProto builderWithPrototype:result];
+}
+- (SellNormStructureResponseProto*) defaultInstance {
+  return [SellNormStructureResponseProto defaultInstance];
+}
+- (SellNormStructureResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SellNormStructureResponseProto*) buildPartial {
+  SellNormStructureResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SellNormStructureResponseProto_Builder*) mergeFrom:(SellNormStructureResponseProto*) other {
+  if (other == [SellNormStructureResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SellNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SellNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SellNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SellNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SellNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SellNormStructureResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SellNormStructureResponseProto_SellNormStructureStatus) status {
+  return result.status;
+}
+- (SellNormStructureResponseProto_Builder*) setStatus:(SellNormStructureResponseProto_SellNormStructureStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SellNormStructureResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SellNormStructureResponseProto_SellNormStructureStatusSuccess;
+  return self;
+}
+@end
+
+@interface UpgradeNormStructureRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t userStructId;
+@end
+
+@implementation UpgradeNormStructureRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userStructId = 0;
+  }
+  return self;
+}
+static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpgradeNormStructureRequestProto class]) {
+    defaultUpgradeNormStructureRequestProtoInstance = [[UpgradeNormStructureRequestProto alloc] init];
+  }
+}
++ (UpgradeNormStructureRequestProto*) defaultInstance {
+  return defaultUpgradeNormStructureRequestProtoInstance;
+}
+- (UpgradeNormStructureRequestProto*) defaultInstance {
+  return defaultUpgradeNormStructureRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasUserStructId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserStructId) {
+    [output writeInt32:2 value:self.userStructId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserStructId) {
+    size += computeInt32Size(2, self.userStructId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UpgradeNormStructureRequestProto*) parseFromData:(NSData*) data {
+  return (UpgradeNormStructureRequestProto*)[[[UpgradeNormStructureRequestProto builder] mergeFromData:data] build];
+}
++ (UpgradeNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeNormStructureRequestProto*)[[[UpgradeNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpgradeNormStructureRequestProto*)[[[UpgradeNormStructureRequestProto builder] mergeFromInputStream:input] build];
+}
++ (UpgradeNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeNormStructureRequestProto*)[[[UpgradeNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpgradeNormStructureRequestProto*)[[[UpgradeNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpgradeNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeNormStructureRequestProto*)[[[UpgradeNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeNormStructureRequestProto_Builder*) builder {
+  return [[[UpgradeNormStructureRequestProto_Builder alloc] init] autorelease];
+}
++ (UpgradeNormStructureRequestProto_Builder*) builderWithPrototype:(UpgradeNormStructureRequestProto*) prototype {
+  return [[UpgradeNormStructureRequestProto builder] mergeFrom:prototype];
+}
+- (UpgradeNormStructureRequestProto_Builder*) builder {
+  return [UpgradeNormStructureRequestProto builder];
+}
+@end
+
+@interface UpgradeNormStructureRequestProto_Builder()
+@property (retain) UpgradeNormStructureRequestProto* result;
+@end
+
+@implementation UpgradeNormStructureRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UpgradeNormStructureRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpgradeNormStructureRequestProto_Builder*) clear {
+  self.result = [[[UpgradeNormStructureRequestProto alloc] init] autorelease];
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) clone {
+  return [UpgradeNormStructureRequestProto builderWithPrototype:result];
+}
+- (UpgradeNormStructureRequestProto*) defaultInstance {
+  return [UpgradeNormStructureRequestProto defaultInstance];
+}
+- (UpgradeNormStructureRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpgradeNormStructureRequestProto*) buildPartial {
+  UpgradeNormStructureRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UpgradeNormStructureRequestProto_Builder*) mergeFrom:(UpgradeNormStructureRequestProto*) other {
+  if (other == [UpgradeNormStructureRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpgradeNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpgradeNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpgradeNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (UpgradeNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (UpgradeNormStructureRequestProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+@end
+
+@interface UpgradeNormStructureResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property UpgradeNormStructureResponseProto_UpgradeNormStructureStatus status;
+@end
+
+@implementation UpgradeNormStructureResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess;
+  }
+  return self;
+}
+static UpgradeNormStructureResponseProto* defaultUpgradeNormStructureResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [UpgradeNormStructureResponseProto class]) {
+    defaultUpgradeNormStructureResponseProtoInstance = [[UpgradeNormStructureResponseProto alloc] init];
+  }
+}
++ (UpgradeNormStructureResponseProto*) defaultInstance {
+  return defaultUpgradeNormStructureResponseProtoInstance;
+}
+- (UpgradeNormStructureResponseProto*) defaultInstance {
+  return defaultUpgradeNormStructureResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UpgradeNormStructureResponseProto*) parseFromData:(NSData*) data {
+  return (UpgradeNormStructureResponseProto*)[[[UpgradeNormStructureResponseProto builder] mergeFromData:data] build];
+}
++ (UpgradeNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeNormStructureResponseProto*)[[[UpgradeNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UpgradeNormStructureResponseProto*)[[[UpgradeNormStructureResponseProto builder] mergeFromInputStream:input] build];
+}
++ (UpgradeNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeNormStructureResponseProto*)[[[UpgradeNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UpgradeNormStructureResponseProto*)[[[UpgradeNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UpgradeNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UpgradeNormStructureResponseProto*)[[[UpgradeNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UpgradeNormStructureResponseProto_Builder*) builder {
+  return [[[UpgradeNormStructureResponseProto_Builder alloc] init] autorelease];
+}
++ (UpgradeNormStructureResponseProto_Builder*) builderWithPrototype:(UpgradeNormStructureResponseProto*) prototype {
+  return [[UpgradeNormStructureResponseProto builder] mergeFrom:prototype];
+}
+- (UpgradeNormStructureResponseProto_Builder*) builder {
+  return [UpgradeNormStructureResponseProto builder];
+}
+@end
+
+BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value) {
+  switch (value) {
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughDiamonds:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughCoins:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughWood:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface UpgradeNormStructureResponseProto_Builder()
+@property (retain) UpgradeNormStructureResponseProto* result;
+@end
+
+@implementation UpgradeNormStructureResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UpgradeNormStructureResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UpgradeNormStructureResponseProto_Builder*) clear {
+  self.result = [[[UpgradeNormStructureResponseProto alloc] init] autorelease];
+  return self;
+}
+- (UpgradeNormStructureResponseProto_Builder*) clone {
+  return [UpgradeNormStructureResponseProto builderWithPrototype:result];
+}
+- (UpgradeNormStructureResponseProto*) defaultInstance {
+  return [UpgradeNormStructureResponseProto defaultInstance];
+}
+- (UpgradeNormStructureResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UpgradeNormStructureResponseProto*) buildPartial {
+  UpgradeNormStructureResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UpgradeNormStructureResponseProto_Builder*) mergeFrom:(UpgradeNormStructureResponseProto*) other {
+  if (other == [UpgradeNormStructureResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UpgradeNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UpgradeNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (UpgradeNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (UpgradeNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (UpgradeNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (UpgradeNormStructureResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) status {
+  return result.status;
+}
+- (UpgradeNormStructureResponseProto_Builder*) setStatus:(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (UpgradeNormStructureResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess;
+  return self;
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t userStructId;
+@property int64_t timeOfRetrieval;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (BOOL) hasTimeOfRetrieval {
+  return !!hasTimeOfRetrieval_;
+}
+- (void) setHasTimeOfRetrieval:(BOOL) value {
+  hasTimeOfRetrieval_ = !!value;
+}
+@synthesize timeOfRetrieval;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userStructId = 0;
+    self.timeOfRetrieval = 0L;
+  }
+  return self;
+}
+static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFromNormStructureRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveCurrencyFromNormStructureRequestProto class]) {
+    defaultRetrieveCurrencyFromNormStructureRequestProtoInstance = [[RetrieveCurrencyFromNormStructureRequestProto alloc] init];
+  }
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasUserStructId) {
+    return NO;
+  }
+  if (!self.hasTimeOfRetrieval) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserStructId) {
+    [output writeInt32:2 value:self.userStructId];
+  }
+  if (self.hasTimeOfRetrieval) {
+    [output writeInt64:3 value:self.timeOfRetrieval];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserStructId) {
+    size += computeInt32Size(2, self.userStructId);
+  }
+  if (self.hasTimeOfRetrieval) {
+    size += computeInt64Size(3, self.timeOfRetrieval);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureRequestProto*)[[[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder {
+  return [[[RetrieveCurrencyFromNormStructureRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureRequestProto*) prototype {
+  return [[RetrieveCurrencyFromNormStructureRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) builder {
+  return [RetrieveCurrencyFromNormStructureRequestProto builder];
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureRequestProto_Builder()
+@property (retain) RetrieveCurrencyFromNormStructureRequestProto* result;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveCurrencyFromNormStructureRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clear {
+  self.result = [[[RetrieveCurrencyFromNormStructureRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clone {
+  return [RetrieveCurrencyFromNormStructureRequestProto builderWithPrototype:result];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) defaultInstance {
+  return [RetrieveCurrencyFromNormStructureRequestProto defaultInstance];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto*) buildPartial {
+  RetrieveCurrencyFromNormStructureRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureRequestProto*) other {
+  if (other == [RetrieveCurrencyFromNormStructureRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  if (other.hasTimeOfRetrieval) {
+    [self setTimeOfRetrieval:other.timeOfRetrieval];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setTimeOfRetrieval:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfRetrieval {
+  return result.hasTimeOfRetrieval;
+}
+- (int64_t) timeOfRetrieval {
+  return result.timeOfRetrieval;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) setTimeOfRetrieval:(int64_t) value {
+  result.hasTimeOfRetrieval = YES;
+  result.timeOfRetrieval = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureRequestProto_Builder*) clearTimeOfRetrieval {
+  result.hasTimeOfRetrieval = NO;
+  result.timeOfRetrieval = 0L;
+  return self;
+}
+@end
+
+@interface RetrieveCurrencyFromNormStructureResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus status;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
+  }
+  return self;
+}
+static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFromNormStructureResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveCurrencyFromNormStructureResponseProto class]) {
+    defaultRetrieveCurrencyFromNormStructureResponseProtoInstance = [[RetrieveCurrencyFromNormStructureResponseProto alloc] init];
+  }
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureResponseProtoInstance;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
+  return defaultRetrieveCurrencyFromNormStructureResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveCurrencyFromNormStructureResponseProto*)[[[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder {
+  return [[[RetrieveCurrencyFromNormStructureResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builderWithPrototype:(RetrieveCurrencyFromNormStructureResponseProto*) prototype {
+  return [[RetrieveCurrencyFromNormStructureResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) builder {
+  return [RetrieveCurrencyFromNormStructureResponseProto builder];
+}
+@end
+
+BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value) {
+  switch (value) {
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveCurrencyFromNormStructureResponseProto_Builder()
+@property (retain) RetrieveCurrencyFromNormStructureResponseProto* result;
+@end
+
+@implementation RetrieveCurrencyFromNormStructureResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveCurrencyFromNormStructureResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clear {
+  self.result = [[[RetrieveCurrencyFromNormStructureResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clone {
+  return [RetrieveCurrencyFromNormStructureResponseProto builderWithPrototype:result];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) defaultInstance {
+  return [RetrieveCurrencyFromNormStructureResponseProto defaultInstance];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto*) buildPartial {
+  RetrieveCurrencyFromNormStructureResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFrom:(RetrieveCurrencyFromNormStructureResponseProto*) other {
+  if (other == [RetrieveCurrencyFromNormStructureResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) status {
+  return result.status;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) setStatus:(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveCurrencyFromNormStructureResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess;
+  return self;
+}
+@end
+
+@interface CriticalStructureActionRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) CoordinateProto* critStructCoordinates;
-@property MoveCriticalStructureRequestProto_CritStructType critStruct;
+@property CritStructType critStructType;
+@property CriticalStructureActionRequestProto_CritStructAction critStructAction;
 @end
 
-@implementation MoveCriticalStructureRequestProto
+@implementation CriticalStructureActionRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -7303,13 +9087,20 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
   hasCritStructCoordinates_ = !!value;
 }
 @synthesize critStructCoordinates;
-- (BOOL) hasCritStruct {
-  return !!hasCritStruct_;
+- (BOOL) hasCritStructType {
+  return !!hasCritStructType_;
 }
-- (void) setHasCritStruct:(BOOL) value {
-  hasCritStruct_ = !!value;
+- (void) setHasCritStructType:(BOOL) value {
+  hasCritStructType_ = !!value;
 }
-@synthesize critStruct;
+@synthesize critStructType;
+- (BOOL) hasCritStructAction {
+  return !!hasCritStructAction_;
+}
+- (void) setHasCritStructAction:(BOOL) value {
+  hasCritStructAction_ = !!value;
+}
+@synthesize critStructAction;
 - (void) dealloc {
   self.sender = nil;
   self.critStructCoordinates = nil;
@@ -7319,21 +9110,22 @@ static PlaceCriticalStructureRequestProto* defaultPlaceCriticalStructureRequestP
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.critStructCoordinates = [CoordinateProto defaultInstance];
-    self.critStruct = MoveCriticalStructureRequestProto_CritStructTypeAviary;
+    self.critStructType = CritStructTypeAviary;
+    self.critStructAction = CriticalStructureActionRequestProto_CritStructActionPlace;
   }
   return self;
 }
-static MoveCriticalStructureRequestProto* defaultMoveCriticalStructureRequestProtoInstance = nil;
+static CriticalStructureActionRequestProto* defaultCriticalStructureActionRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [MoveCriticalStructureRequestProto class]) {
-    defaultMoveCriticalStructureRequestProtoInstance = [[MoveCriticalStructureRequestProto alloc] init];
+  if (self == [CriticalStructureActionRequestProto class]) {
+    defaultCriticalStructureActionRequestProtoInstance = [[CriticalStructureActionRequestProto alloc] init];
   }
 }
-+ (MoveCriticalStructureRequestProto*) defaultInstance {
-  return defaultMoveCriticalStructureRequestProtoInstance;
++ (CriticalStructureActionRequestProto*) defaultInstance {
+  return defaultCriticalStructureActionRequestProtoInstance;
 }
-- (MoveCriticalStructureRequestProto*) defaultInstance {
-  return defaultMoveCriticalStructureRequestProtoInstance;
+- (CriticalStructureActionRequestProto*) defaultInstance {
+  return defaultCriticalStructureActionRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   if (!self.hasSender) {
@@ -7342,7 +9134,10 @@ static MoveCriticalStructureRequestProto* defaultMoveCriticalStructureRequestPro
   if (!self.hasCritStructCoordinates) {
     return NO;
   }
-  if (!self.hasCritStruct) {
+  if (!self.hasCritStructType) {
+    return NO;
+  }
+  if (!self.hasCritStructAction) {
     return NO;
   }
   if (!self.sender.isInitialized) {
@@ -7360,8 +9155,11 @@ static MoveCriticalStructureRequestProto* defaultMoveCriticalStructureRequestPro
   if (self.hasCritStructCoordinates) {
     [output writeMessage:2 value:self.critStructCoordinates];
   }
-  if (self.hasCritStruct) {
-    [output writeEnum:3 value:self.critStruct];
+  if (self.hasCritStructType) {
+    [output writeEnum:3 value:self.critStructType];
+  }
+  if (self.hasCritStructAction) {
+    [output writeEnum:4 value:self.critStructAction];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -7378,60 +9176,59 @@ static MoveCriticalStructureRequestProto* defaultMoveCriticalStructureRequestPro
   if (self.hasCritStructCoordinates) {
     size += computeMessageSize(2, self.critStructCoordinates);
   }
-  if (self.hasCritStruct) {
-    size += computeEnumSize(3, self.critStruct);
+  if (self.hasCritStructType) {
+    size += computeEnumSize(3, self.critStructType);
+  }
+  if (self.hasCritStructAction) {
+    size += computeEnumSize(4, self.critStructAction);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (MoveCriticalStructureRequestProto*) parseFromData:(NSData*) data {
-  return (MoveCriticalStructureRequestProto*)[[[MoveCriticalStructureRequestProto builder] mergeFromData:data] build];
++ (CriticalStructureActionRequestProto*) parseFromData:(NSData*) data {
+  return (CriticalStructureActionRequestProto*)[[[CriticalStructureActionRequestProto builder] mergeFromData:data] build];
 }
-+ (MoveCriticalStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MoveCriticalStructureRequestProto*)[[[MoveCriticalStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (CriticalStructureActionRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CriticalStructureActionRequestProto*)[[[CriticalStructureActionRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (MoveCriticalStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (MoveCriticalStructureRequestProto*)[[[MoveCriticalStructureRequestProto builder] mergeFromInputStream:input] build];
++ (CriticalStructureActionRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CriticalStructureActionRequestProto*)[[[CriticalStructureActionRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (MoveCriticalStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MoveCriticalStructureRequestProto*)[[[MoveCriticalStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (CriticalStructureActionRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CriticalStructureActionRequestProto*)[[[CriticalStructureActionRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (MoveCriticalStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (MoveCriticalStructureRequestProto*)[[[MoveCriticalStructureRequestProto builder] mergeFromCodedInputStream:input] build];
++ (CriticalStructureActionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CriticalStructureActionRequestProto*)[[[CriticalStructureActionRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (MoveCriticalStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MoveCriticalStructureRequestProto*)[[[MoveCriticalStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (CriticalStructureActionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CriticalStructureActionRequestProto*)[[[CriticalStructureActionRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (MoveCriticalStructureRequestProto_Builder*) builder {
-  return [[[MoveCriticalStructureRequestProto_Builder alloc] init] autorelease];
++ (CriticalStructureActionRequestProto_Builder*) builder {
+  return [[[CriticalStructureActionRequestProto_Builder alloc] init] autorelease];
 }
-+ (MoveCriticalStructureRequestProto_Builder*) builderWithPrototype:(MoveCriticalStructureRequestProto*) prototype {
-  return [[MoveCriticalStructureRequestProto builder] mergeFrom:prototype];
++ (CriticalStructureActionRequestProto_Builder*) builderWithPrototype:(CriticalStructureActionRequestProto*) prototype {
+  return [[CriticalStructureActionRequestProto builder] mergeFrom:prototype];
 }
-- (MoveCriticalStructureRequestProto_Builder*) builder {
-  return [MoveCriticalStructureRequestProto builder];
+- (CriticalStructureActionRequestProto_Builder*) builder {
+  return [CriticalStructureActionRequestProto builder];
 }
 @end
 
-BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalStructureRequestProto_CritStructType value) {
+BOOL CriticalStructureActionRequestProto_CritStructActionIsValidValue(CriticalStructureActionRequestProto_CritStructAction value) {
   switch (value) {
-    case MoveCriticalStructureRequestProto_CritStructTypeAviary:
-    case MoveCriticalStructureRequestProto_CritStructTypeLumbermill:
-    case MoveCriticalStructureRequestProto_CritStructTypeCarpenter:
-    case MoveCriticalStructureRequestProto_CritStructTypeVault:
-    case MoveCriticalStructureRequestProto_CritStructTypeArmory:
-    case MoveCriticalStructureRequestProto_CritStructTypeCleric:
+    case CriticalStructureActionRequestProto_CritStructActionPlace:
+    case CriticalStructureActionRequestProto_CritStructActionMove:
       return YES;
     default:
       return NO;
   }
 }
-@interface MoveCriticalStructureRequestProto_Builder()
-@property (retain) MoveCriticalStructureRequestProto* result;
+@interface CriticalStructureActionRequestProto_Builder()
+@property (retain) CriticalStructureActionRequestProto* result;
 @end
 
-@implementation MoveCriticalStructureRequestProto_Builder
+@implementation CriticalStructureActionRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -7439,34 +9236,34 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[MoveCriticalStructureRequestProto alloc] init] autorelease];
+    self.result = [[[CriticalStructureActionRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (MoveCriticalStructureRequestProto_Builder*) clear {
-  self.result = [[[MoveCriticalStructureRequestProto alloc] init] autorelease];
+- (CriticalStructureActionRequestProto_Builder*) clear {
+  self.result = [[[CriticalStructureActionRequestProto alloc] init] autorelease];
   return self;
 }
-- (MoveCriticalStructureRequestProto_Builder*) clone {
-  return [MoveCriticalStructureRequestProto builderWithPrototype:result];
+- (CriticalStructureActionRequestProto_Builder*) clone {
+  return [CriticalStructureActionRequestProto builderWithPrototype:result];
 }
-- (MoveCriticalStructureRequestProto*) defaultInstance {
-  return [MoveCriticalStructureRequestProto defaultInstance];
+- (CriticalStructureActionRequestProto*) defaultInstance {
+  return [CriticalStructureActionRequestProto defaultInstance];
 }
-- (MoveCriticalStructureRequestProto*) build {
+- (CriticalStructureActionRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (MoveCriticalStructureRequestProto*) buildPartial {
-  MoveCriticalStructureRequestProto* returnMe = [[result retain] autorelease];
+- (CriticalStructureActionRequestProto*) buildPartial {
+  CriticalStructureActionRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (MoveCriticalStructureRequestProto_Builder*) mergeFrom:(MoveCriticalStructureRequestProto*) other {
-  if (other == [MoveCriticalStructureRequestProto defaultInstance]) {
+- (CriticalStructureActionRequestProto_Builder*) mergeFrom:(CriticalStructureActionRequestProto*) other {
+  if (other == [CriticalStructureActionRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -7475,16 +9272,19 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
   if (other.hasCritStructCoordinates) {
     [self mergeCritStructCoordinates:other.critStructCoordinates];
   }
-  if (other.hasCritStruct) {
-    [self setCritStruct:other.critStruct];
+  if (other.hasCritStructType) {
+    [self setCritStructType:other.critStructType];
+  }
+  if (other.hasCritStructAction) {
+    [self setCritStructAction:other.critStructAction];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (MoveCriticalStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (CriticalStructureActionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (MoveCriticalStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (CriticalStructureActionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -7519,10 +9319,19 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
       }
       case 24: {
         int32_t value = [input readEnum];
-        if (MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(value)) {
-          [self setCritStruct:value];
+        if (CritStructTypeIsValidValue(value)) {
+          [self setCritStructType:value];
         } else {
           [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (CriticalStructureActionRequestProto_CritStructActionIsValidValue(value)) {
+          [self setCritStructAction:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
         }
         break;
       }
@@ -7535,15 +9344,15 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (MoveCriticalStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (CriticalStructureActionRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (MoveCriticalStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (CriticalStructureActionRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (MoveCriticalStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (CriticalStructureActionRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -7554,7 +9363,7 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
   result.hasSender = YES;
   return self;
 }
-- (MoveCriticalStructureRequestProto_Builder*) clearSender {
+- (CriticalStructureActionRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -7565,15 +9374,15 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
 - (CoordinateProto*) critStructCoordinates {
   return result.critStructCoordinates;
 }
-- (MoveCriticalStructureRequestProto_Builder*) setCritStructCoordinates:(CoordinateProto*) value {
+- (CriticalStructureActionRequestProto_Builder*) setCritStructCoordinates:(CoordinateProto*) value {
   result.hasCritStructCoordinates = YES;
   result.critStructCoordinates = value;
   return self;
 }
-- (MoveCriticalStructureRequestProto_Builder*) setCritStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
+- (CriticalStructureActionRequestProto_Builder*) setCritStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
   return [self setCritStructCoordinates:[builderForValue build]];
 }
-- (MoveCriticalStructureRequestProto_Builder*) mergeCritStructCoordinates:(CoordinateProto*) value {
+- (CriticalStructureActionRequestProto_Builder*) mergeCritStructCoordinates:(CoordinateProto*) value {
   if (result.hasCritStructCoordinates &&
       result.critStructCoordinates != [CoordinateProto defaultInstance]) {
     result.critStructCoordinates =
@@ -7584,37 +9393,51 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
   result.hasCritStructCoordinates = YES;
   return self;
 }
-- (MoveCriticalStructureRequestProto_Builder*) clearCritStructCoordinates {
+- (CriticalStructureActionRequestProto_Builder*) clearCritStructCoordinates {
   result.hasCritStructCoordinates = NO;
   result.critStructCoordinates = [CoordinateProto defaultInstance];
   return self;
 }
-- (BOOL) hasCritStruct {
-  return result.hasCritStruct;
+- (BOOL) hasCritStructType {
+  return result.hasCritStructType;
 }
-- (MoveCriticalStructureRequestProto_CritStructType) critStruct {
-  return result.critStruct;
+- (CritStructType) critStructType {
+  return result.critStructType;
 }
-- (MoveCriticalStructureRequestProto_Builder*) setCritStruct:(MoveCriticalStructureRequestProto_CritStructType) value {
-  result.hasCritStruct = YES;
-  result.critStruct = value;
+- (CriticalStructureActionRequestProto_Builder*) setCritStructType:(CritStructType) value {
+  result.hasCritStructType = YES;
+  result.critStructType = value;
   return self;
 }
-- (MoveCriticalStructureRequestProto_Builder*) clearCritStruct {
-  result.hasCritStruct = NO;
-  result.critStruct = MoveCriticalStructureRequestProto_CritStructTypeAviary;
+- (CriticalStructureActionRequestProto_Builder*) clearCritStructType {
+  result.hasCritStructType = NO;
+  result.critStructType = CritStructTypeAviary;
+  return self;
+}
+- (BOOL) hasCritStructAction {
+  return result.hasCritStructAction;
+}
+- (CriticalStructureActionRequestProto_CritStructAction) critStructAction {
+  return result.critStructAction;
+}
+- (CriticalStructureActionRequestProto_Builder*) setCritStructAction:(CriticalStructureActionRequestProto_CritStructAction) value {
+  result.hasCritStructAction = YES;
+  result.critStructAction = value;
+  return self;
+}
+- (CriticalStructureActionRequestProto_Builder*) clearCritStructAction {
+  result.hasCritStructAction = NO;
+  result.critStructAction = CriticalStructureActionRequestProto_CritStructActionPlace;
   return self;
 }
 @end
 
-@interface MoveUserStructureRequestProto ()
+@interface CriticalStructureActionResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) CoordinateProto* oldStructCoordinates;
-@property (retain) CoordinateProto* curStructCoordinates;
-@property int32_t structId;
+@property CriticalStructureActionResponseProto_CriticalStructureAction status;
 @end
 
-@implementation MoveUserStructureRequestProto
+@implementation CriticalStructureActionResponseProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -7623,74 +9446,44 @@ BOOL MoveCriticalStructureRequestProto_CritStructTypeIsValidValue(MoveCriticalSt
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasOldStructCoordinates {
-  return !!hasOldStructCoordinates_;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
 }
-- (void) setHasOldStructCoordinates:(BOOL) value {
-  hasOldStructCoordinates_ = !!value;
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
 }
-@synthesize oldStructCoordinates;
-- (BOOL) hasCurStructCoordinates {
-  return !!hasCurStructCoordinates_;
-}
-- (void) setHasCurStructCoordinates:(BOOL) value {
-  hasCurStructCoordinates_ = !!value;
-}
-@synthesize curStructCoordinates;
-- (BOOL) hasStructId {
-  return !!hasStructId_;
-}
-- (void) setHasStructId:(BOOL) value {
-  hasStructId_ = !!value;
-}
-@synthesize structId;
+@synthesize status;
 - (void) dealloc {
   self.sender = nil;
-  self.oldStructCoordinates = nil;
-  self.curStructCoordinates = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.oldStructCoordinates = [CoordinateProto defaultInstance];
-    self.curStructCoordinates = [CoordinateProto defaultInstance];
-    self.structId = 0;
+    self.status = CriticalStructureActionResponseProto_CriticalStructureActionSuccess;
   }
   return self;
 }
-static MoveUserStructureRequestProto* defaultMoveUserStructureRequestProtoInstance = nil;
+static CriticalStructureActionResponseProto* defaultCriticalStructureActionResponseProtoInstance = nil;
 + (void) initialize {
-  if (self == [MoveUserStructureRequestProto class]) {
-    defaultMoveUserStructureRequestProtoInstance = [[MoveUserStructureRequestProto alloc] init];
+  if (self == [CriticalStructureActionResponseProto class]) {
+    defaultCriticalStructureActionResponseProtoInstance = [[CriticalStructureActionResponseProto alloc] init];
   }
 }
-+ (MoveUserStructureRequestProto*) defaultInstance {
-  return defaultMoveUserStructureRequestProtoInstance;
++ (CriticalStructureActionResponseProto*) defaultInstance {
+  return defaultCriticalStructureActionResponseProtoInstance;
 }
-- (MoveUserStructureRequestProto*) defaultInstance {
-  return defaultMoveUserStructureRequestProtoInstance;
+- (CriticalStructureActionResponseProto*) defaultInstance {
+  return defaultCriticalStructureActionResponseProtoInstance;
 }
 - (BOOL) isInitialized {
   if (!self.hasSender) {
     return NO;
   }
-  if (!self.hasOldStructCoordinates) {
-    return NO;
-  }
-  if (!self.hasCurStructCoordinates) {
-    return NO;
-  }
-  if (!self.hasStructId) {
+  if (!self.hasStatus) {
     return NO;
   }
   if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.oldStructCoordinates.isInitialized) {
-    return NO;
-  }
-  if (!self.curStructCoordinates.isInitialized) {
     return NO;
   }
   return YES;
@@ -7699,14 +9492,8 @@ static MoveUserStructureRequestProto* defaultMoveUserStructureRequestProtoInstan
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasOldStructCoordinates) {
-    [output writeMessage:2 value:self.oldStructCoordinates];
-  }
-  if (self.hasCurStructCoordinates) {
-    [output writeMessage:3 value:self.curStructCoordinates];
-  }
-  if (self.hasStructId) {
-    [output writeInt32:4 value:self.structId];
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -7720,53 +9507,59 @@ static MoveUserStructureRequestProto* defaultMoveUserStructureRequestProtoInstan
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasOldStructCoordinates) {
-    size += computeMessageSize(2, self.oldStructCoordinates);
-  }
-  if (self.hasCurStructCoordinates) {
-    size += computeMessageSize(3, self.curStructCoordinates);
-  }
-  if (self.hasStructId) {
-    size += computeInt32Size(4, self.structId);
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (MoveUserStructureRequestProto*) parseFromData:(NSData*) data {
-  return (MoveUserStructureRequestProto*)[[[MoveUserStructureRequestProto builder] mergeFromData:data] build];
++ (CriticalStructureActionResponseProto*) parseFromData:(NSData*) data {
+  return (CriticalStructureActionResponseProto*)[[[CriticalStructureActionResponseProto builder] mergeFromData:data] build];
 }
-+ (MoveUserStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MoveUserStructureRequestProto*)[[[MoveUserStructureRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (CriticalStructureActionResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CriticalStructureActionResponseProto*)[[[CriticalStructureActionResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (MoveUserStructureRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (MoveUserStructureRequestProto*)[[[MoveUserStructureRequestProto builder] mergeFromInputStream:input] build];
++ (CriticalStructureActionResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CriticalStructureActionResponseProto*)[[[CriticalStructureActionResponseProto builder] mergeFromInputStream:input] build];
 }
-+ (MoveUserStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MoveUserStructureRequestProto*)[[[MoveUserStructureRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (CriticalStructureActionResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CriticalStructureActionResponseProto*)[[[CriticalStructureActionResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (MoveUserStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (MoveUserStructureRequestProto*)[[[MoveUserStructureRequestProto builder] mergeFromCodedInputStream:input] build];
++ (CriticalStructureActionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CriticalStructureActionResponseProto*)[[[CriticalStructureActionResponseProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (MoveUserStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (MoveUserStructureRequestProto*)[[[MoveUserStructureRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (CriticalStructureActionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CriticalStructureActionResponseProto*)[[[CriticalStructureActionResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (MoveUserStructureRequestProto_Builder*) builder {
-  return [[[MoveUserStructureRequestProto_Builder alloc] init] autorelease];
++ (CriticalStructureActionResponseProto_Builder*) builder {
+  return [[[CriticalStructureActionResponseProto_Builder alloc] init] autorelease];
 }
-+ (MoveUserStructureRequestProto_Builder*) builderWithPrototype:(MoveUserStructureRequestProto*) prototype {
-  return [[MoveUserStructureRequestProto builder] mergeFrom:prototype];
++ (CriticalStructureActionResponseProto_Builder*) builderWithPrototype:(CriticalStructureActionResponseProto*) prototype {
+  return [[CriticalStructureActionResponseProto builder] mergeFrom:prototype];
 }
-- (MoveUserStructureRequestProto_Builder*) builder {
-  return [MoveUserStructureRequestProto builder];
+- (CriticalStructureActionResponseProto_Builder*) builder {
+  return [CriticalStructureActionResponseProto builder];
 }
 @end
 
-@interface MoveUserStructureRequestProto_Builder()
-@property (retain) MoveUserStructureRequestProto* result;
+BOOL CriticalStructureActionResponseProto_CriticalStructureActionIsValidValue(CriticalStructureActionResponseProto_CriticalStructureAction value) {
+  switch (value) {
+    case CriticalStructureActionResponseProto_CriticalStructureActionSuccess:
+    case CriticalStructureActionResponseProto_CriticalStructureActionCannotPlaceNonPlaceableCritStruct:
+    case CriticalStructureActionResponseProto_CriticalStructureActionNotAccessibleToUsersLevel:
+    case CriticalStructureActionResponseProto_CriticalStructureActionCannotMoveAviary:
+    case CriticalStructureActionResponseProto_CriticalStructureActionOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CriticalStructureActionResponseProto_Builder()
+@property (retain) CriticalStructureActionResponseProto* result;
 @end
 
-@implementation MoveUserStructureRequestProto_Builder
+@implementation CriticalStructureActionResponseProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -7774,55 +9567,49 @@ static MoveUserStructureRequestProto* defaultMoveUserStructureRequestProtoInstan
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[MoveUserStructureRequestProto alloc] init] autorelease];
+    self.result = [[[CriticalStructureActionResponseProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (MoveUserStructureRequestProto_Builder*) clear {
-  self.result = [[[MoveUserStructureRequestProto alloc] init] autorelease];
+- (CriticalStructureActionResponseProto_Builder*) clear {
+  self.result = [[[CriticalStructureActionResponseProto alloc] init] autorelease];
   return self;
 }
-- (MoveUserStructureRequestProto_Builder*) clone {
-  return [MoveUserStructureRequestProto builderWithPrototype:result];
+- (CriticalStructureActionResponseProto_Builder*) clone {
+  return [CriticalStructureActionResponseProto builderWithPrototype:result];
 }
-- (MoveUserStructureRequestProto*) defaultInstance {
-  return [MoveUserStructureRequestProto defaultInstance];
+- (CriticalStructureActionResponseProto*) defaultInstance {
+  return [CriticalStructureActionResponseProto defaultInstance];
 }
-- (MoveUserStructureRequestProto*) build {
+- (CriticalStructureActionResponseProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (MoveUserStructureRequestProto*) buildPartial {
-  MoveUserStructureRequestProto* returnMe = [[result retain] autorelease];
+- (CriticalStructureActionResponseProto*) buildPartial {
+  CriticalStructureActionResponseProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (MoveUserStructureRequestProto_Builder*) mergeFrom:(MoveUserStructureRequestProto*) other {
-  if (other == [MoveUserStructureRequestProto defaultInstance]) {
+- (CriticalStructureActionResponseProto_Builder*) mergeFrom:(CriticalStructureActionResponseProto*) other {
+  if (other == [CriticalStructureActionResponseProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasOldStructCoordinates) {
-    [self mergeOldStructCoordinates:other.oldStructCoordinates];
-  }
-  if (other.hasCurStructCoordinates) {
-    [self mergeCurStructCoordinates:other.curStructCoordinates];
-  }
-  if (other.hasStructId) {
-    [self setStructId:other.structId];
+  if (other.hasStatus) {
+    [self setStatus:other.status];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (MoveUserStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (CriticalStructureActionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (MoveUserStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (CriticalStructureActionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -7846,26 +9633,13 @@ static MoveUserStructureRequestProto* defaultMoveUserStructureRequestProtoInstan
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 18: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasOldStructCoordinates) {
-          [subBuilder mergeFrom:self.oldStructCoordinates];
+      case 24: {
+        int32_t value = [input readEnum];
+        if (CriticalStructureActionResponseProto_CriticalStructureActionIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
         }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setOldStructCoordinates:[subBuilder buildPartial]];
-        break;
-      }
-      case 26: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasCurStructCoordinates) {
-          [subBuilder mergeFrom:self.curStructCoordinates];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCurStructCoordinates:[subBuilder buildPartial]];
-        break;
-      }
-      case 32: {
-        [self setStructId:[input readInt32]];
         break;
       }
     }
@@ -7877,15 +9651,15 @@ static MoveUserStructureRequestProto* defaultMoveUserStructureRequestProtoInstan
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (MoveUserStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (CriticalStructureActionResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (MoveUserStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (CriticalStructureActionResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (MoveUserStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (CriticalStructureActionResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -7896,85 +9670,25 @@ static MoveUserStructureRequestProto* defaultMoveUserStructureRequestProtoInstan
   result.hasSender = YES;
   return self;
 }
-- (MoveUserStructureRequestProto_Builder*) clearSender {
+- (CriticalStructureActionResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasOldStructCoordinates {
-  return result.hasOldStructCoordinates;
+- (BOOL) hasStatus {
+  return result.hasStatus;
 }
-- (CoordinateProto*) oldStructCoordinates {
-  return result.oldStructCoordinates;
+- (CriticalStructureActionResponseProto_CriticalStructureAction) status {
+  return result.status;
 }
-- (MoveUserStructureRequestProto_Builder*) setOldStructCoordinates:(CoordinateProto*) value {
-  result.hasOldStructCoordinates = YES;
-  result.oldStructCoordinates = value;
+- (CriticalStructureActionResponseProto_Builder*) setStatus:(CriticalStructureActionResponseProto_CriticalStructureAction) value {
+  result.hasStatus = YES;
+  result.status = value;
   return self;
 }
-- (MoveUserStructureRequestProto_Builder*) setOldStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setOldStructCoordinates:[builderForValue build]];
-}
-- (MoveUserStructureRequestProto_Builder*) mergeOldStructCoordinates:(CoordinateProto*) value {
-  if (result.hasOldStructCoordinates &&
-      result.oldStructCoordinates != [CoordinateProto defaultInstance]) {
-    result.oldStructCoordinates =
-      [[[CoordinateProto builderWithPrototype:result.oldStructCoordinates] mergeFrom:value] buildPartial];
-  } else {
-    result.oldStructCoordinates = value;
-  }
-  result.hasOldStructCoordinates = YES;
-  return self;
-}
-- (MoveUserStructureRequestProto_Builder*) clearOldStructCoordinates {
-  result.hasOldStructCoordinates = NO;
-  result.oldStructCoordinates = [CoordinateProto defaultInstance];
-  return self;
-}
-- (BOOL) hasCurStructCoordinates {
-  return result.hasCurStructCoordinates;
-}
-- (CoordinateProto*) curStructCoordinates {
-  return result.curStructCoordinates;
-}
-- (MoveUserStructureRequestProto_Builder*) setCurStructCoordinates:(CoordinateProto*) value {
-  result.hasCurStructCoordinates = YES;
-  result.curStructCoordinates = value;
-  return self;
-}
-- (MoveUserStructureRequestProto_Builder*) setCurStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setCurStructCoordinates:[builderForValue build]];
-}
-- (MoveUserStructureRequestProto_Builder*) mergeCurStructCoordinates:(CoordinateProto*) value {
-  if (result.hasCurStructCoordinates &&
-      result.curStructCoordinates != [CoordinateProto defaultInstance]) {
-    result.curStructCoordinates =
-      [[[CoordinateProto builderWithPrototype:result.curStructCoordinates] mergeFrom:value] buildPartial];
-  } else {
-    result.curStructCoordinates = value;
-  }
-  result.hasCurStructCoordinates = YES;
-  return self;
-}
-- (MoveUserStructureRequestProto_Builder*) clearCurStructCoordinates {
-  result.hasCurStructCoordinates = NO;
-  result.curStructCoordinates = [CoordinateProto defaultInstance];
-  return self;
-}
-- (BOOL) hasStructId {
-  return result.hasStructId;
-}
-- (int32_t) structId {
-  return result.structId;
-}
-- (MoveUserStructureRequestProto_Builder*) setStructId:(int32_t) value {
-  result.hasStructId = YES;
-  result.structId = value;
-  return self;
-}
-- (MoveUserStructureRequestProto_Builder*) clearStructId {
-  result.hasStructId = NO;
-  result.structId = 0;
+- (CriticalStructureActionResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = CriticalStructureActionResponseProto_CriticalStructureActionSuccess;
   return self;
 }
 @end
@@ -9067,6 +10781,9 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasFromSender) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -9292,6 +11009,8 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 @interface RetrieveCurrentMarketplacePostsResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableMarketplacePostsList;
+@property int32_t beforeThisPostId;
+@property BOOL fromSender;
 @end
 
 @implementation RetrieveCurrentMarketplacePostsResponseProto
@@ -9304,6 +11023,25 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 }
 @synthesize sender;
 @synthesize mutableMarketplacePostsList;
+- (BOOL) hasBeforeThisPostId {
+  return !!hasBeforeThisPostId_;
+}
+- (void) setHasBeforeThisPostId:(BOOL) value {
+  hasBeforeThisPostId_ = !!value;
+}
+@synthesize beforeThisPostId;
+- (BOOL) hasFromSender {
+  return !!hasFromSender_;
+}
+- (void) setHasFromSender:(BOOL) value {
+  hasFromSender_ = !!value;
+}
+- (BOOL) fromSender {
+  return !!fromSender_;
+}
+- (void) setFromSender:(BOOL) value {
+  fromSender_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableMarketplacePostsList = nil;
@@ -9312,6 +11050,8 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.beforeThisPostId = 0;
+    self.fromSender = NO;
   }
   return self;
 }
@@ -9338,6 +11078,9 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasFromSender) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -9355,6 +11098,12 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   for (FullMarketplacePostProto* element in self.marketplacePostsList) {
     [output writeMessage:2 value:element];
   }
+  if (self.hasBeforeThisPostId) {
+    [output writeInt32:3 value:self.beforeThisPostId];
+  }
+  if (self.hasFromSender) {
+    [output writeBool:4 value:self.fromSender];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -9369,6 +11118,12 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   }
   for (FullMarketplacePostProto* element in self.marketplacePostsList) {
     size += computeMessageSize(2, element);
+  }
+  if (self.hasBeforeThisPostId) {
+    size += computeInt32Size(3, self.beforeThisPostId);
+  }
+  if (self.hasFromSender) {
+    size += computeBoolSize(4, self.fromSender);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -9454,6 +11209,12 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
     }
     [result.mutableMarketplacePostsList addObjectsFromArray:other.mutableMarketplacePostsList];
   }
+  if (other.hasBeforeThisPostId) {
+    [self setBeforeThisPostId:other.beforeThisPostId];
+  }
+  if (other.hasFromSender) {
+    [self setFromSender:other.fromSender];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9488,6 +11249,14 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
         FullMarketplacePostProto_Builder* subBuilder = [FullMarketplacePostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addMarketplacePosts:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setBeforeThisPostId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setFromSender:[input readBool]];
         break;
       }
     }
@@ -9550,6 +11319,38 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
     result.mutableMarketplacePostsList = [NSMutableArray array];
   }
   [result.mutableMarketplacePostsList addObject:value];
+  return self;
+}
+- (BOOL) hasBeforeThisPostId {
+  return result.hasBeforeThisPostId;
+}
+- (int32_t) beforeThisPostId {
+  return result.beforeThisPostId;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value {
+  result.hasBeforeThisPostId = YES;
+  result.beforeThisPostId = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearBeforeThisPostId {
+  result.hasBeforeThisPostId = NO;
+  result.beforeThisPostId = 0;
+  return self;
+}
+- (BOOL) hasFromSender {
+  return result.hasFromSender;
+}
+- (BOOL) fromSender {
+  return result.fromSender;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setFromSender:(BOOL) value {
+  result.hasFromSender = YES;
+  result.fromSender = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearFromSender {
+  result.hasFromSender = NO;
+  result.fromSender = NO;
   return self;
 }
 @end
@@ -10185,11 +11986,12 @@ BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMa
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusNegativePost:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughEquip:
+    case PostToMarketplaceResponseProto_PostToMarketplaceStatusNegativeCost:
+    case PostToMarketplaceResponseProto_PostToMarketplaceStatusNoCost:
+    case PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughWood:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughDiamonds:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughCoins:
-    case PostToMarketplaceResponseProto_PostToMarketplaceStatusNegativeCost:
-    case PostToMarketplaceResponseProto_PostToMarketplaceStatusNoCost:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail:
       return YES;
     default:
@@ -10694,6 +12496,9 @@ BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValu
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotRequestersPost:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists:
+    case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughWood:
+    case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds:
+    case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins:
       return YES;
     default:
       return NO;
@@ -11905,6 +13710,8 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 
 @interface GenerateAttackListRequestProto ()
 @property (retain) MinimumUserProto* sender;
+@property UserType enemyType;
+@property int32_t numEnemies;
 @end
 
 @implementation GenerateAttackListRequestProto
@@ -11916,6 +13723,20 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasEnemyType {
+  return !!hasEnemyType_;
+}
+- (void) setHasEnemyType:(BOOL) value {
+  hasEnemyType_ = !!value;
+}
+@synthesize enemyType;
+- (BOOL) hasNumEnemies {
+  return !!hasNumEnemies_;
+}
+- (void) setHasNumEnemies:(BOOL) value {
+  hasNumEnemies_ = !!value;
+}
+@synthesize numEnemies;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -11923,6 +13744,8 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.enemyType = UserTypeGoodWarrior;
+    self.numEnemies = 0;
   }
   return self;
 }
@@ -11951,6 +13774,12 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasEnemyType) {
+    [output writeEnum:2 value:self.enemyType];
+  }
+  if (self.hasNumEnemies) {
+    [output writeInt32:3 value:self.numEnemies];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -11962,6 +13791,12 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   size = 0;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasEnemyType) {
+    size += computeEnumSize(2, self.enemyType);
+  }
+  if (self.hasNumEnemies) {
+    size += computeInt32Size(3, self.numEnemies);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -12041,6 +13876,12 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasEnemyType) {
+    [self setEnemyType:other.enemyType];
+  }
+  if (other.hasNumEnemies) {
+    [self setNumEnemies:other.numEnemies];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12069,6 +13910,19 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (UserTypeIsValidValue(value)) {
+          [self setEnemyType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setNumEnemies:[input readInt32]];
         break;
       }
     }
@@ -12102,6 +13956,38 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (GenerateAttackListRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEnemyType {
+  return result.hasEnemyType;
+}
+- (UserType) enemyType {
+  return result.enemyType;
+}
+- (GenerateAttackListRequestProto_Builder*) setEnemyType:(UserType) value {
+  result.hasEnemyType = YES;
+  result.enemyType = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearEnemyType {
+  result.hasEnemyType = NO;
+  result.enemyType = UserTypeGoodWarrior;
+  return self;
+}
+- (BOOL) hasNumEnemies {
+  return result.hasNumEnemies;
+}
+- (int32_t) numEnemies {
+  return result.numEnemies;
+}
+- (GenerateAttackListRequestProto_Builder*) setNumEnemies:(int32_t) value {
+  result.hasNumEnemies = YES;
+  result.numEnemies = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearNumEnemies {
+  result.hasNumEnemies = NO;
+  result.numEnemies = 0;
   return self;
 }
 @end
@@ -12367,6 +14253,5537 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
     result.mutableEnemiesList = [NSMutableArray array];
   }
   [result.mutableEnemiesList addObject:value];
+  return self;
+}
+@end
+
+@interface RefillStatWithDiamondsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property RefillStatWithDiamondsRequestProto_StatType statType;
+@end
+
+@implementation RefillStatWithDiamondsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatType {
+  return !!hasStatType_;
+}
+- (void) setHasStatType:(BOOL) value {
+  hasStatType_ = !!value;
+}
+@synthesize statType;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.statType = RefillStatWithDiamondsRequestProto_StatTypeEnergy;
+  }
+  return self;
+}
+static RefillStatWithDiamondsRequestProto* defaultRefillStatWithDiamondsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RefillStatWithDiamondsRequestProto class]) {
+    defaultRefillStatWithDiamondsRequestProtoInstance = [[RefillStatWithDiamondsRequestProto alloc] init];
+  }
+}
++ (RefillStatWithDiamondsRequestProto*) defaultInstance {
+  return defaultRefillStatWithDiamondsRequestProtoInstance;
+}
+- (RefillStatWithDiamondsRequestProto*) defaultInstance {
+  return defaultRefillStatWithDiamondsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatType) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatType) {
+    [output writeEnum:2 value:self.statType];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatType) {
+    size += computeEnumSize(2, self.statType);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RefillStatWithDiamondsRequestProto*) parseFromData:(NSData*) data {
+  return (RefillStatWithDiamondsRequestProto*)[[[RefillStatWithDiamondsRequestProto builder] mergeFromData:data] build];
+}
++ (RefillStatWithDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefillStatWithDiamondsRequestProto*)[[[RefillStatWithDiamondsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RefillStatWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RefillStatWithDiamondsRequestProto*)[[[RefillStatWithDiamondsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RefillStatWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefillStatWithDiamondsRequestProto*)[[[RefillStatWithDiamondsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefillStatWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RefillStatWithDiamondsRequestProto*)[[[RefillStatWithDiamondsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RefillStatWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefillStatWithDiamondsRequestProto*)[[[RefillStatWithDiamondsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefillStatWithDiamondsRequestProto_Builder*) builder {
+  return [[[RefillStatWithDiamondsRequestProto_Builder alloc] init] autorelease];
+}
++ (RefillStatWithDiamondsRequestProto_Builder*) builderWithPrototype:(RefillStatWithDiamondsRequestProto*) prototype {
+  return [[RefillStatWithDiamondsRequestProto builder] mergeFrom:prototype];
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) builder {
+  return [RefillStatWithDiamondsRequestProto builder];
+}
+@end
+
+BOOL RefillStatWithDiamondsRequestProto_StatTypeIsValidValue(RefillStatWithDiamondsRequestProto_StatType value) {
+  switch (value) {
+    case RefillStatWithDiamondsRequestProto_StatTypeEnergy:
+    case RefillStatWithDiamondsRequestProto_StatTypeStamina:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RefillStatWithDiamondsRequestProto_Builder()
+@property (retain) RefillStatWithDiamondsRequestProto* result;
+@end
+
+@implementation RefillStatWithDiamondsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RefillStatWithDiamondsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) clear {
+  self.result = [[[RefillStatWithDiamondsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) clone {
+  return [RefillStatWithDiamondsRequestProto builderWithPrototype:result];
+}
+- (RefillStatWithDiamondsRequestProto*) defaultInstance {
+  return [RefillStatWithDiamondsRequestProto defaultInstance];
+}
+- (RefillStatWithDiamondsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RefillStatWithDiamondsRequestProto*) buildPartial {
+  RefillStatWithDiamondsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) mergeFrom:(RefillStatWithDiamondsRequestProto*) other {
+  if (other == [RefillStatWithDiamondsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatType) {
+    [self setStatType:other.statType];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RefillStatWithDiamondsRequestProto_StatTypeIsValidValue(value)) {
+          [self setStatType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatType {
+  return result.hasStatType;
+}
+- (RefillStatWithDiamondsRequestProto_StatType) statType {
+  return result.statType;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) setStatType:(RefillStatWithDiamondsRequestProto_StatType) value {
+  result.hasStatType = YES;
+  result.statType = value;
+  return self;
+}
+- (RefillStatWithDiamondsRequestProto_Builder*) clearStatType {
+  result.hasStatType = NO;
+  result.statType = RefillStatWithDiamondsRequestProto_StatTypeEnergy;
+  return self;
+}
+@end
+
+@interface RefillStatWithDiamondsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RefillStatWithDiamondsResponseProto_RefillStatStatus status;
+@end
+
+@implementation RefillStatWithDiamondsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess;
+  }
+  return self;
+}
+static RefillStatWithDiamondsResponseProto* defaultRefillStatWithDiamondsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RefillStatWithDiamondsResponseProto class]) {
+    defaultRefillStatWithDiamondsResponseProtoInstance = [[RefillStatWithDiamondsResponseProto alloc] init];
+  }
+}
++ (RefillStatWithDiamondsResponseProto*) defaultInstance {
+  return defaultRefillStatWithDiamondsResponseProtoInstance;
+}
+- (RefillStatWithDiamondsResponseProto*) defaultInstance {
+  return defaultRefillStatWithDiamondsResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RefillStatWithDiamondsResponseProto*) parseFromData:(NSData*) data {
+  return (RefillStatWithDiamondsResponseProto*)[[[RefillStatWithDiamondsResponseProto builder] mergeFromData:data] build];
+}
++ (RefillStatWithDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefillStatWithDiamondsResponseProto*)[[[RefillStatWithDiamondsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RefillStatWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RefillStatWithDiamondsResponseProto*)[[[RefillStatWithDiamondsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RefillStatWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefillStatWithDiamondsResponseProto*)[[[RefillStatWithDiamondsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefillStatWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RefillStatWithDiamondsResponseProto*)[[[RefillStatWithDiamondsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RefillStatWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RefillStatWithDiamondsResponseProto*)[[[RefillStatWithDiamondsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RefillStatWithDiamondsResponseProto_Builder*) builder {
+  return [[[RefillStatWithDiamondsResponseProto_Builder alloc] init] autorelease];
+}
++ (RefillStatWithDiamondsResponseProto_Builder*) builderWithPrototype:(RefillStatWithDiamondsResponseProto*) prototype {
+  return [[RefillStatWithDiamondsResponseProto builder] mergeFrom:prototype];
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) builder {
+  return [RefillStatWithDiamondsResponseProto builder];
+}
+@end
+
+BOOL RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(RefillStatWithDiamondsResponseProto_RefillStatStatus value) {
+  switch (value) {
+    case RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess:
+    case RefillStatWithDiamondsResponseProto_RefillStatStatusNotEnoughDiamonds:
+    case RefillStatWithDiamondsResponseProto_RefillStatStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RefillStatWithDiamondsResponseProto_Builder()
+@property (retain) RefillStatWithDiamondsResponseProto* result;
+@end
+
+@implementation RefillStatWithDiamondsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RefillStatWithDiamondsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) clear {
+  self.result = [[[RefillStatWithDiamondsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) clone {
+  return [RefillStatWithDiamondsResponseProto builderWithPrototype:result];
+}
+- (RefillStatWithDiamondsResponseProto*) defaultInstance {
+  return [RefillStatWithDiamondsResponseProto defaultInstance];
+}
+- (RefillStatWithDiamondsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RefillStatWithDiamondsResponseProto*) buildPartial {
+  RefillStatWithDiamondsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) mergeFrom:(RefillStatWithDiamondsResponseProto*) other {
+  if (other == [RefillStatWithDiamondsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RefillStatWithDiamondsResponseProto_RefillStatStatus) status {
+  return result.status;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) setStatus:(RefillStatWithDiamondsResponseProto_RefillStatStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RefillStatWithDiamondsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess;
+  return self;
+}
+@end
+
+@interface FinishNormStructWaittimeWithDiamondsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t userStructId;
+@property int64_t timeOfPurchase;
+@property FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType waitTimeType;
+@end
+
+@implementation FinishNormStructWaittimeWithDiamondsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
+}
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
+}
+@synthesize userStructId;
+- (BOOL) hasTimeOfPurchase {
+  return !!hasTimeOfPurchase_;
+}
+- (void) setHasTimeOfPurchase:(BOOL) value {
+  hasTimeOfPurchase_ = !!value;
+}
+@synthesize timeOfPurchase;
+- (BOOL) hasWaitTimeType {
+  return !!hasWaitTimeType_;
+}
+- (void) setHasWaitTimeType:(BOOL) value {
+  hasWaitTimeType_ = !!value;
+}
+@synthesize waitTimeType;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userStructId = 0;
+    self.timeOfPurchase = 0L;
+    self.waitTimeType = FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction;
+  }
+  return self;
+}
+static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStructWaittimeWithDiamondsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [FinishNormStructWaittimeWithDiamondsRequestProto class]) {
+    defaultFinishNormStructWaittimeWithDiamondsRequestProtoInstance = [[FinishNormStructWaittimeWithDiamondsRequestProto alloc] init];
+  }
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance {
+  return defaultFinishNormStructWaittimeWithDiamondsRequestProtoInstance;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance {
+  return defaultFinishNormStructWaittimeWithDiamondsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasUserStructId) {
+    return NO;
+  }
+  if (!self.hasTimeOfPurchase) {
+    return NO;
+  }
+  if (!self.hasWaitTimeType) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserStructId) {
+    [output writeInt32:2 value:self.userStructId];
+  }
+  if (self.hasTimeOfPurchase) {
+    [output writeInt64:3 value:self.timeOfPurchase];
+  }
+  if (self.hasWaitTimeType) {
+    [output writeEnum:4 value:self.waitTimeType];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserStructId) {
+    size += computeInt32Size(2, self.userStructId);
+  }
+  if (self.hasTimeOfPurchase) {
+    size += computeInt64Size(3, self.timeOfPurchase);
+  }
+  if (self.hasWaitTimeType) {
+    size += computeEnumSize(4, self.waitTimeType);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data {
+  return (FinishNormStructWaittimeWithDiamondsRequestProto*)[[[FinishNormStructWaittimeWithDiamondsRequestProto builder] mergeFromData:data] build];
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishNormStructWaittimeWithDiamondsRequestProto*)[[[FinishNormStructWaittimeWithDiamondsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FinishNormStructWaittimeWithDiamondsRequestProto*)[[[FinishNormStructWaittimeWithDiamondsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishNormStructWaittimeWithDiamondsRequestProto*)[[[FinishNormStructWaittimeWithDiamondsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FinishNormStructWaittimeWithDiamondsRequestProto*)[[[FinishNormStructWaittimeWithDiamondsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishNormStructWaittimeWithDiamondsRequestProto*)[[[FinishNormStructWaittimeWithDiamondsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder {
+  return [[[FinishNormStructWaittimeWithDiamondsRequestProto_Builder alloc] init] autorelease];
+}
++ (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsRequestProto*) prototype {
+  return [[FinishNormStructWaittimeWithDiamondsRequestProto builder] mergeFrom:prototype];
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder {
+  return [FinishNormStructWaittimeWithDiamondsRequestProto builder];
+}
+@end
+
+BOOL FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeIsValidValue(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType value) {
+  switch (value) {
+    case FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction:
+    case FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishIncomeWaittime:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface FinishNormStructWaittimeWithDiamondsRequestProto_Builder()
+@property (retain) FinishNormStructWaittimeWithDiamondsRequestProto* result;
+@end
+
+@implementation FinishNormStructWaittimeWithDiamondsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FinishNormStructWaittimeWithDiamondsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clear {
+  self.result = [[[FinishNormStructWaittimeWithDiamondsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clone {
+  return [FinishNormStructWaittimeWithDiamondsRequestProto builderWithPrototype:result];
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance {
+  return [FinishNormStructWaittimeWithDiamondsRequestProto defaultInstance];
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) buildPartial {
+  FinishNormStructWaittimeWithDiamondsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFrom:(FinishNormStructWaittimeWithDiamondsRequestProto*) other {
+  if (other == [FinishNormStructWaittimeWithDiamondsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
+  }
+  if (other.hasTimeOfPurchase) {
+    [self setTimeOfPurchase:other.timeOfPurchase];
+  }
+  if (other.hasWaitTimeType) {
+    [self setWaitTimeType:other.waitTimeType];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setUserStructId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setTimeOfPurchase:[input readInt64]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeIsValidValue(value)) {
+          [self setWaitTimeType:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
+}
+- (int32_t) userStructId {
+  return result.userStructId;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfPurchase {
+  return result.hasTimeOfPurchase;
+}
+- (int64_t) timeOfPurchase {
+  return result.timeOfPurchase;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setTimeOfPurchase:(int64_t) value {
+  result.hasTimeOfPurchase = YES;
+  result.timeOfPurchase = value;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfPurchase {
+  result.hasTimeOfPurchase = NO;
+  result.timeOfPurchase = 0L;
+  return self;
+}
+- (BOOL) hasWaitTimeType {
+  return result.hasWaitTimeType;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) waitTimeType {
+  return result.waitTimeType;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setWaitTimeType:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) value {
+  result.hasWaitTimeType = YES;
+  result.waitTimeType = value;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearWaitTimeType {
+  result.hasWaitTimeType = NO;
+  result.waitTimeType = FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction;
+  return self;
+}
+@end
+
+@interface FinishNormStructWaittimeWithDiamondsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
+@end
+
+@implementation FinishNormStructWaittimeWithDiamondsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess;
+  }
+  return self;
+}
+static FinishNormStructWaittimeWithDiamondsResponseProto* defaultFinishNormStructWaittimeWithDiamondsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [FinishNormStructWaittimeWithDiamondsResponseProto class]) {
+    defaultFinishNormStructWaittimeWithDiamondsResponseProtoInstance = [[FinishNormStructWaittimeWithDiamondsResponseProto alloc] init];
+  }
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance {
+  return defaultFinishNormStructWaittimeWithDiamondsResponseProtoInstance;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance {
+  return defaultFinishNormStructWaittimeWithDiamondsResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data {
+  return (FinishNormStructWaittimeWithDiamondsResponseProto*)[[[FinishNormStructWaittimeWithDiamondsResponseProto builder] mergeFromData:data] build];
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishNormStructWaittimeWithDiamondsResponseProto*)[[[FinishNormStructWaittimeWithDiamondsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FinishNormStructWaittimeWithDiamondsResponseProto*)[[[FinishNormStructWaittimeWithDiamondsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishNormStructWaittimeWithDiamondsResponseProto*)[[[FinishNormStructWaittimeWithDiamondsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FinishNormStructWaittimeWithDiamondsResponseProto*)[[[FinishNormStructWaittimeWithDiamondsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishNormStructWaittimeWithDiamondsResponseProto*)[[[FinishNormStructWaittimeWithDiamondsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder {
+  return [[[FinishNormStructWaittimeWithDiamondsResponseProto_Builder alloc] init] autorelease];
+}
++ (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsResponseProto*) prototype {
+  return [[FinishNormStructWaittimeWithDiamondsResponseProto builder] mergeFrom:prototype];
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder {
+  return [FinishNormStructWaittimeWithDiamondsResponseProto builder];
+}
+@end
+
+BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value) {
+  switch (value) {
+    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess:
+    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds:
+    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface FinishNormStructWaittimeWithDiamondsResponseProto_Builder()
+@property (retain) FinishNormStructWaittimeWithDiamondsResponseProto* result;
+@end
+
+@implementation FinishNormStructWaittimeWithDiamondsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FinishNormStructWaittimeWithDiamondsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clear {
+  self.result = [[[FinishNormStructWaittimeWithDiamondsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clone {
+  return [FinishNormStructWaittimeWithDiamondsResponseProto builderWithPrototype:result];
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance {
+  return [FinishNormStructWaittimeWithDiamondsResponseProto defaultInstance];
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) buildPartial {
+  FinishNormStructWaittimeWithDiamondsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFrom:(FinishNormStructWaittimeWithDiamondsResponseProto*) other {
+  if (other == [FinishNormStructWaittimeWithDiamondsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) status {
+  return result.status;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess;
+  return self;
+}
+@end
+
+@interface NormStructBuildsCompleteRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableUserStructIdList;
+@end
+
+@implementation NormStructBuildsCompleteRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableUserStructIdList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableUserStructIdList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static NormStructBuildsCompleteRequestProto* defaultNormStructBuildsCompleteRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [NormStructBuildsCompleteRequestProto class]) {
+    defaultNormStructBuildsCompleteRequestProtoInstance = [[NormStructBuildsCompleteRequestProto alloc] init];
+  }
+}
++ (NormStructBuildsCompleteRequestProto*) defaultInstance {
+  return defaultNormStructBuildsCompleteRequestProtoInstance;
+}
+- (NormStructBuildsCompleteRequestProto*) defaultInstance {
+  return defaultNormStructBuildsCompleteRequestProtoInstance;
+}
+- (NSArray*) userStructIdList {
+  return mutableUserStructIdList;
+}
+- (int32_t) userStructIdAtIndex:(int32_t) index {
+  id value = [mutableUserStructIdList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSNumber* value in self.mutableUserStructIdList) {
+    [output writeInt32:2 value:[value intValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableUserStructIdList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableUserStructIdList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (NormStructBuildsCompleteRequestProto*) parseFromData:(NSData*) data {
+  return (NormStructBuildsCompleteRequestProto*)[[[NormStructBuildsCompleteRequestProto builder] mergeFromData:data] build];
+}
++ (NormStructBuildsCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NormStructBuildsCompleteRequestProto*)[[[NormStructBuildsCompleteRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (NormStructBuildsCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (NormStructBuildsCompleteRequestProto*)[[[NormStructBuildsCompleteRequestProto builder] mergeFromInputStream:input] build];
+}
++ (NormStructBuildsCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NormStructBuildsCompleteRequestProto*)[[[NormStructBuildsCompleteRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (NormStructBuildsCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (NormStructBuildsCompleteRequestProto*)[[[NormStructBuildsCompleteRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (NormStructBuildsCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NormStructBuildsCompleteRequestProto*)[[[NormStructBuildsCompleteRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (NormStructBuildsCompleteRequestProto_Builder*) builder {
+  return [[[NormStructBuildsCompleteRequestProto_Builder alloc] init] autorelease];
+}
++ (NormStructBuildsCompleteRequestProto_Builder*) builderWithPrototype:(NormStructBuildsCompleteRequestProto*) prototype {
+  return [[NormStructBuildsCompleteRequestProto builder] mergeFrom:prototype];
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) builder {
+  return [NormStructBuildsCompleteRequestProto builder];
+}
+@end
+
+@interface NormStructBuildsCompleteRequestProto_Builder()
+@property (retain) NormStructBuildsCompleteRequestProto* result;
+@end
+
+@implementation NormStructBuildsCompleteRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[NormStructBuildsCompleteRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) clear {
+  self.result = [[[NormStructBuildsCompleteRequestProto alloc] init] autorelease];
+  return self;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) clone {
+  return [NormStructBuildsCompleteRequestProto builderWithPrototype:result];
+}
+- (NormStructBuildsCompleteRequestProto*) defaultInstance {
+  return [NormStructBuildsCompleteRequestProto defaultInstance];
+}
+- (NormStructBuildsCompleteRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (NormStructBuildsCompleteRequestProto*) buildPartial {
+  NormStructBuildsCompleteRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) mergeFrom:(NormStructBuildsCompleteRequestProto*) other {
+  if (other == [NormStructBuildsCompleteRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUserStructIdList.count > 0) {
+    if (result.mutableUserStructIdList == nil) {
+      result.mutableUserStructIdList = [NSMutableArray array];
+    }
+    [result.mutableUserStructIdList addObjectsFromArray:other.mutableUserStructIdList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self addUserStructId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) userStructIdList {
+  if (result.mutableUserStructIdList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableUserStructIdList;
+}
+- (int32_t) userStructIdAtIndex:(int32_t) index {
+  return [result userStructIdAtIndex:index];
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) replaceUserStructIdAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableUserStructIdList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) addUserStructId:(int32_t) value {
+  if (result.mutableUserStructIdList == nil) {
+    result.mutableUserStructIdList = [NSMutableArray array];
+  }
+  [result.mutableUserStructIdList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) addAllUserStructId:(NSArray*) values {
+  if (result.mutableUserStructIdList == nil) {
+    result.mutableUserStructIdList = [NSMutableArray array];
+  }
+  [result.mutableUserStructIdList addObjectsFromArray:values];
+  return self;
+}
+- (NormStructBuildsCompleteRequestProto_Builder*) clearUserStructIdList {
+  result.mutableUserStructIdList = nil;
+  return self;
+}
+@end
+
+@interface NormStructBuildsCompleteResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus status;
+@property (retain) NSMutableArray* mutableUserStructList;
+@end
+
+@implementation NormStructBuildsCompleteResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutableUserStructList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableUserStructList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusSuccess;
+  }
+  return self;
+}
+static NormStructBuildsCompleteResponseProto* defaultNormStructBuildsCompleteResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [NormStructBuildsCompleteResponseProto class]) {
+    defaultNormStructBuildsCompleteResponseProtoInstance = [[NormStructBuildsCompleteResponseProto alloc] init];
+  }
+}
++ (NormStructBuildsCompleteResponseProto*) defaultInstance {
+  return defaultNormStructBuildsCompleteResponseProtoInstance;
+}
+- (NormStructBuildsCompleteResponseProto*) defaultInstance {
+  return defaultNormStructBuildsCompleteResponseProtoInstance;
+}
+- (NSArray*) userStructList {
+  return mutableUserStructList;
+}
+- (FullUserStructureProto*) userStructAtIndex:(int32_t) index {
+  id value = [mutableUserStructList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (FullUserStructureProto* element in self.userStructList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  for (FullUserStructureProto* element in self.userStructList) {
+    [output writeMessage:3 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  for (FullUserStructureProto* element in self.userStructList) {
+    size += computeMessageSize(3, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (NormStructBuildsCompleteResponseProto*) parseFromData:(NSData*) data {
+  return (NormStructBuildsCompleteResponseProto*)[[[NormStructBuildsCompleteResponseProto builder] mergeFromData:data] build];
+}
++ (NormStructBuildsCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NormStructBuildsCompleteResponseProto*)[[[NormStructBuildsCompleteResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (NormStructBuildsCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (NormStructBuildsCompleteResponseProto*)[[[NormStructBuildsCompleteResponseProto builder] mergeFromInputStream:input] build];
+}
++ (NormStructBuildsCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NormStructBuildsCompleteResponseProto*)[[[NormStructBuildsCompleteResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (NormStructBuildsCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (NormStructBuildsCompleteResponseProto*)[[[NormStructBuildsCompleteResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (NormStructBuildsCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NormStructBuildsCompleteResponseProto*)[[[NormStructBuildsCompleteResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (NormStructBuildsCompleteResponseProto_Builder*) builder {
+  return [[[NormStructBuildsCompleteResponseProto_Builder alloc] init] autorelease];
+}
++ (NormStructBuildsCompleteResponseProto_Builder*) builderWithPrototype:(NormStructBuildsCompleteResponseProto*) prototype {
+  return [[NormStructBuildsCompleteResponseProto builder] mergeFrom:prototype];
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) builder {
+  return [NormStructBuildsCompleteResponseProto builder];
+}
+@end
+
+BOOL NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusIsValidValue(NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus value) {
+  switch (value) {
+    case NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusSuccess:
+    case NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface NormStructBuildsCompleteResponseProto_Builder()
+@property (retain) NormStructBuildsCompleteResponseProto* result;
+@end
+
+@implementation NormStructBuildsCompleteResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[NormStructBuildsCompleteResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) clear {
+  self.result = [[[NormStructBuildsCompleteResponseProto alloc] init] autorelease];
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) clone {
+  return [NormStructBuildsCompleteResponseProto builderWithPrototype:result];
+}
+- (NormStructBuildsCompleteResponseProto*) defaultInstance {
+  return [NormStructBuildsCompleteResponseProto defaultInstance];
+}
+- (NormStructBuildsCompleteResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (NormStructBuildsCompleteResponseProto*) buildPartial {
+  NormStructBuildsCompleteResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) mergeFrom:(NormStructBuildsCompleteResponseProto*) other {
+  if (other == [NormStructBuildsCompleteResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableUserStructList.count > 0) {
+    if (result.mutableUserStructList == nil) {
+      result.mutableUserStructList = [NSMutableArray array];
+    }
+    [result.mutableUserStructList addObjectsFromArray:other.mutableUserStructList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserStruct:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus) status {
+  return result.status;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) setStatus:(NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusSuccess;
+  return self;
+}
+- (NSArray*) userStructList {
+  if (result.mutableUserStructList == nil) { return [NSArray array]; }
+  return result.mutableUserStructList;
+}
+- (FullUserStructureProto*) userStructAtIndex:(int32_t) index {
+  return [result userStructAtIndex:index];
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) replaceUserStructAtIndex:(int32_t) index with:(FullUserStructureProto*) value {
+  [result.mutableUserStructList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) addAllUserStruct:(NSArray*) values {
+  if (result.mutableUserStructList == nil) {
+    result.mutableUserStructList = [NSMutableArray array];
+  }
+  [result.mutableUserStructList addObjectsFromArray:values];
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) clearUserStructList {
+  result.mutableUserStructList = nil;
+  return self;
+}
+- (NormStructBuildsCompleteResponseProto_Builder*) addUserStruct:(FullUserStructureProto*) value {
+  if (result.mutableUserStructList == nil) {
+    result.mutableUserStructList = [NSMutableArray array];
+  }
+  [result.mutableUserStructList addObject:value];
+  return self;
+}
+@end
+
+@interface RedeemMarketplaceEarningsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation RedeemMarketplaceEarningsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RedeemMarketplaceEarningsRequestProto* defaultRedeemMarketplaceEarningsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RedeemMarketplaceEarningsRequestProto class]) {
+    defaultRedeemMarketplaceEarningsRequestProtoInstance = [[RedeemMarketplaceEarningsRequestProto alloc] init];
+  }
+}
++ (RedeemMarketplaceEarningsRequestProto*) defaultInstance {
+  return defaultRedeemMarketplaceEarningsRequestProtoInstance;
+}
+- (RedeemMarketplaceEarningsRequestProto*) defaultInstance {
+  return defaultRedeemMarketplaceEarningsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RedeemMarketplaceEarningsRequestProto*) parseFromData:(NSData*) data {
+  return (RedeemMarketplaceEarningsRequestProto*)[[[RedeemMarketplaceEarningsRequestProto builder] mergeFromData:data] build];
+}
++ (RedeemMarketplaceEarningsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemMarketplaceEarningsRequestProto*)[[[RedeemMarketplaceEarningsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RedeemMarketplaceEarningsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RedeemMarketplaceEarningsRequestProto*)[[[RedeemMarketplaceEarningsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RedeemMarketplaceEarningsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemMarketplaceEarningsRequestProto*)[[[RedeemMarketplaceEarningsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemMarketplaceEarningsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RedeemMarketplaceEarningsRequestProto*)[[[RedeemMarketplaceEarningsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RedeemMarketplaceEarningsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemMarketplaceEarningsRequestProto*)[[[RedeemMarketplaceEarningsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemMarketplaceEarningsRequestProto_Builder*) builder {
+  return [[[RedeemMarketplaceEarningsRequestProto_Builder alloc] init] autorelease];
+}
++ (RedeemMarketplaceEarningsRequestProto_Builder*) builderWithPrototype:(RedeemMarketplaceEarningsRequestProto*) prototype {
+  return [[RedeemMarketplaceEarningsRequestProto builder] mergeFrom:prototype];
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) builder {
+  return [RedeemMarketplaceEarningsRequestProto builder];
+}
+@end
+
+@interface RedeemMarketplaceEarningsRequestProto_Builder()
+@property (retain) RedeemMarketplaceEarningsRequestProto* result;
+@end
+
+@implementation RedeemMarketplaceEarningsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RedeemMarketplaceEarningsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) clear {
+  self.result = [[[RedeemMarketplaceEarningsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) clone {
+  return [RedeemMarketplaceEarningsRequestProto builderWithPrototype:result];
+}
+- (RedeemMarketplaceEarningsRequestProto*) defaultInstance {
+  return [RedeemMarketplaceEarningsRequestProto defaultInstance];
+}
+- (RedeemMarketplaceEarningsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RedeemMarketplaceEarningsRequestProto*) buildPartial {
+  RedeemMarketplaceEarningsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeFrom:(RedeemMarketplaceEarningsRequestProto*) other {
+  if (other == [RedeemMarketplaceEarningsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RedeemMarketplaceEarningsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface RedeemMarketplaceEarningsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus status;
+@end
+
+@implementation RedeemMarketplaceEarningsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess;
+  }
+  return self;
+}
+static RedeemMarketplaceEarningsResponseProto* defaultRedeemMarketplaceEarningsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RedeemMarketplaceEarningsResponseProto class]) {
+    defaultRedeemMarketplaceEarningsResponseProtoInstance = [[RedeemMarketplaceEarningsResponseProto alloc] init];
+  }
+}
++ (RedeemMarketplaceEarningsResponseProto*) defaultInstance {
+  return defaultRedeemMarketplaceEarningsResponseProtoInstance;
+}
+- (RedeemMarketplaceEarningsResponseProto*) defaultInstance {
+  return defaultRedeemMarketplaceEarningsResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RedeemMarketplaceEarningsResponseProto*) parseFromData:(NSData*) data {
+  return (RedeemMarketplaceEarningsResponseProto*)[[[RedeemMarketplaceEarningsResponseProto builder] mergeFromData:data] build];
+}
++ (RedeemMarketplaceEarningsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemMarketplaceEarningsResponseProto*)[[[RedeemMarketplaceEarningsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RedeemMarketplaceEarningsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RedeemMarketplaceEarningsResponseProto*)[[[RedeemMarketplaceEarningsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RedeemMarketplaceEarningsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemMarketplaceEarningsResponseProto*)[[[RedeemMarketplaceEarningsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemMarketplaceEarningsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RedeemMarketplaceEarningsResponseProto*)[[[RedeemMarketplaceEarningsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RedeemMarketplaceEarningsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RedeemMarketplaceEarningsResponseProto*)[[[RedeemMarketplaceEarningsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RedeemMarketplaceEarningsResponseProto_Builder*) builder {
+  return [[[RedeemMarketplaceEarningsResponseProto_Builder alloc] init] autorelease];
+}
++ (RedeemMarketplaceEarningsResponseProto_Builder*) builderWithPrototype:(RedeemMarketplaceEarningsResponseProto*) prototype {
+  return [[RedeemMarketplaceEarningsResponseProto builder] mergeFrom:prototype];
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) builder {
+  return [RedeemMarketplaceEarningsResponseProto builder];
+}
+@end
+
+BOOL RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusIsValidValue(RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus value) {
+  switch (value) {
+    case RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess:
+    case RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RedeemMarketplaceEarningsResponseProto_Builder()
+@property (retain) RedeemMarketplaceEarningsResponseProto* result;
+@end
+
+@implementation RedeemMarketplaceEarningsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RedeemMarketplaceEarningsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) clear {
+  self.result = [[[RedeemMarketplaceEarningsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) clone {
+  return [RedeemMarketplaceEarningsResponseProto builderWithPrototype:result];
+}
+- (RedeemMarketplaceEarningsResponseProto*) defaultInstance {
+  return [RedeemMarketplaceEarningsResponseProto defaultInstance];
+}
+- (RedeemMarketplaceEarningsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RedeemMarketplaceEarningsResponseProto*) buildPartial {
+  RedeemMarketplaceEarningsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeFrom:(RedeemMarketplaceEarningsResponseProto*) other {
+  if (other == [RedeemMarketplaceEarningsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus) status {
+  return result.status;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) setStatus:(RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RedeemMarketplaceEarningsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess;
+  return self;
+}
+@end
+
+@interface LoadPlayerCityRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProto* cityOwner;
+@end
+
+@implementation LoadPlayerCityRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasCityOwner {
+  return !!hasCityOwner_;
+}
+- (void) setHasCityOwner:(BOOL) value {
+  hasCityOwner_ = !!value;
+}
+@synthesize cityOwner;
+- (void) dealloc {
+  self.sender = nil;
+  self.cityOwner = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.cityOwner = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [LoadPlayerCityRequestProto class]) {
+    defaultLoadPlayerCityRequestProtoInstance = [[LoadPlayerCityRequestProto alloc] init];
+  }
+}
++ (LoadPlayerCityRequestProto*) defaultInstance {
+  return defaultLoadPlayerCityRequestProtoInstance;
+}
+- (LoadPlayerCityRequestProto*) defaultInstance {
+  return defaultLoadPlayerCityRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasCityOwner) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  if (!self.cityOwner.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasCityOwner) {
+    [output writeMessage:2 value:self.cityOwner];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasCityOwner) {
+    size += computeMessageSize(2, self.cityOwner);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LoadPlayerCityRequestProto*) parseFromData:(NSData*) data {
+  return (LoadPlayerCityRequestProto*)[[[LoadPlayerCityRequestProto builder] mergeFromData:data] build];
+}
++ (LoadPlayerCityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadPlayerCityRequestProto*)[[[LoadPlayerCityRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LoadPlayerCityRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LoadPlayerCityRequestProto*)[[[LoadPlayerCityRequestProto builder] mergeFromInputStream:input] build];
+}
++ (LoadPlayerCityRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadPlayerCityRequestProto*)[[[LoadPlayerCityRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadPlayerCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LoadPlayerCityRequestProto*)[[[LoadPlayerCityRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LoadPlayerCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadPlayerCityRequestProto*)[[[LoadPlayerCityRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadPlayerCityRequestProto_Builder*) builder {
+  return [[[LoadPlayerCityRequestProto_Builder alloc] init] autorelease];
+}
++ (LoadPlayerCityRequestProto_Builder*) builderWithPrototype:(LoadPlayerCityRequestProto*) prototype {
+  return [[LoadPlayerCityRequestProto builder] mergeFrom:prototype];
+}
+- (LoadPlayerCityRequestProto_Builder*) builder {
+  return [LoadPlayerCityRequestProto builder];
+}
+@end
+
+@interface LoadPlayerCityRequestProto_Builder()
+@property (retain) LoadPlayerCityRequestProto* result;
+@end
+
+@implementation LoadPlayerCityRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LoadPlayerCityRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LoadPlayerCityRequestProto_Builder*) clear {
+  self.result = [[[LoadPlayerCityRequestProto alloc] init] autorelease];
+  return self;
+}
+- (LoadPlayerCityRequestProto_Builder*) clone {
+  return [LoadPlayerCityRequestProto builderWithPrototype:result];
+}
+- (LoadPlayerCityRequestProto*) defaultInstance {
+  return [LoadPlayerCityRequestProto defaultInstance];
+}
+- (LoadPlayerCityRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LoadPlayerCityRequestProto*) buildPartial {
+  LoadPlayerCityRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LoadPlayerCityRequestProto_Builder*) mergeFrom:(LoadPlayerCityRequestProto*) other {
+  if (other == [LoadPlayerCityRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasCityOwner) {
+    [self mergeCityOwner:other.cityOwner];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LoadPlayerCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LoadPlayerCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasCityOwner) {
+          [subBuilder mergeFrom:self.cityOwner];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCityOwner:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LoadPlayerCityRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LoadPlayerCityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LoadPlayerCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LoadPlayerCityRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCityOwner {
+  return result.hasCityOwner;
+}
+- (MinimumUserProto*) cityOwner {
+  return result.cityOwner;
+}
+- (LoadPlayerCityRequestProto_Builder*) setCityOwner:(MinimumUserProto*) value {
+  result.hasCityOwner = YES;
+  result.cityOwner = value;
+  return self;
+}
+- (LoadPlayerCityRequestProto_Builder*) setCityOwnerBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setCityOwner:[builderForValue build]];
+}
+- (LoadPlayerCityRequestProto_Builder*) mergeCityOwner:(MinimumUserProto*) value {
+  if (result.hasCityOwner &&
+      result.cityOwner != [MinimumUserProto defaultInstance]) {
+    result.cityOwner =
+      [[[MinimumUserProto builderWithPrototype:result.cityOwner] mergeFrom:value] buildPartial];
+  } else {
+    result.cityOwner = value;
+  }
+  result.hasCityOwner = YES;
+  return self;
+}
+- (LoadPlayerCityRequestProto_Builder*) clearCityOwner {
+  result.hasCityOwner = NO;
+  result.cityOwner = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface LoadPlayerCityResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
+@property (retain) NSMutableArray* mutableOwnerNormStructsList;
+@property (retain) NSMutableArray* mutableOwnerAlliesList;
+@property (retain) CoordinateProto* armoryCoords;
+@property (retain) CoordinateProto* vaultCoords;
+@property (retain) CoordinateProto* marketplaceCoords;
+@property (retain) CoordinateProto* lumbermillCoords;
+@property (retain) CoordinateProto* carpenterCoords;
+@property (retain) CoordinateProto* aviaryCoords;
+@end
+
+@implementation LoadPlayerCityResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutableOwnerNormStructsList;
+@synthesize mutableOwnerAlliesList;
+- (BOOL) hasArmoryCoords {
+  return !!hasArmoryCoords_;
+}
+- (void) setHasArmoryCoords:(BOOL) value {
+  hasArmoryCoords_ = !!value;
+}
+@synthesize armoryCoords;
+- (BOOL) hasVaultCoords {
+  return !!hasVaultCoords_;
+}
+- (void) setHasVaultCoords:(BOOL) value {
+  hasVaultCoords_ = !!value;
+}
+@synthesize vaultCoords;
+- (BOOL) hasMarketplaceCoords {
+  return !!hasMarketplaceCoords_;
+}
+- (void) setHasMarketplaceCoords:(BOOL) value {
+  hasMarketplaceCoords_ = !!value;
+}
+@synthesize marketplaceCoords;
+- (BOOL) hasLumbermillCoords {
+  return !!hasLumbermillCoords_;
+}
+- (void) setHasLumbermillCoords:(BOOL) value {
+  hasLumbermillCoords_ = !!value;
+}
+@synthesize lumbermillCoords;
+- (BOOL) hasCarpenterCoords {
+  return !!hasCarpenterCoords_;
+}
+- (void) setHasCarpenterCoords:(BOOL) value {
+  hasCarpenterCoords_ = !!value;
+}
+@synthesize carpenterCoords;
+- (BOOL) hasAviaryCoords {
+  return !!hasAviaryCoords_;
+}
+- (void) setHasAviaryCoords:(BOOL) value {
+  hasAviaryCoords_ = !!value;
+}
+@synthesize aviaryCoords;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableOwnerNormStructsList = nil;
+  self.mutableOwnerAlliesList = nil;
+  self.armoryCoords = nil;
+  self.vaultCoords = nil;
+  self.marketplaceCoords = nil;
+  self.lumbermillCoords = nil;
+  self.carpenterCoords = nil;
+  self.aviaryCoords = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess;
+    self.armoryCoords = [CoordinateProto defaultInstance];
+    self.vaultCoords = [CoordinateProto defaultInstance];
+    self.marketplaceCoords = [CoordinateProto defaultInstance];
+    self.lumbermillCoords = [CoordinateProto defaultInstance];
+    self.carpenterCoords = [CoordinateProto defaultInstance];
+    self.aviaryCoords = [CoordinateProto defaultInstance];
+  }
+  return self;
+}
+static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [LoadPlayerCityResponseProto class]) {
+    defaultLoadPlayerCityResponseProtoInstance = [[LoadPlayerCityResponseProto alloc] init];
+  }
+}
++ (LoadPlayerCityResponseProto*) defaultInstance {
+  return defaultLoadPlayerCityResponseProtoInstance;
+}
+- (LoadPlayerCityResponseProto*) defaultInstance {
+  return defaultLoadPlayerCityResponseProtoInstance;
+}
+- (NSArray*) ownerNormStructsList {
+  return mutableOwnerNormStructsList;
+}
+- (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index {
+  id value = [mutableOwnerNormStructsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) ownerAlliesList {
+  return mutableOwnerAlliesList;
+}
+- (FullUserProto*) ownerAlliesAtIndex:(int32_t) index {
+  id value = [mutableOwnerAlliesList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.hasLumbermillCoords) {
+    return NO;
+  }
+  if (!self.hasCarpenterCoords) {
+    return NO;
+  }
+  if (!self.hasAviaryCoords) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (FullUserStructureProto* element in self.ownerNormStructsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullUserProto* element in self.ownerAlliesList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  if (self.hasArmoryCoords) {
+    if (!self.armoryCoords.isInitialized) {
+      return NO;
+    }
+  }
+  if (self.hasVaultCoords) {
+    if (!self.vaultCoords.isInitialized) {
+      return NO;
+    }
+  }
+  if (self.hasMarketplaceCoords) {
+    if (!self.marketplaceCoords.isInitialized) {
+      return NO;
+    }
+  }
+  if (!self.lumbermillCoords.isInitialized) {
+    return NO;
+  }
+  if (!self.carpenterCoords.isInitialized) {
+    return NO;
+  }
+  if (!self.aviaryCoords.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  for (FullUserStructureProto* element in self.ownerNormStructsList) {
+    [output writeMessage:3 value:element];
+  }
+  for (FullUserProto* element in self.ownerAlliesList) {
+    [output writeMessage:4 value:element];
+  }
+  if (self.hasArmoryCoords) {
+    [output writeMessage:5 value:self.armoryCoords];
+  }
+  if (self.hasVaultCoords) {
+    [output writeMessage:6 value:self.vaultCoords];
+  }
+  if (self.hasMarketplaceCoords) {
+    [output writeMessage:7 value:self.marketplaceCoords];
+  }
+  if (self.hasLumbermillCoords) {
+    [output writeMessage:8 value:self.lumbermillCoords];
+  }
+  if (self.hasCarpenterCoords) {
+    [output writeMessage:9 value:self.carpenterCoords];
+  }
+  if (self.hasAviaryCoords) {
+    [output writeMessage:10 value:self.aviaryCoords];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  for (FullUserStructureProto* element in self.ownerNormStructsList) {
+    size += computeMessageSize(3, element);
+  }
+  for (FullUserProto* element in self.ownerAlliesList) {
+    size += computeMessageSize(4, element);
+  }
+  if (self.hasArmoryCoords) {
+    size += computeMessageSize(5, self.armoryCoords);
+  }
+  if (self.hasVaultCoords) {
+    size += computeMessageSize(6, self.vaultCoords);
+  }
+  if (self.hasMarketplaceCoords) {
+    size += computeMessageSize(7, self.marketplaceCoords);
+  }
+  if (self.hasLumbermillCoords) {
+    size += computeMessageSize(8, self.lumbermillCoords);
+  }
+  if (self.hasCarpenterCoords) {
+    size += computeMessageSize(9, self.carpenterCoords);
+  }
+  if (self.hasAviaryCoords) {
+    size += computeMessageSize(10, self.aviaryCoords);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LoadPlayerCityResponseProto*) parseFromData:(NSData*) data {
+  return (LoadPlayerCityResponseProto*)[[[LoadPlayerCityResponseProto builder] mergeFromData:data] build];
+}
++ (LoadPlayerCityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadPlayerCityResponseProto*)[[[LoadPlayerCityResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LoadPlayerCityResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LoadPlayerCityResponseProto*)[[[LoadPlayerCityResponseProto builder] mergeFromInputStream:input] build];
+}
++ (LoadPlayerCityResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadPlayerCityResponseProto*)[[[LoadPlayerCityResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadPlayerCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LoadPlayerCityResponseProto*)[[[LoadPlayerCityResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LoadPlayerCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadPlayerCityResponseProto*)[[[LoadPlayerCityResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadPlayerCityResponseProto_Builder*) builder {
+  return [[[LoadPlayerCityResponseProto_Builder alloc] init] autorelease];
+}
++ (LoadPlayerCityResponseProto_Builder*) builderWithPrototype:(LoadPlayerCityResponseProto*) prototype {
+  return [[LoadPlayerCityResponseProto builder] mergeFrom:prototype];
+}
+- (LoadPlayerCityResponseProto_Builder*) builder {
+  return [LoadPlayerCityResponseProto builder];
+}
+@end
+
+BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCityResponseProto_LoadPlayerCityStatus value) {
+  switch (value) {
+    case LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess:
+    case LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer:
+    case LoadPlayerCityResponseProto_LoadPlayerCityStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface LoadPlayerCityResponseProto_Builder()
+@property (retain) LoadPlayerCityResponseProto* result;
+@end
+
+@implementation LoadPlayerCityResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LoadPlayerCityResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LoadPlayerCityResponseProto_Builder*) clear {
+  self.result = [[[LoadPlayerCityResponseProto alloc] init] autorelease];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clone {
+  return [LoadPlayerCityResponseProto builderWithPrototype:result];
+}
+- (LoadPlayerCityResponseProto*) defaultInstance {
+  return [LoadPlayerCityResponseProto defaultInstance];
+}
+- (LoadPlayerCityResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LoadPlayerCityResponseProto*) buildPartial {
+  LoadPlayerCityResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeFrom:(LoadPlayerCityResponseProto*) other {
+  if (other == [LoadPlayerCityResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableOwnerNormStructsList.count > 0) {
+    if (result.mutableOwnerNormStructsList == nil) {
+      result.mutableOwnerNormStructsList = [NSMutableArray array];
+    }
+    [result.mutableOwnerNormStructsList addObjectsFromArray:other.mutableOwnerNormStructsList];
+  }
+  if (other.mutableOwnerAlliesList.count > 0) {
+    if (result.mutableOwnerAlliesList == nil) {
+      result.mutableOwnerAlliesList = [NSMutableArray array];
+    }
+    [result.mutableOwnerAlliesList addObjectsFromArray:other.mutableOwnerAlliesList];
+  }
+  if (other.hasArmoryCoords) {
+    [self mergeArmoryCoords:other.armoryCoords];
+  }
+  if (other.hasVaultCoords) {
+    [self mergeVaultCoords:other.vaultCoords];
+  }
+  if (other.hasMarketplaceCoords) {
+    [self mergeMarketplaceCoords:other.marketplaceCoords];
+  }
+  if (other.hasLumbermillCoords) {
+    [self mergeLumbermillCoords:other.lumbermillCoords];
+  }
+  if (other.hasCarpenterCoords) {
+    [self mergeCarpenterCoords:other.carpenterCoords];
+  }
+  if (other.hasAviaryCoords) {
+    [self mergeAviaryCoords:other.aviaryCoords];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addOwnerNormStructs:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addOwnerAllies:[subBuilder buildPartial]];
+        break;
+      }
+      case 42: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasArmoryCoords) {
+          [subBuilder mergeFrom:self.armoryCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setArmoryCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasVaultCoords) {
+          [subBuilder mergeFrom:self.vaultCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setVaultCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 58: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasMarketplaceCoords) {
+          [subBuilder mergeFrom:self.marketplaceCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMarketplaceCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 66: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasLumbermillCoords) {
+          [subBuilder mergeFrom:self.lumbermillCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setLumbermillCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 74: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasCarpenterCoords) {
+          [subBuilder mergeFrom:self.carpenterCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCarpenterCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 82: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasAviaryCoords) {
+          [subBuilder mergeFrom:self.aviaryCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAviaryCoords:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LoadPlayerCityResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (LoadPlayerCityResponseProto_LoadPlayerCityStatus) status {
+  return result.status;
+}
+- (LoadPlayerCityResponseProto_Builder*) setStatus:(LoadPlayerCityResponseProto_LoadPlayerCityStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess;
+  return self;
+}
+- (NSArray*) ownerNormStructsList {
+  if (result.mutableOwnerNormStructsList == nil) { return [NSArray array]; }
+  return result.mutableOwnerNormStructsList;
+}
+- (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index {
+  return [result ownerNormStructsAtIndex:index];
+}
+- (LoadPlayerCityResponseProto_Builder*) replaceOwnerNormStructsAtIndex:(int32_t) index with:(FullUserStructureProto*) value {
+  [result.mutableOwnerNormStructsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addAllOwnerNormStructs:(NSArray*) values {
+  if (result.mutableOwnerNormStructsList == nil) {
+    result.mutableOwnerNormStructsList = [NSMutableArray array];
+  }
+  [result.mutableOwnerNormStructsList addObjectsFromArray:values];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearOwnerNormStructsList {
+  result.mutableOwnerNormStructsList = nil;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addOwnerNormStructs:(FullUserStructureProto*) value {
+  if (result.mutableOwnerNormStructsList == nil) {
+    result.mutableOwnerNormStructsList = [NSMutableArray array];
+  }
+  [result.mutableOwnerNormStructsList addObject:value];
+  return self;
+}
+- (NSArray*) ownerAlliesList {
+  if (result.mutableOwnerAlliesList == nil) { return [NSArray array]; }
+  return result.mutableOwnerAlliesList;
+}
+- (FullUserProto*) ownerAlliesAtIndex:(int32_t) index {
+  return [result ownerAlliesAtIndex:index];
+}
+- (LoadPlayerCityResponseProto_Builder*) replaceOwnerAlliesAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableOwnerAlliesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addAllOwnerAllies:(NSArray*) values {
+  if (result.mutableOwnerAlliesList == nil) {
+    result.mutableOwnerAlliesList = [NSMutableArray array];
+  }
+  [result.mutableOwnerAlliesList addObjectsFromArray:values];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearOwnerAlliesList {
+  result.mutableOwnerAlliesList = nil;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addOwnerAllies:(FullUserProto*) value {
+  if (result.mutableOwnerAlliesList == nil) {
+    result.mutableOwnerAlliesList = [NSMutableArray array];
+  }
+  [result.mutableOwnerAlliesList addObject:value];
+  return self;
+}
+- (BOOL) hasArmoryCoords {
+  return result.hasArmoryCoords;
+}
+- (CoordinateProto*) armoryCoords {
+  return result.armoryCoords;
+}
+- (LoadPlayerCityResponseProto_Builder*) setArmoryCoords:(CoordinateProto*) value {
+  result.hasArmoryCoords = YES;
+  result.armoryCoords = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setArmoryCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setArmoryCoords:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeArmoryCoords:(CoordinateProto*) value {
+  if (result.hasArmoryCoords &&
+      result.armoryCoords != [CoordinateProto defaultInstance]) {
+    result.armoryCoords =
+      [[[CoordinateProto builderWithPrototype:result.armoryCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.armoryCoords = value;
+  }
+  result.hasArmoryCoords = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearArmoryCoords {
+  result.hasArmoryCoords = NO;
+  result.armoryCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasVaultCoords {
+  return result.hasVaultCoords;
+}
+- (CoordinateProto*) vaultCoords {
+  return result.vaultCoords;
+}
+- (LoadPlayerCityResponseProto_Builder*) setVaultCoords:(CoordinateProto*) value {
+  result.hasVaultCoords = YES;
+  result.vaultCoords = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setVaultCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setVaultCoords:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeVaultCoords:(CoordinateProto*) value {
+  if (result.hasVaultCoords &&
+      result.vaultCoords != [CoordinateProto defaultInstance]) {
+    result.vaultCoords =
+      [[[CoordinateProto builderWithPrototype:result.vaultCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.vaultCoords = value;
+  }
+  result.hasVaultCoords = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearVaultCoords {
+  result.hasVaultCoords = NO;
+  result.vaultCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMarketplaceCoords {
+  return result.hasMarketplaceCoords;
+}
+- (CoordinateProto*) marketplaceCoords {
+  return result.marketplaceCoords;
+}
+- (LoadPlayerCityResponseProto_Builder*) setMarketplaceCoords:(CoordinateProto*) value {
+  result.hasMarketplaceCoords = YES;
+  result.marketplaceCoords = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setMarketplaceCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setMarketplaceCoords:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeMarketplaceCoords:(CoordinateProto*) value {
+  if (result.hasMarketplaceCoords &&
+      result.marketplaceCoords != [CoordinateProto defaultInstance]) {
+    result.marketplaceCoords =
+      [[[CoordinateProto builderWithPrototype:result.marketplaceCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.marketplaceCoords = value;
+  }
+  result.hasMarketplaceCoords = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearMarketplaceCoords {
+  result.hasMarketplaceCoords = NO;
+  result.marketplaceCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLumbermillCoords {
+  return result.hasLumbermillCoords;
+}
+- (CoordinateProto*) lumbermillCoords {
+  return result.lumbermillCoords;
+}
+- (LoadPlayerCityResponseProto_Builder*) setLumbermillCoords:(CoordinateProto*) value {
+  result.hasLumbermillCoords = YES;
+  result.lumbermillCoords = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setLumbermillCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setLumbermillCoords:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeLumbermillCoords:(CoordinateProto*) value {
+  if (result.hasLumbermillCoords &&
+      result.lumbermillCoords != [CoordinateProto defaultInstance]) {
+    result.lumbermillCoords =
+      [[[CoordinateProto builderWithPrototype:result.lumbermillCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.lumbermillCoords = value;
+  }
+  result.hasLumbermillCoords = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearLumbermillCoords {
+  result.hasLumbermillCoords = NO;
+  result.lumbermillCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCarpenterCoords {
+  return result.hasCarpenterCoords;
+}
+- (CoordinateProto*) carpenterCoords {
+  return result.carpenterCoords;
+}
+- (LoadPlayerCityResponseProto_Builder*) setCarpenterCoords:(CoordinateProto*) value {
+  result.hasCarpenterCoords = YES;
+  result.carpenterCoords = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setCarpenterCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCarpenterCoords:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeCarpenterCoords:(CoordinateProto*) value {
+  if (result.hasCarpenterCoords &&
+      result.carpenterCoords != [CoordinateProto defaultInstance]) {
+    result.carpenterCoords =
+      [[[CoordinateProto builderWithPrototype:result.carpenterCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.carpenterCoords = value;
+  }
+  result.hasCarpenterCoords = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearCarpenterCoords {
+  result.hasCarpenterCoords = NO;
+  result.carpenterCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAviaryCoords {
+  return result.hasAviaryCoords;
+}
+- (CoordinateProto*) aviaryCoords {
+  return result.aviaryCoords;
+}
+- (LoadPlayerCityResponseProto_Builder*) setAviaryCoords:(CoordinateProto*) value {
+  result.hasAviaryCoords = YES;
+  result.aviaryCoords = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setAviaryCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setAviaryCoords:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeAviaryCoords:(CoordinateProto*) value {
+  if (result.hasAviaryCoords &&
+      result.aviaryCoords != [CoordinateProto defaultInstance]) {
+    result.aviaryCoords =
+      [[[CoordinateProto builderWithPrototype:result.aviaryCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.aviaryCoords = value;
+  }
+  result.hasAviaryCoords = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearAviaryCoords {
+  result.hasAviaryCoords = NO;
+  result.aviaryCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+@end
+
+@interface QuestAcceptRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t questId;
+@end
+
+@implementation QuestAcceptRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.questId = 0;
+  }
+  return self;
+}
+static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestAcceptRequestProto class]) {
+    defaultQuestAcceptRequestProtoInstance = [[QuestAcceptRequestProto alloc] init];
+  }
+}
++ (QuestAcceptRequestProto*) defaultInstance {
+  return defaultQuestAcceptRequestProtoInstance;
+}
+- (QuestAcceptRequestProto*) defaultInstance {
+  return defaultQuestAcceptRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestAcceptRequestProto*) parseFromData:(NSData*) data {
+  return (QuestAcceptRequestProto*)[[[QuestAcceptRequestProto builder] mergeFromData:data] build];
+}
++ (QuestAcceptRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestAcceptRequestProto*)[[[QuestAcceptRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestAcceptRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestAcceptRequestProto*)[[[QuestAcceptRequestProto builder] mergeFromInputStream:input] build];
+}
++ (QuestAcceptRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestAcceptRequestProto*)[[[QuestAcceptRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestAcceptRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestAcceptRequestProto*)[[[QuestAcceptRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestAcceptRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestAcceptRequestProto*)[[[QuestAcceptRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestAcceptRequestProto_Builder*) builder {
+  return [[[QuestAcceptRequestProto_Builder alloc] init] autorelease];
+}
++ (QuestAcceptRequestProto_Builder*) builderWithPrototype:(QuestAcceptRequestProto*) prototype {
+  return [[QuestAcceptRequestProto builder] mergeFrom:prototype];
+}
+- (QuestAcceptRequestProto_Builder*) builder {
+  return [QuestAcceptRequestProto builder];
+}
+@end
+
+@interface QuestAcceptRequestProto_Builder()
+@property (retain) QuestAcceptRequestProto* result;
+@end
+
+@implementation QuestAcceptRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestAcceptRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestAcceptRequestProto_Builder*) clear {
+  self.result = [[[QuestAcceptRequestProto alloc] init] autorelease];
+  return self;
+}
+- (QuestAcceptRequestProto_Builder*) clone {
+  return [QuestAcceptRequestProto builderWithPrototype:result];
+}
+- (QuestAcceptRequestProto*) defaultInstance {
+  return [QuestAcceptRequestProto defaultInstance];
+}
+- (QuestAcceptRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestAcceptRequestProto*) buildPartial {
+  QuestAcceptRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestAcceptRequestProto_Builder*) mergeFrom:(QuestAcceptRequestProto*) other {
+  if (other == [QuestAcceptRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestAcceptRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestAcceptRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestAcceptRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestAcceptRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestAcceptRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestAcceptRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (QuestAcceptRequestProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (QuestAcceptRequestProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+@end
+
+@interface QuestAcceptResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property QuestAcceptResponseProto_QuestAcceptStatus status;
+@end
+
+@implementation QuestAcceptResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
+  }
+  return self;
+}
+static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestAcceptResponseProto class]) {
+    defaultQuestAcceptResponseProtoInstance = [[QuestAcceptResponseProto alloc] init];
+  }
+}
++ (QuestAcceptResponseProto*) defaultInstance {
+  return defaultQuestAcceptResponseProtoInstance;
+}
+- (QuestAcceptResponseProto*) defaultInstance {
+  return defaultQuestAcceptResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestAcceptResponseProto*) parseFromData:(NSData*) data {
+  return (QuestAcceptResponseProto*)[[[QuestAcceptResponseProto builder] mergeFromData:data] build];
+}
++ (QuestAcceptResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestAcceptResponseProto*)[[[QuestAcceptResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestAcceptResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestAcceptResponseProto*)[[[QuestAcceptResponseProto builder] mergeFromInputStream:input] build];
+}
++ (QuestAcceptResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestAcceptResponseProto*)[[[QuestAcceptResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestAcceptResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestAcceptResponseProto*)[[[QuestAcceptResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestAcceptResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestAcceptResponseProto*)[[[QuestAcceptResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestAcceptResponseProto_Builder*) builder {
+  return [[[QuestAcceptResponseProto_Builder alloc] init] autorelease];
+}
++ (QuestAcceptResponseProto_Builder*) builderWithPrototype:(QuestAcceptResponseProto*) prototype {
+  return [[QuestAcceptResponseProto builder] mergeFrom:prototype];
+}
+- (QuestAcceptResponseProto_Builder*) builder {
+  return [QuestAcceptResponseProto builder];
+}
+@end
+
+BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseProto_QuestAcceptStatus value) {
+  switch (value) {
+    case QuestAcceptResponseProto_QuestAcceptStatusSuccess:
+    case QuestAcceptResponseProto_QuestAcceptStatusNotAvailToUser:
+    case QuestAcceptResponseProto_QuestAcceptStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface QuestAcceptResponseProto_Builder()
+@property (retain) QuestAcceptResponseProto* result;
+@end
+
+@implementation QuestAcceptResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestAcceptResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestAcceptResponseProto_Builder*) clear {
+  self.result = [[[QuestAcceptResponseProto alloc] init] autorelease];
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) clone {
+  return [QuestAcceptResponseProto builderWithPrototype:result];
+}
+- (QuestAcceptResponseProto*) defaultInstance {
+  return [QuestAcceptResponseProto defaultInstance];
+}
+- (QuestAcceptResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestAcceptResponseProto*) buildPartial {
+  QuestAcceptResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestAcceptResponseProto_Builder*) mergeFrom:(QuestAcceptResponseProto*) other {
+  if (other == [QuestAcceptResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestAcceptResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestAcceptResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestAcceptResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (QuestAcceptResponseProto_QuestAcceptStatus) status {
+  return result.status;
+}
+- (QuestAcceptResponseProto_Builder*) setStatus:(QuestAcceptResponseProto_QuestAcceptStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
+  return self;
+}
+@end
+
+@interface QuestCompleteResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t questId;
+@end
+
+@implementation QuestCompleteResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.questId = 0;
+  }
+  return self;
+}
+static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestCompleteResponseProto class]) {
+    defaultQuestCompleteResponseProtoInstance = [[QuestCompleteResponseProto alloc] init];
+  }
+}
++ (QuestCompleteResponseProto*) defaultInstance {
+  return defaultQuestCompleteResponseProtoInstance;
+}
+- (QuestCompleteResponseProto*) defaultInstance {
+  return defaultQuestCompleteResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestCompleteResponseProto*) parseFromData:(NSData*) data {
+  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromData:data] build];
+}
++ (QuestCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromInputStream:input] build];
+}
++ (QuestCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCompleteResponseProto*)[[[QuestCompleteResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestCompleteResponseProto_Builder*) builder {
+  return [[[QuestCompleteResponseProto_Builder alloc] init] autorelease];
+}
++ (QuestCompleteResponseProto_Builder*) builderWithPrototype:(QuestCompleteResponseProto*) prototype {
+  return [[QuestCompleteResponseProto builder] mergeFrom:prototype];
+}
+- (QuestCompleteResponseProto_Builder*) builder {
+  return [QuestCompleteResponseProto builder];
+}
+@end
+
+@interface QuestCompleteResponseProto_Builder()
+@property (retain) QuestCompleteResponseProto* result;
+@end
+
+@implementation QuestCompleteResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestCompleteResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestCompleteResponseProto_Builder*) clear {
+  self.result = [[[QuestCompleteResponseProto alloc] init] autorelease];
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) clone {
+  return [QuestCompleteResponseProto builderWithPrototype:result];
+}
+- (QuestCompleteResponseProto*) defaultInstance {
+  return [QuestCompleteResponseProto defaultInstance];
+}
+- (QuestCompleteResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestCompleteResponseProto*) buildPartial {
+  QuestCompleteResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestCompleteResponseProto_Builder*) mergeFrom:(QuestCompleteResponseProto*) other {
+  if (other == [QuestCompleteResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (QuestCompleteResponseProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+@end
+
+@interface QuestRedeemRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t questId;
+@end
+
+@implementation QuestRedeemRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.questId = 0;
+  }
+  return self;
+}
+static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestRedeemRequestProto class]) {
+    defaultQuestRedeemRequestProtoInstance = [[QuestRedeemRequestProto alloc] init];
+  }
+}
++ (QuestRedeemRequestProto*) defaultInstance {
+  return defaultQuestRedeemRequestProtoInstance;
+}
+- (QuestRedeemRequestProto*) defaultInstance {
+  return defaultQuestRedeemRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestRedeemRequestProto*) parseFromData:(NSData*) data {
+  return (QuestRedeemRequestProto*)[[[QuestRedeemRequestProto builder] mergeFromData:data] build];
+}
++ (QuestRedeemRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestRedeemRequestProto*)[[[QuestRedeemRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestRedeemRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestRedeemRequestProto*)[[[QuestRedeemRequestProto builder] mergeFromInputStream:input] build];
+}
++ (QuestRedeemRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestRedeemRequestProto*)[[[QuestRedeemRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestRedeemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestRedeemRequestProto*)[[[QuestRedeemRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestRedeemRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestRedeemRequestProto*)[[[QuestRedeemRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestRedeemRequestProto_Builder*) builder {
+  return [[[QuestRedeemRequestProto_Builder alloc] init] autorelease];
+}
++ (QuestRedeemRequestProto_Builder*) builderWithPrototype:(QuestRedeemRequestProto*) prototype {
+  return [[QuestRedeemRequestProto builder] mergeFrom:prototype];
+}
+- (QuestRedeemRequestProto_Builder*) builder {
+  return [QuestRedeemRequestProto builder];
+}
+@end
+
+@interface QuestRedeemRequestProto_Builder()
+@property (retain) QuestRedeemRequestProto* result;
+@end
+
+@implementation QuestRedeemRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestRedeemRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestRedeemRequestProto_Builder*) clear {
+  self.result = [[[QuestRedeemRequestProto alloc] init] autorelease];
+  return self;
+}
+- (QuestRedeemRequestProto_Builder*) clone {
+  return [QuestRedeemRequestProto builderWithPrototype:result];
+}
+- (QuestRedeemRequestProto*) defaultInstance {
+  return [QuestRedeemRequestProto defaultInstance];
+}
+- (QuestRedeemRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestRedeemRequestProto*) buildPartial {
+  QuestRedeemRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestRedeemRequestProto_Builder*) mergeFrom:(QuestRedeemRequestProto*) other {
+  if (other == [QuestRedeemRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestRedeemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestRedeemRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestRedeemRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestRedeemRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestRedeemRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestRedeemRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (QuestRedeemRequestProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (QuestRedeemRequestProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+@end
+
+@interface QuestRedeemResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableUpdatedAvailableQuestsList;
+@property QuestRedeemResponseProto_QuestRedeemStatus status;
+@end
+
+@implementation QuestRedeemResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableUpdatedAvailableQuestsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableUpdatedAvailableQuestsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
+  }
+  return self;
+}
+static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestRedeemResponseProto class]) {
+    defaultQuestRedeemResponseProtoInstance = [[QuestRedeemResponseProto alloc] init];
+  }
+}
++ (QuestRedeemResponseProto*) defaultInstance {
+  return defaultQuestRedeemResponseProtoInstance;
+}
+- (QuestRedeemResponseProto*) defaultInstance {
+  return defaultQuestRedeemResponseProtoInstance;
+}
+- (NSArray*) updatedAvailableQuestsList {
+  return mutableUpdatedAvailableQuestsList;
+}
+- (FullQuestProto*) updatedAvailableQuestsAtIndex:(int32_t) index {
+  id value = [mutableUpdatedAvailableQuestsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (FullQuestProto* element in self.updatedAvailableQuestsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullQuestProto* element in self.updatedAvailableQuestsList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullQuestProto* element in self.updatedAvailableQuestsList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestRedeemResponseProto*) parseFromData:(NSData*) data {
+  return (QuestRedeemResponseProto*)[[[QuestRedeemResponseProto builder] mergeFromData:data] build];
+}
++ (QuestRedeemResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestRedeemResponseProto*)[[[QuestRedeemResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestRedeemResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestRedeemResponseProto*)[[[QuestRedeemResponseProto builder] mergeFromInputStream:input] build];
+}
++ (QuestRedeemResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestRedeemResponseProto*)[[[QuestRedeemResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestRedeemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestRedeemResponseProto*)[[[QuestRedeemResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestRedeemResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestRedeemResponseProto*)[[[QuestRedeemResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestRedeemResponseProto_Builder*) builder {
+  return [[[QuestRedeemResponseProto_Builder alloc] init] autorelease];
+}
++ (QuestRedeemResponseProto_Builder*) builderWithPrototype:(QuestRedeemResponseProto*) prototype {
+  return [[QuestRedeemResponseProto builder] mergeFrom:prototype];
+}
+- (QuestRedeemResponseProto_Builder*) builder {
+  return [QuestRedeemResponseProto builder];
+}
+@end
+
+BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseProto_QuestRedeemStatus value) {
+  switch (value) {
+    case QuestRedeemResponseProto_QuestRedeemStatusSuccess:
+    case QuestRedeemResponseProto_QuestRedeemStatusNotComplete:
+    case QuestRedeemResponseProto_QuestRedeemStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface QuestRedeemResponseProto_Builder()
+@property (retain) QuestRedeemResponseProto* result;
+@end
+
+@implementation QuestRedeemResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestRedeemResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestRedeemResponseProto_Builder*) clear {
+  self.result = [[[QuestRedeemResponseProto alloc] init] autorelease];
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) clone {
+  return [QuestRedeemResponseProto builderWithPrototype:result];
+}
+- (QuestRedeemResponseProto*) defaultInstance {
+  return [QuestRedeemResponseProto defaultInstance];
+}
+- (QuestRedeemResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestRedeemResponseProto*) buildPartial {
+  QuestRedeemResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestRedeemResponseProto_Builder*) mergeFrom:(QuestRedeemResponseProto*) other {
+  if (other == [QuestRedeemResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableUpdatedAvailableQuestsList.count > 0) {
+    if (result.mutableUpdatedAvailableQuestsList == nil) {
+      result.mutableUpdatedAvailableQuestsList = [NSMutableArray array];
+    }
+    [result.mutableUpdatedAvailableQuestsList addObjectsFromArray:other.mutableUpdatedAvailableQuestsList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestRedeemResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpdatedAvailableQuests:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestRedeemResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestRedeemResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) updatedAvailableQuestsList {
+  if (result.mutableUpdatedAvailableQuestsList == nil) { return [NSArray array]; }
+  return result.mutableUpdatedAvailableQuestsList;
+}
+- (FullQuestProto*) updatedAvailableQuestsAtIndex:(int32_t) index {
+  return [result updatedAvailableQuestsAtIndex:index];
+}
+- (QuestRedeemResponseProto_Builder*) replaceUpdatedAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableUpdatedAvailableQuestsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) addAllUpdatedAvailableQuests:(NSArray*) values {
+  if (result.mutableUpdatedAvailableQuestsList == nil) {
+    result.mutableUpdatedAvailableQuestsList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedAvailableQuestsList addObjectsFromArray:values];
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) clearUpdatedAvailableQuestsList {
+  result.mutableUpdatedAvailableQuestsList = nil;
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) addUpdatedAvailableQuests:(FullQuestProto*) value {
+  if (result.mutableUpdatedAvailableQuestsList == nil) {
+    result.mutableUpdatedAvailableQuestsList = [NSMutableArray array];
+  }
+  [result.mutableUpdatedAvailableQuestsList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (QuestRedeemResponseProto_QuestRedeemStatus) status {
+  return result.status;
+}
+- (QuestRedeemResponseProto_Builder*) setStatus:(QuestRedeemResponseProto_QuestRedeemStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
+  return self;
+}
+@end
+
+@interface QuestCheckCompleteRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t questId;
+@end
+
+@implementation QuestCheckCompleteRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.questId = 0;
+  }
+  return self;
+}
+static QuestCheckCompleteRequestProto* defaultQuestCheckCompleteRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestCheckCompleteRequestProto class]) {
+    defaultQuestCheckCompleteRequestProtoInstance = [[QuestCheckCompleteRequestProto alloc] init];
+  }
+}
++ (QuestCheckCompleteRequestProto*) defaultInstance {
+  return defaultQuestCheckCompleteRequestProtoInstance;
+}
+- (QuestCheckCompleteRequestProto*) defaultInstance {
+  return defaultQuestCheckCompleteRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestCheckCompleteRequestProto*) parseFromData:(NSData*) data {
+  return (QuestCheckCompleteRequestProto*)[[[QuestCheckCompleteRequestProto builder] mergeFromData:data] build];
+}
++ (QuestCheckCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCheckCompleteRequestProto*)[[[QuestCheckCompleteRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestCheckCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestCheckCompleteRequestProto*)[[[QuestCheckCompleteRequestProto builder] mergeFromInputStream:input] build];
+}
++ (QuestCheckCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCheckCompleteRequestProto*)[[[QuestCheckCompleteRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestCheckCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestCheckCompleteRequestProto*)[[[QuestCheckCompleteRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestCheckCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCheckCompleteRequestProto*)[[[QuestCheckCompleteRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestCheckCompleteRequestProto_Builder*) builder {
+  return [[[QuestCheckCompleteRequestProto_Builder alloc] init] autorelease];
+}
++ (QuestCheckCompleteRequestProto_Builder*) builderWithPrototype:(QuestCheckCompleteRequestProto*) prototype {
+  return [[QuestCheckCompleteRequestProto builder] mergeFrom:prototype];
+}
+- (QuestCheckCompleteRequestProto_Builder*) builder {
+  return [QuestCheckCompleteRequestProto builder];
+}
+@end
+
+@interface QuestCheckCompleteRequestProto_Builder()
+@property (retain) QuestCheckCompleteRequestProto* result;
+@end
+
+@implementation QuestCheckCompleteRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestCheckCompleteRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestCheckCompleteRequestProto_Builder*) clear {
+  self.result = [[[QuestCheckCompleteRequestProto alloc] init] autorelease];
+  return self;
+}
+- (QuestCheckCompleteRequestProto_Builder*) clone {
+  return [QuestCheckCompleteRequestProto builderWithPrototype:result];
+}
+- (QuestCheckCompleteRequestProto*) defaultInstance {
+  return [QuestCheckCompleteRequestProto defaultInstance];
+}
+- (QuestCheckCompleteRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestCheckCompleteRequestProto*) buildPartial {
+  QuestCheckCompleteRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestCheckCompleteRequestProto_Builder*) mergeFrom:(QuestCheckCompleteRequestProto*) other {
+  if (other == [QuestCheckCompleteRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestCheckCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestCheckCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestCheckCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestCheckCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestCheckCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestCheckCompleteRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (QuestCheckCompleteRequestProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (QuestCheckCompleteRequestProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+@end
+
+@interface QuestCheckCompleteResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property QuestCheckCompleteResponseProto_QuestCompleteStatus status;
+@end
+
+@implementation QuestCheckCompleteResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = QuestCheckCompleteResponseProto_QuestCompleteStatusComplete;
+  }
+  return self;
+}
+static QuestCheckCompleteResponseProto* defaultQuestCheckCompleteResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestCheckCompleteResponseProto class]) {
+    defaultQuestCheckCompleteResponseProtoInstance = [[QuestCheckCompleteResponseProto alloc] init];
+  }
+}
++ (QuestCheckCompleteResponseProto*) defaultInstance {
+  return defaultQuestCheckCompleteResponseProtoInstance;
+}
+- (QuestCheckCompleteResponseProto*) defaultInstance {
+  return defaultQuestCheckCompleteResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestCheckCompleteResponseProto*) parseFromData:(NSData*) data {
+  return (QuestCheckCompleteResponseProto*)[[[QuestCheckCompleteResponseProto builder] mergeFromData:data] build];
+}
++ (QuestCheckCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCheckCompleteResponseProto*)[[[QuestCheckCompleteResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestCheckCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestCheckCompleteResponseProto*)[[[QuestCheckCompleteResponseProto builder] mergeFromInputStream:input] build];
+}
++ (QuestCheckCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCheckCompleteResponseProto*)[[[QuestCheckCompleteResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestCheckCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestCheckCompleteResponseProto*)[[[QuestCheckCompleteResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestCheckCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestCheckCompleteResponseProto*)[[[QuestCheckCompleteResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestCheckCompleteResponseProto_Builder*) builder {
+  return [[[QuestCheckCompleteResponseProto_Builder alloc] init] autorelease];
+}
++ (QuestCheckCompleteResponseProto_Builder*) builderWithPrototype:(QuestCheckCompleteResponseProto*) prototype {
+  return [[QuestCheckCompleteResponseProto builder] mergeFrom:prototype];
+}
+- (QuestCheckCompleteResponseProto_Builder*) builder {
+  return [QuestCheckCompleteResponseProto builder];
+}
+@end
+
+BOOL QuestCheckCompleteResponseProto_QuestCompleteStatusIsValidValue(QuestCheckCompleteResponseProto_QuestCompleteStatus value) {
+  switch (value) {
+    case QuestCheckCompleteResponseProto_QuestCompleteStatusComplete:
+    case QuestCheckCompleteResponseProto_QuestCompleteStatusNotComplete:
+    case QuestCheckCompleteResponseProto_QuestCompleteStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface QuestCheckCompleteResponseProto_Builder()
+@property (retain) QuestCheckCompleteResponseProto* result;
+@end
+
+@implementation QuestCheckCompleteResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestCheckCompleteResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestCheckCompleteResponseProto_Builder*) clear {
+  self.result = [[[QuestCheckCompleteResponseProto alloc] init] autorelease];
+  return self;
+}
+- (QuestCheckCompleteResponseProto_Builder*) clone {
+  return [QuestCheckCompleteResponseProto builderWithPrototype:result];
+}
+- (QuestCheckCompleteResponseProto*) defaultInstance {
+  return [QuestCheckCompleteResponseProto defaultInstance];
+}
+- (QuestCheckCompleteResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestCheckCompleteResponseProto*) buildPartial {
+  QuestCheckCompleteResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestCheckCompleteResponseProto_Builder*) mergeFrom:(QuestCheckCompleteResponseProto*) other {
+  if (other == [QuestCheckCompleteResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestCheckCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestCheckCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (QuestCheckCompleteResponseProto_QuestCompleteStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestCheckCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestCheckCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestCheckCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestCheckCompleteResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (QuestCheckCompleteResponseProto_QuestCompleteStatus) status {
+  return result.status;
+}
+- (QuestCheckCompleteResponseProto_Builder*) setStatus:(QuestCheckCompleteResponseProto_QuestCompleteStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (QuestCheckCompleteResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = QuestCheckCompleteResponseProto_QuestCompleteStatusComplete;
+  return self;
+}
+@end
+
+@interface QuestLogDetailsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation QuestLogDetailsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static QuestLogDetailsRequestProto* defaultQuestLogDetailsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestLogDetailsRequestProto class]) {
+    defaultQuestLogDetailsRequestProtoInstance = [[QuestLogDetailsRequestProto alloc] init];
+  }
+}
++ (QuestLogDetailsRequestProto*) defaultInstance {
+  return defaultQuestLogDetailsRequestProtoInstance;
+}
+- (QuestLogDetailsRequestProto*) defaultInstance {
+  return defaultQuestLogDetailsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestLogDetailsRequestProto*) parseFromData:(NSData*) data {
+  return (QuestLogDetailsRequestProto*)[[[QuestLogDetailsRequestProto builder] mergeFromData:data] build];
+}
++ (QuestLogDetailsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestLogDetailsRequestProto*)[[[QuestLogDetailsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestLogDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestLogDetailsRequestProto*)[[[QuestLogDetailsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (QuestLogDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestLogDetailsRequestProto*)[[[QuestLogDetailsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestLogDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestLogDetailsRequestProto*)[[[QuestLogDetailsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestLogDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestLogDetailsRequestProto*)[[[QuestLogDetailsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestLogDetailsRequestProto_Builder*) builder {
+  return [[[QuestLogDetailsRequestProto_Builder alloc] init] autorelease];
+}
++ (QuestLogDetailsRequestProto_Builder*) builderWithPrototype:(QuestLogDetailsRequestProto*) prototype {
+  return [[QuestLogDetailsRequestProto builder] mergeFrom:prototype];
+}
+- (QuestLogDetailsRequestProto_Builder*) builder {
+  return [QuestLogDetailsRequestProto builder];
+}
+@end
+
+@interface QuestLogDetailsRequestProto_Builder()
+@property (retain) QuestLogDetailsRequestProto* result;
+@end
+
+@implementation QuestLogDetailsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestLogDetailsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestLogDetailsRequestProto_Builder*) clear {
+  self.result = [[[QuestLogDetailsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (QuestLogDetailsRequestProto_Builder*) clone {
+  return [QuestLogDetailsRequestProto builderWithPrototype:result];
+}
+- (QuestLogDetailsRequestProto*) defaultInstance {
+  return [QuestLogDetailsRequestProto defaultInstance];
+}
+- (QuestLogDetailsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestLogDetailsRequestProto*) buildPartial {
+  QuestLogDetailsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestLogDetailsRequestProto_Builder*) mergeFrom:(QuestLogDetailsRequestProto*) other {
+  if (other == [QuestLogDetailsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestLogDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestLogDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestLogDetailsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestLogDetailsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestLogDetailsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestLogDetailsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface QuestLogDetailsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableInProgressUserQuestDataList;
+@property QuestLogDetailsResponseProto_QuestLogDetailsStatus status;
+@end
+
+@implementation QuestLogDetailsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableInProgressUserQuestDataList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableInProgressUserQuestDataList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess;
+  }
+  return self;
+}
+static QuestLogDetailsResponseProto* defaultQuestLogDetailsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [QuestLogDetailsResponseProto class]) {
+    defaultQuestLogDetailsResponseProtoInstance = [[QuestLogDetailsResponseProto alloc] init];
+  }
+}
++ (QuestLogDetailsResponseProto*) defaultInstance {
+  return defaultQuestLogDetailsResponseProtoInstance;
+}
+- (QuestLogDetailsResponseProto*) defaultInstance {
+  return defaultQuestLogDetailsResponseProtoInstance;
+}
+- (NSArray*) inProgressUserQuestDataList {
+  return mutableInProgressUserQuestDataList;
+}
+- (FullUserQuestDataLarge*) inProgressUserQuestDataAtIndex:(int32_t) index {
+  id value = [mutableInProgressUserQuestDataList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (FullUserQuestDataLarge* element in self.inProgressUserQuestDataList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullUserQuestDataLarge* element in self.inProgressUserQuestDataList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullUserQuestDataLarge* element in self.inProgressUserQuestDataList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (QuestLogDetailsResponseProto*) parseFromData:(NSData*) data {
+  return (QuestLogDetailsResponseProto*)[[[QuestLogDetailsResponseProto builder] mergeFromData:data] build];
+}
++ (QuestLogDetailsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestLogDetailsResponseProto*)[[[QuestLogDetailsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (QuestLogDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (QuestLogDetailsResponseProto*)[[[QuestLogDetailsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (QuestLogDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestLogDetailsResponseProto*)[[[QuestLogDetailsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestLogDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (QuestLogDetailsResponseProto*)[[[QuestLogDetailsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (QuestLogDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (QuestLogDetailsResponseProto*)[[[QuestLogDetailsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (QuestLogDetailsResponseProto_Builder*) builder {
+  return [[[QuestLogDetailsResponseProto_Builder alloc] init] autorelease];
+}
++ (QuestLogDetailsResponseProto_Builder*) builderWithPrototype:(QuestLogDetailsResponseProto*) prototype {
+  return [[QuestLogDetailsResponseProto builder] mergeFrom:prototype];
+}
+- (QuestLogDetailsResponseProto_Builder*) builder {
+  return [QuestLogDetailsResponseProto builder];
+}
+@end
+
+BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDetailsResponseProto_QuestLogDetailsStatus value) {
+  switch (value) {
+    case QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess:
+    case QuestLogDetailsResponseProto_QuestLogDetailsStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface QuestLogDetailsResponseProto_Builder()
+@property (retain) QuestLogDetailsResponseProto* result;
+@end
+
+@implementation QuestLogDetailsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[QuestLogDetailsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (QuestLogDetailsResponseProto_Builder*) clear {
+  self.result = [[[QuestLogDetailsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) clone {
+  return [QuestLogDetailsResponseProto builderWithPrototype:result];
+}
+- (QuestLogDetailsResponseProto*) defaultInstance {
+  return [QuestLogDetailsResponseProto defaultInstance];
+}
+- (QuestLogDetailsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (QuestLogDetailsResponseProto*) buildPartial {
+  QuestLogDetailsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (QuestLogDetailsResponseProto_Builder*) mergeFrom:(QuestLogDetailsResponseProto*) other {
+  if (other == [QuestLogDetailsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableInProgressUserQuestDataList.count > 0) {
+    if (result.mutableInProgressUserQuestDataList == nil) {
+      result.mutableInProgressUserQuestDataList = [NSMutableArray array];
+    }
+    [result.mutableInProgressUserQuestDataList addObjectsFromArray:other.mutableInProgressUserQuestDataList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (QuestLogDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullUserQuestDataLarge_Builder* subBuilder = [FullUserQuestDataLarge builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInProgressUserQuestData:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (QuestLogDetailsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (QuestLogDetailsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) inProgressUserQuestDataList {
+  if (result.mutableInProgressUserQuestDataList == nil) { return [NSArray array]; }
+  return result.mutableInProgressUserQuestDataList;
+}
+- (FullUserQuestDataLarge*) inProgressUserQuestDataAtIndex:(int32_t) index {
+  return [result inProgressUserQuestDataAtIndex:index];
+}
+- (QuestLogDetailsResponseProto_Builder*) replaceInProgressUserQuestDataAtIndex:(int32_t) index with:(FullUserQuestDataLarge*) value {
+  [result.mutableInProgressUserQuestDataList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) addAllInProgressUserQuestData:(NSArray*) values {
+  if (result.mutableInProgressUserQuestDataList == nil) {
+    result.mutableInProgressUserQuestDataList = [NSMutableArray array];
+  }
+  [result.mutableInProgressUserQuestDataList addObjectsFromArray:values];
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) clearInProgressUserQuestDataList {
+  result.mutableInProgressUserQuestDataList = nil;
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) addInProgressUserQuestData:(FullUserQuestDataLarge*) value {
+  if (result.mutableInProgressUserQuestDataList == nil) {
+    result.mutableInProgressUserQuestDataList = [NSMutableArray array];
+  }
+  [result.mutableInProgressUserQuestDataList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (QuestLogDetailsResponseProto_QuestLogDetailsStatus) status {
+  return result.status;
+}
+- (QuestLogDetailsResponseProto_Builder*) setStatus:(QuestLogDetailsResponseProto_QuestLogDetailsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (QuestLogDetailsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess;
   return self;
 }
 @end

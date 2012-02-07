@@ -2,14 +2,25 @@
 
 #import "ProtocolBuffers.h"
 
-@class ReloadCitiesRequestProto;
-@class ReloadCitiesRequestProto_Builder;
-@class ReloadEquipmentRequestProto;
-@class ReloadEquipmentRequestProto_Builder;
-@class ReloadTaskEquipmentRequirementsRequestProto;
-@class ReloadTaskEquipmentRequirementsRequestProto_Builder;
-@class ReloadTaskRequestProto;
-@class ReloadTaskRequestProto_Builder;
+@class AdminChangeRequestProto;
+@class AdminChangeRequestProto_Builder;
+typedef enum {
+  AdminChangeRequestProto_StaticDataReloadTypeAll = 0,
+  AdminChangeRequestProto_StaticDataReloadTypeBuildStructJobs = 1,
+  AdminChangeRequestProto_StaticDataReloadTypeCities = 2,
+  AdminChangeRequestProto_StaticDataReloadTypeDefeatTypeJobs = 3,
+  AdminChangeRequestProto_StaticDataReloadTypeEquipment = 4,
+  AdminChangeRequestProto_StaticDataReloadTypeMarketplaceJobs = 5,
+  AdminChangeRequestProto_StaticDataReloadTypeQuests = 6,
+  AdminChangeRequestProto_StaticDataReloadTypeTaskEquipRequirements = 7,
+  AdminChangeRequestProto_StaticDataReloadTypeTasks = 8,
+  AdminChangeRequestProto_StaticDataReloadTypeUpgradeStructJobs = 9,
+  AdminChangeRequestProto_StaticDataReloadTypeStructures = 10,
+  AdminChangeRequestProto_StaticDataReloadTypePossessEquipJobs = 11,
+} AdminChangeRequestProto_StaticDataReloadType;
+
+BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequestProto_StaticDataReloadType value);
+
 
 @interface AdminRoot : NSObject {
 }
@@ -17,159 +28,69 @@
 + (void) registerAllExtensions:(PBMutableExtensionRegistry*) registry;
 @end
 
-@interface ReloadCitiesRequestProto : PBGeneratedMessage {
+@interface AdminChangeRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasMultipleOfRecruitsBaseReward_:1;
+  BOOL hasSalePercentOff_:1;
+  BOOL hasStaticDataReloadType_:1;
+  Float32 multipleOfRecruitsBaseReward;
+  int32_t salePercentOff;
+  AdminChangeRequestProto_StaticDataReloadType staticDataReloadType;
 }
+- (BOOL) hasStaticDataReloadType;
+- (BOOL) hasSalePercentOff;
+- (BOOL) hasMultipleOfRecruitsBaseReward;
+@property (readonly) AdminChangeRequestProto_StaticDataReloadType staticDataReloadType;
+@property (readonly) int32_t salePercentOff;
+@property (readonly) Float32 multipleOfRecruitsBaseReward;
 
-+ (ReloadCitiesRequestProto*) defaultInstance;
-- (ReloadCitiesRequestProto*) defaultInstance;
++ (AdminChangeRequestProto*) defaultInstance;
+- (AdminChangeRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ReloadCitiesRequestProto_Builder*) builder;
-+ (ReloadCitiesRequestProto_Builder*) builder;
-+ (ReloadCitiesRequestProto_Builder*) builderWithPrototype:(ReloadCitiesRequestProto*) prototype;
+- (AdminChangeRequestProto_Builder*) builder;
++ (AdminChangeRequestProto_Builder*) builder;
++ (AdminChangeRequestProto_Builder*) builderWithPrototype:(AdminChangeRequestProto*) prototype;
 
-+ (ReloadCitiesRequestProto*) parseFromData:(NSData*) data;
-+ (ReloadCitiesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadCitiesRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ReloadCitiesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadCitiesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ReloadCitiesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AdminChangeRequestProto*) parseFromData:(NSData*) data;
++ (AdminChangeRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AdminChangeRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (AdminChangeRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (AdminChangeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (AdminChangeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface ReloadCitiesRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface AdminChangeRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  ReloadCitiesRequestProto* result;
+  AdminChangeRequestProto* result;
 }
 
-- (ReloadCitiesRequestProto*) defaultInstance;
+- (AdminChangeRequestProto*) defaultInstance;
 
-- (ReloadCitiesRequestProto_Builder*) clear;
-- (ReloadCitiesRequestProto_Builder*) clone;
+- (AdminChangeRequestProto_Builder*) clear;
+- (AdminChangeRequestProto_Builder*) clone;
 
-- (ReloadCitiesRequestProto*) build;
-- (ReloadCitiesRequestProto*) buildPartial;
+- (AdminChangeRequestProto*) build;
+- (AdminChangeRequestProto*) buildPartial;
 
-- (ReloadCitiesRequestProto_Builder*) mergeFrom:(ReloadCitiesRequestProto*) other;
-- (ReloadCitiesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ReloadCitiesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
+- (AdminChangeRequestProto_Builder*) mergeFrom:(AdminChangeRequestProto*) other;
+- (AdminChangeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (AdminChangeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-@interface ReloadEquipmentRequestProto : PBGeneratedMessage {
-@private
-}
+- (BOOL) hasStaticDataReloadType;
+- (AdminChangeRequestProto_StaticDataReloadType) staticDataReloadType;
+- (AdminChangeRequestProto_Builder*) setStaticDataReloadType:(AdminChangeRequestProto_StaticDataReloadType) value;
+- (AdminChangeRequestProto_Builder*) clearStaticDataReloadType;
 
-+ (ReloadEquipmentRequestProto*) defaultInstance;
-- (ReloadEquipmentRequestProto*) defaultInstance;
+- (BOOL) hasSalePercentOff;
+- (int32_t) salePercentOff;
+- (AdminChangeRequestProto_Builder*) setSalePercentOff:(int32_t) value;
+- (AdminChangeRequestProto_Builder*) clearSalePercentOff;
 
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ReloadEquipmentRequestProto_Builder*) builder;
-+ (ReloadEquipmentRequestProto_Builder*) builder;
-+ (ReloadEquipmentRequestProto_Builder*) builderWithPrototype:(ReloadEquipmentRequestProto*) prototype;
-
-+ (ReloadEquipmentRequestProto*) parseFromData:(NSData*) data;
-+ (ReloadEquipmentRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ReloadEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ReloadEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReloadEquipmentRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  ReloadEquipmentRequestProto* result;
-}
-
-- (ReloadEquipmentRequestProto*) defaultInstance;
-
-- (ReloadEquipmentRequestProto_Builder*) clear;
-- (ReloadEquipmentRequestProto_Builder*) clone;
-
-- (ReloadEquipmentRequestProto*) build;
-- (ReloadEquipmentRequestProto*) buildPartial;
-
-- (ReloadEquipmentRequestProto_Builder*) mergeFrom:(ReloadEquipmentRequestProto*) other;
-- (ReloadEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ReloadEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReloadTaskEquipmentRequirementsRequestProto : PBGeneratedMessage {
-@private
-}
-
-+ (ReloadTaskEquipmentRequirementsRequestProto*) defaultInstance;
-- (ReloadTaskEquipmentRequirementsRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) builder;
-+ (ReloadTaskEquipmentRequirementsRequestProto_Builder*) builder;
-+ (ReloadTaskEquipmentRequirementsRequestProto_Builder*) builderWithPrototype:(ReloadTaskEquipmentRequirementsRequestProto*) prototype;
-
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromData:(NSData*) data;
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReloadTaskEquipmentRequirementsRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  ReloadTaskEquipmentRequirementsRequestProto* result;
-}
-
-- (ReloadTaskEquipmentRequirementsRequestProto*) defaultInstance;
-
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) clear;
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) clone;
-
-- (ReloadTaskEquipmentRequirementsRequestProto*) build;
-- (ReloadTaskEquipmentRequirementsRequestProto*) buildPartial;
-
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) mergeFrom:(ReloadTaskEquipmentRequirementsRequestProto*) other;
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReloadTaskRequestProto : PBGeneratedMessage {
-@private
-}
-
-+ (ReloadTaskRequestProto*) defaultInstance;
-- (ReloadTaskRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ReloadTaskRequestProto_Builder*) builder;
-+ (ReloadTaskRequestProto_Builder*) builder;
-+ (ReloadTaskRequestProto_Builder*) builderWithPrototype:(ReloadTaskRequestProto*) prototype;
-
-+ (ReloadTaskRequestProto*) parseFromData:(NSData*) data;
-+ (ReloadTaskRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadTaskRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ReloadTaskRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ReloadTaskRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ReloadTaskRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ReloadTaskRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  ReloadTaskRequestProto* result;
-}
-
-- (ReloadTaskRequestProto*) defaultInstance;
-
-- (ReloadTaskRequestProto_Builder*) clear;
-- (ReloadTaskRequestProto_Builder*) clone;
-
-- (ReloadTaskRequestProto*) build;
-- (ReloadTaskRequestProto*) buildPartial;
-
-- (ReloadTaskRequestProto_Builder*) mergeFrom:(ReloadTaskRequestProto*) other;
-- (ReloadTaskRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ReloadTaskRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (BOOL) hasMultipleOfRecruitsBaseReward;
+- (Float32) multipleOfRecruitsBaseReward;
+- (AdminChangeRequestProto_Builder*) setMultipleOfRecruitsBaseReward:(Float32) value;
+- (AdminChangeRequestProto_Builder*) clearMultipleOfRecruitsBaseReward;
 @end
 

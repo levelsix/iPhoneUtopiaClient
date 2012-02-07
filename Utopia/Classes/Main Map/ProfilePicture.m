@@ -11,6 +11,7 @@
 #import "MaskedSprite.h"
 #import "QuestLogController.h"
 #import "ArmoryViewController.h"
+#import "MarketplaceViewController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080

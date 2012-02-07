@@ -21,10 +21,9 @@
   int _maxEnergy;
   int _currentStamina;
   int _maxStamina;
-  int _health;
-  int _maxHealth;
-  int _diamonds;
-  int _coins;
+  int _gold;
+  int _silver;
+  int _wood;
   int _vaultBalance;
   NSString *_armyCode;
   int _battlesWon;
@@ -35,8 +34,14 @@
   int _experience;
   int _tasksCompleted;
   int _numReferrals;
+  int _marketplaceGoldEarnings;
+  int _marketplaceSilverEarnings;
+  int _marketplaceWoodEarnings;
   
-  NSMutableArray *_marketplacePosts;
+  NSMutableArray *_marketplaceEquipPosts;
+  NSMutableArray *_marketplaceCurrencyPosts;
+  NSMutableArray *_marketplaceEquipPostsFromSender;
+  NSMutableArray *_marketplaceCurrencyPostsFromSender;
 }
 
 @property (assign) BOOL connected;
@@ -50,10 +55,9 @@
 @property (assign) int maxEnergy;
 @property (assign) int currentStamina;
 @property (assign) int maxStamina;
-@property (assign) int health;
-@property (assign) int maxHealth;
-@property (assign) int diamonds;
-@property (assign) int coins;
+@property (assign) int gold;
+@property (assign) int silver;
+@property (assign) int wood;
 @property (assign) int vaultBalance;
 @property (retain) NSString *armyCode;
 @property (assign) int battlesWon;
@@ -64,8 +68,14 @@
 @property (assign) int experience;
 @property (assign) int tasksCompleted;
 @property (assign) int numReferrals;
+@property (assign) int marketplaceGoldEarnings;
+@property (assign) int marketplaceSilverEarnings;
+@property (assign) int marketplaceWoodEarnings;
 
-@property (retain) NSMutableArray *_marketplacePosts;
+@property (retain) NSMutableArray *marketplaceEquipPosts;
+@property (retain) NSMutableArray *marketplaceCurrencyPosts;
+@property (retain) NSMutableArray *marketplaceEquipPostsFromSender;
+@property (retain) NSMutableArray *marketplaceCurrencyPostsFromSender;
 
 + (GameState *) sharedGameState;
 + (NSString *) font;

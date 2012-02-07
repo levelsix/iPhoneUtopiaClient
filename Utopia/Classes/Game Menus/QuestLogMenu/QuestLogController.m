@@ -444,16 +444,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [super viewDidUnload];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-  [[CCDirector sharedDirector] openGLView].userInteractionEnabled = NO;
-  [super viewDidAppear:animated];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-  [[CCDirector sharedDirector] openGLView].userInteractionEnabled = YES;
-  [super viewDidDisappear:animated];
-}
-
 - (IBAction)closeButtonClicked:(id)sender {
   [QuestLogController removeView];
 }

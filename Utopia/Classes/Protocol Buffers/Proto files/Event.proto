@@ -27,7 +27,13 @@ message ChatResponseProto {
 message BattleRequestProto {
     required MinimumUserProto attacker = 1; 
     required MinimumUserProto defender = 2; 
-    required int32 attackerBonus = 3;						//1-100, 100 is best, 1 is bad
+    required BattleResult battleResult = 3;
+    optional int32 neutralCityId = 4;
+    
+    enum BattleResult {
+    	ATTACKER_WIN = 0;
+    	DEFENDER_WIN = 1;
+    }
 }
 
 																						//DONE
@@ -36,21 +42,13 @@ message BattleResponseProto {
     required MinimumUserProto defender = 2;
 	required BattleStatus status = 3;
 
-	optional int32 winnerUserId = 4;
-	optional int32 coinsGained = 5;
-	optional FullEquipProto equipGained = 6;
-    optional int32 expGained = 7;
-    optional int32 winnerHealthLoss = 8;
-    optional int32 loserHealthLoss = 9;
-    
+	optional int32 coinsGained = 4;
+	optional FullEquipProto equipGained = 5;
+    optional int32 expGained = 6;
     
     enum BattleStatus {
-		SUCCESS = 0; 
-		ATTACKER_NOT_ENOUGH_HEALTH = 1;
-		DEFENDER_NOT_ENOUGH_HEALTH = 2;
-		ATTACKER_NOT_ENOUGH_STAMINA = 3;
-		LEVEL_DIFFERENCE_TOO_HIGH = 4;
-		OPPONENT_ON_SAME_SIDE = 5;
+		SUCCESS = 0;
+		OTHER_FAIL = 1;
 	} 
 }
 
@@ -104,26 +102,6 @@ message ArmoryResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-																						//DONE
-message ClericHealRequestProto {
-	required MinimumUserProto sender = 1;
-}
-
-																						//DONE
-message ClericHealResponseProto {
-	required MinimumUserProto sender = 1;
-	optional int32 cost = 2;
-	optional HealStatus status = 3;
-	
-	enum HealStatus {
-		SUCCESS = 0; 
-		USER_NOT_ENOUGH_VAULT = 1;
-		OTHER_FAIL = 2;
-	} 
-}
-
-//------------------------------------------------------------------------------------------
-
 message StartupRequestProto {				//client will also send ChangeUserLocationRequestProto
      required string udid = 1;
      required float versionNum = 2;	//1.0->2.0 critical, 1.0->1.1 minor. server checks db for latest vnum
@@ -135,8 +113,11 @@ message StartupResponseProto {
      required UpdateStatus updateStatus= 3;
      optional int32 maxCityIdAccessibleToUser = 4;     //cityids must be in order of min_level
      optional FullUserStructureProto structures = 5;
-     required bool updateAvailable = 6;
-     optional int32 questLog = 7;  
+     optional int32 questLog = 6;
+     repeated string productIds = 7;
+     optional int32 diamondCostForEnergyRefill = 8; 
+     optional int32 diamondCostForStaminaRefill = 9;
+     repeated FullUserEquipProto userEquips = 10; 
      
      enum UpdateStatus {
      	NO_UPDATE = 0;
@@ -155,12 +136,13 @@ message StartupResponseProto {
 
 message UserCreateRequestProto {
      required string udid = 1;
-     repeated FullUserStructureProto structures = 2;
-     required LocationProto userLocation = 3;						
-     required CoordinateProto aviaryCoordinates = 4;
-     required CoordinateProto refineryCoordinates = 5;
-     required CoordinateProto carpenterCoordinates = 6;     
-     optional int32 referrerCode = 7;
+     required string name = 2;
+     repeated FullUserStructureProto structures = 3;
+     required LocationProto userLocation = 4;						
+     required CoordinateProto aviaryCoordinates = 5;
+     required CoordinateProto refineryCoordinates = 6;
+     required CoordinateProto carpenterCoordinates = 7;     
+     optional int32 referrerCode = 8;
 }
 //CREATE UTILITY METHOD- unlockCityRankOneForCityId(int cityId)
 message UserCreateResponseProto {
@@ -237,44 +219,139 @@ message TaskActionResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-message PurchaseStructureRequestProto {
+																						//DONE
+message PurchaseNormStructureRequestProto {
 	required MinimumUserProto sender = 1;
 	required CoordinateProto structCoordinates = 2;
 	required int32 structId = 3;
 }
 
-//------------------------------------------------------------------------------------------
-
-message PlaceCriticalStructureRequestProto {
+																						//DONE
+message PurchaseNormStructureResponseProto {
 	required MinimumUserProto sender = 1;
-	required CoordinateProto critStructCoordinates = 2;
-	required int32 critStructId = 3;
-}
-
-//------------------------------------------------------------------------------------------
-
-message MoveCriticalStructureRequestProto {
-	required MinimumUserProto sender = 1;
-	required CoordinateProto critStructCoordinates = 2;
-	required CritStructType critStruct = 3;
+	required PurchaseNormStructureStatus status = 2;
+	optional int32 userStructId = 3;
 	
-	enum CritStructType {
-		AVIARY = 0;
-		LUMBERMILL = 1;
-		CARPENTER = 2;
-		VAULT = 3;
-		ARMORY = 4;
-		CLERIC = 5;
+	enum PurchaseNormStructureStatus {
+		SUCCESS = 0;
+		NOT_ENOUGH_COINS = 1;
+		NOT_ENOUGH_DIAMONDS = 2;
+		NOT_ENOUGH_WOOD = 3;
+		LEVEL_TOO_LOW = 4;
+		OTHER_FAIL = 5;
 	}
 }
 
 //------------------------------------------------------------------------------------------
 
-message MoveUserStructureRequestProto {
+																						//DONE
+message MoveNormStructureRequestProto {
 	required MinimumUserProto sender = 1;
-	required CoordinateProto oldStructCoordinates = 2;
+	required int32 userStructId = 2;
 	required CoordinateProto curStructCoordinates = 3;
-	required int32 structId = 4;
+}
+
+																						//DONE
+message MoveNormStructureResponseProto {
+	required MinimumUserProto sender = 1;
+	required MoveNormStructureStatus status = 2;
+	
+	enum MoveNormStructureStatus {
+		SUCCESS = 0;
+		FAIL = 1;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message SellNormStructureRequestProto {
+	required MinimumUserProto sender = 1;
+	required int32 userStructId = 2;
+	required int32 soldStructId = 3;		//optimization to prevent db call
+}
+
+																						//DONE
+message SellNormStructureResponseProto {
+	required MinimumUserProto sender = 1;
+	required SellNormStructureStatus status = 2;
+	
+	enum SellNormStructureStatus {
+		SUCCESS = 0;
+		FAIL = 1;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message UpgradeNormStructureRequestProto {
+	required MinimumUserProto sender = 1;
+	required int32 userStructId = 2;
+}
+
+																						//DONE
+message UpgradeNormStructureResponseProto {
+	required MinimumUserProto sender = 1;
+	required UpgradeNormStructureStatus status = 2;
+	
+	enum UpgradeNormStructureStatus {
+		SUCCESS = 0;
+		NOT_ENOUGH_DIAMONDS = 1;
+		NOT_ENOUGH_COINS = 2;
+		NOT_ENOUGH_WOOD = 3;
+		OTHER_FAIL = 4;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RetrieveCurrencyFromNormStructureRequestProto {
+	required MinimumUserProto sender = 1;
+	required int32 userStructId = 2;
+	required int64 timeOfRetrieval = 3;	
+}
+
+																						//DONE
+message RetrieveCurrencyFromNormStructureResponseProto {
+	required MinimumUserProto sender = 1;
+	required RetrieveCurrencyFromNormStructureStatus status = 2;
+	
+	enum RetrieveCurrencyFromNormStructureStatus {
+		SUCCESS = 0;
+		NOT_LONG_ENOUGH = 1;
+		OTHER_FAIL = 2;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message CriticalStructureActionRequestProto {
+	required MinimumUserProto sender = 1;
+	required CoordinateProto critStructCoordinates = 2;
+	required CritStructType critStructType = 3;
+	required CritStructAction critStructAction = 4;
+	
+	enum CritStructAction {
+		PLACE = 1;
+		MOVE = 2;
+	}
+}
+
+																						//DONE
+message CriticalStructureActionResponseProto {
+	required MinimumUserProto sender = 1;
+	required CriticalStructureAction status = 3;
+	
+	enum CriticalStructureAction {
+		SUCCESS = 0;
+		CANNOT_PLACE_NON_PLACEABLE_CRIT_STRUCT = 1;	//we only place armory/vault/marketplace 
+		NOT_ACCESSIBLE_TO_USERS_LEVEL = 2;
+		CANNOT_MOVE_AVIARY = 3;
+		OTHER_FAIL = 4;	
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -314,17 +391,18 @@ message UpdateClientUserResponseProto {
 
 //------------------------------------------------------------------------------------------
 
-																						//DONE
 message RetrieveCurrentMarketplacePostsRequestProto {
 	required MinimumUserProto sender = 1;
 	optional int32 beforeThisPostId = 2;
-	optional bool fromSender = 3;
+	required bool fromSender = 3;
 }
 
 																						//DONE
 message RetrieveCurrentMarketplacePostsResponseProto {
      required MinimumUserProto sender = 1;
      repeated FullMarketplacePostProto marketplacePosts = 2;
+     optional int32 beforeThisPostId = 3;
+     required bool fromSender = 4;
 }
 
 //------------------------------------------------------------------------------------------
@@ -351,12 +429,13 @@ message PostToMarketplaceResponseProto {
 		SUCCESS = 0;
 		NEGATIVE_POST = 1;
 		NOT_ENOUGH_EQUIP = 2;
-		NOT_ENOUGH_WOOD = 3;
-		NOT_ENOUGH_DIAMONDS = 4;
-		NOT_ENOUGH_COINS = 5;
-		NEGATIVE_COST = 6;
-		NO_COST = 7;
-		OTHER_FAIL = 8;
+		NEGATIVE_COST = 3;
+		NO_COST = 4;
+		USER_ALREADY_MAX_MARKETPLACE_POSTS = 5;
+		NOT_ENOUGH_WOOD = 6;
+		NOT_ENOUGH_DIAMONDS = 7;
+		NOT_ENOUGH_COINS = 8;
+		OTHER_FAIL = 9;
 	}
 }
 
@@ -377,6 +456,9 @@ message RetractMarketplacePostResponseProto {
 		SUCCESS = 0;
 		NOT_REQUESTERS_POST = 1;
 		POST_NO_LONGER_EXISTS = 2;
+		NOT_ENOUGH_WOOD = 3;
+		NOT_ENOUGH_DIAMONDS = 4;
+		NOT_ENOUGH_COINS = 5;
 	}
 }
 
@@ -436,6 +518,8 @@ message UseSkillPointResponseProto {
 																						//DONE
 message GenerateAttackListRequestProto {
 	required MinimumUserProto sender = 1;
+	optional UserType enemyType = 2;
+	optional int32 numEnemies = 3; 
 }
 
 																						//DONE
@@ -443,3 +527,214 @@ message GenerateAttackListResponseProto {
      required MinimumUserProto sender = 1;
      repeated FullUserProto enemies = 2;
 }
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RefillStatWithDiamondsRequestProto {
+	required MinimumUserProto sender = 1;
+	required StatType statType = 2;
+
+	enum StatType {
+		ENERGY = 0;
+		STAMINA = 1;
+	}
+}
+
+																						//DONE
+message RefillStatWithDiamondsResponseProto {
+     required MinimumUserProto sender = 1;
+     required RefillStatStatus status = 2;
+     
+     enum RefillStatStatus {
+     	SUCCESS = 0;
+     	NOT_ENOUGH_DIAMONDS = 1;
+     	OTHER_FAIL = 2;
+     }
+}
+
+//------------------------------------------------------------------------------------------
+
+//done for both finishing a struct's building and instantly gettin income
+																						//DONE
+message FinishNormStructWaittimeWithDiamondsRequestProto {
+	required MinimumUserProto sender = 1;
+	required int32 userStructId = 2;
+	required int64 timeOfPurchase = 3;			//lastRetrieved will start with this date
+	required NormStructWaitTimeType waitTimeType = 4;
+
+	enum NormStructWaitTimeType {
+		FINISH_CONSTRUCTION = 0;
+		FINISH_INCOME_WAITTIME = 1;
+	}
+}
+
+																						//DONE
+message FinishNormStructWaittimeWithDiamondsResponseProto {
+     required MinimumUserProto sender = 1;
+     required FinishNormStructWaittimeStatus status = 2;
+     
+     enum FinishNormStructWaittimeStatus {
+     	SUCCESS = 0;
+     	NOT_ENOUGH_DIAMONDS = 1;
+     	OTHER_FAIL = 2;
+     }
+}
+
+
+//------------------------------------------------------------------------------------------
+
+
+//this message sent to server after a player's homepage is loaded and client checks which structs 
+//have been built but not reflected in db yet (so when is_complete=0 but the purchase_time 
+//implies that it should be)
+//this message is also sent whenever the player is on the screen and the build completes
+//i would set last_retrieved manually to when it should have completed, and is_complete=1
+											
+																						//DONE
+//NOT VERY EFFICIENT..extra db call. and for every newly built building, new db call. but w/e for now.																						
+message NormStructBuildsCompleteRequestProto {
+	required MinimumUserProto sender = 1;
+	repeated int32 userStructId = 2;
+}
+
+																						//DONE
+message NormStructBuildsCompleteResponseProto {
+     required MinimumUserProto sender = 1;
+     required NormStructBuildsCompleteStatus status = 2;
+     repeated FullUserStructureProto userStruct = 3;
+     
+     enum NormStructBuildsCompleteStatus {
+     	SUCCESS = 0;
+     	OTHER_FAIL = 1;
+     }
+}
+
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RedeemMarketplaceEarningsRequestProto {
+	required MinimumUserProto sender = 1;
+}
+
+																						//DONE
+message RedeemMarketplaceEarningsResponseProto {
+     required MinimumUserProto sender = 1;
+     required RedeemMarketplaceEarningsStatus status = 2;
+     
+     enum RedeemMarketplaceEarningsStatus {
+     	SUCCESS = 0;
+     	OTHER_FAIL = 1;
+     }
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message LoadPlayerCityRequestProto {
+	required MinimumUserProto sender = 1;
+	required MinimumUserProto cityOwner = 2;
+}
+
+																						//DONE
+message LoadPlayerCityResponseProto {
+    required MinimumUserProto sender = 1;
+	required LoadPlayerCityStatus status = 2;
+	repeated FullUserStructureProto ownerNormStructs = 3;
+	repeated FullUserProto ownerAllies = 4;
+
+    optional CoordinateProto armoryCoords = 5;
+    optional CoordinateProto vaultCoords = 6;
+    optional CoordinateProto marketplaceCoords = 7;
+    required CoordinateProto lumbermillCoords = 8;
+    required CoordinateProto carpenterCoords = 9;
+    required CoordinateProto aviaryCoords = 10;
+     
+    enum LoadPlayerCityStatus {
+     	SUCCESS = 0;
+     	NO_SUCH_PLAYER = 1;
+     	OTHER_FAIL = 2;
+     }
+}
+
+//------------------------------------------------------------------------------------------
+
+message QuestAcceptRequestProto {
+     required MinimumUserProto sender = 1;
+     required int32 questId = 2;
+}
+
+message QuestAcceptResponseProto {
+     required MinimumUserProto sender = 1;
+     required QuestAcceptStatus status = 2;
+
+     enum QuestAcceptStatus {
+          SUCCESS = 0;
+          NOT_AVAIL_TO_USER = 1;
+          OTHER_FAIL = 2;
+     }
+}
+
+//------------------------------------------------------------------------------------------
+
+message QuestCompleteResponseProto {
+     required MinimumUserProto sender = 1;
+     required int32 questId = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+message QuestRedeemRequestProto {                         //take away all the required items in here
+     required MinimumUserProto sender = 1;
+     required int32 questId = 2;
+}
+
+message QuestRedeemResponseProto {
+     required MinimumUserProto sender = 1;
+     repeated FullQuestProto updatedAvailableQuests = 2;
+     required QuestRedeemStatus status = 3;    
+
+     enum QuestRedeemStatus {
+          SUCCESS = 0;
+          NOT_COMPLETE = 1;
+          OTHER_FAIL = 2;
+     }
+}
+
+//------------------------------------------------------------------------------------------
+
+message QuestCheckCompleteRequestProto {
+     required MinimumUserProto sender = 1;
+     required int32 questId = 2;
+}
+
+message QuestCheckCompleteResponseProto {
+     required MinimumUserProto sender = 1;
+     required QuestCompleteStatus status = 3;    
+
+     enum QuestCompleteStatus {
+          COMPLETE = 0;
+          NOT_COMPLETE = 1;
+          OTHER_FAIL = 2;
+     }
+}
+
+//------------------------------------------------------------------------------------------
+
+message QuestLogDetailsRequestProto {
+     required MinimumUserProto sender = 1;
+}
+
+message QuestLogDetailsResponseProto {
+     required MinimumUserProto sender = 1;
+     repeated FullUserQuestDataLarge inProgressUserQuestData = 2;
+
+    required QuestLogDetailsStatus status = 3;    
+
+     enum QuestLogDetailsStatus {
+          SUCCESS = 0;
+          OTHER_FAIL = 1;
+     }
+}
+

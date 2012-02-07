@@ -8,15 +8,17 @@
 
 #import "SocketCommunication.h"
 #import "SynthesizeSingleton.h"
-#import "Protocols.pb.h"
-#import "EventController.h"
+#import "IncomingEventController.h"
 #import "UIDevice+IdentifierAddition.h"
+#import "GameState.h"
 
 #define HOST_NAME @"localhost"
 #define HOST_PORT 8888
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
+
+#define RECONNECT_TIMEOUT 100
 
 @implementation SocketCommunication
 
@@ -43,20 +45,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self connectToSocket];
   
   _sender = [[[[[[MinimumUserProto builder] 
-                 setUserId:2] 
+                 setUserId:[GameState sharedGameState].userId] 
                 setName:@"Ashwin"] 
                setUserType: UserTypeBadArcher] 
               build] retain];
   
-  //  for (int i = 0; i < 100; i++) {
-  //    [self sendCoinPostToMarketplaceMessage:10 wood:arc4random()%30 coins:arc4random()%100 diamonds:arc4random()%20];
-  //  }
-  [self sendGenerateAttackListMessage];
-  //  [self sendStartupMessage];
-  //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
-  //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
-  //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
-  //  [self sendTaskActionMessage:2];
+//  for (int i = 0; i < 150; i++) {
+//    [self sendCoinPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
+//    [self sendWoodPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
+//    [self sendDiamondPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
+//  }
+//  [self sendStartupMessage];
+//  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
+//  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
+//  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
+//  [self sendTaskActionMessage:2];
 }
 
 - (void) readHeader {
@@ -88,11 +91,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 {
 	NSLog(@"socketDidDisconnect:withError: \"%@\"", err);
   NSLog(@"Attempting to reconnect..");
-  //  [self connectToSocket];
+  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
 }
 
 -(void) messageReceived:(NSData *)data withType:(EventProtocolResponse) eventType {
-  EventController *ec = [EventController sharedEventController];
+  IncomingEventController *ec = [IncomingEventController sharedIncomingEventController];
   
   // Get the proto class for this event type
   Class typeClass = [ec getClassForType:eventType];
@@ -166,15 +169,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[battleReq data] withMessageType:EventProtocolRequestCBattleEvent];
 }
 
-- (void) sendClericMessage {
-  ClericHealRequestProto *clerReq = [[[ClericHealRequestProto builder] setSender:_sender] build];
-  [self sendData:[clerReq data] withMessageType:EventProtocolRequestCClericHealEvent];
-}
-
 - (void) sendStartupMessage {
+  NSString *udid = [[UIDevice currentDevice] uniqueDeviceIdentifier];
   StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
-                                     setUdid:[[UIDevice currentDevice] uniqueDeviceIdentifier]] 
-                                    setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] floatValue]] build];
+                                     setUdid:udid] 
+                                    setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]] build];
+  
+  NSLog(@"Sent over udid: %@", udid);
   
   [self sendData:[startReq data] withMessageType:EventProtocolRequestCStartupEvent];
 }
@@ -195,18 +196,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[iapReq data] withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
-- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId {
-  RetrieveCurrentMarketplacePostsRequestProto_Builder *mktReq = [[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender];
-  
-  if (postId) {
-    [mktReq setBeforeThisPostId:postId];
-  }
-  
-  [self sendData:[[mktReq build] data] withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
-}
-
-- (void) sendRetrieveCurrentMarketplacePostsMessageFromSenderBeforePostId: (int)postId {
-  RetrieveCurrentMarketplacePostsRequestProto_Builder *mktReq = [[[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender] setFromSender:YES];
+- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId fromSender:(BOOL)fromSender{
+  RetrieveCurrentMarketplacePostsRequestProto_Builder *mktReq = [[[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender] setFromSender:fromSender];
   
   if (postId) {
     [mktReq setBeforeThisPostId:postId];
@@ -286,12 +277,73 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPurchaseFromMarketplaceEvent];
 }
 
+- (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType{
+  UseSkillPointRequestProto *skillReq = [[[[UseSkillPointRequestProto builder]
+                                           setSender:_sender]
+                                          setBoostType:boostType]
+                                         build];
+  
+  [self sendData:[skillReq data] withMessageType:EventProtocolRequestCUseSkillPointEvent];
+}
+
 - (void) sendGenerateAttackListMessage {
   GenerateAttackListRequestProto *attReq = [[[GenerateAttackListRequestProto builder]
                                              setSender:_sender]
                                             build];
   
   [self sendData:[attReq data] withMessageType:EventProtocolRequestCGenerateAttackListEvent];
+}
+
+- (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType {
+  RefillStatWithDiamondsRequestProto *refReq = [[[[RefillStatWithDiamondsRequestProto builder]
+                                                  setSender:_sender]
+                                                 setStatType:statType]
+                                                build];
+  
+  [self sendData:[refReq data] withMessageType:EventProtocolRequestCRefillStatWithDiamondsEvent];
+}
+
+- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y {
+  PurchaseNormStructureRequestProto *purReq = [[[[[PurchaseNormStructureRequestProto builder]
+                                                  setSender:_sender]
+                                                 setStructId:structId]
+                                                setStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
+                                               build];
+  
+  [self sendData:[purReq data] withMessageType:EventProtocolRequestCPurchaseNormStructureEvent];
+}
+
+- (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
+  MoveNormStructureRequestProto *movReq = [[[[[MoveNormStructureRequestProto builder]
+                                              setSender:_sender]
+                                             setUserStructId:userStructId]
+                                            setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
+                                           build];
+  
+  [self sendData:[movReq data] withMessageType:EventProtocolRequestCMoveNormStructureEvent];
+}
+
+- (void) sendUpgradeNormStructureMessage:(int)userStructId {
+  UpgradeNormStructureRequestProto *upReq = [[[[UpgradeNormStructureRequestProto builder]
+                                               setSender:_sender]
+                                              setUserStructId:userStructId]
+                                             build];
+  
+  [self sendData:[upReq data] withMessageType:EventProtocolResponseSUpgradeNormStructureEvent];
+}
+
+- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId {
+  
+}
+
+//and 3) you can also start making client msgs to test these: new marketplace impl, purchasebuildings, movebuildings, sellbuildings, upgradestruct, retrievecurrencyfromuserstruct (time issues), RefillStatWithDiamonds, finishnormstructwithdiamonds
+
+- (void) sendRedeemMarketplaceEarningsMessage {
+  RedeemMarketplaceEarningsRequestProto *redReq = [[[RedeemMarketplaceEarningsRequestProto builder]
+                                                    setSender:_sender]
+                                                   build];
+  
+  [self sendData:[redReq data] withMessageType:EventProtocolResponseSRedeemMarketplaceEarningsEvent];
 }
 
 - (void) closeDownConnection {

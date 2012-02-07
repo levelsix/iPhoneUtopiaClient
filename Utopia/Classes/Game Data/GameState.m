@@ -23,10 +23,9 @@ static NSString *fontName = @"AJensonPro-BoldCapt";
 @synthesize maxEnergy = _maxEnergy;
 @synthesize currentStamina = _currentStamina;
 @synthesize maxStamina = _maxStamina;
-@synthesize health = _health;
-@synthesize maxHealth = _maxHealth;
-@synthesize diamonds = _diamonds;
-@synthesize coins = _coins;
+@synthesize gold = _gold;
+@synthesize silver = _silver;
+@synthesize wood = _wood;
 @synthesize vaultBalance = _vaultBalance;
 @synthesize armyCode = _armyCode;
 @synthesize battlesWon = _battlesWon;
@@ -37,12 +36,26 @@ static NSString *fontName = @"AJensonPro-BoldCapt";
 @synthesize experience = _experience;
 @synthesize tasksCompleted = _tasksCompleted;
 @synthesize skillPoints = _skillPoints;
+@synthesize marketplaceSilverEarnings = _marketplaceSilverEarnings;
+@synthesize marketplaceGoldEarnings = _marketplaceGoldEarnings;
+@synthesize marketplaceWoodEarnings = _marketplaceWoodEarnings;
+
+@synthesize marketplaceEquipPosts = _marketplaceEquipPosts;
+@synthesize marketplaceCurrencyPosts = _marketplaceCurrencyPosts;
+@synthesize marketplaceEquipPostsFromSender = _marketplaceEquipPostsFromSender;
+@synthesize marketplaceCurrencyPostsFromSender = _marketplaceCurrencyPostsFromSender;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
   if ((self = [super init])) {
-    self.connected = NO;
+    _connected = NO;
+    _marketplaceEquipPosts = [[NSMutableArray alloc] init];
+    _marketplaceCurrencyPosts = [[NSMutableArray alloc] init];
+    _marketplaceEquipPostsFromSender = [[NSMutableArray alloc] init];
+    _marketplaceCurrencyPostsFromSender = [[NSMutableArray alloc] init];
+    _userId = 2;
+    _marketplaceGoldEarnings = 2;
   }
   return self;
 }
@@ -61,16 +74,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.maxEnergy = user.energyMax;
   self.currentStamina = user.stamina;
   self.maxStamina = user.staminaMax;
-  self.health = user.health;
-  self.maxHealth = user.healthMax;
-  self.diamonds = user.diamonds;
-  self.coins = user.coins;
+  self.gold = user.diamonds;
+  self.silver = user.coins;
   self.vaultBalance = user.vaultBalance;
   self.armyCode = user.armyCode;
+  self.marketplaceGoldEarnings = user.marketplaceDiamondsEarnings;
+  self.marketplaceSilverEarnings = user.marketplaceCoinsEarnings;
+  self.marketplaceWoodEarnings = user.marketplaceWoodEarnings;
 }
 
 + (NSString *) font {
   return fontName;
+}
+
+- (void) dealloc {
+  self.marketplaceEquipPosts = nil;
+  self.marketplaceCurrencyPosts = nil;
+  self.marketplaceEquipPostsFromSender = nil;
+  self.marketplaceCurrencyPostsFromSender = nil;
+  [super dealloc];
 }
 
 @end

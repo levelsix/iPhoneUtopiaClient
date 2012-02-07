@@ -39,6 +39,18 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCPurchaseFromMarketplaceEvent:
     case EventProtocolRequestCUseSkillPointEvent:
     case EventProtocolRequestCGenerateAttackListEvent:
+    case EventProtocolRequestCPurchaseNormStructureEvent:
+    case EventProtocolRequestCMoveNormStructureEvent:
+    case EventProtocolRequestCSellNormStructureEvent:
+    case EventProtocolRequestCUpgradeNormStructureEvent:
+    case EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent:
+    case EventProtocolRequestCRefillStatWithDiamondsEvent:
+    case EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent:
+    case EventProtocolRequestCNormStructBuildsCompleteEvent:
+    case EventProtocolRequestCRedeemMarketplaceEarningsEvent:
+    case EventProtocolRequestCCritStructureActionEvent:
+    case EventProtocolRequestCLoadPlayerCityEvent:
+    case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
       return NO;
@@ -63,6 +75,17 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSPurchaseFromMarketplaceEvent:
     case EventProtocolResponseSUseSkillPointEvent:
     case EventProtocolResponseSGenerateAttackListEvent:
+    case EventProtocolResponseSPurchaseNormStructureEvent:
+    case EventProtocolResponseSMoveNormStructureEvent:
+    case EventProtocolResponseSSellNormStructureEvent:
+    case EventProtocolResponseSUpgradeNormStructureEvent:
+    case EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
+    case EventProtocolResponseSRefillStatWithDiamondsEvent:
+    case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
+    case EventProtocolResponseSNormStructBuildsCompleteEvent:
+    case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
+    case EventProtocolResponseSCritStructureActionEvent:
+    case EventProtocolResponseSLoadPlayerCityEvent:
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
       return YES;

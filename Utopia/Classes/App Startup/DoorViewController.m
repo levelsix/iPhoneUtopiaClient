@@ -9,7 +9,6 @@
 #import "DoorViewController.h"
 
 #import "GameViewController.h"
-#import "ShopMenuController.h"
 #import "MapViewController.h"
 #import "IAPHelper.h"
 #import "DiamondShopViewController.h"

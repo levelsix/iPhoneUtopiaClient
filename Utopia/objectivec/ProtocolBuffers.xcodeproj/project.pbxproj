@@ -57,7 +57,6 @@
 		748F14740FD75E77000858A9 /* ExtensionRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 7461B4A90F94F99000A0C422 /* ExtensionRegistry.m */; };
 		748F14750FD75E77000858A9 /* Field.m in Sources */ = {isa = PBXBuildFile; fileRef = 7461B4AF0F94F99000A0C422 /* Field.m */; };
 		748F14760FD75E77000858A9 /* GeneratedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7461B4BF0F94F99000A0C422 /* GeneratedMessage.m */; };
-		748F14770FD75E77000858A9 /* GeneratedMessage_Builder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7461B4C10F94F99000A0C422 /* GeneratedMessage_Builder.m */; };
 		748F14780FD75E77000858A9 /* MutableField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7461B4C80F94F99000A0C422 /* MutableField.m */; };
 		748F14790FD75E77000858A9 /* TextFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 7461B4E00F94F99000A0C422 /* TextFormat.m */; };
 		748F147A0FD75E77000858A9 /* UnknownFieldSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7461B4E20F94F99000A0C422 /* UnknownFieldSet.m */; };
@@ -579,7 +578,6 @@
 				748F14740FD75E77000858A9 /* ExtensionRegistry.m in Sources */,
 				748F14750FD75E77000858A9 /* Field.m in Sources */,
 				748F14760FD75E77000858A9 /* GeneratedMessage.m in Sources */,
-				748F14770FD75E77000858A9 /* GeneratedMessage_Builder.m in Sources */,
 				748F14780FD75E77000858A9 /* MutableField.m in Sources */,
 				748F14790FD75E77000858A9 /* TextFormat.m in Sources */,
 				748F147A0FD75E77000858A9 /* UnknownFieldSet.m in Sources */,

@@ -6,7 +6,6 @@
 //  Copyright (c) 2011 LVL6. All rights reserved.
 //
 
-#import "cocos2d.h"
 #import "GCDAsyncSocket.h"
 
 #import "Event.pb.h"
@@ -28,21 +27,26 @@
 - (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
 - (void) sendTasksForCityMessage: (int) cityId;
 - (void) sendBattleMessage:(int)defender;
-- (void) sendClericMessage;
 - (void) sendStartupMessage;
 - (void) sendTaskActionMessage:(int) taskId;
 - (void) sendInAppPurchaseMessage: (NSString *) receipt;
 
 // Marketplace messages
-- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId;
-- (void) sendRetrieveCurrentMarketplacePostsMessageFromSenderBeforePostId: (int)postId;
+- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId:(int)postId fromSender:(BOOL)fromSender;
 - (void) sendCoinPostToMarketplaceMessage:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendWoodPostToMarketplaceMessage:(int)woodPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendDiamondPostToMarketplaceMessage:(int)dmdPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendEquipPostToMarketplaceMessage:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendRetractMarketplacePostMessage: (int)postId;
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
+- (void) sendRedeemMarketplaceEarningsMessage;
 
 - (void) sendGenerateAttackListMessage;
+- (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
+
+- (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType;
+
+- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y;
+- (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
 
 @end

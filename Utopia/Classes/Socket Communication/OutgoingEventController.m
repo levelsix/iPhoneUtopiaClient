@@ -1,0 +1,342 @@
+//
+//  OutgoingEventController.m
+//  Utopia
+//
+//  Created by Ashwin Kamath on 1/29/12.
+//  Copyright (c) 2012 LVL6. All rights reserved.
+//
+
+#import "OutgoingEventController.h"
+#import "SynthesizeSingleton.h"
+#import "GameState.h"
+#import "SocketCommunication.h"
+#import "Globals.h"
+#import "MarketplaceViewController.h"
+
+@implementation OutgoingEventController
+
+SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
+
+- (void) vaultDeposit:(int)amount {
+  if (amount <= 0) {
+    return;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (amount < gs.silver) {
+    [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
+    gs.silver -= amount;
+    gs.vaultBalance += floorf(amount * (1-[[Globals sharedGlobals] depositPercentCut]/100.f));
+  } else {
+    NSLog(@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver);
+  }
+}
+
+- (void) vaultWithdrawal:(int)amount {
+  if (amount <= 0) {
+    return;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (amount < gs.vaultBalance) {
+    [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
+    gs.silver += amount;
+    gs.vaultBalance -= amount;
+  } else {
+    NSLog(@"Unable to withdraw %d coins. Currently only have %d coins in vault.", amount, gs.vaultBalance);
+  }
+}
+
+- (void) tasksForCity:(int)cityId {
+  [[SocketCommunication sharedSocketCommunication] sendTasksForCityMessage:cityId];
+}
+
+- (void) taskAction:(int)taskId {
+  // TODO: Check to make sure of enough energy and equips
+  [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId];
+}
+
+- (void) battle:(int)defender {
+  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:defender];
+}
+
+- (void) startup {
+  [[SocketCommunication sharedSocketCommunication] sendStartupMessage];
+}
+
+- (void) inAppPurchase:(NSString *)receipt {
+  [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt];
+}
+
+- (void) retrieveMostRecentPosts {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
+  [[[GameState sharedGameState] marketplaceCurrencyPosts] removeAllObjects];
+  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:NO];
+}
+
+- (void) retrieveMoreMarketplacePosts {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  FullMarketplacePostProto *x = gs.marketplaceEquipPosts.lastObject;
+  FullMarketplacePostProto *y = gs.marketplaceCurrencyPosts.lastObject;
+  int postId;
+  if (!x && !y) {
+    return;
+  } else if (!x) {
+    postId = [y marketplacePostId];
+  } else if (!y) {
+    postId = [x marketplacePostId];
+  } else {
+    postId = MIN([x marketplacePostId], [y marketplacePostId]);
+  }
+  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:postId fromSender:NO];
+}
+
+- (void) retrieveMostRecentPostsFromSender {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
+  [[[GameState sharedGameState] marketplaceCurrencyPostsFromSender] removeAllObjects];
+  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:YES];
+}
+
+- (void) retrieveMoreMarketplacePostsFromSender {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  FullMarketplacePostProto *x = gs.marketplaceEquipPostsFromSender.lastObject;
+  FullMarketplacePostProto *y = gs.marketplaceCurrencyPostsFromSender.lastObject;
+  int postId;
+  if (!x && !y) {
+    return;
+  } else if (!x) {
+    postId = [y marketplacePostId];
+  } else if (!y) {
+    postId = [x marketplacePostId];
+  } else {
+    postId = MIN([x marketplacePostId], [y marketplacePostId]);
+  }
+  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:postId fromSender:YES];
+}
+
+- (void) coinPostToMarketplace:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (coinPost <= 0 || coinPost > gs.silver) {
+    NSLog(@"Invalid post..");
+    return;
+  }
+  
+  if (wood >= 0 && coins >= 0 && diamonds >= 0 && (wood+coins+diamonds) > 0) {
+    [sc sendCoinPostToMarketplaceMessage:coinPost wood:wood coins:coins diamonds:diamonds];
+    gs.silver -= coinPost;
+  } else {
+    NSLog(@"Invalid selling cost..");
+  }
+}
+
+- (void) woodPostToMarketplace:(int)woodPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (woodPost <= 0 || woodPost > gs.wood) {
+    NSLog(@"Invalid post..");
+    return;
+  }
+  
+  if (wood >= 0 && coins >= 0 && diamonds >= 0 && (wood+coins+diamonds) > 0) {
+    [sc sendWoodPostToMarketplaceMessage:woodPost wood:wood coins:coins diamonds:diamonds];
+    gs.wood -= woodPost;
+  } else {
+    NSLog(@"Invalid selling cost..");
+  }
+}
+
+- (void) diamondPostToMarketplace:(int)dmdPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (dmdPost <= 0 || dmdPost > gs.gold) {
+    NSLog(@"Invalid post..");
+    return;
+  }
+  
+  if (wood >= 0 && coins >= 0 && diamonds >= 0 && (wood+coins+diamonds) > 0) {
+    [sc sendDiamondPostToMarketplaceMessage:dmdPost wood:wood coins:coins diamonds:diamonds];
+    gs.gold -= dmdPost;
+  } else {
+    NSLog(@"Invalid selling cost..");
+  }
+}
+
+- (void) equipPostToMarketplace:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
+  // TODO: need to check equips
+  [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId wood:wood coins:coins diamonds:diamonds];
+}
+
+- (void) retractMarketplacePost:(int)postId {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+  
+  NSMutableArray *mktPostsFromSender = [mvc postsForState];
+  for (int i = 0; i < mktPostsFromSender.count; i++) {
+    FullMarketplacePostProto *proto = [mktPostsFromSender objectAtIndex:i];
+    if ([proto marketplacePostId] == postId) {
+      [sc sendRetractMarketplacePostMessage:postId];
+      [mktPostsFromSender removeObject:proto];
+      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
+      NSIndexPath *z = mktPostsFromSender.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+      NSArray *a = [NSArray arrayWithObjects:y, z, nil];
+      [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+      return;
+    }
+  }
+  
+  NSLog(@"Cannot verify that this item belongs to user..");
+}
+
+- (void) purchaseFromMarketplace:(int)postId {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+  
+  NSMutableArray *mktPosts = [mvc postsForState];
+  for (int i = 0; i < mktPosts.count; i++) {
+    FullMarketplacePostProto *proto = [mktPosts objectAtIndex:i];
+    if ([proto marketplacePostId] == postId) {
+      [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
+      [mktPosts removeObject:proto];
+      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
+      NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+      NSArray *a = [NSArray arrayWithObjects:y, z, nil];
+      [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+      return;
+    }
+  }
+  
+  NSLog(@"Cannot find this item..");
+}
+
+- (void) redeemMarketplaceEarnings {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings || gs.marketplaceWoodEarnings) {
+    [sc sendRedeemMarketplaceEarningsMessage];
+    gs.gold += gs.marketplaceGoldEarnings;
+    gs.silver += gs.marketplaceSilverEarnings;
+    gs.wood += gs.marketplaceWoodEarnings;
+    gs.marketplaceGoldEarnings = 0;
+    gs.marketplaceSilverEarnings = 0;
+    gs.marketplaceWoodEarnings = 0;
+  } else {
+    NSLog(@"Nothing to earn!");
+  }
+}
+
+- (void) addAttackSkillPoint {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (gs.skillPoints > 0) {
+    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeAttack];
+    gs.attack += gl.attackBaseGain;
+    gs.skillPoints -= gl.attackBaseCost;
+  } else {
+    NSLog(@"No skill points available to add");
+  }
+}
+
+- (void) addDefenseSkillPoint {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (gs.skillPoints > 0) {
+    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeDefense];
+    gs.defense += gl.defenseBaseGain;
+    gs.skillPoints -= gl.defenseBaseCost;
+  } else {
+    NSLog(@"No skill points available to add");
+  }
+}
+
+- (void) addEnergySkillPoint {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (gs.skillPoints > 0) {
+    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
+    gs.maxEnergy += gl.energyBaseGain;
+    gs.skillPoints -= gl.energyBaseCost;
+  } else {
+    NSLog(@"No skill points available to add");
+  }
+}
+
+- (void) addStaminaSkillPoint {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (gs.skillPoints > 0) {
+    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
+    gs.maxStamina += gl.staminaBaseGain;
+    gs.skillPoints -= gl.staminaBaseCost;
+  } else {
+    NSLog(@"No skill points available to add");
+  }
+}
+
+- (void) addHealthSkillPoint {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (gs.skillPoints > 0) {
+    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
+    gs.maxEnergy += gl.healthBaseGain;
+    gs.skillPoints -= gl.healthBaseCost;
+  } else {
+    NSLog(@"No skill points available to add");
+  }
+}
+
+- (void) refillEnergy {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (gs.gold >= gl.energyRefillCost) {
+    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeEnergy];
+    gs.currentEnergy = gs.maxEnergy;
+    gs.gold -= gl.energyRefillCost;
+  } else {
+    NSLog(@"Not enough diamonds to refill energy. Need: %d, Have: %d.", gl.energyRefillCost, gs.gold);
+  }
+}
+
+- (void) refillStamina {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (gs.gold >= gl.staminaRefillCost) {
+    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeStamina];
+    gs.currentStamina = gs.maxStamina;
+    gs.gold -= gl.staminaRefillCost;
+  } else {
+    NSLog(@"Not enough diamonds to refill stamina. Need: %d, Have: %d.", gl.staminaRefillCost, gs.gold);
+  }
+}
+
+- (void) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y {
+  [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y];
+}
+
+- (void) oveNormStruct:(int)userStructId atX:(int)x atY:(int)y {
+  [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStructId x:x y:y];
+}
+
+@end

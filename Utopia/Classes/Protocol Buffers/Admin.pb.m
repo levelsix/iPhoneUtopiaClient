@@ -19,35 +19,71 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
-@interface ReloadCitiesRequestProto ()
+@interface AdminChangeRequestProto ()
+@property AdminChangeRequestProto_StaticDataReloadType staticDataReloadType;
+@property int32_t salePercentOff;
+@property Float32 multipleOfRecruitsBaseReward;
 @end
 
-@implementation ReloadCitiesRequestProto
+@implementation AdminChangeRequestProto
 
+- (BOOL) hasStaticDataReloadType {
+  return !!hasStaticDataReloadType_;
+}
+- (void) setHasStaticDataReloadType:(BOOL) value {
+  hasStaticDataReloadType_ = !!value;
+}
+@synthesize staticDataReloadType;
+- (BOOL) hasSalePercentOff {
+  return !!hasSalePercentOff_;
+}
+- (void) setHasSalePercentOff:(BOOL) value {
+  hasSalePercentOff_ = !!value;
+}
+@synthesize salePercentOff;
+- (BOOL) hasMultipleOfRecruitsBaseReward {
+  return !!hasMultipleOfRecruitsBaseReward_;
+}
+- (void) setHasMultipleOfRecruitsBaseReward:(BOOL) value {
+  hasMultipleOfRecruitsBaseReward_ = !!value;
+}
+@synthesize multipleOfRecruitsBaseReward;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
+    self.staticDataReloadType = AdminChangeRequestProto_StaticDataReloadTypeAll;
+    self.salePercentOff = 0;
+    self.multipleOfRecruitsBaseReward = 0;
   }
   return self;
 }
-static ReloadCitiesRequestProto* defaultReloadCitiesRequestProtoInstance = nil;
+static AdminChangeRequestProto* defaultAdminChangeRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [ReloadCitiesRequestProto class]) {
-    defaultReloadCitiesRequestProtoInstance = [[ReloadCitiesRequestProto alloc] init];
+  if (self == [AdminChangeRequestProto class]) {
+    defaultAdminChangeRequestProtoInstance = [[AdminChangeRequestProto alloc] init];
   }
 }
-+ (ReloadCitiesRequestProto*) defaultInstance {
-  return defaultReloadCitiesRequestProtoInstance;
++ (AdminChangeRequestProto*) defaultInstance {
+  return defaultAdminChangeRequestProtoInstance;
 }
-- (ReloadCitiesRequestProto*) defaultInstance {
-  return defaultReloadCitiesRequestProtoInstance;
+- (AdminChangeRequestProto*) defaultInstance {
+  return defaultAdminChangeRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasStaticDataReloadType) {
+    [output writeEnum:1 value:self.staticDataReloadType];
+  }
+  if (self.hasSalePercentOff) {
+    [output writeInt32:2 value:self.salePercentOff];
+  }
+  if (self.hasMultipleOfRecruitsBaseReward) {
+    [output writeFloat:3 value:self.multipleOfRecruitsBaseReward];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -57,44 +93,72 @@ static ReloadCitiesRequestProto* defaultReloadCitiesRequestProtoInstance = nil;
   }
 
   size = 0;
+  if (self.hasStaticDataReloadType) {
+    size += computeEnumSize(1, self.staticDataReloadType);
+  }
+  if (self.hasSalePercentOff) {
+    size += computeInt32Size(2, self.salePercentOff);
+  }
+  if (self.hasMultipleOfRecruitsBaseReward) {
+    size += computeFloatSize(3, self.multipleOfRecruitsBaseReward);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (ReloadCitiesRequestProto*) parseFromData:(NSData*) data {
-  return (ReloadCitiesRequestProto*)[[[ReloadCitiesRequestProto builder] mergeFromData:data] build];
++ (AdminChangeRequestProto*) parseFromData:(NSData*) data {
+  return (AdminChangeRequestProto*)[[[AdminChangeRequestProto builder] mergeFromData:data] build];
 }
-+ (ReloadCitiesRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadCitiesRequestProto*)[[[ReloadCitiesRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (AdminChangeRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AdminChangeRequestProto*)[[[AdminChangeRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (ReloadCitiesRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ReloadCitiesRequestProto*)[[[ReloadCitiesRequestProto builder] mergeFromInputStream:input] build];
++ (AdminChangeRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (AdminChangeRequestProto*)[[[AdminChangeRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (ReloadCitiesRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadCitiesRequestProto*)[[[ReloadCitiesRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (AdminChangeRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AdminChangeRequestProto*)[[[AdminChangeRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (ReloadCitiesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ReloadCitiesRequestProto*)[[[ReloadCitiesRequestProto builder] mergeFromCodedInputStream:input] build];
++ (AdminChangeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (AdminChangeRequestProto*)[[[AdminChangeRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (ReloadCitiesRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadCitiesRequestProto*)[[[ReloadCitiesRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (AdminChangeRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (AdminChangeRequestProto*)[[[AdminChangeRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (ReloadCitiesRequestProto_Builder*) builder {
-  return [[[ReloadCitiesRequestProto_Builder alloc] init] autorelease];
++ (AdminChangeRequestProto_Builder*) builder {
+  return [[[AdminChangeRequestProto_Builder alloc] init] autorelease];
 }
-+ (ReloadCitiesRequestProto_Builder*) builderWithPrototype:(ReloadCitiesRequestProto*) prototype {
-  return [[ReloadCitiesRequestProto builder] mergeFrom:prototype];
++ (AdminChangeRequestProto_Builder*) builderWithPrototype:(AdminChangeRequestProto*) prototype {
+  return [[AdminChangeRequestProto builder] mergeFrom:prototype];
 }
-- (ReloadCitiesRequestProto_Builder*) builder {
-  return [ReloadCitiesRequestProto builder];
+- (AdminChangeRequestProto_Builder*) builder {
+  return [AdminChangeRequestProto builder];
 }
 @end
 
-@interface ReloadCitiesRequestProto_Builder()
-@property (retain) ReloadCitiesRequestProto* result;
+BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequestProto_StaticDataReloadType value) {
+  switch (value) {
+    case AdminChangeRequestProto_StaticDataReloadTypeAll:
+    case AdminChangeRequestProto_StaticDataReloadTypeBuildStructJobs:
+    case AdminChangeRequestProto_StaticDataReloadTypeCities:
+    case AdminChangeRequestProto_StaticDataReloadTypeDefeatTypeJobs:
+    case AdminChangeRequestProto_StaticDataReloadTypeEquipment:
+    case AdminChangeRequestProto_StaticDataReloadTypeMarketplaceJobs:
+    case AdminChangeRequestProto_StaticDataReloadTypeQuests:
+    case AdminChangeRequestProto_StaticDataReloadTypeTaskEquipRequirements:
+    case AdminChangeRequestProto_StaticDataReloadTypeTasks:
+    case AdminChangeRequestProto_StaticDataReloadTypeUpgradeStructJobs:
+    case AdminChangeRequestProto_StaticDataReloadTypeStructures:
+    case AdminChangeRequestProto_StaticDataReloadTypePossessEquipJobs:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface AdminChangeRequestProto_Builder()
+@property (retain) AdminChangeRequestProto* result;
 @end
 
-@implementation ReloadCitiesRequestProto_Builder
+@implementation AdminChangeRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -102,43 +166,52 @@ static ReloadCitiesRequestProto* defaultReloadCitiesRequestProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[ReloadCitiesRequestProto alloc] init] autorelease];
+    self.result = [[[AdminChangeRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (ReloadCitiesRequestProto_Builder*) clear {
-  self.result = [[[ReloadCitiesRequestProto alloc] init] autorelease];
+- (AdminChangeRequestProto_Builder*) clear {
+  self.result = [[[AdminChangeRequestProto alloc] init] autorelease];
   return self;
 }
-- (ReloadCitiesRequestProto_Builder*) clone {
-  return [ReloadCitiesRequestProto builderWithPrototype:result];
+- (AdminChangeRequestProto_Builder*) clone {
+  return [AdminChangeRequestProto builderWithPrototype:result];
 }
-- (ReloadCitiesRequestProto*) defaultInstance {
-  return [ReloadCitiesRequestProto defaultInstance];
+- (AdminChangeRequestProto*) defaultInstance {
+  return [AdminChangeRequestProto defaultInstance];
 }
-- (ReloadCitiesRequestProto*) build {
+- (AdminChangeRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (ReloadCitiesRequestProto*) buildPartial {
-  ReloadCitiesRequestProto* returnMe = [[result retain] autorelease];
+- (AdminChangeRequestProto*) buildPartial {
+  AdminChangeRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (ReloadCitiesRequestProto_Builder*) mergeFrom:(ReloadCitiesRequestProto*) other {
-  if (other == [ReloadCitiesRequestProto defaultInstance]) {
+- (AdminChangeRequestProto_Builder*) mergeFrom:(AdminChangeRequestProto*) other {
+  if (other == [AdminChangeRequestProto defaultInstance]) {
     return self;
+  }
+  if (other.hasStaticDataReloadType) {
+    [self setStaticDataReloadType:other.staticDataReloadType];
+  }
+  if (other.hasSalePercentOff) {
+    [self setSalePercentOff:other.salePercentOff];
+  }
+  if (other.hasMultipleOfRecruitsBaseReward) {
+    [self setMultipleOfRecruitsBaseReward:other.multipleOfRecruitsBaseReward];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (ReloadCitiesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (AdminChangeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (ReloadCitiesRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (AdminChangeRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -153,425 +226,73 @@ static ReloadCitiesRequestProto* defaultReloadCitiesRequestProtoInstance = nil;
         }
         break;
       }
-    }
-  }
-}
-@end
-
-@interface ReloadEquipmentRequestProto ()
-@end
-
-@implementation ReloadEquipmentRequestProto
-
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-  }
-  return self;
-}
-static ReloadEquipmentRequestProto* defaultReloadEquipmentRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ReloadEquipmentRequestProto class]) {
-    defaultReloadEquipmentRequestProtoInstance = [[ReloadEquipmentRequestProto alloc] init];
-  }
-}
-+ (ReloadEquipmentRequestProto*) defaultInstance {
-  return defaultReloadEquipmentRequestProtoInstance;
-}
-- (ReloadEquipmentRequestProto*) defaultInstance {
-  return defaultReloadEquipmentRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (ReloadEquipmentRequestProto*) parseFromData:(NSData*) data {
-  return (ReloadEquipmentRequestProto*)[[[ReloadEquipmentRequestProto builder] mergeFromData:data] build];
-}
-+ (ReloadEquipmentRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadEquipmentRequestProto*)[[[ReloadEquipmentRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ReloadEquipmentRequestProto*)[[[ReloadEquipmentRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (ReloadEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadEquipmentRequestProto*)[[[ReloadEquipmentRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ReloadEquipmentRequestProto*)[[[ReloadEquipmentRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ReloadEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadEquipmentRequestProto*)[[[ReloadEquipmentRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadEquipmentRequestProto_Builder*) builder {
-  return [[[ReloadEquipmentRequestProto_Builder alloc] init] autorelease];
-}
-+ (ReloadEquipmentRequestProto_Builder*) builderWithPrototype:(ReloadEquipmentRequestProto*) prototype {
-  return [[ReloadEquipmentRequestProto builder] mergeFrom:prototype];
-}
-- (ReloadEquipmentRequestProto_Builder*) builder {
-  return [ReloadEquipmentRequestProto builder];
-}
-@end
-
-@interface ReloadEquipmentRequestProto_Builder()
-@property (retain) ReloadEquipmentRequestProto* result;
-@end
-
-@implementation ReloadEquipmentRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[ReloadEquipmentRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ReloadEquipmentRequestProto_Builder*) clear {
-  self.result = [[[ReloadEquipmentRequestProto alloc] init] autorelease];
-  return self;
-}
-- (ReloadEquipmentRequestProto_Builder*) clone {
-  return [ReloadEquipmentRequestProto builderWithPrototype:result];
-}
-- (ReloadEquipmentRequestProto*) defaultInstance {
-  return [ReloadEquipmentRequestProto defaultInstance];
-}
-- (ReloadEquipmentRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ReloadEquipmentRequestProto*) buildPartial {
-  ReloadEquipmentRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (ReloadEquipmentRequestProto_Builder*) mergeFrom:(ReloadEquipmentRequestProto*) other {
-  if (other == [ReloadEquipmentRequestProto defaultInstance]) {
-    return self;
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ReloadEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ReloadEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
+      case 8: {
+        int32_t value = [input readEnum];
+        if (AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(value)) {
+          [self setStaticDataReloadType:value];
+        } else {
+          [unknownFields mergeVarintField:1 value:value];
         }
+        break;
+      }
+      case 16: {
+        [self setSalePercentOff:[input readInt32]];
+        break;
+      }
+      case 29: {
+        [self setMultipleOfRecruitsBaseReward:[input readFloat]];
         break;
       }
     }
   }
 }
-@end
-
-@interface ReloadTaskEquipmentRequirementsRequestProto ()
-@end
-
-@implementation ReloadTaskEquipmentRequirementsRequestProto
-
-- (void) dealloc {
-  [super dealloc];
+- (BOOL) hasStaticDataReloadType {
+  return result.hasStaticDataReloadType;
 }
-- (id) init {
-  if ((self = [super init])) {
-  }
+- (AdminChangeRequestProto_StaticDataReloadType) staticDataReloadType {
+  return result.staticDataReloadType;
+}
+- (AdminChangeRequestProto_Builder*) setStaticDataReloadType:(AdminChangeRequestProto_StaticDataReloadType) value {
+  result.hasStaticDataReloadType = YES;
+  result.staticDataReloadType = value;
   return self;
 }
-static ReloadTaskEquipmentRequirementsRequestProto* defaultReloadTaskEquipmentRequirementsRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ReloadTaskEquipmentRequirementsRequestProto class]) {
-    defaultReloadTaskEquipmentRequirementsRequestProtoInstance = [[ReloadTaskEquipmentRequirementsRequestProto alloc] init];
-  }
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto*) defaultInstance {
-  return defaultReloadTaskEquipmentRequirementsRequestProtoInstance;
-}
-- (ReloadTaskEquipmentRequirementsRequestProto*) defaultInstance {
-  return defaultReloadTaskEquipmentRequirementsRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromData:(NSData*) data {
-  return (ReloadTaskEquipmentRequirementsRequestProto*)[[[ReloadTaskEquipmentRequirementsRequestProto builder] mergeFromData:data] build];
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadTaskEquipmentRequirementsRequestProto*)[[[ReloadTaskEquipmentRequirementsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ReloadTaskEquipmentRequirementsRequestProto*)[[[ReloadTaskEquipmentRequirementsRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadTaskEquipmentRequirementsRequestProto*)[[[ReloadTaskEquipmentRequirementsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ReloadTaskEquipmentRequirementsRequestProto*)[[[ReloadTaskEquipmentRequirementsRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadTaskEquipmentRequirementsRequestProto*)[[[ReloadTaskEquipmentRequirementsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto_Builder*) builder {
-  return [[[ReloadTaskEquipmentRequirementsRequestProto_Builder alloc] init] autorelease];
-}
-+ (ReloadTaskEquipmentRequirementsRequestProto_Builder*) builderWithPrototype:(ReloadTaskEquipmentRequirementsRequestProto*) prototype {
-  return [[ReloadTaskEquipmentRequirementsRequestProto builder] mergeFrom:prototype];
-}
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) builder {
-  return [ReloadTaskEquipmentRequirementsRequestProto builder];
-}
-@end
-
-@interface ReloadTaskEquipmentRequirementsRequestProto_Builder()
-@property (retain) ReloadTaskEquipmentRequirementsRequestProto* result;
-@end
-
-@implementation ReloadTaskEquipmentRequirementsRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[ReloadTaskEquipmentRequirementsRequestProto alloc] init] autorelease];
-  }
+- (AdminChangeRequestProto_Builder*) clearStaticDataReloadType {
+  result.hasStaticDataReloadType = NO;
+  result.staticDataReloadType = AdminChangeRequestProto_StaticDataReloadTypeAll;
   return self;
 }
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
+- (BOOL) hasSalePercentOff {
+  return result.hasSalePercentOff;
 }
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) clear {
-  self.result = [[[ReloadTaskEquipmentRequirementsRequestProto alloc] init] autorelease];
+- (int32_t) salePercentOff {
+  return result.salePercentOff;
+}
+- (AdminChangeRequestProto_Builder*) setSalePercentOff:(int32_t) value {
+  result.hasSalePercentOff = YES;
+  result.salePercentOff = value;
   return self;
 }
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) clone {
-  return [ReloadTaskEquipmentRequirementsRequestProto builderWithPrototype:result];
-}
-- (ReloadTaskEquipmentRequirementsRequestProto*) defaultInstance {
-  return [ReloadTaskEquipmentRequirementsRequestProto defaultInstance];
-}
-- (ReloadTaskEquipmentRequirementsRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ReloadTaskEquipmentRequirementsRequestProto*) buildPartial {
-  ReloadTaskEquipmentRequirementsRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) mergeFrom:(ReloadTaskEquipmentRequirementsRequestProto*) other {
-  if (other == [ReloadTaskEquipmentRequirementsRequestProto defaultInstance]) {
-    return self;
-  }
-  [self mergeUnknownFields:other.unknownFields];
+- (AdminChangeRequestProto_Builder*) clearSalePercentOff {
+  result.hasSalePercentOff = NO;
+  result.salePercentOff = 0;
   return self;
 }
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+- (BOOL) hasMultipleOfRecruitsBaseReward {
+  return result.hasMultipleOfRecruitsBaseReward;
 }
-- (ReloadTaskEquipmentRequirementsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-    }
-  }
+- (Float32) multipleOfRecruitsBaseReward {
+  return result.multipleOfRecruitsBaseReward;
 }
-@end
-
-@interface ReloadTaskRequestProto ()
-@end
-
-@implementation ReloadTaskRequestProto
-
-- (void) dealloc {
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-  }
+- (AdminChangeRequestProto_Builder*) setMultipleOfRecruitsBaseReward:(Float32) value {
+  result.hasMultipleOfRecruitsBaseReward = YES;
+  result.multipleOfRecruitsBaseReward = value;
   return self;
 }
-static ReloadTaskRequestProto* defaultReloadTaskRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ReloadTaskRequestProto class]) {
-    defaultReloadTaskRequestProtoInstance = [[ReloadTaskRequestProto alloc] init];
-  }
-}
-+ (ReloadTaskRequestProto*) defaultInstance {
-  return defaultReloadTaskRequestProtoInstance;
-}
-- (ReloadTaskRequestProto*) defaultInstance {
-  return defaultReloadTaskRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (ReloadTaskRequestProto*) parseFromData:(NSData*) data {
-  return (ReloadTaskRequestProto*)[[[ReloadTaskRequestProto builder] mergeFromData:data] build];
-}
-+ (ReloadTaskRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadTaskRequestProto*)[[[ReloadTaskRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadTaskRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ReloadTaskRequestProto*)[[[ReloadTaskRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (ReloadTaskRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadTaskRequestProto*)[[[ReloadTaskRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadTaskRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ReloadTaskRequestProto*)[[[ReloadTaskRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ReloadTaskRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ReloadTaskRequestProto*)[[[ReloadTaskRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ReloadTaskRequestProto_Builder*) builder {
-  return [[[ReloadTaskRequestProto_Builder alloc] init] autorelease];
-}
-+ (ReloadTaskRequestProto_Builder*) builderWithPrototype:(ReloadTaskRequestProto*) prototype {
-  return [[ReloadTaskRequestProto builder] mergeFrom:prototype];
-}
-- (ReloadTaskRequestProto_Builder*) builder {
-  return [ReloadTaskRequestProto builder];
-}
-@end
-
-@interface ReloadTaskRequestProto_Builder()
-@property (retain) ReloadTaskRequestProto* result;
-@end
-
-@implementation ReloadTaskRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[ReloadTaskRequestProto alloc] init] autorelease];
-  }
+- (AdminChangeRequestProto_Builder*) clearMultipleOfRecruitsBaseReward {
+  result.hasMultipleOfRecruitsBaseReward = NO;
+  result.multipleOfRecruitsBaseReward = 0;
   return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ReloadTaskRequestProto_Builder*) clear {
-  self.result = [[[ReloadTaskRequestProto alloc] init] autorelease];
-  return self;
-}
-- (ReloadTaskRequestProto_Builder*) clone {
-  return [ReloadTaskRequestProto builderWithPrototype:result];
-}
-- (ReloadTaskRequestProto*) defaultInstance {
-  return [ReloadTaskRequestProto defaultInstance];
-}
-- (ReloadTaskRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ReloadTaskRequestProto*) buildPartial {
-  ReloadTaskRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (ReloadTaskRequestProto_Builder*) mergeFrom:(ReloadTaskRequestProto*) other {
-  if (other == [ReloadTaskRequestProto defaultInstance]) {
-    return self;
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ReloadTaskRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ReloadTaskRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-    }
-  }
 }
 @end
 

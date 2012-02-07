@@ -12,26 +12,42 @@
 @class BattleRequestProto_Builder;
 @class BattleResponseProto;
 @class BattleResponseProto_Builder;
+@class BuildStructJobProto;
+@class BuildStructJobProto_Builder;
 @class ChangeUserLocationRequestProto;
 @class ChangeUserLocationRequestProto_Builder;
 @class ChatRequestProto;
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
-@class ClericHealRequestProto;
-@class ClericHealRequestProto_Builder;
-@class ClericHealResponseProto;
-@class ClericHealResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
+@class CriticalStructureActionRequestProto;
+@class CriticalStructureActionRequestProto_Builder;
+@class CriticalStructureActionResponseProto;
+@class CriticalStructureActionResponseProto_Builder;
+@class DefeatTypeJobProto;
+@class DefeatTypeJobProto_Builder;
+@class FinishNormStructWaittimeWithDiamondsRequestProto;
+@class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
+@class FinishNormStructWaittimeWithDiamondsResponseProto;
+@class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
 @class FullMarketplacePostProto;
 @class FullMarketplacePostProto_Builder;
+@class FullQuestProto;
+@class FullQuestProto_Builder;
+@class FullStructureProto;
+@class FullStructureProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
+@class FullUserEquipProto;
+@class FullUserEquipProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
+@class FullUserQuestDataLarge;
+@class FullUserQuestDataLarge_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class GenerateAttackListRequestProto;
@@ -44,16 +60,38 @@
 @class InAppPurchaseResponseProto_Builder;
 @class LevelUpResponseProto;
 @class LevelUpResponseProto_Builder;
+@class LoadPlayerCityRequestProto;
+@class LoadPlayerCityRequestProto_Builder;
+@class LoadPlayerCityResponseProto;
+@class LoadPlayerCityResponseProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
+@class MarketplaceJobProto;
+@class MarketplaceJobProto_Builder;
+@class MinimumUserBuildStructJobProto;
+@class MinimumUserBuildStructJobProto_Builder;
+@class MinimumUserDefeatTypeJobProto;
+@class MinimumUserDefeatTypeJobProto_Builder;
+@class MinimumUserMarketplaceJobProto;
+@class MinimumUserMarketplaceJobProto_Builder;
+@class MinimumUserPossessEquipJobProto;
+@class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProto_Builder;
-@class MoveCriticalStructureRequestProto;
-@class MoveCriticalStructureRequestProto_Builder;
-@class MoveUserStructureRequestProto;
-@class MoveUserStructureRequestProto_Builder;
-@class PlaceCriticalStructureRequestProto;
-@class PlaceCriticalStructureRequestProto_Builder;
+@class MinimumUserTaskProto;
+@class MinimumUserTaskProto_Builder;
+@class MinimumUserUpgradeStructJobProto;
+@class MinimumUserUpgradeStructJobProto_Builder;
+@class MoveNormStructureRequestProto;
+@class MoveNormStructureRequestProto_Builder;
+@class MoveNormStructureResponseProto;
+@class MoveNormStructureResponseProto_Builder;
+@class NormStructBuildsCompleteRequestProto;
+@class NormStructBuildsCompleteRequestProto_Builder;
+@class NormStructBuildsCompleteResponseProto;
+@class NormStructBuildsCompleteResponseProto_Builder;
+@class PossessEquipJobProto;
+@class PossessEquipJobProto_Builder;
 @class PostToMarketplaceRequestProto;
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
@@ -62,12 +100,44 @@
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
 @class PurchaseFromMarketplaceResponseProto_Builder;
-@class PurchaseStructureRequestProto;
-@class PurchaseStructureRequestProto_Builder;
+@class PurchaseNormStructureRequestProto;
+@class PurchaseNormStructureRequestProto_Builder;
+@class PurchaseNormStructureResponseProto;
+@class PurchaseNormStructureResponseProto_Builder;
+@class QuestAcceptRequestProto;
+@class QuestAcceptRequestProto_Builder;
+@class QuestAcceptResponseProto;
+@class QuestAcceptResponseProto_Builder;
+@class QuestCheckCompleteRequestProto;
+@class QuestCheckCompleteRequestProto_Builder;
+@class QuestCheckCompleteResponseProto;
+@class QuestCheckCompleteResponseProto_Builder;
+@class QuestCompleteResponseProto;
+@class QuestCompleteResponseProto_Builder;
+@class QuestLogDetailsRequestProto;
+@class QuestLogDetailsRequestProto_Builder;
+@class QuestLogDetailsResponseProto;
+@class QuestLogDetailsResponseProto_Builder;
+@class QuestRedeemRequestProto;
+@class QuestRedeemRequestProto_Builder;
+@class QuestRedeemResponseProto;
+@class QuestRedeemResponseProto_Builder;
+@class RedeemMarketplaceEarningsRequestProto;
+@class RedeemMarketplaceEarningsRequestProto_Builder;
+@class RedeemMarketplaceEarningsResponseProto;
+@class RedeemMarketplaceEarningsResponseProto_Builder;
+@class RefillStatWithDiamondsRequestProto;
+@class RefillStatWithDiamondsRequestProto_Builder;
+@class RefillStatWithDiamondsResponseProto;
+@class RefillStatWithDiamondsResponseProto_Builder;
 @class RetractMarketplacePostRequestProto;
 @class RetractMarketplacePostRequestProto_Builder;
 @class RetractMarketplacePostResponseProto;
 @class RetractMarketplacePostResponseProto_Builder;
+@class RetrieveCurrencyFromNormStructureRequestProto;
+@class RetrieveCurrencyFromNormStructureRequestProto_Builder;
+@class RetrieveCurrencyFromNormStructureResponseProto;
+@class RetrieveCurrencyFromNormStructureResponseProto_Builder;
 @class RetrieveCurrentMarketplacePostsRequestProto;
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
@@ -80,6 +150,10 @@
 @class RetrieveTasksForCityRequestProto_Builder;
 @class RetrieveTasksForCityResponseProto;
 @class RetrieveTasksForCityResponseProto_Builder;
+@class SellNormStructureRequestProto;
+@class SellNormStructureRequestProto_Builder;
+@class SellNormStructureResponseProto;
+@class SellNormStructureResponseProto_Builder;
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
@@ -90,6 +164,12 @@
 @class TaskActionResponseProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
+@class UpgradeNormStructureRequestProto;
+@class UpgradeNormStructureRequestProto_Builder;
+@class UpgradeNormStructureResponseProto;
+@class UpgradeNormStructureResponseProto_Builder;
+@class UpgradeStructJobProto;
+@class UpgradeStructJobProto_Builder;
 @class UseSkillPointRequestProto;
 @class UseSkillPointRequestProto_Builder;
 @class UseSkillPointResponseProto;
@@ -120,6 +200,18 @@ typedef enum {
   EventProtocolRequestCPurchaseFromMarketplaceEvent = 14,
   EventProtocolRequestCUseSkillPointEvent = 15,
   EventProtocolRequestCGenerateAttackListEvent = 16,
+  EventProtocolRequestCPurchaseNormStructureEvent = 17,
+  EventProtocolRequestCMoveNormStructureEvent = 18,
+  EventProtocolRequestCSellNormStructureEvent = 19,
+  EventProtocolRequestCUpgradeNormStructureEvent = 20,
+  EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent = 21,
+  EventProtocolRequestCRefillStatWithDiamondsEvent = 22,
+  EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent = 23,
+  EventProtocolRequestCNormStructBuildsCompleteEvent = 24,
+  EventProtocolRequestCRedeemMarketplaceEarningsEvent = 25,
+  EventProtocolRequestCCritStructureActionEvent = 26,
+  EventProtocolRequestCLoadPlayerCityEvent = 27,
+  EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
 BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value);
@@ -142,8 +234,19 @@ typedef enum {
   EventProtocolResponseSPurchaseFromMarketplaceEvent = 14,
   EventProtocolResponseSUseSkillPointEvent = 15,
   EventProtocolResponseSGenerateAttackListEvent = 16,
-  EventProtocolResponseSLevelUpEvent = 19,
-  EventProtocolResponseSUpdateClientUserEvent = 20,
+  EventProtocolResponseSPurchaseNormStructureEvent = 17,
+  EventProtocolResponseSMoveNormStructureEvent = 18,
+  EventProtocolResponseSSellNormStructureEvent = 19,
+  EventProtocolResponseSUpgradeNormStructureEvent = 20,
+  EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent = 21,
+  EventProtocolResponseSRefillStatWithDiamondsEvent = 22,
+  EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent = 23,
+  EventProtocolResponseSNormStructBuildsCompleteEvent = 24,
+  EventProtocolResponseSRedeemMarketplaceEarningsEvent = 25,
+  EventProtocolResponseSCritStructureActionEvent = 26,
+  EventProtocolResponseSLoadPlayerCityEvent = 27,
+  EventProtocolResponseSLevelUpEvent = 50,
+  EventProtocolResponseSUpdateClientUserEvent = 51,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

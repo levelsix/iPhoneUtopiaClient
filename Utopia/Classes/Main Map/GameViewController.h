@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GameViewController : UIViewController {
+@interface GameView : UIView
 
-}
+@property (nonatomic, retain) EAGLView *glView;
+
+@end
+
+@interface GameViewController : UIViewController
 
 + (GameViewController *) sharedGameViewController;
 

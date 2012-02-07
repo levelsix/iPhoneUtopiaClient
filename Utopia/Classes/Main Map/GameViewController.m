@@ -19,6 +19,27 @@
 #import "SynthesizeSingleton.h"
 #import "QuestLogController.h"
 
+@implementation GameView
+
+@synthesize glView;
+
+- (void) didAddSubview:(UIView *)subview {
+  if ([subview isKindOfClass:[EAGLView class]]) {
+    self.glView = (EAGLView *)subview;
+  }
+  else if (self.glView && subview != self.glView) {
+    self.glView.userInteractionEnabled = NO;
+  }
+}
+
+- (void) willRemoveSubview:(UIView *)subview {
+  if (self.glView && subview != self.glView) {
+    self.glView.userInteractionEnabled = YES;
+  }
+}
+
+@end
+
 @implementation GameViewController
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
