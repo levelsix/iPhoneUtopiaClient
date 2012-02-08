@@ -46,7 +46,14 @@
 
 - (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType;
 
+// Norm Struct messages
 - (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y;
 - (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
+- (void) sendUpgradeNormStructureMessage:(int)userStructId;
+- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(long)seconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
+- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(long)seconds;
+- (void) sendSellNormStructureMessage:(int)userStructId;
+
+- (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup;
 
 @end

@@ -59,6 +59,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetractPostFromMarketplaceEvent:
       responseClass = [RetractMarketplacePostResponseProto class];
       break;
+    case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
+      responseClass = [RedeemMarketplaceEarningsResponseProto class];
+      break;
     case EventProtocolResponseSGenerateAttackListEvent:
       responseClass = [GenerateAttackListResponseProto class];
       break;
@@ -72,10 +75,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       responseClass = [PurchaseNormStructureResponseProto class];
       break;
     case EventProtocolResponseSMoveNormStructureEvent:
-      responseClass = [MoveNormStructureRequestProto class];
+      responseClass = [MoveNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
-      responseClass = [RedeemMarketplaceEarningsResponseProto class];
+    case EventProtocolResponseSUpgradeNormStructureEvent:
+      responseClass = [UpgradeNormStructureResponseProto class];
+      break;
+    case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
+      responseClass = [FinishNormStructWaittimeWithDiamondsResponseProto class];
+      break;
+    case EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
+      responseClass = [RetrieveCurrencyFromNormStructureResponseProto class];
+      break;
+    case EventProtocolResponseSSellNormStructureEvent:
+      responseClass = [SellNormStructureResponseProto class];
+      break;
+    case EventProtocolResponseSLoadPlayerCityEvent:
+      responseClass = [LoadPlayerCityResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -171,6 +186,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Retract marketplace response received with status: %d", proto.status);
 }
 
+- (void) handleRedeemMarketplaceEarningsRequestProto: (RedeemMarketplaceEarningsResponseProto *) proto {
+  NSLog(@"Redeem response received with status: %d", proto.status);
+}
+
 - (void) handleGenerateAttackListResponseProto: (GenerateAttackListResponseProto *) proto {
   NSLog(@"Generate attack list response received.");
 }
@@ -191,8 +210,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Move norm struct response received.");
 }
 
-- (void) handleRedeemMarketplaceEarningsRequestProto: (RedeemMarketplaceEarningsResponseProto *) proto {
-  NSLog(@"Redeem response received with status: %d", proto.status);
+- (void) handleUpgradeNormStructureResponseProto: (UpgradeNormStructureResponseProto *) proto {
+  NSLog(@"Upgrade norm structure response received.");
+}
+
+- (void) handleFinishNormStructWaittimeWithDiamondsResponseProto: (FinishNormStructWaittimeWithDiamondsResponseProto *) proto {
+  NSLog(@"Finish norm struct with diamonds response received.");
+}
+
+- (void) handleRetrieveCurrencyFromNormStructureResponseProto: (RetrieveCurrencyFromNormStructureResponseProto *) proto {
+  NSLog(@"Retrieve currency response received.");
+}
+
+- (void) handleSellNormStructureResponseProto: (SellNormStructureResponseProto *) proto {
+  NSLog(@"Sell norm struct response received.");
+}
+
+- (void) handleLoadPlayerCityResponseProto: (LoadPlayerCityResponseProto *) proto {
+  NSLog(@"Load player city response received.");
 }
 
 @end

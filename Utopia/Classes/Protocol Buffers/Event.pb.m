@@ -2792,12 +2792,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) FullUserProto* sender;
 @property StartupResponseProto_StartupStatus startupStatus;
 @property StartupResponseProto_UpdateStatus updateStatus;
-@property int32_t maxCityIdAccessibleToUser;
-@property (retain) FullUserStructureProto* structures;
-@property int32_t questLog;
-@property (retain) NSMutableArray* mutableProductIdsList;
-@property int32_t diamondCostForEnergyRefill;
-@property int32_t diamondCostForStaminaRefill;
+@property (retain) StartupResponseProto_StartupConstants* startupConstants;
+@property (retain) NSMutableArray* mutableCitiesAvailableToUserList;
+@property (retain) NSMutableArray* mutableInProgressQuestsList;
+@property (retain) NSMutableArray* mutableAvailableQuestsList;
 @property (retain) NSMutableArray* mutableUserEquipsList;
 @end
 
@@ -2824,47 +2822,23 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasUpdateStatus_ = !!value;
 }
 @synthesize updateStatus;
-- (BOOL) hasMaxCityIdAccessibleToUser {
-  return !!hasMaxCityIdAccessibleToUser_;
+- (BOOL) hasStartupConstants {
+  return !!hasStartupConstants_;
 }
-- (void) setHasMaxCityIdAccessibleToUser:(BOOL) value {
-  hasMaxCityIdAccessibleToUser_ = !!value;
+- (void) setHasStartupConstants:(BOOL) value {
+  hasStartupConstants_ = !!value;
 }
-@synthesize maxCityIdAccessibleToUser;
-- (BOOL) hasStructures {
-  return !!hasStructures_;
-}
-- (void) setHasStructures:(BOOL) value {
-  hasStructures_ = !!value;
-}
-@synthesize structures;
-- (BOOL) hasQuestLog {
-  return !!hasQuestLog_;
-}
-- (void) setHasQuestLog:(BOOL) value {
-  hasQuestLog_ = !!value;
-}
-@synthesize questLog;
-@synthesize mutableProductIdsList;
-- (BOOL) hasDiamondCostForEnergyRefill {
-  return !!hasDiamondCostForEnergyRefill_;
-}
-- (void) setHasDiamondCostForEnergyRefill:(BOOL) value {
-  hasDiamondCostForEnergyRefill_ = !!value;
-}
-@synthesize diamondCostForEnergyRefill;
-- (BOOL) hasDiamondCostForStaminaRefill {
-  return !!hasDiamondCostForStaminaRefill_;
-}
-- (void) setHasDiamondCostForStaminaRefill:(BOOL) value {
-  hasDiamondCostForStaminaRefill_ = !!value;
-}
-@synthesize diamondCostForStaminaRefill;
+@synthesize startupConstants;
+@synthesize mutableCitiesAvailableToUserList;
+@synthesize mutableInProgressQuestsList;
+@synthesize mutableAvailableQuestsList;
 @synthesize mutableUserEquipsList;
 - (void) dealloc {
   self.sender = nil;
-  self.structures = nil;
-  self.mutableProductIdsList = nil;
+  self.startupConstants = nil;
+  self.mutableCitiesAvailableToUserList = nil;
+  self.mutableInProgressQuestsList = nil;
+  self.mutableAvailableQuestsList = nil;
   self.mutableUserEquipsList = nil;
   [super dealloc];
 }
@@ -2873,11 +2847,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.sender = [FullUserProto defaultInstance];
     self.startupStatus = StartupResponseProto_StartupStatusUserInDb;
     self.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
-    self.maxCityIdAccessibleToUser = 0;
-    self.structures = [FullUserStructureProto defaultInstance];
-    self.questLog = 0;
-    self.diamondCostForEnergyRefill = 0;
-    self.diamondCostForStaminaRefill = 0;
+    self.startupConstants = [StartupResponseProto_StartupConstants defaultInstance];
   }
   return self;
 }
@@ -2893,11 +2863,25 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (StartupResponseProto*) defaultInstance {
   return defaultStartupResponseProtoInstance;
 }
-- (NSArray*) productIdsList {
-  return mutableProductIdsList;
+- (NSArray*) citiesAvailableToUserList {
+  return mutableCitiesAvailableToUserList;
 }
-- (NSString*) productIdsAtIndex:(int32_t) index {
-  id value = [mutableProductIdsList objectAtIndex:index];
+- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index {
+  id value = [mutableCitiesAvailableToUserList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) inProgressQuestsList {
+  return mutableInProgressQuestsList;
+}
+- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
+  id value = [mutableInProgressQuestsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) availableQuestsList {
+  return mutableAvailableQuestsList;
+}
+- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index {
+  id value = [mutableAvailableQuestsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) userEquipsList {
@@ -2914,13 +2898,29 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (!self.hasUpdateStatus) {
     return NO;
   }
+  if (!self.hasStartupConstants) {
+    return NO;
+  }
   if (self.hasSender) {
     if (!self.sender.isInitialized) {
       return NO;
     }
   }
-  if (self.hasStructures) {
-    if (!self.structures.isInitialized) {
+  if (!self.startupConstants.isInitialized) {
+    return NO;
+  }
+  for (FullCityProto* element in self.citiesAvailableToUserList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullQuestProto* element in self.inProgressQuestsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullQuestProto* element in self.availableQuestsList) {
+    if (!element.isInitialized) {
       return NO;
     }
   }
@@ -2941,26 +2941,20 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasUpdateStatus) {
     [output writeEnum:3 value:self.updateStatus];
   }
-  if (self.hasMaxCityIdAccessibleToUser) {
-    [output writeInt32:4 value:self.maxCityIdAccessibleToUser];
+  if (self.hasStartupConstants) {
+    [output writeMessage:4 value:self.startupConstants];
   }
-  if (self.hasStructures) {
-    [output writeMessage:5 value:self.structures];
+  for (FullCityProto* element in self.citiesAvailableToUserList) {
+    [output writeMessage:5 value:element];
   }
-  if (self.hasQuestLog) {
-    [output writeInt32:6 value:self.questLog];
+  for (FullQuestProto* element in self.inProgressQuestsList) {
+    [output writeMessage:6 value:element];
   }
-  for (NSString* element in self.mutableProductIdsList) {
-    [output writeString:7 value:element];
-  }
-  if (self.hasDiamondCostForEnergyRefill) {
-    [output writeInt32:8 value:self.diamondCostForEnergyRefill];
-  }
-  if (self.hasDiamondCostForStaminaRefill) {
-    [output writeInt32:9 value:self.diamondCostForStaminaRefill];
+  for (FullQuestProto* element in self.availableQuestsList) {
+    [output writeMessage:7 value:element];
   }
   for (FullUserEquipProto* element in self.userEquipsList) {
-    [output writeMessage:10 value:element];
+    [output writeMessage:8 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2980,31 +2974,20 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasUpdateStatus) {
     size += computeEnumSize(3, self.updateStatus);
   }
-  if (self.hasMaxCityIdAccessibleToUser) {
-    size += computeInt32Size(4, self.maxCityIdAccessibleToUser);
+  if (self.hasStartupConstants) {
+    size += computeMessageSize(4, self.startupConstants);
   }
-  if (self.hasStructures) {
-    size += computeMessageSize(5, self.structures);
+  for (FullCityProto* element in self.citiesAvailableToUserList) {
+    size += computeMessageSize(5, element);
   }
-  if (self.hasQuestLog) {
-    size += computeInt32Size(6, self.questLog);
+  for (FullQuestProto* element in self.inProgressQuestsList) {
+    size += computeMessageSize(6, element);
   }
-  {
-    int32_t dataSize = 0;
-    for (NSString* element in self.mutableProductIdsList) {
-      dataSize += computeStringSizeNoTag(element);
-    }
-    size += dataSize;
-    size += 1 * self.mutableProductIdsList.count;
-  }
-  if (self.hasDiamondCostForEnergyRefill) {
-    size += computeInt32Size(8, self.diamondCostForEnergyRefill);
-  }
-  if (self.hasDiamondCostForStaminaRefill) {
-    size += computeInt32Size(9, self.diamondCostForStaminaRefill);
+  for (FullQuestProto* element in self.availableQuestsList) {
+    size += computeMessageSize(7, element);
   }
   for (FullUserEquipProto* element in self.userEquipsList) {
-    size += computeMessageSize(10, element);
+    size += computeMessageSize(8, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3058,6 +3041,452 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
       return NO;
   }
 }
+@interface StartupResponseProto_StartupConstants ()
+@property (retain) NSMutableArray* mutableProductIdsList;
+@property (retain) NSMutableArray* mutableProductDiamondsGivenList;
+@property (retain) NSMutableArray* mutableProductPricesList;
+@property int32_t diamondCostForEnergyRefill;
+@property int32_t diamondCostForStaminaRefill;
+@property int32_t maxItemUsePerBattle;
+@end
+
+@implementation StartupResponseProto_StartupConstants
+
+@synthesize mutableProductIdsList;
+@synthesize mutableProductDiamondsGivenList;
+@synthesize mutableProductPricesList;
+- (BOOL) hasDiamondCostForEnergyRefill {
+  return !!hasDiamondCostForEnergyRefill_;
+}
+- (void) setHasDiamondCostForEnergyRefill:(BOOL) value {
+  hasDiamondCostForEnergyRefill_ = !!value;
+}
+@synthesize diamondCostForEnergyRefill;
+- (BOOL) hasDiamondCostForStaminaRefill {
+  return !!hasDiamondCostForStaminaRefill_;
+}
+- (void) setHasDiamondCostForStaminaRefill:(BOOL) value {
+  hasDiamondCostForStaminaRefill_ = !!value;
+}
+@synthesize diamondCostForStaminaRefill;
+- (BOOL) hasMaxItemUsePerBattle {
+  return !!hasMaxItemUsePerBattle_;
+}
+- (void) setHasMaxItemUsePerBattle:(BOOL) value {
+  hasMaxItemUsePerBattle_ = !!value;
+}
+@synthesize maxItemUsePerBattle;
+- (void) dealloc {
+  self.mutableProductIdsList = nil;
+  self.mutableProductDiamondsGivenList = nil;
+  self.mutableProductPricesList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.diamondCostForEnergyRefill = 0;
+    self.diamondCostForStaminaRefill = 0;
+    self.maxItemUsePerBattle = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants* defaultStartupResponseProto_StartupConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants class]) {
+    defaultStartupResponseProto_StartupConstantsInstance = [[StartupResponseProto_StartupConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstantsInstance;
+}
+- (NSArray*) productIdsList {
+  return mutableProductIdsList;
+}
+- (NSString*) productIdsAtIndex:(int32_t) index {
+  id value = [mutableProductIdsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) productDiamondsGivenList {
+  return mutableProductDiamondsGivenList;
+}
+- (int32_t) productDiamondsGivenAtIndex:(int32_t) index {
+  id value = [mutableProductDiamondsGivenList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) productPricesList {
+  return mutableProductPricesList;
+}
+- (Float64) productPricesAtIndex:(int32_t) index {
+  id value = [mutableProductPricesList objectAtIndex:index];
+  return [value doubleValue];
+}
+- (BOOL) isInitialized {
+  if (!self.hasDiamondCostForEnergyRefill) {
+    return NO;
+  }
+  if (!self.hasDiamondCostForStaminaRefill) {
+    return NO;
+  }
+  if (!self.hasMaxItemUsePerBattle) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  for (NSString* element in self.mutableProductIdsList) {
+    [output writeString:1 value:element];
+  }
+  for (NSNumber* value in self.mutableProductDiamondsGivenList) {
+    [output writeInt32:2 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableProductPricesList) {
+    [output writeDouble:3 value:[value doubleValue]];
+  }
+  if (self.hasDiamondCostForEnergyRefill) {
+    [output writeInt32:4 value:self.diamondCostForEnergyRefill];
+  }
+  if (self.hasDiamondCostForStaminaRefill) {
+    [output writeInt32:5 value:self.diamondCostForStaminaRefill];
+  }
+  if (self.hasMaxItemUsePerBattle) {
+    [output writeInt32:6 value:self.maxItemUsePerBattle];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  {
+    int32_t dataSize = 0;
+    for (NSString* element in self.mutableProductIdsList) {
+      dataSize += computeStringSizeNoTag(element);
+    }
+    size += dataSize;
+    size += 1 * self.mutableProductIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableProductDiamondsGivenList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableProductDiamondsGivenList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    dataSize = 8 * self.mutableProductPricesList.count;
+    size += dataSize;
+    size += 1 * self.mutableProductPricesList.count;
+  }
+  if (self.hasDiamondCostForEnergyRefill) {
+    size += computeInt32Size(4, self.diamondCostForEnergyRefill);
+  }
+  if (self.hasDiamondCostForStaminaRefill) {
+    size += computeInt32Size(5, self.diamondCostForStaminaRefill);
+  }
+  if (self.hasMaxItemUsePerBattle) {
+    size += computeInt32Size(6, self.maxItemUsePerBattle);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants*)[[[StartupResponseProto_StartupConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants*)[[[StartupResponseProto_StartupConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants*)[[[StartupResponseProto_StartupConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants*)[[[StartupResponseProto_StartupConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants*)[[[StartupResponseProto_StartupConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants*)[[[StartupResponseProto_StartupConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants*) buildPartial {
+  StartupResponseProto_StartupConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants defaultInstance]) {
+    return self;
+  }
+  if (other.mutableProductIdsList.count > 0) {
+    if (result.mutableProductIdsList == nil) {
+      result.mutableProductIdsList = [NSMutableArray array];
+    }
+    [result.mutableProductIdsList addObjectsFromArray:other.mutableProductIdsList];
+  }
+  if (other.mutableProductDiamondsGivenList.count > 0) {
+    if (result.mutableProductDiamondsGivenList == nil) {
+      result.mutableProductDiamondsGivenList = [NSMutableArray array];
+    }
+    [result.mutableProductDiamondsGivenList addObjectsFromArray:other.mutableProductDiamondsGivenList];
+  }
+  if (other.mutableProductPricesList.count > 0) {
+    if (result.mutableProductPricesList == nil) {
+      result.mutableProductPricesList = [NSMutableArray array];
+    }
+    [result.mutableProductPricesList addObjectsFromArray:other.mutableProductPricesList];
+  }
+  if (other.hasDiamondCostForEnergyRefill) {
+    [self setDiamondCostForEnergyRefill:other.diamondCostForEnergyRefill];
+  }
+  if (other.hasDiamondCostForStaminaRefill) {
+    [self setDiamondCostForStaminaRefill:other.diamondCostForStaminaRefill];
+  }
+  if (other.hasMaxItemUsePerBattle) {
+    [self setMaxItemUsePerBattle:other.maxItemUsePerBattle];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self addProductIds:[input readString]];
+        break;
+      }
+      case 16: {
+        [self addProductDiamondsGiven:[input readInt32]];
+        break;
+      }
+      case 25: {
+        [self addProductPrices:[input readDouble]];
+        break;
+      }
+      case 32: {
+        [self setDiamondCostForEnergyRefill:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setDiamondCostForStaminaRefill:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setMaxItemUsePerBattle:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (NSArray*) productIdsList {
+  if (result.mutableProductIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableProductIdsList;
+}
+- (NSString*) productIdsAtIndex:(int32_t) index {
+  return [result productIdsAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder*) replaceProductIdsAtIndex:(int32_t) index with:(NSString*) value {
+  [result.mutableProductIdsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addProductIds:(NSString*) value {
+  if (result.mutableProductIdsList == nil) {
+    result.mutableProductIdsList = [NSMutableArray array];
+  }
+  [result.mutableProductIdsList addObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addAllProductIds:(NSArray*) values {
+  if (result.mutableProductIdsList == nil) {
+    result.mutableProductIdsList = [NSMutableArray array];
+  }
+  [result.mutableProductIdsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearProductIdsList {
+  result.mutableProductIdsList = nil;
+  return self;
+}
+- (NSArray*) productDiamondsGivenList {
+  if (result.mutableProductDiamondsGivenList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableProductDiamondsGivenList;
+}
+- (int32_t) productDiamondsGivenAtIndex:(int32_t) index {
+  return [result productDiamondsGivenAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder*) replaceProductDiamondsGivenAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableProductDiamondsGivenList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addProductDiamondsGiven:(int32_t) value {
+  if (result.mutableProductDiamondsGivenList == nil) {
+    result.mutableProductDiamondsGivenList = [NSMutableArray array];
+  }
+  [result.mutableProductDiamondsGivenList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addAllProductDiamondsGiven:(NSArray*) values {
+  if (result.mutableProductDiamondsGivenList == nil) {
+    result.mutableProductDiamondsGivenList = [NSMutableArray array];
+  }
+  [result.mutableProductDiamondsGivenList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearProductDiamondsGivenList {
+  result.mutableProductDiamondsGivenList = nil;
+  return self;
+}
+- (NSArray*) productPricesList {
+  if (result.mutableProductPricesList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableProductPricesList;
+}
+- (Float64) productPricesAtIndex:(int32_t) index {
+  return [result productPricesAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder*) replaceProductPricesAtIndex:(int32_t) index with:(Float64) value {
+  [result.mutableProductPricesList replaceObjectAtIndex:index withObject:[NSNumber numberWithDouble:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addProductPrices:(Float64) value {
+  if (result.mutableProductPricesList == nil) {
+    result.mutableProductPricesList = [NSMutableArray array];
+  }
+  [result.mutableProductPricesList addObject:[NSNumber numberWithDouble:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addAllProductPrices:(NSArray*) values {
+  if (result.mutableProductPricesList == nil) {
+    result.mutableProductPricesList = [NSMutableArray array];
+  }
+  [result.mutableProductPricesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearProductPricesList {
+  result.mutableProductPricesList = nil;
+  return self;
+}
+- (BOOL) hasDiamondCostForEnergyRefill {
+  return result.hasDiamondCostForEnergyRefill;
+}
+- (int32_t) diamondCostForEnergyRefill {
+  return result.diamondCostForEnergyRefill;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForEnergyRefill:(int32_t) value {
+  result.hasDiamondCostForEnergyRefill = YES;
+  result.diamondCostForEnergyRefill = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForEnergyRefill {
+  result.hasDiamondCostForEnergyRefill = NO;
+  result.diamondCostForEnergyRefill = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostForStaminaRefill {
+  return result.hasDiamondCostForStaminaRefill;
+}
+- (int32_t) diamondCostForStaminaRefill {
+  return result.diamondCostForStaminaRefill;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForStaminaRefill:(int32_t) value {
+  result.hasDiamondCostForStaminaRefill = YES;
+  result.diamondCostForStaminaRefill = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForStaminaRefill {
+  result.hasDiamondCostForStaminaRefill = NO;
+  result.diamondCostForStaminaRefill = 0;
+  return self;
+}
+- (BOOL) hasMaxItemUsePerBattle {
+  return result.hasMaxItemUsePerBattle;
+}
+- (int32_t) maxItemUsePerBattle {
+  return result.maxItemUsePerBattle;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxItemUsePerBattle:(int32_t) value {
+  result.hasMaxItemUsePerBattle = YES;
+  result.maxItemUsePerBattle = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxItemUsePerBattle {
+  result.hasMaxItemUsePerBattle = NO;
+  result.maxItemUsePerBattle = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_Builder()
 @property (retain) StartupResponseProto* result;
 @end
@@ -3109,26 +3538,26 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   if (other.hasUpdateStatus) {
     [self setUpdateStatus:other.updateStatus];
   }
-  if (other.hasMaxCityIdAccessibleToUser) {
-    [self setMaxCityIdAccessibleToUser:other.maxCityIdAccessibleToUser];
+  if (other.hasStartupConstants) {
+    [self mergeStartupConstants:other.startupConstants];
   }
-  if (other.hasStructures) {
-    [self mergeStructures:other.structures];
-  }
-  if (other.hasQuestLog) {
-    [self setQuestLog:other.questLog];
-  }
-  if (other.mutableProductIdsList.count > 0) {
-    if (result.mutableProductIdsList == nil) {
-      result.mutableProductIdsList = [NSMutableArray array];
+  if (other.mutableCitiesAvailableToUserList.count > 0) {
+    if (result.mutableCitiesAvailableToUserList == nil) {
+      result.mutableCitiesAvailableToUserList = [NSMutableArray array];
     }
-    [result.mutableProductIdsList addObjectsFromArray:other.mutableProductIdsList];
+    [result.mutableCitiesAvailableToUserList addObjectsFromArray:other.mutableCitiesAvailableToUserList];
   }
-  if (other.hasDiamondCostForEnergyRefill) {
-    [self setDiamondCostForEnergyRefill:other.diamondCostForEnergyRefill];
+  if (other.mutableInProgressQuestsList.count > 0) {
+    if (result.mutableInProgressQuestsList == nil) {
+      result.mutableInProgressQuestsList = [NSMutableArray array];
+    }
+    [result.mutableInProgressQuestsList addObjectsFromArray:other.mutableInProgressQuestsList];
   }
-  if (other.hasDiamondCostForStaminaRefill) {
-    [self setDiamondCostForStaminaRefill:other.diamondCostForStaminaRefill];
+  if (other.mutableAvailableQuestsList.count > 0) {
+    if (result.mutableAvailableQuestsList == nil) {
+      result.mutableAvailableQuestsList = [NSMutableArray array];
+    }
+    [result.mutableAvailableQuestsList addObjectsFromArray:other.mutableAvailableQuestsList];
   }
   if (other.mutableUserEquipsList.count > 0) {
     if (result.mutableUserEquipsList == nil) {
@@ -3184,36 +3613,34 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
         }
         break;
       }
-      case 32: {
-        [self setMaxCityIdAccessibleToUser:[input readInt32]];
+      case 34: {
+        StartupResponseProto_StartupConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants builder];
+        if (self.hasStartupConstants) {
+          [subBuilder mergeFrom:self.startupConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setStartupConstants:[subBuilder buildPartial]];
         break;
       }
       case 42: {
-        FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
-        if (self.hasStructures) {
-          [subBuilder mergeFrom:self.structures];
-        }
+        FullCityProto_Builder* subBuilder = [FullCityProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setStructures:[subBuilder buildPartial]];
+        [self addCitiesAvailableToUser:[subBuilder buildPartial]];
         break;
       }
-      case 48: {
-        [self setQuestLog:[input readInt32]];
+      case 50: {
+        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInProgressQuests:[subBuilder buildPartial]];
         break;
       }
       case 58: {
-        [self addProductIds:[input readString]];
+        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAvailableQuests:[subBuilder buildPartial]];
         break;
       }
-      case 64: {
-        [self setDiamondCostForEnergyRefill:[input readInt32]];
-        break;
-      }
-      case 72: {
-        [self setDiamondCostForStaminaRefill:[input readInt32]];
-        break;
-      }
-      case 82: {
+      case 66: {
         FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserEquips:[subBuilder buildPartial]];
@@ -3284,129 +3711,121 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   result.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
   return self;
 }
-- (BOOL) hasMaxCityIdAccessibleToUser {
-  return result.hasMaxCityIdAccessibleToUser;
+- (BOOL) hasStartupConstants {
+  return result.hasStartupConstants;
 }
-- (int32_t) maxCityIdAccessibleToUser {
-  return result.maxCityIdAccessibleToUser;
+- (StartupResponseProto_StartupConstants*) startupConstants {
+  return result.startupConstants;
 }
-- (StartupResponseProto_Builder*) setMaxCityIdAccessibleToUser:(int32_t) value {
-  result.hasMaxCityIdAccessibleToUser = YES;
-  result.maxCityIdAccessibleToUser = value;
+- (StartupResponseProto_Builder*) setStartupConstants:(StartupResponseProto_StartupConstants*) value {
+  result.hasStartupConstants = YES;
+  result.startupConstants = value;
   return self;
 }
-- (StartupResponseProto_Builder*) clearMaxCityIdAccessibleToUser {
-  result.hasMaxCityIdAccessibleToUser = NO;
-  result.maxCityIdAccessibleToUser = 0;
-  return self;
+- (StartupResponseProto_Builder*) setStartupConstantsBuilder:(StartupResponseProto_StartupConstants_Builder*) builderForValue {
+  return [self setStartupConstants:[builderForValue build]];
 }
-- (BOOL) hasStructures {
-  return result.hasStructures;
-}
-- (FullUserStructureProto*) structures {
-  return result.structures;
-}
-- (StartupResponseProto_Builder*) setStructures:(FullUserStructureProto*) value {
-  result.hasStructures = YES;
-  result.structures = value;
-  return self;
-}
-- (StartupResponseProto_Builder*) setStructuresBuilder:(FullUserStructureProto_Builder*) builderForValue {
-  return [self setStructures:[builderForValue build]];
-}
-- (StartupResponseProto_Builder*) mergeStructures:(FullUserStructureProto*) value {
-  if (result.hasStructures &&
-      result.structures != [FullUserStructureProto defaultInstance]) {
-    result.structures =
-      [[[FullUserStructureProto builderWithPrototype:result.structures] mergeFrom:value] buildPartial];
+- (StartupResponseProto_Builder*) mergeStartupConstants:(StartupResponseProto_StartupConstants*) value {
+  if (result.hasStartupConstants &&
+      result.startupConstants != [StartupResponseProto_StartupConstants defaultInstance]) {
+    result.startupConstants =
+      [[[StartupResponseProto_StartupConstants builderWithPrototype:result.startupConstants] mergeFrom:value] buildPartial];
   } else {
-    result.structures = value;
+    result.startupConstants = value;
   }
-  result.hasStructures = YES;
+  result.hasStartupConstants = YES;
   return self;
 }
-- (StartupResponseProto_Builder*) clearStructures {
-  result.hasStructures = NO;
-  result.structures = [FullUserStructureProto defaultInstance];
+- (StartupResponseProto_Builder*) clearStartupConstants {
+  result.hasStartupConstants = NO;
+  result.startupConstants = [StartupResponseProto_StartupConstants defaultInstance];
   return self;
 }
-- (BOOL) hasQuestLog {
-  return result.hasQuestLog;
+- (NSArray*) citiesAvailableToUserList {
+  if (result.mutableCitiesAvailableToUserList == nil) { return [NSArray array]; }
+  return result.mutableCitiesAvailableToUserList;
 }
-- (int32_t) questLog {
-  return result.questLog;
+- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index {
+  return [result citiesAvailableToUserAtIndex:index];
 }
-- (StartupResponseProto_Builder*) setQuestLog:(int32_t) value {
-  result.hasQuestLog = YES;
-  result.questLog = value;
+- (StartupResponseProto_Builder*) replaceCitiesAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value {
+  [result.mutableCitiesAvailableToUserList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) clearQuestLog {
-  result.hasQuestLog = NO;
-  result.questLog = 0;
-  return self;
-}
-- (NSArray*) productIdsList {
-  if (result.mutableProductIdsList == nil) {
-    return [NSArray array];
+- (StartupResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values {
+  if (result.mutableCitiesAvailableToUserList == nil) {
+    result.mutableCitiesAvailableToUserList = [NSMutableArray array];
   }
-  return result.mutableProductIdsList;
-}
-- (NSString*) productIdsAtIndex:(int32_t) index {
-  return [result productIdsAtIndex:index];
-}
-- (StartupResponseProto_Builder*) replaceProductIdsAtIndex:(int32_t) index with:(NSString*) value {
-  [result.mutableProductIdsList replaceObjectAtIndex:index withObject:value];
+  [result.mutableCitiesAvailableToUserList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) addProductIds:(NSString*) value {
-  if (result.mutableProductIdsList == nil) {
-    result.mutableProductIdsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) clearCitiesAvailableToUserList {
+  result.mutableCitiesAvailableToUserList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value {
+  if (result.mutableCitiesAvailableToUserList == nil) {
+    result.mutableCitiesAvailableToUserList = [NSMutableArray array];
   }
-  [result.mutableProductIdsList addObject:value];
+  [result.mutableCitiesAvailableToUserList addObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllProductIds:(NSArray*) values {
-  if (result.mutableProductIdsList == nil) {
-    result.mutableProductIdsList = [NSMutableArray array];
+- (NSArray*) inProgressQuestsList {
+  if (result.mutableInProgressQuestsList == nil) { return [NSArray array]; }
+  return result.mutableInProgressQuestsList;
+}
+- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
+  return [result inProgressQuestsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableInProgressQuestsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values {
+  if (result.mutableInProgressQuestsList == nil) {
+    result.mutableInProgressQuestsList = [NSMutableArray array];
   }
-  [result.mutableProductIdsList addObjectsFromArray:values];
+  [result.mutableInProgressQuestsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearProductIdsList {
-  result.mutableProductIdsList = nil;
+- (StartupResponseProto_Builder*) clearInProgressQuestsList {
+  result.mutableInProgressQuestsList = nil;
   return self;
 }
-- (BOOL) hasDiamondCostForEnergyRefill {
-  return result.hasDiamondCostForEnergyRefill;
-}
-- (int32_t) diamondCostForEnergyRefill {
-  return result.diamondCostForEnergyRefill;
-}
-- (StartupResponseProto_Builder*) setDiamondCostForEnergyRefill:(int32_t) value {
-  result.hasDiamondCostForEnergyRefill = YES;
-  result.diamondCostForEnergyRefill = value;
+- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value {
+  if (result.mutableInProgressQuestsList == nil) {
+    result.mutableInProgressQuestsList = [NSMutableArray array];
+  }
+  [result.mutableInProgressQuestsList addObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) clearDiamondCostForEnergyRefill {
-  result.hasDiamondCostForEnergyRefill = NO;
-  result.diamondCostForEnergyRefill = 0;
+- (NSArray*) availableQuestsList {
+  if (result.mutableAvailableQuestsList == nil) { return [NSArray array]; }
+  return result.mutableAvailableQuestsList;
+}
+- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index {
+  return [result availableQuestsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableAvailableQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (BOOL) hasDiamondCostForStaminaRefill {
-  return result.hasDiamondCostForStaminaRefill;
-}
-- (int32_t) diamondCostForStaminaRefill {
-  return result.diamondCostForStaminaRefill;
-}
-- (StartupResponseProto_Builder*) setDiamondCostForStaminaRefill:(int32_t) value {
-  result.hasDiamondCostForStaminaRefill = YES;
-  result.diamondCostForStaminaRefill = value;
+- (StartupResponseProto_Builder*) addAllAvailableQuests:(NSArray*) values {
+  if (result.mutableAvailableQuestsList == nil) {
+    result.mutableAvailableQuestsList = [NSMutableArray array];
+  }
+  [result.mutableAvailableQuestsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearDiamondCostForStaminaRefill {
-  result.hasDiamondCostForStaminaRefill = NO;
-  result.diamondCostForStaminaRefill = 0;
+- (StartupResponseProto_Builder*) clearAvailableQuestsList {
+  result.mutableAvailableQuestsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addAvailableQuests:(FullQuestProto*) value {
+  if (result.mutableAvailableQuestsList == nil) {
+    result.mutableAvailableQuestsList = [NSMutableArray array];
+  }
+  [result.mutableAvailableQuestsList addObject:value];
   return self;
 }
 - (NSArray*) userEquipsList {
@@ -6735,9 +7154,7 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value) {
   switch (value) {
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughCoins:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughDiamonds:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughWood:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughMaterials:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail:
       return YES;
@@ -7475,7 +7892,6 @@ BOOL MoveNormStructureResponseProto_MoveNormStructureStatusIsValidValue(MoveNorm
 @interface SellNormStructureRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t userStructId;
-@property int32_t soldStructId;
 @end
 
 @implementation SellNormStructureRequestProto
@@ -7494,13 +7910,6 @@ BOOL MoveNormStructureResponseProto_MoveNormStructureStatusIsValidValue(MoveNorm
   hasUserStructId_ = !!value;
 }
 @synthesize userStructId;
-- (BOOL) hasSoldStructId {
-  return !!hasSoldStructId_;
-}
-- (void) setHasSoldStructId:(BOOL) value {
-  hasSoldStructId_ = !!value;
-}
-@synthesize soldStructId;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -7509,7 +7918,6 @@ BOOL MoveNormStructureResponseProto_MoveNormStructureStatusIsValidValue(MoveNorm
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.userStructId = 0;
-    self.soldStructId = 0;
   }
   return self;
 }
@@ -7532,9 +7940,6 @@ static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstan
   if (!self.hasUserStructId) {
     return NO;
   }
-  if (!self.hasSoldStructId) {
-    return NO;
-  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -7546,9 +7951,6 @@ static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstan
   }
   if (self.hasUserStructId) {
     [output writeInt32:2 value:self.userStructId];
-  }
-  if (self.hasSoldStructId) {
-    [output writeInt32:3 value:self.soldStructId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -7564,9 +7966,6 @@ static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstan
   }
   if (self.hasUserStructId) {
     size += computeInt32Size(2, self.userStructId);
-  }
-  if (self.hasSoldStructId) {
-    size += computeInt32Size(3, self.soldStructId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7649,9 +8048,6 @@ static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstan
   if (other.hasUserStructId) {
     [self setUserStructId:other.userStructId];
   }
-  if (other.hasSoldStructId) {
-    [self setSoldStructId:other.soldStructId];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7684,10 +8080,6 @@ static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstan
       }
       case 16: {
         [self setUserStructId:[input readInt32]];
-        break;
-      }
-      case 24: {
-        [self setSoldStructId:[input readInt32]];
         break;
       }
     }
@@ -7737,22 +8129,6 @@ static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstan
 - (SellNormStructureRequestProto_Builder*) clearUserStructId {
   result.hasUserStructId = NO;
   result.userStructId = 0;
-  return self;
-}
-- (BOOL) hasSoldStructId {
-  return result.hasSoldStructId;
-}
-- (int32_t) soldStructId {
-  return result.soldStructId;
-}
-- (SellNormStructureRequestProto_Builder*) setSoldStructId:(int32_t) value {
-  result.hasSoldStructId = YES;
-  result.soldStructId = value;
-  return self;
-}
-- (SellNormStructureRequestProto_Builder*) clearSoldStructId {
-  result.hasSoldStructId = NO;
-  result.soldStructId = 0;
   return self;
 }
 @end
@@ -9695,7 +10071,7 @@ BOOL CriticalStructureActionResponseProto_CriticalStructureActionIsValidValue(Cr
 
 @interface LevelUpResponseProto ()
 @property (retain) FullUserProto* sender;
-@property int32_t maxCityIdAccessibleToUser;
+@property (retain) FullCityProto* unlockedCityAvailableToUser;
 @end
 
 @implementation LevelUpResponseProto
@@ -9707,21 +10083,22 @@ BOOL CriticalStructureActionResponseProto_CriticalStructureActionIsValidValue(Cr
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasMaxCityIdAccessibleToUser {
-  return !!hasMaxCityIdAccessibleToUser_;
+- (BOOL) hasUnlockedCityAvailableToUser {
+  return !!hasUnlockedCityAvailableToUser_;
 }
-- (void) setHasMaxCityIdAccessibleToUser:(BOOL) value {
-  hasMaxCityIdAccessibleToUser_ = !!value;
+- (void) setHasUnlockedCityAvailableToUser:(BOOL) value {
+  hasUnlockedCityAvailableToUser_ = !!value;
 }
-@synthesize maxCityIdAccessibleToUser;
+@synthesize unlockedCityAvailableToUser;
 - (void) dealloc {
   self.sender = nil;
+  self.unlockedCityAvailableToUser = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [FullUserProto defaultInstance];
-    self.maxCityIdAccessibleToUser = 0;
+    self.unlockedCityAvailableToUser = [FullCityProto defaultInstance];
   }
   return self;
 }
@@ -9744,14 +10121,19 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   if (!self.sender.isInitialized) {
     return NO;
   }
+  if (self.hasUnlockedCityAvailableToUser) {
+    if (!self.unlockedCityAvailableToUser.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasMaxCityIdAccessibleToUser) {
-    [output writeInt32:2 value:self.maxCityIdAccessibleToUser];
+  if (self.hasUnlockedCityAvailableToUser) {
+    [output writeMessage:2 value:self.unlockedCityAvailableToUser];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -9765,8 +10147,8 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasMaxCityIdAccessibleToUser) {
-    size += computeInt32Size(2, self.maxCityIdAccessibleToUser);
+  if (self.hasUnlockedCityAvailableToUser) {
+    size += computeMessageSize(2, self.unlockedCityAvailableToUser);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -9846,8 +10228,8 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasMaxCityIdAccessibleToUser) {
-    [self setMaxCityIdAccessibleToUser:other.maxCityIdAccessibleToUser];
+  if (other.hasUnlockedCityAvailableToUser) {
+    [self mergeUnlockedCityAvailableToUser:other.unlockedCityAvailableToUser];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -9879,8 +10261,13 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setMaxCityIdAccessibleToUser:[input readInt32]];
+      case 18: {
+        FullCityProto_Builder* subBuilder = [FullCityProto builder];
+        if (self.hasUnlockedCityAvailableToUser) {
+          [subBuilder mergeFrom:self.unlockedCityAvailableToUser];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUnlockedCityAvailableToUser:[subBuilder buildPartial]];
         break;
       }
     }
@@ -9916,20 +10303,34 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   result.sender = [FullUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasMaxCityIdAccessibleToUser {
-  return result.hasMaxCityIdAccessibleToUser;
+- (BOOL) hasUnlockedCityAvailableToUser {
+  return result.hasUnlockedCityAvailableToUser;
 }
-- (int32_t) maxCityIdAccessibleToUser {
-  return result.maxCityIdAccessibleToUser;
+- (FullCityProto*) unlockedCityAvailableToUser {
+  return result.unlockedCityAvailableToUser;
 }
-- (LevelUpResponseProto_Builder*) setMaxCityIdAccessibleToUser:(int32_t) value {
-  result.hasMaxCityIdAccessibleToUser = YES;
-  result.maxCityIdAccessibleToUser = value;
+- (LevelUpResponseProto_Builder*) setUnlockedCityAvailableToUser:(FullCityProto*) value {
+  result.hasUnlockedCityAvailableToUser = YES;
+  result.unlockedCityAvailableToUser = value;
   return self;
 }
-- (LevelUpResponseProto_Builder*) clearMaxCityIdAccessibleToUser {
-  result.hasMaxCityIdAccessibleToUser = NO;
-  result.maxCityIdAccessibleToUser = 0;
+- (LevelUpResponseProto_Builder*) setUnlockedCityAvailableToUserBuilder:(FullCityProto_Builder*) builderForValue {
+  return [self setUnlockedCityAvailableToUser:[builderForValue build]];
+}
+- (LevelUpResponseProto_Builder*) mergeUnlockedCityAvailableToUser:(FullCityProto*) value {
+  if (result.hasUnlockedCityAvailableToUser &&
+      result.unlockedCityAvailableToUser != [FullCityProto defaultInstance]) {
+    result.unlockedCityAvailableToUser =
+      [[[FullCityProto builderWithPrototype:result.unlockedCityAvailableToUser] mergeFrom:value] buildPartial];
+  } else {
+    result.unlockedCityAvailableToUser = value;
+  }
+  result.hasUnlockedCityAvailableToUser = YES;
+  return self;
+}
+- (LevelUpResponseProto_Builder*) clearUnlockedCityAvailableToUser {
+  result.hasUnlockedCityAvailableToUser = NO;
+  result.unlockedCityAvailableToUser = [FullCityProto defaultInstance];
   return self;
 }
 @end
@@ -17955,7 +18356,7 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 
 @interface QuestCompleteResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t questId;
+@property (retain) FullQuestProto* quest;
 @end
 
 @implementation QuestCompleteResponseProto
@@ -17967,21 +18368,22 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasQuestId {
-  return !!hasQuestId_;
+- (BOOL) hasQuest {
+  return !!hasQuest_;
 }
-- (void) setHasQuestId:(BOOL) value {
-  hasQuestId_ = !!value;
+- (void) setHasQuest:(BOOL) value {
+  hasQuest_ = !!value;
 }
-@synthesize questId;
+@synthesize quest;
 - (void) dealloc {
   self.sender = nil;
+  self.quest = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.questId = 0;
+    self.quest = [FullQuestProto defaultInstance];
   }
   return self;
 }
@@ -18001,10 +18403,13 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (!self.hasSender) {
     return NO;
   }
-  if (!self.hasQuestId) {
+  if (!self.hasQuest) {
     return NO;
   }
   if (!self.sender.isInitialized) {
+    return NO;
+  }
+  if (!self.quest.isInitialized) {
     return NO;
   }
   return YES;
@@ -18013,8 +18418,8 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasQuestId) {
-    [output writeInt32:2 value:self.questId];
+  if (self.hasQuest) {
+    [output writeMessage:2 value:self.quest];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -18028,8 +18433,8 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasQuestId) {
-    size += computeInt32Size(2, self.questId);
+  if (self.hasQuest) {
+    size += computeMessageSize(2, self.quest);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -18109,8 +18514,8 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasQuestId) {
-    [self setQuestId:other.questId];
+  if (other.hasQuest) {
+    [self mergeQuest:other.quest];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -18142,8 +18547,13 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
-        [self setQuestId:[input readInt32]];
+      case 18: {
+        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        if (self.hasQuest) {
+          [subBuilder mergeFrom:self.quest];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setQuest:[subBuilder buildPartial]];
         break;
       }
     }
@@ -18179,20 +18589,34 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasQuestId {
-  return result.hasQuestId;
+- (BOOL) hasQuest {
+  return result.hasQuest;
 }
-- (int32_t) questId {
-  return result.questId;
+- (FullQuestProto*) quest {
+  return result.quest;
 }
-- (QuestCompleteResponseProto_Builder*) setQuestId:(int32_t) value {
-  result.hasQuestId = YES;
-  result.questId = value;
+- (QuestCompleteResponseProto_Builder*) setQuest:(FullQuestProto*) value {
+  result.hasQuest = YES;
+  result.quest = value;
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) clearQuestId {
-  result.hasQuestId = NO;
-  result.questId = 0;
+- (QuestCompleteResponseProto_Builder*) setQuestBuilder:(FullQuestProto_Builder*) builderForValue {
+  return [self setQuest:[builderForValue build]];
+}
+- (QuestCompleteResponseProto_Builder*) mergeQuest:(FullQuestProto*) value {
+  if (result.hasQuest &&
+      result.quest != [FullQuestProto defaultInstance]) {
+    result.quest =
+      [[[FullQuestProto builderWithPrototype:result.quest] mergeFrom:value] buildPartial];
+  } else {
+    result.quest = value;
+  }
+  result.hasQuest = YES;
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) clearQuest {
+  result.hasQuest = NO;
+  result.quest = [FullQuestProto defaultInstance];
   return self;
 }
 @end
@@ -19784,6 +20208,1583 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 - (QuestLogDetailsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess;
+  return self;
+}
+@end
+
+@interface RetrieveStaticDataRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableStructIdsList;
+@property (retain) NSMutableArray* mutableTaskIdsList;
+@property (retain) NSMutableArray* mutableQuestIdsList;
+@property (retain) NSMutableArray* mutableCityIdsList;
+@property (retain) NSMutableArray* mutableEquipIdsList;
+@property (retain) NSMutableArray* mutableBuildStructJobIdsList;
+@property (retain) NSMutableArray* mutableDefeatTypeJobIdsList;
+@property (retain) NSMutableArray* mutablePossessEquipJobIdsList;
+@property (retain) NSMutableArray* mutableUpgradeStructJobIdsList;
+@end
+
+@implementation RetrieveStaticDataRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableStructIdsList;
+@synthesize mutableTaskIdsList;
+@synthesize mutableQuestIdsList;
+@synthesize mutableCityIdsList;
+@synthesize mutableEquipIdsList;
+@synthesize mutableBuildStructJobIdsList;
+@synthesize mutableDefeatTypeJobIdsList;
+@synthesize mutablePossessEquipJobIdsList;
+@synthesize mutableUpgradeStructJobIdsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableStructIdsList = nil;
+  self.mutableTaskIdsList = nil;
+  self.mutableQuestIdsList = nil;
+  self.mutableCityIdsList = nil;
+  self.mutableEquipIdsList = nil;
+  self.mutableBuildStructJobIdsList = nil;
+  self.mutableDefeatTypeJobIdsList = nil;
+  self.mutablePossessEquipJobIdsList = nil;
+  self.mutableUpgradeStructJobIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveStaticDataRequestProto class]) {
+    defaultRetrieveStaticDataRequestProtoInstance = [[RetrieveStaticDataRequestProto alloc] init];
+  }
+}
++ (RetrieveStaticDataRequestProto*) defaultInstance {
+  return defaultRetrieveStaticDataRequestProtoInstance;
+}
+- (RetrieveStaticDataRequestProto*) defaultInstance {
+  return defaultRetrieveStaticDataRequestProtoInstance;
+}
+- (NSArray*) structIdsList {
+  return mutableStructIdsList;
+}
+- (int32_t) structIdsAtIndex:(int32_t) index {
+  id value = [mutableStructIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) taskIdsList {
+  return mutableTaskIdsList;
+}
+- (int32_t) taskIdsAtIndex:(int32_t) index {
+  id value = [mutableTaskIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) questIdsList {
+  return mutableQuestIdsList;
+}
+- (int32_t) questIdsAtIndex:(int32_t) index {
+  id value = [mutableQuestIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) cityIdsList {
+  return mutableCityIdsList;
+}
+- (int32_t) cityIdsAtIndex:(int32_t) index {
+  id value = [mutableCityIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) equipIdsList {
+  return mutableEquipIdsList;
+}
+- (int32_t) equipIdsAtIndex:(int32_t) index {
+  id value = [mutableEquipIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) buildStructJobIdsList {
+  return mutableBuildStructJobIdsList;
+}
+- (int32_t) buildStructJobIdsAtIndex:(int32_t) index {
+  id value = [mutableBuildStructJobIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) defeatTypeJobIdsList {
+  return mutableDefeatTypeJobIdsList;
+}
+- (int32_t) defeatTypeJobIdsAtIndex:(int32_t) index {
+  id value = [mutableDefeatTypeJobIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) possessEquipJobIdsList {
+  return mutablePossessEquipJobIdsList;
+}
+- (int32_t) possessEquipJobIdsAtIndex:(int32_t) index {
+  id value = [mutablePossessEquipJobIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) upgradeStructJobIdsList {
+  return mutableUpgradeStructJobIdsList;
+}
+- (int32_t) upgradeStructJobIdsAtIndex:(int32_t) index {
+  id value = [mutableUpgradeStructJobIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSNumber* value in self.mutableStructIdsList) {
+    [output writeInt32:2 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableTaskIdsList) {
+    [output writeInt32:3 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableQuestIdsList) {
+    [output writeInt32:4 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableCityIdsList) {
+    [output writeInt32:5 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableEquipIdsList) {
+    [output writeInt32:6 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableBuildStructJobIdsList) {
+    [output writeInt32:12 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableDefeatTypeJobIdsList) {
+    [output writeInt32:13 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutablePossessEquipJobIdsList) {
+    [output writeInt32:14 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableUpgradeStructJobIdsList) {
+    [output writeInt32:15 value:[value intValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableStructIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableStructIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableTaskIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableTaskIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableQuestIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableQuestIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableCityIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableCityIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableEquipIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableEquipIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableBuildStructJobIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableBuildStructJobIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableDefeatTypeJobIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableDefeatTypeJobIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutablePossessEquipJobIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutablePossessEquipJobIdsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableUpgradeStructJobIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableUpgradeStructJobIdsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveStaticDataRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveStaticDataRequestProto*)[[[RetrieveStaticDataRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveStaticDataRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataRequestProto*)[[[RetrieveStaticDataRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveStaticDataRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveStaticDataRequestProto*)[[[RetrieveStaticDataRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveStaticDataRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataRequestProto*)[[[RetrieveStaticDataRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveStaticDataRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveStaticDataRequestProto*)[[[RetrieveStaticDataRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveStaticDataRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataRequestProto*)[[[RetrieveStaticDataRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveStaticDataRequestProto_Builder*) builder {
+  return [[[RetrieveStaticDataRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveStaticDataRequestProto_Builder*) builderWithPrototype:(RetrieveStaticDataRequestProto*) prototype {
+  return [[RetrieveStaticDataRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveStaticDataRequestProto_Builder*) builder {
+  return [RetrieveStaticDataRequestProto builder];
+}
+@end
+
+@interface RetrieveStaticDataRequestProto_Builder()
+@property (retain) RetrieveStaticDataRequestProto* result;
+@end
+
+@implementation RetrieveStaticDataRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveStaticDataRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clear {
+  self.result = [[[RetrieveStaticDataRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clone {
+  return [RetrieveStaticDataRequestProto builderWithPrototype:result];
+}
+- (RetrieveStaticDataRequestProto*) defaultInstance {
+  return [RetrieveStaticDataRequestProto defaultInstance];
+}
+- (RetrieveStaticDataRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveStaticDataRequestProto*) buildPartial {
+  RetrieveStaticDataRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveStaticDataRequestProto_Builder*) mergeFrom:(RetrieveStaticDataRequestProto*) other {
+  if (other == [RetrieveStaticDataRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableStructIdsList.count > 0) {
+    if (result.mutableStructIdsList == nil) {
+      result.mutableStructIdsList = [NSMutableArray array];
+    }
+    [result.mutableStructIdsList addObjectsFromArray:other.mutableStructIdsList];
+  }
+  if (other.mutableTaskIdsList.count > 0) {
+    if (result.mutableTaskIdsList == nil) {
+      result.mutableTaskIdsList = [NSMutableArray array];
+    }
+    [result.mutableTaskIdsList addObjectsFromArray:other.mutableTaskIdsList];
+  }
+  if (other.mutableQuestIdsList.count > 0) {
+    if (result.mutableQuestIdsList == nil) {
+      result.mutableQuestIdsList = [NSMutableArray array];
+    }
+    [result.mutableQuestIdsList addObjectsFromArray:other.mutableQuestIdsList];
+  }
+  if (other.mutableCityIdsList.count > 0) {
+    if (result.mutableCityIdsList == nil) {
+      result.mutableCityIdsList = [NSMutableArray array];
+    }
+    [result.mutableCityIdsList addObjectsFromArray:other.mutableCityIdsList];
+  }
+  if (other.mutableEquipIdsList.count > 0) {
+    if (result.mutableEquipIdsList == nil) {
+      result.mutableEquipIdsList = [NSMutableArray array];
+    }
+    [result.mutableEquipIdsList addObjectsFromArray:other.mutableEquipIdsList];
+  }
+  if (other.mutableBuildStructJobIdsList.count > 0) {
+    if (result.mutableBuildStructJobIdsList == nil) {
+      result.mutableBuildStructJobIdsList = [NSMutableArray array];
+    }
+    [result.mutableBuildStructJobIdsList addObjectsFromArray:other.mutableBuildStructJobIdsList];
+  }
+  if (other.mutableDefeatTypeJobIdsList.count > 0) {
+    if (result.mutableDefeatTypeJobIdsList == nil) {
+      result.mutableDefeatTypeJobIdsList = [NSMutableArray array];
+    }
+    [result.mutableDefeatTypeJobIdsList addObjectsFromArray:other.mutableDefeatTypeJobIdsList];
+  }
+  if (other.mutablePossessEquipJobIdsList.count > 0) {
+    if (result.mutablePossessEquipJobIdsList == nil) {
+      result.mutablePossessEquipJobIdsList = [NSMutableArray array];
+    }
+    [result.mutablePossessEquipJobIdsList addObjectsFromArray:other.mutablePossessEquipJobIdsList];
+  }
+  if (other.mutableUpgradeStructJobIdsList.count > 0) {
+    if (result.mutableUpgradeStructJobIdsList == nil) {
+      result.mutableUpgradeStructJobIdsList = [NSMutableArray array];
+    }
+    [result.mutableUpgradeStructJobIdsList addObjectsFromArray:other.mutableUpgradeStructJobIdsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveStaticDataRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self addStructIds:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self addTaskIds:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self addQuestIds:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self addCityIds:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self addEquipIds:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self addBuildStructJobIds:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self addDefeatTypeJobIds:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self addPossessEquipJobIds:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self addUpgradeStructJobIds:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveStaticDataRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveStaticDataRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) structIdsList {
+  if (result.mutableStructIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableStructIdsList;
+}
+- (int32_t) structIdsAtIndex:(int32_t) index {
+  return [result structIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceStructIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableStructIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addStructIds:(int32_t) value {
+  if (result.mutableStructIdsList == nil) {
+    result.mutableStructIdsList = [NSMutableArray array];
+  }
+  [result.mutableStructIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllStructIds:(NSArray*) values {
+  if (result.mutableStructIdsList == nil) {
+    result.mutableStructIdsList = [NSMutableArray array];
+  }
+  [result.mutableStructIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearStructIdsList {
+  result.mutableStructIdsList = nil;
+  return self;
+}
+- (NSArray*) taskIdsList {
+  if (result.mutableTaskIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableTaskIdsList;
+}
+- (int32_t) taskIdsAtIndex:(int32_t) index {
+  return [result taskIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceTaskIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableTaskIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addTaskIds:(int32_t) value {
+  if (result.mutableTaskIdsList == nil) {
+    result.mutableTaskIdsList = [NSMutableArray array];
+  }
+  [result.mutableTaskIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllTaskIds:(NSArray*) values {
+  if (result.mutableTaskIdsList == nil) {
+    result.mutableTaskIdsList = [NSMutableArray array];
+  }
+  [result.mutableTaskIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearTaskIdsList {
+  result.mutableTaskIdsList = nil;
+  return self;
+}
+- (NSArray*) questIdsList {
+  if (result.mutableQuestIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableQuestIdsList;
+}
+- (int32_t) questIdsAtIndex:(int32_t) index {
+  return [result questIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceQuestIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableQuestIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addQuestIds:(int32_t) value {
+  if (result.mutableQuestIdsList == nil) {
+    result.mutableQuestIdsList = [NSMutableArray array];
+  }
+  [result.mutableQuestIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllQuestIds:(NSArray*) values {
+  if (result.mutableQuestIdsList == nil) {
+    result.mutableQuestIdsList = [NSMutableArray array];
+  }
+  [result.mutableQuestIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearQuestIdsList {
+  result.mutableQuestIdsList = nil;
+  return self;
+}
+- (NSArray*) cityIdsList {
+  if (result.mutableCityIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableCityIdsList;
+}
+- (int32_t) cityIdsAtIndex:(int32_t) index {
+  return [result cityIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceCityIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableCityIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addCityIds:(int32_t) value {
+  if (result.mutableCityIdsList == nil) {
+    result.mutableCityIdsList = [NSMutableArray array];
+  }
+  [result.mutableCityIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllCityIds:(NSArray*) values {
+  if (result.mutableCityIdsList == nil) {
+    result.mutableCityIdsList = [NSMutableArray array];
+  }
+  [result.mutableCityIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearCityIdsList {
+  result.mutableCityIdsList = nil;
+  return self;
+}
+- (NSArray*) equipIdsList {
+  if (result.mutableEquipIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableEquipIdsList;
+}
+- (int32_t) equipIdsAtIndex:(int32_t) index {
+  return [result equipIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceEquipIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableEquipIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addEquipIds:(int32_t) value {
+  if (result.mutableEquipIdsList == nil) {
+    result.mutableEquipIdsList = [NSMutableArray array];
+  }
+  [result.mutableEquipIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllEquipIds:(NSArray*) values {
+  if (result.mutableEquipIdsList == nil) {
+    result.mutableEquipIdsList = [NSMutableArray array];
+  }
+  [result.mutableEquipIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearEquipIdsList {
+  result.mutableEquipIdsList = nil;
+  return self;
+}
+- (NSArray*) buildStructJobIdsList {
+  if (result.mutableBuildStructJobIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableBuildStructJobIdsList;
+}
+- (int32_t) buildStructJobIdsAtIndex:(int32_t) index {
+  return [result buildStructJobIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceBuildStructJobIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableBuildStructJobIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addBuildStructJobIds:(int32_t) value {
+  if (result.mutableBuildStructJobIdsList == nil) {
+    result.mutableBuildStructJobIdsList = [NSMutableArray array];
+  }
+  [result.mutableBuildStructJobIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllBuildStructJobIds:(NSArray*) values {
+  if (result.mutableBuildStructJobIdsList == nil) {
+    result.mutableBuildStructJobIdsList = [NSMutableArray array];
+  }
+  [result.mutableBuildStructJobIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearBuildStructJobIdsList {
+  result.mutableBuildStructJobIdsList = nil;
+  return self;
+}
+- (NSArray*) defeatTypeJobIdsList {
+  if (result.mutableDefeatTypeJobIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableDefeatTypeJobIdsList;
+}
+- (int32_t) defeatTypeJobIdsAtIndex:(int32_t) index {
+  return [result defeatTypeJobIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceDefeatTypeJobIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableDefeatTypeJobIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addDefeatTypeJobIds:(int32_t) value {
+  if (result.mutableDefeatTypeJobIdsList == nil) {
+    result.mutableDefeatTypeJobIdsList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeJobIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllDefeatTypeJobIds:(NSArray*) values {
+  if (result.mutableDefeatTypeJobIdsList == nil) {
+    result.mutableDefeatTypeJobIdsList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeJobIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearDefeatTypeJobIdsList {
+  result.mutableDefeatTypeJobIdsList = nil;
+  return self;
+}
+- (NSArray*) possessEquipJobIdsList {
+  if (result.mutablePossessEquipJobIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutablePossessEquipJobIdsList;
+}
+- (int32_t) possessEquipJobIdsAtIndex:(int32_t) index {
+  return [result possessEquipJobIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replacePossessEquipJobIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutablePossessEquipJobIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addPossessEquipJobIds:(int32_t) value {
+  if (result.mutablePossessEquipJobIdsList == nil) {
+    result.mutablePossessEquipJobIdsList = [NSMutableArray array];
+  }
+  [result.mutablePossessEquipJobIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllPossessEquipJobIds:(NSArray*) values {
+  if (result.mutablePossessEquipJobIdsList == nil) {
+    result.mutablePossessEquipJobIdsList = [NSMutableArray array];
+  }
+  [result.mutablePossessEquipJobIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearPossessEquipJobIdsList {
+  result.mutablePossessEquipJobIdsList = nil;
+  return self;
+}
+- (NSArray*) upgradeStructJobIdsList {
+  if (result.mutableUpgradeStructJobIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableUpgradeStructJobIdsList;
+}
+- (int32_t) upgradeStructJobIdsAtIndex:(int32_t) index {
+  return [result upgradeStructJobIdsAtIndex:index];
+}
+- (RetrieveStaticDataRequestProto_Builder*) replaceUpgradeStructJobIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableUpgradeStructJobIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addUpgradeStructJobIds:(int32_t) value {
+  if (result.mutableUpgradeStructJobIdsList == nil) {
+    result.mutableUpgradeStructJobIdsList = [NSMutableArray array];
+  }
+  [result.mutableUpgradeStructJobIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) addAllUpgradeStructJobIds:(NSArray*) values {
+  if (result.mutableUpgradeStructJobIdsList == nil) {
+    result.mutableUpgradeStructJobIdsList = [NSMutableArray array];
+  }
+  [result.mutableUpgradeStructJobIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataRequestProto_Builder*) clearUpgradeStructJobIdsList {
+  result.mutableUpgradeStructJobIdsList = nil;
+  return self;
+}
+@end
+
+@interface RetrieveStaticDataResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableStructsList;
+@property (retain) NSMutableArray* mutableTasksList;
+@property (retain) NSMutableArray* mutableQuestsList;
+@property (retain) NSMutableArray* mutableCitiesList;
+@property (retain) NSMutableArray* mutableEquipsList;
+@property (retain) NSMutableArray* mutableBuildStructJobsList;
+@property (retain) NSMutableArray* mutableDefeatTypeJobsList;
+@property (retain) NSMutableArray* mutablePossessEquipJobsList;
+@property (retain) NSMutableArray* mutableUpgradeStructJobsList;
+@property RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
+@end
+
+@implementation RetrieveStaticDataResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableStructsList;
+@synthesize mutableTasksList;
+@synthesize mutableQuestsList;
+@synthesize mutableCitiesList;
+@synthesize mutableEquipsList;
+@synthesize mutableBuildStructJobsList;
+@synthesize mutableDefeatTypeJobsList;
+@synthesize mutablePossessEquipJobsList;
+@synthesize mutableUpgradeStructJobsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableStructsList = nil;
+  self.mutableTasksList = nil;
+  self.mutableQuestsList = nil;
+  self.mutableCitiesList = nil;
+  self.mutableEquipsList = nil;
+  self.mutableBuildStructJobsList = nil;
+  self.mutableDefeatTypeJobsList = nil;
+  self.mutablePossessEquipJobsList = nil;
+  self.mutableUpgradeStructJobsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess;
+  }
+  return self;
+}
+static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveStaticDataResponseProto class]) {
+    defaultRetrieveStaticDataResponseProtoInstance = [[RetrieveStaticDataResponseProto alloc] init];
+  }
+}
++ (RetrieveStaticDataResponseProto*) defaultInstance {
+  return defaultRetrieveStaticDataResponseProtoInstance;
+}
+- (RetrieveStaticDataResponseProto*) defaultInstance {
+  return defaultRetrieveStaticDataResponseProtoInstance;
+}
+- (NSArray*) structsList {
+  return mutableStructsList;
+}
+- (FullStructureProto*) structsAtIndex:(int32_t) index {
+  id value = [mutableStructsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) tasksList {
+  return mutableTasksList;
+}
+- (FullTaskProto*) tasksAtIndex:(int32_t) index {
+  id value = [mutableTasksList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) questsList {
+  return mutableQuestsList;
+}
+- (FullQuestProto*) questsAtIndex:(int32_t) index {
+  id value = [mutableQuestsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) citiesList {
+  return mutableCitiesList;
+}
+- (FullCityProto*) citiesAtIndex:(int32_t) index {
+  id value = [mutableCitiesList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) equipsList {
+  return mutableEquipsList;
+}
+- (FullEquipProto*) equipsAtIndex:(int32_t) index {
+  id value = [mutableEquipsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) buildStructJobsList {
+  return mutableBuildStructJobsList;
+}
+- (BuildStructJobProto*) buildStructJobsAtIndex:(int32_t) index {
+  id value = [mutableBuildStructJobsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) defeatTypeJobsList {
+  return mutableDefeatTypeJobsList;
+}
+- (DefeatTypeJobProto*) defeatTypeJobsAtIndex:(int32_t) index {
+  id value = [mutableDefeatTypeJobsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) possessEquipJobsList {
+  return mutablePossessEquipJobsList;
+}
+- (PossessEquipJobProto*) possessEquipJobsAtIndex:(int32_t) index {
+  id value = [mutablePossessEquipJobsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) upgradeStructJobsList {
+  return mutableUpgradeStructJobsList;
+}
+- (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index {
+  id value = [mutableUpgradeStructJobsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (FullStructureProto* element in self.structsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullTaskProto* element in self.tasksList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullQuestProto* element in self.questsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullCityProto* element in self.citiesList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullEquipProto* element in self.equipsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (BuildStructJobProto* element in self.buildStructJobsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (DefeatTypeJobProto* element in self.defeatTypeJobsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (PossessEquipJobProto* element in self.possessEquipJobsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (UpgradeStructJobProto* element in self.upgradeStructJobsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullStructureProto* element in self.structsList) {
+    [output writeMessage:2 value:element];
+  }
+  for (FullTaskProto* element in self.tasksList) {
+    [output writeMessage:3 value:element];
+  }
+  for (FullQuestProto* element in self.questsList) {
+    [output writeMessage:4 value:element];
+  }
+  for (FullCityProto* element in self.citiesList) {
+    [output writeMessage:5 value:element];
+  }
+  for (FullEquipProto* element in self.equipsList) {
+    [output writeMessage:6 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:7 value:self.status];
+  }
+  for (BuildStructJobProto* element in self.buildStructJobsList) {
+    [output writeMessage:12 value:element];
+  }
+  for (DefeatTypeJobProto* element in self.defeatTypeJobsList) {
+    [output writeMessage:13 value:element];
+  }
+  for (PossessEquipJobProto* element in self.possessEquipJobsList) {
+    [output writeMessage:14 value:element];
+  }
+  for (UpgradeStructJobProto* element in self.upgradeStructJobsList) {
+    [output writeMessage:15 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullStructureProto* element in self.structsList) {
+    size += computeMessageSize(2, element);
+  }
+  for (FullTaskProto* element in self.tasksList) {
+    size += computeMessageSize(3, element);
+  }
+  for (FullQuestProto* element in self.questsList) {
+    size += computeMessageSize(4, element);
+  }
+  for (FullCityProto* element in self.citiesList) {
+    size += computeMessageSize(5, element);
+  }
+  for (FullEquipProto* element in self.equipsList) {
+    size += computeMessageSize(6, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(7, self.status);
+  }
+  for (BuildStructJobProto* element in self.buildStructJobsList) {
+    size += computeMessageSize(12, element);
+  }
+  for (DefeatTypeJobProto* element in self.defeatTypeJobsList) {
+    size += computeMessageSize(13, element);
+  }
+  for (PossessEquipJobProto* element in self.possessEquipJobsList) {
+    size += computeMessageSize(14, element);
+  }
+  for (UpgradeStructJobProto* element in self.upgradeStructJobsList) {
+    size += computeMessageSize(15, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveStaticDataResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveStaticDataResponseProto*)[[[RetrieveStaticDataResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveStaticDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataResponseProto*)[[[RetrieveStaticDataResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveStaticDataResponseProto*)[[[RetrieveStaticDataResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataResponseProto*)[[[RetrieveStaticDataResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveStaticDataResponseProto*)[[[RetrieveStaticDataResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataResponseProto*)[[[RetrieveStaticDataResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveStaticDataResponseProto_Builder*) builder {
+  return [[[RetrieveStaticDataResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveStaticDataResponseProto_Builder*) builderWithPrototype:(RetrieveStaticDataResponseProto*) prototype {
+  return [[RetrieveStaticDataResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveStaticDataResponseProto_Builder*) builder {
+  return [RetrieveStaticDataResponseProto builder];
+}
+@end
+
+BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus value) {
+  switch (value) {
+    case RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess:
+    case RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSomeFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveStaticDataResponseProto_Builder()
+@property (retain) RetrieveStaticDataResponseProto* result;
+@end
+
+@implementation RetrieveStaticDataResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveStaticDataResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clear {
+  self.result = [[[RetrieveStaticDataResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clone {
+  return [RetrieveStaticDataResponseProto builderWithPrototype:result];
+}
+- (RetrieveStaticDataResponseProto*) defaultInstance {
+  return [RetrieveStaticDataResponseProto defaultInstance];
+}
+- (RetrieveStaticDataResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveStaticDataResponseProto*) buildPartial {
+  RetrieveStaticDataResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveStaticDataResponseProto_Builder*) mergeFrom:(RetrieveStaticDataResponseProto*) other {
+  if (other == [RetrieveStaticDataResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableStructsList.count > 0) {
+    if (result.mutableStructsList == nil) {
+      result.mutableStructsList = [NSMutableArray array];
+    }
+    [result.mutableStructsList addObjectsFromArray:other.mutableStructsList];
+  }
+  if (other.mutableTasksList.count > 0) {
+    if (result.mutableTasksList == nil) {
+      result.mutableTasksList = [NSMutableArray array];
+    }
+    [result.mutableTasksList addObjectsFromArray:other.mutableTasksList];
+  }
+  if (other.mutableQuestsList.count > 0) {
+    if (result.mutableQuestsList == nil) {
+      result.mutableQuestsList = [NSMutableArray array];
+    }
+    [result.mutableQuestsList addObjectsFromArray:other.mutableQuestsList];
+  }
+  if (other.mutableCitiesList.count > 0) {
+    if (result.mutableCitiesList == nil) {
+      result.mutableCitiesList = [NSMutableArray array];
+    }
+    [result.mutableCitiesList addObjectsFromArray:other.mutableCitiesList];
+  }
+  if (other.mutableEquipsList.count > 0) {
+    if (result.mutableEquipsList == nil) {
+      result.mutableEquipsList = [NSMutableArray array];
+    }
+    [result.mutableEquipsList addObjectsFromArray:other.mutableEquipsList];
+  }
+  if (other.mutableBuildStructJobsList.count > 0) {
+    if (result.mutableBuildStructJobsList == nil) {
+      result.mutableBuildStructJobsList = [NSMutableArray array];
+    }
+    [result.mutableBuildStructJobsList addObjectsFromArray:other.mutableBuildStructJobsList];
+  }
+  if (other.mutableDefeatTypeJobsList.count > 0) {
+    if (result.mutableDefeatTypeJobsList == nil) {
+      result.mutableDefeatTypeJobsList = [NSMutableArray array];
+    }
+    [result.mutableDefeatTypeJobsList addObjectsFromArray:other.mutableDefeatTypeJobsList];
+  }
+  if (other.mutablePossessEquipJobsList.count > 0) {
+    if (result.mutablePossessEquipJobsList == nil) {
+      result.mutablePossessEquipJobsList = [NSMutableArray array];
+    }
+    [result.mutablePossessEquipJobsList addObjectsFromArray:other.mutablePossessEquipJobsList];
+  }
+  if (other.mutableUpgradeStructJobsList.count > 0) {
+    if (result.mutableUpgradeStructJobsList == nil) {
+      result.mutableUpgradeStructJobsList = [NSMutableArray array];
+    }
+    [result.mutableUpgradeStructJobsList addObjectsFromArray:other.mutableUpgradeStructJobsList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStructs:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addTasks:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addQuests:[subBuilder buildPartial]];
+        break;
+      }
+      case 42: {
+        FullCityProto_Builder* subBuilder = [FullCityProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCities:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 56: {
+        int32_t value = [input readEnum];
+        if (RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
+        break;
+      }
+      case 98: {
+        BuildStructJobProto_Builder* subBuilder = [BuildStructJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addBuildStructJobs:[subBuilder buildPartial]];
+        break;
+      }
+      case 106: {
+        DefeatTypeJobProto_Builder* subBuilder = [DefeatTypeJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addDefeatTypeJobs:[subBuilder buildPartial]];
+        break;
+      }
+      case 114: {
+        PossessEquipJobProto_Builder* subBuilder = [PossessEquipJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPossessEquipJobs:[subBuilder buildPartial]];
+        break;
+      }
+      case 122: {
+        UpgradeStructJobProto_Builder* subBuilder = [UpgradeStructJobProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUpgradeStructJobs:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveStaticDataResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveStaticDataResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) structsList {
+  if (result.mutableStructsList == nil) { return [NSArray array]; }
+  return result.mutableStructsList;
+}
+- (FullStructureProto*) structsAtIndex:(int32_t) index {
+  return [result structsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value {
+  [result.mutableStructsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllStructs:(NSArray*) values {
+  if (result.mutableStructsList == nil) {
+    result.mutableStructsList = [NSMutableArray array];
+  }
+  [result.mutableStructsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearStructsList {
+  result.mutableStructsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addStructs:(FullStructureProto*) value {
+  if (result.mutableStructsList == nil) {
+    result.mutableStructsList = [NSMutableArray array];
+  }
+  [result.mutableStructsList addObject:value];
+  return self;
+}
+- (NSArray*) tasksList {
+  if (result.mutableTasksList == nil) { return [NSArray array]; }
+  return result.mutableTasksList;
+}
+- (FullTaskProto*) tasksAtIndex:(int32_t) index {
+  return [result tasksAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceTasksAtIndex:(int32_t) index with:(FullTaskProto*) value {
+  [result.mutableTasksList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllTasks:(NSArray*) values {
+  if (result.mutableTasksList == nil) {
+    result.mutableTasksList = [NSMutableArray array];
+  }
+  [result.mutableTasksList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearTasksList {
+  result.mutableTasksList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addTasks:(FullTaskProto*) value {
+  if (result.mutableTasksList == nil) {
+    result.mutableTasksList = [NSMutableArray array];
+  }
+  [result.mutableTasksList addObject:value];
+  return self;
+}
+- (NSArray*) questsList {
+  if (result.mutableQuestsList == nil) { return [NSArray array]; }
+  return result.mutableQuestsList;
+}
+- (FullQuestProto*) questsAtIndex:(int32_t) index {
+  return [result questsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableQuestsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllQuests:(NSArray*) values {
+  if (result.mutableQuestsList == nil) {
+    result.mutableQuestsList = [NSMutableArray array];
+  }
+  [result.mutableQuestsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearQuestsList {
+  result.mutableQuestsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addQuests:(FullQuestProto*) value {
+  if (result.mutableQuestsList == nil) {
+    result.mutableQuestsList = [NSMutableArray array];
+  }
+  [result.mutableQuestsList addObject:value];
+  return self;
+}
+- (NSArray*) citiesList {
+  if (result.mutableCitiesList == nil) { return [NSArray array]; }
+  return result.mutableCitiesList;
+}
+- (FullCityProto*) citiesAtIndex:(int32_t) index {
+  return [result citiesAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceCitiesAtIndex:(int32_t) index with:(FullCityProto*) value {
+  [result.mutableCitiesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllCities:(NSArray*) values {
+  if (result.mutableCitiesList == nil) {
+    result.mutableCitiesList = [NSMutableArray array];
+  }
+  [result.mutableCitiesList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearCitiesList {
+  result.mutableCitiesList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addCities:(FullCityProto*) value {
+  if (result.mutableCitiesList == nil) {
+    result.mutableCitiesList = [NSMutableArray array];
+  }
+  [result.mutableCitiesList addObject:value];
+  return self;
+}
+- (NSArray*) equipsList {
+  if (result.mutableEquipsList == nil) { return [NSArray array]; }
+  return result.mutableEquipsList;
+}
+- (FullEquipProto*) equipsAtIndex:(int32_t) index {
+  return [result equipsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value {
+  [result.mutableEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllEquips:(NSArray*) values {
+  if (result.mutableEquipsList == nil) {
+    result.mutableEquipsList = [NSMutableArray array];
+  }
+  [result.mutableEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearEquipsList {
+  result.mutableEquipsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addEquips:(FullEquipProto*) value {
+  if (result.mutableEquipsList == nil) {
+    result.mutableEquipsList = [NSMutableArray array];
+  }
+  [result.mutableEquipsList addObject:value];
+  return self;
+}
+- (NSArray*) buildStructJobsList {
+  if (result.mutableBuildStructJobsList == nil) { return [NSArray array]; }
+  return result.mutableBuildStructJobsList;
+}
+- (BuildStructJobProto*) buildStructJobsAtIndex:(int32_t) index {
+  return [result buildStructJobsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceBuildStructJobsAtIndex:(int32_t) index with:(BuildStructJobProto*) value {
+  [result.mutableBuildStructJobsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllBuildStructJobs:(NSArray*) values {
+  if (result.mutableBuildStructJobsList == nil) {
+    result.mutableBuildStructJobsList = [NSMutableArray array];
+  }
+  [result.mutableBuildStructJobsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearBuildStructJobsList {
+  result.mutableBuildStructJobsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addBuildStructJobs:(BuildStructJobProto*) value {
+  if (result.mutableBuildStructJobsList == nil) {
+    result.mutableBuildStructJobsList = [NSMutableArray array];
+  }
+  [result.mutableBuildStructJobsList addObject:value];
+  return self;
+}
+- (NSArray*) defeatTypeJobsList {
+  if (result.mutableDefeatTypeJobsList == nil) { return [NSArray array]; }
+  return result.mutableDefeatTypeJobsList;
+}
+- (DefeatTypeJobProto*) defeatTypeJobsAtIndex:(int32_t) index {
+  return [result defeatTypeJobsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceDefeatTypeJobsAtIndex:(int32_t) index with:(DefeatTypeJobProto*) value {
+  [result.mutableDefeatTypeJobsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllDefeatTypeJobs:(NSArray*) values {
+  if (result.mutableDefeatTypeJobsList == nil) {
+    result.mutableDefeatTypeJobsList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeJobsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearDefeatTypeJobsList {
+  result.mutableDefeatTypeJobsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addDefeatTypeJobs:(DefeatTypeJobProto*) value {
+  if (result.mutableDefeatTypeJobsList == nil) {
+    result.mutableDefeatTypeJobsList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeJobsList addObject:value];
+  return self;
+}
+- (NSArray*) possessEquipJobsList {
+  if (result.mutablePossessEquipJobsList == nil) { return [NSArray array]; }
+  return result.mutablePossessEquipJobsList;
+}
+- (PossessEquipJobProto*) possessEquipJobsAtIndex:(int32_t) index {
+  return [result possessEquipJobsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replacePossessEquipJobsAtIndex:(int32_t) index with:(PossessEquipJobProto*) value {
+  [result.mutablePossessEquipJobsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllPossessEquipJobs:(NSArray*) values {
+  if (result.mutablePossessEquipJobsList == nil) {
+    result.mutablePossessEquipJobsList = [NSMutableArray array];
+  }
+  [result.mutablePossessEquipJobsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearPossessEquipJobsList {
+  result.mutablePossessEquipJobsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addPossessEquipJobs:(PossessEquipJobProto*) value {
+  if (result.mutablePossessEquipJobsList == nil) {
+    result.mutablePossessEquipJobsList = [NSMutableArray array];
+  }
+  [result.mutablePossessEquipJobsList addObject:value];
+  return self;
+}
+- (NSArray*) upgradeStructJobsList {
+  if (result.mutableUpgradeStructJobsList == nil) { return [NSArray array]; }
+  return result.mutableUpgradeStructJobsList;
+}
+- (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index {
+  return [result upgradeStructJobsAtIndex:index];
+}
+- (RetrieveStaticDataResponseProto_Builder*) replaceUpgradeStructJobsAtIndex:(int32_t) index with:(UpgradeStructJobProto*) value {
+  [result.mutableUpgradeStructJobsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addAllUpgradeStructJobs:(NSArray*) values {
+  if (result.mutableUpgradeStructJobsList == nil) {
+    result.mutableUpgradeStructJobsList = [NSMutableArray array];
+  }
+  [result.mutableUpgradeStructJobsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearUpgradeStructJobsList {
+  result.mutableUpgradeStructJobsList = nil;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) addUpgradeStructJobs:(UpgradeStructJobProto*) value {
+  if (result.mutableUpgradeStructJobsList == nil) {
+    result.mutableUpgradeStructJobsList = [NSMutableArray array];
+  }
+  [result.mutableUpgradeStructJobsList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status {
+  return result.status;
+}
+- (RetrieveStaticDataResponseProto_Builder*) setStatus:(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveStaticDataResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess;
   return self;
 }
 @end

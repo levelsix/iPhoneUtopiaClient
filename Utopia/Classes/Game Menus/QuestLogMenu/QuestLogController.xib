@@ -752,7 +752,10 @@
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="108919870"/>
 				<string key="NSReuseIdentifierKey">_NS:196</string>
-				<reference key="IBUIBackgroundColor" ref="38937485"/>
+				<object class="NSColor" key="IBUIBackgroundColor">
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MCAwIDAgMC4zMgA</bytes>
+				</object>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="IBUIInterfaceOrientation">3</int>
 					<int key="interfaceOrientation">3</int>
@@ -1500,7 +1503,7 @@
 			<string key="rewardboxbottom.png">{158, 54}</string>
 			<string key="rewardboxleft.png">{75, 45}</string>
 			<string key="rewardboxright.png">{75, 45}</string>
-			<string key="silvercoin.png">{33, 33}</string>
+			<string key="silvercoin.png">{17, 16}</string>
 			<string key="squiggly.png">{158, 8}</string>
 			<string key="topgradient.png">{166, 15}</string>
 		</dictionary>

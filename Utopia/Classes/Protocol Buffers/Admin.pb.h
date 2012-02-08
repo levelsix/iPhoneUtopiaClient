@@ -10,13 +10,12 @@ typedef enum {
   AdminChangeRequestProto_StaticDataReloadTypeCities = 2,
   AdminChangeRequestProto_StaticDataReloadTypeDefeatTypeJobs = 3,
   AdminChangeRequestProto_StaticDataReloadTypeEquipment = 4,
-  AdminChangeRequestProto_StaticDataReloadTypeMarketplaceJobs = 5,
-  AdminChangeRequestProto_StaticDataReloadTypeQuests = 6,
-  AdminChangeRequestProto_StaticDataReloadTypeTaskEquipRequirements = 7,
-  AdminChangeRequestProto_StaticDataReloadTypeTasks = 8,
-  AdminChangeRequestProto_StaticDataReloadTypeUpgradeStructJobs = 9,
-  AdminChangeRequestProto_StaticDataReloadTypeStructures = 10,
-  AdminChangeRequestProto_StaticDataReloadTypePossessEquipJobs = 11,
+  AdminChangeRequestProto_StaticDataReloadTypeQuests = 5,
+  AdminChangeRequestProto_StaticDataReloadTypeTaskEquipRequirements = 6,
+  AdminChangeRequestProto_StaticDataReloadTypeTasks = 7,
+  AdminChangeRequestProto_StaticDataReloadTypeUpgradeStructJobs = 8,
+  AdminChangeRequestProto_StaticDataReloadTypeStructures = 9,
+  AdminChangeRequestProto_StaticDataReloadTypePossessEquipJobs = 10,
 } AdminChangeRequestProto_StaticDataReloadType;
 
 BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequestProto_StaticDataReloadType value);

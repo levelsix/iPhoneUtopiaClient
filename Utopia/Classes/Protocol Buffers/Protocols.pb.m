@@ -50,6 +50,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRedeemMarketplaceEarningsEvent:
     case EventProtocolRequestCCritStructureActionEvent:
     case EventProtocolRequestCLoadPlayerCityEvent:
+    case EventProtocolRequestCRetrieveStaticDataEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -86,8 +87,10 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
     case EventProtocolResponseSCritStructureActionEvent:
     case EventProtocolResponseSLoadPlayerCityEvent:
+    case EventProtocolResponseSRetrieveStaticDataEvent:
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
+    case EventProtocolResponseSQuestCompleteEvent:
       return YES;
     default:
       return NO;

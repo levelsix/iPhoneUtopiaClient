@@ -142,7 +142,6 @@ BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequest
     case AdminChangeRequestProto_StaticDataReloadTypeCities:
     case AdminChangeRequestProto_StaticDataReloadTypeDefeatTypeJobs:
     case AdminChangeRequestProto_StaticDataReloadTypeEquipment:
-    case AdminChangeRequestProto_StaticDataReloadTypeMarketplaceJobs:
     case AdminChangeRequestProto_StaticDataReloadTypeQuests:
     case AdminChangeRequestProto_StaticDataReloadTypeTaskEquipRequirements:
     case AdminChangeRequestProto_StaticDataReloadTypeTasks:

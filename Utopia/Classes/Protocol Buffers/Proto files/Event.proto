@@ -108,21 +108,31 @@ message StartupRequestProto {				//client will also send ChangeUserLocationReque
 }
 
 message StartupResponseProto {
-     optional FullUserProto sender = 1;
-     required StartupStatus startupStatus= 2;
-     required UpdateStatus updateStatus= 3;
-     optional int32 maxCityIdAccessibleToUser = 4;     //cityids must be in order of min_level
-     optional FullUserStructureProto structures = 5;
-     optional int32 questLog = 6;
-     repeated string productIds = 7;
-     optional int32 diamondCostForEnergyRefill = 8; 
-     optional int32 diamondCostForStaminaRefill = 9;
-     repeated FullUserEquipProto userEquips = 10; 
-     
-     enum UpdateStatus {
+    optional FullUserProto sender = 1;
+    required StartupStatus startupStatus= 2;
+    required UpdateStatus updateStatus= 3;
+    required StartupConstants startupConstants = 4;
+    repeated FullCityProto citiesAvailableToUser = 5;
+    repeated FullQuestProto inProgressQuests = 6;
+	repeated FullQuestProto availableQuests = 7;   
+	repeated FullUserEquipProto userEquips = 8;
+    //repeated FullUserStructureProto userStructures = 9;
+	  
+	message StartupConstants {
+	  	repeated string productIds = 1;
+	  	repeated int32 productDiamondsGiven = 2;
+	  	repeated double productPrices = 3;
+	    required int32 diamondCostForEnergyRefill = 4; 
+    	required int32 diamondCostForStaminaRefill = 5;
+    	required int32 maxItemUsePerBattle = 6;
+    	   	
+		//ADD a bunch of other important constants
+	}
+		     
+    enum UpdateStatus {
      	NO_UPDATE = 0;
-     	MINOR_UPDATE = 1;
-     	MAJOR_UPDATE = 2;
+     	MINOR_UPDATE = 1;			//NOTIFY USER OF NEW FEATURES AND/OR ASK USER IF HE WANTS TO UPDATE NOW
+     	MAJOR_UPDATE = 2;			//NOT ALLOWED TO PLAY
      }
      
 	enum StartupStatus {
@@ -234,11 +244,9 @@ message PurchaseNormStructureResponseProto {
 	
 	enum PurchaseNormStructureStatus {
 		SUCCESS = 0;
-		NOT_ENOUGH_COINS = 1;
-		NOT_ENOUGH_DIAMONDS = 2;
-		NOT_ENOUGH_WOOD = 3;
-		LEVEL_TOO_LOW = 4;
-		OTHER_FAIL = 5;
+		NOT_ENOUGH_MATERIALS = 1;
+		LEVEL_TOO_LOW = 2;
+		OTHER_FAIL = 3;
 	}
 }
 
@@ -268,7 +276,6 @@ message MoveNormStructureResponseProto {
 message SellNormStructureRequestProto {
 	required MinimumUserProto sender = 1;
 	required int32 userStructId = 2;
-	required int32 soldStructId = 3;		//optimization to prevent db call
 }
 
 																						//DONE
@@ -358,7 +365,7 @@ message CriticalStructureActionResponseProto {
 
 message LevelUpResponseProto {
      required FullUserProto sender = 1;
-     optional int32 maxCityIdAccessibleToUser = 2;
+     optional FullCityProto unlockedCityAvailableToUser = 2;
 }
 
 //------------------------------------------------------------------------------------------
@@ -665,6 +672,8 @@ message QuestAcceptRequestProto {
      required int32 questId = 2;
 }
 
+//when you insert into user_quests on quest_accept, insert, and make the columns = 1 if theres no req for those
+
 message QuestAcceptResponseProto {
      required MinimumUserProto sender = 1;
      required QuestAcceptStatus status = 2;
@@ -678,12 +687,15 @@ message QuestAcceptResponseProto {
 
 //------------------------------------------------------------------------------------------
 
+																						//DONE
 message QuestCompleteResponseProto {
      required MinimumUserProto sender = 1;
-     required int32 questId = 2;
+     required FullQuestProto quest = 2;
 }
 
 //------------------------------------------------------------------------------------------
+
+//delete all userquest data besides the one in user_quests
 
 message QuestRedeemRequestProto {                         //take away all the required items in here
      required MinimumUserProto sender = 1;
@@ -738,3 +750,40 @@ message QuestLogDetailsResponseProto {
      }
 }
 
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RetrieveStaticDataRequestProto {
+    required MinimumUserProto sender = 1;
+	repeated int32 structIds = 2;
+	repeated int32 taskIds = 3;
+	repeated int32 questIds = 4;
+	repeated int32 cityIds = 5;
+	repeated int32 equipIds = 6;
+	repeated int32 buildStructJobIds = 12;
+	repeated int32 defeatTypeJobIds = 13;
+	repeated int32 possessEquipJobIds = 14;
+	repeated int32 upgradeStructJobIds = 15;
+}
+
+																						//DONE
+message RetrieveStaticDataResponseProto {
+    required MinimumUserProto sender = 1;
+	repeated FullStructureProto structs = 2;
+	repeated FullTaskProto tasks = 3;
+	repeated FullQuestProto quests = 4;
+	repeated FullCityProto cities = 5;
+	repeated FullEquipProto equips = 6;
+	repeated BuildStructJobProto buildStructJobs = 12;
+	repeated DefeatTypeJobProto defeatTypeJobs = 13;
+	repeated PossessEquipJobProto possessEquipJobs = 14;
+	repeated UpgradeStructJobProto upgradeStructJobs = 15;
+	
+	required RetrieveStaticDataStatus status = 7;
+	
+	enum RetrieveStaticDataStatus {
+		SUCCESS = 0;
+		SOME_FAIL = 1;
+	}
+	
+}

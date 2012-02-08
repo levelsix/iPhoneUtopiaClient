@@ -32,6 +32,8 @@
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
+@class FullCityProto;
+@class FullCityProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
 @class FullMarketplacePostProto;
@@ -42,6 +44,8 @@
 @class FullStructureProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
+@class FullTaskProto_FullTaskEquipReqProto;
+@class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserEquipProto;
 @class FullUserEquipProto_Builder;
 @class FullUserProto;
@@ -66,14 +70,10 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
-@class MarketplaceJobProto;
-@class MarketplaceJobProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserDefeatTypeJobProto;
 @class MinimumUserDefeatTypeJobProto_Builder;
-@class MinimumUserMarketplaceJobProto;
-@class MinimumUserMarketplaceJobProto_Builder;
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
@@ -146,6 +146,10 @@
 @class RetrieveEquipmentForArmoryRequestProto_Builder;
 @class RetrieveEquipmentForArmoryResponseProto;
 @class RetrieveEquipmentForArmoryResponseProto_Builder;
+@class RetrieveStaticDataRequestProto;
+@class RetrieveStaticDataRequestProto_Builder;
+@class RetrieveStaticDataResponseProto;
+@class RetrieveStaticDataResponseProto_Builder;
 @class RetrieveTasksForCityRequestProto;
 @class RetrieveTasksForCityRequestProto_Builder;
 @class RetrieveTasksForCityResponseProto;
@@ -158,6 +162,8 @@
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
 @class StartupResponseProto_Builder;
+@class StartupResponseProto_StartupConstants;
+@class StartupResponseProto_StartupConstants_Builder;
 @class TaskActionRequestProto;
 @class TaskActionRequestProto_Builder;
 @class TaskActionResponseProto;
@@ -211,6 +217,7 @@ typedef enum {
   EventProtocolRequestCRedeemMarketplaceEarningsEvent = 25,
   EventProtocolRequestCCritStructureActionEvent = 26,
   EventProtocolRequestCLoadPlayerCityEvent = 27,
+  EventProtocolRequestCRetrieveStaticDataEvent = 28,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -245,8 +252,10 @@ typedef enum {
   EventProtocolResponseSRedeemMarketplaceEarningsEvent = 25,
   EventProtocolResponseSCritStructureActionEvent = 26,
   EventProtocolResponseSLoadPlayerCityEvent = 27,
+  EventProtocolResponseSRetrieveStaticDataEvent = 28,
   EventProtocolResponseSLevelUpEvent = 50,
   EventProtocolResponseSUpdateClientUserEvent = 51,
+  EventProtocolResponseSQuestCompleteEvent = 52,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

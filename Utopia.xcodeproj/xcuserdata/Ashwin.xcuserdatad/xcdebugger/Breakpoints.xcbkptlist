@@ -230,13 +230,83 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-         timestampString = "350185150.283807"
+         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
+         timestampString = "350379068.511582"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "194"
-         endingLineNumber = "194"
-         landmarkName = "-retractMarketplacePost:"
+         startingLineNumber = "226"
+         endingLineNumber = "226"
+         landmarkName = "-handleSellNormStructureResponseProto:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
+         timestampString = "350379068.511582"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "222"
+         endingLineNumber = "222"
+         landmarkName = "-handleRetrieveCurrencyFromNormStructureResponseProto:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
+         timestampString = "350379068.511582"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "218"
+         endingLineNumber = "218"
+         landmarkName = "-handleFinishNormStructWaittimeWithDiamondsResponseProto:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
+         timestampString = "350379068.511582"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "214"
+         endingLineNumber = "214"
+         landmarkName = "-handleUpgradeNormStructureResponseProto:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
+         timestampString = "350379068.511582"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "210"
+         endingLineNumber = "210"
+         landmarkName = "-handleMoveNormStructureResponseProto:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
+         timestampString = "350379068.511582"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "206"
+         endingLineNumber = "206"
+         landmarkName = "-handlePurchaseNormStructureResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

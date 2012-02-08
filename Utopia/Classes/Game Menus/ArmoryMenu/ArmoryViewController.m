@@ -43,6 +43,7 @@
     maskedImage = CGImageMaskCreate(size.width, size.height, 8, 8, size.width, dataProvider, NULL, YES);
     // And release the provider.
     CGDataProviderRelease(dataProvider);
+    self.userInteractionEnabled = NO;
   }
   return self;
 }

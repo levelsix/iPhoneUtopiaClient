@@ -50,16 +50,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                setUserType: UserTypeBadArcher] 
               build] retain];
   
-//  for (int i = 0; i < 150; i++) {
-//    [self sendCoinPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
-//    [self sendWoodPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
-//    [self sendDiamondPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
-//  }
-//  [self sendStartupMessage];
-//  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
-//  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
-//  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
-//  [self sendTaskActionMessage:2];
+  //  for (int i = 0; i < 150; i++) {
+  //    [self sendCoinPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
+  //    [self sendWoodPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
+  //    [self sendDiamondPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
+  //  }
+  //  [self sendStartupMessage];
+  //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
+  //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
+  //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
+  //  [self sendTaskActionMessage:2];
+
+  [self sendSellNormStructureMessage:4];
+  [self sendSellNormStructureMessage:2];
+  [self sendSellNormStructureMessage:5];
 }
 
 - (void) readHeader {
@@ -332,11 +336,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[upReq data] withMessageType:EventProtocolResponseSUpgradeNormStructureEvent];
 }
 
-- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId {
+- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(long)seconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type {
+  FinishNormStructWaittimeWithDiamondsRequestProto *finReq = 
+  [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
+       setSender:_sender]
+      setUserStructId:userStructId]
+     setTimeOfPurchase:seconds]
+    setWaitTimeType:type]
+   build];
   
+  [self sendData:[finReq data] withMessageType:EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent];
 }
 
-//and 3) you can also start making client msgs to test these: new marketplace impl, purchasebuildings, movebuildings, sellbuildings, upgradestruct, retrievecurrencyfromuserstruct (time issues), RefillStatWithDiamonds, finishnormstructwithdiamonds
+- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(long)seconds {
+  RetrieveCurrencyFromNormStructureRequestProto *retReq = [[[[[RetrieveCurrencyFromNormStructureRequestProto builder]
+                                                              setSender:_sender]
+                                                             setUserStructId:userStructId]
+                                                            setTimeOfRetrieval:seconds]
+                                                           build];
+  
+  [self sendData:[retReq data] withMessageType:EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent];
+}
+
+- (void) sendSellNormStructureMessage:(int)userStructId {
+  SellNormStructureRequestProto *sellReq = [[[[SellNormStructureRequestProto builder]
+                                              setSender:_sender]
+                                             setUserStructId:userStructId]
+                                            build];
+  
+  [self sendData:[sellReq data] withMessageType:EventProtocolResponseSSellNormStructureEvent];
+}
+
+- (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup {
+  LoadPlayerCityRequestProto *loadReq = [[[[LoadPlayerCityRequestProto builder]
+                                           setSender:_sender]
+                                          setCityOwner:mup]
+                                         build];
+  
+  [self sendData:[loadReq data] withMessageType:EventProtocolResponseSLoadPlayerCityEvent];
+}
 
 - (void) sendRedeemMarketplaceEarningsMessage {
   RedeemMarketplaceEarningsRequestProto *redReq = [[[RedeemMarketplaceEarningsRequestProto builder]

@@ -32,6 +32,8 @@
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
+@class FullCityProto;
+@class FullCityProto_Builder;
 @class FullEquipProto;
 @class FullEquipProto_Builder;
 @class FullMarketplacePostProto;
@@ -42,6 +44,8 @@
 @class FullStructureProto_Builder;
 @class FullTaskProto;
 @class FullTaskProto_Builder;
+@class FullTaskProto_FullTaskEquipReqProto;
+@class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserEquipProto;
 @class FullUserEquipProto_Builder;
 @class FullUserProto;
@@ -66,14 +70,10 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
-@class MarketplaceJobProto;
-@class MarketplaceJobProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserDefeatTypeJobProto;
 @class MinimumUserDefeatTypeJobProto_Builder;
-@class MinimumUserMarketplaceJobProto;
-@class MinimumUserMarketplaceJobProto_Builder;
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
@@ -146,6 +146,10 @@
 @class RetrieveEquipmentForArmoryRequestProto_Builder;
 @class RetrieveEquipmentForArmoryResponseProto;
 @class RetrieveEquipmentForArmoryResponseProto_Builder;
+@class RetrieveStaticDataRequestProto;
+@class RetrieveStaticDataRequestProto_Builder;
+@class RetrieveStaticDataResponseProto;
+@class RetrieveStaticDataResponseProto_Builder;
 @class RetrieveTasksForCityRequestProto;
 @class RetrieveTasksForCityRequestProto_Builder;
 @class RetrieveTasksForCityResponseProto;
@@ -158,6 +162,8 @@
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
 @class StartupResponseProto_Builder;
+@class StartupResponseProto_StartupConstants;
+@class StartupResponseProto_StartupConstants_Builder;
 @class TaskActionRequestProto;
 @class TaskActionRequestProto_Builder;
 @class TaskActionResponseProto;
@@ -253,11 +259,9 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
 
 typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 0,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughCoins = 1,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughDiamonds = 2,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughWood = 3,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow = 4,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 5,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughMaterials = 1,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow = 2,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 3,
 } PurchaseNormStructureResponseProto_PurchaseNormStructureStatus;
 
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
@@ -454,6 +458,13 @@ typedef enum {
 } QuestLogDetailsResponseProto_QuestLogDetailsStatus;
 
 BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDetailsResponseProto_QuestLogDetailsStatus value);
+
+typedef enum {
+  RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess = 0,
+  RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSomeFail = 1,
+} RetrieveStaticDataResponseProto_RetrieveStaticDataStatus;
+
+BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -1099,43 +1110,33 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasMaxCityIdAccessibleToUser_:1;
-  BOOL hasQuestLog_:1;
-  BOOL hasDiamondCostForEnergyRefill_:1;
-  BOOL hasDiamondCostForStaminaRefill_:1;
   BOOL hasSender_:1;
-  BOOL hasStructures_:1;
+  BOOL hasStartupConstants_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
-  int32_t maxCityIdAccessibleToUser;
-  int32_t questLog;
-  int32_t diamondCostForEnergyRefill;
-  int32_t diamondCostForStaminaRefill;
   FullUserProto* sender;
-  FullUserStructureProto* structures;
+  StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
-  NSMutableArray* mutableProductIdsList;
+  NSMutableArray* mutableCitiesAvailableToUserList;
+  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableUserEquipsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
 - (BOOL) hasUpdateStatus;
-- (BOOL) hasMaxCityIdAccessibleToUser;
-- (BOOL) hasStructures;
-- (BOOL) hasQuestLog;
-- (BOOL) hasDiamondCostForEnergyRefill;
-- (BOOL) hasDiamondCostForStaminaRefill;
+- (BOOL) hasStartupConstants;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
-@property (readonly) int32_t maxCityIdAccessibleToUser;
-@property (readonly, retain) FullUserStructureProto* structures;
-@property (readonly) int32_t questLog;
-@property (readonly) int32_t diamondCostForEnergyRefill;
-@property (readonly) int32_t diamondCostForStaminaRefill;
-- (NSArray*) productIdsList;
-- (NSString*) productIdsAtIndex:(int32_t) index;
+@property (readonly, retain) StartupResponseProto_StartupConstants* startupConstants;
+- (NSArray*) citiesAvailableToUserList;
+- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
+- (NSArray*) inProgressQuestsList;
+- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
+- (NSArray*) availableQuestsList;
+- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
 - (NSArray*) userEquipsList;
 - (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
 
@@ -1154,6 +1155,102 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 + (StartupResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
+@private
+  BOOL hasDiamondCostForEnergyRefill_:1;
+  BOOL hasDiamondCostForStaminaRefill_:1;
+  BOOL hasMaxItemUsePerBattle_:1;
+  int32_t diamondCostForEnergyRefill;
+  int32_t diamondCostForStaminaRefill;
+  int32_t maxItemUsePerBattle;
+  NSMutableArray* mutableProductPricesList;
+  NSMutableArray* mutableProductDiamondsGivenList;
+  NSMutableArray* mutableProductIdsList;
+}
+- (BOOL) hasDiamondCostForEnergyRefill;
+- (BOOL) hasDiamondCostForStaminaRefill;
+- (BOOL) hasMaxItemUsePerBattle;
+@property (readonly) int32_t diamondCostForEnergyRefill;
+@property (readonly) int32_t diamondCostForStaminaRefill;
+@property (readonly) int32_t maxItemUsePerBattle;
+- (NSArray*) productIdsList;
+- (NSString*) productIdsAtIndex:(int32_t) index;
+- (NSArray*) productDiamondsGivenList;
+- (int32_t) productDiamondsGivenAtIndex:(int32_t) index;
+- (NSArray*) productPricesList;
+- (Float64) productPricesAtIndex:(int32_t) index;
+
++ (StartupResponseProto_StartupConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants*) build;
+- (StartupResponseProto_StartupConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants*) other;
+- (StartupResponseProto_StartupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (NSArray*) productIdsList;
+- (NSString*) productIdsAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_Builder*) replaceProductIdsAtIndex:(int32_t) index with:(NSString*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addProductIds:(NSString*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAllProductIds:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_Builder*) clearProductIdsList;
+
+- (NSArray*) productDiamondsGivenList;
+- (int32_t) productDiamondsGivenAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_Builder*) replaceProductDiamondsGivenAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) addProductDiamondsGiven:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAllProductDiamondsGiven:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_Builder*) clearProductDiamondsGivenList;
+
+- (NSArray*) productPricesList;
+- (Float64) productPricesAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_Builder*) replaceProductPricesAtIndex:(int32_t) index with:(Float64) value;
+- (StartupResponseProto_StartupConstants_Builder*) addProductPrices:(Float64) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAllProductPrices:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_Builder*) clearProductPricesList;
+
+- (BOOL) hasDiamondCostForEnergyRefill;
+- (int32_t) diamondCostForEnergyRefill;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForEnergyRefill:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForEnergyRefill;
+
+- (BOOL) hasDiamondCostForStaminaRefill;
+- (int32_t) diamondCostForStaminaRefill;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForStaminaRefill:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForStaminaRefill;
+
+- (BOOL) hasMaxItemUsePerBattle;
+- (int32_t) maxItemUsePerBattle;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxItemUsePerBattle:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxItemUsePerBattle;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -1190,39 +1287,33 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 - (StartupResponseProto_Builder*) setUpdateStatus:(StartupResponseProto_UpdateStatus) value;
 - (StartupResponseProto_Builder*) clearUpdateStatus;
 
-- (BOOL) hasMaxCityIdAccessibleToUser;
-- (int32_t) maxCityIdAccessibleToUser;
-- (StartupResponseProto_Builder*) setMaxCityIdAccessibleToUser:(int32_t) value;
-- (StartupResponseProto_Builder*) clearMaxCityIdAccessibleToUser;
+- (BOOL) hasStartupConstants;
+- (StartupResponseProto_StartupConstants*) startupConstants;
+- (StartupResponseProto_Builder*) setStartupConstants:(StartupResponseProto_StartupConstants*) value;
+- (StartupResponseProto_Builder*) setStartupConstantsBuilder:(StartupResponseProto_StartupConstants_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeStartupConstants:(StartupResponseProto_StartupConstants*) value;
+- (StartupResponseProto_Builder*) clearStartupConstants;
 
-- (BOOL) hasStructures;
-- (FullUserStructureProto*) structures;
-- (StartupResponseProto_Builder*) setStructures:(FullUserStructureProto*) value;
-- (StartupResponseProto_Builder*) setStructuresBuilder:(FullUserStructureProto_Builder*) builderForValue;
-- (StartupResponseProto_Builder*) mergeStructures:(FullUserStructureProto*) value;
-- (StartupResponseProto_Builder*) clearStructures;
+- (NSArray*) citiesAvailableToUserList;
+- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceCitiesAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value;
+- (StartupResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value;
+- (StartupResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearCitiesAvailableToUserList;
 
-- (BOOL) hasQuestLog;
-- (int32_t) questLog;
-- (StartupResponseProto_Builder*) setQuestLog:(int32_t) value;
-- (StartupResponseProto_Builder*) clearQuestLog;
+- (NSArray*) inProgressQuestsList;
+- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearInProgressQuestsList;
 
-- (NSArray*) productIdsList;
-- (NSString*) productIdsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceProductIdsAtIndex:(int32_t) index with:(NSString*) value;
-- (StartupResponseProto_Builder*) addProductIds:(NSString*) value;
-- (StartupResponseProto_Builder*) addAllProductIds:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearProductIdsList;
-
-- (BOOL) hasDiamondCostForEnergyRefill;
-- (int32_t) diamondCostForEnergyRefill;
-- (StartupResponseProto_Builder*) setDiamondCostForEnergyRefill:(int32_t) value;
-- (StartupResponseProto_Builder*) clearDiamondCostForEnergyRefill;
-
-- (BOOL) hasDiamondCostForStaminaRefill;
-- (int32_t) diamondCostForStaminaRefill;
-- (StartupResponseProto_Builder*) setDiamondCostForStaminaRefill:(int32_t) value;
-- (StartupResponseProto_Builder*) clearDiamondCostForStaminaRefill;
+- (NSArray*) availableQuestsList;
+- (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addAvailableQuests:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addAllAvailableQuests:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearAvailableQuestsList;
 
 - (NSArray*) userEquipsList;
 - (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
@@ -2152,18 +2243,14 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 @interface SellNormStructureRequestProto : PBGeneratedMessage {
 @private
   BOOL hasUserStructId_:1;
-  BOOL hasSoldStructId_:1;
   BOOL hasSender_:1;
   int32_t userStructId;
-  int32_t soldStructId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserStructId;
-- (BOOL) hasSoldStructId;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
-@property (readonly) int32_t soldStructId;
 
 + (SellNormStructureRequestProto*) defaultInstance;
 - (SellNormStructureRequestProto*) defaultInstance;
@@ -2210,11 +2297,6 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 - (int32_t) userStructId;
 - (SellNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
 - (SellNormStructureRequestProto_Builder*) clearUserStructId;
-
-- (BOOL) hasSoldStructId;
-- (int32_t) soldStructId;
-- (SellNormStructureRequestProto_Builder*) setSoldStructId:(int32_t) value;
-- (SellNormStructureRequestProto_Builder*) clearSoldStructId;
 @end
 
 @interface SellNormStructureResponseProto : PBGeneratedMessage {
@@ -2661,15 +2743,15 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 
 @interface LevelUpResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasMaxCityIdAccessibleToUser_:1;
   BOOL hasSender_:1;
-  int32_t maxCityIdAccessibleToUser;
+  BOOL hasUnlockedCityAvailableToUser_:1;
   FullUserProto* sender;
+  FullCityProto* unlockedCityAvailableToUser;
 }
 - (BOOL) hasSender;
-- (BOOL) hasMaxCityIdAccessibleToUser;
+- (BOOL) hasUnlockedCityAvailableToUser;
 @property (readonly, retain) FullUserProto* sender;
-@property (readonly) int32_t maxCityIdAccessibleToUser;
+@property (readonly, retain) FullCityProto* unlockedCityAvailableToUser;
 
 + (LevelUpResponseProto*) defaultInstance;
 - (LevelUpResponseProto*) defaultInstance;
@@ -2712,10 +2794,12 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 - (LevelUpResponseProto_Builder*) mergeSender:(FullUserProto*) value;
 - (LevelUpResponseProto_Builder*) clearSender;
 
-- (BOOL) hasMaxCityIdAccessibleToUser;
-- (int32_t) maxCityIdAccessibleToUser;
-- (LevelUpResponseProto_Builder*) setMaxCityIdAccessibleToUser:(int32_t) value;
-- (LevelUpResponseProto_Builder*) clearMaxCityIdAccessibleToUser;
+- (BOOL) hasUnlockedCityAvailableToUser;
+- (FullCityProto*) unlockedCityAvailableToUser;
+- (LevelUpResponseProto_Builder*) setUnlockedCityAvailableToUser:(FullCityProto*) value;
+- (LevelUpResponseProto_Builder*) setUnlockedCityAvailableToUserBuilder:(FullCityProto_Builder*) builderForValue;
+- (LevelUpResponseProto_Builder*) mergeUnlockedCityAvailableToUser:(FullCityProto*) value;
+- (LevelUpResponseProto_Builder*) clearUnlockedCityAvailableToUser;
 @end
 
 @interface InAppPurchaseRequestProto : PBGeneratedMessage {
@@ -4540,15 +4624,15 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 
 @interface QuestCompleteResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasQuestId_:1;
   BOOL hasSender_:1;
-  int32_t questId;
+  BOOL hasQuest_:1;
   MinimumUserProto* sender;
+  FullQuestProto* quest;
 }
 - (BOOL) hasSender;
-- (BOOL) hasQuestId;
+- (BOOL) hasQuest;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t questId;
+@property (readonly, retain) FullQuestProto* quest;
 
 + (QuestCompleteResponseProto*) defaultInstance;
 - (QuestCompleteResponseProto*) defaultInstance;
@@ -4591,10 +4675,12 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 - (QuestCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (QuestCompleteResponseProto_Builder*) clearSender;
 
-- (BOOL) hasQuestId;
-- (int32_t) questId;
-- (QuestCompleteResponseProto_Builder*) setQuestId:(int32_t) value;
-- (QuestCompleteResponseProto_Builder*) clearQuestId;
+- (BOOL) hasQuest;
+- (FullQuestProto*) quest;
+- (QuestCompleteResponseProto_Builder*) setQuest:(FullQuestProto*) value;
+- (QuestCompleteResponseProto_Builder*) setQuestBuilder:(FullQuestProto_Builder*) builderForValue;
+- (QuestCompleteResponseProto_Builder*) mergeQuest:(FullQuestProto*) value;
+- (QuestCompleteResponseProto_Builder*) clearQuest;
 @end
 
 @interface QuestRedeemRequestProto : PBGeneratedMessage {
@@ -4960,5 +5046,294 @@ BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDeta
 - (QuestLogDetailsResponseProto_QuestLogDetailsStatus) status;
 - (QuestLogDetailsResponseProto_Builder*) setStatus:(QuestLogDetailsResponseProto_QuestLogDetailsStatus) value;
 - (QuestLogDetailsResponseProto_Builder*) clearStatus;
+@end
+
+@interface RetrieveStaticDataRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableStructIdsList;
+  NSMutableArray* mutableTaskIdsList;
+  NSMutableArray* mutableQuestIdsList;
+  NSMutableArray* mutableCityIdsList;
+  NSMutableArray* mutableEquipIdsList;
+  NSMutableArray* mutableBuildStructJobIdsList;
+  NSMutableArray* mutableDefeatTypeJobIdsList;
+  NSMutableArray* mutablePossessEquipJobIdsList;
+  NSMutableArray* mutableUpgradeStructJobIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) structIdsList;
+- (int32_t) structIdsAtIndex:(int32_t) index;
+- (NSArray*) taskIdsList;
+- (int32_t) taskIdsAtIndex:(int32_t) index;
+- (NSArray*) questIdsList;
+- (int32_t) questIdsAtIndex:(int32_t) index;
+- (NSArray*) cityIdsList;
+- (int32_t) cityIdsAtIndex:(int32_t) index;
+- (NSArray*) equipIdsList;
+- (int32_t) equipIdsAtIndex:(int32_t) index;
+- (NSArray*) buildStructJobIdsList;
+- (int32_t) buildStructJobIdsAtIndex:(int32_t) index;
+- (NSArray*) defeatTypeJobIdsList;
+- (int32_t) defeatTypeJobIdsAtIndex:(int32_t) index;
+- (NSArray*) possessEquipJobIdsList;
+- (int32_t) possessEquipJobIdsAtIndex:(int32_t) index;
+- (NSArray*) upgradeStructJobIdsList;
+- (int32_t) upgradeStructJobIdsAtIndex:(int32_t) index;
+
++ (RetrieveStaticDataRequestProto*) defaultInstance;
+- (RetrieveStaticDataRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveStaticDataRequestProto_Builder*) builder;
++ (RetrieveStaticDataRequestProto_Builder*) builder;
++ (RetrieveStaticDataRequestProto_Builder*) builderWithPrototype:(RetrieveStaticDataRequestProto*) prototype;
+
++ (RetrieveStaticDataRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveStaticDataRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveStaticDataRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveStaticDataRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveStaticDataRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveStaticDataRequestProto* result;
+}
+
+- (RetrieveStaticDataRequestProto*) defaultInstance;
+
+- (RetrieveStaticDataRequestProto_Builder*) clear;
+- (RetrieveStaticDataRequestProto_Builder*) clone;
+
+- (RetrieveStaticDataRequestProto*) build;
+- (RetrieveStaticDataRequestProto*) buildPartial;
+
+- (RetrieveStaticDataRequestProto_Builder*) mergeFrom:(RetrieveStaticDataRequestProto*) other;
+- (RetrieveStaticDataRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveStaticDataRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveStaticDataRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveStaticDataRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataRequestProto_Builder*) clearSender;
+
+- (NSArray*) structIdsList;
+- (int32_t) structIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceStructIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addStructIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllStructIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearStructIdsList;
+
+- (NSArray*) taskIdsList;
+- (int32_t) taskIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceTaskIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addTaskIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllTaskIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearTaskIdsList;
+
+- (NSArray*) questIdsList;
+- (int32_t) questIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceQuestIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addQuestIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllQuestIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearQuestIdsList;
+
+- (NSArray*) cityIdsList;
+- (int32_t) cityIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceCityIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addCityIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllCityIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearCityIdsList;
+
+- (NSArray*) equipIdsList;
+- (int32_t) equipIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceEquipIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addEquipIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllEquipIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearEquipIdsList;
+
+- (NSArray*) buildStructJobIdsList;
+- (int32_t) buildStructJobIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceBuildStructJobIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addBuildStructJobIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllBuildStructJobIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearBuildStructJobIdsList;
+
+- (NSArray*) defeatTypeJobIdsList;
+- (int32_t) defeatTypeJobIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceDefeatTypeJobIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addDefeatTypeJobIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllDefeatTypeJobIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearDefeatTypeJobIdsList;
+
+- (NSArray*) possessEquipJobIdsList;
+- (int32_t) possessEquipJobIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replacePossessEquipJobIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addPossessEquipJobIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllPossessEquipJobIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearPossessEquipJobIdsList;
+
+- (NSArray*) upgradeStructJobIdsList;
+- (int32_t) upgradeStructJobIdsAtIndex:(int32_t) index;
+- (RetrieveStaticDataRequestProto_Builder*) replaceUpgradeStructJobIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addUpgradeStructJobIds:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) addAllUpgradeStructJobIds:(NSArray*) values;
+- (RetrieveStaticDataRequestProto_Builder*) clearUpgradeStructJobIdsList;
+@end
+
+@interface RetrieveStaticDataResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
+  NSMutableArray* mutableStructsList;
+  NSMutableArray* mutableTasksList;
+  NSMutableArray* mutableQuestsList;
+  NSMutableArray* mutableCitiesList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableBuildStructJobsList;
+  NSMutableArray* mutableDefeatTypeJobsList;
+  NSMutableArray* mutablePossessEquipJobsList;
+  NSMutableArray* mutableUpgradeStructJobsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
+- (NSArray*) structsList;
+- (FullStructureProto*) structsAtIndex:(int32_t) index;
+- (NSArray*) tasksList;
+- (FullTaskProto*) tasksAtIndex:(int32_t) index;
+- (NSArray*) questsList;
+- (FullQuestProto*) questsAtIndex:(int32_t) index;
+- (NSArray*) citiesList;
+- (FullCityProto*) citiesAtIndex:(int32_t) index;
+- (NSArray*) equipsList;
+- (FullEquipProto*) equipsAtIndex:(int32_t) index;
+- (NSArray*) buildStructJobsList;
+- (BuildStructJobProto*) buildStructJobsAtIndex:(int32_t) index;
+- (NSArray*) defeatTypeJobsList;
+- (DefeatTypeJobProto*) defeatTypeJobsAtIndex:(int32_t) index;
+- (NSArray*) possessEquipJobsList;
+- (PossessEquipJobProto*) possessEquipJobsAtIndex:(int32_t) index;
+- (NSArray*) upgradeStructJobsList;
+- (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index;
+
++ (RetrieveStaticDataResponseProto*) defaultInstance;
+- (RetrieveStaticDataResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveStaticDataResponseProto_Builder*) builder;
++ (RetrieveStaticDataResponseProto_Builder*) builder;
++ (RetrieveStaticDataResponseProto_Builder*) builderWithPrototype:(RetrieveStaticDataResponseProto*) prototype;
+
++ (RetrieveStaticDataResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveStaticDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveStaticDataResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveStaticDataResponseProto* result;
+}
+
+- (RetrieveStaticDataResponseProto*) defaultInstance;
+
+- (RetrieveStaticDataResponseProto_Builder*) clear;
+- (RetrieveStaticDataResponseProto_Builder*) clone;
+
+- (RetrieveStaticDataResponseProto*) build;
+- (RetrieveStaticDataResponseProto*) buildPartial;
+
+- (RetrieveStaticDataResponseProto_Builder*) mergeFrom:(RetrieveStaticDataResponseProto*) other;
+- (RetrieveStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveStaticDataResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveStaticDataResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) clearSender;
+
+- (NSArray*) structsList;
+- (FullStructureProto*) structsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addStructs:(FullStructureProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllStructs:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearStructsList;
+
+- (NSArray*) tasksList;
+- (FullTaskProto*) tasksAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceTasksAtIndex:(int32_t) index with:(FullTaskProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addTasks:(FullTaskProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllTasks:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearTasksList;
+
+- (NSArray*) questsList;
+- (FullQuestProto*) questsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addQuests:(FullQuestProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllQuests:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearQuestsList;
+
+- (NSArray*) citiesList;
+- (FullCityProto*) citiesAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceCitiesAtIndex:(int32_t) index with:(FullCityProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addCities:(FullCityProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllCities:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearCitiesList;
+
+- (NSArray*) equipsList;
+- (FullEquipProto*) equipsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addEquips:(FullEquipProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllEquips:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearEquipsList;
+
+- (NSArray*) buildStructJobsList;
+- (BuildStructJobProto*) buildStructJobsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceBuildStructJobsAtIndex:(int32_t) index with:(BuildStructJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addBuildStructJobs:(BuildStructJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllBuildStructJobs:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearBuildStructJobsList;
+
+- (NSArray*) defeatTypeJobsList;
+- (DefeatTypeJobProto*) defeatTypeJobsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceDefeatTypeJobsAtIndex:(int32_t) index with:(DefeatTypeJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addDefeatTypeJobs:(DefeatTypeJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllDefeatTypeJobs:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearDefeatTypeJobsList;
+
+- (NSArray*) possessEquipJobsList;
+- (PossessEquipJobProto*) possessEquipJobsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replacePossessEquipJobsAtIndex:(int32_t) index with:(PossessEquipJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addPossessEquipJobs:(PossessEquipJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllPossessEquipJobs:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearPossessEquipJobsList;
+
+- (NSArray*) upgradeStructJobsList;
+- (UpgradeStructJobProto*) upgradeStructJobsAtIndex:(int32_t) index;
+- (RetrieveStaticDataResponseProto_Builder*) replaceUpgradeStructJobsAtIndex:(int32_t) index with:(UpgradeStructJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addUpgradeStructJobs:(UpgradeStructJobProto*) value;
+- (RetrieveStaticDataResponseProto_Builder*) addAllUpgradeStructJobs:(NSArray*) values;
+- (RetrieveStaticDataResponseProto_Builder*) clearUpgradeStructJobsList;
+
+- (BOOL) hasStatus;
+- (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;
+- (RetrieveStaticDataResponseProto_Builder*) setStatus:(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) value;
+- (RetrieveStaticDataResponseProto_Builder*) clearStatus;
 @end
 
