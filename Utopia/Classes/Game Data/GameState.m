@@ -82,6 +82,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _userId = 2;
     _name = @"Ashwin";
     _type = UserTypeBadMage;
+    
+    _silver = 10000000;
+    _vaultBalance = 123456910;
   }
   return self;
 }

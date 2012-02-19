@@ -9,7 +9,11 @@
 #import "cocos2d.h"
 #import "LabelButton.h"
 
-@interface VaultMenuController : UIViewController  <UITextFieldDelegate>
+@interface VaultMenuController : UIViewController  <UITextFieldDelegate> {
+  BOOL _animating;
+  int _index;
+  int _numTicksComplete;
+}
 
 @property (nonatomic, retain) IBOutlet LabelButton *depositButton;
 @property (nonatomic, retain) IBOutlet LabelButton *withdrawButton;
@@ -28,5 +32,8 @@
 - (IBAction)depositClicked:(id)sender;
 - (IBAction)withdrawClicked:(id)sender;
 - (IBAction)clearClicked:(id)sender;
+
+- (void) updateBalance;
+- (void) animateNextNum;
 
 @end

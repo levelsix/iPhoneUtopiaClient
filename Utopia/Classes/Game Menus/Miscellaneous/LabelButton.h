@@ -20,3 +20,9 @@
 @property (nonatomic, retain) NSString *text;
 
 @end
+
+@interface NiceFontTextField : UITextField
+
+@property (nonatomic, retain) UILabel *label;
+
+@end

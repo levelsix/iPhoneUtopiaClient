@@ -290,11 +290,26 @@
   self.upgradeNewIncomeLabel.text = [Globals commafyNumber:[gl calculateIncomeForUserStructAfterLevelUp:us]];
   [self.upgradeView setUpgradeCostString:[Globals commafyNumber:[gl calculateUpgradeCost:us]]];
   
-  self.instaFinishCostLabel.text = [Globals commafyNumber:[gl calculateDiamondCostForInstaBuild:us]];
   
-  self.retrievalTime = [NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:us.lastRetrieved];
-  self.upgradeTime = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:us.purchaseTime];
-  self.totalUpgradeTime = fsp.minutesToBuild*60;
+  if (us.purchaseTime) {
+    if (!us.lastRetrieved) {
+      // First build phase
+      self.state = kProgressState;
+      int secs = fsp.minutesToBuild*60;
+      self.upgradeTime = [NSDate dateWithTimeInterval:secs sinceDate:us.purchaseTime];
+      self.totalUpgradeTime = secs;
+      self.instaFinishCostLabel.text = [Globals commafyNumber:[gl calculateDiamondCostForInstaBuild:us]];
+    } else if (us.lastUpgradeTime) {
+      // Upgrading..
+      self.state = kProgressState;
+      int secs = [gl calculateMinutesToUpgrade:us]*60;
+      self.upgradeTime = [NSDate dateWithTimeInterval:secs sinceDate:us.purchaseTime];
+      self.totalUpgradeTime = secs;
+      self.instaFinishCostLabel.text = [Globals commafyNumber:[gl calculateDiamondCostForInstaUpgrade:us]];
+    } else {
+      self.retrievalTime = [NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:us.lastRetrieved];
+    }
+  }
 }
 
 - (void) setFrameForPoint:(CGPoint)pt {
@@ -364,6 +379,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [[[CCDirector sharedDirector] openGLView] addSubview:self.hbMenu];
     self.hbMenu.frame = CGRectMake(100, 100, self.hbMenu.frame.size.width, self.hbMenu.frame.size.height);
+    self.hbMenu.greenButton.label.shadowColor = [UIColor darkGrayColor];
   }
   return self;
 }

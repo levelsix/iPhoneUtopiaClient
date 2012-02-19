@@ -27,10 +27,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
-  if (amount < gs.silver) {
+  if (amount <= gs.silver) {
     [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
     gs.silver -= amount;
-    gs.vaultBalance += floorf(amount * (1-[[Globals sharedGlobals] depositPercentCut]/100.f));
+    gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] depositPercentCut]));
   } else {
     NSLog(@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver);
   }
@@ -42,7 +42,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
-  if (amount < gs.vaultBalance) {
+  if (amount <= gs.vaultBalance) {
     [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
     gs.silver += amount;
     gs.vaultBalance -= amount;

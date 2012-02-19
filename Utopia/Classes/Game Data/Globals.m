@@ -31,6 +31,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (id) init {
   if ((self = [super init])) {
     self.retractPercentCut = 0.05;
+    self.depositPercentCut = 0.1;
   }
   return self;
 }
@@ -143,7 +144,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateDiamondCostForInstaBuild:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
+  return MAX(1,fsp.instaUpgradeDiamondCostBase * us.level);
+}
+
+- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us {
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
   return MAX(1,fsp.instaBuildDiamondCostBase * us.level);
+}
+
+- (int) calculateMinutesToUpgrade:(UserStruct *)us {
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
+  return fsp.minutesToUpgradeBase * us.level;
 }
 
 - (void) dealloc {

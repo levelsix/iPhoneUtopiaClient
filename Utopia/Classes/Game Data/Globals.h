@@ -55,5 +55,7 @@
 - (int) calculateSellCost:(UserStruct *)us;
 - (int) calculateUpgradeCost:(UserStruct *)us;
 - (int) calculateDiamondCostForInstaBuild:(UserStruct *)us;
+- (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us;
+- (int) calculateMinutesToUpgrade:(UserStruct *)us;
 
 @end

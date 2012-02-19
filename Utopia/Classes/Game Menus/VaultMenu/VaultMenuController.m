@@ -13,10 +13,10 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define BUTTON_FONT_SIZE 15
+#define BUTTON_FONT_SIZE 14
 
 #define VIEW_JUMP_UPON_TEXT_FIELD 60
-#define TICK_DURATION 0.3
+#define TICK_DURATION 0.4
 #define TICK_DIVISOR 3
 #define TICK_MIN_JUMP 30
 
@@ -45,8 +45,17 @@
 
 - (void) drawRect:(CGRect)rect {
   [bgImage drawInRect:self.bounds];
-  
   CGContextRef context = UIGraphicsGetCurrentContext();
+  
+  CGContextSetRGBStrokeColor(context, 231/255.f, 223/255.f, 198/255.f, 1.f);
+  CGRect f = self.bounds;
+  CGContextMoveToPoint(context, CGRectGetMinX(f), CGRectGetMidY(f)+0.5);
+  CGContextAddLineToPoint(context, CGRectGetMaxX(f), CGRectGetMidY(f)+0.5);
+  CGContextSetLineWidth(context, 0.5f);
+  CGContextSetAllowsAntialiasing(context, false);
+  CGContextStrokePath(context);
+  
+  CGContextSetAllowsAntialiasing(context, true);
   CGContextSetRGBFillColor(context, 65/255.f, 65/255.f, 65/255.f, 1.0);
   NSString *str = [NSString stringWithFormat:@"%d", num];
   [str drawInRect:CGRectMake(0, 4, self.bounds.size.width, self.bounds.size.height-4) withFont:font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
@@ -77,12 +86,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 
 - (IBAction)depositClicked:(id)sender {
   [transferField resignFirstResponder];
-  [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:transferField.text.intValue];
+  if (!_animating) {
+    [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:transferField.text.intValue];
+    [self updateBalance];
+  }
 }
 
 - (IBAction)withdrawClicked:(id)sender {
   [transferField resignFirstResponder];
-  [[OutgoingEventController sharedOutgoingEventController] vaultWithdrawal:transferField.text.intValue];
+  if (!_animating) {
+    [[OutgoingEventController sharedOutgoingEventController] vaultWithdrawal:transferField.text.intValue];
+    [self updateBalance];
+  }
 }
 
 - (IBAction)clearClicked:(id)sender {
@@ -98,7 +113,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   depositButton.text = @"Deposit";
   withdrawButton.text = @"Withdraw";
   depositButton.label.font = [depositButton.label.font fontWithSize:BUTTON_FONT_SIZE];
-  depositButton.label.font = [depositButton.label.font fontWithSize:BUTTON_FONT_SIZE];
+  withdrawButton.label.font = [withdrawButton.label.font fontWithSize:BUTTON_FONT_SIZE];
   
   UIColor *shadowColor = [UIColor darkGrayColor];
   depositButton.label.shadowColor = shadowColor;
@@ -126,35 +141,96 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   [super viewDidAppear:animated];
   
   vaultBalance = @"000000000";
-  
-  self.timer = [NSTimer timerWithTimeInterval:TICK_DURATION target:self selector:@selector(updateBalance) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    ((VaultTickView *)[(SBTickerView *)obj frontView]).num = 0;
+  }];
+  transferField.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] silver]];
+  [self updateBalance];
+  //  self.timer = [NSTimer timerWithTimeInterval:TICK_DURATION target:self selector:@selector(updateBalance) userInfo:nil repeats:YES];
+  //  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
-  [self.timer invalidate];
+  //  [self.timer invalidate];
   [super viewDidDisappear:animated];
+}
+
+- (int) firstDifference: (NSString *)firstStr second:(NSString *)secondStr {
+  for (int i = 0; i < firstStr.length; i++) {
+    if ([firstStr characterAtIndex:i] != [secondStr characterAtIndex:i]) {
+      return i;
+    }
+  }
+  return firstStr.length;
 }
 
 - (void) updateBalance {
   int num = [vaultBalance intValue];
   int realBalance = [[GameState sharedGameState] vaultBalance];
   
+  if (!_animating && realBalance != num) {
+    _animating = YES;
+    NSString *newStr = [NSString stringWithFormat:@"%09d", realBalance];
+    _index = [self firstDifference:vaultBalance second:newStr];
+    self.vaultBalance = newStr;
+    [self animateNextNum];
+  }
+  
   // increment by atleast 1 every time
-  if (realBalance != num) {
-    int newVal = realBalance > num ? MAX(MIN(TICK_MIN_JUMP, realBalance - num), (realBalance - num)/TICK_DIVISOR) : MIN(MAX(-TICK_MIN_JUMP, realBalance - num), (realBalance - num)/TICK_DIVISOR);
-    NSString *newStr = [NSString stringWithFormat:@"%09d", num + newVal];
-    
+  //  if (realBalance != num) {
+  //    int newVal = realBalance > num ? MAX(MIN(TICK_MIN_JUMP, realBalance - num), (realBalance - num)/TICK_DIVISOR) : MIN(MAX(-TICK_MIN_JUMP, realBalance - num), (realBalance - num)/TICK_DIVISOR);
+  //    NSString *newStr = [NSString stringWithFormat:@"%09d", num + newVal];
+  //    
+  //    [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+  //      VaultTickView *back = (VaultTickView *)[(SBTickerView *)obj backView];
+  //      VaultTickView *front = (VaultTickView *)[(SBTickerView *)obj frontView];
+  //      int new = [[newStr substringWithRange:NSMakeRange(idx, 1)] intValue];
+  //      if (new != front.num) {
+  //        back.num = new;
+  //        [obj tick:SBTickerViewTickDirectionDown animated:YES completion:^{NSLog(@"Done");}];
+  //      }
+  //    }];
+  //    self.vaultBalance = newStr;
+  //  }
+}
+
+- (void) animateNextNum {
+  _numTicksComplete = 0;
+  if (_index != vaultBalance.length) {
+    if ([[vaultBalance substringWithRange:NSMakeRange(_index, 1)] intValue] == 0) {
+      _index++;
+      [self animateNextNum];
+      return;
+    }
     [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      VaultTickView *back = (VaultTickView *)[(SBTickerView *)obj backView];
-      VaultTickView *front = (VaultTickView *)[(SBTickerView *)obj frontView];
-      int new = [[newStr substringWithRange:NSMakeRange(idx, 1)] intValue];
-      if (new != front.num) {
-        back.num = new;
-        [obj tick:SBTickerViewTickDirectionDown animated:YES completion:^{NSLog(@"Done");}];
+      if (idx >= _index) {
+        VaultTickView *back = (VaultTickView *)[(SBTickerView *)obj backView];
+        if (idx == _index) {
+          int x = [[vaultBalance substringWithRange:NSMakeRange(idx, 1)] intValue];
+          back.num = x;
+        } else if (idx == _index+1) {
+          int x = [[vaultBalance substringWithRange:NSMakeRange(idx, 1)] intValue];
+          if (x == 0) {
+            back.num = 0;
+          } else {
+            back.num = arc4random() % x;
+          }
+        } else {
+          back.num = arc4random() % 10;
+        }
+        [obj tick:SBTickerViewTickDirectionDown animated:YES completion:^{
+          _numTicksComplete++;
+          if (_numTicksComplete >= 9) {
+            _index++;
+            [self animateNextNum];
+          }
+        }];
+      } else {
+        _numTicksComplete++;
       }
     }];
-    self.vaultBalance = newStr;
+  } else {
+    _animating = NO;
   }
 }
 
@@ -183,6 +259,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   if (str.length > 9) {
     return NO;
   }
+  [[(NiceFontTextField *)textField label] setText:str];
   return YES;
 }
 

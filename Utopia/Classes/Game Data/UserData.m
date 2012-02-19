@@ -42,9 +42,9 @@
     self.isComplete = proto.isComplete;
     self.coordinates = CGPointMake(proto.coordinates.x, proto.coordinates.y);
     self.orientation = proto.orientation;
-    self.purchaseTime = [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000];
-    self.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000];
-    self.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:proto.lastUpgradeTime/1000];
+    self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000] : nil;
+    self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000] : nil;
+    self.lastUpgradeTime = proto.hasLastUpgradeTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastUpgradeTime/1000] : nil;
   }
   return self;
 }
