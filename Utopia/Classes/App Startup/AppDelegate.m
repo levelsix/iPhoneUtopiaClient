@@ -115,7 +115,6 @@
 	//[[CCDirector sharedDirector] runWithScene: [GameLayer scene]];
   
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
-  [[IAPHelper sharedIAPHelper] requestProducts];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

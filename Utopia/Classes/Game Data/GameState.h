@@ -21,9 +21,9 @@
   int _maxEnergy;
   int _currentStamina;
   int _maxStamina;
+  int _maxHealth;
   int _gold;
   int _silver;
-  int _wood;
   int _vaultBalance;
   NSString *_armyCode;
   int _battlesWon;
@@ -36,12 +36,26 @@
   int _numReferrals;
   int _marketplaceGoldEarnings;
   int _marketplaceSilverEarnings;
-  int _marketplaceWoodEarnings;
+  int _numMarketplaceSalesUnredeemed;
+  int _numPostsInMarketplace;
   
   NSMutableArray *_marketplaceEquipPosts;
   NSMutableArray *_marketplaceCurrencyPosts;
   NSMutableArray *_marketplaceEquipPostsFromSender;
   NSMutableArray *_marketplaceCurrencyPostsFromSender;
+  
+  NSMutableDictionary *_staticStructs;
+  NSMutableDictionary *_staticTasks;
+  NSMutableDictionary *_staticQuests;
+  NSMutableDictionary *_staticCities;
+  NSMutableDictionary *_staticEquips;
+  NSMutableDictionary *_staticBuildStructJobs;
+  NSMutableDictionary *_staticDefeatTypeJobs;
+  NSMutableDictionary *_staticPossessEquipJobProto;
+  NSMutableDictionary *_staticUpgradeStructJobProto;
+  
+  NSMutableArray *_myEquips;
+  NSMutableArray *_myStructs;
 }
 
 @property (assign) BOOL connected;
@@ -55,9 +69,9 @@
 @property (assign) int maxEnergy;
 @property (assign) int currentStamina;
 @property (assign) int maxStamina;
+@property (assign) int maxHealth;
 @property (assign) int gold;
 @property (assign) int silver;
-@property (assign) int wood;
 @property (assign) int vaultBalance;
 @property (retain) NSString *armyCode;
 @property (assign) int battlesWon;
@@ -70,14 +84,35 @@
 @property (assign) int numReferrals;
 @property (assign) int marketplaceGoldEarnings;
 @property (assign) int marketplaceSilverEarnings;
-@property (assign) int marketplaceWoodEarnings;
+@property (assign) int numMarketplaceSalesUnredeemed;
+@property (assign) int numPostsInMarketplace;
 
 @property (retain) NSMutableArray *marketplaceEquipPosts;
 @property (retain) NSMutableArray *marketplaceCurrencyPosts;
 @property (retain) NSMutableArray *marketplaceEquipPostsFromSender;
 @property (retain) NSMutableArray *marketplaceCurrencyPostsFromSender;
 
+@property (retain) NSMutableDictionary *staticStructs;
+@property (retain) NSMutableDictionary *staticTasks;
+@property (retain) NSMutableDictionary *staticQuests;
+@property (retain) NSMutableDictionary *staticCities;
+@property (retain) NSMutableDictionary *staticEquips;
+@property (retain) NSMutableDictionary *staticBuildStructJobs;
+@property (retain) NSMutableDictionary *staticDefeatTypeJobs;
+@property (retain) NSMutableDictionary *staticPossessEquipJobProto;
+@property (retain) NSMutableDictionary *staticUpgradeStructJobProto;
+
+@property (retain) NSMutableArray *myEquips;
+@property (retain) NSMutableArray *myStructs;
+
 + (GameState *) sharedGameState;
-+ (NSString *) font;
+
+- (void) updateUser:(FullUserProto *)user;
+
+- (FullEquipProto *) equipWithId:(int)equipId;
+- (FullStructureProto *) structWithId:(int)structId;
+
+- (void) addToMyEquips:(NSArray *)myEquips;
+- (void) addToMyStructs:(NSArray *)myStructs;
 
 @end

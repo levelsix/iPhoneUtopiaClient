@@ -9,10 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
 
-@class GameViewController;
-
-@interface DoorViewController : UIViewController {
-  GameViewController *_gameViewController;
-}
+@interface DoorViewController : UIViewController
 
 @end

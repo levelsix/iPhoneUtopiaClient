@@ -28,7 +28,7 @@
 #import <Availability.h>
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 
-
+#import "CCDirector.h"
 #import "CCTouchDispatcher.h"
 #import "CCTouchHandler.h"
 
@@ -59,7 +59,7 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 -(id) init
 {
 	if((self = [super init])) {
-	
+    
 		dispatchEvents = YES;
 		targetedHandlers = [[NSMutableArray alloc] initWithCapacity:8];
 		standardHandlers = [[NSMutableArray alloc] initWithCapacity:4];
@@ -71,7 +71,7 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 		toAdd = NO;
 		toQuit = NO;
 		locked = NO;
-
+    
 		handlerHelperData[kCCTouchBegan] = (struct ccTouchHandlerHelperData) {@selector(ccTouchesBegan:withEvent:),@selector(ccTouchBegan:withEvent:),kCCTouchSelectorBeganBit};
 		handlerHelperData[kCCTouchMoved] = (struct ccTouchHandlerHelperData) {@selector(ccTouchesMoved:withEvent:),@selector(ccTouchMoved:withEvent:),kCCTouchSelectorMovedBit};
 		handlerHelperData[kCCTouchEnded] = (struct ccTouchHandlerHelperData) {@selector(ccTouchesEnded:withEvent:),@selector(ccTouchEnded:withEvent:),kCCTouchSelectorEndedBit};
@@ -187,31 +187,31 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 {
 	for( CCTouchHandler *handler in targetedHandlers ) {
 		if( handler.delegate == delegate ) {
-            return handler;
+      return handler;
 		}
 	}
 	
 	for( CCTouchHandler *handler in standardHandlers ) {
 		if( handler.delegate == delegate ) {
-            return handler;
-        }
+      return handler;
+    }
 	}
-    return nil;
+  return nil;
 }
 
 NSComparisonResult sortByPriority(id first, id second, void *context)
 {
-    if (((CCTouchHandler*)first).priority < ((CCTouchHandler*)second).priority)
-        return NSOrderedAscending;
-    else if (((CCTouchHandler*)first).priority > ((CCTouchHandler*)second).priority)
-        return NSOrderedDescending;
-    else 
-        return NSOrderedSame;
+  if (((CCTouchHandler*)first).priority < ((CCTouchHandler*)second).priority)
+    return NSOrderedAscending;
+  else if (((CCTouchHandler*)first).priority > ((CCTouchHandler*)second).priority)
+    return NSOrderedDescending;
+  else 
+    return NSOrderedSame;
 }
 
 -(void) rearrangeHandlers:(NSMutableArray*)array
 {
-    [array sortUsingFunction:sortByPriority context:nil];
+  [array sortUsingFunction:sortByPriority context:nil];
 }
 
 -(void) setPriority:(int) priority forDelegate:(id) delegate
@@ -219,14 +219,14 @@ NSComparisonResult sortByPriority(id first, id second, void *context)
 	NSAssert(delegate != nil, @"Got nil touch delegate!");
 	
 	CCTouchHandler *handler = nil;
-    handler = [self findHandler:delegate];
-    
-    NSAssert(handler != nil, @"Delegate not found!");    
-    
-    handler.priority = priority;
-    
-    [self rearrangeHandlers:targetedHandlers];
-    [self rearrangeHandlers:standardHandlers];
+  handler = [self findHandler:delegate];
+  
+  NSAssert(handler != nil, @"Delegate not found!");    
+  
+  handler.priority = priority;
+  
+  [self rearrangeHandlers:targetedHandlers];
+  [self rearrangeHandlers:standardHandlers];
 }
 
 //
@@ -235,7 +235,7 @@ NSComparisonResult sortByPriority(id first, id second, void *context)
 -(void) touches:(NSSet*)touches withEvent:(UIEvent*)event withTouchType:(unsigned int)idx
 {
 	NSAssert(idx < 4, @"Invalid idx value");
-
+  
 	id mutableTouches;
 	locked = YES;
 	
@@ -245,38 +245,40 @@ NSComparisonResult sortByPriority(id first, id second, void *context)
 	BOOL needsMutableSet = (targetedHandlersCount && standardHandlersCount);
 	
 	mutableTouches = (needsMutableSet ? [touches mutableCopy] : touches);
-
+  
 	struct ccTouchHandlerHelperData helper = handlerHelperData[idx];
 	//
 	// process the target handlers 1st
 	//
 	if( targetedHandlersCount > 0 ) {
 		for( UITouch *touch in touches ) {
-			for(CCTargetedTouchHandler *handler in targetedHandlers) {
-				
-				BOOL claimed = NO;
-				if( idx == kCCTouchBegan ) {
-					claimed = [handler.delegate ccTouchBegan:touch withEvent:event];
-					if( claimed )
-						[handler.claimedTouches addObject:touch];
-				} 
-				
-				// else (moved, ended, cancelled)
-				else if( [handler.claimedTouches containsObject:touch] ) {
-					claimed = YES;
-					if( handler.enabledSelectors & helper.type )
-						[handler.delegate performSelector:helper.touchSel withObject:touch withObject:event];
+      if (touch.view == [[CCDirector sharedDirector] openGLView]) {
+        for(CCTargetedTouchHandler *handler in targetedHandlers) {
+          
+          BOOL claimed = NO;
+          if( idx == kCCTouchBegan ) {
+            claimed = [handler.delegate ccTouchBegan:touch withEvent:event];
+            if( claimed )
+              [handler.claimedTouches addObject:touch];
+          } 
+          
+          // else (moved, ended, cancelled)
+          else if( [handler.claimedTouches containsObject:touch] ) {
+            claimed = YES;
+            if( handler.enabledSelectors & helper.type )
+              [handler.delegate performSelector:helper.touchSel withObject:touch withObject:event];
+            
+            if( helper.type & (kCCTouchSelectorCancelledBit | kCCTouchSelectorEndedBit) )
+              [handler.claimedTouches removeObject:touch];
+          }
 					
-					if( helper.type & (kCCTouchSelectorCancelledBit | kCCTouchSelectorEndedBit) )
-						[handler.claimedTouches removeObject:touch];
-				}
-					
-				if( claimed && handler.swallowsTouches ) {
-					if( needsMutableSet )
-						[mutableTouches removeObject:touch];
-					break;
-				}
-			}
+          if( claimed && handler.swallowsTouches ) {
+            if( needsMutableSet )
+              [mutableTouches removeObject:touch];
+            break;
+          }
+        }
+      }
 		}
 	}
 	

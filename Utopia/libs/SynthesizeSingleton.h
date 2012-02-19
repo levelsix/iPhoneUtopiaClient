@@ -86,7 +86,9 @@ static classname *shared##classname = nil; \
 SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
 \
 + (void) displayView {\
-  [[[[CCDirector sharedDirector] openGLView] superview ]addSubview:[controllername shared##controllername].view];\
+  controllername *c = [controllername shared##controllername];\
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:c.view];\
+  c.view.center = c.view.superview.center;\
 }\
 \
 + (void) removeView {\

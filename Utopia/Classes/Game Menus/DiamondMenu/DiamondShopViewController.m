@@ -8,6 +8,8 @@
 
 #import "DiamondShopViewController.h"
 #import "IAPHelper.h"
+#import "SynthesizeSingleton.h"
+#import "cocos2d.h"
 
 @implementation DiamondPackageView
 
@@ -45,6 +47,8 @@
 
 @synthesize scrollView = _scrollView;
 @synthesize itemView = _itemView;
+
+SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DiamondShopViewController);
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

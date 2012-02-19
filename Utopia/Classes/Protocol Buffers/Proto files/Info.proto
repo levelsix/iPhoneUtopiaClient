@@ -27,28 +27,34 @@ message FullUserProto {
 	required int32 attack = 5;
 	required int32 defense = 6;
 	required int32 stamina = 7;
-	required int32 energy = 8;
-	required int32 skillPoints = 10;
-	required int32 healthMax = 11;
-	required int32 energyMax = 12;
-	required int32 staminaMax = 13;
-	required int32 diamonds = 14;
-	required int32 coins = 15;
-	required int32 wood = 16;
-	required int32 marketplaceDiamondsEarnings = 17;
-	required int32 marketplaceCoinsEarnings = 18;
-	required int32 marketplaceWoodEarnings = 19;
-	required int32 vaultBalance = 20;
-	required int32 experience = 21;
-	required int32 tasksCompleted = 22;
-	required int32 battlesWon = 23;
-	required int32 battlesLost = 24;
-	required int32 hourlyCoins = 25;
-	required string armyCode = 26;
-	required int32 numReferrals = 27;
-	required string udid = 28;
-	required LocationProto userLocation = 29;
-	required int32 numPostsInMarketplace = 30;
+	required int64 lastStaminaRefillTime = 8;
+	required bool isLastStaminaStateFull = 9;
+	required int32 energy = 10;
+	required int64 lastEnergyRefillTime = 11;
+	required bool isLastEnergyStateFull = 12;
+	required int32 skillPoints = 13;
+	required int32 healthMax = 14;
+	required int32 energyMax = 15;
+	required int32 staminaMax = 16;
+	required int32 diamonds = 17;
+	required int32 coins = 18;
+	required int32 marketplaceDiamondsEarnings = 19;
+	required int32 marketplaceCoinsEarnings = 20;
+	required int32 vaultBalance = 21;
+	required int32 experience = 22;
+	required int32 tasksCompleted = 23;
+	required int32 battlesWon = 24;
+	required int32 battlesLost = 25;
+	required int32 hourlyCoins = 26;
+	required string armyCode = 27;
+	required int32 numReferrals = 28;
+	required string udid = 29;
+	required LocationProto userLocation = 30;
+	required int32 numPostsInMarketplace = 31;
+	required int32 numMarketplaceSalesUnredeemed = 32;
+	optional int32 weaponEquipped = 33;
+	optional int32 armorEquipped = 34;
+	optional int32 amuletEquipped = 35;
 }
 
 //------------------------------------------------------------------------------------------
@@ -57,14 +63,16 @@ message FullEquipProto {
 	required int32 equipId = 1;
 	required string name = 2;
 	required EquipType equipType = 3;
-	required ClassType classType = 4;
+	required string description = 4;
 	required int32 attackBoost = 5;	
 	required int32 defenseBoost = 6;
 	required int32 minLevel = 7;
 	optional int32 coinPrice = 8;
 	optional int32 diamondPrice = 9;
 	required float chanceOfLoss = 10;
-	required Rarity rarity = 11;
+	required ClassType classType = 11;
+	required Rarity rarity = 12;
+	required bool availInArmory = 13;
 	
 	enum Rarity {
 		COMMON = 0;
@@ -90,14 +98,16 @@ message FullEquipProto {
 //------------------------------------------------------------------------------------------
 
 message FullUserStructureProto {
-	required int32 id = 1;
+	required int32 userStructId = 1;
 	required int32 userId = 2;
 	required int32 structId = 3;
 	optional int64 lastRetrieved = 4;
 	required CoordinateProto coordinates = 5;
 	required int32 level = 6;
 	required int64 purchaseTime = 7;
-	required bool isComplete = 8;
+	optional int64 lastUpgradeTime = 8;
+	required bool isComplete = 9;
+	required StructOrientation orientation = 10;
 }
 
 //------------------------------------------------------------------------------------------
@@ -112,20 +122,22 @@ message FullUserEquipProto {
 //------------------------------------------------------------------------------------------
 
 message FullStructureProto { 
-	required int32 id = 1;
+	required int32 structId = 1;
 	required string name = 2;
 	required int32 income = 3;
 	required int32 minutesToGain = 4;
 	required int32 minutesToBuild = 5;
-	required int32 coinPrice = 6;
-	required int32 diamondPrice = 7;
-	required int32 woodPrice = 8;
+	required int32 minutesToUpgradeBase = 6;
+	required int32 coinPrice = 7;
+	required int32 diamondPrice = 8;
 	required int32 minLevel = 9;
 	required int32 xLength = 10;
 	required int32 yLength = 11;
 	required int32 upgradeCoinCostBase = 12;
 	required int32 upgradeDiamondCostBase = 13;
-	required int32 upgradeWoodCostBase = 14;
+	required int32 instaBuildDiamondCostBase = 14;
+	required int32 instaRetrieveDiamondCostBase = 15;
+	required int32 instaUpgradeDiamondCostBase = 16;	
 }
 
 //------------------------------------------------------------------------------------------
@@ -155,11 +167,23 @@ message FullTaskProto {
 //------------------------------------------------------------------------------------------
 
 message FullCityProto {
-	required int32 id = 1;
+	required int32 cityId = 1;
 	required string name = 2;
 	required int32 minLevel = 3;
 	required int32 expGainedBaseOnRankup = 4;
 	required int32 coinsGainedBaseOnRankup = 5;
+}
+
+//------------------------------------------------------------------------------------------
+
+message FullUserCityExpansionDataProto {
+	required int32 userId = 1;
+	required int32 nearLeftExpansions = 2;
+	required int32 farLeftExpansions = 3;
+	required int32 farRightExpansions = 4;
+	required bool isExpanding = 5;
+	optional int64 lastExpandTime = 6;
+	optional ExpansionDirection lastExpandDirection = 7;
 }
 
 //------------------------------------------------------------------------------------------
@@ -179,10 +203,8 @@ message LocationProto {
 //------------------------------------------------------------------------------------------
 
 enum MarketplacePostType {
-	EQUIP_POST = 0;
-	WOOD_POST = 1;
-	DIAMOND_POST = 2;
-	COIN_POST = 3;
+	PREMIUM_EQUIP_POST = 0;		//diamond, epics, and legendarys for diamonds
+	NORM_EQUIP_POST = 2;		//coin items for coins
 }
 
 message FullMarketplacePostProto {
@@ -190,13 +212,9 @@ message FullMarketplacePostProto {
 	required int32 posterId = 2;
 	required MarketplacePostType postType = 3;
 	required int64 timeOfPost = 4;
-	optional FullEquipProto postedEquip = 5;
-	optional int32 postedWood = 6;
-	optional int32 postedDiamonds = 7;
-	optional int32 postedCoins = 8;
-	optional int32 diamondCost = 9;
-	optional int32 coinCost = 10;
-	optional int32 woodCost = 11;
+	required FullEquipProto postedEquip = 5;
+	optional int32 diamondCost = 6;
+	optional int32 coinCost = 7;
 }
 
 //------------------------------------------------------------------------------------------
@@ -217,6 +235,25 @@ enum CritStructType {
 	MARKETPLACE = 5;
 }
 
+message FullUserCritstructProto {
+	required CritStructType type = 1;
+	required CoordinateProto coords = 2;
+	required StructOrientation orientation = 3;
+}
+
+//------------------------------------------------------------------------------------------
+
+enum StructOrientation {
+	POSITION_1 = 0;
+	POSITION_2 = 1;
+}
+
+enum ExpansionDirection {
+	NEAR_LEFT = 0;
+	FAR_LEFT = 1;
+	FAR_RIGHT = 2;
+}
+
 //------------------------------------------------------------------------------------------
 
 message MinimumUserTaskProto {
@@ -227,11 +264,20 @@ message MinimumUserTaskProto {
 
 //------------------------------------------------------------------------------------------
 
-message FullUserQuestDataLarge {
+message MinimumUserQuestTaskProto {
      required int32 userId = 1;
      required int32 questId = 2;
-     required bool complete = 3;
-     repeated MinimumUserTaskProto requiredTasksProgress = 4;
+     required FullTaskProto task = 3;
+     required int32 numTimesActed = 4;
+}
+
+//------------------------------------------------------------------------------------------
+
+message FullUserQuestDataLargeProto {
+     required int32 userId = 1;
+     required int32 questId = 2;
+     required bool redeemed = 3;
+     repeated MinimumUserQuestTaskProto requiredTasksProgress = 4;
      repeated MinimumUserDefeatTypeJobProto requiredDefeatTypeJobProgress = 5;
      repeated MinimumUserBuildStructJobProto requiredBuildStructJobProgress = 6;
      repeated MinimumUserUpgradeStructJobProto requiredUpgradeStructJobProgress = 7;
@@ -246,7 +292,7 @@ message MinimumUserDefeatTypeJobProto {
 }
 
 message DefeatTypeJobProto {
-     required int32 id = 1;
+     required int32 defeatTypeJobId = 1;
      required UserType typeOfEnemy = 2;
      required int32 numEnemiesToDefeat = 3;
      required int32 cityId = 4;
@@ -260,7 +306,7 @@ message MinimumUserBuildStructJobProto {
 }
 
 message BuildStructJobProto {
-     required int32 id = 1;
+     required int32 buildStructJobId = 1;
      required int32 structId = 2;
      required int32 quantityRequired = 3;
 }
@@ -273,7 +319,7 @@ message MinimumUserUpgradeStructJobProto {
 }
 
 message UpgradeStructJobProto {
-     required int32 id = 1;
+     required int32 upgradeStructJobId = 1;
      required int32 structId = 2;
      required int32 levelReq = 3;
 }
@@ -282,11 +328,11 @@ message MinimumUserPossessEquipJobProto {
      required int32 userId = 1;
      required int32 questId = 2;
      required PossessEquipJobProto possessEquipJobProto = 3;
-     required bool isComplete = 4;
+     required int32 numEquipUserHas = 4;
 }
 
 message PossessEquipJobProto {
-     required int32 id = 1;
+     required int32 possessEquipJobId = 1;
      required int32 equipId = 2;
      required int32 quantityReq = 3;
 }
@@ -294,7 +340,7 @@ message PossessEquipJobProto {
 //------------------------------------------------------------------------------------------
 
 message FullQuestProto {
-     required int32 id = 1;
+     required int32 questId = 1;
      required int32 cityId = 2;
      required string name = 3;
      required string description = 4;
@@ -303,13 +349,12 @@ message FullQuestProto {
      required int32 assetNumWithinCity = 7;
      optional int32 coinsGained = 8;
      optional int32 diamondsGained = 9;
-     optional int32 woodGained = 10;
-     optional int32 expGained = 11;
-     optional int32 equipIdGained = 12;
-     repeated int32 questsRequiredForThis = 13;
-     repeated int32 taskReqs = 14;
-     repeated int32 upgradeStructJobsReqs = 15;
-     repeated int32 buildStructJobsReqs = 16;
-     repeated int32 defeatTypeReqs = 17;
-     repeated int32 possessEquipJobReqs = 18;
+     optional int32 expGained = 10;
+     optional int32 equipIdGained = 11;
+     repeated int32 questsRequiredForThis = 12;
+     repeated int32 taskReqs = 13;
+     repeated int32 upgradeStructJobsReqs = 14;
+     repeated int32 buildStructJobsReqs = 15;
+     repeated int32 defeatTypeReqs = 16;
+     repeated int32 possessEquipJobReqs = 17;
 }

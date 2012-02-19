@@ -10,7 +10,10 @@
 #import "Protocols.pb.h"
 #import "SynthesizeSingleton.h"
 #import "GameState.h"
+#import "Globals.h"
 #import "MarketplaceViewController.h"
+#import "OutgoingEventController.h"
+#import "HomeMap.h"
 
 @implementation IncomingEventController
 
@@ -74,11 +77,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSPurchaseNormStructureEvent:
       responseClass = [PurchaseNormStructureResponseProto class];
       break;
-    case EventProtocolResponseSMoveNormStructureEvent:
-      responseClass = [MoveNormStructureResponseProto class];
+    case EventProtocolResponseSMoveOrRotateNormStructureEvent:
+      responseClass = [MoveOrRotateNormStructureResponseProto class];
       break;
     case EventProtocolResponseSUpgradeNormStructureEvent:
       responseClass = [UpgradeNormStructureResponseProto class];
+      break;
+    case EventProtocolResponseSNormStructWaitCompleteEvent:
+      responseClass = [NormStructWaitCompleteResponseProto class];
       break;
     case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
       responseClass = [FinishNormStructWaittimeWithDiamondsResponseProto class];
@@ -91,6 +97,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSLoadPlayerCityEvent:
       responseClass = [LoadPlayerCityResponseProto class];
+      break;
+    case EventProtocolResponseSRetrieveStaticDataEvent:
+      responseClass = [RetrieveStaticDataResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -119,6 +128,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleStartupResponseProto: (StartupResponseProto *) proto {
   NSLog(@"Startup response received");
+  
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
+  
+  [gl updateConstants:proto.startupConstants];
+  [gs updateUser:proto.sender];
+  [gs addToMyEquips:proto.userEquipsList];
+//  [gs setMyStructs:[NSMutableArray arrayWithArray:proto.userStructuresList]];
+  [oec retrieveAllStaticData];
 }
 
 - (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
@@ -135,6 +154,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleUpdateClientUserResponseProto: (UpdateClientUserResponseProto *) proto {
   NSLog(@"Update client user response received");
+  
+  [[GameState sharedGameState] updateUser:proto.sender];
 }
 
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto {
@@ -160,18 +181,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     int x = [cur count];
     int y = [eq count];
-    
-    for (FullMarketplacePostProto *p in [proto marketplacePostsList]) {
-      if (p.postType == MarketplacePostTypeEquipPost) {
-        [eq addObject:p];
-      } else {
-        [cur addObject:p];
-      }
+    int c, d;
+    if (mvc.state == kCurrencyBuyingState || mvc.state == kCurrencySellingState) { 
+      c = x+1;
+      d = cur.count-x;
+    } else {
+      c = y+1;
+      d = eq.count-y;
     }
-    int c = mvc.state == kCurrencyBuyingState || mvc.state == kCurrencySellingState ? x+1 : y+1;
-    [mvc reloadRowsFrom:c];
+    [mvc insertRowsFrom:c];
   }
-  [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.4];
+  [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }
 
 - (void) handlePostToMarketplaceResponseProto: (PostToMarketplaceResponseProto *) proto {
@@ -206,12 +226,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Purchase norm struct response received.");
 }
 
-- (void) handleMoveNormStructureResponseProto: (MoveNormStructureResponseProto *) proto {
-  NSLog(@"Move norm struct response received.");
+- (void) handleMoveOrRotateNormStructureResponseProto: (MoveOrRotateNormStructureResponseProto *) proto {
+  NSLog(@"Move norm struct response received with status: %d.", proto.status);
 }
 
 - (void) handleUpgradeNormStructureResponseProto: (UpgradeNormStructureResponseProto *) proto {
   NSLog(@"Upgrade norm structure response received.");
+}
+
+- (void) handleNormStructWaitCompleteResponseProto: (NormStructWaitCompleteResponseProto *) proto {
+  NSLog(@"Norm struct builds complete response received");
 }
 
 - (void) handleFinishNormStructWaittimeWithDiamondsResponseProto: (FinishNormStructWaittimeWithDiamondsResponseProto *) proto {
@@ -228,6 +252,61 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleLoadPlayerCityResponseProto: (LoadPlayerCityResponseProto *) proto {
   NSLog(@"Load player city response received.");
+  [[GameState sharedGameState] addToMyStructs:proto.ownerNormStructsList];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+  [[HomeMap sharedHomeMap] refresh];
+}
+
+- (void) handleRetrieveStaticDataResponseProto: (RetrieveStaticDataResponseProto *) proto {
+  NSLog(@"Retrieve static data response received.");
+  GameState *gs = [GameState sharedGameState];
+  
+  if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
+    NSMutableDictionary *mutDict = gs.staticStructs;
+    for (FullStructureProto *st in proto.structsList) {
+      [mutDict setObject:st forKey:[NSNumber numberWithInt:st.structId]];
+    }
+    
+    mutDict = gs.staticTasks;
+    for (FullTaskProto *task in proto.tasksList) {
+      [mutDict setObject:task forKey:[NSNumber numberWithInt:task.taskId]];
+    }
+    
+    mutDict = gs.staticEquips;
+    for (FullEquipProto *equip in proto.equipsList) {
+      [mutDict setObject:equip forKey:[NSNumber numberWithInt:equip.equipId]];
+    }
+    
+    mutDict = gs.staticCities;
+    for (FullCityProto *city in proto.citiesList) {
+      [mutDict setObject:city forKey:[NSNumber numberWithInt:city.cityId]];
+    }
+    
+    mutDict = gs.staticQuests;
+    for (FullQuestProto *quest in proto.questsList) {
+      [mutDict setObject:quest forKey:[NSNumber numberWithInt:quest.questId]];
+    }
+    
+    mutDict = gs.staticBuildStructJobs;
+    for (BuildStructJobProto *job in proto.buildStructJobsList) {
+      [mutDict setObject:job forKey:[NSNumber numberWithInt:job.buildStructJobId]];
+    }
+    
+    mutDict = gs.staticDefeatTypeJobs;
+    for (DefeatTypeJobProto *job in proto.defeatTypeJobsList) {
+      [mutDict setObject:job forKey:[NSNumber numberWithInt:job.defeatTypeJobId]];
+    }
+    
+    mutDict = gs.staticEquips;
+    for (FullEquipProto *eq in proto.possessEquipJobsList) {
+      [mutDict setObject:eq forKey:[NSNumber numberWithInt:eq.equipId]];
+    }
+    
+    mutDict = gs.staticUpgradeStructJobProto;
+    for (UpgradeStructJobProto *job in proto.upgradeStructJobsList) {
+      [mutDict setObject:job forKey:[NSNumber numberWithInt:job.upgradeStructJobId]];
+    }
+  }
 }
 
 @end

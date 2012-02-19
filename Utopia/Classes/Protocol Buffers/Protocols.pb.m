@@ -40,17 +40,23 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCUseSkillPointEvent:
     case EventProtocolRequestCGenerateAttackListEvent:
     case EventProtocolRequestCPurchaseNormStructureEvent:
-    case EventProtocolRequestCMoveNormStructureEvent:
+    case EventProtocolRequestCMoveOrRotateNormStructureEvent:
     case EventProtocolRequestCSellNormStructureEvent:
     case EventProtocolRequestCUpgradeNormStructureEvent:
     case EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent:
     case EventProtocolRequestCRefillStatWithDiamondsEvent:
     case EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent:
-    case EventProtocolRequestCNormStructBuildsCompleteEvent:
+    case EventProtocolRequestCNormStructWaitCompleteEvent:
     case EventProtocolRequestCRedeemMarketplaceEarningsEvent:
     case EventProtocolRequestCCritStructureActionEvent:
     case EventProtocolRequestCLoadPlayerCityEvent:
     case EventProtocolRequestCRetrieveStaticDataEvent:
+    case EventProtocolRequestCQuestAcceptEvent:
+    case EventProtocolRequestCQuestLogDetailsEvent:
+    case EventProtocolRequestCQuestRedeemEvent:
+    case EventProtocolRequestCPurchaseCityExpansionEvent:
+    case EventProtocolRequestCExpansionWaitCompleteEvent:
+    case EventProtocolRequestCRefillStatWaitCompleteEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -77,17 +83,23 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSUseSkillPointEvent:
     case EventProtocolResponseSGenerateAttackListEvent:
     case EventProtocolResponseSPurchaseNormStructureEvent:
-    case EventProtocolResponseSMoveNormStructureEvent:
+    case EventProtocolResponseSMoveOrRotateNormStructureEvent:
     case EventProtocolResponseSSellNormStructureEvent:
     case EventProtocolResponseSUpgradeNormStructureEvent:
     case EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent:
     case EventProtocolResponseSRefillStatWithDiamondsEvent:
     case EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent:
-    case EventProtocolResponseSNormStructBuildsCompleteEvent:
+    case EventProtocolResponseSNormStructWaitCompleteEvent:
     case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
     case EventProtocolResponseSCritStructureActionEvent:
     case EventProtocolResponseSLoadPlayerCityEvent:
     case EventProtocolResponseSRetrieveStaticDataEvent:
+    case EventProtocolResponseSQuestAcceptEvent:
+    case EventProtocolResponseSQuestLogDetailsEvent:
+    case EventProtocolResponseSQuestRedeemEvent:
+    case EventProtocolResponseSPurchaseCityExpansionEvent:
+    case EventProtocolResponseSExpansionWaitCompleteEvent:
+    case EventProtocolResponseSRefillStatWaitCompleteEvent:
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:

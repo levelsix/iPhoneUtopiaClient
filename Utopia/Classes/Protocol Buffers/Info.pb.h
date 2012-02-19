@@ -22,12 +22,16 @@
 @class FullTaskProto_Builder;
 @class FullTaskProto_FullTaskEquipReqProto;
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
+@class FullUserCityExpansionDataProto;
+@class FullUserCityExpansionDataProto_Builder;
+@class FullUserCritstructProto;
+@class FullUserCritstructProto_Builder;
 @class FullUserEquipProto;
 @class FullUserEquipProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserQuestDataLarge;
-@class FullUserQuestDataLarge_Builder;
+@class FullUserQuestDataLargeProto;
+@class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class LocationProto;
@@ -40,6 +44,8 @@
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProto_Builder;
+@class MinimumUserQuestTaskProto;
+@class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
@@ -60,10 +66,8 @@ typedef enum {
 BOOL UserTypeIsValidValue(UserType value);
 
 typedef enum {
-  MarketplacePostTypeEquipPost = 0,
-  MarketplacePostTypeWoodPost = 1,
-  MarketplacePostTypeDiamondPost = 2,
-  MarketplacePostTypeCoinPost = 3,
+  MarketplacePostTypePremiumEquipPost = 0,
+  MarketplacePostTypeNormEquipPost = 2,
 } MarketplacePostType;
 
 BOOL MarketplacePostTypeIsValidValue(MarketplacePostType value);
@@ -85,6 +89,21 @@ typedef enum {
 } CritStructType;
 
 BOOL CritStructTypeIsValidValue(CritStructType value);
+
+typedef enum {
+  StructOrientationPosition1 = 0,
+  StructOrientationPosition2 = 1,
+} StructOrientation;
+
+BOOL StructOrientationIsValidValue(StructOrientation value);
+
+typedef enum {
+  ExpansionDirectionNearLeft = 0,
+  ExpansionDirectionFarLeft = 1,
+  ExpansionDirectionFarRight = 2,
+} ExpansionDirection;
+
+BOOL ExpansionDirectionIsValidValue(ExpansionDirection value);
 
 typedef enum {
   FullEquipProto_RarityCommon = 0,
@@ -187,62 +206,74 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasNumPostsInMarketplace_:1;
-  BOOL hasNumReferrals_:1;
-  BOOL hasHourlyCoins_:1;
-  BOOL hasBattlesLost_:1;
-  BOOL hasBattlesWon_:1;
-  BOOL hasTasksCompleted_:1;
-  BOOL hasExperience_:1;
-  BOOL hasVaultBalance_:1;
-  BOOL hasMarketplaceWoodEarnings_:1;
-  BOOL hasMarketplaceCoinsEarnings_:1;
+  BOOL hasIsLastEnergyStateFull_:1;
+  BOOL hasIsLastStaminaStateFull_:1;
+  BOOL hasLastStaminaRefillTime_:1;
+  BOOL hasLastEnergyRefillTime_:1;
   BOOL hasMarketplaceDiamondsEarnings_:1;
-  BOOL hasWood_:1;
-  BOOL hasCoins_:1;
-  BOOL hasDiamonds_:1;
-  BOOL hasStaminaMax_:1;
-  BOOL hasEnergyMax_:1;
-  BOOL hasHealthMax_:1;
-  BOOL hasSkillPoints_:1;
-  BOOL hasEnergy_:1;
-  BOOL hasStamina_:1;
-  BOOL hasDefense_:1;
-  BOOL hasAttack_:1;
-  BOOL hasLevel_:1;
+  BOOL hasMarketplaceCoinsEarnings_:1;
+  BOOL hasVaultBalance_:1;
+  BOOL hasExperience_:1;
+  BOOL hasTasksCompleted_:1;
+  BOOL hasBattlesWon_:1;
+  BOOL hasBattlesLost_:1;
+  BOOL hasHourlyCoins_:1;
+  BOOL hasNumReferrals_:1;
+  BOOL hasNumPostsInMarketplace_:1;
+  BOOL hasNumMarketplaceSalesUnredeemed_:1;
+  BOOL hasWeaponEquipped_:1;
+  BOOL hasArmorEquipped_:1;
+  BOOL hasAmuletEquipped_:1;
   BOOL hasUserId_:1;
+  BOOL hasLevel_:1;
+  BOOL hasAttack_:1;
+  BOOL hasDefense_:1;
+  BOOL hasStamina_:1;
+  BOOL hasEnergy_:1;
+  BOOL hasSkillPoints_:1;
+  BOOL hasHealthMax_:1;
+  BOOL hasEnergyMax_:1;
+  BOOL hasStaminaMax_:1;
+  BOOL hasDiamonds_:1;
+  BOOL hasCoins_:1;
   BOOL hasArmyCode_:1;
-  BOOL hasName_:1;
   BOOL hasUdid_:1;
+  BOOL hasName_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
-  int32_t numPostsInMarketplace;
-  int32_t numReferrals;
-  int32_t hourlyCoins;
-  int32_t battlesLost;
-  int32_t battlesWon;
-  int32_t tasksCompleted;
-  int32_t experience;
-  int32_t vaultBalance;
-  int32_t marketplaceWoodEarnings;
-  int32_t marketplaceCoinsEarnings;
+  BOOL isLastEnergyStateFull_:1;
+  BOOL isLastStaminaStateFull_:1;
+  int64_t lastStaminaRefillTime;
+  int64_t lastEnergyRefillTime;
   int32_t marketplaceDiamondsEarnings;
-  int32_t wood;
-  int32_t coins;
-  int32_t diamonds;
-  int32_t staminaMax;
-  int32_t energyMax;
-  int32_t healthMax;
-  int32_t skillPoints;
-  int32_t energy;
-  int32_t stamina;
-  int32_t defense;
-  int32_t attack;
-  int32_t level;
+  int32_t marketplaceCoinsEarnings;
+  int32_t vaultBalance;
+  int32_t experience;
+  int32_t tasksCompleted;
+  int32_t battlesWon;
+  int32_t battlesLost;
+  int32_t hourlyCoins;
+  int32_t numReferrals;
+  int32_t numPostsInMarketplace;
+  int32_t numMarketplaceSalesUnredeemed;
+  int32_t weaponEquipped;
+  int32_t armorEquipped;
+  int32_t amuletEquipped;
   int32_t userId;
+  int32_t level;
+  int32_t attack;
+  int32_t defense;
+  int32_t stamina;
+  int32_t energy;
+  int32_t skillPoints;
+  int32_t healthMax;
+  int32_t energyMax;
+  int32_t staminaMax;
+  int32_t diamonds;
+  int32_t coins;
   NSString* armyCode;
-  NSString* name;
   NSString* udid;
+  NSString* name;
   LocationProto* userLocation;
   UserType userType;
 }
@@ -253,17 +284,19 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasAttack;
 - (BOOL) hasDefense;
 - (BOOL) hasStamina;
+- (BOOL) hasLastStaminaRefillTime;
+- (BOOL) hasIsLastStaminaStateFull;
 - (BOOL) hasEnergy;
+- (BOOL) hasLastEnergyRefillTime;
+- (BOOL) hasIsLastEnergyStateFull;
 - (BOOL) hasSkillPoints;
 - (BOOL) hasHealthMax;
 - (BOOL) hasEnergyMax;
 - (BOOL) hasStaminaMax;
 - (BOOL) hasDiamonds;
 - (BOOL) hasCoins;
-- (BOOL) hasWood;
 - (BOOL) hasMarketplaceDiamondsEarnings;
 - (BOOL) hasMarketplaceCoinsEarnings;
-- (BOOL) hasMarketplaceWoodEarnings;
 - (BOOL) hasVaultBalance;
 - (BOOL) hasExperience;
 - (BOOL) hasTasksCompleted;
@@ -275,6 +308,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasUdid;
 - (BOOL) hasUserLocation;
 - (BOOL) hasNumPostsInMarketplace;
+- (BOOL) hasNumMarketplaceSalesUnredeemed;
+- (BOOL) hasWeaponEquipped;
+- (BOOL) hasArmorEquipped;
+- (BOOL) hasAmuletEquipped;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -282,17 +319,19 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @property (readonly) int32_t attack;
 @property (readonly) int32_t defense;
 @property (readonly) int32_t stamina;
+@property (readonly) int64_t lastStaminaRefillTime;
+- (BOOL) isLastStaminaStateFull;
 @property (readonly) int32_t energy;
+@property (readonly) int64_t lastEnergyRefillTime;
+- (BOOL) isLastEnergyStateFull;
 @property (readonly) int32_t skillPoints;
 @property (readonly) int32_t healthMax;
 @property (readonly) int32_t energyMax;
 @property (readonly) int32_t staminaMax;
 @property (readonly) int32_t diamonds;
 @property (readonly) int32_t coins;
-@property (readonly) int32_t wood;
 @property (readonly) int32_t marketplaceDiamondsEarnings;
 @property (readonly) int32_t marketplaceCoinsEarnings;
-@property (readonly) int32_t marketplaceWoodEarnings;
 @property (readonly) int32_t vaultBalance;
 @property (readonly) int32_t experience;
 @property (readonly) int32_t tasksCompleted;
@@ -304,6 +343,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly) int32_t numPostsInMarketplace;
+@property (readonly) int32_t numMarketplaceSalesUnredeemed;
+@property (readonly) int32_t weaponEquipped;
+@property (readonly) int32_t armorEquipped;
+@property (readonly) int32_t amuletEquipped;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -374,10 +417,30 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullUserProto_Builder*) setStamina:(int32_t) value;
 - (FullUserProto_Builder*) clearStamina;
 
+- (BOOL) hasLastStaminaRefillTime;
+- (int64_t) lastStaminaRefillTime;
+- (FullUserProto_Builder*) setLastStaminaRefillTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastStaminaRefillTime;
+
+- (BOOL) hasIsLastStaminaStateFull;
+- (BOOL) isLastStaminaStateFull;
+- (FullUserProto_Builder*) setIsLastStaminaStateFull:(BOOL) value;
+- (FullUserProto_Builder*) clearIsLastStaminaStateFull;
+
 - (BOOL) hasEnergy;
 - (int32_t) energy;
 - (FullUserProto_Builder*) setEnergy:(int32_t) value;
 - (FullUserProto_Builder*) clearEnergy;
+
+- (BOOL) hasLastEnergyRefillTime;
+- (int64_t) lastEnergyRefillTime;
+- (FullUserProto_Builder*) setLastEnergyRefillTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastEnergyRefillTime;
+
+- (BOOL) hasIsLastEnergyStateFull;
+- (BOOL) isLastEnergyStateFull;
+- (FullUserProto_Builder*) setIsLastEnergyStateFull:(BOOL) value;
+- (FullUserProto_Builder*) clearIsLastEnergyStateFull;
 
 - (BOOL) hasSkillPoints;
 - (int32_t) skillPoints;
@@ -409,11 +472,6 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullUserProto_Builder*) setCoins:(int32_t) value;
 - (FullUserProto_Builder*) clearCoins;
 
-- (BOOL) hasWood;
-- (int32_t) wood;
-- (FullUserProto_Builder*) setWood:(int32_t) value;
-- (FullUserProto_Builder*) clearWood;
-
 - (BOOL) hasMarketplaceDiamondsEarnings;
 - (int32_t) marketplaceDiamondsEarnings;
 - (FullUserProto_Builder*) setMarketplaceDiamondsEarnings:(int32_t) value;
@@ -423,11 +481,6 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) marketplaceCoinsEarnings;
 - (FullUserProto_Builder*) setMarketplaceCoinsEarnings:(int32_t) value;
 - (FullUserProto_Builder*) clearMarketplaceCoinsEarnings;
-
-- (BOOL) hasMarketplaceWoodEarnings;
-- (int32_t) marketplaceWoodEarnings;
-- (FullUserProto_Builder*) setMarketplaceWoodEarnings:(int32_t) value;
-- (FullUserProto_Builder*) clearMarketplaceWoodEarnings;
 
 - (BOOL) hasVaultBalance;
 - (int32_t) vaultBalance;
@@ -485,10 +538,31 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) numPostsInMarketplace;
 - (FullUserProto_Builder*) setNumPostsInMarketplace:(int32_t) value;
 - (FullUserProto_Builder*) clearNumPostsInMarketplace;
+
+- (BOOL) hasNumMarketplaceSalesUnredeemed;
+- (int32_t) numMarketplaceSalesUnredeemed;
+- (FullUserProto_Builder*) setNumMarketplaceSalesUnredeemed:(int32_t) value;
+- (FullUserProto_Builder*) clearNumMarketplaceSalesUnredeemed;
+
+- (BOOL) hasWeaponEquipped;
+- (int32_t) weaponEquipped;
+- (FullUserProto_Builder*) setWeaponEquipped:(int32_t) value;
+- (FullUserProto_Builder*) clearWeaponEquipped;
+
+- (BOOL) hasArmorEquipped;
+- (int32_t) armorEquipped;
+- (FullUserProto_Builder*) setArmorEquipped:(int32_t) value;
+- (FullUserProto_Builder*) clearArmorEquipped;
+
+- (BOOL) hasAmuletEquipped;
+- (int32_t) amuletEquipped;
+- (FullUserProto_Builder*) setAmuletEquipped:(int32_t) value;
+- (FullUserProto_Builder*) clearAmuletEquipped;
 @end
 
 @interface FullEquipProto : PBGeneratedMessage {
 @private
+  BOOL hasAvailInArmory_:1;
   BOOL hasChanceOfLoss_:1;
   BOOL hasEquipId_:1;
   BOOL hasAttackBoost_:1;
@@ -497,9 +571,11 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   BOOL hasCoinPrice_:1;
   BOOL hasDiamondPrice_:1;
   BOOL hasName_:1;
+  BOOL hasDescription_:1;
   BOOL hasEquipType_:1;
   BOOL hasClassType_:1;
   BOOL hasRarity_:1;
+  BOOL availInArmory_:1;
   Float32 chanceOfLoss;
   int32_t equipId;
   int32_t attackBoost;
@@ -508,6 +584,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   int32_t coinPrice;
   int32_t diamondPrice;
   NSString* name;
+  NSString* description;
   FullEquipProto_EquipType equipType;
   FullEquipProto_ClassType classType;
   FullEquipProto_Rarity rarity;
@@ -515,25 +592,29 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasEquipId;
 - (BOOL) hasName;
 - (BOOL) hasEquipType;
-- (BOOL) hasClassType;
+- (BOOL) hasDescription;
 - (BOOL) hasAttackBoost;
 - (BOOL) hasDefenseBoost;
 - (BOOL) hasMinLevel;
 - (BOOL) hasCoinPrice;
 - (BOOL) hasDiamondPrice;
 - (BOOL) hasChanceOfLoss;
+- (BOOL) hasClassType;
 - (BOOL) hasRarity;
+- (BOOL) hasAvailInArmory;
 @property (readonly) int32_t equipId;
 @property (readonly, retain) NSString* name;
 @property (readonly) FullEquipProto_EquipType equipType;
-@property (readonly) FullEquipProto_ClassType classType;
+@property (readonly, retain) NSString* description;
 @property (readonly) int32_t attackBoost;
 @property (readonly) int32_t defenseBoost;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t coinPrice;
 @property (readonly) int32_t diamondPrice;
 @property (readonly) Float32 chanceOfLoss;
+@property (readonly) FullEquipProto_ClassType classType;
 @property (readonly) FullEquipProto_Rarity rarity;
+- (BOOL) availInArmory;
 
 + (FullEquipProto*) defaultInstance;
 - (FullEquipProto*) defaultInstance;
@@ -584,10 +665,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullEquipProto_Builder*) setEquipType:(FullEquipProto_EquipType) value;
 - (FullEquipProto_Builder*) clearEquipType;
 
-- (BOOL) hasClassType;
-- (FullEquipProto_ClassType) classType;
-- (FullEquipProto_Builder*) setClassType:(FullEquipProto_ClassType) value;
-- (FullEquipProto_Builder*) clearClassType;
+- (BOOL) hasDescription;
+- (NSString*) description;
+- (FullEquipProto_Builder*) setDescription:(NSString*) value;
+- (FullEquipProto_Builder*) clearDescription;
 
 - (BOOL) hasAttackBoost;
 - (int32_t) attackBoost;
@@ -619,10 +700,20 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullEquipProto_Builder*) setChanceOfLoss:(Float32) value;
 - (FullEquipProto_Builder*) clearChanceOfLoss;
 
+- (BOOL) hasClassType;
+- (FullEquipProto_ClassType) classType;
+- (FullEquipProto_Builder*) setClassType:(FullEquipProto_ClassType) value;
+- (FullEquipProto_Builder*) clearClassType;
+
 - (BOOL) hasRarity;
 - (FullEquipProto_Rarity) rarity;
 - (FullEquipProto_Builder*) setRarity:(FullEquipProto_Rarity) value;
 - (FullEquipProto_Builder*) clearRarity;
+
+- (BOOL) hasAvailInArmory;
+- (BOOL) availInArmory;
+- (FullEquipProto_Builder*) setAvailInArmory:(BOOL) value;
+- (FullEquipProto_Builder*) clearAvailInArmory;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {
@@ -630,36 +721,44 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   BOOL hasIsComplete_:1;
   BOOL hasLastRetrieved_:1;
   BOOL hasPurchaseTime_:1;
-  BOOL hasId_:1;
+  BOOL hasLastUpgradeTime_:1;
+  BOOL hasUserStructId_:1;
   BOOL hasUserId_:1;
   BOOL hasStructId_:1;
   BOOL hasLevel_:1;
   BOOL hasCoordinates_:1;
+  BOOL hasOrientation_:1;
   BOOL isComplete_:1;
   int64_t lastRetrieved;
   int64_t purchaseTime;
-  int32_t id;
+  int64_t lastUpgradeTime;
+  int32_t userStructId;
   int32_t userId;
   int32_t structId;
   int32_t level;
   CoordinateProto* coordinates;
+  StructOrientation orientation;
 }
-- (BOOL) hasId;
+- (BOOL) hasUserStructId;
 - (BOOL) hasUserId;
 - (BOOL) hasStructId;
 - (BOOL) hasLastRetrieved;
 - (BOOL) hasCoordinates;
 - (BOOL) hasLevel;
 - (BOOL) hasPurchaseTime;
+- (BOOL) hasLastUpgradeTime;
 - (BOOL) hasIsComplete;
-@property (readonly) int32_t id;
+- (BOOL) hasOrientation;
+@property (readonly) int32_t userStructId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t structId;
 @property (readonly) int64_t lastRetrieved;
 @property (readonly, retain) CoordinateProto* coordinates;
 @property (readonly) int32_t level;
 @property (readonly) int64_t purchaseTime;
+@property (readonly) int64_t lastUpgradeTime;
 - (BOOL) isComplete;
+@property (readonly) StructOrientation orientation;
 
 + (FullUserStructureProto*) defaultInstance;
 - (FullUserStructureProto*) defaultInstance;
@@ -695,10 +794,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullUserStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (FullUserStructureProto_Builder*) setId:(int32_t) value;
-- (FullUserStructureProto_Builder*) clearId;
+- (BOOL) hasUserStructId;
+- (int32_t) userStructId;
+- (FullUserStructureProto_Builder*) setUserStructId:(int32_t) value;
+- (FullUserStructureProto_Builder*) clearUserStructId;
 
 - (BOOL) hasUserId;
 - (int32_t) userId;
@@ -732,10 +831,20 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullUserStructureProto_Builder*) setPurchaseTime:(int64_t) value;
 - (FullUserStructureProto_Builder*) clearPurchaseTime;
 
+- (BOOL) hasLastUpgradeTime;
+- (int64_t) lastUpgradeTime;
+- (FullUserStructureProto_Builder*) setLastUpgradeTime:(int64_t) value;
+- (FullUserStructureProto_Builder*) clearLastUpgradeTime;
+
 - (BOOL) hasIsComplete;
 - (BOOL) isComplete;
 - (FullUserStructureProto_Builder*) setIsComplete:(BOOL) value;
 - (FullUserStructureProto_Builder*) clearIsComplete;
+
+- (BOOL) hasOrientation;
+- (StructOrientation) orientation;
+- (FullUserStructureProto_Builder*) setOrientation:(StructOrientation) value;
+- (FullUserStructureProto_Builder*) clearOrientation;
 @end
 
 @interface FullUserEquipProto : PBGeneratedMessage {
@@ -815,63 +924,71 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface FullStructureProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
+  BOOL hasStructId_:1;
   BOOL hasIncome_:1;
   BOOL hasMinutesToGain_:1;
   BOOL hasMinutesToBuild_:1;
+  BOOL hasMinutesToUpgradeBase_:1;
   BOOL hasCoinPrice_:1;
   BOOL hasDiamondPrice_:1;
-  BOOL hasWoodPrice_:1;
   BOOL hasMinLevel_:1;
   BOOL hasXLength_:1;
   BOOL hasYLength_:1;
   BOOL hasUpgradeCoinCostBase_:1;
   BOOL hasUpgradeDiamondCostBase_:1;
-  BOOL hasUpgradeWoodCostBase_:1;
+  BOOL hasInstaBuildDiamondCostBase_:1;
+  BOOL hasInstaRetrieveDiamondCostBase_:1;
+  BOOL hasInstaUpgradeDiamondCostBase_:1;
   BOOL hasName_:1;
-  int32_t id;
+  int32_t structId;
   int32_t income;
   int32_t minutesToGain;
   int32_t minutesToBuild;
+  int32_t minutesToUpgradeBase;
   int32_t coinPrice;
   int32_t diamondPrice;
-  int32_t woodPrice;
   int32_t minLevel;
   int32_t xLength;
   int32_t yLength;
   int32_t upgradeCoinCostBase;
   int32_t upgradeDiamondCostBase;
-  int32_t upgradeWoodCostBase;
+  int32_t instaBuildDiamondCostBase;
+  int32_t instaRetrieveDiamondCostBase;
+  int32_t instaUpgradeDiamondCostBase;
   NSString* name;
 }
-- (BOOL) hasId;
+- (BOOL) hasStructId;
 - (BOOL) hasName;
 - (BOOL) hasIncome;
 - (BOOL) hasMinutesToGain;
 - (BOOL) hasMinutesToBuild;
+- (BOOL) hasMinutesToUpgradeBase;
 - (BOOL) hasCoinPrice;
 - (BOOL) hasDiamondPrice;
-- (BOOL) hasWoodPrice;
 - (BOOL) hasMinLevel;
 - (BOOL) hasXLength;
 - (BOOL) hasYLength;
 - (BOOL) hasUpgradeCoinCostBase;
 - (BOOL) hasUpgradeDiamondCostBase;
-- (BOOL) hasUpgradeWoodCostBase;
-@property (readonly) int32_t id;
+- (BOOL) hasInstaBuildDiamondCostBase;
+- (BOOL) hasInstaRetrieveDiamondCostBase;
+- (BOOL) hasInstaUpgradeDiamondCostBase;
+@property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t income;
 @property (readonly) int32_t minutesToGain;
 @property (readonly) int32_t minutesToBuild;
+@property (readonly) int32_t minutesToUpgradeBase;
 @property (readonly) int32_t coinPrice;
 @property (readonly) int32_t diamondPrice;
-@property (readonly) int32_t woodPrice;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t xLength;
 @property (readonly) int32_t yLength;
 @property (readonly) int32_t upgradeCoinCostBase;
 @property (readonly) int32_t upgradeDiamondCostBase;
-@property (readonly) int32_t upgradeWoodCostBase;
+@property (readonly) int32_t instaBuildDiamondCostBase;
+@property (readonly) int32_t instaRetrieveDiamondCostBase;
+@property (readonly) int32_t instaUpgradeDiamondCostBase;
 
 + (FullStructureProto*) defaultInstance;
 - (FullStructureProto*) defaultInstance;
@@ -907,10 +1024,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullStructureProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (FullStructureProto_Builder*) setId:(int32_t) value;
-- (FullStructureProto_Builder*) clearId;
+- (BOOL) hasStructId;
+- (int32_t) structId;
+- (FullStructureProto_Builder*) setStructId:(int32_t) value;
+- (FullStructureProto_Builder*) clearStructId;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -932,6 +1049,11 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullStructureProto_Builder*) setMinutesToBuild:(int32_t) value;
 - (FullStructureProto_Builder*) clearMinutesToBuild;
 
+- (BOOL) hasMinutesToUpgradeBase;
+- (int32_t) minutesToUpgradeBase;
+- (FullStructureProto_Builder*) setMinutesToUpgradeBase:(int32_t) value;
+- (FullStructureProto_Builder*) clearMinutesToUpgradeBase;
+
 - (BOOL) hasCoinPrice;
 - (int32_t) coinPrice;
 - (FullStructureProto_Builder*) setCoinPrice:(int32_t) value;
@@ -941,11 +1063,6 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) diamondPrice;
 - (FullStructureProto_Builder*) setDiamondPrice:(int32_t) value;
 - (FullStructureProto_Builder*) clearDiamondPrice;
-
-- (BOOL) hasWoodPrice;
-- (int32_t) woodPrice;
-- (FullStructureProto_Builder*) setWoodPrice:(int32_t) value;
-- (FullStructureProto_Builder*) clearWoodPrice;
 
 - (BOOL) hasMinLevel;
 - (int32_t) minLevel;
@@ -972,10 +1089,20 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullStructureProto_Builder*) setUpgradeDiamondCostBase:(int32_t) value;
 - (FullStructureProto_Builder*) clearUpgradeDiamondCostBase;
 
-- (BOOL) hasUpgradeWoodCostBase;
-- (int32_t) upgradeWoodCostBase;
-- (FullStructureProto_Builder*) setUpgradeWoodCostBase:(int32_t) value;
-- (FullStructureProto_Builder*) clearUpgradeWoodCostBase;
+- (BOOL) hasInstaBuildDiamondCostBase;
+- (int32_t) instaBuildDiamondCostBase;
+- (FullStructureProto_Builder*) setInstaBuildDiamondCostBase:(int32_t) value;
+- (FullStructureProto_Builder*) clearInstaBuildDiamondCostBase;
+
+- (BOOL) hasInstaRetrieveDiamondCostBase;
+- (int32_t) instaRetrieveDiamondCostBase;
+- (FullStructureProto_Builder*) setInstaRetrieveDiamondCostBase:(int32_t) value;
+- (FullStructureProto_Builder*) clearInstaRetrieveDiamondCostBase;
+
+- (BOOL) hasInstaUpgradeDiamondCostBase;
+- (int32_t) instaUpgradeDiamondCostBase;
+- (FullStructureProto_Builder*) setInstaUpgradeDiamondCostBase:(int32_t) value;
+- (FullStructureProto_Builder*) clearInstaUpgradeDiamondCostBase;
 @end
 
 @interface FullTaskProto : PBGeneratedMessage {
@@ -1195,23 +1322,23 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface FullCityProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
+  BOOL hasCityId_:1;
   BOOL hasMinLevel_:1;
   BOOL hasExpGainedBaseOnRankup_:1;
   BOOL hasCoinsGainedBaseOnRankup_:1;
   BOOL hasName_:1;
-  int32_t id;
+  int32_t cityId;
   int32_t minLevel;
   int32_t expGainedBaseOnRankup;
   int32_t coinsGainedBaseOnRankup;
   NSString* name;
 }
-- (BOOL) hasId;
+- (BOOL) hasCityId;
 - (BOOL) hasName;
 - (BOOL) hasMinLevel;
 - (BOOL) hasExpGainedBaseOnRankup;
 - (BOOL) hasCoinsGainedBaseOnRankup;
-@property (readonly) int32_t id;
+@property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t expGainedBaseOnRankup;
@@ -1251,10 +1378,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullCityProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullCityProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (FullCityProto_Builder*) setId:(int32_t) value;
-- (FullCityProto_Builder*) clearId;
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (FullCityProto_Builder*) setCityId:(int32_t) value;
+- (FullCityProto_Builder*) clearCityId;
 
 - (BOOL) hasName;
 - (NSString*) name;
@@ -1275,6 +1402,108 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) coinsGainedBaseOnRankup;
 - (FullCityProto_Builder*) setCoinsGainedBaseOnRankup:(int32_t) value;
 - (FullCityProto_Builder*) clearCoinsGainedBaseOnRankup;
+@end
+
+@interface FullUserCityExpansionDataProto : PBGeneratedMessage {
+@private
+  BOOL hasIsExpanding_:1;
+  BOOL hasLastExpandTime_:1;
+  BOOL hasUserId_:1;
+  BOOL hasNearLeftExpansions_:1;
+  BOOL hasFarLeftExpansions_:1;
+  BOOL hasFarRightExpansions_:1;
+  BOOL hasLastExpandDirection_:1;
+  BOOL isExpanding_:1;
+  int64_t lastExpandTime;
+  int32_t userId;
+  int32_t nearLeftExpansions;
+  int32_t farLeftExpansions;
+  int32_t farRightExpansions;
+  ExpansionDirection lastExpandDirection;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasNearLeftExpansions;
+- (BOOL) hasFarLeftExpansions;
+- (BOOL) hasFarRightExpansions;
+- (BOOL) hasIsExpanding;
+- (BOOL) hasLastExpandTime;
+- (BOOL) hasLastExpandDirection;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t nearLeftExpansions;
+@property (readonly) int32_t farLeftExpansions;
+@property (readonly) int32_t farRightExpansions;
+- (BOOL) isExpanding;
+@property (readonly) int64_t lastExpandTime;
+@property (readonly) ExpansionDirection lastExpandDirection;
+
++ (FullUserCityExpansionDataProto*) defaultInstance;
+- (FullUserCityExpansionDataProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FullUserCityExpansionDataProto_Builder*) builder;
++ (FullUserCityExpansionDataProto_Builder*) builder;
++ (FullUserCityExpansionDataProto_Builder*) builderWithPrototype:(FullUserCityExpansionDataProto*) prototype;
+
++ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data;
++ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input;
++ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FullUserCityExpansionDataProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FullUserCityExpansionDataProto* result;
+}
+
+- (FullUserCityExpansionDataProto*) defaultInstance;
+
+- (FullUserCityExpansionDataProto_Builder*) clear;
+- (FullUserCityExpansionDataProto_Builder*) clone;
+
+- (FullUserCityExpansionDataProto*) build;
+- (FullUserCityExpansionDataProto*) buildPartial;
+
+- (FullUserCityExpansionDataProto_Builder*) mergeFrom:(FullUserCityExpansionDataProto*) other;
+- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (FullUserCityExpansionDataProto_Builder*) setUserId:(int32_t) value;
+- (FullUserCityExpansionDataProto_Builder*) clearUserId;
+
+- (BOOL) hasNearLeftExpansions;
+- (int32_t) nearLeftExpansions;
+- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value;
+- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions;
+
+- (BOOL) hasFarLeftExpansions;
+- (int32_t) farLeftExpansions;
+- (FullUserCityExpansionDataProto_Builder*) setFarLeftExpansions:(int32_t) value;
+- (FullUserCityExpansionDataProto_Builder*) clearFarLeftExpansions;
+
+- (BOOL) hasFarRightExpansions;
+- (int32_t) farRightExpansions;
+- (FullUserCityExpansionDataProto_Builder*) setFarRightExpansions:(int32_t) value;
+- (FullUserCityExpansionDataProto_Builder*) clearFarRightExpansions;
+
+- (BOOL) hasIsExpanding;
+- (BOOL) isExpanding;
+- (FullUserCityExpansionDataProto_Builder*) setIsExpanding:(BOOL) value;
+- (FullUserCityExpansionDataProto_Builder*) clearIsExpanding;
+
+- (BOOL) hasLastExpandTime;
+- (int64_t) lastExpandTime;
+- (FullUserCityExpansionDataProto_Builder*) setLastExpandTime:(int64_t) value;
+- (FullUserCityExpansionDataProto_Builder*) clearLastExpandTime;
+
+- (BOOL) hasLastExpandDirection;
+- (ExpansionDirection) lastExpandDirection;
+- (FullUserCityExpansionDataProto_Builder*) setLastExpandDirection:(ExpansionDirection) value;
+- (FullUserCityExpansionDataProto_Builder*) clearLastExpandDirection;
 @end
 
 @interface CoordinateProto : PBGeneratedMessage {
@@ -1396,23 +1625,15 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   BOOL hasTimeOfPost_:1;
   BOOL hasMarketplacePostId_:1;
   BOOL hasPosterId_:1;
-  BOOL hasPostedWood_:1;
-  BOOL hasPostedDiamonds_:1;
-  BOOL hasPostedCoins_:1;
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
-  BOOL hasWoodCost_:1;
   BOOL hasPostedEquip_:1;
   BOOL hasPostType_:1;
   int64_t timeOfPost;
   int32_t marketplacePostId;
   int32_t posterId;
-  int32_t postedWood;
-  int32_t postedDiamonds;
-  int32_t postedCoins;
   int32_t diamondCost;
   int32_t coinCost;
-  int32_t woodCost;
   FullEquipProto* postedEquip;
   MarketplacePostType postType;
 }
@@ -1421,23 +1642,15 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasPostType;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasPostedEquip;
-- (BOOL) hasPostedWood;
-- (BOOL) hasPostedDiamonds;
-- (BOOL) hasPostedCoins;
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
-- (BOOL) hasWoodCost;
 @property (readonly) int32_t marketplacePostId;
 @property (readonly) int32_t posterId;
 @property (readonly) MarketplacePostType postType;
 @property (readonly) int64_t timeOfPost;
 @property (readonly, retain) FullEquipProto* postedEquip;
-@property (readonly) int32_t postedWood;
-@property (readonly) int32_t postedDiamonds;
-@property (readonly) int32_t postedCoins;
 @property (readonly) int32_t diamondCost;
 @property (readonly) int32_t coinCost;
-@property (readonly) int32_t woodCost;
 
 + (FullMarketplacePostProto*) defaultInstance;
 - (FullMarketplacePostProto*) defaultInstance;
@@ -1500,21 +1713,6 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullMarketplacePostProto_Builder*) mergePostedEquip:(FullEquipProto*) value;
 - (FullMarketplacePostProto_Builder*) clearPostedEquip;
 
-- (BOOL) hasPostedWood;
-- (int32_t) postedWood;
-- (FullMarketplacePostProto_Builder*) setPostedWood:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearPostedWood;
-
-- (BOOL) hasPostedDiamonds;
-- (int32_t) postedDiamonds;
-- (FullMarketplacePostProto_Builder*) setPostedDiamonds:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearPostedDiamonds;
-
-- (BOOL) hasPostedCoins;
-- (int32_t) postedCoins;
-- (FullMarketplacePostProto_Builder*) setPostedCoins:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearPostedCoins;
-
 - (BOOL) hasDiamondCost;
 - (int32_t) diamondCost;
 - (FullMarketplacePostProto_Builder*) setDiamondCost:(int32_t) value;
@@ -1524,11 +1722,74 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) coinCost;
 - (FullMarketplacePostProto_Builder*) setCoinCost:(int32_t) value;
 - (FullMarketplacePostProto_Builder*) clearCoinCost;
+@end
 
-- (BOOL) hasWoodCost;
-- (int32_t) woodCost;
-- (FullMarketplacePostProto_Builder*) setWoodCost:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearWoodCost;
+@interface FullUserCritstructProto : PBGeneratedMessage {
+@private
+  BOOL hasCoords_:1;
+  BOOL hasType_:1;
+  BOOL hasOrientation_:1;
+  CoordinateProto* coords;
+  CritStructType type;
+  StructOrientation orientation;
+}
+- (BOOL) hasType;
+- (BOOL) hasCoords;
+- (BOOL) hasOrientation;
+@property (readonly) CritStructType type;
+@property (readonly, retain) CoordinateProto* coords;
+@property (readonly) StructOrientation orientation;
+
++ (FullUserCritstructProto*) defaultInstance;
+- (FullUserCritstructProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FullUserCritstructProto_Builder*) builder;
++ (FullUserCritstructProto_Builder*) builder;
++ (FullUserCritstructProto_Builder*) builderWithPrototype:(FullUserCritstructProto*) prototype;
+
++ (FullUserCritstructProto*) parseFromData:(NSData*) data;
++ (FullUserCritstructProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserCritstructProto*) parseFromInputStream:(NSInputStream*) input;
++ (FullUserCritstructProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserCritstructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FullUserCritstructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FullUserCritstructProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FullUserCritstructProto* result;
+}
+
+- (FullUserCritstructProto*) defaultInstance;
+
+- (FullUserCritstructProto_Builder*) clear;
+- (FullUserCritstructProto_Builder*) clone;
+
+- (FullUserCritstructProto*) build;
+- (FullUserCritstructProto*) buildPartial;
+
+- (FullUserCritstructProto_Builder*) mergeFrom:(FullUserCritstructProto*) other;
+- (FullUserCritstructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FullUserCritstructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasType;
+- (CritStructType) type;
+- (FullUserCritstructProto_Builder*) setType:(CritStructType) value;
+- (FullUserCritstructProto_Builder*) clearType;
+
+- (BOOL) hasCoords;
+- (CoordinateProto*) coords;
+- (FullUserCritstructProto_Builder*) setCoords:(CoordinateProto*) value;
+- (FullUserCritstructProto_Builder*) setCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullUserCritstructProto_Builder*) mergeCoords:(CoordinateProto*) value;
+- (FullUserCritstructProto_Builder*) clearCoords;
+
+- (BOOL) hasOrientation;
+- (StructOrientation) orientation;
+- (FullUserCritstructProto_Builder*) setOrientation:(StructOrientation) value;
+- (FullUserCritstructProto_Builder*) clearOrientation;
 @end
 
 @interface MinimumUserTaskProto : PBGeneratedMessage {
@@ -1599,12 +1860,89 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (MinimumUserTaskProto_Builder*) clearNumTimesActed;
 @end
 
-@interface FullUserQuestDataLarge : PBGeneratedMessage {
+@interface MinimumUserQuestTaskProto : PBGeneratedMessage {
 @private
-  BOOL hasComplete_:1;
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
-  BOOL complete_:1;
+  BOOL hasNumTimesActed_:1;
+  BOOL hasTask_:1;
+  int32_t userId;
+  int32_t questId;
+  int32_t numTimesActed;
+  FullTaskProto* task;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasQuestId;
+- (BOOL) hasTask;
+- (BOOL) hasNumTimesActed;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t questId;
+@property (readonly, retain) FullTaskProto* task;
+@property (readonly) int32_t numTimesActed;
+
++ (MinimumUserQuestTaskProto*) defaultInstance;
+- (MinimumUserQuestTaskProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserQuestTaskProto_Builder*) builder;
++ (MinimumUserQuestTaskProto_Builder*) builder;
++ (MinimumUserQuestTaskProto_Builder*) builderWithPrototype:(MinimumUserQuestTaskProto*) prototype;
+
++ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data;
++ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserQuestTaskProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserQuestTaskProto* result;
+}
+
+- (MinimumUserQuestTaskProto*) defaultInstance;
+
+- (MinimumUserQuestTaskProto_Builder*) clear;
+- (MinimumUserQuestTaskProto_Builder*) clone;
+
+- (MinimumUserQuestTaskProto*) build;
+- (MinimumUserQuestTaskProto*) buildPartial;
+
+- (MinimumUserQuestTaskProto_Builder*) mergeFrom:(MinimumUserQuestTaskProto*) other;
+- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (MinimumUserQuestTaskProto_Builder*) setUserId:(int32_t) value;
+- (MinimumUserQuestTaskProto_Builder*) clearUserId;
+
+- (BOOL) hasQuestId;
+- (int32_t) questId;
+- (MinimumUserQuestTaskProto_Builder*) setQuestId:(int32_t) value;
+- (MinimumUserQuestTaskProto_Builder*) clearQuestId;
+
+- (BOOL) hasTask;
+- (FullTaskProto*) task;
+- (MinimumUserQuestTaskProto_Builder*) setTask:(FullTaskProto*) value;
+- (MinimumUserQuestTaskProto_Builder*) setTaskBuilder:(FullTaskProto_Builder*) builderForValue;
+- (MinimumUserQuestTaskProto_Builder*) mergeTask:(FullTaskProto*) value;
+- (MinimumUserQuestTaskProto_Builder*) clearTask;
+
+- (BOOL) hasNumTimesActed;
+- (int32_t) numTimesActed;
+- (MinimumUserQuestTaskProto_Builder*) setNumTimesActed:(int32_t) value;
+- (MinimumUserQuestTaskProto_Builder*) clearNumTimesActed;
+@end
+
+@interface FullUserQuestDataLargeProto : PBGeneratedMessage {
+@private
+  BOOL hasRedeemed_:1;
+  BOOL hasUserId_:1;
+  BOOL hasQuestId_:1;
+  BOOL redeemed_:1;
   int32_t userId;
   int32_t questId;
   NSMutableArray* mutableRequiredTasksProgressList;
@@ -1615,12 +1953,12 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
-- (BOOL) hasComplete;
+- (BOOL) hasRedeemed;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
-- (BOOL) complete;
+- (BOOL) redeemed;
 - (NSArray*) requiredTasksProgressList;
-- (MinimumUserTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
 - (NSArray*) requiredDefeatTypeJobProgressList;
 - (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index;
 - (NSArray*) requiredBuildStructJobProgressList;
@@ -1630,89 +1968,89 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (NSArray*) requiredPossessEquipJobProgressList;
 - (MinimumUserPossessEquipJobProto*) requiredPossessEquipJobProgressAtIndex:(int32_t) index;
 
-+ (FullUserQuestDataLarge*) defaultInstance;
-- (FullUserQuestDataLarge*) defaultInstance;
++ (FullUserQuestDataLargeProto*) defaultInstance;
+- (FullUserQuestDataLargeProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FullUserQuestDataLarge_Builder*) builder;
-+ (FullUserQuestDataLarge_Builder*) builder;
-+ (FullUserQuestDataLarge_Builder*) builderWithPrototype:(FullUserQuestDataLarge*) prototype;
+- (FullUserQuestDataLargeProto_Builder*) builder;
++ (FullUserQuestDataLargeProto_Builder*) builder;
++ (FullUserQuestDataLargeProto_Builder*) builderWithPrototype:(FullUserQuestDataLargeProto*) prototype;
 
-+ (FullUserQuestDataLarge*) parseFromData:(NSData*) data;
-+ (FullUserQuestDataLarge*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullUserQuestDataLarge*) parseFromInputStream:(NSInputStream*) input;
-+ (FullUserQuestDataLarge*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FullUserQuestDataLarge*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FullUserQuestDataLarge*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserQuestDataLargeProto*) parseFromData:(NSData*) data;
++ (FullUserQuestDataLargeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserQuestDataLargeProto*) parseFromInputStream:(NSInputStream*) input;
++ (FullUserQuestDataLargeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserQuestDataLargeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FullUserQuestDataLargeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface FullUserQuestDataLarge_Builder : PBGeneratedMessage_Builder {
+@interface FullUserQuestDataLargeProto_Builder : PBGeneratedMessage_Builder {
 @private
-  FullUserQuestDataLarge* result;
+  FullUserQuestDataLargeProto* result;
 }
 
-- (FullUserQuestDataLarge*) defaultInstance;
+- (FullUserQuestDataLargeProto*) defaultInstance;
 
-- (FullUserQuestDataLarge_Builder*) clear;
-- (FullUserQuestDataLarge_Builder*) clone;
+- (FullUserQuestDataLargeProto_Builder*) clear;
+- (FullUserQuestDataLargeProto_Builder*) clone;
 
-- (FullUserQuestDataLarge*) build;
-- (FullUserQuestDataLarge*) buildPartial;
+- (FullUserQuestDataLargeProto*) build;
+- (FullUserQuestDataLargeProto*) buildPartial;
 
-- (FullUserQuestDataLarge_Builder*) mergeFrom:(FullUserQuestDataLarge*) other;
-- (FullUserQuestDataLarge_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FullUserQuestDataLarge_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (FullUserQuestDataLargeProto_Builder*) mergeFrom:(FullUserQuestDataLargeProto*) other;
+- (FullUserQuestDataLargeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FullUserQuestDataLargeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasUserId;
 - (int32_t) userId;
-- (FullUserQuestDataLarge_Builder*) setUserId:(int32_t) value;
-- (FullUserQuestDataLarge_Builder*) clearUserId;
+- (FullUserQuestDataLargeProto_Builder*) setUserId:(int32_t) value;
+- (FullUserQuestDataLargeProto_Builder*) clearUserId;
 
 - (BOOL) hasQuestId;
 - (int32_t) questId;
-- (FullUserQuestDataLarge_Builder*) setQuestId:(int32_t) value;
-- (FullUserQuestDataLarge_Builder*) clearQuestId;
+- (FullUserQuestDataLargeProto_Builder*) setQuestId:(int32_t) value;
+- (FullUserQuestDataLargeProto_Builder*) clearQuestId;
 
-- (BOOL) hasComplete;
-- (BOOL) complete;
-- (FullUserQuestDataLarge_Builder*) setComplete:(BOOL) value;
-- (FullUserQuestDataLarge_Builder*) clearComplete;
+- (BOOL) hasRedeemed;
+- (BOOL) redeemed;
+- (FullUserQuestDataLargeProto_Builder*) setRedeemed:(BOOL) value;
+- (FullUserQuestDataLargeProto_Builder*) clearRedeemed;
 
 - (NSArray*) requiredTasksProgressList;
-- (MinimumUserTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
-- (FullUserQuestDataLarge_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserTaskProto*) value;
-- (FullUserQuestDataLarge_Builder*) addRequiredTasksProgress:(MinimumUserTaskProto*) value;
-- (FullUserQuestDataLarge_Builder*) addAllRequiredTasksProgress:(NSArray*) values;
-- (FullUserQuestDataLarge_Builder*) clearRequiredTasksProgressList;
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserQuestTaskProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values;
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList;
 
 - (NSArray*) requiredDefeatTypeJobProgressList;
 - (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index;
-- (FullUserQuestDataLarge_Builder*) replaceRequiredDefeatTypeJobProgressAtIndex:(int32_t) index with:(MinimumUserDefeatTypeJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addRequiredDefeatTypeJobProgress:(MinimumUserDefeatTypeJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addAllRequiredDefeatTypeJobProgress:(NSArray*) values;
-- (FullUserQuestDataLarge_Builder*) clearRequiredDefeatTypeJobProgressList;
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredDefeatTypeJobProgressAtIndex:(int32_t) index with:(MinimumUserDefeatTypeJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addRequiredDefeatTypeJobProgress:(MinimumUserDefeatTypeJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredDefeatTypeJobProgress:(NSArray*) values;
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredDefeatTypeJobProgressList;
 
 - (NSArray*) requiredBuildStructJobProgressList;
 - (MinimumUserBuildStructJobProto*) requiredBuildStructJobProgressAtIndex:(int32_t) index;
-- (FullUserQuestDataLarge_Builder*) replaceRequiredBuildStructJobProgressAtIndex:(int32_t) index with:(MinimumUserBuildStructJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addRequiredBuildStructJobProgress:(MinimumUserBuildStructJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addAllRequiredBuildStructJobProgress:(NSArray*) values;
-- (FullUserQuestDataLarge_Builder*) clearRequiredBuildStructJobProgressList;
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredBuildStructJobProgressAtIndex:(int32_t) index with:(MinimumUserBuildStructJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addRequiredBuildStructJobProgress:(MinimumUserBuildStructJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredBuildStructJobProgress:(NSArray*) values;
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredBuildStructJobProgressList;
 
 - (NSArray*) requiredUpgradeStructJobProgressList;
 - (MinimumUserUpgradeStructJobProto*) requiredUpgradeStructJobProgressAtIndex:(int32_t) index;
-- (FullUserQuestDataLarge_Builder*) replaceRequiredUpgradeStructJobProgressAtIndex:(int32_t) index with:(MinimumUserUpgradeStructJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addRequiredUpgradeStructJobProgress:(MinimumUserUpgradeStructJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addAllRequiredUpgradeStructJobProgress:(NSArray*) values;
-- (FullUserQuestDataLarge_Builder*) clearRequiredUpgradeStructJobProgressList;
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredUpgradeStructJobProgressAtIndex:(int32_t) index with:(MinimumUserUpgradeStructJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addRequiredUpgradeStructJobProgress:(MinimumUserUpgradeStructJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredUpgradeStructJobProgress:(NSArray*) values;
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredUpgradeStructJobProgressList;
 
 - (NSArray*) requiredPossessEquipJobProgressList;
 - (MinimumUserPossessEquipJobProto*) requiredPossessEquipJobProgressAtIndex:(int32_t) index;
-- (FullUserQuestDataLarge_Builder*) replaceRequiredPossessEquipJobProgressAtIndex:(int32_t) index with:(MinimumUserPossessEquipJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addRequiredPossessEquipJobProgress:(MinimumUserPossessEquipJobProto*) value;
-- (FullUserQuestDataLarge_Builder*) addAllRequiredPossessEquipJobProgress:(NSArray*) values;
-- (FullUserQuestDataLarge_Builder*) clearRequiredPossessEquipJobProgressList;
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredPossessEquipJobProgressAtIndex:(int32_t) index with:(MinimumUserPossessEquipJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addRequiredPossessEquipJobProgress:(MinimumUserPossessEquipJobProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredPossessEquipJobProgress:(NSArray*) values;
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredPossessEquipJobProgressList;
 @end
 
 @interface MinimumUserDefeatTypeJobProto : PBGeneratedMessage {
@@ -1794,20 +2132,20 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface DefeatTypeJobProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
+  BOOL hasDefeatTypeJobId_:1;
   BOOL hasNumEnemiesToDefeat_:1;
   BOOL hasCityId_:1;
   BOOL hasTypeOfEnemy_:1;
-  int32_t id;
+  int32_t defeatTypeJobId;
   int32_t numEnemiesToDefeat;
   int32_t cityId;
   UserType typeOfEnemy;
 }
-- (BOOL) hasId;
+- (BOOL) hasDefeatTypeJobId;
 - (BOOL) hasTypeOfEnemy;
 - (BOOL) hasNumEnemiesToDefeat;
 - (BOOL) hasCityId;
-@property (readonly) int32_t id;
+@property (readonly) int32_t defeatTypeJobId;
 @property (readonly) UserType typeOfEnemy;
 @property (readonly) int32_t numEnemiesToDefeat;
 @property (readonly) int32_t cityId;
@@ -1846,10 +2184,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (DefeatTypeJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (DefeatTypeJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (DefeatTypeJobProto_Builder*) setId:(int32_t) value;
-- (DefeatTypeJobProto_Builder*) clearId;
+- (BOOL) hasDefeatTypeJobId;
+- (int32_t) defeatTypeJobId;
+- (DefeatTypeJobProto_Builder*) setDefeatTypeJobId:(int32_t) value;
+- (DefeatTypeJobProto_Builder*) clearDefeatTypeJobId;
 
 - (BOOL) hasTypeOfEnemy;
 - (UserType) typeOfEnemy;
@@ -1946,17 +2284,17 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface BuildStructJobProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
+  BOOL hasBuildStructJobId_:1;
   BOOL hasStructId_:1;
   BOOL hasQuantityRequired_:1;
-  int32_t id;
+  int32_t buildStructJobId;
   int32_t structId;
   int32_t quantityRequired;
 }
-- (BOOL) hasId;
+- (BOOL) hasBuildStructJobId;
 - (BOOL) hasStructId;
 - (BOOL) hasQuantityRequired;
-@property (readonly) int32_t id;
+@property (readonly) int32_t buildStructJobId;
 @property (readonly) int32_t structId;
 @property (readonly) int32_t quantityRequired;
 
@@ -1994,10 +2332,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BuildStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (BuildStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (BuildStructJobProto_Builder*) setId:(int32_t) value;
-- (BuildStructJobProto_Builder*) clearId;
+- (BOOL) hasBuildStructJobId;
+- (int32_t) buildStructJobId;
+- (BuildStructJobProto_Builder*) setBuildStructJobId:(int32_t) value;
+- (BuildStructJobProto_Builder*) clearBuildStructJobId;
 
 - (BOOL) hasStructId;
 - (int32_t) structId;
@@ -2089,17 +2427,17 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface UpgradeStructJobProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
+  BOOL hasUpgradeStructJobId_:1;
   BOOL hasStructId_:1;
   BOOL hasLevelReq_:1;
-  int32_t id;
+  int32_t upgradeStructJobId;
   int32_t structId;
   int32_t levelReq;
 }
-- (BOOL) hasId;
+- (BOOL) hasUpgradeStructJobId;
 - (BOOL) hasStructId;
 - (BOOL) hasLevelReq;
-@property (readonly) int32_t id;
+@property (readonly) int32_t upgradeStructJobId;
 @property (readonly) int32_t structId;
 @property (readonly) int32_t levelReq;
 
@@ -2137,10 +2475,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (UpgradeStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (UpgradeStructJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (UpgradeStructJobProto_Builder*) setId:(int32_t) value;
-- (UpgradeStructJobProto_Builder*) clearId;
+- (BOOL) hasUpgradeStructJobId;
+- (int32_t) upgradeStructJobId;
+- (UpgradeStructJobProto_Builder*) setUpgradeStructJobId:(int32_t) value;
+- (UpgradeStructJobProto_Builder*) clearUpgradeStructJobId;
 
 - (BOOL) hasStructId;
 - (int32_t) structId;
@@ -2155,23 +2493,23 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface MinimumUserPossessEquipJobProto : PBGeneratedMessage {
 @private
-  BOOL hasIsComplete_:1;
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
+  BOOL hasNumEquipUserHas_:1;
   BOOL hasPossessEquipJobProto_:1;
-  BOOL isComplete_:1;
   int32_t userId;
   int32_t questId;
+  int32_t numEquipUserHas;
   PossessEquipJobProto* possessEquipJobProto;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
 - (BOOL) hasPossessEquipJobProto;
-- (BOOL) hasIsComplete;
+- (BOOL) hasNumEquipUserHas;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
 @property (readonly, retain) PossessEquipJobProto* possessEquipJobProto;
-- (BOOL) isComplete;
+@property (readonly) int32_t numEquipUserHas;
 
 + (MinimumUserPossessEquipJobProto*) defaultInstance;
 - (MinimumUserPossessEquipJobProto*) defaultInstance;
@@ -2224,25 +2562,25 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (MinimumUserPossessEquipJobProto_Builder*) mergePossessEquipJobProto:(PossessEquipJobProto*) value;
 - (MinimumUserPossessEquipJobProto_Builder*) clearPossessEquipJobProto;
 
-- (BOOL) hasIsComplete;
-- (BOOL) isComplete;
-- (MinimumUserPossessEquipJobProto_Builder*) setIsComplete:(BOOL) value;
-- (MinimumUserPossessEquipJobProto_Builder*) clearIsComplete;
+- (BOOL) hasNumEquipUserHas;
+- (int32_t) numEquipUserHas;
+- (MinimumUserPossessEquipJobProto_Builder*) setNumEquipUserHas:(int32_t) value;
+- (MinimumUserPossessEquipJobProto_Builder*) clearNumEquipUserHas;
 @end
 
 @interface PossessEquipJobProto : PBGeneratedMessage {
 @private
-  BOOL hasId_:1;
+  BOOL hasPossessEquipJobId_:1;
   BOOL hasEquipId_:1;
   BOOL hasQuantityReq_:1;
-  int32_t id;
+  int32_t possessEquipJobId;
   int32_t equipId;
   int32_t quantityReq;
 }
-- (BOOL) hasId;
+- (BOOL) hasPossessEquipJobId;
 - (BOOL) hasEquipId;
 - (BOOL) hasQuantityReq;
-@property (readonly) int32_t id;
+@property (readonly) int32_t possessEquipJobId;
 @property (readonly) int32_t equipId;
 @property (readonly) int32_t quantityReq;
 
@@ -2280,10 +2618,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (PossessEquipJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PossessEquipJobProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (PossessEquipJobProto_Builder*) setId:(int32_t) value;
-- (PossessEquipJobProto_Builder*) clearId;
+- (BOOL) hasPossessEquipJobId;
+- (int32_t) possessEquipJobId;
+- (PossessEquipJobProto_Builder*) setPossessEquipJobId:(int32_t) value;
+- (PossessEquipJobProto_Builder*) clearPossessEquipJobId;
 
 - (BOOL) hasEquipId;
 - (int32_t) equipId;
@@ -2300,24 +2638,22 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @private
   BOOL hasEquipIdGained_:1;
   BOOL hasExpGained_:1;
-  BOOL hasWoodGained_:1;
   BOOL hasDiamondsGained_:1;
   BOOL hasCoinsGained_:1;
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasCityId_:1;
-  BOOL hasId_:1;
+  BOOL hasQuestId_:1;
   BOOL hasInProgress_:1;
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
   int32_t equipIdGained;
   int32_t expGained;
-  int32_t woodGained;
   int32_t diamondsGained;
   int32_t coinsGained;
   int32_t assetNumWithinCity;
   int32_t cityId;
-  int32_t id;
+  int32_t questId;
   NSString* inProgress;
   NSString* doneResponse;
   NSString* description;
@@ -2329,7 +2665,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   NSMutableArray* mutableDefeatTypeReqsList;
   NSMutableArray* mutablePossessEquipJobReqsList;
 }
-- (BOOL) hasId;
+- (BOOL) hasQuestId;
 - (BOOL) hasCityId;
 - (BOOL) hasName;
 - (BOOL) hasDescription;
@@ -2338,10 +2674,9 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasCoinsGained;
 - (BOOL) hasDiamondsGained;
-- (BOOL) hasWoodGained;
 - (BOOL) hasExpGained;
 - (BOOL) hasEquipIdGained;
-@property (readonly) int32_t id;
+@property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* description;
@@ -2350,7 +2685,6 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t coinsGained;
 @property (readonly) int32_t diamondsGained;
-@property (readonly) int32_t woodGained;
 @property (readonly) int32_t expGained;
 @property (readonly) int32_t equipIdGained;
 - (NSArray*) questsRequiredForThisList;
@@ -2400,10 +2734,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (FullQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (FullQuestProto_Builder*) setId:(int32_t) value;
-- (FullQuestProto_Builder*) clearId;
+- (BOOL) hasQuestId;
+- (int32_t) questId;
+- (FullQuestProto_Builder*) setQuestId:(int32_t) value;
+- (FullQuestProto_Builder*) clearQuestId;
 
 - (BOOL) hasCityId;
 - (int32_t) cityId;
@@ -2444,11 +2778,6 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) diamondsGained;
 - (FullQuestProto_Builder*) setDiamondsGained:(int32_t) value;
 - (FullQuestProto_Builder*) clearDiamondsGained;
-
-- (BOOL) hasWoodGained;
-- (int32_t) woodGained;
-- (FullQuestProto_Builder*) setWoodGained:(int32_t) value;
-- (FullQuestProto_Builder*) clearWoodGained;
 
 - (BOOL) hasExpGained;
 - (int32_t) expGained;

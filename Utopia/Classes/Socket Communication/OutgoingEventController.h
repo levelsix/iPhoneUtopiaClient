@@ -28,10 +28,7 @@
 - (void) retrieveMoreMarketplacePosts;
 - (void) retrieveMostRecentPostsFromSender;
 - (void) retrieveMoreMarketplacePostsFromSender;
-- (void) coinPostToMarketplace:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
-- (void) woodPostToMarketplace:(int)woodPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
-- (void) diamondPostToMarketplace:(int)dmdPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
-- (void) equipPostToMarketplace:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
+- (void) equipPostToMarketplace:(int)equipId wood:(int)wood silver:(int)silver gold:(int)gold;
 - (void) retractMarketplacePost: (int)postId;
 - (void) purchaseFromMarketplace: (int)postId;
 - (void) redeemMarketplaceEarnings;
@@ -47,5 +44,9 @@
 
 - (void) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
 - (void) moveNormStruct:(int)userStructId atX:(int)x atY:(int)y;
+
+- (void) retrieveAllStaticData;
+
+- (void) loadPlayerCity:(int)userId;
 
 @end

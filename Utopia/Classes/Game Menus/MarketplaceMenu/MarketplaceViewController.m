@@ -30,7 +30,7 @@
 @synthesize goldLabel, silverLabel, woodLabel;
 @synthesize attStatLabel, defStatLabel;
 @synthesize state = _state;
-@synthesize mktProto;
+@synthesize mktProto, equip;
 
 - (void) awakeFromNib {
   [super awakeFromNib];
@@ -40,10 +40,7 @@
   
   [self setState:kSellingEquipState];
   
-  UIFont *font = [UIFont fontWithName:[GameState font] size:13];
-  self.goldField.font = font;
-  self.silverField.font = font;
-  self.woodField.font = font;
+  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.goldField, self.silverField, self.woodField, self.goldLabel, self.silverLabel, self.woodLabel, self.attStatLabel, self.defStatLabel, self.postTitle, nil];
 }
 
 - (void) setState:(MarketCellState)state {
@@ -109,37 +106,7 @@
   }
 }
 
-- (void) showCurrencyPost: (FullMarketplacePostProto *)proto {
-  if ([proto posterId] == [[GameState sharedGameState] userId]) {
-    self.state = kMySellingCurrencyState;
-  } else {
-    self.state = kSellingCurrencyState;
-  }
-  self.goldLabel.text = [self truncateInt:[proto diamondCost]];
-  self.silverLabel.text = [self truncateInt:[proto coinCost]];
-  self.woodLabel.text = [self truncateInt:[proto woodCost]];
-  
-  NSString *title;
-  switch (proto.postType) {
-    case MarketplacePostTypeCoinPost:
-      title = [NSString stringWithFormat:@"%@ Silver", [self truncateInt:proto.postedCoins]];
-      break;
-    case MarketplacePostTypeDiamondPost:
-      title = [NSString stringWithFormat:@"%@ Gold", [self truncateInt:proto.postedDiamonds]];
-      break;
-    case MarketplacePostTypeWoodPost:
-      title = [NSString stringWithFormat:@"%@ Wood", [self truncateInt:proto.postedWood]];
-      break;
-      
-    default:
-      break;
-  }
-  self.postTitle.text = title;
-  self.mktProto = proto;
-}
-
 - (void) showEquipPost: (FullMarketplacePostProto *)proto {
-  
   if ([proto posterId] == [[GameState sharedGameState] userId]) {
     self.state = kMySellingEquipState;
   } else {
@@ -147,11 +114,22 @@
   }
   self.goldLabel.text = [self truncateInt:[proto diamondCost]];
   self.silverLabel.text = [self truncateInt:[proto coinCost]];
-  self.woodLabel.text = [self truncateInt:[proto woodCost]];
   self.attStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.attackBoost];
   self.defStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.defenseBoost];
   self.postTitle.text = proto.postedEquip.name;
   self.mktProto = proto;
+  self.equip = nil;
+}
+
+- (void) showEquipListing:(UserEquip *)eq {
+  self.state = kListState;
+  
+  FullEquipProto *fullEq = [[GameState sharedGameState] equipWithId:eq.equipId];
+  self.postTitle.text = fullEq.name;
+  self.mktProto = nil;
+  self.equip = eq;
+  self.attStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.attackBoost];
+  self.defStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.defenseBoost];
 }
 
 - (NSString *) truncateInt:(int)num {
@@ -191,6 +169,7 @@
 
 - (void) dealloc {
   self.mktProto = nil;
+  self.equip = nil;
   [super dealloc];
 }
 
@@ -214,6 +193,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize doneButton, listAnItemButton;
 @synthesize redeemView;
 @synthesize redeemGoldLabel, redeemWoodLabel, redeemSilverLabel;
+@synthesize redeemTitleLabel, redeemCollectLabel, redeemYouHaveLabel;
 @synthesize ropeView, leftRope, rightRope, leftRopeFirstRow, rightRopeFirstRow;
 
 - (void) viewDidLoad {
@@ -251,12 +231,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
   [self.postsTableView insertSubview:rightRopeFirstRow belowSubview:self.ropeView];
   
+  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.removeGoldLabel, self.removeSilverLabel, self.removeWoodLabel, self.redeemGoldLabel, self.redeemSilverLabel, self.redeemWoodLabel, self.redeemCollectLabel, self.redeemYouHaveLabel, nil];
+  [Globals adjustFontSizeForSize:self.redeemTitleLabel.font.pointSize withUIView:self.redeemTitleLabel];
+  [Globals adjustFontSizeForSize:self.refreshLabel.font.pointSize withUIView:self.refreshLabel];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
-  [self reloadRowsFrom:0];
   self.postsTableView.scrollEnabled = YES;
   
   [self setState:kEquipBuyingState];
@@ -269,14 +251,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (void) displayRedeemView {
   GameState *gs = [GameState sharedGameState];
-  if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings || gs.marketplaceWoodEarnings) {
+  if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings) {
     self.redeemView.frame = CGRectMake(0, -self.redeemView.frame.size.height, self.redeemView.frame.size.width, self.redeemView.frame.size.height);
     
     self.postsTableView.userInteractionEnabled = NO;
     self.redeemView.hidden = NO;
     self.redeemGoldLabel.text = [self truncateInt:gs.marketplaceGoldEarnings];
     self.redeemSilverLabel.text = [self truncateInt:gs.marketplaceSilverEarnings];
-    self.redeemWoodLabel.text = [self truncateInt:gs.marketplaceWoodEarnings];
     
     CGRect tmp = self.redeemView.frame;
     tmp.origin.y = CGRectGetMaxY(self.navBar.frame)-13;
@@ -325,6 +306,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
 }
 
+- (IBAction)submitClicked:(id)sender {
+  ItemPostView *post = (ItemPostView *)[[(UIButton *)sender superview] superview];
+  if (post.equip) {
+    [self disableEditing];
+    int wood = [self untruncateString:post.woodField.text];
+    int silver = [self untruncateString:post.silverField.text];
+    int gold = [self untruncateString:post.goldField.text];
+    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId wood:wood silver:silver gold:gold];
+  }
+}
+
 - (IBAction)minusButtonClicked:(id)sender {
   if (!listing) {
     // Need to do 2 superviews: first one gives UITableViewCellContentView, second one gives ItemPostView
@@ -345,7 +337,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     Globals *gl = [Globals sharedGlobals];
     self.removeGoldLabel.text = [post truncateInt:(int)ceilf(mkt.diamondCost * gl.retractPercentCut)];
     self.removeSilverLabel.text = [post truncateInt:(int)ceilf(mkt.coinCost * gl.retractPercentCut)];
-    self.removeWoodLabel.text = [post truncateInt:(int)ceilf(mkt.woodCost * gl.retractPercentCut)];
     
     NSIndexPath *indexPath = [self.postsTableView indexPathForCell:post];
     
@@ -399,12 +390,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)doneClicked:(id)sender{
-  [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
-  
-  if (self.state == kEquipSellingState) {
-    self.state = kEquipBuyingState;
-  } else if (self.state == kCurrencySellingState) {
-    self.state = kCurrencyBuyingState;
+  if (self.listing) {
+    [self disableEditing];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
+    
+    if (self.state == kEquipSellingState) {
+      self.state = kEquipBuyingState;
+    } else if (self.state == kCurrencySellingState) {
+      self.state = kCurrencyBuyingState;
+    }
   }
 }
 
@@ -430,7 +425,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  int rows = [[self postsForState] count]+1;
+  NSArray *a = [self postsForState];
+  int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] : 0;
+  int rows = [a count]+extra+1;
   if (rows > 1) {
     self.leftRope.alpha = 1.f;
     self.rightRope.alpha = 1.f;
@@ -471,7 +468,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
   
   if ([cell isKindOfClass:[ItemPostView class]]) {
-    FullMarketplacePostProto *p = [[self postsForState] objectAtIndex:indexPath.row-1];
+    NSArray *a = [self postsForState];
+    if (state == kEquipSellingState && indexPath.row > a.count) {
+      [(ItemPostView *)cell showEquipListing:[[[GameState sharedGameState] myEquips] objectAtIndex:indexPath.row-a.count-1]];
+      return cell;
+    }
+    
+    FullMarketplacePostProto *p = [a objectAtIndex:indexPath.row-1];
     switch (state) {
       case kEquipBuyingState:
       case kEquipSellingState:
@@ -570,8 +573,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if ([textField.text isEqualToString: @"0"]) {
     textField.text = @"";
   } else {
-    NSLog(@"%@",[self untruncateString:textField.text] );
-    textField.text = [self untruncateString:textField.text];
+    textField.text = [NSString stringWithFormat:@"%d", [self untruncateString:textField.text]];
   }
   
   self.postsTableView.scrollEnabled = NO;
@@ -673,21 +675,77 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     }
     [self stopLoading];
     self.postsTableView.contentOffset = CGPointMake(0, 0);
-    [self reloadRowsFrom:0];
+    [self resetAllRows];
     self.removeView.hidden = YES;
     self.buyButtonView.hidden = YES;
   }
 }
 
-- (void) reloadRowsFrom:(int)start {
-  [self.postsTableView reloadData];
+- (void) insertRowsFrom:(int)start {
   NSMutableArray *arr = [[NSMutableArray alloc] init];
-  for (int i = start; i < MIN([self.postsTableView numberOfRowsInSection:0],((int)self.postsTableView.frame.size.height/self.postsTableView.rowHeight)+1+start); i++) {
+  
+  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
+  int old = [self.postsTableView numberOfRowsInSection:0];
+  int numRows = new - old;
+  [self.postsTableView beginUpdates];
+  if (old ==  0) {
+    [self.postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    start = 1;
+    numRows -= 1;
+  }
+  for (int i = start; i < start+numRows; i++) {
     [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
   }
-  [self.postsTableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationBottom];
+  if (arr.count > 0) {
+    [self.postsTableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationTop];
+  }
+  [self.postsTableView endUpdates];
   [arr release];
   self.shouldReload = YES;
+}
+
+- (void) deleteRows:(int)start {
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  
+  int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
+  int old = [self.postsTableView numberOfRowsInSection:0];
+  int numRows = old - new;
+  
+  if (new == 0) {
+    start = 0;
+  }
+  for (int i = start; i < start+numRows; i++) {
+    [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  }
+  if (arr.count > 0) {
+    [self.postsTableView deleteRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationBottom];
+  }
+  [arr release];
+}
+
+- (void) resetAllRows {
+  NSMutableArray *del = [[NSMutableArray alloc] init];
+  NSMutableArray *ins = [[NSMutableArray alloc] init];
+  
+  int numRows = [self.postsTableView numberOfRowsInSection:0];
+  for (int i = 0; i < numRows; i++) {
+    [del addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  }
+  numRows = [self tableView:self.postsTableView numberOfRowsInSection:0];
+  for (int i = 0; i < numRows; i++) {
+    [ins addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+  }
+  
+  [self.postsTableView beginUpdates];
+  if (del.count > 0) {
+    [self.postsTableView deleteRowsAtIndexPaths:del withRowAnimation:UITableViewRowAnimationTop];
+  }
+  if (ins.count > 0) {
+    [self.postsTableView insertRowsAtIndexPaths:ins withRowAnimation:UITableViewRowAnimationTop];
+  }
+  [self.postsTableView endUpdates];
+  [del release];
+  [ins release];
 }
 
 - (NSMutableArray *) postsForState {
@@ -714,43 +772,44 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (NSString *) truncateString:(NSString *)num {
-  NSString *s = [num stringByReplacingOccurrencesOfString:@"," withString:@""];
-  
-  if (s.length > 3) {
-    NSMutableString *sig = [NSMutableString stringWithString:[s substringToIndex:3]];
+  if (num.length > 3) {
+    NSMutableString *sig = [NSMutableString stringWithString:[num substringToIndex:3]];
     NSString *end;
     
     // Get end character
-    if (s.length > 6) {
+    if (num.length > 6) {
       end = @"M";
     } else {
       end = @"K";
     }
     
-    if (s.length % 3 == 1) {
+    if (num.length % 3 == 1) {
       [sig insertString:@"." atIndex:1];
-    } else if (s.length % 3 == 2) {
+    } else if (num.length % 3 == 2) {
       [sig insertString:@"." atIndex:2];
     }
     
     [sig appendString:end];
     
-    s = sig;
+    num = sig;
   }
-  return s;
+  return num;
 }
 
-- (NSString *) untruncateString:(NSString *)trunc {
+- (int) untruncateString:(NSString *)trunc {
   char x = [trunc characterAtIndex:[trunc length]-1];
   int mult = 1;
+  int charAtEnd = 0;
   if (x == 'K') {
     mult = 1000;
+    charAtEnd = 1;
   } else if (x == 'M') {
     mult = 1000000;
-  }
+    charAtEnd = 1;
+  } 
   
-  float y = [[trunc substringToIndex:[trunc length]-1] floatValue];
-  return [NSString stringWithFormat:@"%d", (int)(mult*y)];
+  float y = [[trunc substringToIndex:[trunc length]-charAtEnd] floatValue];
+  return (int)(mult*y);
   //[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:(int)(mult*y)] numberStyle:NSNumberFormatterDecimalStyle];
 }
 

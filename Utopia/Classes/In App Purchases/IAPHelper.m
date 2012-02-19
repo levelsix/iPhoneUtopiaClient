@@ -9,10 +9,10 @@
 #import "IAPHelper.h"
 #import "Protocols.pb.h"
 #import "SocketCommunication.h"
+#import "Globals.h"
 
 @implementation IAPHelper
 
-@synthesize productIdentifiers = _productIdentifiers;
 @synthesize products = _products;
 @synthesize request = _request;
 
@@ -30,14 +30,6 @@ static IAPHelper * _sharedHelper;
 
 - (id)init {
   if ((self = [super init])) {
-    self.productIdentifiers = [NSSet setWithObjects:
-                               @"com.lvl6.utopia.fewdiamonds",
-                               @"com.lvl6.utopia.morediamonds",
-                               @"com.lvl6.utopia.quitesomediamonds",
-                               @"com.lvl6.utopia.rackdiamonds",
-                               @"com.lvl6.utopia.shittondiamonds",
-                               @"com.lvl6.utopia.toomanydiamonds",
-                               nil];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
   }
   return self;
@@ -45,7 +37,7 @@ static IAPHelper * _sharedHelper;
 
 - (void)requestProducts {
   
-  self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:_productIdentifiers] autorelease];
+  self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:[[Globals sharedGlobals] productIdentifiers]] autorelease];
   _request.delegate = self;
   [_request start];
   
@@ -141,8 +133,6 @@ static IAPHelper * _sharedHelper;
 
 - (void)dealloc
 {
-  [_productIdentifiers release];
-  _productIdentifiers = nil;
   [_products release];
   _products = nil;
   [_request release];

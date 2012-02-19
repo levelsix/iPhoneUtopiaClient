@@ -69,7 +69,6 @@
   CGFloat dashPattern[] = {3.f, 2.f};
 	CGContextSetLineDash(context, 0, dashPattern, 2);
 	
-	// Draw a horizontal line, vertical line, rectangle and circle for comparison
   int max = self.contentSize.height - self.botGradient.frame.size.height;
   for (int x = self.topGradient.frame.size.height+QUEST_ITEM_HEIGHT; x < max; x += QUEST_ITEM_HEIGHT) {
     CGContextMoveToPoint(context, 0.0, x);
@@ -176,8 +175,9 @@
 - (void) updateWebView {
   NSLog(@"updating..");
   NSString *p = @"<style type=\"text/css\">"
-  "#id1 {font-size:9px;font-family : AJensonPro-BoldCapt;}"
-  "g { color : green; } go { color : #FFCC00; } pi { color : #FF0099; }</style></head><body>"
+  "#id1 {font-size:9px;font-family : AJensonPro-BoldCapt; -webkit-user-select: none;}"
+  "g { color : green; } go { color : #FFCC00; } pi { color : #FF0099; }"
+  "</style></head><body>"
   "<span id=\"id1\">%d%% chance of <g>Regular</g><br>"
   "%d%% chance of <go>Special</go><br>"
   "%d%% chance of <pi>Epic</pi></span>";
@@ -412,21 +412,6 @@
 @synthesize taskView, questDescView, questListView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
-
-- (id)init {
-  
-  if ((self = [super initWithNibName:nil bundle:nil])) {
-  }
-  return self;
-}
-
-- (void)didReceiveMemoryWarning
-{
-  // Releases the view if it doesn't have a superview.
-  [super didReceiveMemoryWarning];
-  
-  // Release any cached data, images, etc that aren't in use.
-}
 
 #pragma mark - View lifecycle
 

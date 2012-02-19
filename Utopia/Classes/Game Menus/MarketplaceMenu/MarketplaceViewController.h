@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "PullRefreshTableViewController.h"
+#import "UserData.h"
 
 typedef enum {
   kSellingEquipState = 1,
@@ -43,9 +44,11 @@ typedef enum {
 
 @property (nonatomic, assign) MarketCellState state;
 @property (nonatomic, retain) FullMarketplacePostProto *mktProto;
+@property (nonatomic, retain) UserEquip *equip;
 
 - (void) showEquipPost: (FullMarketplacePostProto *)proto;
 - (void) showCurrencyPost: (FullMarketplacePostProto *)proto;
+- (void) showEquipListing: (FullUserEquipProto *)proto;
 - (NSString *) truncateInt:(int)num;
 
 @end
@@ -75,6 +78,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *redeemGoldLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemSilverLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemWoodLabel;
+@property (nonatomic, retain) IBOutlet UILabel *redeemTitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *redeemYouHaveLabel;
+@property (nonatomic, retain) IBOutlet UILabel *redeemCollectLabel;
 @property (nonatomic, retain) IBOutlet UIView *ropeView;
 @property (nonatomic, retain) IBOutlet UIView *leftRope;
 @property (nonatomic, retain) IBOutlet UIView *rightRope;
@@ -95,8 +101,10 @@ typedef enum {
 - (void) disableEditing;
 - (NSString *) truncateString:(NSString *)num;
 - (NSString *) truncateInt:(int)num;
-- (NSString *) untruncateString:(NSString *)trunc;
-- (void) reloadRowsFrom:(int)start;
+- (int) untruncateString:(NSString *)trunc;
+- (void) insertRowsFrom:(int)start;
+- (void) deleteRows:(int)start;
+- (void) resetAllRows;
 - (NSMutableArray *) postsForState;
 - (void) displayRedeemView;
 

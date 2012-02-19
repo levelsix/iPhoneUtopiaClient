@@ -11,6 +11,7 @@
 #import "IncomingEventController.h"
 #import "UIDevice+IdentifierAddition.h"
 #import "GameState.h"
+#import "OutgoingEventController.h"
 
 #define HOST_NAME @"localhost"
 #define HOST_PORT 8888
@@ -40,30 +41,49 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 	}
 }
 
+- (void) rebuildSender {
+  [_sender release];
+  GameState *gs = [GameState sharedGameState];
+  _sender = [[[[[[MinimumUserProto builder] 
+                 setUserId:gs.userId] 
+                setName:gs.name] 
+               setUserType:gs.type] 
+              build] retain];
+}
+
 - (void) initNetworkCommunication {
   _asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
   [self connectToSocket];
-  
-  _sender = [[[[[[MinimumUserProto builder] 
-                 setUserId:[GameState sharedGameState].userId] 
-                setName:@"Ashwin"] 
-               setUserType: UserTypeBadArcher] 
-              build] retain];
+  [self rebuildSender];
   
   //  for (int i = 0; i < 150; i++) {
   //    [self sendCoinPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
   //    [self sendWoodPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
   //    [self sendDiamondPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
   //  }
-  //  [self sendStartupMessage];
+  [self sendStartupMessage];
+  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:2];
   //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
   //  [self sendTaskActionMessage:2];
-
-  [self sendSellNormStructureMessage:4];
-  [self sendSellNormStructureMessage:2];
-  [self sendSellNormStructureMessage:5];
+  
+  //  double y = [[NSDate date] timeIntervalSince1970];
+  //  uint64_t x = (uint64_t)(y*1000);
+  
+  //  [self sendPurchaseNormStructureMessage:3 x:3 y:3];
+  //  [self sendPurchaseNormStructureMessage:2 x:3 y:3];
+  //  [self sendPurchaseNormStructureMessage:1 x:3 y:3];
+  //  [self sendFinishNormStructBuildWithDiamondsMessage:18 time:x type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
+  //  [self sendUpgradeNormStructureMessage:13];
+  //  [self sendUpgradeNormStructureMessage:14];
+  //  [self sendUpgradeNormStructureMessage:15];
+  //  [self sendSellNormStructureMessage:11];
+  //  [self sendSellNormStructureMessage:12];
+  //  [self sendNormStructBuildsCompleteMessage:[NSArray arrayWithObjects:[NSNumber numberWithInt:15],nil]];
+  //  [self sendRetrieveCurrencyFromNormStructureMessage:4 time:[[NSDate date] timeIntervalSince1970]];
+  
+  //  [self sendRetrieveStaticDataMessageWithStructIds:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
 }
 
 - (void) readHeader {
@@ -110,7 +130,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   // Call handle<Proto Class> method in event controller
   SEL handleMethod = NSSelectorFromString([NSString stringWithFormat:@"handle%@:", [typeClass description]]);
   if ([ec respondsToSelector:handleMethod]) {
-    [ec performSelector:handleMethod withObject:[typeClass parseFromData: data]];
+    [ec performSelectorOnMainThread:handleMethod withObject:[typeClass parseFromData: data] waitUntilDone:NO];
   }
   
 }
@@ -174,7 +194,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendStartupMessage {
-  NSString *udid = [[UIDevice currentDevice] uniqueDeviceIdentifier];
+  NSString *udid = @"42d1cadaa64dbf3c3e8133e652a2df06";//[[UIDevice currentDevice] uniqueDeviceIdentifier];
   StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
                                      setUdid:udid] 
                                     setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]] build];
@@ -210,50 +230,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[[mktReq build] data] withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
 }
 
-- (void) sendCoinPostToMarketplaceMessage:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
-  PostToMarketplaceRequestProto *mktReq = [[[[[[[[PostToMarketplaceRequestProto builder]
-                                                 setPostType:MarketplacePostTypeCoinPost]
-                                                setPostedCoins:coinPost]
-                                               setWoodCost:wood]
-                                              setCoinCost:coins]
-                                             setDiamondCost:diamonds]
-                                            setSender:_sender]
-                                           build];
-  
-  [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPostToMarketplaceEvent];
-}
-
-- (void) sendWoodPostToMarketplaceMessage:(int)woodPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
-  PostToMarketplaceRequestProto *mktReq = [[[[[[[[PostToMarketplaceRequestProto builder]
-                                                 setPostType:MarketplacePostTypeWoodPost]
-                                                setPostedWood:woodPost]
-                                               setWoodCost:wood]
-                                              setCoinCost:coins]
-                                             setDiamondCost:diamonds]
-                                            setSender:_sender]
-                                           build];
-  
-  [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPostToMarketplaceEvent];
-}
-
-- (void) sendDiamondPostToMarketplaceMessage:(int)dmdPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
-  PostToMarketplaceRequestProto *mktReq = [[[[[[[[PostToMarketplaceRequestProto builder]
-                                                 setPostType:MarketplacePostTypeDiamondPost]
-                                                setPostedDiamonds:dmdPost]
-                                               setWoodCost:wood]
-                                              setCoinCost:coins]
-                                             setDiamondCost:diamonds]
-                                            setSender:_sender]
-                                           build];
-  
-  [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPostToMarketplaceEvent];
-}
-
 - (void) sendEquipPostToMarketplaceMessage:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
-  PostToMarketplaceRequestProto *mktReq = [[[[[[[[PostToMarketplaceRequestProto builder]
-                                                 setPostType:MarketplacePostTypeEquipPost]
-                                                setPostedEquipId:equipId]
-                                               setWoodCost:wood]
+  PostToMarketplaceRequestProto *mktReq = [[[[[[PostToMarketplaceRequestProto builder]
+                                               setPostedEquipId:equipId]
                                               setCoinCost:coins]
                                              setDiamondCost:diamonds]
                                             setSender:_sender]
@@ -279,6 +258,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                                  build];
   
   [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPurchaseFromMarketplaceEvent];
+}
+
+- (void) sendRedeemMarketplaceEarningsMessage {
+  RedeemMarketplaceEarningsRequestProto *redReq = [[[RedeemMarketplaceEarningsRequestProto builder]
+                                                    setSender:_sender]
+                                                   build];
+  
+  [self sendData:[redReq data] withMessageType:EventProtocolRequestCRedeemMarketplaceEarningsEvent];
 }
 
 - (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType{
@@ -318,13 +305,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
-  MoveNormStructureRequestProto *movReq = [[[[[MoveNormStructureRequestProto builder]
-                                              setSender:_sender]
-                                             setUserStructId:userStructId]
-                                            setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
-                                           build];
+  MoveOrRotateNormStructureRequestProto *movReq = 
+  [[[[[[MoveOrRotateNormStructureRequestProto builder]
+       setSender:_sender]
+      setUserStructId:userStructId]
+     setType:MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove]
+    setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
+   build];
   
-  [self sendData:[movReq data] withMessageType:EventProtocolRequestCMoveNormStructureEvent];
+  [self sendData:[movReq data] withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
 - (void) sendUpgradeNormStructureMessage:(int)userStructId {
@@ -333,29 +322,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                               setUserStructId:userStructId]
                                              build];
   
-  [self sendData:[upReq data] withMessageType:EventProtocolResponseSUpgradeNormStructureEvent];
+  [self sendData:[upReq data] withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
 }
 
-- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(long)seconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type {
+- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds {
+  NormStructWaitCompleteRequestProto *buildReq = [[[[NormStructWaitCompleteRequestProto builder]
+                                                    setSender:_sender]
+                                                   addAllUserStructId:userStructIds]
+                                                  build];
+  
+  [self sendData:[buildReq data] withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];
+}
+
+- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type {
   FinishNormStructWaittimeWithDiamondsRequestProto *finReq = 
   [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
        setSender:_sender]
       setUserStructId:userStructId]
-     setTimeOfPurchase:seconds]
+     setTimeOfPurchase:milliseconds]
     setWaitTimeType:type]
    build];
   
-  [self sendData:[finReq data] withMessageType:EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent];
+  [self sendData:[finReq data] withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
 }
 
-- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(long)seconds {
+- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds {
   RetrieveCurrencyFromNormStructureRequestProto *retReq = [[[[[RetrieveCurrencyFromNormStructureRequestProto builder]
                                                               setSender:_sender]
                                                              setUserStructId:userStructId]
-                                                            setTimeOfRetrieval:seconds]
+                                                            setTimeOfRetrieval:milliseconds]
                                                            build];
   
-  [self sendData:[retReq data] withMessageType:EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent];
+  [self sendData:[retReq data] withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
 }
 
 - (void) sendSellNormStructureMessage:(int)userStructId {
@@ -364,7 +362,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                              setUserStructId:userStructId]
                                             build];
   
-  [self sendData:[sellReq data] withMessageType:EventProtocolResponseSSellNormStructureEvent];
+  [self sendData:[sellReq data] withMessageType:EventProtocolRequestCSellNormStructureEvent];
 }
 
 - (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup {
@@ -373,15 +371,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                           setCityOwner:mup]
                                          build];
   
-  [self sendData:[loadReq data] withMessageType:EventProtocolResponseSLoadPlayerCityEvent];
+  [self sendData:[loadReq data] withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
 }
 
-- (void) sendRedeemMarketplaceEarningsMessage {
-  RedeemMarketplaceEarningsRequestProto *redReq = [[[RedeemMarketplaceEarningsRequestProto builder]
-                                                    setSender:_sender]
-                                                   build];
+- (void) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds {
+  RetrieveStaticDataRequestProto_Builder *blder = [RetrieveStaticDataRequestProto builder];
   
-  [self sendData:[redReq data] withMessageType:EventProtocolResponseSRedeemMarketplaceEarningsEvent];
+  if (structIds) {
+    [blder addAllStructIds:structIds];
+  }
+  if (taskIds) {
+    [blder addAllTaskIds:taskIds];
+  }
+  if (questIds) {
+    [blder addAllQuestIds:questIds];
+  }
+  if (cityIds) {
+    [blder addAllCityIds:cityIds];
+  }
+  if (equipIds) {
+    [blder addAllEquipIds:equipIds];
+  }
+  if (buildStructJobIds) {
+    [blder addAllBuildStructJobIds:buildStructJobIds];
+  }
+  if (defeatTypeJobIds) {
+    [blder addAllDefeatTypeJobIds:defeatTypeJobIds];
+  }
+  if (possessEquipJobIds) {
+    [blder addAllPossessEquipJobIds:possessEquipJobIds];
+  }
+  if (upgradeStructJobIds) {
+    [blder addAllUpgradeStructJobIds:upgradeStructJobIds];
+  }
+  
+  [blder setSender:_sender];
+  RetrieveStaticDataRequestProto *retReq = [blder build];
+  [self sendData:[retReq data] withMessageType:EventProtocolRequestCRetrieveStaticDataEvent];
 }
 
 - (void) closeDownConnection {

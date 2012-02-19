@@ -28,6 +28,10 @@
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class ExpansionWaitCompleteRequestProto;
+@class ExpansionWaitCompleteRequestProto_Builder;
+@class ExpansionWaitCompleteResponseProto;
+@class ExpansionWaitCompleteResponseProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsRequestProto;
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
@@ -46,12 +50,16 @@
 @class FullTaskProto_Builder;
 @class FullTaskProto_FullTaskEquipReqProto;
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
+@class FullUserCityExpansionDataProto;
+@class FullUserCityExpansionDataProto_Builder;
+@class FullUserCritstructProto;
+@class FullUserCritstructProto_Builder;
 @class FullUserEquipProto;
 @class FullUserEquipProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserQuestDataLarge;
-@class FullUserQuestDataLarge_Builder;
+@class FullUserQuestDataLargeProto;
+@class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class GenerateAttackListRequestProto;
@@ -78,24 +86,30 @@
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProto_Builder;
+@class MinimumUserQuestTaskProto;
+@class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
-@class MoveNormStructureRequestProto;
-@class MoveNormStructureRequestProto_Builder;
-@class MoveNormStructureResponseProto;
-@class MoveNormStructureResponseProto_Builder;
-@class NormStructBuildsCompleteRequestProto;
-@class NormStructBuildsCompleteRequestProto_Builder;
-@class NormStructBuildsCompleteResponseProto;
-@class NormStructBuildsCompleteResponseProto_Builder;
+@class MoveOrRotateNormStructureRequestProto;
+@class MoveOrRotateNormStructureRequestProto_Builder;
+@class MoveOrRotateNormStructureResponseProto;
+@class MoveOrRotateNormStructureResponseProto_Builder;
+@class NormStructWaitCompleteRequestProto;
+@class NormStructWaitCompleteRequestProto_Builder;
+@class NormStructWaitCompleteResponseProto;
+@class NormStructWaitCompleteResponseProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
 @class PostToMarketplaceRequestProto;
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
 @class PostToMarketplaceResponseProto_Builder;
+@class PurchaseCityExpansionRequestProto;
+@class PurchaseCityExpansionRequestProto_Builder;
+@class PurchaseCityExpansionResponseProto;
+@class PurchaseCityExpansionResponseProto_Builder;
 @class PurchaseFromMarketplaceRequestProto;
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
@@ -108,10 +122,6 @@
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
 @class QuestAcceptResponseProto_Builder;
-@class QuestCheckCompleteRequestProto;
-@class QuestCheckCompleteRequestProto_Builder;
-@class QuestCheckCompleteResponseProto;
-@class QuestCheckCompleteResponseProto_Builder;
 @class QuestCompleteResponseProto;
 @class QuestCompleteResponseProto_Builder;
 @class QuestLogDetailsRequestProto;
@@ -126,6 +136,10 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class RefillStatWaitCompleteRequestProto;
+@class RefillStatWaitCompleteRequestProto_Builder;
+@class RefillStatWaitCompleteResponseProto;
+@class RefillStatWaitCompleteResponseProto_Builder;
 @class RefillStatWithDiamondsRequestProto;
 @class RefillStatWithDiamondsRequestProto_Builder;
 @class RefillStatWithDiamondsResponseProto;
@@ -252,7 +266,7 @@ typedef enum {
   TaskActionResponseProto_TaskActionStatusSuccess = 0,
   TaskActionResponseProto_TaskActionStatusUserNotEnoughEnergy = 1,
   TaskActionResponseProto_TaskActionStatusUserNotAllRequiredItems = 2,
-  TaskActionResponseProto_TaskActionStatusInvalidTaskId = 3,
+  TaskActionResponseProto_TaskActionStatusOtherFail = 3,
 } TaskActionResponseProto_TaskActionStatus;
 
 BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProto_TaskActionStatus value);
@@ -261,17 +275,25 @@ typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess = 0,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughMaterials = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow = 2,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 3,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAnotherStructStillBuilding = 3,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 4,
 } PurchaseNormStructureResponseProto_PurchaseNormStructureStatus;
 
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
 
 typedef enum {
-  MoveNormStructureResponseProto_MoveNormStructureStatusSuccess = 0,
-  MoveNormStructureResponseProto_MoveNormStructureStatusFail = 1,
-} MoveNormStructureResponseProto_MoveNormStructureStatus;
+  MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeMove = 0,
+  MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeRotate = 1,
+} MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType;
 
-BOOL MoveNormStructureResponseProto_MoveNormStructureStatusIsValidValue(MoveNormStructureResponseProto_MoveNormStructureStatus value);
+BOOL MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeIsValidValue(MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType value);
+
+typedef enum {
+  MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess = 0,
+  MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusOtherFail = 2,
+} MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus;
+
+BOOL MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusIsValidValue(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus value);
 
 typedef enum {
   SellNormStructureResponseProto_SellNormStructureStatusSuccess = 0,
@@ -282,10 +304,11 @@ BOOL SellNormStructureResponseProto_SellNormStructureStatusIsValidValue(SellNorm
 
 typedef enum {
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess = 0,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughDiamonds = 1,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughCoins = 2,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughWood = 3,
-  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail = 4,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotEnoughMaterials = 1,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotBuiltYet = 2,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotUsersStruct = 3,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading = 4,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail = 5,
 } UpgradeNormStructureResponseProto_UpgradeNormStructureStatus;
 
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
@@ -299,21 +322,46 @@ typedef enum {
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
 
 typedef enum {
-  CriticalStructureActionRequestProto_CritStructActionPlace = 1,
-  CriticalStructureActionRequestProto_CritStructActionMove = 2,
-} CriticalStructureActionRequestProto_CritStructAction;
+  CriticalStructureActionRequestProto_CritStructActionTypePlace = 0,
+  CriticalStructureActionRequestProto_CritStructActionTypeMove = 1,
+  CriticalStructureActionRequestProto_CritStructActionTypeRotate = 2,
+} CriticalStructureActionRequestProto_CritStructActionType;
 
-BOOL CriticalStructureActionRequestProto_CritStructActionIsValidValue(CriticalStructureActionRequestProto_CritStructAction value);
+BOOL CriticalStructureActionRequestProto_CritStructActionTypeIsValidValue(CriticalStructureActionRequestProto_CritStructActionType value);
 
 typedef enum {
-  CriticalStructureActionResponseProto_CriticalStructureActionSuccess = 0,
-  CriticalStructureActionResponseProto_CriticalStructureActionCannotPlaceNonPlaceableCritStruct = 1,
-  CriticalStructureActionResponseProto_CriticalStructureActionNotAccessibleToUsersLevel = 2,
-  CriticalStructureActionResponseProto_CriticalStructureActionCannotMoveAviary = 3,
-  CriticalStructureActionResponseProto_CriticalStructureActionOtherFail = 4,
-} CriticalStructureActionResponseProto_CriticalStructureAction;
+  CriticalStructureActionResponseProto_CritStructActionStatusSuccess = 0,
+  CriticalStructureActionResponseProto_CritStructActionStatusCannotPlaceNonPlaceableCritStruct = 1,
+  CriticalStructureActionResponseProto_CritStructActionStatusNotAccessibleToUsersLevel = 2,
+  CriticalStructureActionResponseProto_CritStructActionStatusCannotMoveAviary = 3,
+  CriticalStructureActionResponseProto_CritStructActionStatusOtherFail = 4,
+} CriticalStructureActionResponseProto_CritStructActionStatus;
 
-BOOL CriticalStructureActionResponseProto_CriticalStructureActionIsValidValue(CriticalStructureActionResponseProto_CriticalStructureAction value);
+BOOL CriticalStructureActionResponseProto_CritStructActionStatusIsValidValue(CriticalStructureActionResponseProto_CritStructActionStatus value);
+
+typedef enum {
+  FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction = 0,
+  FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishIncomeWaittime = 1,
+  FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade = 2,
+} FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType;
+
+BOOL FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeIsValidValue(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType value);
+
+typedef enum {
+  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess = 0,
+  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds = 1,
+  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail = 2,
+} FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus;
+
+BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value);
+
+typedef enum {
+  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess = 0,
+  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusNotDoneYet = 1,
+  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusOtherFail = 2,
+} NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus;
+
+BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value);
 
 typedef enum {
   InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 0,
@@ -329,10 +377,9 @@ typedef enum {
   PostToMarketplaceResponseProto_PostToMarketplaceStatusNegativeCost = 3,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusNoCost = 4,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts = 5,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughWood = 6,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughDiamonds = 7,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughCoins = 8,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 9,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth = 6,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost = 7,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 8,
 } PostToMarketplaceResponseProto_PostToMarketplaceStatus;
 
 BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMarketplaceResponseProto_PostToMarketplaceStatus value);
@@ -341,9 +388,8 @@ typedef enum {
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess = 0,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotRequestersPost = 1,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists = 2,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughWood = 3,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds = 4,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins = 5,
+  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds = 3,
+  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins = 4,
 } RetractMarketplacePostResponseProto_RetractMarketplacePostStatus;
 
 BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValue(RetractMarketplacePostResponseProto_RetractMarketplacePostStatus value);
@@ -386,32 +432,11 @@ BOOL RefillStatWithDiamondsRequestProto_StatTypeIsValidValue(RefillStatWithDiamo
 typedef enum {
   RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess = 0,
   RefillStatWithDiamondsResponseProto_RefillStatStatusNotEnoughDiamonds = 1,
-  RefillStatWithDiamondsResponseProto_RefillStatStatusOtherFail = 2,
+  RefillStatWithDiamondsResponseProto_RefillStatStatusAlreadyMax = 2,
+  RefillStatWithDiamondsResponseProto_RefillStatStatusOtherFail = 3,
 } RefillStatWithDiamondsResponseProto_RefillStatStatus;
 
 BOOL RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(RefillStatWithDiamondsResponseProto_RefillStatStatus value);
-
-typedef enum {
-  FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction = 0,
-  FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishIncomeWaittime = 1,
-} FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType;
-
-BOOL FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeIsValidValue(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType value);
-
-typedef enum {
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess = 0,
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds = 1,
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail = 2,
-} FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus;
-
-BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value);
-
-typedef enum {
-  NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusSuccess = 0,
-  NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusOtherFail = 1,
-} NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus;
-
-BOOL NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatusIsValidValue(NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus value);
 
 typedef enum {
   RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess = 0,
@@ -445,16 +470,8 @@ typedef enum {
 BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseProto_QuestRedeemStatus value);
 
 typedef enum {
-  QuestCheckCompleteResponseProto_QuestCompleteStatusComplete = 0,
-  QuestCheckCompleteResponseProto_QuestCompleteStatusNotComplete = 1,
-  QuestCheckCompleteResponseProto_QuestCompleteStatusOtherFail = 2,
-} QuestCheckCompleteResponseProto_QuestCompleteStatus;
-
-BOOL QuestCheckCompleteResponseProto_QuestCompleteStatusIsValidValue(QuestCheckCompleteResponseProto_QuestCompleteStatus value);
-
-typedef enum {
   QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess = 0,
-  QuestLogDetailsResponseProto_QuestLogDetailsStatusOtherFail = 1,
+  QuestLogDetailsResponseProto_QuestLogDetailsStatusSomeFail = 1,
 } QuestLogDetailsResponseProto_QuestLogDetailsStatus;
 
 BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDetailsResponseProto_QuestLogDetailsStatus value);
@@ -465,6 +482,40 @@ typedef enum {
 } RetrieveStaticDataResponseProto_RetrieveStaticDataStatus;
 
 BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus value);
+
+typedef enum {
+  PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess = 0,
+  PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusNotEnoughCoins = 1,
+  PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusAlreadyExpanding = 2,
+  PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusOtherFail = 3,
+} PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus;
+
+BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus value);
+
+typedef enum {
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusSuccess = 0,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusWasNotExpanding = 1,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusNotDoneYet = 2,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusOtherFail = 3,
+} ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus;
+
+BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus value);
+
+typedef enum {
+  RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeEnergy = 0,
+  RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeStamina = 1,
+} RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType;
+
+BOOL RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeIsValidValue(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType value);
+
+typedef enum {
+  RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess = 0,
+  RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusNotReadyYet = 1,
+  RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusAlreadyMax = 2,
+  RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusOtherFail = 3,
+} RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus;
+
+BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValue(RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -603,10 +654,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 
 @interface BattleRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCurTime_:1;
   BOOL hasNeutralCityId_:1;
   BOOL hasAttacker_:1;
   BOOL hasDefender_:1;
   BOOL hasBattleResult_:1;
+  int64_t curTime;
   int32_t neutralCityId;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
@@ -616,10 +669,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (BOOL) hasDefender;
 - (BOOL) hasBattleResult;
 - (BOOL) hasNeutralCityId;
+- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) BattleRequestProto_BattleResult battleResult;
 @property (readonly) int32_t neutralCityId;
+@property (readonly) int64_t curTime;
 
 + (BattleRequestProto*) defaultInstance;
 - (BattleRequestProto*) defaultInstance;
@@ -678,6 +733,11 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (int32_t) neutralCityId;
 - (BattleRequestProto_Builder*) setNeutralCityId:(int32_t) value;
 - (BattleRequestProto_Builder*) clearNeutralCityId;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (BattleRequestProto_Builder*) setCurTime:(int64_t) value;
+- (BattleRequestProto_Builder*) clearCurTime;
 @end
 
 @interface BattleResponseProto : PBGeneratedMessage {
@@ -1122,6 +1182,9 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
   NSMutableArray* mutableInProgressQuestsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableUserStructuresList;
+  NSMutableArray* mutableStructsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1139,6 +1202,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
 - (NSArray*) userEquipsList;
 - (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
+- (NSArray*) equipsList;
+- (FullEquipProto*) equipsAtIndex:(int32_t) index;
+- (NSArray*) userStructuresList;
+- (FullUserStructureProto*) userStructuresAtIndex:(int32_t) index;
+- (NSArray*) structsList;
+- (FullStructureProto*) structsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1165,7 +1234,6 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
   int32_t diamondCostForEnergyRefill;
   int32_t diamondCostForStaminaRefill;
   int32_t maxItemUsePerBattle;
-  NSMutableArray* mutableProductPricesList;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
@@ -1179,8 +1247,6 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
 - (int32_t) productDiamondsGivenAtIndex:(int32_t) index;
-- (NSArray*) productPricesList;
-- (Float64) productPricesAtIndex:(int32_t) index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -1229,13 +1295,6 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (StartupResponseProto_StartupConstants_Builder*) addProductDiamondsGiven:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) addAllProductDiamondsGiven:(NSArray*) values;
 - (StartupResponseProto_StartupConstants_Builder*) clearProductDiamondsGivenList;
-
-- (NSArray*) productPricesList;
-- (Float64) productPricesAtIndex:(int32_t) index;
-- (StartupResponseProto_StartupConstants_Builder*) replaceProductPricesAtIndex:(int32_t) index with:(Float64) value;
-- (StartupResponseProto_StartupConstants_Builder*) addProductPrices:(Float64) value;
-- (StartupResponseProto_StartupConstants_Builder*) addAllProductPrices:(NSArray*) values;
-- (StartupResponseProto_StartupConstants_Builder*) clearProductPricesList;
 
 - (BOOL) hasDiamondCostForEnergyRefill;
 - (int32_t) diamondCostForEnergyRefill;
@@ -1321,6 +1380,27 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (StartupResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value;
 - (StartupResponseProto_Builder*) addAllUserEquips:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserEquipsList;
+
+- (NSArray*) equipsList;
+- (FullEquipProto*) equipsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) addEquips:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) addAllEquips:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearEquipsList;
+
+- (NSArray*) userStructuresList;
+- (FullUserStructureProto*) userStructuresAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUserStructuresAtIndex:(int32_t) index with:(FullUserStructureProto*) value;
+- (StartupResponseProto_Builder*) addUserStructures:(FullUserStructureProto*) value;
+- (StartupResponseProto_Builder*) addAllUserStructures:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUserStructuresList;
+
+- (NSArray*) structsList;
+- (FullStructureProto*) structsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
+- (StartupResponseProto_Builder*) addStructs:(FullStructureProto*) value;
+- (StartupResponseProto_Builder*) addAllStructs:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearStructsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -1803,15 +1883,19 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 
 @interface TaskActionRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCurTime_:1;
   BOOL hasTaskId_:1;
   BOOL hasSender_:1;
+  int64_t curTime;
   int32_t taskId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasTaskId;
+- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t taskId;
+@property (readonly) int64_t curTime;
 
 + (TaskActionRequestProto*) defaultInstance;
 - (TaskActionRequestProto*) defaultInstance;
@@ -1858,6 +1942,11 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (int32_t) taskId;
 - (TaskActionRequestProto_Builder*) setTaskId:(int32_t) value;
 - (TaskActionRequestProto_Builder*) clearTaskId;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (TaskActionRequestProto_Builder*) setCurTime:(int64_t) value;
+- (TaskActionRequestProto_Builder*) clearCurTime;
 @end
 
 @interface TaskActionResponseProto : PBGeneratedMessage {
@@ -1975,9 +2064,11 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 
 @interface PurchaseNormStructureRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasTimeOfPurchase_:1;
   BOOL hasStructId_:1;
   BOOL hasSender_:1;
   BOOL hasStructCoordinates_:1;
+  int64_t timeOfPurchase;
   int32_t structId;
   MinimumUserProto* sender;
   CoordinateProto* structCoordinates;
@@ -1985,9 +2076,11 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (BOOL) hasSender;
 - (BOOL) hasStructCoordinates;
 - (BOOL) hasStructId;
+- (BOOL) hasTimeOfPurchase;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) CoordinateProto* structCoordinates;
 @property (readonly) int32_t structId;
+@property (readonly) int64_t timeOfPurchase;
 
 + (PurchaseNormStructureRequestProto*) defaultInstance;
 - (PurchaseNormStructureRequestProto*) defaultInstance;
@@ -2041,6 +2134,11 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (int32_t) structId;
 - (PurchaseNormStructureRequestProto_Builder*) setStructId:(int32_t) value;
 - (PurchaseNormStructureRequestProto_Builder*) clearStructId;
+
+- (BOOL) hasTimeOfPurchase;
+- (int64_t) timeOfPurchase;
+- (PurchaseNormStructureRequestProto_Builder*) setTimeOfPurchase:(int64_t) value;
+- (PurchaseNormStructureRequestProto_Builder*) clearTimeOfPurchase;
 @end
 
 @interface PurchaseNormStructureResponseProto : PBGeneratedMessage {
@@ -2111,133 +2209,151 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (PurchaseNormStructureResponseProto_Builder*) clearUserStructId;
 @end
 
-@interface MoveNormStructureRequestProto : PBGeneratedMessage {
+@interface MoveOrRotateNormStructureRequestProto : PBGeneratedMessage {
 @private
   BOOL hasUserStructId_:1;
   BOOL hasSender_:1;
   BOOL hasCurStructCoordinates_:1;
+  BOOL hasType_:1;
+  BOOL hasNewOrientation_:1;
   int32_t userStructId;
   MinimumUserProto* sender;
   CoordinateProto* curStructCoordinates;
+  MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
+  StructOrientation newOrientation;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserStructId;
+- (BOOL) hasType;
 - (BOOL) hasCurStructCoordinates;
+- (BOOL) hasNewOrientation;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
+@property (readonly) MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType type;
 @property (readonly, retain) CoordinateProto* curStructCoordinates;
+@property (readonly) StructOrientation newOrientation;
 
-+ (MoveNormStructureRequestProto*) defaultInstance;
-- (MoveNormStructureRequestProto*) defaultInstance;
++ (MoveOrRotateNormStructureRequestProto*) defaultInstance;
+- (MoveOrRotateNormStructureRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MoveNormStructureRequestProto_Builder*) builder;
-+ (MoveNormStructureRequestProto_Builder*) builder;
-+ (MoveNormStructureRequestProto_Builder*) builderWithPrototype:(MoveNormStructureRequestProto*) prototype;
+- (MoveOrRotateNormStructureRequestProto_Builder*) builder;
++ (MoveOrRotateNormStructureRequestProto_Builder*) builder;
++ (MoveOrRotateNormStructureRequestProto_Builder*) builderWithPrototype:(MoveOrRotateNormStructureRequestProto*) prototype;
 
-+ (MoveNormStructureRequestProto*) parseFromData:(NSData*) data;
-+ (MoveNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MoveNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (MoveNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MoveNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MoveNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoveOrRotateNormStructureRequestProto*) parseFromData:(NSData*) data;
++ (MoveOrRotateNormStructureRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoveOrRotateNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (MoveOrRotateNormStructureRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoveOrRotateNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MoveOrRotateNormStructureRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MoveNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface MoveOrRotateNormStructureRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  MoveNormStructureRequestProto* result;
+  MoveOrRotateNormStructureRequestProto* result;
 }
 
-- (MoveNormStructureRequestProto*) defaultInstance;
+- (MoveOrRotateNormStructureRequestProto*) defaultInstance;
 
-- (MoveNormStructureRequestProto_Builder*) clear;
-- (MoveNormStructureRequestProto_Builder*) clone;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clear;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clone;
 
-- (MoveNormStructureRequestProto*) build;
-- (MoveNormStructureRequestProto*) buildPartial;
+- (MoveOrRotateNormStructureRequestProto*) build;
+- (MoveOrRotateNormStructureRequestProto*) buildPartial;
 
-- (MoveNormStructureRequestProto_Builder*) mergeFrom:(MoveNormStructureRequestProto*) other;
-- (MoveNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MoveNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (MoveOrRotateNormStructureRequestProto_Builder*) mergeFrom:(MoveOrRotateNormStructureRequestProto*) other;
+- (MoveOrRotateNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MoveOrRotateNormStructureRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (MoveNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (MoveNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (MoveNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (MoveNormStructureRequestProto_Builder*) clearSender;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MoveOrRotateNormStructureRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearSender;
 
 - (BOOL) hasUserStructId;
 - (int32_t) userStructId;
-- (MoveNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (MoveNormStructureRequestProto_Builder*) clearUserStructId;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearUserStructId;
+
+- (BOOL) hasType;
+- (MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) type;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setType:(MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructType) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearType;
 
 - (BOOL) hasCurStructCoordinates;
 - (CoordinateProto*) curStructCoordinates;
-- (MoveNormStructureRequestProto_Builder*) setCurStructCoordinates:(CoordinateProto*) value;
-- (MoveNormStructureRequestProto_Builder*) setCurStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
-- (MoveNormStructureRequestProto_Builder*) mergeCurStructCoordinates:(CoordinateProto*) value;
-- (MoveNormStructureRequestProto_Builder*) clearCurStructCoordinates;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setCurStructCoordinates:(CoordinateProto*) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setCurStructCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
+- (MoveOrRotateNormStructureRequestProto_Builder*) mergeCurStructCoordinates:(CoordinateProto*) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearCurStructCoordinates;
+
+- (BOOL) hasNewOrientation;
+- (StructOrientation) newOrientation;
+- (MoveOrRotateNormStructureRequestProto_Builder*) setNewOrientation:(StructOrientation) value;
+- (MoveOrRotateNormStructureRequestProto_Builder*) clearNewOrientation;
 @end
 
-@interface MoveNormStructureResponseProto : PBGeneratedMessage {
+@interface MoveOrRotateNormStructureResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  MoveNormStructureResponseProto_MoveNormStructureStatus status;
+  MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) MoveNormStructureResponseProto_MoveNormStructureStatus status;
+@property (readonly) MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus status;
 
-+ (MoveNormStructureResponseProto*) defaultInstance;
-- (MoveNormStructureResponseProto*) defaultInstance;
++ (MoveOrRotateNormStructureResponseProto*) defaultInstance;
+- (MoveOrRotateNormStructureResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MoveNormStructureResponseProto_Builder*) builder;
-+ (MoveNormStructureResponseProto_Builder*) builder;
-+ (MoveNormStructureResponseProto_Builder*) builderWithPrototype:(MoveNormStructureResponseProto*) prototype;
+- (MoveOrRotateNormStructureResponseProto_Builder*) builder;
++ (MoveOrRotateNormStructureResponseProto_Builder*) builder;
++ (MoveOrRotateNormStructureResponseProto_Builder*) builderWithPrototype:(MoveOrRotateNormStructureResponseProto*) prototype;
 
-+ (MoveNormStructureResponseProto*) parseFromData:(NSData*) data;
-+ (MoveNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MoveNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (MoveNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MoveNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MoveNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoveOrRotateNormStructureResponseProto*) parseFromData:(NSData*) data;
++ (MoveOrRotateNormStructureResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoveOrRotateNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (MoveOrRotateNormStructureResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MoveOrRotateNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MoveOrRotateNormStructureResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface MoveNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface MoveOrRotateNormStructureResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  MoveNormStructureResponseProto* result;
+  MoveOrRotateNormStructureResponseProto* result;
 }
 
-- (MoveNormStructureResponseProto*) defaultInstance;
+- (MoveOrRotateNormStructureResponseProto*) defaultInstance;
 
-- (MoveNormStructureResponseProto_Builder*) clear;
-- (MoveNormStructureResponseProto_Builder*) clone;
+- (MoveOrRotateNormStructureResponseProto_Builder*) clear;
+- (MoveOrRotateNormStructureResponseProto_Builder*) clone;
 
-- (MoveNormStructureResponseProto*) build;
-- (MoveNormStructureResponseProto*) buildPartial;
+- (MoveOrRotateNormStructureResponseProto*) build;
+- (MoveOrRotateNormStructureResponseProto*) buildPartial;
 
-- (MoveNormStructureResponseProto_Builder*) mergeFrom:(MoveNormStructureResponseProto*) other;
-- (MoveNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MoveNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (MoveOrRotateNormStructureResponseProto_Builder*) mergeFrom:(MoveOrRotateNormStructureResponseProto*) other;
+- (MoveOrRotateNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MoveOrRotateNormStructureResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (MoveNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (MoveNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (MoveNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (MoveNormStructureResponseProto_Builder*) clearSender;
+- (MoveOrRotateNormStructureResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (MoveOrRotateNormStructureResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MoveOrRotateNormStructureResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (MoveOrRotateNormStructureResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (MoveNormStructureResponseProto_MoveNormStructureStatus) status;
-- (MoveNormStructureResponseProto_Builder*) setStatus:(MoveNormStructureResponseProto_MoveNormStructureStatus) value;
-- (MoveNormStructureResponseProto_Builder*) clearStatus;
+- (MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) status;
+- (MoveOrRotateNormStructureResponseProto_Builder*) setStatus:(MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatus) value;
+- (MoveOrRotateNormStructureResponseProto_Builder*) clearStatus;
 @end
 
 @interface SellNormStructureRequestProto : PBGeneratedMessage {
@@ -2360,15 +2476,19 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 
 @interface UpgradeNormStructureRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasTimeOfUpgrade_:1;
   BOOL hasUserStructId_:1;
   BOOL hasSender_:1;
+  int64_t timeOfUpgrade;
   int32_t userStructId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasUserStructId;
+- (BOOL) hasTimeOfUpgrade;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t userStructId;
+@property (readonly) int64_t timeOfUpgrade;
 
 + (UpgradeNormStructureRequestProto*) defaultInstance;
 - (UpgradeNormStructureRequestProto*) defaultInstance;
@@ -2415,6 +2535,11 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (int32_t) userStructId;
 - (UpgradeNormStructureRequestProto_Builder*) setUserStructId:(int32_t) value;
 - (UpgradeNormStructureRequestProto_Builder*) clearUserStructId;
+
+- (BOOL) hasTimeOfUpgrade;
+- (int64_t) timeOfUpgrade;
+- (UpgradeNormStructureRequestProto_Builder*) setTimeOfUpgrade:(int64_t) value;
+- (UpgradeNormStructureRequestProto_Builder*) clearTimeOfUpgrade;
 @end
 
 @interface UpgradeNormStructureResponseProto : PBGeneratedMessage {
@@ -2607,21 +2732,25 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 @private
   BOOL hasSender_:1;
   BOOL hasCritStructCoordinates_:1;
+  BOOL hasActionType_:1;
   BOOL hasCritStructType_:1;
-  BOOL hasCritStructAction_:1;
+  BOOL hasOrientation_:1;
   MinimumUserProto* sender;
   CoordinateProto* critStructCoordinates;
+  CriticalStructureActionRequestProto_CritStructActionType actionType;
   CritStructType critStructType;
-  CriticalStructureActionRequestProto_CritStructAction critStructAction;
+  StructOrientation orientation;
 }
 - (BOOL) hasSender;
-- (BOOL) hasCritStructCoordinates;
+- (BOOL) hasActionType;
 - (BOOL) hasCritStructType;
-- (BOOL) hasCritStructAction;
+- (BOOL) hasCritStructCoordinates;
+- (BOOL) hasOrientation;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) CoordinateProto* critStructCoordinates;
+@property (readonly) CriticalStructureActionRequestProto_CritStructActionType actionType;
 @property (readonly) CritStructType critStructType;
-@property (readonly) CriticalStructureActionRequestProto_CritStructAction critStructAction;
+@property (readonly, retain) CoordinateProto* critStructCoordinates;
+@property (readonly) StructOrientation orientation;
 
 + (CriticalStructureActionRequestProto*) defaultInstance;
 - (CriticalStructureActionRequestProto*) defaultInstance;
@@ -2664,6 +2793,16 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (CriticalStructureActionRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (CriticalStructureActionRequestProto_Builder*) clearSender;
 
+- (BOOL) hasActionType;
+- (CriticalStructureActionRequestProto_CritStructActionType) actionType;
+- (CriticalStructureActionRequestProto_Builder*) setActionType:(CriticalStructureActionRequestProto_CritStructActionType) value;
+- (CriticalStructureActionRequestProto_Builder*) clearActionType;
+
+- (BOOL) hasCritStructType;
+- (CritStructType) critStructType;
+- (CriticalStructureActionRequestProto_Builder*) setCritStructType:(CritStructType) value;
+- (CriticalStructureActionRequestProto_Builder*) clearCritStructType;
+
 - (BOOL) hasCritStructCoordinates;
 - (CoordinateProto*) critStructCoordinates;
 - (CriticalStructureActionRequestProto_Builder*) setCritStructCoordinates:(CoordinateProto*) value;
@@ -2671,15 +2810,10 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (CriticalStructureActionRequestProto_Builder*) mergeCritStructCoordinates:(CoordinateProto*) value;
 - (CriticalStructureActionRequestProto_Builder*) clearCritStructCoordinates;
 
-- (BOOL) hasCritStructType;
-- (CritStructType) critStructType;
-- (CriticalStructureActionRequestProto_Builder*) setCritStructType:(CritStructType) value;
-- (CriticalStructureActionRequestProto_Builder*) clearCritStructType;
-
-- (BOOL) hasCritStructAction;
-- (CriticalStructureActionRequestProto_CritStructAction) critStructAction;
-- (CriticalStructureActionRequestProto_Builder*) setCritStructAction:(CriticalStructureActionRequestProto_CritStructAction) value;
-- (CriticalStructureActionRequestProto_Builder*) clearCritStructAction;
+- (BOOL) hasOrientation;
+- (StructOrientation) orientation;
+- (CriticalStructureActionRequestProto_Builder*) setOrientation:(StructOrientation) value;
+- (CriticalStructureActionRequestProto_Builder*) clearOrientation;
 @end
 
 @interface CriticalStructureActionResponseProto : PBGeneratedMessage {
@@ -2687,12 +2821,12 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CriticalStructureActionResponseProto_CriticalStructureAction status;
+  CriticalStructureActionResponseProto_CritStructActionStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) CriticalStructureActionResponseProto_CriticalStructureAction status;
+@property (readonly) CriticalStructureActionResponseProto_CritStructActionStatus status;
 
 + (CriticalStructureActionResponseProto*) defaultInstance;
 - (CriticalStructureActionResponseProto*) defaultInstance;
@@ -2736,9 +2870,283 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (CriticalStructureActionResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (CriticalStructureActionResponseProto_CriticalStructureAction) status;
-- (CriticalStructureActionResponseProto_Builder*) setStatus:(CriticalStructureActionResponseProto_CriticalStructureAction) value;
+- (CriticalStructureActionResponseProto_CritStructActionStatus) status;
+- (CriticalStructureActionResponseProto_Builder*) setStatus:(CriticalStructureActionResponseProto_CritStructActionStatus) value;
 - (CriticalStructureActionResponseProto_Builder*) clearStatus;
+@end
+
+@interface FinishNormStructWaittimeWithDiamondsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfPurchase_:1;
+  BOOL hasUserStructId_:1;
+  BOOL hasSender_:1;
+  BOOL hasWaitTimeType_:1;
+  int64_t timeOfPurchase;
+  int32_t userStructId;
+  MinimumUserProto* sender;
+  FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType waitTimeType;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUserStructId;
+- (BOOL) hasTimeOfPurchase;
+- (BOOL) hasWaitTimeType;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t userStructId;
+@property (readonly) int64_t timeOfPurchase;
+@property (readonly) FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType waitTimeType;
+
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder;
++ (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder;
++ (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsRequestProto*) prototype;
+
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data;
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FinishNormStructWaittimeWithDiamondsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FinishNormStructWaittimeWithDiamondsRequestProto* result;
+}
+
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
+
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clear;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clone;
+
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) build;
+- (FinishNormStructWaittimeWithDiamondsRequestProto*) buildPartial;
+
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFrom:(FinishNormStructWaittimeWithDiamondsRequestProto*) other;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasUserStructId;
+- (int32_t) userStructId;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructId:(int32_t) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructId;
+
+- (BOOL) hasTimeOfPurchase;
+- (int64_t) timeOfPurchase;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setTimeOfPurchase:(int64_t) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfPurchase;
+
+- (BOOL) hasWaitTimeType;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) waitTimeType;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setWaitTimeType:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearWaitTimeType;
+@end
+
+@interface FinishNormStructWaittimeWithDiamondsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
+
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder;
++ (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder;
++ (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsResponseProto*) prototype;
+
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data;
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FinishNormStructWaittimeWithDiamondsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FinishNormStructWaittimeWithDiamondsResponseProto* result;
+}
+
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
+
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clear;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clone;
+
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) build;
+- (FinishNormStructWaittimeWithDiamondsResponseProto*) buildPartial;
+
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFrom:(FinishNormStructWaittimeWithDiamondsResponseProto*) other;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) status;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) value;
+- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatus;
+@end
+
+@interface NormStructWaitCompleteRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasSender_:1;
+  int64_t curTime;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableUserStructIdList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCurTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t curTime;
+- (NSArray*) userStructIdList;
+- (int32_t) userStructIdAtIndex:(int32_t) index;
+
++ (NormStructWaitCompleteRequestProto*) defaultInstance;
+- (NormStructWaitCompleteRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (NormStructWaitCompleteRequestProto_Builder*) builder;
++ (NormStructWaitCompleteRequestProto_Builder*) builder;
++ (NormStructWaitCompleteRequestProto_Builder*) builderWithPrototype:(NormStructWaitCompleteRequestProto*) prototype;
+
++ (NormStructWaitCompleteRequestProto*) parseFromData:(NSData*) data;
++ (NormStructWaitCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (NormStructWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (NormStructWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (NormStructWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (NormStructWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface NormStructWaitCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  NormStructWaitCompleteRequestProto* result;
+}
+
+- (NormStructWaitCompleteRequestProto*) defaultInstance;
+
+- (NormStructWaitCompleteRequestProto_Builder*) clear;
+- (NormStructWaitCompleteRequestProto_Builder*) clone;
+
+- (NormStructWaitCompleteRequestProto*) build;
+- (NormStructWaitCompleteRequestProto*) buildPartial;
+
+- (NormStructWaitCompleteRequestProto_Builder*) mergeFrom:(NormStructWaitCompleteRequestProto*) other;
+- (NormStructWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (NormStructWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (NormStructWaitCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (NormStructWaitCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (NormStructWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (NormStructWaitCompleteRequestProto_Builder*) clearSender;
+
+- (NSArray*) userStructIdList;
+- (int32_t) userStructIdAtIndex:(int32_t) index;
+- (NormStructWaitCompleteRequestProto_Builder*) replaceUserStructIdAtIndex:(int32_t) index with:(int32_t) value;
+- (NormStructWaitCompleteRequestProto_Builder*) addUserStructId:(int32_t) value;
+- (NormStructWaitCompleteRequestProto_Builder*) addAllUserStructId:(NSArray*) values;
+- (NormStructWaitCompleteRequestProto_Builder*) clearUserStructIdList;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (NormStructWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
+- (NormStructWaitCompleteRequestProto_Builder*) clearCurTime;
+@end
+
+@interface NormStructWaitCompleteResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus status;
+  NSMutableArray* mutableUserStructList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus status;
+- (NSArray*) userStructList;
+- (FullUserStructureProto*) userStructAtIndex:(int32_t) index;
+
++ (NormStructWaitCompleteResponseProto*) defaultInstance;
+- (NormStructWaitCompleteResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (NormStructWaitCompleteResponseProto_Builder*) builder;
++ (NormStructWaitCompleteResponseProto_Builder*) builder;
++ (NormStructWaitCompleteResponseProto_Builder*) builderWithPrototype:(NormStructWaitCompleteResponseProto*) prototype;
+
++ (NormStructWaitCompleteResponseProto*) parseFromData:(NSData*) data;
++ (NormStructWaitCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (NormStructWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (NormStructWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (NormStructWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (NormStructWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface NormStructWaitCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  NormStructWaitCompleteResponseProto* result;
+}
+
+- (NormStructWaitCompleteResponseProto*) defaultInstance;
+
+- (NormStructWaitCompleteResponseProto_Builder*) clear;
+- (NormStructWaitCompleteResponseProto_Builder*) clone;
+
+- (NormStructWaitCompleteResponseProto*) build;
+- (NormStructWaitCompleteResponseProto*) buildPartial;
+
+- (NormStructWaitCompleteResponseProto_Builder*) mergeFrom:(NormStructWaitCompleteResponseProto*) other;
+- (NormStructWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (NormStructWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (NormStructWaitCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (NormStructWaitCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (NormStructWaitCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (NormStructWaitCompleteResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) status;
+- (NormStructWaitCompleteResponseProto_Builder*) setStatus:(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus) value;
+- (NormStructWaitCompleteResponseProto_Builder*) clearStatus;
+
+- (NSArray*) userStructList;
+- (FullUserStructureProto*) userStructAtIndex:(int32_t) index;
+- (NormStructWaitCompleteResponseProto_Builder*) replaceUserStructAtIndex:(int32_t) index with:(FullUserStructureProto*) value;
+- (NormStructWaitCompleteResponseProto_Builder*) addUserStruct:(FullUserStructureProto*) value;
+- (NormStructWaitCompleteResponseProto_Builder*) addAllUserStruct:(NSArray*) values;
+- (NormStructWaitCompleteResponseProto_Builder*) clearUserStructList;
 @end
 
 @interface LevelUpResponseProto : PBGeneratedMessage {
@@ -3137,42 +3545,22 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 @interface PostToMarketplaceRequestProto : PBGeneratedMessage {
 @private
   BOOL hasPostedEquipId_:1;
-  BOOL hasPostedWood_:1;
-  BOOL hasPostedDiamonds_:1;
-  BOOL hasPostedCoins_:1;
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
-  BOOL hasWoodCost_:1;
   BOOL hasSender_:1;
-  BOOL hasPostType_:1;
   int32_t postedEquipId;
-  int32_t postedWood;
-  int32_t postedDiamonds;
-  int32_t postedCoins;
   int32_t diamondCost;
   int32_t coinCost;
-  int32_t woodCost;
   MinimumUserProto* sender;
-  MarketplacePostType postType;
 }
 - (BOOL) hasSender;
-- (BOOL) hasPostType;
 - (BOOL) hasPostedEquipId;
-- (BOOL) hasPostedWood;
-- (BOOL) hasPostedDiamonds;
-- (BOOL) hasPostedCoins;
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
-- (BOOL) hasWoodCost;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) MarketplacePostType postType;
 @property (readonly) int32_t postedEquipId;
-@property (readonly) int32_t postedWood;
-@property (readonly) int32_t postedDiamonds;
-@property (readonly) int32_t postedCoins;
 @property (readonly) int32_t diamondCost;
 @property (readonly) int32_t coinCost;
-@property (readonly) int32_t woodCost;
 
 + (PostToMarketplaceRequestProto*) defaultInstance;
 - (PostToMarketplaceRequestProto*) defaultInstance;
@@ -3215,30 +3603,10 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (PostToMarketplaceRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PostToMarketplaceRequestProto_Builder*) clearSender;
 
-- (BOOL) hasPostType;
-- (MarketplacePostType) postType;
-- (PostToMarketplaceRequestProto_Builder*) setPostType:(MarketplacePostType) value;
-- (PostToMarketplaceRequestProto_Builder*) clearPostType;
-
 - (BOOL) hasPostedEquipId;
 - (int32_t) postedEquipId;
 - (PostToMarketplaceRequestProto_Builder*) setPostedEquipId:(int32_t) value;
 - (PostToMarketplaceRequestProto_Builder*) clearPostedEquipId;
-
-- (BOOL) hasPostedWood;
-- (int32_t) postedWood;
-- (PostToMarketplaceRequestProto_Builder*) setPostedWood:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearPostedWood;
-
-- (BOOL) hasPostedDiamonds;
-- (int32_t) postedDiamonds;
-- (PostToMarketplaceRequestProto_Builder*) setPostedDiamonds:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearPostedDiamonds;
-
-- (BOOL) hasPostedCoins;
-- (int32_t) postedCoins;
-- (PostToMarketplaceRequestProto_Builder*) setPostedCoins:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearPostedCoins;
 
 - (BOOL) hasDiamondCost;
 - (int32_t) diamondCost;
@@ -3249,11 +3617,6 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (int32_t) coinCost;
 - (PostToMarketplaceRequestProto_Builder*) setCoinCost:(int32_t) value;
 - (PostToMarketplaceRequestProto_Builder*) clearCoinCost;
-
-- (BOOL) hasWoodCost;
-- (int32_t) woodCost;
-- (PostToMarketplaceRequestProto_Builder*) setWoodCost:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearWoodCost;
 @end
 
 @interface PostToMarketplaceResponseProto : PBGeneratedMessage {
@@ -3808,15 +4171,19 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 
 @interface RefillStatWithDiamondsRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCurTime_:1;
   BOOL hasSender_:1;
   BOOL hasStatType_:1;
+  int64_t curTime;
   MinimumUserProto* sender;
   RefillStatWithDiamondsRequestProto_StatType statType;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatType;
+- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RefillStatWithDiamondsRequestProto_StatType statType;
+@property (readonly) int64_t curTime;
 
 + (RefillStatWithDiamondsRequestProto*) defaultInstance;
 - (RefillStatWithDiamondsRequestProto*) defaultInstance;
@@ -3863,6 +4230,11 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (RefillStatWithDiamondsRequestProto_StatType) statType;
 - (RefillStatWithDiamondsRequestProto_Builder*) setStatType:(RefillStatWithDiamondsRequestProto_StatType) value;
 - (RefillStatWithDiamondsRequestProto_Builder*) clearStatType;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (RefillStatWithDiamondsRequestProto_Builder*) setCurTime:(int64_t) value;
+- (RefillStatWithDiamondsRequestProto_Builder*) clearCurTime;
 @end
 
 @interface RefillStatWithDiamondsResponseProto : PBGeneratedMessage {
@@ -3922,271 +4294,6 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (RefillStatWithDiamondsResponseProto_RefillStatStatus) status;
 - (RefillStatWithDiamondsResponseProto_Builder*) setStatus:(RefillStatWithDiamondsResponseProto_RefillStatStatus) value;
 - (RefillStatWithDiamondsResponseProto_Builder*) clearStatus;
-@end
-
-@interface FinishNormStructWaittimeWithDiamondsRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasTimeOfPurchase_:1;
-  BOOL hasUserStructId_:1;
-  BOOL hasSender_:1;
-  BOOL hasWaitTimeType_:1;
-  int64_t timeOfPurchase;
-  int32_t userStructId;
-  MinimumUserProto* sender;
-  FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType waitTimeType;
-}
-- (BOOL) hasSender;
-- (BOOL) hasUserStructId;
-- (BOOL) hasTimeOfPurchase;
-- (BOOL) hasWaitTimeType;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t userStructId;
-@property (readonly) int64_t timeOfPurchase;
-@property (readonly) FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType waitTimeType;
-
-+ (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
-- (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder;
-+ (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builder;
-+ (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsRequestProto*) prototype;
-
-+ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data;
-+ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FinishNormStructWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface FinishNormStructWaittimeWithDiamondsRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  FinishNormStructWaittimeWithDiamondsRequestProto* result;
-}
-
-- (FinishNormStructWaittimeWithDiamondsRequestProto*) defaultInstance;
-
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clear;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clone;
-
-- (FinishNormStructWaittimeWithDiamondsRequestProto*) build;
-- (FinishNormStructWaittimeWithDiamondsRequestProto*) buildPartial;
-
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFrom:(FinishNormStructWaittimeWithDiamondsRequestProto*) other;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearSender;
-
-- (BOOL) hasUserStructId;
-- (int32_t) userStructId;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setUserStructId:(int32_t) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearUserStructId;
-
-- (BOOL) hasTimeOfPurchase;
-- (int64_t) timeOfPurchase;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setTimeOfPurchase:(int64_t) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfPurchase;
-
-- (BOOL) hasWaitTimeType;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) waitTimeType;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setWaitTimeType:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) value;
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearWaitTimeType;
-@end
-
-@interface FinishNormStructWaittimeWithDiamondsResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus status;
-
-+ (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
-- (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder;
-+ (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builder;
-+ (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) builderWithPrototype:(FinishNormStructWaittimeWithDiamondsResponseProto*) prototype;
-
-+ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data;
-+ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (FinishNormStructWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface FinishNormStructWaittimeWithDiamondsResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  FinishNormStructWaittimeWithDiamondsResponseProto* result;
-}
-
-- (FinishNormStructWaittimeWithDiamondsResponseProto*) defaultInstance;
-
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clear;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clone;
-
-- (FinishNormStructWaittimeWithDiamondsResponseProto*) build;
-- (FinishNormStructWaittimeWithDiamondsResponseProto*) buildPartial;
-
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFrom:(FinishNormStructWaittimeWithDiamondsResponseProto*) other;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) status;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus) value;
-- (FinishNormStructWaittimeWithDiamondsResponseProto_Builder*) clearStatus;
-@end
-
-@interface NormStructBuildsCompleteRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  MinimumUserProto* sender;
-  NSMutableArray* mutableUserStructIdList;
-}
-- (BOOL) hasSender;
-@property (readonly, retain) MinimumUserProto* sender;
-- (NSArray*) userStructIdList;
-- (int32_t) userStructIdAtIndex:(int32_t) index;
-
-+ (NormStructBuildsCompleteRequestProto*) defaultInstance;
-- (NormStructBuildsCompleteRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (NormStructBuildsCompleteRequestProto_Builder*) builder;
-+ (NormStructBuildsCompleteRequestProto_Builder*) builder;
-+ (NormStructBuildsCompleteRequestProto_Builder*) builderWithPrototype:(NormStructBuildsCompleteRequestProto*) prototype;
-
-+ (NormStructBuildsCompleteRequestProto*) parseFromData:(NSData*) data;
-+ (NormStructBuildsCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (NormStructBuildsCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (NormStructBuildsCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (NormStructBuildsCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (NormStructBuildsCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface NormStructBuildsCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  NormStructBuildsCompleteRequestProto* result;
-}
-
-- (NormStructBuildsCompleteRequestProto*) defaultInstance;
-
-- (NormStructBuildsCompleteRequestProto_Builder*) clear;
-- (NormStructBuildsCompleteRequestProto_Builder*) clone;
-
-- (NormStructBuildsCompleteRequestProto*) build;
-- (NormStructBuildsCompleteRequestProto*) buildPartial;
-
-- (NormStructBuildsCompleteRequestProto_Builder*) mergeFrom:(NormStructBuildsCompleteRequestProto*) other;
-- (NormStructBuildsCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (NormStructBuildsCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (NormStructBuildsCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (NormStructBuildsCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (NormStructBuildsCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (NormStructBuildsCompleteRequestProto_Builder*) clearSender;
-
-- (NSArray*) userStructIdList;
-- (int32_t) userStructIdAtIndex:(int32_t) index;
-- (NormStructBuildsCompleteRequestProto_Builder*) replaceUserStructIdAtIndex:(int32_t) index with:(int32_t) value;
-- (NormStructBuildsCompleteRequestProto_Builder*) addUserStructId:(int32_t) value;
-- (NormStructBuildsCompleteRequestProto_Builder*) addAllUserStructId:(NSArray*) values;
-- (NormStructBuildsCompleteRequestProto_Builder*) clearUserStructIdList;
-@end
-
-@interface NormStructBuildsCompleteResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus status;
-  NSMutableArray* mutableUserStructList;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus status;
-- (NSArray*) userStructList;
-- (FullUserStructureProto*) userStructAtIndex:(int32_t) index;
-
-+ (NormStructBuildsCompleteResponseProto*) defaultInstance;
-- (NormStructBuildsCompleteResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (NormStructBuildsCompleteResponseProto_Builder*) builder;
-+ (NormStructBuildsCompleteResponseProto_Builder*) builder;
-+ (NormStructBuildsCompleteResponseProto_Builder*) builderWithPrototype:(NormStructBuildsCompleteResponseProto*) prototype;
-
-+ (NormStructBuildsCompleteResponseProto*) parseFromData:(NSData*) data;
-+ (NormStructBuildsCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (NormStructBuildsCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (NormStructBuildsCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (NormStructBuildsCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (NormStructBuildsCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface NormStructBuildsCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  NormStructBuildsCompleteResponseProto* result;
-}
-
-- (NormStructBuildsCompleteResponseProto*) defaultInstance;
-
-- (NormStructBuildsCompleteResponseProto_Builder*) clear;
-- (NormStructBuildsCompleteResponseProto_Builder*) clone;
-
-- (NormStructBuildsCompleteResponseProto*) build;
-- (NormStructBuildsCompleteResponseProto*) buildPartial;
-
-- (NormStructBuildsCompleteResponseProto_Builder*) mergeFrom:(NormStructBuildsCompleteResponseProto*) other;
-- (NormStructBuildsCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (NormStructBuildsCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (NormStructBuildsCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (NormStructBuildsCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (NormStructBuildsCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (NormStructBuildsCompleteResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus) status;
-- (NormStructBuildsCompleteResponseProto_Builder*) setStatus:(NormStructBuildsCompleteResponseProto_NormStructBuildsCompleteStatus) value;
-- (NormStructBuildsCompleteResponseProto_Builder*) clearStatus;
-
-- (NSArray*) userStructList;
-- (FullUserStructureProto*) userStructAtIndex:(int32_t) index;
-- (NormStructBuildsCompleteResponseProto_Builder*) replaceUserStructAtIndex:(int32_t) index with:(FullUserStructureProto*) value;
-- (NormStructBuildsCompleteResponseProto_Builder*) addUserStruct:(FullUserStructureProto*) value;
-- (NormStructBuildsCompleteResponseProto_Builder*) addAllUserStruct:(NSArray*) values;
-- (NormStructBuildsCompleteResponseProto_Builder*) clearUserStructList;
 @end
 
 @interface RedeemMarketplaceEarningsRequestProto : PBGeneratedMessage {
@@ -4362,40 +4469,40 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 @interface LoadPlayerCityResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasArmoryCoords_:1;
-  BOOL hasVaultCoords_:1;
-  BOOL hasMarketplaceCoords_:1;
-  BOOL hasLumbermillCoords_:1;
-  BOOL hasCarpenterCoords_:1;
-  BOOL hasAviaryCoords_:1;
+  BOOL hasArmory_:1;
+  BOOL hasVault_:1;
+  BOOL hasMarketplace_:1;
+  BOOL hasCarpenter_:1;
+  BOOL hasAviary_:1;
+  BOOL hasUserCityExpansionData_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  CoordinateProto* armoryCoords;
-  CoordinateProto* vaultCoords;
-  CoordinateProto* marketplaceCoords;
-  CoordinateProto* lumbermillCoords;
-  CoordinateProto* carpenterCoords;
-  CoordinateProto* aviaryCoords;
+  FullUserCritstructProto* armory;
+  FullUserCritstructProto* vault;
+  FullUserCritstructProto* marketplace;
+  FullUserCritstructProto* carpenter;
+  FullUserCritstructProto* aviary;
+  FullUserCityExpansionDataProto* userCityExpansionData;
   LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
   NSMutableArray* mutableOwnerNormStructsList;
   NSMutableArray* mutableOwnerAlliesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
-- (BOOL) hasArmoryCoords;
-- (BOOL) hasVaultCoords;
-- (BOOL) hasMarketplaceCoords;
-- (BOOL) hasLumbermillCoords;
-- (BOOL) hasCarpenterCoords;
-- (BOOL) hasAviaryCoords;
+- (BOOL) hasArmory;
+- (BOOL) hasVault;
+- (BOOL) hasMarketplace;
+- (BOOL) hasCarpenter;
+- (BOOL) hasAviary;
+- (BOOL) hasUserCityExpansionData;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
-@property (readonly, retain) CoordinateProto* armoryCoords;
-@property (readonly, retain) CoordinateProto* vaultCoords;
-@property (readonly, retain) CoordinateProto* marketplaceCoords;
-@property (readonly, retain) CoordinateProto* lumbermillCoords;
-@property (readonly, retain) CoordinateProto* carpenterCoords;
-@property (readonly, retain) CoordinateProto* aviaryCoords;
+@property (readonly, retain) FullUserCritstructProto* armory;
+@property (readonly, retain) FullUserCritstructProto* vault;
+@property (readonly, retain) FullUserCritstructProto* marketplace;
+@property (readonly, retain) FullUserCritstructProto* carpenter;
+@property (readonly, retain) FullUserCritstructProto* aviary;
+@property (readonly, retain) FullUserCityExpansionDataProto* userCityExpansionData;
 - (NSArray*) ownerNormStructsList;
 - (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index;
 - (NSArray*) ownerAlliesList;
@@ -4461,47 +4568,47 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (LoadPlayerCityResponseProto_Builder*) addAllOwnerAllies:(NSArray*) values;
 - (LoadPlayerCityResponseProto_Builder*) clearOwnerAlliesList;
 
-- (BOOL) hasArmoryCoords;
-- (CoordinateProto*) armoryCoords;
-- (LoadPlayerCityResponseProto_Builder*) setArmoryCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setArmoryCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeArmoryCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearArmoryCoords;
+- (BOOL) hasArmory;
+- (FullUserCritstructProto*) armory;
+- (LoadPlayerCityResponseProto_Builder*) setArmory:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) setArmoryBuilder:(FullUserCritstructProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) mergeArmory:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) clearArmory;
 
-- (BOOL) hasVaultCoords;
-- (CoordinateProto*) vaultCoords;
-- (LoadPlayerCityResponseProto_Builder*) setVaultCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setVaultCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeVaultCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearVaultCoords;
+- (BOOL) hasVault;
+- (FullUserCritstructProto*) vault;
+- (LoadPlayerCityResponseProto_Builder*) setVault:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) setVaultBuilder:(FullUserCritstructProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) mergeVault:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) clearVault;
 
-- (BOOL) hasMarketplaceCoords;
-- (CoordinateProto*) marketplaceCoords;
-- (LoadPlayerCityResponseProto_Builder*) setMarketplaceCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setMarketplaceCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeMarketplaceCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearMarketplaceCoords;
+- (BOOL) hasMarketplace;
+- (FullUserCritstructProto*) marketplace;
+- (LoadPlayerCityResponseProto_Builder*) setMarketplace:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) setMarketplaceBuilder:(FullUserCritstructProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) mergeMarketplace:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) clearMarketplace;
 
-- (BOOL) hasLumbermillCoords;
-- (CoordinateProto*) lumbermillCoords;
-- (LoadPlayerCityResponseProto_Builder*) setLumbermillCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setLumbermillCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeLumbermillCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearLumbermillCoords;
+- (BOOL) hasCarpenter;
+- (FullUserCritstructProto*) carpenter;
+- (LoadPlayerCityResponseProto_Builder*) setCarpenter:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) setCarpenterBuilder:(FullUserCritstructProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) mergeCarpenter:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) clearCarpenter;
 
-- (BOOL) hasCarpenterCoords;
-- (CoordinateProto*) carpenterCoords;
-- (LoadPlayerCityResponseProto_Builder*) setCarpenterCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setCarpenterCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeCarpenterCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearCarpenterCoords;
+- (BOOL) hasAviary;
+- (FullUserCritstructProto*) aviary;
+- (LoadPlayerCityResponseProto_Builder*) setAviary:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) setAviaryBuilder:(FullUserCritstructProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) mergeAviary:(FullUserCritstructProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) clearAviary;
 
-- (BOOL) hasAviaryCoords;
-- (CoordinateProto*) aviaryCoords;
-- (LoadPlayerCityResponseProto_Builder*) setAviaryCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) setAviaryCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (LoadPlayerCityResponseProto_Builder*) mergeAviaryCoords:(CoordinateProto*) value;
-- (LoadPlayerCityResponseProto_Builder*) clearAviaryCoords;
+- (BOOL) hasUserCityExpansionData;
+- (FullUserCityExpansionDataProto*) userCityExpansionData;
+- (LoadPlayerCityResponseProto_Builder*) setUserCityExpansionData:(FullUserCityExpansionDataProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) setUserCityExpansionDataBuilder:(FullUserCityExpansionDataProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) mergeUserCityExpansionData:(FullUserCityExpansionDataProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) clearUserCityExpansionData;
 @end
 
 @interface QuestAcceptRequestProto : PBGeneratedMessage {
@@ -4811,124 +4918,6 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (QuestRedeemResponseProto_Builder*) clearStatus;
 @end
 
-@interface QuestCheckCompleteRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasQuestId_:1;
-  BOOL hasSender_:1;
-  int32_t questId;
-  MinimumUserProto* sender;
-}
-- (BOOL) hasSender;
-- (BOOL) hasQuestId;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t questId;
-
-+ (QuestCheckCompleteRequestProto*) defaultInstance;
-- (QuestCheckCompleteRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (QuestCheckCompleteRequestProto_Builder*) builder;
-+ (QuestCheckCompleteRequestProto_Builder*) builder;
-+ (QuestCheckCompleteRequestProto_Builder*) builderWithPrototype:(QuestCheckCompleteRequestProto*) prototype;
-
-+ (QuestCheckCompleteRequestProto*) parseFromData:(NSData*) data;
-+ (QuestCheckCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestCheckCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (QuestCheckCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestCheckCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (QuestCheckCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface QuestCheckCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  QuestCheckCompleteRequestProto* result;
-}
-
-- (QuestCheckCompleteRequestProto*) defaultInstance;
-
-- (QuestCheckCompleteRequestProto_Builder*) clear;
-- (QuestCheckCompleteRequestProto_Builder*) clone;
-
-- (QuestCheckCompleteRequestProto*) build;
-- (QuestCheckCompleteRequestProto*) buildPartial;
-
-- (QuestCheckCompleteRequestProto_Builder*) mergeFrom:(QuestCheckCompleteRequestProto*) other;
-- (QuestCheckCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (QuestCheckCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (QuestCheckCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestCheckCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QuestCheckCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (QuestCheckCompleteRequestProto_Builder*) clearSender;
-
-- (BOOL) hasQuestId;
-- (int32_t) questId;
-- (QuestCheckCompleteRequestProto_Builder*) setQuestId:(int32_t) value;
-- (QuestCheckCompleteRequestProto_Builder*) clearQuestId;
-@end
-
-@interface QuestCheckCompleteResponseProto : PBGeneratedMessage {
-@private
-  BOOL hasSender_:1;
-  BOOL hasStatus_:1;
-  MinimumUserProto* sender;
-  QuestCheckCompleteResponseProto_QuestCompleteStatus status;
-}
-- (BOOL) hasSender;
-- (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) QuestCheckCompleteResponseProto_QuestCompleteStatus status;
-
-+ (QuestCheckCompleteResponseProto*) defaultInstance;
-- (QuestCheckCompleteResponseProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (QuestCheckCompleteResponseProto_Builder*) builder;
-+ (QuestCheckCompleteResponseProto_Builder*) builder;
-+ (QuestCheckCompleteResponseProto_Builder*) builderWithPrototype:(QuestCheckCompleteResponseProto*) prototype;
-
-+ (QuestCheckCompleteResponseProto*) parseFromData:(NSData*) data;
-+ (QuestCheckCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestCheckCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (QuestCheckCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestCheckCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (QuestCheckCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface QuestCheckCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
-@private
-  QuestCheckCompleteResponseProto* result;
-}
-
-- (QuestCheckCompleteResponseProto*) defaultInstance;
-
-- (QuestCheckCompleteResponseProto_Builder*) clear;
-- (QuestCheckCompleteResponseProto_Builder*) clone;
-
-- (QuestCheckCompleteResponseProto*) build;
-- (QuestCheckCompleteResponseProto*) buildPartial;
-
-- (QuestCheckCompleteResponseProto_Builder*) mergeFrom:(QuestCheckCompleteResponseProto*) other;
-- (QuestCheckCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (QuestCheckCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (QuestCheckCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestCheckCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QuestCheckCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (QuestCheckCompleteResponseProto_Builder*) clearSender;
-
-- (BOOL) hasStatus;
-- (QuestCheckCompleteResponseProto_QuestCompleteStatus) status;
-- (QuestCheckCompleteResponseProto_Builder*) setStatus:(QuestCheckCompleteResponseProto_QuestCompleteStatus) value;
-- (QuestCheckCompleteResponseProto_Builder*) clearStatus;
-@end
-
 @interface QuestLogDetailsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
@@ -4992,7 +4981,7 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestLogDetailsResponseProto_QuestLogDetailsStatus status;
 - (NSArray*) inProgressUserQuestDataList;
-- (FullUserQuestDataLarge*) inProgressUserQuestDataAtIndex:(int32_t) index;
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index;
 
 + (QuestLogDetailsResponseProto*) defaultInstance;
 - (QuestLogDetailsResponseProto*) defaultInstance;
@@ -5036,9 +5025,9 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (QuestLogDetailsResponseProto_Builder*) clearSender;
 
 - (NSArray*) inProgressUserQuestDataList;
-- (FullUserQuestDataLarge*) inProgressUserQuestDataAtIndex:(int32_t) index;
-- (QuestLogDetailsResponseProto_Builder*) replaceInProgressUserQuestDataAtIndex:(int32_t) index with:(FullUserQuestDataLarge*) value;
-- (QuestLogDetailsResponseProto_Builder*) addInProgressUserQuestData:(FullUserQuestDataLarge*) value;
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index;
+- (QuestLogDetailsResponseProto_Builder*) replaceInProgressUserQuestDataAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value;
+- (QuestLogDetailsResponseProto_Builder*) addInProgressUserQuestData:(FullUserQuestDataLargeProto*) value;
 - (QuestLogDetailsResponseProto_Builder*) addAllInProgressUserQuestData:(NSArray*) values;
 - (QuestLogDetailsResponseProto_Builder*) clearInProgressUserQuestDataList;
 
@@ -5335,5 +5324,377 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;
 - (RetrieveStaticDataResponseProto_Builder*) setStatus:(RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) value;
 - (RetrieveStaticDataResponseProto_Builder*) clearStatus;
+@end
+
+@interface PurchaseCityExpansionRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfPurchase_:1;
+  BOOL hasSender_:1;
+  BOOL hasDirection_:1;
+  int64_t timeOfPurchase;
+  MinimumUserProto* sender;
+  ExpansionDirection direction;
+}
+- (BOOL) hasSender;
+- (BOOL) hasDirection;
+- (BOOL) hasTimeOfPurchase;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ExpansionDirection direction;
+@property (readonly) int64_t timeOfPurchase;
+
++ (PurchaseCityExpansionRequestProto*) defaultInstance;
+- (PurchaseCityExpansionRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseCityExpansionRequestProto_Builder*) builder;
++ (PurchaseCityExpansionRequestProto_Builder*) builder;
++ (PurchaseCityExpansionRequestProto_Builder*) builderWithPrototype:(PurchaseCityExpansionRequestProto*) prototype;
+
++ (PurchaseCityExpansionRequestProto*) parseFromData:(NSData*) data;
++ (PurchaseCityExpansionRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseCityExpansionRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseCityExpansionRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseCityExpansionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseCityExpansionRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseCityExpansionRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseCityExpansionRequestProto* result;
+}
+
+- (PurchaseCityExpansionRequestProto*) defaultInstance;
+
+- (PurchaseCityExpansionRequestProto_Builder*) clear;
+- (PurchaseCityExpansionRequestProto_Builder*) clone;
+
+- (PurchaseCityExpansionRequestProto*) build;
+- (PurchaseCityExpansionRequestProto*) buildPartial;
+
+- (PurchaseCityExpansionRequestProto_Builder*) mergeFrom:(PurchaseCityExpansionRequestProto*) other;
+- (PurchaseCityExpansionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseCityExpansionRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseCityExpansionRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseCityExpansionRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseCityExpansionRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseCityExpansionRequestProto_Builder*) clearSender;
+
+- (BOOL) hasDirection;
+- (ExpansionDirection) direction;
+- (PurchaseCityExpansionRequestProto_Builder*) setDirection:(ExpansionDirection) value;
+- (PurchaseCityExpansionRequestProto_Builder*) clearDirection;
+
+- (BOOL) hasTimeOfPurchase;
+- (int64_t) timeOfPurchase;
+- (PurchaseCityExpansionRequestProto_Builder*) setTimeOfPurchase:(int64_t) value;
+- (PurchaseCityExpansionRequestProto_Builder*) clearTimeOfPurchase;
+@end
+
+@interface PurchaseCityExpansionResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus status;
+
++ (PurchaseCityExpansionResponseProto*) defaultInstance;
+- (PurchaseCityExpansionResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseCityExpansionResponseProto_Builder*) builder;
++ (PurchaseCityExpansionResponseProto_Builder*) builder;
++ (PurchaseCityExpansionResponseProto_Builder*) builderWithPrototype:(PurchaseCityExpansionResponseProto*) prototype;
+
++ (PurchaseCityExpansionResponseProto*) parseFromData:(NSData*) data;
++ (PurchaseCityExpansionResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseCityExpansionResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseCityExpansionResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseCityExpansionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseCityExpansionResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseCityExpansionResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseCityExpansionResponseProto* result;
+}
+
+- (PurchaseCityExpansionResponseProto*) defaultInstance;
+
+- (PurchaseCityExpansionResponseProto_Builder*) clear;
+- (PurchaseCityExpansionResponseProto_Builder*) clone;
+
+- (PurchaseCityExpansionResponseProto*) build;
+- (PurchaseCityExpansionResponseProto*) buildPartial;
+
+- (PurchaseCityExpansionResponseProto_Builder*) mergeFrom:(PurchaseCityExpansionResponseProto*) other;
+- (PurchaseCityExpansionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseCityExpansionResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseCityExpansionResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseCityExpansionResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseCityExpansionResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseCityExpansionResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) status;
+- (PurchaseCityExpansionResponseProto_Builder*) setStatus:(PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus) value;
+- (PurchaseCityExpansionResponseProto_Builder*) clearStatus;
+@end
+
+@interface ExpansionWaitCompleteRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasSender_:1;
+  int64_t curTime;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCurTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t curTime;
+
++ (ExpansionWaitCompleteRequestProto*) defaultInstance;
+- (ExpansionWaitCompleteRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ExpansionWaitCompleteRequestProto_Builder*) builder;
++ (ExpansionWaitCompleteRequestProto_Builder*) builder;
++ (ExpansionWaitCompleteRequestProto_Builder*) builderWithPrototype:(ExpansionWaitCompleteRequestProto*) prototype;
+
++ (ExpansionWaitCompleteRequestProto*) parseFromData:(NSData*) data;
++ (ExpansionWaitCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExpansionWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ExpansionWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExpansionWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ExpansionWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ExpansionWaitCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ExpansionWaitCompleteRequestProto* result;
+}
+
+- (ExpansionWaitCompleteRequestProto*) defaultInstance;
+
+- (ExpansionWaitCompleteRequestProto_Builder*) clear;
+- (ExpansionWaitCompleteRequestProto_Builder*) clone;
+
+- (ExpansionWaitCompleteRequestProto*) build;
+- (ExpansionWaitCompleteRequestProto*) buildPartial;
+
+- (ExpansionWaitCompleteRequestProto_Builder*) mergeFrom:(ExpansionWaitCompleteRequestProto*) other;
+- (ExpansionWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ExpansionWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ExpansionWaitCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ExpansionWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (ExpansionWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
+- (ExpansionWaitCompleteRequestProto_Builder*) clearCurTime;
+@end
+
+@interface ExpansionWaitCompleteResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus status;
+
++ (ExpansionWaitCompleteResponseProto*) defaultInstance;
+- (ExpansionWaitCompleteResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ExpansionWaitCompleteResponseProto_Builder*) builder;
++ (ExpansionWaitCompleteResponseProto_Builder*) builder;
++ (ExpansionWaitCompleteResponseProto_Builder*) builderWithPrototype:(ExpansionWaitCompleteResponseProto*) prototype;
+
++ (ExpansionWaitCompleteResponseProto*) parseFromData:(NSData*) data;
++ (ExpansionWaitCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExpansionWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ExpansionWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ExpansionWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ExpansionWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ExpansionWaitCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ExpansionWaitCompleteResponseProto* result;
+}
+
+- (ExpansionWaitCompleteResponseProto*) defaultInstance;
+
+- (ExpansionWaitCompleteResponseProto_Builder*) clear;
+- (ExpansionWaitCompleteResponseProto_Builder*) clone;
+
+- (ExpansionWaitCompleteResponseProto*) build;
+- (ExpansionWaitCompleteResponseProto*) buildPartial;
+
+- (ExpansionWaitCompleteResponseProto_Builder*) mergeFrom:(ExpansionWaitCompleteResponseProto*) other;
+- (ExpansionWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ExpansionWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ExpansionWaitCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ExpansionWaitCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ExpansionWaitCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ExpansionWaitCompleteResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) status;
+- (ExpansionWaitCompleteResponseProto_Builder*) setStatus:(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus) value;
+- (ExpansionWaitCompleteResponseProto_Builder*) clearStatus;
+@end
+
+@interface RefillStatWaitCompleteRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasSender_:1;
+  BOOL hasType_:1;
+  int64_t curTime;
+  MinimumUserProto* sender;
+  RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType type;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCurTime;
+- (BOOL) hasType;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t curTime;
+@property (readonly) RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType type;
+
++ (RefillStatWaitCompleteRequestProto*) defaultInstance;
+- (RefillStatWaitCompleteRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RefillStatWaitCompleteRequestProto_Builder*) builder;
++ (RefillStatWaitCompleteRequestProto_Builder*) builder;
++ (RefillStatWaitCompleteRequestProto_Builder*) builderWithPrototype:(RefillStatWaitCompleteRequestProto*) prototype;
+
++ (RefillStatWaitCompleteRequestProto*) parseFromData:(NSData*) data;
++ (RefillStatWaitCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefillStatWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RefillStatWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefillStatWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RefillStatWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RefillStatWaitCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RefillStatWaitCompleteRequestProto* result;
+}
+
+- (RefillStatWaitCompleteRequestProto*) defaultInstance;
+
+- (RefillStatWaitCompleteRequestProto_Builder*) clear;
+- (RefillStatWaitCompleteRequestProto_Builder*) clone;
+
+- (RefillStatWaitCompleteRequestProto*) build;
+- (RefillStatWaitCompleteRequestProto*) buildPartial;
+
+- (RefillStatWaitCompleteRequestProto_Builder*) mergeFrom:(RefillStatWaitCompleteRequestProto*) other;
+- (RefillStatWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RefillStatWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RefillStatWaitCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RefillStatWaitCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RefillStatWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RefillStatWaitCompleteRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (RefillStatWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
+- (RefillStatWaitCompleteRequestProto_Builder*) clearCurTime;
+
+- (BOOL) hasType;
+- (RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType) type;
+- (RefillStatWaitCompleteRequestProto_Builder*) setType:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType) value;
+- (RefillStatWaitCompleteRequestProto_Builder*) clearType;
+@end
+
+@interface RefillStatWaitCompleteResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus status;
+
++ (RefillStatWaitCompleteResponseProto*) defaultInstance;
+- (RefillStatWaitCompleteResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RefillStatWaitCompleteResponseProto_Builder*) builder;
++ (RefillStatWaitCompleteResponseProto_Builder*) builder;
++ (RefillStatWaitCompleteResponseProto_Builder*) builderWithPrototype:(RefillStatWaitCompleteResponseProto*) prototype;
+
++ (RefillStatWaitCompleteResponseProto*) parseFromData:(NSData*) data;
++ (RefillStatWaitCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefillStatWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RefillStatWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RefillStatWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RefillStatWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RefillStatWaitCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RefillStatWaitCompleteResponseProto* result;
+}
+
+- (RefillStatWaitCompleteResponseProto*) defaultInstance;
+
+- (RefillStatWaitCompleteResponseProto_Builder*) clear;
+- (RefillStatWaitCompleteResponseProto_Builder*) clone;
+
+- (RefillStatWaitCompleteResponseProto*) build;
+- (RefillStatWaitCompleteResponseProto*) buildPartial;
+
+- (RefillStatWaitCompleteResponseProto_Builder*) mergeFrom:(RefillStatWaitCompleteResponseProto*) other;
+- (RefillStatWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RefillStatWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RefillStatWaitCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RefillStatWaitCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RefillStatWaitCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RefillStatWaitCompleteResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus) status;
+- (RefillStatWaitCompleteResponseProto_Builder*) setStatus:(RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus) value;
+- (RefillStatWaitCompleteResponseProto_Builder*) clearStatus;
 @end
 

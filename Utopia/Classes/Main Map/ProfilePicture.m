@@ -8,10 +8,13 @@
 
 #import "ProfilePicture.h"
 #import "GameState.h"
+#import "Globals.h"
 #import "MaskedSprite.h"
 #import "QuestLogController.h"
 #import "ArmoryViewController.h"
 #import "MarketplaceViewController.h"
+#import "DiamondShopViewController.h"
+#import "VaultMenuController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
@@ -40,7 +43,7 @@
     _levelCircle.position = ccp(21.5, 25.5);
     [self addChild:_levelCircle];
     
-    _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[GameState font] fontSize:12];
+    _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
     [_levelCircle addChild:_levelLabel];
     
@@ -121,7 +124,7 @@
 //    charImage.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
 //    [self addChild:charImage z:1];
     
-    [self schedule:@selector(update)];
+//    [self schedule:@selector(update)];
   }
   return self;
 }
@@ -298,7 +301,7 @@
 }
 
 - (void) openArmory {
-  [ArmoryViewController displayView];
+  [VaultMenuController displayView];
 }
 
 - (void) enableButton {

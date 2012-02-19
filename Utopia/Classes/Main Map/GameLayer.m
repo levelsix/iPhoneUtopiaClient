@@ -11,6 +11,7 @@
 #import "GameLayer.h"
 #import "Building.h"
 #import "GameMap.h"
+#import "HomeMap.h"
 #import "BattleLayer.h"
 #import "MaskedSprite.h"
 #import "ProfilePicture.h"
@@ -19,6 +20,7 @@
 #import "ComboBar.h"
 #import "ImageDownloader.h"
 #import "GameState.h"
+#import "Globals.h"
 #import "QuestLogController.h"
 
 // HelloWorldLayer implementation
@@ -49,18 +51,15 @@
     CCLayerColor *color = [CCLayerColor layerWithColor:ccc4(64,64,64,255)];
     [self addChild:color z:-1];
     
-    _map = [GameMap tiledMapWithTMXFile:@"iso-test2.tmx"];
+    _map = [HomeMap sharedHomeMap];
     [self addChild:_map z:1 tag:2];
     
     // move map to the center of the screen
     CGSize ms = [_map mapSize];
-    CGSize ts = [_map tileSize];
+    CGSize ts = [_map tileSizeInPoints];
     _map.position = ccp( -(ms.width-8) * ts.width/2, 0 );
     
-    [HomeBuilding homeWithFile:@"acad.png" location:CGRectMake(1,1, 2,2) map:_map];
-    ((HomeBuilding *)[HomeBuilding homeWithFile:@"acad.png" location:CGRectMake(5,1, 1,1) map:_map]).scale = 0.5;
-    ((HomeBuilding *)[HomeBuilding homeWithFile:@"acad.png" location:CGRectMake(10,1, 1,1) map:_map]).scale = 0.5;
-    ((HomeBuilding *)[HomeBuilding homeWithFile:@"acad.png" location:CGRectMake(17, 1, 6,6) map:_map]).scale = 3;
+//    [HomeBuilding homeWithFile:@"acad.png" location:CGRectMake(1,1, 2,2) map:(HomeMap *)_map];
     
     _enstBgd = [CCSprite spriteWithFile:@"enstbg.png"];
     [self addChild:_enstBgd z:2];
@@ -90,7 +89,7 @@
     [self addChild:_coinBar z:2];
     _coinBar.position = ccp(370, self.contentSize.height+_coinBar.contentSize.height/2);
     
-    NSString *fontName = [GameState font];
+    NSString *fontName = [Globals font];
     _coinLabel = [CCLabelTTF labelWithString:@"2,000,000" fontName:fontName fontSize:12];
     [_coinBar addChild:_coinLabel];
     _coinLabel.color = ccc3(212,210,199);
@@ -114,7 +113,7 @@
     [self addChild:_profileBgd z:2];
     _profileBgd.position = ccp(45, self.contentSize.height-45);
     
-    [self schedule:@selector(update)];
+//    [self schedule:@selector(update)];
     
 //    BattleLayer *al = [BattleLayer node];
 //    [self addChild:al z:3];

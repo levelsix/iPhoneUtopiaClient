@@ -17,6 +17,10 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
+- (long) getCurrentMilliseconds {
+  return (long)([[NSDate date] timeIntervalSince1970]*1000);
+}
+
 - (void) vaultDeposit:(int)amount {
   if (amount <= 0) {
     return;
@@ -73,6 +77,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
   [[[GameState sharedGameState] marketplaceCurrencyPosts] removeAllObjects];
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:NO];
+  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
 }
 
 - (void) retrieveMoreMarketplacePosts {
@@ -98,6 +103,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
   [[[GameState sharedGameState] marketplaceCurrencyPostsFromSender] removeAllObjects];
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:YES];
+  [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
 }
 
 - (void) retrieveMoreMarketplacePostsFromSender {
@@ -118,60 +124,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:postId fromSender:YES];
 }
 
-- (void) coinPostToMarketplace:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
-  GameState *gs = [GameState sharedGameState];
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  
-  if (coinPost <= 0 || coinPost > gs.silver) {
-    NSLog(@"Invalid post..");
-    return;
-  }
-  
-  if (wood >= 0 && coins >= 0 && diamonds >= 0 && (wood+coins+diamonds) > 0) {
-    [sc sendCoinPostToMarketplaceMessage:coinPost wood:wood coins:coins diamonds:diamonds];
-    gs.silver -= coinPost;
-  } else {
-    NSLog(@"Invalid selling cost..");
-  }
-}
-
-- (void) woodPostToMarketplace:(int)woodPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
-  GameState *gs = [GameState sharedGameState];
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  
-  if (woodPost <= 0 || woodPost > gs.wood) {
-    NSLog(@"Invalid post..");
-    return;
-  }
-  
-  if (wood >= 0 && coins >= 0 && diamonds >= 0 && (wood+coins+diamonds) > 0) {
-    [sc sendWoodPostToMarketplaceMessage:woodPost wood:wood coins:coins diamonds:diamonds];
-    gs.wood -= woodPost;
-  } else {
-    NSLog(@"Invalid selling cost..");
-  }
-}
-
-- (void) diamondPostToMarketplace:(int)dmdPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
-  GameState *gs = [GameState sharedGameState];
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  
-  if (dmdPost <= 0 || dmdPost > gs.gold) {
-    NSLog(@"Invalid post..");
-    return;
-  }
-  
-  if (wood >= 0 && coins >= 0 && diamonds >= 0 && (wood+coins+diamonds) > 0) {
-    [sc sendDiamondPostToMarketplaceMessage:dmdPost wood:wood coins:coins diamonds:diamonds];
-    gs.gold -= dmdPost;
-  } else {
-    NSLog(@"Invalid selling cost..");
-  }
-}
-
-- (void) equipPostToMarketplace:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
+- (void) equipPostToMarketplace:(int)equipId wood:(int)wood silver:(int)silver gold:(int)gold {
   // TODO: need to check equips
-  [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId wood:wood coins:coins diamonds:diamonds];
+  GameState *gs = [GameState sharedGameState];
+  
+  for (FullUserEquipProto *eq in [gs myEquips]) {
+    if (eq.equipId == equipId) {
+      [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId wood:wood coins:silver diamonds:gold];
+    }
+  }
 }
 
 - (void) retractMarketplacePost:(int)postId {
@@ -220,14 +181,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
   
-  if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings || gs.marketplaceWoodEarnings) {
+  if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings) {
     [sc sendRedeemMarketplaceEarningsMessage];
     gs.gold += gs.marketplaceGoldEarnings;
     gs.silver += gs.marketplaceSilverEarnings;
-    gs.wood += gs.marketplaceWoodEarnings;
     gs.marketplaceGoldEarnings = 0;
     gs.marketplaceSilverEarnings = 0;
-    gs.marketplaceWoodEarnings = 0;
   } else {
     NSLog(@"Nothing to earn!");
   }
@@ -335,8 +294,47 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y];
 }
 
-- (void) oveNormStruct:(int)userStructId atX:(int)x atY:(int)y {
+- (void) moveNormStruct:(int)userStructId atX:(int)x atY:(int)y {
   [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStructId x:x y:y];
+}
+
+- (void) retrieveAllStaticData {
+  // First go through equips
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  BOOL shouldSend = NO;
+  
+  NSArray *equips = [gs myEquips];
+  NSDictionary *sEquips = [gs staticEquips];
+  NSMutableSet *rEquips = [NSMutableSet set];
+  for (FullUserEquipProto *eq in equips) {
+    NSNumber *equipId = [NSNumber numberWithInt:eq.equipId];
+    if (![sEquips objectForKey:equipId]) {
+      [rEquips addObject:equipId];
+      shouldSend = YES;
+    }
+  }
+  
+  NSArray *structs = [gs myStructs];
+  NSDictionary *sStructs = [gs staticStructs];
+  NSMutableSet *rStructs = [NSMutableSet set];
+  for (FullStructureProto *str in structs) {
+    NSNumber *structId = [NSNumber numberWithInt:str.structId];
+    if (![sStructs objectForKey:structId]) {
+      [rStructs addObject:structId];
+      shouldSend = YES;
+    }
+  }
+  
+  if (shouldSend) {
+    [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:nil questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+  }
+}
+
+- (void) loadPlayerCity:(int)userId {
+  MinimumUserProto *mup = [[[MinimumUserProto builder] setUserId:userId] build];
+  
+  [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:mup];
 }
 
 @end

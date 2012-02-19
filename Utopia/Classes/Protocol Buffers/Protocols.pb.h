@@ -28,6 +28,10 @@
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class ExpansionWaitCompleteRequestProto;
+@class ExpansionWaitCompleteRequestProto_Builder;
+@class ExpansionWaitCompleteResponseProto;
+@class ExpansionWaitCompleteResponseProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsRequestProto;
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
@@ -46,12 +50,16 @@
 @class FullTaskProto_Builder;
 @class FullTaskProto_FullTaskEquipReqProto;
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
+@class FullUserCityExpansionDataProto;
+@class FullUserCityExpansionDataProto_Builder;
+@class FullUserCritstructProto;
+@class FullUserCritstructProto_Builder;
 @class FullUserEquipProto;
 @class FullUserEquipProto_Builder;
 @class FullUserProto;
 @class FullUserProto_Builder;
-@class FullUserQuestDataLarge;
-@class FullUserQuestDataLarge_Builder;
+@class FullUserQuestDataLargeProto;
+@class FullUserQuestDataLargeProto_Builder;
 @class FullUserStructureProto;
 @class FullUserStructureProto_Builder;
 @class GenerateAttackListRequestProto;
@@ -78,24 +86,30 @@
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProto_Builder;
+@class MinimumUserQuestTaskProto;
+@class MinimumUserQuestTaskProto_Builder;
 @class MinimumUserTaskProto;
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
-@class MoveNormStructureRequestProto;
-@class MoveNormStructureRequestProto_Builder;
-@class MoveNormStructureResponseProto;
-@class MoveNormStructureResponseProto_Builder;
-@class NormStructBuildsCompleteRequestProto;
-@class NormStructBuildsCompleteRequestProto_Builder;
-@class NormStructBuildsCompleteResponseProto;
-@class NormStructBuildsCompleteResponseProto_Builder;
+@class MoveOrRotateNormStructureRequestProto;
+@class MoveOrRotateNormStructureRequestProto_Builder;
+@class MoveOrRotateNormStructureResponseProto;
+@class MoveOrRotateNormStructureResponseProto_Builder;
+@class NormStructWaitCompleteRequestProto;
+@class NormStructWaitCompleteRequestProto_Builder;
+@class NormStructWaitCompleteResponseProto;
+@class NormStructWaitCompleteResponseProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
 @class PostToMarketplaceRequestProto;
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
 @class PostToMarketplaceResponseProto_Builder;
+@class PurchaseCityExpansionRequestProto;
+@class PurchaseCityExpansionRequestProto_Builder;
+@class PurchaseCityExpansionResponseProto;
+@class PurchaseCityExpansionResponseProto_Builder;
 @class PurchaseFromMarketplaceRequestProto;
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
@@ -108,10 +122,6 @@
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
 @class QuestAcceptResponseProto_Builder;
-@class QuestCheckCompleteRequestProto;
-@class QuestCheckCompleteRequestProto_Builder;
-@class QuestCheckCompleteResponseProto;
-@class QuestCheckCompleteResponseProto_Builder;
 @class QuestCompleteResponseProto;
 @class QuestCompleteResponseProto_Builder;
 @class QuestLogDetailsRequestProto;
@@ -126,6 +136,10 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class RefillStatWaitCompleteRequestProto;
+@class RefillStatWaitCompleteRequestProto_Builder;
+@class RefillStatWaitCompleteResponseProto;
+@class RefillStatWaitCompleteResponseProto_Builder;
 @class RefillStatWithDiamondsRequestProto;
 @class RefillStatWithDiamondsRequestProto_Builder;
 @class RefillStatWithDiamondsResponseProto;
@@ -207,17 +221,23 @@ typedef enum {
   EventProtocolRequestCUseSkillPointEvent = 15,
   EventProtocolRequestCGenerateAttackListEvent = 16,
   EventProtocolRequestCPurchaseNormStructureEvent = 17,
-  EventProtocolRequestCMoveNormStructureEvent = 18,
+  EventProtocolRequestCMoveOrRotateNormStructureEvent = 18,
   EventProtocolRequestCSellNormStructureEvent = 19,
   EventProtocolRequestCUpgradeNormStructureEvent = 20,
   EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent = 21,
   EventProtocolRequestCRefillStatWithDiamondsEvent = 22,
   EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent = 23,
-  EventProtocolRequestCNormStructBuildsCompleteEvent = 24,
+  EventProtocolRequestCNormStructWaitCompleteEvent = 24,
   EventProtocolRequestCRedeemMarketplaceEarningsEvent = 25,
   EventProtocolRequestCCritStructureActionEvent = 26,
   EventProtocolRequestCLoadPlayerCityEvent = 27,
   EventProtocolRequestCRetrieveStaticDataEvent = 28,
+  EventProtocolRequestCQuestAcceptEvent = 29,
+  EventProtocolRequestCQuestLogDetailsEvent = 30,
+  EventProtocolRequestCQuestRedeemEvent = 31,
+  EventProtocolRequestCPurchaseCityExpansionEvent = 32,
+  EventProtocolRequestCExpansionWaitCompleteEvent = 33,
+  EventProtocolRequestCRefillStatWaitCompleteEvent = 34,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -242,17 +262,23 @@ typedef enum {
   EventProtocolResponseSUseSkillPointEvent = 15,
   EventProtocolResponseSGenerateAttackListEvent = 16,
   EventProtocolResponseSPurchaseNormStructureEvent = 17,
-  EventProtocolResponseSMoveNormStructureEvent = 18,
+  EventProtocolResponseSMoveOrRotateNormStructureEvent = 18,
   EventProtocolResponseSSellNormStructureEvent = 19,
   EventProtocolResponseSUpgradeNormStructureEvent = 20,
   EventProtocolResponseSRetrieveCurrencyFromNormStructureEvent = 21,
   EventProtocolResponseSRefillStatWithDiamondsEvent = 22,
   EventProtocolResponseSFinishNormStructWaittimeWithDiamondsEvent = 23,
-  EventProtocolResponseSNormStructBuildsCompleteEvent = 24,
+  EventProtocolResponseSNormStructWaitCompleteEvent = 24,
   EventProtocolResponseSRedeemMarketplaceEarningsEvent = 25,
   EventProtocolResponseSCritStructureActionEvent = 26,
   EventProtocolResponseSLoadPlayerCityEvent = 27,
   EventProtocolResponseSRetrieveStaticDataEvent = 28,
+  EventProtocolResponseSQuestAcceptEvent = 29,
+  EventProtocolResponseSQuestLogDetailsEvent = 30,
+  EventProtocolResponseSQuestRedeemEvent = 31,
+  EventProtocolResponseSPurchaseCityExpansionEvent = 32,
+  EventProtocolResponseSExpansionWaitCompleteEvent = 33,
+  EventProtocolResponseSRefillStatWaitCompleteEvent = 34,
   EventProtocolResponseSLevelUpEvent = 50,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,

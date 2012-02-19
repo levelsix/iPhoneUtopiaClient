@@ -33,4 +33,8 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet DiamondPackageView *itemView;
 
++ (DiamondShopViewController *)sharedDiamondShopViewController;
++ (void) displayView;
++ (void) removeView;
+
 @end

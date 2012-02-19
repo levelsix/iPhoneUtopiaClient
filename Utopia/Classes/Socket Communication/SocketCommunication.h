@@ -17,6 +17,8 @@
   MinimumUserProto *_sender;
 }
 
+- (void) rebuildSender;
+
 + (SocketCommunication *)sharedSocketCommunication;
 - (void) initNetworkCommunication;
 - (void) readHeader;
@@ -33,9 +35,6 @@
 
 // Marketplace messages
 - (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId:(int)postId fromSender:(BOOL)fromSender;
-- (void) sendCoinPostToMarketplaceMessage:(int)coinPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
-- (void) sendWoodPostToMarketplaceMessage:(int)woodPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
-- (void) sendDiamondPostToMarketplaceMessage:(int)dmdPost wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendEquipPostToMarketplaceMessage:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
 - (void) sendRetractMarketplacePostMessage: (int)postId;
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
@@ -50,10 +49,13 @@
 - (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y;
 - (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
 - (void) sendUpgradeNormStructureMessage:(int)userStructId;
-- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(long)seconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
-- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(long)seconds;
+- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds;
+- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
+- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds;
 - (void) sendSellNormStructureMessage:(int)userStructId;
 
 - (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup;
+
+- (void) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds;
 
 @end

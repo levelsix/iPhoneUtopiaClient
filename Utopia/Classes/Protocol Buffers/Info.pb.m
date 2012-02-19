@@ -34,10 +34,8 @@ BOOL UserTypeIsValidValue(UserType value) {
 }
 BOOL MarketplacePostTypeIsValidValue(MarketplacePostType value) {
   switch (value) {
-    case MarketplacePostTypeEquipPost:
-    case MarketplacePostTypeWoodPost:
-    case MarketplacePostTypeDiamondPost:
-    case MarketplacePostTypeCoinPost:
+    case MarketplacePostTypePremiumEquipPost:
+    case MarketplacePostTypeNormEquipPost:
       return YES;
     default:
       return NO;
@@ -60,6 +58,25 @@ BOOL CritStructTypeIsValidValue(CritStructType value) {
     case CritStructTypeVault:
     case CritStructTypeArmory:
     case CritStructTypeMarketplace:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL StructOrientationIsValidValue(StructOrientation value) {
+  switch (value) {
+    case StructOrientationPosition1:
+    case StructOrientationPosition2:
+      return YES;
+    default:
+      return NO;
+  }
+}
+BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
+  switch (value) {
+    case ExpansionDirectionNearLeft:
+    case ExpansionDirectionFarLeft:
+    case ExpansionDirectionFarRight:
       return YES;
     default:
       return NO;
@@ -335,17 +352,19 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t attack;
 @property int32_t defense;
 @property int32_t stamina;
+@property int64_t lastStaminaRefillTime;
+@property BOOL isLastStaminaStateFull;
 @property int32_t energy;
+@property int64_t lastEnergyRefillTime;
+@property BOOL isLastEnergyStateFull;
 @property int32_t skillPoints;
 @property int32_t healthMax;
 @property int32_t energyMax;
 @property int32_t staminaMax;
 @property int32_t diamonds;
 @property int32_t coins;
-@property int32_t wood;
 @property int32_t marketplaceDiamondsEarnings;
 @property int32_t marketplaceCoinsEarnings;
-@property int32_t marketplaceWoodEarnings;
 @property int32_t vaultBalance;
 @property int32_t experience;
 @property int32_t tasksCompleted;
@@ -357,6 +376,10 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property (retain) NSString* udid;
 @property (retain) LocationProto* userLocation;
 @property int32_t numPostsInMarketplace;
+@property int32_t numMarketplaceSalesUnredeemed;
+@property int32_t weaponEquipped;
+@property int32_t armorEquipped;
+@property int32_t amuletEquipped;
 @end
 
 @implementation FullUserProto
@@ -410,6 +433,25 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasStamina_ = !!value;
 }
 @synthesize stamina;
+- (BOOL) hasLastStaminaRefillTime {
+  return !!hasLastStaminaRefillTime_;
+}
+- (void) setHasLastStaminaRefillTime:(BOOL) value {
+  hasLastStaminaRefillTime_ = !!value;
+}
+@synthesize lastStaminaRefillTime;
+- (BOOL) hasIsLastStaminaStateFull {
+  return !!hasIsLastStaminaStateFull_;
+}
+- (void) setHasIsLastStaminaStateFull:(BOOL) value {
+  hasIsLastStaminaStateFull_ = !!value;
+}
+- (BOOL) isLastStaminaStateFull {
+  return !!isLastStaminaStateFull_;
+}
+- (void) setIsLastStaminaStateFull:(BOOL) value {
+  isLastStaminaStateFull_ = !!value;
+}
 - (BOOL) hasEnergy {
   return !!hasEnergy_;
 }
@@ -417,6 +459,25 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasEnergy_ = !!value;
 }
 @synthesize energy;
+- (BOOL) hasLastEnergyRefillTime {
+  return !!hasLastEnergyRefillTime_;
+}
+- (void) setHasLastEnergyRefillTime:(BOOL) value {
+  hasLastEnergyRefillTime_ = !!value;
+}
+@synthesize lastEnergyRefillTime;
+- (BOOL) hasIsLastEnergyStateFull {
+  return !!hasIsLastEnergyStateFull_;
+}
+- (void) setHasIsLastEnergyStateFull:(BOOL) value {
+  hasIsLastEnergyStateFull_ = !!value;
+}
+- (BOOL) isLastEnergyStateFull {
+  return !!isLastEnergyStateFull_;
+}
+- (void) setIsLastEnergyStateFull:(BOOL) value {
+  isLastEnergyStateFull_ = !!value;
+}
 - (BOOL) hasSkillPoints {
   return !!hasSkillPoints_;
 }
@@ -459,13 +520,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasCoins_ = !!value;
 }
 @synthesize coins;
-- (BOOL) hasWood {
-  return !!hasWood_;
-}
-- (void) setHasWood:(BOOL) value {
-  hasWood_ = !!value;
-}
-@synthesize wood;
 - (BOOL) hasMarketplaceDiamondsEarnings {
   return !!hasMarketplaceDiamondsEarnings_;
 }
@@ -480,13 +534,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasMarketplaceCoinsEarnings_ = !!value;
 }
 @synthesize marketplaceCoinsEarnings;
-- (BOOL) hasMarketplaceWoodEarnings {
-  return !!hasMarketplaceWoodEarnings_;
-}
-- (void) setHasMarketplaceWoodEarnings:(BOOL) value {
-  hasMarketplaceWoodEarnings_ = !!value;
-}
-@synthesize marketplaceWoodEarnings;
 - (BOOL) hasVaultBalance {
   return !!hasVaultBalance_;
 }
@@ -564,6 +611,34 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasNumPostsInMarketplace_ = !!value;
 }
 @synthesize numPostsInMarketplace;
+- (BOOL) hasNumMarketplaceSalesUnredeemed {
+  return !!hasNumMarketplaceSalesUnredeemed_;
+}
+- (void) setHasNumMarketplaceSalesUnredeemed:(BOOL) value {
+  hasNumMarketplaceSalesUnredeemed_ = !!value;
+}
+@synthesize numMarketplaceSalesUnredeemed;
+- (BOOL) hasWeaponEquipped {
+  return !!hasWeaponEquipped_;
+}
+- (void) setHasWeaponEquipped:(BOOL) value {
+  hasWeaponEquipped_ = !!value;
+}
+@synthesize weaponEquipped;
+- (BOOL) hasArmorEquipped {
+  return !!hasArmorEquipped_;
+}
+- (void) setHasArmorEquipped:(BOOL) value {
+  hasArmorEquipped_ = !!value;
+}
+@synthesize armorEquipped;
+- (BOOL) hasAmuletEquipped {
+  return !!hasAmuletEquipped_;
+}
+- (void) setHasAmuletEquipped:(BOOL) value {
+  hasAmuletEquipped_ = !!value;
+}
+@synthesize amuletEquipped;
 - (void) dealloc {
   self.name = nil;
   self.armyCode = nil;
@@ -580,17 +655,19 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.attack = 0;
     self.defense = 0;
     self.stamina = 0;
+    self.lastStaminaRefillTime = 0L;
+    self.isLastStaminaStateFull = NO;
     self.energy = 0;
+    self.lastEnergyRefillTime = 0L;
+    self.isLastEnergyStateFull = NO;
     self.skillPoints = 0;
     self.healthMax = 0;
     self.energyMax = 0;
     self.staminaMax = 0;
     self.diamonds = 0;
     self.coins = 0;
-    self.wood = 0;
     self.marketplaceDiamondsEarnings = 0;
     self.marketplaceCoinsEarnings = 0;
-    self.marketplaceWoodEarnings = 0;
     self.vaultBalance = 0;
     self.experience = 0;
     self.tasksCompleted = 0;
@@ -602,6 +679,10 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.udid = @"";
     self.userLocation = [LocationProto defaultInstance];
     self.numPostsInMarketplace = 0;
+    self.numMarketplaceSalesUnredeemed = 0;
+    self.weaponEquipped = 0;
+    self.armorEquipped = 0;
+    self.amuletEquipped = 0;
   }
   return self;
 }
@@ -639,7 +720,19 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasStamina) {
     return NO;
   }
+  if (!self.hasLastStaminaRefillTime) {
+    return NO;
+  }
+  if (!self.hasIsLastStaminaStateFull) {
+    return NO;
+  }
   if (!self.hasEnergy) {
+    return NO;
+  }
+  if (!self.hasLastEnergyRefillTime) {
+    return NO;
+  }
+  if (!self.hasIsLastEnergyStateFull) {
     return NO;
   }
   if (!self.hasSkillPoints) {
@@ -660,16 +753,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasCoins) {
     return NO;
   }
-  if (!self.hasWood) {
-    return NO;
-  }
   if (!self.hasMarketplaceDiamondsEarnings) {
     return NO;
   }
   if (!self.hasMarketplaceCoinsEarnings) {
-    return NO;
-  }
-  if (!self.hasMarketplaceWoodEarnings) {
     return NO;
   }
   if (!self.hasVaultBalance) {
@@ -705,6 +792,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasNumPostsInMarketplace) {
     return NO;
   }
+  if (!self.hasNumMarketplaceSalesUnredeemed) {
+    return NO;
+  }
   if (!self.userLocation.isInitialized) {
     return NO;
   }
@@ -732,71 +822,89 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasStamina) {
     [output writeInt32:7 value:self.stamina];
   }
+  if (self.hasLastStaminaRefillTime) {
+    [output writeInt64:8 value:self.lastStaminaRefillTime];
+  }
+  if (self.hasIsLastStaminaStateFull) {
+    [output writeBool:9 value:self.isLastStaminaStateFull];
+  }
   if (self.hasEnergy) {
-    [output writeInt32:8 value:self.energy];
+    [output writeInt32:10 value:self.energy];
+  }
+  if (self.hasLastEnergyRefillTime) {
+    [output writeInt64:11 value:self.lastEnergyRefillTime];
+  }
+  if (self.hasIsLastEnergyStateFull) {
+    [output writeBool:12 value:self.isLastEnergyStateFull];
   }
   if (self.hasSkillPoints) {
-    [output writeInt32:10 value:self.skillPoints];
+    [output writeInt32:13 value:self.skillPoints];
   }
   if (self.hasHealthMax) {
-    [output writeInt32:11 value:self.healthMax];
+    [output writeInt32:14 value:self.healthMax];
   }
   if (self.hasEnergyMax) {
-    [output writeInt32:12 value:self.energyMax];
+    [output writeInt32:15 value:self.energyMax];
   }
   if (self.hasStaminaMax) {
-    [output writeInt32:13 value:self.staminaMax];
+    [output writeInt32:16 value:self.staminaMax];
   }
   if (self.hasDiamonds) {
-    [output writeInt32:14 value:self.diamonds];
+    [output writeInt32:17 value:self.diamonds];
   }
   if (self.hasCoins) {
-    [output writeInt32:15 value:self.coins];
-  }
-  if (self.hasWood) {
-    [output writeInt32:16 value:self.wood];
+    [output writeInt32:18 value:self.coins];
   }
   if (self.hasMarketplaceDiamondsEarnings) {
-    [output writeInt32:17 value:self.marketplaceDiamondsEarnings];
+    [output writeInt32:19 value:self.marketplaceDiamondsEarnings];
   }
   if (self.hasMarketplaceCoinsEarnings) {
-    [output writeInt32:18 value:self.marketplaceCoinsEarnings];
-  }
-  if (self.hasMarketplaceWoodEarnings) {
-    [output writeInt32:19 value:self.marketplaceWoodEarnings];
+    [output writeInt32:20 value:self.marketplaceCoinsEarnings];
   }
   if (self.hasVaultBalance) {
-    [output writeInt32:20 value:self.vaultBalance];
+    [output writeInt32:21 value:self.vaultBalance];
   }
   if (self.hasExperience) {
-    [output writeInt32:21 value:self.experience];
+    [output writeInt32:22 value:self.experience];
   }
   if (self.hasTasksCompleted) {
-    [output writeInt32:22 value:self.tasksCompleted];
+    [output writeInt32:23 value:self.tasksCompleted];
   }
   if (self.hasBattlesWon) {
-    [output writeInt32:23 value:self.battlesWon];
+    [output writeInt32:24 value:self.battlesWon];
   }
   if (self.hasBattlesLost) {
-    [output writeInt32:24 value:self.battlesLost];
+    [output writeInt32:25 value:self.battlesLost];
   }
   if (self.hasHourlyCoins) {
-    [output writeInt32:25 value:self.hourlyCoins];
+    [output writeInt32:26 value:self.hourlyCoins];
   }
   if (self.hasArmyCode) {
-    [output writeString:26 value:self.armyCode];
+    [output writeString:27 value:self.armyCode];
   }
   if (self.hasNumReferrals) {
-    [output writeInt32:27 value:self.numReferrals];
+    [output writeInt32:28 value:self.numReferrals];
   }
   if (self.hasUdid) {
-    [output writeString:28 value:self.udid];
+    [output writeString:29 value:self.udid];
   }
   if (self.hasUserLocation) {
-    [output writeMessage:29 value:self.userLocation];
+    [output writeMessage:30 value:self.userLocation];
   }
   if (self.hasNumPostsInMarketplace) {
-    [output writeInt32:30 value:self.numPostsInMarketplace];
+    [output writeInt32:31 value:self.numPostsInMarketplace];
+  }
+  if (self.hasNumMarketplaceSalesUnredeemed) {
+    [output writeInt32:32 value:self.numMarketplaceSalesUnredeemed];
+  }
+  if (self.hasWeaponEquipped) {
+    [output writeInt32:33 value:self.weaponEquipped];
+  }
+  if (self.hasArmorEquipped) {
+    [output writeInt32:34 value:self.armorEquipped];
+  }
+  if (self.hasAmuletEquipped) {
+    [output writeInt32:35 value:self.amuletEquipped];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -828,71 +936,89 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasStamina) {
     size += computeInt32Size(7, self.stamina);
   }
+  if (self.hasLastStaminaRefillTime) {
+    size += computeInt64Size(8, self.lastStaminaRefillTime);
+  }
+  if (self.hasIsLastStaminaStateFull) {
+    size += computeBoolSize(9, self.isLastStaminaStateFull);
+  }
   if (self.hasEnergy) {
-    size += computeInt32Size(8, self.energy);
+    size += computeInt32Size(10, self.energy);
+  }
+  if (self.hasLastEnergyRefillTime) {
+    size += computeInt64Size(11, self.lastEnergyRefillTime);
+  }
+  if (self.hasIsLastEnergyStateFull) {
+    size += computeBoolSize(12, self.isLastEnergyStateFull);
   }
   if (self.hasSkillPoints) {
-    size += computeInt32Size(10, self.skillPoints);
+    size += computeInt32Size(13, self.skillPoints);
   }
   if (self.hasHealthMax) {
-    size += computeInt32Size(11, self.healthMax);
+    size += computeInt32Size(14, self.healthMax);
   }
   if (self.hasEnergyMax) {
-    size += computeInt32Size(12, self.energyMax);
+    size += computeInt32Size(15, self.energyMax);
   }
   if (self.hasStaminaMax) {
-    size += computeInt32Size(13, self.staminaMax);
+    size += computeInt32Size(16, self.staminaMax);
   }
   if (self.hasDiamonds) {
-    size += computeInt32Size(14, self.diamonds);
+    size += computeInt32Size(17, self.diamonds);
   }
   if (self.hasCoins) {
-    size += computeInt32Size(15, self.coins);
-  }
-  if (self.hasWood) {
-    size += computeInt32Size(16, self.wood);
+    size += computeInt32Size(18, self.coins);
   }
   if (self.hasMarketplaceDiamondsEarnings) {
-    size += computeInt32Size(17, self.marketplaceDiamondsEarnings);
+    size += computeInt32Size(19, self.marketplaceDiamondsEarnings);
   }
   if (self.hasMarketplaceCoinsEarnings) {
-    size += computeInt32Size(18, self.marketplaceCoinsEarnings);
-  }
-  if (self.hasMarketplaceWoodEarnings) {
-    size += computeInt32Size(19, self.marketplaceWoodEarnings);
+    size += computeInt32Size(20, self.marketplaceCoinsEarnings);
   }
   if (self.hasVaultBalance) {
-    size += computeInt32Size(20, self.vaultBalance);
+    size += computeInt32Size(21, self.vaultBalance);
   }
   if (self.hasExperience) {
-    size += computeInt32Size(21, self.experience);
+    size += computeInt32Size(22, self.experience);
   }
   if (self.hasTasksCompleted) {
-    size += computeInt32Size(22, self.tasksCompleted);
+    size += computeInt32Size(23, self.tasksCompleted);
   }
   if (self.hasBattlesWon) {
-    size += computeInt32Size(23, self.battlesWon);
+    size += computeInt32Size(24, self.battlesWon);
   }
   if (self.hasBattlesLost) {
-    size += computeInt32Size(24, self.battlesLost);
+    size += computeInt32Size(25, self.battlesLost);
   }
   if (self.hasHourlyCoins) {
-    size += computeInt32Size(25, self.hourlyCoins);
+    size += computeInt32Size(26, self.hourlyCoins);
   }
   if (self.hasArmyCode) {
-    size += computeStringSize(26, self.armyCode);
+    size += computeStringSize(27, self.armyCode);
   }
   if (self.hasNumReferrals) {
-    size += computeInt32Size(27, self.numReferrals);
+    size += computeInt32Size(28, self.numReferrals);
   }
   if (self.hasUdid) {
-    size += computeStringSize(28, self.udid);
+    size += computeStringSize(29, self.udid);
   }
   if (self.hasUserLocation) {
-    size += computeMessageSize(29, self.userLocation);
+    size += computeMessageSize(30, self.userLocation);
   }
   if (self.hasNumPostsInMarketplace) {
-    size += computeInt32Size(30, self.numPostsInMarketplace);
+    size += computeInt32Size(31, self.numPostsInMarketplace);
+  }
+  if (self.hasNumMarketplaceSalesUnredeemed) {
+    size += computeInt32Size(32, self.numMarketplaceSalesUnredeemed);
+  }
+  if (self.hasWeaponEquipped) {
+    size += computeInt32Size(33, self.weaponEquipped);
+  }
+  if (self.hasArmorEquipped) {
+    size += computeInt32Size(34, self.armorEquipped);
+  }
+  if (self.hasAmuletEquipped) {
+    size += computeInt32Size(35, self.amuletEquipped);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -990,8 +1116,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasStamina) {
     [self setStamina:other.stamina];
   }
+  if (other.hasLastStaminaRefillTime) {
+    [self setLastStaminaRefillTime:other.lastStaminaRefillTime];
+  }
+  if (other.hasIsLastStaminaStateFull) {
+    [self setIsLastStaminaStateFull:other.isLastStaminaStateFull];
+  }
   if (other.hasEnergy) {
     [self setEnergy:other.energy];
+  }
+  if (other.hasLastEnergyRefillTime) {
+    [self setLastEnergyRefillTime:other.lastEnergyRefillTime];
+  }
+  if (other.hasIsLastEnergyStateFull) {
+    [self setIsLastEnergyStateFull:other.isLastEnergyStateFull];
   }
   if (other.hasSkillPoints) {
     [self setSkillPoints:other.skillPoints];
@@ -1011,17 +1149,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasCoins) {
     [self setCoins:other.coins];
   }
-  if (other.hasWood) {
-    [self setWood:other.wood];
-  }
   if (other.hasMarketplaceDiamondsEarnings) {
     [self setMarketplaceDiamondsEarnings:other.marketplaceDiamondsEarnings];
   }
   if (other.hasMarketplaceCoinsEarnings) {
     [self setMarketplaceCoinsEarnings:other.marketplaceCoinsEarnings];
-  }
-  if (other.hasMarketplaceWoodEarnings) {
-    [self setMarketplaceWoodEarnings:other.marketplaceWoodEarnings];
   }
   if (other.hasVaultBalance) {
     [self setVaultBalance:other.vaultBalance];
@@ -1055,6 +1187,18 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumPostsInMarketplace) {
     [self setNumPostsInMarketplace:other.numPostsInMarketplace];
+  }
+  if (other.hasNumMarketplaceSalesUnredeemed) {
+    [self setNumMarketplaceSalesUnredeemed:other.numMarketplaceSalesUnredeemed];
+  }
+  if (other.hasWeaponEquipped) {
+    [self setWeaponEquipped:other.weaponEquipped];
+  }
+  if (other.hasArmorEquipped) {
+    [self setArmorEquipped:other.armorEquipped];
+  }
+  if (other.hasAmuletEquipped) {
+    [self setAmuletEquipped:other.amuletEquipped];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1111,86 +1255,94 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         break;
       }
       case 64: {
-        [self setEnergy:[input readInt32]];
+        [self setLastStaminaRefillTime:[input readInt64]];
+        break;
+      }
+      case 72: {
+        [self setIsLastStaminaStateFull:[input readBool]];
         break;
       }
       case 80: {
-        [self setSkillPoints:[input readInt32]];
+        [self setEnergy:[input readInt32]];
         break;
       }
       case 88: {
-        [self setHealthMax:[input readInt32]];
+        [self setLastEnergyRefillTime:[input readInt64]];
         break;
       }
       case 96: {
-        [self setEnergyMax:[input readInt32]];
+        [self setIsLastEnergyStateFull:[input readBool]];
         break;
       }
       case 104: {
-        [self setStaminaMax:[input readInt32]];
+        [self setSkillPoints:[input readInt32]];
         break;
       }
       case 112: {
-        [self setDiamonds:[input readInt32]];
+        [self setHealthMax:[input readInt32]];
         break;
       }
       case 120: {
-        [self setCoins:[input readInt32]];
+        [self setEnergyMax:[input readInt32]];
         break;
       }
       case 128: {
-        [self setWood:[input readInt32]];
+        [self setStaminaMax:[input readInt32]];
         break;
       }
       case 136: {
-        [self setMarketplaceDiamondsEarnings:[input readInt32]];
+        [self setDiamonds:[input readInt32]];
         break;
       }
       case 144: {
-        [self setMarketplaceCoinsEarnings:[input readInt32]];
+        [self setCoins:[input readInt32]];
         break;
       }
       case 152: {
-        [self setMarketplaceWoodEarnings:[input readInt32]];
+        [self setMarketplaceDiamondsEarnings:[input readInt32]];
         break;
       }
       case 160: {
-        [self setVaultBalance:[input readInt32]];
+        [self setMarketplaceCoinsEarnings:[input readInt32]];
         break;
       }
       case 168: {
-        [self setExperience:[input readInt32]];
+        [self setVaultBalance:[input readInt32]];
         break;
       }
       case 176: {
-        [self setTasksCompleted:[input readInt32]];
+        [self setExperience:[input readInt32]];
         break;
       }
       case 184: {
-        [self setBattlesWon:[input readInt32]];
+        [self setTasksCompleted:[input readInt32]];
         break;
       }
       case 192: {
-        [self setBattlesLost:[input readInt32]];
+        [self setBattlesWon:[input readInt32]];
         break;
       }
       case 200: {
+        [self setBattlesLost:[input readInt32]];
+        break;
+      }
+      case 208: {
         [self setHourlyCoins:[input readInt32]];
         break;
       }
-      case 210: {
+      case 218: {
         [self setArmyCode:[input readString]];
         break;
       }
-      case 216: {
+      case 224: {
         [self setNumReferrals:[input readInt32]];
         break;
       }
-      case 226: {
+      case 234: {
         [self setUdid:[input readString]];
         break;
       }
-      case 234: {
+      case 242: {
         LocationProto_Builder* subBuilder = [LocationProto builder];
         if (self.hasUserLocation) {
           [subBuilder mergeFrom:self.userLocation];
@@ -1199,8 +1351,24 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setUserLocation:[subBuilder buildPartial]];
         break;
       }
-      case 240: {
+      case 248: {
         [self setNumPostsInMarketplace:[input readInt32]];
+        break;
+      }
+      case 256: {
+        [self setNumMarketplaceSalesUnredeemed:[input readInt32]];
+        break;
+      }
+      case 264: {
+        [self setWeaponEquipped:[input readInt32]];
+        break;
+      }
+      case 272: {
+        [self setArmorEquipped:[input readInt32]];
+        break;
+      }
+      case 280: {
+        [self setAmuletEquipped:[input readInt32]];
         break;
       }
     }
@@ -1318,6 +1486,38 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.stamina = 0;
   return self;
 }
+- (BOOL) hasLastStaminaRefillTime {
+  return result.hasLastStaminaRefillTime;
+}
+- (int64_t) lastStaminaRefillTime {
+  return result.lastStaminaRefillTime;
+}
+- (FullUserProto_Builder*) setLastStaminaRefillTime:(int64_t) value {
+  result.hasLastStaminaRefillTime = YES;
+  result.lastStaminaRefillTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastStaminaRefillTime {
+  result.hasLastStaminaRefillTime = NO;
+  result.lastStaminaRefillTime = 0L;
+  return self;
+}
+- (BOOL) hasIsLastStaminaStateFull {
+  return result.hasIsLastStaminaStateFull;
+}
+- (BOOL) isLastStaminaStateFull {
+  return result.isLastStaminaStateFull;
+}
+- (FullUserProto_Builder*) setIsLastStaminaStateFull:(BOOL) value {
+  result.hasIsLastStaminaStateFull = YES;
+  result.isLastStaminaStateFull = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsLastStaminaStateFull {
+  result.hasIsLastStaminaStateFull = NO;
+  result.isLastStaminaStateFull = NO;
+  return self;
+}
 - (BOOL) hasEnergy {
   return result.hasEnergy;
 }
@@ -1332,6 +1532,38 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearEnergy {
   result.hasEnergy = NO;
   result.energy = 0;
+  return self;
+}
+- (BOOL) hasLastEnergyRefillTime {
+  return result.hasLastEnergyRefillTime;
+}
+- (int64_t) lastEnergyRefillTime {
+  return result.lastEnergyRefillTime;
+}
+- (FullUserProto_Builder*) setLastEnergyRefillTime:(int64_t) value {
+  result.hasLastEnergyRefillTime = YES;
+  result.lastEnergyRefillTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastEnergyRefillTime {
+  result.hasLastEnergyRefillTime = NO;
+  result.lastEnergyRefillTime = 0L;
+  return self;
+}
+- (BOOL) hasIsLastEnergyStateFull {
+  return result.hasIsLastEnergyStateFull;
+}
+- (BOOL) isLastEnergyStateFull {
+  return result.isLastEnergyStateFull;
+}
+- (FullUserProto_Builder*) setIsLastEnergyStateFull:(BOOL) value {
+  result.hasIsLastEnergyStateFull = YES;
+  result.isLastEnergyStateFull = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsLastEnergyStateFull {
+  result.hasIsLastEnergyStateFull = NO;
+  result.isLastEnergyStateFull = NO;
   return self;
 }
 - (BOOL) hasSkillPoints {
@@ -1430,22 +1662,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.coins = 0;
   return self;
 }
-- (BOOL) hasWood {
-  return result.hasWood;
-}
-- (int32_t) wood {
-  return result.wood;
-}
-- (FullUserProto_Builder*) setWood:(int32_t) value {
-  result.hasWood = YES;
-  result.wood = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearWood {
-  result.hasWood = NO;
-  result.wood = 0;
-  return self;
-}
 - (BOOL) hasMarketplaceDiamondsEarnings {
   return result.hasMarketplaceDiamondsEarnings;
 }
@@ -1476,22 +1692,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearMarketplaceCoinsEarnings {
   result.hasMarketplaceCoinsEarnings = NO;
   result.marketplaceCoinsEarnings = 0;
-  return self;
-}
-- (BOOL) hasMarketplaceWoodEarnings {
-  return result.hasMarketplaceWoodEarnings;
-}
-- (int32_t) marketplaceWoodEarnings {
-  return result.marketplaceWoodEarnings;
-}
-- (FullUserProto_Builder*) setMarketplaceWoodEarnings:(int32_t) value {
-  result.hasMarketplaceWoodEarnings = YES;
-  result.marketplaceWoodEarnings = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearMarketplaceWoodEarnings {
-  result.hasMarketplaceWoodEarnings = NO;
-  result.marketplaceWoodEarnings = 0;
   return self;
 }
 - (BOOL) hasVaultBalance {
@@ -1684,20 +1884,86 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.numPostsInMarketplace = 0;
   return self;
 }
+- (BOOL) hasNumMarketplaceSalesUnredeemed {
+  return result.hasNumMarketplaceSalesUnredeemed;
+}
+- (int32_t) numMarketplaceSalesUnredeemed {
+  return result.numMarketplaceSalesUnredeemed;
+}
+- (FullUserProto_Builder*) setNumMarketplaceSalesUnredeemed:(int32_t) value {
+  result.hasNumMarketplaceSalesUnredeemed = YES;
+  result.numMarketplaceSalesUnredeemed = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumMarketplaceSalesUnredeemed {
+  result.hasNumMarketplaceSalesUnredeemed = NO;
+  result.numMarketplaceSalesUnredeemed = 0;
+  return self;
+}
+- (BOOL) hasWeaponEquipped {
+  return result.hasWeaponEquipped;
+}
+- (int32_t) weaponEquipped {
+  return result.weaponEquipped;
+}
+- (FullUserProto_Builder*) setWeaponEquipped:(int32_t) value {
+  result.hasWeaponEquipped = YES;
+  result.weaponEquipped = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearWeaponEquipped {
+  result.hasWeaponEquipped = NO;
+  result.weaponEquipped = 0;
+  return self;
+}
+- (BOOL) hasArmorEquipped {
+  return result.hasArmorEquipped;
+}
+- (int32_t) armorEquipped {
+  return result.armorEquipped;
+}
+- (FullUserProto_Builder*) setArmorEquipped:(int32_t) value {
+  result.hasArmorEquipped = YES;
+  result.armorEquipped = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearArmorEquipped {
+  result.hasArmorEquipped = NO;
+  result.armorEquipped = 0;
+  return self;
+}
+- (BOOL) hasAmuletEquipped {
+  return result.hasAmuletEquipped;
+}
+- (int32_t) amuletEquipped {
+  return result.amuletEquipped;
+}
+- (FullUserProto_Builder*) setAmuletEquipped:(int32_t) value {
+  result.hasAmuletEquipped = YES;
+  result.amuletEquipped = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearAmuletEquipped {
+  result.hasAmuletEquipped = NO;
+  result.amuletEquipped = 0;
+  return self;
+}
 @end
 
 @interface FullEquipProto ()
 @property int32_t equipId;
 @property (retain) NSString* name;
 @property FullEquipProto_EquipType equipType;
-@property FullEquipProto_ClassType classType;
+@property (retain) NSString* description;
 @property int32_t attackBoost;
 @property int32_t defenseBoost;
 @property int32_t minLevel;
 @property int32_t coinPrice;
 @property int32_t diamondPrice;
 @property Float32 chanceOfLoss;
+@property FullEquipProto_ClassType classType;
 @property FullEquipProto_Rarity rarity;
+@property BOOL availInArmory;
 @end
 
 @implementation FullEquipProto
@@ -1723,13 +1989,13 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasEquipType_ = !!value;
 }
 @synthesize equipType;
-- (BOOL) hasClassType {
-  return !!hasClassType_;
+- (BOOL) hasDescription {
+  return !!hasDescription_;
 }
-- (void) setHasClassType:(BOOL) value {
-  hasClassType_ = !!value;
+- (void) setHasDescription:(BOOL) value {
+  hasDescription_ = !!value;
 }
-@synthesize classType;
+@synthesize description;
 - (BOOL) hasAttackBoost {
   return !!hasAttackBoost_;
 }
@@ -1772,6 +2038,13 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasChanceOfLoss_ = !!value;
 }
 @synthesize chanceOfLoss;
+- (BOOL) hasClassType {
+  return !!hasClassType_;
+}
+- (void) setHasClassType:(BOOL) value {
+  hasClassType_ = !!value;
+}
+@synthesize classType;
 - (BOOL) hasRarity {
   return !!hasRarity_;
 }
@@ -1779,8 +2052,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasRarity_ = !!value;
 }
 @synthesize rarity;
+- (BOOL) hasAvailInArmory {
+  return !!hasAvailInArmory_;
+}
+- (void) setHasAvailInArmory:(BOOL) value {
+  hasAvailInArmory_ = !!value;
+}
+- (BOOL) availInArmory {
+  return !!availInArmory_;
+}
+- (void) setAvailInArmory:(BOOL) value {
+  availInArmory_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
+  self.description = nil;
   [super dealloc];
 }
 - (id) init {
@@ -1788,14 +2074,16 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
     self.equipId = 0;
     self.name = @"";
     self.equipType = FullEquipProto_EquipTypeWeapon;
-    self.classType = FullEquipProto_ClassTypeWarrior;
+    self.description = @"";
     self.attackBoost = 0;
     self.defenseBoost = 0;
     self.minLevel = 0;
     self.coinPrice = 0;
     self.diamondPrice = 0;
     self.chanceOfLoss = 0;
+    self.classType = FullEquipProto_ClassTypeWarrior;
     self.rarity = FullEquipProto_RarityCommon;
+    self.availInArmory = NO;
   }
   return self;
 }
@@ -1821,7 +2109,7 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (!self.hasEquipType) {
     return NO;
   }
-  if (!self.hasClassType) {
+  if (!self.hasDescription) {
     return NO;
   }
   if (!self.hasAttackBoost) {
@@ -1836,7 +2124,13 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (!self.hasChanceOfLoss) {
     return NO;
   }
+  if (!self.hasClassType) {
+    return NO;
+  }
   if (!self.hasRarity) {
+    return NO;
+  }
+  if (!self.hasAvailInArmory) {
     return NO;
   }
   return YES;
@@ -1851,8 +2145,8 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasEquipType) {
     [output writeEnum:3 value:self.equipType];
   }
-  if (self.hasClassType) {
-    [output writeEnum:4 value:self.classType];
+  if (self.hasDescription) {
+    [output writeString:4 value:self.description];
   }
   if (self.hasAttackBoost) {
     [output writeInt32:5 value:self.attackBoost];
@@ -1872,8 +2166,14 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasChanceOfLoss) {
     [output writeFloat:10 value:self.chanceOfLoss];
   }
+  if (self.hasClassType) {
+    [output writeEnum:11 value:self.classType];
+  }
   if (self.hasRarity) {
-    [output writeEnum:11 value:self.rarity];
+    [output writeEnum:12 value:self.rarity];
+  }
+  if (self.hasAvailInArmory) {
+    [output writeBool:13 value:self.availInArmory];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1893,8 +2193,8 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasEquipType) {
     size += computeEnumSize(3, self.equipType);
   }
-  if (self.hasClassType) {
-    size += computeEnumSize(4, self.classType);
+  if (self.hasDescription) {
+    size += computeStringSize(4, self.description);
   }
   if (self.hasAttackBoost) {
     size += computeInt32Size(5, self.attackBoost);
@@ -1914,8 +2214,14 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasChanceOfLoss) {
     size += computeFloatSize(10, self.chanceOfLoss);
   }
+  if (self.hasClassType) {
+    size += computeEnumSize(11, self.classType);
+  }
   if (self.hasRarity) {
-    size += computeEnumSize(11, self.rarity);
+    size += computeEnumSize(12, self.rarity);
+  }
+  if (self.hasAvailInArmory) {
+    size += computeBoolSize(13, self.availInArmory);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2033,8 +2339,8 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   if (other.hasEquipType) {
     [self setEquipType:other.equipType];
   }
-  if (other.hasClassType) {
-    [self setClassType:other.classType];
+  if (other.hasDescription) {
+    [self setDescription:other.description];
   }
   if (other.hasAttackBoost) {
     [self setAttackBoost:other.attackBoost];
@@ -2054,8 +2360,14 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   if (other.hasChanceOfLoss) {
     [self setChanceOfLoss:other.chanceOfLoss];
   }
+  if (other.hasClassType) {
+    [self setClassType:other.classType];
+  }
   if (other.hasRarity) {
     [self setRarity:other.rarity];
+  }
+  if (other.hasAvailInArmory) {
+    [self setAvailInArmory:other.availInArmory];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2095,13 +2407,8 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
         }
         break;
       }
-      case 32: {
-        int32_t value = [input readEnum];
-        if (FullEquipProto_ClassTypeIsValidValue(value)) {
-          [self setClassType:value];
-        } else {
-          [unknownFields mergeVarintField:4 value:value];
-        }
+      case 34: {
+        [self setDescription:[input readString]];
         break;
       }
       case 40: {
@@ -2130,11 +2437,24 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
       }
       case 88: {
         int32_t value = [input readEnum];
-        if (FullEquipProto_RarityIsValidValue(value)) {
-          [self setRarity:value];
+        if (FullEquipProto_ClassTypeIsValidValue(value)) {
+          [self setClassType:value];
         } else {
           [unknownFields mergeVarintField:11 value:value];
         }
+        break;
+      }
+      case 96: {
+        int32_t value = [input readEnum];
+        if (FullEquipProto_RarityIsValidValue(value)) {
+          [self setRarity:value];
+        } else {
+          [unknownFields mergeVarintField:12 value:value];
+        }
+        break;
+      }
+      case 104: {
+        [self setAvailInArmory:[input readBool]];
         break;
       }
     }
@@ -2188,20 +2508,20 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   result.equipType = FullEquipProto_EquipTypeWeapon;
   return self;
 }
-- (BOOL) hasClassType {
-  return result.hasClassType;
+- (BOOL) hasDescription {
+  return result.hasDescription;
 }
-- (FullEquipProto_ClassType) classType {
-  return result.classType;
+- (NSString*) description {
+  return result.description;
 }
-- (FullEquipProto_Builder*) setClassType:(FullEquipProto_ClassType) value {
-  result.hasClassType = YES;
-  result.classType = value;
+- (FullEquipProto_Builder*) setDescription:(NSString*) value {
+  result.hasDescription = YES;
+  result.description = value;
   return self;
 }
-- (FullEquipProto_Builder*) clearClassType {
-  result.hasClassType = NO;
-  result.classType = FullEquipProto_ClassTypeWarrior;
+- (FullEquipProto_Builder*) clearDescription {
+  result.hasDescription = NO;
+  result.description = @"";
   return self;
 }
 - (BOOL) hasAttackBoost {
@@ -2300,6 +2620,22 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   result.chanceOfLoss = 0;
   return self;
 }
+- (BOOL) hasClassType {
+  return result.hasClassType;
+}
+- (FullEquipProto_ClassType) classType {
+  return result.classType;
+}
+- (FullEquipProto_Builder*) setClassType:(FullEquipProto_ClassType) value {
+  result.hasClassType = YES;
+  result.classType = value;
+  return self;
+}
+- (FullEquipProto_Builder*) clearClassType {
+  result.hasClassType = NO;
+  result.classType = FullEquipProto_ClassTypeWarrior;
+  return self;
+}
 - (BOOL) hasRarity {
   return result.hasRarity;
 }
@@ -2316,28 +2652,46 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   result.rarity = FullEquipProto_RarityCommon;
   return self;
 }
+- (BOOL) hasAvailInArmory {
+  return result.hasAvailInArmory;
+}
+- (BOOL) availInArmory {
+  return result.availInArmory;
+}
+- (FullEquipProto_Builder*) setAvailInArmory:(BOOL) value {
+  result.hasAvailInArmory = YES;
+  result.availInArmory = value;
+  return self;
+}
+- (FullEquipProto_Builder*) clearAvailInArmory {
+  result.hasAvailInArmory = NO;
+  result.availInArmory = NO;
+  return self;
+}
 @end
 
 @interface FullUserStructureProto ()
-@property int32_t id;
+@property int32_t userStructId;
 @property int32_t userId;
 @property int32_t structId;
 @property int64_t lastRetrieved;
 @property (retain) CoordinateProto* coordinates;
 @property int32_t level;
 @property int64_t purchaseTime;
+@property int64_t lastUpgradeTime;
 @property BOOL isComplete;
+@property StructOrientation orientation;
 @end
 
 @implementation FullUserStructureProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasUserStructId {
+  return !!hasUserStructId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasUserStructId:(BOOL) value {
+  hasUserStructId_ = !!value;
 }
-@synthesize id;
+@synthesize userStructId;
 - (BOOL) hasUserId {
   return !!hasUserId_;
 }
@@ -2380,6 +2734,13 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   hasPurchaseTime_ = !!value;
 }
 @synthesize purchaseTime;
+- (BOOL) hasLastUpgradeTime {
+  return !!hasLastUpgradeTime_;
+}
+- (void) setHasLastUpgradeTime:(BOOL) value {
+  hasLastUpgradeTime_ = !!value;
+}
+@synthesize lastUpgradeTime;
 - (BOOL) hasIsComplete {
   return !!hasIsComplete_;
 }
@@ -2392,20 +2753,29 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
 - (void) setIsComplete:(BOOL) value {
   isComplete_ = !!value;
 }
+- (BOOL) hasOrientation {
+  return !!hasOrientation_;
+}
+- (void) setHasOrientation:(BOOL) value {
+  hasOrientation_ = !!value;
+}
+@synthesize orientation;
 - (void) dealloc {
   self.coordinates = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.userStructId = 0;
     self.userId = 0;
     self.structId = 0;
     self.lastRetrieved = 0L;
     self.coordinates = [CoordinateProto defaultInstance];
     self.level = 0;
     self.purchaseTime = 0L;
+    self.lastUpgradeTime = 0L;
     self.isComplete = NO;
+    self.orientation = StructOrientationPosition1;
   }
   return self;
 }
@@ -2422,7 +2792,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   return defaultFullUserStructureProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasUserStructId) {
     return NO;
   }
   if (!self.hasUserId) {
@@ -2443,14 +2813,17 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (!self.hasIsComplete) {
     return NO;
   }
+  if (!self.hasOrientation) {
+    return NO;
+  }
   if (!self.coordinates.isInitialized) {
     return NO;
   }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasUserStructId) {
+    [output writeInt32:1 value:self.userStructId];
   }
   if (self.hasUserId) {
     [output writeInt32:2 value:self.userId];
@@ -2470,8 +2843,14 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (self.hasPurchaseTime) {
     [output writeInt64:7 value:self.purchaseTime];
   }
+  if (self.hasLastUpgradeTime) {
+    [output writeInt64:8 value:self.lastUpgradeTime];
+  }
   if (self.hasIsComplete) {
-    [output writeBool:8 value:self.isComplete];
+    [output writeBool:9 value:self.isComplete];
+  }
+  if (self.hasOrientation) {
+    [output writeEnum:10 value:self.orientation];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2482,8 +2861,8 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasUserStructId) {
+    size += computeInt32Size(1, self.userStructId);
   }
   if (self.hasUserId) {
     size += computeInt32Size(2, self.userId);
@@ -2503,8 +2882,14 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (self.hasPurchaseTime) {
     size += computeInt64Size(7, self.purchaseTime);
   }
+  if (self.hasLastUpgradeTime) {
+    size += computeInt64Size(8, self.lastUpgradeTime);
+  }
   if (self.hasIsComplete) {
-    size += computeBoolSize(8, self.isComplete);
+    size += computeBoolSize(9, self.isComplete);
+  }
+  if (self.hasOrientation) {
+    size += computeEnumSize(10, self.orientation);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2581,8 +2966,8 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (other == [FullUserStructureProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasUserStructId) {
+    [self setUserStructId:other.userStructId];
   }
   if (other.hasUserId) {
     [self setUserId:other.userId];
@@ -2602,8 +2987,14 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   if (other.hasPurchaseTime) {
     [self setPurchaseTime:other.purchaseTime];
   }
+  if (other.hasLastUpgradeTime) {
+    [self setLastUpgradeTime:other.lastUpgradeTime];
+  }
   if (other.hasIsComplete) {
     [self setIsComplete:other.isComplete];
+  }
+  if (other.hasOrientation) {
+    [self setOrientation:other.orientation];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2627,7 +3018,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setUserStructId:[input readInt32]];
         break;
       }
       case 16: {
@@ -2660,26 +3051,39 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
         break;
       }
       case 64: {
+        [self setLastUpgradeTime:[input readInt64]];
+        break;
+      }
+      case 72: {
         [self setIsComplete:[input readBool]];
+        break;
+      }
+      case 80: {
+        int32_t value = [input readEnum];
+        if (StructOrientationIsValidValue(value)) {
+          [self setOrientation:value];
+        } else {
+          [unknownFields mergeVarintField:10 value:value];
+        }
         break;
       }
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasUserStructId {
+  return result.hasUserStructId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) userStructId {
+  return result.userStructId;
 }
-- (FullUserStructureProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (FullUserStructureProto_Builder*) setUserStructId:(int32_t) value {
+  result.hasUserStructId = YES;
+  result.userStructId = value;
   return self;
 }
-- (FullUserStructureProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (FullUserStructureProto_Builder*) clearUserStructId {
+  result.hasUserStructId = NO;
+  result.userStructId = 0;
   return self;
 }
 - (BOOL) hasUserId {
@@ -2792,6 +3196,22 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   result.purchaseTime = 0L;
   return self;
 }
+- (BOOL) hasLastUpgradeTime {
+  return result.hasLastUpgradeTime;
+}
+- (int64_t) lastUpgradeTime {
+  return result.lastUpgradeTime;
+}
+- (FullUserStructureProto_Builder*) setLastUpgradeTime:(int64_t) value {
+  result.hasLastUpgradeTime = YES;
+  result.lastUpgradeTime = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearLastUpgradeTime {
+  result.hasLastUpgradeTime = NO;
+  result.lastUpgradeTime = 0L;
+  return self;
+}
 - (BOOL) hasIsComplete {
   return result.hasIsComplete;
 }
@@ -2806,6 +3226,22 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 - (FullUserStructureProto_Builder*) clearIsComplete {
   result.hasIsComplete = NO;
   result.isComplete = NO;
+  return self;
+}
+- (BOOL) hasOrientation {
+  return result.hasOrientation;
+}
+- (StructOrientation) orientation {
+  return result.orientation;
+}
+- (FullUserStructureProto_Builder*) setOrientation:(StructOrientation) value {
+  result.hasOrientation = YES;
+  result.orientation = value;
+  return self;
+}
+- (FullUserStructureProto_Builder*) clearOrientation {
+  result.hasOrientation = NO;
+  result.orientation = StructOrientationPosition1;
   return self;
 }
 @end
@@ -3119,31 +3555,33 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 @end
 
 @interface FullStructureProto ()
-@property int32_t id;
+@property int32_t structId;
 @property (retain) NSString* name;
 @property int32_t income;
 @property int32_t minutesToGain;
 @property int32_t minutesToBuild;
+@property int32_t minutesToUpgradeBase;
 @property int32_t coinPrice;
 @property int32_t diamondPrice;
-@property int32_t woodPrice;
 @property int32_t minLevel;
 @property int32_t xLength;
 @property int32_t yLength;
 @property int32_t upgradeCoinCostBase;
 @property int32_t upgradeDiamondCostBase;
-@property int32_t upgradeWoodCostBase;
+@property int32_t instaBuildDiamondCostBase;
+@property int32_t instaRetrieveDiamondCostBase;
+@property int32_t instaUpgradeDiamondCostBase;
 @end
 
 @implementation FullStructureProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasStructId {
+  return !!hasStructId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasStructId:(BOOL) value {
+  hasStructId_ = !!value;
 }
-@synthesize id;
+@synthesize structId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -3172,6 +3610,13 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   hasMinutesToBuild_ = !!value;
 }
 @synthesize minutesToBuild;
+- (BOOL) hasMinutesToUpgradeBase {
+  return !!hasMinutesToUpgradeBase_;
+}
+- (void) setHasMinutesToUpgradeBase:(BOOL) value {
+  hasMinutesToUpgradeBase_ = !!value;
+}
+@synthesize minutesToUpgradeBase;
 - (BOOL) hasCoinPrice {
   return !!hasCoinPrice_;
 }
@@ -3186,13 +3631,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   hasDiamondPrice_ = !!value;
 }
 @synthesize diamondPrice;
-- (BOOL) hasWoodPrice {
-  return !!hasWoodPrice_;
-}
-- (void) setHasWoodPrice:(BOOL) value {
-  hasWoodPrice_ = !!value;
-}
-@synthesize woodPrice;
 - (BOOL) hasMinLevel {
   return !!hasMinLevel_;
 }
@@ -3228,33 +3666,49 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   hasUpgradeDiamondCostBase_ = !!value;
 }
 @synthesize upgradeDiamondCostBase;
-- (BOOL) hasUpgradeWoodCostBase {
-  return !!hasUpgradeWoodCostBase_;
+- (BOOL) hasInstaBuildDiamondCostBase {
+  return !!hasInstaBuildDiamondCostBase_;
 }
-- (void) setHasUpgradeWoodCostBase:(BOOL) value {
-  hasUpgradeWoodCostBase_ = !!value;
+- (void) setHasInstaBuildDiamondCostBase:(BOOL) value {
+  hasInstaBuildDiamondCostBase_ = !!value;
 }
-@synthesize upgradeWoodCostBase;
+@synthesize instaBuildDiamondCostBase;
+- (BOOL) hasInstaRetrieveDiamondCostBase {
+  return !!hasInstaRetrieveDiamondCostBase_;
+}
+- (void) setHasInstaRetrieveDiamondCostBase:(BOOL) value {
+  hasInstaRetrieveDiamondCostBase_ = !!value;
+}
+@synthesize instaRetrieveDiamondCostBase;
+- (BOOL) hasInstaUpgradeDiamondCostBase {
+  return !!hasInstaUpgradeDiamondCostBase_;
+}
+- (void) setHasInstaUpgradeDiamondCostBase:(BOOL) value {
+  hasInstaUpgradeDiamondCostBase_ = !!value;
+}
+@synthesize instaUpgradeDiamondCostBase;
 - (void) dealloc {
   self.name = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.structId = 0;
     self.name = @"";
     self.income = 0;
     self.minutesToGain = 0;
     self.minutesToBuild = 0;
+    self.minutesToUpgradeBase = 0;
     self.coinPrice = 0;
     self.diamondPrice = 0;
-    self.woodPrice = 0;
     self.minLevel = 0;
     self.xLength = 0;
     self.yLength = 0;
     self.upgradeCoinCostBase = 0;
     self.upgradeDiamondCostBase = 0;
-    self.upgradeWoodCostBase = 0;
+    self.instaBuildDiamondCostBase = 0;
+    self.instaRetrieveDiamondCostBase = 0;
+    self.instaUpgradeDiamondCostBase = 0;
   }
   return self;
 }
@@ -3271,7 +3725,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   return defaultFullStructureProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasStructId) {
     return NO;
   }
   if (!self.hasName) {
@@ -3286,13 +3740,13 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (!self.hasMinutesToBuild) {
     return NO;
   }
+  if (!self.hasMinutesToUpgradeBase) {
+    return NO;
+  }
   if (!self.hasCoinPrice) {
     return NO;
   }
   if (!self.hasDiamondPrice) {
-    return NO;
-  }
-  if (!self.hasWoodPrice) {
     return NO;
   }
   if (!self.hasMinLevel) {
@@ -3310,14 +3764,20 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (!self.hasUpgradeDiamondCostBase) {
     return NO;
   }
-  if (!self.hasUpgradeWoodCostBase) {
+  if (!self.hasInstaBuildDiamondCostBase) {
+    return NO;
+  }
+  if (!self.hasInstaRetrieveDiamondCostBase) {
+    return NO;
+  }
+  if (!self.hasInstaUpgradeDiamondCostBase) {
     return NO;
   }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasStructId) {
+    [output writeInt32:1 value:self.structId];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -3331,14 +3791,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     [output writeInt32:5 value:self.minutesToBuild];
   }
+  if (self.hasMinutesToUpgradeBase) {
+    [output writeInt32:6 value:self.minutesToUpgradeBase];
+  }
   if (self.hasCoinPrice) {
-    [output writeInt32:6 value:self.coinPrice];
+    [output writeInt32:7 value:self.coinPrice];
   }
   if (self.hasDiamondPrice) {
-    [output writeInt32:7 value:self.diamondPrice];
-  }
-  if (self.hasWoodPrice) {
-    [output writeInt32:8 value:self.woodPrice];
+    [output writeInt32:8 value:self.diamondPrice];
   }
   if (self.hasMinLevel) {
     [output writeInt32:9 value:self.minLevel];
@@ -3355,8 +3815,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasUpgradeDiamondCostBase) {
     [output writeInt32:13 value:self.upgradeDiamondCostBase];
   }
-  if (self.hasUpgradeWoodCostBase) {
-    [output writeInt32:14 value:self.upgradeWoodCostBase];
+  if (self.hasInstaBuildDiamondCostBase) {
+    [output writeInt32:14 value:self.instaBuildDiamondCostBase];
+  }
+  if (self.hasInstaRetrieveDiamondCostBase) {
+    [output writeInt32:15 value:self.instaRetrieveDiamondCostBase];
+  }
+  if (self.hasInstaUpgradeDiamondCostBase) {
+    [output writeInt32:16 value:self.instaUpgradeDiamondCostBase];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3367,8 +3833,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasStructId) {
+    size += computeInt32Size(1, self.structId);
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
@@ -3382,14 +3848,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasMinutesToBuild) {
     size += computeInt32Size(5, self.minutesToBuild);
   }
+  if (self.hasMinutesToUpgradeBase) {
+    size += computeInt32Size(6, self.minutesToUpgradeBase);
+  }
   if (self.hasCoinPrice) {
-    size += computeInt32Size(6, self.coinPrice);
+    size += computeInt32Size(7, self.coinPrice);
   }
   if (self.hasDiamondPrice) {
-    size += computeInt32Size(7, self.diamondPrice);
-  }
-  if (self.hasWoodPrice) {
-    size += computeInt32Size(8, self.woodPrice);
+    size += computeInt32Size(8, self.diamondPrice);
   }
   if (self.hasMinLevel) {
     size += computeInt32Size(9, self.minLevel);
@@ -3406,8 +3872,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasUpgradeDiamondCostBase) {
     size += computeInt32Size(13, self.upgradeDiamondCostBase);
   }
-  if (self.hasUpgradeWoodCostBase) {
-    size += computeInt32Size(14, self.upgradeWoodCostBase);
+  if (self.hasInstaBuildDiamondCostBase) {
+    size += computeInt32Size(14, self.instaBuildDiamondCostBase);
+  }
+  if (self.hasInstaRetrieveDiamondCostBase) {
+    size += computeInt32Size(15, self.instaRetrieveDiamondCostBase);
+  }
+  if (self.hasInstaUpgradeDiamondCostBase) {
+    size += computeInt32Size(16, self.instaUpgradeDiamondCostBase);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3484,8 +3956,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other == [FullStructureProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasStructId) {
+    [self setStructId:other.structId];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -3499,14 +3971,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasMinutesToBuild) {
     [self setMinutesToBuild:other.minutesToBuild];
   }
+  if (other.hasMinutesToUpgradeBase) {
+    [self setMinutesToUpgradeBase:other.minutesToUpgradeBase];
+  }
   if (other.hasCoinPrice) {
     [self setCoinPrice:other.coinPrice];
   }
   if (other.hasDiamondPrice) {
     [self setDiamondPrice:other.diamondPrice];
-  }
-  if (other.hasWoodPrice) {
-    [self setWoodPrice:other.woodPrice];
   }
   if (other.hasMinLevel) {
     [self setMinLevel:other.minLevel];
@@ -3523,8 +3995,14 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasUpgradeDiamondCostBase) {
     [self setUpgradeDiamondCostBase:other.upgradeDiamondCostBase];
   }
-  if (other.hasUpgradeWoodCostBase) {
-    [self setUpgradeWoodCostBase:other.upgradeWoodCostBase];
+  if (other.hasInstaBuildDiamondCostBase) {
+    [self setInstaBuildDiamondCostBase:other.instaBuildDiamondCostBase];
+  }
+  if (other.hasInstaRetrieveDiamondCostBase) {
+    [self setInstaRetrieveDiamondCostBase:other.instaRetrieveDiamondCostBase];
+  }
+  if (other.hasInstaUpgradeDiamondCostBase) {
+    [self setInstaUpgradeDiamondCostBase:other.instaUpgradeDiamondCostBase];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -3548,7 +4026,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setStructId:[input readInt32]];
         break;
       }
       case 18: {
@@ -3568,15 +4046,15 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 48: {
-        [self setCoinPrice:[input readInt32]];
+        [self setMinutesToUpgradeBase:[input readInt32]];
         break;
       }
       case 56: {
-        [self setDiamondPrice:[input readInt32]];
+        [self setCoinPrice:[input readInt32]];
         break;
       }
       case 64: {
-        [self setWoodPrice:[input readInt32]];
+        [self setDiamondPrice:[input readInt32]];
         break;
       }
       case 72: {
@@ -3600,26 +4078,34 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 112: {
-        [self setUpgradeWoodCostBase:[input readInt32]];
+        [self setInstaBuildDiamondCostBase:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setInstaRetrieveDiamondCostBase:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self setInstaUpgradeDiamondCostBase:[input readInt32]];
         break;
       }
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasStructId {
+  return result.hasStructId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) structId {
+  return result.structId;
 }
-- (FullStructureProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (FullStructureProto_Builder*) setStructId:(int32_t) value {
+  result.hasStructId = YES;
+  result.structId = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (FullStructureProto_Builder*) clearStructId {
+  result.hasStructId = NO;
+  result.structId = 0;
   return self;
 }
 - (BOOL) hasName {
@@ -3686,6 +4172,22 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.minutesToBuild = 0;
   return self;
 }
+- (BOOL) hasMinutesToUpgradeBase {
+  return result.hasMinutesToUpgradeBase;
+}
+- (int32_t) minutesToUpgradeBase {
+  return result.minutesToUpgradeBase;
+}
+- (FullStructureProto_Builder*) setMinutesToUpgradeBase:(int32_t) value {
+  result.hasMinutesToUpgradeBase = YES;
+  result.minutesToUpgradeBase = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearMinutesToUpgradeBase {
+  result.hasMinutesToUpgradeBase = NO;
+  result.minutesToUpgradeBase = 0;
+  return self;
+}
 - (BOOL) hasCoinPrice {
   return result.hasCoinPrice;
 }
@@ -3716,22 +4218,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (FullStructureProto_Builder*) clearDiamondPrice {
   result.hasDiamondPrice = NO;
   result.diamondPrice = 0;
-  return self;
-}
-- (BOOL) hasWoodPrice {
-  return result.hasWoodPrice;
-}
-- (int32_t) woodPrice {
-  return result.woodPrice;
-}
-- (FullStructureProto_Builder*) setWoodPrice:(int32_t) value {
-  result.hasWoodPrice = YES;
-  result.woodPrice = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearWoodPrice {
-  result.hasWoodPrice = NO;
-  result.woodPrice = 0;
   return self;
 }
 - (BOOL) hasMinLevel {
@@ -3814,20 +4300,52 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.upgradeDiamondCostBase = 0;
   return self;
 }
-- (BOOL) hasUpgradeWoodCostBase {
-  return result.hasUpgradeWoodCostBase;
+- (BOOL) hasInstaBuildDiamondCostBase {
+  return result.hasInstaBuildDiamondCostBase;
 }
-- (int32_t) upgradeWoodCostBase {
-  return result.upgradeWoodCostBase;
+- (int32_t) instaBuildDiamondCostBase {
+  return result.instaBuildDiamondCostBase;
 }
-- (FullStructureProto_Builder*) setUpgradeWoodCostBase:(int32_t) value {
-  result.hasUpgradeWoodCostBase = YES;
-  result.upgradeWoodCostBase = value;
+- (FullStructureProto_Builder*) setInstaBuildDiamondCostBase:(int32_t) value {
+  result.hasInstaBuildDiamondCostBase = YES;
+  result.instaBuildDiamondCostBase = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearUpgradeWoodCostBase {
-  result.hasUpgradeWoodCostBase = NO;
-  result.upgradeWoodCostBase = 0;
+- (FullStructureProto_Builder*) clearInstaBuildDiamondCostBase {
+  result.hasInstaBuildDiamondCostBase = NO;
+  result.instaBuildDiamondCostBase = 0;
+  return self;
+}
+- (BOOL) hasInstaRetrieveDiamondCostBase {
+  return result.hasInstaRetrieveDiamondCostBase;
+}
+- (int32_t) instaRetrieveDiamondCostBase {
+  return result.instaRetrieveDiamondCostBase;
+}
+- (FullStructureProto_Builder*) setInstaRetrieveDiamondCostBase:(int32_t) value {
+  result.hasInstaRetrieveDiamondCostBase = YES;
+  result.instaRetrieveDiamondCostBase = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearInstaRetrieveDiamondCostBase {
+  result.hasInstaRetrieveDiamondCostBase = NO;
+  result.instaRetrieveDiamondCostBase = 0;
+  return self;
+}
+- (BOOL) hasInstaUpgradeDiamondCostBase {
+  return result.hasInstaUpgradeDiamondCostBase;
+}
+- (int32_t) instaUpgradeDiamondCostBase {
+  return result.instaUpgradeDiamondCostBase;
+}
+- (FullStructureProto_Builder*) setInstaUpgradeDiamondCostBase:(int32_t) value {
+  result.hasInstaUpgradeDiamondCostBase = YES;
+  result.instaUpgradeDiamondCostBase = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearInstaUpgradeDiamondCostBase {
+  result.hasInstaUpgradeDiamondCostBase = NO;
+  result.instaUpgradeDiamondCostBase = 0;
   return self;
 }
 @end
@@ -4769,7 +5287,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 @end
 
 @interface FullCityProto ()
-@property int32_t id;
+@property int32_t cityId;
 @property (retain) NSString* name;
 @property int32_t minLevel;
 @property int32_t expGainedBaseOnRankup;
@@ -4778,13 +5296,13 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 
 @implementation FullCityProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
 }
-@synthesize id;
+@synthesize cityId;
 - (BOOL) hasName {
   return !!hasName_;
 }
@@ -4819,7 +5337,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.cityId = 0;
     self.name = @"";
     self.minLevel = 0;
     self.expGainedBaseOnRankup = 0;
@@ -4840,7 +5358,7 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   return defaultFullCityProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasCityId) {
     return NO;
   }
   if (!self.hasName) {
@@ -4858,8 +5376,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasCityId) {
+    [output writeInt32:1 value:self.cityId];
   }
   if (self.hasName) {
     [output writeString:2 value:self.name];
@@ -4882,8 +5400,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasCityId) {
+    size += computeInt32Size(1, self.cityId);
   }
   if (self.hasName) {
     size += computeStringSize(2, self.name);
@@ -4972,8 +5490,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (other == [FullCityProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
   }
   if (other.hasName) {
     [self setName:other.name];
@@ -5009,7 +5527,7 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setCityId:[input readInt32]];
         break;
       }
       case 18: {
@@ -5031,20 +5549,20 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasCityId {
+  return result.hasCityId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) cityId {
+  return result.cityId;
 }
-- (FullCityProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (FullCityProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
   return self;
 }
-- (FullCityProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (FullCityProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
   return self;
 }
 - (BOOL) hasName {
@@ -5109,6 +5627,436 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 - (FullCityProto_Builder*) clearCoinsGainedBaseOnRankup {
   result.hasCoinsGainedBaseOnRankup = NO;
   result.coinsGainedBaseOnRankup = 0;
+  return self;
+}
+@end
+
+@interface FullUserCityExpansionDataProto ()
+@property int32_t userId;
+@property int32_t nearLeftExpansions;
+@property int32_t farLeftExpansions;
+@property int32_t farRightExpansions;
+@property BOOL isExpanding;
+@property int64_t lastExpandTime;
+@property ExpansionDirection lastExpandDirection;
+@end
+
+@implementation FullUserCityExpansionDataProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasNearLeftExpansions {
+  return !!hasNearLeftExpansions_;
+}
+- (void) setHasNearLeftExpansions:(BOOL) value {
+  hasNearLeftExpansions_ = !!value;
+}
+@synthesize nearLeftExpansions;
+- (BOOL) hasFarLeftExpansions {
+  return !!hasFarLeftExpansions_;
+}
+- (void) setHasFarLeftExpansions:(BOOL) value {
+  hasFarLeftExpansions_ = !!value;
+}
+@synthesize farLeftExpansions;
+- (BOOL) hasFarRightExpansions {
+  return !!hasFarRightExpansions_;
+}
+- (void) setHasFarRightExpansions:(BOOL) value {
+  hasFarRightExpansions_ = !!value;
+}
+@synthesize farRightExpansions;
+- (BOOL) hasIsExpanding {
+  return !!hasIsExpanding_;
+}
+- (void) setHasIsExpanding:(BOOL) value {
+  hasIsExpanding_ = !!value;
+}
+- (BOOL) isExpanding {
+  return !!isExpanding_;
+}
+- (void) setIsExpanding:(BOOL) value {
+  isExpanding_ = !!value;
+}
+- (BOOL) hasLastExpandTime {
+  return !!hasLastExpandTime_;
+}
+- (void) setHasLastExpandTime:(BOOL) value {
+  hasLastExpandTime_ = !!value;
+}
+@synthesize lastExpandTime;
+- (BOOL) hasLastExpandDirection {
+  return !!hasLastExpandDirection_;
+}
+- (void) setHasLastExpandDirection:(BOOL) value {
+  hasLastExpandDirection_ = !!value;
+}
+@synthesize lastExpandDirection;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.nearLeftExpansions = 0;
+    self.farLeftExpansions = 0;
+    self.farRightExpansions = 0;
+    self.isExpanding = NO;
+    self.lastExpandTime = 0L;
+    self.lastExpandDirection = ExpansionDirectionNearLeft;
+  }
+  return self;
+}
+static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInstance = nil;
++ (void) initialize {
+  if (self == [FullUserCityExpansionDataProto class]) {
+    defaultFullUserCityExpansionDataProtoInstance = [[FullUserCityExpansionDataProto alloc] init];
+  }
+}
++ (FullUserCityExpansionDataProto*) defaultInstance {
+  return defaultFullUserCityExpansionDataProtoInstance;
+}
+- (FullUserCityExpansionDataProto*) defaultInstance {
+  return defaultFullUserCityExpansionDataProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasNearLeftExpansions) {
+    return NO;
+  }
+  if (!self.hasFarLeftExpansions) {
+    return NO;
+  }
+  if (!self.hasFarRightExpansions) {
+    return NO;
+  }
+  if (!self.hasIsExpanding) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasNearLeftExpansions) {
+    [output writeInt32:2 value:self.nearLeftExpansions];
+  }
+  if (self.hasFarLeftExpansions) {
+    [output writeInt32:3 value:self.farLeftExpansions];
+  }
+  if (self.hasFarRightExpansions) {
+    [output writeInt32:4 value:self.farRightExpansions];
+  }
+  if (self.hasIsExpanding) {
+    [output writeBool:5 value:self.isExpanding];
+  }
+  if (self.hasLastExpandTime) {
+    [output writeInt64:6 value:self.lastExpandTime];
+  }
+  if (self.hasLastExpandDirection) {
+    [output writeEnum:7 value:self.lastExpandDirection];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasNearLeftExpansions) {
+    size += computeInt32Size(2, self.nearLeftExpansions);
+  }
+  if (self.hasFarLeftExpansions) {
+    size += computeInt32Size(3, self.farLeftExpansions);
+  }
+  if (self.hasFarRightExpansions) {
+    size += computeInt32Size(4, self.farRightExpansions);
+  }
+  if (self.hasIsExpanding) {
+    size += computeBoolSize(5, self.isExpanding);
+  }
+  if (self.hasLastExpandTime) {
+    size += computeInt64Size(6, self.lastExpandTime);
+  }
+  if (self.hasLastExpandDirection) {
+    size += computeEnumSize(7, self.lastExpandDirection);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data {
+  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromData:data] build];
+}
++ (FullUserCityExpansionDataProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromInputStream:input] build];
+}
++ (FullUserCityExpansionDataProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FullUserCityExpansionDataProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCityExpansionDataProto*)[[[FullUserCityExpansionDataProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCityExpansionDataProto_Builder*) builder {
+  return [[[FullUserCityExpansionDataProto_Builder alloc] init] autorelease];
+}
++ (FullUserCityExpansionDataProto_Builder*) builderWithPrototype:(FullUserCityExpansionDataProto*) prototype {
+  return [[FullUserCityExpansionDataProto builder] mergeFrom:prototype];
+}
+- (FullUserCityExpansionDataProto_Builder*) builder {
+  return [FullUserCityExpansionDataProto builder];
+}
+@end
+
+@interface FullUserCityExpansionDataProto_Builder()
+@property (retain) FullUserCityExpansionDataProto* result;
+@end
+
+@implementation FullUserCityExpansionDataProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullUserCityExpansionDataProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullUserCityExpansionDataProto_Builder*) clear {
+  self.result = [[[FullUserCityExpansionDataProto alloc] init] autorelease];
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clone {
+  return [FullUserCityExpansionDataProto builderWithPrototype:result];
+}
+- (FullUserCityExpansionDataProto*) defaultInstance {
+  return [FullUserCityExpansionDataProto defaultInstance];
+}
+- (FullUserCityExpansionDataProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullUserCityExpansionDataProto*) buildPartial {
+  FullUserCityExpansionDataProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullUserCityExpansionDataProto_Builder*) mergeFrom:(FullUserCityExpansionDataProto*) other {
+  if (other == [FullUserCityExpansionDataProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasNearLeftExpansions) {
+    [self setNearLeftExpansions:other.nearLeftExpansions];
+  }
+  if (other.hasFarLeftExpansions) {
+    [self setFarLeftExpansions:other.farLeftExpansions];
+  }
+  if (other.hasFarRightExpansions) {
+    [self setFarRightExpansions:other.farRightExpansions];
+  }
+  if (other.hasIsExpanding) {
+    [self setIsExpanding:other.isExpanding];
+  }
+  if (other.hasLastExpandTime) {
+    [self setLastExpandTime:other.lastExpandTime];
+  }
+  if (other.hasLastExpandDirection) {
+    [self setLastExpandDirection:other.lastExpandDirection];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullUserCityExpansionDataProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setNearLeftExpansions:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setFarLeftExpansions:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setFarRightExpansions:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setIsExpanding:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setLastExpandTime:[input readInt64]];
+        break;
+      }
+      case 56: {
+        int32_t value = [input readEnum];
+        if (ExpansionDirectionIsValidValue(value)) {
+          [self setLastExpandDirection:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (FullUserCityExpansionDataProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasNearLeftExpansions {
+  return result.hasNearLeftExpansions;
+}
+- (int32_t) nearLeftExpansions {
+  return result.nearLeftExpansions;
+}
+- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value {
+  result.hasNearLeftExpansions = YES;
+  result.nearLeftExpansions = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions {
+  result.hasNearLeftExpansions = NO;
+  result.nearLeftExpansions = 0;
+  return self;
+}
+- (BOOL) hasFarLeftExpansions {
+  return result.hasFarLeftExpansions;
+}
+- (int32_t) farLeftExpansions {
+  return result.farLeftExpansions;
+}
+- (FullUserCityExpansionDataProto_Builder*) setFarLeftExpansions:(int32_t) value {
+  result.hasFarLeftExpansions = YES;
+  result.farLeftExpansions = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearFarLeftExpansions {
+  result.hasFarLeftExpansions = NO;
+  result.farLeftExpansions = 0;
+  return self;
+}
+- (BOOL) hasFarRightExpansions {
+  return result.hasFarRightExpansions;
+}
+- (int32_t) farRightExpansions {
+  return result.farRightExpansions;
+}
+- (FullUserCityExpansionDataProto_Builder*) setFarRightExpansions:(int32_t) value {
+  result.hasFarRightExpansions = YES;
+  result.farRightExpansions = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearFarRightExpansions {
+  result.hasFarRightExpansions = NO;
+  result.farRightExpansions = 0;
+  return self;
+}
+- (BOOL) hasIsExpanding {
+  return result.hasIsExpanding;
+}
+- (BOOL) isExpanding {
+  return result.isExpanding;
+}
+- (FullUserCityExpansionDataProto_Builder*) setIsExpanding:(BOOL) value {
+  result.hasIsExpanding = YES;
+  result.isExpanding = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearIsExpanding {
+  result.hasIsExpanding = NO;
+  result.isExpanding = NO;
+  return self;
+}
+- (BOOL) hasLastExpandTime {
+  return result.hasLastExpandTime;
+}
+- (int64_t) lastExpandTime {
+  return result.lastExpandTime;
+}
+- (FullUserCityExpansionDataProto_Builder*) setLastExpandTime:(int64_t) value {
+  result.hasLastExpandTime = YES;
+  result.lastExpandTime = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearLastExpandTime {
+  result.hasLastExpandTime = NO;
+  result.lastExpandTime = 0L;
+  return self;
+}
+- (BOOL) hasLastExpandDirection {
+  return result.hasLastExpandDirection;
+}
+- (ExpansionDirection) lastExpandDirection {
+  return result.lastExpandDirection;
+}
+- (FullUserCityExpansionDataProto_Builder*) setLastExpandDirection:(ExpansionDirection) value {
+  result.hasLastExpandDirection = YES;
+  result.lastExpandDirection = value;
+  return self;
+}
+- (FullUserCityExpansionDataProto_Builder*) clearLastExpandDirection {
+  result.hasLastExpandDirection = NO;
+  result.lastExpandDirection = ExpansionDirectionNearLeft;
   return self;
 }
 @end
@@ -5561,12 +6509,8 @@ static LocationProto* defaultLocationProtoInstance = nil;
 @property MarketplacePostType postType;
 @property int64_t timeOfPost;
 @property (retain) FullEquipProto* postedEquip;
-@property int32_t postedWood;
-@property int32_t postedDiamonds;
-@property int32_t postedCoins;
 @property int32_t diamondCost;
 @property int32_t coinCost;
-@property int32_t woodCost;
 @end
 
 @implementation FullMarketplacePostProto
@@ -5606,27 +6550,6 @@ static LocationProto* defaultLocationProtoInstance = nil;
   hasPostedEquip_ = !!value;
 }
 @synthesize postedEquip;
-- (BOOL) hasPostedWood {
-  return !!hasPostedWood_;
-}
-- (void) setHasPostedWood:(BOOL) value {
-  hasPostedWood_ = !!value;
-}
-@synthesize postedWood;
-- (BOOL) hasPostedDiamonds {
-  return !!hasPostedDiamonds_;
-}
-- (void) setHasPostedDiamonds:(BOOL) value {
-  hasPostedDiamonds_ = !!value;
-}
-@synthesize postedDiamonds;
-- (BOOL) hasPostedCoins {
-  return !!hasPostedCoins_;
-}
-- (void) setHasPostedCoins:(BOOL) value {
-  hasPostedCoins_ = !!value;
-}
-@synthesize postedCoins;
 - (BOOL) hasDiamondCost {
   return !!hasDiamondCost_;
 }
@@ -5641,13 +6564,6 @@ static LocationProto* defaultLocationProtoInstance = nil;
   hasCoinCost_ = !!value;
 }
 @synthesize coinCost;
-- (BOOL) hasWoodCost {
-  return !!hasWoodCost_;
-}
-- (void) setHasWoodCost:(BOOL) value {
-  hasWoodCost_ = !!value;
-}
-@synthesize woodCost;
 - (void) dealloc {
   self.postedEquip = nil;
   [super dealloc];
@@ -5656,15 +6572,11 @@ static LocationProto* defaultLocationProtoInstance = nil;
   if ((self = [super init])) {
     self.marketplacePostId = 0;
     self.posterId = 0;
-    self.postType = MarketplacePostTypeEquipPost;
+    self.postType = MarketplacePostTypePremiumEquipPost;
     self.timeOfPost = 0L;
     self.postedEquip = [FullEquipProto defaultInstance];
-    self.postedWood = 0;
-    self.postedDiamonds = 0;
-    self.postedCoins = 0;
     self.diamondCost = 0;
     self.coinCost = 0;
-    self.woodCost = 0;
   }
   return self;
 }
@@ -5693,10 +6605,11 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (!self.hasTimeOfPost) {
     return NO;
   }
-  if (self.hasPostedEquip) {
-    if (!self.postedEquip.isInitialized) {
-      return NO;
-    }
+  if (!self.hasPostedEquip) {
+    return NO;
+  }
+  if (!self.postedEquip.isInitialized) {
+    return NO;
   }
   return YES;
 }
@@ -5716,23 +6629,11 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasPostedEquip) {
     [output writeMessage:5 value:self.postedEquip];
   }
-  if (self.hasPostedWood) {
-    [output writeInt32:6 value:self.postedWood];
-  }
-  if (self.hasPostedDiamonds) {
-    [output writeInt32:7 value:self.postedDiamonds];
-  }
-  if (self.hasPostedCoins) {
-    [output writeInt32:8 value:self.postedCoins];
-  }
   if (self.hasDiamondCost) {
-    [output writeInt32:9 value:self.diamondCost];
+    [output writeInt32:6 value:self.diamondCost];
   }
   if (self.hasCoinCost) {
-    [output writeInt32:10 value:self.coinCost];
-  }
-  if (self.hasWoodCost) {
-    [output writeInt32:11 value:self.woodCost];
+    [output writeInt32:7 value:self.coinCost];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5758,23 +6659,11 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasPostedEquip) {
     size += computeMessageSize(5, self.postedEquip);
   }
-  if (self.hasPostedWood) {
-    size += computeInt32Size(6, self.postedWood);
-  }
-  if (self.hasPostedDiamonds) {
-    size += computeInt32Size(7, self.postedDiamonds);
-  }
-  if (self.hasPostedCoins) {
-    size += computeInt32Size(8, self.postedCoins);
-  }
   if (self.hasDiamondCost) {
-    size += computeInt32Size(9, self.diamondCost);
+    size += computeInt32Size(6, self.diamondCost);
   }
   if (self.hasCoinCost) {
-    size += computeInt32Size(10, self.coinCost);
-  }
-  if (self.hasWoodCost) {
-    size += computeInt32Size(11, self.woodCost);
+    size += computeInt32Size(7, self.coinCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5866,23 +6755,11 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (other.hasPostedEquip) {
     [self mergePostedEquip:other.postedEquip];
   }
-  if (other.hasPostedWood) {
-    [self setPostedWood:other.postedWood];
-  }
-  if (other.hasPostedDiamonds) {
-    [self setPostedDiamonds:other.postedDiamonds];
-  }
-  if (other.hasPostedCoins) {
-    [self setPostedCoins:other.postedCoins];
-  }
   if (other.hasDiamondCost) {
     [self setDiamondCost:other.diamondCost];
   }
   if (other.hasCoinCost) {
     [self setCoinCost:other.coinCost];
-  }
-  if (other.hasWoodCost) {
-    [self setWoodCost:other.woodCost];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -5936,27 +6813,11 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
         break;
       }
       case 48: {
-        [self setPostedWood:[input readInt32]];
-        break;
-      }
-      case 56: {
-        [self setPostedDiamonds:[input readInt32]];
-        break;
-      }
-      case 64: {
-        [self setPostedCoins:[input readInt32]];
-        break;
-      }
-      case 72: {
         [self setDiamondCost:[input readInt32]];
         break;
       }
-      case 80: {
+      case 56: {
         [self setCoinCost:[input readInt32]];
-        break;
-      }
-      case 88: {
-        [self setWoodCost:[input readInt32]];
         break;
       }
     }
@@ -6007,7 +6868,7 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
 }
 - (FullMarketplacePostProto_Builder*) clearPostType {
   result.hasPostType = NO;
-  result.postType = MarketplacePostTypeEquipPost;
+  result.postType = MarketplacePostTypePremiumEquipPost;
   return self;
 }
 - (BOOL) hasTimeOfPost {
@@ -6056,54 +6917,6 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   result.postedEquip = [FullEquipProto defaultInstance];
   return self;
 }
-- (BOOL) hasPostedWood {
-  return result.hasPostedWood;
-}
-- (int32_t) postedWood {
-  return result.postedWood;
-}
-- (FullMarketplacePostProto_Builder*) setPostedWood:(int32_t) value {
-  result.hasPostedWood = YES;
-  result.postedWood = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearPostedWood {
-  result.hasPostedWood = NO;
-  result.postedWood = 0;
-  return self;
-}
-- (BOOL) hasPostedDiamonds {
-  return result.hasPostedDiamonds;
-}
-- (int32_t) postedDiamonds {
-  return result.postedDiamonds;
-}
-- (FullMarketplacePostProto_Builder*) setPostedDiamonds:(int32_t) value {
-  result.hasPostedDiamonds = YES;
-  result.postedDiamonds = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearPostedDiamonds {
-  result.hasPostedDiamonds = NO;
-  result.postedDiamonds = 0;
-  return self;
-}
-- (BOOL) hasPostedCoins {
-  return result.hasPostedCoins;
-}
-- (int32_t) postedCoins {
-  return result.postedCoins;
-}
-- (FullMarketplacePostProto_Builder*) setPostedCoins:(int32_t) value {
-  result.hasPostedCoins = YES;
-  result.postedCoins = value;
-  return self;
-}
-- (FullMarketplacePostProto_Builder*) clearPostedCoins {
-  result.hasPostedCoins = NO;
-  result.postedCoins = 0;
-  return self;
-}
 - (BOOL) hasDiamondCost {
   return result.hasDiamondCost;
 }
@@ -6136,20 +6949,299 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   result.coinCost = 0;
   return self;
 }
-- (BOOL) hasWoodCost {
-  return result.hasWoodCost;
+@end
+
+@interface FullUserCritstructProto ()
+@property CritStructType type;
+@property (retain) CoordinateProto* coords;
+@property StructOrientation orientation;
+@end
+
+@implementation FullUserCritstructProto
+
+- (BOOL) hasType {
+  return !!hasType_;
 }
-- (int32_t) woodCost {
-  return result.woodCost;
+- (void) setHasType:(BOOL) value {
+  hasType_ = !!value;
 }
-- (FullMarketplacePostProto_Builder*) setWoodCost:(int32_t) value {
-  result.hasWoodCost = YES;
-  result.woodCost = value;
+@synthesize type;
+- (BOOL) hasCoords {
+  return !!hasCoords_;
+}
+- (void) setHasCoords:(BOOL) value {
+  hasCoords_ = !!value;
+}
+@synthesize coords;
+- (BOOL) hasOrientation {
+  return !!hasOrientation_;
+}
+- (void) setHasOrientation:(BOOL) value {
+  hasOrientation_ = !!value;
+}
+@synthesize orientation;
+- (void) dealloc {
+  self.coords = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.type = CritStructTypeAviary;
+    self.coords = [CoordinateProto defaultInstance];
+    self.orientation = StructOrientationPosition1;
+  }
   return self;
 }
-- (FullMarketplacePostProto_Builder*) clearWoodCost {
-  result.hasWoodCost = NO;
-  result.woodCost = 0;
+static FullUserCritstructProto* defaultFullUserCritstructProtoInstance = nil;
++ (void) initialize {
+  if (self == [FullUserCritstructProto class]) {
+    defaultFullUserCritstructProtoInstance = [[FullUserCritstructProto alloc] init];
+  }
+}
++ (FullUserCritstructProto*) defaultInstance {
+  return defaultFullUserCritstructProtoInstance;
+}
+- (FullUserCritstructProto*) defaultInstance {
+  return defaultFullUserCritstructProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasType) {
+    return NO;
+  }
+  if (!self.hasCoords) {
+    return NO;
+  }
+  if (!self.hasOrientation) {
+    return NO;
+  }
+  if (!self.coords.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasType) {
+    [output writeEnum:1 value:self.type];
+  }
+  if (self.hasCoords) {
+    [output writeMessage:2 value:self.coords];
+  }
+  if (self.hasOrientation) {
+    [output writeEnum:3 value:self.orientation];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasType) {
+    size += computeEnumSize(1, self.type);
+  }
+  if (self.hasCoords) {
+    size += computeMessageSize(2, self.coords);
+  }
+  if (self.hasOrientation) {
+    size += computeEnumSize(3, self.orientation);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullUserCritstructProto*) parseFromData:(NSData*) data {
+  return (FullUserCritstructProto*)[[[FullUserCritstructProto builder] mergeFromData:data] build];
+}
++ (FullUserCritstructProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCritstructProto*)[[[FullUserCritstructProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCritstructProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullUserCritstructProto*)[[[FullUserCritstructProto builder] mergeFromInputStream:input] build];
+}
++ (FullUserCritstructProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCritstructProto*)[[[FullUserCritstructProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCritstructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullUserCritstructProto*)[[[FullUserCritstructProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FullUserCritstructProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCritstructProto*)[[[FullUserCritstructProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCritstructProto_Builder*) builder {
+  return [[[FullUserCritstructProto_Builder alloc] init] autorelease];
+}
++ (FullUserCritstructProto_Builder*) builderWithPrototype:(FullUserCritstructProto*) prototype {
+  return [[FullUserCritstructProto builder] mergeFrom:prototype];
+}
+- (FullUserCritstructProto_Builder*) builder {
+  return [FullUserCritstructProto builder];
+}
+@end
+
+@interface FullUserCritstructProto_Builder()
+@property (retain) FullUserCritstructProto* result;
+@end
+
+@implementation FullUserCritstructProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullUserCritstructProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullUserCritstructProto_Builder*) clear {
+  self.result = [[[FullUserCritstructProto alloc] init] autorelease];
+  return self;
+}
+- (FullUserCritstructProto_Builder*) clone {
+  return [FullUserCritstructProto builderWithPrototype:result];
+}
+- (FullUserCritstructProto*) defaultInstance {
+  return [FullUserCritstructProto defaultInstance];
+}
+- (FullUserCritstructProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullUserCritstructProto*) buildPartial {
+  FullUserCritstructProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullUserCritstructProto_Builder*) mergeFrom:(FullUserCritstructProto*) other {
+  if (other == [FullUserCritstructProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
+  if (other.hasCoords) {
+    [self mergeCoords:other.coords];
+  }
+  if (other.hasOrientation) {
+    [self setOrientation:other.orientation];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullUserCritstructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullUserCritstructProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        int32_t value = [input readEnum];
+        if (CritStructTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:1 value:value];
+        }
+        break;
+      }
+      case 18: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasCoords) {
+          [subBuilder mergeFrom:self.coords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (StructOrientationIsValidValue(value)) {
+          [self setOrientation:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (CritStructType) type {
+  return result.type;
+}
+- (FullUserCritstructProto_Builder*) setType:(CritStructType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (FullUserCritstructProto_Builder*) clearType {
+  result.hasType = NO;
+  result.type = CritStructTypeAviary;
+  return self;
+}
+- (BOOL) hasCoords {
+  return result.hasCoords;
+}
+- (CoordinateProto*) coords {
+  return result.coords;
+}
+- (FullUserCritstructProto_Builder*) setCoords:(CoordinateProto*) value {
+  result.hasCoords = YES;
+  result.coords = value;
+  return self;
+}
+- (FullUserCritstructProto_Builder*) setCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCoords:[builderForValue build]];
+}
+- (FullUserCritstructProto_Builder*) mergeCoords:(CoordinateProto*) value {
+  if (result.hasCoords &&
+      result.coords != [CoordinateProto defaultInstance]) {
+    result.coords =
+      [[[CoordinateProto builderWithPrototype:result.coords] mergeFrom:value] buildPartial];
+  } else {
+    result.coords = value;
+  }
+  result.hasCoords = YES;
+  return self;
+}
+- (FullUserCritstructProto_Builder*) clearCoords {
+  result.hasCoords = NO;
+  result.coords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasOrientation {
+  return result.hasOrientation;
+}
+- (StructOrientation) orientation {
+  return result.orientation;
+}
+- (FullUserCritstructProto_Builder*) setOrientation:(StructOrientation) value {
+  result.hasOrientation = YES;
+  result.orientation = value;
+  return self;
+}
+- (FullUserCritstructProto_Builder*) clearOrientation {
+  result.hasOrientation = NO;
+  result.orientation = StructOrientationPosition1;
   return self;
 }
 @end
@@ -6439,18 +7531,14 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 }
 @end
 
-@interface FullUserQuestDataLarge ()
+@interface MinimumUserQuestTaskProto ()
 @property int32_t userId;
 @property int32_t questId;
-@property BOOL complete;
-@property (retain) NSMutableArray* mutableRequiredTasksProgressList;
-@property (retain) NSMutableArray* mutableRequiredDefeatTypeJobProgressList;
-@property (retain) NSMutableArray* mutableRequiredBuildStructJobProgressList;
-@property (retain) NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
-@property (retain) NSMutableArray* mutableRequiredPossessEquipJobProgressList;
+@property (retain) FullTaskProto* task;
+@property int32_t numTimesActed;
 @end
 
-@implementation FullUserQuestDataLarge
+@implementation MinimumUserQuestTaskProto
 
 - (BOOL) hasUserId {
   return !!hasUserId_;
@@ -6466,17 +7554,347 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasQuestId_ = !!value;
 }
 @synthesize questId;
-- (BOOL) hasComplete {
-  return !!hasComplete_;
+- (BOOL) hasTask {
+  return !!hasTask_;
 }
-- (void) setHasComplete:(BOOL) value {
-  hasComplete_ = !!value;
+- (void) setHasTask:(BOOL) value {
+  hasTask_ = !!value;
 }
-- (BOOL) complete {
-  return !!complete_;
+@synthesize task;
+- (BOOL) hasNumTimesActed {
+  return !!hasNumTimesActed_;
 }
-- (void) setComplete:(BOOL) value {
-  complete_ = !!value;
+- (void) setHasNumTimesActed:(BOOL) value {
+  hasNumTimesActed_ = !!value;
+}
+@synthesize numTimesActed;
+- (void) dealloc {
+  self.task = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.questId = 0;
+    self.task = [FullTaskProto defaultInstance];
+    self.numTimesActed = 0;
+  }
+  return self;
+}
+static MinimumUserQuestTaskProto* defaultMinimumUserQuestTaskProtoInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserQuestTaskProto class]) {
+    defaultMinimumUserQuestTaskProtoInstance = [[MinimumUserQuestTaskProto alloc] init];
+  }
+}
++ (MinimumUserQuestTaskProto*) defaultInstance {
+  return defaultMinimumUserQuestTaskProtoInstance;
+}
+- (MinimumUserQuestTaskProto*) defaultInstance {
+  return defaultMinimumUserQuestTaskProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasQuestId) {
+    return NO;
+  }
+  if (!self.hasTask) {
+    return NO;
+  }
+  if (!self.hasNumTimesActed) {
+    return NO;
+  }
+  if (!self.task.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
+  }
+  if (self.hasTask) {
+    [output writeMessage:3 value:self.task];
+  }
+  if (self.hasNumTimesActed) {
+    [output writeInt32:4 value:self.numTimesActed];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
+  }
+  if (self.hasTask) {
+    size += computeMessageSize(3, self.task);
+  }
+  if (self.hasNumTimesActed) {
+    size += computeInt32Size(4, self.numTimesActed);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data {
+  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromData:data] build];
+}
++ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserQuestTaskProto*)[[[MinimumUserQuestTaskProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserQuestTaskProto_Builder*) builder {
+  return [[[MinimumUserQuestTaskProto_Builder alloc] init] autorelease];
+}
++ (MinimumUserQuestTaskProto_Builder*) builderWithPrototype:(MinimumUserQuestTaskProto*) prototype {
+  return [[MinimumUserQuestTaskProto builder] mergeFrom:prototype];
+}
+- (MinimumUserQuestTaskProto_Builder*) builder {
+  return [MinimumUserQuestTaskProto builder];
+}
+@end
+
+@interface MinimumUserQuestTaskProto_Builder()
+@property (retain) MinimumUserQuestTaskProto* result;
+@end
+
+@implementation MinimumUserQuestTaskProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserQuestTaskProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserQuestTaskProto_Builder*) clear {
+  self.result = [[[MinimumUserQuestTaskProto alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserQuestTaskProto_Builder*) clone {
+  return [MinimumUserQuestTaskProto builderWithPrototype:result];
+}
+- (MinimumUserQuestTaskProto*) defaultInstance {
+  return [MinimumUserQuestTaskProto defaultInstance];
+}
+- (MinimumUserQuestTaskProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserQuestTaskProto*) buildPartial {
+  MinimumUserQuestTaskProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserQuestTaskProto_Builder*) mergeFrom:(MinimumUserQuestTaskProto*) other {
+  if (other == [MinimumUserQuestTaskProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
+  }
+  if (other.hasTask) {
+    [self mergeTask:other.task];
+  }
+  if (other.hasNumTimesActed) {
+    [self setNumTimesActed:other.numTimesActed];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setQuestId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
+        if (self.hasTask) {
+          [subBuilder mergeFrom:self.task];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTask:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setNumTimesActed:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (MinimumUserQuestTaskProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (MinimumUserQuestTaskProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
+}
+- (int32_t) questId {
+  return result.questId;
+}
+- (MinimumUserQuestTaskProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
+  return self;
+}
+- (MinimumUserQuestTaskProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
+  return self;
+}
+- (BOOL) hasTask {
+  return result.hasTask;
+}
+- (FullTaskProto*) task {
+  return result.task;
+}
+- (MinimumUserQuestTaskProto_Builder*) setTask:(FullTaskProto*) value {
+  result.hasTask = YES;
+  result.task = value;
+  return self;
+}
+- (MinimumUserQuestTaskProto_Builder*) setTaskBuilder:(FullTaskProto_Builder*) builderForValue {
+  return [self setTask:[builderForValue build]];
+}
+- (MinimumUserQuestTaskProto_Builder*) mergeTask:(FullTaskProto*) value {
+  if (result.hasTask &&
+      result.task != [FullTaskProto defaultInstance]) {
+    result.task =
+      [[[FullTaskProto builderWithPrototype:result.task] mergeFrom:value] buildPartial];
+  } else {
+    result.task = value;
+  }
+  result.hasTask = YES;
+  return self;
+}
+- (MinimumUserQuestTaskProto_Builder*) clearTask {
+  result.hasTask = NO;
+  result.task = [FullTaskProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNumTimesActed {
+  return result.hasNumTimesActed;
+}
+- (int32_t) numTimesActed {
+  return result.numTimesActed;
+}
+- (MinimumUserQuestTaskProto_Builder*) setNumTimesActed:(int32_t) value {
+  result.hasNumTimesActed = YES;
+  result.numTimesActed = value;
+  return self;
+}
+- (MinimumUserQuestTaskProto_Builder*) clearNumTimesActed {
+  result.hasNumTimesActed = NO;
+  result.numTimesActed = 0;
+  return self;
+}
+@end
+
+@interface FullUserQuestDataLargeProto ()
+@property int32_t userId;
+@property int32_t questId;
+@property BOOL redeemed;
+@property (retain) NSMutableArray* mutableRequiredTasksProgressList;
+@property (retain) NSMutableArray* mutableRequiredDefeatTypeJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredBuildStructJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredPossessEquipJobProgressList;
+@end
+
+@implementation FullUserQuestDataLargeProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
+}
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
+}
+@synthesize questId;
+- (BOOL) hasRedeemed {
+  return !!hasRedeemed_;
+}
+- (void) setHasRedeemed:(BOOL) value {
+  hasRedeemed_ = !!value;
+}
+- (BOOL) redeemed {
+  return !!redeemed_;
+}
+- (void) setRedeemed:(BOOL) value {
+  redeemed_ = !!value;
 }
 @synthesize mutableRequiredTasksProgressList;
 @synthesize mutableRequiredDefeatTypeJobProgressList;
@@ -6495,26 +7913,26 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if ((self = [super init])) {
     self.userId = 0;
     self.questId = 0;
-    self.complete = NO;
+    self.redeemed = NO;
   }
   return self;
 }
-static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
+static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance = nil;
 + (void) initialize {
-  if (self == [FullUserQuestDataLarge class]) {
-    defaultFullUserQuestDataLargeInstance = [[FullUserQuestDataLarge alloc] init];
+  if (self == [FullUserQuestDataLargeProto class]) {
+    defaultFullUserQuestDataLargeProtoInstance = [[FullUserQuestDataLargeProto alloc] init];
   }
 }
-+ (FullUserQuestDataLarge*) defaultInstance {
-  return defaultFullUserQuestDataLargeInstance;
++ (FullUserQuestDataLargeProto*) defaultInstance {
+  return defaultFullUserQuestDataLargeProtoInstance;
 }
-- (FullUserQuestDataLarge*) defaultInstance {
-  return defaultFullUserQuestDataLargeInstance;
+- (FullUserQuestDataLargeProto*) defaultInstance {
+  return defaultFullUserQuestDataLargeProtoInstance;
 }
 - (NSArray*) requiredTasksProgressList {
   return mutableRequiredTasksProgressList;
 }
-- (MinimumUserTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
   id value = [mutableRequiredTasksProgressList objectAtIndex:index];
   return value;
 }
@@ -6553,10 +7971,10 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
   if (!self.hasQuestId) {
     return NO;
   }
-  if (!self.hasComplete) {
+  if (!self.hasRedeemed) {
     return NO;
   }
-  for (MinimumUserTaskProto* element in self.requiredTasksProgressList) {
+  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -6590,10 +8008,10 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
   if (self.hasQuestId) {
     [output writeInt32:2 value:self.questId];
   }
-  if (self.hasComplete) {
-    [output writeBool:3 value:self.complete];
+  if (self.hasRedeemed) {
+    [output writeBool:3 value:self.redeemed];
   }
-  for (MinimumUserTaskProto* element in self.requiredTasksProgressList) {
+  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
     [output writeMessage:4 value:element];
   }
   for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
@@ -6623,10 +8041,10 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
   if (self.hasQuestId) {
     size += computeInt32Size(2, self.questId);
   }
-  if (self.hasComplete) {
-    size += computeBoolSize(3, self.complete);
+  if (self.hasRedeemed) {
+    size += computeBoolSize(3, self.redeemed);
   }
-  for (MinimumUserTaskProto* element in self.requiredTasksProgressList) {
+  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
     size += computeMessageSize(4, element);
   }
   for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
@@ -6645,40 +8063,40 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
   memoizedSerializedSize = size;
   return size;
 }
-+ (FullUserQuestDataLarge*) parseFromData:(NSData*) data {
-  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromData:data] build];
++ (FullUserQuestDataLargeProto*) parseFromData:(NSData*) data {
+  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromData:data] build];
 }
-+ (FullUserQuestDataLarge*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (FullUserQuestDataLargeProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserQuestDataLarge*) parseFromInputStream:(NSInputStream*) input {
-  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromInputStream:input] build];
++ (FullUserQuestDataLargeProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromInputStream:input] build];
 }
-+ (FullUserQuestDataLarge*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (FullUserQuestDataLargeProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserQuestDataLarge*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromCodedInputStream:input] build];
++ (FullUserQuestDataLargeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (FullUserQuestDataLarge*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (FullUserQuestDataLarge*)[[[FullUserQuestDataLarge builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (FullUserQuestDataLargeProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserQuestDataLargeProto*)[[[FullUserQuestDataLargeProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (FullUserQuestDataLarge_Builder*) builder {
-  return [[[FullUserQuestDataLarge_Builder alloc] init] autorelease];
++ (FullUserQuestDataLargeProto_Builder*) builder {
+  return [[[FullUserQuestDataLargeProto_Builder alloc] init] autorelease];
 }
-+ (FullUserQuestDataLarge_Builder*) builderWithPrototype:(FullUserQuestDataLarge*) prototype {
-  return [[FullUserQuestDataLarge builder] mergeFrom:prototype];
++ (FullUserQuestDataLargeProto_Builder*) builderWithPrototype:(FullUserQuestDataLargeProto*) prototype {
+  return [[FullUserQuestDataLargeProto builder] mergeFrom:prototype];
 }
-- (FullUserQuestDataLarge_Builder*) builder {
-  return [FullUserQuestDataLarge builder];
+- (FullUserQuestDataLargeProto_Builder*) builder {
+  return [FullUserQuestDataLargeProto builder];
 }
 @end
 
-@interface FullUserQuestDataLarge_Builder()
-@property (retain) FullUserQuestDataLarge* result;
+@interface FullUserQuestDataLargeProto_Builder()
+@property (retain) FullUserQuestDataLargeProto* result;
 @end
 
-@implementation FullUserQuestDataLarge_Builder
+@implementation FullUserQuestDataLargeProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -6686,34 +8104,34 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[FullUserQuestDataLarge alloc] init] autorelease];
+    self.result = [[[FullUserQuestDataLargeProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (FullUserQuestDataLarge_Builder*) clear {
-  self.result = [[[FullUserQuestDataLarge alloc] init] autorelease];
+- (FullUserQuestDataLargeProto_Builder*) clear {
+  self.result = [[[FullUserQuestDataLargeProto alloc] init] autorelease];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clone {
-  return [FullUserQuestDataLarge builderWithPrototype:result];
+- (FullUserQuestDataLargeProto_Builder*) clone {
+  return [FullUserQuestDataLargeProto builderWithPrototype:result];
 }
-- (FullUserQuestDataLarge*) defaultInstance {
-  return [FullUserQuestDataLarge defaultInstance];
+- (FullUserQuestDataLargeProto*) defaultInstance {
+  return [FullUserQuestDataLargeProto defaultInstance];
 }
-- (FullUserQuestDataLarge*) build {
+- (FullUserQuestDataLargeProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (FullUserQuestDataLarge*) buildPartial {
-  FullUserQuestDataLarge* returnMe = [[result retain] autorelease];
+- (FullUserQuestDataLargeProto*) buildPartial {
+  FullUserQuestDataLargeProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (FullUserQuestDataLarge_Builder*) mergeFrom:(FullUserQuestDataLarge*) other {
-  if (other == [FullUserQuestDataLarge defaultInstance]) {
+- (FullUserQuestDataLargeProto_Builder*) mergeFrom:(FullUserQuestDataLargeProto*) other {
+  if (other == [FullUserQuestDataLargeProto defaultInstance]) {
     return self;
   }
   if (other.hasUserId) {
@@ -6722,8 +8140,8 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
   if (other.hasQuestId) {
     [self setQuestId:other.questId];
   }
-  if (other.hasComplete) {
-    [self setComplete:other.complete];
+  if (other.hasRedeemed) {
+    [self setRedeemed:other.redeemed];
   }
   if (other.mutableRequiredTasksProgressList.count > 0) {
     if (result.mutableRequiredTasksProgressList == nil) {
@@ -6758,10 +8176,10 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (FullUserQuestDataLargeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (FullUserQuestDataLarge_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (FullUserQuestDataLargeProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -6785,11 +8203,11 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
         break;
       }
       case 24: {
-        [self setComplete:[input readBool]];
+        [self setRedeemed:[input readBool]];
         break;
       }
       case 34: {
-        MinimumUserTaskProto_Builder* subBuilder = [MinimumUserTaskProto builder];
+        MinimumUserQuestTaskProto_Builder* subBuilder = [MinimumUserQuestTaskProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRequiredTasksProgress:[subBuilder buildPartial]];
         break;
@@ -6827,12 +8245,12 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
 - (int32_t) userId {
   return result.userId;
 }
-- (FullUserQuestDataLarge_Builder*) setUserId:(int32_t) value {
+- (FullUserQuestDataLargeProto_Builder*) setUserId:(int32_t) value {
   result.hasUserId = YES;
   result.userId = value;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearUserId {
+- (FullUserQuestDataLargeProto_Builder*) clearUserId {
   result.hasUserId = NO;
   result.userId = 0;
   return self;
@@ -6843,55 +8261,55 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
 - (int32_t) questId {
   return result.questId;
 }
-- (FullUserQuestDataLarge_Builder*) setQuestId:(int32_t) value {
+- (FullUserQuestDataLargeProto_Builder*) setQuestId:(int32_t) value {
   result.hasQuestId = YES;
   result.questId = value;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearQuestId {
+- (FullUserQuestDataLargeProto_Builder*) clearQuestId {
   result.hasQuestId = NO;
   result.questId = 0;
   return self;
 }
-- (BOOL) hasComplete {
-  return result.hasComplete;
+- (BOOL) hasRedeemed {
+  return result.hasRedeemed;
 }
-- (BOOL) complete {
-  return result.complete;
+- (BOOL) redeemed {
+  return result.redeemed;
 }
-- (FullUserQuestDataLarge_Builder*) setComplete:(BOOL) value {
-  result.hasComplete = YES;
-  result.complete = value;
+- (FullUserQuestDataLargeProto_Builder*) setRedeemed:(BOOL) value {
+  result.hasRedeemed = YES;
+  result.redeemed = value;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearComplete {
-  result.hasComplete = NO;
-  result.complete = NO;
+- (FullUserQuestDataLargeProto_Builder*) clearRedeemed {
+  result.hasRedeemed = NO;
+  result.redeemed = NO;
   return self;
 }
 - (NSArray*) requiredTasksProgressList {
   if (result.mutableRequiredTasksProgressList == nil) { return [NSArray array]; }
   return result.mutableRequiredTasksProgressList;
 }
-- (MinimumUserTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
   return [result requiredTasksProgressAtIndex:index];
 }
-- (FullUserQuestDataLarge_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserTaskProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserQuestTaskProto*) value {
   [result.mutableRequiredTasksProgressList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addAllRequiredTasksProgress:(NSArray*) values {
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values {
   if (result.mutableRequiredTasksProgressList == nil) {
     result.mutableRequiredTasksProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredTasksProgressList addObjectsFromArray:values];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearRequiredTasksProgressList {
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList {
   result.mutableRequiredTasksProgressList = nil;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addRequiredTasksProgress:(MinimumUserTaskProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value {
   if (result.mutableRequiredTasksProgressList == nil) {
     result.mutableRequiredTasksProgressList = [NSMutableArray array];
   }
@@ -6905,22 +8323,22 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
 - (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index {
   return [result requiredDefeatTypeJobProgressAtIndex:index];
 }
-- (FullUserQuestDataLarge_Builder*) replaceRequiredDefeatTypeJobProgressAtIndex:(int32_t) index with:(MinimumUserDefeatTypeJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredDefeatTypeJobProgressAtIndex:(int32_t) index with:(MinimumUserDefeatTypeJobProto*) value {
   [result.mutableRequiredDefeatTypeJobProgressList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addAllRequiredDefeatTypeJobProgress:(NSArray*) values {
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredDefeatTypeJobProgress:(NSArray*) values {
   if (result.mutableRequiredDefeatTypeJobProgressList == nil) {
     result.mutableRequiredDefeatTypeJobProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredDefeatTypeJobProgressList addObjectsFromArray:values];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearRequiredDefeatTypeJobProgressList {
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredDefeatTypeJobProgressList {
   result.mutableRequiredDefeatTypeJobProgressList = nil;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addRequiredDefeatTypeJobProgress:(MinimumUserDefeatTypeJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) addRequiredDefeatTypeJobProgress:(MinimumUserDefeatTypeJobProto*) value {
   if (result.mutableRequiredDefeatTypeJobProgressList == nil) {
     result.mutableRequiredDefeatTypeJobProgressList = [NSMutableArray array];
   }
@@ -6934,22 +8352,22 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
 - (MinimumUserBuildStructJobProto*) requiredBuildStructJobProgressAtIndex:(int32_t) index {
   return [result requiredBuildStructJobProgressAtIndex:index];
 }
-- (FullUserQuestDataLarge_Builder*) replaceRequiredBuildStructJobProgressAtIndex:(int32_t) index with:(MinimumUserBuildStructJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredBuildStructJobProgressAtIndex:(int32_t) index with:(MinimumUserBuildStructJobProto*) value {
   [result.mutableRequiredBuildStructJobProgressList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addAllRequiredBuildStructJobProgress:(NSArray*) values {
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredBuildStructJobProgress:(NSArray*) values {
   if (result.mutableRequiredBuildStructJobProgressList == nil) {
     result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredBuildStructJobProgressList addObjectsFromArray:values];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearRequiredBuildStructJobProgressList {
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredBuildStructJobProgressList {
   result.mutableRequiredBuildStructJobProgressList = nil;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addRequiredBuildStructJobProgress:(MinimumUserBuildStructJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) addRequiredBuildStructJobProgress:(MinimumUserBuildStructJobProto*) value {
   if (result.mutableRequiredBuildStructJobProgressList == nil) {
     result.mutableRequiredBuildStructJobProgressList = [NSMutableArray array];
   }
@@ -6963,22 +8381,22 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
 - (MinimumUserUpgradeStructJobProto*) requiredUpgradeStructJobProgressAtIndex:(int32_t) index {
   return [result requiredUpgradeStructJobProgressAtIndex:index];
 }
-- (FullUserQuestDataLarge_Builder*) replaceRequiredUpgradeStructJobProgressAtIndex:(int32_t) index with:(MinimumUserUpgradeStructJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredUpgradeStructJobProgressAtIndex:(int32_t) index with:(MinimumUserUpgradeStructJobProto*) value {
   [result.mutableRequiredUpgradeStructJobProgressList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addAllRequiredUpgradeStructJobProgress:(NSArray*) values {
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredUpgradeStructJobProgress:(NSArray*) values {
   if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
     result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredUpgradeStructJobProgressList addObjectsFromArray:values];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearRequiredUpgradeStructJobProgressList {
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredUpgradeStructJobProgressList {
   result.mutableRequiredUpgradeStructJobProgressList = nil;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addRequiredUpgradeStructJobProgress:(MinimumUserUpgradeStructJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) addRequiredUpgradeStructJobProgress:(MinimumUserUpgradeStructJobProto*) value {
   if (result.mutableRequiredUpgradeStructJobProgressList == nil) {
     result.mutableRequiredUpgradeStructJobProgressList = [NSMutableArray array];
   }
@@ -6992,22 +8410,22 @@ static FullUserQuestDataLarge* defaultFullUserQuestDataLargeInstance = nil;
 - (MinimumUserPossessEquipJobProto*) requiredPossessEquipJobProgressAtIndex:(int32_t) index {
   return [result requiredPossessEquipJobProgressAtIndex:index];
 }
-- (FullUserQuestDataLarge_Builder*) replaceRequiredPossessEquipJobProgressAtIndex:(int32_t) index with:(MinimumUserPossessEquipJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredPossessEquipJobProgressAtIndex:(int32_t) index with:(MinimumUserPossessEquipJobProto*) value {
   [result.mutableRequiredPossessEquipJobProgressList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addAllRequiredPossessEquipJobProgress:(NSArray*) values {
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredPossessEquipJobProgress:(NSArray*) values {
   if (result.mutableRequiredPossessEquipJobProgressList == nil) {
     result.mutableRequiredPossessEquipJobProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredPossessEquipJobProgressList addObjectsFromArray:values];
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) clearRequiredPossessEquipJobProgressList {
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredPossessEquipJobProgressList {
   result.mutableRequiredPossessEquipJobProgressList = nil;
   return self;
 }
-- (FullUserQuestDataLarge_Builder*) addRequiredPossessEquipJobProgress:(MinimumUserPossessEquipJobProto*) value {
+- (FullUserQuestDataLargeProto_Builder*) addRequiredPossessEquipJobProgress:(MinimumUserPossessEquipJobProto*) value {
   if (result.mutableRequiredPossessEquipJobProgressList == nil) {
     result.mutableRequiredPossessEquipJobProgressList = [NSMutableArray array];
   }
@@ -7343,7 +8761,7 @@ static MinimumUserDefeatTypeJobProto* defaultMinimumUserDefeatTypeJobProtoInstan
 @end
 
 @interface DefeatTypeJobProto ()
-@property int32_t id;
+@property int32_t defeatTypeJobId;
 @property UserType typeOfEnemy;
 @property int32_t numEnemiesToDefeat;
 @property int32_t cityId;
@@ -7351,13 +8769,13 @@ static MinimumUserDefeatTypeJobProto* defaultMinimumUserDefeatTypeJobProtoInstan
 
 @implementation DefeatTypeJobProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasDefeatTypeJobId {
+  return !!hasDefeatTypeJobId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasDefeatTypeJobId:(BOOL) value {
+  hasDefeatTypeJobId_ = !!value;
 }
-@synthesize id;
+@synthesize defeatTypeJobId;
 - (BOOL) hasTypeOfEnemy {
   return !!hasTypeOfEnemy_;
 }
@@ -7384,7 +8802,7 @@ static MinimumUserDefeatTypeJobProto* defaultMinimumUserDefeatTypeJobProtoInstan
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.defeatTypeJobId = 0;
     self.typeOfEnemy = UserTypeGoodWarrior;
     self.numEnemiesToDefeat = 0;
     self.cityId = 0;
@@ -7404,7 +8822,7 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
   return defaultDefeatTypeJobProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasDefeatTypeJobId) {
     return NO;
   }
   if (!self.hasTypeOfEnemy) {
@@ -7419,8 +8837,8 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasDefeatTypeJobId) {
+    [output writeInt32:1 value:self.defeatTypeJobId];
   }
   if (self.hasTypeOfEnemy) {
     [output writeEnum:2 value:self.typeOfEnemy];
@@ -7440,8 +8858,8 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasDefeatTypeJobId) {
+    size += computeInt32Size(1, self.defeatTypeJobId);
   }
   if (self.hasTypeOfEnemy) {
     size += computeEnumSize(2, self.typeOfEnemy);
@@ -7527,8 +8945,8 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
   if (other == [DefeatTypeJobProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasDefeatTypeJobId) {
+    [self setDefeatTypeJobId:other.defeatTypeJobId];
   }
   if (other.hasTypeOfEnemy) {
     [self setTypeOfEnemy:other.typeOfEnemy];
@@ -7561,7 +8979,7 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setDefeatTypeJobId:[input readInt32]];
         break;
       }
       case 16: {
@@ -7584,20 +9002,20 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasDefeatTypeJobId {
+  return result.hasDefeatTypeJobId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) defeatTypeJobId {
+  return result.defeatTypeJobId;
 }
-- (DefeatTypeJobProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (DefeatTypeJobProto_Builder*) setDefeatTypeJobId:(int32_t) value {
+  result.hasDefeatTypeJobId = YES;
+  result.defeatTypeJobId = value;
   return self;
 }
-- (DefeatTypeJobProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (DefeatTypeJobProto_Builder*) clearDefeatTypeJobId {
+  result.hasDefeatTypeJobId = NO;
+  result.defeatTypeJobId = 0;
   return self;
 }
 - (BOOL) hasTypeOfEnemy {
@@ -7977,20 +9395,20 @@ static MinimumUserBuildStructJobProto* defaultMinimumUserBuildStructJobProtoInst
 @end
 
 @interface BuildStructJobProto ()
-@property int32_t id;
+@property int32_t buildStructJobId;
 @property int32_t structId;
 @property int32_t quantityRequired;
 @end
 
 @implementation BuildStructJobProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasBuildStructJobId {
+  return !!hasBuildStructJobId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasBuildStructJobId:(BOOL) value {
+  hasBuildStructJobId_ = !!value;
 }
-@synthesize id;
+@synthesize buildStructJobId;
 - (BOOL) hasStructId {
   return !!hasStructId_;
 }
@@ -8010,7 +9428,7 @@ static MinimumUserBuildStructJobProto* defaultMinimumUserBuildStructJobProtoInst
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.buildStructJobId = 0;
     self.structId = 0;
     self.quantityRequired = 0;
   }
@@ -8029,7 +9447,7 @@ static BuildStructJobProto* defaultBuildStructJobProtoInstance = nil;
   return defaultBuildStructJobProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasBuildStructJobId) {
     return NO;
   }
   if (!self.hasStructId) {
@@ -8041,8 +9459,8 @@ static BuildStructJobProto* defaultBuildStructJobProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasBuildStructJobId) {
+    [output writeInt32:1 value:self.buildStructJobId];
   }
   if (self.hasStructId) {
     [output writeInt32:2 value:self.structId];
@@ -8059,8 +9477,8 @@ static BuildStructJobProto* defaultBuildStructJobProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasBuildStructJobId) {
+    size += computeInt32Size(1, self.buildStructJobId);
   }
   if (self.hasStructId) {
     size += computeInt32Size(2, self.structId);
@@ -8143,8 +9561,8 @@ static BuildStructJobProto* defaultBuildStructJobProtoInstance = nil;
   if (other == [BuildStructJobProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasBuildStructJobId) {
+    [self setBuildStructJobId:other.buildStructJobId];
   }
   if (other.hasStructId) {
     [self setStructId:other.structId];
@@ -8174,7 +9592,7 @@ static BuildStructJobProto* defaultBuildStructJobProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setBuildStructJobId:[input readInt32]];
         break;
       }
       case 16: {
@@ -8188,20 +9606,20 @@ static BuildStructJobProto* defaultBuildStructJobProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasBuildStructJobId {
+  return result.hasBuildStructJobId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) buildStructJobId {
+  return result.buildStructJobId;
 }
-- (BuildStructJobProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (BuildStructJobProto_Builder*) setBuildStructJobId:(int32_t) value {
+  result.hasBuildStructJobId = YES;
+  result.buildStructJobId = value;
   return self;
 }
-- (BuildStructJobProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (BuildStructJobProto_Builder*) clearBuildStructJobId {
+  result.hasBuildStructJobId = NO;
+  result.buildStructJobId = 0;
   return self;
 }
 - (BOOL) hasStructId {
@@ -8570,20 +9988,20 @@ static MinimumUserUpgradeStructJobProto* defaultMinimumUserUpgradeStructJobProto
 @end
 
 @interface UpgradeStructJobProto ()
-@property int32_t id;
+@property int32_t upgradeStructJobId;
 @property int32_t structId;
 @property int32_t levelReq;
 @end
 
 @implementation UpgradeStructJobProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasUpgradeStructJobId {
+  return !!hasUpgradeStructJobId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasUpgradeStructJobId:(BOOL) value {
+  hasUpgradeStructJobId_ = !!value;
 }
-@synthesize id;
+@synthesize upgradeStructJobId;
 - (BOOL) hasStructId {
   return !!hasStructId_;
 }
@@ -8603,7 +10021,7 @@ static MinimumUserUpgradeStructJobProto* defaultMinimumUserUpgradeStructJobProto
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.upgradeStructJobId = 0;
     self.structId = 0;
     self.levelReq = 0;
   }
@@ -8622,7 +10040,7 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
   return defaultUpgradeStructJobProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasUpgradeStructJobId) {
     return NO;
   }
   if (!self.hasStructId) {
@@ -8634,8 +10052,8 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasUpgradeStructJobId) {
+    [output writeInt32:1 value:self.upgradeStructJobId];
   }
   if (self.hasStructId) {
     [output writeInt32:2 value:self.structId];
@@ -8652,8 +10070,8 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasUpgradeStructJobId) {
+    size += computeInt32Size(1, self.upgradeStructJobId);
   }
   if (self.hasStructId) {
     size += computeInt32Size(2, self.structId);
@@ -8736,8 +10154,8 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
   if (other == [UpgradeStructJobProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasUpgradeStructJobId) {
+    [self setUpgradeStructJobId:other.upgradeStructJobId];
   }
   if (other.hasStructId) {
     [self setStructId:other.structId];
@@ -8767,7 +10185,7 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setUpgradeStructJobId:[input readInt32]];
         break;
       }
       case 16: {
@@ -8781,20 +10199,20 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasUpgradeStructJobId {
+  return result.hasUpgradeStructJobId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) upgradeStructJobId {
+  return result.upgradeStructJobId;
 }
-- (UpgradeStructJobProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (UpgradeStructJobProto_Builder*) setUpgradeStructJobId:(int32_t) value {
+  result.hasUpgradeStructJobId = YES;
+  result.upgradeStructJobId = value;
   return self;
 }
-- (UpgradeStructJobProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (UpgradeStructJobProto_Builder*) clearUpgradeStructJobId {
+  result.hasUpgradeStructJobId = NO;
+  result.upgradeStructJobId = 0;
   return self;
 }
 - (BOOL) hasStructId {
@@ -8835,7 +10253,7 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
 @property int32_t userId;
 @property int32_t questId;
 @property (retain) PossessEquipJobProto* possessEquipJobProto;
-@property BOOL isComplete;
+@property int32_t numEquipUserHas;
 @end
 
 @implementation MinimumUserPossessEquipJobProto
@@ -8861,18 +10279,13 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
   hasPossessEquipJobProto_ = !!value;
 }
 @synthesize possessEquipJobProto;
-- (BOOL) hasIsComplete {
-  return !!hasIsComplete_;
+- (BOOL) hasNumEquipUserHas {
+  return !!hasNumEquipUserHas_;
 }
-- (void) setHasIsComplete:(BOOL) value {
-  hasIsComplete_ = !!value;
+- (void) setHasNumEquipUserHas:(BOOL) value {
+  hasNumEquipUserHas_ = !!value;
 }
-- (BOOL) isComplete {
-  return !!isComplete_;
-}
-- (void) setIsComplete:(BOOL) value {
-  isComplete_ = !!value;
-}
+@synthesize numEquipUserHas;
 - (void) dealloc {
   self.possessEquipJobProto = nil;
   [super dealloc];
@@ -8882,7 +10295,7 @@ static UpgradeStructJobProto* defaultUpgradeStructJobProtoInstance = nil;
     self.userId = 0;
     self.questId = 0;
     self.possessEquipJobProto = [PossessEquipJobProto defaultInstance];
-    self.isComplete = NO;
+    self.numEquipUserHas = 0;
   }
   return self;
 }
@@ -8908,7 +10321,7 @@ static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoIn
   if (!self.hasPossessEquipJobProto) {
     return NO;
   }
-  if (!self.hasIsComplete) {
+  if (!self.hasNumEquipUserHas) {
     return NO;
   }
   if (!self.possessEquipJobProto.isInitialized) {
@@ -8926,8 +10339,8 @@ static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoIn
   if (self.hasPossessEquipJobProto) {
     [output writeMessage:3 value:self.possessEquipJobProto];
   }
-  if (self.hasIsComplete) {
-    [output writeBool:4 value:self.isComplete];
+  if (self.hasNumEquipUserHas) {
+    [output writeInt32:4 value:self.numEquipUserHas];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -8947,8 +10360,8 @@ static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoIn
   if (self.hasPossessEquipJobProto) {
     size += computeMessageSize(3, self.possessEquipJobProto);
   }
-  if (self.hasIsComplete) {
-    size += computeBoolSize(4, self.isComplete);
+  if (self.hasNumEquipUserHas) {
+    size += computeInt32Size(4, self.numEquipUserHas);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -9034,8 +10447,8 @@ static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoIn
   if (other.hasPossessEquipJobProto) {
     [self mergePossessEquipJobProto:other.possessEquipJobProto];
   }
-  if (other.hasIsComplete) {
-    [self setIsComplete:other.isComplete];
+  if (other.hasNumEquipUserHas) {
+    [self setNumEquipUserHas:other.numEquipUserHas];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -9076,7 +10489,7 @@ static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoIn
         break;
       }
       case 32: {
-        [self setIsComplete:[input readBool]];
+        [self setNumEquipUserHas:[input readInt32]];
         break;
       }
     }
@@ -9144,39 +10557,39 @@ static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoIn
   result.possessEquipJobProto = [PossessEquipJobProto defaultInstance];
   return self;
 }
-- (BOOL) hasIsComplete {
-  return result.hasIsComplete;
+- (BOOL) hasNumEquipUserHas {
+  return result.hasNumEquipUserHas;
 }
-- (BOOL) isComplete {
-  return result.isComplete;
+- (int32_t) numEquipUserHas {
+  return result.numEquipUserHas;
 }
-- (MinimumUserPossessEquipJobProto_Builder*) setIsComplete:(BOOL) value {
-  result.hasIsComplete = YES;
-  result.isComplete = value;
+- (MinimumUserPossessEquipJobProto_Builder*) setNumEquipUserHas:(int32_t) value {
+  result.hasNumEquipUserHas = YES;
+  result.numEquipUserHas = value;
   return self;
 }
-- (MinimumUserPossessEquipJobProto_Builder*) clearIsComplete {
-  result.hasIsComplete = NO;
-  result.isComplete = NO;
+- (MinimumUserPossessEquipJobProto_Builder*) clearNumEquipUserHas {
+  result.hasNumEquipUserHas = NO;
+  result.numEquipUserHas = 0;
   return self;
 }
 @end
 
 @interface PossessEquipJobProto ()
-@property int32_t id;
+@property int32_t possessEquipJobId;
 @property int32_t equipId;
 @property int32_t quantityReq;
 @end
 
 @implementation PossessEquipJobProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasPossessEquipJobId {
+  return !!hasPossessEquipJobId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasPossessEquipJobId:(BOOL) value {
+  hasPossessEquipJobId_ = !!value;
 }
-@synthesize id;
+@synthesize possessEquipJobId;
 - (BOOL) hasEquipId {
   return !!hasEquipId_;
 }
@@ -9196,7 +10609,7 @@ static MinimumUserPossessEquipJobProto* defaultMinimumUserPossessEquipJobProtoIn
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.possessEquipJobId = 0;
     self.equipId = 0;
     self.quantityReq = 0;
   }
@@ -9215,7 +10628,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   return defaultPossessEquipJobProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasPossessEquipJobId) {
     return NO;
   }
   if (!self.hasEquipId) {
@@ -9227,8 +10640,8 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasPossessEquipJobId) {
+    [output writeInt32:1 value:self.possessEquipJobId];
   }
   if (self.hasEquipId) {
     [output writeInt32:2 value:self.equipId];
@@ -9245,8 +10658,8 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasPossessEquipJobId) {
+    size += computeInt32Size(1, self.possessEquipJobId);
   }
   if (self.hasEquipId) {
     size += computeInt32Size(2, self.equipId);
@@ -9329,8 +10742,8 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   if (other == [PossessEquipJobProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasPossessEquipJobId) {
+    [self setPossessEquipJobId:other.possessEquipJobId];
   }
   if (other.hasEquipId) {
     [self setEquipId:other.equipId];
@@ -9360,7 +10773,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setPossessEquipJobId:[input readInt32]];
         break;
       }
       case 16: {
@@ -9374,20 +10787,20 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasPossessEquipJobId {
+  return result.hasPossessEquipJobId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) possessEquipJobId {
+  return result.possessEquipJobId;
 }
-- (PossessEquipJobProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (PossessEquipJobProto_Builder*) setPossessEquipJobId:(int32_t) value {
+  result.hasPossessEquipJobId = YES;
+  result.possessEquipJobId = value;
   return self;
 }
-- (PossessEquipJobProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (PossessEquipJobProto_Builder*) clearPossessEquipJobId {
+  result.hasPossessEquipJobId = NO;
+  result.possessEquipJobId = 0;
   return self;
 }
 - (BOOL) hasEquipId {
@@ -9425,7 +10838,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @end
 
 @interface FullQuestProto ()
-@property int32_t id;
+@property int32_t questId;
 @property int32_t cityId;
 @property (retain) NSString* name;
 @property (retain) NSString* description;
@@ -9434,7 +10847,6 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @property int32_t assetNumWithinCity;
 @property int32_t coinsGained;
 @property int32_t diamondsGained;
-@property int32_t woodGained;
 @property int32_t expGained;
 @property int32_t equipIdGained;
 @property (retain) NSMutableArray* mutableQuestsRequiredForThisList;
@@ -9447,13 +10859,13 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 
 @implementation FullQuestProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
 }
-@synthesize id;
+@synthesize questId;
 - (BOOL) hasCityId {
   return !!hasCityId_;
 }
@@ -9510,13 +10922,6 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   hasDiamondsGained_ = !!value;
 }
 @synthesize diamondsGained;
-- (BOOL) hasWoodGained {
-  return !!hasWoodGained_;
-}
-- (void) setHasWoodGained:(BOOL) value {
-  hasWoodGained_ = !!value;
-}
-@synthesize woodGained;
 - (BOOL) hasExpGained {
   return !!hasExpGained_;
 }
@@ -9552,7 +10957,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.questId = 0;
     self.cityId = 0;
     self.name = @"";
     self.description = @"";
@@ -9561,7 +10966,6 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
     self.assetNumWithinCity = 0;
     self.coinsGained = 0;
     self.diamondsGained = 0;
-    self.woodGained = 0;
     self.expGained = 0;
     self.equipIdGained = 0;
   }
@@ -9622,7 +11026,7 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   return [value intValue];
 }
 - (BOOL) isInitialized {
-  if (!self.hasId) {
+  if (!self.hasQuestId) {
     return NO;
   }
   if (!self.hasCityId) {
@@ -9646,8 +11050,8 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasQuestId) {
+    [output writeInt32:1 value:self.questId];
   }
   if (self.hasCityId) {
     [output writeInt32:2 value:self.cityId];
@@ -9673,32 +11077,29 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasDiamondsGained) {
     [output writeInt32:9 value:self.diamondsGained];
   }
-  if (self.hasWoodGained) {
-    [output writeInt32:10 value:self.woodGained];
-  }
   if (self.hasExpGained) {
-    [output writeInt32:11 value:self.expGained];
+    [output writeInt32:10 value:self.expGained];
   }
   if (self.hasEquipIdGained) {
-    [output writeInt32:12 value:self.equipIdGained];
+    [output writeInt32:11 value:self.equipIdGained];
   }
   for (NSNumber* value in self.mutableQuestsRequiredForThisList) {
-    [output writeInt32:13 value:[value intValue]];
+    [output writeInt32:12 value:[value intValue]];
   }
   for (NSNumber* value in self.mutableTaskReqsList) {
-    [output writeInt32:14 value:[value intValue]];
+    [output writeInt32:13 value:[value intValue]];
   }
   for (NSNumber* value in self.mutableUpgradeStructJobsReqsList) {
-    [output writeInt32:15 value:[value intValue]];
+    [output writeInt32:14 value:[value intValue]];
   }
   for (NSNumber* value in self.mutableBuildStructJobsReqsList) {
-    [output writeInt32:16 value:[value intValue]];
+    [output writeInt32:15 value:[value intValue]];
   }
   for (NSNumber* value in self.mutableDefeatTypeReqsList) {
-    [output writeInt32:17 value:[value intValue]];
+    [output writeInt32:16 value:[value intValue]];
   }
   for (NSNumber* value in self.mutablePossessEquipJobReqsList) {
-    [output writeInt32:18 value:[value intValue]];
+    [output writeInt32:17 value:[value intValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -9709,8 +11110,8 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasQuestId) {
+    size += computeInt32Size(1, self.questId);
   }
   if (self.hasCityId) {
     size += computeInt32Size(2, self.cityId);
@@ -9736,14 +11137,11 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasDiamondsGained) {
     size += computeInt32Size(9, self.diamondsGained);
   }
-  if (self.hasWoodGained) {
-    size += computeInt32Size(10, self.woodGained);
-  }
   if (self.hasExpGained) {
-    size += computeInt32Size(11, self.expGained);
+    size += computeInt32Size(10, self.expGained);
   }
   if (self.hasEquipIdGained) {
-    size += computeInt32Size(12, self.equipIdGained);
+    size += computeInt32Size(11, self.equipIdGained);
   }
   {
     int32_t dataSize = 0;
@@ -9775,7 +11173,7 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
       dataSize += computeInt32SizeNoTag([value intValue]);
     }
     size += dataSize;
-    size += 2 * self.mutableBuildStructJobsReqsList.count;
+    size += 1 * self.mutableBuildStructJobsReqsList.count;
   }
   {
     int32_t dataSize = 0;
@@ -9868,8 +11266,8 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (other == [FullQuestProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
   }
   if (other.hasCityId) {
     [self setCityId:other.cityId];
@@ -9894,9 +11292,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (other.hasDiamondsGained) {
     [self setDiamondsGained:other.diamondsGained];
-  }
-  if (other.hasWoodGained) {
-    [self setWoodGained:other.woodGained];
   }
   if (other.hasExpGained) {
     [self setExpGained:other.expGained];
@@ -9962,7 +11357,7 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setQuestId:[input readInt32]];
         break;
       }
       case 16: {
@@ -9998,58 +11393,54 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         break;
       }
       case 80: {
-        [self setWoodGained:[input readInt32]];
-        break;
-      }
-      case 88: {
         [self setExpGained:[input readInt32]];
         break;
       }
-      case 96: {
+      case 88: {
         [self setEquipIdGained:[input readInt32]];
         break;
       }
-      case 104: {
+      case 96: {
         [self addQuestsRequiredForThis:[input readInt32]];
         break;
       }
-      case 112: {
+      case 104: {
         [self addTaskReqs:[input readInt32]];
         break;
       }
-      case 120: {
+      case 112: {
         [self addUpgradeStructJobsReqs:[input readInt32]];
         break;
       }
-      case 128: {
+      case 120: {
         [self addBuildStructJobsReqs:[input readInt32]];
         break;
       }
-      case 136: {
+      case 128: {
         [self addDefeatTypeReqs:[input readInt32]];
         break;
       }
-      case 144: {
+      case 136: {
         [self addPossessEquipJobReqs:[input readInt32]];
         break;
       }
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) questId {
+  return result.questId;
 }
-- (FullQuestProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (FullQuestProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
   return self;
 }
-- (FullQuestProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (FullQuestProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
   return self;
 }
 - (BOOL) hasCityId {
@@ -10178,22 +11569,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearDiamondsGained {
   result.hasDiamondsGained = NO;
   result.diamondsGained = 0;
-  return self;
-}
-- (BOOL) hasWoodGained {
-  return result.hasWoodGained;
-}
-- (int32_t) woodGained {
-  return result.woodGained;
-}
-- (FullQuestProto_Builder*) setWoodGained:(int32_t) value {
-  result.hasWoodGained = YES;
-  result.woodGained = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearWoodGained {
-  result.hasWoodGained = NO;
-  result.woodGained = 0;
   return self;
 }
 - (BOOL) hasExpGained {

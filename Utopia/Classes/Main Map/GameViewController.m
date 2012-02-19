@@ -1,4 +1,4 @@
-      //
+       //
 //  RootViewController.m
 //  Utopia
 //
@@ -44,18 +44,12 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
-- (id)init {
-  
-  if ((self = [super initWithNibName:nil bundle:nil])) {
-  }
-  return self;
-}
-
 - (void)setupCocos2D {
   EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
                                  depthFormat:0                        // GL_DEPTH_COMPONENT16_OES
                       ];
+  NSLog(@"%@", [NSValue valueWithCGRect:[glView frame] ]);
   glView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   [self.view insertSubview:glView atIndex:0];
   [[CCDirector sharedDirector] setOpenGLView:glView];
@@ -72,6 +66,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [super viewDidAppear:animated];
   CCScene *scene = [GameLayer node];
   [[CCDirector sharedDirector] runWithScene:scene];
+}
+
+- (void) loadView {
+  CGRect rect = [[UIScreen mainScreen] bounds];
+  rect.size = CGSizeMake( rect.size.height, rect.size.width );
+  GameView *v = [[GameView alloc] initWithFrame:rect];
+  self.view = v;
+  [v release];
 }
 
 //
