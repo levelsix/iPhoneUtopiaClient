@@ -1415,12 +1415,12 @@
 		CFE47C1F149240890084E71E /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CFE47C20149240890084E71E /* cocos2d */,
 				CFF3A72C14F07D3F00E8F8DF /* SBTickerView */,
 				CF05573214DE6F18003739EF /* PullRefreshTableViewController.h */,
 				CF05573314DE6F18003739EF /* PullRefreshTableViewController.m */,
 				CF22F1C814D54CE000B0D32E /* GCDAsyncSocket.h */,
 				CF22F1C914D54CE000B0D32E /* GCDAsyncSocket.m */,
-				CFE47C20149240890084E71E /* cocos2d */,
 				CFE47D161492408B0084E71E /* CocosDenshion */,
 				CFE47D461492408B0084E71E /* FontLabel */,
 				CFE47D151492408B0084E71E /* LICENSE_cocos2d.txt */,

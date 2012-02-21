@@ -11,7 +11,7 @@
 #import "IAPHelper.h"
 #import "GameState.h"
 
-#define FONT_LABEL_OFFSET 3
+#define FONT_LABEL_OFFSET 2.5
 
 @implementation Globals
 
@@ -107,6 +107,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   for (UILabel *arg = field1; arg != nil; arg = va_arg(params, UILabel *))
   {
     [self adjustFontSizeForUILabel:arg];
+  }
+  va_end(params);
+}
+
++ (void) adjustFontSizeForCCLabelTTF:(CCLabelTTF *)label {
+  label.position = ccpAdd(label.position, ccp(0,-FONT_LABEL_OFFSET));
+}
+
++ (void) adjustFontSizeForCCLabelTTFs:(CCLabelTTF *)field1, ...
+{
+	va_list params;
+	va_start(params,field1);
+	
+  for (CCLabelTTF *arg = field1; arg != nil; arg = va_arg(params, CCLabelTTF *))
+  {
+    [self adjustFontSizeForCCLabelTTF:arg];
   }
   va_end(params);
 }

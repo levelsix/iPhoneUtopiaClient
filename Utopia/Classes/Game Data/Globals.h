@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "cocos2d.h"
 #import "Protocols.pb.h"
 #import "UserData.h"
 
@@ -46,6 +46,8 @@
 + (void) adjustFontSizeForUIViewsWithDefaultSize:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 + (void) adjustFontSizeForUILabel:(UILabel *)label;
 + (void) adjustFontSizeForUILabels:(UILabel *)field1, ... NS_REQUIRES_NIL_TERMINATION;
++ (void) adjustFontSizeForCCLabelTTF:(CCLabelTTF *)label;
++ (void) adjustFontSizeForCCLabelTTFs:(CCLabelTTF *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 
 + (NSString *) commafyNumber:(int) n;
 

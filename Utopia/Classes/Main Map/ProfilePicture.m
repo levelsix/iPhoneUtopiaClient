@@ -46,6 +46,7 @@
     _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
     [_levelCircle addChild:_levelLabel];
+    [Globals adjustFontSizeForCCLabelTTF:_levelLabel];
     
     self.level = 1;
     self.expPercentage = 0;
@@ -91,13 +92,13 @@
     [self addChild:_expCircle z:2];
     _expCircle.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
-    CCSprite *health = [CCSprite spriteWithFile:@"healthgreen.png"];
-    CCSprite *mask = [CCSprite spriteWithFile:@"healthmask.png"];
-    _healthBar = [[MaskedHealth alloc] initHealthWithFile:health andMask:mask];
-    _healthBar.percentage = 30;
-    CCSprite *s = [_healthBar updateSprite];
-    [self addChild:s z:0 tag:1];
-    s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
+//    CCSprite *health = [CCSprite spriteWithFile:@"healthgreen.png"];
+//    CCSprite *mask = [CCSprite spriteWithFile:@"healthmask.png"];
+//    _healthBar = [[MaskedHealth alloc] initHealthWithFile:health andMask:mask];
+//    _healthBar.percentage = 30;
+//    CCSprite *s = [_healthBar updateSprite];
+//    [self addChild:s z:0 tag:1];
+//    s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
     
     _menuItems = [[[NSMutableArray alloc] init] retain];
     
@@ -122,9 +123,9 @@
     
     [self addChild:menu z:-1];
     
-//    CCSprite *charImage = [CCSprite spriteWithFile:@"dude.png"];
-//    charImage.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-//    [self addChild:charImage z:1];
+    CCSprite *charImage = [CCSprite spriteWithFile:@"dude.png"];
+    charImage.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    [self addChild:charImage z:1];
   }
   return self;
 }
@@ -317,7 +318,6 @@
 
 - (void) dealloc {
   [_menuItems release];
-  [_healthBar release];
   [super dealloc];
 }
 

@@ -144,7 +144,6 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">active.png</string>
 						</object>
-						<bool key="IBUIHighlighted">YES</bool>
 					</object>
 					<object class="IBUIImageView" id="259676864">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -552,6 +551,7 @@
 						<string key="pkgIcon">UIImageView</string>
 						<string key="pkgNameLabel">UILabel</string>
 						<string key="priceLabel">PriceLabel</string>
+						<string key="selectedView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="pkgGoldLabel">
@@ -569,6 +569,10 @@
 						<object class="IBToOneOutletInfo" key="priceLabel">
 							<string key="name">priceLabel</string>
 							<string key="candidateClassName">PriceLabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="selectedView">
+							<string key="name">selectedView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

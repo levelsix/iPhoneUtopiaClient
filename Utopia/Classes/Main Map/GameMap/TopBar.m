@@ -382,13 +382,16 @@
     _goldLabel = [CCLabelTTF labelWithString:@"30" fontName:fontName fontSize:12];
     [_coinBar addChild:_goldLabel];
     _goldLabel.color = ccc3(212,210,199);
-    _goldLabel.position = ccp(125, 15);
+    _goldLabel.position = ccp(127, 15);
     
     _goldButton = [CCSprite spriteWithFile:@"plus.png"];
     [_coinBar addChild:_goldButton z:-1];
     CGPoint finalgoldButtonPos = ccp(155, _goldButton.contentSize.height/2+2);
     _goldButton.position = ccp(100, _goldButton.contentSize.height/2);
     [_goldButton runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1], [CCEaseExponentialOut actionWithAction:[CCMoveTo actionWithDuration:1.5 position:finalgoldButtonPos]], nil]];
+    
+    // Adjust the labels
+    [Globals adjustFontSizeForCCLabelTTFs:_silverLabel, _goldLabel, nil];
     
     // Drop the bars down
     [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];

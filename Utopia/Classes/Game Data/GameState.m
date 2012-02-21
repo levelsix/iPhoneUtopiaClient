@@ -83,8 +83,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _name = @"Ashwin";
     _type = UserTypeBadMage;
     
-    _silver = 10000000;
-    _vaultBalance = 123456910;
+    _silver = 10000;
+    _gold = 50;
+    _vaultBalance = 2500;
+    _currentEnergy = 1;
+    _maxEnergy = 3;
+    _currentStamina = 1;
+    _maxStamina = 3;
+    _maxHealth = 1;
+    _level = 12;
+    _experience = 30;
   }
   return self;
 }

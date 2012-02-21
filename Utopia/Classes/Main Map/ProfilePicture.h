@@ -34,7 +34,6 @@
   BOOL _menuOut;
   NSMutableArray *_menuItems;
   ExperienceCircle *_expCircle;
-  MaskedHealth *_healthBar;
 }
 
 + (id) profileWithType: (UserType) type;
