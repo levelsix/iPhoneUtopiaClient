@@ -36,8 +36,8 @@ static IAPHelper * _sharedHelper;
 }
 
 - (void)requestProducts {
-  
-  self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:[[Globals sharedGlobals] productIdentifiers]] autorelease];
+  NSSet *productIds = [NSSet setWithArray:[[[Globals sharedGlobals] productIdentifiers] allKeys]];
+  self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:productIds] autorelease];
   _request.delegate = self;
   [_request start];
   

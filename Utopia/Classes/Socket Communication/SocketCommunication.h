@@ -29,7 +29,7 @@
 - (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
 - (void) sendTasksForCityMessage: (int) cityId;
 - (void) sendBattleMessage:(int)defender;
-- (void) sendStartupMessage;
+- (void) sendStartupMessage:(uint64_t)clientTime;
 - (void) sendTaskActionMessage:(int) taskId;
 - (void) sendInAppPurchaseMessage: (NSString *) receipt;
 
@@ -46,10 +46,10 @@
 - (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType;
 
 // Norm Struct messages
-- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y;
+- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
 - (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
-- (void) sendUpgradeNormStructureMessage:(int)userStructId;
-- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds;
+- (void) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
+- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
 - (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
 - (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds;
 - (void) sendSellNormStructureMessage:(int)userStructId;

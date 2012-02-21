@@ -135,8 +135,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (FullStructureProto *) structWithId:(int)structId {
   FullStructureProto *p = nil;
   while (!p) {
-    p = [self.staticStructs objectForKey:[NSNumber numberWithInt:structId]];
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    p = [self.staticStructs objectForKey:[NSNumber numberWithInt:structId]];
   }
   return p;
 }

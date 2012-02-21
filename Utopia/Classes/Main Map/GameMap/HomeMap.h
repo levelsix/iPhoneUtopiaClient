@@ -56,12 +56,12 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet LabelButton *blueButton;
 @property (nonatomic, retain) IBOutlet LabelButton *redButton;
 @property (nonatomic, retain) IBOutlet LabelButton *greenButton;
-@property (nonatomic, retain) IBOutlet LabelButton *blackButton;
 @property (nonatomic, retain) IBOutlet HomeBuildingInfoView *infoView;
 @property (nonatomic, retain) IBOutlet HomeBuildingUpgradeView *upgradeView;
 @property (nonatomic, retain) IBOutlet UIView *progressView;
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *moveView;
+@property (nonatomic, retain) IBOutlet UIButton *finishNowButton;
 
 @property (nonatomic, retain) IBOutlet UILabel *incomeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *retrieveTimeLabel;
@@ -80,6 +80,9 @@ typedef enum {
 @property (nonatomic, assign) NSTimeInterval totalUpgradeTime;
 
 - (void) setFrameForPoint:(CGPoint)pt;
+- (void) setProgressBarProgress:(float)val;
+- (float) progressBarProgress;
+- (void) startTimer;
 
 @end
 
@@ -87,11 +90,17 @@ typedef enum {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
   BOOL _canMove;
+  BOOL _loading;
+  
+  HomeBuilding *_constructing;
+  HomeBuilding *_upgrading;
 }
 
 @property (nonatomic, retain) NSMutableArray *buildableData;
 
 @property (nonatomic, retain) IBOutlet HomeBuildingMenu *hbMenu;
+
+@property (nonatomic, assign, readonly) BOOL loading;
 
 + (HomeMap *)sharedHomeMap;
 
@@ -99,11 +108,14 @@ typedef enum {
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
 - (void) updateHomeBuildingMenu;
 - (void) refresh;
+- (int) baseTagForStructId:(int)structId;
 
 - (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)moveCheckClicked:(id)sender;
 - (IBAction)rotateClicked:(id)sender;
 - (IBAction)redButtonClicked:(id)sender;
-- (IBAction)upgradeClicked:(id)sender;
+- (IBAction)bigUpgradeClicked:(id)sender;
+- (IBAction)littleUpgradeClicked:(id)sender;
+- (IBAction)finishNowClicked:(id)sender;
 
 @end

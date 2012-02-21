@@ -57,6 +57,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCPurchaseCityExpansionEvent:
     case EventProtocolRequestCExpansionWaitCompleteEvent:
     case EventProtocolRequestCRefillStatWaitCompleteEvent:
+    case EventProtocolRequestCLevelUpEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:

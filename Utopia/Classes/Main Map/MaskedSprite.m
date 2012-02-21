@@ -54,8 +54,8 @@
 
 - (void) setPercentage:(float)percentage {
   if(_percentage != percentage) {
-    _percentage = clampf( percentage, 0, 100);
-    _maskSprite.position = ccp((-0.5+_percentage/100)*_maskSprite.contentSize.width, _maskSprite.contentSize.height/2);
+    _percentage = clampf( percentage, 0.f, 1.f);
+    _maskSprite.position = ccp((-0.5+_percentage)*_maskSprite.contentSize.width, _maskSprite.contentSize.height/2);
 	}
 }
 
@@ -81,14 +81,14 @@
 
 - (CCSprite *)updateSprite {
   CCSprite *spr = [super updateSprite];
-  spr.color = ccc3(255, 255*_percentage/100, 255*_percentage/100);
+  spr.color = ccc3(255, 255*_percentage, 255*_percentage);
   return spr;
 }
 
 - (void) setPercentage:(float)percentage {
   if(_percentage != percentage) {
-    _percentage = clampf( percentage, 0, 100);
-    _maskSprite.position = ccp(_maskSprite.position.x, (0.35+0.6*_percentage/100)*_textureSprite.contentSize.height);
+    _percentage = clampf( percentage, 0.f, 1.f);
+    _maskSprite.position = ccp(_maskSprite.position.x, (0.35+0.6*_percentage)*_textureSprite.contentSize.height);
 	}
 }
 

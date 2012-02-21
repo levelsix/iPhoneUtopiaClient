@@ -55,6 +55,8 @@ message FullUserProto {
 	optional int32 weaponEquipped = 33;
 	optional int32 armorEquipped = 34;
 	optional int32 amuletEquipped = 35;
+	required int64 lastLoginTime = 36;
+	optional int64 lastLogoutTime = 37;
 }
 
 //------------------------------------------------------------------------------------------
@@ -198,6 +200,14 @@ message CoordinateProto {
 message LocationProto {
 	required float latitude = 1;
 	required float longitude = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+enum BattleResult {
+   	ATTACKER_WIN = 0;
+ 	DEFENDER_WIN = 1;
+// 	ATTACKER_FLEE = 2;
 }
 
 //------------------------------------------------------------------------------------------

@@ -51,7 +51,6 @@
     
     self.isTouchEnabled = YES;
     
-    
     // add UITapGestureRecognizer
     recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[[UITapGestureRecognizer alloc ]init] autorelease] target:self action:@selector(tap:node:)];
     [self addGestureRecognizer:recognizer];
@@ -113,7 +112,7 @@
   CGPoint pt = [recognizer locationInView:recognizer.view];
   pt = [[CCDirector sharedDirector] convertToGL:pt];
   
-  if (![_selected isPointInArea:pt]) {
+  if (_selected && ![_selected isPointInArea:pt]) {
     self.selected = nil;
     [self doReorder];
   }
@@ -121,11 +120,13 @@
   for(SelectableSprite *child in _selectables) {
     if ([child isPointInArea:pt]) {
       if (_selected) {
-        if ([self selectable:child isInFrontOfSelectable:_selected]) {
+        if ([self selectable:child isInFrontOfSelectable:_selected] && child != _selected) {
           self.selected = child;
+          break;
         }
       } else {
         self.selected = child;
+        break;
       }
     }
   }

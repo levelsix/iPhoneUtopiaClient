@@ -70,6 +70,8 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
+@class LevelUpRequestProto;
+@class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
 @class LevelUpResponseProto_Builder;
 @class LoadPlayerCityRequestProto;
@@ -175,7 +177,11 @@
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
+@class StartupResponseProto_AttackedNotificationProto;
+@class StartupResponseProto_AttackedNotificationProto_Builder;
 @class StartupResponseProto_Builder;
+@class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
+@class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_Builder;
 @class TaskActionRequestProto;
@@ -238,6 +244,7 @@ typedef enum {
   EventProtocolRequestCPurchaseCityExpansionEvent = 32,
   EventProtocolRequestCExpansionWaitCompleteEvent = 33,
   EventProtocolRequestCRefillStatWaitCompleteEvent = 34,
+  EventProtocolRequestCLevelUpEvent = 35,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -279,7 +286,7 @@ typedef enum {
   EventProtocolResponseSPurchaseCityExpansionEvent = 32,
   EventProtocolResponseSExpansionWaitCompleteEvent = 33,
   EventProtocolResponseSRefillStatWaitCompleteEvent = 34,
-  EventProtocolResponseSLevelUpEvent = 50,
+  EventProtocolResponseSLevelUpEvent = 35,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
 } EventProtocolResponse;

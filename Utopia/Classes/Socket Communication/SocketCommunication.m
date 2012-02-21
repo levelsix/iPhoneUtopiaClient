@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"localhost"
+#define HOST_NAME @"192.168.1.103"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -61,7 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   //    [self sendWoodPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
   //    [self sendDiamondPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
   //  }
-  [self sendStartupMessage];
+  [self sendStartupMessage:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
   [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:2];
   //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
@@ -71,8 +71,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   //  double y = [[NSDate date] timeIntervalSince1970];
   //  uint64_t x = (uint64_t)(y*1000);
   
-  //  [self sendPurchaseNormStructureMessage:3 x:3 y:3];
-  //  [self sendPurchaseNormStructureMessage:2 x:3 y:3];
+//  [self sendPurchaseNormStructureMessage:3 x:0 y:0 time:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
+//  [self sendPurchaseNormStructureMessage:3 x:3 y:3 time:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
   //  [self sendPurchaseNormStructureMessage:1 x:3 y:3];
   //  [self sendFinishNormStructBuildWithDiamondsMessage:18 time:x type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
   //  [self sendUpgradeNormStructureMessage:13];
@@ -81,7 +81,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   //  [self sendSellNormStructureMessage:11];
   //  [self sendSellNormStructureMessage:12];
   //  [self sendNormStructBuildsCompleteMessage:[NSArray arrayWithObjects:[NSNumber numberWithInt:15],nil]];
-  //  [self sendRetrieveCurrencyFromNormStructureMessage:4 time:[[NSDate date] timeIntervalSince1970]];
+//  [self sendRetrieveCurrencyFromNormStructureMessage:19 time:[[NSDate date] timeIntervalSince1970]*1000];
+//  [self sendRetrieveCurrencyFromNormStructureMessage:20 time:[[NSDate date] timeIntervalSince1970]*1000];
   
   //  [self sendRetrieveStaticDataMessageWithStructIds:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
 }
@@ -193,11 +194,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[battleReq data] withMessageType:EventProtocolRequestCBattleEvent];
 }
 
-- (void) sendStartupMessage {
+- (void) sendStartupMessage:(uint64_t)clientTime {
   NSString *udid = @"42d1cadaa64dbf3c3e8133e652a2df06";//[[UIDevice currentDevice] uniqueDeviceIdentifier];
-  StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
-                                     setUdid:udid] 
-                                    setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]] build];
+  StartupRequestProto *startReq = [[[[[StartupRequestProto builder] 
+                                      setUdid:udid] 
+                                     setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
+                                    setClientTime:clientTime]
+                                   build];
   
   NSLog(@"Sent over udid: %@", udid);
   
@@ -294,11 +297,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[refReq data] withMessageType:EventProtocolRequestCRefillStatWithDiamondsEvent];
 }
 
-- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y {
-  PurchaseNormStructureRequestProto *purReq = [[[[[PurchaseNormStructureRequestProto builder]
-                                                  setSender:_sender]
-                                                 setStructId:structId]
-                                                setStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
+- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time{
+  PurchaseNormStructureRequestProto *purReq = [[[[[[PurchaseNormStructureRequestProto builder]
+                                                   setSender:_sender]
+                                                  setStructId:structId]
+                                                 setStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
+                                                setTimeOfPurchase:time]
                                                build];
   
   [self sendData:[purReq data] withMessageType:EventProtocolRequestCPurchaseNormStructureEvent];
@@ -316,19 +320,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[movReq data] withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
-- (void) sendUpgradeNormStructureMessage:(int)userStructId {
-  UpgradeNormStructureRequestProto *upReq = [[[[UpgradeNormStructureRequestProto builder]
+- (void) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime {
+  UpgradeNormStructureRequestProto *upReq = [[[[[UpgradeNormStructureRequestProto builder]
                                                setSender:_sender]
                                               setUserStructId:userStructId]
+                                             setTimeOfUpgrade:curTime]
                                              build];
   
   [self sendData:[upReq data] withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
 }
 
-- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds {
-  NormStructWaitCompleteRequestProto *buildReq = [[[[NormStructWaitCompleteRequestProto builder]
-                                                    setSender:_sender]
-                                                   addAllUserStructId:userStructIds]
+- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime {
+  NormStructWaitCompleteRequestProto *buildReq = [[[[[NormStructWaitCompleteRequestProto builder]
+                                                     setSender:_sender]
+                                                    addAllUserStructId:userStructIds]
+                                                   setCurTime:curTime]
                                                   build];
   
   [self sendData:[buildReq data] withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];

@@ -66,6 +66,13 @@ typedef enum {
 BOOL UserTypeIsValidValue(UserType value);
 
 typedef enum {
+  BattleResultAttackerWin = 0,
+  BattleResultDefenderWin = 1,
+} BattleResult;
+
+BOOL BattleResultIsValidValue(BattleResult value);
+
+typedef enum {
   MarketplacePostTypePremiumEquipPost = 0,
   MarketplacePostTypeNormEquipPost = 2,
 } MarketplacePostType;
@@ -206,11 +213,12 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasIsLastEnergyStateFull_:1;
   BOOL hasIsLastStaminaStateFull_:1;
+  BOOL hasIsLastEnergyStateFull_:1;
+  BOOL hasLastLogoutTime_:1;
+  BOOL hasLastLoginTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
-  BOOL hasMarketplaceDiamondsEarnings_:1;
   BOOL hasMarketplaceCoinsEarnings_:1;
   BOOL hasVaultBalance_:1;
   BOOL hasExperience_:1;
@@ -236,16 +244,18 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   BOOL hasStaminaMax_:1;
   BOOL hasDiamonds_:1;
   BOOL hasCoins_:1;
+  BOOL hasMarketplaceDiamondsEarnings_:1;
   BOOL hasArmyCode_:1;
   BOOL hasUdid_:1;
   BOOL hasName_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
-  BOOL isLastEnergyStateFull_:1;
   BOOL isLastStaminaStateFull_:1;
+  BOOL isLastEnergyStateFull_:1;
+  int64_t lastLogoutTime;
+  int64_t lastLoginTime;
   int64_t lastStaminaRefillTime;
   int64_t lastEnergyRefillTime;
-  int32_t marketplaceDiamondsEarnings;
   int32_t marketplaceCoinsEarnings;
   int32_t vaultBalance;
   int32_t experience;
@@ -271,6 +281,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   int32_t staminaMax;
   int32_t diamonds;
   int32_t coins;
+  int32_t marketplaceDiamondsEarnings;
   NSString* armyCode;
   NSString* udid;
   NSString* name;
@@ -312,6 +323,8 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (BOOL) hasWeaponEquipped;
 - (BOOL) hasArmorEquipped;
 - (BOOL) hasAmuletEquipped;
+- (BOOL) hasLastLoginTime;
+- (BOOL) hasLastLogoutTime;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -347,6 +360,8 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @property (readonly) int32_t weaponEquipped;
 @property (readonly) int32_t armorEquipped;
 @property (readonly) int32_t amuletEquipped;
+@property (readonly) int64_t lastLoginTime;
+@property (readonly) int64_t lastLogoutTime;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -558,6 +573,16 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) amuletEquipped;
 - (FullUserProto_Builder*) setAmuletEquipped:(int32_t) value;
 - (FullUserProto_Builder*) clearAmuletEquipped;
+
+- (BOOL) hasLastLoginTime;
+- (int64_t) lastLoginTime;
+- (FullUserProto_Builder*) setLastLoginTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastLoginTime;
+
+- (BOOL) hasLastLogoutTime;
+- (int64_t) lastLogoutTime;
+- (FullUserProto_Builder*) setLastLogoutTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastLogoutTime;
 @end
 
 @interface FullEquipProto : PBGeneratedMessage {

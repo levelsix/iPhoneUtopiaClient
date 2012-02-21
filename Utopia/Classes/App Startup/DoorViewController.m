@@ -9,10 +9,6 @@
 #import "DoorViewController.h"
 
 #import "GameViewController.h"
-#import "MapViewController.h"
-#import "IAPHelper.h"
-#import "DiamondShopViewController.h"
-#import "ArmoryViewController.h"
 
 @implementation DoorViewController
 
@@ -28,10 +24,7 @@
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   // Open the door
-//  MapViewController *mvc = [[MapViewController alloc] initWithNibName:nil bundle:nil];
   [self.navigationController pushViewController:[GameViewController sharedGameViewController] animated:NO];
-  
-//  [[IAPHelper sharedIAPHelper] buyProductIdentifier:[[IAPHelper sharedIAPHelper].products objectAtIndex:0]];
 }
 
 @end

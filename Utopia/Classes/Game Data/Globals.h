@@ -34,7 +34,7 @@
 @property (nonatomic, assign) int energyRefillCost;
 @property (nonatomic, assign) int staminaRefillCost;
 
-@property (nonatomic, assign) NSSet *productIdentifiers;
+@property (nonatomic, assign) NSDictionary *productIdentifiers;
 
 + (Globals *) sharedGlobals;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;

@@ -37,12 +37,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
-  self.productIdentifiers = [NSSet setWithArray:constants.productIdsList];
+  self.productIdentifiers = [NSDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
   self.energyRefillCost = constants.diamondCostForEnergyRefill;
   self.staminaRefillCost = constants.diamondCostForStaminaRefill;
 }
 
-- (void) setProductIdentifiers:(NSSet *)productIds {
+- (void) setProductIdentifiers:(NSDictionary *)productIds {
   [productIdentifiers release];
   productIdentifiers = [productIds retain];
   [[IAPHelper sharedIAPHelper] requestProducts];

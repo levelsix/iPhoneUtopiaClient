@@ -17,8 +17,8 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
-- (long) getCurrentMilliseconds {
-  return (long)([[NSDate date] timeIntervalSince1970]*1000);
+- (uint64_t) getCurrentMilliseconds {
+  return (uint64_t)([[NSDate date] timeIntervalSince1970]*1000);
 }
 
 - (void) vaultDeposit:(int)amount {
@@ -65,7 +65,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) startup {
-  [[SocketCommunication sharedSocketCommunication] sendStartupMessage];
+  [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
 }
 
 - (void) inAppPurchase:(NSString *)receipt {
@@ -291,11 +291,114 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y {
-  [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y];
+  [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
 }
 
-- (void) moveNormStruct:(int)userStructId atX:(int)x atY:(int)y {
-  [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStructId x:x y:y];
+- (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y {
+  CGPoint newCoord = CGPointMake(x, y);
+  if (!CGPointEqualToPoint(userStruct.coordinates, newCoord)) {
+    [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructId x:x y:y];
+  } else {
+    NSLog(@"Building is in same place..");
+  }
+}
+
+- (void) sellNormStruct:(UserStruct *)userStruct {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (userStruct.userId != gs.userId) {
+    NSLog(@"This is not your building!");
+  }
+  if (userStruct.isComplete) {
+    [sc sendSellNormStructureMessage:userStruct.userStructId];
+    [[gs myStructs] removeObject:userStruct];
+  } else {
+    NSLog(@"Building %d is completing", userStruct.userStructId);
+  }
+}
+
+- (void) instaBuild:(UserStruct *)userStruct {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (userStruct.userId != gs.userId) {
+    NSLog(@"This is not your building!");
+  }
+  if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
+    int64_t ms = [self getCurrentMilliseconds];
+    [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
+    userStruct.isComplete = YES;
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+  } else {
+    NSLog(@"Building %d is not constructing", userStruct.userStructId);
+  }
+}
+
+- (void) instaUpgrade:(UserStruct *)userStruct {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (userStruct.userId != gs.userId) {
+    NSLog(@"This is not your building!");
+  }
+  if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
+    int64_t ms = [self getCurrentMilliseconds];
+    [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
+    userStruct.isComplete = YES;
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    userStruct.level++;
+  } else {
+    NSLog(@"Building %d is not upgrading", userStruct.userStructId);
+  }
+}
+
+- (void) normStructWaitComplete:(UserStruct *)userStruct { 
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (userStruct.userId != gs.userId) {
+    NSLog(@"This is not your building!");
+  }
+  if (!userStruct.isComplete) {
+    int64_t ms = [self getCurrentMilliseconds];
+    [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
+    userStruct.isComplete = YES;
+    userStruct.lastRetrieved = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:userStruct]*60 sinceDate:userStruct.lastUpgradeTime];
+    
+    if (userStruct.lastUpgradeTime) {
+      // Building was upgraded, not constructed
+      userStruct.level++;
+    }
+  } else {
+    NSLog(@"Building %d is not upgrading or constructing", userStruct.userStructId);
+  }
+}
+
+- (void) upgradeNormStruct:(UserStruct *)userStruct {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  // Check that no other building is being upgraded
+  for (UserStruct *us in gs.myStructs) {
+    if (us.state == kUpgrading) {
+      NSLog(@"Already upgrading a building..");
+      return;
+    }
+  }
+  
+  if (userStruct.userId != gs.userId) {
+    NSLog(@"This is not your building!");
+  }
+  if (userStruct.isComplete) {
+    int64_t ms = [self getCurrentMilliseconds];
+    [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
+    userStruct.isComplete = NO;
+    userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+  } else {
+    NSLog(@"This building is not upgradable");
+  }
 }
 
 - (void) retrieveAllStaticData {

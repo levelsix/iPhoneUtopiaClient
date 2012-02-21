@@ -70,6 +70,8 @@
 @class InAppPurchaseRequestProto_Builder;
 @class InAppPurchaseResponseProto;
 @class InAppPurchaseResponseProto_Builder;
+@class LevelUpRequestProto;
+@class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
 @class LevelUpResponseProto_Builder;
 @class LoadPlayerCityRequestProto;
@@ -175,7 +177,11 @@
 @class StartupRequestProto;
 @class StartupRequestProto_Builder;
 @class StartupResponseProto;
+@class StartupResponseProto_AttackedNotificationProto;
+@class StartupResponseProto_AttackedNotificationProto_Builder;
 @class StartupResponseProto_Builder;
+@class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
+@class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_Builder;
 @class TaskActionRequestProto;
@@ -202,13 +208,6 @@
 @class VaultRequestProto_Builder;
 @class VaultResponseProto;
 @class VaultResponseProto_Builder;
-typedef enum {
-  BattleRequestProto_BattleResultAttackerWin = 0,
-  BattleRequestProto_BattleResultDefenderWin = 1,
-} BattleRequestProto_BattleResult;
-
-BOOL BattleRequestProto_BattleResultIsValidValue(BattleRequestProto_BattleResult value);
-
 typedef enum {
   BattleResponseProto_BattleStatusSuccess = 0,
   BattleResponseProto_BattleStatusOtherFail = 1,
@@ -276,7 +275,8 @@ typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusNotEnoughMaterials = 1,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusLevelTooLow = 2,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAnotherStructStillBuilding = 3,
-  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 4,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAlreadyHaveMaxOfThisStruct = 4,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 5,
 } PurchaseNormStructureResponseProto_PurchaseNormStructureStatus;
 
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
@@ -362,6 +362,14 @@ typedef enum {
 } NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus;
 
 BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value);
+
+typedef enum {
+  LevelUpResponseProto_LevelUpStatusSuccess = 0,
+  LevelUpResponseProto_LevelUpStatusNotEnoughExpToNextLevel = 1,
+  LevelUpResponseProto_LevelUpStatusOtherFail = 2,
+} LevelUpResponseProto_LevelUpStatus;
+
+BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value);
 
 typedef enum {
   InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 0,
@@ -663,7 +671,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   int32_t neutralCityId;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
-  BattleRequestProto_BattleResult battleResult;
+  BattleResult battleResult;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasDefender;
@@ -672,7 +680,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
-@property (readonly) BattleRequestProto_BattleResult battleResult;
+@property (readonly) BattleResult battleResult;
 @property (readonly) int32_t neutralCityId;
 @property (readonly) int64_t curTime;
 
@@ -725,8 +733,8 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (BattleRequestProto_Builder*) clearDefender;
 
 - (BOOL) hasBattleResult;
-- (BattleRequestProto_BattleResult) battleResult;
-- (BattleRequestProto_Builder*) setBattleResult:(BattleRequestProto_BattleResult) value;
+- (BattleResult) battleResult;
+- (BattleRequestProto_Builder*) setBattleResult:(BattleResult) value;
 - (BattleRequestProto_Builder*) clearBattleResult;
 
 - (BOOL) hasNeutralCityId;
@@ -1114,14 +1122,18 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 @interface StartupRequestProto : PBGeneratedMessage {
 @private
   BOOL hasVersionNum_:1;
+  BOOL hasClientTime_:1;
   BOOL hasUdid_:1;
   Float32 versionNum;
+  int64_t clientTime;
   NSString* udid;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
+- (BOOL) hasClientTime;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
+@property (readonly) int64_t clientTime;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -1166,14 +1178,21 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (Float32) versionNum;
 - (StartupRequestProto_Builder*) setVersionNum:(Float32) value;
 - (StartupRequestProto_Builder*) clearVersionNum;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (StartupRequestProto_Builder*) setClientTime:(int64_t) value;
+- (StartupRequestProto_Builder*) clearClientTime;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
+  int32_t experienceRequiredForNextLevel;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_StartupStatus startupStatus;
@@ -1185,15 +1204,19 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   NSMutableArray* mutableEquipsList;
   NSMutableArray* mutableUserStructuresList;
   NSMutableArray* mutableStructsList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
 - (BOOL) hasUpdateStatus;
 - (BOOL) hasStartupConstants;
+- (BOOL) hasExperienceRequiredForNextLevel;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
 @property (readonly, retain) StartupResponseProto_StartupConstants* startupConstants;
+@property (readonly) int32_t experienceRequiredForNextLevel;
 - (NSArray*) citiesAvailableToUserList;
 - (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
 - (NSArray*) inProgressQuestsList;
@@ -1208,6 +1231,10 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (FullUserStructureProto*) userStructuresAtIndex:(int32_t) index;
 - (NSArray*) structsList;
 - (FullStructureProto*) structsAtIndex:(int32_t) index;
+- (NSArray*) marketplacePurchaseNotificationsList;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) marketplacePurchaseNotificationsAtIndex:(int32_t) index;
+- (NSArray*) attackNotificationsList;
+- (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1224,6 +1251,162 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 + (StartupResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_MarketplacePostPurchasedNotificationProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfPurchase_:1;
+  BOOL hasMarketplacePost_:1;
+  BOOL hasBuyer_:1;
+  int64_t timeOfPurchase;
+  FullMarketplacePostProto* marketplacePost;
+  MinimumUserProto* buyer;
+}
+- (BOOL) hasMarketplacePost;
+- (BOOL) hasBuyer;
+- (BOOL) hasTimeOfPurchase;
+@property (readonly, retain) FullMarketplacePostProto* marketplacePost;
+@property (readonly, retain) MinimumUserProto* buyer;
+@property (readonly) int64_t timeOfPurchase;
+
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) builder;
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) builder;
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) builderWithPrototype:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) prototype;
+
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_MarketplacePostPurchasedNotificationProto* result;
+}
+
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) defaultInstance;
+
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clear;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clone;
+
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) build;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) buildPartial;
+
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeFrom:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) other;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMarketplacePost;
+- (FullMarketplacePostProto*) marketplacePost;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setMarketplacePost:(FullMarketplacePostProto*) value;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setMarketplacePostBuilder:(FullMarketplacePostProto_Builder*) builderForValue;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeMarketplacePost:(FullMarketplacePostProto*) value;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearMarketplacePost;
+
+- (BOOL) hasBuyer;
+- (MinimumUserProto*) buyer;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setBuyer:(MinimumUserProto*) value;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setBuyerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) mergeBuyer:(MinimumUserProto*) value;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearBuyer;
+
+- (BOOL) hasTimeOfPurchase;
+- (int64_t) timeOfPurchase;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) setTimeOfPurchase:(int64_t) value;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder*) clearTimeOfPurchase;
+@end
+
+@interface StartupResponseProto_AttackedNotificationProto : PBGeneratedMessage {
+@private
+  BOOL hasBattleCompleteTime_:1;
+  BOOL hasCoinsStolen_:1;
+  BOOL hasStolenEquipId_:1;
+  BOOL hasAttacker_:1;
+  BOOL hasBattleResult_:1;
+  int64_t battleCompleteTime;
+  int32_t coinsStolen;
+  int32_t stolenEquipId;
+  MinimumUserProto* attacker;
+  BattleResult battleResult;
+}
+- (BOOL) hasAttacker;
+- (BOOL) hasBattleResult;
+- (BOOL) hasBattleCompleteTime;
+- (BOOL) hasCoinsStolen;
+- (BOOL) hasStolenEquipId;
+@property (readonly, retain) MinimumUserProto* attacker;
+@property (readonly) BattleResult battleResult;
+@property (readonly) int64_t battleCompleteTime;
+@property (readonly) int32_t coinsStolen;
+@property (readonly) int32_t stolenEquipId;
+
++ (StartupResponseProto_AttackedNotificationProto*) defaultInstance;
+- (StartupResponseProto_AttackedNotificationProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) builder;
++ (StartupResponseProto_AttackedNotificationProto_Builder*) builder;
++ (StartupResponseProto_AttackedNotificationProto_Builder*) builderWithPrototype:(StartupResponseProto_AttackedNotificationProto*) prototype;
+
++ (StartupResponseProto_AttackedNotificationProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_AttackedNotificationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_AttackedNotificationProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_AttackedNotificationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_AttackedNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_AttackedNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_AttackedNotificationProto_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_AttackedNotificationProto* result;
+}
+
+- (StartupResponseProto_AttackedNotificationProto*) defaultInstance;
+
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clear;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clone;
+
+- (StartupResponseProto_AttackedNotificationProto*) build;
+- (StartupResponseProto_AttackedNotificationProto*) buildPartial;
+
+- (StartupResponseProto_AttackedNotificationProto_Builder*) mergeFrom:(StartupResponseProto_AttackedNotificationProto*) other;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasAttacker;
+- (MinimumUserProto*) attacker;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setAttacker:(MinimumUserProto*) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setAttackerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) mergeAttacker:(MinimumUserProto*) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearAttacker;
+
+- (BOOL) hasBattleResult;
+- (BattleResult) battleResult;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setBattleResult:(BattleResult) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearBattleResult;
+
+- (BOOL) hasBattleCompleteTime;
+- (int64_t) battleCompleteTime;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setBattleCompleteTime:(int64_t) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearBattleCompleteTime;
+
+- (BOOL) hasCoinsStolen;
+- (int32_t) coinsStolen;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setCoinsStolen:(int32_t) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearCoinsStolen;
+
+- (BOOL) hasStolenEquipId;
+- (int32_t) stolenEquipId;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setStolenEquipId:(int32_t) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearStolenEquipId;
 @end
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
@@ -1401,6 +1584,25 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (StartupResponseProto_Builder*) addStructs:(FullStructureProto*) value;
 - (StartupResponseProto_Builder*) addAllStructs:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearStructsList;
+
+- (BOOL) hasExperienceRequiredForNextLevel;
+- (int32_t) experienceRequiredForNextLevel;
+- (StartupResponseProto_Builder*) setExperienceRequiredForNextLevel:(int32_t) value;
+- (StartupResponseProto_Builder*) clearExperienceRequiredForNextLevel;
+
+- (NSArray*) marketplacePurchaseNotificationsList;
+- (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) marketplacePurchaseNotificationsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceMarketplacePurchaseNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) value;
+- (StartupResponseProto_Builder*) addMarketplacePurchaseNotifications:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) value;
+- (StartupResponseProto_Builder*) addAllMarketplacePurchaseNotifications:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearMarketplacePurchaseNotificationsList;
+
+- (NSArray*) attackNotificationsList;
+- (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceAttackNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_AttackedNotificationProto*) value;
+- (StartupResponseProto_Builder*) addAttackNotifications:(StartupResponseProto_AttackedNotificationProto*) value;
+- (StartupResponseProto_Builder*) addAllAttackNotifications:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearAttackNotificationsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -1408,6 +1610,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   BOOL hasReferrerCode_:1;
   BOOL hasUdid_:1;
   BOOL hasName_:1;
+  BOOL hasMacAddress_:1;
   BOOL hasUserLocation_:1;
   BOOL hasAviaryCoordinates_:1;
   BOOL hasRefineryCoordinates_:1;
@@ -1415,6 +1618,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   int32_t referrerCode;
   NSString* udid;
   NSString* name;
+  NSString* macAddress;
   LocationProto* userLocation;
   CoordinateProto* aviaryCoordinates;
   CoordinateProto* refineryCoordinates;
@@ -1423,6 +1627,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 }
 - (BOOL) hasUdid;
 - (BOOL) hasName;
+- (BOOL) hasMacAddress;
 - (BOOL) hasUserLocation;
 - (BOOL) hasAviaryCoordinates;
 - (BOOL) hasRefineryCoordinates;
@@ -1430,6 +1635,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (BOOL) hasReferrerCode;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
+@property (readonly, retain) NSString* macAddress;
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly, retain) CoordinateProto* aviaryCoordinates;
 @property (readonly, retain) CoordinateProto* refineryCoordinates;
@@ -1481,6 +1687,11 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (NSString*) name;
 - (UserCreateRequestProto_Builder*) setName:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearName;
+
+- (BOOL) hasMacAddress;
+- (NSString*) macAddress;
+- (UserCreateRequestProto_Builder*) setMacAddress:(NSString*) value;
+- (UserCreateRequestProto_Builder*) clearMacAddress;
 
 - (NSArray*) structuresList;
 - (FullUserStructureProto*) structuresAtIndex:(int32_t) index;
@@ -3149,17 +3360,78 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (NormStructWaitCompleteResponseProto_Builder*) clearUserStructList;
 @end
 
-@interface LevelUpResponseProto : PBGeneratedMessage {
+@interface LevelUpRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
-  BOOL hasUnlockedCityAvailableToUser_:1;
-  FullUserProto* sender;
-  FullCityProto* unlockedCityAvailableToUser;
+  MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasUnlockedCityAvailableToUser;
-@property (readonly, retain) FullUserProto* sender;
-@property (readonly, retain) FullCityProto* unlockedCityAvailableToUser;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (LevelUpRequestProto*) defaultInstance;
+- (LevelUpRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LevelUpRequestProto_Builder*) builder;
++ (LevelUpRequestProto_Builder*) builder;
++ (LevelUpRequestProto_Builder*) builderWithPrototype:(LevelUpRequestProto*) prototype;
+
++ (LevelUpRequestProto*) parseFromData:(NSData*) data;
++ (LevelUpRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LevelUpRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (LevelUpRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LevelUpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LevelUpRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LevelUpRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LevelUpRequestProto* result;
+}
+
+- (LevelUpRequestProto*) defaultInstance;
+
+- (LevelUpRequestProto_Builder*) clear;
+- (LevelUpRequestProto_Builder*) clone;
+
+- (LevelUpRequestProto*) build;
+- (LevelUpRequestProto*) buildPartial;
+
+- (LevelUpRequestProto_Builder*) mergeFrom:(LevelUpRequestProto*) other;
+- (LevelUpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LevelUpRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (LevelUpRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LevelUpRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LevelUpRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (LevelUpRequestProto_Builder*) clearSender;
+@end
+
+@interface LevelUpResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasNewNextLevel_:1;
+  BOOL hasExperienceRequiredForNewNextLevel_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  int32_t newNextLevel;
+  int32_t experienceRequiredForNewNextLevel;
+  MinimumUserProto* sender;
+  LevelUpResponseProto_LevelUpStatus status;
+  NSMutableArray* mutableCitiesAvailableToUserList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasNewNextLevel;
+- (BOOL) hasExperienceRequiredForNewNextLevel;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) LevelUpResponseProto_LevelUpStatus status;
+@property (readonly) int32_t newNextLevel;
+@property (readonly) int32_t experienceRequiredForNewNextLevel;
+- (NSArray*) citiesAvailableToUserList;
+- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
 
 + (LevelUpResponseProto*) defaultInstance;
 - (LevelUpResponseProto*) defaultInstance;
@@ -3196,18 +3468,33 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (LevelUpResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
-- (FullUserProto*) sender;
-- (LevelUpResponseProto_Builder*) setSender:(FullUserProto*) value;
-- (LevelUpResponseProto_Builder*) setSenderBuilder:(FullUserProto_Builder*) builderForValue;
-- (LevelUpResponseProto_Builder*) mergeSender:(FullUserProto*) value;
+- (MinimumUserProto*) sender;
+- (LevelUpResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LevelUpResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LevelUpResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LevelUpResponseProto_Builder*) clearSender;
 
-- (BOOL) hasUnlockedCityAvailableToUser;
-- (FullCityProto*) unlockedCityAvailableToUser;
-- (LevelUpResponseProto_Builder*) setUnlockedCityAvailableToUser:(FullCityProto*) value;
-- (LevelUpResponseProto_Builder*) setUnlockedCityAvailableToUserBuilder:(FullCityProto_Builder*) builderForValue;
-- (LevelUpResponseProto_Builder*) mergeUnlockedCityAvailableToUser:(FullCityProto*) value;
-- (LevelUpResponseProto_Builder*) clearUnlockedCityAvailableToUser;
+- (BOOL) hasStatus;
+- (LevelUpResponseProto_LevelUpStatus) status;
+- (LevelUpResponseProto_Builder*) setStatus:(LevelUpResponseProto_LevelUpStatus) value;
+- (LevelUpResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasNewNextLevel;
+- (int32_t) newNextLevel;
+- (LevelUpResponseProto_Builder*) setNewNextLevel:(int32_t) value;
+- (LevelUpResponseProto_Builder*) clearNewNextLevel;
+
+- (BOOL) hasExperienceRequiredForNewNextLevel;
+- (int32_t) experienceRequiredForNewNextLevel;
+- (LevelUpResponseProto_Builder*) setExperienceRequiredForNewNextLevel:(int32_t) value;
+- (LevelUpResponseProto_Builder*) clearExperienceRequiredForNewNextLevel;
+
+- (NSArray*) citiesAvailableToUserList;
+- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
+- (LevelUpResponseProto_Builder*) replaceCitiesAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value;
+- (LevelUpResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value;
+- (LevelUpResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values;
+- (LevelUpResponseProto_Builder*) clearCitiesAvailableToUserList;
 @end
 
 @interface InAppPurchaseRequestProto : PBGeneratedMessage {
@@ -3866,14 +4153,18 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 
 @interface PurchaseFromMarketplaceResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasSender_:1;
+  BOOL hasPosterId_:1;
+  BOOL hasPurchaser_:1;
   BOOL hasStatus_:1;
-  MinimumUserProto* sender;
+  int32_t posterId;
+  MinimumUserProto* purchaser;
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 }
-- (BOOL) hasSender;
+- (BOOL) hasPurchaser;
+- (BOOL) hasPosterId;
 - (BOOL) hasStatus;
-@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProto* purchaser;
+@property (readonly) int32_t posterId;
 @property (readonly) PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 
 + (PurchaseFromMarketplaceResponseProto*) defaultInstance;
@@ -3910,12 +4201,17 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (PurchaseFromMarketplaceResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PurchaseFromMarketplaceResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (PurchaseFromMarketplaceResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (PurchaseFromMarketplaceResponseProto_Builder*) clearSender;
+- (BOOL) hasPurchaser;
+- (MinimumUserProto*) purchaser;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setPurchaser:(MinimumUserProto*) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setPurchaserBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseFromMarketplaceResponseProto_Builder*) mergePurchaser:(MinimumUserProto*) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) clearPurchaser;
+
+- (BOOL) hasPosterId;
+- (int32_t) posterId;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setPosterId:(int32_t) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) clearPosterId;
 
 - (BOOL) hasStatus;
 - (PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus) status;
@@ -5039,7 +5335,9 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 
 @interface RetrieveStaticDataRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasLevelForExpRequiredRequest_:1;
   BOOL hasSender_:1;
+  int32_t levelForExpRequiredRequest;
   MinimumUserProto* sender;
   NSMutableArray* mutableStructIdsList;
   NSMutableArray* mutableTaskIdsList;
@@ -5052,7 +5350,9 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   NSMutableArray* mutableUpgradeStructJobIdsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasLevelForExpRequiredRequest;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t levelForExpRequiredRequest;
 - (NSArray*) structIdsList;
 - (int32_t) structIdsAtIndex:(int32_t) index;
 - (NSArray*) taskIdsList;
@@ -5175,12 +5475,19 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (RetrieveStaticDataRequestProto_Builder*) addUpgradeStructJobIds:(int32_t) value;
 - (RetrieveStaticDataRequestProto_Builder*) addAllUpgradeStructJobIds:(NSArray*) values;
 - (RetrieveStaticDataRequestProto_Builder*) clearUpgradeStructJobIdsList;
+
+- (BOOL) hasLevelForExpRequiredRequest;
+- (int32_t) levelForExpRequiredRequest;
+- (RetrieveStaticDataRequestProto_Builder*) setLevelForExpRequiredRequest:(int32_t) value;
+- (RetrieveStaticDataRequestProto_Builder*) clearLevelForExpRequiredRequest;
 @end
 
 @interface RetrieveStaticDataResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasExpRequiredForRequestedLevel_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  int32_t expRequiredForRequestedLevel;
   MinimumUserProto* sender;
   RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
   NSMutableArray* mutableStructsList;
@@ -5194,8 +5501,10 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   NSMutableArray* mutableUpgradeStructJobsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasExpRequiredForRequestedLevel;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t expRequiredForRequestedLevel;
 @property (readonly) RetrieveStaticDataResponseProto_RetrieveStaticDataStatus status;
 - (NSArray*) structsList;
 - (FullStructureProto*) structsAtIndex:(int32_t) index;
@@ -5319,6 +5628,11 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (RetrieveStaticDataResponseProto_Builder*) addUpgradeStructJobs:(UpgradeStructJobProto*) value;
 - (RetrieveStaticDataResponseProto_Builder*) addAllUpgradeStructJobs:(NSArray*) values;
 - (RetrieveStaticDataResponseProto_Builder*) clearUpgradeStructJobsList;
+
+- (BOOL) hasExpRequiredForRequestedLevel;
+- (int32_t) expRequiredForRequestedLevel;
+- (RetrieveStaticDataResponseProto_Builder*) setExpRequiredForRequestedLevel:(int32_t) value;
+- (RetrieveStaticDataResponseProto_Builder*) clearExpRequiredForRequestedLevel;
 
 - (BOOL) hasStatus;
 - (RetrieveStaticDataResponseProto_RetrieveStaticDataStatus) status;

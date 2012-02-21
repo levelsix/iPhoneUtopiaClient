@@ -26,7 +26,6 @@
 + (id) circle;
 - (id) initCircle;
 - (void) setLevel:(int)level;
-- (void) setExpPercentage:(float)perc;
 
 @end
 
@@ -42,6 +41,8 @@
 - (id) initWithType: (UserType) type;
 - (void) popOutButtons;
 - (void) popInButtons;
-- (void) buttonClicked: (CCSprite *) clickedButton;
+- (void) buttonClicked:(CCMenuItem *)clickedButton selector:(SEL)sel;
+- (void) setExpPercentage:(float)perc;
+- (void) setLevel:(int)level;
 
 @end

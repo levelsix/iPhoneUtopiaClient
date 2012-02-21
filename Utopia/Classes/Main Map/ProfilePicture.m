@@ -13,7 +13,7 @@
 #import "QuestLogController.h"
 #import "ArmoryViewController.h"
 #import "MarketplaceViewController.h"
-#import "DiamondShopViewController.h"
+#import "GoldShoppeViewController.h"
 #import "VaultMenuController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
@@ -61,9 +61,11 @@
 }
 
 - (void) setExpPercentage:(float)perc {
-  perc = clampf(perc, 0, 100);
-  _expBar.percentage = perc;
-  _expPercentage = perc;
+  if (perc != _expPercentage) {
+    perc = clampf(perc, 0.f, 1.f);
+    _expBar.percentage = perc*100;
+    _expPercentage = perc;
+  }
 }
 
 - (void) setLevel:(int)level {
@@ -99,19 +101,19 @@
     
     _menuItems = [[[NSMutableArray alloc] init] retain];
     
-    CCMenuItemImage *button1 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(buttonClicked:)];
+    CCMenuItemImage *button1 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
     button1.visible = NO;
     [_menuItems addObject:button1];
     
-    CCMenuItemImage *button2 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(buttonClicked:)];
+    CCMenuItemImage *button2 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
     button2.visible = NO;
     [_menuItems addObject:button2];
     
-    CCMenuItemImage *button3 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(buttonClicked:)];
+    CCMenuItemImage *button3 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
     button3.visible = NO;
     [_menuItems addObject:button3];
     
-    CCMenuItemImage *button4 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(buttonClicked:)];
+    CCMenuItemImage *button4 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
     button4.visible = NO;
     [_menuItems addObject:button4];
     
@@ -123,26 +125,16 @@
 //    CCSprite *charImage = [CCSprite spriteWithFile:@"dude.png"];
 //    charImage.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
 //    [self addChild:charImage z:1];
-    
-//    [self schedule:@selector(update)];
   }
   return self;
 }
 
-- (void) update {
-  _expCircle.expPercentage += 1;
-  
-  if (_expCircle.expPercentage >= 100) {
-    _expCircle.level += 1;
-    _expCircle.expPercentage = 0;
-  }
-  
-  [self removeChildByTag:1 cleanup:YES];
-  
-  [_healthBar flow];
-  CCSprite *s = [_healthBar updateSprite];
-  [self addChild:s z:0 tag:1];
-  s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
+- (void) setExpPercentage:(float)perc {
+  [_expCircle setExpPercentage:perc];
+}
+
+- (void) setLevel:(int)level {
+  [_expCircle setLevel:level];
 }
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -203,11 +195,6 @@
     button.opacity = 255;
     
     CCFiniteTimeAction *bounceAction = [CCSequence actions:[CCDelayTime actionWithDuration:i*DELAY_BETWEEN_BUTTONS], [CCEaseBackOut actionWithAction:[CCMoveBy actionWithDuration:0.2 position:pt]], nil];
-//    CCFiniteTimeAction *bounceAction = [CCEaseSineOut actionWithAction:
-//                                        [CCSequence actions: 
-//                                         [CCMoveBy actionWithDuration:0.2 position:ccpMult(pt, 1.2)], 
-//                                         [CCMoveBy actionWithDuration:0.02 position:ccpMult(pt, -0.2)], 
-//                                         nil]];
     CCFiniteTimeAction *fullAction = [CCSpawn actions:bounceAction, 
                                        [CCRotateTo actionWithDuration:[bounceAction duration]/1.5 angle:TOTAL_ROTATION_ANGLE], 
                                        nil];
@@ -239,13 +226,6 @@
     
     CCFiniteTimeAction *bounceAction = [CCSequence actions:[CCDelayTime actionWithDuration:i*DELAY_BETWEEN_BUTTONS], [CCEaseBackIn actionWithAction:[CCMoveTo actionWithDuration:0.2 position:ccp(0,0)]], nil];
     
-//    CGPoint pt = button.position;
-//    CCFiniteTimeAction *bounceAction = [CCEaseSineIn actionWithAction:
-//                                        [CCSequence actions: 
-//                                         [CCMoveBy actionWithDuration:0.02 position:ccpMult(pt, 0.2)], 
-//                                         [CCMoveBy actionWithDuration:0.2 position:ccpMult(pt, -1.2)], 
-//                                         nil]];
-    
     CCFiniteTimeAction *fullAction = [CCSequence actions:
                                       [CCSpawn actions:bounceAction, 
                                        [CCRotateBy actionWithDuration:[bounceAction duration] angle:-TOTAL_ROTATION_ANGLE], 
@@ -259,11 +239,10 @@
   
   [self runAction: [CCSequence actions:
                     [CCDelayTime actionWithDuration:dur], 
-                    [CCCallFunc actionWithTarget:self selector:@selector(enableButton)],
-                    [CCCallFunc actionWithTarget:self selector:@selector(openArmory)], nil]];
+                    [CCCallFunc actionWithTarget:self selector:@selector(enableButton)], nil]];
 }
 
-- (void) buttonClicked: (CCMenuItem *) clickedButton {
+- (void) buttonClicked:(CCMenuItem *)clickedButton selector:(SEL)sel {
   if (_inAction || !_menuOut) {
     return;
   }
@@ -279,8 +258,8 @@
                              [CCScaleTo actionWithDuration:0.3 scale:2]
                              , nil],
                             [CCCallFunc actionWithTarget:self selector:@selector(enableButton)],
-                            [CCCallFunc actionWithTarget:self selector:@selector(openQuestLog)],
                             [CCCallFuncN actionWithTarget:self selector:@selector(setInvisible:)],
+                            [CCCallFunc actionWithTarget:self selector:sel],
                             nil]];
   
   for (CCMenuItem *button in _menuItems) {
@@ -296,11 +275,35 @@
   }
 }
 
+- (void) button1Clicked:(id)sender {
+  [self buttonClicked:sender selector:@selector(openQuestLog)];
+}
+
+- (void) button2Clicked:(id)sender {
+  [self buttonClicked:sender selector:@selector(openArmory)];
+}
+
+- (void) button3Clicked:(id)sender {
+  [self buttonClicked:sender selector:@selector(openMarketplace)];
+}
+
+- (void) button4Clicked:(id)sender {
+  [self buttonClicked:sender selector:@selector(openVault)];
+}
+
 - (void) openQuestLog {
   [QuestLogController displayView];
 }
 
 - (void) openArmory {
+  [ArmoryViewController displayView];
+}
+
+- (void) openMarketplace {
+  [MarketplaceViewController displayView];
+}
+
+- (void) openVault {
   [VaultMenuController displayView];
 }
 

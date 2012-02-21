@@ -20,6 +20,13 @@
 
 @end
 
+typedef enum {
+  kRetrieving = 1,
+  kWaitingForIncome,
+  kUpgrading,
+  kBuilding
+} UserStructState;
+
 @interface UserStruct : NSObject 
 
 @property (nonatomic, assign) int userStructId;
@@ -34,5 +41,7 @@
 @property (nonatomic, assign) StructOrientation orientation;
 
 + (id) userStructWithProto:(FullUserStructureProto *)proto;
+- (UserStructState) state;
+- (FullStructureProto *) fsp;
 
 @end

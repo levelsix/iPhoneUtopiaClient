@@ -32,6 +32,15 @@ BOOL UserTypeIsValidValue(UserType value) {
       return NO;
   }
 }
+BOOL BattleResultIsValidValue(BattleResult value) {
+  switch (value) {
+    case BattleResultAttackerWin:
+    case BattleResultDefenderWin:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL MarketplacePostTypeIsValidValue(MarketplacePostType value) {
   switch (value) {
     case MarketplacePostTypePremiumEquipPost:
@@ -380,6 +389,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t weaponEquipped;
 @property int32_t armorEquipped;
 @property int32_t amuletEquipped;
+@property int64_t lastLoginTime;
+@property int64_t lastLogoutTime;
 @end
 
 @implementation FullUserProto
@@ -639,6 +650,20 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasAmuletEquipped_ = !!value;
 }
 @synthesize amuletEquipped;
+- (BOOL) hasLastLoginTime {
+  return !!hasLastLoginTime_;
+}
+- (void) setHasLastLoginTime:(BOOL) value {
+  hasLastLoginTime_ = !!value;
+}
+@synthesize lastLoginTime;
+- (BOOL) hasLastLogoutTime {
+  return !!hasLastLogoutTime_;
+}
+- (void) setHasLastLogoutTime:(BOOL) value {
+  hasLastLogoutTime_ = !!value;
+}
+@synthesize lastLogoutTime;
 - (void) dealloc {
   self.name = nil;
   self.armyCode = nil;
@@ -683,6 +708,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.weaponEquipped = 0;
     self.armorEquipped = 0;
     self.amuletEquipped = 0;
+    self.lastLoginTime = 0L;
+    self.lastLogoutTime = 0L;
   }
   return self;
 }
@@ -795,6 +822,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasNumMarketplaceSalesUnredeemed) {
     return NO;
   }
+  if (!self.hasLastLoginTime) {
+    return NO;
+  }
   if (!self.userLocation.isInitialized) {
     return NO;
   }
@@ -905,6 +935,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasAmuletEquipped) {
     [output writeInt32:35 value:self.amuletEquipped];
+  }
+  if (self.hasLastLoginTime) {
+    [output writeInt64:36 value:self.lastLoginTime];
+  }
+  if (self.hasLastLogoutTime) {
+    [output writeInt64:37 value:self.lastLogoutTime];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1019,6 +1055,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasAmuletEquipped) {
     size += computeInt32Size(35, self.amuletEquipped);
+  }
+  if (self.hasLastLoginTime) {
+    size += computeInt64Size(36, self.lastLoginTime);
+  }
+  if (self.hasLastLogoutTime) {
+    size += computeInt64Size(37, self.lastLogoutTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1200,6 +1242,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasAmuletEquipped) {
     [self setAmuletEquipped:other.amuletEquipped];
   }
+  if (other.hasLastLoginTime) {
+    [self setLastLoginTime:other.lastLoginTime];
+  }
+  if (other.hasLastLogoutTime) {
+    [self setLastLogoutTime:other.lastLogoutTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1369,6 +1417,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 280: {
         [self setAmuletEquipped:[input readInt32]];
+        break;
+      }
+      case 288: {
+        [self setLastLoginTime:[input readInt64]];
+        break;
+      }
+      case 296: {
+        [self setLastLogoutTime:[input readInt64]];
         break;
       }
     }
@@ -1946,6 +2002,38 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearAmuletEquipped {
   result.hasAmuletEquipped = NO;
   result.amuletEquipped = 0;
+  return self;
+}
+- (BOOL) hasLastLoginTime {
+  return result.hasLastLoginTime;
+}
+- (int64_t) lastLoginTime {
+  return result.lastLoginTime;
+}
+- (FullUserProto_Builder*) setLastLoginTime:(int64_t) value {
+  result.hasLastLoginTime = YES;
+  result.lastLoginTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastLoginTime {
+  result.hasLastLoginTime = NO;
+  result.lastLoginTime = 0L;
+  return self;
+}
+- (BOOL) hasLastLogoutTime {
+  return result.hasLastLogoutTime;
+}
+- (int64_t) lastLogoutTime {
+  return result.lastLogoutTime;
+}
+- (FullUserProto_Builder*) setLastLogoutTime:(int64_t) value {
+  result.hasLastLogoutTime = YES;
+  result.lastLogoutTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastLogoutTime {
+  result.hasLastLogoutTime = NO;
+  result.lastLogoutTime = 0L;
   return self;
 }
 @end

@@ -14,6 +14,7 @@
 @class MaskedBar;
 @class ProfilePicture;
 @class GameMap;
+@class TopBar;
 
 // HelloWorldLayer
 @interface GameLayer : CCLayer
@@ -24,18 +25,8 @@
   
   GameMap *_map;
   
-  ShopLayer *_shopLayer;
-  
-  CCSprite *_enstBgd;
-  MaskedBar *_energyBar;
-  MaskedBar *_staminaBar;
-  
-  CCSprite *_coinBar;
-  CCLabelTTF *_coinLabel;
-  CCLabelTTF *_diamondLabel;
-  CCLabelTTF *_diamondButton;
-  
   ProfilePicture *_profileBgd;
+  TopBar *_topBar;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

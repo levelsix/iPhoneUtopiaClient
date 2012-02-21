@@ -7,7 +7,9 @@
 //
 
 #import "UserData.h"
-
+#import "GameState.h"
+#import "Globals.h"
+#import "OutgoingEventController.h"
 
 @implementation UserEquip
 
@@ -51,6 +53,43 @@
 
 + (id) userStructWithProto:(FullUserStructureProto *)proto {
   return [[[self alloc] initWithStructProto:proto] autorelease];
+}
+
+- (FullStructureProto *) fsp {
+  return [[GameState sharedGameState] structWithId:structId];
+}
+
+- (UserStructState) state {
+  NSDate *now = [NSDate date];
+  NSDate *done;
+  Globals *gl = [Globals sharedGlobals];
+  FullStructureProto *fsp = self.fsp;
+  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
+  
+  if (!isComplete) {
+    if (lastUpgradeTime) {
+      done = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self]*60 sinceDate:lastUpgradeTime];
+      if ([now compare:done] == NSOrderedDescending) {
+        [oec normStructWaitComplete:self];
+      } else {
+        return kUpgrading;
+      }
+    } else {
+      done = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:purchaseTime];
+      NSLog(@"%@, %@", now, done);
+      if ([now compare:done] == NSOrderedDescending) {
+        [oec normStructWaitComplete:self]; 
+      } else {
+        return kBuilding;
+      }
+    }
+  }
+  
+  done = [NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:lastRetrieved];
+  if ([now compare:done] == NSOrderedDescending) {
+    return kRetrieving;
+  }
+  return kWaitingForIncome;
 }
 
 @end

@@ -16,7 +16,7 @@
 #define BUTTON_FONT_SIZE 14
 
 #define VIEW_JUMP_UPON_TEXT_FIELD 60
-#define TICK_DURATION 0.4
+#define TICK_DURATION 0.2
 #define TICK_DIVISOR 3
 #define TICK_MIN_JUMP 30
 
@@ -242,6 +242,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   [UIView animateWithDuration:0.3 animations:^{
     CGRect frame = self.view.frame;
     frame.origin.y -= VIEW_JUMP_UPON_TEXT_FIELD;
+    frame.size.height += VIEW_JUMP_UPON_TEXT_FIELD;
     self.view.frame = frame;
   }];
 }
@@ -250,6 +251,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   [UIView animateWithDuration:0.3 animations:^{
     CGRect frame = self.view.frame;
     frame.origin.y += VIEW_JUMP_UPON_TEXT_FIELD;
+    frame.size.height -= VIEW_JUMP_UPON_TEXT_FIELD;
     self.view.frame = frame;
   }];
 }

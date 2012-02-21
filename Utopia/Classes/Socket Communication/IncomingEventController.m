@@ -243,7 +243,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleRetrieveCurrencyFromNormStructureResponseProto: (RetrieveCurrencyFromNormStructureResponseProto *) proto {
-  NSLog(@"Retrieve currency response received.");
+  NSLog(@"Retrieve currency response received with status: %d.", proto.status);
 }
 
 - (void) handleSellNormStructureResponseProto: (SellNormStructureResponseProto *) proto {

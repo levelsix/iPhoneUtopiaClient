@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
+#import "UserData.h"
 
 @interface OutgoingEventController : NSObject
 
@@ -43,7 +44,13 @@
 - (void) refillStamina;
 
 - (void) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
-- (void) moveNormStruct:(int)userStructId atX:(int)x atY:(int)y;
+- (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
+- (void) sellNormStruct:(UserStruct *)userStruct;
+- (void) instaBuild:(UserStruct *)userStruct;
+- (void) instaUpgrade:(UserStruct *)userStruct;
+- (void) normStructWaitComplete:(UserStruct *)userStruct;
+- (void) upgradeNormStruct:(UserStruct *)userStruct;
+
 
 - (void) retrieveAllStaticData;
 

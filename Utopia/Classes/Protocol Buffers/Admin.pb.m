@@ -148,6 +148,7 @@ BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequest
     case AdminChangeRequestProto_StaticDataReloadTypeUpgradeStructJobs:
     case AdminChangeRequestProto_StaticDataReloadTypeStructures:
     case AdminChangeRequestProto_StaticDataReloadTypePossessEquipJobs:
+    case AdminChangeRequestProto_StaticDataReloadTypeLevelsRequiredExperience:
       return YES;
     default:
       return NO;
