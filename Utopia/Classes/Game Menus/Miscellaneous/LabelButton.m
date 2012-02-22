@@ -17,6 +17,15 @@
 
 @end
 
+@implementation NiceFontLabel2
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"Archer" size:self.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;
@@ -44,6 +53,7 @@
 
 - (void) dealloc {
   self.label = nil;
+  [super dealloc];
 }
 
 @end

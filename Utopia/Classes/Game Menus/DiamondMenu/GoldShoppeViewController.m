@@ -111,10 +111,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   // Do any additional setup after loading the view from its nib.
   self.pkgTableView.rowHeight = 62;
   
-  UIFont *font = [UIFont fontWithName:@"Archer" size:13];
-  leftTopBarLabel.font = font;
-  rightTopBarLabel.font = font;
-  
   rightBarButton.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
   leftBarButton.highlighted = YES;
   

@@ -93,4 +93,4 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
 \
 + (void) removeView {\
   [shared##controllername.view removeFromSuperview];\
-}\
+}

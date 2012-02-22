@@ -175,6 +175,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void) dealloc {
   self.productIdentifiers = nil;
+  [super dealloc];
 }
 
 @end

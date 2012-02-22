@@ -47,7 +47,6 @@ typedef enum {
 @property (nonatomic, retain) UserEquip *equip;
 
 - (void) showEquipPost: (FullMarketplacePostProto *)proto;
-- (void) showCurrencyPost: (FullMarketplacePostProto *)proto;
 - (void) showEquipListing: (FullUserEquipProto *)proto;
 - (NSString *) truncateInt:(int)num;
 

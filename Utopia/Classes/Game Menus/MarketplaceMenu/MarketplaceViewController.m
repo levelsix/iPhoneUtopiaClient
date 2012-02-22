@@ -222,8 +222,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.buyButtonView.hidden = YES;
   
   UIColor *c = [UIColor colorWithPatternImage:[UIImage imageNamed:@"marketrope.png"]];
-  self.leftRope.backgroundColor = c;
-  self.rightRope.backgroundColor = c;
   leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 34)];
   rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 34)];
   leftRopeFirstRow.backgroundColor = c;
@@ -479,11 +477,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       case kEquipBuyingState:
       case kEquipSellingState:
         [(ItemPostView *)cell showEquipPost:p];
-        break;
-        
-      case kCurrencyBuyingState:
-      case kCurrencySellingState:
-        [(ItemPostView *)cell showCurrencyPost:p];
         break;
         
       default:

@@ -119,6 +119,22 @@
 		CF3D0A6D14CB88EA00D972B4 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A6014CB88EA00D972B4 /* MapViewController.xib */; };
 		CF3D0A6E14CB88EA00D972B4 /* QuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0A6314CB88EA00D972B4 /* QuestLogController.m */; };
 		CF3D0A6F14CB88EA00D972B4 /* QuestLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A6414CB88EA00D972B4 /* QuestLogController.xib */; };
+		CF4234F314F4B99E0033C290 /* buildingbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234E614F4B99E0033C290 /* buildingbg.png */; };
+		CF4234F414F4B99E0033C290 /* buildingbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234E714F4B99E0033C290 /* buildingbg@2x.png */; };
+		CF4234F514F4B99E0033C290 /* buildingpricebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234E814F4B99E0033C290 /* buildingpricebg.png */; };
+		CF4234F614F4B99E0033C290 /* carpenterlock.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234E914F4B99E0033C290 /* carpenterlock.png */; };
+		CF4234F714F4B99E0033C290 /* carpenterlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234EA14F4B99E0033C290 /* carpenterlock@2x.png */; };
+		CF4234F814F4B99E0033C290 /* carpentersilvercoin.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234EB14F4B99E0033C290 /* carpentersilvercoin.png */; };
+		CF4234F914F4B99E0033C290 /* carpentersilvercoin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234EC14F4B99E0033C290 /* carpentersilvercoin@2x.png */; };
+		CF4234FA14F4B99E0033C290 /* carpenterwatch.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234ED14F4B99E0033C290 /* carpenterwatch.png */; };
+		CF4234FB14F4B99E0033C290 /* carpenterwatch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234EE14F4B99E0033C290 /* carpenterwatch@2x.png */; };
+		CF4234FC14F4B99E0033C290 /* incomecollectbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234EF14F4B99E0033C290 /* incomecollectbg.png */; };
+		CF4234FD14F4B99E0033C290 /* incomecollectbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234F014F4B99E0033C290 /* incomecollectbg@2x.png */; };
+		CF4234FE14F4B99E0033C290 /* timetickerbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234F114F4B99E0033C290 /* timetickerbg.png */; };
+		CF4234FF14F4B99E0033C290 /* timetickerbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234F214F4B99E0033C290 /* timetickerbg@2x.png */; };
+		CF42353B14F4BAA70033C290 /* CarpenterMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42353914F4BAA70033C290 /* CarpenterMenuController.m */; };
+		CF42353C14F4BAA70033C290 /* CarpenterMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */; };
+		CF42353E14F4BC1D0033C290 /* buildingpricebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF42353D14F4BC1D0033C290 /* buildingpricebg@2x.png */; };
 		CF44F79714F0879A00FE7684 /* clearx.png in Resources */ = {isa = PBXBuildFile; fileRef = CF44F79514F0879A00FE7684 /* clearx.png */; };
 		CF44F79814F0879A00FE7684 /* clearx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF44F79614F0879A00FE7684 /* clearx@2x.png */; };
 		CF44F7AD14F1EA4700FE7684 /* active.png in Resources */ = {isa = PBXBuildFile; fileRef = CF44F79A14F1EA3C00FE7684 /* active.png */; };
@@ -270,6 +286,9 @@
 		CFA26F5314E71AD100FC1C71 /* rotate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F3514E71AD100FC1C71 /* rotate@2x.png */; };
 		CFA26F5714E72CE900FC1C71 /* LabelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5614E72CE900FC1C71 /* LabelButton.m */; };
 		CFA26F5A14E86FAA00FC1C71 /* HomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5914E86FAA00FC1C71 /* HomeMap.m */; };
+		CFA3BBE114F4C11B002A68E1 /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE014F4C11B002A68E1 /* CarpenterRow.xib */; };
+		CFA3BBE414F4C243002A68E1 /* RopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3BBE314F4C243002A68E1 /* RopeView.m */; };
+		CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */; };
 		CFAA94EB14E881D100B0F791 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CFAA94EA14E881D100B0F791 /* Building.m */; };
 		CFADD7D714A690F400BC2F75 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFADD7D614A690F400BC2F75 /* CFNetwork.framework */; };
 		CFBAA03D14B3D52F007AB82F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA00F14B3D52F007AB82F /* AppDelegate.m */; };
@@ -608,6 +627,23 @@
 		CF3D0A6214CB88EA00D972B4 /* QuestLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogController.h; sourceTree = "<group>"; };
 		CF3D0A6314CB88EA00D972B4 /* QuestLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogController.m; sourceTree = "<group>"; };
 		CF3D0A6414CB88EA00D972B4 /* QuestLogController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestLogController.xib; sourceTree = "<group>"; };
+		CF4234E614F4B99E0033C290 /* buildingbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildingbg.png; sourceTree = "<group>"; };
+		CF4234E714F4B99E0033C290 /* buildingbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingbg@2x.png"; sourceTree = "<group>"; };
+		CF4234E814F4B99E0033C290 /* buildingpricebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildingpricebg.png; sourceTree = "<group>"; };
+		CF4234E914F4B99E0033C290 /* carpenterlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carpenterlock.png; sourceTree = "<group>"; };
+		CF4234EA14F4B99E0033C290 /* carpenterlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carpenterlock@2x.png"; sourceTree = "<group>"; };
+		CF4234EB14F4B99E0033C290 /* carpentersilvercoin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carpentersilvercoin.png; sourceTree = "<group>"; };
+		CF4234EC14F4B99E0033C290 /* carpentersilvercoin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carpentersilvercoin@2x.png"; sourceTree = "<group>"; };
+		CF4234ED14F4B99E0033C290 /* carpenterwatch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carpenterwatch.png; sourceTree = "<group>"; };
+		CF4234EE14F4B99E0033C290 /* carpenterwatch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carpenterwatch@2x.png"; sourceTree = "<group>"; };
+		CF4234EF14F4B99E0033C290 /* incomecollectbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = incomecollectbg.png; sourceTree = "<group>"; };
+		CF4234F014F4B99E0033C290 /* incomecollectbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "incomecollectbg@2x.png"; sourceTree = "<group>"; };
+		CF4234F114F4B99E0033C290 /* timetickerbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timetickerbg.png; sourceTree = "<group>"; };
+		CF4234F214F4B99E0033C290 /* timetickerbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timetickerbg@2x.png"; sourceTree = "<group>"; };
+		CF42353814F4BAA70033C290 /* CarpenterMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarpenterMenuController.h; path = CarpenterMenu/CarpenterMenuController.h; sourceTree = "<group>"; };
+		CF42353914F4BAA70033C290 /* CarpenterMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarpenterMenuController.m; path = CarpenterMenu/CarpenterMenuController.m; sourceTree = "<group>"; };
+		CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterMenuController.xib; path = CarpenterMenu/CarpenterMenuController.xib; sourceTree = "<group>"; };
+		CF42353D14F4BC1D0033C290 /* buildingpricebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingpricebg@2x.png"; sourceTree = "<group>"; };
 		CF44F79514F0879A00FE7684 /* clearx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clearx.png; sourceTree = "<group>"; };
 		CF44F79614F0879A00FE7684 /* clearx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clearx@2x.png"; sourceTree = "<group>"; };
 		CF44F79A14F1EA3C00FE7684 /* active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = active.png; sourceTree = "<group>"; };
@@ -771,6 +807,10 @@
 		CFA26F5614E72CE900FC1C71 /* LabelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LabelButton.m; path = Miscellaneous/LabelButton.m; sourceTree = "<group>"; };
 		CFA26F5814E86FAA00FC1C71 /* HomeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeMap.h; path = "Utopia/Classes/Main Map/GameMap/HomeMap.h"; sourceTree = SOURCE_ROOT; };
 		CFA26F5914E86FAA00FC1C71 /* HomeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeMap.m; path = "Utopia/Classes/Main Map/GameMap/HomeMap.m"; sourceTree = SOURCE_ROOT; };
+		CFA3BBE014F4C11B002A68E1 /* CarpenterRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterRow.xib; sourceTree = "<group>"; };
+		CFA3BBE214F4C243002A68E1 /* RopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RopeView.h; path = Miscellaneous/RopeView.h; sourceTree = "<group>"; };
+		CFA3BBE314F4C243002A68E1 /* RopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RopeView.m; path = Miscellaneous/RopeView.m; sourceTree = "<group>"; };
+		CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterListing.xib; sourceTree = "<group>"; };
 		CFAA94E914E881D100B0F791 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Building.h; path = "Utopia/Classes/Main Map/GameMap/Building.h"; sourceTree = SOURCE_ROOT; };
 		CFAA94EA14E881D100B0F791 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Building.m; path = "Utopia/Classes/Main Map/GameMap/Building.m"; sourceTree = SOURCE_ROOT; };
 		CFADD7D614A690F400BC2F75 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1172,6 +1212,18 @@
 			path = QuestLogMenu;
 			sourceTree = "<group>";
 		};
+		CF42350014F4B9AE0033C290 /* CarpenterMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CF42353814F4BAA70033C290 /* CarpenterMenuController.h */,
+				CF42353914F4BAA70033C290 /* CarpenterMenuController.m */,
+				CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */,
+				CFA3BBE014F4C11B002A68E1 /* CarpenterRow.xib */,
+				CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */,
+			);
+			name = CarpenterMenu;
+			sourceTree = "<group>";
+		};
 		CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -1214,6 +1266,8 @@
 			children = (
 				CFA26F5514E72CE900FC1C71 /* LabelButton.h */,
 				CFA26F5614E72CE900FC1C71 /* LabelButton.m */,
+				CFA3BBE214F4C243002A68E1 /* RopeView.h */,
+				CFA3BBE314F4C243002A68E1 /* RopeView.m */,
 			);
 			name = Miscellaneous;
 			sourceTree = "<group>";
@@ -1277,6 +1331,7 @@
 		CFBAA01D14B3D52F007AB82F /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CF42350014F4B9AE0033C290 /* CarpenterMenu */,
 				CFA26F5414E72CB500FC1C71 /* Miscellaneous */,
 				CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */,
 				CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */,
@@ -1758,6 +1813,20 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF4234E614F4B99E0033C290 /* buildingbg.png */,
+				CF4234E714F4B99E0033C290 /* buildingbg@2x.png */,
+				CF4234E814F4B99E0033C290 /* buildingpricebg.png */,
+				CF42353D14F4BC1D0033C290 /* buildingpricebg@2x.png */,
+				CF4234E914F4B99E0033C290 /* carpenterlock.png */,
+				CF4234EA14F4B99E0033C290 /* carpenterlock@2x.png */,
+				CF4234EB14F4B99E0033C290 /* carpentersilvercoin.png */,
+				CF4234EC14F4B99E0033C290 /* carpentersilvercoin@2x.png */,
+				CF4234ED14F4B99E0033C290 /* carpenterwatch.png */,
+				CF4234EE14F4B99E0033C290 /* carpenterwatch@2x.png */,
+				CF4234EF14F4B99E0033C290 /* incomecollectbg.png */,
+				CF4234F014F4B99E0033C290 /* incomecollectbg@2x.png */,
+				CF4234F114F4B99E0033C290 /* timetickerbg.png */,
+				CF4234F214F4B99E0033C290 /* timetickerbg@2x.png */,
 				CFF9C33B14F3638500CF3B73 /* academy-hd.png */,
 				CFF9C33D14F3644F00CF3B73 /* academy.png */,
 				CF44F79A14F1EA3C00FE7684 /* active.png */,
@@ -2413,6 +2482,23 @@
 				CF44F7C114F1EFBD00FE7684 /* Archer-Bold-Pro.otf in Resources */,
 				CFF9C33C14F3638500CF3B73 /* academy-hd.png in Resources */,
 				CFF9C33E14F3644F00CF3B73 /* academy.png in Resources */,
+				CF4234F314F4B99E0033C290 /* buildingbg.png in Resources */,
+				CF4234F414F4B99E0033C290 /* buildingbg@2x.png in Resources */,
+				CF4234F514F4B99E0033C290 /* buildingpricebg.png in Resources */,
+				CF4234F614F4B99E0033C290 /* carpenterlock.png in Resources */,
+				CF4234F714F4B99E0033C290 /* carpenterlock@2x.png in Resources */,
+				CF4234F814F4B99E0033C290 /* carpentersilvercoin.png in Resources */,
+				CF4234F914F4B99E0033C290 /* carpentersilvercoin@2x.png in Resources */,
+				CF4234FA14F4B99E0033C290 /* carpenterwatch.png in Resources */,
+				CF4234FB14F4B99E0033C290 /* carpenterwatch@2x.png in Resources */,
+				CF4234FC14F4B99E0033C290 /* incomecollectbg.png in Resources */,
+				CF4234FD14F4B99E0033C290 /* incomecollectbg@2x.png in Resources */,
+				CF4234FE14F4B99E0033C290 /* timetickerbg.png in Resources */,
+				CF4234FF14F4B99E0033C290 /* timetickerbg@2x.png in Resources */,
+				CF42353C14F4BAA70033C290 /* CarpenterMenuController.xib in Resources */,
+				CF42353E14F4BC1D0033C290 /* buildingpricebg@2x.png in Resources */,
+				CFA3BBE114F4C11B002A68E1 /* CarpenterRow.xib in Resources */,
+				CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2557,6 +2643,8 @@
 				CFF3A73714F07D5F00E8F8DF /* SBDoubleSidedLayer.m in Sources */,
 				CFF3A73814F07D5F00E8F8DF /* SBGradientOverlayLayer.m in Sources */,
 				CFF9C34114F3833A00CF3B73 /* TopBar.m in Sources */,
+				CF42353B14F4BAA70033C290 /* CarpenterMenuController.m in Sources */,
+				CFA3BBE414F4C243002A68E1 /* RopeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
