@@ -158,10 +158,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
-@class RetrieveEquipmentForArmoryRequestProto;
-@class RetrieveEquipmentForArmoryRequestProto_Builder;
-@class RetrieveEquipmentForArmoryResponseProto;
-@class RetrieveEquipmentForArmoryResponseProto_Builder;
+@class RetrieveStaticDataForShopRequestProto;
+@class RetrieveStaticDataForShopRequestProto_Builder;
+@class RetrieveStaticDataForShopResponseProto;
+@class RetrieveStaticDataForShopResponseProto_Builder;
 @class RetrieveStaticDataRequestProto;
 @class RetrieveStaticDataRequestProto_Builder;
 @class RetrieveStaticDataResponseProto;
@@ -217,7 +217,7 @@ typedef enum {
   EventProtocolRequestCStartupEvent = 5,
   EventProtocolRequestCRetrieveTasksForCityEvent = 6,
   EventProtocolRequestCRetrieveQuestsForCityEvent = 7,
-  EventProtocolRequestCRetrieveEquipsForArmoryEvent = 8,
+  EventProtocolRequestCRetrieveStaticDataForShopEvent = 8,
   EventProtocolRequestCArmoryEvent = 9,
   EventProtocolRequestCInAppPurchaseEvent = 10,
   EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent = 11,
@@ -259,7 +259,7 @@ typedef enum {
   EventProtocolResponseSStartupEvent = 5,
   EventProtocolResponseSRetrieveTasksForCityEvent = 6,
   EventProtocolResponseSRetrieveQuestsForCityEvent = 7,
-  EventProtocolResponseSRetrieveEquipsForArmoryEvent = 8,
+  EventProtocolResponseSRetrieveStaticDataForShopEvent = 8,
   EventProtocolResponseSArmoryEvent = 9,
   EventProtocolResponseSInAppPurchaseEvent = 10,
   EventProtocolResponseSRetrieveCurrentMarketplacePostsEvent = 11,

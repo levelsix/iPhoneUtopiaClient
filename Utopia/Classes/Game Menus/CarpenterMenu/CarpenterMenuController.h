@@ -28,6 +28,7 @@ typedef enum {
 @interface CarpenterListing : UIView {
   ListingState _state;
   UIColor *_lockedBuildingColor;
+  int _structId;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
@@ -55,10 +56,6 @@ typedef enum {
 
 @end
 
-@interface CarpenterTableView : UITableView
-
-@end
-
 @interface CarpenterListingContainer : UIView
 
 @property (nonatomic, retain) IBOutlet CarpenterListing *carpListing;
@@ -77,6 +74,8 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet CarpenterRow *carpRow;
 @property (nonatomic, retain) IBOutlet UITableView *carpTable;
+
+@property (nonatomic, retain) NSMutableArray *structsList;
 
 - (IBAction)closeClicked:(id)sender;
 + (CarpenterMenuController *) sharedCarpenterMenuController;

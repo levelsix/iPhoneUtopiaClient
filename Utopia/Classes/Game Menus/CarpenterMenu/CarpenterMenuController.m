@@ -188,7 +188,13 @@
     [fsp release];
     fsp = [f retain];
     
+    if (!fsp) {
+      self.state = kDisappear;
+      return;
+    }
+    
     titleLabel.text = fsp.name;
+    _structId = fsp.structId;
     
     if ([GameState sharedGameState].level > fsp.minLevel) {
       incomeLabel.text = [Globals commafyNumber:fsp.income];
@@ -204,11 +210,11 @@
       
       int mins = fsp.minutesToBuild;
       tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
-      buildingIcon.image = [Globals imageForStruct:fsp.structId];
+      buildingIcon.image = [UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]];
       
       self.state = kAvailable;
     } else {
-      buildingIcon.image = [self maskImage:[Globals imageForStruct:fsp.structId] withColor:_lockedBuildingColor];
+      buildingIcon.image = [self maskImage:[UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]] withColor:_lockedBuildingColor];
       lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
       self.state = kLocked;
     }
@@ -242,7 +248,8 @@
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     darkOverlay.hidden = YES;
     if ([self pointInside:loc withEvent:event]) {
-      NSLog(@"purchase");
+      [[HomeMap sharedHomeMap] preparePurchaseOfStruct:_structId];
+      [CarpenterMenuController removeView];
     }
   }
 }
@@ -278,22 +285,36 @@
 
 @end
 
-@implementation CarpenterTableView
-
-- (BOOL)touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view {
-  NSLog(@"%@", view);
-  return YES;
-}
-
-@end
-
 @implementation CarpenterMenuController
 
 @synthesize carpRow, carpTable;
+@synthesize structsList;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) viewDidLoad {
+  self.structsList = [NSMutableArray arrayWithCapacity:[[Globals sharedGlobals] maxStructId]];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [structsList removeAllObjects];
+  int max = [[Globals sharedGlobals] maxRepeatedNormStructs];
+  for (int i = 1; i <= [[Globals sharedGlobals] maxStructId]; i++) {
+    int count = 0;
+    for (FullUserStructureProto *fusp in [[GameState sharedGameState] myStructs]) {
+      if (fusp.structId == i) {
+        count++;
+      }
+      if (count >= max) {
+        break;
+      }
+    }
+    if (count < max) {
+      FullStructureProto *fsp = [[GameState sharedGameState] structWithId:i];
+      [structsList addObject:fsp];
+    }
+  }
+  [self.carpTable reloadData];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -301,7 +322,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 1;
+  return (int)ceilf(structsList.count/3.f);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -312,7 +333,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
     cell = self.carpRow;
   }
-  cell.listing1.carpListing.fsp = [[GameState sharedGameState] structWithId:3];
+  
+  int baseIndex = 3*indexPath.row;
+  int count = structsList.count;
+  cell.listing1.carpListing.fsp = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
+  cell.listing2.carpListing.fsp = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
+  cell.listing3.carpListing.fsp = baseIndex+2<count ? [structsList objectAtIndex:baseIndex+2] : nil;
   
   return cell;
 }

@@ -51,12 +51,14 @@
 @property (nonatomic, assign) BOOL isSetDown;
 @property (nonatomic, retain) UserStruct *userStruct;
 
-+(id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map;
--(id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map;
--(void) locationAfterTouch: (CGPoint) touchLocation;
--(void) placeBlock;
--(void) updateMeta;
--(void) clearMeta;
++ (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map;
+- (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map;
+- (void) locationAfterTouch: (CGPoint) touchLocation;
+- (void) placeBlock;
+- (void) liftBlock;
+- (void) updateMeta;
+- (void) clearMeta;
+- (void) cancelMove;
 
 @end
 

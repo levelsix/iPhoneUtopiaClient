@@ -6587,11 +6587,12 @@ static RetrieveTasksForCityResponseProto* defaultRetrieveTasksForCityResponsePro
 }
 @end
 
-@interface RetrieveEquipmentForArmoryRequestProto ()
+@interface RetrieveStaticDataForShopRequestProto ()
 @property (retain) MinimumUserProto* sender;
+@property RetrieveStaticDataForShopRequestProto_RetrieveForShopType type;
 @end
 
-@implementation RetrieveEquipmentForArmoryRequestProto
+@implementation RetrieveStaticDataForShopRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -6600,6 +6601,13 @@ static RetrieveTasksForCityResponseProto* defaultRetrieveTasksForCityResponsePro
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value {
+  hasType_ = !!value;
+}
+@synthesize type;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -6607,23 +6615,27 @@ static RetrieveTasksForCityResponseProto* defaultRetrieveTasksForCityResponsePro
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.type = RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory;
   }
   return self;
 }
-static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmoryRequestProtoInstance = nil;
+static RetrieveStaticDataForShopRequestProto* defaultRetrieveStaticDataForShopRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [RetrieveEquipmentForArmoryRequestProto class]) {
-    defaultRetrieveEquipmentForArmoryRequestProtoInstance = [[RetrieveEquipmentForArmoryRequestProto alloc] init];
+  if (self == [RetrieveStaticDataForShopRequestProto class]) {
+    defaultRetrieveStaticDataForShopRequestProtoInstance = [[RetrieveStaticDataForShopRequestProto alloc] init];
   }
 }
-+ (RetrieveEquipmentForArmoryRequestProto*) defaultInstance {
-  return defaultRetrieveEquipmentForArmoryRequestProtoInstance;
++ (RetrieveStaticDataForShopRequestProto*) defaultInstance {
+  return defaultRetrieveStaticDataForShopRequestProtoInstance;
 }
-- (RetrieveEquipmentForArmoryRequestProto*) defaultInstance {
-  return defaultRetrieveEquipmentForArmoryRequestProtoInstance;
+- (RetrieveStaticDataForShopRequestProto*) defaultInstance {
+  return defaultRetrieveStaticDataForShopRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasType) {
     return NO;
   }
   if (!self.sender.isInitialized) {
@@ -6634,6 +6646,9 @@ static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmory
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasType) {
+    [output writeEnum:2 value:self.type];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6647,44 +6662,56 @@ static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmory
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
+  if (self.hasType) {
+    size += computeEnumSize(2, self.type);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromData:(NSData*) data {
-  return (RetrieveEquipmentForArmoryRequestProto*)[[[RetrieveEquipmentForArmoryRequestProto builder] mergeFromData:data] build];
++ (RetrieveStaticDataForShopRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveStaticDataForShopRequestProto*)[[[RetrieveStaticDataForShopRequestProto builder] mergeFromData:data] build];
 }
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveEquipmentForArmoryRequestProto*)[[[RetrieveEquipmentForArmoryRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (RetrieveStaticDataForShopRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataForShopRequestProto*)[[[RetrieveStaticDataForShopRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (RetrieveEquipmentForArmoryRequestProto*)[[[RetrieveEquipmentForArmoryRequestProto builder] mergeFromInputStream:input] build];
++ (RetrieveStaticDataForShopRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveStaticDataForShopRequestProto*)[[[RetrieveStaticDataForShopRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveEquipmentForArmoryRequestProto*)[[[RetrieveEquipmentForArmoryRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveStaticDataForShopRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataForShopRequestProto*)[[[RetrieveStaticDataForShopRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (RetrieveEquipmentForArmoryRequestProto*)[[[RetrieveEquipmentForArmoryRequestProto builder] mergeFromCodedInputStream:input] build];
++ (RetrieveStaticDataForShopRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveStaticDataForShopRequestProto*)[[[RetrieveStaticDataForShopRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveEquipmentForArmoryRequestProto*)[[[RetrieveEquipmentForArmoryRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveStaticDataForShopRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataForShopRequestProto*)[[[RetrieveStaticDataForShopRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveEquipmentForArmoryRequestProto_Builder*) builder {
-  return [[[RetrieveEquipmentForArmoryRequestProto_Builder alloc] init] autorelease];
++ (RetrieveStaticDataForShopRequestProto_Builder*) builder {
+  return [[[RetrieveStaticDataForShopRequestProto_Builder alloc] init] autorelease];
 }
-+ (RetrieveEquipmentForArmoryRequestProto_Builder*) builderWithPrototype:(RetrieveEquipmentForArmoryRequestProto*) prototype {
-  return [[RetrieveEquipmentForArmoryRequestProto builder] mergeFrom:prototype];
++ (RetrieveStaticDataForShopRequestProto_Builder*) builderWithPrototype:(RetrieveStaticDataForShopRequestProto*) prototype {
+  return [[RetrieveStaticDataForShopRequestProto builder] mergeFrom:prototype];
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) builder {
-  return [RetrieveEquipmentForArmoryRequestProto builder];
+- (RetrieveStaticDataForShopRequestProto_Builder*) builder {
+  return [RetrieveStaticDataForShopRequestProto builder];
 }
 @end
 
-@interface RetrieveEquipmentForArmoryRequestProto_Builder()
-@property (retain) RetrieveEquipmentForArmoryRequestProto* result;
+BOOL RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeIsValidValue(RetrieveStaticDataForShopRequestProto_RetrieveForShopType value) {
+  switch (value) {
+    case RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory:
+    case RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeAllStructures:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveStaticDataForShopRequestProto_Builder()
+@property (retain) RetrieveStaticDataForShopRequestProto* result;
 @end
 
-@implementation RetrieveEquipmentForArmoryRequestProto_Builder
+@implementation RetrieveStaticDataForShopRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -6692,46 +6719,49 @@ static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmory
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[RetrieveEquipmentForArmoryRequestProto alloc] init] autorelease];
+    self.result = [[[RetrieveStaticDataForShopRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) clear {
-  self.result = [[[RetrieveEquipmentForArmoryRequestProto alloc] init] autorelease];
+- (RetrieveStaticDataForShopRequestProto_Builder*) clear {
+  self.result = [[[RetrieveStaticDataForShopRequestProto alloc] init] autorelease];
   return self;
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) clone {
-  return [RetrieveEquipmentForArmoryRequestProto builderWithPrototype:result];
+- (RetrieveStaticDataForShopRequestProto_Builder*) clone {
+  return [RetrieveStaticDataForShopRequestProto builderWithPrototype:result];
 }
-- (RetrieveEquipmentForArmoryRequestProto*) defaultInstance {
-  return [RetrieveEquipmentForArmoryRequestProto defaultInstance];
+- (RetrieveStaticDataForShopRequestProto*) defaultInstance {
+  return [RetrieveStaticDataForShopRequestProto defaultInstance];
 }
-- (RetrieveEquipmentForArmoryRequestProto*) build {
+- (RetrieveStaticDataForShopRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (RetrieveEquipmentForArmoryRequestProto*) buildPartial {
-  RetrieveEquipmentForArmoryRequestProto* returnMe = [[result retain] autorelease];
+- (RetrieveStaticDataForShopRequestProto*) buildPartial {
+  RetrieveStaticDataForShopRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeFrom:(RetrieveEquipmentForArmoryRequestProto*) other {
-  if (other == [RetrieveEquipmentForArmoryRequestProto defaultInstance]) {
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeFrom:(RetrieveStaticDataForShopRequestProto*) other {
+  if (other == [RetrieveStaticDataForShopRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -6755,6 +6785,15 @@ static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmory
         [self setSender:[subBuilder buildPartial]];
         break;
       }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
     }
   }
 }
@@ -6764,15 +6803,15 @@ static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmory
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (RetrieveStaticDataForShopRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (RetrieveStaticDataForShopRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -6783,19 +6822,37 @@ static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmory
   result.hasSender = YES;
   return self;
 }
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) clearSender {
+- (RetrieveStaticDataForShopRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (RetrieveStaticDataForShopRequestProto_RetrieveForShopType) type {
+  return result.type;
+}
+- (RetrieveStaticDataForShopRequestProto_Builder*) setType:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (RetrieveStaticDataForShopRequestProto_Builder*) clearType {
+  result.hasType = NO;
+  result.type = RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory;
+  return self;
+}
 @end
 
-@interface RetrieveEquipmentForArmoryResponseProto ()
+@interface RetrieveStaticDataForShopResponseProto ()
 @property (retain) MinimumUserProto* sender;
+@property RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus status;
 @property (retain) NSMutableArray* mutableEquipsList;
+@property (retain) NSMutableArray* mutableStructsList;
 @end
 
-@implementation RetrieveEquipmentForArmoryResponseProto
+@implementation RetrieveStaticDataForShopResponseProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -6804,29 +6861,39 @@ static RetrieveEquipmentForArmoryRequestProto* defaultRetrieveEquipmentForArmory
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
 @synthesize mutableEquipsList;
+@synthesize mutableStructsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableEquipsList = nil;
+  self.mutableStructsList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess;
   }
   return self;
 }
-static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmoryResponseProtoInstance = nil;
+static RetrieveStaticDataForShopResponseProto* defaultRetrieveStaticDataForShopResponseProtoInstance = nil;
 + (void) initialize {
-  if (self == [RetrieveEquipmentForArmoryResponseProto class]) {
-    defaultRetrieveEquipmentForArmoryResponseProtoInstance = [[RetrieveEquipmentForArmoryResponseProto alloc] init];
+  if (self == [RetrieveStaticDataForShopResponseProto class]) {
+    defaultRetrieveStaticDataForShopResponseProtoInstance = [[RetrieveStaticDataForShopResponseProto alloc] init];
   }
 }
-+ (RetrieveEquipmentForArmoryResponseProto*) defaultInstance {
-  return defaultRetrieveEquipmentForArmoryResponseProtoInstance;
++ (RetrieveStaticDataForShopResponseProto*) defaultInstance {
+  return defaultRetrieveStaticDataForShopResponseProtoInstance;
 }
-- (RetrieveEquipmentForArmoryResponseProto*) defaultInstance {
-  return defaultRetrieveEquipmentForArmoryResponseProtoInstance;
+- (RetrieveStaticDataForShopResponseProto*) defaultInstance {
+  return defaultRetrieveStaticDataForShopResponseProtoInstance;
 }
 - (NSArray*) equipsList {
   return mutableEquipsList;
@@ -6835,8 +6902,18 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
   id value = [mutableEquipsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) structsList {
+  return mutableStructsList;
+}
+- (FullStructureProto*) structsAtIndex:(int32_t) index {
+  id value = [mutableStructsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
     return NO;
   }
   if (!self.sender.isInitialized) {
@@ -6847,14 +6924,25 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
       return NO;
     }
   }
+  for (FullStructureProto* element in self.structsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
   for (FullEquipProto* element in self.equipsList) {
-    [output writeMessage:2 value:element];
+    [output writeMessage:3 value:element];
+  }
+  for (FullStructureProto* element in self.structsList) {
+    [output writeMessage:4 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6868,47 +6956,62 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
   for (FullEquipProto* element in self.equipsList) {
-    size += computeMessageSize(2, element);
+    size += computeMessageSize(3, element);
+  }
+  for (FullStructureProto* element in self.structsList) {
+    size += computeMessageSize(4, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromData:(NSData*) data {
-  return (RetrieveEquipmentForArmoryResponseProto*)[[[RetrieveEquipmentForArmoryResponseProto builder] mergeFromData:data] build];
++ (RetrieveStaticDataForShopResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveStaticDataForShopResponseProto*)[[[RetrieveStaticDataForShopResponseProto builder] mergeFromData:data] build];
 }
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveEquipmentForArmoryResponseProto*)[[[RetrieveEquipmentForArmoryResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (RetrieveStaticDataForShopResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataForShopResponseProto*)[[[RetrieveStaticDataForShopResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (RetrieveEquipmentForArmoryResponseProto*)[[[RetrieveEquipmentForArmoryResponseProto builder] mergeFromInputStream:input] build];
++ (RetrieveStaticDataForShopResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveStaticDataForShopResponseProto*)[[[RetrieveStaticDataForShopResponseProto builder] mergeFromInputStream:input] build];
 }
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveEquipmentForArmoryResponseProto*)[[[RetrieveEquipmentForArmoryResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveStaticDataForShopResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataForShopResponseProto*)[[[RetrieveStaticDataForShopResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (RetrieveEquipmentForArmoryResponseProto*)[[[RetrieveEquipmentForArmoryResponseProto builder] mergeFromCodedInputStream:input] build];
++ (RetrieveStaticDataForShopResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveStaticDataForShopResponseProto*)[[[RetrieveStaticDataForShopResponseProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (RetrieveEquipmentForArmoryResponseProto*)[[[RetrieveEquipmentForArmoryResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (RetrieveStaticDataForShopResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveStaticDataForShopResponseProto*)[[[RetrieveStaticDataForShopResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (RetrieveEquipmentForArmoryResponseProto_Builder*) builder {
-  return [[[RetrieveEquipmentForArmoryResponseProto_Builder alloc] init] autorelease];
++ (RetrieveStaticDataForShopResponseProto_Builder*) builder {
+  return [[[RetrieveStaticDataForShopResponseProto_Builder alloc] init] autorelease];
 }
-+ (RetrieveEquipmentForArmoryResponseProto_Builder*) builderWithPrototype:(RetrieveEquipmentForArmoryResponseProto*) prototype {
-  return [[RetrieveEquipmentForArmoryResponseProto builder] mergeFrom:prototype];
++ (RetrieveStaticDataForShopResponseProto_Builder*) builderWithPrototype:(RetrieveStaticDataForShopResponseProto*) prototype {
+  return [[RetrieveStaticDataForShopResponseProto builder] mergeFrom:prototype];
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) builder {
-  return [RetrieveEquipmentForArmoryResponseProto builder];
+- (RetrieveStaticDataForShopResponseProto_Builder*) builder {
+  return [RetrieveStaticDataForShopResponseProto builder];
 }
 @end
 
-@interface RetrieveEquipmentForArmoryResponseProto_Builder()
-@property (retain) RetrieveEquipmentForArmoryResponseProto* result;
+BOOL RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusIsValidValue(RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus value) {
+  switch (value) {
+    case RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess:
+    case RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSomeFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveStaticDataForShopResponseProto_Builder()
+@property (retain) RetrieveStaticDataForShopResponseProto* result;
 @end
 
-@implementation RetrieveEquipmentForArmoryResponseProto_Builder
+@implementation RetrieveStaticDataForShopResponseProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -6916,38 +7019,41 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[RetrieveEquipmentForArmoryResponseProto alloc] init] autorelease];
+    self.result = [[[RetrieveStaticDataForShopResponseProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clear {
-  self.result = [[[RetrieveEquipmentForArmoryResponseProto alloc] init] autorelease];
+- (RetrieveStaticDataForShopResponseProto_Builder*) clear {
+  self.result = [[[RetrieveStaticDataForShopResponseProto alloc] init] autorelease];
   return self;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clone {
-  return [RetrieveEquipmentForArmoryResponseProto builderWithPrototype:result];
+- (RetrieveStaticDataForShopResponseProto_Builder*) clone {
+  return [RetrieveStaticDataForShopResponseProto builderWithPrototype:result];
 }
-- (RetrieveEquipmentForArmoryResponseProto*) defaultInstance {
-  return [RetrieveEquipmentForArmoryResponseProto defaultInstance];
+- (RetrieveStaticDataForShopResponseProto*) defaultInstance {
+  return [RetrieveStaticDataForShopResponseProto defaultInstance];
 }
-- (RetrieveEquipmentForArmoryResponseProto*) build {
+- (RetrieveStaticDataForShopResponseProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (RetrieveEquipmentForArmoryResponseProto*) buildPartial {
-  RetrieveEquipmentForArmoryResponseProto* returnMe = [[result retain] autorelease];
+- (RetrieveStaticDataForShopResponseProto*) buildPartial {
+  RetrieveStaticDataForShopResponseProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeFrom:(RetrieveEquipmentForArmoryResponseProto*) other {
-  if (other == [RetrieveEquipmentForArmoryResponseProto defaultInstance]) {
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeFrom:(RetrieveStaticDataForShopResponseProto*) other {
+  if (other == [RetrieveStaticDataForShopResponseProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
     [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
   }
   if (other.mutableEquipsList.count > 0) {
     if (result.mutableEquipsList == nil) {
@@ -6955,13 +7061,19 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
     }
     [result.mutableEquipsList addObjectsFromArray:other.mutableEquipsList];
   }
+  if (other.mutableStructsList.count > 0) {
+    if (result.mutableStructsList == nil) {
+      result.mutableStructsList = [NSMutableArray array];
+    }
+    [result.mutableStructsList addObjectsFromArray:other.mutableStructsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -6985,10 +7097,25 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 18: {
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
         FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addStructs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7000,15 +7127,15 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (RetrieveStaticDataForShopResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (RetrieveStaticDataForShopResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -7019,9 +7146,25 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
   result.hasSender = YES;
   return self;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clearSender {
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus) status {
+  return result.status;
+}
+- (RetrieveStaticDataForShopResponseProto_Builder*) setStatus:(RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess;
   return self;
 }
 - (NSArray*) equipsList {
@@ -7031,26 +7174,55 @@ static RetrieveEquipmentForArmoryResponseProto* defaultRetrieveEquipmentForArmor
 - (FullEquipProto*) equipsAtIndex:(int32_t) index {
   return [result equipsAtIndex:index];
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value {
+- (RetrieveStaticDataForShopResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value {
   [result.mutableEquipsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) addAllEquips:(NSArray*) values {
+- (RetrieveStaticDataForShopResponseProto_Builder*) addAllEquips:(NSArray*) values {
   if (result.mutableEquipsList == nil) {
     result.mutableEquipsList = [NSMutableArray array];
   }
   [result.mutableEquipsList addObjectsFromArray:values];
   return self;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clearEquipsList {
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearEquipsList {
   result.mutableEquipsList = nil;
   return self;
 }
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) addEquips:(FullEquipProto*) value {
+- (RetrieveStaticDataForShopResponseProto_Builder*) addEquips:(FullEquipProto*) value {
   if (result.mutableEquipsList == nil) {
     result.mutableEquipsList = [NSMutableArray array];
   }
   [result.mutableEquipsList addObject:value];
+  return self;
+}
+- (NSArray*) structsList {
+  if (result.mutableStructsList == nil) { return [NSArray array]; }
+  return result.mutableStructsList;
+}
+- (FullStructureProto*) structsAtIndex:(int32_t) index {
+  return [result structsAtIndex:index];
+}
+- (RetrieveStaticDataForShopResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value {
+  [result.mutableStructsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveStaticDataForShopResponseProto_Builder*) addAllStructs:(NSArray*) values {
+  if (result.mutableStructsList == nil) {
+    result.mutableStructsList = [NSMutableArray array];
+  }
+  [result.mutableStructsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearStructsList {
+  result.mutableStructsList = nil;
+  return self;
+}
+- (RetrieveStaticDataForShopResponseProto_Builder*) addStructs:(FullStructureProto*) value {
+  if (result.mutableStructsList == nil) {
+    result.mutableStructsList = [NSMutableArray array];
+  }
+  [result.mutableStructsList addObject:value];
   return self;
 }
 @end

@@ -136,7 +136,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gl updateConstants:proto.startupConstants];
   [gs updateUser:proto.sender];
   [gs addToMyEquips:proto.userEquipsList];
-//  [gs setMyStructs:[NSMutableArray arrayWithArray:proto.userStructuresList]];
+  //  [gs setMyStructs:[NSMutableArray arrayWithArray:proto.userStructuresList]];
   [oec retrieveAllStaticData];
 }
 
@@ -223,7 +223,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handlePurchaseNormStructureResponseProto: (PurchaseNormStructureResponseProto *) proto {
-  NSLog(@"Purchase norm struct response received.");
+  NSLog(@"Purchase norm struct response received with status: %d.", proto.status);
+  
+  // Get the userstruct without a userStructId
+  UserStruct *us = nil;
+  for (UserStruct *u in [[GameState sharedGameState] myStructs]) {
+    if (u.userStructId == 0) {
+      us = u;
+      break;
+    }
+  }
+  
+  if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
+    if (proto.hasUserStructId) {
+      us.userStructId = proto.userStructId;
+    } else {
+      // This should never happen
+      NSLog(@"Success in purchase with no userStructId");
+    }
+  } else {
+    [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong in the purchase"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [[[GameState sharedGameState] myStructs] removeObject:us];
+    [[HomeMap sharedHomeMap] refresh];
+  }
 }
 
 - (void) handleMoveOrRotateNormStructureResponseProto: (MoveOrRotateNormStructureResponseProto *) proto {

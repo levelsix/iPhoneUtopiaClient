@@ -107,22 +107,17 @@
     _startMoveCoordinate = _location.origin;
   } else {
     if (!_isSetDown) {
-      CGRect x = self.location;
-      x.origin = _startMoveCoordinate;
-      self.location = x;
-      [self placeBlock];
+      [self cancelMove];
     }
   }
 }
 
-- (void) setUserStruct:(UserStruct *)userStruct {
-  if (_userStruct != userStruct) {
-    [_userStruct release];
-    _userStruct = [userStruct retain];
-    
-    FullStructureProto * fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
-    self.location = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.xLength, fsp.yLength);
-  }
+- (void) cancelMove {
+  [self liftBlock];
+  CGRect x = self.location;
+  x.origin = _startMoveCoordinate;
+  self.location = x;
+  [self placeBlock];
 }
 
 -(void) updateMeta {
@@ -158,6 +153,10 @@
 }
 
 -(void) placeBlock {
+  if (_isSetDown) {
+    return;
+  }
+  
   if ([_homeMap isBlockBuildable:self.location]) {
     self.opacity = 255;
     [_homeMap changeTiles:self.location toBuildable:NO];
@@ -165,6 +164,14 @@
   } else {
     self.opacity = 150;
   }
+}
+
+- (void) liftBlock {
+  if (self.isSetDown) {
+    self.opacity = 150;
+    [_homeMap changeTiles:self.location toBuildable:YES];
+  }
+  self.isSetDown = NO;
 }
 
 -(void) locationAfterTouch: (CGPoint) touchLocation {

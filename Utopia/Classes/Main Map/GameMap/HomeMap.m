@@ -207,6 +207,7 @@
     switch (state) {
       case kNormalState:
         blueButton.text = @"Move";
+        blueButton.enabled = YES;
         redButton.hidden = NO;
         redButton.text = @"Sell";
         redButton.enabled = YES;
@@ -234,6 +235,8 @@
         break;
         
       case kProgressState:
+        mainView.hidden = NO;
+        moveView.hidden = YES;
         blueButton.text = @"Move";
         upgradeView.hidden = YES;
         redButton.hidden = NO;
@@ -301,6 +304,10 @@
 }
 
 - (void) updateLabelsForUserStruct:(UserStruct *)us {
+  if (!us) {
+    return;
+  }
+  
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
   Globals *gl = [Globals sharedGlobals];
   
@@ -420,14 +427,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) refresh {
-  _constructing = nil;
-  _upgrading = nil;
+  _constrBuilding = nil;
+  _upgrBuilding = nil;
   _loading = YES;
   
   NSMutableArray *arr = [NSMutableArray array];
   int i = 0;
   for (UserStruct *s in [[GameState sharedGameState] myStructs]) {
-    
     int tag = [self baseTagForStructId:s.structId];
     HomeBuilding *hb = (HomeBuilding *)[self getChildByTag:tag];
     
@@ -441,26 +447,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       // Check if we already assigned this building and it is in arr.
       hb = (HomeBuilding *)[self getChildByTag:tag+offset];
     }
+    
+    
+    FullStructureProto *fsp = [[GameState sharedGameState] structWithId:s.structId];
+    CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
     if (!hb) {
-      hb = [[HomeBuilding alloc] initWithFile:@"equip3.png" location:CGRectZero map:self];
+      hb = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
       [self addChild:hb z:0 tag:tag+offset];
+      [hb release];
       
-      NSLog(@"New");
       i++;
-      
-      hb.userStruct = s;
     } else {
-      hb.userStruct = s;
+      hb.location = loc;
     }
+    
+    hb.userStruct = s;
     
     UserStructState st = s.state;
     switch (st) {
       case kUpgrading:
-        _upgrading = hb;
+        _upgrBuilding = hb;
         break;
         
       case kBuilding:
-        _constructing = hb;
+        _constrBuilding = hb;
         
       case kWaitingForIncome:
         break;
@@ -510,6 +520,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
+- (void) preparePurchaseOfStruct:(int)structId {
+  if (_purchasing || _constrBuilding) {
+    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Already constructing a building"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    return;
+  }
+  
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
+  CGRect loc = CGRectMake(0, 0, fsp.xLength, fsp.yLength);
+  _purchBuilding = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
+  [self addChild:_purchBuilding];
+  [_purchBuilding release];
+  
+  self.selected = _purchBuilding;
+  self.hbMenu.state = kMoveState;
+  _canMove = YES;
+  _purchasing = YES;
+  _purchStructId = structId;
+  
+  [self doReorder];
+}
+
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
     if ([selected class] == [HomeBuilding class]) {
@@ -536,12 +567,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         // This fat statement just checks that the drag touch is somewhere closeby the selected sprite
         if (CGRectContainsPoint(CGRectMake(_selected.position.x-_selected.contentSize.width/2*_selected.scale-20, _selected.position.y-20, _selected.contentSize.width*_selected.scale+40, _selected.contentSize.height*_selected.scale+40), pt)) {
           [homeBuilding setStartTouchLocation: pt];
+          [homeBuilding liftBlock];
           
-          if ([homeBuilding isSetDown]) {
-            homeBuilding.opacity = 150;
-            [self changeTiles:homeBuilding.location toBuildable:YES];
-          }
-          homeBuilding.isSetDown = NO;
           [homeBuilding updateMeta];
           _isMoving = YES;
           [self updateHomeBuildingMenu];
@@ -590,16 +617,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (IBAction)moveCheckClicked:(id)sender {
   HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
-  [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:homeBuilding.userStruct atX:_selected.location.origin.x atY:_selected.location.origin.y];
-  
   _canMove = NO;
-  homeBuilding.isSelected = NO;
   self.selected = nil;
   [self doReorder];
+  if (_purchasing) {
+    _purchasing = NO;
+    // Use return value as an indicator that purchase is accepted by client
+    UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y];
+    if (us) {
+      homeBuilding.userStruct = us;
+      _constrBuilding = homeBuilding;
+    } else {
+      [self removeChild:homeBuilding cleanup:YES];
+    }
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:homeBuilding.userStruct atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y];
+  }
 }
 
 - (IBAction)rotateClicked:(id)sender {
   [_selected setFlipX:!_selected.flipX];
+}
+
+- (IBAction)cancelMoveClicked:(id)sender {
+  if (_purchasing) {
+    self.selected = nil;
+    [_purchBuilding liftBlock];
+    [self removeChild:_purchBuilding cleanup:YES];
+    _canMove = NO;
+    _purchasing = NO;
+  } else {
+    HomeBuilding *hb = (HomeBuilding *)_selected;
+    [hb cancelMove];
+    _canMove = NO;
+    self.selected = nil;
+    [self doReorder];
+  }
 }
 
 - (IBAction)redButtonClicked:(id)sender {
@@ -608,13 +661,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   } else if (hbMenu.state == kSellState) {
     // Do real sell
     UserStruct *us = ((HomeBuilding *)_selected).userStruct;
+    int structId = us.structId;
     [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
     if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
-      [self removeChild:_selected cleanup:YES];
+      HomeBuilding *spr = (HomeBuilding *)self.selected;
       self.selected = nil;
+      [spr liftBlock];
+      [self removeChild:spr cleanup:YES];
+      
       
       // Fix tag fragmentation
-      int tag = [self baseTagForStructId:us.structId];
+      int tag = [self baseTagForStructId:structId];
       int renameTag = tag;
       for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
         CCNode *c = [self getChildByTag:i];
@@ -641,12 +698,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   HomeBuilding *hb = (HomeBuilding *)_selected;
   UserStructState state = hb.userStruct.state;
   self.hbMenu.finishNowButton.enabled = NO;
+  self.hbMenu.blueButton.enabled = NO;
   if (state == kUpgrading) {
     [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:((HomeBuilding *)_selected).userStruct];
   } else if (state == kBuilding) {
     [[OutgoingEventController sharedOutgoingEventController] instaBuild:((HomeBuilding *)_selected).userStruct];
   }
   if (hb.userStruct.state == kWaitingForIncome) {
+    if (_selected == _constrBuilding) {
+      _constrBuilding = nil;
+    } else if (_selected == _upgrBuilding) {
+      _upgrBuilding = nil;
+    }
+    
     // animate bar to top
     [self.hbMenu.timer invalidate];
     float secs = PROGRESS_BAR_SPEED*(1-[self.hbMenu progressBarProgress]);
@@ -655,7 +719,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     } completion:^(BOOL finished) {
       [self.hbMenu updateLabelsForUserStruct:hb.userStruct];
       [self.hbMenu startTimer];
+      self.hbMenu.finishNowButton.enabled = YES;
+      self.hbMenu.blueButton.enabled = YES;
     }];
+  } else {
+    self.hbMenu.finishNowButton.enabled = YES;
+    self.hbMenu.blueButton.enabled = YES;
   }
 }
 

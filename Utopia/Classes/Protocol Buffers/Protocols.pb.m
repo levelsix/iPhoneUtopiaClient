@@ -30,7 +30,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCStartupEvent:
     case EventProtocolRequestCRetrieveTasksForCityEvent:
     case EventProtocolRequestCRetrieveQuestsForCityEvent:
-    case EventProtocolRequestCRetrieveEquipsForArmoryEvent:
+    case EventProtocolRequestCRetrieveStaticDataForShopEvent:
     case EventProtocolRequestCArmoryEvent:
     case EventProtocolRequestCInAppPurchaseEvent:
     case EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent:
@@ -74,7 +74,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSStartupEvent:
     case EventProtocolResponseSRetrieveTasksForCityEvent:
     case EventProtocolResponseSRetrieveQuestsForCityEvent:
-    case EventProtocolResponseSRetrieveEquipsForArmoryEvent:
+    case EventProtocolResponseSRetrieveStaticDataForShopEvent:
     case EventProtocolResponseSArmoryEvent:
     case EventProtocolResponseSInAppPurchaseEvent:
     case EventProtocolResponseSRetrieveCurrentMarketplacePostsEvent:

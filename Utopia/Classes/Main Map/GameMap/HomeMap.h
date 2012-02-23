@@ -91,9 +91,12 @@ typedef enum {
   BOOL _isMoving;
   BOOL _canMove;
   BOOL _loading;
+  BOOL _purchasing;
+  int _purchStructId;
   
-  HomeBuilding *_constructing;
-  HomeBuilding *_upgrading;
+  HomeBuilding *_constrBuilding;
+  HomeBuilding *_upgrBuilding;
+  HomeBuilding *_purchBuilding;
 }
 
 @property (nonatomic, retain) NSMutableArray *buildableData;
@@ -109,6 +112,7 @@ typedef enum {
 - (void) updateHomeBuildingMenu;
 - (void) refresh;
 - (int) baseTagForStructId:(int)structId;
+- (void) preparePurchaseOfStruct:(int)structId;
 
 - (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)moveCheckClicked:(id)sender;

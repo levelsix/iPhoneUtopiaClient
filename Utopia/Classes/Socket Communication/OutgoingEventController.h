@@ -43,7 +43,7 @@
 - (void) refillEnergy;
 - (void) refillStamina;
 
-- (void) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
+- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
 - (void) sellNormStruct:(UserStruct *)userStruct;
 - (void) instaBuild:(UserStruct *)userStruct;

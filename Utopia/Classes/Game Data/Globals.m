@@ -27,7 +27,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize attackBaseCost, defenseBaseCost, energyBaseCost, staminaBaseCost, healthBaseCost;
 @synthesize retractPercentCut, purchasePercentCut;
 @synthesize energyRefillCost, staminaRefillCost;
-@synthesize maxRepeatedNormStructs;
+@synthesize maxRepeatedNormStructs, maxEquipId, maxStructId;
 @synthesize productIdentifiers;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
@@ -37,6 +37,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     self.retractPercentCut = 0.05;
     self.depositPercentCut = 0.1;
     self.maxRepeatedNormStructs = 2;
+    maxStructId = 4;
   }
   return self;
 }
@@ -61,13 +62,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fontSize;
 }
 
-+ (UIImage *) imageForStruct:(int)structId {
++ (NSString *) imageNameForStruct:(int)structId {
   NSString *file = [NSString stringWithFormat:structureImageString, structId];
-  return [UIImage imageNamed:file];
+  return file;
 }
 
-+ (UIImage *) equipForStruct:(int)eqId {
-  return [UIImage imageNamed:[NSString stringWithFormat:equipImageString, eqId]];
++ (NSString *) equipNameForStruct:(int)eqId {
+  return [NSString stringWithFormat:equipImageString, eqId];
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {

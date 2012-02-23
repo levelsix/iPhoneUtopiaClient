@@ -112,6 +112,12 @@
 		CF2AC5A014C1238D00DEDF29 /* comboBarProgress.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2AC59E14C1238D00DEDF29 /* comboBarProgress.png */; };
 		CF2AC5A114C1238D00DEDF29 /* comboBarBgd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2AC59F14C1238D00DEDF29 /* comboBarBgd.png */; };
 		CF2AC5A514C2751D00DEDF29 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2AC5A414C2751D00DEDF29 /* ImageDownloader.m */; };
+		CF2BCFE814F61BAE008EDBC9 /* closex.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE214F61BAE008EDBC9 /* closex.png */; };
+		CF2BCFE914F61BAE008EDBC9 /* finishmoving.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE314F61BAE008EDBC9 /* finishmoving.png */; };
+		CF2BCFEA14F61BAE008EDBC9 /* finishmoving@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE414F61BAE008EDBC9 /* finishmoving@2x.png */; };
+		CF2BCFEB14F61BAE008EDBC9 /* movebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE514F61BAE008EDBC9 /* movebubble.png */; };
+		CF2BCFEC14F61BAE008EDBC9 /* movebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE614F61BAE008EDBC9 /* movebubble@2x.png */; };
+		CF2BCFED14F61BAE008EDBC9 /* closex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE714F61BAE008EDBC9 /* closex@2x.png */; };
 		CF3D0A6914CB88EA00D972B4 /* GoldPackageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A5914CB88EA00D972B4 /* GoldPackageView.xib */; };
 		CF3D0A6A14CB88EA00D972B4 /* GoldShoppeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0A5B14CB88EA00D972B4 /* GoldShoppeViewController.m */; };
 		CF3D0A6B14CB88EA00D972B4 /* GoldShoppeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A5C14CB88EA00D972B4 /* GoldShoppeViewController.xib */; };
@@ -257,12 +263,8 @@
 		CFA26F1714E71A7F00FC1C71 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */; };
 		CFA26F3614E71AD100FC1C71 /* emptystar.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1814E71AD100FC1C71 /* emptystar.png */; };
 		CFA26F3714E71AD100FC1C71 /* emptystar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1914E71AD100FC1C71 /* emptystar@2x.png */; };
-		CFA26F3814E71AD100FC1C71 /* finishmoving.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1A14E71AD100FC1C71 /* finishmoving.png */; };
-		CFA26F3914E71AD100FC1C71 /* finishmoving@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1B14E71AD100FC1C71 /* finishmoving@2x.png */; };
 		CFA26F3A14E71AD100FC1C71 /* fullstar.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1C14E71AD100FC1C71 /* fullstar.png */; };
 		CFA26F3B14E71AD100FC1C71 /* fullstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1D14E71AD100FC1C71 /* fullstar@2x.png */; };
-		CFA26F3C14E71AD100FC1C71 /* movebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1E14E71AD100FC1C71 /* movebubble.png */; };
-		CFA26F3D14E71AD100FC1C71 /* movebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1F14E71AD100FC1C71 /* movebubble@2x.png */; };
 		CFA26F3E14E71AD100FC1C71 /* obbluebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F2014E71AD100FC1C71 /* obbluebutton.png */; };
 		CFA26F3F14E71AD100FC1C71 /* obbluebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F2114E71AD100FC1C71 /* obbluebutton@2x.png */; };
 		CFA26F4014E71AD100FC1C71 /* obcantsell.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F2214E71AD100FC1C71 /* obcantsell.png */; };
@@ -292,6 +294,15 @@
 		CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */; };
 		CFAA94EB14E881D100B0F791 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CFAA94EA14E881D100B0F791 /* Building.m */; };
 		CFADD7D714A690F400BC2F75 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFADD7D614A690F400BC2F75 /* CFNetwork.framework */; };
+		CFB08F2714F5FF0200B16CB1 /* struct4.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F1E14F5FF0200B16CB1 /* struct4.png */; };
+		CFB08F2814F5FF0200B16CB1 /* struct2.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F1F14F5FF0200B16CB1 /* struct2.png */; };
+		CFB08F2914F5FF0200B16CB1 /* struct1.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2014F5FF0200B16CB1 /* struct1.png */; };
+		CFB08F2A14F5FF0200B16CB1 /* struct1-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2114F5FF0200B16CB1 /* struct1-hd.png */; };
+		CFB08F2B14F5FF0200B16CB1 /* struct1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2214F5FF0200B16CB1 /* struct1@2x.png */; };
+		CFB08F2C14F5FF0200B16CB1 /* struct4-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2314F5FF0200B16CB1 /* struct4-hd.png */; };
+		CFB08F2D14F5FF0200B16CB1 /* struct4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2414F5FF0200B16CB1 /* struct4@2x.png */; };
+		CFB08F2E14F5FF0200B16CB1 /* struct2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2514F5FF0200B16CB1 /* struct2-hd.png */; };
+		CFB08F2F14F5FF0200B16CB1 /* struct2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2614F5FF0200B16CB1 /* struct2@2x.png */; };
 		CFBAA03D14B3D52F007AB82F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA00F14B3D52F007AB82F /* AppDelegate.m */; };
 		CFBAA03E14B3D52F007AB82F /* DoorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA01114B3D52F007AB82F /* DoorViewController.m */; };
 		CFBAA03F14B3D52F007AB82F /* DoorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBAA01214B3D52F007AB82F /* DoorViewController.xib */; };
@@ -618,6 +629,12 @@
 		CF2AC59F14C1238D00DEDF29 /* comboBarBgd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comboBarBgd.png; sourceTree = "<group>"; };
 		CF2AC5A314C2751D00DEDF29 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		CF2AC5A414C2751D00DEDF29 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		CF2BCFE214F61BAE008EDBC9 /* closex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closex.png; sourceTree = "<group>"; };
+		CF2BCFE314F61BAE008EDBC9 /* finishmoving.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finishmoving.png; sourceTree = "<group>"; };
+		CF2BCFE414F61BAE008EDBC9 /* finishmoving@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finishmoving@2x.png"; sourceTree = "<group>"; };
+		CF2BCFE514F61BAE008EDBC9 /* movebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movebubble.png; sourceTree = "<group>"; };
+		CF2BCFE614F61BAE008EDBC9 /* movebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movebubble@2x.png"; sourceTree = "<group>"; };
+		CF2BCFE714F61BAE008EDBC9 /* closex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closex@2x.png"; sourceTree = "<group>"; };
 		CF3D0A5914CB88EA00D972B4 /* GoldPackageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoldPackageView.xib; sourceTree = "<group>"; };
 		CF3D0A5A14CB88EA00D972B4 /* GoldShoppeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoldShoppeViewController.h; sourceTree = "<group>"; };
 		CF3D0A5B14CB88EA00D972B4 /* GoldShoppeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoldShoppeViewController.m; sourceTree = "<group>"; };
@@ -777,12 +794,8 @@
 		CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeBuildingMenu.xib; path = "Utopia/Classes/Main Map/GameMap/HomeBuildingMenu.xib"; sourceTree = SOURCE_ROOT; };
 		CFA26F1814E71AD100FC1C71 /* emptystar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptystar.png; sourceTree = "<group>"; };
 		CFA26F1914E71AD100FC1C71 /* emptystar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptystar@2x.png"; sourceTree = "<group>"; };
-		CFA26F1A14E71AD100FC1C71 /* finishmoving.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finishmoving.png; sourceTree = "<group>"; };
-		CFA26F1B14E71AD100FC1C71 /* finishmoving@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "finishmoving@2x.png"; sourceTree = "<group>"; };
 		CFA26F1C14E71AD100FC1C71 /* fullstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullstar.png; sourceTree = "<group>"; };
 		CFA26F1D14E71AD100FC1C71 /* fullstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullstar@2x.png"; sourceTree = "<group>"; };
-		CFA26F1E14E71AD100FC1C71 /* movebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movebubble.png; sourceTree = "<group>"; };
-		CFA26F1F14E71AD100FC1C71 /* movebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movebubble@2x.png"; sourceTree = "<group>"; };
 		CFA26F2014E71AD100FC1C71 /* obbluebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = obbluebutton.png; sourceTree = "<group>"; };
 		CFA26F2114E71AD100FC1C71 /* obbluebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "obbluebutton@2x.png"; sourceTree = "<group>"; };
 		CFA26F2214E71AD100FC1C71 /* obcantsell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = obcantsell.png; sourceTree = "<group>"; };
@@ -816,6 +829,15 @@
 		CFAA94E914E881D100B0F791 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Building.h; path = "Utopia/Classes/Main Map/GameMap/Building.h"; sourceTree = SOURCE_ROOT; };
 		CFAA94EA14E881D100B0F791 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Building.m; path = "Utopia/Classes/Main Map/GameMap/Building.m"; sourceTree = SOURCE_ROOT; };
 		CFADD7D614A690F400BC2F75 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		CFB08F1E14F5FF0200B16CB1 /* struct4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = struct4.png; sourceTree = "<group>"; };
+		CFB08F1F14F5FF0200B16CB1 /* struct2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = struct2.png; sourceTree = "<group>"; };
+		CFB08F2014F5FF0200B16CB1 /* struct1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = struct1.png; sourceTree = "<group>"; };
+		CFB08F2114F5FF0200B16CB1 /* struct1-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct1-hd.png"; sourceTree = "<group>"; };
+		CFB08F2214F5FF0200B16CB1 /* struct1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct1@2x.png"; sourceTree = "<group>"; };
+		CFB08F2314F5FF0200B16CB1 /* struct4-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct4-hd.png"; sourceTree = "<group>"; };
+		CFB08F2414F5FF0200B16CB1 /* struct4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct4@2x.png"; sourceTree = "<group>"; };
+		CFB08F2514F5FF0200B16CB1 /* struct2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct2-hd.png"; sourceTree = "<group>"; };
+		CFB08F2614F5FF0200B16CB1 /* struct2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct2@2x.png"; sourceTree = "<group>"; };
 		CFBAA00E14B3D52F007AB82F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CFBAA00F14B3D52F007AB82F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CFBAA01014B3D52F007AB82F /* DoorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoorViewController.h; sourceTree = "<group>"; };
@@ -1815,6 +1837,21 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF2BCFE214F61BAE008EDBC9 /* closex.png */,
+				CF2BCFE314F61BAE008EDBC9 /* finishmoving.png */,
+				CF2BCFE414F61BAE008EDBC9 /* finishmoving@2x.png */,
+				CF2BCFE514F61BAE008EDBC9 /* movebubble.png */,
+				CF2BCFE614F61BAE008EDBC9 /* movebubble@2x.png */,
+				CF2BCFE714F61BAE008EDBC9 /* closex@2x.png */,
+				CFB08F1E14F5FF0200B16CB1 /* struct4.png */,
+				CFB08F1F14F5FF0200B16CB1 /* struct2.png */,
+				CFB08F2014F5FF0200B16CB1 /* struct1.png */,
+				CFB08F2114F5FF0200B16CB1 /* struct1-hd.png */,
+				CFB08F2214F5FF0200B16CB1 /* struct1@2x.png */,
+				CFB08F2314F5FF0200B16CB1 /* struct4-hd.png */,
+				CFB08F2414F5FF0200B16CB1 /* struct4@2x.png */,
+				CFB08F2514F5FF0200B16CB1 /* struct2-hd.png */,
+				CFB08F2614F5FF0200B16CB1 /* struct2@2x.png */,
 				CF4234E614F4B99E0033C290 /* buildingbg.png */,
 				CF4234E714F4B99E0033C290 /* buildingbg@2x.png */,
 				CF4234E814F4B99E0033C290 /* buildingpricebg.png */,
@@ -1869,12 +1906,8 @@
 				CFF3A71714EF830F00E8F8DF /* withdraw@2x.png */,
 				CFA26F1814E71AD100FC1C71 /* emptystar.png */,
 				CFA26F1914E71AD100FC1C71 /* emptystar@2x.png */,
-				CFA26F1A14E71AD100FC1C71 /* finishmoving.png */,
-				CFA26F1B14E71AD100FC1C71 /* finishmoving@2x.png */,
 				CFA26F1C14E71AD100FC1C71 /* fullstar.png */,
 				CFA26F1D14E71AD100FC1C71 /* fullstar@2x.png */,
-				CFA26F1E14E71AD100FC1C71 /* movebubble.png */,
-				CFA26F1F14E71AD100FC1C71 /* movebubble@2x.png */,
 				CFA26F2014E71AD100FC1C71 /* obbluebutton.png */,
 				CFA26F2114E71AD100FC1C71 /* obbluebutton@2x.png */,
 				CFA26F2214E71AD100FC1C71 /* obcantsell.png */,
@@ -2413,12 +2446,8 @@
 				CFA26F1714E71A7F00FC1C71 /* HomeBuildingMenu.xib in Resources */,
 				CFA26F3614E71AD100FC1C71 /* emptystar.png in Resources */,
 				CFA26F3714E71AD100FC1C71 /* emptystar@2x.png in Resources */,
-				CFA26F3814E71AD100FC1C71 /* finishmoving.png in Resources */,
-				CFA26F3914E71AD100FC1C71 /* finishmoving@2x.png in Resources */,
 				CFA26F3A14E71AD100FC1C71 /* fullstar.png in Resources */,
 				CFA26F3B14E71AD100FC1C71 /* fullstar@2x.png in Resources */,
-				CFA26F3C14E71AD100FC1C71 /* movebubble.png in Resources */,
-				CFA26F3D14E71AD100FC1C71 /* movebubble@2x.png in Resources */,
 				CFA26F3E14E71AD100FC1C71 /* obbluebutton.png in Resources */,
 				CFA26F3F14E71AD100FC1C71 /* obbluebutton@2x.png in Resources */,
 				CFA26F4014E71AD100FC1C71 /* obcantsell.png in Resources */,
@@ -2503,6 +2532,21 @@
 				CFA3BBE114F4C11B002A68E1 /* CarpenterRow.xib in Resources */,
 				CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */,
 				CF76963B14F5A1AD0068662D /* struct3@2x.png in Resources */,
+				CFB08F2714F5FF0200B16CB1 /* struct4.png in Resources */,
+				CFB08F2814F5FF0200B16CB1 /* struct2.png in Resources */,
+				CFB08F2914F5FF0200B16CB1 /* struct1.png in Resources */,
+				CFB08F2A14F5FF0200B16CB1 /* struct1-hd.png in Resources */,
+				CFB08F2B14F5FF0200B16CB1 /* struct1@2x.png in Resources */,
+				CFB08F2C14F5FF0200B16CB1 /* struct4-hd.png in Resources */,
+				CFB08F2D14F5FF0200B16CB1 /* struct4@2x.png in Resources */,
+				CFB08F2E14F5FF0200B16CB1 /* struct2-hd.png in Resources */,
+				CFB08F2F14F5FF0200B16CB1 /* struct2@2x.png in Resources */,
+				CF2BCFE814F61BAE008EDBC9 /* closex.png in Resources */,
+				CF2BCFE914F61BAE008EDBC9 /* finishmoving.png in Resources */,
+				CF2BCFEA14F61BAE008EDBC9 /* finishmoving@2x.png in Resources */,
+				CF2BCFEB14F61BAE008EDBC9 /* movebubble.png in Resources */,
+				CF2BCFEC14F61BAE008EDBC9 /* movebubble@2x.png in Resources */,
+				CF2BCFED14F61BAE008EDBC9 /* closex@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -290,8 +290,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y {
-  [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
+- (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y {
+  GameState *gs = [GameState sharedGameState];
+  FullStructureProto *fsp = [gs structWithId:structId];
+  UserStruct *us = nil;
+  
+  // Check that no other building is being upgraded
+  for (UserStruct *u in gs.myStructs) {
+    if (u.state == kUpgrading) {
+      [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Already constructing a building"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+      return us;
+    }
+  }
+  
+  if (gs.silver >= fsp.coinPrice && gs.gold >= fsp.diamondPrice) {
+    [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
+    us = [[[UserStruct alloc] init] autorelease];
+    
+    // UserStructId will come in the response
+    us.userId = [[GameState sharedGameState] userId];
+    us.structId = structId;
+    us.level = 1;
+    us.isComplete = NO;
+    us.coordinates = CGPointMake(x, y);
+    us.orientation = 0;
+    us.purchaseTime = [NSDate date];
+    us.lastRetrieved = nil;
+    [[[GameState sharedGameState] myStructs] addObject:us];
+    
+    // Update game state
+    gs.silver -= fsp.coinPrice;
+    gs.gold -= fsp.diamondPrice;
+  } else {
+    NSLog(@"Not enough money to purchase this building");
+  }
+  return us;
 }
 
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y {
@@ -307,12 +340,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (userStruct.userId != gs.userId) {
+  if (userStruct.userStructId == 0) {
+    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+  } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
-  }
-  if (userStruct.isComplete) {
+  } else if (userStruct.isComplete) {
     [sc sendSellNormStructureMessage:userStruct.userStructId];
     [[gs myStructs] removeObject:userStruct];
+    
+    // Update game state
+    gs.silver += [[Globals sharedGlobals] calculateSellCost:userStruct];
   } else {
     NSLog(@"Building %d is completing", userStruct.userStructId);
   }
@@ -322,14 +359,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (userStruct.userId != gs.userId) {
+  if (userStruct.userStructId == 0) {
+    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+  } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
-  }
-  if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
+  } else if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    
+    // Update game state
+    FullStructureProto *fsp = [gs structWithId:userStruct.structId];
+    gs.gold -= fsp.instaBuildDiamondCostBase;
   } else {
     NSLog(@"Building %d is not constructing", userStruct.userStructId);
   }
@@ -339,15 +381,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (userStruct.userId != gs.userId) {
+  if (userStruct.userStructId == 0) {
+    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+  } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
-  }
-  if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
+  } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
     userStruct.level++;
+    
+    // Update game state
+    FullStructureProto *fsp = [gs structWithId:userStruct.structId];
+    gs.gold -= fsp.instaUpgradeDiamondCostBase;
   } else {
     NSLog(@"Building %d is not upgrading", userStruct.userStructId);
   }
@@ -358,10 +405,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (userStruct.userId != gs.userId) {
+  if (userStruct.userStructId == 0) {
+    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+  } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
-  }
-  if (!userStruct.isComplete) {
+  } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
     userStruct.isComplete = YES;
@@ -383,19 +431,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   // Check that no other building is being upgraded
   for (UserStruct *us in gs.myStructs) {
     if (us.state == kUpgrading) {
-      NSLog(@"Already upgrading a building..");
+      [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Already upgrading a building"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
       return;
     }
   }
   
-  if (userStruct.userId != gs.userId) {
+  if (userStruct.userStructId == 0) {
+    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+  } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
-  }
-  if (userStruct.isComplete) {
+  } else if (userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
     userStruct.isComplete = NO;
     userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    
+    // Update game state
+    gs.gold -= [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
   } else {
     NSLog(@"This building is not upgradable");
   }
@@ -428,6 +480,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       shouldSend = YES;
     }
   }
+  rStructs = [NSMutableSet set];
+  for (int i = 1; i <= [[Globals sharedGlobals] maxStructId]; i++) {
+    NSNumber *structId = [NSNumber numberWithInt:i];
+    if (![sStructs objectForKey:structId]) {
+      [rStructs addObject:structId];
+      [rStructs addObject:structId];
+      shouldSend = YES;
+    }
+  }
+  NSLog(@"%@", rStructs);
   
   if (shouldSend) {
     [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:nil questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];

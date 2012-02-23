@@ -391,6 +391,11 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t amuletEquipped;
 @property int64_t lastLoginTime;
 @property int64_t lastLogoutTime;
+@property (retain) NSString* deviceToken;
+@property int64_t lastBattleNotificationTime;
+@property int64_t lastTimeAttacked;
+@property (retain) NSString* macAddress;
+@property int32_t numBadges;
 @end
 
 @implementation FullUserProto
@@ -664,11 +669,48 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasLastLogoutTime_ = !!value;
 }
 @synthesize lastLogoutTime;
+- (BOOL) hasDeviceToken {
+  return !!hasDeviceToken_;
+}
+- (void) setHasDeviceToken:(BOOL) value {
+  hasDeviceToken_ = !!value;
+}
+@synthesize deviceToken;
+- (BOOL) hasLastBattleNotificationTime {
+  return !!hasLastBattleNotificationTime_;
+}
+- (void) setHasLastBattleNotificationTime:(BOOL) value {
+  hasLastBattleNotificationTime_ = !!value;
+}
+@synthesize lastBattleNotificationTime;
+- (BOOL) hasLastTimeAttacked {
+  return !!hasLastTimeAttacked_;
+}
+- (void) setHasLastTimeAttacked:(BOOL) value {
+  hasLastTimeAttacked_ = !!value;
+}
+@synthesize lastTimeAttacked;
+- (BOOL) hasMacAddress {
+  return !!hasMacAddress_;
+}
+- (void) setHasMacAddress:(BOOL) value {
+  hasMacAddress_ = !!value;
+}
+@synthesize macAddress;
+- (BOOL) hasNumBadges {
+  return !!hasNumBadges_;
+}
+- (void) setHasNumBadges:(BOOL) value {
+  hasNumBadges_ = !!value;
+}
+@synthesize numBadges;
 - (void) dealloc {
   self.name = nil;
   self.armyCode = nil;
   self.udid = nil;
   self.userLocation = nil;
+  self.deviceToken = nil;
+  self.macAddress = nil;
   [super dealloc];
 }
 - (id) init {
@@ -710,6 +752,11 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.amuletEquipped = 0;
     self.lastLoginTime = 0L;
     self.lastLogoutTime = 0L;
+    self.deviceToken = @"";
+    self.lastBattleNotificationTime = 0L;
+    self.lastTimeAttacked = 0L;
+    self.macAddress = @"";
+    self.numBadges = 0;
   }
   return self;
 }
@@ -942,6 +989,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastLogoutTime) {
     [output writeInt64:37 value:self.lastLogoutTime];
   }
+  if (self.hasDeviceToken) {
+    [output writeString:38 value:self.deviceToken];
+  }
+  if (self.hasLastBattleNotificationTime) {
+    [output writeInt64:39 value:self.lastBattleNotificationTime];
+  }
+  if (self.hasLastTimeAttacked) {
+    [output writeInt64:40 value:self.lastTimeAttacked];
+  }
+  if (self.hasMacAddress) {
+    [output writeString:41 value:self.macAddress];
+  }
+  if (self.hasNumBadges) {
+    [output writeInt32:42 value:self.numBadges];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1061,6 +1123,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastLogoutTime) {
     size += computeInt64Size(37, self.lastLogoutTime);
+  }
+  if (self.hasDeviceToken) {
+    size += computeStringSize(38, self.deviceToken);
+  }
+  if (self.hasLastBattleNotificationTime) {
+    size += computeInt64Size(39, self.lastBattleNotificationTime);
+  }
+  if (self.hasLastTimeAttacked) {
+    size += computeInt64Size(40, self.lastTimeAttacked);
+  }
+  if (self.hasMacAddress) {
+    size += computeStringSize(41, self.macAddress);
+  }
+  if (self.hasNumBadges) {
+    size += computeInt32Size(42, self.numBadges);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1248,6 +1325,21 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastLogoutTime) {
     [self setLastLogoutTime:other.lastLogoutTime];
   }
+  if (other.hasDeviceToken) {
+    [self setDeviceToken:other.deviceToken];
+  }
+  if (other.hasLastBattleNotificationTime) {
+    [self setLastBattleNotificationTime:other.lastBattleNotificationTime];
+  }
+  if (other.hasLastTimeAttacked) {
+    [self setLastTimeAttacked:other.lastTimeAttacked];
+  }
+  if (other.hasMacAddress) {
+    [self setMacAddress:other.macAddress];
+  }
+  if (other.hasNumBadges) {
+    [self setNumBadges:other.numBadges];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1425,6 +1517,26 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 296: {
         [self setLastLogoutTime:[input readInt64]];
+        break;
+      }
+      case 306: {
+        [self setDeviceToken:[input readString]];
+        break;
+      }
+      case 312: {
+        [self setLastBattleNotificationTime:[input readInt64]];
+        break;
+      }
+      case 320: {
+        [self setLastTimeAttacked:[input readInt64]];
+        break;
+      }
+      case 330: {
+        [self setMacAddress:[input readString]];
+        break;
+      }
+      case 336: {
+        [self setNumBadges:[input readInt32]];
         break;
       }
     }
@@ -2034,6 +2146,86 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastLogoutTime {
   result.hasLastLogoutTime = NO;
   result.lastLogoutTime = 0L;
+  return self;
+}
+- (BOOL) hasDeviceToken {
+  return result.hasDeviceToken;
+}
+- (NSString*) deviceToken {
+  return result.deviceToken;
+}
+- (FullUserProto_Builder*) setDeviceToken:(NSString*) value {
+  result.hasDeviceToken = YES;
+  result.deviceToken = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearDeviceToken {
+  result.hasDeviceToken = NO;
+  result.deviceToken = @"";
+  return self;
+}
+- (BOOL) hasLastBattleNotificationTime {
+  return result.hasLastBattleNotificationTime;
+}
+- (int64_t) lastBattleNotificationTime {
+  return result.lastBattleNotificationTime;
+}
+- (FullUserProto_Builder*) setLastBattleNotificationTime:(int64_t) value {
+  result.hasLastBattleNotificationTime = YES;
+  result.lastBattleNotificationTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastBattleNotificationTime {
+  result.hasLastBattleNotificationTime = NO;
+  result.lastBattleNotificationTime = 0L;
+  return self;
+}
+- (BOOL) hasLastTimeAttacked {
+  return result.hasLastTimeAttacked;
+}
+- (int64_t) lastTimeAttacked {
+  return result.lastTimeAttacked;
+}
+- (FullUserProto_Builder*) setLastTimeAttacked:(int64_t) value {
+  result.hasLastTimeAttacked = YES;
+  result.lastTimeAttacked = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastTimeAttacked {
+  result.hasLastTimeAttacked = NO;
+  result.lastTimeAttacked = 0L;
+  return self;
+}
+- (BOOL) hasMacAddress {
+  return result.hasMacAddress;
+}
+- (NSString*) macAddress {
+  return result.macAddress;
+}
+- (FullUserProto_Builder*) setMacAddress:(NSString*) value {
+  result.hasMacAddress = YES;
+  result.macAddress = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearMacAddress {
+  result.hasMacAddress = NO;
+  result.macAddress = @"";
+  return self;
+}
+- (BOOL) hasNumBadges {
+  return result.hasNumBadges;
+}
+- (int32_t) numBadges {
+  return result.numBadges;
+}
+- (FullUserProto_Builder*) setNumBadges:(int32_t) value {
+  result.hasNumBadges = YES;
+  result.numBadges = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumBadges {
+  result.hasNumBadges = NO;
+  result.numBadges = 0;
   return self;
 }
 @end

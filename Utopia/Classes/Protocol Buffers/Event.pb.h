@@ -158,10 +158,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
-@class RetrieveEquipmentForArmoryRequestProto;
-@class RetrieveEquipmentForArmoryRequestProto_Builder;
-@class RetrieveEquipmentForArmoryResponseProto;
-@class RetrieveEquipmentForArmoryResponseProto_Builder;
+@class RetrieveStaticDataForShopRequestProto;
+@class RetrieveStaticDataForShopRequestProto_Builder;
+@class RetrieveStaticDataForShopResponseProto;
+@class RetrieveStaticDataForShopResponseProto_Builder;
 @class RetrieveStaticDataRequestProto;
 @class RetrieveStaticDataRequestProto_Builder;
 @class RetrieveStaticDataResponseProto;
@@ -260,6 +260,20 @@ typedef enum {
 } UserCreateResponseProto_StartupStatus;
 
 BOOL UserCreateResponseProto_StartupStatusIsValidValue(UserCreateResponseProto_StartupStatus value);
+
+typedef enum {
+  RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory = 0,
+  RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeAllStructures = 1,
+} RetrieveStaticDataForShopRequestProto_RetrieveForShopType;
+
+BOOL RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeIsValidValue(RetrieveStaticDataForShopRequestProto_RetrieveForShopType value);
+
+typedef enum {
+  RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess = 0,
+  RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSomeFail = 1,
+} RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus;
+
+BOOL RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusIsValidValue(RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus value);
 
 typedef enum {
   TaskActionResponseProto_TaskActionStatusSuccess = 0,
@@ -1982,114 +1996,142 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (RetrieveTasksForCityResponseProto_Builder*) clearTasksList;
 @end
 
-@interface RetrieveEquipmentForArmoryRequestProto : PBGeneratedMessage {
+@interface RetrieveStaticDataForShopRequestProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasType_:1;
   MinimumUserProto* sender;
+  RetrieveStaticDataForShopRequestProto_RetrieveForShopType type;
 }
 - (BOOL) hasSender;
+- (BOOL) hasType;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveStaticDataForShopRequestProto_RetrieveForShopType type;
 
-+ (RetrieveEquipmentForArmoryRequestProto*) defaultInstance;
-- (RetrieveEquipmentForArmoryRequestProto*) defaultInstance;
++ (RetrieveStaticDataForShopRequestProto*) defaultInstance;
+- (RetrieveStaticDataForShopRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) builder;
-+ (RetrieveEquipmentForArmoryRequestProto_Builder*) builder;
-+ (RetrieveEquipmentForArmoryRequestProto_Builder*) builderWithPrototype:(RetrieveEquipmentForArmoryRequestProto*) prototype;
+- (RetrieveStaticDataForShopRequestProto_Builder*) builder;
++ (RetrieveStaticDataForShopRequestProto_Builder*) builder;
++ (RetrieveStaticDataForShopRequestProto_Builder*) builderWithPrototype:(RetrieveStaticDataForShopRequestProto*) prototype;
 
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromData:(NSData*) data;
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveEquipmentForArmoryRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataForShopRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveStaticDataForShopRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataForShopRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveStaticDataForShopRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataForShopRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveStaticDataForShopRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveEquipmentForArmoryRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveStaticDataForShopRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  RetrieveEquipmentForArmoryRequestProto* result;
+  RetrieveStaticDataForShopRequestProto* result;
 }
 
-- (RetrieveEquipmentForArmoryRequestProto*) defaultInstance;
+- (RetrieveStaticDataForShopRequestProto*) defaultInstance;
 
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) clear;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) clone;
+- (RetrieveStaticDataForShopRequestProto_Builder*) clear;
+- (RetrieveStaticDataForShopRequestProto_Builder*) clone;
 
-- (RetrieveEquipmentForArmoryRequestProto*) build;
-- (RetrieveEquipmentForArmoryRequestProto*) buildPartial;
+- (RetrieveStaticDataForShopRequestProto*) build;
+- (RetrieveStaticDataForShopRequestProto*) buildPartial;
 
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeFrom:(RetrieveEquipmentForArmoryRequestProto*) other;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeFrom:(RetrieveStaticDataForShopRequestProto*) other;
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveEquipmentForArmoryRequestProto_Builder*) clearSender;
+- (RetrieveStaticDataForShopRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataForShopRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveStaticDataForShopRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataForShopRequestProto_Builder*) clearSender;
+
+- (BOOL) hasType;
+- (RetrieveStaticDataForShopRequestProto_RetrieveForShopType) type;
+- (RetrieveStaticDataForShopRequestProto_Builder*) setType:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType) value;
+- (RetrieveStaticDataForShopRequestProto_Builder*) clearType;
 @end
 
-@interface RetrieveEquipmentForArmoryResponseProto : PBGeneratedMessage {
+@interface RetrieveStaticDataForShopResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus status;
   NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableStructsList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus status;
 - (NSArray*) equipsList;
 - (FullEquipProto*) equipsAtIndex:(int32_t) index;
+- (NSArray*) structsList;
+- (FullStructureProto*) structsAtIndex:(int32_t) index;
 
-+ (RetrieveEquipmentForArmoryResponseProto*) defaultInstance;
-- (RetrieveEquipmentForArmoryResponseProto*) defaultInstance;
++ (RetrieveStaticDataForShopResponseProto*) defaultInstance;
+- (RetrieveStaticDataForShopResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) builder;
-+ (RetrieveEquipmentForArmoryResponseProto_Builder*) builder;
-+ (RetrieveEquipmentForArmoryResponseProto_Builder*) builderWithPrototype:(RetrieveEquipmentForArmoryResponseProto*) prototype;
+- (RetrieveStaticDataForShopResponseProto_Builder*) builder;
++ (RetrieveStaticDataForShopResponseProto_Builder*) builder;
++ (RetrieveStaticDataForShopResponseProto_Builder*) builderWithPrototype:(RetrieveStaticDataForShopResponseProto*) prototype;
 
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromData:(NSData*) data;
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (RetrieveEquipmentForArmoryResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataForShopResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveStaticDataForShopResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataForShopResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveStaticDataForShopResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveStaticDataForShopResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveStaticDataForShopResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface RetrieveEquipmentForArmoryResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface RetrieveStaticDataForShopResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  RetrieveEquipmentForArmoryResponseProto* result;
+  RetrieveStaticDataForShopResponseProto* result;
 }
 
-- (RetrieveEquipmentForArmoryResponseProto*) defaultInstance;
+- (RetrieveStaticDataForShopResponseProto*) defaultInstance;
 
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clear;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clone;
+- (RetrieveStaticDataForShopResponseProto_Builder*) clear;
+- (RetrieveStaticDataForShopResponseProto_Builder*) clone;
 
-- (RetrieveEquipmentForArmoryResponseProto*) build;
-- (RetrieveEquipmentForArmoryResponseProto*) buildPartial;
+- (RetrieveStaticDataForShopResponseProto*) build;
+- (RetrieveStaticDataForShopResponseProto*) buildPartial;
 
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeFrom:(RetrieveEquipmentForArmoryResponseProto*) other;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeFrom:(RetrieveStaticDataForShopResponseProto*) other;
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clearSender;
+- (RetrieveStaticDataForShopResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataForShopResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveStaticDataForShopResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus) status;
+- (RetrieveStaticDataForShopResponseProto_Builder*) setStatus:(RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatus) value;
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearStatus;
 
 - (NSArray*) equipsList;
 - (FullEquipProto*) equipsAtIndex:(int32_t) index;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) addEquips:(FullEquipProto*) value;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) addAllEquips:(NSArray*) values;
-- (RetrieveEquipmentForArmoryResponseProto_Builder*) clearEquipsList;
+- (RetrieveStaticDataForShopResponseProto_Builder*) replaceEquipsAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (RetrieveStaticDataForShopResponseProto_Builder*) addEquips:(FullEquipProto*) value;
+- (RetrieveStaticDataForShopResponseProto_Builder*) addAllEquips:(NSArray*) values;
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearEquipsList;
+
+- (NSArray*) structsList;
+- (FullStructureProto*) structsAtIndex:(int32_t) index;
+- (RetrieveStaticDataForShopResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
+- (RetrieveStaticDataForShopResponseProto_Builder*) addStructs:(FullStructureProto*) value;
+- (RetrieveStaticDataForShopResponseProto_Builder*) addAllStructs:(NSArray*) values;
+- (RetrieveStaticDataForShopResponseProto_Builder*) clearStructsList;
 @end
 
 @interface TaskActionRequestProto : PBGeneratedMessage {
