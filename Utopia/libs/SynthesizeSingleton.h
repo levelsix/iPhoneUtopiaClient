@@ -87,8 +87,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
 \
 + (void) displayView {\
   controllername *c = [controllername shared##controllername];\
-  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:c.view];\
-  c.view.center = c.view.superview.center;\
+  if (!c.view.superview) {\
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:c.view];\
+    c.view.center = c.view.superview.center;\
+  }\
 }\
 \
 + (void) removeView {\

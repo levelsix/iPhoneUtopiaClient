@@ -14,14 +14,28 @@ typedef enum {
   kDisappear
 } ListingState;
 
+@class FullStructureProto;
+
+@interface CarpenterTicker : UIView {
+  UIImage *_tickerImage;
+  UIFont *_font;
+}
+
+@property (nonatomic, retain) NSString *string;
+
+@end
+
 @interface CarpenterListing : UIView {
   ListingState _state;
+  UIColor *_lockedBuildingColor;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *incomeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UIView *priceView;
+@property (nonatomic, retain) IBOutlet UIImageView *priceIcon;
+@property (nonatomic, retain) IBOutlet CarpenterTicker *tickerView;
 
 @property (nonatomic, retain) IBOutlet UILabel *lockedPriceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *lockedIncomeLabel;
@@ -29,10 +43,19 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIImageView *buildingIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *lockIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *backgroundImg;
 
-@property (nonatomic, retain) UIImageView *darkOverlay;
+@property (nonatomic, retain) IBOutlet UIImageView *darkOverlay;
 
 @property (nonatomic, assign) ListingState state;
+
+@property (nonatomic, retain) FullStructureProto *fsp;
+
+- (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
+
+@end
+
+@interface CarpenterTableView : UITableView
 
 @end
 
@@ -44,6 +67,10 @@ typedef enum {
 
 @interface CarpenterRow : UITableViewCell
 
+@property (nonatomic, retain) IBOutlet CarpenterListingContainer *listing1;
+@property (nonatomic, retain) IBOutlet CarpenterListingContainer *listing2;
+@property (nonatomic, retain) IBOutlet CarpenterListingContainer *listing3;
+
 @end
 
 @interface CarpenterMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource>
@@ -51,6 +78,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet CarpenterRow *carpRow;
 @property (nonatomic, retain) IBOutlet UITableView *carpTable;
 
+- (IBAction)closeClicked:(id)sender;
 + (CarpenterMenuController *) sharedCarpenterMenuController;
 + (void) displayView;
 + (void) removeView;

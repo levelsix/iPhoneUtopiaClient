@@ -34,12 +34,17 @@
 @property (nonatomic, assign) int energyRefillCost;
 @property (nonatomic, assign) int staminaRefillCost;
 
+@property (nonatomic, assign) int maxRepeatedNormStructs;
+
 @property (nonatomic, assign) NSDictionary *productIdentifiers;
 
 + (Globals *) sharedGlobals;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 + (NSString *) font;
 + (int) fontSize;
++ (UIImage *) imageForStruct:(int)structId;
++ (UIImage *) equipForStruct:(int)eqId;
+
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 + (void) adjustFontSizeForUIViewWithDefaultSize:(UIView *)somethingWithText;

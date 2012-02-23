@@ -9,51 +9,138 @@
 #import "CarpenterMenuController.h"
 #import "SynthesizeSingleton.h"
 #import "cocos2d.h"
+#import "Protocols.pb.h"
+#import "GameState.h"
+#import "Globals.h"
+#import "HomeMap.h"
 
 #define ROW_HEIGHT 215
 
-@implementation CarpenterListing
+#define TICKER_SEPERATION 1
+#define TICKER_MIDDLE_SEPARATION 5
 
-@synthesize titleLabel, priceLabel, priceView, incomeLabel, buildingIcon;
-@synthesize lockIcon, lockedPriceLabel, lockedCollectsLabel, lockedIncomeLabel;
-@synthesize darkOverlay;
-@synthesize state = _state;
+@implementation CarpenterTicker
+
+@synthesize string;
 
 - (void) awakeFromNib {
-  buildingIcon.image = [UIImage imageNamed:@"academy.png"];
-  self.state = kAvailable;
+  _tickerImage = [[UIImage imageNamed:@"timetickerbg.png"] retain];
+  self.string = @"02:00";
+  _font = [[UIFont fontWithName:@"Archer" size:11] retain];
 }
 
-- (UIImage*) maskImage:(UIImage *)image {
+- (void) setString:(NSString *)s {
+  if (s == nil) {
+    [string release];
+    string = nil;
+  } else if (![s isEqualToString:string] && s.length == 5 && [s characterAtIndex:2] == ':') {
+    [string release];
+    string = [s retain];
+    [self setNeedsDisplay];
+  }
+}
+
+- (void) drawRect:(CGRect)rect {
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  CGContextSetRGBFillColor(context, 79/256.f, 49/256.f, 6/256.f, 1.f);
+  UIColor *shadowColor = [UIColor colorWithWhite:1.f alpha:0.5f];
+  CGSize shadowOffset = CGSizeMake(0, 1);
   
-  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-  UIImage *maskImage = [UIImage imageNamed:@"mask.png"];
-  CGImageRef maskImageRef = [maskImage CGImage];
+  CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
+  CGRect curRect = CGRectMake(0, self.frame.size.height/2-_tickerImage.size.height/2, _tickerImage.size.width, _tickerImage.size.height);
+  [_tickerImage drawInRect:curRect];
+  NSRange curRange = NSMakeRange(0, 1);
+  NSString *curChar = [self.string substringWithRange:curRange];
+  CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
   
-  // create a bitmap graphics context the size of the image
-  CGContextRef mainViewContentContext = CGBitmapContextCreate (NULL, maskImage.size.width, maskImage.size.height, 8, 0, colorSpace, kCGImageAlphaPremultipliedLast);
-  CGContextSetRGBFillColor(mainViewContentContext, 0.f, 0.f, 0.f, 0.3f);
-  if (mainViewContentContext==NULL)
-    return NULL;
+  CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
+  curRect.origin.x += _tickerImage.size.width+TICKER_SEPERATION;
+  [_tickerImage drawInRect:curRect];
+  curRange.location++;
+  curChar = [self.string substringWithRange:curRange];
+  CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
   
-  CGFloat ratio = 0;
-  ratio = maskImage.size.width/ image.size.width;
+  CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
+  CGRect midRect = curRect;
+  midRect.origin.x += _tickerImage.size.width;
+  midRect.size.width = TICKER_MIDDLE_SEPARATION;
+  curRange.location++;
+  curChar = [self.string substringWithRange:curRange];
+  CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
+  [curChar drawInRect:midRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
   
-  if (ratio * image.size.height < maskImage.size.height) {
-    ratio = maskImage.size.height/ image.size.height;
+  CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
+  curRect.origin.x += _tickerImage.size.width+TICKER_MIDDLE_SEPARATION;
+  [_tickerImage drawInRect:curRect];
+  curRange.location++;
+  curChar = [self.string substringWithRange:curRange];
+  CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+  
+  CGContextSetShadow(context, CGSizeMake(0, 0), 0.f);
+  curRect.origin.x += _tickerImage.size.width+TICKER_SEPERATION;
+  [_tickerImage drawInRect:curRect];
+  curRange.location++;
+  curChar = [self.string substringWithRange:curRange];
+  CGContextSetShadowWithColor(context, shadowOffset, 0.f, shadowColor.CGColor);
+  [curChar drawInRect:curRect withFont:_font lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+}
+
+- (void) dealloc {
+  [_tickerImage release];
+  [_font release];
+  self.string = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation CarpenterListing
+
+@synthesize titleLabel, priceLabel, priceView, incomeLabel, buildingIcon, tickerView, priceIcon;
+@synthesize lockIcon, lockedPriceLabel, lockedCollectsLabel, lockedIncomeLabel;
+@synthesize darkOverlay, backgroundImg;
+@synthesize state = _state;
+@synthesize fsp;
+
+- (void) awakeFromNib { 
+  self.state = kDisappear;
+  
+  UIImage *darkOverlayImg = [self maskImage:backgroundImg.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
+  darkOverlay.image = darkOverlayImg;
+  
+  _lockedBuildingColor = [[UIColor colorWithWhite:0.f alpha:0.7f] retain];
+}
+
+- (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
+  
+  CGImageRef alphaImage = CGImageRetain(image.CGImage);
+  float width = CGImageGetWidth(alphaImage);
+  float height = CGImageGetHeight(alphaImage);
+  
+  UIGraphicsBeginImageContext(CGSizeMake(width, height));
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  
+  if (!context) {
+    UIGraphicsGetCurrentContext();
+    return nil;
   }
   
-  CGRect rect1  = {{0, 0}, {maskImage.size.width, maskImage.size.height}};
-  CGRect rect2  = {{-((image.size.width*ratio)-maskImage.size.width)/2 , -((image.size.height*ratio)-maskImage.size.height)/2}, {image.size.width*ratio, image.size.height*ratio}};
-  CGContextClipToMask(mainViewContentContext, rect1, maskImageRef);
-  CGContextDrawImage(mainViewContentContext, rect2, image.CGImage);
+	CGRect r = CGRectMake(0, 0, width, height);
+	CGContextTranslateCTM(context, 0.0, r.size.height);
+	CGContextScaleCTM(context, 1.0, -1.0);
+	
+  CGContextSetFillColorWithColor(context, color.CGColor);
   
-  // Create CGImageRef of the main view bitmap content, and then
-  // release that bitmap context
-  CGImageRef newImage = CGBitmapContextCreateImage(mainViewContentContext);
-  CGContextRelease(mainViewContentContext);
-  UIImage *theImage = [UIImage imageWithCGImage:newImage];
-  CGImageRelease(newImage);
+	// You can also use the clip rect given to scale the mask image
+	CGContextClipToMask(context, CGRectMake(0.0, 0.0, width, height), alphaImage);
+	// As above, not being careful with bounds since we are clipping.
+	CGContextFillRect(context, r);
+  
+  UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
   
   // return the image
   return theImage;
@@ -64,8 +151,10 @@
     _state = state;
     switch (state) {
       case kAvailable:
+        self.hidden = NO;
         priceView.hidden = NO;
         incomeLabel.hidden = NO;
+        tickerView.hidden = NO;
         lockIcon.hidden = YES;
         lockedPriceLabel.hidden = YES;
         lockedCollectsLabel.hidden = YES;
@@ -74,21 +163,99 @@
         break;
         
       case kLocked:
+        self.hidden = NO;
         priceView.hidden = YES;
         incomeLabel.hidden = YES;
+        tickerView.hidden = YES;
         lockIcon.hidden = NO;
         lockedPriceLabel.hidden = NO;
         lockedCollectsLabel.hidden = NO;
         lockedIncomeLabel.hidden = NO;
         darkOverlay.hidden = NO;
-        buildingIcon.image = [self maskImage:buildingIcon.image];
         break;
         
+      case kDisappear:
+        self.hidden = YES;
         
       default:
         break;
     }
   }
+}
+
+- (void) setFsp:(FullStructureProto *)f {
+  if (fsp != f) {
+    [fsp release];
+    fsp = [f retain];
+    
+    titleLabel.text = fsp.name;
+    
+    if ([GameState sharedGameState].level > fsp.minLevel) {
+      incomeLabel.text = [Globals commafyNumber:fsp.income];
+      
+      if (fsp.coinPrice > 0) {
+        // Highlighted image is the gold icon.
+        priceIcon.highlighted = NO;
+        priceLabel.text = [Globals commafyNumber:fsp.coinPrice];
+      } else {
+        priceIcon.highlighted = YES;
+        priceLabel.text = [Globals commafyNumber:fsp.diamondPrice];
+      }
+      
+      int mins = fsp.minutesToBuild;
+      tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
+      buildingIcon.image = [Globals imageForStruct:fsp.structId];
+      
+      self.state = kAvailable;
+    } else {
+      buildingIcon.image = [self maskImage:[Globals imageForStruct:fsp.structId] withColor:_lockedBuildingColor];
+      lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
+      self.state = kLocked;
+    }
+    
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (self.state == kAvailable) {
+    darkOverlay.hidden = NO;
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint loc = [touch locationInView:self];
+  if (self.state == kAvailable) {
+    if ([self pointInside:loc withEvent:event]) {
+      darkOverlay.hidden = NO;
+    } else {
+      darkOverlay.hidden = YES;
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint loc = [touch locationInView:self];
+  if (self.state == kAvailable) {
+    darkOverlay.hidden = NO;
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    darkOverlay.hidden = YES;
+    if ([self pointInside:loc withEvent:event]) {
+      NSLog(@"purchase");
+    }
+  }
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (self.state == kAvailable) {
+    darkOverlay.hidden = YES;
+  }
+}
+
+- (void) dealloc {
+  [_lockedBuildingColor release];
+  [super dealloc];
 }
 
 @end
@@ -101,14 +268,22 @@
   [[NSBundle mainBundle] loadNibNamed:@"CarpenterListing" owner:self options:nil];
   [self addSubview:self.carpListing];
   [self setBackgroundColor:[UIColor clearColor]];
-  if (arc4random()%2 == 1) {
-    self.carpListing.state = kLocked;
-  }
 }
 
 @end
 
 @implementation CarpenterRow
+
+@synthesize listing1, listing2, listing3;
+
+@end
+
+@implementation CarpenterTableView
+
+- (BOOL)touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view {
+  NSLog(@"%@", view);
+  return YES;
+}
 
 @end
 
@@ -126,7 +301,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 4;
+  return 1;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -134,10 +309,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   
   CarpenterRow *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
-      [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
-      cell = self.carpRow;
+    [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
+    cell = self.carpRow;
   }
+  cell.listing1.carpListing.fsp = [[GameState sharedGameState] structWithId:3];
+  
   return cell;
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [CarpenterMenuController removeView];
 }
 
 @end

@@ -22,8 +22,6 @@
 
 #define HOME_BUILDING_TAG_OFFSET 123456
 
-#define MAX_REPEATED_BUILDINGS 2
-
 #define PROGRESS_BAR_SPEED 2.f
 
 @implementation UpgradeButtonOverlay
@@ -418,7 +416,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (int) baseTagForStructId:(int)structId {
-  return MAX_REPEATED_BUILDINGS*structId+HOME_BUILDING_TAG_OFFSET;
+  return [[Globals sharedGlobals] maxRepeatedNormStructs]*structId+HOME_BUILDING_TAG_OFFSET;
 }
 
 - (void) refresh {
@@ -436,7 +434,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     int offset = 0;
     while (hb && [arr containsObject:hb]) {
       offset++;
-      if (offset >= MAX_REPEATED_BUILDINGS) {
+      if (offset >= [[Globals sharedGlobals] maxRepeatedNormStructs]) {
         hb = nil;
         break;
       }
@@ -444,7 +442,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       hb = (HomeBuilding *)[self getChildByTag:tag+offset];
     }
     if (!hb) {
-      hb = [[HomeBuilding alloc] initWithFile:@"academy.png" location:CGRectZero map:self];
+      hb = [[HomeBuilding alloc] initWithFile:@"equip3.png" location:CGRectZero map:self];
       [self addChild:hb z:0 tag:tag+offset];
       
       NSLog(@"New");
@@ -618,7 +616,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       // Fix tag fragmentation
       int tag = [self baseTagForStructId:us.structId];
       int renameTag = tag;
-      for (int i = tag; i < tag+MAX_REPEATED_BUILDINGS; i++) {
+      for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
         CCNode *c = [self getChildByTag:i];
         if (c) {
           [c setTag:renameTag];

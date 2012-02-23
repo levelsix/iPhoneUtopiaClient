@@ -116,23 +116,13 @@
 }
 
 - (void) setUserStruct:(UserStruct *)userStruct {
-  NSLog(@"start of user struct");
   if (_userStruct != userStruct) {
-    NSLog(@"-1");
     [_userStruct release];
-    NSLog(@"0");
     _userStruct = [userStruct retain];
     
-    NSLog(@"1");
-    NSLog(@"%@", [NSValue valueWithCGPoint:userStruct.coordinates]);
     FullStructureProto * fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
-    NSLog(@"2");
-    NSLog(@"%@", [NSValue valueWithCGPoint:userStruct.coordinates]);
-    NSLog(@"%@", [NSValue valueWithCGRect:self.location]);
-    NSLog(@"%d", fsp.xLength);
     self.location = CGRectMake(userStruct.coordinates.x, userStruct.coordinates.y, fsp.xLength, fsp.yLength);
   }
-  NSLog(@"end of user struct");
 }
 
 -(void) updateMeta {

@@ -18,12 +18,16 @@
 static NSString *fontName = @"AJensonPro-BoldCapt";
 static int fontSize = 12;
 
+static NSString *structureImageString = @"struct%d.png";
+static NSString *equipImageString = @"equip%d.png";
+
 @synthesize depositPercentCut;
 @synthesize clericLevelFactor, clericHealthFactor;
 @synthesize attackBaseGain, defenseBaseGain, energyBaseGain, staminaBaseGain, healthBaseGain;
 @synthesize attackBaseCost, defenseBaseCost, energyBaseCost, staminaBaseCost, healthBaseCost;
 @synthesize retractPercentCut, purchasePercentCut;
 @synthesize energyRefillCost, staminaRefillCost;
+@synthesize maxRepeatedNormStructs;
 @synthesize productIdentifiers;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
@@ -32,6 +36,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if ((self = [super init])) {
     self.retractPercentCut = 0.05;
     self.depositPercentCut = 0.1;
+    self.maxRepeatedNormStructs = 2;
   }
   return self;
 }
@@ -54,6 +59,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (int) fontSize {
   return fontSize;
+}
+
++ (UIImage *) imageForStruct:(int)structId {
+  NSString *file = [NSString stringWithFormat:structureImageString, structId];
+  return [UIImage imageNamed:file];
+}
+
++ (UIImage *) equipForStruct:(int)eqId {
+  return [UIImage imageNamed:[NSString stringWithFormat:equipImageString, eqId]];
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
