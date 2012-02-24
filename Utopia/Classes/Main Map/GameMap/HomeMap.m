@@ -448,16 +448,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       hb = (HomeBuilding *)[self getChildByTag:tag+offset];
     }
     
-    
     FullStructureProto *fsp = [[GameState sharedGameState] structWithId:s.structId];
     CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
     if (!hb) {
       hb = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
       [self addChild:hb z:0 tag:tag+offset];
       [hb release];
+      NSLog(@"%p", hb);
       
       i++;
     } else {
+      [hb liftBlock];
       hb.location = loc;
     }
     
@@ -531,6 +532,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   _purchBuilding = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
   [self addChild:_purchBuilding];
   [_purchBuilding release];
+  NSLog(@"%p", _purchBuilding);
   
   self.selected = _purchBuilding;
   self.hbMenu.state = kMoveState;
@@ -628,8 +630,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       homeBuilding.userStruct = us;
       _constrBuilding = homeBuilding;
     } else {
+      [homeBuilding liftBlock];
       [self removeChild:homeBuilding cleanup:YES];
     }
+    [self refresh];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:homeBuilding.userStruct atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y];
   }

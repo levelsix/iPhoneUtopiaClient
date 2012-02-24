@@ -297,7 +297,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   // Check that no other building is being upgraded
   for (UserStruct *u in gs.myStructs) {
-    if (u.state == kUpgrading) {
+    if (u.state == kBuilding) {
       [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Already constructing a building"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
       return us;
     }

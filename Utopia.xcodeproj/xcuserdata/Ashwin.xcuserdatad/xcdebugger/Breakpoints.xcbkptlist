@@ -8,20 +8,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Utopia/libs/cocos2d/Platforms/iOS/CCDirectorIOS.m"
-         timestampString = "345165461.21312"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "328"
-         endingLineNumber = "328"
-         landmarkName = "-convertToGL:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
          filePath = "Utopia/GameMap.m"
          timestampString = "346851255.376226"
          startingColumnNumber = "9223372036854775807"
@@ -279,6 +265,19 @@
          startingLineNumber = "31"
          endingLineNumber = "31"
          landmarkName = "-vaultDeposit:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/libs/cocos2d/CCDirector.m"
+         timestampString = "351732567.239385"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "316"
+         endingLineNumber = "316"
+         landmarkName = "-winSize"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

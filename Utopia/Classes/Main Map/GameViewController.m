@@ -49,7 +49,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
                                  pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
                                  depthFormat:0                        // GL_DEPTH_COMPONENT16_OES
                       ];
-  NSLog(@"%@", [NSValue valueWithCGRect:[glView frame] ]);
   glView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   [self.view insertSubview:glView atIndex:0];
   [[CCDirector sharedDirector] setOpenGLView:glView];
