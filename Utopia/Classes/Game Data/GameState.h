@@ -54,6 +54,9 @@
   NSMutableDictionary *_staticPossessEquipJobProto;
   NSMutableDictionary *_staticUpgradeStructJobProto;
   
+  NSMutableArray *_carpenterStructs;
+  NSMutableArray *_armoryEquips;
+  
   NSMutableArray *_myEquips;
   NSMutableArray *_myStructs;
 }
@@ -101,6 +104,9 @@
 @property (retain) NSMutableDictionary *staticDefeatTypeJobs;
 @property (retain) NSMutableDictionary *staticPossessEquipJobProto;
 @property (retain) NSMutableDictionary *staticUpgradeStructJobProto;
+
+@property (retain) NSMutableArray *carpenterStructs;
+@property (retain) NSMutableArray *armoryEquips;
 
 @property (retain) NSMutableArray *myEquips;
 @property (retain) NSMutableArray *myStructs;

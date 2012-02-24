@@ -13,6 +13,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "HomeMap.h"
+#import "OutgoingEventController.h"
 
 #define ROW_HEIGHT 215
 
@@ -294,15 +295,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) viewDidLoad {
   self.structsList = [NSMutableArray arrayWithCapacity:[[Globals sharedGlobals] maxStructId]];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveStructStore];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   [structsList removeAllObjects];
+  
+  NSArray *structs = [[GameState sharedGameState] carpenterStructs];
+  while (structs.count == 0) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+  }
+  
   int max = [[Globals sharedGlobals] maxRepeatedNormStructs];
-  for (int i = 1; i <= [[Globals sharedGlobals] maxStructId]; i++) {
+  for (FullStructureProto *fsp in structs) {
     int count = 0;
     for (FullUserStructureProto *fusp in [[GameState sharedGameState] myStructs]) {
-      if (fusp.structId == i) {
+      if (fusp.structId == fsp.structId) {
         count++;
       }
       if (count >= max) {
@@ -310,7 +318,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
       }
     }
     if (count < max) {
-      FullStructureProto *fsp = [[GameState sharedGameState] structWithId:i];
       [structsList addObject:fsp];
     }
   }

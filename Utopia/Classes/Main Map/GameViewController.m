@@ -49,7 +49,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
                                  pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
                                  depthFormat:0                        // GL_DEPTH_COMPONENT16_OES
                       ];
-  glView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  
   [self.view insertSubview:glView atIndex:0];
   [[CCDirector sharedDirector] setOpenGLView:glView];
   
@@ -63,7 +63,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  CCScene *scene = [GameLayer node];
+  CCScene *scene = [GameLayer scene];
   [[CCDirector sharedDirector] runWithScene:scene];
 }
 

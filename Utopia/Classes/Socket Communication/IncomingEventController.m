@@ -101,6 +101,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveStaticDataEvent:
       responseClass = [RetrieveStaticDataResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveStaticDataForShopEvent:
+      responseClass = [RetrieveStaticDataForShopResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -242,7 +245,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       NSLog(@"Success in purchase with no userStructId");
     }
   } else {
-    [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Something went wrong in the purchase"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %@", proto.status]];
     [[[GameState sharedGameState] myStructs] removeObject:us];
     [[HomeMap sharedHomeMap] refresh];
   }
@@ -328,6 +331,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     for (UpgradeStructJobProto *job in proto.upgradeStructJobsList) {
       [mutDict setObject:job forKey:[NSNumber numberWithInt:job.upgradeStructJobId]];
     }
+  }
+}
+
+- (void) handleRetrieveStaticDataForShopResponseProto: (RetrieveStaticDataForShopResponseProto *)proto {
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {
+    if (proto.structsList.count > 0) {
+      NSMutableArray *carp = [gs carpenterStructs];
+      NSMutableDictionary *fsps = gs.staticStructs;
+      
+      [carp removeAllObjects];
+      for (FullStructureProto *fsp in proto.structsList) {
+        [carp addObject:fsp];
+        [fsps setObject:fsp forKey:[NSNumber numberWithInt:fsp.structId]];
+      }
+    }
+    
+    if (proto.equipsList.count > 0) {
+      NSMutableArray *arm = [gs armoryEquips];
+      NSMutableDictionary *feps = gs.staticEquips;
+      
+      [feps removeAllObjects];
+      for (FullEquipProto *fep in proto.structsList) {
+        [arm addObject:fep];
+        [feps setObject:fep forKey:[NSNumber numberWithInt:fep.equipId]];
+      }
+    }
+  } else {
+    [Globals popupMessage:@"Unable to reach store.."];
   }
 }
 

@@ -43,6 +43,9 @@
 }
 - (void) applicationDidFinishLaunching:(UIApplication*)application
 {
+	// Let the device know we want to receive push notifications
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
   
 	// Init the window
 //	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -83,7 +86,7 @@
 	// IMPORTANT:
 	// By default, this template only supports Landscape orientations.
 	// Edit the RootViewController.m file to edit the supported orientations.
-	//
+	///Users/Ashwin/Utopia/Utopia/Classes/App Startup/DoorViewController.h
 #if GAME_AUTOROTATION == kGameAutorotationUIViewController
 	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
 #else
@@ -118,26 +121,42 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+  NSLog(@"will raesign active");
 	[[CCDirector sharedDirector] pause];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+  NSLog(@"did become active");
 	[[CCDirector sharedDirector] resume];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+  NSLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {
+  NSLog(@"did enter background");
 	[[CCDirector sharedDirector] stopAnimation];
+  UILocalNotification *ln = [[UILocalNotification alloc] init];
+  ln.alertBody = @"WHY YOU NO STAY??";
+  ln.alertAction = @"SERIOUSLY!?";
+  ln.applicationIconBadgeNumber = 3;
+  ln.soundName = UILocalNotificationDefaultSoundName;
+  ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:2];
+  [[UIApplication sharedApplication] scheduleLocalNotification:ln];
+  [ln release];
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
-	[[CCDirector sharedDirector] startAnimation];
+  NSLog(@"will enter foreground");
+  if ([[CCDirector sharedDirector] runningScene]) {
+      [[CCDirector sharedDirector] startAnimation];
+  }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+  NSLog(@"will terminate");
 	CCDirector *director = [CCDirector sharedDirector];
 	
 	[[director openGLView] removeFromSuperview];
@@ -150,7 +169,19 @@
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
+  NSLog(@"sig time change");
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+	NSLog(@"My token is: %@", deviceToken);
+  
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+	NSLog(@"Failed to get token, error: %@", error);
 }
 
 - (void)dealloc {

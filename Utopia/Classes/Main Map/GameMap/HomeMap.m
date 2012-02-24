@@ -31,8 +31,8 @@
 
 - (id) initWithFrame:(CGRect)frame {
   if ((self = [super initWithFrame:frame])) {
-    fullStar = [UIImage imageNamed:@"fullstar.png"];
-    emptyStar = [UIImage imageNamed:@"emptystar.png"];
+    fullStar = [[UIImage imageNamed:@"fullstar.png"] retain];
+    emptyStar = [[UIImage imageNamed:@"emptystar.png"] retain];
     self.level = 1;
     self.userInteractionEnabled = NO;
   }
@@ -525,7 +525,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) preparePurchaseOfStruct:(int)structId {
   if (_purchasing || _constrBuilding) {
-    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Already constructing a building"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [Globals popupMessage:[NSString stringWithFormat:@"Already %@ a building.", _purchasing ? @"purchasing" : @"constructing"]];
     return;
   }
   

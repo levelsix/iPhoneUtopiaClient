@@ -58,6 +58,8 @@
 
 + (NSString *) commafyNumber:(int) n;
 
++ (void) popupMessage: (NSString *)msg;
+
 // Formulas
 - (int) calculateIncomeForUserStruct:(UserStruct *)us;
 - (int) calculateIncomeForUserStructAfterLevelUp:(UserStruct *)us;

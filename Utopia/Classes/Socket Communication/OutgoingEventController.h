@@ -53,6 +53,8 @@
 
 
 - (void) retrieveAllStaticData;
+- (void) retrieveStructStore;
+- (void) retrieveEquipStore;
 
 - (void) loadPlayerCity:(int)userId;
 

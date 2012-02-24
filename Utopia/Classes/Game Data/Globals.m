@@ -188,6 +188,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fsp.minutesToUpgradeBase * us.level;
 }
 
++ (void) popupMessage: (NSString *)msg {
+  [[[UIAlertView alloc] initWithTitle:@"Notification" message:@"msg"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+}
+
 - (void) dealloc {
   self.productIdentifiers = nil;
   [super dealloc];

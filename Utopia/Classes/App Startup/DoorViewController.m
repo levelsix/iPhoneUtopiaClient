@@ -19,6 +19,7 @@
 
 - (void) viewDidLoad {
   [super viewDidLoad];
+  // For optimization purposes
   [[GameViewController sharedGameViewController] view];
 }
 

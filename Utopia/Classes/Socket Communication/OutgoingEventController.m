@@ -298,7 +298,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   // Check that no other building is being upgraded
   for (UserStruct *u in gs.myStructs) {
     if (u.state == kBuilding) {
-      [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Already constructing a building"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+      [Globals popupMessage:@"Already constructing a building"];
       return us;
     }
   }
@@ -331,6 +331,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   CGPoint newCoord = CGPointMake(x, y);
   if (!CGPointEqualToPoint(userStruct.coordinates, newCoord)) {
     [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructId x:x y:y];
+    userStruct.coordinates = CGPointMake(x, y);
   } else {
     NSLog(@"Building is in same place..");
   }
@@ -341,7 +342,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (userStruct.userStructId == 0) {
-    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
   } else if (userStruct.isComplete) {
@@ -360,7 +361,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (userStruct.userStructId == 0) {
-    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
   } else if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
@@ -382,7 +383,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (userStruct.userStructId == 0) {
-    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
   } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
@@ -406,7 +407,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (userStruct.userStructId == 0) {
-    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
   } else if (!userStruct.isComplete) {
@@ -437,7 +438,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (userStruct.userStructId == 0) {
-    [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Waiting for confirmation of purchase!"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     NSLog(@"This is not your building!");
   } else if (userStruct.isComplete) {
@@ -480,22 +481,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       shouldSend = YES;
     }
   }
-  rStructs = [NSMutableSet set];
-  for (int i = 1; i <= [[Globals sharedGlobals] maxStructId]; i++) {
-    NSNumber *structId = [NSNumber numberWithInt:i];
-    if (![sStructs objectForKey:structId]) {
-      [rStructs addObject:structId];
-      [rStructs addObject:structId];
-      shouldSend = YES;
-    }
-  }
-  NSLog(@"%@", rStructs);
   
   if (shouldSend) {
     [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:nil questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
   }
 }
 
+- (void) retrieveStructStore {
+  [[[GameState sharedGameState] carpenterStructs] removeAllObjects];
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeAllStructures];
+}
+
+- (void) retrieveEquipStore {
+  [[[GameState sharedGameState] armoryEquips] removeAllObjects];
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory];
+}
 - (void) loadPlayerCity:(int)userId {
   MinimumUserProto *mup = [[[MinimumUserProto builder] setUserId:userId] build];
   

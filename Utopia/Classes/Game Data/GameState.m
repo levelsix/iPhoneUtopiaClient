@@ -56,6 +56,9 @@
 @synthesize staticPossessEquipJobProto = _staticPossessEquipJobProto;
 @synthesize staticUpgradeStructJobProto = _staticUpgradeStructJobProto;
 
+@synthesize carpenterStructs = _carpenterStructs;
+@synthesize armoryEquips = _armoryEquips;
+
 @synthesize myEquips = _myEquips;
 @synthesize myStructs = _myStructs;
 
@@ -77,6 +80,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticBuildStructJobs = [[NSMutableDictionary alloc] init];
     _staticPossessEquipJobProto = [[NSMutableDictionary alloc] init];
     _staticUpgradeStructJobProto = [[NSMutableDictionary alloc] init];
+    _carpenterStructs = [[NSMutableArray alloc] init];
+    _armoryEquips = [[NSMutableArray alloc] init];
     
     //TODO: take this out
     _userId = 2;
@@ -178,6 +183,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticBuildStructJobs = nil;
   self.staticPossessEquipJobProto = nil;
   self.staticUpgradeStructJobProto = nil;
+  self.carpenterStructs = nil;
+  self.armoryEquips = nil;
   [super dealloc];
 }
 
