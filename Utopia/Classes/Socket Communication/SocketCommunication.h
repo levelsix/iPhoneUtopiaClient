@@ -35,7 +35,7 @@
 
 // Marketplace messages
 - (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId:(int)postId fromSender:(BOOL)fromSender;
-- (void) sendEquipPostToMarketplaceMessage:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds;
+- (void) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds;
 - (void) sendRetractMarketplacePostMessage: (int)postId;
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
 - (void) sendRedeemMarketplaceEarningsMessage;

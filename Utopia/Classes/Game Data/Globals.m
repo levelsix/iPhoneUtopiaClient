@@ -189,7 +189,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) popupMessage: (NSString *)msg {
-  [[[UIAlertView alloc] initWithTitle:@"Notification" message:@"msg"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+  [[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
 }
 
 - (void) dealloc {

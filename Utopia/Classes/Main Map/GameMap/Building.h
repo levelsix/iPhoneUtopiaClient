@@ -43,6 +43,9 @@
   HomeMap *_homeMap;
   CGPoint _startMoveCoordinate;
   UserStruct *_userStruct;
+  BOOL _retrievable;
+  CCSprite *_retrieveBubble;
+  NSTimer *_timer;
 @protected
   int _level;
 }
@@ -50,9 +53,12 @@
 @property (nonatomic, assign) CGPoint startTouchLocation;
 @property (nonatomic, assign) BOOL isSetDown;
 @property (nonatomic, retain) UserStruct *userStruct;
+@property (nonatomic, assign) BOOL retrievable;
+@property (nonatomic, retain) NSTimer *timer;
 
 + (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map;
 - (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map;
+- (void) createTimerForCurrentState;
 - (void) locationAfterTouch: (CGPoint) touchLocation;
 - (void) placeBlock;
 - (void) liftBlock;

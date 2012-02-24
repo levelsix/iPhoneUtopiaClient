@@ -138,8 +138,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
-  
   vaultBalance = @"000000000";
   [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     ((VaultTickView *)[(SBTickerView *)obj frontView]).num = 0;

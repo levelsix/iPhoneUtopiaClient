@@ -42,9 +42,7 @@
 @synthesize numMarketplaceSalesUnredeemed = _numMarketplaceSalesUnredeemed;
 
 @synthesize marketplaceEquipPosts = _marketplaceEquipPosts;
-@synthesize marketplaceCurrencyPosts = _marketplaceCurrencyPosts;
 @synthesize marketplaceEquipPostsFromSender = _marketplaceEquipPostsFromSender;
-@synthesize marketplaceCurrencyPostsFromSender = _marketplaceCurrencyPostsFromSender;
 
 @synthesize staticTasks = _staticTasks;
 @synthesize staticCities = _staticCities;
@@ -68,9 +66,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if ((self = [super init])) {
     _connected = NO;
     _marketplaceEquipPosts = [[NSMutableArray alloc] init];
-    _marketplaceCurrencyPosts = [[NSMutableArray alloc] init];
     _marketplaceEquipPostsFromSender = [[NSMutableArray alloc] init];
-    _marketplaceCurrencyPostsFromSender = [[NSMutableArray alloc] init];
     _staticTasks = [[NSMutableDictionary alloc] init];
     _staticCities = [[NSMutableDictionary alloc] init];
     _staticEquips = [[NSMutableDictionary alloc] init];
@@ -171,9 +167,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) dealloc {
   self.name = nil;
   self.marketplaceEquipPosts = nil;
-  self.marketplaceCurrencyPosts = nil;
   self.marketplaceEquipPostsFromSender = nil;
-  self.marketplaceCurrencyPostsFromSender = nil;
   self.staticTasks = nil;
   self.staticCities = nil;
   self.staticEquips = nil;

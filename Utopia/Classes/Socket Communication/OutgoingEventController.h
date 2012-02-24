@@ -29,7 +29,7 @@
 - (void) retrieveMoreMarketplacePosts;
 - (void) retrieveMostRecentPostsFromSender;
 - (void) retrieveMoreMarketplacePostsFromSender;
-- (void) equipPostToMarketplace:(int)equipId wood:(int)wood silver:(int)silver gold:(int)gold;
+- (void) equipPostToMarketplace:(int)equipId silver:(int)silver gold:(int)gold;
 - (void) retractMarketplacePost: (int)postId;
 - (void) purchaseFromMarketplace: (int)postId;
 - (void) redeemMarketplaceEarnings;
@@ -45,12 +45,12 @@
 
 - (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
+- (void) retrieveFromNormStructure:(UserStruct *)userStruct;
 - (void) sellNormStruct:(UserStruct *)userStruct;
 - (void) instaBuild:(UserStruct *)userStruct;
 - (void) instaUpgrade:(UserStruct *)userStruct;
 - (void) normStructWaitComplete:(UserStruct *)userStruct;
 - (void) upgradeNormStruct:(UserStruct *)userStruct;
-
 
 - (void) retrieveAllStaticData;
 - (void) retrieveStructStore;

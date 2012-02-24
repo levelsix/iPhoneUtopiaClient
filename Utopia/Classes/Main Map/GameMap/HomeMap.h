@@ -8,6 +8,8 @@
 
 #import "GameMap.h"
 
+#define OVER_HOME_BUILDING_MENU_OFFSET 5.f
+
 typedef enum {
   kNormalState = 1,
   kSellState,
@@ -97,6 +99,8 @@ typedef enum {
   HomeBuilding *_constrBuilding;
   HomeBuilding *_upgrBuilding;
   HomeBuilding *_purchBuilding;
+  
+  NSMutableArray *_timers;
 }
 
 @property (nonatomic, retain) NSMutableArray *buildableData;
@@ -113,6 +117,9 @@ typedef enum {
 - (void) refresh;
 - (int) baseTagForStructId:(int)structId;
 - (void) preparePurchaseOfStruct:(int)structId;
+- (void) scrollScreenForTouch:(CGPoint)pt;
+- (void) retrieveFromBuilding:(HomeBuilding *)hb;
+- (void) updateTimersForBuilding:(HomeBuilding *)hb;
 
 - (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)moveCheckClicked:(id)sender;

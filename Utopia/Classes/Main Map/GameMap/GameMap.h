@@ -30,6 +30,7 @@
 -(id) initWithTMXFile:(NSString *)tmxFile;
 -(CGPoint)convertVectorToGL:(CGPoint)uiPoint;
 -(void) doReorder;
+- (SelectableSprite *) selectableForPt:(CGPoint)pt;
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
 - (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node;

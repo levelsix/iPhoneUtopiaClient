@@ -166,33 +166,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   if ([proto.marketplacePostsList count] > 0) {
-    NSMutableArray *cur;
     NSMutableArray *eq;
     
     if (proto.fromSender) {
-      cur = [[GameState sharedGameState] marketplaceCurrencyPostsFromSender];
       eq = [[GameState sharedGameState] marketplaceEquipPostsFromSender];
     } else {
-      cur = [[GameState sharedGameState] marketplaceCurrencyPosts];
       eq = [[GameState sharedGameState] marketplaceEquipPosts];
     }
     
     if (proto.beforeThisPostId == 0) {
-      [cur removeAllObjects];
       [eq removeAllObjects];
     }
     
-    int x = [cur count];
-    int y = [eq count];
-    int c, d;
-    if (mvc.state == kCurrencyBuyingState || mvc.state == kCurrencySellingState) { 
-      c = x+1;
-      d = cur.count-x;
-    } else {
-      c = y+1;
-      d = eq.count-y;
+    int oldCount = [eq count];
+    
+    for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
+      [eq addObject:fmpp];
     }
-    [mvc insertRowsFrom:c];
+    
+    [mvc insertRowsFrom:oldCount+1];
   }
   [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }
@@ -335,6 +327,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleRetrieveStaticDataForShopResponseProto: (RetrieveStaticDataForShopResponseProto *)proto {
+  NSLog(@"Retrieve static data for shop response received.");
+  
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {
     if (proto.structsList.count > 0) {

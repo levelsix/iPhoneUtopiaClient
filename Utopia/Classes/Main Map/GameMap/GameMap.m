@@ -66,6 +66,10 @@
 }
 
 - (BOOL) selectable:(SelectableSprite *)front isInFrontOfSelectable: (SelectableSprite *)back {
+  if (front == back) {
+    return NO;
+  }
+  
   CGRect frontLoc = front.location;
   CGRect backLoc = back.location;
   
@@ -107,6 +111,23 @@
   }
 }
 
+- (SelectableSprite *) selectableForPt:(CGPoint)pt {
+  SelectableSprite *toRet = nil;
+  for(SelectableSprite *child in _selectables) {
+    if ([child isPointInArea:pt]) {
+      if (_selected) {
+        if ([self selectable:child isInFrontOfSelectable:_selected]) {
+          toRet = child;
+          break;
+        }
+      } else {
+        toRet = child;
+      }
+    }
+  }
+  return toRet;
+}
+
 - (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node
 {
   CGPoint pt = [recognizer locationInView:recognizer.view];
@@ -114,21 +135,9 @@
   
   if (_selected && ![_selected isPointInArea:pt]) {
     self.selected = nil;
-    [self doReorder];
   }
-  
-  for(SelectableSprite *child in _selectables) {
-    if ([child isPointInArea:pt]) {
-      if (_selected) {
-        if ([self selectable:child isInFrontOfSelectable:_selected] && child != _selected) {
-          self.selected = child;
-          break;
-        }
-      } else {
-        self.selected = child;
-      }
-    }
-  }
+  self.selected = [self selectableForPt:pt];
+  [self doReorder];
 }
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node

@@ -40,9 +40,7 @@
   int _numPostsInMarketplace;
   
   NSMutableArray *_marketplaceEquipPosts;
-  NSMutableArray *_marketplaceCurrencyPosts;
   NSMutableArray *_marketplaceEquipPostsFromSender;
-  NSMutableArray *_marketplaceCurrencyPostsFromSender;
   
   NSMutableDictionary *_staticStructs;
   NSMutableDictionary *_staticTasks;
@@ -91,9 +89,7 @@
 @property (assign) int numPostsInMarketplace;
 
 @property (retain) NSMutableArray *marketplaceEquipPosts;
-@property (retain) NSMutableArray *marketplaceCurrencyPosts;
 @property (retain) NSMutableArray *marketplaceEquipPostsFromSender;
-@property (retain) NSMutableArray *marketplaceCurrencyPostsFromSender;
 
 @property (retain) NSMutableDictionary *staticStructs;
 @property (retain) NSMutableDictionary *staticTasks;

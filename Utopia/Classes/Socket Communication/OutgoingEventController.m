@@ -32,7 +32,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.silver -= amount;
     gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] depositPercentCut]));
   } else {
-    NSLog(@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver);
+    [Globals popupMessage:[NSString stringWithFormat:@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver]];
   }
 }
 
@@ -47,7 +47,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.silver += amount;
     gs.vaultBalance -= amount;
   } else {
-    NSLog(@"Unable to withdraw %d coins. Currently only have %d coins in vault.", amount, gs.vaultBalance);
+    [Globals popupMessage:[NSString stringWithFormat:@"Unable to withdraw %d coins. Currently only have %d coins in vault.", amount, gs.vaultBalance]];
   }
 }
 
@@ -75,7 +75,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retrieveMostRecentPosts {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
-  [[[GameState sharedGameState] marketplaceCurrencyPosts] removeAllObjects];
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:NO];
   [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
 }
@@ -84,24 +83,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
   FullMarketplacePostProto *x = gs.marketplaceEquipPosts.lastObject;
-  FullMarketplacePostProto *y = gs.marketplaceCurrencyPosts.lastObject;
-  int postId;
-  if (!x && !y) {
+  if (!x) {
     return;
-  } else if (!x) {
-    postId = [y marketplacePostId];
-  } else if (!y) {
-    postId = [x marketplacePostId];
-  } else {
-    postId = MIN([x marketplacePostId], [y marketplacePostId]);
   }
-  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:postId fromSender:NO];
+  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:NO];
 }
 
 - (void) retrieveMostRecentPostsFromSender {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
-  [[[GameState sharedGameState] marketplaceCurrencyPostsFromSender] removeAllObjects];
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:YES];
   [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
 }
@@ -110,29 +100,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   GameState *gs = [GameState sharedGameState];
   FullMarketplacePostProto *x = gs.marketplaceEquipPostsFromSender.lastObject;
-  FullMarketplacePostProto *y = gs.marketplaceCurrencyPostsFromSender.lastObject;
-  int postId;
-  if (!x && !y) {
+  if (!x) {
     return;
-  } else if (!x) {
-    postId = [y marketplacePostId];
-  } else if (!y) {
-    postId = [x marketplacePostId];
-  } else {
-    postId = MIN([x marketplacePostId], [y marketplacePostId]);
   }
-  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:postId fromSender:YES];
+  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:YES];
 }
 
-- (void) equipPostToMarketplace:(int)equipId wood:(int)wood silver:(int)silver gold:(int)gold {
-  // TODO: need to check equips
+- (void) equipPostToMarketplace:(int)equipId silver:(int)silver gold:(int)gold {
   GameState *gs = [GameState sharedGameState];
+  
+  if (silver <= 0 && gold <= 0) {
+    [Globals popupMessage:@"You need to enter a price!"];
+    return;
+  }
   
   for (FullUserEquipProto *eq in [gs myEquips]) {
     if (eq.equipId == equipId) {
-      [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId wood:wood coins:silver diamonds:gold];
+      [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
+      return;
     }
   }
+  
+  [Globals popupMessage:@"Unable to find this equip!"];
 }
 
 - (void) retractMarketplacePost:(int)postId {
@@ -153,7 +142,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  NSLog(@"Cannot verify that this item belongs to user..");
+  [Globals popupMessage:@"Cannot verify that this item belongs to user.."];
 }
 
 - (void) purchaseFromMarketplace:(int)postId {
@@ -174,7 +163,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  NSLog(@"Cannot find this item..");
+  [Globals popupMessage:@"Cannot find this item.."];
 }
 
 - (void) redeemMarketplaceEarnings {
@@ -188,7 +177,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.marketplaceGoldEarnings = 0;
     gs.marketplaceSilverEarnings = 0;
   } else {
-    NSLog(@"Nothing to earn!");
+    [Globals popupMessage:@"Nothing to earn!"];
   }
 }
 
@@ -202,7 +191,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.attack += gl.attackBaseGain;
     gs.skillPoints -= gl.attackBaseCost;
   } else {
-    NSLog(@"No skill points available to add");
+    [Globals popupMessage:@"No skill points available to add"];
   }
 }
 
@@ -216,7 +205,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.defense += gl.defenseBaseGain;
     gs.skillPoints -= gl.defenseBaseCost;
   } else {
-    NSLog(@"No skill points available to add");
+    [Globals popupMessage:@"No skill points available to add"];
   }
 }
 
@@ -230,7 +219,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.maxEnergy += gl.energyBaseGain;
     gs.skillPoints -= gl.energyBaseCost;
   } else {
-    NSLog(@"No skill points available to add");
+    [Globals popupMessage:@"No skill points available to add"];
   }
 }
 
@@ -244,7 +233,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.maxStamina += gl.staminaBaseGain;
     gs.skillPoints -= gl.staminaBaseCost;
   } else {
-    NSLog(@"No skill points available to add");
+    [Globals popupMessage:@"No skill points available to add"];
   }
 }
 
@@ -258,7 +247,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.maxEnergy += gl.healthBaseGain;
     gs.skillPoints -= gl.healthBaseCost;
   } else {
-    NSLog(@"No skill points available to add");
+    [Globals popupMessage:@"No skill points available to add"];
   }
 }
 
@@ -272,7 +261,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.currentEnergy = gs.maxEnergy;
     gs.gold -= gl.energyRefillCost;
   } else {
-    NSLog(@"Not enough diamonds to refill energy. Need: %d, Have: %d.", gl.energyRefillCost, gs.gold);
+    [Globals popupMessage:[NSString stringWithFormat:@"Not enough diamonds to refill energy. Need: %d, Have: %d.", gl.energyRefillCost, gs.gold]];
   }
 }
 
@@ -286,7 +275,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.currentStamina = gs.maxStamina;
     gs.gold -= gl.staminaRefillCost;
   } else {
-    NSLog(@"Not enough diamonds to refill stamina. Need: %d, Have: %d.", gl.staminaRefillCost, gs.gold);
+    [Globals popupMessage:[NSString stringWithFormat:@"Not enough diamonds to refill stamina. Need: %d, Have: %d.", gl.staminaRefillCost, gs.gold]];
   }
 }
 
@@ -322,7 +311,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.silver -= fsp.coinPrice;
     gs.gold -= fsp.diamondPrice;
   } else {
-    NSLog(@"Not enough money to purchase this building");
+    [Globals popupMessage:@"Not enough money to purchase this building"];
   }
   return us;
 }
@@ -333,7 +322,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructId x:x y:y];
     userStruct.coordinates = CGPointMake(x, y);
   } else {
-    NSLog(@"Building is in same place..");
+    [Globals popupMessage:@"Building is in same place.."];
   }
 }
 
@@ -344,7 +333,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
-    NSLog(@"This is not your building!");
+    [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete) {
     [sc sendSellNormStructureMessage:userStruct.userStructId];
     [[gs myStructs] removeObject:userStruct];
@@ -352,7 +341,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Update game state
     gs.silver += [[Globals sharedGlobals] calculateSellCost:userStruct];
   } else {
-    NSLog(@"Building %d is completing", userStruct.userStructId);
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is completing", userStruct.userStructId]];
+  }
+}
+
+- (void) retrieveFromNormStructure:(UserStruct *)userStruct {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  
+  if (userStruct.userStructId == 0) {
+    [Globals popupMessage:@"Waiting for confirmation of purchase!"];
+  } else if (userStruct.userId != gs.userId) {
+    [Globals popupMessage:@"This is not your building!"];
+  } else if (userStruct.isComplete && userStruct.lastRetrieved) {
+    int64_t ms = [self getCurrentMilliseconds];
+    [sc sendRetrieveCurrencyFromNormStructureMessage:userStruct.userStructId time:ms];
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    
+    // Update game state
+    gs.silver += [[Globals sharedGlobals] calculateIncomeForUserStruct:userStruct];
+  } else {
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not ready to be retrieved", userStruct.userStructId]];
   }
 }
 
@@ -363,7 +372,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
-    NSLog(@"This is not your building!");
+    [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
@@ -374,7 +383,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     FullStructureProto *fsp = [gs structWithId:userStruct.structId];
     gs.gold -= fsp.instaBuildDiamondCostBase;
   } else {
-    NSLog(@"Building %d is not constructing", userStruct.userStructId);
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not constructing", userStruct.userStructId]];
   }
 }
 
@@ -385,7 +394,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
-    NSLog(@"This is not your building!");
+    [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
@@ -397,7 +406,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     FullStructureProto *fsp = [gs structWithId:userStruct.structId];
     gs.gold -= fsp.instaUpgradeDiamondCostBase;
   } else {
-    NSLog(@"Building %d is not upgrading", userStruct.userStructId);
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading", userStruct.userStructId]];
   }
 }
 
@@ -409,7 +418,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
-    NSLog(@"This is not your building!");
+    [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
@@ -421,7 +430,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       userStruct.level++;
     }
   } else {
-    NSLog(@"Building %d is not upgrading or constructing", userStruct.userStructId);
+    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading or constructing", userStruct.userStructId]];
   }
 }
 
@@ -440,7 +449,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
-    NSLog(@"This is not your building!");
+    [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
@@ -450,7 +459,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Update game state
     gs.gold -= [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
   } else {
-    NSLog(@"This building is not upgradable");
+    [Globals popupMessage:@"This building is not upgradable"];
   }
 }
 

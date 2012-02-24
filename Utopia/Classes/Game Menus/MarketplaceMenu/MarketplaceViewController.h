@@ -35,10 +35,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *removeButton;
 @property (nonatomic, retain) IBOutlet UITextField *goldField;
 @property (nonatomic, retain) IBOutlet UITextField *silverField;
-@property (nonatomic, retain) IBOutlet UITextField *woodField;
 @property (nonatomic, retain) IBOutlet UILabel *goldLabel;
 @property (nonatomic, retain) IBOutlet UILabel *silverLabel;
-@property (nonatomic, retain) IBOutlet UILabel *woodLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defStatLabel;
 
@@ -54,29 +52,23 @@ typedef enum {
 
 typedef enum {
   kEquipBuyingState = 1,
-  kEquipSellingState,
-  kCurrencyBuyingState,
-  kCurrencySellingState
+  kEquipSellingState
 } MarketplaceState;
 
 @interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *navBar;
 @property (nonatomic, retain) IBOutlet UIView *topBar;
-@property (nonatomic, retain) IBOutlet UIImageView *axeButton;
-@property (nonatomic, retain) IBOutlet UIImageView *coinButton;
 @property (nonatomic, retain) IBOutlet UITableViewCell *itemView;
 @property (nonatomic, retain) IBOutlet UIView *buyButtonView;
 @property (nonatomic, retain) IBOutlet UIView *removeView;
 @property (nonatomic, retain) IBOutlet UILabel *removeGoldLabel;
 @property (nonatomic, retain) IBOutlet UILabel *removeSilverLabel;
-@property (nonatomic, retain) IBOutlet UILabel *removeWoodLabel;
 @property (nonatomic, retain) IBOutlet UIButton *doneButton;
 @property (nonatomic, retain) IBOutlet UIButton *listAnItemButton;
 @property (nonatomic, retain) IBOutlet UIView *redeemView;
 @property (nonatomic, retain) IBOutlet UILabel *redeemGoldLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemSilverLabel;
-@property (nonatomic, retain) IBOutlet UILabel *redeemWoodLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemTitleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemYouHaveLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemCollectLabel;

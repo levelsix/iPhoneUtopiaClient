@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"localhost"
+#define HOST_NAME @"192.168.1.10"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -56,11 +56,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self connectToSocket];
   [self rebuildSender];
   
-  //  for (int i = 0; i < 150; i++) {
-  //    [self sendCoinPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
-  //    [self sendWoodPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
-  //    [self sendDiamondPostToMarketplaceMessage:arc4random()%99999+1 wood:arc4random()%99999+1 coins:arc4random()%99999+1 diamonds:arc4random()%99999+1];
-  //  }
   [self sendStartupMessage:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
   [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:2];
   //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
@@ -88,7 +83,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) readHeader {
-  NSLog(@"Reading header");
   [_asyncSocket readDataToLength:8 withTimeout:-1 tag:READING_HEADER_TAG];
 }
 
@@ -103,7 +97,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
     uint8_t *header = (uint8_t *)[data bytes];
     
     // Get the next 4 bytes for the payload size
-    NSLog(@"Found header");
     [_asyncSocket readDataToLength:*(int *)(header+4) withTimeout:-1 tag:*(int *)(header)];
   } else {
     // Tag will be the message type
@@ -125,6 +118,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   // Get the proto class for this event type
   Class typeClass = [ec getClassForType:eventType];
   if (!typeClass) {
+    NSLog(@"Unable to find controller for event type: %d", eventType);
     return;
   }
   
@@ -233,7 +227,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[[mktReq build] data] withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
 }
 
-- (void) sendEquipPostToMarketplaceMessage:(int)equipId wood:(int)wood coins:(int)coins diamonds:(int)diamonds {
+- (void) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds {
   PostToMarketplaceRequestProto *mktReq = [[[[[[PostToMarketplaceRequestProto builder]
                                                setPostedEquipId:equipId]
                                               setCoinCost:coins]

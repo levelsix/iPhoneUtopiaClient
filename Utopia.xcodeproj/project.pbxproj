@@ -292,6 +292,8 @@
 		CFA3BBE114F4C11B002A68E1 /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE014F4C11B002A68E1 /* CarpenterRow.xib */; };
 		CFA3BBE414F4C243002A68E1 /* RopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3BBE314F4C243002A68E1 /* RopeView.m */; };
 		CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */; };
+		CFA437CA14F826F00032CFFA /* retrievebubble-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437C814F826F00032CFFA /* retrievebubble-hd.png */; };
+		CFA437CB14F826F00032CFFA /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437C914F826F00032CFFA /* retrievebubble.png */; };
 		CFAA94EB14E881D100B0F791 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CFAA94EA14E881D100B0F791 /* Building.m */; };
 		CFADD7D714A690F400BC2F75 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFADD7D614A690F400BC2F75 /* CFNetwork.framework */; };
 		CFB08F2714F5FF0200B16CB1 /* struct4.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F1E14F5FF0200B16CB1 /* struct4.png */; };
@@ -826,6 +828,8 @@
 		CFA3BBE214F4C243002A68E1 /* RopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RopeView.h; path = Miscellaneous/RopeView.h; sourceTree = "<group>"; };
 		CFA3BBE314F4C243002A68E1 /* RopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RopeView.m; path = Miscellaneous/RopeView.m; sourceTree = "<group>"; };
 		CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterListing.xib; sourceTree = "<group>"; };
+		CFA437C814F826F00032CFFA /* retrievebubble-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retrievebubble-hd.png"; sourceTree = "<group>"; };
+		CFA437C914F826F00032CFFA /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
 		CFAA94E914E881D100B0F791 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Building.h; path = "Utopia/Classes/Main Map/GameMap/Building.h"; sourceTree = SOURCE_ROOT; };
 		CFAA94EA14E881D100B0F791 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Building.m; path = "Utopia/Classes/Main Map/GameMap/Building.m"; sourceTree = SOURCE_ROOT; };
 		CFADD7D614A690F400BC2F75 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1837,6 +1841,8 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFA437C814F826F00032CFFA /* retrievebubble-hd.png */,
+				CFA437C914F826F00032CFFA /* retrievebubble.png */,
 				CF2BCFE214F61BAE008EDBC9 /* closex.png */,
 				CF2BCFE314F61BAE008EDBC9 /* finishmoving.png */,
 				CF2BCFE414F61BAE008EDBC9 /* finishmoving@2x.png */,
@@ -2168,7 +2174,7 @@
 		CFE47BED149240890084E71E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = LVL6;
 			};
 			buildConfigurationList = CFE47BF0149240890084E71E /* Build configuration list for PBXProject "Utopia" */;
@@ -2547,6 +2553,8 @@
 				CF2BCFEB14F61BAE008EDBC9 /* movebubble.png in Resources */,
 				CF2BCFEC14F61BAE008EDBC9 /* movebubble@2x.png in Resources */,
 				CF2BCFED14F61BAE008EDBC9 /* closex@2x.png in Resources */,
+				CFA437CA14F826F00032CFFA /* retrievebubble-hd.png in Resources */,
+				CFA437CB14F826F00032CFFA /* retrievebubble.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2755,6 +2763,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Utopia/Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
@@ -2767,7 +2776,7 @@
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2784,6 +2793,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Utopia/Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
@@ -2796,7 +2806,7 @@
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

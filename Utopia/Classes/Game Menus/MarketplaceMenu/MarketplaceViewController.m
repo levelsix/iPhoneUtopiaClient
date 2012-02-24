@@ -26,8 +26,8 @@
 @synthesize itemView;
 @synthesize listButton;
 @synthesize removeButton;
-@synthesize goldField, silverField, woodField;
-@synthesize goldLabel, silverLabel, woodLabel;
+@synthesize goldField, silverField;
+@synthesize goldLabel, silverLabel;
 @synthesize attStatLabel, defStatLabel;
 @synthesize state = _state;
 @synthesize mktProto, equip;
@@ -40,7 +40,7 @@
   
   [self setState:kSellingEquipState];
   
-  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.goldField, self.silverField, self.woodField, self.goldLabel, self.silverLabel, self.woodLabel, self.attStatLabel, self.defStatLabel, self.postTitle, nil];
+  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.goldField, self.silverField, self.goldLabel, self.silverLabel, self.attStatLabel, self.defStatLabel, self.postTitle, nil];
 }
 
 - (void) setState:(MarketCellState)state {
@@ -97,7 +97,6 @@
         submitView.hidden = NO;
         goldField.text = @"0";
         silverField.text = @"0";
-        woodField.text = @"0";
         break;
         
       default:
@@ -179,7 +178,6 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize navBar, topBar;
-@synthesize axeButton, coinButton;
 @synthesize itemView;
 @synthesize postsTableView;
 @synthesize buyButtonView;
@@ -189,10 +187,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize curField;
 @synthesize shouldReload;
 @synthesize state;
-@synthesize removeGoldLabel, removeWoodLabel, removeSilverLabel;
+@synthesize removeGoldLabel, removeSilverLabel;
 @synthesize doneButton, listAnItemButton;
 @synthesize redeemView;
-@synthesize redeemGoldLabel, redeemWoodLabel, redeemSilverLabel;
+@synthesize redeemGoldLabel, redeemSilverLabel;
 @synthesize redeemTitleLabel, redeemCollectLabel, redeemYouHaveLabel;
 @synthesize ropeView, leftRope, rightRope, leftRopeFirstRow, rightRopeFirstRow;
 
@@ -205,7 +203,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   t.dataSource = self;
   t.backgroundColor = [UIColor clearColor];
   t.frame = CGRectMake(0, topBar.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-topBar.frame.origin.y);
-  t.scrollIndicatorInsets = UIEdgeInsetsMake(10, 0, 0, 0);
+  t.showsVerticalScrollIndicator = NO;
   t.rowHeight = 55;
   self.postsTableView = t;
   [t release];
@@ -229,7 +227,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
   [self.postsTableView insertSubview:rightRopeFirstRow belowSubview:self.ropeView];
   
-  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.removeGoldLabel, self.removeSilverLabel, self.removeWoodLabel, self.redeemGoldLabel, self.redeemSilverLabel, self.redeemWoodLabel, self.redeemCollectLabel, self.redeemYouHaveLabel, nil];
+  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.removeGoldLabel, self.removeSilverLabel, self.redeemGoldLabel, self.redeemSilverLabel, self.redeemCollectLabel, self.redeemYouHaveLabel, nil];
   [Globals adjustFontSizeForSize:self.redeemTitleLabel.font.pointSize withUIView:self.redeemTitleLabel];
   [Globals adjustFontSizeForSize:self.refreshLabel.font.pointSize withUIView:self.refreshLabel];
 }
@@ -308,10 +306,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   ItemPostView *post = (ItemPostView *)[[(UIButton *)sender superview] superview];
   if (post.equip) {
     [self disableEditing];
-    int wood = [self untruncateString:post.woodField.text];
     int silver = [self untruncateString:post.silverField.text];
     int gold = [self untruncateString:post.goldField.text];
-    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId wood:wood silver:silver gold:gold];
+    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId silver:silver gold:gold];
   }
 }
 
@@ -382,8 +379,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   if (self.state == kEquipBuyingState) {
     self.state = kEquipSellingState;
-  } else if (self.state == kCurrencyBuyingState) {
-    self.state = kCurrencySellingState;
   }
 }
 
@@ -395,8 +390,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     
     if (self.state == kEquipSellingState) {
       self.state = kEquipBuyingState;
-    } else if (self.state == kCurrencySellingState) {
-      self.state = kCurrencyBuyingState;
     }
   }
 }
@@ -443,6 +436,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   return rows == 1? 0:rows;
 }
 
+static int x = 0;
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -459,6 +453,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if (cell == nil) {
     if (nibName) {
       [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil];
+      NSLog(@"New: %d", x++);
       cell = self.itemView;
     } else {
       cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -531,7 +526,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   // Refresh table when we get low enough
   if (scrollView.contentOffset.y > scrollView.contentSize.height-scrollView.frame.size.height-REFRESH_ROWS*self.postsTableView.rowHeight) {
     if (shouldReload) {
-      if (self.state == kCurrencyBuyingState || self.state == kEquipBuyingState) {
+      if (self.state == kEquipBuyingState) {
         [[OutgoingEventController sharedOutgoingEventController] retrieveMoreMarketplacePosts];
       } else {
         [[OutgoingEventController sharedOutgoingEventController] retrieveMoreMarketplacePostsFromSender];
@@ -604,14 +599,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.removeView.hidden = YES;
     self.buyButtonView.hidden = YES;
   }
-  
-  if ((self.state != kEquipSellingState || self.state != kEquipBuyingState) && [self.axeButton pointInside:[[touches anyObject] locationInView:self.axeButton] withEvent:event]) {
-    [self setState:kEquipBuyingState];
-  }
-  
-  if ((self.state != kCurrencySellingState || self.state != kCurrencyBuyingState) && [self.coinButton pointInside:[[touches anyObject] locationInView:self.coinButton] withEvent:event]) {
-    [self setState:kCurrencyBuyingState];
-  }
 }
 
 - (void) disableEditing {
@@ -636,29 +623,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     state = s;
     switch (s) {
       case kEquipBuyingState:
-        self.axeButton.highlighted = YES;
-        self.coinButton.highlighted = NO;
         self.listAnItemButton.hidden = NO;
         self.doneButton.hidden = YES;
         break;
         
       case kEquipSellingState:
-        self.axeButton.highlighted = YES;
-        self.coinButton.highlighted = NO;
-        self.listAnItemButton.hidden = YES;
-        self.doneButton.hidden = NO;
-        break;
-        
-      case kCurrencyBuyingState:
-        self.axeButton.highlighted = NO;
-        self.coinButton.highlighted = YES;
-        self.listAnItemButton.hidden = NO;
-        self.doneButton.hidden = YES;
-        break;
-        
-      case kCurrencySellingState:
-        self.axeButton.highlighted = NO;
-        self.coinButton.highlighted = YES;
         self.listAnItemButton.hidden = YES;
         self.doneButton.hidden = NO;
         break;
@@ -689,6 +658,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   for (int i = start; i < start+numRows; i++) {
     [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
   }
+  NSLog(@"%@", arr);
   if (arr.count > 0) {
     [self.postsTableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationTop];
   }
@@ -744,18 +714,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (NSMutableArray *) postsForState {
   if (state == kEquipBuyingState) {
     return [[GameState sharedGameState] marketplaceEquipPosts];
-  } else if (state == kCurrencyBuyingState) {
-    return [[GameState sharedGameState] marketplaceCurrencyPosts];
   } else if (state == kEquipSellingState) {
     return [[GameState sharedGameState] marketplaceEquipPostsFromSender];
-  } else if (state == kCurrencySellingState) {
-    return [[GameState sharedGameState] marketplaceCurrencyPostsFromSender];
   }
   return nil;
 }
 
 - (void) refresh {
-  if (self.state == kEquipBuyingState || self.state == kCurrencyBuyingState) {
+  if (self.state == kEquipBuyingState) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
@@ -803,7 +769,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   float y = [[trunc substringToIndex:[trunc length]-charAtEnd] floatValue];
   return (int)(mult*y);
-  //[NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:(int)(mult*y)] numberStyle:NSNumberFormatterDecimalStyle];
 }
 
 - (NSString *) truncateInt:(int)num {

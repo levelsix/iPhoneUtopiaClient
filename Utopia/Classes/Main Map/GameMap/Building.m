@@ -11,6 +11,7 @@
 #import "GameMap.h"
 #import "HomeMap.h"
 #import "GameState.h"
+#import "Globals.h"
 
 @implementation SelectableSprite
 
@@ -88,20 +89,49 @@
 @synthesize startTouchLocation = _startTouchLocation;
 @synthesize isSetDown = _isSetDown;
 @synthesize userStruct = _userStruct;
+@synthesize retrievable = _retrievable;
+@synthesize timer = _timer;
 
-+(id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map {
++ (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map {
   return [[[self alloc] initWithFile:file location:loc map:map] autorelease];
 }
 
--(id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map{
+- (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map{
   if ((self = [super initWithFile:file location:loc map:map])) {
     _homeMap = [map retain];
     [self placeBlock];
+    
   }
   return self;
 }
 
--(void)setIsSelected:(BOOL)isSelected {
+- (void) initializeRetrieveBubble {
+  if (_retrieveBubble) {
+    // Make sure to cleanup just in case
+    [self removeChild:_retrieveBubble cleanup:YES];
+    [_retrieveBubble release];
+  }
+  _retrieveBubble = [[CCSprite spriteWithFile:@"retrievebubble.png"] retain];
+  [self addChild:_retrieveBubble];
+  _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
+}
+
+- (void) setRetrievable:(BOOL)retrievable {
+  if (retrievable != _retrievable) {
+    _retrievable = retrievable;
+    
+    if (retrievable) {
+      if (!_retrieveBubble) {
+        [self initializeRetrieveBubble];
+      }
+      _retrieveBubble.visible = YES;
+    } else {
+      _retrieveBubble.visible = NO;
+    }
+  }
+}
+
+- (void) setIsSelected:(BOOL)isSelected {
   [super setIsSelected:isSelected];
   if (isSelected) {
     _startMoveCoordinate = _location.origin;
@@ -109,6 +139,48 @@
     if (!_isSetDown) {
       [self cancelMove];
     }
+  }
+}
+
+- (void) setTimer:(NSTimer *)timer {
+  if (_timer) {
+    [_timer invalidate];
+    [_timer release];
+  }
+  _timer = [timer retain];
+}
+
+- (void) createTimerForCurrentState {
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:self.userStruct.structId];
+  Globals *gl = [Globals sharedGlobals];
+  
+  UserStructState st = self.userStruct.state;
+  NSTimeInterval time;
+  SEL selector = nil;
+  switch (st) {
+    case kUpgrading:
+      time = [[NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self.userStruct]*60 sinceDate:self.userStruct.lastRetrieved] timeIntervalSinceNow];
+      selector = @selector(upgradeComplete:);
+      break;
+      
+    case kBuilding:
+      time = [[NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self.userStruct]*60 sinceDate:self.userStruct.lastRetrieved] timeIntervalSinceNow];
+      selector = @selector(buildComplete:);
+      break;
+      
+    case kWaitingForIncome:
+      time = [[NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:self.userStruct.lastRetrieved] timeIntervalSinceNow];
+      selector = @selector(waitForIncomeComplete:);
+      break;
+      
+    default:
+      break;
+  }
+  
+  if (selector) {
+    self.timer = [NSTimer timerWithTimeInterval:time target:_homeMap selector:selector userInfo:self repeats:NO];
+  } else {
+    self.timer = nil;
   }
 }
 
@@ -216,6 +288,7 @@
 -(void) dealloc {
   [_homeMap release];
   self.userStruct = nil;
+  self.timer = nil;
   [super dealloc];
 }
 

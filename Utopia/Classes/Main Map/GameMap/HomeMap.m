@@ -418,6 +418,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     self.hbMenu.greenButton.label.shadowOffset = CGSizeMake(1, 1);
     
     _loading = YES;
+    
+    _timers = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -431,16 +433,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   _upgrBuilding = nil;
   _loading = YES;
   
+  // Invalidate all timers
+  [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    NSTimer *t = (NSTimer *)obj;
+    [t invalidate];
+  }];
+  [_timers removeAllObjects];
+  
   NSMutableArray *arr = [NSMutableArray array];
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
   int i = 0;
-  for (UserStruct *s in [[GameState sharedGameState] myStructs]) {
+  for (UserStruct *s in [gs myStructs]) {
     int tag = [self baseTagForStructId:s.structId];
     HomeBuilding *hb = (HomeBuilding *)[self getChildByTag:tag];
     
     int offset = 0;
     while (hb && [arr containsObject:hb]) {
       offset++;
-      if (offset >= [[Globals sharedGlobals] maxRepeatedNormStructs]) {
+      if (offset >= [gl maxRepeatedNormStructs]) {
         hb = nil;
         break;
       }
@@ -448,7 +460,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       hb = (HomeBuilding *)[self getChildByTag:tag+offset];
     }
     
-    FullStructureProto *fsp = [[GameState sharedGameState] structWithId:s.structId];
+    FullStructureProto *fsp = [gs structWithId:s.structId];
     CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
     if (!hb) {
       hb = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
@@ -462,25 +474,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
     
     hb.userStruct = s;
+    [_timers removeObject:hb.timer];
     
     UserStructState st = s.state;
     switch (st) {
       case kUpgrading:
+        hb.retrievable = NO;
         _upgrBuilding = hb;
         break;
         
       case kBuilding:
+        hb.retrievable = NO;
         _constrBuilding = hb;
+        break;
         
       case kWaitingForIncome:
+        hb.retrievable = NO;
         break;
         
       case kRetrieving:
+        hb.retrievable = YES;
         break;
         
       default:
         break;
     }
+    [self updateTimersForBuilding:hb];
     
     [arr addObject:hb];
     [hb placeBlock];
@@ -515,7 +534,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) updateHomeBuildingMenu {
   if (_selected && [_selected class] == [HomeBuilding class]) {
-    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-5)];
+    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
     [hbMenu setFrameForPoint:pt];
     hbMenu.hidden = NO;
   } else {
@@ -585,6 +604,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           return;
         }
       } else if (_isMoving && [recognizer state] == UIGestureRecognizerStateChanged) {
+        [self scrollScreenForTouch:pt];
         [homeBuilding clearMeta];
         [homeBuilding locationAfterTouch:pt];
         [homeBuilding updateMeta];
@@ -604,8 +624,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  // Reimplement for retrievals and moving buildings
   if (!_canMove) {
-    [super tap:recognizer node:node];
+    CGPoint pt = [recognizer locationInView:recognizer.view];
+    pt = [[CCDirector sharedDirector] convertToGL:pt];
+    
+    if (_selected && ![_selected isPointInArea:pt]) {
+      self.selected = nil;
+      [self doReorder];
+    }
+    SelectableSprite *sel = [self selectableForPt:pt];
+    
+    if ([sel isKindOfClass:[HomeBuilding class]]) {
+      HomeBuilding *hb = (HomeBuilding *)sel;
+      if (hb.retrievable) {
+        // Retrieve the cash!
+        [self retrieveFromBuilding:hb];
+        return;
+      }
+    }
+    self.selected = sel;
   }
 }
 
@@ -613,6 +651,52 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [super scale:recognizer node:node];
 }
 
+- (void) scrollScreenForTouch:(CGPoint)pt {
+//  CGPoint relPt = [self convertToNodeSpace:pt];
+  // TODO: Implement this
+  // As you get closer to edge, it scrolls faster
+}
+
+- (void) updateTimersForBuilding:(HomeBuilding *)hb {
+  [_timers removeObject:hb.timer];
+  [hb createTimerForCurrentState];
+  
+  if (hb.timer) {
+    [[NSRunLoop mainRunLoop] addTimer:hb.timer forMode:NSRunLoopCommonModes];
+    [_timers addObject:hb.timer];
+  }
+}
+
+- (void) retrieveFromBuilding:(HomeBuilding *)hb {
+  [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:hb.userStruct];
+  if (hb.userStruct.state == kWaitingForIncome) {
+    hb.retrievable = NO;
+    [self updateTimersForBuilding:hb];
+  }
+}
+
+- (void) upgradeComplete:(NSTimer *)timer {
+  HomeBuilding *hb = [timer userInfo];
+  [Globals popupMessage:@"Upgrade Completed"];
+  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:hb.userStruct];
+  [self updateTimersForBuilding:hb];
+}
+
+- (void) buildComplete:(NSTimer *)timer {
+  HomeBuilding *hb = [timer userInfo];
+  [Globals popupMessage:@"Build Completed"];
+  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:hb.userStruct];
+  [self updateTimersForBuilding:hb];
+}
+
+- (void) waitForIncomeComplete:(NSTimer *)timer {
+  HomeBuilding *hb = [timer userInfo];
+  hb.retrievable = YES;
+  
+  if (hb == _selected) {
+    self.selected = nil;
+  }
+}
 
 - (IBAction)leftButtonClicked:(id)sender {
   if (hbMenu.state == kSellState || hbMenu.state == kUpgradeState) {
@@ -721,6 +805,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       _constrBuilding = nil;
     } else if (_selected == _upgrBuilding) {
       _upgrBuilding = nil;
+    } else {
+      [Globals popupMessage:@"This should never come up.. Inconsistent state in HomeMap->finishNowClicked"];
     }
     
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:NO];
@@ -736,6 +822,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       self.hbMenu.blueButton.enabled = YES;
       [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     }];
+    [self updateTimersForBuilding:hb];
   } else {
     self.hbMenu.finishNowButton.enabled = YES;
     self.hbMenu.blueButton.enabled = YES;
