@@ -15,7 +15,10 @@
 	GCDAsyncSocket *_asyncSocket;
   BOOL readyToRead;
   MinimumUserProto *_sender;
+  int _currentTagNum;
 }
+
+@property (readonly) int currentTagNum;
 
 - (void) rebuildSender;
 

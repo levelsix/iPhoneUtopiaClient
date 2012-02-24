@@ -18,12 +18,15 @@
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
+#define HEADER_SIZE 12
 
 #define RECONNECT_TIMEOUT 100
 
 @implementation SocketCommunication
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
+
+@synthesize currentTagNum = _currentTagNum;
 
 - (void) connectToSocket {
 	NSError *error = nil;
@@ -55,6 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   _asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
   [self connectToSocket];
   [self rebuildSender];
+  _currentTagNum = 1;
   
   [self sendStartupMessage:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
   [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:2];
@@ -83,7 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) readHeader {
-  [_asyncSocket readDataToLength:8 withTimeout:-1 tag:READING_HEADER_TAG];
+  [_asyncSocket readDataToLength:HEADER_SIZE withTimeout:-1 tag:READING_HEADER_TAG];
 }
 
 - (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
@@ -95,9 +99,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
   if (tag == READING_HEADER_TAG) {
     uint8_t *header = (uint8_t *)[data bytes];
-    
+    NSLog(@"Found header with tag: %d", *(int *)(header+4));
     // Get the next 4 bytes for the payload size
-    [_asyncSocket readDataToLength:*(int *)(header+4) withTimeout:-1 tag:*(int *)(header)];
+    [_asyncSocket readDataToLength:*(int *)(header+8) withTimeout:-1 tag:*(int *)(header)];
   } else {
     // Tag will be the message type
     [self messageReceived:data withType:tag];
@@ -130,28 +134,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   
 }
 
--(void) sendData:(NSData *)data withMessageType: (int) type{
+-(void) sendData:(NSData *)data withMessageType: (int) type {
   NSMutableData *messageWithHeader = [NSMutableData data];
   
   // Need to reverse bytes for size and type(to account for endianness??)
-  uint8_t header[8];
+  uint8_t header[HEADER_SIZE];
   header[3] = type & 0xFF;
   header[2] = (type & 0xFF00) >> 8;
   header[1] = (type & 0xFF0000) >> 16;
   header[0] = (type & 0xFF000000) >> 24;
   
-  int size = [data length];
-  header[7] = size & 0xFF;
-  header[6] = (size & 0xFF00) >> 8;
-  header[5] = (size & 0xFF0000) >> 16;
-  header[4] = (size & 0xFF000000) >> 24;
+  header[7] = _currentTagNum & 0xFF;
+  header[6] = (_currentTagNum & 0xFF00) >> 8;
+  header[5] = (_currentTagNum & 0xFF0000) >> 16;
+  header[4] = (_currentTagNum & 0xFF000000) >> 24;
   
-  [messageWithHeader appendBytes:header length:8];
+  int size = [data length];
+  header[11] = size & 0xFF;
+  header[10] = (size & 0xFF00) >> 8;
+  header[9] = (size & 0xFF0000) >> 16;
+  header[8] = (size & 0xFF000000) >> 24;
+  
+  [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
   [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:0];
   
-  uint8_t *x;
-  x = (uint8_t *)[messageWithHeader bytes];
+  NSLog(@"Sending message with tag: %d", _currentTagNum);
+  _currentTagNum++;
 }
 
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient {

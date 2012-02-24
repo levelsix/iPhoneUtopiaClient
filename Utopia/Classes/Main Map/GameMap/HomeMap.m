@@ -763,8 +763,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       HomeBuilding *spr = (HomeBuilding *)self.selected;
       self.selected = nil;
       [spr liftBlock];
+      [_timers removeObject:spr.timer];
+      spr.timer = nil;
       [self removeChild:spr cleanup:YES];
-      
       
       // Fix tag fragmentation
       int tag = [self baseTagForStructId:structId];
@@ -787,6 +788,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (IBAction)littleUpgradeClicked:(id)sender {
   UserStruct *us = ((HomeBuilding *)_selected).userStruct;
   [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
+  [self updateTimersForBuilding:(HomeBuilding *)_selected];
   [self.hbMenu updateLabelsForUserStruct:us];
 }
 

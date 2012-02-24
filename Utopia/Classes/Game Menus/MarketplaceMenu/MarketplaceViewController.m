@@ -485,7 +485,9 @@ static int x = 0;
 {
   if (!listing) {
     UITableViewCell *cell = [t cellForRowAtIndexPath:indexPath];
-    if ([cell isKindOfClass:[ItemPostView class]] && (((ItemPostView *)cell).state == kSellingEquipState || ((ItemPostView *)cell).state == kSellingCurrencyState)) {
+    self.buyButtonView.hidden = YES;
+    self.buyButtonView.hidden = YES;
+    if ([cell isKindOfClass:[ItemPostView class]] && ((ItemPostView *)cell).state == kSellingEquipState) {
       if (self.selectedCell != cell && self.selectedCell.state == kSubmitState) {
         self.selectedCell.state = kListState;
       }
@@ -658,7 +660,7 @@ static int x = 0;
   for (int i = start; i < start+numRows; i++) {
     [arr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
   }
-  NSLog(@"%@", arr);
+  
   if (arr.count > 0) {
     [self.postsTableView insertRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationTop];
   }

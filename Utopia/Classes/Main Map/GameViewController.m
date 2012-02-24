@@ -45,7 +45,6 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void)setupCocos2D {
-  NSLog(@"%@", [NSValue valueWithCGRect:self.view.bounds]);
   EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
                                  depthFormat:0                        // GL_DEPTH_COMPONENT16_OES
