@@ -101,10 +101,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
     uint8_t *header = (uint8_t *)[data bytes];
     NSLog(@"Found header with tag: %d", *(int *)(header+4));
     // Get the next 4 bytes for the payload size
-    [_asyncSocket readDataToLength:*(int *)(header+8) withTimeout:-1 tag:*(int *)(header)];
+    _nextMsgType = *(int *)(header);
+    [_asyncSocket readDataToLength:*(int *)(header+8) withTimeout:-1 tag:*(int *)(header+4)];
   } else {
-    // Tag will be the message type
-    [self messageReceived:data withType:tag];
+    [self messageReceived:data withType:_nextMsgType tag:tag];
+    _nextMsgType = -1;
     [self readHeader];
   }
 }
@@ -116,8 +117,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
 }
 
--(void) messageReceived:(NSData *)data withType:(EventProtocolResponse) eventType {
+-(void) messageReceived:(NSData *)data withType:(EventProtocolResponse) eventType tag:(int)tag {
   IncomingEventController *ec = [IncomingEventController sharedIncomingEventController];
+  [ec receivedResponseForMessage:tag];
   
   // Get the proto class for this event type
   Class typeClass = [ec getClassForType:eventType];
@@ -131,7 +133,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   if ([ec respondsToSelector:handleMethod]) {
     [ec performSelectorOnMainThread:handleMethod withObject:[typeClass parseFromData: data] waitUntilDone:NO];
   }
-  
 }
 
 -(void) sendData:(NSData *)data withMessageType: (int) type {

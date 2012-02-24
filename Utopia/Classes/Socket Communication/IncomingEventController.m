@@ -111,6 +111,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   return responseClass;
 }
 
+- (void) receivedResponseForMessage:(int)tag {
+  // Clear the static data we have held
+}
+
 - (void) handleChatResponseProto: (ChatResponseProto *) proto {
   NSLog(@"%@", [proto message]);
 }

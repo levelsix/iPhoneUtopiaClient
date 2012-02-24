@@ -16,6 +16,7 @@
   BOOL readyToRead;
   MinimumUserProto *_sender;
   int _currentTagNum;
+  int _nextMsgType;
 }
 
 @property (readonly) int currentTagNum;
@@ -25,7 +26,7 @@
 + (SocketCommunication *)sharedSocketCommunication;
 - (void) initNetworkCommunication;
 - (void) readHeader;
-- (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse) eventType;
+- (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
 
 // Send different event messages
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient;
