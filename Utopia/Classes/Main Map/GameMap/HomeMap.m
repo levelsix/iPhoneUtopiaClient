@@ -454,7 +454,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       hb = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
       [self addChild:hb z:0 tag:tag+offset];
       [hb release];
-      NSLog(@"%p", hb);
       
       i++;
     } else {
@@ -490,6 +489,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   CCNode *c;
   CCARRAY_FOREACH(self.children, c) {
     if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
+      if ([c isKindOfClass:[HomeBuilding class]]) {
+        [(HomeBuilding *)c liftBlock];
+      }
       [self removeChild:c cleanup:YES];
     }
   }
@@ -530,9 +532,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   CGRect loc = CGRectMake(0, 0, fsp.xLength, fsp.yLength);
   _purchBuilding = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
-  [self addChild:_purchBuilding];
+  int baseTag = [self baseTagForStructId:structId];
+  int tag;
+  for (tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
+    if (![self getChildByTag:tag]) {
+      break;
+    }
+  }
+  [self addChild:_purchBuilding z:0 tag:tag];
   [_purchBuilding release];
-  NSLog(@"%p", _purchBuilding);
   
   self.selected = _purchBuilding;
   self.hbMenu.state = kMoveState;
@@ -715,6 +723,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       _upgrBuilding = nil;
     }
     
+    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:NO];
     // animate bar to top
     [self.hbMenu.timer invalidate];
     float secs = PROGRESS_BAR_SPEED*(1-[self.hbMenu progressBarProgress]);
@@ -725,6 +734,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [self.hbMenu startTimer];
       self.hbMenu.finishNowButton.enabled = YES;
       self.hbMenu.blueButton.enabled = YES;
+      [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     }];
   } else {
     self.hbMenu.finishNowButton.enabled = YES;

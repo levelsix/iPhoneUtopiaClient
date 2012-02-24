@@ -190,7 +190,6 @@
 }
 
 -(void) setPosition:(CGPoint)position {
-  NSLog(@"%@", [NSValue valueWithCGSize:[[CCDirector sharedDirector] winSize]]);
   float x = MAX(MIN(0, position.x), -self.contentSize.width*self.scaleX + [[CCDirector sharedDirector] winSize].width);
   float y = MAX(MIN(0, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height);
   [super setPosition:ccp(x,y)];
