@@ -99,7 +99,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
   if (tag == READING_HEADER_TAG) {
     uint8_t *header = (uint8_t *)[data bytes];
-    NSLog(@"Found header with tag: %d", *(int *)(header+4));
     // Get the next 4 bytes for the payload size
     _nextMsgType = *(int *)(header);
     [_asyncSocket readDataToLength:*(int *)(header+8) withTimeout:-1 tag:*(int *)(header+4)];
@@ -160,7 +159,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [messageWithHeader appendData:data];
   [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:0];
   
-  NSLog(@"Sending message with tag: %d", _currentTagNum);
   _currentTagNum++;
 }
 

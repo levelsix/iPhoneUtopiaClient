@@ -294,6 +294,8 @@
 		CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */; };
 		CFA437CA14F826F00032CFFA /* retrievebubble-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437C814F826F00032CFFA /* retrievebubble-hd.png */; };
 		CFA437CB14F826F00032CFFA /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437C914F826F00032CFFA /* retrievebubble.png */; };
+		CFA437CD14F8A9A80032CFFA /* worldmap.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437CC14F8A9A80032CFFA /* worldmap.png */; };
+		CFA437CF14F8E6090032CFFA /* worldmap2.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437CE14F8E6080032CFFA /* worldmap2.png */; };
 		CFAA94EB14E881D100B0F791 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CFAA94EA14E881D100B0F791 /* Building.m */; };
 		CFADD7D714A690F400BC2F75 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFADD7D614A690F400BC2F75 /* CFNetwork.framework */; };
 		CFB08F2714F5FF0200B16CB1 /* struct4.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F1E14F5FF0200B16CB1 /* struct4.png */; };
@@ -830,6 +832,8 @@
 		CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterListing.xib; sourceTree = "<group>"; };
 		CFA437C814F826F00032CFFA /* retrievebubble-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retrievebubble-hd.png"; sourceTree = "<group>"; };
 		CFA437C914F826F00032CFFA /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
+		CFA437CC14F8A9A80032CFFA /* worldmap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldmap.png; sourceTree = "<group>"; };
+		CFA437CE14F8E6080032CFFA /* worldmap2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldmap2.png; sourceTree = "<group>"; };
 		CFAA94E914E881D100B0F791 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Building.h; path = "Utopia/Classes/Main Map/GameMap/Building.h"; sourceTree = SOURCE_ROOT; };
 		CFAA94EA14E881D100B0F791 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Building.m; path = "Utopia/Classes/Main Map/GameMap/Building.m"; sourceTree = SOURCE_ROOT; };
 		CFADD7D614A690F400BC2F75 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1841,6 +1845,8 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFA437CE14F8E6080032CFFA /* worldmap2.png */,
+				CFA437CC14F8A9A80032CFFA /* worldmap.png */,
 				CFA437C814F826F00032CFFA /* retrievebubble-hd.png */,
 				CFA437C914F826F00032CFFA /* retrievebubble.png */,
 				CF2BCFE214F61BAE008EDBC9 /* closex.png */,
@@ -2555,6 +2561,8 @@
 				CF2BCFED14F61BAE008EDBC9 /* closex@2x.png in Resources */,
 				CFA437CA14F826F00032CFFA /* retrievebubble-hd.png in Resources */,
 				CFA437CB14F826F00032CFFA /* retrievebubble.png in Resources */,
+				CFA437CD14F8A9A80032CFFA /* worldmap.png in Resources */,
+				CFA437CF14F8E6090032CFFA /* worldmap2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@
 #import "GoldShoppeViewController.h"
 #import "VaultMenuController.h"
 #import "CarpenterMenuController.h"
+#import "MapViewController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
@@ -306,7 +307,7 @@
 }
 
 - (void) openVault {
-  [VaultMenuController displayView];
+  [MapViewController displayView];
 }
 
 - (void) enableButton {

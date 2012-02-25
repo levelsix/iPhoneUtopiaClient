@@ -15,9 +15,15 @@
 
 - (id) init {
   if ((self = [super init])) {
-    self.locManager = [[CLLocationManager alloc] init];
-    locManager.delegate = self;
-    [self.locManager startUpdatingLocation];
+    NSLog(@"Location services: %d", [CLLocationManager locationServicesEnabled]);
+    if ([CLLocationManager locationServicesEnabled]) {
+      locManager = [[CLLocationManager alloc] init];
+      locManager.delegate = self;
+      locManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+      locManager.distanceFilter = 1000;
+      
+      [self.locManager startUpdatingLocation];
+    }
   }
   return self;
 }
@@ -29,8 +35,13 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-  NSLog(@"%f, %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
+  NSLog(@"Received new location: lat %f, long %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
   [[GameState sharedGameState] setLocation:newLocation.coordinate];
+}
+
+- (void) dealloc {
+  self.locManager = nil;
+  [super dealloc];
 }
 
 @end
