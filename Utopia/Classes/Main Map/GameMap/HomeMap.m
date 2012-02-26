@@ -58,7 +58,7 @@
   for (i = 0; i < level  && i < MAX_STARS; i++) {
     [fullStar drawAtPoint:CGPointMake(LEFT_STAR_OFFSET+i*width, y)];
   }
-//  CGContextSetShadow(context, CGSizeMake(0, 0), 0);
+  //  CGContextSetShadow(context, CGSizeMake(0, 0), 0);
   for (; i < MAX_STARS; i++) {
     [emptyStar drawAtPoint:CGPointMake(LEFT_STAR_OFFSET+i*width, y)];
   }
@@ -450,62 +450,62 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   int i = 0;
   for (UserStruct *s in [gs myStructs]) {
     int tag = [self baseTagForStructId:s.structId];
-    HomeBuilding *hb = (HomeBuilding *)[self getChildByTag:tag];
+    MoneyBuilding *moneyBuilding = (MoneyBuilding *)[self getChildByTag:tag];
     
     int offset = 0;
-    while (hb && [arr containsObject:hb]) {
+    while (moneyBuilding && [arr containsObject:moneyBuilding]) {
       offset++;
       if (offset >= [gl maxRepeatedNormStructs]) {
-        hb = nil;
+        moneyBuilding = nil;
         break;
       }
       // Check if we already assigned this building and it is in arr.
-      hb = (HomeBuilding *)[self getChildByTag:tag+offset];
+      moneyBuilding = (MoneyBuilding *)[self getChildByTag:tag+offset];
     }
     
     FullStructureProto *fsp = [gs structWithId:s.structId];
     CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
-    if (!hb) {
-      hb = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
-      [self addChild:hb z:0 tag:tag+offset];
-      [hb release];
+    if (!moneyBuilding) {
+      moneyBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
+      [self addChild:moneyBuilding z:0 tag:tag+offset];
+      [moneyBuilding release];
       
       i++;
     } else {
-      [hb liftBlock];
-      hb.location = loc;
+      [moneyBuilding liftBlock];
+      moneyBuilding.location = loc;
     }
     
-    hb.userStruct = s;
-    [_timers removeObject:hb.timer];
+    moneyBuilding.userStruct = s;
+    [_timers removeObject:moneyBuilding.timer];
     
     UserStructState st = s.state;
     switch (st) {
       case kUpgrading:
-        hb.retrievable = NO;
-        _upgrBuilding = hb;
+        moneyBuilding.retrievable = NO;
+        _upgrBuilding = moneyBuilding;
         break;
         
       case kBuilding:
-        hb.retrievable = NO;
-        _constrBuilding = hb;
+        moneyBuilding.retrievable = NO;
+        _constrBuilding = moneyBuilding;
         break;
         
       case kWaitingForIncome:
-        hb.retrievable = NO;
+        moneyBuilding.retrievable = NO;
         break;
         
       case kRetrieving:
-        hb.retrievable = YES;
+        moneyBuilding.retrievable = YES;
         break;
         
       default:
         break;
     }
-    [self updateTimersForBuilding:hb];
+    [self updateTimersForBuilding:moneyBuilding];
     
-    [arr addObject:hb];
-    [hb placeBlock];
+    [arr addObject:moneyBuilding];
+    [moneyBuilding placeBlock];
   }
   
   CCNode *c;
@@ -536,7 +536,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) updateHomeBuildingMenu {
-  if (_selected && [_selected class] == [HomeBuilding class]) {
+  if (_selected && [_selected isKindOfClass:[HomeBuilding class]]) {
     CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
     [hbMenu setFrameForPoint:pt];
     hbMenu.hidden = NO;
@@ -553,7 +553,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   CGRect loc = CGRectMake(0, 0, fsp.xLength, fsp.yLength);
-  _purchBuilding = [[HomeBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
+  _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
+  
   int baseTag = [self baseTagForStructId:structId];
   int tag;
   for (tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
@@ -575,9 +576,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
-    if ([selected class] == [HomeBuilding class]) {
+    if ([selected isKindOfClass: [HomeBuilding class]]) {
       [super setSelected:nil];
-      [self.hbMenu updateLabelsForUserStruct:((HomeBuilding *) selected).userStruct];
+      [self.hbMenu updateLabelsForUserStruct:((MoneyBuilding *) selected).userStruct];
       [self updateHomeBuildingMenu];
     }
     [super setSelected:selected];
@@ -593,7 +594,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   pt = [self convertToNodeSpace:pt];
   
   if (_canMove) {
-    if ([_selected class] == [HomeBuilding class]) {
+    if ([_selected isKindOfClass:[HomeBuilding class]]) {
       HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
       if([recognizer state] == UIGestureRecognizerStateBegan ) {
         // This fat statement just checks that the drag touch is somewhere closeby the selected sprite
@@ -638,11 +639,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
     SelectableSprite *sel = [self selectableForPt:pt];
     
-    if ([sel isKindOfClass:[HomeBuilding class]]) {
-      HomeBuilding *hb = (HomeBuilding *)sel;
-      if (hb.retrievable) {
+    if ([sel isKindOfClass:[MoneyBuilding class]]) {
+      MoneyBuilding *mb = (MoneyBuilding *)sel;
+      if (mb.retrievable) {
         // Retrieve the cash!
-        [self retrieveFromBuilding:hb];
+        [self retrieveFromBuilding:mb];
         return;
       }
     }
@@ -655,58 +656,58 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) scrollScreenForTouch:(CGPoint)pt {
-//  CGPoint relPt = [self convertToNodeSpace:pt];
+  //  CGPoint relPt = [self convertToNodeSpace:pt];
   // TODO: Implement this
   // As you get closer to edge, it scrolls faster
 }
 
-- (void) updateTimersForBuilding:(HomeBuilding *)hb {
-  [_timers removeObject:hb.timer];
-  [hb createTimerForCurrentState];
+- (void) updateTimersForBuilding:(MoneyBuilding *)mb {
+  [_timers removeObject:mb.timer];
+  [mb createTimerForCurrentState];
   
-  if (hb.timer) {
-    [[NSRunLoop mainRunLoop] addTimer:hb.timer forMode:NSRunLoopCommonModes];
-    [_timers addObject:hb.timer];
+  if (mb.timer) {
+    [[NSRunLoop mainRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
+    [_timers addObject:mb.timer];
   }
 }
 
-- (void) retrieveFromBuilding:(HomeBuilding *)hb {
-  [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:hb.userStruct];
-  if (hb.userStruct.state == kWaitingForIncome) {
-    hb.retrievable = NO;
-    [self updateTimersForBuilding:hb];
+- (void) retrieveFromBuilding:(MoneyBuilding *)mb {
+  [[OutgoingEventController sharedOutgoingEventController] retrieveFromNormStructure:mb.userStruct];
+  if (mb.userStruct.state == kWaitingForIncome) {
+    mb.retrievable = NO;
+    [self updateTimersForBuilding:mb];
   }
 }
 
 - (void) upgradeComplete:(NSTimer *)timer {
-  HomeBuilding *hb = [timer userInfo];
+  MoneyBuilding *mb = [timer userInfo];
   [Globals popupMessage:@"Upgrade Completed"];
-  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:hb.userStruct];
-  [self updateTimersForBuilding:hb];
-  if (hb == _selected && hbMenu.state != kMoveState) {
-    [self.hbMenu updateLabelsForUserStruct:hb.userStruct];
+  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
+  [self updateTimersForBuilding:mb];
+  if (mb == _selected && hbMenu.state != kMoveState) {
+    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
   }
   _upgrBuilding = nil;
 }
 
 - (void) buildComplete:(NSTimer *)timer {
-  HomeBuilding *hb = [timer userInfo];
+  MoneyBuilding *mb = [timer userInfo];
   [Globals popupMessage:@"Build Completed"];
-  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:hb.userStruct];
-  [self updateTimersForBuilding:hb];
-  if (hb == _selected && hbMenu.state != kMoveState) {
-    [self.hbMenu updateLabelsForUserStruct:hb.userStruct];
+  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
+  [self updateTimersForBuilding:mb];
+  if (mb == _selected && hbMenu.state != kMoveState) {
+    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
   }
   _constrBuilding = nil;
 }
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {
-  HomeBuilding *hb = [timer userInfo];
-  hb.retrievable = YES;
+  MoneyBuilding *mb = [timer userInfo];
+  mb.retrievable = YES;
   
-  if (hb == _selected) {
+  if (mb == _selected) {
     if (self.hbMenu.state == kMoveState) {
-      [hb cancelMove];
+      [mb cancelMove];
       _canMove = NO;
     }
     self.selected = nil;
@@ -731,19 +732,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self doReorder];
   if (_purchasing) {
     _purchasing = NO;
-    // Use return value as an indicator that purchase is accepted by client
-    UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y];
-    if (us) {
-      homeBuilding.userStruct = us;
-      _constrBuilding = homeBuilding;
-      [self updateTimersForBuilding:_constrBuilding];
-    } else {
-      [homeBuilding liftBlock];
-      [self removeChild:homeBuilding cleanup:YES];
+    if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
+      MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
+      
+      // Use return value as an indicator that purchase is accepted by client
+      UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
+      if (us) {
+        moneyBuilding.userStruct = us;
+        _constrBuilding = moneyBuilding;
+        [self updateTimersForBuilding:_constrBuilding];
+      } else {
+        [moneyBuilding liftBlock];
+        [self removeChild:moneyBuilding cleanup:YES];
+      }
+      [self refresh];
     }
-    [self refresh];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:homeBuilding.userStruct atX:homeBuilding.location.origin.x atY:homeBuilding.location.origin.y];
+    if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
+      MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
+      [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
+    }
   }
 }
 
@@ -772,11 +780,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     hbMenu.state = kSellState;
   } else if (hbMenu.state == kSellState) {
     // Do real sell
-    UserStruct *us = ((HomeBuilding *)_selected).userStruct;
+    UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
     int structId = us.structId;
     [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
     if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
-      HomeBuilding *spr = (HomeBuilding *)self.selected;
+      MoneyBuilding *spr = (MoneyBuilding *)self.selected;
       self.selected = nil;
       [spr liftBlock];
       [_timers removeObject:spr.timer];
@@ -802,16 +810,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)littleUpgradeClicked:(id)sender {
-  UserStruct *us = ((HomeBuilding *)_selected).userStruct;
+  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
   [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-  _upgrBuilding = (HomeBuilding *)_selected;
+  _upgrBuilding = (MoneyBuilding *)_selected;
   [self updateTimersForBuilding:_upgrBuilding];
   [self.hbMenu updateLabelsForUserStruct:us];
 }
 
 - (IBAction)finishNowClicked:(id)sender {
-  HomeBuilding *hb = (HomeBuilding *)_selected;
-  UserStructState state = hb.userStruct.state;
+  MoneyBuilding *mb = (MoneyBuilding *)_selected;
+  UserStructState state = mb.userStruct.state;
   self.hbMenu.finishNowButton.enabled = NO;
   self.hbMenu.blueButton.enabled = NO;
   if (state == kUpgrading) {
@@ -819,7 +827,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   } else if (state == kBuilding) {
     [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
   }
-  if (hb.userStruct.state == kWaitingForIncome) {
+  if (mb.userStruct.state == kWaitingForIncome) {
     if (_selected == _constrBuilding) {
       _constrBuilding = nil;
     } else if (_selected == _upgrBuilding) {
@@ -835,13 +843,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [UIView animateWithDuration:secs animations:^{
       [self.hbMenu setProgressBarProgress:1.f];
     } completion:^(BOOL finished) {
-      [self.hbMenu updateLabelsForUserStruct:hb.userStruct];
+      [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
       [self.hbMenu startTimer];
       self.hbMenu.finishNowButton.enabled = YES;
       self.hbMenu.blueButton.enabled = YES;
       [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     }];
-    [self updateTimersForBuilding:hb];
+    [self updateTimersForBuilding:mb];
   } else {
     self.hbMenu.finishNowButton.enabled = YES;
     self.hbMenu.blueButton.enabled = YES;

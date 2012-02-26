@@ -119,6 +119,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   // Convert current bounds to CGRect
   CGPoint origin = scrollView.contentOffset;
   CGSize size = scrollView.bounds.size;
+  origin.x += size.width;
+  size.width *= -1;
   CGRect mapBounds;
   
   float xScale = (SECOND_POINT_LONGITUDE-ZERO_LONGITUDE)/LONGITUDE_OFFSET;

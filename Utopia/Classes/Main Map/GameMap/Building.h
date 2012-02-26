@@ -13,9 +13,7 @@
 @class HomeMap;
 
 @interface SelectableSprite : CCSprite {
-@private
   GameMap *_map;
-@protected
   BOOL _isSelected;
   CCSprite *_glow;
   NSString *_name;
@@ -37,28 +35,18 @@
 @end
 
 @interface HomeBuilding : Building {
-@private
   CGPoint _startTouchLocation;
   BOOL _isSetDown;
   HomeMap *_homeMap;
   CGPoint _startMoveCoordinate;
-  UserStruct *_userStruct;
-  BOOL _retrievable;
-  CCSprite *_retrieveBubble;
-  NSTimer *_timer;
-@protected
   int _level;
 }
 @property (nonatomic, readonly) int level;
 @property (nonatomic, assign) CGPoint startTouchLocation;
 @property (nonatomic, assign) BOOL isSetDown;
-@property (nonatomic, retain) UserStruct *userStruct;
-@property (nonatomic, assign) BOOL retrievable;
-@property (nonatomic, retain) NSTimer *timer;
 
 + (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map;
 - (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map;
-- (void) createTimerForCurrentState;
 - (void) locationAfterTouch: (CGPoint) touchLocation;
 - (void) placeBlock;
 - (void) liftBlock;
@@ -69,22 +57,19 @@
 @end
 
 @interface MoneyBuilding : HomeBuilding {
-@protected
   ccTime _timeLeft;
   int _income;
+  UserStruct *_userStruct;
+  BOOL _retrievable;
+  CCSprite *_retrieveBubble;
+  NSTimer *_timer;
 }
 
-@property (nonatomic, readonly) ccTime timeLeft;
-@property (nonatomic, readonly) int income;
+@property (nonatomic, retain) UserStruct *userStruct;
+@property (nonatomic, assign) BOOL retrievable;
+@property (nonatomic, retain) NSTimer *timer;
 
-@end
-
-@interface DefenseBuilding : HomeBuilding {
-@protected
-  int _defense;
-}
-
-@property (nonatomic, readonly) int defense;
+- (void) createTimerForCurrentState;
 
 @end
 

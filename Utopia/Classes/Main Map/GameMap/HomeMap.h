@@ -96,9 +96,9 @@ typedef enum {
   BOOL _purchasing;
   int _purchStructId;
   
-  HomeBuilding *_constrBuilding;
-  HomeBuilding *_upgrBuilding;
-  HomeBuilding *_purchBuilding;
+  MoneyBuilding *_constrBuilding;
+  MoneyBuilding *_upgrBuilding;
+  MoneyBuilding *_purchBuilding;
   
   NSMutableArray *_timers;
 }

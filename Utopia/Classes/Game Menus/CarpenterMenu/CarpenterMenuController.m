@@ -185,41 +185,38 @@
 }
 
 - (void) setFsp:(FullStructureProto *)f {
-  if (fsp != f) {
-    [fsp release];
-    fsp = [f retain];
+  [fsp release];
+  fsp = [f retain];
+  
+  if (!fsp) {
+    self.state = kDisappear;
+    return;
+  }
+  
+  titleLabel.text = fsp.name;
+  _structId = fsp.structId;
+  
+  if ([GameState sharedGameState].level > fsp.minLevel) {
+    incomeLabel.text = [Globals commafyNumber:fsp.income];
     
-    if (!fsp) {
-      self.state = kDisappear;
-      return;
-    }
-    
-    titleLabel.text = fsp.name;
-    _structId = fsp.structId;
-    
-    if ([GameState sharedGameState].level > fsp.minLevel) {
-      incomeLabel.text = [Globals commafyNumber:fsp.income];
-      
-      if (fsp.coinPrice > 0) {
-        // Highlighted image is the gold icon.
-        priceIcon.highlighted = NO;
-        priceLabel.text = [Globals commafyNumber:fsp.coinPrice];
-      } else {
-        priceIcon.highlighted = YES;
-        priceLabel.text = [Globals commafyNumber:fsp.diamondPrice];
-      }
-      
-      int mins = fsp.minutesToBuild;
-      tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
-      buildingIcon.image = [UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]];
-      
-      self.state = kAvailable;
+    if (fsp.coinPrice > 0) {
+      // Highlighted image is the gold icon.
+      priceIcon.highlighted = NO;
+      priceLabel.text = [Globals commafyNumber:fsp.coinPrice];
     } else {
-      buildingIcon.image = [self maskImage:[UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]] withColor:_lockedBuildingColor];
-      lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
-      self.state = kLocked;
+      priceIcon.highlighted = YES;
+      priceLabel.text = [Globals commafyNumber:fsp.diamondPrice];
     }
     
+    int mins = fsp.minutesToBuild;
+    tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
+    buildingIcon.image = [UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]];
+    
+    self.state = kAvailable;
+  } else {
+    buildingIcon.image = [self maskImage:[UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]] withColor:_lockedBuildingColor];
+    lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
+    self.state = kLocked;
   }
 }
 
@@ -337,6 +334,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   
   CarpenterRow *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
+    NSLog(@"New Carp Row");
     [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
     cell = self.carpRow;
   }
