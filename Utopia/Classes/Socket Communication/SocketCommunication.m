@@ -282,10 +282,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[skillReq data] withMessageType:EventProtocolRequestCUseSkillPointEvent];
 }
 
-- (void) sendGenerateAttackListMessage:(int)numEnemies {
-  GenerateAttackListRequestProto *attReq = [[[[GenerateAttackListRequestProto builder]
-                                              setSender:_sender]
-                                             setNumEnemies:numEnemies]
+- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(int)latUpperBound latLowerBound:(int)latLowerBound lonUpperBound:(int)lonUpperBound lonLowerBound:(int)lonLowerBound {
+  GenerateAttackListRequestProto *attReq = [[[[[[[[GenerateAttackListRequestProto builder]
+                                                  setSender:_sender]
+                                                 setNumEnemies:numEnemies]
+                                                setLatLowerBound:latLowerBound]
+                                               setLatUpperBound:latUpperBound]
+                                              setLongLowerBound:lonLowerBound]
+                                             setLongUpperBound:lonUpperBound]
                                             build];
   
   [self sendData:[attReq data] withMessageType:EventProtocolRequestCGenerateAttackListEvent];

@@ -20,6 +20,8 @@
 #define LATITUDE_OFFSET -45.f
 #define LONGITUDE_OFFSET 150.f
 
+#define PIN_THRESHOLD_IN_BOUNDS 12
+
 @interface PinView : UIImageView
 
 @property (nonatomic, retain) FullUserProto *player;
@@ -110,7 +112,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
   
   [self removeAllPins];
-  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:20];
+  [self retrieveAttackListForCurrentBounds];
+}
+
+- (void) retrieveAttackListForCurrentBounds {
+  // Convert current bounds to CGRect
+  CGPoint origin = scrollView.contentOffset;
+  CGSize size = scrollView.bounds.size;
+  CGRect mapBounds;
+  
+  float xScale = (SECOND_POINT_LONGITUDE-ZERO_LONGITUDE)/LONGITUDE_OFFSET;
+  float yScale = (SECOND_POINT_LATITUDE-ZERO_LATITUDE)/LATITUDE_OFFSET;
+  
+  mapBounds.origin.x = (origin.x / self.mapView.frame.size.width - ZERO_LONGITUDE) / xScale;
+  mapBounds.origin.y = (origin.y / self.mapView.frame.size.height - ZERO_LATITUDE) / yScale;
+  mapBounds.size.width = size.width / xScale / self.mapView.frame.size.width;
+  mapBounds.size.height = size.height / yScale / self.mapView.frame.size.height;
+  
+  NSLog(@"%@", [NSValue valueWithCGRect:mapBounds]);
+  
+//  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:20 bounds:mapBounds];
 }
 
 - (void) removeAllPins {
@@ -133,6 +154,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 - (CGPoint) mapPointForCoordinate:(LocationProto *)coord {
   float xScale = (SECOND_POINT_LONGITUDE-ZERO_LONGITUDE)/LONGITUDE_OFFSET;
   float yScale = (SECOND_POINT_LATITUDE-ZERO_LATITUDE)/LATITUDE_OFFSET;
+  
   float x = (ZERO_LONGITUDE + coord.longitude * xScale) * self.mapView.frame.size.width;
   float y = (ZERO_LATITUDE + coord.latitude * yScale) * self.mapView.frame.size.height;
   return CGPointMake(x, y);
@@ -156,6 +178,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 }
 
 - (void) scrollViewDidZoom:(UIScrollView *)scrollView {
+  [self retrieveAttackListForCurrentBounds];
   for (PinView *pin in pins) {
     [self updatePin:pin];
   }

@@ -6639,8 +6639,8 @@ static CoordinateProto* defaultCoordinateProtoInstance = nil;
 @end
 
 @interface LocationProto ()
-@property Float32 latitude;
-@property Float32 longitude;
+@property Float64 latitude;
+@property Float64 longitude;
 @end
 
 @implementation LocationProto
@@ -6692,10 +6692,10 @@ static LocationProto* defaultLocationProtoInstance = nil;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasLatitude) {
-    [output writeFloat:1 value:self.latitude];
+    [output writeDouble:1 value:self.latitude];
   }
   if (self.hasLongitude) {
-    [output writeFloat:2 value:self.longitude];
+    [output writeDouble:2 value:self.longitude];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6707,10 +6707,10 @@ static LocationProto* defaultLocationProtoInstance = nil;
 
   size = 0;
   if (self.hasLatitude) {
-    size += computeFloatSize(1, self.latitude);
+    size += computeDoubleSize(1, self.latitude);
   }
   if (self.hasLongitude) {
-    size += computeFloatSize(2, self.longitude);
+    size += computeDoubleSize(2, self.longitude);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6814,12 +6814,12 @@ static LocationProto* defaultLocationProtoInstance = nil;
         }
         break;
       }
-      case 13: {
-        [self setLatitude:[input readFloat]];
+      case 9: {
+        [self setLatitude:[input readDouble]];
         break;
       }
-      case 21: {
-        [self setLongitude:[input readFloat]];
+      case 17: {
+        [self setLongitude:[input readDouble]];
         break;
       }
     }
@@ -6828,10 +6828,10 @@ static LocationProto* defaultLocationProtoInstance = nil;
 - (BOOL) hasLatitude {
   return result.hasLatitude;
 }
-- (Float32) latitude {
+- (Float64) latitude {
   return result.latitude;
 }
-- (LocationProto_Builder*) setLatitude:(Float32) value {
+- (LocationProto_Builder*) setLatitude:(Float64) value {
   result.hasLatitude = YES;
   result.latitude = value;
   return self;
@@ -6844,10 +6844,10 @@ static LocationProto* defaultLocationProtoInstance = nil;
 - (BOOL) hasLongitude {
   return result.hasLongitude;
 }
-- (Float32) longitude {
+- (Float64) longitude {
   return result.longitude;
 }
-- (LocationProto_Builder*) setLongitude:(Float32) value {
+- (LocationProto_Builder*) setLongitude:(Float64) value {
   result.hasLongitude = YES;
   result.longitude = value;
   return self;

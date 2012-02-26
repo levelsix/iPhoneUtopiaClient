@@ -1655,13 +1655,13 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @private
   BOOL hasLatitude_:1;
   BOOL hasLongitude_:1;
-  Float32 latitude;
-  Float32 longitude;
+  Float64 latitude;
+  Float64 longitude;
 }
 - (BOOL) hasLatitude;
 - (BOOL) hasLongitude;
-@property (readonly) Float32 latitude;
-@property (readonly) Float32 longitude;
+@property (readonly) Float64 latitude;
+@property (readonly) Float64 longitude;
 
 + (LocationProto*) defaultInstance;
 - (LocationProto*) defaultInstance;
@@ -1698,13 +1698,13 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (LocationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasLatitude;
-- (Float32) latitude;
-- (LocationProto_Builder*) setLatitude:(Float32) value;
+- (Float64) latitude;
+- (LocationProto_Builder*) setLatitude:(Float64) value;
 - (LocationProto_Builder*) clearLatitude;
 
 - (BOOL) hasLongitude;
-- (Float32) longitude;
-- (LocationProto_Builder*) setLongitude:(Float32) value;
+- (Float64) longitude;
+- (LocationProto_Builder*) setLongitude:(Float64) value;
 - (LocationProto_Builder*) clearLongitude;
 @end
 

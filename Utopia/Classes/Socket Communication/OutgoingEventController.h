@@ -21,7 +21,7 @@
 - (void) taskAction:(int)taskId;
 
 - (void) battle:(int)defender;
-- (void) generateAttackList:(int)numEnemies;
+- (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
 - (void) startup;
 - (void) inAppPurchase: (NSString *) receipt;

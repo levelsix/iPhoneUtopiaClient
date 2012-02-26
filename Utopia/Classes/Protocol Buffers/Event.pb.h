@@ -457,6 +457,7 @@ typedef enum {
   GenerateAttackListResponseProto_GenerateAttackListStatusSuccess = 0,
   GenerateAttackListResponseProto_GenerateAttackListStatusSomeFail = 1,
   GenerateAttackListResponseProto_GenerateAttackListStatusInvalidNumEnemiesCount = 2,
+  GenerateAttackListResponseProto_GenerateAttackListStatusInvalidBound = 3,
 } GenerateAttackListResponseProto_GenerateAttackListStatus;
 
 BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(GenerateAttackListResponseProto_GenerateAttackListStatus value);
@@ -4449,14 +4450,30 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 @interface GenerateAttackListRequestProto : PBGeneratedMessage {
 @private
   BOOL hasNumEnemies_:1;
+  BOOL hasLatLowerBound_:1;
+  BOOL hasLatUpperBound_:1;
+  BOOL hasLongLowerBound_:1;
+  BOOL hasLongUpperBound_:1;
   BOOL hasSender_:1;
   int32_t numEnemies;
+  int32_t latLowerBound;
+  int32_t latUpperBound;
+  int32_t longLowerBound;
+  int32_t longUpperBound;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
 - (BOOL) hasNumEnemies;
+- (BOOL) hasLatLowerBound;
+- (BOOL) hasLatUpperBound;
+- (BOOL) hasLongLowerBound;
+- (BOOL) hasLongUpperBound;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t numEnemies;
+@property (readonly) int32_t latLowerBound;
+@property (readonly) int32_t latUpperBound;
+@property (readonly) int32_t longLowerBound;
+@property (readonly) int32_t longUpperBound;
 
 + (GenerateAttackListRequestProto*) defaultInstance;
 - (GenerateAttackListRequestProto*) defaultInstance;
@@ -4503,6 +4520,26 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (int32_t) numEnemies;
 - (GenerateAttackListRequestProto_Builder*) setNumEnemies:(int32_t) value;
 - (GenerateAttackListRequestProto_Builder*) clearNumEnemies;
+
+- (BOOL) hasLatLowerBound;
+- (int32_t) latLowerBound;
+- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(int32_t) value;
+- (GenerateAttackListRequestProto_Builder*) clearLatLowerBound;
+
+- (BOOL) hasLatUpperBound;
+- (int32_t) latUpperBound;
+- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(int32_t) value;
+- (GenerateAttackListRequestProto_Builder*) clearLatUpperBound;
+
+- (BOOL) hasLongLowerBound;
+- (int32_t) longLowerBound;
+- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(int32_t) value;
+- (GenerateAttackListRequestProto_Builder*) clearLongLowerBound;
+
+- (BOOL) hasLongUpperBound;
+- (int32_t) longUpperBound;
+- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(int32_t) value;
+- (GenerateAttackListRequestProto_Builder*) clearLongUpperBound;
 @end
 
 @interface GenerateAttackListResponseProto : PBGeneratedMessage {

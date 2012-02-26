@@ -18,7 +18,7 @@ message MinimumUserProto {
 	optional string name = 2;
 	optional UserType userType = 3;
 }
-F
+
 message FullUserProto {
 	required int32 userId = 1;
 	required string name = 2;
@@ -210,8 +210,8 @@ message CoordinateProto {
 //------------------------------------------------------------------------------------------
 
 message LocationProto {
-	required float latitude = 1;
-	required float longitude = 2;
+	required double latitude = 1;
+	required double longitude = 2;
 }
 
 //------------------------------------------------------------------------------------------

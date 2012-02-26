@@ -16,6 +16,7 @@
 
 @property (nonatomic, retain) NSMutableArray *pins;
 
+- (void) retrieveAttackListForCurrentBounds;
 - (void) removeAllPins;
 - (void) addNewPins;
 - (CGPoint) mapPointForCoordinate:(LocationProto *)coord;

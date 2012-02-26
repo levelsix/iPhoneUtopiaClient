@@ -17155,6 +17155,10 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 @interface GenerateAttackListRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t numEnemies;
+@property int32_t latLowerBound;
+@property int32_t latUpperBound;
+@property int32_t longLowerBound;
+@property int32_t longUpperBound;
 @end
 
 @implementation GenerateAttackListRequestProto
@@ -17173,6 +17177,34 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
   hasNumEnemies_ = !!value;
 }
 @synthesize numEnemies;
+- (BOOL) hasLatLowerBound {
+  return !!hasLatLowerBound_;
+}
+- (void) setHasLatLowerBound:(BOOL) value {
+  hasLatLowerBound_ = !!value;
+}
+@synthesize latLowerBound;
+- (BOOL) hasLatUpperBound {
+  return !!hasLatUpperBound_;
+}
+- (void) setHasLatUpperBound:(BOOL) value {
+  hasLatUpperBound_ = !!value;
+}
+@synthesize latUpperBound;
+- (BOOL) hasLongLowerBound {
+  return !!hasLongLowerBound_;
+}
+- (void) setHasLongLowerBound:(BOOL) value {
+  hasLongLowerBound_ = !!value;
+}
+@synthesize longLowerBound;
+- (BOOL) hasLongUpperBound {
+  return !!hasLongUpperBound_;
+}
+- (void) setHasLongUpperBound:(BOOL) value {
+  hasLongUpperBound_ = !!value;
+}
+@synthesize longUpperBound;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -17181,6 +17213,10 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.numEnemies = 0;
+    self.latLowerBound = 0;
+    self.latUpperBound = 0;
+    self.longLowerBound = 0;
+    self.longUpperBound = 0;
   }
   return self;
 }
@@ -17215,6 +17251,18 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (self.hasNumEnemies) {
     [output writeInt32:2 value:self.numEnemies];
   }
+  if (self.hasLatLowerBound) {
+    [output writeInt32:3 value:self.latLowerBound];
+  }
+  if (self.hasLatUpperBound) {
+    [output writeInt32:4 value:self.latUpperBound];
+  }
+  if (self.hasLongLowerBound) {
+    [output writeInt32:5 value:self.longLowerBound];
+  }
+  if (self.hasLongUpperBound) {
+    [output writeInt32:6 value:self.longUpperBound];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -17229,6 +17277,18 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   }
   if (self.hasNumEnemies) {
     size += computeInt32Size(2, self.numEnemies);
+  }
+  if (self.hasLatLowerBound) {
+    size += computeInt32Size(3, self.latLowerBound);
+  }
+  if (self.hasLatUpperBound) {
+    size += computeInt32Size(4, self.latUpperBound);
+  }
+  if (self.hasLongLowerBound) {
+    size += computeInt32Size(5, self.longLowerBound);
+  }
+  if (self.hasLongUpperBound) {
+    size += computeInt32Size(6, self.longUpperBound);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -17311,6 +17371,18 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (other.hasNumEnemies) {
     [self setNumEnemies:other.numEnemies];
   }
+  if (other.hasLatLowerBound) {
+    [self setLatLowerBound:other.latLowerBound];
+  }
+  if (other.hasLatUpperBound) {
+    [self setLatUpperBound:other.latUpperBound];
+  }
+  if (other.hasLongLowerBound) {
+    [self setLongLowerBound:other.longLowerBound];
+  }
+  if (other.hasLongUpperBound) {
+    [self setLongUpperBound:other.longUpperBound];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -17343,6 +17415,22 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
       }
       case 16: {
         [self setNumEnemies:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setLatLowerBound:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setLatUpperBound:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setLongLowerBound:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setLongUpperBound:[input readInt32]];
         break;
       }
     }
@@ -17392,6 +17480,70 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (GenerateAttackListRequestProto_Builder*) clearNumEnemies {
   result.hasNumEnemies = NO;
   result.numEnemies = 0;
+  return self;
+}
+- (BOOL) hasLatLowerBound {
+  return result.hasLatLowerBound;
+}
+- (int32_t) latLowerBound {
+  return result.latLowerBound;
+}
+- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(int32_t) value {
+  result.hasLatLowerBound = YES;
+  result.latLowerBound = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearLatLowerBound {
+  result.hasLatLowerBound = NO;
+  result.latLowerBound = 0;
+  return self;
+}
+- (BOOL) hasLatUpperBound {
+  return result.hasLatUpperBound;
+}
+- (int32_t) latUpperBound {
+  return result.latUpperBound;
+}
+- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(int32_t) value {
+  result.hasLatUpperBound = YES;
+  result.latUpperBound = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearLatUpperBound {
+  result.hasLatUpperBound = NO;
+  result.latUpperBound = 0;
+  return self;
+}
+- (BOOL) hasLongLowerBound {
+  return result.hasLongLowerBound;
+}
+- (int32_t) longLowerBound {
+  return result.longLowerBound;
+}
+- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(int32_t) value {
+  result.hasLongLowerBound = YES;
+  result.longLowerBound = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearLongLowerBound {
+  result.hasLongLowerBound = NO;
+  result.longLowerBound = 0;
+  return self;
+}
+- (BOOL) hasLongUpperBound {
+  return result.hasLongUpperBound;
+}
+- (int32_t) longUpperBound {
+  return result.longUpperBound;
+}
+- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(int32_t) value {
+  result.hasLongUpperBound = YES;
+  result.longUpperBound = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearLongUpperBound {
+  result.hasLongUpperBound = NO;
+  result.longUpperBound = 0;
   return self;
 }
 @end
@@ -17533,6 +17685,7 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
     case GenerateAttackListResponseProto_GenerateAttackListStatusSuccess:
     case GenerateAttackListResponseProto_GenerateAttackListStatusSomeFail:
     case GenerateAttackListResponseProto_GenerateAttackListStatusInvalidNumEnemiesCount:
+    case GenerateAttackListResponseProto_GenerateAttackListStatusInvalidBound:
       return YES;
     default:
       return NO;

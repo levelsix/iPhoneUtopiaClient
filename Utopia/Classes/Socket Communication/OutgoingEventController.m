@@ -64,8 +64,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendBattleMessage:defender];
 }
 
-- (void) generateAttackList:(int)numEnemies {
-  [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies];
+- (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
+  if (bounds.size.width <= 0 || bounds.size.height <= 0) {
+    [Globals popupMessage:@"Invalid bounds to generate attack list"];
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies 
+                                                                   latUpperBound:MIN(CGRectGetMaxX(bounds), 90)
+                                                                   latLowerBound:MAX(CGRectGetMinX(bounds), -90) 
+                                                                   lonUpperBound:MIN(CGRectGetMaxY(bounds), 180) 
+                                                                   lonLowerBound:MAX(CGRectGetMinY(bounds), -180)];
 }
 
 - (void) startup {
