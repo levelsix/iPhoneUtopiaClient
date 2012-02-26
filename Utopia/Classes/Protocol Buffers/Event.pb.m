@@ -2602,6 +2602,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @property (retain) NSString* udid;
 @property Float32 versionNum;
 @property int64_t clientTime;
+@property (retain) NSString* deviceToken;
 @end
 
 @implementation StartupRequestProto
@@ -2627,8 +2628,16 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasClientTime_ = !!value;
 }
 @synthesize clientTime;
+- (BOOL) hasDeviceToken {
+  return !!hasDeviceToken_;
+}
+- (void) setHasDeviceToken:(BOOL) value {
+  hasDeviceToken_ = !!value;
+}
+@synthesize deviceToken;
 - (void) dealloc {
   self.udid = nil;
+  self.deviceToken = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2636,6 +2645,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     self.udid = @"";
     self.versionNum = 0;
     self.clientTime = 0L;
+    self.deviceToken = @"";
   }
   return self;
 }
@@ -2673,6 +2683,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
   }
+  if (self.hasDeviceToken) {
+    [output writeString:4 value:self.deviceToken];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2690,6 +2703,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
+  }
+  if (self.hasDeviceToken) {
+    size += computeStringSize(4, self.deviceToken);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2775,6 +2791,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
   }
+  if (other.hasDeviceToken) {
+    [self setDeviceToken:other.deviceToken];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2806,6 +2825,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 24: {
         [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 34: {
+        [self setDeviceToken:[input readString]];
         break;
       }
     }
@@ -2857,6 +2880,22 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasDeviceToken {
+  return result.hasDeviceToken;
+}
+- (NSString*) deviceToken {
+  return result.deviceToken;
+}
+- (StartupRequestProto_Builder*) setDeviceToken:(NSString*) value {
+  result.hasDeviceToken = YES;
+  result.deviceToken = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearDeviceToken {
+  result.hasDeviceToken = NO;
+  result.deviceToken = @"";
   return self;
 }
 @end
@@ -4907,6 +4946,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property (retain) CoordinateProto* refineryCoordinates;
 @property (retain) CoordinateProto* carpenterCoordinates;
 @property int32_t referrerCode;
+@property (retain) NSString* deviceToken;
 @end
 
 @implementation UserCreateRequestProto
@@ -4968,6 +5008,13 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasReferrerCode_ = !!value;
 }
 @synthesize referrerCode;
+- (BOOL) hasDeviceToken {
+  return !!hasDeviceToken_;
+}
+- (void) setHasDeviceToken:(BOOL) value {
+  hasDeviceToken_ = !!value;
+}
+@synthesize deviceToken;
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
@@ -4977,6 +5024,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   self.aviaryCoordinates = nil;
   self.refineryCoordinates = nil;
   self.carpenterCoordinates = nil;
+  self.deviceToken = nil;
   [super dealloc];
 }
 - (id) init {
@@ -4989,6 +5037,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.refineryCoordinates = [CoordinateProto defaultInstance];
     self.carpenterCoordinates = [CoordinateProto defaultInstance];
     self.referrerCode = 0;
+    self.deviceToken = @"";
   }
   return self;
 }
@@ -5080,6 +5129,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasReferrerCode) {
     [output writeInt32:9 value:self.referrerCode];
   }
+  if (self.hasDeviceToken) {
+    [output writeString:10 value:self.deviceToken];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5115,6 +5167,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasReferrerCode) {
     size += computeInt32Size(9, self.referrerCode);
+  }
+  if (self.hasDeviceToken) {
+    size += computeStringSize(10, self.deviceToken);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5221,6 +5276,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasReferrerCode) {
     [self setReferrerCode:other.referrerCode];
   }
+  if (other.hasDeviceToken) {
+    [self setDeviceToken:other.deviceToken];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5298,6 +5356,10 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 72: {
         [self setReferrerCode:[input readInt32]];
+        break;
+      }
+      case 82: {
+        [self setDeviceToken:[input readString]];
         break;
       }
     }
@@ -5514,6 +5576,22 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearReferrerCode {
   result.hasReferrerCode = NO;
   result.referrerCode = 0;
+  return self;
+}
+- (BOOL) hasDeviceToken {
+  return result.hasDeviceToken;
+}
+- (NSString*) deviceToken {
+  return result.deviceToken;
+}
+- (UserCreateRequestProto_Builder*) setDeviceToken:(NSString*) value {
+  result.hasDeviceToken = YES;
+  result.deviceToken = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearDeviceToken {
+  result.hasDeviceToken = NO;
+  result.deviceToken = @"";
   return self;
 }
 @end
@@ -14838,6 +14916,7 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
 @interface PostToMarketplaceRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t postedEquipId;
+@property int64_t timeOfPost;
 @property int32_t diamondCost;
 @property int32_t coinCost;
 @end
@@ -14858,6 +14937,13 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   hasPostedEquipId_ = !!value;
 }
 @synthesize postedEquipId;
+- (BOOL) hasTimeOfPost {
+  return !!hasTimeOfPost_;
+}
+- (void) setHasTimeOfPost:(BOOL) value {
+  hasTimeOfPost_ = !!value;
+}
+@synthesize timeOfPost;
 - (BOOL) hasDiamondCost {
   return !!hasDiamondCost_;
 }
@@ -14880,6 +14966,7 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.postedEquipId = 0;
+    self.timeOfPost = 0L;
     self.diamondCost = 0;
     self.coinCost = 0;
   }
@@ -14904,6 +14991,9 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (!self.hasPostedEquipId) {
     return NO;
   }
+  if (!self.hasTimeOfPost) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -14916,11 +15006,14 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (self.hasPostedEquipId) {
     [output writeInt32:2 value:self.postedEquipId];
   }
+  if (self.hasTimeOfPost) {
+    [output writeInt64:3 value:self.timeOfPost];
+  }
   if (self.hasDiamondCost) {
-    [output writeInt32:3 value:self.diamondCost];
+    [output writeInt32:4 value:self.diamondCost];
   }
   if (self.hasCoinCost) {
-    [output writeInt32:4 value:self.coinCost];
+    [output writeInt32:5 value:self.coinCost];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -14937,11 +15030,14 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (self.hasPostedEquipId) {
     size += computeInt32Size(2, self.postedEquipId);
   }
+  if (self.hasTimeOfPost) {
+    size += computeInt64Size(3, self.timeOfPost);
+  }
   if (self.hasDiamondCost) {
-    size += computeInt32Size(3, self.diamondCost);
+    size += computeInt32Size(4, self.diamondCost);
   }
   if (self.hasCoinCost) {
-    size += computeInt32Size(4, self.coinCost);
+    size += computeInt32Size(5, self.coinCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -15024,6 +15120,9 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (other.hasPostedEquipId) {
     [self setPostedEquipId:other.postedEquipId];
   }
+  if (other.hasTimeOfPost) {
+    [self setTimeOfPost:other.timeOfPost];
+  }
   if (other.hasDiamondCost) {
     [self setDiamondCost:other.diamondCost];
   }
@@ -15065,10 +15164,14 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
         break;
       }
       case 24: {
-        [self setDiamondCost:[input readInt32]];
+        [self setTimeOfPost:[input readInt64]];
         break;
       }
       case 32: {
+        [self setDiamondCost:[input readInt32]];
+        break;
+      }
+      case 40: {
         [self setCoinCost:[input readInt32]];
         break;
       }
@@ -15119,6 +15222,22 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
 - (PostToMarketplaceRequestProto_Builder*) clearPostedEquipId {
   result.hasPostedEquipId = NO;
   result.postedEquipId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfPost {
+  return result.hasTimeOfPost;
+}
+- (int64_t) timeOfPost {
+  return result.timeOfPost;
+}
+- (PostToMarketplaceRequestProto_Builder*) setTimeOfPost:(int64_t) value {
+  result.hasTimeOfPost = YES;
+  result.timeOfPost = value;
+  return self;
+}
+- (PostToMarketplaceRequestProto_Builder*) clearTimeOfPost {
+  result.hasTimeOfPost = NO;
+  result.timeOfPost = 0L;
   return self;
 }
 - (BOOL) hasDiamondCost {
@@ -15276,6 +15395,7 @@ BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMa
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost:
+    case PostToMarketplaceResponseProto_PostToMarketplaceStatusNoLicense:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail:
       return YES;
     default:
@@ -17034,7 +17154,6 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 
 @interface GenerateAttackListRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property UserType enemyType;
 @property int32_t numEnemies;
 @end
 
@@ -17047,13 +17166,6 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasEnemyType {
-  return !!hasEnemyType_;
-}
-- (void) setHasEnemyType:(BOOL) value {
-  hasEnemyType_ = !!value;
-}
-@synthesize enemyType;
 - (BOOL) hasNumEnemies {
   return !!hasNumEnemies_;
 }
@@ -17068,7 +17180,6 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.enemyType = UserTypeGoodWarrior;
     self.numEnemies = 0;
   }
   return self;
@@ -17089,6 +17200,9 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasNumEnemies) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -17098,11 +17212,8 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasEnemyType) {
-    [output writeEnum:2 value:self.enemyType];
-  }
   if (self.hasNumEnemies) {
-    [output writeInt32:3 value:self.numEnemies];
+    [output writeInt32:2 value:self.numEnemies];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -17116,11 +17227,8 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasEnemyType) {
-    size += computeEnumSize(2, self.enemyType);
-  }
   if (self.hasNumEnemies) {
-    size += computeInt32Size(3, self.numEnemies);
+    size += computeInt32Size(2, self.numEnemies);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -17200,9 +17308,6 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasEnemyType) {
-    [self setEnemyType:other.enemyType];
-  }
   if (other.hasNumEnemies) {
     [self setNumEnemies:other.numEnemies];
   }
@@ -17237,15 +17342,6 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
         break;
       }
       case 16: {
-        int32_t value = [input readEnum];
-        if (UserTypeIsValidValue(value)) {
-          [self setEnemyType:value];
-        } else {
-          [unknownFields mergeVarintField:2 value:value];
-        }
-        break;
-      }
-      case 24: {
         [self setNumEnemies:[input readInt32]];
         break;
       }
@@ -17282,22 +17378,6 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasEnemyType {
-  return result.hasEnemyType;
-}
-- (UserType) enemyType {
-  return result.enemyType;
-}
-- (GenerateAttackListRequestProto_Builder*) setEnemyType:(UserType) value {
-  result.hasEnemyType = YES;
-  result.enemyType = value;
-  return self;
-}
-- (GenerateAttackListRequestProto_Builder*) clearEnemyType {
-  result.hasEnemyType = NO;
-  result.enemyType = UserTypeGoodWarrior;
-  return self;
-}
 - (BOOL) hasNumEnemies {
   return result.hasNumEnemies;
 }
@@ -17319,6 +17399,7 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 @interface GenerateAttackListResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableEnemiesList;
+@property GenerateAttackListResponseProto_GenerateAttackListStatus status;
 @end
 
 @implementation GenerateAttackListResponseProto
@@ -17331,6 +17412,13 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 }
 @synthesize sender;
 @synthesize mutableEnemiesList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
 - (void) dealloc {
   self.sender = nil;
   self.mutableEnemiesList = nil;
@@ -17339,6 +17427,7 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.status = GenerateAttackListResponseProto_GenerateAttackListStatusSuccess;
   }
   return self;
 }
@@ -17365,6 +17454,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasStatus) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -17382,6 +17474,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   for (FullUserProto* element in self.enemiesList) {
     [output writeMessage:2 value:element];
   }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -17396,6 +17491,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   }
   for (FullUserProto* element in self.enemiesList) {
     size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -17430,6 +17528,16 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
 }
 @end
 
+BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(GenerateAttackListResponseProto_GenerateAttackListStatus value) {
+  switch (value) {
+    case GenerateAttackListResponseProto_GenerateAttackListStatusSuccess:
+    case GenerateAttackListResponseProto_GenerateAttackListStatusSomeFail:
+    case GenerateAttackListResponseProto_GenerateAttackListStatusInvalidNumEnemiesCount:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface GenerateAttackListResponseProto_Builder()
 @property (retain) GenerateAttackListResponseProto* result;
 @end
@@ -17481,6 +17589,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
     }
     [result.mutableEnemiesList addObjectsFromArray:other.mutableEnemiesList];
   }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -17515,6 +17626,15 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
         FullUserProto_Builder* subBuilder = [FullUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEnemies:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
         break;
       }
     }
@@ -17577,6 +17697,22 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
     result.mutableEnemiesList = [NSMutableArray array];
   }
   [result.mutableEnemiesList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (GenerateAttackListResponseProto_GenerateAttackListStatus) status {
+  return result.status;
+}
+- (GenerateAttackListResponseProto_Builder*) setStatus:(GenerateAttackListResponseProto_GenerateAttackListStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = GenerateAttackListResponseProto_GenerateAttackListStatusSuccess;
   return self;
 }
 @end
@@ -24751,6 +24887,1068 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (RefillStatWaitCompleteResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess;
+  return self;
+}
+@end
+
+@interface EnableAPNSRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSString* deviceToken;
+@end
+
+@implementation EnableAPNSRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasDeviceToken {
+  return !!hasDeviceToken_;
+}
+- (void) setHasDeviceToken:(BOOL) value {
+  hasDeviceToken_ = !!value;
+}
+@synthesize deviceToken;
+- (void) dealloc {
+  self.sender = nil;
+  self.deviceToken = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.deviceToken = @"";
+  }
+  return self;
+}
+static EnableAPNSRequestProto* defaultEnableAPNSRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [EnableAPNSRequestProto class]) {
+    defaultEnableAPNSRequestProtoInstance = [[EnableAPNSRequestProto alloc] init];
+  }
+}
++ (EnableAPNSRequestProto*) defaultInstance {
+  return defaultEnableAPNSRequestProtoInstance;
+}
+- (EnableAPNSRequestProto*) defaultInstance {
+  return defaultEnableAPNSRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasDeviceToken) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasDeviceToken) {
+    [output writeString:2 value:self.deviceToken];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasDeviceToken) {
+    size += computeStringSize(2, self.deviceToken);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EnableAPNSRequestProto*) parseFromData:(NSData*) data {
+  return (EnableAPNSRequestProto*)[[[EnableAPNSRequestProto builder] mergeFromData:data] build];
+}
++ (EnableAPNSRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnableAPNSRequestProto*)[[[EnableAPNSRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EnableAPNSRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EnableAPNSRequestProto*)[[[EnableAPNSRequestProto builder] mergeFromInputStream:input] build];
+}
++ (EnableAPNSRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnableAPNSRequestProto*)[[[EnableAPNSRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnableAPNSRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EnableAPNSRequestProto*)[[[EnableAPNSRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EnableAPNSRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnableAPNSRequestProto*)[[[EnableAPNSRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnableAPNSRequestProto_Builder*) builder {
+  return [[[EnableAPNSRequestProto_Builder alloc] init] autorelease];
+}
++ (EnableAPNSRequestProto_Builder*) builderWithPrototype:(EnableAPNSRequestProto*) prototype {
+  return [[EnableAPNSRequestProto builder] mergeFrom:prototype];
+}
+- (EnableAPNSRequestProto_Builder*) builder {
+  return [EnableAPNSRequestProto builder];
+}
+@end
+
+@interface EnableAPNSRequestProto_Builder()
+@property (retain) EnableAPNSRequestProto* result;
+@end
+
+@implementation EnableAPNSRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EnableAPNSRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EnableAPNSRequestProto_Builder*) clear {
+  self.result = [[[EnableAPNSRequestProto alloc] init] autorelease];
+  return self;
+}
+- (EnableAPNSRequestProto_Builder*) clone {
+  return [EnableAPNSRequestProto builderWithPrototype:result];
+}
+- (EnableAPNSRequestProto*) defaultInstance {
+  return [EnableAPNSRequestProto defaultInstance];
+}
+- (EnableAPNSRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EnableAPNSRequestProto*) buildPartial {
+  EnableAPNSRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EnableAPNSRequestProto_Builder*) mergeFrom:(EnableAPNSRequestProto*) other {
+  if (other == [EnableAPNSRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasDeviceToken) {
+    [self setDeviceToken:other.deviceToken];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EnableAPNSRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EnableAPNSRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        [self setDeviceToken:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EnableAPNSRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EnableAPNSRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EnableAPNSRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EnableAPNSRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasDeviceToken {
+  return result.hasDeviceToken;
+}
+- (NSString*) deviceToken {
+  return result.deviceToken;
+}
+- (EnableAPNSRequestProto_Builder*) setDeviceToken:(NSString*) value {
+  result.hasDeviceToken = YES;
+  result.deviceToken = value;
+  return self;
+}
+- (EnableAPNSRequestProto_Builder*) clearDeviceToken {
+  result.hasDeviceToken = NO;
+  result.deviceToken = @"";
+  return self;
+}
+@end
+
+@interface EnableAPNSResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property EnableAPNSResponseProto_EnableAPNSStatus status;
+@end
+
+@implementation EnableAPNSResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = EnableAPNSResponseProto_EnableAPNSStatusSuccess;
+  }
+  return self;
+}
+static EnableAPNSResponseProto* defaultEnableAPNSResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [EnableAPNSResponseProto class]) {
+    defaultEnableAPNSResponseProtoInstance = [[EnableAPNSResponseProto alloc] init];
+  }
+}
++ (EnableAPNSResponseProto*) defaultInstance {
+  return defaultEnableAPNSResponseProtoInstance;
+}
+- (EnableAPNSResponseProto*) defaultInstance {
+  return defaultEnableAPNSResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EnableAPNSResponseProto*) parseFromData:(NSData*) data {
+  return (EnableAPNSResponseProto*)[[[EnableAPNSResponseProto builder] mergeFromData:data] build];
+}
++ (EnableAPNSResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnableAPNSResponseProto*)[[[EnableAPNSResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EnableAPNSResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EnableAPNSResponseProto*)[[[EnableAPNSResponseProto builder] mergeFromInputStream:input] build];
+}
++ (EnableAPNSResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnableAPNSResponseProto*)[[[EnableAPNSResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnableAPNSResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EnableAPNSResponseProto*)[[[EnableAPNSResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EnableAPNSResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EnableAPNSResponseProto*)[[[EnableAPNSResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EnableAPNSResponseProto_Builder*) builder {
+  return [[[EnableAPNSResponseProto_Builder alloc] init] autorelease];
+}
++ (EnableAPNSResponseProto_Builder*) builderWithPrototype:(EnableAPNSResponseProto*) prototype {
+  return [[EnableAPNSResponseProto builder] mergeFrom:prototype];
+}
+- (EnableAPNSResponseProto_Builder*) builder {
+  return [EnableAPNSResponseProto builder];
+}
+@end
+
+BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProto_EnableAPNSStatus value) {
+  switch (value) {
+    case EnableAPNSResponseProto_EnableAPNSStatusSuccess:
+    case EnableAPNSResponseProto_EnableAPNSStatusNotEnabled:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface EnableAPNSResponseProto_Builder()
+@property (retain) EnableAPNSResponseProto* result;
+@end
+
+@implementation EnableAPNSResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EnableAPNSResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EnableAPNSResponseProto_Builder*) clear {
+  self.result = [[[EnableAPNSResponseProto alloc] init] autorelease];
+  return self;
+}
+- (EnableAPNSResponseProto_Builder*) clone {
+  return [EnableAPNSResponseProto builderWithPrototype:result];
+}
+- (EnableAPNSResponseProto*) defaultInstance {
+  return [EnableAPNSResponseProto defaultInstance];
+}
+- (EnableAPNSResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EnableAPNSResponseProto*) buildPartial {
+  EnableAPNSResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EnableAPNSResponseProto_Builder*) mergeFrom:(EnableAPNSResponseProto*) other {
+  if (other == [EnableAPNSResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EnableAPNSResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EnableAPNSResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EnableAPNSResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EnableAPNSResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EnableAPNSResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EnableAPNSResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (EnableAPNSResponseProto_EnableAPNSStatus) status {
+  return result.status;
+}
+- (EnableAPNSResponseProto_Builder*) setStatus:(EnableAPNSResponseProto_EnableAPNSStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (EnableAPNSResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = EnableAPNSResponseProto_EnableAPNSStatusSuccess;
+  return self;
+}
+@end
+
+@interface PurchaseMarketplaceLicenseRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int64_t clientTime;
+@property PurchaseMarketplaceLicenseRequestProto_LicenseType licenseType;
+@end
+
+@implementation PurchaseMarketplaceLicenseRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (BOOL) hasLicenseType {
+  return !!hasLicenseType_;
+}
+- (void) setHasLicenseType:(BOOL) value {
+  hasLicenseType_ = !!value;
+}
+@synthesize licenseType;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.clientTime = 0L;
+    self.licenseType = PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort;
+  }
+  return self;
+}
+static PurchaseMarketplaceLicenseRequestProto* defaultPurchaseMarketplaceLicenseRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [PurchaseMarketplaceLicenseRequestProto class]) {
+    defaultPurchaseMarketplaceLicenseRequestProtoInstance = [[PurchaseMarketplaceLicenseRequestProto alloc] init];
+  }
+}
++ (PurchaseMarketplaceLicenseRequestProto*) defaultInstance {
+  return defaultPurchaseMarketplaceLicenseRequestProtoInstance;
+}
+- (PurchaseMarketplaceLicenseRequestProto*) defaultInstance {
+  return defaultPurchaseMarketplaceLicenseRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasClientTime) {
+    return NO;
+  }
+  if (!self.hasLicenseType) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:2 value:self.clientTime];
+  }
+  if (self.hasLicenseType) {
+    [output writeEnum:3 value:self.licenseType];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(2, self.clientTime);
+  }
+  if (self.hasLicenseType) {
+    size += computeEnumSize(3, self.licenseType);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromData:(NSData*) data {
+  return (PurchaseMarketplaceLicenseRequestProto*)[[[PurchaseMarketplaceLicenseRequestProto builder] mergeFromData:data] build];
+}
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseMarketplaceLicenseRequestProto*)[[[PurchaseMarketplaceLicenseRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseMarketplaceLicenseRequestProto*)[[[PurchaseMarketplaceLicenseRequestProto builder] mergeFromInputStream:input] build];
+}
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseMarketplaceLicenseRequestProto*)[[[PurchaseMarketplaceLicenseRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseMarketplaceLicenseRequestProto*)[[[PurchaseMarketplaceLicenseRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseMarketplaceLicenseRequestProto*)[[[PurchaseMarketplaceLicenseRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseMarketplaceLicenseRequestProto_Builder*) builder {
+  return [[[PurchaseMarketplaceLicenseRequestProto_Builder alloc] init] autorelease];
+}
++ (PurchaseMarketplaceLicenseRequestProto_Builder*) builderWithPrototype:(PurchaseMarketplaceLicenseRequestProto*) prototype {
+  return [[PurchaseMarketplaceLicenseRequestProto builder] mergeFrom:prototype];
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) builder {
+  return [PurchaseMarketplaceLicenseRequestProto builder];
+}
+@end
+
+BOOL PurchaseMarketplaceLicenseRequestProto_LicenseTypeIsValidValue(PurchaseMarketplaceLicenseRequestProto_LicenseType value) {
+  switch (value) {
+    case PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort:
+    case PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PurchaseMarketplaceLicenseRequestProto_Builder()
+@property (retain) PurchaseMarketplaceLicenseRequestProto* result;
+@end
+
+@implementation PurchaseMarketplaceLicenseRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PurchaseMarketplaceLicenseRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clear {
+  self.result = [[[PurchaseMarketplaceLicenseRequestProto alloc] init] autorelease];
+  return self;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clone {
+  return [PurchaseMarketplaceLicenseRequestProto builderWithPrototype:result];
+}
+- (PurchaseMarketplaceLicenseRequestProto*) defaultInstance {
+  return [PurchaseMarketplaceLicenseRequestProto defaultInstance];
+}
+- (PurchaseMarketplaceLicenseRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PurchaseMarketplaceLicenseRequestProto*) buildPartial {
+  PurchaseMarketplaceLicenseRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFrom:(PurchaseMarketplaceLicenseRequestProto*) other {
+  if (other == [PurchaseMarketplaceLicenseRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.hasLicenseType) {
+    [self setLicenseType:other.licenseType];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (PurchaseMarketplaceLicenseRequestProto_LicenseTypeIsValidValue(value)) {
+          [self setLicenseType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasLicenseType {
+  return result.hasLicenseType;
+}
+- (PurchaseMarketplaceLicenseRequestProto_LicenseType) licenseType {
+  return result.licenseType;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setLicenseType:(PurchaseMarketplaceLicenseRequestProto_LicenseType) value {
+  result.hasLicenseType = YES;
+  result.licenseType = value;
+  return self;
+}
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearLicenseType {
+  result.hasLicenseType = NO;
+  result.licenseType = PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort;
+  return self;
+}
+@end
+
+@interface PurchaseMarketplaceLicenseResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus status;
+@end
+
+@implementation PurchaseMarketplaceLicenseResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess;
+  }
+  return self;
+}
+static PurchaseMarketplaceLicenseResponseProto* defaultPurchaseMarketplaceLicenseResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [PurchaseMarketplaceLicenseResponseProto class]) {
+    defaultPurchaseMarketplaceLicenseResponseProtoInstance = [[PurchaseMarketplaceLicenseResponseProto alloc] init];
+  }
+}
++ (PurchaseMarketplaceLicenseResponseProto*) defaultInstance {
+  return defaultPurchaseMarketplaceLicenseResponseProtoInstance;
+}
+- (PurchaseMarketplaceLicenseResponseProto*) defaultInstance {
+  return defaultPurchaseMarketplaceLicenseResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromData:(NSData*) data {
+  return (PurchaseMarketplaceLicenseResponseProto*)[[[PurchaseMarketplaceLicenseResponseProto builder] mergeFromData:data] build];
+}
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseMarketplaceLicenseResponseProto*)[[[PurchaseMarketplaceLicenseResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurchaseMarketplaceLicenseResponseProto*)[[[PurchaseMarketplaceLicenseResponseProto builder] mergeFromInputStream:input] build];
+}
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseMarketplaceLicenseResponseProto*)[[[PurchaseMarketplaceLicenseResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurchaseMarketplaceLicenseResponseProto*)[[[PurchaseMarketplaceLicenseResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurchaseMarketplaceLicenseResponseProto*)[[[PurchaseMarketplaceLicenseResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurchaseMarketplaceLicenseResponseProto_Builder*) builder {
+  return [[[PurchaseMarketplaceLicenseResponseProto_Builder alloc] init] autorelease];
+}
++ (PurchaseMarketplaceLicenseResponseProto_Builder*) builderWithPrototype:(PurchaseMarketplaceLicenseResponseProto*) prototype {
+  return [[PurchaseMarketplaceLicenseResponseProto builder] mergeFrom:prototype];
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) builder {
+  return [PurchaseMarketplaceLicenseResponseProto builder];
+}
+@end
+
+BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsValidValue(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus value) {
+  switch (value) {
+    case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess:
+    case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusNotEnoughDiamonds:
+    case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusAlreadyHaveLicenseNow:
+    case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PurchaseMarketplaceLicenseResponseProto_Builder()
+@property (retain) PurchaseMarketplaceLicenseResponseProto* result;
+@end
+
+@implementation PurchaseMarketplaceLicenseResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PurchaseMarketplaceLicenseResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clear {
+  self.result = [[[PurchaseMarketplaceLicenseResponseProto alloc] init] autorelease];
+  return self;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clone {
+  return [PurchaseMarketplaceLicenseResponseProto builderWithPrototype:result];
+}
+- (PurchaseMarketplaceLicenseResponseProto*) defaultInstance {
+  return [PurchaseMarketplaceLicenseResponseProto defaultInstance];
+}
+- (PurchaseMarketplaceLicenseResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PurchaseMarketplaceLicenseResponseProto*) buildPartial {
+  PurchaseMarketplaceLicenseResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFrom:(PurchaseMarketplaceLicenseResponseProto*) other {
+  if (other == [PurchaseMarketplaceLicenseResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) status {
+  return result.status;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) setStatus:(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess;
   return self;
 }
 @end

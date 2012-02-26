@@ -48,14 +48,17 @@
 
 - (void) drawRect:(CGRect)rect {
   [super drawRect:rect];
+  CGContextRef context = UIGraphicsGetCurrentContext();
   
   int y = CGRectGetMidY(self.bounds)-fullStar.size.height/2;
   int width = fullStar.size.width;
   
   int i;
+  CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 10, [UIColor yellowColor].CGColor);
   for (i = 0; i < level  && i < MAX_STARS; i++) {
     [fullStar drawAtPoint:CGPointMake(LEFT_STAR_OFFSET+i*width, y)];
   }
+//  CGContextSetShadow(context, CGSizeMake(0, 0), 0);
   for (; i < MAX_STARS; i++) {
     [emptyStar drawAtPoint:CGPointMake(LEFT_STAR_OFFSET+i*width, y)];
   }
@@ -680,6 +683,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [Globals popupMessage:@"Upgrade Completed"];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:hb.userStruct];
   [self updateTimersForBuilding:hb];
+  if (hb == _selected && hbMenu.state != kMoveState) {
+    [self.hbMenu updateLabelsForUserStruct:hb.userStruct];
+  }
+  _upgrBuilding = nil;
 }
 
 - (void) buildComplete:(NSTimer *)timer {
@@ -687,6 +694,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [Globals popupMessage:@"Build Completed"];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:hb.userStruct];
   [self updateTimersForBuilding:hb];
+  if (hb == _selected && hbMenu.state != kMoveState) {
+    [self.hbMenu updateLabelsForUserStruct:hb.userStruct];
+  }
+  _constrBuilding = nil;
 }
 
 - (void) waitForIncomeComplete:(NSTimer *)timer {
@@ -694,6 +705,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   hb.retrievable = YES;
   
   if (hb == _selected) {
+    if (self.hbMenu.state == kMoveState) {
+      [hb cancelMove];
+      _canMove = NO;
+    }
     self.selected = nil;
   }
 }
@@ -721,6 +736,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     if (us) {
       homeBuilding.userStruct = us;
       _constrBuilding = homeBuilding;
+      [self updateTimersForBuilding:_constrBuilding];
     } else {
       [homeBuilding liftBlock];
       [self removeChild:homeBuilding cleanup:YES];
@@ -788,7 +804,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (IBAction)littleUpgradeClicked:(id)sender {
   UserStruct *us = ((HomeBuilding *)_selected).userStruct;
   [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-  [self updateTimersForBuilding:(HomeBuilding *)_selected];
+  _upgrBuilding = (HomeBuilding *)_selected;
+  [self updateTimersForBuilding:_upgrBuilding];
   [self.hbMenu updateLabelsForUserStruct:us];
 }
 
@@ -798,9 +815,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   self.hbMenu.finishNowButton.enabled = NO;
   self.hbMenu.blueButton.enabled = NO;
   if (state == kUpgrading) {
-    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:((HomeBuilding *)_selected).userStruct];
+    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:_upgrBuilding.userStruct];
   } else if (state == kBuilding) {
-    [[OutgoingEventController sharedOutgoingEventController] instaBuild:((HomeBuilding *)_selected).userStruct];
+    [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
   }
   if (hb.userStruct.state == kWaitingForIncome) {
     if (_selected == _constrBuilding) {

@@ -64,6 +64,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendBattleMessage:defender];
 }
 
+- (void) generateAttackList:(int)numEnemies {
+  [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies];
+}
+
 - (void) startup {
   [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
 }
@@ -414,16 +418,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (!userStruct.isComplete) {
+    NSDate *date;
+    if (userStruct.state == kBuilding) {
+      date = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
+    } else if (userStruct.state == kUpgrading) {
+      date = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:userStruct]*60 sinceDate:userStruct.lastUpgradeTime];
+    } else {
+      [Globals popupMessage:@"Something went wrong, building should still be waiting"];
+      return;
+    }
+    
+    if ([date compare:[NSDate date]] == NSOrderedDescending) {
+      [Globals popupMessage:@"Something went wrong, building should still be waiting"];
+      return;
+    }
+    userStruct.lastRetrieved = date;
+    userStruct.isComplete = YES;
+    
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
-    userStruct.isComplete = YES;
-    userStruct.lastRetrieved = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:userStruct]*60 sinceDate:userStruct.lastUpgradeTime];
     
     if (userStruct.lastUpgradeTime) {
       // Building was upgraded, not constructed

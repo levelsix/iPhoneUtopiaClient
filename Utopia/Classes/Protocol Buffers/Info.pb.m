@@ -396,6 +396,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int64_t lastTimeAttacked;
 @property (retain) NSString* macAddress;
 @property int32_t numBadges;
+@property int64_t lastShortLicensePurchaseTime;
+@property int64_t lastLongLicensePurchaseTime;
 @end
 
 @implementation FullUserProto
@@ -704,6 +706,20 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasNumBadges_ = !!value;
 }
 @synthesize numBadges;
+- (BOOL) hasLastShortLicensePurchaseTime {
+  return !!hasLastShortLicensePurchaseTime_;
+}
+- (void) setHasLastShortLicensePurchaseTime:(BOOL) value {
+  hasLastShortLicensePurchaseTime_ = !!value;
+}
+@synthesize lastShortLicensePurchaseTime;
+- (BOOL) hasLastLongLicensePurchaseTime {
+  return !!hasLastLongLicensePurchaseTime_;
+}
+- (void) setHasLastLongLicensePurchaseTime:(BOOL) value {
+  hasLastLongLicensePurchaseTime_ = !!value;
+}
+@synthesize lastLongLicensePurchaseTime;
 - (void) dealloc {
   self.name = nil;
   self.armyCode = nil;
@@ -757,6 +773,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.lastTimeAttacked = 0L;
     self.macAddress = @"";
     self.numBadges = 0;
+    self.lastShortLicensePurchaseTime = 0L;
+    self.lastLongLicensePurchaseTime = 0L;
   }
   return self;
 }
@@ -1004,6 +1022,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumBadges) {
     [output writeInt32:42 value:self.numBadges];
   }
+  if (self.hasLastShortLicensePurchaseTime) {
+    [output writeInt64:43 value:self.lastShortLicensePurchaseTime];
+  }
+  if (self.hasLastLongLicensePurchaseTime) {
+    [output writeInt64:44 value:self.lastLongLicensePurchaseTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1138,6 +1162,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumBadges) {
     size += computeInt32Size(42, self.numBadges);
+  }
+  if (self.hasLastShortLicensePurchaseTime) {
+    size += computeInt64Size(43, self.lastShortLicensePurchaseTime);
+  }
+  if (self.hasLastLongLicensePurchaseTime) {
+    size += computeInt64Size(44, self.lastLongLicensePurchaseTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1340,6 +1370,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasNumBadges) {
     [self setNumBadges:other.numBadges];
   }
+  if (other.hasLastShortLicensePurchaseTime) {
+    [self setLastShortLicensePurchaseTime:other.lastShortLicensePurchaseTime];
+  }
+  if (other.hasLastLongLicensePurchaseTime) {
+    [self setLastLongLicensePurchaseTime:other.lastLongLicensePurchaseTime];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1537,6 +1573,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 336: {
         [self setNumBadges:[input readInt32]];
+        break;
+      }
+      case 344: {
+        [self setLastShortLicensePurchaseTime:[input readInt64]];
+        break;
+      }
+      case 352: {
+        [self setLastLongLicensePurchaseTime:[input readInt64]];
         break;
       }
     }
@@ -2226,6 +2270,38 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumBadges {
   result.hasNumBadges = NO;
   result.numBadges = 0;
+  return self;
+}
+- (BOOL) hasLastShortLicensePurchaseTime {
+  return result.hasLastShortLicensePurchaseTime;
+}
+- (int64_t) lastShortLicensePurchaseTime {
+  return result.lastShortLicensePurchaseTime;
+}
+- (FullUserProto_Builder*) setLastShortLicensePurchaseTime:(int64_t) value {
+  result.hasLastShortLicensePurchaseTime = YES;
+  result.lastShortLicensePurchaseTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastShortLicensePurchaseTime {
+  result.hasLastShortLicensePurchaseTime = NO;
+  result.lastShortLicensePurchaseTime = 0L;
+  return self;
+}
+- (BOOL) hasLastLongLicensePurchaseTime {
+  return result.hasLastLongLicensePurchaseTime;
+}
+- (int64_t) lastLongLicensePurchaseTime {
+  return result.lastLongLicensePurchaseTime;
+}
+- (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value {
+  result.hasLastLongLicensePurchaseTime = YES;
+  result.lastLongLicensePurchaseTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastLongLicensePurchaseTime {
+  result.hasLastLongLicensePurchaseTime = NO;
+  result.lastLongLicensePurchaseTime = 0L;
   return self;
 }
 @end

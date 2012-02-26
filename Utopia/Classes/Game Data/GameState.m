@@ -60,6 +60,8 @@
 @synthesize myEquips = _myEquips;
 @synthesize myStructs = _myStructs;
 
+@synthesize attackList = _attackList;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
@@ -78,6 +80,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticUpgradeStructJobProto = [[NSMutableDictionary alloc] init];
     _carpenterStructs = [[NSMutableArray alloc] init];
     _armoryEquips = [[NSMutableArray alloc] init];
+    _attackList = [[NSMutableArray alloc] init];
     
     //TODO: take this out
     _userId = 2;
@@ -179,6 +182,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticUpgradeStructJobProto = nil;
   self.carpenterStructs = nil;
   self.armoryEquips = nil;
+  self.attackList = nil;
   [super dealloc];
 }
 

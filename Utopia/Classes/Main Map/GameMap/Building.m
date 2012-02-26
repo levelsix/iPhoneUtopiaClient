@@ -159,18 +159,22 @@
   SEL selector = nil;
   switch (st) {
     case kUpgrading:
-      time = [[NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self.userStruct]*60 sinceDate:self.userStruct.lastRetrieved] timeIntervalSinceNow];
+      time = [[NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self.userStruct]*60 sinceDate:self.userStruct.lastUpgradeTime] timeIntervalSinceNow];
       selector = @selector(upgradeComplete:);
       break;
       
     case kBuilding:
-      time = [[NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self.userStruct]*60 sinceDate:self.userStruct.lastRetrieved] timeIntervalSinceNow];
+      time = [[NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:self.userStruct.purchaseTime] timeIntervalSinceNow];
       selector = @selector(buildComplete:);
       break;
       
     case kWaitingForIncome:
       time = [[NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:self.userStruct.lastRetrieved] timeIntervalSinceNow];
       selector = @selector(waitForIncomeComplete:);
+      break;
+      
+    case kRetrieving:
+      self.retrievable = YES;
       break;
       
     default:

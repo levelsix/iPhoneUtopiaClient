@@ -273,7 +273,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[redReq data] withMessageType:EventProtocolRequestCRedeemMarketplaceEarningsEvent];
 }
 
-- (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType{
+- (void) sendUseSkillPointMessage:(UseSkillPointRequestProto_BoostType) boostType {
   UseSkillPointRequestProto *skillReq = [[[[UseSkillPointRequestProto builder]
                                            setSender:_sender]
                                           setBoostType:boostType]
@@ -282,15 +282,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[skillReq data] withMessageType:EventProtocolRequestCUseSkillPointEvent];
 }
 
-- (void) sendGenerateAttackListMessage {
-  GenerateAttackListRequestProto *attReq = [[[GenerateAttackListRequestProto builder]
-                                             setSender:_sender]
+- (void) sendGenerateAttackListMessage:(int)numEnemies {
+  GenerateAttackListRequestProto *attReq = [[[[GenerateAttackListRequestProto builder]
+                                              setSender:_sender]
+                                             setNumEnemies:numEnemies]
                                             build];
   
   [self sendData:[attReq data] withMessageType:EventProtocolRequestCGenerateAttackListEvent];
 }
 
-- (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType {
+- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType {
   RefillStatWithDiamondsRequestProto *refReq = [[[[RefillStatWithDiamondsRequestProto builder]
                                                   setSender:_sender]
                                                  setStatType:statType]

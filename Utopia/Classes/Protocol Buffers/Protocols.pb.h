@@ -28,6 +28,10 @@
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class EnableAPNSRequestProto;
+@class EnableAPNSRequestProto_Builder;
+@class EnableAPNSResponseProto;
+@class EnableAPNSResponseProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
@@ -116,6 +120,10 @@
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
 @class PurchaseFromMarketplaceResponseProto_Builder;
+@class PurchaseMarketplaceLicenseRequestProto;
+@class PurchaseMarketplaceLicenseRequestProto_Builder;
+@class PurchaseMarketplaceLicenseResponseProto;
+@class PurchaseMarketplaceLicenseResponseProto_Builder;
 @class PurchaseNormStructureRequestProto;
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
@@ -213,7 +221,6 @@ typedef enum {
   EventProtocolRequestCBattleEvent = 1,
   EventProtocolRequestCVaultEvent = 2,
   EventProtocolRequestCTaskActionEvent = 3,
-  EventProtocolRequestCClericHealEvent = 4,
   EventProtocolRequestCStartupEvent = 5,
   EventProtocolRequestCRetrieveTasksForCityEvent = 6,
   EventProtocolRequestCRetrieveQuestsForCityEvent = 7,
@@ -245,6 +252,8 @@ typedef enum {
   EventProtocolRequestCExpansionWaitCompleteEvent = 33,
   EventProtocolRequestCRefillStatWaitCompleteEvent = 34,
   EventProtocolRequestCLevelUpEvent = 35,
+  EventProtocolRequestCEnableApnsEvent = 36,
+  EventProtocolRequestCPurchaseMarketplaceLicenseEvent = 37,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -255,7 +264,6 @@ typedef enum {
   EventProtocolResponseSBattleEvent = 1,
   EventProtocolResponseSVaultEvent = 2,
   EventProtocolResponseSTaskActionEvent = 3,
-  EventProtocolResponseSClericHealEvent = 4,
   EventProtocolResponseSStartupEvent = 5,
   EventProtocolResponseSRetrieveTasksForCityEvent = 6,
   EventProtocolResponseSRetrieveQuestsForCityEvent = 7,
@@ -287,6 +295,8 @@ typedef enum {
   EventProtocolResponseSExpansionWaitCompleteEvent = 33,
   EventProtocolResponseSRefillStatWaitCompleteEvent = 34,
   EventProtocolResponseSLevelUpEvent = 35,
+  EventProtocolResponseSEnableApnsEvent = 36,
+  EventProtocolResponseSPurchaseMarketplaceLicenseEvent = 37,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
 } EventProtocolResponse;

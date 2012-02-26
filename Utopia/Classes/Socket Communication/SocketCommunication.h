@@ -44,7 +44,7 @@
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
 - (void) sendRedeemMarketplaceEarningsMessage;
 
-- (void) sendGenerateAttackListMessage;
+- (void) sendGenerateAttackListMessage:(int)numEnemies;
 - (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
 - (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType;

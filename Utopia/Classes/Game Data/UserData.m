@@ -62,26 +62,13 @@
 - (UserStructState) state {
   NSDate *now = [NSDate date];
   NSDate *done;
-  Globals *gl = [Globals sharedGlobals];
   FullStructureProto *fsp = self.fsp;
-  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   
   if (!isComplete) {
     if (lastUpgradeTime) {
-      done = [NSDate dateWithTimeInterval:[gl calculateMinutesToUpgrade:self]*60 sinceDate:lastUpgradeTime];
-      if ([now compare:done] == NSOrderedDescending) {
-        [oec normStructWaitComplete:self];
-      } else {
         return kUpgrading;
-      }
     } else {
-      done = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:purchaseTime];
-      NSLog(@"%@, %@", now, done);
-      if ([now compare:done] == NSOrderedDescending) {
-        [oec normStructWaitComplete:self]; 
-      } else {
         return kBuilding;
-      }
     }
   }
   

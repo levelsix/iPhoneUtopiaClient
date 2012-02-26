@@ -28,6 +28,10 @@
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class EnableAPNSRequestProto;
+@class EnableAPNSRequestProto_Builder;
+@class EnableAPNSResponseProto;
+@class EnableAPNSResponseProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
@@ -116,6 +120,10 @@
 @class PurchaseFromMarketplaceRequestProto_Builder;
 @class PurchaseFromMarketplaceResponseProto;
 @class PurchaseFromMarketplaceResponseProto_Builder;
+@class PurchaseMarketplaceLicenseRequestProto;
+@class PurchaseMarketplaceLicenseRequestProto_Builder;
+@class PurchaseMarketplaceLicenseResponseProto;
+@class PurchaseMarketplaceLicenseResponseProto_Builder;
 @class PurchaseNormStructureRequestProto;
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
@@ -401,7 +409,8 @@ typedef enum {
   PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts = 5,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth = 6,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost = 7,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 8,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusNoLicense = 8,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 9,
 } PostToMarketplaceResponseProto_PostToMarketplaceStatus;
 
 BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMarketplaceResponseProto_PostToMarketplaceStatus value);
@@ -443,6 +452,14 @@ typedef enum {
 } UseSkillPointResponseProto_UseSkillPointStatus;
 
 BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointResponseProto_UseSkillPointStatus value);
+
+typedef enum {
+  GenerateAttackListResponseProto_GenerateAttackListStatusSuccess = 0,
+  GenerateAttackListResponseProto_GenerateAttackListStatusSomeFail = 1,
+  GenerateAttackListResponseProto_GenerateAttackListStatusInvalidNumEnemiesCount = 2,
+} GenerateAttackListResponseProto_GenerateAttackListStatus;
+
+BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(GenerateAttackListResponseProto_GenerateAttackListStatus value);
 
 typedef enum {
   RefillStatWithDiamondsRequestProto_StatTypeEnergy = 0,
@@ -538,6 +555,29 @@ typedef enum {
 } RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus;
 
 BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValue(RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus value);
+
+typedef enum {
+  EnableAPNSResponseProto_EnableAPNSStatusSuccess = 0,
+  EnableAPNSResponseProto_EnableAPNSStatusNotEnabled = 1,
+} EnableAPNSResponseProto_EnableAPNSStatus;
+
+BOOL EnableAPNSResponseProto_EnableAPNSStatusIsValidValue(EnableAPNSResponseProto_EnableAPNSStatus value);
+
+typedef enum {
+  PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort = 0,
+  PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong = 1,
+} PurchaseMarketplaceLicenseRequestProto_LicenseType;
+
+BOOL PurchaseMarketplaceLicenseRequestProto_LicenseTypeIsValidValue(PurchaseMarketplaceLicenseRequestProto_LicenseType value);
+
+typedef enum {
+  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess = 0,
+  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusNotEnoughDiamonds = 1,
+  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusAlreadyHaveLicenseNow = 2,
+  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusOtherFail = 3,
+} PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus;
+
+BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsValidValue(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -1138,16 +1178,20 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   BOOL hasVersionNum_:1;
   BOOL hasClientTime_:1;
   BOOL hasUdid_:1;
+  BOOL hasDeviceToken_:1;
   Float32 versionNum;
   int64_t clientTime;
   NSString* udid;
+  NSString* deviceToken;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
 - (BOOL) hasClientTime;
+- (BOOL) hasDeviceToken;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly) int64_t clientTime;
+@property (readonly, retain) NSString* deviceToken;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -1197,6 +1241,11 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (int64_t) clientTime;
 - (StartupRequestProto_Builder*) setClientTime:(int64_t) value;
 - (StartupRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasDeviceToken;
+- (NSString*) deviceToken;
+- (StartupRequestProto_Builder*) setDeviceToken:(NSString*) value;
+- (StartupRequestProto_Builder*) clearDeviceToken;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -1625,6 +1674,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   BOOL hasUdid_:1;
   BOOL hasName_:1;
   BOOL hasMacAddress_:1;
+  BOOL hasDeviceToken_:1;
   BOOL hasUserLocation_:1;
   BOOL hasAviaryCoordinates_:1;
   BOOL hasRefineryCoordinates_:1;
@@ -1633,6 +1683,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
   NSString* udid;
   NSString* name;
   NSString* macAddress;
+  NSString* deviceToken;
   LocationProto* userLocation;
   CoordinateProto* aviaryCoordinates;
   CoordinateProto* refineryCoordinates;
@@ -1647,6 +1698,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (BOOL) hasRefineryCoordinates;
 - (BOOL) hasCarpenterCoordinates;
 - (BOOL) hasReferrerCode;
+- (BOOL) hasDeviceToken;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* macAddress;
@@ -1655,6 +1707,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 @property (readonly, retain) CoordinateProto* refineryCoordinates;
 @property (readonly, retain) CoordinateProto* carpenterCoordinates;
 @property (readonly) int32_t referrerCode;
+@property (readonly, retain) NSString* deviceToken;
 - (NSArray*) structuresList;
 - (FullUserStructureProto*) structuresAtIndex:(int32_t) index;
 
@@ -1746,6 +1799,11 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (int32_t) referrerCode;
 - (UserCreateRequestProto_Builder*) setReferrerCode:(int32_t) value;
 - (UserCreateRequestProto_Builder*) clearReferrerCode;
+
+- (BOOL) hasDeviceToken;
+- (NSString*) deviceToken;
+- (UserCreateRequestProto_Builder*) setDeviceToken:(NSString*) value;
+- (UserCreateRequestProto_Builder*) clearDeviceToken;
 @end
 
 @interface UserCreateResponseProto : PBGeneratedMessage {
@@ -3873,10 +3931,12 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 
 @interface PostToMarketplaceRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasTimeOfPost_:1;
   BOOL hasPostedEquipId_:1;
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
   BOOL hasSender_:1;
+  int64_t timeOfPost;
   int32_t postedEquipId;
   int32_t diamondCost;
   int32_t coinCost;
@@ -3884,10 +3944,12 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 }
 - (BOOL) hasSender;
 - (BOOL) hasPostedEquipId;
+- (BOOL) hasTimeOfPost;
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t postedEquipId;
+@property (readonly) int64_t timeOfPost;
 @property (readonly) int32_t diamondCost;
 @property (readonly) int32_t coinCost;
 
@@ -3936,6 +3998,11 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (int32_t) postedEquipId;
 - (PostToMarketplaceRequestProto_Builder*) setPostedEquipId:(int32_t) value;
 - (PostToMarketplaceRequestProto_Builder*) clearPostedEquipId;
+
+- (BOOL) hasTimeOfPost;
+- (int64_t) timeOfPost;
+- (PostToMarketplaceRequestProto_Builder*) setTimeOfPost:(int64_t) value;
+- (PostToMarketplaceRequestProto_Builder*) clearTimeOfPost;
 
 - (BOOL) hasDiamondCost;
 - (int32_t) diamondCost;
@@ -4383,16 +4450,12 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 @private
   BOOL hasNumEnemies_:1;
   BOOL hasSender_:1;
-  BOOL hasEnemyType_:1;
   int32_t numEnemies;
   MinimumUserProto* sender;
-  UserType enemyType;
 }
 - (BOOL) hasSender;
-- (BOOL) hasEnemyType;
 - (BOOL) hasNumEnemies;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) UserType enemyType;
 @property (readonly) int32_t numEnemies;
 
 + (GenerateAttackListRequestProto*) defaultInstance;
@@ -4436,11 +4499,6 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (GenerateAttackListRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (GenerateAttackListRequestProto_Builder*) clearSender;
 
-- (BOOL) hasEnemyType;
-- (UserType) enemyType;
-- (GenerateAttackListRequestProto_Builder*) setEnemyType:(UserType) value;
-- (GenerateAttackListRequestProto_Builder*) clearEnemyType;
-
 - (BOOL) hasNumEnemies;
 - (int32_t) numEnemies;
 - (GenerateAttackListRequestProto_Builder*) setNumEnemies:(int32_t) value;
@@ -4450,11 +4508,15 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 @interface GenerateAttackListResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  GenerateAttackListResponseProto_GenerateAttackListStatus status;
   NSMutableArray* mutableEnemiesList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) GenerateAttackListResponseProto_GenerateAttackListStatus status;
 - (NSArray*) enemiesList;
 - (FullUserProto*) enemiesAtIndex:(int32_t) index;
 
@@ -4505,6 +4567,11 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (GenerateAttackListResponseProto_Builder*) addEnemies:(FullUserProto*) value;
 - (GenerateAttackListResponseProto_Builder*) addAllEnemies:(NSArray*) values;
 - (GenerateAttackListResponseProto_Builder*) clearEnemiesList;
+
+- (BOOL) hasStatus;
+- (GenerateAttackListResponseProto_GenerateAttackListStatus) status;
+- (GenerateAttackListResponseProto_Builder*) setStatus:(GenerateAttackListResponseProto_GenerateAttackListStatus) value;
+- (GenerateAttackListResponseProto_Builder*) clearStatus;
 @end
 
 @interface RefillStatWithDiamondsRequestProto : PBGeneratedMessage {
@@ -6052,5 +6119,250 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
 - (RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus) status;
 - (RefillStatWaitCompleteResponseProto_Builder*) setStatus:(RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus) value;
 - (RefillStatWaitCompleteResponseProto_Builder*) clearStatus;
+@end
+
+@interface EnableAPNSRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasDeviceToken_:1;
+  BOOL hasSender_:1;
+  NSString* deviceToken;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasDeviceToken;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) NSString* deviceToken;
+
++ (EnableAPNSRequestProto*) defaultInstance;
+- (EnableAPNSRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EnableAPNSRequestProto_Builder*) builder;
++ (EnableAPNSRequestProto_Builder*) builder;
++ (EnableAPNSRequestProto_Builder*) builderWithPrototype:(EnableAPNSRequestProto*) prototype;
+
++ (EnableAPNSRequestProto*) parseFromData:(NSData*) data;
++ (EnableAPNSRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnableAPNSRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EnableAPNSRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnableAPNSRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EnableAPNSRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EnableAPNSRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EnableAPNSRequestProto* result;
+}
+
+- (EnableAPNSRequestProto*) defaultInstance;
+
+- (EnableAPNSRequestProto_Builder*) clear;
+- (EnableAPNSRequestProto_Builder*) clone;
+
+- (EnableAPNSRequestProto*) build;
+- (EnableAPNSRequestProto*) buildPartial;
+
+- (EnableAPNSRequestProto_Builder*) mergeFrom:(EnableAPNSRequestProto*) other;
+- (EnableAPNSRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EnableAPNSRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EnableAPNSRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EnableAPNSRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnableAPNSRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EnableAPNSRequestProto_Builder*) clearSender;
+
+- (BOOL) hasDeviceToken;
+- (NSString*) deviceToken;
+- (EnableAPNSRequestProto_Builder*) setDeviceToken:(NSString*) value;
+- (EnableAPNSRequestProto_Builder*) clearDeviceToken;
+@end
+
+@interface EnableAPNSResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  EnableAPNSResponseProto_EnableAPNSStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) EnableAPNSResponseProto_EnableAPNSStatus status;
+
++ (EnableAPNSResponseProto*) defaultInstance;
+- (EnableAPNSResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EnableAPNSResponseProto_Builder*) builder;
++ (EnableAPNSResponseProto_Builder*) builder;
++ (EnableAPNSResponseProto_Builder*) builderWithPrototype:(EnableAPNSResponseProto*) prototype;
+
++ (EnableAPNSResponseProto*) parseFromData:(NSData*) data;
++ (EnableAPNSResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnableAPNSResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EnableAPNSResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EnableAPNSResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EnableAPNSResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EnableAPNSResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EnableAPNSResponseProto* result;
+}
+
+- (EnableAPNSResponseProto*) defaultInstance;
+
+- (EnableAPNSResponseProto_Builder*) clear;
+- (EnableAPNSResponseProto_Builder*) clone;
+
+- (EnableAPNSResponseProto*) build;
+- (EnableAPNSResponseProto*) buildPartial;
+
+- (EnableAPNSResponseProto_Builder*) mergeFrom:(EnableAPNSResponseProto*) other;
+- (EnableAPNSResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EnableAPNSResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EnableAPNSResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EnableAPNSResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EnableAPNSResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EnableAPNSResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (EnableAPNSResponseProto_EnableAPNSStatus) status;
+- (EnableAPNSResponseProto_Builder*) setStatus:(EnableAPNSResponseProto_EnableAPNSStatus) value;
+- (EnableAPNSResponseProto_Builder*) clearStatus;
+@end
+
+@interface PurchaseMarketplaceLicenseRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasSender_:1;
+  BOOL hasLicenseType_:1;
+  int64_t clientTime;
+  MinimumUserProto* sender;
+  PurchaseMarketplaceLicenseRequestProto_LicenseType licenseType;
+}
+- (BOOL) hasSender;
+- (BOOL) hasClientTime;
+- (BOOL) hasLicenseType;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int64_t clientTime;
+@property (readonly) PurchaseMarketplaceLicenseRequestProto_LicenseType licenseType;
+
++ (PurchaseMarketplaceLicenseRequestProto*) defaultInstance;
+- (PurchaseMarketplaceLicenseRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) builder;
++ (PurchaseMarketplaceLicenseRequestProto_Builder*) builder;
++ (PurchaseMarketplaceLicenseRequestProto_Builder*) builderWithPrototype:(PurchaseMarketplaceLicenseRequestProto*) prototype;
+
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromData:(NSData*) data;
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseMarketplaceLicenseRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseMarketplaceLicenseRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseMarketplaceLicenseRequestProto* result;
+}
+
+- (PurchaseMarketplaceLicenseRequestProto*) defaultInstance;
+
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clear;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clone;
+
+- (PurchaseMarketplaceLicenseRequestProto*) build;
+- (PurchaseMarketplaceLicenseRequestProto*) buildPartial;
+
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFrom:(PurchaseMarketplaceLicenseRequestProto*) other;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearSender;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setClientTime:(int64_t) value;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasLicenseType;
+- (PurchaseMarketplaceLicenseRequestProto_LicenseType) licenseType;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) setLicenseType:(PurchaseMarketplaceLicenseRequestProto_LicenseType) value;
+- (PurchaseMarketplaceLicenseRequestProto_Builder*) clearLicenseType;
+@end
+
+@interface PurchaseMarketplaceLicenseResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus status;
+
++ (PurchaseMarketplaceLicenseResponseProto*) defaultInstance;
+- (PurchaseMarketplaceLicenseResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) builder;
++ (PurchaseMarketplaceLicenseResponseProto_Builder*) builder;
++ (PurchaseMarketplaceLicenseResponseProto_Builder*) builderWithPrototype:(PurchaseMarketplaceLicenseResponseProto*) prototype;
+
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromData:(NSData*) data;
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurchaseMarketplaceLicenseResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurchaseMarketplaceLicenseResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurchaseMarketplaceLicenseResponseProto* result;
+}
+
+- (PurchaseMarketplaceLicenseResponseProto*) defaultInstance;
+
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clear;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clone;
+
+- (PurchaseMarketplaceLicenseResponseProto*) build;
+- (PurchaseMarketplaceLicenseResponseProto*) buildPartial;
+
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFrom:(PurchaseMarketplaceLicenseResponseProto*) other;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) status;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) setStatus:(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) value;
+- (PurchaseMarketplaceLicenseResponseProto_Builder*) clearStatus;
 @end
 

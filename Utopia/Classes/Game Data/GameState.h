@@ -57,6 +57,8 @@
   
   NSMutableArray *_myEquips;
   NSMutableArray *_myStructs;
+  
+  NSMutableArray *_attackList;
 }
 
 @property (assign) BOOL connected;
@@ -106,6 +108,8 @@
 
 @property (retain) NSMutableArray *myEquips;
 @property (retain) NSMutableArray *myStructs;
+
+@property (retain) NSMutableArray *attackList;
 
 + (GameState *) sharedGameState;
 

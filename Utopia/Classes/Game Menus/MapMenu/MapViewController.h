@@ -7,6 +7,7 @@
 //
 
 #import "cocos2d.h"
+#import "Protocols.pb.h"
 
 @interface MapViewController : UIViewController <UIScrollViewDelegate>
 
@@ -14,6 +15,10 @@
 @property (nonatomic, retain) IBOutlet UIImageView *mapView;
 
 @property (nonatomic, retain) NSMutableArray *pins;
+
+- (void) removeAllPins;
+- (void) addNewPins;
+- (CGPoint) mapPointForCoordinate:(LocationProto *)coord;
 
 + (MapViewController *) sharedMapViewController;
 + (void) displayView;

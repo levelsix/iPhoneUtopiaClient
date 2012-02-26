@@ -14,6 +14,7 @@
 #import "MarketplaceViewController.h"
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
+#import "MapViewController.h"
 
 @implementation IncomingEventController
 
@@ -211,6 +212,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleGenerateAttackListResponseProto: (GenerateAttackListResponseProto *) proto {
   NSLog(@"Generate attack list response received.");
+  
+  if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
+    [[[GameState sharedGameState] attackList] addObjectsFromArray:proto.enemiesList];
+    [[MapViewController sharedMapViewController] addNewPins];
+  } else {
+    [Globals popupMessage:@"An error occurred while generating the attack list"];
+  }
 }
 
 - (void) handleUseSkillPointResponseProto: (UseSkillPointResponseProto *) proto {

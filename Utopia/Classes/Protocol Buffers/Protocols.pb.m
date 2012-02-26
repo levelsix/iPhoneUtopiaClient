@@ -26,7 +26,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCBattleEvent:
     case EventProtocolRequestCVaultEvent:
     case EventProtocolRequestCTaskActionEvent:
-    case EventProtocolRequestCClericHealEvent:
     case EventProtocolRequestCStartupEvent:
     case EventProtocolRequestCRetrieveTasksForCityEvent:
     case EventProtocolRequestCRetrieveQuestsForCityEvent:
@@ -58,6 +57,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCExpansionWaitCompleteEvent:
     case EventProtocolRequestCRefillStatWaitCompleteEvent:
     case EventProtocolRequestCLevelUpEvent:
+    case EventProtocolRequestCEnableApnsEvent:
+    case EventProtocolRequestCPurchaseMarketplaceLicenseEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -70,7 +71,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSBattleEvent:
     case EventProtocolResponseSVaultEvent:
     case EventProtocolResponseSTaskActionEvent:
-    case EventProtocolResponseSClericHealEvent:
     case EventProtocolResponseSStartupEvent:
     case EventProtocolResponseSRetrieveTasksForCityEvent:
     case EventProtocolResponseSRetrieveQuestsForCityEvent:
@@ -102,6 +102,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSExpansionWaitCompleteEvent:
     case EventProtocolResponseSRefillStatWaitCompleteEvent:
     case EventProtocolResponseSLevelUpEvent:
+    case EventProtocolResponseSEnableApnsEvent:
+    case EventProtocolResponseSPurchaseMarketplaceLicenseEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
       return YES;

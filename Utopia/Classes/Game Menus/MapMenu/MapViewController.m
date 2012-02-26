@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "GameState.h"
 #import "SynthesizeSingleton.h"
+#import "OutgoingEventController.h"
 
 #define ZERO_LATITUDE 270/540.f //484/752.f
 #define ZERO_LONGITUDE 540/1080.f //485/1000.f
@@ -21,13 +22,29 @@
 
 @interface PinView : UIImageView
 
-@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, retain) FullUserProto *player;
 
 @end
 
 @implementation PinView
 
-@synthesize coordinate;
+@synthesize player;
+
+static UIImage *pinImage = nil;
+
+- (id) initWithPlayer:(FullUserProto *)fup {
+  if ((self = [super initWithImage:[self getPinImage]])) {
+    self.player = fup;
+  }
+  return self;
+}
+      
+- (UIImage *) getPinImage {
+  if (!pinImage) {
+    pinImage = [[UIImage imageNamed:@"pin.png"] retain];
+  }
+  return pinImage;
+}
 
 @end
 
@@ -49,46 +66,76 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   self.pins = [NSMutableArray array];
   
-  UIImage *image = [UIImage imageNamed:@"pin.png"];
-  PinView *pin = [[PinView alloc] initWithImage:image];
-  CLLocationCoordinate2D coord;
-  coord.latitude = 40.75;
-  coord.longitude = -74;
-  pin.coordinate = coord;
-  [self.scrollView addSubview:pin];
-  [pins addObject:pin];
-  
-  pin = [[PinView alloc] initWithImage:image];
-  coord.latitude = 37;
-  coord.longitude = 127.5;
-  pin.coordinate = coord;
-  [self.scrollView addSubview:pin];
-  [pins addObject:pin];
-  
-  pin = [[PinView alloc] initWithImage:image];
-  coord.latitude = 51.5;
-  coord.longitude = 0.1666;
-  pin.coordinate = coord;
-  [self.scrollView addSubview:pin];
-  [pins addObject:pin];
-  
-  pin = [[PinView alloc] initWithImage:image];
-  coord.latitude = 0;
-  coord.longitude = 0;
-  pin.coordinate = coord;
-  [self.scrollView addSubview:pin];
-  [pins addObject:pin];
-  
-  pin = [[PinView alloc] initWithImage:image];
-  coord.latitude = -34;
-  coord.longitude = 151;
-  pin.coordinate = coord;
-  [self.scrollView addSubview:pin];
-  [pins addObject:pin];
+//  UIImage *image = [UIImage imageNamed:@"pin.png"];
+//  PinView *pin = [[PinView alloc] initWithImage:image];
+//  CLLocationCoordinate2D coord;
+//  coord.latitude = 40.75;
+//  coord.longitude = -74;
+//  pin.coordinate = coord;
+//  [self.scrollView addSubview:pin];
+//  [pins addObject:pin];
+//  
+//  pin = [[PinView alloc] initWithImage:image];
+//  coord.latitude = 37;
+//  coord.longitude = 127.5;
+//  pin.coordinate = coord;
+//  [self.scrollView addSubview:pin];
+//  [pins addObject:pin];
+//  
+//  pin = [[PinView alloc] initWithImage:image];
+//  coord.latitude = 51.5;
+//  coord.longitude = 0.1666;
+//  pin.coordinate = coord;
+//  [self.scrollView addSubview:pin];
+//  [pins addObject:pin];
+//  
+//  pin = [[PinView alloc] initWithImage:image];
+//  coord.latitude = 0;
+//  coord.longitude = 0;
+//  pin.coordinate = coord;
+//  [self.scrollView addSubview:pin];
+//  [pins addObject:pin];
+//  
+//  pin = [[PinView alloc] initWithImage:image];
+//  coord.latitude = -34;
+//  coord.longitude = 151;
+//  pin.coordinate = coord;
+//  [self.scrollView addSubview:pin];
+//  [pins addObject:pin];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
   
   self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
   
-  [self updatePin:pin];
+  [self removeAllPins];
+  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:20];
+}
+
+- (void) removeAllPins {
+  [pins enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [obj removeFromSuperview];
+  }];
+  [pins removeAllObjects];
+}
+
+- (void) addNewPins {
+  NSMutableArray *arr = [[GameState sharedGameState] attackList];
+  for (int i = pins.count; i < arr.count; i++) {
+    PinView *pin = [[PinView alloc] initWithPlayer:[arr objectAtIndex:i]];
+    [pins addObject:pin];
+    [self.scrollView addSubview:pin];
+    [self updatePin:pin];
+  }
+}
+
+- (CGPoint) mapPointForCoordinate:(LocationProto *)coord {
+  float xScale = (SECOND_POINT_LONGITUDE-ZERO_LONGITUDE)/LONGITUDE_OFFSET;
+  float yScale = (SECOND_POINT_LATITUDE-ZERO_LATITUDE)/LATITUDE_OFFSET;
+  float x = (ZERO_LONGITUDE + coord.longitude * xScale) * self.mapView.frame.size.width;
+  float y = (ZERO_LATITUDE + coord.latitude * yScale) * self.mapView.frame.size.height;
+  return CGPointMake(x, y);
 }
 
 - (void) updatePin:(PinView *)pin {
@@ -96,14 +143,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   float width = image.size.width/3;
   float height = image.size.height/3;
   
-  CLLocationCoordinate2D coord = pin.coordinate;
+  LocationProto *coord = pin.player.userLocation;
   
-  float xScale = (SECOND_POINT_LONGITUDE-ZERO_LONGITUDE)/LONGITUDE_OFFSET;
-  float yScale = (SECOND_POINT_LATITUDE-ZERO_LATITUDE)/LATITUDE_OFFSET;
-  float x = (ZERO_LONGITUDE + coord.longitude * xScale) * self.mapView.frame.size.width - width/2;
-  float y = (ZERO_LATITUDE + coord.latitude * yScale) * self.mapView.frame.size.height - height;
+  CGPoint mapPt = [self mapPointForCoordinate:coord];
   
-  [pin setFrame:CGRectMake(x,y,width,height)]; //Adjust X,Y,W,H as needed
+  [pin setFrame:CGRectMake(mapPt.x-width/2, mapPt.y-height, width, height)]; //Adjust X,Y,W,H as needed
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

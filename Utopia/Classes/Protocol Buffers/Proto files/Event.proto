@@ -102,6 +102,7 @@ message StartupRequestProto {				//client will also send ChangeUserLocationReque
      required string udid = 1;
      required float versionNum = 2;	//1.0->2.0 critical, 1.0->1.1 minor. server checks db for latest vnum
      required int64 clientTime = 3;
+     optional string deviceToken = 4;		//only set this if the client is registered/has a device token
 }
 
 message StartupResponseProto {
@@ -172,6 +173,7 @@ message UserCreateRequestProto {
      required CoordinateProto refineryCoordinates = 7;
      required CoordinateProto carpenterCoordinates = 8;     
      optional int32 referrerCode = 9;
+     optional string deviceToken = 10;
 }
 //CREATE UTILITY METHOD- unlockCityRankOneForCityId(int cityId)
 message UserCreateResponseProto {
@@ -542,8 +544,9 @@ message RetrieveCurrentMarketplacePostsResponseProto {
 message PostToMarketplaceRequestProto {
 	required MinimumUserProto sender = 1;
 	required int32 postedEquipId = 2;
-	optional int32 diamondCost = 3;
-	optional int32 coinCost = 4;
+	required int64 timeOfPost = 3;
+	optional int32 diamondCost = 4;
+	optional int32 coinCost = 5;
 }
 
 																						//DONE
@@ -560,7 +563,8 @@ message PostToMarketplaceResponseProto {
 		USER_ALREADY_MAX_MARKETPLACE_POSTS = 5;
 		CANT_DEMAND_BOTH = 6;
 		INVALID_COST_TYPE_FOR_POST = 7;
-		OTHER_FAIL = 8;
+		NO_LICENSE = 8;
+		OTHER_FAIL = 9;
 	}
 }
 
@@ -644,14 +648,20 @@ message UseSkillPointResponseProto {
 																						//DONE
 message GenerateAttackListRequestProto {
 	required MinimumUserProto sender = 1;
-	optional UserType enemyType = 2;
-	optional int32 numEnemies = 3; 
+	required int32 numEnemies = 2; 
 }
 
 																						//DONE
 message GenerateAttackListResponseProto {
      required MinimumUserProto sender = 1;
      repeated FullUserProto enemies = 2;
+     required GenerateAttackListStatus status = 3;
+     
+     enum GenerateAttackListStatus {
+     	SUCCESS = 0;
+     	SOME_FAIL = 1;
+     	INVALID_NUM_ENEMIES_COUNT = 2;
+     }
 }
 
 //------------------------------------------------------------------------------------------
@@ -731,11 +741,13 @@ message LoadPlayerCityResponseProto {
 
 //------------------------------------------------------------------------------------------
 
+																						//DONE
 message QuestAcceptRequestProto {
      required MinimumUserProto sender = 1;
      required int32 questId = 2;
 }
 
+																						//DONE
 message QuestAcceptResponseProto {
      required MinimumUserProto sender = 1;
      required QuestAcceptStatus status = 2;
@@ -759,11 +771,13 @@ message QuestCompleteResponseProto {
 
 //delete all userquest data besides the one in user_quests
 //client should also take away all the quests' required equips
+																						//DONE
 message QuestRedeemRequestProto {                         
      required MinimumUserProto sender = 1;
      required int32 questId = 2;
 }
 
+																						//DONE
 message QuestRedeemResponseProto {
      required MinimumUserProto sender = 1;
      repeated FullQuestProto updatedAvailableQuests = 2;
@@ -880,6 +894,7 @@ message ExpansionWaitCompleteResponseProto {
 
 //------------------------------------------------------------------------------------------
 
+																						//DONE
 message RefillStatWaitCompleteRequestProto {
 	required MinimumUserProto sender = 1;
 	required int64 curTime = 2;
@@ -891,6 +906,7 @@ message RefillStatWaitCompleteRequestProto {
 	}
 }
 
+																						//DONE
 message RefillStatWaitCompleteResponseProto {
      required MinimumUserProto sender = 1;
      required RefillStatWaitCompleteStatus status = 2;
@@ -901,4 +917,48 @@ message RefillStatWaitCompleteResponseProto {
      	ALREADY_MAX = 2;
      	OTHER_FAIL = 3;
      }
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message EnableAPNSRequestProto {
+	required MinimumUserProto sender = 1;
+	required string deviceToken = 2;
+}
+
+																						//DONE
+message EnableAPNSResponseProto {
+	required MinimumUserProto sender = 1;
+	required EnableAPNSStatus status = 2;
+	
+	enum EnableAPNSStatus {
+		SUCCESS = 0;
+		NOT_ENABLED = 1;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+message PurchaseMarketplaceLicenseRequestProto {
+	required MinimumUserProto sender = 1;
+	required int64 clientTime = 2;
+	required LicenseType licenseType = 3;
+	
+	enum LicenseType {
+		SHORT = 0;
+		LONG = 1;
+	}
+}
+
+message PurchaseMarketplaceLicenseResponseProto {
+	required MinimumUserProto sender = 1;
+	required PurchaseMarketplaceLicenseStatus status = 2;
+	
+	enum PurchaseMarketplaceLicenseStatus {
+		SUCCESS = 0;
+		NOT_ENOUGH_DIAMONDS = 1;
+		ALREADY_HAVE_LICENSE_NOW = 2;
+		OTHER_FAIL = 3;
+	}
 }
