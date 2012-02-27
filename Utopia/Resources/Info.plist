@@ -49,10 +49,10 @@
 	<string>MainWindow</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AJensonPro-SemiboldDisp.otf</string>
-		<string>AjensonPro-Disp.otf</string>
-		<string>AJensonPro-BoldCapt.otf</string>
+		<string>TrajanPro-Bold.otf</string>
 		<string>Archer-Bold-Pro.otf</string>
+		<string>AJensonPro-SemiboldDisp.otf</string>
+		<string>AJensonPro-BoldCapt.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

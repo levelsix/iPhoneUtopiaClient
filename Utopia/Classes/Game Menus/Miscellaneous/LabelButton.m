@@ -26,6 +26,16 @@
 
 @end
 
+@implementation NiceFontLabel3
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+//  NSLog(@"%@", [UIFont familyNames]);
+//  self.font = [UIFont fontWithName:@"Trajan Pro" size:self.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;

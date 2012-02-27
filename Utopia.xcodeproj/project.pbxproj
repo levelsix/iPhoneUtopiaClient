@@ -198,6 +198,10 @@
 		CF62506A14EB5BAF006C59F9 /* metatiles-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62506914EB5BAF006C59F9 /* metatiles-hd.png */; };
 		CF62506C14EB62C3006C59F9 /* acad-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62506B14EB62C2006C59F9 /* acad-hd.png */; };
 		CF62506E14EB6302006C59F9 /* glow-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62506D14EB6301006C59F9 /* glow-hd.png */; };
+		CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */; };
+		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
+		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
+		CF6CCF2F14FAF9D7008C693D /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2D14FAF9D7008C693D /* CarpenterRow.xib */; };
 		CF70C0B814B681E8000A9C02 /* circleButton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C0B714B681E8000A9C02 /* circleButton.png */; };
 		CF75F4A614C4DB4A0022499E /* barmask-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF75F49A14C4DB4A0022499E /* barmask-hd.png */; };
 		CF75F4A714C4DB4A0022499E /* barmask.png in Resources */ = {isa = PBXBuildFile; fileRef = CF75F49B14C4DB4A0022499E /* barmask.png */; };
@@ -289,9 +293,7 @@
 		CFA26F5314E71AD100FC1C71 /* rotate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F3514E71AD100FC1C71 /* rotate@2x.png */; };
 		CFA26F5714E72CE900FC1C71 /* LabelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5614E72CE900FC1C71 /* LabelButton.m */; };
 		CFA26F5A14E86FAA00FC1C71 /* HomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5914E86FAA00FC1C71 /* HomeMap.m */; };
-		CFA3BBE114F4C11B002A68E1 /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE014F4C11B002A68E1 /* CarpenterRow.xib */; };
 		CFA3BBE414F4C243002A68E1 /* RopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3BBE314F4C243002A68E1 /* RopeView.m */; };
-		CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */; };
 		CFA437CA14F826F00032CFFA /* retrievebubble-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437C814F826F00032CFFA /* retrievebubble-hd.png */; };
 		CFA437CB14F826F00032CFFA /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437C914F826F00032CFFA /* retrievebubble.png */; };
 		CFA437CD14F8A9A80032CFFA /* worldmap.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437CC14F8A9A80032CFFA /* worldmap.png */; };
@@ -784,6 +786,11 @@
 		CF62506914EB5BAF006C59F9 /* metatiles-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "metatiles-hd.png"; sourceTree = "<group>"; };
 		CF62506B14EB62C2006C59F9 /* acad-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "acad-hd.png"; sourceTree = "<group>"; };
 		CF62506D14EB6301006C59F9 /* glow-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glow-hd.png"; sourceTree = "<group>"; };
+		CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
+		CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterListing.xib; path = CarpenterMenu/CarpenterListing.xib; sourceTree = "<group>"; };
+		CF6CCF2D14FAF9D7008C693D /* CarpenterRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterRow.xib; path = CarpenterMenu/CarpenterRow.xib; sourceTree = "<group>"; };
 		CF70C0B714B681E8000A9C02 /* circleButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circleButton.png; sourceTree = "<group>"; };
 		CF75F49A14C4DB4A0022499E /* barmask-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barmask-hd.png"; sourceTree = "<group>"; };
 		CF75F49B14C4DB4A0022499E /* barmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barmask.png; sourceTree = "<group>"; };
@@ -881,10 +888,8 @@
 		CFA26F5614E72CE900FC1C71 /* LabelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LabelButton.m; path = Miscellaneous/LabelButton.m; sourceTree = "<group>"; };
 		CFA26F5814E86FAA00FC1C71 /* HomeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeMap.h; path = "Utopia/Classes/Main Map/GameMap/HomeMap.h"; sourceTree = SOURCE_ROOT; };
 		CFA26F5914E86FAA00FC1C71 /* HomeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeMap.m; path = "Utopia/Classes/Main Map/GameMap/HomeMap.m"; sourceTree = SOURCE_ROOT; };
-		CFA3BBE014F4C11B002A68E1 /* CarpenterRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterRow.xib; sourceTree = "<group>"; };
 		CFA3BBE214F4C243002A68E1 /* RopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RopeView.h; path = Miscellaneous/RopeView.h; sourceTree = "<group>"; };
 		CFA3BBE314F4C243002A68E1 /* RopeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RopeView.m; path = Miscellaneous/RopeView.m; sourceTree = "<group>"; };
-		CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarpenterListing.xib; sourceTree = "<group>"; };
 		CFA437C814F826F00032CFFA /* retrievebubble-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retrievebubble-hd.png"; sourceTree = "<group>"; };
 		CFA437C914F826F00032CFFA /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
 		CFA437CC14F8A9A80032CFFA /* worldmap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldmap.png; sourceTree = "<group>"; };
@@ -1358,11 +1363,11 @@
 		CF42350014F4B9AE0033C290 /* CarpenterMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */,
+				CF6CCF2D14FAF9D7008C693D /* CarpenterRow.xib */,
 				CF42353814F4BAA70033C290 /* CarpenterMenuController.h */,
 				CF42353914F4BAA70033C290 /* CarpenterMenuController.m */,
 				CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */,
-				CFA3BBE014F4C11B002A68E1 /* CarpenterRow.xib */,
-				CFA3BBE514F4C633002A68E1 /* CarpenterListing.xib */,
 			);
 			name = CarpenterMenu;
 			sourceTree = "<group>";
@@ -1387,6 +1392,16 @@
 				CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */,
 			);
 			name = ArmoryMenu;
+			sourceTree = "<group>";
+		};
+		CF6CCF2614FAF9CB008C693D /* ProfileMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */,
+				CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */,
+				CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */,
+			);
+			path = ProfileMenu;
 			sourceTree = "<group>";
 		};
 		CFA26F0F14E7182100FC1C71 /* GameMap */ = {
@@ -1474,12 +1489,13 @@
 		CFBAA01D14B3D52F007AB82F /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
-				CF42350014F4B9AE0033C290 /* CarpenterMenu */,
-				CFA26F5414E72CB500FC1C71 /* Miscellaneous */,
 				CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */,
-				CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */,
+				CF42350014F4B9AE0033C290 /* CarpenterMenu */,
 				CF3D0A5814CB88EA00D972B4 /* GoldShoppeMenu */,
 				CF3D0A5D14CB88EA00D972B4 /* MapMenu */,
+				CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */,
+				CFA26F5414E72CB500FC1C71 /* Miscellaneous */,
+				CF6CCF2614FAF9CB008C693D /* ProfileMenu */,
 				CF3D0A6114CB88EA00D972B4 /* QuestLogMenu */,
 				CFF3A72B14EF835F00E8F8DF /* VaultMenu */,
 			);
@@ -2708,8 +2724,6 @@
 				CF4234FF14F4B99E0033C290 /* timetickerbg@2x.png in Resources */,
 				CF42353C14F4BAA70033C290 /* CarpenterMenuController.xib in Resources */,
 				CF42353E14F4BC1D0033C290 /* buildingpricebg@2x.png in Resources */,
-				CFA3BBE114F4C11B002A68E1 /* CarpenterRow.xib in Resources */,
-				CFA3BBE614F4C633002A68E1 /* CarpenterListing.xib in Resources */,
 				CF76963B14F5A1AD0068662D /* struct3@2x.png in Resources */,
 				CFB08F2714F5FF0200B16CB1 /* struct4.png in Resources */,
 				CFB08F2814F5FF0200B16CB1 /* struct2.png in Resources */,
@@ -2785,6 +2799,9 @@
 				CFCEA61714FAD6C9003A5068 /* activemiddle@2x.png in Resources */,
 				CFCEA61814FAD6C9003A5068 /* activesmallcorner.png in Resources */,
 				CFCEA61914FAD6C9003A5068 /* activesmallcorner@2x.png in Resources */,
+				CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */,
+				CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */,
+				CF6CCF2F14FAF9D7008C693D /* CarpenterRow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2931,6 +2948,7 @@
 				CFF9C34114F3833A00CF3B73 /* TopBar.m in Sources */,
 				CF42353B14F4BAA70033C290 /* CarpenterMenuController.m in Sources */,
 				CFA3BBE414F4C243002A68E1 /* RopeView.m in Sources */,
+				CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

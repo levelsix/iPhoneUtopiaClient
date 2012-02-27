@@ -14,6 +14,9 @@
 @interface NiceFontLabel2 : UILabel 
 @end
 
+@interface NiceFontLabel3 : UILabel 
+@end
+
 @interface LabelButton : UIButton {
   UILabel *_label;
   NSString *_text;

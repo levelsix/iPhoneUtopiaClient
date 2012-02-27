@@ -17,6 +17,7 @@
 #import "VaultMenuController.h"
 #import "CarpenterMenuController.h"
 #import "MapViewController.h"
+#import "ProfileViewController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
@@ -307,7 +308,7 @@
 }
 
 - (void) openVault {
-  [MapViewController displayView];
+  [ProfileViewController displayView];
 }
 
 - (void) enableButton {

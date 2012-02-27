@@ -78,7 +78,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     // Move frame down to account for this font
     CGRect tmp = somethingWithText.frame;
-    tmp.origin.y += FONT_LABEL_OFFSET;
+    tmp.origin.y += FONT_LABEL_OFFSET * size / [self fontSize];
     somethingWithText.frame = tmp;
   }
 }
