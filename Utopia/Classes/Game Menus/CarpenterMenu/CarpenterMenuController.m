@@ -210,11 +210,11 @@
     
     int mins = fsp.minutesToBuild;
     tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
-    buildingIcon.image = [UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]];
+    buildingIcon.image = [Globals imageForStruct:fsp.structId];
     
     self.state = kAvailable;
   } else {
-    buildingIcon.image = [self maskImage:[UIImage imageNamed:[Globals imageNameForStruct:fsp.structId]] withColor:_lockedBuildingColor];
+    buildingIcon.image = [self maskImage:[Globals imageForStruct:fsp.structId] withColor:_lockedBuildingColor];
     lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
     self.state = kLocked;
   }

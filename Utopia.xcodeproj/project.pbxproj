@@ -19,6 +19,8 @@
 		CF05574A14DF9076003739EF /* marketshelf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF05574814DF9076003739EF /* marketshelf@2x.png */; };
 		CF05574D14DFB930003739EF /* itemmask.png in Resources */ = {isa = PBXBuildFile; fileRef = CF05574B14DFB930003739EF /* itemmask.png */; };
 		CF05574E14DFB930003739EF /* itemmask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF05574C14DFB930003739EF /* itemmask@2x.png */; };
+		CF08C6CD14FB672200D04206 /* exampleweapon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08C6CC14FB672200D04206 /* exampleweapon@2x.png */; };
+		CF08C6D714FB78A900D04206 /* EquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF08C6D614FB78A900D04206 /* EquipView.xib */; };
 		CF11126814C914EA00F6FD75 /* mysterybox.png in Resources */ = {isa = PBXBuildFile; fileRef = CF11126414C914EA00F6FD75 /* mysterybox.png */; };
 		CF11126914C914EA00F6FD75 /* mysterybox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF11126514C914EA00F6FD75 /* mysterybox@2x.png */; };
 		CF22F1C214D54C5F00B0D32E /* OutgoingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF22F1C114D54C5F00B0D32E /* OutgoingEventController.m */; };
@@ -587,6 +589,8 @@
 		CF05574814DF9076003739EF /* marketshelf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marketshelf@2x.png"; sourceTree = "<group>"; };
 		CF05574B14DFB930003739EF /* itemmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemmask.png; sourceTree = "<group>"; };
 		CF05574C14DFB930003739EF /* itemmask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemmask@2x.png"; sourceTree = "<group>"; };
+		CF08C6CC14FB672200D04206 /* exampleweapon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "exampleweapon@2x.png"; sourceTree = "<group>"; };
+		CF08C6D614FB78A900D04206 /* EquipView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipView.xib; sourceTree = "<group>"; };
 		CF11126414C914EA00F6FD75 /* mysterybox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mysterybox.png; sourceTree = "<group>"; };
 		CF11126514C914EA00F6FD75 /* mysterybox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mysterybox@2x.png"; sourceTree = "<group>"; };
 		CF22F1C014D54C5F00B0D32E /* OutgoingEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutgoingEventController.h; sourceTree = "<group>"; };
@@ -1397,6 +1401,7 @@
 		CF6CCF2614FAF9CB008C693D /* ProfileMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CF08C6D614FB78A900D04206 /* EquipView.xib */,
 				CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */,
 				CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */,
 				CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */,
@@ -1972,6 +1977,7 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF08C6CC14FB672200D04206 /* exampleweapon@2x.png */,
 				CFCEA60E14FAD6C9003A5068 /* activebigcorner.png */,
 				CFCEA60F14FAD6C9003A5068 /* activebigcorner@2x.png */,
 				CFCEA61014FAD6C9003A5068 /* activemiddle.png */,
@@ -2802,6 +2808,8 @@
 				CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */,
 				CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */,
 				CF6CCF2F14FAF9D7008C693D /* CarpenterRow.xib in Resources */,
+				CF08C6CD14FB672200D04206 /* exampleweapon@2x.png in Resources */,
+				CF08C6D714FB78A900D04206 /* EquipView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,7 @@
 #import "SynthesizeSingleton.h"
 #import "IAPHelper.h"
 #import "GameState.h"
+#import "Protocols.pb.h"
 
 #define FONT_LABEL_OFFSET 2.5
 
@@ -67,8 +68,84 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return file;
 }
 
-+ (NSString *) equipNameForStruct:(int)eqId {
-  return [NSString stringWithFormat:equipImageString, eqId];
++ (NSString *) imageNameForEquip:(int)eqId {
+  return @"exampleweapon.png";//[NSString stringWithFormat:equipImageString, eqId];
+}
+
++ (UIImage *) imageForStruct:(int)structId {
+  return [UIImage imageNamed:[self imageNameForStruct:structId]];
+}
+
++ (UIImage *) imageForEquip:(int)eqId {
+  return [UIImage imageNamed:[self imageNameForEquip:eqId]];//[NSString stringWithFormat:equipImageString, eqId];
+}
+
++ (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity {  
+  switch (rarity) {
+    case FullEquipProto_RarityCommon:
+      return [UIColor whiteColor];
+      
+    case FullEquipProto_RarityUncommon:
+      return [UIColor greenColor];
+      
+    case FullEquipProto_RarityRare:
+      return [UIColor blueColor];
+      
+    case FullEquipProto_RarityEpic:
+      return [UIColor purpleColor];
+      
+    case FullEquipProto_RarityLegendary:
+      return [UIColor yellowColor];
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) stringForRarity:(FullEquipProto_Rarity)rarity {
+  switch (rarity) {
+    case FullEquipProto_RarityCommon:
+      return @"Common";
+      
+    case FullEquipProto_RarityUncommon:
+      return @"Uncommon";
+      
+    case FullEquipProto_RarityRare:
+      return @"Rare";
+      
+    case FullEquipProto_RarityEpic:
+      return @"Epic";
+      
+    case FullEquipProto_RarityLegendary:
+      return @"Legendary";
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity {
+  NSString *str = [self stringForRarity:rarity];
+  
+  if (str.length > 4) {
+    str = [str stringByReplacingCharactersInRange:NSMakeRange(3, str.length-3) withString:@"."];
+  }
+  return [str uppercaseString];
+}
+
++ (NSString *) factionForUserType:(UserType)type {
+  return type >= 3 ? @"Legion" : @"Alliance";
+}
+
++ (NSString *) classForUserType:(UserType)type {
+  if (type % 3 == 0) {
+    return @"Warrior";
+  } else if (type % 3 == 1) {
+    return @"Archer";
+  } else if (type % 3 == 2) {
+    return @"Mage";
+  }
+  return nil;
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {

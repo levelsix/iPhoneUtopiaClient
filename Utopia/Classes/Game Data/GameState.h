@@ -38,6 +38,9 @@
   int _marketplaceSilverEarnings;
   int _numMarketplaceSalesUnredeemed;
   int _numPostsInMarketplace;
+  int _weaponEquipped;
+  int _armorEquipped;
+  int _amuletEquipped;
   
   NSMutableArray *_marketplaceEquipPosts;
   NSMutableArray *_marketplaceEquipPostsFromSender;
@@ -89,6 +92,9 @@
 @property (assign) int marketplaceSilverEarnings;
 @property (assign) int numMarketplaceSalesUnredeemed;
 @property (assign) int numPostsInMarketplace;
+@property (assign) int weaponEquipped;
+@property (assign) int armorEquipped;
+@property (assign) int amuletEquipped;
 
 @property (retain) NSMutableArray *marketplaceEquipPosts;
 @property (retain) NSMutableArray *marketplaceEquipPostsFromSender;

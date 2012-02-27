@@ -309,6 +309,7 @@
 
 - (void) openVault {
   [ProfileViewController displayView];
+  [[ProfileViewController sharedProfileViewController] loadMyProfile];
 }
 
 - (void) enableButton {

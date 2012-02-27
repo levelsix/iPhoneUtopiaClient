@@ -44,8 +44,15 @@
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 + (NSString *) font;
 + (int) fontSize;
++ (UIImage *) imageForStruct:(int)structId;
++ (UIImage *) imageForEquip:(int)eqId;
 + (NSString *) imageNameForStruct:(int)structId;
-+ (NSString *) equipNameForStruct:(int)eqId;
++ (NSString *) imageNameForEquip:(int)eqId;
++ (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity;
++ (NSString *) stringForRarity:(FullEquipProto_Rarity)rarity;
++ (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity;
++ (NSString *) factionForUserType:(UserType)type;
++ (NSString *) classForUserType:(UserType)type;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;

@@ -40,6 +40,9 @@
 @synthesize marketplaceGoldEarnings = _marketplaceGoldEarnings;
 @synthesize numPostsInMarketplace = _numPostsInMarketplace;
 @synthesize numMarketplaceSalesUnredeemed = _numMarketplaceSalesUnredeemed;
+@synthesize weaponEquipped = _weaponEquipped;
+@synthesize armorEquipped = _armorEquipped;
+@synthesize amuletEquipped = _amuletEquipped;
 
 @synthesize marketplaceEquipPosts = _marketplaceEquipPosts;
 @synthesize marketplaceEquipPostsFromSender = _marketplaceEquipPostsFromSender;
@@ -134,11 +137,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.marketplaceSilverEarnings = user.marketplaceCoinsEarnings;
   self.numPostsInMarketplace = user.numPostsInMarketplace;
   self.numMarketplaceSalesUnredeemed = user.numMarketplaceSalesUnredeemed;
+  self.weaponEquipped = user.weaponEquipped;
+  self.armorEquipped = user.armorEquipped;
+  self.amuletEquipped = user.amuletEquipped;
 }
 
 - (FullEquipProto *) equipWithId:(int)equipId {
-  FullEquipProto *p = nil;
+  FullEquipProto *p = [self.staticEquips objectForKey:[NSNumber numberWithInt:equipId]];
   while (!p) {
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     p = [self.staticEquips objectForKey:[NSNumber numberWithInt:equipId]];
   }
   return p;
