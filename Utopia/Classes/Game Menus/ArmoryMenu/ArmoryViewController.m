@@ -85,7 +85,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 @synthesize armoryTableView, armoryRow;
 @synthesize equipsList;
-@synthesize buySellView, sellButton;
+@synthesize buySellView, sellButton, buyButton;
 @synthesize numOwnedLabel, equipDescriptionLabel, cantEquipLabel;
 
 #pragma mark - View lifecycle
@@ -99,6 +99,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   while (!(self.equipsList = [[GameState sharedGameState] armoryEquips])) {
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
   }
+  
+  buyButton.text = @"Buy";
+  sellButton.text = @"Sell";
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {

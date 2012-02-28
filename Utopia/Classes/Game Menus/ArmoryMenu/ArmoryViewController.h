@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
 #import "Protocols.pb.h"
+#import "LabelButton.h"
 
 @interface ArmoryListing : UIView
 
@@ -45,7 +46,8 @@
 @property (nonatomic, retain) IBOutlet ArmoryRow *armoryRow;
 
 @property (nonatomic, retain) IBOutlet UIView *buySellView;
-@property (nonatomic, retain) IBOutlet UIButton *sellButton;
+@property (nonatomic, retain) IBOutlet LabelButton *buyButton;
+@property (nonatomic, retain) IBOutlet LabelButton *sellButton;
 @property (nonatomic, retain) IBOutlet UILabel *cantEquipLabel;
 @property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
