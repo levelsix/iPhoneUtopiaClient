@@ -12,7 +12,7 @@
 #import "GameState.h"
 #import "Protocols.pb.h"
 
-#define FONT_LABEL_OFFSET 2.5
+#define FONT_LABEL_OFFSET 3.f
 
 @implementation Globals
 
@@ -146,6 +146,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return @"Mage";
   }
   return nil;
+}
+
++ (NSString *) stringForEquipType:(FullEquipProto_ClassType)type {
+  if (type % 3 == 0) {
+    return @"Warrior";
+  } else if (type % 3 == 1) {
+    return @"Archer";
+  } else if (type % 3 == 2) {
+    return @"Mage";
+  }
+  return nil;
+}
+
++ (BOOL) canEquip:(FullUserEquipProto *)equip {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equip.equipId];
+  NSLog(@"%d: %d, %d, %d, %d, %d, %d", fep.equipId, fep.minLevel, gs.level, fep.classType, gs.type %3, equip.userId, gs.userId);
+  return fep.minLevel <= gs.level && fep.classType == gs.type % 3 && equip.userId == gs.userId; 
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {

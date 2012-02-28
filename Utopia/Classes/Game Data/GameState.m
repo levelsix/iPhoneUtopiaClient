@@ -9,6 +9,7 @@
 #import "SynthesizeSingleton.h"
 #import "SocketCommunication.h"
 #import "UserData.h"
+#import "Globals.h"
 
 @implementation GameState
 
@@ -143,6 +144,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (FullEquipProto *) equipWithId:(int)equipId {
+  if (equipId == 0) {
+    [Globals popupMessage:@"Attempted to access equip 0"];
+    return nil;
+  }
   FullEquipProto *p = [self.staticEquips objectForKey:[NSNumber numberWithInt:equipId]];
   while (!p) {
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
@@ -152,6 +157,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (FullStructureProto *) structWithId:(int)structId {
+  if (structId == 0) {
+    [Globals popupMessage:@"Attempted to access struct 0"];
+    return nil;
+  }
   FullStructureProto *p = [self.staticStructs objectForKey:[NSNumber numberWithInt:structId]];
   while (!p) {
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];

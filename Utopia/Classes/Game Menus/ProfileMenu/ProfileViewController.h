@@ -26,19 +26,32 @@ typedef enum {
   kWallState
 } ProfileState;
 
+typedef enum {
+  kEquipScopeAll = 1,
+  kEquipScopeWeapons,
+  kEquipScopeArmor,
+  kEquipScopeAmulets
+} EquipScope;
+
 @interface EquipView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *border;
+@property (nonatomic, retain) IBOutlet UIImageView *bgd;
 @property (nonatomic, retain) IBOutlet UILabel *rarityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 
+@property (nonatomic, retain) UIView *darkOverlay;
+
+@property (nonatomic, retain) FullUserEquipProto *equip;
+
 - (void) updateForEquip:(FullUserEquipProto *)fuep;
+- (void) doShake;
 
 @end
 
-@interface ProfileBar : UIImageView {
+@interface ProfileBar : UIView {
   ProfileBarState _state;
   
   UIImageView *_curEquipSelectedImage;
@@ -73,8 +86,22 @@ typedef enum {
 
 @end
 
+@interface CurrentEquipView : UIImageView {
+  BOOL _selected;
+}
+
+@property (nonatomic, retain) IBOutlet UILabel *label;
+@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIView *chooseEquipButton;
+@property (nonatomic, retain) IBOutlet UIView *border;
+
+@property (nonatomic, assign) BOOL selected;
+
+@end
+
 @interface ProfileViewController : UIViewController {
   ProfileState _state;
+  EquipScope _curScope;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *userNameLabel;
@@ -88,25 +115,24 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *profilePicture;
 
-@property (nonatomic, retain) IBOutlet UILabel *equippedWeaponLabel;
-@property (nonatomic, retain) IBOutlet UILabel *equippedArmorLabel;
-@property (nonatomic, retain) IBOutlet UILabel *equippedAmuletLabel;
+@property (nonatomic, retain) IBOutlet CurrentEquipView *curWeaponView;
+@property (nonatomic, retain) IBOutlet CurrentEquipView *curArmorView;
+@property (nonatomic, retain) IBOutlet CurrentEquipView *curAmuletView;
 
-@property (nonatomic, retain) IBOutlet UIImageView *equippedWeaponIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *equippedArmorIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *equippedAmuletIcon;
-
-@property (nonatomic, retain) IBOutlet UIView *chooseWeaponButton;
-@property (nonatomic, retain) IBOutlet UIView *chooseArmorButton;
-@property (nonatomic, retain) IBOutlet UIView *chooseAmuletButton;
+@property (nonatomic, retain) IBOutlet ProfileBar *profileBar;
 
 @property (nonatomic, assign) ProfileState state;
+@property (nonatomic, assign) EquipScope curScope;
 
 @property (nonatomic, retain) IBOutlet UIScrollView *equipsScrollView;
 @property (nonatomic, retain) NSMutableArray *equipViews;
 @property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
+@property (nonatomic, retain) IBOutlet UIView *unequippableView;
+@property (nonatomic, retain) IBOutlet UILabel *unequippableLabel;
 
 - (void) loadMyProfile;
+- (void) equipViewSelected:(EquipView *)ev;
+- (void) currentEquipView:(CurrentEquipView *)cev;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) displayView;

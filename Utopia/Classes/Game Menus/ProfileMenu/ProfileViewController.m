@@ -14,6 +14,10 @@
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
 
+#define SHAKE_DURATION 0.05f
+#define SHAKE_REPEAT_COUNT 4.f
+#define SHAKE_OFFSET 3.f
+
 @implementation ProfileBar
 
 @synthesize state = _state;
@@ -31,9 +35,6 @@
   clickedButtons = 0;
   
   [self setState:kMyProfile];
-  [self clickButton:kEquipButton];
-  [self unclickButton:kSkillsButton];
-  [self unclickButton:kWallButton];
 }
 
 - (void) setState:(ProfileBarState)state {
@@ -91,6 +92,9 @@
         break;
     }
   }
+  [self clickButton:kEquipButton];
+  [self unclickButton:kSkillsButton];
+  [self unclickButton:kWallButton];
 }
 
 - (void) clickButton:(ProfileBarButton)button {
@@ -103,7 +107,7 @@
       break;
       
     case kSkillsButton:
-      if (self.state = kMyProfile) {
+      if (self.state == kMyProfile) {
         skillsIcon.highlighted = YES;
         skillsLabel.highlighted = YES;
         _curSkillsSelectedImage.hidden = NO;
@@ -265,7 +269,20 @@
 
 @implementation EquipView
 
+@synthesize bgd;
 @synthesize equipIcon, border, rarityLabel, attackLabel, defenseLabel;
+@synthesize equip;
+@synthesize darkOverlay;
+
+- (void) awakeFromNib {
+  int offset = 2.5;
+  CGRect rect = CGRectMake(offset, offset, self.bounds.size.width-2*offset, self.bounds.size.height-2*offset);
+  darkOverlay = [[UIView alloc] initWithFrame:rect];
+  darkOverlay.layer.cornerRadius = 2.5f;
+  darkOverlay.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.3f];
+  darkOverlay.hidden = YES;
+  [self addSubview:darkOverlay];
+}
 
 - (void) updateForEquip:(FullUserEquipProto *)fuep {
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
@@ -274,20 +291,106 @@
   equipIcon.image = [Globals imageForEquip:fuep.equipId];
   rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
   rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+  
+  self.equip = fuep;
+  
+  if ([Globals canEquip:fuep]) {
+    bgd.highlighted = NO;
+  } else {
+    bgd.highlighted = YES;
+  }
+}
+
+- (void) doShake {
+  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+  [animation setDuration:SHAKE_DURATION];
+  [animation setRepeatCount:SHAKE_REPEAT_COUNT];
+  [animation setAutoreverses:YES];
+  [animation setFromValue:[NSValue valueWithCGPoint:
+                           CGPointMake(self.center.x - SHAKE_OFFSET, self.center.y)]];
+  [animation setToValue:[NSValue valueWithCGPoint:
+                         CGPointMake(self.center.x + SHAKE_OFFSET, self.center.y)]];
+  [self.layer addAnimation:animation forKey:@"position"];
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  darkOverlay.hidden = NO;
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
+    darkOverlay.hidden = NO;
+  } else {
+    darkOverlay.hidden = YES;
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
+    [[ProfileViewController sharedProfileViewController] equipViewSelected:self];
+    darkOverlay.hidden = NO;
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+  }
+  darkOverlay.hidden = YES;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  darkOverlay.hidden = YES;
+}
+
+- (void) dealloc {
+  [darkOverlay release];
+  [super dealloc];
+}
+
+@end
+
+@implementation CurrentEquipView
+
+@synthesize equipIcon, label, chooseEquipButton, border;
+@synthesize selected = _selected;
+
+- (void) setSelected:(BOOL)selected {
+  if (selected != _selected) {
+    _selected = selected;
+    border.hidden = _selected ? NO : YES;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  border.hidden = _selected ? YES : NO;
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
+    border.hidden = _selected ? YES : NO;
+  } else {
+    border.hidden = _selected ? NO : YES;
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
+    _selected = !_selected;
+    [[ProfileViewController sharedProfileViewController] currentEquipView:self];
+  }
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  border.hidden = _selected ? NO : YES;
 }
 
 @end
 
 @implementation ProfileViewController
 
-@synthesize state = _state;
+@synthesize state = _state, curScope = _curScope;
 @synthesize userNameLabel, factionLabel, levelLabel, classLabel, attackLabel, defenseLabel;
 @synthesize winsLabel, lossesLabel, fleesLabel;
-@synthesize equippedAmuletLabel, equippedArmorLabel, equippedWeaponLabel;
-@synthesize equippedWeaponIcon, equippedArmorIcon, equippedAmuletIcon;
-@synthesize chooseArmorButton, chooseAmuletButton, chooseWeaponButton;
-@synthesize profilePicture;
+@synthesize curArmorView, curAmuletView, curWeaponView;
+@synthesize profilePicture, profileBar;
 @synthesize equipViews, nibEquipView, equipsScrollView;
+@synthesize unequippableView, unequippableLabel;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -303,6 +406,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   // Do any additional setup after loading the view from its nib.
   
   self.equipViews = [NSMutableArray array];
+}
+
+- (void) setCurScope:(EquipScope)curScope {
+  _curScope = curScope;
+  [self updateScrollViewForCurrentScope:YES];
 }
 
 - (NSArray *) sortEquips:(NSArray *)equips {
@@ -334,8 +442,114 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   return toRet;
 }
 
-- (void) loadEquips:(NSArray *)equips {
+- (CGPoint) centerForCell:(int)cellNum equipView:(EquipView *)ev {
+  int x = equipsScrollView.frame.size.width/2 + ((cellNum % 3)-1)*(ev.frame.size.width+EQUIPS_HORIZONTAL_SEPARATION);
+  int y = (cellNum/3*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+ev.frame.size.height/2+EQUIPS_VERTICAL_SEPARATION;
+  return CGPointMake(x, y);
+}
+
+- (void) equipViewSelected:(EquipView *)ev {
   GameState *gs = [GameState sharedGameState];
+  FullUserEquipProto *fuep = ev.equip;
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
+  if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
+    if ([Globals canEquip:fuep]) {
+      NSLog(@"equipping");
+      if (!unequippableView.hidden) {
+
+      }
+    } else {
+      [ev doShake];
+      if (fep.classType == gs.type % 3) {
+        unequippableLabel.text = [NSString stringWithFormat:@"You Must Be A %@ To Equip This Item", [Globals stringForEquipType:fep.equipType]];
+      }
+      else if (fep.minLevel > gs.level) {
+        unequippableLabel.text = [NSString stringWithFormat:@"You Must Be Level %d To Equip This Item", fep.minLevel];
+      } else {
+        unequippableLabel.text = @"Unable to equip for unknown reason";
+      }
+      unequippableView.alpha = 1.f;
+      unequippableView.hidden = NO;
+      [UIView animateWithDuration:5 delay:2 options:UIViewAnimationOptionCurveLinear animations:^{
+        unequippableView.alpha = 0.f;
+        NSLog(@"%@", [NSDate date]);
+      } completion:^(BOOL finished) {
+        unequippableView.hidden = YES;
+        NSLog(@"%@", [NSDate date]);
+      }];
+    }
+  } else {
+    [Globals popupMessage:@"Attempting to equip an item that is not yours"];
+  }
+}
+
+- (void) currentEquipView:(CurrentEquipView *)cev {
+  EquipScope scope;
+  if (cev == curWeaponView) {
+    scope = kEquipScopeWeapons;
+  } else if (cev == curArmorView) {
+    scope = kEquipScopeArmor;
+  } else if (cev == curAmuletView) {
+    scope = kEquipScopeAmulets;
+  } else {
+    [Globals popupMessage:@"Error attaining scope value"];
+  }
+  
+  // cev will be selected/deselected correctly
+  if (scope == _curScope) {
+    scope = kEquipScopeAll;
+  } else if (_curScope == kEquipScopeWeapons) {
+    curWeaponView.selected = NO;
+  } else if (_curScope == kEquipScopeArmor) {
+    curArmorView.selected = NO;
+  } else if (_curScope == kEquipScopeAmulets) {
+    curAmuletView.selected = NO;
+  }
+  
+  self.curScope = scope;
+}
+
+- (NSArray *) equipViewsForScope:(EquipScope) scope {
+  if (scope == kEquipScopeAll) {
+    return equipViews;
+  }
+  
+  NSMutableArray *arr = [NSMutableArray array];
+  for (EquipView *ev in equipViews) {
+    FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ev.equip.equipId];
+    if (scope == kEquipScopeWeapons && fep.equipType == FullEquipProto_EquipTypeWeapon) {
+      [arr addObject:ev];
+    } else if (scope == kEquipScopeArmor && fep.equipType == FullEquipProto_EquipTypeArmor) {
+      [arr addObject:ev];
+    } else if (scope == kEquipScopeAmulets && fep.equipType == FullEquipProto_EquipTypeAccessory) {
+      [arr addObject:ev];
+    }
+  }
+  return arr;
+}
+
+- (void) updateScrollViewForCurrentScope:(BOOL)animated {
+  NSArray *toDisplay = [self equipViewsForScope:self.curScope];
+  EquipView *ev = nil;
+  int j = 0;
+  [UIView beginAnimations:nil context:nil];
+  for (int i = 0; i < equipViews.count; i++) {
+    ev = [equipViews objectAtIndex:i];
+    if ([toDisplay containsObject:ev]) {
+      ev.hidden = NO;
+      ev.center = [self centerForCell:j equipView:ev];
+      j++;
+    } else {
+      ev.hidden = YES;
+    }
+  }
+  equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,((j/3)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
+}
+
+- (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet touchEnabled:(BOOL)touchEnabled {
+  GameState *gs = [GameState sharedGameState];
+  
+  BOOL weaponFound = NO, armorFound = NO, amuletFound = NO;
   
   equips = [self sortEquips:equips];
   EquipView *ev;
@@ -354,40 +568,80 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     }
     
     [ev updateForEquip:fuep];
-    i = i*3;
-    int x = equipsScrollView.frame.size.width/2 + ((i % 3) - 1) * (ev.frame.size.width + EQUIPS_HORIZONTAL_SEPARATION);
-    int y = (i/3*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+ev.frame.size.height/2+EQUIPS_VERTICAL_SEPARATION;
-    ev.center = CGPointMake(x,y);
+    ev.userInteractionEnabled = touchEnabled;
     
     // check if this item is equipped
-    if (fuep.equipId == gs.weaponEquipped) {
+    if (fuep.equipId == weapon) {
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
-      equippedWeaponLabel.text = fep.name;
-      equippedWeaponLabel.textColor = [Globals colorForRarity:fep.rarity];
-      equippedWeaponIcon.image = [Globals imageForEquip:fep.equipId];
+      curWeaponView.label.text = fep.name;
+      curWeaponView.label.textColor = [Globals colorForRarity:fep.rarity];
+      curWeaponView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      curWeaponView.equipIcon.hidden = NO;
+      curWeaponView.chooseEquipButton.hidden = YES;
       
       ev.border.hidden = NO;
-    } else if (fuep.equipId == gs.armorEquipped) {
+      weaponFound = YES;
+    } else if (fuep.equipId == armor) {
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
-      equippedArmorLabel.text = fep.name;
-      equippedArmorLabel.textColor = [Globals colorForRarity:fep.rarity];
-      equippedArmorIcon.image = [Globals imageForEquip:fep.equipId];
+      curArmorView.label.text = fep.name;
+      curArmorView.label.textColor = [Globals colorForRarity:fep.rarity];
+      curArmorView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      curArmorView.equipIcon.hidden = NO;
+      curArmorView.chooseEquipButton.hidden = YES;
       
       ev.border.hidden = NO;
-    } else if (fuep.equipId == gs.amuletEquipped) {
+      armorFound = YES;
+    } else if (fuep.equipId == amulet) {
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
-      equippedAmuletLabel.text = fep.name;
-      equippedAmuletLabel.textColor = [Globals colorForRarity:fep.rarity];
-      equippedAmuletIcon.image = [Globals imageForEquip:fep.equipId];
+      curAmuletView.label.text = fep.name;
+      curAmuletView.label.textColor = [Globals colorForRarity:fep.rarity];
+      curAmuletView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      curAmuletView.equipIcon.hidden = NO;
+      curAmuletView.chooseEquipButton.hidden = YES;
       
       ev.border.hidden = NO;
+      amuletFound = YES;
     } else {
       ev.border.hidden = YES;
     }
-    i = i/3;
   }
-  i=i*3;
-  equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,((i/3)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
+  _curScope = kEquipScopeAll;
+  [self updateScrollViewForCurrentScope:NO];
+  
+  if (!weaponFound) {
+    if (weapon > 0) {
+      [Globals popupMessage:@"Unable to find equipped weapon for this player"];
+    }
+    curWeaponView.label.text = @"No Weapon";
+    curWeaponView.equipIcon.image = nil;
+    curWeaponView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
+    curWeaponView.equipIcon.hidden = YES;
+    curWeaponView.chooseEquipButton.hidden = NO;
+  }
+  if (!armorFound) {
+    if (armor > 0) {
+      [Globals popupMessage:@"Unable to find equipped armor for this player"];
+    }
+    curArmorView.label.text = @"No Armor";
+    curArmorView.equipIcon.image = nil;
+    curArmorView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
+    curArmorView.equipIcon.hidden = YES;
+    curArmorView.chooseEquipButton.hidden = NO;
+  }
+  if (!amuletFound) {
+    if (amulet > 0) {
+      [Globals popupMessage:@"Unable to find equipped amulet for this player"];
+    }
+    curAmuletView.label.text = @"No Amulet";
+    curAmuletView.equipIcon.image = nil;
+    curAmuletView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
+    curAmuletView.equipIcon.hidden = YES;
+    curAmuletView.chooseEquipButton.hidden = NO;
+  }
+  
+  curWeaponView.userInteractionEnabled = touchEnabled;
+  curArmorView.userInteractionEnabled = touchEnabled;
+  curAmuletView.userInteractionEnabled = touchEnabled;
 }
 
 - (void) loadMyProfile {
@@ -402,7 +656,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   attackLabel.text = [NSString stringWithFormat:@"%d", gs.attack];
   defenseLabel.text = [NSString stringWithFormat:@"%d", gs.defense];
   
-  [self loadEquips:gs.myEquips];
+  [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
+  self.profileBar.state = kMyProfile;
 }
 
 - (IBAction)closeClicked:(id)sender {
