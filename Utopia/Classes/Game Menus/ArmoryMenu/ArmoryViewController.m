@@ -84,8 +84,9 @@
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 @synthesize armoryTableView, armoryRow;
-@synthesize buySellView, sellButton;
 @synthesize equipsList;
+@synthesize buySellView, sellButton;
+@synthesize numOwnedLabel, equipDescriptionLabel, cantEquipLabel;
 
 #pragma mark - View lifecycle
 

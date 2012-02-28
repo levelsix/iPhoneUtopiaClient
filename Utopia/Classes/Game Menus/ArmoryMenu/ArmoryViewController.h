@@ -42,9 +42,13 @@
 @interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
+@property (nonatomic, retain) IBOutlet ArmoryRow *armoryRow;
+
 @property (nonatomic, retain) IBOutlet UIView *buySellView;
 @property (nonatomic, retain) IBOutlet UIButton *sellButton;
-@property (nonatomic, retain) IBOutlet ArmoryRow *armoryRow;
+@property (nonatomic, retain) IBOutlet UILabel *cantEquipLabel;
+@property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
+@property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
 
 @property (nonatomic, retain) NSArray *equipsList;
 
