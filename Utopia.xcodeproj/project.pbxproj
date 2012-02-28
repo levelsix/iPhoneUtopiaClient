@@ -30,7 +30,7 @@
 		CF1371B714FC5B3100257D9E /* cantequipbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1371B514FC5B3100257D9E /* cantequipbg.png */; };
 		CF1371B814FC5B3100257D9E /* cantequipbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1371B614FC5B3100257D9E /* cantequipbg@2x.png */; };
 		CF22F1C214D54C5F00B0D32E /* OutgoingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF22F1C114D54C5F00B0D32E /* OutgoingEventController.m */; };
-		CF22F1C414D54CBB00B0D32E /* ArmoryItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF22F1C314D54CBB00B0D32E /* ArmoryItemView.xib */; };
+		CF22F1C414D54CBB00B0D32E /* ArmoryListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF22F1C314D54CBB00B0D32E /* ArmoryListing.xib */; };
 		CF22F1C714D54CCD00B0D32E /* IncomingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF22F1C614D54CCD00B0D32E /* IncomingEventController.m */; };
 		CF22F1CA14D54CE000B0D32E /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = CF22F1C914D54CE000B0D32E /* GCDAsyncSocket.m */; };
 		CF22F1CD14D6018900B0D32E /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = CF22F1CC14D6018900B0D32E /* Globals.m */; };
@@ -149,7 +149,7 @@
 		CF40873D14FCCC47000C5F4B /* requirementbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872914FCCC46000C5F4B /* requirementbarbg@2x.png */; };
 		CF40873E14FCCC47000C5F4B /* weaponinfobg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872A14FCCC46000C5F4B /* weaponinfobg.png */; };
 		CF40873F14FCCC47000C5F4B /* weaponinfobg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872B14FCCC46000C5F4B /* weaponinfobg@2x.png */; };
-		CF40874014FCCC47000C5F4B /* uequipitembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872C14FCCC46000C5F4B /* uequipitembg.png */; };
+		CF40874014FCCC47000C5F4B /* unequipitembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872C14FCCC46000C5F4B /* unequipitembg.png */; };
 		CF40874114FCCC47000C5F4B /* itembg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872D14FCCC46000C5F4B /* itembg.png */; };
 		CF40874214FCCC47000C5F4B /* itembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872E14FCCC46000C5F4B /* itembg@2x.png */; };
 		CF40874314FCCC47000C5F4B /* unequipitembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872F14FCCC47000C5F4B /* unequipitembg@2x.png */; };
@@ -598,7 +598,7 @@
 		CF1371B614FC5B3100257D9E /* cantequipbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cantequipbg@2x.png"; sourceTree = "<group>"; };
 		CF22F1C014D54C5F00B0D32E /* OutgoingEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutgoingEventController.h; sourceTree = "<group>"; };
 		CF22F1C114D54C5F00B0D32E /* OutgoingEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutgoingEventController.m; sourceTree = "<group>"; };
-		CF22F1C314D54CBB00B0D32E /* ArmoryItemView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryItemView.xib; path = ArmoryMenu/ArmoryItemView.xib; sourceTree = "<group>"; };
+		CF22F1C314D54CBB00B0D32E /* ArmoryListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryListing.xib; path = ArmoryMenu/ArmoryListing.xib; sourceTree = "<group>"; };
 		CF22F1C514D54CCD00B0D32E /* IncomingEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncomingEventController.h; sourceTree = "<group>"; };
 		CF22F1C614D54CCD00B0D32E /* IncomingEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncomingEventController.m; sourceTree = "<group>"; };
 		CF22F1C814D54CE000B0D32E /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = libs/GCDAsyncSocket.h; sourceTree = "<group>"; };
@@ -729,7 +729,7 @@
 		CF40872914FCCC46000C5F4B /* requirementbarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "requirementbarbg@2x.png"; sourceTree = "<group>"; };
 		CF40872A14FCCC46000C5F4B /* weaponinfobg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponinfobg.png; sourceTree = "<group>"; };
 		CF40872B14FCCC46000C5F4B /* weaponinfobg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponinfobg@2x.png"; sourceTree = "<group>"; };
-		CF40872C14FCCC46000C5F4B /* uequipitembg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uequipitembg.png; sourceTree = "<group>"; };
+		CF40872C14FCCC46000C5F4B /* unequipitembg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unequipitembg.png; sourceTree = "<group>"; };
 		CF40872D14FCCC46000C5F4B /* itembg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itembg.png; sourceTree = "<group>"; };
 		CF40872E14FCCC46000C5F4B /* itembg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itembg@2x.png"; sourceTree = "<group>"; };
 		CF40872F14FCCC47000C5F4B /* unequipitembg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unequipitembg@2x.png"; sourceTree = "<group>"; };
@@ -1384,7 +1384,7 @@
 		CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */ = {
 			isa = PBXGroup;
 			children = (
-				CF22F1C314D54CBB00B0D32E /* ArmoryItemView.xib */,
+				CF22F1C314D54CBB00B0D32E /* ArmoryListing.xib */,
 				CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */,
 				CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */,
 				CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */,
@@ -1990,7 +1990,7 @@
 				CF40872914FCCC46000C5F4B /* requirementbarbg@2x.png */,
 				CF40872A14FCCC46000C5F4B /* weaponinfobg.png */,
 				CF40872B14FCCC46000C5F4B /* weaponinfobg@2x.png */,
-				CF40872C14FCCC46000C5F4B /* uequipitembg.png */,
+				CF40872C14FCCC46000C5F4B /* unequipitembg.png */,
 				CF40872D14FCCC46000C5F4B /* itembg.png */,
 				CF40872E14FCCC46000C5F4B /* itembg@2x.png */,
 				CF40872F14FCCC47000C5F4B /* unequipitembg@2x.png */,
@@ -2528,7 +2528,7 @@
 				CF5EE04414CFEE8F0063F1E0 /* ArmoryViewController.xib in Resources */,
 				CF5EE07F14D0F2270063F1E0 /* mycity.png in Resources */,
 				CF5EE08014D0F2270063F1E0 /* mycity@2x.png in Resources */,
-				CF22F1C414D54CBB00B0D32E /* ArmoryItemView.xib in Resources */,
+				CF22F1C414D54CBB00B0D32E /* ArmoryListing.xib in Resources */,
 				CF22F21014D9007000B0D32E /* axeactive.png in Resources */,
 				CF22F21114D9007000B0D32E /* axeactive@2x.png in Resources */,
 				CF22F21214D9007000B0D32E /* axeinactive.png in Resources */,
@@ -2791,7 +2791,7 @@
 				CF40873D14FCCC47000C5F4B /* requirementbarbg@2x.png in Resources */,
 				CF40873E14FCCC47000C5F4B /* weaponinfobg.png in Resources */,
 				CF40873F14FCCC47000C5F4B /* weaponinfobg@2x.png in Resources */,
-				CF40874014FCCC47000C5F4B /* uequipitembg.png in Resources */,
+				CF40874014FCCC47000C5F4B /* unequipitembg.png in Resources */,
 				CF40874114FCCC47000C5F4B /* itembg.png in Resources */,
 				CF40874214FCCC47000C5F4B /* itembg@2x.png in Resources */,
 				CF40874314FCCC47000C5F4B /* unequipitembg@2x.png in Resources */,

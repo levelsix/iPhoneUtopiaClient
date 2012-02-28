@@ -525,12 +525,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrieveStructStore {
-  [[[GameState sharedGameState] carpenterStructs] removeAllObjects];
   [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeAllStructures];
 }
 
 - (void) retrieveEquipStore {
-  [[[GameState sharedGameState] armoryEquips] removeAllObjects];
   [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory];
 }
 - (void) loadPlayerCity:(int)userId {

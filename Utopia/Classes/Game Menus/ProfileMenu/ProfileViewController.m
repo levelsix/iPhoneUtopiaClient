@@ -294,7 +294,7 @@
   
   self.equip = fuep;
   
-  if ([Globals canEquip:fuep]) {
+  if ([Globals canEquip:fep]) {
     bgd.highlighted = NO;
   } else {
     bgd.highlighted = YES;
@@ -424,7 +424,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   FullUserEquipProto *fuep = ev.equip;
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
   if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
-    if ([Globals canEquip:fuep]) {
+    if ([Globals canEquip:fep]) {
       NSLog(@"equipping");
       unequippableView.hidden = YES;
     } else {

@@ -8,34 +8,48 @@
 
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
+#import "Protocols.pb.h"
 
-@interface ArmoryItemView : UIView 
+@interface ArmoryListing : UIView
+
+@property (nonatomic, retain) IBOutlet UIImageView *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
+
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
+
+@property (nonatomic, retain) FullEquipProto *fep;
 
 @end
 
-@interface MaskView : UIView {
-@private
-  CGImageRef maskedImage;
-  CGSize size;
-}
+@interface ArmoryListingContainer : UIView
 
-@property (nonatomic, assign) float xOffset;
+@property (nonatomic, retain) IBOutlet ArmoryListing *armoryListing;
+
 @end
 
-@interface ArmoryViewController : UIViewController <UIGestureRecognizerDelegate, UIScrollViewDelegate>
+@interface ArmoryRow : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) IBOutlet ArmoryItemView *itemView;
+@property (nonatomic, retain) IBOutlet ArmoryListingContainer *listing1;
+@property (nonatomic, retain) IBOutlet ArmoryListingContainer *listing2;
+@property (nonatomic, retain) IBOutlet ArmoryListingContainer *listing3;
+
+@end
+
+@interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
 @property (nonatomic, retain) IBOutlet UIView *buySellView;
-@property (nonatomic, retain) IBOutlet UIButton *buyButton;
 @property (nonatomic, retain) IBOutlet UIButton *sellButton;
+@property (nonatomic, retain) IBOutlet ArmoryRow *armoryRow;
 
-@property (nonatomic, retain) MaskView *maskView;
+@property (nonatomic, retain) NSArray *equipsList;
 
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;
 + (void) removeView;
-- (void) moveBuySellOffscreen;
-- (void) setScrollViewContentWidth:(float)width;
 
 @end

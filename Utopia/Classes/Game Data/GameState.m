@@ -82,8 +82,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticBuildStructJobs = [[NSMutableDictionary alloc] init];
     _staticPossessEquipJobProto = [[NSMutableDictionary alloc] init];
     _staticUpgradeStructJobProto = [[NSMutableDictionary alloc] init];
-    _carpenterStructs = [[NSMutableArray alloc] init];
-    _armoryEquips = [[NSMutableArray alloc] init];
     _attackList = [[NSMutableArray alloc] init];
     
     //TODO: take this out

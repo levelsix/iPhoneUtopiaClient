@@ -185,8 +185,10 @@
 }
 
 - (void) setFsp:(FullStructureProto *)f {
-  [fsp release];
-  fsp = [f retain];
+  if (fsp != f) {
+    [fsp release];
+    fsp = [f retain];
+  }
   
   if (!fsp) {
     self.state = kDisappear;
@@ -298,8 +300,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 - (void) viewDidAppear:(BOOL)animated {
   [structsList removeAllObjects];
   
-  NSArray *structs = [[GameState sharedGameState] carpenterStructs];
-  while (structs.count == 0) {
+  NSArray *structs;
+  while (!(structs = [[GameState sharedGameState] carpenterStructs])) {
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
   }
   

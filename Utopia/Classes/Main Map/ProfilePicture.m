@@ -296,7 +296,7 @@
 }
 
 - (void) openQuestLog {
-  [QuestLogController displayView];
+  [ArmoryViewController displayView];
 }
 
 - (void) openArmory {

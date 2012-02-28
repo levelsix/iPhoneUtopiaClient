@@ -54,7 +54,7 @@
 + (NSString *) factionForUserType:(UserType)type;
 + (NSString *) stringForEquipType:(FullEquipProto_ClassType)type;
 + (NSString *) classForUserType:(UserType)type;
-+ (BOOL) canEquip:(FullUserEquipProto *)equip;
++ (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;

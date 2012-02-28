@@ -344,23 +344,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {
     if (proto.structsList.count > 0) {
-      NSMutableArray *carp = [gs carpenterStructs];
+      [gs setCarpenterStructs:proto.structsList];
       NSMutableDictionary *fsps = gs.staticStructs;
       
-      [carp removeAllObjects];
       for (FullStructureProto *fsp in proto.structsList) {
-        [carp addObject:fsp];
         [fsps setObject:fsp forKey:[NSNumber numberWithInt:fsp.structId]];
       }
     }
     
     if (proto.equipsList.count > 0) {
-      NSMutableArray *arm = [gs armoryEquips];
+      [gs setArmoryEquips:proto.equipsList];
       NSMutableDictionary *feps = gs.staticEquips;
       
-      [feps removeAllObjects];
       for (FullEquipProto *fep in proto.structsList) {
-        [arm addObject:fep];
         [feps setObject:fep forKey:[NSNumber numberWithInt:fep.equipId]];
       }
     }

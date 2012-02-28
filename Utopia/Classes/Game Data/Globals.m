@@ -159,10 +159,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
-+ (BOOL) canEquip:(FullUserEquipProto *)equip {
++ (BOOL) canEquip:(FullEquipProto *)fep {
   GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equip.equipId];
-  return fep.minLevel <= gs.level && fep.classType == gs.type % 3 && equip.userId == gs.userId; 
+  return fep.minLevel <= gs.level && fep.classType == gs.type % 3; 
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
