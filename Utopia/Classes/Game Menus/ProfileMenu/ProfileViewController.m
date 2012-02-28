@@ -413,35 +413,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self updateScrollViewForCurrentScope:YES];
 }
 
-- (NSArray *) sortEquips:(NSArray *)equips {
-  NSMutableArray *arr = [equips mutableCopy];
-  NSMutableArray *toRet = [NSMutableArray arrayWithCapacity:equips.count];
-  GameState *gs = [GameState sharedGameState];
-  
-  for (int i = 0; i < equips.count; i++) {
-    FullUserEquipProto *bestFuep = [arr objectAtIndex:0];
-    FullEquipProto *bestFep = [gs equipWithId:bestFuep.equipId];
-    for (int j = 1; j < arr.count; j++) {
-      FullUserEquipProto *compFuep = [arr objectAtIndex:j];
-      FullEquipProto *compFep = [gs equipWithId:compFuep.equipId];
-      
-      if (compFep.rarity > bestFep.rarity) {
-        bestFuep = compFuep;
-        bestFep = compFep;
-      } else if (compFep.rarity == bestFep.rarity &&
-                 compFep.attackBoost + compFep.defenseBoost >
-                 bestFep.attackBoost + bestFep.defenseBoost) {
-        bestFuep = compFuep;
-        bestFep = compFep;
-      }
-    }
-    [toRet addObject:bestFuep];
-    [arr removeObject:bestFuep];
-  }
-  
-  return toRet;
-}
-
 - (CGPoint) centerForCell:(int)cellNum equipView:(EquipView *)ev {
   int x = equipsScrollView.frame.size.width/2 + ((cellNum % 3)-1)*(ev.frame.size.width+EQUIPS_HORIZONTAL_SEPARATION);
   int y = (cellNum/3*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+ev.frame.size.height/2+EQUIPS_VERTICAL_SEPARATION;
@@ -455,9 +426,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
     if ([Globals canEquip:fuep]) {
       NSLog(@"equipping");
-      if (!unequippableView.hidden) {
-
-      }
+      unequippableView.hidden = YES;
     } else {
       [ev doShake];
       if (fep.classType == gs.type % 3) {
@@ -470,13 +439,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       }
       unequippableView.alpha = 1.f;
       unequippableView.hidden = NO;
-      [UIView animateWithDuration:5 delay:2 options:UIViewAnimationOptionCurveLinear animations:^{
+      
+      [UIView animateWithDuration:1.f delay:2.f options:0 animations:^{
         unequippableView.alpha = 0.f;
-        NSLog(@"%@", [NSDate date]);
-      } completion:^(BOOL finished) {
-        unequippableView.hidden = YES;
-        NSLog(@"%@", [NSDate date]);
-      }];
+      } completion:nil];
     }
   } else {
     [Globals popupMessage:@"Attempting to equip an item that is not yours"];
@@ -509,6 +475,35 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.curScope = scope;
 }
 
+- (NSArray *) sortEquips:(NSArray *)equips {
+  NSMutableArray *arr = [equips mutableCopy];
+  NSMutableArray *toRet = [NSMutableArray arrayWithCapacity:equips.count];
+  GameState *gs = [GameState sharedGameState];
+  
+  for (int i = 0; i < equips.count; i++) {
+    FullUserEquipProto *bestFuep = [arr objectAtIndex:0];
+    FullEquipProto *bestFep = [gs equipWithId:bestFuep.equipId];
+    for (int j = 1; j < arr.count; j++) {
+      FullUserEquipProto *compFuep = [arr objectAtIndex:j];
+      FullEquipProto *compFep = [gs equipWithId:compFuep.equipId];
+      
+      if (compFep.rarity > bestFep.rarity) {
+        bestFuep = compFuep;
+        bestFep = compFep;
+      } else if (compFep.rarity == bestFep.rarity &&
+                 compFep.attackBoost + compFep.defenseBoost >
+                 bestFep.attackBoost + bestFep.defenseBoost) {
+        bestFuep = compFuep;
+        bestFep = compFep;
+      }
+    }
+    [toRet addObject:bestFuep];
+    [arr removeObject:bestFuep];
+  }
+  
+  return toRet;
+}
+
 - (NSArray *) equipViewsForScope:(EquipScope) scope {
   if (scope == kEquipScopeAll) {
     return equipViews;
@@ -532,16 +527,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   NSArray *toDisplay = [self equipViewsForScope:self.curScope];
   EquipView *ev = nil;
   int j = 0;
-  [UIView beginAnimations:nil context:nil];
+  if (animated) {
+    [UIView beginAnimations:nil context:nil];
+  }
   for (int i = 0; i < equipViews.count; i++) {
     ev = [equipViews objectAtIndex:i];
     if ([toDisplay containsObject:ev]) {
-      ev.hidden = NO;
+      ev.alpha = 1.0;
       ev.center = [self centerForCell:j equipView:ev];
       j++;
     } else {
-      ev.hidden = YES;
+      ev.alpha = 0.0;
     }
+  }
+  if (animated) {
+    [UIView commitAnimations];
   }
   equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,((j/3)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
 }

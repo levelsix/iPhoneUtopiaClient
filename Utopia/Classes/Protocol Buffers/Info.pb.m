@@ -36,6 +36,7 @@ BOOL BattleResultIsValidValue(BattleResult value) {
   switch (value) {
     case BattleResultAttackerWin:
     case BattleResultDefenderWin:
+    case BattleResultAttackerFlee:
       return YES;
     default:
       return NO;
@@ -379,6 +380,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t tasksCompleted;
 @property int32_t battlesWon;
 @property int32_t battlesLost;
+@property int32_t flees;
 @property int32_t hourlyCoins;
 @property (retain) NSString* armyCode;
 @property int32_t numReferrals;
@@ -587,6 +589,13 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasBattlesLost_ = !!value;
 }
 @synthesize battlesLost;
+- (BOOL) hasFlees {
+  return !!hasFlees_;
+}
+- (void) setHasFlees:(BOOL) value {
+  hasFlees_ = !!value;
+}
+@synthesize flees;
 - (BOOL) hasHourlyCoins {
   return !!hasHourlyCoins_;
 }
@@ -756,6 +765,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.tasksCompleted = 0;
     self.battlesWon = 0;
     self.battlesLost = 0;
+    self.flees = 0;
     self.hourlyCoins = 0;
     self.armyCode = @"";
     self.numReferrals = 0;
@@ -864,6 +874,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
     return NO;
   }
   if (!self.hasBattlesLost) {
+    return NO;
+  }
+  if (!self.hasFlees) {
     return NO;
   }
   if (!self.hasHourlyCoins) {
@@ -1028,6 +1041,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastLongLicensePurchaseTime) {
     [output writeInt64:44 value:self.lastLongLicensePurchaseTime];
   }
+  if (self.hasFlees) {
+    [output writeInt32:45 value:self.flees];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1168,6 +1184,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastLongLicensePurchaseTime) {
     size += computeInt64Size(44, self.lastLongLicensePurchaseTime);
+  }
+  if (self.hasFlees) {
+    size += computeInt32Size(45, self.flees);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1318,6 +1337,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasBattlesLost) {
     [self setBattlesLost:other.battlesLost];
+  }
+  if (other.hasFlees) {
+    [self setFlees:other.flees];
   }
   if (other.hasHourlyCoins) {
     [self setHourlyCoins:other.hourlyCoins];
@@ -1581,6 +1603,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 352: {
         [self setLastLongLicensePurchaseTime:[input readInt64]];
+        break;
+      }
+      case 360: {
+        [self setFlees:[input readInt32]];
         break;
       }
     }
@@ -1984,6 +2010,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearBattlesLost {
   result.hasBattlesLost = NO;
   result.battlesLost = 0;
+  return self;
+}
+- (BOOL) hasFlees {
+  return result.hasFlees;
+}
+- (int32_t) flees {
+  return result.flees;
+}
+- (FullUserProto_Builder*) setFlees:(int32_t) value {
+  result.hasFlees = YES;
+  result.flees = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearFlees {
+  result.hasFlees = NO;
+  result.flees = 0;
   return self;
 }
 - (BOOL) hasHourlyCoins {

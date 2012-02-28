@@ -162,7 +162,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (BOOL) canEquip:(FullUserEquipProto *)equip {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equip.equipId];
-  NSLog(@"%d: %d, %d, %d, %d, %d, %d", fep.equipId, fep.minLevel, gs.level, fep.classType, gs.type %3, equip.userId, gs.userId);
   return fep.minLevel <= gs.level && fep.classType == gs.type % 3 && equip.userId == gs.userId; 
 }
 

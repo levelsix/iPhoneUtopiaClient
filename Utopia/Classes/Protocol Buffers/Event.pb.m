@@ -577,7 +577,6 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
 @property (retain) MinimumUserProto* defender;
 @property BattleResult battleResult;
 @property int32_t neutralCityId;
-@property int64_t curTime;
 @end
 
 @implementation BattleRequestProto
@@ -610,13 +609,6 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
   hasNeutralCityId_ = !!value;
 }
 @synthesize neutralCityId;
-- (BOOL) hasCurTime {
-  return !!hasCurTime_;
-}
-- (void) setHasCurTime:(BOOL) value {
-  hasCurTime_ = !!value;
-}
-@synthesize curTime;
 - (void) dealloc {
   self.attacker = nil;
   self.defender = nil;
@@ -628,7 +620,6 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
     self.defender = [MinimumUserProto defaultInstance];
     self.battleResult = BattleResultAttackerWin;
     self.neutralCityId = 0;
-    self.curTime = 0L;
   }
   return self;
 }
@@ -654,9 +645,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (!self.hasBattleResult) {
     return NO;
   }
-  if (!self.hasCurTime) {
-    return NO;
-  }
   if (!self.attacker.isInitialized) {
     return NO;
   }
@@ -678,9 +666,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (self.hasNeutralCityId) {
     [output writeInt32:4 value:self.neutralCityId];
   }
-  if (self.hasCurTime) {
-    [output writeInt64:5 value:self.curTime];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -701,9 +686,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   }
   if (self.hasNeutralCityId) {
     size += computeInt32Size(4, self.neutralCityId);
-  }
-  if (self.hasCurTime) {
-    size += computeInt64Size(5, self.curTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -792,9 +774,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (other.hasNeutralCityId) {
     [self setNeutralCityId:other.neutralCityId];
   }
-  if (other.hasCurTime) {
-    [self setCurTime:other.curTime];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -845,10 +824,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
       }
       case 32: {
         [self setNeutralCityId:[input readInt32]];
-        break;
-      }
-      case 40: {
-        [self setCurTime:[input readInt64]];
         break;
       }
     }
@@ -944,22 +919,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 - (BattleRequestProto_Builder*) clearNeutralCityId {
   result.hasNeutralCityId = NO;
   result.neutralCityId = 0;
-  return self;
-}
-- (BOOL) hasCurTime {
-  return result.hasCurTime;
-}
-- (int64_t) curTime {
-  return result.curTime;
-}
-- (BattleRequestProto_Builder*) setCurTime:(int64_t) value {
-  result.hasCurTime = YES;
-  result.curTime = value;
-  return self;
-}
-- (BattleRequestProto_Builder*) clearCurTime {
-  result.hasCurTime = NO;
-  result.curTime = 0L;
   return self;
 }
 @end
@@ -2601,7 +2560,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @interface StartupRequestProto ()
 @property (retain) NSString* udid;
 @property Float32 versionNum;
-@property int64_t clientTime;
 @property (retain) NSString* deviceToken;
 @end
 
@@ -2621,13 +2579,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasVersionNum_ = !!value;
 }
 @synthesize versionNum;
-- (BOOL) hasClientTime {
-  return !!hasClientTime_;
-}
-- (void) setHasClientTime:(BOOL) value {
-  hasClientTime_ = !!value;
-}
-@synthesize clientTime;
 - (BOOL) hasDeviceToken {
   return !!hasDeviceToken_;
 }
@@ -2644,7 +2595,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   if ((self = [super init])) {
     self.udid = @"";
     self.versionNum = 0;
-    self.clientTime = 0L;
     self.deviceToken = @"";
   }
   return self;
@@ -2668,9 +2618,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (!self.hasVersionNum) {
     return NO;
   }
-  if (!self.hasClientTime) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -2679,9 +2626,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasVersionNum) {
     [output writeFloat:2 value:self.versionNum];
-  }
-  if (self.hasClientTime) {
-    [output writeInt64:3 value:self.clientTime];
   }
   if (self.hasDeviceToken) {
     [output writeString:4 value:self.deviceToken];
@@ -2700,9 +2644,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasVersionNum) {
     size += computeFloatSize(2, self.versionNum);
-  }
-  if (self.hasClientTime) {
-    size += computeInt64Size(3, self.clientTime);
   }
   if (self.hasDeviceToken) {
     size += computeStringSize(4, self.deviceToken);
@@ -2788,9 +2729,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasVersionNum) {
     [self setVersionNum:other.versionNum];
   }
-  if (other.hasClientTime) {
-    [self setClientTime:other.clientTime];
-  }
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
   }
@@ -2821,10 +2759,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 21: {
         [self setVersionNum:[input readFloat]];
-        break;
-      }
-      case 24: {
-        [self setClientTime:[input readInt64]];
         break;
       }
       case 34: {
@@ -2864,22 +2798,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearVersionNum {
   result.hasVersionNum = NO;
   result.versionNum = 0;
-  return self;
-}
-- (BOOL) hasClientTime {
-  return result.hasClientTime;
-}
-- (int64_t) clientTime {
-  return result.clientTime;
-}
-- (StartupRequestProto_Builder*) setClientTime:(int64_t) value {
-  result.hasClientTime = YES;
-  result.clientTime = value;
-  return self;
-}
-- (StartupRequestProto_Builder*) clearClientTime {
-  result.hasClientTime = NO;
-  result.clientTime = 0L;
   return self;
 }
 - (BOOL) hasDeviceToken {
@@ -7807,6 +7725,7 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
     case TaskActionResponseProto_TaskActionStatusUserNotEnoughEnergy:
     case TaskActionResponseProto_TaskActionStatusUserNotAllRequiredItems:
     case TaskActionResponseProto_TaskActionStatusOtherFail:
+    case TaskActionResponseProto_TaskActionStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -8571,6 +8490,7 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAnotherStructStillBuilding:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAlreadyHaveMaxOfThisStruct:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -10306,6 +10226,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotUsersStruct:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -10850,6 +10771,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -12122,6 +12044,7 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
     case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess:
     case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds:
     case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail:
+    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -12708,6 +12631,7 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
     case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess:
     case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusNotDoneYet:
     case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusOtherFail:
+    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -14916,7 +14840,6 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
 @interface PostToMarketplaceRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t postedEquipId;
-@property int64_t timeOfPost;
 @property int32_t diamondCost;
 @property int32_t coinCost;
 @end
@@ -14937,13 +14860,6 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   hasPostedEquipId_ = !!value;
 }
 @synthesize postedEquipId;
-- (BOOL) hasTimeOfPost {
-  return !!hasTimeOfPost_;
-}
-- (void) setHasTimeOfPost:(BOOL) value {
-  hasTimeOfPost_ = !!value;
-}
-@synthesize timeOfPost;
 - (BOOL) hasDiamondCost {
   return !!hasDiamondCost_;
 }
@@ -14966,7 +14882,6 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.postedEquipId = 0;
-    self.timeOfPost = 0L;
     self.diamondCost = 0;
     self.coinCost = 0;
   }
@@ -14991,9 +14906,6 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (!self.hasPostedEquipId) {
     return NO;
   }
-  if (!self.hasTimeOfPost) {
-    return NO;
-  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -15006,14 +14918,11 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (self.hasPostedEquipId) {
     [output writeInt32:2 value:self.postedEquipId];
   }
-  if (self.hasTimeOfPost) {
-    [output writeInt64:3 value:self.timeOfPost];
-  }
   if (self.hasDiamondCost) {
-    [output writeInt32:4 value:self.diamondCost];
+    [output writeInt32:3 value:self.diamondCost];
   }
   if (self.hasCoinCost) {
-    [output writeInt32:5 value:self.coinCost];
+    [output writeInt32:4 value:self.coinCost];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -15030,14 +14939,11 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (self.hasPostedEquipId) {
     size += computeInt32Size(2, self.postedEquipId);
   }
-  if (self.hasTimeOfPost) {
-    size += computeInt64Size(3, self.timeOfPost);
-  }
   if (self.hasDiamondCost) {
-    size += computeInt32Size(4, self.diamondCost);
+    size += computeInt32Size(3, self.diamondCost);
   }
   if (self.hasCoinCost) {
-    size += computeInt32Size(5, self.coinCost);
+    size += computeInt32Size(4, self.coinCost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -15120,9 +15026,6 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (other.hasPostedEquipId) {
     [self setPostedEquipId:other.postedEquipId];
   }
-  if (other.hasTimeOfPost) {
-    [self setTimeOfPost:other.timeOfPost];
-  }
   if (other.hasDiamondCost) {
     [self setDiamondCost:other.diamondCost];
   }
@@ -15164,14 +15067,10 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
         break;
       }
       case 24: {
-        [self setTimeOfPost:[input readInt64]];
-        break;
-      }
-      case 32: {
         [self setDiamondCost:[input readInt32]];
         break;
       }
-      case 40: {
+      case 32: {
         [self setCoinCost:[input readInt32]];
         break;
       }
@@ -15222,22 +15121,6 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
 - (PostToMarketplaceRequestProto_Builder*) clearPostedEquipId {
   result.hasPostedEquipId = NO;
   result.postedEquipId = 0;
-  return self;
-}
-- (BOOL) hasTimeOfPost {
-  return result.hasTimeOfPost;
-}
-- (int64_t) timeOfPost {
-  return result.timeOfPost;
-}
-- (PostToMarketplaceRequestProto_Builder*) setTimeOfPost:(int64_t) value {
-  result.hasTimeOfPost = YES;
-  result.timeOfPost = value;
-  return self;
-}
-- (PostToMarketplaceRequestProto_Builder*) clearTimeOfPost {
-  result.hasTimeOfPost = NO;
-  result.timeOfPost = 0L;
   return self;
 }
 - (BOOL) hasDiamondCost {
@@ -18286,6 +18169,7 @@ BOOL RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(RefillStat
     case RefillStatWithDiamondsResponseProto_RefillStatStatusNotEnoughDiamonds:
     case RefillStatWithDiamondsResponseProto_RefillStatStatusAlreadyMax:
     case RefillStatWithDiamondsResponseProto_RefillStatStatusOtherFail:
+    case RefillStatWithDiamondsResponseProto_RefillStatStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -23838,6 +23722,7 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
     case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusNotEnoughCoins:
     case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusAlreadyExpanding:
     case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusOtherFail:
+    case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -24342,6 +24227,7 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
     case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusWasNotExpanding:
     case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusNotDoneYet:
     case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusOtherFail:
+    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -24901,6 +24787,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
     case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusNotReadyYet:
     case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusAlreadyMax:
     case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusOtherFail:
+    case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -25963,6 +25850,7 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
     case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusNotEnoughDiamonds:
     case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusAlreadyHaveLicenseNow:
     case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusOtherFail:
+    case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;

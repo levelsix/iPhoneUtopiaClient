@@ -288,6 +288,7 @@ typedef enum {
   TaskActionResponseProto_TaskActionStatusUserNotEnoughEnergy = 1,
   TaskActionResponseProto_TaskActionStatusUserNotAllRequiredItems = 2,
   TaskActionResponseProto_TaskActionStatusOtherFail = 3,
+  TaskActionResponseProto_TaskActionStatusClientTooAheadOfServerTime = 4,
 } TaskActionResponseProto_TaskActionStatus;
 
 BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProto_TaskActionStatus value);
@@ -299,6 +300,7 @@ typedef enum {
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAnotherStructStillBuilding = 3,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAlreadyHaveMaxOfThisStruct = 4,
   PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail = 5,
+  PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooAheadOfServerTime = 6,
 } PurchaseNormStructureResponseProto_PurchaseNormStructureStatus;
 
 BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(PurchaseNormStructureResponseProto_PurchaseNormStructureStatus value);
@@ -331,6 +333,7 @@ typedef enum {
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotUsersStruct = 3,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading = 4,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail = 5,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooAheadOfServerTime = 6,
 } UpgradeNormStructureResponseProto_UpgradeNormStructureStatus;
 
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
@@ -339,6 +342,7 @@ typedef enum {
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess = 0,
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough = 1,
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail = 2,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooAheadOfServerTime = 3,
 } RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus;
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
@@ -373,6 +377,7 @@ typedef enum {
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess = 0,
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds = 1,
   FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail = 2,
+  FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooAheadOfServerTime = 3,
 } FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus;
 
 BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusIsValidValue(FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatus value);
@@ -381,6 +386,7 @@ typedef enum {
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess = 0,
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusNotDoneYet = 1,
   NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusOtherFail = 2,
+  NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooAheadOfServerTime = 3,
 } NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus;
 
 BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValue(NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatus value);
@@ -474,6 +480,7 @@ typedef enum {
   RefillStatWithDiamondsResponseProto_RefillStatStatusNotEnoughDiamonds = 1,
   RefillStatWithDiamondsResponseProto_RefillStatStatusAlreadyMax = 2,
   RefillStatWithDiamondsResponseProto_RefillStatStatusOtherFail = 3,
+  RefillStatWithDiamondsResponseProto_RefillStatStatusClientTooAheadOfServerTime = 4,
 } RefillStatWithDiamondsResponseProto_RefillStatStatus;
 
 BOOL RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(RefillStatWithDiamondsResponseProto_RefillStatStatus value);
@@ -528,6 +535,7 @@ typedef enum {
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusNotEnoughCoins = 1,
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusAlreadyExpanding = 2,
   PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusOtherFail = 3,
+  PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusClientTooAheadOfServerTime = 4,
 } PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus;
 
 BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatus value);
@@ -537,6 +545,7 @@ typedef enum {
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusWasNotExpanding = 1,
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusNotDoneYet = 2,
   ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusOtherFail = 3,
+  ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooAheadOfServerTime = 4,
 } ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus;
 
 BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatus value);
@@ -553,6 +562,7 @@ typedef enum {
   RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusNotReadyYet = 1,
   RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusAlreadyMax = 2,
   RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusOtherFail = 3,
+  RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusClientTooAheadOfServerTime = 4,
 } RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus;
 
 BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValue(RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatus value);
@@ -576,6 +586,7 @@ typedef enum {
   PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusNotEnoughDiamonds = 1,
   PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusAlreadyHaveLicenseNow = 2,
   PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusOtherFail = 3,
+  PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusClientTooAheadOfServerTime = 4,
 } PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus;
 
 BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsValidValue(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus value);
@@ -717,12 +728,10 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 
 @interface BattleRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasCurTime_:1;
   BOOL hasNeutralCityId_:1;
   BOOL hasAttacker_:1;
   BOOL hasDefender_:1;
   BOOL hasBattleResult_:1;
-  int64_t curTime;
   int32_t neutralCityId;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
@@ -732,12 +741,10 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (BOOL) hasDefender;
 - (BOOL) hasBattleResult;
 - (BOOL) hasNeutralCityId;
-- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) BattleResult battleResult;
 @property (readonly) int32_t neutralCityId;
-@property (readonly) int64_t curTime;
 
 + (BattleRequestProto*) defaultInstance;
 - (BattleRequestProto*) defaultInstance;
@@ -796,11 +803,6 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (int32_t) neutralCityId;
 - (BattleRequestProto_Builder*) setNeutralCityId:(int32_t) value;
 - (BattleRequestProto_Builder*) clearNeutralCityId;
-
-- (BOOL) hasCurTime;
-- (int64_t) curTime;
-- (BattleRequestProto_Builder*) setCurTime:(int64_t) value;
-- (BattleRequestProto_Builder*) clearCurTime;
 @end
 
 @interface BattleResponseProto : PBGeneratedMessage {
@@ -1177,21 +1179,17 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 @interface StartupRequestProto : PBGeneratedMessage {
 @private
   BOOL hasVersionNum_:1;
-  BOOL hasClientTime_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   Float32 versionNum;
-  int64_t clientTime;
   NSString* udid;
   NSString* deviceToken;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
-- (BOOL) hasClientTime;
 - (BOOL) hasDeviceToken;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
-@property (readonly) int64_t clientTime;
 @property (readonly, retain) NSString* deviceToken;
 
 + (StartupRequestProto*) defaultInstance;
@@ -1237,11 +1235,6 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (Float32) versionNum;
 - (StartupRequestProto_Builder*) setVersionNum:(Float32) value;
 - (StartupRequestProto_Builder*) clearVersionNum;
-
-- (BOOL) hasClientTime;
-- (int64_t) clientTime;
-- (StartupRequestProto_Builder*) setClientTime:(int64_t) value;
-- (StartupRequestProto_Builder*) clearClientTime;
 
 - (BOOL) hasDeviceToken;
 - (NSString*) deviceToken;
@@ -3932,12 +3925,10 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 
 @interface PostToMarketplaceRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasTimeOfPost_:1;
   BOOL hasPostedEquipId_:1;
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
   BOOL hasSender_:1;
-  int64_t timeOfPost;
   int32_t postedEquipId;
   int32_t diamondCost;
   int32_t coinCost;
@@ -3945,12 +3936,10 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 }
 - (BOOL) hasSender;
 - (BOOL) hasPostedEquipId;
-- (BOOL) hasTimeOfPost;
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t postedEquipId;
-@property (readonly) int64_t timeOfPost;
 @property (readonly) int32_t diamondCost;
 @property (readonly) int32_t coinCost;
 
@@ -3999,11 +3988,6 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (int32_t) postedEquipId;
 - (PostToMarketplaceRequestProto_Builder*) setPostedEquipId:(int32_t) value;
 - (PostToMarketplaceRequestProto_Builder*) clearPostedEquipId;
-
-- (BOOL) hasTimeOfPost;
-- (int64_t) timeOfPost;
-- (PostToMarketplaceRequestProto_Builder*) setTimeOfPost:(int64_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearTimeOfPost;
 
 - (BOOL) hasDiamondCost;
 - (int32_t) diamondCost;
