@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.2"
+#define HOST_NAME @"192.168.15.58"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -194,6 +194,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                     setDefender:[[[MinimumUserProto builder] setUserId:defender] build]]
                                    build];
   [self sendData:[battleReq data] withMessageType:EventProtocolRequestCBattleEvent];
+}
+
+- (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId {
+  ArmoryRequestProto *arpReq = [[[[[[ArmoryRequestProto builder]
+                                    setSender:_sender]
+                                   setRequestType:requestType]
+                                  setQuantity:quantity]
+                                 setEquipId:equipId]
+                                build];
+  
+  [self sendData:[arpReq data] withMessageType:EventProtocolRequestCArmoryEvent];
 }
 
 - (void) sendStartupMessage:(uint64_t)clientTime {

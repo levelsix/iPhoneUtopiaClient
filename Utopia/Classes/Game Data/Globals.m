@@ -246,6 +246,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return income*level;
 }
 
+- (int) calculateEquipSilverSellCost:(UserEquip *)ue {
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
+  return fep.coinPrice/2;
+}
+
+- (int) calculateEquipGoldSellCost:(UserEquip *)ue {
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
+  return fep.diamondPrice/2;
+}
+
 - (int) calculateIncomeForUserStruct:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
   return [self calculateIncome:fsp.income level:us.level];
@@ -256,9 +266,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [self calculateIncome:fsp.income level:us.level+1];
 }
 
-- (int) calculateSellCost:(UserStruct *)us {
+- (int) calculateStructSilverSellCost:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
   return fsp.coinPrice/2;
+}
+
+- (int) calculateStructGoldSellCost:(UserStruct *)us {
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
+  return fsp.diamondPrice/2;
 }
 
 - (int) calculateUpgradeCost:(UserStruct *)us {

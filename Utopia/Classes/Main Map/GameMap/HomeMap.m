@@ -75,7 +75,7 @@
 @implementation HomeBuildingInfoView
 
 @synthesize sellView, incomeView, starView;
-@synthesize upgradeButton;
+@synthesize upgradeButton, coinIcon;
 @synthesize sellCostLabel, sellCoinImageView;
 
 - (void) awakeFromNib {
@@ -340,7 +340,15 @@
     [self updateTimes];
     self.incomeLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:[gl calculateIncomeForUserStruct:us]]];
     self.infoView.starView.level = us.level;
-    [self.infoView setSellCostString:[Globals commafyNumber:[gl calculateSellCost:us]]];
+    
+    int silverSellCost = [gl calculateStructSilverSellCost:us];
+    if (silverSellCost != 0) {
+      [self.infoView setSellCostString:[Globals commafyNumber:silverSellCost]];
+      self.infoView.coinIcon.highlighted = NO;
+    } else {
+      [self.infoView setSellCostString:[Globals commafyNumber:[gl calculateStructGoldSellCost:us]]];
+      self.infoView.coinIcon.highlighted = YES;
+    }
     
     self.upgradeCurIncomeLabel.text = [Globals commafyNumber:[gl calculateIncomeForUserStruct:us]];
     self.upgradeNewIncomeLabel.text = [Globals commafyNumber:[gl calculateIncomeForUserStructAfterLevelUp:us]];

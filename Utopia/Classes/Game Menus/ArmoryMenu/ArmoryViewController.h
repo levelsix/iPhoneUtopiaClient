@@ -22,6 +22,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 
+@property (nonatomic, retain) UIView *darkOverlay;
+
 @property (nonatomic, retain) FullEquipProto *fep;
 
 @end
@@ -40,7 +42,11 @@
 
 @end
 
-@interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ArmoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+  ArmoryListing *_clickedAl;
+  CGRect _oldClickedRect;
+  CGSize _originalBuySellSize;
+}
 
 @property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
 @property (nonatomic, retain) IBOutlet ArmoryRow *armoryRow;
@@ -49,10 +55,14 @@
 @property (nonatomic, retain) IBOutlet LabelButton *buyButton;
 @property (nonatomic, retain) IBOutlet LabelButton *sellButton;
 @property (nonatomic, retain) IBOutlet UILabel *cantEquipLabel;
+@property (nonatomic, retain) IBOutlet UIView *cantEquipView;
 @property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
 
 @property (nonatomic, retain) NSArray *equipsList;
+@property (nonatomic, assign) BOOL equipClicked;
+
+- (void) armoryViewClicked:(ArmoryListing *)al;
 
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;

@@ -34,6 +34,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *upgradeButton;
 @property (nonatomic, retain) IBOutlet UILabel *sellCostLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *sellCoinImageView;
+@property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
 
 @property (nonatomic, retain) UpgradeButtonOverlay *starView;
 

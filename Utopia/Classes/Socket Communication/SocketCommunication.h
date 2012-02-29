@@ -33,6 +33,7 @@
 - (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
 - (void) sendTasksForCityMessage: (int) cityId;
 - (void) sendBattleMessage:(int)defender;
+- (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
 - (void) sendStartupMessage:(uint64_t)clientTime;
 - (void) sendTaskActionMessage:(int) taskId;
 - (void) sendInAppPurchaseMessage: (NSString *) receipt;

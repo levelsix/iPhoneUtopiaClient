@@ -33,6 +33,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSBattleEvent:
       responseClass = [BattleResponseProto class];
       break;
+    case EventProtocolResponseSArmoryEvent:
+      responseClass = [ArmoryResponseProto class];
+      break;
     case EventProtocolResponseSRetrieveTasksForCityEvent:
       responseClass = [RetrieveTasksForCityResponseProto class];
       break;
@@ -128,6 +131,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleBattleResponseProto: (BattleResponseProto *) proto {
   NSLog(@"Battle response received");
+}
+
+- (void) handleArmoryResponseProto: (ArmoryResponseProto *) proto {
+  NSLog(@"Armory response received with status %d", proto.status);
 }
 
 - (void) handleRetrieveTasksForCityResponseProto: (RetrieveTasksForCityResponseProto *) proto {

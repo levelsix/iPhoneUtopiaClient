@@ -284,7 +284,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="83364486">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIButton" id="744086297">
@@ -292,6 +292,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{14, 29}, {112, 26}}</string>
 						<reference key="NSSuperview" ref="83364486"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="410177102"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -320,6 +321,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{0, 2}, {47, 21}}</string>
 								<reference key="NSSuperview" ref="777241561"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="11083553"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -350,6 +352,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{65, 2}, {47, 21}}</string>
 								<reference key="NSSuperview" ref="777241561"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1008197261"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -374,20 +377,26 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{53, 4}, {17, 16}}</string>
 								<reference key="NSSuperview" ref="777241561"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="794360306"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage" id="257835624">
+								<object class="NSCustomResource" key="IBUIImage" id="122890464">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">storesilvercoin.png</string>
+									<string key="NSResourceName">carpentersilvercoin.png</string>
+								</object>
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="415357968">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">silvercoin.png</string>
 								</object>
 							</object>
 						</array>
 						<string key="NSFrame">{{14, 63}, {112, 26}}</string>
 						<reference key="NSSuperview" ref="83364486"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="737244711"/>
 						<string key="NSReuseIdentifierKey">_NS:196</string>
 						<reference key="IBUIBackgroundColor" ref="127467370"/>
@@ -402,6 +411,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{16, 3}, {49, 21}}</string>
 								<reference key="NSSuperview" ref="1008197261"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="870884277"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -425,6 +435,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{55, 3}, {57, 21}}</string>
 								<reference key="NSSuperview" ref="1008197261"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:328</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -448,17 +459,19 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{0, 5}, {17, 16}}</string>
 								<reference key="NSSuperview" ref="1008197261"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1895550"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<reference key="IBUIImage" ref="257835624"/>
+								<reference key="IBUIImage" ref="122890464"/>
 							</object>
 						</array>
 						<string key="NSFrame">{{14, 93}, {112, 26}}</string>
 						<reference key="NSSuperview" ref="83364486"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="314523015"/>
 						<string key="NSReuseIdentifierKey">_NS:196</string>
 						<reference key="IBUIBackgroundColor" ref="127467370"/>
@@ -469,6 +482,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{65, 30}, {55, 21}}</string>
 						<reference key="NSSuperview" ref="83364486"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="777241561"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
@@ -502,6 +516,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{140, 139}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="744086297"/>
 				<reference key="IBUIBackgroundColor" ref="932822956"/>
 				<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -706,7 +722,10 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<reference key="IBUIImage" ref="257835624"/>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">storesilvercoin.png</string>
+								</object>
 							</object>
 						</array>
 						<string key="NSFrame">{{24, 66}, {92, 26}}</string>
@@ -768,10 +787,7 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">silvercoin.png</string>
-						</object>
+						<reference key="IBUIImage" ref="415357968"/>
 					</object>
 					<object class="IBUILabel" id="265500129">
 						<reference key="NSNextResponder" ref="528876435"/>
@@ -1015,6 +1031,14 @@
 						<reference key="destination" ref="11083553"/>
 					</object>
 					<int key="connectionID">119</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">coinIcon</string>
+						<reference key="source" ref="83364486"/>
+						<reference key="destination" ref="11083553"/>
+					</object>
+					<int key="connectionID">259</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1572,7 +1596,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">258</int>
+			<int key="maxID">259</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1604,6 +1628,7 @@
 					<string key="className">HomeBuildingInfoView</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="coinIcon">UIImageView</string>
 						<string key="incomeView">UIView</string>
 						<string key="sellCoinImageView">UIImageView</string>
 						<string key="sellCostLabel">UILabel</string>
@@ -1611,6 +1636,10 @@
 						<string key="upgradeButton">UIButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="coinIcon">
+							<string key="name">coinIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="incomeView">
 							<string key="name">incomeView</string>
 							<string key="candidateClassName">UIView</string>
@@ -1837,6 +1866,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="carpentersilvercoin.png">{16, 16}</string>
 			<string key="closex.png">{30, 30}</string>
 			<string key="finishmoving.png">{30, 30}</string>
 			<string key="movebubble.png">{99, 45}</string>

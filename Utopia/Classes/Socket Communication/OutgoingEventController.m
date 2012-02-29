@@ -64,6 +64,70 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendBattleMessage:defender];
 }
 
+- (int) buyEquip:(int)equipId {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  UserEquip *ue;
+  
+  if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
+    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
+    
+    for (UserEquip *u in gs.myEquips) {
+      if (u.equipId == equipId) {
+        ue = u;
+      }
+    }
+    
+    if (ue) {
+      ue.quantity++;
+    } else {
+      ue = [[UserEquip alloc] init];
+      
+      ue.equipId = equipId;
+      ue.userId = gs.userId;
+      ue.quantity = 1;
+      ue.isStolen = NO;
+      [gs.myEquips addObject:ue];
+    }
+    
+    gs.silver -= fep.coinPrice;
+    gs.gold -= fep.diamondPrice;
+  } else {
+    [Globals popupMessage:@"Not enough money to buy this equipment"];
+  }
+  
+  return ue.quantity;
+}
+
+- (int) sellEquip:(int)equipId {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  UserEquip *ue;
+  
+  for (UserEquip *u in gs.myEquips) {
+    if (u.equipId == equipId) {
+      ue = u;
+    }
+  }
+  
+  if (ue) {
+    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
+    ue.quantity--;
+    
+    gs.silver += [gl calculateEquipSilverSellCost:ue];
+    gs.gold += [gl calculateEquipGoldSellCost:ue];
+    
+    if (ue.quantity == 0) {
+      [gs.myEquips removeObject:ue];
+      return 0;
+    }
+  } else {
+    [Globals popupMessage:@"You do not own this equipment"];
+  }
+  
+  return ue.quantity;
+}
+
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];
@@ -351,7 +415,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[gs myStructs] removeObject:userStruct];
     
     // Update game state
-    gs.silver += [[Globals sharedGlobals] calculateSellCost:userStruct];
+    gs.silver += [[Globals sharedGlobals] calculateStructSilverSellCost:userStruct];
+    gs.gold += [[Globals sharedGlobals] calculateStructGoldSellCost:userStruct];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is completing", userStruct.userStructId]];
   }

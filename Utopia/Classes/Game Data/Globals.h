@@ -70,9 +70,12 @@
 + (void) popupMessage: (NSString *)msg;
 
 // Formulas
+- (int) calculateEquipSilverSellCost:(UserEquip *)ue;
+- (int) calculateEquipGoldSellCost:(UserEquip *)ue;
 - (int) calculateIncomeForUserStruct:(UserStruct *)us;
 - (int) calculateIncomeForUserStructAfterLevelUp:(UserStruct *)us;
-- (int) calculateSellCost:(UserStruct *)us;
+- (int) calculateStructSilverSellCost:(UserStruct *)us;
+- (int) calculateStructGoldSellCost:(UserStruct *)us;
 - (int) calculateUpgradeCost:(UserStruct *)us;
 - (int) calculateDiamondCostForInstaBuild:(UserStruct *)us;
 - (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us;
