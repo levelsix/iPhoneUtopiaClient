@@ -36,9 +36,11 @@ typedef enum {
 @interface EquipView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *maskedEquipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *border;
 @property (nonatomic, retain) IBOutlet UIImageView *bgd;
 @property (nonatomic, retain) IBOutlet UILabel *rarityLabel;
+@property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 
@@ -121,6 +123,8 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet ProfileBar *profileBar;
 
+@property (nonatomic, retain) IBOutlet UIView *equipTabView;
+
 @property (nonatomic, assign) ProfileState state;
 @property (nonatomic, assign) EquipScope curScope;
 
@@ -129,6 +133,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
 @property (nonatomic, retain) IBOutlet UIView *unequippableView;
 @property (nonatomic, retain) IBOutlet UILabel *unequippableLabel;
+
+@property (nonatomic, retain) UIImageView *equippingView;
 
 - (void) loadMyProfile;
 - (void) equipViewSelected:(EquipView *)ev;

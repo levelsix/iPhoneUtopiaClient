@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "LabelButton.h"
+#import "NibUtils.h"
 #import "Globals.h"
 
 @implementation NiceFontLabel
@@ -106,6 +106,14 @@
 - (void) dealloc {
   self.label = nil;
   [super dealloc];
+}
+
+@end
+
+@implementation FlipImageView
+
+- (void) awakeFromNib {
+  self.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
 }
 
 @end

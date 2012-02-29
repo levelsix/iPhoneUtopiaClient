@@ -155,7 +155,6 @@
 		CF40874314FCCC47000C5F4B /* unequipitembg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40872F14FCCC47000C5F4B /* unequipitembg@2x.png */; };
 		CF40874614FCCC5E000C5F4B /* armoryselldisabledbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40874414FCCC5E000C5F4B /* armoryselldisabledbutton.png */; };
 		CF40874714FCCC5E000C5F4B /* armoryselldisabledbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF40874514FCCC5E000C5F4B /* armoryselldisabledbutton@2x.png */; };
-		CF40875114FCCD31000C5F4B /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF40875014FCCD31000C5F4B /* ArmoryRow.xib */; };
 		CF4234F314F4B99E0033C290 /* buildingbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234E614F4B99E0033C290 /* buildingbg.png */; };
 		CF4234F414F4B99E0033C290 /* buildingbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234E714F4B99E0033C290 /* buildingbg@2x.png */; };
 		CF4234F514F4B99E0033C290 /* buildingpricebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4234E814F4B99E0033C290 /* buildingpricebg.png */; };
@@ -300,7 +299,7 @@
 		CFA26F5114E71AD100FC1C71 /* overbuildbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F3314E71AD100FC1C71 /* overbuildbubble.png */; };
 		CFA26F5214E71AD100FC1C71 /* rotate.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F3414E71AD100FC1C71 /* rotate.png */; };
 		CFA26F5314E71AD100FC1C71 /* rotate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F3514E71AD100FC1C71 /* rotate@2x.png */; };
-		CFA26F5714E72CE900FC1C71 /* LabelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5614E72CE900FC1C71 /* LabelButton.m */; };
+		CFA26F5714E72CE900FC1C71 /* NibUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5614E72CE900FC1C71 /* NibUtils.m */; };
 		CFA26F5A14E86FAA00FC1C71 /* HomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5914E86FAA00FC1C71 /* HomeMap.m */; };
 		CFA3BBE414F4C243002A68E1 /* RopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3BBE314F4C243002A68E1 /* RopeView.m */; };
 		CFA437CA14F826F00032CFFA /* retrievebubble-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA437C814F826F00032CFFA /* retrievebubble-hd.png */; };
@@ -388,6 +387,7 @@
 		CFCEA61714FAD6C9003A5068 /* activemiddle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCEA61114FAD6C9003A5068 /* activemiddle@2x.png */; };
 		CFCEA61814FAD6C9003A5068 /* activesmallcorner.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCEA61214FAD6C9003A5068 /* activesmallcorner.png */; };
 		CFCEA61914FAD6C9003A5068 /* activesmallcorner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCEA61314FAD6C9003A5068 /* activesmallcorner@2x.png */; };
+		CFD2BDA714FE132B00B7557B /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */; };
 		CFE47BFB149240890084E71E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFA149240890084E71E /* QuartzCore.framework */; };
 		CFE47BFD149240890084E71E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFC149240890084E71E /* OpenGLES.framework */; };
 		CFE47BFF149240890084E71E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFE149240890084E71E /* OpenAL.framework */; };
@@ -735,7 +735,6 @@
 		CF40872F14FCCC47000C5F4B /* unequipitembg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unequipitembg@2x.png"; sourceTree = "<group>"; };
 		CF40874414FCCC5E000C5F4B /* armoryselldisabledbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = armoryselldisabledbutton.png; sourceTree = "<group>"; };
 		CF40874514FCCC5E000C5F4B /* armoryselldisabledbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armoryselldisabledbutton@2x.png"; sourceTree = "<group>"; };
-		CF40875014FCCD31000C5F4B /* ArmoryRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArmoryRow.xib; sourceTree = "<group>"; };
 		CF4234E614F4B99E0033C290 /* buildingbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildingbg.png; sourceTree = "<group>"; };
 		CF4234E714F4B99E0033C290 /* buildingbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buildingbg@2x.png"; sourceTree = "<group>"; };
 		CF4234E814F4B99E0033C290 /* buildingpricebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buildingpricebg.png; sourceTree = "<group>"; };
@@ -892,8 +891,7 @@
 		CFA26F3314E71AD100FC1C71 /* overbuildbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overbuildbubble.png; sourceTree = "<group>"; };
 		CFA26F3414E71AD100FC1C71 /* rotate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate.png; sourceTree = "<group>"; };
 		CFA26F3514E71AD100FC1C71 /* rotate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotate@2x.png"; sourceTree = "<group>"; };
-		CFA26F5514E72CE900FC1C71 /* LabelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LabelButton.h; path = Miscellaneous/LabelButton.h; sourceTree = "<group>"; };
-		CFA26F5614E72CE900FC1C71 /* LabelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LabelButton.m; path = Miscellaneous/LabelButton.m; sourceTree = "<group>"; };
+		CFA26F5614E72CE900FC1C71 /* NibUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NibUtils.m; path = Miscellaneous/NibUtils.m; sourceTree = "<group>"; };
 		CFA26F5814E86FAA00FC1C71 /* HomeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeMap.h; path = "Utopia/Classes/Main Map/GameMap/HomeMap.h"; sourceTree = SOURCE_ROOT; };
 		CFA26F5914E86FAA00FC1C71 /* HomeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeMap.m; path = "Utopia/Classes/Main Map/GameMap/HomeMap.m"; sourceTree = SOURCE_ROOT; };
 		CFA3BBE214F4C243002A68E1 /* RopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RopeView.h; path = Miscellaneous/RopeView.h; sourceTree = "<group>"; };
@@ -998,6 +996,8 @@
 		CFCEA61114FAD6C9003A5068 /* activemiddle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activemiddle@2x.png"; sourceTree = "<group>"; };
 		CFCEA61214FAD6C9003A5068 /* activesmallcorner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activesmallcorner.png; sourceTree = "<group>"; };
 		CFCEA61314FAD6C9003A5068 /* activesmallcorner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activesmallcorner@2x.png"; sourceTree = "<group>"; };
+		CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryRow.xib; path = ArmoryMenu/ArmoryRow.xib; sourceTree = "<group>"; };
+		CFD2BDA814FE133300B7557B /* NibUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NibUtils.h; path = Miscellaneous/NibUtils.h; sourceTree = "<group>"; };
 		CFE47BF6149240890084E71E /* Utopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Utopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE47BFA149240890084E71E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CFE47BFC149240890084E71E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1384,11 +1384,11 @@
 		CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */,
 				CF22F1C314D54CBB00B0D32E /* ArmoryListing.xib */,
 				CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */,
 				CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */,
 				CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */,
-				CF40875014FCCD31000C5F4B /* ArmoryRow.xib */,
 			);
 			name = ArmoryMenu;
 			sourceTree = "<group>";
@@ -1422,8 +1422,8 @@
 		CFA26F5414E72CB500FC1C71 /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
-				CFA26F5514E72CE900FC1C71 /* LabelButton.h */,
-				CFA26F5614E72CE900FC1C71 /* LabelButton.m */,
+				CFD2BDA814FE133300B7557B /* NibUtils.h */,
+				CFA26F5614E72CE900FC1C71 /* NibUtils.m */,
 				CFA3BBE214F4C243002A68E1 /* RopeView.h */,
 				CFA3BBE314F4C243002A68E1 /* RopeView.m */,
 			);
@@ -2797,7 +2797,7 @@
 				CF40874314FCCC47000C5F4B /* unequipitembg@2x.png in Resources */,
 				CF40874614FCCC5E000C5F4B /* armoryselldisabledbutton.png in Resources */,
 				CF40874714FCCC5E000C5F4B /* armoryselldisabledbutton@2x.png in Resources */,
-				CF40875114FCCD31000C5F4B /* ArmoryRow.xib in Resources */,
+				CFD2BDA714FE132B00B7557B /* ArmoryRow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2933,7 +2933,7 @@
 				CF05573414DE6F18003739EF /* PullRefreshTableViewController.m in Sources */,
 				CFA26F0D14E4A27400FC1C71 /* UserData.m in Sources */,
 				CFA26F1514E719BA00FC1C71 /* GameMap.m in Sources */,
-				CFA26F5714E72CE900FC1C71 /* LabelButton.m in Sources */,
+				CFA26F5714E72CE900FC1C71 /* NibUtils.m in Sources */,
 				CFA26F5A14E86FAA00FC1C71 /* HomeMap.m in Sources */,
 				CFAA94EB14E881D100B0F791 /* Building.m in Sources */,
 				CFF3A72914EF835700E8F8DF /* VaultMenuController.m in Sources */,

@@ -52,8 +52,6 @@ typedef enum {
 
 @property (nonatomic, retain) FullStructureProto *fsp;
 
-- (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
-
 @end
 
 @interface CarpenterListingContainer : UIView

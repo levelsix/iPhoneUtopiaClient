@@ -1492,6 +1492,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">equipTabView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="242269769"/>
+					</object>
+					<int key="connectionID">158</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">label</string>
 						<reference key="source" ref="50774724"/>
 						<reference key="destination" ref="92182962"/>
@@ -2228,7 +2236,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">157</int>
+			<int key="maxID">158</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2273,6 +2281,8 @@
 						<string key="border">UIImageView</string>
 						<string key="defenseLabel">UILabel</string>
 						<string key="equipIcon">UIImageView</string>
+						<string key="maskedEquipIcon">UIImageView</string>
+						<string key="quantityLabel">UILabel</string>
 						<string key="rarityLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2295,6 +2305,14 @@
 						<object class="IBToOneOutletInfo" key="equipIcon">
 							<string key="name">equipIcon</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="maskedEquipIcon">
+							<string key="name">maskedEquipIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="quantityLabel">
+							<string key="name">quantityLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rarityLabel">
 							<string key="name">rarityLabel</string>
@@ -2404,6 +2422,7 @@
 						<string key="curArmorView">CurrentEquipView</string>
 						<string key="curWeaponView">CurrentEquipView</string>
 						<string key="defenseLabel">UILabel</string>
+						<string key="equipTabView">UIView</string>
 						<string key="equipsScrollView">UIScrollView</string>
 						<string key="factionLabel">UILabel</string>
 						<string key="fleesLabel">UILabel</string>
@@ -2441,6 +2460,10 @@
 						<object class="IBToOneOutletInfo" key="defenseLabel">
 							<string key="name">defenseLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipTabView">
+							<string key="name">equipTabView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="equipsScrollView">
 							<string key="name">equipsScrollView</string>

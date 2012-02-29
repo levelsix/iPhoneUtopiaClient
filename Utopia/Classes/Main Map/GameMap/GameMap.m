@@ -9,7 +9,7 @@
 #import "GameMap.h"
 #import "Building.h"
 #import "Globals.h"
-#import "LabelButton.h"
+#import "NibUtils.h"
 
 @implementation GameMap
 

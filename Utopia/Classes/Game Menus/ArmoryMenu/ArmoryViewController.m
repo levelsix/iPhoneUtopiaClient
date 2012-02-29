@@ -18,7 +18,7 @@
 @implementation ArmoryListing
 
 @synthesize attackLabel, defenseLabel, titleLabel, priceLabel;
-@synthesize bgdView, equipIcon, coinIcon;
+@synthesize bgdView, equipIcon, maskedEquipIcon, coinIcon;
 @synthesize fep;
 @synthesize darkOverlay;
 
@@ -63,8 +63,11 @@
   
   if ([Globals canEquip:fep]) {
     bgdView.highlighted = NO;
+    maskedEquipIcon.hidden = YES;
   } else {
     bgdView.highlighted = YES;
+    maskedEquipIcon.image = [Globals maskImage:equipIcon.image withColor:[Globals colorForUnequippable]];
+    maskedEquipIcon.hidden = NO;
   }
 }
 
@@ -214,10 +217,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   if (ue) {
     numOwnedLabel.text = [NSString stringWithFormat:@"%d", ue.quantity];
-    sellButton.enabled = YES;
+    if (fep.diamondPrice != 0) {
+      sellButton.enabled = NO;
+    } else {
+      sellButton.enabled = YES;
+    }
   } else {
     numOwnedLabel.text = @"0";
     sellButton.enabled = NO;
+  }
+  
+  if (fep.coinPrice > gs.silver || fep.diamondPrice > gs.gold) {
+    buyButton.enabled = NO;
+  } else {
+    buyButton.enabled = YES;
   }
 }
 
@@ -299,10 +312,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)buyClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = _clickedAl.fep;
   
   int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
   numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+  
+  if (updatedQuantity > 0) {
+    sellButton.enabled = YES;
+  }
+  
+  if (fep.coinPrice > gs.silver || fep.diamondPrice > gs.gold) {
+    buyButton.enabled = NO;
+  } else {
+    buyButton.enabled = YES;
+  }
 }
 
 - (IBAction)sellClicked:(id)sender {
@@ -310,6 +334,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] sellEquip:fep.equipId];
   numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+  
+  if (updatedQuantity == 0) {
+    sellButton.enabled = NO;
+  }
 }
 
 - (IBAction)backClicked:(id)sender {

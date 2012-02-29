@@ -7,7 +7,7 @@
 //
 
 #import "cocos2d.h"
-#import "LabelButton.h"
+#import "NibUtils.h"
 #import "Building.h"
 
 @class Building;

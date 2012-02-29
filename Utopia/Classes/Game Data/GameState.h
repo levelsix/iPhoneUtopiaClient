@@ -25,7 +25,7 @@
   int _gold;
   int _silver;
   int _vaultBalance;
-  NSString *_armyCode;
+  NSString *_referralCode;
   int _battlesWon;
   int _battlesLost;
   int _hourlyCoins;
@@ -79,7 +79,7 @@
 @property (assign) int gold;
 @property (assign) int silver;
 @property (assign) int vaultBalance;
-@property (retain) NSString *armyCode;
+@property (retain) NSString *referralCode;
 @property (assign) int battlesWon;
 @property (assign) int battlesLost;
 @property (assign) int hourlyCoins;

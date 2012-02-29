@@ -48,6 +48,7 @@
 + (UIImage *) imageForEquip:(int)eqId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
++ (UIColor *) colorForUnequippable;
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) stringForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity;
@@ -68,6 +69,7 @@
 + (NSString *) commafyNumber:(int) n;
 
 + (void) popupMessage: (NSString *)msg;
++ (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

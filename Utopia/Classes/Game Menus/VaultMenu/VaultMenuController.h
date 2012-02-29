@@ -7,7 +7,7 @@
 //
 
 #import "cocos2d.h"
-#import "LabelButton.h"
+#import "NibUtils.h"
 
 @interface VaultMenuController : UIViewController  <UITextFieldDelegate> {
   BOOL _animating;

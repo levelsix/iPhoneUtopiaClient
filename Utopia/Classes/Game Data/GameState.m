@@ -28,7 +28,7 @@
 @synthesize gold = _gold;
 @synthesize silver = _silver;
 @synthesize vaultBalance = _vaultBalance;
-@synthesize armyCode = _armyCode;
+@synthesize referralCode = _referralCode;
 @synthesize battlesWon = _battlesWon;
 @synthesize battlesLost = _battlesLost;
 @synthesize hourlyCoins = _hourlyCoins;
@@ -130,7 +130,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.battlesWon = user.battlesWon;
   self.battlesLost = user.battlesLost;
   self.hourlyCoins = user.hourlyCoins;
-  self.armyCode = user.armyCode;
+  self.referralCode = user.referralCode;
   self.numReferrals = user.numReferrals;
   self.marketplaceGoldEarnings = user.marketplaceDiamondsEarnings;
   self.marketplaceSilverEarnings = user.marketplaceCoinsEarnings;

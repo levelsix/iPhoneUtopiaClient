@@ -1,5 +1,5 @@
 //
-//  LabelButton.h
+//  NibUtils.h
 //  Utopia
 //
 //  Created by Ashwin Kamath on 2/11/12.
@@ -30,5 +30,9 @@
 @interface NiceFontTextField : UITextField
 
 @property (nonatomic, retain) UILabel *label;
+
+@end
+
+@interface FlipImageView : UIImageView
 
 @end

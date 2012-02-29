@@ -109,42 +109,10 @@
 - (void) awakeFromNib { 
   self.state = kDisappear;
   
-  UIImage *darkOverlayImg = [self maskImage:backgroundImg.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
+  UIImage *darkOverlayImg = [Globals maskImage:backgroundImg.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
   darkOverlay.image = darkOverlayImg;
   
   _lockedBuildingColor = [[UIColor colorWithWhite:0.f alpha:0.7f] retain];
-}
-
-- (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
-  
-  CGImageRef alphaImage = CGImageRetain(image.CGImage);
-  float width = CGImageGetWidth(alphaImage);
-  float height = CGImageGetHeight(alphaImage);
-  
-  UIGraphicsBeginImageContext(CGSizeMake(width, height));
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  
-  if (!context) {
-    UIGraphicsGetCurrentContext();
-    return nil;
-  }
-  
-	CGRect r = CGRectMake(0, 0, width, height);
-	CGContextTranslateCTM(context, 0.0, r.size.height);
-	CGContextScaleCTM(context, 1.0, -1.0);
-	
-  CGContextSetFillColorWithColor(context, color.CGColor);
-  
-	// You can also use the clip rect given to scale the mask image
-	CGContextClipToMask(context, CGRectMake(0.0, 0.0, width, height), alphaImage);
-	// As above, not being careful with bounds since we are clipping.
-	CGContextFillRect(context, r);
-  
-  UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  
-  // return the image
-  return theImage;
 }
 
 - (void) setState:(ListingState)state {
@@ -216,7 +184,7 @@
     
     self.state = kAvailable;
   } else {
-    buildingIcon.image = [self maskImage:[Globals imageForStruct:fsp.structId] withColor:_lockedBuildingColor];
+    buildingIcon.image = [Globals maskImage:[Globals imageForStruct:fsp.structId] withColor:_lockedBuildingColor];
     lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
     self.state = kLocked;
   }

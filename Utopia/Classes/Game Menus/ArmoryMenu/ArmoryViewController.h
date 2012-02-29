@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
 #import "Protocols.pb.h"
-#import "LabelButton.h"
+#import "NibUtils.h"
 
 @interface ArmoryListing : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *maskedEquipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;

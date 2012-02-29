@@ -18,6 +18,8 @@
 #define SHAKE_REPEAT_COUNT 4.f
 #define SHAKE_OFFSET 3.f
 
+#define EQUIPPING_DURATION 3.f
+
 @implementation ProfileBar
 
 @synthesize state = _state;
@@ -270,7 +272,8 @@
 @implementation EquipView
 
 @synthesize bgd;
-@synthesize equipIcon, border, rarityLabel, attackLabel, defenseLabel;
+@synthesize equipIcon, maskedEquipIcon, border;
+@synthesize rarityLabel, quantityLabel, attackLabel, defenseLabel;
 @synthesize equip;
 @synthesize darkOverlay;
 
@@ -291,13 +294,17 @@
   equipIcon.image = [Globals imageForEquip:fuep.equipId];
   rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
   rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+  quantityLabel.text = [NSString stringWithFormat:@"x%d", fuep.quantity];
   
   self.equip = fuep;
   
   if ([Globals canEquip:fep]) {
     bgd.highlighted = NO;
+    maskedEquipIcon.hidden = YES;
   } else {
     bgd.highlighted = YES;
+    maskedEquipIcon.image =[Globals maskImage:equipIcon.image withColor:[Globals colorForUnequippable]];
+    maskedEquipIcon.hidden = NO;
   }
 }
 
@@ -391,6 +398,7 @@
 @synthesize profilePicture, profileBar;
 @synthesize equipViews, nibEquipView, equipsScrollView;
 @synthesize unequippableView, unequippableLabel;
+@synthesize equippingView, equipTabView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -406,6 +414,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   // Do any additional setup after loading the view from its nib.
   
   self.equipViews = [NSMutableArray array];
+  
+  equippingView = [[UIImageView alloc] init];
+  equippingView.contentMode = UIViewContentModeScaleAspectFit;
+  [self.view addSubview:equippingView];
+  equippingView.hidden = YES;
 }
 
 - (void) setCurScope:(EquipScope)curScope {
@@ -419,13 +432,44 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   return CGPointMake(x, y);
 }
 
+- (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type {
+  equippingView.frame = [self.view convertRect:ev.equipIcon.frame fromView:ev];
+  equippingView.image = ev.equipIcon.image;
+  equippingView.hidden = NO;
+  
+  [UIView beginAnimations:nil context:nil];
+  [UIView setAnimationDuration:EQUIPPING_DURATION];
+  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  
+  CGRect endFrame;
+  
+  switch (type) {
+    case FullEquipProto_EquipTypeWeapon:
+      endFrame = [self.view convertRect:curWeaponView.equipIcon.frame fromView:equipTabView];
+      break;
+    case FullEquipProto_EquipTypeArmor:
+      endFrame = [self.view convertRect:curArmorView.equipIcon.frame fromView:equipTabView];
+      break;
+    case FullEquipProto_EquipTypeAccessory:
+      endFrame = [self.view convertRect:curAmuletView.equipIcon.frame fromView:equipTabView];
+      break;
+      
+    default:
+      break;
+  }
+  
+  equippingView.frame = endFrame;
+  
+  [UIView commitAnimations];
+}
+
 - (void) equipViewSelected:(EquipView *)ev {
   GameState *gs = [GameState sharedGameState];
   FullUserEquipProto *fuep = ev.equip;
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
   if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
     if ([Globals canEquip:fep]) {
-      NSLog(@"equipping");
+      [self doEquippingAnimation:ev forType:fep.equipType];
       unequippableView.hidden = YES;
     } else {
       [ev doShake];
@@ -605,6 +649,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       ev.border.hidden = YES;
     }
   }
+  
+  while (i < equipViews.count) {
+    [[equipViews objectAtIndex:i] removeFromSuperview];
+    [equipViews removeObjectAtIndex:i];
+    i++;
+  }
+  
   _curScope = kEquipScopeAll;
   [self updateScrollViewForCurrentScope:NO];
   

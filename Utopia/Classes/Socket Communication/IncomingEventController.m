@@ -363,7 +363,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs setArmoryEquips:proto.equipsList];
       NSMutableDictionary *feps = gs.staticEquips;
       
-      for (FullEquipProto *fep in proto.structsList) {
+      for (FullEquipProto *fep in proto.equipsList) {
         [feps setObject:fep forKey:[NSNumber numberWithInt:fep.equipId]];
       }
     }

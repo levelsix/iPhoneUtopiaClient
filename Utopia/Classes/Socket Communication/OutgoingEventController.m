@@ -1,4 +1,4 @@
-//
+  //
 //  OutgoingEventController.m
 //  Utopia
 //
@@ -67,16 +67,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (int) buyEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  UserEquip *ue;
+  UserEquip *ue = nil;
+  
+  for (UserEquip *u in gs.myEquips) {
+    if (u.equipId == equipId) {
+      ue = u;
+    }
+  }
   
   if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
     [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
-    
-    for (UserEquip *u in gs.myEquips) {
-      if (u.equipId == equipId) {
-        ue = u;
-      }
-    }
     
     if (ue) {
       ue.quantity++;
@@ -102,7 +102,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (int) sellEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserEquip *ue;
+  UserEquip *ue = nil;
   
   for (UserEquip *u in gs.myEquips) {
     if (u.equipId == equipId) {
@@ -111,13 +111,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (ue) {
-    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
+    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
     ue.quantity--;
     
     gs.silver += [gl calculateEquipSilverSellCost:ue];
     gs.gold += [gl calculateEquipGoldSellCost:ue];
     
     if (ue.quantity == 0) {
+      if (ue.equipId == gs.weaponEquipped) {
+        gs.weaponEquipped = 0;
+      } else if (ue.equipId == gs.armorEquipped) {
+        gs.armorEquipped = 0;
+      } else if (ue.equipId == gs.amuletEquipped) {
+        gs.amuletEquipped = 0;
+      }
+      
       [gs.myEquips removeObject:ue];
       return 0;
     }

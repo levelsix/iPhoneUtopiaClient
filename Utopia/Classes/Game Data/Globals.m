@@ -80,6 +80,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [UIImage imageNamed:[self imageNameForEquip:eqId]];//[NSString stringWithFormat:equipImageString, eqId];
 }
 
++ (UIColor *) colorForUnequippable {
+  return [UIColor colorWithRed:150/255.f green:0.f blue:0.f alpha:1.f];
+}
+
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity {  
   switch (rarity) {
     case FullEquipProto_RarityCommon:
@@ -237,6 +241,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (NSString *) commafyNumber:(int) n {
   return [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:n] numberStyle:NSNumberFormatterDecimalStyle];
+}
+
++ (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
+  
+  CGImageRef alphaImage = CGImageRetain(image.CGImage);
+  float width = CGImageGetWidth(alphaImage);
+  float height = CGImageGetHeight(alphaImage);
+  
+  UIGraphicsBeginImageContext(CGSizeMake(width, height));
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  
+  if (!context) {
+    UIGraphicsGetCurrentContext();
+    return nil;
+  }
+  
+	CGRect r = CGRectMake(0, 0, width, height);
+	CGContextTranslateCTM(context, 0.0, r.size.height);
+	CGContextScaleCTM(context, 1.0, -1.0);
+	
+  CGContextSetFillColorWithColor(context, color.CGColor);
+  
+	// You can also use the clip rect given to scale the mask image
+	CGContextClipToMask(context, CGRectMake(0.0, 0.0, width, height), alphaImage);
+	// As above, not being careful with bounds since we are clipping.
+	CGContextFillRect(context, r);
+  
+  UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  
+  // return the image
+  return theImage;
 }
 
 // Formulas
