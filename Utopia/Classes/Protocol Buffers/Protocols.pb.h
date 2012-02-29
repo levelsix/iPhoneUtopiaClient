@@ -146,6 +146,8 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class ReferralCodeUsedResponseProto;
+@class ReferralCodeUsedResponseProto_Builder;
 @class RefillStatWaitCompleteRequestProto;
 @class RefillStatWaitCompleteRequestProto_Builder;
 @class RefillStatWaitCompleteResponseProto;
@@ -190,6 +192,8 @@
 @class StartupResponseProto_Builder;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
+@class StartupResponseProto_ReferralNotificationProto;
+@class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_Builder;
 @class TaskActionRequestProto;
@@ -254,6 +258,7 @@ typedef enum {
   EventProtocolRequestCLevelUpEvent = 35,
   EventProtocolRequestCEnableApnsEvent = 36,
   EventProtocolRequestCPurchaseMarketplaceLicenseEvent = 37,
+  EventProtocolRequestCUserCreateEvent = 38,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -297,8 +302,10 @@ typedef enum {
   EventProtocolResponseSLevelUpEvent = 35,
   EventProtocolResponseSEnableApnsEvent = 36,
   EventProtocolResponseSPurchaseMarketplaceLicenseEvent = 37,
+  EventProtocolResponseSUserCreateEvent = 38,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
+  EventProtocolResponseSReferralCodeUsedEvent = 53,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

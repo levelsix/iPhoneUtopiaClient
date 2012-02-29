@@ -382,7 +382,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t battlesLost;
 @property int32_t flees;
 @property int32_t hourlyCoins;
-@property (retain) NSString* armyCode;
+@property (retain) NSString* referralCode;
 @property int32_t numReferrals;
 @property (retain) NSString* udid;
 @property (retain) LocationProto* userLocation;
@@ -396,7 +396,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
 @property int64_t lastTimeAttacked;
-@property (retain) NSString* macAddress;
 @property int32_t numBadges;
 @property int64_t lastShortLicensePurchaseTime;
 @property int64_t lastLongLicensePurchaseTime;
@@ -603,13 +602,13 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasHourlyCoins_ = !!value;
 }
 @synthesize hourlyCoins;
-- (BOOL) hasArmyCode {
-  return !!hasArmyCode_;
+- (BOOL) hasReferralCode {
+  return !!hasReferralCode_;
 }
-- (void) setHasArmyCode:(BOOL) value {
-  hasArmyCode_ = !!value;
+- (void) setHasReferralCode:(BOOL) value {
+  hasReferralCode_ = !!value;
 }
-@synthesize armyCode;
+@synthesize referralCode;
 - (BOOL) hasNumReferrals {
   return !!hasNumReferrals_;
 }
@@ -701,13 +700,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasLastTimeAttacked_ = !!value;
 }
 @synthesize lastTimeAttacked;
-- (BOOL) hasMacAddress {
-  return !!hasMacAddress_;
-}
-- (void) setHasMacAddress:(BOOL) value {
-  hasMacAddress_ = !!value;
-}
-@synthesize macAddress;
 - (BOOL) hasNumBadges {
   return !!hasNumBadges_;
 }
@@ -731,11 +723,10 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @synthesize lastLongLicensePurchaseTime;
 - (void) dealloc {
   self.name = nil;
-  self.armyCode = nil;
+  self.referralCode = nil;
   self.udid = nil;
   self.userLocation = nil;
   self.deviceToken = nil;
-  self.macAddress = nil;
   [super dealloc];
 }
 - (id) init {
@@ -767,7 +758,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.battlesLost = 0;
     self.flees = 0;
     self.hourlyCoins = 0;
-    self.armyCode = @"";
+    self.referralCode = @"";
     self.numReferrals = 0;
     self.udid = @"";
     self.userLocation = [LocationProto defaultInstance];
@@ -781,7 +772,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
     self.lastTimeAttacked = 0L;
-    self.macAddress = @"";
     self.numBadges = 0;
     self.lastShortLicensePurchaseTime = 0L;
     self.lastLongLicensePurchaseTime = 0L;
@@ -882,7 +872,7 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasHourlyCoins) {
     return NO;
   }
-  if (!self.hasArmyCode) {
+  if (!self.hasReferralCode) {
     return NO;
   }
   if (!self.hasNumReferrals) {
@@ -987,8 +977,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasHourlyCoins) {
     [output writeInt32:26 value:self.hourlyCoins];
   }
-  if (self.hasArmyCode) {
-    [output writeString:27 value:self.armyCode];
+  if (self.hasReferralCode) {
+    [output writeString:27 value:self.referralCode];
   }
   if (self.hasNumReferrals) {
     [output writeInt32:28 value:self.numReferrals];
@@ -1028,9 +1018,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastTimeAttacked) {
     [output writeInt64:40 value:self.lastTimeAttacked];
-  }
-  if (self.hasMacAddress) {
-    [output writeString:41 value:self.macAddress];
   }
   if (self.hasNumBadges) {
     [output writeInt32:42 value:self.numBadges];
@@ -1131,8 +1118,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasHourlyCoins) {
     size += computeInt32Size(26, self.hourlyCoins);
   }
-  if (self.hasArmyCode) {
-    size += computeStringSize(27, self.armyCode);
+  if (self.hasReferralCode) {
+    size += computeStringSize(27, self.referralCode);
   }
   if (self.hasNumReferrals) {
     size += computeInt32Size(28, self.numReferrals);
@@ -1172,9 +1159,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasLastTimeAttacked) {
     size += computeInt64Size(40, self.lastTimeAttacked);
-  }
-  if (self.hasMacAddress) {
-    size += computeStringSize(41, self.macAddress);
   }
   if (self.hasNumBadges) {
     size += computeInt32Size(42, self.numBadges);
@@ -1344,8 +1328,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasHourlyCoins) {
     [self setHourlyCoins:other.hourlyCoins];
   }
-  if (other.hasArmyCode) {
-    [self setArmyCode:other.armyCode];
+  if (other.hasReferralCode) {
+    [self setReferralCode:other.referralCode];
   }
   if (other.hasNumReferrals) {
     [self setNumReferrals:other.numReferrals];
@@ -1385,9 +1369,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasLastTimeAttacked) {
     [self setLastTimeAttacked:other.lastTimeAttacked];
-  }
-  if (other.hasMacAddress) {
-    [self setMacAddress:other.macAddress];
   }
   if (other.hasNumBadges) {
     [self setNumBadges:other.numBadges];
@@ -1529,7 +1510,7 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         break;
       }
       case 218: {
-        [self setArmyCode:[input readString]];
+        [self setReferralCode:[input readString]];
         break;
       }
       case 224: {
@@ -1587,10 +1568,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 320: {
         [self setLastTimeAttacked:[input readInt64]];
-        break;
-      }
-      case 330: {
-        [self setMacAddress:[input readString]];
         break;
       }
       case 336: {
@@ -2044,20 +2021,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.hourlyCoins = 0;
   return self;
 }
-- (BOOL) hasArmyCode {
-  return result.hasArmyCode;
+- (BOOL) hasReferralCode {
+  return result.hasReferralCode;
 }
-- (NSString*) armyCode {
-  return result.armyCode;
+- (NSString*) referralCode {
+  return result.referralCode;
 }
-- (FullUserProto_Builder*) setArmyCode:(NSString*) value {
-  result.hasArmyCode = YES;
-  result.armyCode = value;
+- (FullUserProto_Builder*) setReferralCode:(NSString*) value {
+  result.hasReferralCode = YES;
+  result.referralCode = value;
   return self;
 }
-- (FullUserProto_Builder*) clearArmyCode {
-  result.hasArmyCode = NO;
-  result.armyCode = @"";
+- (FullUserProto_Builder*) clearReferralCode {
+  result.hasReferralCode = NO;
+  result.referralCode = @"";
   return self;
 }
 - (BOOL) hasNumReferrals {
@@ -2280,22 +2257,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastTimeAttacked {
   result.hasLastTimeAttacked = NO;
   result.lastTimeAttacked = 0L;
-  return self;
-}
-- (BOOL) hasMacAddress {
-  return result.hasMacAddress;
-}
-- (NSString*) macAddress {
-  return result.macAddress;
-}
-- (FullUserProto_Builder*) setMacAddress:(NSString*) value {
-  result.hasMacAddress = YES;
-  result.macAddress = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearMacAddress {
-  result.hasMacAddress = NO;
-  result.macAddress = @"";
   return self;
 }
 - (BOOL) hasNumBadges {

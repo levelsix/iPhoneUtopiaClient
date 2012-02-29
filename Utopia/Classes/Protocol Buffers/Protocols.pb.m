@@ -59,6 +59,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCLevelUpEvent:
     case EventProtocolRequestCEnableApnsEvent:
     case EventProtocolRequestCPurchaseMarketplaceLicenseEvent:
+    case EventProtocolRequestCUserCreateEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -104,8 +105,10 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSLevelUpEvent:
     case EventProtocolResponseSEnableApnsEvent:
     case EventProtocolResponseSPurchaseMarketplaceLicenseEvent:
+    case EventProtocolResponseSUserCreateEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
+    case EventProtocolResponseSReferralCodeUsedEvent:
       return YES;
     default:
       return NO;

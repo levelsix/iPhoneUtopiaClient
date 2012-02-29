@@ -2833,6 +2833,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property int32_t experienceRequiredForNextLevel;
 @property (retain) NSMutableArray* mutableMarketplacePurchaseNotificationsList;
 @property (retain) NSMutableArray* mutableAttackNotificationsList;
+@property (retain) NSMutableArray* mutableReferralNotificationsList;
 @end
 
 @implementation StartupResponseProto
@@ -2881,6 +2882,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize experienceRequiredForNextLevel;
 @synthesize mutableMarketplacePurchaseNotificationsList;
 @synthesize mutableAttackNotificationsList;
+@synthesize mutableReferralNotificationsList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -2893,6 +2895,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableStructsList = nil;
   self.mutableMarketplacePurchaseNotificationsList = nil;
   self.mutableAttackNotificationsList = nil;
+  self.mutableReferralNotificationsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2980,6 +2983,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableAttackNotificationsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) referralNotificationsList {
+  return mutableReferralNotificationsList;
+}
+- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index {
+  id value = [mutableReferralNotificationsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   if (!self.hasStartupStatus) {
     return NO;
@@ -3046,6 +3056,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       return NO;
     }
   }
+  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -3090,6 +3105,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
     [output writeMessage:14 value:element];
+  }
+  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
+    [output writeMessage:15 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3141,6 +3159,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
     size += computeMessageSize(14, element);
+  }
+  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
+    size += computeMessageSize(15, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3868,6 +3889,250 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
 }
 @end
 
+@interface StartupResponseProto_ReferralNotificationProto ()
+@property (retain) MinimumUserProto* referred;
+@property int64_t recruitTime;
+@end
+
+@implementation StartupResponseProto_ReferralNotificationProto
+
+- (BOOL) hasReferred {
+  return !!hasReferred_;
+}
+- (void) setHasReferred:(BOOL) value {
+  hasReferred_ = !!value;
+}
+@synthesize referred;
+- (BOOL) hasRecruitTime {
+  return !!hasRecruitTime_;
+}
+- (void) setHasRecruitTime:(BOOL) value {
+  hasRecruitTime_ = !!value;
+}
+@synthesize recruitTime;
+- (void) dealloc {
+  self.referred = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.referred = [MinimumUserProto defaultInstance];
+    self.recruitTime = 0L;
+  }
+  return self;
+}
+static StartupResponseProto_ReferralNotificationProto* defaultStartupResponseProto_ReferralNotificationProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_ReferralNotificationProto class]) {
+    defaultStartupResponseProto_ReferralNotificationProtoInstance = [[StartupResponseProto_ReferralNotificationProto alloc] init];
+  }
+}
++ (StartupResponseProto_ReferralNotificationProto*) defaultInstance {
+  return defaultStartupResponseProto_ReferralNotificationProtoInstance;
+}
+- (StartupResponseProto_ReferralNotificationProto*) defaultInstance {
+  return defaultStartupResponseProto_ReferralNotificationProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasReferred) {
+    return NO;
+  }
+  if (!self.hasRecruitTime) {
+    return NO;
+  }
+  if (!self.referred.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasReferred) {
+    [output writeMessage:1 value:self.referred];
+  }
+  if (self.hasRecruitTime) {
+    [output writeInt64:2 value:self.recruitTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasReferred) {
+    size += computeMessageSize(1, self.referred);
+  }
+  if (self.hasRecruitTime) {
+    size += computeInt64Size(2, self.recruitTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_ReferralNotificationProto*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_ReferralNotificationProto*)[[[StartupResponseProto_ReferralNotificationProto builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_ReferralNotificationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_ReferralNotificationProto*)[[[StartupResponseProto_ReferralNotificationProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_ReferralNotificationProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_ReferralNotificationProto*)[[[StartupResponseProto_ReferralNotificationProto builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_ReferralNotificationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_ReferralNotificationProto*)[[[StartupResponseProto_ReferralNotificationProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_ReferralNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_ReferralNotificationProto*)[[[StartupResponseProto_ReferralNotificationProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_ReferralNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_ReferralNotificationProto*)[[[StartupResponseProto_ReferralNotificationProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_ReferralNotificationProto_Builder*) builder {
+  return [[[StartupResponseProto_ReferralNotificationProto_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_ReferralNotificationProto_Builder*) builderWithPrototype:(StartupResponseProto_ReferralNotificationProto*) prototype {
+  return [[StartupResponseProto_ReferralNotificationProto builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) builder {
+  return [StartupResponseProto_ReferralNotificationProto builder];
+}
+@end
+
+@interface StartupResponseProto_ReferralNotificationProto_Builder()
+@property (retain) StartupResponseProto_ReferralNotificationProto* result;
+@end
+
+@implementation StartupResponseProto_ReferralNotificationProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_ReferralNotificationProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clear {
+  self.result = [[[StartupResponseProto_ReferralNotificationProto alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clone {
+  return [StartupResponseProto_ReferralNotificationProto builderWithPrototype:result];
+}
+- (StartupResponseProto_ReferralNotificationProto*) defaultInstance {
+  return [StartupResponseProto_ReferralNotificationProto defaultInstance];
+}
+- (StartupResponseProto_ReferralNotificationProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_ReferralNotificationProto*) buildPartial {
+  StartupResponseProto_ReferralNotificationProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeFrom:(StartupResponseProto_ReferralNotificationProto*) other {
+  if (other == [StartupResponseProto_ReferralNotificationProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasReferred) {
+    [self mergeReferred:other.referred];
+  }
+  if (other.hasRecruitTime) {
+    [self setRecruitTime:other.recruitTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasReferred) {
+          [subBuilder mergeFrom:self.referred];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setReferred:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setRecruitTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasReferred {
+  return result.hasReferred;
+}
+- (MinimumUserProto*) referred {
+  return result.referred;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setReferred:(MinimumUserProto*) value {
+  result.hasReferred = YES;
+  result.referred = value;
+  return self;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setReferredBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setReferred:[builderForValue build]];
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeReferred:(MinimumUserProto*) value {
+  if (result.hasReferred &&
+      result.referred != [MinimumUserProto defaultInstance]) {
+    result.referred =
+      [[[MinimumUserProto builderWithPrototype:result.referred] mergeFrom:value] buildPartial];
+  } else {
+    result.referred = value;
+  }
+  result.hasReferred = YES;
+  return self;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearReferred {
+  result.hasReferred = NO;
+  result.referred = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRecruitTime {
+  return result.hasRecruitTime;
+}
+- (int64_t) recruitTime {
+  return result.recruitTime;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setRecruitTime:(int64_t) value {
+  result.hasRecruitTime = YES;
+  result.recruitTime = value;
+  return self;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearRecruitTime {
+  result.hasRecruitTime = NO;
+  result.recruitTime = 0L;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants ()
 @property (retain) NSMutableArray* mutableProductIdsList;
 @property (retain) NSMutableArray* mutableProductDiamondsGivenList;
@@ -4365,6 +4630,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     }
     [result.mutableAttackNotificationsList addObjectsFromArray:other.mutableAttackNotificationsList];
   }
+  if (other.mutableReferralNotificationsList.count > 0) {
+    if (result.mutableReferralNotificationsList == nil) {
+      result.mutableReferralNotificationsList = [NSMutableArray array];
+    }
+    [result.mutableReferralNotificationsList addObjectsFromArray:other.mutableReferralNotificationsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4478,6 +4749,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
         StartupResponseProto_AttackedNotificationProto_Builder* subBuilder = [StartupResponseProto_AttackedNotificationProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAttackNotifications:[subBuilder buildPartial]];
+        break;
+      }
+      case 122: {
+        StartupResponseProto_ReferralNotificationProto_Builder* subBuilder = [StartupResponseProto_ReferralNotificationProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addReferralNotifications:[subBuilder buildPartial]];
         break;
       }
     }
@@ -4852,18 +5129,45 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   [result.mutableAttackNotificationsList addObject:value];
   return self;
 }
+- (NSArray*) referralNotificationsList {
+  if (result.mutableReferralNotificationsList == nil) { return [NSArray array]; }
+  return result.mutableReferralNotificationsList;
+}
+- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index {
+  return [result referralNotificationsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceReferralNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_ReferralNotificationProto*) value {
+  [result.mutableReferralNotificationsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllReferralNotifications:(NSArray*) values {
+  if (result.mutableReferralNotificationsList == nil) {
+    result.mutableReferralNotificationsList = [NSMutableArray array];
+  }
+  [result.mutableReferralNotificationsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearReferralNotificationsList {
+  result.mutableReferralNotificationsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*) value {
+  if (result.mutableReferralNotificationsList == nil) {
+    result.mutableReferralNotificationsList = [NSMutableArray array];
+  }
+  [result.mutableReferralNotificationsList addObject:value];
+  return self;
+}
 @end
 
 @interface UserCreateRequestProto ()
 @property (retain) NSString* udid;
 @property (retain) NSString* name;
+@property UserType type;
 @property (retain) NSString* macAddress;
 @property (retain) NSMutableArray* mutableStructuresList;
 @property (retain) LocationProto* userLocation;
-@property (retain) CoordinateProto* aviaryCoordinates;
-@property (retain) CoordinateProto* refineryCoordinates;
-@property (retain) CoordinateProto* carpenterCoordinates;
-@property int32_t referrerCode;
+@property (retain) NSString* referrerCode;
 @property (retain) NSString* deviceToken;
 @end
 
@@ -4883,6 +5187,13 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasName_ = !!value;
 }
 @synthesize name;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value {
+  hasType_ = !!value;
+}
+@synthesize type;
 - (BOOL) hasMacAddress {
   return !!hasMacAddress_;
 }
@@ -4898,27 +5209,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasUserLocation_ = !!value;
 }
 @synthesize userLocation;
-- (BOOL) hasAviaryCoordinates {
-  return !!hasAviaryCoordinates_;
-}
-- (void) setHasAviaryCoordinates:(BOOL) value {
-  hasAviaryCoordinates_ = !!value;
-}
-@synthesize aviaryCoordinates;
-- (BOOL) hasRefineryCoordinates {
-  return !!hasRefineryCoordinates_;
-}
-- (void) setHasRefineryCoordinates:(BOOL) value {
-  hasRefineryCoordinates_ = !!value;
-}
-@synthesize refineryCoordinates;
-- (BOOL) hasCarpenterCoordinates {
-  return !!hasCarpenterCoordinates_;
-}
-- (void) setHasCarpenterCoordinates:(BOOL) value {
-  hasCarpenterCoordinates_ = !!value;
-}
-@synthesize carpenterCoordinates;
 - (BOOL) hasReferrerCode {
   return !!hasReferrerCode_;
 }
@@ -4939,9 +5229,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   self.macAddress = nil;
   self.mutableStructuresList = nil;
   self.userLocation = nil;
-  self.aviaryCoordinates = nil;
-  self.refineryCoordinates = nil;
-  self.carpenterCoordinates = nil;
+  self.referrerCode = nil;
   self.deviceToken = nil;
   [super dealloc];
 }
@@ -4949,12 +5237,10 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if ((self = [super init])) {
     self.udid = @"";
     self.name = @"";
+    self.type = UserTypeGoodWarrior;
     self.macAddress = @"";
     self.userLocation = [LocationProto defaultInstance];
-    self.aviaryCoordinates = [CoordinateProto defaultInstance];
-    self.refineryCoordinates = [CoordinateProto defaultInstance];
-    self.carpenterCoordinates = [CoordinateProto defaultInstance];
-    self.referrerCode = 0;
+    self.referrerCode = @"";
     self.deviceToken = @"";
   }
   return self;
@@ -4985,19 +5271,13 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (!self.hasName) {
     return NO;
   }
+  if (!self.hasType) {
+    return NO;
+  }
   if (!self.hasMacAddress) {
     return NO;
   }
   if (!self.hasUserLocation) {
-    return NO;
-  }
-  if (!self.hasAviaryCoordinates) {
-    return NO;
-  }
-  if (!self.hasRefineryCoordinates) {
-    return NO;
-  }
-  if (!self.hasCarpenterCoordinates) {
     return NO;
   }
   for (FullUserStructureProto* element in self.structuresList) {
@@ -5006,15 +5286,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
     }
   }
   if (!self.userLocation.isInitialized) {
-    return NO;
-  }
-  if (!self.aviaryCoordinates.isInitialized) {
-    return NO;
-  }
-  if (!self.refineryCoordinates.isInitialized) {
-    return NO;
-  }
-  if (!self.carpenterCoordinates.isInitialized) {
     return NO;
   }
   return YES;
@@ -5026,29 +5297,23 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasName) {
     [output writeString:2 value:self.name];
   }
+  if (self.hasType) {
+    [output writeEnum:3 value:self.type];
+  }
   if (self.hasMacAddress) {
-    [output writeString:3 value:self.macAddress];
+    [output writeString:4 value:self.macAddress];
   }
   for (FullUserStructureProto* element in self.structuresList) {
-    [output writeMessage:4 value:element];
+    [output writeMessage:5 value:element];
   }
   if (self.hasUserLocation) {
-    [output writeMessage:5 value:self.userLocation];
-  }
-  if (self.hasAviaryCoordinates) {
-    [output writeMessage:6 value:self.aviaryCoordinates];
-  }
-  if (self.hasRefineryCoordinates) {
-    [output writeMessage:7 value:self.refineryCoordinates];
-  }
-  if (self.hasCarpenterCoordinates) {
-    [output writeMessage:8 value:self.carpenterCoordinates];
+    [output writeMessage:6 value:self.userLocation];
   }
   if (self.hasReferrerCode) {
-    [output writeInt32:9 value:self.referrerCode];
+    [output writeString:7 value:self.referrerCode];
   }
   if (self.hasDeviceToken) {
-    [output writeString:10 value:self.deviceToken];
+    [output writeString:8 value:self.deviceToken];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5065,29 +5330,23 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasName) {
     size += computeStringSize(2, self.name);
   }
+  if (self.hasType) {
+    size += computeEnumSize(3, self.type);
+  }
   if (self.hasMacAddress) {
-    size += computeStringSize(3, self.macAddress);
+    size += computeStringSize(4, self.macAddress);
   }
   for (FullUserStructureProto* element in self.structuresList) {
-    size += computeMessageSize(4, element);
+    size += computeMessageSize(5, element);
   }
   if (self.hasUserLocation) {
-    size += computeMessageSize(5, self.userLocation);
-  }
-  if (self.hasAviaryCoordinates) {
-    size += computeMessageSize(6, self.aviaryCoordinates);
-  }
-  if (self.hasRefineryCoordinates) {
-    size += computeMessageSize(7, self.refineryCoordinates);
-  }
-  if (self.hasCarpenterCoordinates) {
-    size += computeMessageSize(8, self.carpenterCoordinates);
+    size += computeMessageSize(6, self.userLocation);
   }
   if (self.hasReferrerCode) {
-    size += computeInt32Size(9, self.referrerCode);
+    size += computeStringSize(7, self.referrerCode);
   }
   if (self.hasDeviceToken) {
-    size += computeStringSize(10, self.deviceToken);
+    size += computeStringSize(8, self.deviceToken);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5170,6 +5429,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasName) {
     [self setName:other.name];
   }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
   if (other.hasMacAddress) {
     [self setMacAddress:other.macAddress];
   }
@@ -5181,15 +5443,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (other.hasUserLocation) {
     [self mergeUserLocation:other.userLocation];
-  }
-  if (other.hasAviaryCoordinates) {
-    [self mergeAviaryCoordinates:other.aviaryCoordinates];
-  }
-  if (other.hasRefineryCoordinates) {
-    [self mergeRefineryCoordinates:other.refineryCoordinates];
-  }
-  if (other.hasCarpenterCoordinates) {
-    [self mergeCarpenterCoordinates:other.carpenterCoordinates];
   }
   if (other.hasReferrerCode) {
     [self setReferrerCode:other.referrerCode];
@@ -5226,17 +5479,26 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         [self setName:[input readString]];
         break;
       }
-      case 26: {
-        [self setMacAddress:[input readString]];
+      case 24: {
+        int32_t value = [input readEnum];
+        if (UserTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
         break;
       }
       case 34: {
+        [self setMacAddress:[input readString]];
+        break;
+      }
+      case 42: {
         FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addStructures:[subBuilder buildPartial]];
         break;
       }
-      case 42: {
+      case 50: {
         LocationProto_Builder* subBuilder = [LocationProto builder];
         if (self.hasUserLocation) {
           [subBuilder mergeFrom:self.userLocation];
@@ -5245,38 +5507,11 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         [self setUserLocation:[subBuilder buildPartial]];
         break;
       }
-      case 50: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasAviaryCoordinates) {
-          [subBuilder mergeFrom:self.aviaryCoordinates];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setAviaryCoordinates:[subBuilder buildPartial]];
-        break;
-      }
       case 58: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasRefineryCoordinates) {
-          [subBuilder mergeFrom:self.refineryCoordinates];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setRefineryCoordinates:[subBuilder buildPartial]];
+        [self setReferrerCode:[input readString]];
         break;
       }
       case 66: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasCarpenterCoordinates) {
-          [subBuilder mergeFrom:self.carpenterCoordinates];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCarpenterCoordinates:[subBuilder buildPartial]];
-        break;
-      }
-      case 72: {
-        [self setReferrerCode:[input readInt32]];
-        break;
-      }
-      case 82: {
         [self setDeviceToken:[input readString]];
         break;
       }
@@ -5313,6 +5548,22 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearName {
   result.hasName = NO;
   result.name = @"";
+  return self;
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (UserType) type {
+  return result.type;
+}
+- (UserCreateRequestProto_Builder*) setType:(UserType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearType {
+  result.hasType = NO;
+  result.type = UserTypeGoodWarrior;
   return self;
 }
 - (BOOL) hasMacAddress {
@@ -5390,110 +5641,20 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   result.userLocation = [LocationProto defaultInstance];
   return self;
 }
-- (BOOL) hasAviaryCoordinates {
-  return result.hasAviaryCoordinates;
-}
-- (CoordinateProto*) aviaryCoordinates {
-  return result.aviaryCoordinates;
-}
-- (UserCreateRequestProto_Builder*) setAviaryCoordinates:(CoordinateProto*) value {
-  result.hasAviaryCoordinates = YES;
-  result.aviaryCoordinates = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) setAviaryCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setAviaryCoordinates:[builderForValue build]];
-}
-- (UserCreateRequestProto_Builder*) mergeAviaryCoordinates:(CoordinateProto*) value {
-  if (result.hasAviaryCoordinates &&
-      result.aviaryCoordinates != [CoordinateProto defaultInstance]) {
-    result.aviaryCoordinates =
-      [[[CoordinateProto builderWithPrototype:result.aviaryCoordinates] mergeFrom:value] buildPartial];
-  } else {
-    result.aviaryCoordinates = value;
-  }
-  result.hasAviaryCoordinates = YES;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearAviaryCoordinates {
-  result.hasAviaryCoordinates = NO;
-  result.aviaryCoordinates = [CoordinateProto defaultInstance];
-  return self;
-}
-- (BOOL) hasRefineryCoordinates {
-  return result.hasRefineryCoordinates;
-}
-- (CoordinateProto*) refineryCoordinates {
-  return result.refineryCoordinates;
-}
-- (UserCreateRequestProto_Builder*) setRefineryCoordinates:(CoordinateProto*) value {
-  result.hasRefineryCoordinates = YES;
-  result.refineryCoordinates = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) setRefineryCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setRefineryCoordinates:[builderForValue build]];
-}
-- (UserCreateRequestProto_Builder*) mergeRefineryCoordinates:(CoordinateProto*) value {
-  if (result.hasRefineryCoordinates &&
-      result.refineryCoordinates != [CoordinateProto defaultInstance]) {
-    result.refineryCoordinates =
-      [[[CoordinateProto builderWithPrototype:result.refineryCoordinates] mergeFrom:value] buildPartial];
-  } else {
-    result.refineryCoordinates = value;
-  }
-  result.hasRefineryCoordinates = YES;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearRefineryCoordinates {
-  result.hasRefineryCoordinates = NO;
-  result.refineryCoordinates = [CoordinateProto defaultInstance];
-  return self;
-}
-- (BOOL) hasCarpenterCoordinates {
-  return result.hasCarpenterCoordinates;
-}
-- (CoordinateProto*) carpenterCoordinates {
-  return result.carpenterCoordinates;
-}
-- (UserCreateRequestProto_Builder*) setCarpenterCoordinates:(CoordinateProto*) value {
-  result.hasCarpenterCoordinates = YES;
-  result.carpenterCoordinates = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) setCarpenterCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setCarpenterCoordinates:[builderForValue build]];
-}
-- (UserCreateRequestProto_Builder*) mergeCarpenterCoordinates:(CoordinateProto*) value {
-  if (result.hasCarpenterCoordinates &&
-      result.carpenterCoordinates != [CoordinateProto defaultInstance]) {
-    result.carpenterCoordinates =
-      [[[CoordinateProto builderWithPrototype:result.carpenterCoordinates] mergeFrom:value] buildPartial];
-  } else {
-    result.carpenterCoordinates = value;
-  }
-  result.hasCarpenterCoordinates = YES;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearCarpenterCoordinates {
-  result.hasCarpenterCoordinates = NO;
-  result.carpenterCoordinates = [CoordinateProto defaultInstance];
-  return self;
-}
 - (BOOL) hasReferrerCode {
   return result.hasReferrerCode;
 }
-- (int32_t) referrerCode {
+- (NSString*) referrerCode {
   return result.referrerCode;
 }
-- (UserCreateRequestProto_Builder*) setReferrerCode:(int32_t) value {
+- (UserCreateRequestProto_Builder*) setReferrerCode:(NSString*) value {
   result.hasReferrerCode = YES;
   result.referrerCode = value;
   return self;
 }
 - (UserCreateRequestProto_Builder*) clearReferrerCode {
   result.hasReferrerCode = NO;
-  result.referrerCode = 0;
+  result.referrerCode = @"";
   return self;
 }
 - (BOOL) hasDeviceToken {
@@ -5516,7 +5677,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 
 @interface UserCreateResponseProto ()
 @property (retain) FullUserProto* sender;
-@property UserCreateResponseProto_StartupStatus status;
+@property UserCreateResponseProto_UserCreateStatus status;
 @end
 
 @implementation UserCreateResponseProto
@@ -5542,7 +5703,7 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.sender = [FullUserProto defaultInstance];
-    self.status = UserCreateResponseProto_StartupStatusSuccess;
+    self.status = UserCreateResponseProto_UserCreateStatusSuccess;
   }
   return self;
 }
@@ -5559,14 +5720,13 @@ static UserCreateResponseProto* defaultUserCreateResponseProtoInstance = nil;
   return defaultUserCreateResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
   if (!self.hasStatus) {
     return NO;
   }
-  if (!self.sender.isInitialized) {
-    return NO;
+  if (self.hasSender) {
+    if (!self.sender.isInitialized) {
+      return NO;
+    }
   }
   return YES;
 }
@@ -5625,10 +5785,13 @@ static UserCreateResponseProto* defaultUserCreateResponseProtoInstance = nil;
 }
 @end
 
-BOOL UserCreateResponseProto_StartupStatusIsValidValue(UserCreateResponseProto_StartupStatus value) {
+BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value) {
   switch (value) {
-    case UserCreateResponseProto_StartupStatusSuccess:
-    case UserCreateResponseProto_StartupStatusFail:
+    case UserCreateResponseProto_UserCreateStatusSuccess:
+    case UserCreateResponseProto_UserCreateStatusInvalidName:
+    case UserCreateResponseProto_UserCreateStatusInvalidLocation:
+    case UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists:
+    case UserCreateResponseProto_UserCreateStatusOtherFail:
       return YES;
     default:
       return NO;
@@ -5714,7 +5877,7 @@ BOOL UserCreateResponseProto_StartupStatusIsValidValue(UserCreateResponseProto_S
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (UserCreateResponseProto_StartupStatusIsValidValue(value)) {
+        if (UserCreateResponseProto_UserCreateStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -5757,17 +5920,17 @@ BOOL UserCreateResponseProto_StartupStatusIsValidValue(UserCreateResponseProto_S
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (UserCreateResponseProto_StartupStatus) status {
+- (UserCreateResponseProto_UserCreateStatus) status {
   return result.status;
 }
-- (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_StartupStatus) value {
+- (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_UserCreateStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
 - (UserCreateResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = UserCreateResponseProto_StartupStatusSuccess;
+  result.status = UserCreateResponseProto_UserCreateStatusSuccess;
   return self;
 }
 @end
@@ -25990,6 +26153,273 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (PurchaseMarketplaceLicenseResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess;
+  return self;
+}
+@end
+
+@interface ReferralCodeUsedResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProto* referredPlayer;
+@end
+
+@implementation ReferralCodeUsedResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasReferredPlayer {
+  return !!hasReferredPlayer_;
+}
+- (void) setHasReferredPlayer:(BOOL) value {
+  hasReferredPlayer_ = !!value;
+}
+@synthesize referredPlayer;
+- (void) dealloc {
+  self.sender = nil;
+  self.referredPlayer = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.referredPlayer = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReferralCodeUsedResponseProto class]) {
+    defaultReferralCodeUsedResponseProtoInstance = [[ReferralCodeUsedResponseProto alloc] init];
+  }
+}
++ (ReferralCodeUsedResponseProto*) defaultInstance {
+  return defaultReferralCodeUsedResponseProtoInstance;
+}
+- (ReferralCodeUsedResponseProto*) defaultInstance {
+  return defaultReferralCodeUsedResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasReferredPlayer) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  if (!self.referredPlayer.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasReferredPlayer) {
+    [output writeMessage:2 value:self.referredPlayer];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasReferredPlayer) {
+    size += computeMessageSize(2, self.referredPlayer);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ReferralCodeUsedResponseProto*) parseFromData:(NSData*) data {
+  return (ReferralCodeUsedResponseProto*)[[[ReferralCodeUsedResponseProto builder] mergeFromData:data] build];
+}
++ (ReferralCodeUsedResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReferralCodeUsedResponseProto*)[[[ReferralCodeUsedResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReferralCodeUsedResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReferralCodeUsedResponseProto*)[[[ReferralCodeUsedResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ReferralCodeUsedResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReferralCodeUsedResponseProto*)[[[ReferralCodeUsedResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReferralCodeUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReferralCodeUsedResponseProto*)[[[ReferralCodeUsedResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReferralCodeUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReferralCodeUsedResponseProto*)[[[ReferralCodeUsedResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReferralCodeUsedResponseProto_Builder*) builder {
+  return [[[ReferralCodeUsedResponseProto_Builder alloc] init] autorelease];
+}
++ (ReferralCodeUsedResponseProto_Builder*) builderWithPrototype:(ReferralCodeUsedResponseProto*) prototype {
+  return [[ReferralCodeUsedResponseProto builder] mergeFrom:prototype];
+}
+- (ReferralCodeUsedResponseProto_Builder*) builder {
+  return [ReferralCodeUsedResponseProto builder];
+}
+@end
+
+@interface ReferralCodeUsedResponseProto_Builder()
+@property (retain) ReferralCodeUsedResponseProto* result;
+@end
+
+@implementation ReferralCodeUsedResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ReferralCodeUsedResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReferralCodeUsedResponseProto_Builder*) clear {
+  self.result = [[[ReferralCodeUsedResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ReferralCodeUsedResponseProto_Builder*) clone {
+  return [ReferralCodeUsedResponseProto builderWithPrototype:result];
+}
+- (ReferralCodeUsedResponseProto*) defaultInstance {
+  return [ReferralCodeUsedResponseProto defaultInstance];
+}
+- (ReferralCodeUsedResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReferralCodeUsedResponseProto*) buildPartial {
+  ReferralCodeUsedResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ReferralCodeUsedResponseProto_Builder*) mergeFrom:(ReferralCodeUsedResponseProto*) other {
+  if (other == [ReferralCodeUsedResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasReferredPlayer) {
+    [self mergeReferredPlayer:other.referredPlayer];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReferralCodeUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReferralCodeUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasReferredPlayer) {
+          [subBuilder mergeFrom:self.referredPlayer];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setReferredPlayer:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ReferralCodeUsedResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ReferralCodeUsedResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ReferralCodeUsedResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ReferralCodeUsedResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasReferredPlayer {
+  return result.hasReferredPlayer;
+}
+- (MinimumUserProto*) referredPlayer {
+  return result.referredPlayer;
+}
+- (ReferralCodeUsedResponseProto_Builder*) setReferredPlayer:(MinimumUserProto*) value {
+  result.hasReferredPlayer = YES;
+  result.referredPlayer = value;
+  return self;
+}
+- (ReferralCodeUsedResponseProto_Builder*) setReferredPlayerBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setReferredPlayer:[builderForValue build]];
+}
+- (ReferralCodeUsedResponseProto_Builder*) mergeReferredPlayer:(MinimumUserProto*) value {
+  if (result.hasReferredPlayer &&
+      result.referredPlayer != [MinimumUserProto defaultInstance]) {
+    result.referredPlayer =
+      [[[MinimumUserProto builderWithPrototype:result.referredPlayer] mergeFrom:value] buildPartial];
+  } else {
+    result.referredPlayer = value;
+  }
+  result.hasReferredPlayer = YES;
+  return self;
+}
+- (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer {
+  result.hasReferredPlayer = NO;
+  result.referredPlayer = [MinimumUserProto defaultInstance];
   return self;
 }
 @end

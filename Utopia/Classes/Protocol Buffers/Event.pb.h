@@ -146,6 +146,8 @@
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
 @class RedeemMarketplaceEarningsResponseProto_Builder;
+@class ReferralCodeUsedResponseProto;
+@class ReferralCodeUsedResponseProto_Builder;
 @class RefillStatWaitCompleteRequestProto;
 @class RefillStatWaitCompleteRequestProto_Builder;
 @class RefillStatWaitCompleteResponseProto;
@@ -190,6 +192,8 @@
 @class StartupResponseProto_Builder;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
+@class StartupResponseProto_ReferralNotificationProto;
+@class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_Builder;
 @class TaskActionRequestProto;
@@ -263,11 +267,14 @@ typedef enum {
 BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_StartupStatus value);
 
 typedef enum {
-  UserCreateResponseProto_StartupStatusSuccess = 0,
-  UserCreateResponseProto_StartupStatusFail = 1,
-} UserCreateResponseProto_StartupStatus;
+  UserCreateResponseProto_UserCreateStatusSuccess = 0,
+  UserCreateResponseProto_UserCreateStatusInvalidName = 1,
+  UserCreateResponseProto_UserCreateStatusInvalidLocation = 2,
+  UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists = 3,
+  UserCreateResponseProto_UserCreateStatusOtherFail = 4,
+} UserCreateResponseProto_UserCreateStatus;
 
-BOOL UserCreateResponseProto_StartupStatusIsValidValue(UserCreateResponseProto_StartupStatus value);
+BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value);
 
 typedef enum {
   RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory = 0,
@@ -1263,6 +1270,7 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
   NSMutableArray* mutableStructsList;
   NSMutableArray* mutableMarketplacePurchaseNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1292,6 +1300,8 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) marketplacePurchaseNotificationsAtIndex:(int32_t) index;
 - (NSArray*) attackNotificationsList;
 - (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
+- (NSArray*) referralNotificationsList;
+- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1464,6 +1474,65 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (int32_t) stolenEquipId;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) setStolenEquipId:(int32_t) value;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) clearStolenEquipId;
+@end
+
+@interface StartupResponseProto_ReferralNotificationProto : PBGeneratedMessage {
+@private
+  BOOL hasRecruitTime_:1;
+  BOOL hasReferred_:1;
+  int64_t recruitTime;
+  MinimumUserProto* referred;
+}
+- (BOOL) hasReferred;
+- (BOOL) hasRecruitTime;
+@property (readonly, retain) MinimumUserProto* referred;
+@property (readonly) int64_t recruitTime;
+
++ (StartupResponseProto_ReferralNotificationProto*) defaultInstance;
+- (StartupResponseProto_ReferralNotificationProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) builder;
++ (StartupResponseProto_ReferralNotificationProto_Builder*) builder;
++ (StartupResponseProto_ReferralNotificationProto_Builder*) builderWithPrototype:(StartupResponseProto_ReferralNotificationProto*) prototype;
+
++ (StartupResponseProto_ReferralNotificationProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_ReferralNotificationProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_ReferralNotificationProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_ReferralNotificationProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_ReferralNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_ReferralNotificationProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_ReferralNotificationProto_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_ReferralNotificationProto* result;
+}
+
+- (StartupResponseProto_ReferralNotificationProto*) defaultInstance;
+
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clear;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clone;
+
+- (StartupResponseProto_ReferralNotificationProto*) build;
+- (StartupResponseProto_ReferralNotificationProto*) buildPartial;
+
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeFrom:(StartupResponseProto_ReferralNotificationProto*) other;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasReferred;
+- (MinimumUserProto*) referred;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setReferred:(MinimumUserProto*) value;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setReferredBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) mergeReferred:(MinimumUserProto*) value;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearReferred;
+
+- (BOOL) hasRecruitTime;
+- (int64_t) recruitTime;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setRecruitTime:(int64_t) value;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearRecruitTime;
 @end
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
@@ -1660,47 +1729,46 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (StartupResponseProto_Builder*) addAttackNotifications:(StartupResponseProto_AttackedNotificationProto*) value;
 - (StartupResponseProto_Builder*) addAllAttackNotifications:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearAttackNotificationsList;
+
+- (NSArray*) referralNotificationsList;
+- (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceReferralNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_ReferralNotificationProto*) value;
+- (StartupResponseProto_Builder*) addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*) value;
+- (StartupResponseProto_Builder*) addAllReferralNotifications:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearReferralNotificationsList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasReferrerCode_:1;
   BOOL hasUdid_:1;
   BOOL hasName_:1;
   BOOL hasMacAddress_:1;
+  BOOL hasReferrerCode_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUserLocation_:1;
-  BOOL hasAviaryCoordinates_:1;
-  BOOL hasRefineryCoordinates_:1;
-  BOOL hasCarpenterCoordinates_:1;
-  int32_t referrerCode;
+  BOOL hasType_:1;
   NSString* udid;
   NSString* name;
   NSString* macAddress;
+  NSString* referrerCode;
   NSString* deviceToken;
   LocationProto* userLocation;
-  CoordinateProto* aviaryCoordinates;
-  CoordinateProto* refineryCoordinates;
-  CoordinateProto* carpenterCoordinates;
+  UserType type;
   NSMutableArray* mutableStructuresList;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasName;
+- (BOOL) hasType;
 - (BOOL) hasMacAddress;
 - (BOOL) hasUserLocation;
-- (BOOL) hasAviaryCoordinates;
-- (BOOL) hasRefineryCoordinates;
-- (BOOL) hasCarpenterCoordinates;
 - (BOOL) hasReferrerCode;
 - (BOOL) hasDeviceToken;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
+@property (readonly) UserType type;
 @property (readonly, retain) NSString* macAddress;
 @property (readonly, retain) LocationProto* userLocation;
-@property (readonly, retain) CoordinateProto* aviaryCoordinates;
-@property (readonly, retain) CoordinateProto* refineryCoordinates;
-@property (readonly, retain) CoordinateProto* carpenterCoordinates;
-@property (readonly) int32_t referrerCode;
+@property (readonly, retain) NSString* referrerCode;
 @property (readonly, retain) NSString* deviceToken;
 - (NSArray*) structuresList;
 - (FullUserStructureProto*) structuresAtIndex:(int32_t) index;
@@ -1749,6 +1817,11 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (UserCreateRequestProto_Builder*) setName:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearName;
 
+- (BOOL) hasType;
+- (UserType) type;
+- (UserCreateRequestProto_Builder*) setType:(UserType) value;
+- (UserCreateRequestProto_Builder*) clearType;
+
 - (BOOL) hasMacAddress;
 - (NSString*) macAddress;
 - (UserCreateRequestProto_Builder*) setMacAddress:(NSString*) value;
@@ -1768,30 +1841,9 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (UserCreateRequestProto_Builder*) mergeUserLocation:(LocationProto*) value;
 - (UserCreateRequestProto_Builder*) clearUserLocation;
 
-- (BOOL) hasAviaryCoordinates;
-- (CoordinateProto*) aviaryCoordinates;
-- (UserCreateRequestProto_Builder*) setAviaryCoordinates:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) setAviaryCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
-- (UserCreateRequestProto_Builder*) mergeAviaryCoordinates:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) clearAviaryCoordinates;
-
-- (BOOL) hasRefineryCoordinates;
-- (CoordinateProto*) refineryCoordinates;
-- (UserCreateRequestProto_Builder*) setRefineryCoordinates:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) setRefineryCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
-- (UserCreateRequestProto_Builder*) mergeRefineryCoordinates:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) clearRefineryCoordinates;
-
-- (BOOL) hasCarpenterCoordinates;
-- (CoordinateProto*) carpenterCoordinates;
-- (UserCreateRequestProto_Builder*) setCarpenterCoordinates:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) setCarpenterCoordinatesBuilder:(CoordinateProto_Builder*) builderForValue;
-- (UserCreateRequestProto_Builder*) mergeCarpenterCoordinates:(CoordinateProto*) value;
-- (UserCreateRequestProto_Builder*) clearCarpenterCoordinates;
-
 - (BOOL) hasReferrerCode;
-- (int32_t) referrerCode;
-- (UserCreateRequestProto_Builder*) setReferrerCode:(int32_t) value;
+- (NSString*) referrerCode;
+- (UserCreateRequestProto_Builder*) setReferrerCode:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearReferrerCode;
 
 - (BOOL) hasDeviceToken;
@@ -1805,12 +1857,12 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   FullUserProto* sender;
-  UserCreateResponseProto_StartupStatus status;
+  UserCreateResponseProto_UserCreateStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) FullUserProto* sender;
-@property (readonly) UserCreateResponseProto_StartupStatus status;
+@property (readonly) UserCreateResponseProto_UserCreateStatus status;
 
 + (UserCreateResponseProto*) defaultInstance;
 - (UserCreateResponseProto*) defaultInstance;
@@ -1854,8 +1906,8 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (UserCreateResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (UserCreateResponseProto_StartupStatus) status;
-- (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_StartupStatus) value;
+- (UserCreateResponseProto_UserCreateStatus) status;
+- (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_UserCreateStatus) value;
 - (UserCreateResponseProto_Builder*) clearStatus;
 @end
 
@@ -6385,5 +6437,66 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) status;
 - (PurchaseMarketplaceLicenseResponseProto_Builder*) setStatus:(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus) value;
 - (PurchaseMarketplaceLicenseResponseProto_Builder*) clearStatus;
+@end
+
+@interface ReferralCodeUsedResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasReferredPlayer_:1;
+  MinimumUserProto* sender;
+  MinimumUserProto* referredPlayer;
+}
+- (BOOL) hasSender;
+- (BOOL) hasReferredPlayer;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProto* referredPlayer;
+
++ (ReferralCodeUsedResponseProto*) defaultInstance;
+- (ReferralCodeUsedResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReferralCodeUsedResponseProto_Builder*) builder;
++ (ReferralCodeUsedResponseProto_Builder*) builder;
++ (ReferralCodeUsedResponseProto_Builder*) builderWithPrototype:(ReferralCodeUsedResponseProto*) prototype;
+
++ (ReferralCodeUsedResponseProto*) parseFromData:(NSData*) data;
++ (ReferralCodeUsedResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReferralCodeUsedResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReferralCodeUsedResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReferralCodeUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReferralCodeUsedResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReferralCodeUsedResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ReferralCodeUsedResponseProto* result;
+}
+
+- (ReferralCodeUsedResponseProto*) defaultInstance;
+
+- (ReferralCodeUsedResponseProto_Builder*) clear;
+- (ReferralCodeUsedResponseProto_Builder*) clone;
+
+- (ReferralCodeUsedResponseProto*) build;
+- (ReferralCodeUsedResponseProto*) buildPartial;
+
+- (ReferralCodeUsedResponseProto_Builder*) mergeFrom:(ReferralCodeUsedResponseProto*) other;
+- (ReferralCodeUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReferralCodeUsedResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ReferralCodeUsedResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ReferralCodeUsedResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReferralCodeUsedResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ReferralCodeUsedResponseProto_Builder*) clearSender;
+
+- (BOOL) hasReferredPlayer;
+- (MinimumUserProto*) referredPlayer;
+- (ReferralCodeUsedResponseProto_Builder*) setReferredPlayer:(MinimumUserProto*) value;
+- (ReferralCodeUsedResponseProto_Builder*) setReferredPlayerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReferralCodeUsedResponseProto_Builder*) mergeReferredPlayer:(MinimumUserProto*) value;
+- (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer;
 @end
 
