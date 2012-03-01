@@ -104,6 +104,9 @@ typedef enum {
 @interface ProfileViewController : UIViewController {
   ProfileState _state;
   EquipScope _curScope;
+  EquipView *_weaponEquipView;
+  EquipView *_armorEquipView;
+  EquipView *_amuletEquipView;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *userNameLabel;
@@ -138,7 +141,7 @@ typedef enum {
 
 - (void) loadMyProfile;
 - (void) equipViewSelected:(EquipView *)ev;
-- (void) currentEquipView:(CurrentEquipView *)cev;
+- (void) currentEquipViewSelected:(CurrentEquipView *)cev;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) displayView;

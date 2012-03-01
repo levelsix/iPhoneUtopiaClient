@@ -950,7 +950,7 @@
 							</object>
 							<object class="IBUIImageView" id="210154847">
 								<reference key="NSNextResponder" ref="242269769"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{16, 30}, {76, 38}}</string>
 								<reference key="NSSuperview" ref="242269769"/>
 								<reference key="NSWindow"/>
@@ -962,7 +962,7 @@
 							</object>
 							<object class="IBUIImageView" id="946679642">
 								<reference key="NSNextResponder" ref="242269769"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{103, 30}, {76, 38}}</string>
 								<reference key="NSSuperview" ref="242269769"/>
 								<reference key="NSWindow"/>
@@ -974,7 +974,7 @@
 							</object>
 							<object class="IBUIImageView" id="604413771">
 								<reference key="NSNextResponder" ref="242269769"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{190, 30}, {76, 38}}</string>
 								<reference key="NSSuperview" ref="242269769"/>
 								<reference key="NSWindow"/>
@@ -1062,7 +1062,7 @@
 							</object>
 							<object class="IBUIView" id="315816281">
 								<reference key="NSNextResponder" ref="242269769"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<array class="NSMutableArray" key="NSSubviews">
 									<object class="IBUIImageView" id="130522973">
 										<reference key="NSNextResponder" ref="315816281"/>
@@ -1135,7 +1135,7 @@
 							</object>
 							<object class="IBUIView" id="17474212">
 								<reference key="NSNextResponder" ref="242269769"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<array class="NSMutableArray" key="NSSubviews">
 									<object class="IBUIImageView" id="91453364">
 										<reference key="NSNextResponder" ref="17474212"/>
@@ -1202,7 +1202,7 @@
 							</object>
 							<object class="IBUIView" id="23809267">
 								<reference key="NSNextResponder" ref="242269769"/>
-								<int key="NSvFlags">-2147483356</int>
+								<int key="NSvFlags">292</int>
 								<array class="NSMutableArray" key="NSSubviews">
 									<object class="IBUIImageView" id="806727729">
 										<reference key="NSNextResponder" ref="23809267"/>
@@ -1274,6 +1274,7 @@
 						<reference key="NSNextKeyView" ref="558288867"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="504841318"/>
+						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIImageView" id="449179403">

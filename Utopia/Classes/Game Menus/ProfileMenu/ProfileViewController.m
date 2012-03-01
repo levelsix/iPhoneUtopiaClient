@@ -10,6 +10,7 @@
 #import "SynthesizeSingleton.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "OutgoingEventController.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -18,7 +19,7 @@
 #define SHAKE_REPEAT_COUNT 4.f
 #define SHAKE_OFFSET 3.f
 
-#define EQUIPPING_DURATION 3.f
+#define EQUIPPING_DURATION 0.5f
 
 @implementation ProfileBar
 
@@ -63,8 +64,6 @@
         
         wallIcon.center = CGPointMake(wallSelectedSmallImage.center.x, wallIcon.center.y);
         wallLabel.center = CGPointMake(wallSelectedSmallImage.center.x, wallLabel.center.y);
-        
-        glowIcon.center = CGPointMake(equipSelectedSmallImage.center.x, glowIcon.center.y);
         break;
         
       case kOtherPlayerProfile:
@@ -86,8 +85,6 @@
         
         wallIcon.center = CGPointMake(wallSelectedLargeImage.center.x, wallIcon.center.y);
         wallLabel.center = CGPointMake(wallSelectedLargeImage.center.x, wallLabel.center.y);
-        
-        glowIcon.center = CGPointMake(equipSelectedLargeImage.center.x, glowIcon.center.y);
         break;
         
       default:
@@ -97,6 +94,8 @@
   [self clickButton:kEquipButton];
   [self unclickButton:kSkillsButton];
   [self unclickButton:kWallButton];
+  
+  glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
 }
 
 - (void) clickButton:(ProfileBarButton)button {
@@ -379,7 +378,7 @@
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
     _selected = !_selected;
-    [[ProfileViewController sharedProfileViewController] currentEquipView:self];
+    [[ProfileViewController sharedProfileViewController] currentEquipViewSelected:self];
   }
 }
 
@@ -417,7 +416,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   equippingView = [[UIImageView alloc] init];
   equippingView.contentMode = UIViewContentModeScaleAspectFit;
-  [self.view addSubview:equippingView];
+  [equipTabView addSubview:equippingView];
   equippingView.hidden = YES;
 }
 
@@ -433,34 +432,71 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type {
-  equippingView.frame = [self.view convertRect:ev.equipIcon.frame fromView:ev];
+  equippingView.frame = [equipTabView convertRect:ev.equipIcon.frame fromView:ev];
   equippingView.image = ev.equipIcon.image;
   equippingView.hidden = NO;
   
-  [UIView beginAnimations:nil context:nil];
-  [UIView setAnimationDuration:EQUIPPING_DURATION];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-  
-  CGRect endFrame;
+  CurrentEquipView *cev;
+  EquipView *curBorderView;
   
   switch (type) {
     case FullEquipProto_EquipTypeWeapon:
-      endFrame = [self.view convertRect:curWeaponView.equipIcon.frame fromView:equipTabView];
+      cev = curWeaponView;
+      curBorderView = _weaponEquipView;
       break;
     case FullEquipProto_EquipTypeArmor:
-      endFrame = [self.view convertRect:curArmorView.equipIcon.frame fromView:equipTabView];
+      cev = curArmorView;
+      curBorderView = _armorEquipView;
       break;
     case FullEquipProto_EquipTypeAccessory:
-      endFrame = [self.view convertRect:curAmuletView.equipIcon.frame fromView:equipTabView];
+      cev = curAmuletView;
+      curBorderView = _amuletEquipView;
       break;
       
     default:
       break;
   }
   
-  equippingView.frame = endFrame;
+  cev.equipIcon.image = ev.equipIcon.image;
+  cev.equipIcon.alpha = 0.5f;
+  cev.chooseEquipButton.hidden = YES;
+  cev.equipIcon.hidden = NO;
+  equipTabView.userInteractionEnabled = NO;
+  ev.border.alpha = 0.f;
+  
+  [UIView beginAnimations:nil context:nil];
+  [UIView setAnimationDuration:EQUIPPING_DURATION];
+  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  [UIView setAnimationDelegate:self];
+  [UIView setAnimationDidStopSelector:@selector(finishedEquippingAnimation)];
+  
+  equippingView.frame = [equipTabView convertRect:cev.equipIcon.frame fromView: equipTabView];
+  curBorderView.border.alpha = 0.f;
+  ev.border.alpha = 1.f;
   
   [UIView commitAnimations];
+  
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ev.equip.equipId];
+  
+  CATransition *labelAnimation = [CATransition animation];
+  labelAnimation.duration = EQUIPPING_DURATION;
+  labelAnimation.type = kCATransitionFade; 
+  [cev.label.layer addAnimation:labelAnimation forKey:@"changeTextTransition"];
+  
+  cev.label.text = fep.name;
+  cev.label.textColor = [Globals colorForRarity:fep.rarity];
+}
+
+- (void) finishedEquippingAnimation {
+  equippingView.hidden = YES;
+  equipTabView.userInteractionEnabled = YES;
+  curWeaponView.equipIcon.alpha = 1.f;
+  curArmorView.equipIcon.alpha = 1.f;
+  curAmuletView.equipIcon.alpha = 1.f;
+  
+  [curWeaponView.label.layer removeAnimationForKey:@"changeTextTransition"];
+  [curArmorView.label.layer removeAnimationForKey:@"changeTextTransition"];
+  [curAmuletView.label.layer removeAnimationForKey:@"changeTextTransition"];
 }
 
 - (void) equipViewSelected:(EquipView *)ev {
@@ -469,7 +505,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
   if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
     if ([Globals canEquip:fep]) {
-      [self doEquippingAnimation:ev forType:fep.equipType];
+      BOOL shouldAnimate = [[OutgoingEventController sharedOutgoingEventController] wearEquip:fep.equipId];
+      if (shouldAnimate) {
+        [self doEquippingAnimation:ev forType:fep.equipType];
+      }
       unequippableView.hidden = YES;
     } else {
       [ev doShake];
@@ -493,30 +532,57 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
-- (void) currentEquipView:(CurrentEquipView *)cev {
-  EquipScope scope;
-  if (cev == curWeaponView) {
-    scope = kEquipScopeWeapons;
-  } else if (cev == curArmorView) {
-    scope = kEquipScopeArmor;
-  } else if (cev == curAmuletView) {
-    scope = kEquipScopeAmulets;
-  } else {
-    [Globals popupMessage:@"Error attaining scope value"];
+- (void) currentEquipViewSelected:(CurrentEquipView *)cev {
+  // Synchronize this method, cuz otherwise there are random race conditions
+  // for letting go of another button while this is being evaluated
+  @synchronized(self) {
+    EquipScope scope;
+    
+    if (cev == curWeaponView) {
+      scope = kEquipScopeWeapons;
+      
+      if (scope == _curScope) {
+        scope = kEquipScopeAll;
+        curWeaponView.selected = NO;
+        curArmorView.selected = NO;
+        curAmuletView.selected = NO;
+      } else {
+        curWeaponView.selected = YES;
+        curArmorView.selected = NO;
+        curAmuletView.selected = NO;
+      }
+    } else if (cev == curArmorView) {
+      scope = kEquipScopeArmor;
+      
+      if (scope == _curScope) {
+        scope = kEquipScopeAll;
+        curWeaponView.selected = NO;
+        curArmorView.selected = NO;
+        curAmuletView.selected = NO;
+      } else {
+        curWeaponView.selected = NO;
+        curArmorView.selected = YES;
+        curAmuletView.selected = NO;
+      }
+    } else if (cev == curAmuletView) {
+      scope = kEquipScopeAmulets;
+      
+      if (scope == _curScope) {
+        scope = kEquipScopeAll;
+        curWeaponView.selected = NO;
+        curArmorView.selected = NO;
+        curAmuletView.selected = NO;
+      } else {
+        curWeaponView.selected = NO;
+        curArmorView.selected = NO;
+        curAmuletView.selected = YES;
+      }
+    } else {
+      [Globals popupMessage:@"Error attaining scope value"];
+    }
+    
+    self.curScope = scope;
   }
-  
-  // cev will be selected/deselected correctly
-  if (scope == _curScope) {
-    scope = kEquipScopeAll;
-  } else if (_curScope == kEquipScopeWeapons) {
-    curWeaponView.selected = NO;
-  } else if (_curScope == kEquipScopeArmor) {
-    curArmorView.selected = NO;
-  } else if (_curScope == kEquipScopeAmulets) {
-    curAmuletView.selected = NO;
-  }
-  
-  self.curScope = scope;
 }
 
 - (NSArray *) sortEquips:(NSArray *)equips {
@@ -623,7 +689,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       curWeaponView.equipIcon.hidden = NO;
       curWeaponView.chooseEquipButton.hidden = YES;
       
-      ev.border.hidden = NO;
+      ev.border.alpha = 1.f;
+      _weaponEquipView = ev;
       weaponFound = YES;
     } else if (fuep.equipId == armor) {
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
@@ -633,7 +700,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       curArmorView.equipIcon.hidden = NO;
       curArmorView.chooseEquipButton.hidden = YES;
       
-      ev.border.hidden = NO;
+      ev.border.alpha = 1.f;
+      _armorEquipView = ev;
       armorFound = YES;
     } else if (fuep.equipId == amulet) {
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
@@ -643,10 +711,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       curAmuletView.equipIcon.hidden = NO;
       curAmuletView.chooseEquipButton.hidden = YES;
       
-      ev.border.hidden = NO;
+      ev.border.alpha = 1.f;
+      _amuletEquipView = ev;
       amuletFound = YES;
     } else {
-      ev.border.hidden = YES;
+      ev.border.alpha = 0.f;
     }
   }
   
@@ -657,6 +726,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   
   _curScope = kEquipScopeAll;
+  curWeaponView.selected = NO;
+  curArmorView.selected = NO;
+  curAmuletView.selected = NO;
   [self updateScrollViewForCurrentScope:NO];
   
   if (!weaponFound) {
@@ -668,6 +740,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     curWeaponView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
     curWeaponView.equipIcon.hidden = YES;
     curWeaponView.chooseEquipButton.hidden = NO;
+    _weaponEquipView = nil;
   }
   if (!armorFound) {
     if (armor > 0) {
@@ -678,6 +751,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     curArmorView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
     curArmorView.equipIcon.hidden = YES;
     curArmorView.chooseEquipButton.hidden = NO;
+    _armorEquipView = nil;
   }
   if (!amuletFound) {
     if (amulet > 0) {
@@ -688,6 +762,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     curAmuletView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
     curAmuletView.equipIcon.hidden = YES;
     curAmuletView.chooseEquipButton.hidden = NO;
+    _amuletEquipView = nil;
   }
   
   curWeaponView.userInteractionEnabled = touchEnabled;

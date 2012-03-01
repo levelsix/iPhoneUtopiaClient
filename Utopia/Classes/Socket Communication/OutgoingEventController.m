@@ -136,6 +136,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return ue.quantity;
 }
 
+- (BOOL) wearEquip:(int)equipId {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equipId];
+  UserEquip *ue = nil;
+  
+  for (UserEquip *u in gs.myEquips) {
+    if (u.equipId == equipId) {
+      ue = u;
+    }
+  }
+  
+  if (ue) {
+    if (![Globals canEquip:fep]) {
+      return NO;
+    }
+    
+    if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
+      if (gs.weaponEquipped == equipId) {
+        return NO;
+      }
+      gs.weaponEquipped = equipId;
+    } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
+      if (gs.armorEquipped == equipId) {
+        return NO;
+      }
+      gs.armorEquipped = equipId;
+    } else if (fep.equipType == FullEquipProto_EquipTypeAccessory) {
+      if (gs.amuletEquipped == equipId) {
+        return NO;
+      }
+      gs.amuletEquipped = equipId;
+    }
+  } else {
+    [Globals popupMessage:@"You do not own this equip"];
+  }
+  
+  return YES;
+}
+
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];

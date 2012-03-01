@@ -23,6 +23,7 @@
 - (void) battle:(int)defender;
 - (int) buyEquip:(int)equipId;
 - (int) sellEquip:(int)equipId;
+- (BOOL) wearEquip:(int)equipId;
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
 - (void) startup;
