@@ -16,7 +16,9 @@
 
 @end
 
-@interface PinView : MKAnnotationView
+@interface PinView : MKAnnotationView {
+  UILabel *_label;
+}
 @end
 
 @interface MapViewController : UIViewController <MKMapViewDelegate> {

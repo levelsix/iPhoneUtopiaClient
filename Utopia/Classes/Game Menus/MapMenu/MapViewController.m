@@ -35,6 +35,10 @@ static UIImage *pinImage = nil;
   if ((self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier])) {
     self.image = [self getPinImage];
     self.canShowCallout = YES;
+    _label = [[UILabel alloc] initWithFrame:self.bounds];
+    [self addSubview:_label];
+    _label.text = @"Meep";
+    _label.backgroundColor = [UIColor clearColor];
   }
   return self;
 }
@@ -44,6 +48,7 @@ static UIImage *pinImage = nil;
   
   if ([annotation isKindOfClass:[EnemyAnnotation class]]) {
     NSLog(@"meep");
+    _label.text = [NSString stringWithFormat:@"%d", [[(EnemyAnnotation *)annotation fup] level]];
   }
 }
       
