@@ -124,9 +124,25 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet CurrentEquipView *curArmorView;
 @property (nonatomic, retain) IBOutlet CurrentEquipView *curAmuletView;
 
+@property (nonatomic, retain) IBOutlet UILabel *attackStatLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseStatLabel;
+@property (nonatomic, retain) IBOutlet UILabel *energyStatLabel;
+@property (nonatomic, retain) IBOutlet UILabel *staminaStatLabel;
+@property (nonatomic, retain) IBOutlet UILabel *hpStatLabel;
+@property (nonatomic, retain) IBOutlet UILabel *staminaCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *hpCostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *skillPointsLabel;
+
+@property (nonatomic, retain) IBOutlet UIButton *attackStatButton;
+@property (nonatomic, retain) IBOutlet UIButton *defenseStatButton;
+@property (nonatomic, retain) IBOutlet UIButton *energyStatButton;
+@property (nonatomic, retain) IBOutlet UIButton *staminaStatButton;
+@property (nonatomic, retain) IBOutlet UIButton *hpStatButton;
+
 @property (nonatomic, retain) IBOutlet ProfileBar *profileBar;
 
 @property (nonatomic, retain) IBOutlet UIView *equipTabView;
+@property (nonatomic, retain) IBOutlet UIView *skillTabView;
 
 @property (nonatomic, assign) ProfileState state;
 @property (nonatomic, assign) EquipScope curScope;

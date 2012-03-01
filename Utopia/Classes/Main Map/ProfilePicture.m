@@ -304,7 +304,7 @@
 }
 
 - (void) openMarketplace {
-  [MarketplaceViewController displayView];
+  [MapViewController displayView];
 }
 
 - (void) openVault {

@@ -126,6 +126,7 @@
 		CF2BCFEB14F61BAE008EDBC9 /* movebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE514F61BAE008EDBC9 /* movebubble.png */; };
 		CF2BCFEC14F61BAE008EDBC9 /* movebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE614F61BAE008EDBC9 /* movebubble@2x.png */; };
 		CF2BCFED14F61BAE008EDBC9 /* closex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE714F61BAE008EDBC9 /* closex@2x.png */; };
+		CF314F4F14FF30210023A706 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF314F4E14FF30210023A706 /* MapKit.framework */; };
 		CF3D0A6914CB88EA00D972B4 /* GoldPackageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A5914CB88EA00D972B4 /* GoldPackageView.xib */; };
 		CF3D0A6A14CB88EA00D972B4 /* GoldShoppeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0A5B14CB88EA00D972B4 /* GoldShoppeViewController.m */; };
 		CF3D0A6B14CB88EA00D972B4 /* GoldShoppeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A5C14CB88EA00D972B4 /* GoldShoppeViewController.xib */; };
@@ -270,6 +271,20 @@
 		CF7ECA7114BD6F9C00249514 /* ComboBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7ECA7014BD6F9C00249514 /* ComboBar.m */; };
 		CF7ECA7814BE611400249514 /* diamondBarMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7ECA7714BE611400249514 /* diamondBarMenu.png */; };
 		CF7ECA8014BE888900249514 /* dubloon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7ECA7F14BE888900249514 /* dubloon.png */; };
+		CF85A59314FF1A9F004B37AB /* skillattackicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58514FF1A9F004B37AB /* skillattackicon.png */; };
+		CF85A59414FF1A9F004B37AB /* skillattackicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58614FF1A9F004B37AB /* skillattackicon@2x.png */; };
+		CF85A59514FF1A9F004B37AB /* skilldefenseicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58714FF1A9F004B37AB /* skilldefenseicon.png */; };
+		CF85A59614FF1A9F004B37AB /* skillenergyicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58814FF1A9F004B37AB /* skillenergyicon.png */; };
+		CF85A59714FF1A9F004B37AB /* skillenergyicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58914FF1A9F004B37AB /* skillenergyicon@2x.png */; };
+		CF85A59814FF1A9F004B37AB /* skillhpicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58A14FF1A9F004B37AB /* skillhpicon.png */; };
+		CF85A59914FF1A9F004B37AB /* skillhpicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58B14FF1A9F004B37AB /* skillhpicon@2x.png */; };
+		CF85A59A14FF1A9F004B37AB /* skillplus.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58C14FF1A9F004B37AB /* skillplus.png */; };
+		CF85A59B14FF1A9F004B37AB /* skillplus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58D14FF1A9F004B37AB /* skillplus@2x.png */; };
+		CF85A59C14FF1A9F004B37AB /* skillplusdisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58E14FF1A9F004B37AB /* skillplusdisabled.png */; };
+		CF85A59D14FF1A9F004B37AB /* skillplusdisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A58F14FF1A9F004B37AB /* skillplusdisabled@2x.png */; };
+		CF85A59E14FF1A9F004B37AB /* skilldefenseicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A59014FF1A9F004B37AB /* skilldefenseicon@2x.png */; };
+		CF85A59F14FF1A9F004B37AB /* skillstaminaicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A59114FF1A9F004B37AB /* skillstaminaicon.png */; };
+		CF85A5A014FF1A9F004B37AB /* skillstaminaicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85A59214FF1A9F004B37AB /* skillstaminaicon@2x.png */; };
 		CFA26F0D14E4A27400FC1C71 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F0C14E4A27300FC1C71 /* UserData.m */; };
 		CFA26F1514E719BA00FC1C71 /* GameMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F1414E719BA00FC1C71 /* GameMap.m */; };
 		CFA26F1714E71A7F00FC1C71 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */; };
@@ -703,6 +718,7 @@
 		CF2BCFE514F61BAE008EDBC9 /* movebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movebubble.png; sourceTree = "<group>"; };
 		CF2BCFE614F61BAE008EDBC9 /* movebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movebubble@2x.png"; sourceTree = "<group>"; };
 		CF2BCFE714F61BAE008EDBC9 /* closex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closex@2x.png"; sourceTree = "<group>"; };
+		CF314F4E14FF30210023A706 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CF3D0A5914CB88EA00D972B4 /* GoldPackageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoldPackageView.xib; sourceTree = "<group>"; };
 		CF3D0A5A14CB88EA00D972B4 /* GoldShoppeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoldShoppeViewController.h; sourceTree = "<group>"; };
 		CF3D0A5B14CB88EA00D972B4 /* GoldShoppeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoldShoppeViewController.m; sourceTree = "<group>"; };
@@ -860,6 +876,20 @@
 		CF7ECA7014BD6F9C00249514 /* ComboBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComboBar.m; sourceTree = "<group>"; };
 		CF7ECA7714BE611400249514 /* diamondBarMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamondBarMenu.png; sourceTree = "<group>"; };
 		CF7ECA7F14BE888900249514 /* dubloon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dubloon.png; sourceTree = "<group>"; };
+		CF85A58514FF1A9F004B37AB /* skillattackicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillattackicon.png; sourceTree = "<group>"; };
+		CF85A58614FF1A9F004B37AB /* skillattackicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillattackicon@2x.png"; sourceTree = "<group>"; };
+		CF85A58714FF1A9F004B37AB /* skilldefenseicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skilldefenseicon.png; sourceTree = "<group>"; };
+		CF85A58814FF1A9F004B37AB /* skillenergyicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillenergyicon.png; sourceTree = "<group>"; };
+		CF85A58914FF1A9F004B37AB /* skillenergyicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillenergyicon@2x.png"; sourceTree = "<group>"; };
+		CF85A58A14FF1A9F004B37AB /* skillhpicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillhpicon.png; sourceTree = "<group>"; };
+		CF85A58B14FF1A9F004B37AB /* skillhpicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillhpicon@2x.png"; sourceTree = "<group>"; };
+		CF85A58C14FF1A9F004B37AB /* skillplus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillplus.png; sourceTree = "<group>"; };
+		CF85A58D14FF1A9F004B37AB /* skillplus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillplus@2x.png"; sourceTree = "<group>"; };
+		CF85A58E14FF1A9F004B37AB /* skillplusdisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillplusdisabled.png; sourceTree = "<group>"; };
+		CF85A58F14FF1A9F004B37AB /* skillplusdisabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillplusdisabled@2x.png"; sourceTree = "<group>"; };
+		CF85A59014FF1A9F004B37AB /* skilldefenseicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skilldefenseicon@2x.png"; sourceTree = "<group>"; };
+		CF85A59114FF1A9F004B37AB /* skillstaminaicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillstaminaicon.png; sourceTree = "<group>"; };
+		CF85A59214FF1A9F004B37AB /* skillstaminaicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillstaminaicon@2x.png"; sourceTree = "<group>"; };
 		CFA26F0B14E4A27300FC1C71 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
 		CFA26F0C14E4A27300FC1C71 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
 		CFA26F1314E719BA00FC1C71 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMap.h; path = "Utopia/Classes/Main Map/GameMap/GameMap.h"; sourceTree = SOURCE_ROOT; };
@@ -1278,6 +1308,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF314F4F14FF30210023A706 /* MapKit.framework in Frameworks */,
 				CF27380E14BD39D700E3A820 /* StoreKit.framework in Frameworks */,
 				CF2737E514BA8DC700E3A820 /* CoreLocation.framework in Frameworks */,
 				CFEFC10D14B4EC0100FBF75E /* libProtocolBuffers.a in Frameworks */,
@@ -1582,6 +1613,7 @@
 		CFE47BF9149240890084E71E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF314F4E14FF30210023A706 /* MapKit.framework */,
 				CF27380D14BD39D700E3A820 /* StoreKit.framework */,
 				CF2737E414BA8DC700E3A820 /* CoreLocation.framework */,
 				CFADD7D614A690F400BC2F75 /* CFNetwork.framework */,
@@ -1972,6 +2004,20 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF85A58514FF1A9F004B37AB /* skillattackicon.png */,
+				CF85A58614FF1A9F004B37AB /* skillattackicon@2x.png */,
+				CF85A58714FF1A9F004B37AB /* skilldefenseicon.png */,
+				CF85A58814FF1A9F004B37AB /* skillenergyicon.png */,
+				CF85A58914FF1A9F004B37AB /* skillenergyicon@2x.png */,
+				CF85A58A14FF1A9F004B37AB /* skillhpicon.png */,
+				CF85A58B14FF1A9F004B37AB /* skillhpicon@2x.png */,
+				CF85A58C14FF1A9F004B37AB /* skillplus.png */,
+				CF85A58D14FF1A9F004B37AB /* skillplus@2x.png */,
+				CF85A58E14FF1A9F004B37AB /* skillplusdisabled.png */,
+				CF85A58F14FF1A9F004B37AB /* skillplusdisabled@2x.png */,
+				CF85A59014FF1A9F004B37AB /* skilldefenseicon@2x.png */,
+				CF85A59114FF1A9F004B37AB /* skillstaminaicon.png */,
+				CF85A59214FF1A9F004B37AB /* skillstaminaicon@2x.png */,
 				CF40874414FCCC5E000C5F4B /* armoryselldisabledbutton.png */,
 				CF40874514FCCC5E000C5F4B /* armoryselldisabledbutton@2x.png */,
 				CF40871C14FCCC45000C5F4B /* statscostdivider.png */,
@@ -2798,6 +2844,20 @@
 				CF40874614FCCC5E000C5F4B /* armoryselldisabledbutton.png in Resources */,
 				CF40874714FCCC5E000C5F4B /* armoryselldisabledbutton@2x.png in Resources */,
 				CFD2BDA714FE132B00B7557B /* ArmoryRow.xib in Resources */,
+				CF85A59314FF1A9F004B37AB /* skillattackicon.png in Resources */,
+				CF85A59414FF1A9F004B37AB /* skillattackicon@2x.png in Resources */,
+				CF85A59514FF1A9F004B37AB /* skilldefenseicon.png in Resources */,
+				CF85A59614FF1A9F004B37AB /* skillenergyicon.png in Resources */,
+				CF85A59714FF1A9F004B37AB /* skillenergyicon@2x.png in Resources */,
+				CF85A59814FF1A9F004B37AB /* skillhpicon.png in Resources */,
+				CF85A59914FF1A9F004B37AB /* skillhpicon@2x.png in Resources */,
+				CF85A59A14FF1A9F004B37AB /* skillplus.png in Resources */,
+				CF85A59B14FF1A9F004B37AB /* skillplus@2x.png in Resources */,
+				CF85A59C14FF1A9F004B37AB /* skillplusdisabled.png in Resources */,
+				CF85A59D14FF1A9F004B37AB /* skillplusdisabled@2x.png in Resources */,
+				CF85A59E14FF1A9F004B37AB /* skilldefenseicon@2x.png in Resources */,
+				CF85A59F14FF1A9F004B37AB /* skillstaminaicon.png in Resources */,
+				CF85A5A014FF1A9F004B37AB /* skillstaminaicon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

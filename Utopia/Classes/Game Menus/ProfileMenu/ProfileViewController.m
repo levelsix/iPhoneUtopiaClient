@@ -222,6 +222,7 @@
       [self unclickButton:kWallButton];
       [self unclickButton:kSkillsButton];
       glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
+      [[ProfileViewController sharedProfileViewController] setState:kEquipState];
     } else {
       [self unclickButton:kEquipButton];
     }
@@ -235,6 +236,7 @@
         [self unclickButton:kEquipButton];
         [self unclickButton:kWallButton];
         glowIcon.center = CGPointMake(_curSkillsSelectedImage.center.x, glowIcon.center.y);
+        [[ProfileViewController sharedProfileViewController] setState:kSkillsState];
       } else {
         [self unclickButton:kSkillsButton];
       }
@@ -248,6 +250,7 @@
       [self unclickButton:kEquipButton];
       [self unclickButton:kSkillsButton];
       glowIcon.center = CGPointMake(_curWallSelectedImage.center.x, glowIcon.center.y);
+      [[ProfileViewController sharedProfileViewController] setState:kWallState];
     } else {
       [self unclickButton:kWallButton];
     }
@@ -397,13 +400,30 @@
 @synthesize profilePicture, profileBar;
 @synthesize equipViews, nibEquipView, equipsScrollView;
 @synthesize unequippableView, unequippableLabel;
-@synthesize equippingView, equipTabView;
+@synthesize equippingView, equipTabView, skillTabView;
+@synthesize attackStatLabel, defenseStatLabel, staminaStatLabel, energyStatLabel, hpStatLabel;
+@synthesize attackStatButton, defenseStatButton, staminaStatButton, energyStatButton, hpStatButton;
+@synthesize staminaCostLabel, hpCostLabel, skillPointsLabel;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) setState:(ProfileState)state {
   if (state != _state) {
     _state = state;
+    
+    switch (state) {
+      case kEquipState:
+        equipTabView.hidden = NO;
+        skillTabView.hidden = YES;
+        break;
+        
+      case kSkillsState:
+        equipTabView.hidden = YES;
+        skillTabView.hidden = NO;
+        
+      default:
+        break;
+    }
   }
 }
 
@@ -418,6 +438,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   equippingView.contentMode = UIViewContentModeScaleAspectFit;
   [equipTabView addSubview:equippingView];
   equippingView.hidden = YES;
+  
+  skillTabView.frame = equipTabView.frame;
+  [self.view addSubview:skillTabView];
 }
 
 - (void) setCurScope:(EquipScope)curScope {
@@ -725,6 +748,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     i++;
   }
   
+  self.state = kEquipState;
   _curScope = kEquipScopeAll;
   curWeaponView.selected = NO;
   curArmorView.selected = NO;
@@ -772,6 +796,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) loadMyProfile {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   userNameLabel.text = gs.name;
   winsLabel.text = [NSString stringWithFormat:@"%d", gs.battlesWon];
@@ -784,6 +809,48 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
   self.profileBar.state = kMyProfile;
+  [self loadSkills];
+  
+  // Update calculate labels
+  staminaCostLabel.text = [NSString stringWithFormat:@"(%d skill %@ = %d)", gl.staminaBaseCost, gl.staminaBaseCost != 1 ? @"points" : @"point", gl.staminaBaseGain];
+  hpCostLabel.text = [NSString stringWithFormat:@"(%d skill %@ = %d)", gl.healthBaseCost, gl.staminaBaseCost != 1 ? @"points" : @"point", gl.healthBaseGain];
+}
+
+- (void) loadSkills {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  attackStatLabel.text = [NSString stringWithFormat:@"%d", gs.attack];
+  defenseStatLabel.text = [NSString stringWithFormat:@"%d", gs.defense];
+  energyStatLabel.text = [NSString stringWithFormat:@"%d", gs.maxEnergy];
+  staminaStatLabel.text = [NSString stringWithFormat:@"%d", gs.maxStamina];
+  hpStatLabel.text = [NSString stringWithFormat:@"%d", gs.maxHealth];
+  
+  skillPointsLabel.text = [NSString stringWithFormat:@"%d", gs.skillPoints];
+  
+  attackStatButton.enabled = gl.attackBaseCost <= gs.skillPoints;
+  defenseStatButton.enabled = gl.defenseBaseCost <= gs.skillPoints;
+  energyStatButton.enabled = gl.energyBaseCost <= gs.skillPoints;
+  staminaStatButton.enabled = gl.staminaBaseCost <= gs.skillPoints;
+  hpStatButton.enabled = gl.healthBaseCost <= gs.skillPoints;
+}
+
+- (IBAction)skillButtonClicked:(id)sender {
+  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
+  
+  if (sender == attackStatButton) {
+    [oec addAttackSkillPoint];
+  } else if (sender == defenseStatButton) {
+    [oec addDefenseSkillPoint];
+  } else if (sender == energyStatButton) {
+    [oec addEnergySkillPoint];
+  } else if (sender == staminaStatButton) {
+    [oec addStaminaSkillPoint];
+  } else if (sender == hpStatButton) {
+    [oec addHealthSkillPoint];
+  }
+  
+  [self loadSkills];
 }
 
 - (IBAction)closeClicked:(id)sender {

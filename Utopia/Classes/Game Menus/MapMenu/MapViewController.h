@@ -6,20 +6,28 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
+#import <MapKit/Mapkit.h>
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 
-@interface MapViewController : UIViewController <UIScrollViewDelegate>
+@interface EnemyAnnotation : NSObject <MKAnnotation>
 
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) IBOutlet UIImageView *mapView;
+@property (nonatomic, retain) FullUserProto *fup;
 
-@property (nonatomic, retain) NSMutableArray *pins;
+@end
+
+@interface PinView : MKAnnotationView
+@end
+
+@interface MapViewController : UIViewController <MKMapViewDelegate> {
+  MKMapView *_mapView;
+}
+
+@property (nonatomic, retain) IBOutlet MKMapView *mapView;
 
 - (void) retrieveAttackListForCurrentBounds;
 - (void) removeAllPins;
 - (void) addNewPins;
-- (CGPoint) mapPointForCoordinate:(LocationProto *)coord;
 
 + (MapViewController *) sharedMapViewController;
 + (void) displayView;

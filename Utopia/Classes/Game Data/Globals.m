@@ -39,6 +39,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     self.depositPercentCut = 0.1;
     self.maxRepeatedNormStructs = 2;
     maxStructId = 4;
+    
+    attackBaseCost = 1;
+    defenseBaseCost = 1;
+    energyBaseCost = 1;
+    staminaBaseCost = 2;
+    healthBaseCost = 1;
+    
+    attackBaseGain = 1;
+    defenseBaseGain = 1;
+    energyBaseGain = 1;
+    staminaBaseGain = 1;
+    healthBaseGain = 10;
   }
   return self;
 }

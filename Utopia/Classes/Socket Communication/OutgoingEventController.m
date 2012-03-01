@@ -340,6 +340,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.skillPoints > 0) {
     [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
     gs.maxEnergy += gl.energyBaseGain;
+    gs.currentEnergy += gl.energyBaseGain;
     gs.skillPoints -= gl.energyBaseCost;
   } else {
     [Globals popupMessage:@"No skill points available to add"];
@@ -354,6 +355,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.skillPoints > 0) {
     [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
     gs.maxStamina += gl.staminaBaseGain;
+    gs.currentStamina += gl.staminaBaseGain;
     gs.skillPoints -= gl.staminaBaseCost;
   } else {
     [Globals popupMessage:@"No skill points available to add"];
@@ -367,7 +369,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.skillPoints > 0) {
     [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
-    gs.maxEnergy += gl.healthBaseGain;
+    gs.maxHealth += gl.healthBaseGain;
     gs.skillPoints -= gl.healthBaseCost;
   } else {
     [Globals popupMessage:@"No skill points available to add"];

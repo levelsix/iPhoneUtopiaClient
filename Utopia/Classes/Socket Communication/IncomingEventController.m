@@ -229,11 +229,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleUseSkillPointResponseProto: (UseSkillPointResponseProto *) proto {
-  NSLog(@"Use skill point response received.");
+  NSLog(@"Use skill point response received with status %d.", proto.status);
 }
 
 - (void) handleRefillStatWithDiamondsResponseProto: (RefillStatWithDiamondsResponseProto *) proto {
-  NSLog(@"refill stat with diamonds response.");
+  NSLog(@"Refill stat with diamonds response with status %d.", proto.status);
 }
 
 - (void) handlePurchaseNormStructureResponseProto: (PurchaseNormStructureResponseProto *) proto {
