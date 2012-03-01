@@ -3000,9 +3000,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (!self.hasStartupConstants) {
     return NO;
   }
-  if (!self.hasExperienceRequiredForNextLevel) {
-    return NO;
-  }
   if (self.hasSender) {
     if (!self.sender.isInitialized) {
       return NO;
@@ -5164,7 +5161,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property (retain) NSString* udid;
 @property (retain) NSString* name;
 @property UserType type;
-@property (retain) NSString* macAddress;
 @property (retain) NSMutableArray* mutableStructuresList;
 @property (retain) LocationProto* userLocation;
 @property (retain) NSString* referrerCode;
@@ -5194,13 +5190,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasType_ = !!value;
 }
 @synthesize type;
-- (BOOL) hasMacAddress {
-  return !!hasMacAddress_;
-}
-- (void) setHasMacAddress:(BOOL) value {
-  hasMacAddress_ = !!value;
-}
-@synthesize macAddress;
 @synthesize mutableStructuresList;
 - (BOOL) hasUserLocation {
   return !!hasUserLocation_;
@@ -5226,7 +5215,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
-  self.macAddress = nil;
   self.mutableStructuresList = nil;
   self.userLocation = nil;
   self.referrerCode = nil;
@@ -5238,7 +5226,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.udid = @"";
     self.name = @"";
     self.type = UserTypeGoodWarrior;
-    self.macAddress = @"";
     self.userLocation = [LocationProto defaultInstance];
     self.referrerCode = @"";
     self.deviceToken = @"";
@@ -5274,9 +5261,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (!self.hasType) {
     return NO;
   }
-  if (!self.hasMacAddress) {
-    return NO;
-  }
   if (!self.hasUserLocation) {
     return NO;
   }
@@ -5299,9 +5283,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasType) {
     [output writeEnum:3 value:self.type];
-  }
-  if (self.hasMacAddress) {
-    [output writeString:4 value:self.macAddress];
   }
   for (FullUserStructureProto* element in self.structuresList) {
     [output writeMessage:5 value:element];
@@ -5332,9 +5313,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasType) {
     size += computeEnumSize(3, self.type);
-  }
-  if (self.hasMacAddress) {
-    size += computeStringSize(4, self.macAddress);
   }
   for (FullUserStructureProto* element in self.structuresList) {
     size += computeMessageSize(5, element);
@@ -5432,9 +5410,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasType) {
     [self setType:other.type];
   }
-  if (other.hasMacAddress) {
-    [self setMacAddress:other.macAddress];
-  }
   if (other.mutableStructuresList.count > 0) {
     if (result.mutableStructuresList == nil) {
       result.mutableStructuresList = [NSMutableArray array];
@@ -5486,10 +5461,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
-        break;
-      }
-      case 34: {
-        [self setMacAddress:[input readString]];
         break;
       }
       case 42: {
@@ -5564,22 +5535,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearType {
   result.hasType = NO;
   result.type = UserTypeGoodWarrior;
-  return self;
-}
-- (BOOL) hasMacAddress {
-  return result.hasMacAddress;
-}
-- (NSString*) macAddress {
-  return result.macAddress;
-}
-- (UserCreateRequestProto_Builder*) setMacAddress:(NSString*) value {
-  result.hasMacAddress = YES;
-  result.macAddress = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearMacAddress {
-  result.hasMacAddress = NO;
-  result.macAddress = @"";
   return self;
 }
 - (NSArray*) structuresList {

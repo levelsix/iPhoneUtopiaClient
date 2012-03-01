@@ -115,7 +115,7 @@ message StartupResponseProto {
     repeated FullEquipProto equips = 9;
 	repeated FullUserStructureProto userStructures = 10;
 	repeated FullStructureProto structs = 11;
-	required int32 experienceRequiredForNextLevel = 12;
+	optional int32 experienceRequiredForNextLevel = 12;
 	repeated MarketplacePostPurchasedNotificationProto marketplacePurchaseNotifications = 13;
 	repeated AttackedNotificationProto attackNotifications = 14;
 	repeated ReferralNotificationProto referralNotifications = 15;
@@ -170,7 +170,6 @@ message UserCreateRequestProto {
      required string udid = 1;
      required string name = 2;
      required UserType type = 3;
-     required string macAddress = 4;
      repeated FullUserStructureProto structures = 5;
      required LocationProto userLocation = 6;     
      optional string referrerCode = 7;

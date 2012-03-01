@@ -151,8 +151,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
+  GameState *gs = [GameState sharedGameState];
   [[OutgoingEventController sharedOutgoingEventController] retrieveEquipStore];
-  while (!(self.equipsList = [[GameState sharedGameState] armoryEquips])) {
+  while (!(self.equipsList = [gs armoryEquips])) {
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
   }
   
@@ -199,7 +200,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   equipDescriptionLabel.text = fep.description;
   
   if (![Globals canEquip:fep]) {
-    if (fep.classType == gs.type % 3) {
+    if (fep.classType != gs.type % 3) {
       cantEquipLabel.text = [NSString stringWithFormat:@"This item can only be used by a %@", [Globals stringForEquipType:fep.equipType]];
     }
     else if (fep.minLevel > gs.level) {

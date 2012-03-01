@@ -31,7 +31,6 @@
 @synthesize referralCode = _referralCode;
 @synthesize battlesWon = _battlesWon;
 @synthesize battlesLost = _battlesLost;
-@synthesize hourlyCoins = _hourlyCoins;
 @synthesize location = _location;
 @synthesize numReferrals = _numReferrals;
 @synthesize experience = _experience;
@@ -129,7 +128,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.tasksCompleted = user.tasksCompleted;
   self.battlesWon = user.battlesWon;
   self.battlesLost = user.battlesLost;
-  self.hourlyCoins = user.hourlyCoins;
   self.referralCode = user.referralCode;
   self.numReferrals = user.numReferrals;
   self.marketplaceGoldEarnings = user.marketplaceDiamondsEarnings;

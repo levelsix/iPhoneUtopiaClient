@@ -10,7 +10,7 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 
-@interface EnemyAnnotation : NSObject <MKAnnotation>
+@interface EnemyAnnotation : MKUserLocation
 
 @property (nonatomic, retain) FullUserProto *fup;
 

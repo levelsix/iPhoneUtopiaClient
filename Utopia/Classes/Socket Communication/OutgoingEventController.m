@@ -176,15 +176,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
+  NSLog(@"%@", [NSValue valueWithCGRect:bounds]);
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];
+    return;
   }
   
   [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies 
-                                                                   latUpperBound:MIN(CGRectGetMaxX(bounds), 90)
-                                                                   latLowerBound:MAX(CGRectGetMinX(bounds), -90) 
-                                                                   lonUpperBound:MIN(CGRectGetMaxY(bounds), 180) 
-                                                                   lonLowerBound:MAX(CGRectGetMinY(bounds), -180)];
+                                                                   latUpperBound:MIN(CGRectGetMaxY(bounds), 90)
+                                                                   latLowerBound:MAX(CGRectGetMinY(bounds), -90) 
+                                                                   lonUpperBound:MIN(CGRectGetMaxX(bounds), 180) 
+                                                                   lonLowerBound:MAX(CGRectGetMinX(bounds), -180)];
 }
 
 - (void) startup {

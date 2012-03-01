@@ -45,7 +45,7 @@
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
 - (void) sendRedeemMarketplaceEarningsMessage;
 
-- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(int)latUpperBound latLowerBound:(int)latLowerBound lonUpperBound:(int)lonUpperBound lonLowerBound:(int)lonLowerBound;
+- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(float)latUpperBound latLowerBound:(float)latLowerBound lonUpperBound:(float)lonUpperBound lonLowerBound:(float)lonLowerBound;
 - (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
 - (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType;

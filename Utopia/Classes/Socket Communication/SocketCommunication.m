@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"localhost"
+#define HOST_NAME @"192.168.1.2"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -292,7 +292,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[skillReq data] withMessageType:EventProtocolRequestCUseSkillPointEvent];
 }
 
-- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(int)latUpperBound latLowerBound:(int)latLowerBound lonUpperBound:(int)lonUpperBound lonLowerBound:(int)lonLowerBound {
+- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(float)latUpperBound latLowerBound:(float)latLowerBound lonUpperBound:(float)lonUpperBound lonLowerBound:(float)lonLowerBound {
   GenerateAttackListRequestProto *attReq = [[[[[[[[GenerateAttackListRequestProto builder]
                                                   setSender:_sender]
                                                  setNumEnemies:numEnemies]

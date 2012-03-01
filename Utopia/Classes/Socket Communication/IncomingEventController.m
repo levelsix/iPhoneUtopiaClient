@@ -218,10 +218,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleGenerateAttackListResponseProto: (GenerateAttackListResponseProto *) proto {
-  NSLog(@"Generate attack list response received.");
+  NSLog(@"Generate attack list response received with status %d and %d enemies.", proto.status, proto.enemiesList.count);
   
   if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
-    [[[GameState sharedGameState] attackList] addObjectsFromArray:proto.enemiesList];
+    GameState *gs = [GameState sharedGameState];
+    for (FullUserProto *fup in proto.enemiesList) {
+      BOOL shouldBeAdded = YES;
+      for (FullUserProto *checkFup in gs.attackList) {
+        if (checkFup.userId == fup.userId) {
+          shouldBeAdded = NO;
+        }
+      }
+      
+      if (shouldBeAdded) {
+        [gs.attackList addObject:fup];
+      }
+    }
     [[MapViewController sharedMapViewController] addNewPins];
   } else {
     [Globals popupMessage:@"An error occurred while generating the attack list"];
@@ -253,10 +265,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       us.userStructId = proto.userStructId;
     } else {
       // This should never happen
-      NSLog(@"Success in purchase with no userStructId");
+      NSLog(@"Received success in purchase with no userStructId");
     }
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %@", proto.status]];
+    [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", proto.status]];
     [[[GameState sharedGameState] myStructs] removeObject:us];
     [[HomeMap sharedHomeMap] refresh];
   }
@@ -267,7 +279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleUpgradeNormStructureResponseProto: (UpgradeNormStructureResponseProto *) proto {
-  NSLog(@"Upgrade norm structure response received.");
+  NSLog(@"Upgrade norm structure response received with status %d.", proto.status);
 }
 
 - (void) handleNormStructWaitCompleteResponseProto: (NormStructWaitCompleteResponseProto *) proto {
@@ -275,7 +287,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleFinishNormStructWaittimeWithDiamondsResponseProto: (FinishNormStructWaittimeWithDiamondsResponseProto *) proto {
-  NSLog(@"Finish norm struct with diamonds response received.");
+  NSLog(@"Finish norm struct with diamonds response received with status %d.", proto.status);
 }
 
 - (void) handleRetrieveCurrencyFromNormStructureResponseProto: (RetrieveCurrencyFromNormStructureResponseProto *) proto {
@@ -283,18 +295,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleSellNormStructureResponseProto: (SellNormStructureResponseProto *) proto {
-  NSLog(@"Sell norm struct response received.");
+  NSLog(@"Sell norm struct response received with status %d.", proto.status);
 }
 
 - (void) handleLoadPlayerCityResponseProto: (LoadPlayerCityResponseProto *) proto {
-  NSLog(@"Load player city response received.");
+  NSLog(@"Load player city response received with status %d.", proto.status);
   [[GameState sharedGameState] addToMyStructs:proto.ownerNormStructsList];
   [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
   [[HomeMap sharedHomeMap] refresh];
 }
 
 - (void) handleRetrieveStaticDataResponseProto: (RetrieveStaticDataResponseProto *) proto {
-  NSLog(@"Retrieve static data response received.");
+  NSLog(@"Retrieve static data response received with status %d.", proto.status);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
@@ -346,7 +358,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleRetrieveStaticDataForShopResponseProto: (RetrieveStaticDataForShopResponseProto *)proto {
-  NSLog(@"Retrieve static data for shop response received.");
+  NSLog(@"Retrieve static data for shop response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {

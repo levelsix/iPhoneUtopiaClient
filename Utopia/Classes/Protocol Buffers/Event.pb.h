@@ -1742,14 +1742,12 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 @private
   BOOL hasUdid_:1;
   BOOL hasName_:1;
-  BOOL hasMacAddress_:1;
   BOOL hasReferrerCode_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUserLocation_:1;
   BOOL hasType_:1;
   NSString* udid;
   NSString* name;
-  NSString* macAddress;
   NSString* referrerCode;
   NSString* deviceToken;
   LocationProto* userLocation;
@@ -1759,14 +1757,12 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (BOOL) hasUdid;
 - (BOOL) hasName;
 - (BOOL) hasType;
-- (BOOL) hasMacAddress;
 - (BOOL) hasUserLocation;
 - (BOOL) hasReferrerCode;
 - (BOOL) hasDeviceToken;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly) UserType type;
-@property (readonly, retain) NSString* macAddress;
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly, retain) NSString* referrerCode;
 @property (readonly, retain) NSString* deviceToken;
@@ -1821,11 +1817,6 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (UserType) type;
 - (UserCreateRequestProto_Builder*) setType:(UserType) value;
 - (UserCreateRequestProto_Builder*) clearType;
-
-- (BOOL) hasMacAddress;
-- (NSString*) macAddress;
-- (UserCreateRequestProto_Builder*) setMacAddress:(NSString*) value;
-- (UserCreateRequestProto_Builder*) clearMacAddress;
 
 - (NSArray*) structuresList;
 - (FullUserStructureProto*) structuresAtIndex:(int32_t) index;

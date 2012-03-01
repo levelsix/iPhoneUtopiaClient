@@ -381,7 +381,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t battlesWon;
 @property int32_t battlesLost;
 @property int32_t flees;
-@property int32_t hourlyCoins;
 @property (retain) NSString* referralCode;
 @property int32_t numReferrals;
 @property (retain) NSString* udid;
@@ -595,13 +594,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasFlees_ = !!value;
 }
 @synthesize flees;
-- (BOOL) hasHourlyCoins {
-  return !!hasHourlyCoins_;
-}
-- (void) setHasHourlyCoins:(BOOL) value {
-  hasHourlyCoins_ = !!value;
-}
-@synthesize hourlyCoins;
 - (BOOL) hasReferralCode {
   return !!hasReferralCode_;
 }
@@ -757,7 +749,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.battlesWon = 0;
     self.battlesLost = 0;
     self.flees = 0;
-    self.hourlyCoins = 0;
     self.referralCode = @"";
     self.numReferrals = 0;
     self.udid = @"";
@@ -869,9 +860,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasFlees) {
     return NO;
   }
-  if (!self.hasHourlyCoins) {
-    return NO;
-  }
   if (!self.hasReferralCode) {
     return NO;
   }
@@ -973,9 +961,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasBattlesLost) {
     [output writeInt32:25 value:self.battlesLost];
-  }
-  if (self.hasHourlyCoins) {
-    [output writeInt32:26 value:self.hourlyCoins];
   }
   if (self.hasReferralCode) {
     [output writeString:27 value:self.referralCode];
@@ -1114,9 +1099,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasBattlesLost) {
     size += computeInt32Size(25, self.battlesLost);
-  }
-  if (self.hasHourlyCoins) {
-    size += computeInt32Size(26, self.hourlyCoins);
   }
   if (self.hasReferralCode) {
     size += computeStringSize(27, self.referralCode);
@@ -1325,9 +1307,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasFlees) {
     [self setFlees:other.flees];
   }
-  if (other.hasHourlyCoins) {
-    [self setHourlyCoins:other.hourlyCoins];
-  }
   if (other.hasReferralCode) {
     [self setReferralCode:other.referralCode];
   }
@@ -1503,10 +1482,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 200: {
         [self setBattlesLost:[input readInt32]];
-        break;
-      }
-      case 208: {
-        [self setHourlyCoins:[input readInt32]];
         break;
       }
       case 218: {
@@ -2003,22 +1978,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearFlees {
   result.hasFlees = NO;
   result.flees = 0;
-  return self;
-}
-- (BOOL) hasHourlyCoins {
-  return result.hasHourlyCoins;
-}
-- (int32_t) hourlyCoins {
-  return result.hourlyCoins;
-}
-- (FullUserProto_Builder*) setHourlyCoins:(int32_t) value {
-  result.hasHourlyCoins = YES;
-  result.hourlyCoins = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearHourlyCoins {
-  result.hasHourlyCoins = NO;
-  result.hourlyCoins = 0;
   return self;
 }
 - (BOOL) hasReferralCode {
