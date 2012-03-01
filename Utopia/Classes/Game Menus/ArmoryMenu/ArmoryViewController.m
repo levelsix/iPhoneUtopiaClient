@@ -161,6 +161,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   _originalBuySellSize = buySellView.frame.size;
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+  [self buySellClosed];
+  self.armoryTableView.contentOffset = CGPointMake(0,0);
+}
+
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
 }
