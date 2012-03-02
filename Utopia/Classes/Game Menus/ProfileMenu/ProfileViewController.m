@@ -15,8 +15,7 @@
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
 
-#define SHAKE_DURATION 0.05f
-#define SHAKE_REPEAT_COUNT 4.f
+#define SHAKE_DURATION 0.2f
 #define SHAKE_OFFSET 3.f
 
 #define EQUIPPING_DURATION 0.5f
@@ -311,15 +310,7 @@
 }
 
 - (void) doShake {
-  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-  [animation setDuration:SHAKE_DURATION];
-  [animation setRepeatCount:SHAKE_REPEAT_COUNT];
-  [animation setAutoreverses:YES];
-  [animation setFromValue:[NSValue valueWithCGPoint:
-                           CGPointMake(self.center.x - SHAKE_OFFSET, self.center.y)]];
-  [animation setToValue:[NSValue valueWithCGPoint:
-                         CGPointMake(self.center.x + SHAKE_OFFSET, self.center.y)]];
-  [self.layer addAnimation:animation forKey:@"position"];
+  [Globals shakeView:self duration:SHAKE_DURATION offset:SHAKE_OFFSET];
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

@@ -154,8 +154,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gl updateConstants:proto.startupConstants];
   [gs updateUser:proto.sender];
   [gs addToMyEquips:proto.userEquipsList];
-  //  [gs setMyStructs:[NSMutableArray arrayWithArray:proto.userStructuresList]];
+  [gs addToMyStructs:proto.userStructuresList];
+  [gs addToStaticCities:proto.citiesAvailableToUserList];
+  [gs addToStaticEquips:proto.equipsList];
+  [gs addToStaticStructs:proto.structsList];
   [oec retrieveAllStaticData];
+  
+  [[HomeMap sharedHomeMap] refresh];
 }
 
 - (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
@@ -313,50 +318,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
-    NSMutableDictionary *mutDict = gs.staticStructs;
-    for (FullStructureProto *st in proto.structsList) {
-      [mutDict setObject:st forKey:[NSNumber numberWithInt:st.structId]];
-    }
-    
-    mutDict = gs.staticTasks;
-    for (FullTaskProto *task in proto.tasksList) {
-      [mutDict setObject:task forKey:[NSNumber numberWithInt:task.taskId]];
-    }
-    
-    mutDict = gs.staticEquips;
-    for (FullEquipProto *equip in proto.equipsList) {
-      [mutDict setObject:equip forKey:[NSNumber numberWithInt:equip.equipId]];
-    }
-    
-    mutDict = gs.staticCities;
-    for (FullCityProto *city in proto.citiesList) {
-      [mutDict setObject:city forKey:[NSNumber numberWithInt:city.cityId]];
-    }
-    
-    mutDict = gs.staticQuests;
-    for (FullQuestProto *quest in proto.questsList) {
-      [mutDict setObject:quest forKey:[NSNumber numberWithInt:quest.questId]];
-    }
-    
-    mutDict = gs.staticBuildStructJobs;
-    for (BuildStructJobProto *job in proto.buildStructJobsList) {
-      [mutDict setObject:job forKey:[NSNumber numberWithInt:job.buildStructJobId]];
-    }
-    
-    mutDict = gs.staticDefeatTypeJobs;
-    for (DefeatTypeJobProto *job in proto.defeatTypeJobsList) {
-      [mutDict setObject:job forKey:[NSNumber numberWithInt:job.defeatTypeJobId]];
-    }
-    
-    mutDict = gs.staticEquips;
-    for (FullEquipProto *eq in proto.possessEquipJobsList) {
-      [mutDict setObject:eq forKey:[NSNumber numberWithInt:eq.equipId]];
-    }
-    
-    mutDict = gs.staticUpgradeStructJobProto;
-    for (UpgradeStructJobProto *job in proto.upgradeStructJobsList) {
-      [mutDict setObject:job forKey:[NSNumber numberWithInt:job.upgradeStructJobId]];
-    }
+    [gs addToStaticBuildStructJobs:proto.buildStructJobsList];
+    [gs addToStaticCities:proto.citiesList];
+    [gs addToStaticDefeatTypeJobs:proto.defeatTypeJobsList];
+    [gs addToStaticEquips:proto.equipsList];
+    [gs addToStaticPossessEquipJobs:proto.possessEquipJobsList];
+    [gs addToStaticQuests:proto.questsList];
+    [gs addToStaticStructs:proto.structsList];
+    [gs addToStaticTasks:proto.tasksList];
+    [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
   }
 }
 

@@ -9,6 +9,7 @@
 #import <MapKit/Mapkit.h>
 #import "cocos2d.h"
 #import "Protocols.pb.h"
+#import "TravellingMissionMap.h"
 
 @interface EnemyAnnotation : MKUserLocation
 
@@ -30,6 +31,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
+@property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
 
 - (void) retrieveAttackListForCurrentBounds;
 - (void) removeAllPins;

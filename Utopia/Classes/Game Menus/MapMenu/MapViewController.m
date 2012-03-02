@@ -10,6 +10,8 @@
 #import "SynthesizeSingleton.h"
 #import "OutgoingEventController.h"
 #import "ProfileViewController.h"
+#import "Globals.h"
+#import "GameState.h"
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 5
 
@@ -79,6 +81,7 @@ static UIButton *rightButton = nil;
 @implementation MapViewController
 
 @synthesize mapView = _mapView;
+@synthesize missionMap;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
@@ -88,6 +91,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
+  
+  [self.view addSubview: missionMap];
+  missionMap.frame = _mapView.frame;
 }
 
 - (void) viewDidAppear:(BOOL)animated {

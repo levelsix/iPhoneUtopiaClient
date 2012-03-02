@@ -13,7 +13,7 @@
 
 @implementation GameState
 
-@synthesize connected = nilconnected;
+@synthesize connected = _connected;
 @synthesize userId = _userId;
 @synthesize name = _name;
 @synthesize type = _type;
@@ -45,6 +45,8 @@
 @synthesize armorEquipped = _armorEquipped;
 @synthesize amuletEquipped = _amuletEquipped;
 
+@synthesize maxCityAccessible = _maxCityAccessible;
+
 @synthesize marketplaceEquipPosts = _marketplaceEquipPosts;
 @synthesize marketplaceEquipPostsFromSender = _marketplaceEquipPostsFromSender;
 
@@ -55,8 +57,8 @@
 @synthesize staticStructs = _staticStructs;
 @synthesize staticDefeatTypeJobs = _staticDefeatTypeJobs;
 @synthesize staticBuildStructJobs = _staticBuildStructJobs;
-@synthesize staticPossessEquipJobProto = _staticPossessEquipJobProto;
-@synthesize staticUpgradeStructJobProto = _staticUpgradeStructJobProto;
+@synthesize staticPossessEquipJobs = _staticPossessEquipJobs;
+@synthesize staticUpgradeStructJobs = _staticUpgradeStructJobs;
 
 @synthesize carpenterStructs = _carpenterStructs;
 @synthesize armoryEquips = _armoryEquips;
@@ -80,8 +82,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticStructs = [[NSMutableDictionary alloc] init];
     _staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
     _staticBuildStructJobs = [[NSMutableDictionary alloc] init];
-    _staticPossessEquipJobProto = [[NSMutableDictionary alloc] init];
-    _staticUpgradeStructJobProto = [[NSMutableDictionary alloc] init];
+    _staticPossessEquipJobs = [[NSMutableDictionary alloc] init];
+    _staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
     _attackList = [[NSMutableArray alloc] init];
     
     //TODO: take this out
@@ -166,6 +168,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return p;
 }
 
+- (FullCityProto *) cityWithId:(int)cityId {
+  if (cityId == 0) {
+    [Globals popupMessage:@"Attempted to access city 0"];
+    return nil;
+  }
+  FullCityProto *p = [self.staticCities objectForKey:[NSNumber numberWithInt:cityId]];
+  while (!p) {
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    p = [self.staticCities objectForKey:[NSNumber numberWithInt:cityId]];
+  }
+  return p;
+}
+
 - (void) addToMyEquips:(NSArray *)equips {
   self.myEquips = [NSMutableArray array];
   for (FullUserEquipProto *eq in equips) {
@@ -180,6 +195,63 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addToStaticStructs:(NSArray *)arr {
+  for (FullStructureProto *p in arr) {
+    [self.staticStructs setObject:p forKey:[NSNumber numberWithInt:p.structId]];
+  }
+}
+
+- (void) addToStaticTasks:(NSArray *)arr {
+  for (FullTaskProto *p in arr) {
+    [self.staticTasks setObject:p forKey:[NSNumber numberWithInt:p.taskId]];
+  }
+}
+
+- (void) addToStaticQuests:(NSArray *)arr {
+  for (FullQuestProto *p in arr) {
+    [self.staticQuests setObject:p forKey:[NSNumber numberWithInt:p.questId]];
+  }
+}
+
+- (void) addToStaticCities:(NSArray *)arr {
+  for (FullCityProto *p in arr) {
+    [self.staticCities setObject:p forKey:[NSNumber numberWithInt:p.cityId]];
+    if (p.cityId > _maxCityAccessible && p.minLevel <= _level) {
+      _maxCityAccessible = p.cityId;
+    }
+  }
+}
+
+- (void) addToStaticEquips:(NSArray *)arr {
+  for (FullEquipProto *p in arr) {
+    [self.staticEquips setObject:p forKey:[NSNumber numberWithInt:p.equipId]];
+  }
+}
+
+- (void) addToStaticBuildStructJobs:(NSArray *)arr {
+  for (BuildStructJobProto *p in arr) {
+    [self.staticBuildStructJobs setObject:p forKey:[NSNumber numberWithInt:p.buildStructJobId]];
+  }
+}
+
+- (void) addToStaticDefeatTypeJobs:(NSArray *)arr {
+  for (DefeatTypeJobProto *p in arr) {
+    [self.staticDefeatTypeJobs setObject:p forKey:[NSNumber numberWithInt:p.defeatTypeJobId]];
+  }
+}
+
+- (void) addToStaticPossessEquipJobs:(NSArray *)arr {
+  for (PossessEquipJobProto *p in arr) {
+    [self.staticPossessEquipJobs setObject:p forKey:[NSNumber numberWithInt:p.possessEquipJobId]];
+  }
+}
+
+- (void) addToStaticUpgradeStructJobs:(NSArray *)arr {
+  for (UpgradeStructJobProto *p in arr) {
+    [self.staticUpgradeStructJobs setObject:p forKey:[NSNumber numberWithInt:p.upgradeStructJobId]];
+  }
+}
+
 - (void) dealloc {
   self.name = nil;
   self.marketplaceEquipPosts = nil;
@@ -191,8 +263,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticStructs = nil;
   self.staticDefeatTypeJobs = nil;
   self.staticBuildStructJobs = nil;
-  self.staticPossessEquipJobProto = nil;
-  self.staticUpgradeStructJobProto = nil;
+  self.staticPossessEquipJobs = nil;
+  self.staticUpgradeStructJobs = nil;
   self.carpenterStructs = nil;
   self.armoryEquips = nil;
   self.attackList = nil;

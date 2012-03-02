@@ -42,6 +42,8 @@
   int _armorEquipped;
   int _amuletEquipped;
   
+  int _maxCityAccessible;
+  
   NSMutableArray *_marketplaceEquipPosts;
   NSMutableArray *_marketplaceEquipPostsFromSender;
   
@@ -52,8 +54,8 @@
   NSMutableDictionary *_staticEquips;
   NSMutableDictionary *_staticBuildStructJobs;
   NSMutableDictionary *_staticDefeatTypeJobs;
-  NSMutableDictionary *_staticPossessEquipJobProto;
-  NSMutableDictionary *_staticUpgradeStructJobProto;
+  NSMutableDictionary *_staticPossessEquipJobs;
+  NSMutableDictionary *_staticUpgradeStructJobs;
   
   NSArray *_carpenterStructs;
   NSArray *_armoryEquips;
@@ -96,6 +98,8 @@
 @property (assign) int armorEquipped;
 @property (assign) int amuletEquipped;
 
+@property (assign) int maxCityAccessible;
+
 @property (retain) NSMutableArray *marketplaceEquipPosts;
 @property (retain) NSMutableArray *marketplaceEquipPostsFromSender;
 
@@ -106,8 +110,8 @@
 @property (retain) NSMutableDictionary *staticEquips;
 @property (retain) NSMutableDictionary *staticBuildStructJobs;
 @property (retain) NSMutableDictionary *staticDefeatTypeJobs;
-@property (retain) NSMutableDictionary *staticPossessEquipJobProto;
-@property (retain) NSMutableDictionary *staticUpgradeStructJobProto;
+@property (retain) NSMutableDictionary *staticPossessEquipJobs;
+@property (retain) NSMutableDictionary *staticUpgradeStructJobs;
 
 @property (retain) NSArray *carpenterStructs;
 @property (retain) NSArray *armoryEquips;
@@ -123,8 +127,19 @@
 
 - (FullEquipProto *) equipWithId:(int)equipId;
 - (FullStructureProto *) structWithId:(int)structId;
+- (FullCityProto *)cityWithId:(int)cityId;
 
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
+
+- (void) addToStaticStructs:(NSArray *)arr;
+- (void) addToStaticTasks:(NSArray *)arr;
+- (void) addToStaticQuests:(NSArray *)arr;
+- (void) addToStaticCities:(NSArray *)arr;
+- (void) addToStaticEquips:(NSArray *)arr;
+- (void) addToStaticBuildStructJobs:(NSArray *)arr;
+- (void) addToStaticDefeatTypeJobs:(NSArray *)arr;
+- (void) addToStaticPossessEquipJobs:(NSArray *)arr;
+- (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
 
 @end

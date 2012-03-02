@@ -60,8 +60,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self rebuildSender];
   _currentTagNum = 1;
   
-  [self sendStartupMessage:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
-  [[OutgoingEventController sharedOutgoingEventController] loadPlayerCity:2];
+  [[OutgoingEventController sharedOutgoingEventController] startup];
   //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
   //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];

@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF02AECC1500E415009DC7B3 /* citygobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC21500E415009DC7B3 /* citygobutton.png */; };
+		CF02AECD1500E415009DC7B3 /* citygobutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC31500E415009DC7B3 /* citygobutton@2x.png */; };
+		CF02AECE1500E415009DC7B3 /* cityprogressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC41500E415009DC7B3 /* cityprogressbar.png */; };
+		CF02AECF1500E415009DC7B3 /* cityprogressbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC51500E415009DC7B3 /* cityprogressbarbg.png */; };
+		CF02AED01500E415009DC7B3 /* cityprogressbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC61500E415009DC7B3 /* cityprogressbarbg@2x.png */; };
+		CF02AED11500E415009DC7B3 /* cityprogressyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC71500E415009DC7B3 /* cityprogressyellowbar@2x.png */; };
+		CF02AED21500E415009DC7B3 /* lumoriasignbig.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC81500E415009DC7B3 /* lumoriasignbig.png */; };
+		CF02AED31500E415009DC7B3 /* lumoriasignbig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AEC91500E415009DC7B3 /* lumoriasignbig@2x.png */; };
+		CF02AED41500E415009DC7B3 /* visitcitybubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AECA1500E415009DC7B3 /* visitcitybubble.png */; };
+		CF02AED51500E415009DC7B3 /* visitcitybubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF02AECB1500E415009DC7B3 /* visitcitybubble@2x.png */; };
 		CF05573414DE6F18003739EF /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF05573314DE6F18003739EF /* PullRefreshTableViewController.m */; };
 		CF05573614DE7598003739EF /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF05573514DE7598003739EF /* arrow.png */; };
 		CF05573D14DF481A003739EF /* coinscollect.png in Resources */ = {isa = PBXBuildFile; fileRef = CF05573714DF4819003739EF /* coinscollect.png */; };
@@ -127,6 +137,15 @@
 		CF2BCFEC14F61BAE008EDBC9 /* movebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE614F61BAE008EDBC9 /* movebubble@2x.png */; };
 		CF2BCFED14F61BAE008EDBC9 /* closex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCFE714F61BAE008EDBC9 /* closex@2x.png */; };
 		CF314F4F14FF30210023A706 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF314F4E14FF30210023A706 /* MapKit.framework */; };
+		CF36FB321500B37100AB10B7 /* TravellingMissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF36FB311500B37100AB10B7 /* TravellingMissionMap.m */; };
+		CF36FB3F1500B4EE00AB10B7 /* lockedcity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB371500B4EC00AB10B7 /* lockedcity.png */; };
+		CF36FB401500B4EE00AB10B7 /* lockedcity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB381500B4ED00AB10B7 /* lockedcity@2x.png */; };
+		CF36FB411500B4EE00AB10B7 /* lumoriabg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB391500B4ED00AB10B7 /* lumoriabg.png */; };
+		CF36FB421500B4EE00AB10B7 /* lumoriabg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB3A1500B4ED00AB10B7 /* lumoriabg@2x.png */; };
+		CF36FB431500B4EE00AB10B7 /* opencity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB3B1500B4ED00AB10B7 /* opencity.png */; };
+		CF36FB441500B4EE00AB10B7 /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB3C1500B4ED00AB10B7 /* opencity@2x.png */; };
+		CF36FB451500B4EE00AB10B7 /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB3D1500B4EE00AB10B7 /* path.png */; };
+		CF36FB461500B4EE00AB10B7 /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36FB3E1500B4EE00AB10B7 /* path@2x.png */; };
 		CF3D0A6914CB88EA00D972B4 /* GoldPackageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A5914CB88EA00D972B4 /* GoldPackageView.xib */; };
 		CF3D0A6A14CB88EA00D972B4 /* GoldShoppeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0A5B14CB88EA00D972B4 /* GoldShoppeViewController.m */; };
 		CF3D0A6B14CB88EA00D972B4 /* GoldShoppeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A5C14CB88EA00D972B4 /* GoldShoppeViewController.xib */; };
@@ -619,6 +638,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CF02AEC21500E415009DC7B3 /* citygobutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = citygobutton.png; sourceTree = "<group>"; };
+		CF02AEC31500E415009DC7B3 /* citygobutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "citygobutton@2x.png"; sourceTree = "<group>"; };
+		CF02AEC41500E415009DC7B3 /* cityprogressbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityprogressbar.png; sourceTree = "<group>"; };
+		CF02AEC51500E415009DC7B3 /* cityprogressbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityprogressbarbg.png; sourceTree = "<group>"; };
+		CF02AEC61500E415009DC7B3 /* cityprogressbarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityprogressbarbg@2x.png"; sourceTree = "<group>"; };
+		CF02AEC71500E415009DC7B3 /* cityprogressyellowbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityprogressyellowbar@2x.png"; sourceTree = "<group>"; };
+		CF02AEC81500E415009DC7B3 /* lumoriasignbig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoriasignbig.png; sourceTree = "<group>"; };
+		CF02AEC91500E415009DC7B3 /* lumoriasignbig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoriasignbig@2x.png"; sourceTree = "<group>"; };
+		CF02AECA1500E415009DC7B3 /* visitcitybubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitcitybubble.png; sourceTree = "<group>"; };
+		CF02AECB1500E415009DC7B3 /* visitcitybubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitcitybubble@2x.png"; sourceTree = "<group>"; };
 		CF05573214DE6F18003739EF /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
 		CF05573314DE6F18003739EF /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		CF05573514DE7598003739EF /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
@@ -750,6 +779,16 @@
 		CF2BCFE614F61BAE008EDBC9 /* movebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movebubble@2x.png"; sourceTree = "<group>"; };
 		CF2BCFE714F61BAE008EDBC9 /* closex@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "closex@2x.png"; sourceTree = "<group>"; };
 		CF314F4E14FF30210023A706 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		CF36FB301500B37100AB10B7 /* TravellingMissionMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravellingMissionMap.h; sourceTree = "<group>"; };
+		CF36FB311500B37100AB10B7 /* TravellingMissionMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravellingMissionMap.m; sourceTree = "<group>"; };
+		CF36FB371500B4EC00AB10B7 /* lockedcity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lockedcity.png; sourceTree = "<group>"; };
+		CF36FB381500B4ED00AB10B7 /* lockedcity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedcity@2x.png"; sourceTree = "<group>"; };
+		CF36FB391500B4ED00AB10B7 /* lumoriabg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoriabg.png; sourceTree = "<group>"; };
+		CF36FB3A1500B4ED00AB10B7 /* lumoriabg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoriabg@2x.png"; sourceTree = "<group>"; };
+		CF36FB3B1500B4ED00AB10B7 /* opencity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opencity.png; sourceTree = "<group>"; };
+		CF36FB3C1500B4ED00AB10B7 /* opencity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opencity@2x.png"; sourceTree = "<group>"; };
+		CF36FB3D1500B4EE00AB10B7 /* path.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = path.png; sourceTree = "<group>"; };
+		CF36FB3E1500B4EE00AB10B7 /* path@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "path@2x.png"; sourceTree = "<group>"; };
 		CF3D0A5914CB88EA00D972B4 /* GoldPackageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoldPackageView.xib; sourceTree = "<group>"; };
 		CF3D0A5A14CB88EA00D972B4 /* GoldShoppeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoldShoppeViewController.h; sourceTree = "<group>"; };
 		CF3D0A5B14CB88EA00D972B4 /* GoldShoppeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoldShoppeViewController.m; sourceTree = "<group>"; };
@@ -1438,6 +1477,8 @@
 				CF3D0A5F14CB88EA00D972B4 /* MapViewController.m */,
 				CF3D0A6014CB88EA00D972B4 /* MapViewController.xib */,
 				CFB7848815004B2B006AE852 /* PinView.xib */,
+				CF36FB301500B37100AB10B7 /* TravellingMissionMap.h */,
+				CF36FB311500B37100AB10B7 /* TravellingMissionMap.m */,
 			);
 			path = MapMenu;
 			sourceTree = "<group>";
@@ -2067,6 +2108,24 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF02AEC21500E415009DC7B3 /* citygobutton.png */,
+				CF02AEC31500E415009DC7B3 /* citygobutton@2x.png */,
+				CF02AEC41500E415009DC7B3 /* cityprogressbar.png */,
+				CF02AEC51500E415009DC7B3 /* cityprogressbarbg.png */,
+				CF02AEC61500E415009DC7B3 /* cityprogressbarbg@2x.png */,
+				CF02AEC71500E415009DC7B3 /* cityprogressyellowbar@2x.png */,
+				CF02AEC81500E415009DC7B3 /* lumoriasignbig.png */,
+				CF02AEC91500E415009DC7B3 /* lumoriasignbig@2x.png */,
+				CF02AECA1500E415009DC7B3 /* visitcitybubble.png */,
+				CF02AECB1500E415009DC7B3 /* visitcitybubble@2x.png */,
+				CF36FB371500B4EC00AB10B7 /* lockedcity.png */,
+				CF36FB381500B4ED00AB10B7 /* lockedcity@2x.png */,
+				CF36FB391500B4ED00AB10B7 /* lumoriabg.png */,
+				CF36FB3A1500B4ED00AB10B7 /* lumoriabg@2x.png */,
+				CF36FB3B1500B4ED00AB10B7 /* opencity.png */,
+				CF36FB3C1500B4ED00AB10B7 /* opencity@2x.png */,
+				CF36FB3D1500B4EE00AB10B7 /* path.png */,
+				CF36FB3E1500B4EE00AB10B7 /* path@2x.png */,
 				CFB7848A150050B7006AE852 /* mapfilter.png */,
 				CF5A7BD51500A21E0007551C /* lumoriasign.png */,
 				CF5A7BD61500A21E0007551C /* lumoriasign@2x.png */,
@@ -2982,6 +3041,24 @@
 				CF5A7BFE1500A21E0007551C /* lumoria@2x.png in Resources */,
 				CF5A7BFF1500A21E0007551C /* missionmapbg.png in Resources */,
 				CF5A7C001500A21E0007551C /* missionmapbg@2x.png in Resources */,
+				CF36FB3F1500B4EE00AB10B7 /* lockedcity.png in Resources */,
+				CF36FB401500B4EE00AB10B7 /* lockedcity@2x.png in Resources */,
+				CF36FB411500B4EE00AB10B7 /* lumoriabg.png in Resources */,
+				CF36FB421500B4EE00AB10B7 /* lumoriabg@2x.png in Resources */,
+				CF36FB431500B4EE00AB10B7 /* opencity.png in Resources */,
+				CF36FB441500B4EE00AB10B7 /* opencity@2x.png in Resources */,
+				CF36FB451500B4EE00AB10B7 /* path.png in Resources */,
+				CF36FB461500B4EE00AB10B7 /* path@2x.png in Resources */,
+				CF02AECC1500E415009DC7B3 /* citygobutton.png in Resources */,
+				CF02AECD1500E415009DC7B3 /* citygobutton@2x.png in Resources */,
+				CF02AECE1500E415009DC7B3 /* cityprogressbar.png in Resources */,
+				CF02AECF1500E415009DC7B3 /* cityprogressbarbg.png in Resources */,
+				CF02AED01500E415009DC7B3 /* cityprogressbarbg@2x.png in Resources */,
+				CF02AED11500E415009DC7B3 /* cityprogressyellowbar@2x.png in Resources */,
+				CF02AED21500E415009DC7B3 /* lumoriasignbig.png in Resources */,
+				CF02AED31500E415009DC7B3 /* lumoriasignbig@2x.png in Resources */,
+				CF02AED41500E415009DC7B3 /* visitcitybubble.png in Resources */,
+				CF02AED51500E415009DC7B3 /* visitcitybubble@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3129,6 +3206,7 @@
 				CF42353B14F4BAA70033C290 /* CarpenterMenuController.m in Sources */,
 				CFA3BBE414F4C243002A68E1 /* RopeView.m in Sources */,
 				CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */,
+				CF36FB321500B37100AB10B7 /* TravellingMissionMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

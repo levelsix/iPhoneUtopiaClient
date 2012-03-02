@@ -13,6 +13,7 @@
 #import "Protocols.pb.h"
 
 #define FONT_LABEL_OFFSET 3.f
+#define SHAKE_DURATION 0.05f
 
 @implementation Globals
 
@@ -59,7 +60,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.productIdentifiers = [NSDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
   self.energyRefillCost = constants.diamondCostForEnergyRefill;
   self.staminaRefillCost = constants.diamondCostForStaminaRefill;
-  NSLog(@"x: %@", self.productIdentifiers);
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {
@@ -286,6 +286,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   // return the image
   return theImage;
+}
+
++ (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset {
+  CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+  int repeatCt = duration / SHAKE_DURATION;
+  [animation setDuration:SHAKE_DURATION];
+  [animation setRepeatCount:repeatCt];
+  [animation setAutoreverses:YES];
+  [animation setFromValue:[NSValue valueWithCGPoint:
+                           CGPointMake(view.center.x - offset, view.center.y)]];
+  [animation setToValue:[NSValue valueWithCGPoint:
+                         CGPointMake(view.center.x + offset, view.center.y)]];
+  [view.layer addAnimation:animation forKey:@"position"];
 }
 
 // Formulas
