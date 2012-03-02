@@ -28,6 +28,7 @@
   NSString *_referralCode;
   int _battlesWon;
   int _battlesLost;
+  int _flees;
   CLLocationCoordinate2D _location;
   int _skillPoints;
   int _experience;
@@ -81,6 +82,7 @@
 @property (retain) NSString *referralCode;
 @property (assign) int battlesWon;
 @property (assign) int battlesLost;
+@property (assign) int flees;
 @property (assign) CLLocationCoordinate2D location;
 @property (assign) int skillPoints;
 @property (assign) int experience;

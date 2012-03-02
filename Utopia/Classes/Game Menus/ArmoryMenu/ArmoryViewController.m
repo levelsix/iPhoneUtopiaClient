@@ -176,7 +176,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *cellId = @"CarpenterRow";
+  static NSString *cellId = @"ArmoryRow";
   
   ArmoryRow *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {

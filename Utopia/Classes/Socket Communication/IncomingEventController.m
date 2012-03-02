@@ -108,6 +108,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveStaticDataForShopEvent:
       responseClass = [RetrieveStaticDataForShopResponseProto class];
       break;
+    case EventProtocolResponseSEquipEquipmentEvent:
+      responseClass = [EquipEquipmentResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -358,7 +361,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleRetrieveStaticDataForShopResponseProto: (RetrieveStaticDataForShopResponseProto *)proto {
-  NSLog(@"Retrieve static data for shop response received with status %d.", proto.status);
+  NSLog(@"Retrieve static data for shop response received with status %d, %d structs, %d equips.", proto.status, proto.structsList.count, proto.equipsList.count);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {
@@ -381,6 +384,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
   } else {
     [Globals popupMessage:@"Unable to reach store.."];
+  }
+}
+
+- (void) handleEquipEquipmentResponseProto: (EquipEquipmentResponseProto *)proto {
+  NSLog(@"Equip equipment response received with status %d.", proto.status);
+  
+  if (proto.status != EquipEquipmentResponseProto_EquipEquipmentStatusSuccess) {
+    [Globals popupMessage:@"Unable to equip equipment."];
   }
 }
 

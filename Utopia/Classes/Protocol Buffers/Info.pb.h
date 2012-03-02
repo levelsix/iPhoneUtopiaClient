@@ -126,7 +126,7 @@ BOOL FullEquipProto_RarityIsValidValue(FullEquipProto_Rarity value);
 typedef enum {
   FullEquipProto_EquipTypeWeapon = 0,
   FullEquipProto_EquipTypeArmor = 1,
-  FullEquipProto_EquipTypeAccessory = 2,
+  FullEquipProto_EquipTypeAmulet = 2,
 } FullEquipProto_EquipType;
 
 BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value);
@@ -135,6 +135,7 @@ typedef enum {
   FullEquipProto_ClassTypeWarrior = 0,
   FullEquipProto_ClassTypeArcher = 1,
   FullEquipProto_ClassTypeMage = 2,
+  FullEquipProto_ClassTypeAllAmulet = 3,
 } FullEquipProto_ClassType;
 
 BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);

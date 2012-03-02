@@ -466,14 +466,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     case FullEquipProto_EquipTypeWeapon:
       cev = curWeaponView;
       curBorderView = _weaponEquipView;
+      _weaponEquipView = ev;
       break;
     case FullEquipProto_EquipTypeArmor:
       cev = curArmorView;
       curBorderView = _armorEquipView;
+      _armorEquipView = ev;
       break;
-    case FullEquipProto_EquipTypeAccessory:
+    case FullEquipProto_EquipTypeAmulet:
       cev = curAmuletView;
       curBorderView = _amuletEquipView;
+      _amuletEquipView = ev;
       break;
       
     default:
@@ -535,7 +538,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       unequippableView.hidden = YES;
     } else {
       [ev doShake];
-      if (fep.classType == gs.type % 3) {
+      if (fep.classType != gs.type % 3) {
         unequippableLabel.text = [NSString stringWithFormat:@"You Must Be A %@ To Equip This Item", [Globals stringForEquipType:fep.equipType]];
       }
       else if (fep.minLevel > gs.level) {
@@ -558,54 +561,52 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev {
   // Synchronize this method, cuz otherwise there are random race conditions
   // for letting go of another button while this is being evaluated
-  @synchronized(self) {
-    EquipScope scope;
+  EquipScope scope;
+  
+  if (cev == curWeaponView) {
+    scope = kEquipScopeWeapons;
     
-    if (cev == curWeaponView) {
-      scope = kEquipScopeWeapons;
-      
-      if (scope == _curScope) {
-        scope = kEquipScopeAll;
-        curWeaponView.selected = NO;
-        curArmorView.selected = NO;
-        curAmuletView.selected = NO;
-      } else {
-        curWeaponView.selected = YES;
-        curArmorView.selected = NO;
-        curAmuletView.selected = NO;
-      }
-    } else if (cev == curArmorView) {
-      scope = kEquipScopeArmor;
-      
-      if (scope == _curScope) {
-        scope = kEquipScopeAll;
-        curWeaponView.selected = NO;
-        curArmorView.selected = NO;
-        curAmuletView.selected = NO;
-      } else {
-        curWeaponView.selected = NO;
-        curArmorView.selected = YES;
-        curAmuletView.selected = NO;
-      }
-    } else if (cev == curAmuletView) {
-      scope = kEquipScopeAmulets;
-      
-      if (scope == _curScope) {
-        scope = kEquipScopeAll;
-        curWeaponView.selected = NO;
-        curArmorView.selected = NO;
-        curAmuletView.selected = NO;
-      } else {
-        curWeaponView.selected = NO;
-        curArmorView.selected = NO;
-        curAmuletView.selected = YES;
-      }
+    if (scope == _curScope) {
+      scope = kEquipScopeAll;
+      curWeaponView.selected = NO;
+      curArmorView.selected = NO;
+      curAmuletView.selected = NO;
     } else {
-      [Globals popupMessage:@"Error attaining scope value"];
+      curWeaponView.selected = YES;
+      curArmorView.selected = NO;
+      curAmuletView.selected = NO;
     }
+  } else if (cev == curArmorView) {
+    scope = kEquipScopeArmor;
     
-    self.curScope = scope;
+    if (scope == _curScope) {
+      scope = kEquipScopeAll;
+      curWeaponView.selected = NO;
+      curArmorView.selected = NO;
+      curAmuletView.selected = NO;
+    } else {
+      curWeaponView.selected = NO;
+      curArmorView.selected = YES;
+      curAmuletView.selected = NO;
+    }
+  } else if (cev == curAmuletView) {
+    scope = kEquipScopeAmulets;
+    
+    if (scope == _curScope) {
+      scope = kEquipScopeAll;
+      curWeaponView.selected = NO;
+      curArmorView.selected = NO;
+      curAmuletView.selected = NO;
+    } else {
+      curWeaponView.selected = NO;
+      curArmorView.selected = NO;
+      curAmuletView.selected = YES;
+    }
+  } else {
+    [Globals popupMessage:@"Error attaining scope value"];
   }
+  
+  self.curScope = scope;
 }
 
 - (NSArray *) sortEquips:(NSArray *)equips {
@@ -649,7 +650,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [arr addObject:ev];
     } else if (scope == kEquipScopeArmor && fep.equipType == FullEquipProto_EquipTypeArmor) {
       [arr addObject:ev];
-    } else if (scope == kEquipScopeAmulets && fep.equipType == FullEquipProto_EquipTypeAccessory) {
+    } else if (scope == kEquipScopeAmulets && fep.equipType == FullEquipProto_EquipTypeAmulet) {
       [arr addObject:ev];
     }
   }
@@ -748,7 +749,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     i++;
   }
   
-  self.state = kEquipState;
   _curScope = kEquipScopeAll;
   curWeaponView.selected = NO;
   curArmorView.selected = NO;
@@ -794,6 +794,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   curAmuletView.userInteractionEnabled = touchEnabled;
 }
 
+- (void) loadProfileForPlayer:(FullUserProto *)fup {
+  if (fup.userId == [[GameState sharedGameState] userId]) {
+    [self loadMyProfile];
+    return;
+  }
+  
+  userNameLabel.text = fup.name;
+  winsLabel.text = [NSString stringWithFormat:@"%d", fup.battlesWon];
+  lossesLabel.text = [NSString stringWithFormat:@"%d", fup.battlesLost];
+  fleesLabel.text = [NSString stringWithFormat:@"%d", fup.flees];
+  levelLabel.text = [NSString stringWithFormat:@"%d", fup.level];
+  factionLabel.text = [Globals factionForUserType:fup.userType];
+  classLabel.text = [Globals classForUserType:fup.userType];
+  attackLabel.text = [NSString stringWithFormat:@"%d", fup.attack];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", fup.defense];
+  
+  self.profileBar.state = kOtherPlayerProfile;
+  self.state = kEquipState;
+}
+
 - (void) loadMyProfile {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -801,6 +821,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   userNameLabel.text = gs.name;
   winsLabel.text = [NSString stringWithFormat:@"%d", gs.battlesWon];
   lossesLabel.text = [NSString stringWithFormat:@"%d", gs.battlesLost];
+  fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", gs.level];
   factionLabel.text = [Globals factionForUserType:gs.type];
   classLabel.text = [Globals classForUserType:gs.type];
@@ -810,6 +831,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
   self.profileBar.state = kMyProfile;
   [self loadSkills];
+  self.state = kEquipState;
   
   // Update calculate labels
   staminaCostLabel.text = [NSString stringWithFormat:@"(%d skill %@ = %d)", gl.staminaBaseCost, gl.staminaBaseCost != 1 ? @"points" : @"point", gl.staminaBaseGain];

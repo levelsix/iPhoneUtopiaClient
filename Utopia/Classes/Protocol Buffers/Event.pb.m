@@ -576,6 +576,7 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
 @property (retain) MinimumUserProto* attacker;
 @property (retain) MinimumUserProto* defender;
 @property BattleResult battleResult;
+@property int64_t clientTime;
 @property int32_t neutralCityId;
 @end
 
@@ -602,6 +603,13 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
   hasBattleResult_ = !!value;
 }
 @synthesize battleResult;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
 - (BOOL) hasNeutralCityId {
   return !!hasNeutralCityId_;
 }
@@ -619,6 +627,7 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
     self.attacker = [MinimumUserProto defaultInstance];
     self.defender = [MinimumUserProto defaultInstance];
     self.battleResult = BattleResultAttackerWin;
+    self.clientTime = 0L;
     self.neutralCityId = 0;
   }
   return self;
@@ -645,6 +654,9 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (!self.hasBattleResult) {
     return NO;
   }
+  if (!self.hasClientTime) {
+    return NO;
+  }
   if (!self.attacker.isInitialized) {
     return NO;
   }
@@ -663,8 +675,11 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (self.hasBattleResult) {
     [output writeEnum:3 value:self.battleResult];
   }
+  if (self.hasClientTime) {
+    [output writeInt64:4 value:self.clientTime];
+  }
   if (self.hasNeutralCityId) {
-    [output writeInt32:4 value:self.neutralCityId];
+    [output writeInt32:5 value:self.neutralCityId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -684,8 +699,11 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (self.hasBattleResult) {
     size += computeEnumSize(3, self.battleResult);
   }
+  if (self.hasClientTime) {
+    size += computeInt64Size(4, self.clientTime);
+  }
   if (self.hasNeutralCityId) {
-    size += computeInt32Size(4, self.neutralCityId);
+    size += computeInt32Size(5, self.neutralCityId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -771,6 +789,9 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   if (other.hasBattleResult) {
     [self setBattleResult:other.battleResult];
   }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
   if (other.hasNeutralCityId) {
     [self setNeutralCityId:other.neutralCityId];
   }
@@ -823,6 +844,10 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
         break;
       }
       case 32: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 40: {
         [self setNeutralCityId:[input readInt32]];
         break;
       }
@@ -903,6 +928,22 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 - (BattleRequestProto_Builder*) clearBattleResult {
   result.hasBattleResult = NO;
   result.battleResult = BattleResultAttackerWin;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (BattleRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (BattleRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
   return self;
 }
 - (BOOL) hasNeutralCityId {
@@ -5886,311 +5927,6 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
 - (UserCreateResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = UserCreateResponseProto_UserCreateStatusSuccess;
-  return self;
-}
-@end
-
-@interface ChangeUserLocationRequestProto ()
-@property (retain) MinimumUserProto* sender;
-@property int32_t cityId;
-@property (retain) LocationProto* userLocation;
-@end
-
-@implementation ChangeUserLocationRequestProto
-
-- (BOOL) hasSender {
-  return !!hasSender_;
-}
-- (void) setHasSender:(BOOL) value {
-  hasSender_ = !!value;
-}
-@synthesize sender;
-- (BOOL) hasCityId {
-  return !!hasCityId_;
-}
-- (void) setHasCityId:(BOOL) value {
-  hasCityId_ = !!value;
-}
-@synthesize cityId;
-- (BOOL) hasUserLocation {
-  return !!hasUserLocation_;
-}
-- (void) setHasUserLocation:(BOOL) value {
-  hasUserLocation_ = !!value;
-}
-@synthesize userLocation;
-- (void) dealloc {
-  self.sender = nil;
-  self.userLocation = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.sender = [MinimumUserProto defaultInstance];
-    self.cityId = 0;
-    self.userLocation = [LocationProto defaultInstance];
-  }
-  return self;
-}
-static ChangeUserLocationRequestProto* defaultChangeUserLocationRequestProtoInstance = nil;
-+ (void) initialize {
-  if (self == [ChangeUserLocationRequestProto class]) {
-    defaultChangeUserLocationRequestProtoInstance = [[ChangeUserLocationRequestProto alloc] init];
-  }
-}
-+ (ChangeUserLocationRequestProto*) defaultInstance {
-  return defaultChangeUserLocationRequestProtoInstance;
-}
-- (ChangeUserLocationRequestProto*) defaultInstance {
-  return defaultChangeUserLocationRequestProtoInstance;
-}
-- (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasUserLocation) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.userLocation.isInitialized) {
-    return NO;
-  }
-  return YES;
-}
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasSender) {
-    [output writeMessage:1 value:self.sender];
-  }
-  if (self.hasCityId) {
-    [output writeInt32:2 value:self.cityId];
-  }
-  if (self.hasUserLocation) {
-    [output writeMessage:3 value:self.userLocation];
-  }
-  [self.unknownFields writeToCodedOutputStream:output];
-}
-- (int32_t) serializedSize {
-  int32_t size = memoizedSerializedSize;
-  if (size != -1) {
-    return size;
-  }
-
-  size = 0;
-  if (self.hasSender) {
-    size += computeMessageSize(1, self.sender);
-  }
-  if (self.hasCityId) {
-    size += computeInt32Size(2, self.cityId);
-  }
-  if (self.hasUserLocation) {
-    size += computeMessageSize(3, self.userLocation);
-  }
-  size += self.unknownFields.serializedSize;
-  memoizedSerializedSize = size;
-  return size;
-}
-+ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data {
-  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromData:data] build];
-}
-+ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
-}
-+ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromInputStream:input] build];
-}
-+ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromCodedInputStream:input] build];
-}
-+ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
-}
-+ (ChangeUserLocationRequestProto_Builder*) builder {
-  return [[[ChangeUserLocationRequestProto_Builder alloc] init] autorelease];
-}
-+ (ChangeUserLocationRequestProto_Builder*) builderWithPrototype:(ChangeUserLocationRequestProto*) prototype {
-  return [[ChangeUserLocationRequestProto builder] mergeFrom:prototype];
-}
-- (ChangeUserLocationRequestProto_Builder*) builder {
-  return [ChangeUserLocationRequestProto builder];
-}
-@end
-
-@interface ChangeUserLocationRequestProto_Builder()
-@property (retain) ChangeUserLocationRequestProto* result;
-@end
-
-@implementation ChangeUserLocationRequestProto_Builder
-@synthesize result;
-- (void) dealloc {
-  self.result = nil;
-  [super dealloc];
-}
-- (id) init {
-  if ((self = [super init])) {
-    self.result = [[[ChangeUserLocationRequestProto alloc] init] autorelease];
-  }
-  return self;
-}
-- (PBGeneratedMessage*) internalGetResult {
-  return result;
-}
-- (ChangeUserLocationRequestProto_Builder*) clear {
-  self.result = [[[ChangeUserLocationRequestProto alloc] init] autorelease];
-  return self;
-}
-- (ChangeUserLocationRequestProto_Builder*) clone {
-  return [ChangeUserLocationRequestProto builderWithPrototype:result];
-}
-- (ChangeUserLocationRequestProto*) defaultInstance {
-  return [ChangeUserLocationRequestProto defaultInstance];
-}
-- (ChangeUserLocationRequestProto*) build {
-  [self checkInitialized];
-  return [self buildPartial];
-}
-- (ChangeUserLocationRequestProto*) buildPartial {
-  ChangeUserLocationRequestProto* returnMe = [[result retain] autorelease];
-  self.result = nil;
-  return returnMe;
-}
-- (ChangeUserLocationRequestProto_Builder*) mergeFrom:(ChangeUserLocationRequestProto*) other {
-  if (other == [ChangeUserLocationRequestProto defaultInstance]) {
-    return self;
-  }
-  if (other.hasSender) {
-    [self mergeSender:other.sender];
-  }
-  if (other.hasCityId) {
-    [self setCityId:other.cityId];
-  }
-  if (other.hasUserLocation) {
-    [self mergeUserLocation:other.userLocation];
-  }
-  [self mergeUnknownFields:other.unknownFields];
-  return self;
-}
-- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
-  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
-}
-- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
-  while (YES) {
-    int32_t tag = [input readTag];
-    switch (tag) {
-      case 0:
-        [self setUnknownFields:[unknownFields build]];
-        return self;
-      default: {
-        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
-          [self setUnknownFields:[unknownFields build]];
-          return self;
-        }
-        break;
-      }
-      case 10: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasSender) {
-          [subBuilder mergeFrom:self.sender];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSender:[subBuilder buildPartial]];
-        break;
-      }
-      case 16: {
-        [self setCityId:[input readInt32]];
-        break;
-      }
-      case 26: {
-        LocationProto_Builder* subBuilder = [LocationProto builder];
-        if (self.hasUserLocation) {
-          [subBuilder mergeFrom:self.userLocation];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setUserLocation:[subBuilder buildPartial]];
-        break;
-      }
-    }
-  }
-}
-- (BOOL) hasSender {
-  return result.hasSender;
-}
-- (MinimumUserProto*) sender {
-  return result.sender;
-}
-- (ChangeUserLocationRequestProto_Builder*) setSender:(MinimumUserProto*) value {
-  result.hasSender = YES;
-  result.sender = value;
-  return self;
-}
-- (ChangeUserLocationRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setSender:[builderForValue build]];
-}
-- (ChangeUserLocationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
-  if (result.hasSender &&
-      result.sender != [MinimumUserProto defaultInstance]) {
-    result.sender =
-      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
-  } else {
-    result.sender = value;
-  }
-  result.hasSender = YES;
-  return self;
-}
-- (ChangeUserLocationRequestProto_Builder*) clearSender {
-  result.hasSender = NO;
-  result.sender = [MinimumUserProto defaultInstance];
-  return self;
-}
-- (BOOL) hasCityId {
-  return result.hasCityId;
-}
-- (int32_t) cityId {
-  return result.cityId;
-}
-- (ChangeUserLocationRequestProto_Builder*) setCityId:(int32_t) value {
-  result.hasCityId = YES;
-  result.cityId = value;
-  return self;
-}
-- (ChangeUserLocationRequestProto_Builder*) clearCityId {
-  result.hasCityId = NO;
-  result.cityId = 0;
-  return self;
-}
-- (BOOL) hasUserLocation {
-  return result.hasUserLocation;
-}
-- (LocationProto*) userLocation {
-  return result.userLocation;
-}
-- (ChangeUserLocationRequestProto_Builder*) setUserLocation:(LocationProto*) value {
-  result.hasUserLocation = YES;
-  result.userLocation = value;
-  return self;
-}
-- (ChangeUserLocationRequestProto_Builder*) setUserLocationBuilder:(LocationProto_Builder*) builderForValue {
-  return [self setUserLocation:[builderForValue build]];
-}
-- (ChangeUserLocationRequestProto_Builder*) mergeUserLocation:(LocationProto*) value {
-  if (result.hasUserLocation &&
-      result.userLocation != [LocationProto defaultInstance]) {
-    result.userLocation =
-      [[[LocationProto builderWithPrototype:result.userLocation] mergeFrom:value] buildPartial];
-  } else {
-    result.userLocation = value;
-  }
-  result.hasUserLocation = YES;
-  return self;
-}
-- (ChangeUserLocationRequestProto_Builder*) clearUserLocation {
-  result.hasUserLocation = NO;
-  result.userLocation = [LocationProto defaultInstance];
   return self;
 }
 @end
@@ -19164,6 +18900,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @property LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
 @property (retain) NSMutableArray* mutableOwnerNormStructsList;
 @property (retain) NSMutableArray* mutableOwnerAlliesList;
+@property (retain) NSMutableArray* mutableOwnerEnemiesList;
 @property (retain) FullUserCritstructProto* armory;
 @property (retain) FullUserCritstructProto* vault;
 @property (retain) FullUserCritstructProto* marketplace;
@@ -19190,6 +18927,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @synthesize status;
 @synthesize mutableOwnerNormStructsList;
 @synthesize mutableOwnerAlliesList;
+@synthesize mutableOwnerEnemiesList;
 - (BOOL) hasArmory {
   return !!hasArmory_;
 }
@@ -19236,6 +18974,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   self.sender = nil;
   self.mutableOwnerNormStructsList = nil;
   self.mutableOwnerAlliesList = nil;
+  self.mutableOwnerEnemiesList = nil;
   self.armory = nil;
   self.vault = nil;
   self.marketplace = nil;
@@ -19283,6 +19022,13 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   id value = [mutableOwnerAlliesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) ownerEnemiesList {
+  return mutableOwnerEnemiesList;
+}
+- (FullUserProto*) ownerEnemiesAtIndex:(int32_t) index {
+  id value = [mutableOwnerEnemiesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   if (!self.hasSender) {
     return NO;
@@ -19305,6 +19051,11 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
     }
   }
   for (FullUserProto* element in self.ownerAlliesList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullUserProto* element in self.ownerEnemiesList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -19350,20 +19101,23 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   for (FullUserProto* element in self.ownerAlliesList) {
     [output writeMessage:4 value:element];
   }
+  for (FullUserProto* element in self.ownerEnemiesList) {
+    [output writeMessage:5 value:element];
+  }
   if (self.hasArmory) {
-    [output writeMessage:5 value:self.armory];
+    [output writeMessage:6 value:self.armory];
   }
   if (self.hasVault) {
-    [output writeMessage:6 value:self.vault];
+    [output writeMessage:7 value:self.vault];
   }
   if (self.hasMarketplace) {
-    [output writeMessage:7 value:self.marketplace];
+    [output writeMessage:8 value:self.marketplace];
   }
   if (self.hasCarpenter) {
-    [output writeMessage:8 value:self.carpenter];
+    [output writeMessage:9 value:self.carpenter];
   }
   if (self.hasAviary) {
-    [output writeMessage:9 value:self.aviary];
+    [output writeMessage:10 value:self.aviary];
   }
   if (self.hasUserCityExpansionData) {
     [output writeMessage:11 value:self.userCityExpansionData];
@@ -19389,20 +19143,23 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   for (FullUserProto* element in self.ownerAlliesList) {
     size += computeMessageSize(4, element);
   }
+  for (FullUserProto* element in self.ownerEnemiesList) {
+    size += computeMessageSize(5, element);
+  }
   if (self.hasArmory) {
-    size += computeMessageSize(5, self.armory);
+    size += computeMessageSize(6, self.armory);
   }
   if (self.hasVault) {
-    size += computeMessageSize(6, self.vault);
+    size += computeMessageSize(7, self.vault);
   }
   if (self.hasMarketplace) {
-    size += computeMessageSize(7, self.marketplace);
+    size += computeMessageSize(8, self.marketplace);
   }
   if (self.hasCarpenter) {
-    size += computeMessageSize(8, self.carpenter);
+    size += computeMessageSize(9, self.carpenter);
   }
   if (self.hasAviary) {
-    size += computeMessageSize(9, self.aviary);
+    size += computeMessageSize(10, self.aviary);
   }
   if (self.hasUserCityExpansionData) {
     size += computeMessageSize(11, self.userCityExpansionData);
@@ -19510,6 +19267,12 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
     }
     [result.mutableOwnerAlliesList addObjectsFromArray:other.mutableOwnerAlliesList];
   }
+  if (other.mutableOwnerEnemiesList.count > 0) {
+    if (result.mutableOwnerEnemiesList == nil) {
+      result.mutableOwnerEnemiesList = [NSMutableArray array];
+    }
+    [result.mutableOwnerEnemiesList addObjectsFromArray:other.mutableOwnerEnemiesList];
+  }
   if (other.hasArmory) {
     [self mergeArmory:other.armory];
   }
@@ -19580,6 +19343,12 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         break;
       }
       case 42: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addOwnerEnemies:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasArmory) {
           [subBuilder mergeFrom:self.armory];
@@ -19588,7 +19357,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setArmory:[subBuilder buildPartial]];
         break;
       }
-      case 50: {
+      case 58: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasVault) {
           [subBuilder mergeFrom:self.vault];
@@ -19597,7 +19366,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setVault:[subBuilder buildPartial]];
         break;
       }
-      case 58: {
+      case 66: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasMarketplace) {
           [subBuilder mergeFrom:self.marketplace];
@@ -19606,7 +19375,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setMarketplace:[subBuilder buildPartial]];
         break;
       }
-      case 66: {
+      case 74: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasCarpenter) {
           [subBuilder mergeFrom:self.carpenter];
@@ -19615,7 +19384,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setCarpenter:[subBuilder buildPartial]];
         break;
       }
-      case 74: {
+      case 82: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasAviary) {
           [subBuilder mergeFrom:self.aviary];
@@ -19738,6 +19507,35 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
     result.mutableOwnerAlliesList = [NSMutableArray array];
   }
   [result.mutableOwnerAlliesList addObject:value];
+  return self;
+}
+- (NSArray*) ownerEnemiesList {
+  if (result.mutableOwnerEnemiesList == nil) { return [NSArray array]; }
+  return result.mutableOwnerEnemiesList;
+}
+- (FullUserProto*) ownerEnemiesAtIndex:(int32_t) index {
+  return [result ownerEnemiesAtIndex:index];
+}
+- (LoadPlayerCityResponseProto_Builder*) replaceOwnerEnemiesAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableOwnerEnemiesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addAllOwnerEnemies:(NSArray*) values {
+  if (result.mutableOwnerEnemiesList == nil) {
+    result.mutableOwnerEnemiesList = [NSMutableArray array];
+  }
+  [result.mutableOwnerEnemiesList addObjectsFromArray:values];
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearOwnerEnemiesList {
+  result.mutableOwnerEnemiesList = nil;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) addOwnerEnemies:(FullUserProto*) value {
+  if (result.mutableOwnerEnemiesList == nil) {
+    result.mutableOwnerEnemiesList = [NSMutableArray array];
+  }
+  [result.mutableOwnerEnemiesList addObject:value];
   return self;
 }
 - (BOOL) hasArmory {
@@ -26375,6 +26173,1038 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
 - (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer {
   result.hasReferredPlayer = NO;
   result.referredPlayer = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface EquipEquipmentRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t equipId;
+@end
+
+@implementation EquipEquipmentRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasEquipId {
+  return !!hasEquipId_;
+}
+- (void) setHasEquipId:(BOOL) value {
+  hasEquipId_ = !!value;
+}
+@synthesize equipId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.equipId = 0;
+  }
+  return self;
+}
+static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [EquipEquipmentRequestProto class]) {
+    defaultEquipEquipmentRequestProtoInstance = [[EquipEquipmentRequestProto alloc] init];
+  }
+}
++ (EquipEquipmentRequestProto*) defaultInstance {
+  return defaultEquipEquipmentRequestProtoInstance;
+}
+- (EquipEquipmentRequestProto*) defaultInstance {
+  return defaultEquipEquipmentRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasEquipId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasEquipId) {
+    [output writeInt32:2 value:self.equipId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasEquipId) {
+    size += computeInt32Size(2, self.equipId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EquipEquipmentRequestProto*) parseFromData:(NSData*) data {
+  return (EquipEquipmentRequestProto*)[[[EquipEquipmentRequestProto builder] mergeFromData:data] build];
+}
++ (EquipEquipmentRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEquipmentRequestProto*)[[[EquipEquipmentRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EquipEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EquipEquipmentRequestProto*)[[[EquipEquipmentRequestProto builder] mergeFromInputStream:input] build];
+}
++ (EquipEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEquipmentRequestProto*)[[[EquipEquipmentRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EquipEquipmentRequestProto*)[[[EquipEquipmentRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EquipEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEquipmentRequestProto*)[[[EquipEquipmentRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEquipmentRequestProto_Builder*) builder {
+  return [[[EquipEquipmentRequestProto_Builder alloc] init] autorelease];
+}
++ (EquipEquipmentRequestProto_Builder*) builderWithPrototype:(EquipEquipmentRequestProto*) prototype {
+  return [[EquipEquipmentRequestProto builder] mergeFrom:prototype];
+}
+- (EquipEquipmentRequestProto_Builder*) builder {
+  return [EquipEquipmentRequestProto builder];
+}
+@end
+
+@interface EquipEquipmentRequestProto_Builder()
+@property (retain) EquipEquipmentRequestProto* result;
+@end
+
+@implementation EquipEquipmentRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EquipEquipmentRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EquipEquipmentRequestProto_Builder*) clear {
+  self.result = [[[EquipEquipmentRequestProto alloc] init] autorelease];
+  return self;
+}
+- (EquipEquipmentRequestProto_Builder*) clone {
+  return [EquipEquipmentRequestProto builderWithPrototype:result];
+}
+- (EquipEquipmentRequestProto*) defaultInstance {
+  return [EquipEquipmentRequestProto defaultInstance];
+}
+- (EquipEquipmentRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EquipEquipmentRequestProto*) buildPartial {
+  EquipEquipmentRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EquipEquipmentRequestProto_Builder*) mergeFrom:(EquipEquipmentRequestProto*) other {
+  if (other == [EquipEquipmentRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasEquipId) {
+    [self setEquipId:other.equipId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EquipEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EquipEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setEquipId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EquipEquipmentRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EquipEquipmentRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EquipEquipmentRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EquipEquipmentRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasEquipId {
+  return result.hasEquipId;
+}
+- (int32_t) equipId {
+  return result.equipId;
+}
+- (EquipEquipmentRequestProto_Builder*) setEquipId:(int32_t) value {
+  result.hasEquipId = YES;
+  result.equipId = value;
+  return self;
+}
+- (EquipEquipmentRequestProto_Builder*) clearEquipId {
+  result.hasEquipId = NO;
+  result.equipId = 0;
+  return self;
+}
+@end
+
+@interface EquipEquipmentResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property EquipEquipmentResponseProto_EquipEquipmentStatus status;
+@end
+
+@implementation EquipEquipmentResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = EquipEquipmentResponseProto_EquipEquipmentStatusSuccess;
+  }
+  return self;
+}
+static EquipEquipmentResponseProto* defaultEquipEquipmentResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [EquipEquipmentResponseProto class]) {
+    defaultEquipEquipmentResponseProtoInstance = [[EquipEquipmentResponseProto alloc] init];
+  }
+}
++ (EquipEquipmentResponseProto*) defaultInstance {
+  return defaultEquipEquipmentResponseProtoInstance;
+}
+- (EquipEquipmentResponseProto*) defaultInstance {
+  return defaultEquipEquipmentResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EquipEquipmentResponseProto*) parseFromData:(NSData*) data {
+  return (EquipEquipmentResponseProto*)[[[EquipEquipmentResponseProto builder] mergeFromData:data] build];
+}
++ (EquipEquipmentResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEquipmentResponseProto*)[[[EquipEquipmentResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EquipEquipmentResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EquipEquipmentResponseProto*)[[[EquipEquipmentResponseProto builder] mergeFromInputStream:input] build];
+}
++ (EquipEquipmentResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEquipmentResponseProto*)[[[EquipEquipmentResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEquipmentResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EquipEquipmentResponseProto*)[[[EquipEquipmentResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EquipEquipmentResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EquipEquipmentResponseProto*)[[[EquipEquipmentResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EquipEquipmentResponseProto_Builder*) builder {
+  return [[[EquipEquipmentResponseProto_Builder alloc] init] autorelease];
+}
++ (EquipEquipmentResponseProto_Builder*) builderWithPrototype:(EquipEquipmentResponseProto*) prototype {
+  return [[EquipEquipmentResponseProto builder] mergeFrom:prototype];
+}
+- (EquipEquipmentResponseProto_Builder*) builder {
+  return [EquipEquipmentResponseProto builder];
+}
+@end
+
+BOOL EquipEquipmentResponseProto_EquipEquipmentStatusIsValidValue(EquipEquipmentResponseProto_EquipEquipmentStatus value) {
+  switch (value) {
+    case EquipEquipmentResponseProto_EquipEquipmentStatusSuccess:
+    case EquipEquipmentResponseProto_EquipEquipmentStatusNotHighEnoughLevel:
+    case EquipEquipmentResponseProto_EquipEquipmentStatusDoesNotHaveThisEquip:
+    case EquipEquipmentResponseProto_EquipEquipmentStatusNotAnEquip:
+    case EquipEquipmentResponseProto_EquipEquipmentStatusIncorrectClassType:
+    case EquipEquipmentResponseProto_EquipEquipmentStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface EquipEquipmentResponseProto_Builder()
+@property (retain) EquipEquipmentResponseProto* result;
+@end
+
+@implementation EquipEquipmentResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EquipEquipmentResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EquipEquipmentResponseProto_Builder*) clear {
+  self.result = [[[EquipEquipmentResponseProto alloc] init] autorelease];
+  return self;
+}
+- (EquipEquipmentResponseProto_Builder*) clone {
+  return [EquipEquipmentResponseProto builderWithPrototype:result];
+}
+- (EquipEquipmentResponseProto*) defaultInstance {
+  return [EquipEquipmentResponseProto defaultInstance];
+}
+- (EquipEquipmentResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EquipEquipmentResponseProto*) buildPartial {
+  EquipEquipmentResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EquipEquipmentResponseProto_Builder*) mergeFrom:(EquipEquipmentResponseProto*) other {
+  if (other == [EquipEquipmentResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EquipEquipmentResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EquipEquipmentResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (EquipEquipmentResponseProto_EquipEquipmentStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EquipEquipmentResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EquipEquipmentResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EquipEquipmentResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EquipEquipmentResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (EquipEquipmentResponseProto_EquipEquipmentStatus) status {
+  return result.status;
+}
+- (EquipEquipmentResponseProto_Builder*) setStatus:(EquipEquipmentResponseProto_EquipEquipmentStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (EquipEquipmentResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = EquipEquipmentResponseProto_EquipEquipmentStatusSuccess;
+  return self;
+}
+@end
+
+@interface ChangeUserLocationRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) LocationProto* userLocation;
+@end
+
+@implementation ChangeUserLocationRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserLocation {
+  return !!hasUserLocation_;
+}
+- (void) setHasUserLocation:(BOOL) value {
+  hasUserLocation_ = !!value;
+}
+@synthesize userLocation;
+- (void) dealloc {
+  self.sender = nil;
+  self.userLocation = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userLocation = [LocationProto defaultInstance];
+  }
+  return self;
+}
+static ChangeUserLocationRequestProto* defaultChangeUserLocationRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ChangeUserLocationRequestProto class]) {
+    defaultChangeUserLocationRequestProtoInstance = [[ChangeUserLocationRequestProto alloc] init];
+  }
+}
++ (ChangeUserLocationRequestProto*) defaultInstance {
+  return defaultChangeUserLocationRequestProtoInstance;
+}
+- (ChangeUserLocationRequestProto*) defaultInstance {
+  return defaultChangeUserLocationRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasUserLocation) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  if (!self.userLocation.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserLocation) {
+    [output writeMessage:2 value:self.userLocation];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserLocation) {
+    size += computeMessageSize(2, self.userLocation);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data {
+  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromData:data] build];
+}
++ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeUserLocationRequestProto*)[[[ChangeUserLocationRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeUserLocationRequestProto_Builder*) builder {
+  return [[[ChangeUserLocationRequestProto_Builder alloc] init] autorelease];
+}
++ (ChangeUserLocationRequestProto_Builder*) builderWithPrototype:(ChangeUserLocationRequestProto*) prototype {
+  return [[ChangeUserLocationRequestProto builder] mergeFrom:prototype];
+}
+- (ChangeUserLocationRequestProto_Builder*) builder {
+  return [ChangeUserLocationRequestProto builder];
+}
+@end
+
+@interface ChangeUserLocationRequestProto_Builder()
+@property (retain) ChangeUserLocationRequestProto* result;
+@end
+
+@implementation ChangeUserLocationRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ChangeUserLocationRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ChangeUserLocationRequestProto_Builder*) clear {
+  self.result = [[[ChangeUserLocationRequestProto alloc] init] autorelease];
+  return self;
+}
+- (ChangeUserLocationRequestProto_Builder*) clone {
+  return [ChangeUserLocationRequestProto builderWithPrototype:result];
+}
+- (ChangeUserLocationRequestProto*) defaultInstance {
+  return [ChangeUserLocationRequestProto defaultInstance];
+}
+- (ChangeUserLocationRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ChangeUserLocationRequestProto*) buildPartial {
+  ChangeUserLocationRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ChangeUserLocationRequestProto_Builder*) mergeFrom:(ChangeUserLocationRequestProto*) other {
+  if (other == [ChangeUserLocationRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserLocation) {
+    [self mergeUserLocation:other.userLocation];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        LocationProto_Builder* subBuilder = [LocationProto builder];
+        if (self.hasUserLocation) {
+          [subBuilder mergeFrom:self.userLocation];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUserLocation:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ChangeUserLocationRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ChangeUserLocationRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ChangeUserLocationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ChangeUserLocationRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserLocation {
+  return result.hasUserLocation;
+}
+- (LocationProto*) userLocation {
+  return result.userLocation;
+}
+- (ChangeUserLocationRequestProto_Builder*) setUserLocation:(LocationProto*) value {
+  result.hasUserLocation = YES;
+  result.userLocation = value;
+  return self;
+}
+- (ChangeUserLocationRequestProto_Builder*) setUserLocationBuilder:(LocationProto_Builder*) builderForValue {
+  return [self setUserLocation:[builderForValue build]];
+}
+- (ChangeUserLocationRequestProto_Builder*) mergeUserLocation:(LocationProto*) value {
+  if (result.hasUserLocation &&
+      result.userLocation != [LocationProto defaultInstance]) {
+    result.userLocation =
+      [[[LocationProto builderWithPrototype:result.userLocation] mergeFrom:value] buildPartial];
+  } else {
+    result.userLocation = value;
+  }
+  result.hasUserLocation = YES;
+  return self;
+}
+- (ChangeUserLocationRequestProto_Builder*) clearUserLocation {
+  result.hasUserLocation = NO;
+  result.userLocation = [LocationProto defaultInstance];
+  return self;
+}
+@end
+
+@interface ChangeUserLocationResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property ChangeUserLocationResponseProto_ChangeUserLocationStatus status;
+@end
+
+@implementation ChangeUserLocationResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess;
+  }
+  return self;
+}
+static ChangeUserLocationResponseProto* defaultChangeUserLocationResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ChangeUserLocationResponseProto class]) {
+    defaultChangeUserLocationResponseProtoInstance = [[ChangeUserLocationResponseProto alloc] init];
+  }
+}
++ (ChangeUserLocationResponseProto*) defaultInstance {
+  return defaultChangeUserLocationResponseProtoInstance;
+}
+- (ChangeUserLocationResponseProto*) defaultInstance {
+  return defaultChangeUserLocationResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ChangeUserLocationResponseProto*) parseFromData:(NSData*) data {
+  return (ChangeUserLocationResponseProto*)[[[ChangeUserLocationResponseProto builder] mergeFromData:data] build];
+}
++ (ChangeUserLocationResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeUserLocationResponseProto*)[[[ChangeUserLocationResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ChangeUserLocationResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ChangeUserLocationResponseProto*)[[[ChangeUserLocationResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ChangeUserLocationResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeUserLocationResponseProto*)[[[ChangeUserLocationResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeUserLocationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ChangeUserLocationResponseProto*)[[[ChangeUserLocationResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ChangeUserLocationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ChangeUserLocationResponseProto*)[[[ChangeUserLocationResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ChangeUserLocationResponseProto_Builder*) builder {
+  return [[[ChangeUserLocationResponseProto_Builder alloc] init] autorelease];
+}
++ (ChangeUserLocationResponseProto_Builder*) builderWithPrototype:(ChangeUserLocationResponseProto*) prototype {
+  return [[ChangeUserLocationResponseProto builder] mergeFrom:prototype];
+}
+- (ChangeUserLocationResponseProto_Builder*) builder {
+  return [ChangeUserLocationResponseProto builder];
+}
+@end
+
+BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(ChangeUserLocationResponseProto_ChangeUserLocationStatus value) {
+  switch (value) {
+    case ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess:
+    case ChangeUserLocationResponseProto_ChangeUserLocationStatusInvalidBounds:
+    case ChangeUserLocationResponseProto_ChangeUserLocationStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface ChangeUserLocationResponseProto_Builder()
+@property (retain) ChangeUserLocationResponseProto* result;
+@end
+
+@implementation ChangeUserLocationResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ChangeUserLocationResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ChangeUserLocationResponseProto_Builder*) clear {
+  self.result = [[[ChangeUserLocationResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ChangeUserLocationResponseProto_Builder*) clone {
+  return [ChangeUserLocationResponseProto builderWithPrototype:result];
+}
+- (ChangeUserLocationResponseProto*) defaultInstance {
+  return [ChangeUserLocationResponseProto defaultInstance];
+}
+- (ChangeUserLocationResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ChangeUserLocationResponseProto*) buildPartial {
+  ChangeUserLocationResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ChangeUserLocationResponseProto_Builder*) mergeFrom:(ChangeUserLocationResponseProto*) other {
+  if (other == [ChangeUserLocationResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ChangeUserLocationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ChangeUserLocationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ChangeUserLocationResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ChangeUserLocationResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ChangeUserLocationResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ChangeUserLocationResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (ChangeUserLocationResponseProto_ChangeUserLocationStatus) status {
+  return result.status;
+}
+- (ChangeUserLocationResponseProto_Builder*) setStatus:(ChangeUserLocationResponseProto_ChangeUserLocationStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (ChangeUserLocationResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess;
   return self;
 }
 @end

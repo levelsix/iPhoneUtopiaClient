@@ -16,13 +16,17 @@
 
 @end
 
-@interface PinView : MKAnnotationView {
-  UILabel *_label;
-}
+@interface PinView : MKAnnotationView
+
+@property (nonatomic, retain) IBOutlet UIView *view;
+@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *imgView;
+
 @end
 
 @interface MapViewController : UIViewController <MKMapViewDelegate> {
   MKMapView *_mapView;
+  BOOL _loaded;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;

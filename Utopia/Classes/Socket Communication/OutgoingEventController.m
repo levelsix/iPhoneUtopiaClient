@@ -162,23 +162,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         return NO;
       }
       gs.armorEquipped = equipId;
-    } else if (fep.equipType == FullEquipProto_EquipTypeAccessory) {
+    } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
       if (gs.amuletEquipped == equipId) {
         return NO;
       }
       gs.amuletEquipped = equipId;
     }
+    
+    [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:equipId];
   } else {
     [Globals popupMessage:@"You do not own this equip"];
+    return NO;
   }
   
   return YES;
 }
 
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
-  NSLog(@"%@", [NSValue valueWithCGRect:bounds]);
+  NSLog(@"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];
+    return;
+  }
+  
+  if (numEnemies <= 0) {
+    [Globals popupMessage:@"Invalid number of enemies to retrieve"];
     return;
   }
   
@@ -647,6 +655,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retrieveEquipStore {
   [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory];
 }
+
 - (void) loadPlayerCity:(int)userId {
   MinimumUserProto *mup = [[[MinimumUserProto builder] setUserId:userId] build];
   

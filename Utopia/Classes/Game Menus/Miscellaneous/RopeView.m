@@ -14,7 +14,7 @@ static UIColor *ropeImage = nil;
 
 - (UIColor *)ropeImage {
   if (!ropeImage) {
-    ropeImage = [UIColor colorWithPatternImage:[UIImage imageNamed:@"marketrope.png"]];
+    ropeImage = [[UIColor colorWithPatternImage:[UIImage imageNamed:@"marketrope.png"]] retain];
   }
   return ropeImage;
 }

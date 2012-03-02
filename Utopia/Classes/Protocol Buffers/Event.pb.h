@@ -16,6 +16,8 @@
 @class BuildStructJobProto_Builder;
 @class ChangeUserLocationRequestProto;
 @class ChangeUserLocationRequestProto_Builder;
+@class ChangeUserLocationResponseProto;
+@class ChangeUserLocationResponseProto_Builder;
 @class ChatRequestProto;
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
@@ -32,6 +34,10 @@
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
 @class EnableAPNSResponseProto_Builder;
+@class EquipEquipmentRequestProto;
+@class EquipEquipmentRequestProto_Builder;
+@class EquipEquipmentResponseProto;
+@class EquipEquipmentResponseProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
@@ -598,6 +604,25 @@ typedef enum {
 
 BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsValidValue(PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatus value);
 
+typedef enum {
+  EquipEquipmentResponseProto_EquipEquipmentStatusSuccess = 0,
+  EquipEquipmentResponseProto_EquipEquipmentStatusNotHighEnoughLevel = 1,
+  EquipEquipmentResponseProto_EquipEquipmentStatusDoesNotHaveThisEquip = 2,
+  EquipEquipmentResponseProto_EquipEquipmentStatusNotAnEquip = 3,
+  EquipEquipmentResponseProto_EquipEquipmentStatusIncorrectClassType = 4,
+  EquipEquipmentResponseProto_EquipEquipmentStatusOtherFail = 5,
+} EquipEquipmentResponseProto_EquipEquipmentStatus;
+
+BOOL EquipEquipmentResponseProto_EquipEquipmentStatusIsValidValue(EquipEquipmentResponseProto_EquipEquipmentStatus value);
+
+typedef enum {
+  ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess = 0,
+  ChangeUserLocationResponseProto_ChangeUserLocationStatusInvalidBounds = 1,
+  ChangeUserLocationResponseProto_ChangeUserLocationStatusOtherFail = 2,
+} ChangeUserLocationResponseProto_ChangeUserLocationStatus;
+
+BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(ChangeUserLocationResponseProto_ChangeUserLocationStatus value);
+
 
 @interface EventRoot : NSObject {
 }
@@ -735,10 +760,12 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 
 @interface BattleRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasClientTime_:1;
   BOOL hasNeutralCityId_:1;
   BOOL hasAttacker_:1;
   BOOL hasDefender_:1;
   BOOL hasBattleResult_:1;
+  int64_t clientTime;
   int32_t neutralCityId;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
@@ -747,10 +774,12 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (BOOL) hasAttacker;
 - (BOOL) hasDefender;
 - (BOOL) hasBattleResult;
+- (BOOL) hasClientTime;
 - (BOOL) hasNeutralCityId;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) BattleResult battleResult;
+@property (readonly) int64_t clientTime;
 @property (readonly) int32_t neutralCityId;
 
 + (BattleRequestProto*) defaultInstance;
@@ -805,6 +834,11 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (BattleResult) battleResult;
 - (BattleRequestProto_Builder*) setBattleResult:(BattleResult) value;
 - (BattleRequestProto_Builder*) clearBattleResult;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (BattleRequestProto_Builder*) setClientTime:(int64_t) value;
+- (BattleRequestProto_Builder*) clearClientTime;
 
 - (BOOL) hasNeutralCityId;
 - (int32_t) neutralCityId;
@@ -1900,76 +1934,6 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (UserCreateResponseProto_UserCreateStatus) status;
 - (UserCreateResponseProto_Builder*) setStatus:(UserCreateResponseProto_UserCreateStatus) value;
 - (UserCreateResponseProto_Builder*) clearStatus;
-@end
-
-@interface ChangeUserLocationRequestProto : PBGeneratedMessage {
-@private
-  BOOL hasCityId_:1;
-  BOOL hasSender_:1;
-  BOOL hasUserLocation_:1;
-  int32_t cityId;
-  MinimumUserProto* sender;
-  LocationProto* userLocation;
-}
-- (BOOL) hasSender;
-- (BOOL) hasCityId;
-- (BOOL) hasUserLocation;
-@property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t cityId;
-@property (readonly, retain) LocationProto* userLocation;
-
-+ (ChangeUserLocationRequestProto*) defaultInstance;
-- (ChangeUserLocationRequestProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (ChangeUserLocationRequestProto_Builder*) builder;
-+ (ChangeUserLocationRequestProto_Builder*) builder;
-+ (ChangeUserLocationRequestProto_Builder*) builderWithPrototype:(ChangeUserLocationRequestProto*) prototype;
-
-+ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data;
-+ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface ChangeUserLocationRequestProto_Builder : PBGeneratedMessage_Builder {
-@private
-  ChangeUserLocationRequestProto* result;
-}
-
-- (ChangeUserLocationRequestProto*) defaultInstance;
-
-- (ChangeUserLocationRequestProto_Builder*) clear;
-- (ChangeUserLocationRequestProto_Builder*) clone;
-
-- (ChangeUserLocationRequestProto*) build;
-- (ChangeUserLocationRequestProto*) buildPartial;
-
-- (ChangeUserLocationRequestProto_Builder*) mergeFrom:(ChangeUserLocationRequestProto*) other;
-- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasSender;
-- (MinimumUserProto*) sender;
-- (ChangeUserLocationRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (ChangeUserLocationRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (ChangeUserLocationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (ChangeUserLocationRequestProto_Builder*) clearSender;
-
-- (BOOL) hasCityId;
-- (int32_t) cityId;
-- (ChangeUserLocationRequestProto_Builder*) setCityId:(int32_t) value;
-- (ChangeUserLocationRequestProto_Builder*) clearCityId;
-
-- (BOOL) hasUserLocation;
-- (LocationProto*) userLocation;
-- (ChangeUserLocationRequestProto_Builder*) setUserLocation:(LocationProto*) value;
-- (ChangeUserLocationRequestProto_Builder*) setUserLocationBuilder:(LocationProto_Builder*) builderForValue;
-- (ChangeUserLocationRequestProto_Builder*) mergeUserLocation:(LocationProto*) value;
-- (ChangeUserLocationRequestProto_Builder*) clearUserLocation;
 @end
 
 @interface RetrieveTasksForCityRequestProto : PBGeneratedMessage {
@@ -4955,6 +4919,7 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
   LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
   NSMutableArray* mutableOwnerNormStructsList;
   NSMutableArray* mutableOwnerAlliesList;
+  NSMutableArray* mutableOwnerEnemiesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -4976,6 +4941,8 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (FullUserStructureProto*) ownerNormStructsAtIndex:(int32_t) index;
 - (NSArray*) ownerAlliesList;
 - (FullUserProto*) ownerAlliesAtIndex:(int32_t) index;
+- (NSArray*) ownerEnemiesList;
+- (FullUserProto*) ownerEnemiesAtIndex:(int32_t) index;
 
 + (LoadPlayerCityResponseProto*) defaultInstance;
 - (LoadPlayerCityResponseProto*) defaultInstance;
@@ -5036,6 +5003,13 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (LoadPlayerCityResponseProto_Builder*) addOwnerAllies:(FullUserProto*) value;
 - (LoadPlayerCityResponseProto_Builder*) addAllOwnerAllies:(NSArray*) values;
 - (LoadPlayerCityResponseProto_Builder*) clearOwnerAlliesList;
+
+- (NSArray*) ownerEnemiesList;
+- (FullUserProto*) ownerEnemiesAtIndex:(int32_t) index;
+- (LoadPlayerCityResponseProto_Builder*) replaceOwnerEnemiesAtIndex:(int32_t) index with:(FullUserProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) addOwnerEnemies:(FullUserProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) addAllOwnerEnemies:(NSArray*) values;
+- (LoadPlayerCityResponseProto_Builder*) clearOwnerEnemiesList;
 
 - (BOOL) hasArmory;
 - (FullUserCritstructProto*) armory;
@@ -6489,5 +6463,243 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 - (ReferralCodeUsedResponseProto_Builder*) setReferredPlayerBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (ReferralCodeUsedResponseProto_Builder*) mergeReferredPlayer:(MinimumUserProto*) value;
 - (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer;
+@end
+
+@interface EquipEquipmentRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasEquipId_:1;
+  BOOL hasSender_:1;
+  int32_t equipId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasEquipId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t equipId;
+
++ (EquipEquipmentRequestProto*) defaultInstance;
+- (EquipEquipmentRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EquipEquipmentRequestProto_Builder*) builder;
++ (EquipEquipmentRequestProto_Builder*) builder;
++ (EquipEquipmentRequestProto_Builder*) builderWithPrototype:(EquipEquipmentRequestProto*) prototype;
+
++ (EquipEquipmentRequestProto*) parseFromData:(NSData*) data;
++ (EquipEquipmentRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EquipEquipmentRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EquipEquipmentRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EquipEquipmentRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EquipEquipmentRequestProto* result;
+}
+
+- (EquipEquipmentRequestProto*) defaultInstance;
+
+- (EquipEquipmentRequestProto_Builder*) clear;
+- (EquipEquipmentRequestProto_Builder*) clone;
+
+- (EquipEquipmentRequestProto*) build;
+- (EquipEquipmentRequestProto*) buildPartial;
+
+- (EquipEquipmentRequestProto_Builder*) mergeFrom:(EquipEquipmentRequestProto*) other;
+- (EquipEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EquipEquipmentRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EquipEquipmentRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EquipEquipmentRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EquipEquipmentRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EquipEquipmentRequestProto_Builder*) clearSender;
+
+- (BOOL) hasEquipId;
+- (int32_t) equipId;
+- (EquipEquipmentRequestProto_Builder*) setEquipId:(int32_t) value;
+- (EquipEquipmentRequestProto_Builder*) clearEquipId;
+@end
+
+@interface EquipEquipmentResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  EquipEquipmentResponseProto_EquipEquipmentStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) EquipEquipmentResponseProto_EquipEquipmentStatus status;
+
++ (EquipEquipmentResponseProto*) defaultInstance;
+- (EquipEquipmentResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EquipEquipmentResponseProto_Builder*) builder;
++ (EquipEquipmentResponseProto_Builder*) builder;
++ (EquipEquipmentResponseProto_Builder*) builderWithPrototype:(EquipEquipmentResponseProto*) prototype;
+
++ (EquipEquipmentResponseProto*) parseFromData:(NSData*) data;
++ (EquipEquipmentResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEquipmentResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EquipEquipmentResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EquipEquipmentResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EquipEquipmentResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EquipEquipmentResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EquipEquipmentResponseProto* result;
+}
+
+- (EquipEquipmentResponseProto*) defaultInstance;
+
+- (EquipEquipmentResponseProto_Builder*) clear;
+- (EquipEquipmentResponseProto_Builder*) clone;
+
+- (EquipEquipmentResponseProto*) build;
+- (EquipEquipmentResponseProto*) buildPartial;
+
+- (EquipEquipmentResponseProto_Builder*) mergeFrom:(EquipEquipmentResponseProto*) other;
+- (EquipEquipmentResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EquipEquipmentResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EquipEquipmentResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EquipEquipmentResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EquipEquipmentResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EquipEquipmentResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (EquipEquipmentResponseProto_EquipEquipmentStatus) status;
+- (EquipEquipmentResponseProto_Builder*) setStatus:(EquipEquipmentResponseProto_EquipEquipmentStatus) value;
+- (EquipEquipmentResponseProto_Builder*) clearStatus;
+@end
+
+@interface ChangeUserLocationRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasUserLocation_:1;
+  MinimumUserProto* sender;
+  LocationProto* userLocation;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUserLocation;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) LocationProto* userLocation;
+
++ (ChangeUserLocationRequestProto*) defaultInstance;
+- (ChangeUserLocationRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ChangeUserLocationRequestProto_Builder*) builder;
++ (ChangeUserLocationRequestProto_Builder*) builder;
++ (ChangeUserLocationRequestProto_Builder*) builderWithPrototype:(ChangeUserLocationRequestProto*) prototype;
+
++ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data;
++ (ChangeUserLocationRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ChangeUserLocationRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ChangeUserLocationRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ChangeUserLocationRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ChangeUserLocationRequestProto* result;
+}
+
+- (ChangeUserLocationRequestProto*) defaultInstance;
+
+- (ChangeUserLocationRequestProto_Builder*) clear;
+- (ChangeUserLocationRequestProto_Builder*) clone;
+
+- (ChangeUserLocationRequestProto*) build;
+- (ChangeUserLocationRequestProto*) buildPartial;
+
+- (ChangeUserLocationRequestProto_Builder*) mergeFrom:(ChangeUserLocationRequestProto*) other;
+- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ChangeUserLocationRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ChangeUserLocationRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ChangeUserLocationRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ChangeUserLocationRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ChangeUserLocationRequestProto_Builder*) clearSender;
+
+- (BOOL) hasUserLocation;
+- (LocationProto*) userLocation;
+- (ChangeUserLocationRequestProto_Builder*) setUserLocation:(LocationProto*) value;
+- (ChangeUserLocationRequestProto_Builder*) setUserLocationBuilder:(LocationProto_Builder*) builderForValue;
+- (ChangeUserLocationRequestProto_Builder*) mergeUserLocation:(LocationProto*) value;
+- (ChangeUserLocationRequestProto_Builder*) clearUserLocation;
+@end
+
+@interface ChangeUserLocationResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ChangeUserLocationResponseProto_ChangeUserLocationStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ChangeUserLocationResponseProto_ChangeUserLocationStatus status;
+
++ (ChangeUserLocationResponseProto*) defaultInstance;
+- (ChangeUserLocationResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ChangeUserLocationResponseProto_Builder*) builder;
++ (ChangeUserLocationResponseProto_Builder*) builder;
++ (ChangeUserLocationResponseProto_Builder*) builderWithPrototype:(ChangeUserLocationResponseProto*) prototype;
+
++ (ChangeUserLocationResponseProto*) parseFromData:(NSData*) data;
++ (ChangeUserLocationResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeUserLocationResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ChangeUserLocationResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ChangeUserLocationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ChangeUserLocationResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ChangeUserLocationResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ChangeUserLocationResponseProto* result;
+}
+
+- (ChangeUserLocationResponseProto*) defaultInstance;
+
+- (ChangeUserLocationResponseProto_Builder*) clear;
+- (ChangeUserLocationResponseProto_Builder*) clone;
+
+- (ChangeUserLocationResponseProto*) build;
+- (ChangeUserLocationResponseProto*) buildPartial;
+
+- (ChangeUserLocationResponseProto_Builder*) mergeFrom:(ChangeUserLocationResponseProto*) other;
+- (ChangeUserLocationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ChangeUserLocationResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ChangeUserLocationResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ChangeUserLocationResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ChangeUserLocationResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ChangeUserLocationResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (ChangeUserLocationResponseProto_ChangeUserLocationStatus) status;
+- (ChangeUserLocationResponseProto_Builder*) setStatus:(ChangeUserLocationResponseProto_ChangeUserLocationStatus) value;
+- (ChangeUserLocationResponseProto_Builder*) clearStatus;
 @end
 

@@ -151,13 +151,13 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
-						<object class="IBUIFontDescription" key="IBUIFontDescription" id="440149617">
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">1</int>
-							<double key="pointSize">6</double>
+							<double key="pointSize">8</double>
 						</object>
-						<object class="NSFont" key="IBUIFont" id="823933488">
+						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">Helvetica</string>
-							<double key="NSSize">6</double>
+							<double key="NSSize">8</double>
 							<int key="NSfFlags">16</int>
 						</object>
 					</object>
@@ -271,8 +271,15 @@
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
-						<reference key="IBUIFontDescription" ref="440149617"/>
-						<reference key="IBUIFont" ref="823933488"/>
+						<object class="IBUIFontDescription" key="IBUIFontDescription">
+							<int key="type">1</int>
+							<double key="pointSize">6</double>
+						</object>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">Helvetica</string>
+							<double key="NSSize">6</double>
+							<int key="NSfFlags">16</int>
+						</object>
 					</object>
 				</array>
 				<string key="NSFrameSize">{87, 47}</string>
@@ -387,8 +394,8 @@
 							<reference ref="226648621"/>
 							<reference ref="438954117"/>
 							<reference ref="405322345"/>
-							<reference ref="326583453"/>
 							<reference ref="908525898"/>
+							<reference ref="326583453"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -675,19 +682,34 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackLabel">UILabel</string>
+						<string key="attackStatButton">UIButton</string>
+						<string key="attackStatLabel">UILabel</string>
 						<string key="classLabel">UILabel</string>
 						<string key="curAmuletView">CurrentEquipView</string>
 						<string key="curArmorView">CurrentEquipView</string>
 						<string key="curWeaponView">CurrentEquipView</string>
 						<string key="defenseLabel">UILabel</string>
+						<string key="defenseStatButton">UIButton</string>
+						<string key="defenseStatLabel">UILabel</string>
+						<string key="energyStatButton">UIButton</string>
+						<string key="energyStatLabel">UILabel</string>
+						<string key="equipTabView">UIView</string>
 						<string key="equipsScrollView">UIScrollView</string>
 						<string key="factionLabel">UILabel</string>
 						<string key="fleesLabel">UILabel</string>
+						<string key="hpCostLabel">UILabel</string>
+						<string key="hpStatButton">UIButton</string>
+						<string key="hpStatLabel">UILabel</string>
 						<string key="levelLabel">UILabel</string>
 						<string key="lossesLabel">UILabel</string>
 						<string key="nibEquipView">EquipView</string>
 						<string key="profileBar">ProfileBar</string>
 						<string key="profilePicture">UIImageView</string>
+						<string key="skillPointsLabel">UILabel</string>
+						<string key="skillTabView">UIView</string>
+						<string key="staminaCostLabel">UILabel</string>
+						<string key="staminaStatButton">UIButton</string>
+						<string key="staminaStatLabel">UILabel</string>
 						<string key="unequippableLabel">UILabel</string>
 						<string key="unequippableView">UIView</string>
 						<string key="userNameLabel">UILabel</string>
@@ -696,6 +718,14 @@
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="attackLabel">
 							<string key="name">attackLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackStatButton">
+							<string key="name">attackStatButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="attackStatLabel">
+							<string key="name">attackStatLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="classLabel">
@@ -718,6 +748,26 @@
 							<string key="name">defenseLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="defenseStatButton">
+							<string key="name">defenseStatButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="defenseStatLabel">
+							<string key="name">defenseStatLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="energyStatButton">
+							<string key="name">energyStatButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="energyStatLabel">
+							<string key="name">energyStatLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="equipTabView">
+							<string key="name">equipTabView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="equipsScrollView">
 							<string key="name">equipsScrollView</string>
 							<string key="candidateClassName">UIScrollView</string>
@@ -728,6 +778,18 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="fleesLabel">
 							<string key="name">fleesLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hpCostLabel">
+							<string key="name">hpCostLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hpStatButton">
+							<string key="name">hpStatButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hpStatLabel">
+							<string key="name">hpStatLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="levelLabel">
@@ -749,6 +811,26 @@
 						<object class="IBToOneOutletInfo" key="profilePicture">
 							<string key="name">profilePicture</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="skillPointsLabel">
+							<string key="name">skillPointsLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="skillTabView">
+							<string key="name">skillTabView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="staminaCostLabel">
+							<string key="name">staminaCostLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="staminaStatButton">
+							<string key="name">staminaStatButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="staminaStatLabel">
+							<string key="name">staminaStatLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="unequippableLabel">
 							<string key="name">unequippableLabel</string>

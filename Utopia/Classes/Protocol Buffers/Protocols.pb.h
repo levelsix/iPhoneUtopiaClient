@@ -16,6 +16,8 @@
 @class BuildStructJobProto_Builder;
 @class ChangeUserLocationRequestProto;
 @class ChangeUserLocationRequestProto_Builder;
+@class ChangeUserLocationResponseProto;
+@class ChangeUserLocationResponseProto_Builder;
 @class ChatRequestProto;
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
@@ -32,6 +34,10 @@
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
 @class EnableAPNSResponseProto_Builder;
+@class EquipEquipmentRequestProto;
+@class EquipEquipmentRequestProto_Builder;
+@class EquipEquipmentResponseProto;
+@class EquipEquipmentResponseProto_Builder;
 @class ExpansionWaitCompleteRequestProto;
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
@@ -259,6 +265,8 @@ typedef enum {
   EventProtocolRequestCEnableApnsEvent = 36,
   EventProtocolRequestCPurchaseMarketplaceLicenseEvent = 37,
   EventProtocolRequestCUserCreateEvent = 38,
+  EventProtocolRequestCEquipEquipmentEvent = 39,
+  EventProtocolRequestCChangeUserLocationEvent = 40,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -303,6 +311,8 @@ typedef enum {
   EventProtocolResponseSEnableApnsEvent = 36,
   EventProtocolResponseSPurchaseMarketplaceLicenseEvent = 37,
   EventProtocolResponseSUserCreateEvent = 38,
+  EventProtocolResponseSEquipEquipmentEvent = 39,
+  EventProtocolResponseSChangeUserLocationEvent = 40,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
   EventProtocolResponseSReferralCodeUsedEvent = 53,

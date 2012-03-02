@@ -803,16 +803,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasStamina) {
     return NO;
   }
-  if (!self.hasLastStaminaRefillTime) {
-    return NO;
-  }
   if (!self.hasIsLastStaminaStateFull) {
     return NO;
   }
   if (!self.hasEnergy) {
-    return NO;
-  }
-  if (!self.hasLastEnergyRefillTime) {
     return NO;
   }
   if (!self.hasIsLastEnergyStateFull) {
@@ -2590,7 +2584,7 @@ BOOL FullEquipProto_EquipTypeIsValidValue(FullEquipProto_EquipType value) {
   switch (value) {
     case FullEquipProto_EquipTypeWeapon:
     case FullEquipProto_EquipTypeArmor:
-    case FullEquipProto_EquipTypeAccessory:
+    case FullEquipProto_EquipTypeAmulet:
       return YES;
     default:
       return NO;
@@ -2601,6 +2595,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
     case FullEquipProto_ClassTypeWarrior:
     case FullEquipProto_ClassTypeArcher:
     case FullEquipProto_ClassTypeMage:
+    case FullEquipProto_ClassTypeAllAmulet:
       return YES;
     default:
       return NO;

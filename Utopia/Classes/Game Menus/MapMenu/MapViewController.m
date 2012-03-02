@@ -7,9 +7,11 @@
 //
 
 #import "MapViewController.h"
-#import "GameState.h"
 #import "SynthesizeSingleton.h"
 #import "OutgoingEventController.h"
+#import "ProfileViewController.h"
+
+#define THRESHOLD_ENEMIES_IN_BOUNDS 5
 
 @implementation EnemyAnnotation
 
@@ -20,7 +22,7 @@
     self.coordinate = CLLocationCoordinate2DMake(player.userLocation.latitude, player.userLocation.longitude);
     self.fup = player;
     self.title = player.name;
-    self.subtitle = [NSString stringWithFormat:@"Level %d", player.level];
+    self.subtitle = [NSString stringWithFormat:@"Level %d %@ %@", player.level, [Globals factionForUserType:player.userType], [Globals classForUserType:player.userType]];
   }
   return self;
 }
@@ -29,16 +31,37 @@
 
 @implementation PinView
 
-static UIImage *pinImage = nil;
+@synthesize levelLabel, view, imgView;
+
+static UIButton *leftButton = nil;
+static UIButton *rightButton = nil;
 
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
   if ((self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier])) {
-    self.image = [self getPinImage];
     self.canShowCallout = YES;
-    _label = [[UILabel alloc] initWithFrame:self.bounds];
-    [self addSubview:_label];
-    _label.text = @"Meep";
-    _label.backgroundColor = [UIColor clearColor];
+    
+    [[NSBundle mainBundle] loadNibNamed:@"PinView" owner:self options:nil];
+    [self addSubview:view];
+    self.frame = view.frame;
+    
+    if (!leftButton) {
+      leftButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+      UIImage *img = [UIImage imageNamed:@"mapprofileicon.png"];
+      [leftButton setImage:img forState:UIControlStateNormal];
+      leftButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+      leftButton.tag = 1;
+    }
+    
+    if (!rightButton) {
+      rightButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+      UIImage *img = [UIImage imageNamed:@"mapattackicon.png"];
+      [rightButton setImage:img forState:UIControlStateNormal];
+      rightButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+      rightButton.tag = 2;
+    }
+    
+    self.leftCalloutAccessoryView = leftButton;
+    self.rightCalloutAccessoryView = rightButton;
   }
   return self;
 }
@@ -47,16 +70,8 @@ static UIImage *pinImage = nil;
   [super setAnnotation:annotation];
   
   if ([annotation isKindOfClass:[EnemyAnnotation class]]) {
-    NSLog(@"meep");
-    _label.text = [NSString stringWithFormat:@"%d", [[(EnemyAnnotation *)annotation fup] level]];
+    levelLabel.text = [NSString stringWithFormat:@"%d", [[(EnemyAnnotation *)annotation fup] level]];
   }
-}
-      
-- (UIImage *) getPinImage {
-  if (!pinImage) {
-    pinImage = [[UIImage imageNamed:@"pin.png"] retain];
-  }
-  return pinImage;
 }
 
 @end
@@ -79,11 +94,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [super viewDidAppear:animated];
   
   [self removeAllPins];
+  [[[GameState sharedGameState] attackList] removeAllObjects];
+  
+  if (_loaded) {
+    [self retrieveAttackListForCurrentBounds];
+  }
 }
 
 - (void) retrieveAttackListForCurrentBounds {
+  int curEnemies = [_mapView annotationsInMapRect:_mapView.visibleMapRect].count;
+  
+  if (curEnemies >= THRESHOLD_ENEMIES_IN_BOUNDS) {
+    return;
+  }
+  
   MKCoordinateRegion region = _mapView.region;
-  NSLog(@"Region: %f, %f, %f, %f", region.center.latitude, region.center.longitude, region.span.latitudeDelta, region.span.longitudeDelta);
   
   CGRect mapBounds;
   mapBounds.origin.x = region.center.longitude-region.span.longitudeDelta/2;
@@ -91,13 +116,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   mapBounds.size.width = region.span.longitudeDelta;
   mapBounds.size.height = region.span.latitudeDelta;
   
-  mapBounds.origin.x = -180;
-  mapBounds.origin.y = -90;
-  mapBounds.size.width = 360;
-  mapBounds.size.height = 180;
-  NSLog(@"%@", [NSValue valueWithCGRect:mapBounds]);
-  
-  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:20 bounds:mapBounds];
+  [[OutgoingEventController sharedOutgoingEventController] generateAttackList:THRESHOLD_ENEMIES_IN_BOUNDS-curEnemies bounds:mapBounds];
 }
 
 - (void) removeAllPins {
@@ -106,7 +125,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 - (void) addNewPins {
   NSMutableArray *arr = [[GameState sharedGameState] attackList];
-  for (int i = _mapView.annotations.count; i < arr.count; i++) {
+  int userLocEnabled = _mapView.userLocationVisible ? 1 : 0;
+  for (int i = _mapView.annotations.count-userLocEnabled; i < arr.count; i++) {
     EnemyAnnotation *annotation = [[EnemyAnnotation alloc] initWithPlayer:[arr objectAtIndex:i]];
     [_mapView addAnnotation:annotation];
     [annotation release];
@@ -114,21 +134,36 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 }
 
 - (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-  NSLog(@"%d", mapView == _mapView);
-  NSLog(@"Region: %f, %f, %f, %f", mapView.region.center.latitude, mapView.region.center.longitude, mapView.region.span.latitudeDelta, mapView.region.span.longitudeDelta);
+  _loaded = YES;
   [self retrieveAttackListForCurrentBounds];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
   static NSString *reuseId = @"enemyAnnotationView";
   
-  MKAnnotationView *mkav = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseId];
-  
-  if (!mkav) {
-    mkav = [[PinView alloc] initWithAnnotation:annotation reuseIdentifier:reuseId];
+  if ([annotation isKindOfClass:[EnemyAnnotation class]]) {
+    MKAnnotationView *mkav = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseId];
+    
+    if (!mkav) {
+      mkav = [[PinView alloc] initWithAnnotation:annotation reuseIdentifier:reuseId];
+    }
+    
+    return mkav;
   }
+  return nil;
+}
+
+- (void) mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+  int tag = control.tag;
+  FullUserProto *fup = [(EnemyAnnotation *)view.annotation fup];
   
-  return mkav;
+  if (tag == 1) {
+    // Left clicked
+    [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:fup];
+    [ProfileViewController displayView];
+  } else if (tag == 2) {
+    // Right clicked
+  }
 }
 
 - (IBAction)closeClicked:(id)sender {

@@ -37,6 +37,10 @@ static classname *shared##classname = nil; \
 		if (shared##classname == nil) \
 		{ \
 			shared##classname = [[self alloc] init]; \
+      \
+      if ([shared##classname isKindOfClass:[UIViewController class]]) { \
+        [(UIViewController *)shared##classname view]; \
+      } \
 		} \
 	} \
 	 \

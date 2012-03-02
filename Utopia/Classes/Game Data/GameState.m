@@ -31,6 +31,7 @@
 @synthesize referralCode = _referralCode;
 @synthesize battlesWon = _battlesWon;
 @synthesize battlesLost = _battlesLost;
+@synthesize flees = _flees;
 @synthesize location = _location;
 @synthesize numReferrals = _numReferrals;
 @synthesize experience = _experience;

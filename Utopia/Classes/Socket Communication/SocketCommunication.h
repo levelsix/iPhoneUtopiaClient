@@ -45,7 +45,7 @@
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
 - (void) sendRedeemMarketplaceEarningsMessage;
 
-- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(float)latUpperBound latLowerBound:(float)latLowerBound lonUpperBound:(float)lonUpperBound lonLowerBound:(float)lonLowerBound;
+- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
 - (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
 - (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType;
@@ -63,5 +63,8 @@
 
 - (void) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds;
 - (void) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType)type;
+
+- (void) sendEquipEquipmentMessage:(int) equipId;
+- (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
 
 @end

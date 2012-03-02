@@ -581,11 +581,6 @@ static int x = 0;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-  //  NSString *s = [textField.text stringByReplacingCharactersInRange:range withString:string];
-  //  NSString *t = [s stringByReplacingOccurrencesOfString:@"," withString:@""];
-  //  NSString *u = [t length] > PRICE_DIGITS ? [t substringToIndex:PRICE_DIGITS] : t;
-  //  NSNumber *n = [NSNumber numberWithInt:[u intValue]];
-  //  textField.text = [NSNumberFormatter localizedStringFromNumber:n numberStyle:NSNumberFormatterDecimalStyle];
   
   if ([[textField.text stringByReplacingCharactersInRange:range withString:string] length] > PRICE_DIGITS) {
     return NO;

@@ -156,6 +156,7 @@ typedef enum {
 @property (nonatomic, retain) UIImageView *equippingView;
 
 - (void) loadMyProfile;
+- (void) loadProfileForPlayer:(FullUserProto *)fup;
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev;
 

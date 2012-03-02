@@ -45,7 +45,7 @@ static IAPHelper * _sharedHelper;
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
   
-  NSLog(@"Received products results...");   
+  NSLog(@"Received products results for %d products...", response.products.count);   
   self.products = response.products;
   self.request = nil;
 }
@@ -91,8 +91,6 @@ static IAPHelper * _sharedHelper;
   
 }
 
-
-
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
   
   if (transaction.error.code != SKErrorPaymentCancelled)
@@ -124,7 +122,7 @@ static IAPHelper * _sharedHelper;
 
 - (void)buyProductIdentifier:(SKProduct *)product {
   
-  NSLog(@"Buying %@...", product);
+  NSLog(@"Buying %@...", product.debugDescription);
   
   SKPayment *payment = [SKPayment paymentWithProduct:product];
   [[SKPaymentQueue defaultQueue] addPayment:payment];

@@ -59,6 +59,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.productIdentifiers = [NSDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
   self.energyRefillCost = constants.diamondCostForEnergyRefill;
   self.staminaRefillCost = constants.diamondCostForStaminaRefill;
+  NSLog(@"x: %@", self.productIdentifiers);
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {

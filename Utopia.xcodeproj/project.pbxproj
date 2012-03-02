@@ -203,7 +203,6 @@
 		CF62506714EB5B7E006C59F9 /* iso-test2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62506514EB5B7E006C59F9 /* iso-test2-hd.png */; };
 		CF62506814EB5B7E006C59F9 /* iso-test2-hd.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF62506614EB5B7E006C59F9 /* iso-test2-hd.tmx */; };
 		CF62506A14EB5BAF006C59F9 /* metatiles-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62506914EB5BAF006C59F9 /* metatiles-hd.png */; };
-		CF62506C14EB62C3006C59F9 /* acad-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62506B14EB62C2006C59F9 /* acad-hd.png */; };
 		CF62506E14EB6302006C59F9 /* glow-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62506D14EB6301006C59F9 /* glow-hd.png */; };
 		CF62562214FC430D00249E1D /* equippedbgborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62562014FC430D00249E1D /* equippedbgborder.png */; };
 		CF62562314FC430D00249E1D /* equippedbgborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF62562114FC430D00249E1D /* equippedbgborder@2x.png */; };
@@ -332,6 +331,17 @@
 		CFB08F2D14F5FF0200B16CB1 /* struct4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2414F5FF0200B16CB1 /* struct4@2x.png */; };
 		CFB08F2E14F5FF0200B16CB1 /* struct2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2514F5FF0200B16CB1 /* struct2-hd.png */; };
 		CFB08F2F14F5FF0200B16CB1 /* struct2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB08F2614F5FF0200B16CB1 /* struct2@2x.png */; };
+		CFB7848915004B2B006AE852 /* PinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFB7848815004B2B006AE852 /* PinView.xib */; };
+		CFB78495150050B7006AE852 /* mapfilter.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB7848A150050B7006AE852 /* mapfilter.png */; };
+		CFB78496150050B7006AE852 /* mapfilter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB7848B150050B7006AE852 /* mapfilter@2x.png */; };
+		CFB78498150050B7006AE852 /* mapattackicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB7848D150050B7006AE852 /* mapattackicon.png */; };
+		CFB78499150050B7006AE852 /* mapprofileicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB7848E150050B7006AE852 /* mapprofileicon.png */; };
+		CFB7849A150050B7006AE852 /* mapprofileicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB7848F150050B7006AE852 /* mapprofileicon@2x.png */; };
+		CFB7849B150050B7006AE852 /* mapattackicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB78490150050B7006AE852 /* mapattackicon@2x.png */; };
+		CFB7849C150050B7006AE852 /* archer.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB78491150050B7006AE852 /* archer.png */; };
+		CFB7849D150050B7006AE852 /* archer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB78492150050B7006AE852 /* archer@2x.png */; };
+		CFB7849E150050B7006AE852 /* attackborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB78493150050B7006AE852 /* attackborder.png */; };
+		CFB7849F150050B7006AE852 /* attackborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB78494150050B7006AE852 /* attackborder@2x.png */; };
 		CFBAA03D14B3D52F007AB82F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA00F14B3D52F007AB82F /* AppDelegate.m */; };
 		CFBAA03E14B3D52F007AB82F /* DoorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA01114B3D52F007AB82F /* DoorViewController.m */; };
 		CFBAA03F14B3D52F007AB82F /* DoorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBAA01214B3D52F007AB82F /* DoorViewController.xib */; };
@@ -541,7 +551,6 @@
 		CFF9C33E14F3644F00CF3B73 /* struct3.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF9C33D14F3644F00CF3B73 /* struct3.png */; };
 		CFF9C34114F3833A00CF3B73 /* TopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF9C34014F3833900CF3B73 /* TopBar.m */; };
 		CFFD7C1414AC2C770054CC23 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C1314AC2C770054CC23 /* Default.png */; };
-		CFFD7C2D14AC99430054CC23 /* acad.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C2414AC99430054CC23 /* acad.png */; };
 		CFFD7C2E14AC99430054CC23 /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C2514AC99430054CC23 /* glow.png */; };
 		CFFD7C2F14AC99430054CC23 /* iso-test2.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C2614AC99430054CC23 /* iso-test2.png */; };
 		CFFD7C3014AC99440054CC23 /* iso-test2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C2714AC99430054CC23 /* iso-test2.tmx */; };
@@ -805,7 +814,6 @@
 		CF62506514EB5B7E006C59F9 /* iso-test2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iso-test2-hd.png"; sourceTree = "<group>"; };
 		CF62506614EB5B7E006C59F9 /* iso-test2-hd.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "iso-test2-hd.tmx"; sourceTree = "<group>"; };
 		CF62506914EB5BAF006C59F9 /* metatiles-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "metatiles-hd.png"; sourceTree = "<group>"; };
-		CF62506B14EB62C2006C59F9 /* acad-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "acad-hd.png"; sourceTree = "<group>"; };
 		CF62506D14EB6301006C59F9 /* glow-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glow-hd.png"; sourceTree = "<group>"; };
 		CF62562014FC430D00249E1D /* equippedbgborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equippedbgborder.png; sourceTree = "<group>"; };
 		CF62562114FC430D00249E1D /* equippedbgborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equippedbgborder@2x.png"; sourceTree = "<group>"; };
@@ -942,6 +950,17 @@
 		CFB08F2414F5FF0200B16CB1 /* struct4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct4@2x.png"; sourceTree = "<group>"; };
 		CFB08F2514F5FF0200B16CB1 /* struct2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct2-hd.png"; sourceTree = "<group>"; };
 		CFB08F2614F5FF0200B16CB1 /* struct2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct2@2x.png"; sourceTree = "<group>"; };
+		CFB7848815004B2B006AE852 /* PinView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PinView.xib; sourceTree = "<group>"; };
+		CFB7848A150050B7006AE852 /* mapfilter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapfilter.png; sourceTree = "<group>"; };
+		CFB7848B150050B7006AE852 /* mapfilter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapfilter@2x.png"; sourceTree = "<group>"; };
+		CFB7848D150050B7006AE852 /* mapattackicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapattackicon.png; sourceTree = "<group>"; };
+		CFB7848E150050B7006AE852 /* mapprofileicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapprofileicon.png; sourceTree = "<group>"; };
+		CFB7848F150050B7006AE852 /* mapprofileicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapprofileicon@2x.png"; sourceTree = "<group>"; };
+		CFB78490150050B7006AE852 /* mapattackicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapattackicon@2x.png"; sourceTree = "<group>"; };
+		CFB78491150050B7006AE852 /* archer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archer.png; sourceTree = "<group>"; };
+		CFB78492150050B7006AE852 /* archer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "archer@2x.png"; sourceTree = "<group>"; };
+		CFB78493150050B7006AE852 /* attackborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackborder.png; sourceTree = "<group>"; };
+		CFB78494150050B7006AE852 /* attackborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackborder@2x.png"; sourceTree = "<group>"; };
 		CFBAA00E14B3D52F007AB82F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CFBAA00F14B3D52F007AB82F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CFBAA01014B3D52F007AB82F /* DoorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoorViewController.h; sourceTree = "<group>"; };
@@ -1287,7 +1306,6 @@
 		CFF9C33F14F3833800CF3B73 /* TopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopBar.h; path = GameMap/TopBar.h; sourceTree = "<group>"; };
 		CFF9C34014F3833900CF3B73 /* TopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopBar.m; path = GameMap/TopBar.m; sourceTree = "<group>"; };
 		CFFD7C1314AC2C770054CC23 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
-		CFFD7C2414AC99430054CC23 /* acad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = acad.png; sourceTree = "<group>"; };
 		CFFD7C2514AC99430054CC23 /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
 		CFFD7C2614AC99430054CC23 /* iso-test2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iso-test2.png"; sourceTree = "<group>"; };
 		CFFD7C2714AC99430054CC23 /* iso-test2.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "iso-test2.tmx"; sourceTree = "<group>"; };
@@ -1375,6 +1393,7 @@
 				CF3D0A5E14CB88EA00D972B4 /* MapViewController.h */,
 				CF3D0A5F14CB88EA00D972B4 /* MapViewController.m */,
 				CF3D0A6014CB88EA00D972B4 /* MapViewController.xib */,
+				CFB7848815004B2B006AE852 /* PinView.xib */,
 			);
 			path = MapMenu;
 			sourceTree = "<group>";
@@ -2004,6 +2023,16 @@
 		CFFD7C2314AC99430054CC23 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFB7848A150050B7006AE852 /* mapfilter.png */,
+				CFB7848B150050B7006AE852 /* mapfilter@2x.png */,
+				CFB7848D150050B7006AE852 /* mapattackicon.png */,
+				CFB7848E150050B7006AE852 /* mapprofileicon.png */,
+				CFB7848F150050B7006AE852 /* mapprofileicon@2x.png */,
+				CFB78490150050B7006AE852 /* mapattackicon@2x.png */,
+				CFB78491150050B7006AE852 /* archer.png */,
+				CFB78492150050B7006AE852 /* archer@2x.png */,
+				CFB78493150050B7006AE852 /* attackborder.png */,
+				CFB78494150050B7006AE852 /* attackborder@2x.png */,
 				CF85A58514FF1A9F004B37AB /* skillattackicon.png */,
 				CF85A58614FF1A9F004B37AB /* skillattackicon@2x.png */,
 				CF85A58714FF1A9F004B37AB /* skilldefenseicon.png */,
@@ -2361,8 +2390,6 @@
 				CFEFC13114B57C0800FBF75E /* circleButton-hd.png */,
 				CFEFC11514B4F17D00FBF75E /* coinbar-hd.png */,
 				CFEFC11614B4F17D00FBF75E /* coinbar.png */,
-				CFFD7C2414AC99430054CC23 /* acad.png */,
-				CF62506B14EB62C2006C59F9 /* acad-hd.png */,
 				CFFD7C2514AC99430054CC23 /* glow.png */,
 				CF62506D14EB6301006C59F9 /* glow-hd.png */,
 				CFFD7C2614AC99430054CC23 /* iso-test2.png */,
@@ -2470,7 +2497,6 @@
 				CFE47C1B149240890084E71E /* Icon@2x.png in Resources */,
 				CFE47C1E149240890084E71E /* iTunesArtwork in Resources */,
 				CFFD7C1414AC2C770054CC23 /* Default.png in Resources */,
-				CFFD7C2D14AC99430054CC23 /* acad.png in Resources */,
 				CFFD7C2E14AC99430054CC23 /* glow.png in Resources */,
 				CFFD7C2F14AC99430054CC23 /* iso-test2.png in Resources */,
 				CFFD7C3014AC99440054CC23 /* iso-test2.tmx in Resources */,
@@ -2687,7 +2713,6 @@
 				CF62506714EB5B7E006C59F9 /* iso-test2-hd.png in Resources */,
 				CF62506814EB5B7E006C59F9 /* iso-test2-hd.tmx in Resources */,
 				CF62506A14EB5BAF006C59F9 /* metatiles-hd.png in Resources */,
-				CF62506C14EB62C3006C59F9 /* acad-hd.png in Resources */,
 				CF62506E14EB6302006C59F9 /* glow-hd.png in Resources */,
 				CFF3A71814EF831100E8F8DF /* bankbg.png in Resources */,
 				CFF3A71914EF831100E8F8DF /* bankbg@2x.png in Resources */,
@@ -2858,6 +2883,17 @@
 				CF85A59E14FF1A9F004B37AB /* skilldefenseicon@2x.png in Resources */,
 				CF85A59F14FF1A9F004B37AB /* skillstaminaicon.png in Resources */,
 				CF85A5A014FF1A9F004B37AB /* skillstaminaicon@2x.png in Resources */,
+				CFB7848915004B2B006AE852 /* PinView.xib in Resources */,
+				CFB78495150050B7006AE852 /* mapfilter.png in Resources */,
+				CFB78496150050B7006AE852 /* mapfilter@2x.png in Resources */,
+				CFB78498150050B7006AE852 /* mapattackicon.png in Resources */,
+				CFB78499150050B7006AE852 /* mapprofileicon.png in Resources */,
+				CFB7849A150050B7006AE852 /* mapprofileicon@2x.png in Resources */,
+				CFB7849B150050B7006AE852 /* mapattackicon@2x.png in Resources */,
+				CFB7849C150050B7006AE852 /* archer.png in Resources */,
+				CFB7849D150050B7006AE852 /* archer@2x.png in Resources */,
+				CFB7849E150050B7006AE852 /* attackborder.png in Resources */,
+				CFB7849F150050B7006AE852 /* attackborder@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
