@@ -194,6 +194,28 @@
 		CF44F7BE14F1EA4700FE7684 /* stack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF44F7AB14F1EA4600FE7684 /* stack.png */; };
 		CF44F7BF14F1EA4700FE7684 /* stack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF44F7AC14F1EA4700FE7684 /* stack@2x.png */; };
 		CF44F7C114F1EFBD00FE7684 /* Archer-Bold-Pro.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF44F7C014F1EFBB00FE7684 /* Archer-Bold-Pro.otf */; };
+		CF5A7BEB1500A21E0007551C /* lumoriasign.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BD51500A21E0007551C /* lumoriasign.png */; };
+		CF5A7BEC1500A21E0007551C /* lumoriasign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BD61500A21E0007551C /* lumoriasign@2x.png */; };
+		CF5A7BED1500A21E0007551C /* missionlock.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BD71500A21E0007551C /* missionlock.png */; };
+		CF5A7BEE1500A21E0007551C /* missionlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BD81500A21E0007551C /* missionlock@2x.png */; };
+		CF5A7BEF1500A21E0007551C /* australia.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BD91500A21E0007551C /* australia.png */; };
+		CF5A7BF01500A21E0007551C /* australia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BDA1500A21E0007551C /* australia@2x.png */; };
+		CF5A7BF11500A21E0007551C /* asia.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BDB1500A21E0007551C /* asia.png */; };
+		CF5A7BF21500A21E0007551C /* asia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BDC1500A21E0007551C /* asia@2x.png */; };
+		CF5A7BF31500A21E0007551C /* europe.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BDD1500A21E0007551C /* europe.png */; };
+		CF5A7BF41500A21E0007551C /* russia.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BDE1500A21E0007551C /* russia.png */; };
+		CF5A7BF51500A21E0007551C /* russia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BDF1500A21E0007551C /* russia@2x.png */; };
+		CF5A7BF61500A21E0007551C /* greeland.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE01500A21E0007551C /* greeland.png */; };
+		CF5A7BF71500A21E0007551C /* europe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE11500A21E0007551C /* europe@2x.png */; };
+		CF5A7BF81500A21E0007551C /* greenland@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE21500A21E0007551C /* greenland@2x.png */; };
+		CF5A7BF91500A21E0007551C /* africa.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE31500A21E0007551C /* africa.png */; };
+		CF5A7BFA1500A21E0007551C /* africa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE41500A21E0007551C /* africa@2x.png */; };
+		CF5A7BFB1500A21E0007551C /* southamerica.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE51500A21E0007551C /* southamerica.png */; };
+		CF5A7BFC1500A21E0007551C /* southamerica@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE61500A21E0007551C /* southamerica@2x.png */; };
+		CF5A7BFD1500A21E0007551C /* lumoria.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE71500A21E0007551C /* lumoria.png */; };
+		CF5A7BFE1500A21E0007551C /* lumoria@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE81500A21E0007551C /* lumoria@2x.png */; };
+		CF5A7BFF1500A21E0007551C /* missionmapbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BE91500A21E0007551C /* missionmapbg.png */; };
+		CF5A7C001500A21E0007551C /* missionmapbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5A7BEA1500A21E0007551C /* missionmapbg@2x.png */; };
 		CF5EDDEC14CBEEDA0063F1E0 /* MarketplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */; };
 		CF5EDDED14CBEEDA0063F1E0 /* MarketplaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */; };
 		CF5EE04314CFEE8F0063F1E0 /* ArmoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */; };
@@ -799,6 +821,28 @@
 		CF44F7AB14F1EA4600FE7684 /* stack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stack.png; sourceTree = "<group>"; };
 		CF44F7AC14F1EA4700FE7684 /* stack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stack@2x.png"; sourceTree = "<group>"; };
 		CF44F7C014F1EFBB00FE7684 /* Archer-Bold-Pro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Archer-Bold-Pro.otf"; sourceTree = "<group>"; };
+		CF5A7BD51500A21E0007551C /* lumoriasign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoriasign.png; sourceTree = "<group>"; };
+		CF5A7BD61500A21E0007551C /* lumoriasign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoriasign@2x.png"; sourceTree = "<group>"; };
+		CF5A7BD71500A21E0007551C /* missionlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missionlock.png; sourceTree = "<group>"; };
+		CF5A7BD81500A21E0007551C /* missionlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missionlock@2x.png"; sourceTree = "<group>"; };
+		CF5A7BD91500A21E0007551C /* australia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = australia.png; sourceTree = "<group>"; };
+		CF5A7BDA1500A21E0007551C /* australia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "australia@2x.png"; sourceTree = "<group>"; };
+		CF5A7BDB1500A21E0007551C /* asia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asia.png; sourceTree = "<group>"; };
+		CF5A7BDC1500A21E0007551C /* asia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "asia@2x.png"; sourceTree = "<group>"; };
+		CF5A7BDD1500A21E0007551C /* europe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = europe.png; sourceTree = "<group>"; };
+		CF5A7BDE1500A21E0007551C /* russia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = russia.png; sourceTree = "<group>"; };
+		CF5A7BDF1500A21E0007551C /* russia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "russia@2x.png"; sourceTree = "<group>"; };
+		CF5A7BE01500A21E0007551C /* greeland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greeland.png; sourceTree = "<group>"; };
+		CF5A7BE11500A21E0007551C /* europe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "europe@2x.png"; sourceTree = "<group>"; };
+		CF5A7BE21500A21E0007551C /* greenland@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenland@2x.png"; sourceTree = "<group>"; };
+		CF5A7BE31500A21E0007551C /* africa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = africa.png; sourceTree = "<group>"; };
+		CF5A7BE41500A21E0007551C /* africa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "africa@2x.png"; sourceTree = "<group>"; };
+		CF5A7BE51500A21E0007551C /* southamerica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = southamerica.png; sourceTree = "<group>"; };
+		CF5A7BE61500A21E0007551C /* southamerica@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "southamerica@2x.png"; sourceTree = "<group>"; };
+		CF5A7BE71500A21E0007551C /* lumoria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoria.png; sourceTree = "<group>"; };
+		CF5A7BE81500A21E0007551C /* lumoria@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoria@2x.png"; sourceTree = "<group>"; };
+		CF5A7BE91500A21E0007551C /* missionmapbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missionmapbg.png; sourceTree = "<group>"; };
+		CF5A7BEA1500A21E0007551C /* missionmapbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missionmapbg@2x.png"; sourceTree = "<group>"; };
 		CF5EDDE914CBEEDA0063F1E0 /* MarketplaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarketplaceViewController.h; path = MarketplaceMenu/MarketplaceViewController.h; sourceTree = "<group>"; };
 		CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarketplaceViewController.m; path = MarketplaceMenu/MarketplaceViewController.m; sourceTree = "<group>"; };
 		CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MarketplaceViewController.xib; path = MarketplaceMenu/MarketplaceViewController.xib; sourceTree = "<group>"; };
@@ -2024,6 +2068,28 @@
 			isa = PBXGroup;
 			children = (
 				CFB7848A150050B7006AE852 /* mapfilter.png */,
+				CF5A7BD51500A21E0007551C /* lumoriasign.png */,
+				CF5A7BD61500A21E0007551C /* lumoriasign@2x.png */,
+				CF5A7BD71500A21E0007551C /* missionlock.png */,
+				CF5A7BD81500A21E0007551C /* missionlock@2x.png */,
+				CF5A7BD91500A21E0007551C /* australia.png */,
+				CF5A7BDA1500A21E0007551C /* australia@2x.png */,
+				CF5A7BDB1500A21E0007551C /* asia.png */,
+				CF5A7BDC1500A21E0007551C /* asia@2x.png */,
+				CF5A7BDD1500A21E0007551C /* europe.png */,
+				CF5A7BDE1500A21E0007551C /* russia.png */,
+				CF5A7BDF1500A21E0007551C /* russia@2x.png */,
+				CF5A7BE01500A21E0007551C /* greeland.png */,
+				CF5A7BE11500A21E0007551C /* europe@2x.png */,
+				CF5A7BE21500A21E0007551C /* greenland@2x.png */,
+				CF5A7BE31500A21E0007551C /* africa.png */,
+				CF5A7BE41500A21E0007551C /* africa@2x.png */,
+				CF5A7BE51500A21E0007551C /* southamerica.png */,
+				CF5A7BE61500A21E0007551C /* southamerica@2x.png */,
+				CF5A7BE71500A21E0007551C /* lumoria.png */,
+				CF5A7BE81500A21E0007551C /* lumoria@2x.png */,
+				CF5A7BE91500A21E0007551C /* missionmapbg.png */,
+				CF5A7BEA1500A21E0007551C /* missionmapbg@2x.png */,
 				CFB7848B150050B7006AE852 /* mapfilter@2x.png */,
 				CFB7848D150050B7006AE852 /* mapattackicon.png */,
 				CFB7848E150050B7006AE852 /* mapprofileicon.png */,
@@ -2894,6 +2960,28 @@
 				CFB7849D150050B7006AE852 /* archer@2x.png in Resources */,
 				CFB7849E150050B7006AE852 /* attackborder.png in Resources */,
 				CFB7849F150050B7006AE852 /* attackborder@2x.png in Resources */,
+				CF5A7BEB1500A21E0007551C /* lumoriasign.png in Resources */,
+				CF5A7BEC1500A21E0007551C /* lumoriasign@2x.png in Resources */,
+				CF5A7BED1500A21E0007551C /* missionlock.png in Resources */,
+				CF5A7BEE1500A21E0007551C /* missionlock@2x.png in Resources */,
+				CF5A7BEF1500A21E0007551C /* australia.png in Resources */,
+				CF5A7BF01500A21E0007551C /* australia@2x.png in Resources */,
+				CF5A7BF11500A21E0007551C /* asia.png in Resources */,
+				CF5A7BF21500A21E0007551C /* asia@2x.png in Resources */,
+				CF5A7BF31500A21E0007551C /* europe.png in Resources */,
+				CF5A7BF41500A21E0007551C /* russia.png in Resources */,
+				CF5A7BF51500A21E0007551C /* russia@2x.png in Resources */,
+				CF5A7BF61500A21E0007551C /* greeland.png in Resources */,
+				CF5A7BF71500A21E0007551C /* europe@2x.png in Resources */,
+				CF5A7BF81500A21E0007551C /* greenland@2x.png in Resources */,
+				CF5A7BF91500A21E0007551C /* africa.png in Resources */,
+				CF5A7BFA1500A21E0007551C /* africa@2x.png in Resources */,
+				CF5A7BFB1500A21E0007551C /* southamerica.png in Resources */,
+				CF5A7BFC1500A21E0007551C /* southamerica@2x.png in Resources */,
+				CF5A7BFD1500A21E0007551C /* lumoria.png in Resources */,
+				CF5A7BFE1500A21E0007551C /* lumoria@2x.png in Resources */,
+				CF5A7BFF1500A21E0007551C /* missionmapbg.png in Resources */,
+				CF5A7C001500A21E0007551C /* missionmapbg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
