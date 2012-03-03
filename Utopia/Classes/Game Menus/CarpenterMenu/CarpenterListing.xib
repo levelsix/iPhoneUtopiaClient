@@ -421,13 +421,13 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage" id="300579629">
+								<object class="NSCustomResource" key="IBUIImage" id="440408580">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">carpentersilvercoin.png</string>
+									<string key="NSResourceName">silvercoin.png</string>
 								</object>
 								<object class="NSCustomResource" key="IBUIHighlightedImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">silvercoin.png</string>
+									<string key="NSResourceName">goldcoin.png</string>
 								</object>
 							</object>
 						</array>
@@ -452,7 +452,7 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUIImage" ref="300579629"/>
+						<reference key="IBUIImage" ref="440408580"/>
 					</object>
 					<object class="IBUIImageView" id="973141484">
 						<reference key="NSNextResponder" ref="593555513"/>
@@ -948,10 +948,10 @@
 			<string key="buildingbg.png">{144, 175}</string>
 			<string key="buildingpricebg.png">{122, 22}</string>
 			<string key="carpenterlock.png">{19, 24}</string>
-			<string key="carpentersilvercoin.png">{16, 16}</string>
 			<string key="carpenterwatch.png">{15, 15}</string>
+			<string key="goldcoin.png">{17, 16}</string>
 			<string key="incomecollectbg.png">{121, 40}</string>
-			<string key="silvercoin.png">{17, 16}</string>
+			<string key="silvercoin.png">{16, 16}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1173</string>
 	</data>

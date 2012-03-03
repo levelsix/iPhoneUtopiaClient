@@ -82,6 +82,7 @@ static UIButton *rightButton = nil;
 
 @synthesize mapView = _mapView;
 @synthesize missionMap;
+@synthesize state = _state;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
@@ -104,6 +105,31 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   if (_loaded) {
     [self retrieveAttackListForCurrentBounds];
+  }
+  
+  missionMap.lumoriaView.hidden = YES;
+  
+  self.state = kAttackMap;
+}
+
+- (void) setState:(MapState)state {
+  if (state != _state) {
+    _state = state;
+    
+    switch (state) {
+      case kAttackMap:
+        missionMap.hidden = YES;
+        _mapView.hidden = NO;
+        break;
+        
+      case kMissionMap:
+        missionMap.hidden = NO;
+        _mapView.hidden = YES;
+        break;
+        
+      default:
+        break;
+    }
   }
 }
 
@@ -131,8 +157,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 - (void) addNewPins {
   NSMutableArray *arr = [[GameState sharedGameState] attackList];
-  int userLocEnabled = _mapView.userLocationVisible ? 1 : 0;
-  for (int i = _mapView.annotations.count-userLocEnabled; i < arr.count; i++) {
+  int userLocEnabled = _mapView.showsUserLocation ? 1 : 0;
+  int i = _mapView.annotations.count == 0 ? 0 : _mapView.annotations.count-userLocEnabled;
+  for (; i < arr.count; i++) {
     EnemyAnnotation *annotation = [[EnemyAnnotation alloc] initWithPlayer:[arr objectAtIndex:i]];
     [_mapView addAnnotation:annotation];
     [annotation release];

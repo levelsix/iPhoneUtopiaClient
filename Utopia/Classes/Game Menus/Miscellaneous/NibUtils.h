@@ -36,3 +36,9 @@
 @interface FlipImageView : UIImageView
 
 @end
+
+@interface ServerImageView : UIImageView 
+
+@property (nonatomic, retain) NSString *imagePath;
+
+@end

@@ -22,9 +22,18 @@
 
 @end
 
+@interface CloseUpContinentView : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *cityPopup;
+@property (nonatomic, retain) IBOutlet UILabel *cityNameLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *progressBar;
+@property (nonatomic, retain) IBOutlet UILabel *progressLabel;
+
+@end
+
 @interface TravellingMissionMap : UIView
 
-@property (nonatomic, retain) IBOutlet UIView *lumoriaView;
+@property (nonatomic, retain) IBOutlet CloseUpContinentView *lumoriaView;
 
 - (IBAction) continentClicked:(ContinentView *)cv;
 

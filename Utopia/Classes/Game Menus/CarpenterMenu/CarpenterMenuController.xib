@@ -51,7 +51,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">marketplacebg.png</string>
+							<string key="NSResourceName">woodenbg.png</string>
 						</object>
 					</object>
 					<object class="IBUIImageView" id="260504939">
@@ -68,7 +68,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">markettopbar.png</string>
+							<string key="NSResourceName">woodentopbar.png</string>
 						</object>
 					</object>
 					<object class="IBUIButton" id="217196093">
@@ -435,9 +435,9 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="marketplacebg.png">{480, 320}</string>
-			<string key="markettopbar.png">{480, 53}</string>
 			<string key="mycity.png">{64, 29}</string>
+			<string key="woodenbg.png">{480, 320}</string>
+			<string key="woodentopbar.png">{480, 53}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1173</string>
 	</data>

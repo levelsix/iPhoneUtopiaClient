@@ -30,8 +30,7 @@
 
 - (void) awakeFromNib {
   [Globals adjustFontSizeForUILabel:self];
-//  NSLog(@"%@", [UIFont familyNames]);
-//  self.font = [UIFont fontWithName:@"Trajan Pro" size:self.font.pointSize];
+  self.font = [UIFont fontWithName:@"Trajan Pro" size:self.font.pointSize];
 }
 
 @end
@@ -114,6 +113,16 @@
 
 - (void) awakeFromNib {
   self.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
+}
+
+@end
+
+@implementation ServerImageView
+
+@synthesize imagePath;
+
+- (void) awakeFromNib {
+  NSLog(@"%@", imagePath);
 }
 
 @end

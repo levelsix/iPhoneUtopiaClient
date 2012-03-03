@@ -51,7 +51,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">marketplacebg.png</string>
+							<string key="NSResourceName">woodenbg.png</string>
 						</object>
 					</object>
 					<object class="IBUIView" id="769547499">
@@ -98,6 +98,7 @@
 								<string key="NSFrame">{{325, 18}, {100, 25}}</string>
 								<reference key="NSSuperview" ref="769547499"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:225</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -188,7 +189,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">markettopbar.png</string>
+									<string key="NSResourceName">woodentopbar.png</string>
 								</object>
 							</object>
 							<object class="IBUIButton" id="757401876">
@@ -197,6 +198,7 @@
 								<string key="NSFrame">{{11, 6}, {64, 29}}</string>
 								<reference key="NSSuperview" ref="475186708"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="769547499"/>
 								<string key="NSReuseIdentifierKey">_NS:225</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -270,6 +272,7 @@
 						<string key="NSFrame">{{7, 12}, {73, 27}}</string>
 						<reference key="NSSuperview" ref="1020320645"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -303,7 +306,7 @@
 			</object>
 			<object class="IBUIView" id="1027003871">
 				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">-2147483356</int>
+				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="358744768">
 						<reference key="NSNextResponder" ref="1027003871"/>
@@ -369,9 +372,9 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage" id="937437180">
+						<object class="NSCustomResource" key="IBUIImage" id="364948787">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">remofeecoinbg.png</string>
+							<string key="NSResourceName">removefeecoinbg.png</string>
 						</object>
 					</object>
 					<object class="IBUIImageView" id="984341964">
@@ -386,7 +389,7 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUIImage" ref="937437180"/>
+						<reference key="IBUIImage" ref="364948787"/>
 					</object>
 					<object class="IBUIImageView" id="529792289">
 						<reference key="NSNextResponder" ref="1027003871"/>
@@ -417,7 +420,10 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUIImage" ref="790815624"/>
+						<object class="NSCustomResource" key="IBUIImage" id="627811014">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">goldcoin.png</string>
+						</object>
 					</object>
 					<object class="IBUIButton" id="22783172">
 						<reference key="NSNextResponder" ref="1027003871"/>
@@ -425,6 +431,7 @@
 						<string key="NSFrame">{{116, 65}, {98, 25}}</string>
 						<reference key="NSSuperview" ref="1027003871"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -579,7 +586,7 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUIImage" ref="790815624"/>
+						<reference key="IBUIImage" ref="627811014"/>
 					</object>
 					<object class="IBUIImageView" id="151766489">
 						<reference key="NSNextResponder" ref="317408690"/>
@@ -653,6 +660,7 @@
 						<string key="NSFrame">{{206, 86}, {86, 27}}</string>
 						<reference key="NSSuperview" ref="317408690"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -786,7 +794,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">marketshelf.png</string>
+									<string key="NSResourceName">woodenshelf.png</string>
 								</object>
 							</object>
 							<object class="IBUIImageView" id="548289872">
@@ -871,6 +879,7 @@
 						<string key="NSFrame">{{463, -317}, {3, 360}}</string>
 						<reference key="NSSuperview" ref="55723041"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:196</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="926516128">
 							<int key="NSColorSpace">1</int>
@@ -1311,9 +1320,7 @@
 						<int key="objectID">82</int>
 						<reference key="object" ref="317408690"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="100875831"/>
 							<reference ref="748673816"/>
-							<reference ref="1038717192"/>
 							<reference ref="151766489"/>
 							<reference ref="70624902"/>
 							<reference ref="647026091"/>
@@ -1321,6 +1328,8 @@
 							<reference ref="995882789"/>
 							<reference ref="608128181"/>
 							<reference ref="817032200"/>
+							<reference ref="100875831"/>
+							<reference ref="1038717192"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1451,6 +1460,7 @@
 				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="39.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="40.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="41.CustomClassName">NiceFontLabel</string>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1458,7 +1468,9 @@
 				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="48.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="57.CustomClassName">NiceFontLabel</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="58.CustomClassName">NiceFontLabel</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="0.0" key="63.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
@@ -1476,8 +1488,11 @@
 				<string key="89.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="92.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="94.CustomClassName">NiceFontLabel</string>
 				<string key="94.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="95.CustomClassName">NiceFontLabel</string>
 				<string key="95.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="96.CustomClassName">NiceFontLabel</string>
 				<string key="96.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
@@ -1498,12 +1513,10 @@
 						<string key="leftRope">UIView</string>
 						<string key="listAnItemButton">UIButton</string>
 						<string key="navBar">UIView</string>
-						<string key="redeemCollectLabel">UILabel</string>
 						<string key="redeemGoldLabel">UILabel</string>
 						<string key="redeemSilverLabel">UILabel</string>
 						<string key="redeemTitleLabel">UILabel</string>
 						<string key="redeemView">UIView</string>
-						<string key="redeemYouHaveLabel">UILabel</string>
 						<string key="removeGoldLabel">UILabel</string>
 						<string key="removeSilverLabel">UILabel</string>
 						<string key="removeView">UIView</string>
@@ -1536,10 +1549,6 @@
 							<string key="name">navBar</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="redeemCollectLabel">
-							<string key="name">redeemCollectLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="redeemGoldLabel">
 							<string key="name">redeemGoldLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -1555,10 +1564,6 @@
 						<object class="IBToOneOutletInfo" key="redeemView">
 							<string key="name">redeemView</string>
 							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="redeemYouHaveLabel">
-							<string key="name">redeemYouHaveLabel</string>
-							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="removeGoldLabel">
 							<string key="name">removeGoldLabel</string>
@@ -1588,6 +1593,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/MarketplaceViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NiceFontLabel</string>
+					<string key="superclassName">UILabel</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NiceFontLabel.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1637,21 +1650,22 @@
 			<string key="coinscollect.png">{216, 23}</string>
 			<string key="collect.png">{86, 27}</string>
 			<string key="finalremovebutton.png">{98, 25}</string>
+			<string key="goldcoin.png">{17, 16}</string>
 			<string key="itemssoldbg.png">{480, 127}</string>
 			<string key="leathertop.png">{445, 46}</string>
 			<string key="listitembutton.png">{116, 25}</string>
 			<string key="marketbuybubble.png">{87, 47}</string>
 			<string key="marketbuybutton.png">{73, 27}</string>
 			<string key="marketdonebutton.png">{100, 25}</string>
-			<string key="marketplacebg.png">{480, 320}</string>
 			<string key="marketsearchbar.png">{98, 23}</string>
-			<string key="marketshelf.png">{467, 73}</string>
-			<string key="markettopbar.png">{480, 53}</string>
 			<string key="mycity.png">{64, 29}</string>
-			<string key="remofeecoinbg.png">{63, 23}</string>
 			<string key="removebubble.png">{232, 98}</string>
-			<string key="silvercoin.png">{17, 16}</string>
+			<string key="removefeecoinbg.png">{63, 23}</string>
+			<string key="silvercoin.png">{16, 16}</string>
 			<string key="tophangbar.png">{445, 53}</string>
+			<string key="woodenbg.png">{480, 320}</string>
+			<string key="woodenshelf.png">{467, 73}</string>
+			<string key="woodentopbar.png">{480, 53}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1173</string>
 	</data>

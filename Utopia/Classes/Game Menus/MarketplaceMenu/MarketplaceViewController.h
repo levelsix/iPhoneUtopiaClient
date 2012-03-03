@@ -70,8 +70,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *redeemGoldLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemSilverLabel;
 @property (nonatomic, retain) IBOutlet UILabel *redeemTitleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *redeemYouHaveLabel;
-@property (nonatomic, retain) IBOutlet UILabel *redeemCollectLabel;
 @property (nonatomic, retain) IBOutlet UIView *ropeView;
 @property (nonatomic, retain) IBOutlet UIView *leftRope;
 @property (nonatomic, retain) IBOutlet UIView *rightRope;

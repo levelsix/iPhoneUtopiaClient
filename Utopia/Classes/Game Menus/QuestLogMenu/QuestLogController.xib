@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1280</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.SystemVersion">11D50b</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2177</string>
+		<string key="IBDocument.AppKitVersion">1138.32</string>
+		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">933</string>
+			<string key="NS.object.0">1173</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBUIView</string>
@@ -597,7 +597,7 @@
 													<object class="IBUIImageView" id="21300246">
 														<reference key="NSNextResponder" ref="134089817"/>
 														<int key="NSvFlags">256</int>
-														<string key="NSFrame">{{21, 26}, {33, 33}}</string>
+														<string key="NSFrame">{{21, 29}, {33, 33}}</string>
 														<reference key="NSSuperview" ref="134089817"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="1023223835"/>
@@ -768,7 +768,7 @@
 							<integer value="1"/>
 							<integer value="3"/>
 						</array>
-						<array class="NSMutableArray" key="dict.values">
+						<array key="dict.values">
 							<string>{320, 480}</string>
 							<string>{480, 320}</string>
 						</array>
@@ -1119,8 +1119,8 @@
 							<reference ref="651339311"/>
 							<reference ref="820309940"/>
 							<reference ref="705384520"/>
-							<reference ref="21300246"/>
 							<reference ref="953251516"/>
+							<reference ref="21300246"/>
 						</array>
 						<reference key="parent" ref="817851714"/>
 					</object>
@@ -1503,10 +1503,10 @@
 			<string key="rewardboxbottom.png">{158, 54}</string>
 			<string key="rewardboxleft.png">{75, 45}</string>
 			<string key="rewardboxright.png">{75, 45}</string>
-			<string key="silvercoin.png">{17, 16}</string>
+			<string key="silvercoin.png">{16, 16}</string>
 			<string key="squiggly.png">{158, 8}</string>
 			<string key="topgradient.png">{166, 15}</string>
 		</dictionary>
-		<string key="IBCocoaTouchPluginVersion">933</string>
+		<string key="IBCocoaTouchPluginVersion">1173</string>
 	</data>
 </archive>

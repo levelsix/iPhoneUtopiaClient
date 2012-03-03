@@ -191,7 +191,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize doneButton, listAnItemButton;
 @synthesize redeemView;
 @synthesize redeemGoldLabel, redeemSilverLabel;
-@synthesize redeemTitleLabel, redeemCollectLabel, redeemYouHaveLabel;
+@synthesize redeemTitleLabel;
 @synthesize ropeView, leftRope, rightRope, leftRopeFirstRow, rightRopeFirstRow;
 
 - (void) viewDidLoad {
@@ -227,7 +227,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
   [self.postsTableView insertSubview:rightRopeFirstRow belowSubview:self.ropeView];
   
-  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.removeGoldLabel, self.removeSilverLabel, self.redeemGoldLabel, self.redeemSilverLabel, self.redeemCollectLabel, self.redeemYouHaveLabel, nil];
+  [Globals adjustFontSizeForUIViewsWithDefaultSize:self.removeGoldLabel, self.removeSilverLabel, self.redeemGoldLabel, self.redeemSilverLabel, nil];
   [Globals adjustFontSizeForSize:self.redeemTitleLabel.font.pointSize withUIView:self.redeemTitleLabel];
   [Globals adjustFontSizeForSize:self.refreshLabel.font.pointSize withUIView:self.refreshLabel];
 }

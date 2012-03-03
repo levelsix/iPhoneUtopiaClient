@@ -13,6 +13,8 @@
 #define SHAKE_DURATION 0.2f
 #define SHAKE_OFFSET 3.f
 
+#define CITY_POPUP_OFFSET 34.f
+
 @implementation ContinentView
 
 @synthesize lock;
@@ -41,13 +43,12 @@
 
 @end
 
-@implementation TravellingMissionMap
+@implementation CloseUpContinentView
 
-@synthesize lumoriaView;
+@synthesize cityPopup, cityNameLabel, progressLabel, progressBar;
 
 - (void) awakeFromNib {
-  [self addSubview:lumoriaView];
-  lumoriaView.hidden = YES;
+  [self addSubview:cityPopup];
 }
 
 - (void) reloadCities {
@@ -59,6 +60,38 @@
     cv.fcp = fcp;
     cv.isLocked = NO;
   }
+  cityPopup.hidden = YES;
+}
+
+- (void) updatePopupForCity:(CityView *)cv {
+  FullCityProto *fcp = cv.fcp;
+  
+  cityNameLabel.text = fcp.name;
+  cityPopup.center = CGPointMake(cv.center.x+CITY_POPUP_OFFSET, cv.frame.origin.y-cityPopup.frame.size.height/2);
+}
+
+- (IBAction)cityClicked:(CityView *)cv {
+  if (!cv.isLocked) {
+    [self updatePopupForCity:cv];
+    cityPopup.hidden = NO;
+  } else {
+    [Globals shakeView:cv duration:SHAKE_DURATION offset:SHAKE_OFFSET];
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  cityPopup.hidden = YES;
+}
+
+@end
+
+@implementation TravellingMissionMap
+
+@synthesize lumoriaView;
+
+- (void) awakeFromNib {
+  [self addSubview:lumoriaView];
+  lumoriaView.hidden = YES;
 }
 
 - (IBAction)continentClicked:(ContinentView *)cv {
@@ -71,15 +104,7 @@
     [UIView animateWithDuration:1.f animations:^{
       lumoriaView.alpha = 1.f;
     }];
-    [self reloadCities];
-  }
-}
-
-- (IBAction)cityClicked:(CityView *)cv {
-  if (!cv.isLocked) {
-    
-  } else {
-    [Globals shakeView:cv duration:SHAKE_DURATION offset:SHAKE_OFFSET];
+    [lumoriaView reloadCities];
   }
 }
 

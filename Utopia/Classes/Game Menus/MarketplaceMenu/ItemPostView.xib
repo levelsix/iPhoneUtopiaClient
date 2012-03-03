@@ -57,7 +57,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">marketshelf.png</string>
+									<string key="NSResourceName">woodenshelf.png</string>
 								</object>
 							</object>
 							<object class="IBUIImageView" id="532561403">
@@ -89,10 +89,6 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">examplesword.png</string>
-								</object>
 							</object>
 							<object class="IBUIView" id="653816667">
 								<reference key="NSNextResponder" ref="382439755"/>
@@ -131,7 +127,10 @@
 												<int key="IBUIContentMode">4</int>
 												<bool key="IBUIMultipleTouchEnabled">YES</bool>
 												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<reference key="IBUIImage" ref="692967617"/>
+												<object class="NSCustomResource" key="IBUIImage" id="130107255">
+													<string key="NSClassName">NSImage</string>
+													<string key="NSResourceName">goldcoin.png</string>
+												</object>
 											</object>
 											<object class="IBUILabel" id="280058752">
 												<reference key="NSNextResponder" ref="541507614"/>
@@ -174,7 +173,7 @@
 												<string key="NSFrame">{{74, 11}, {34, 21}}</string>
 												<reference key="NSSuperview" ref="541507614"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView"/>
+												<reference key="NSNextKeyView" ref="626365888"/>
 												<string key="NSReuseIdentifierKey">_NS:328</string>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
@@ -383,6 +382,7 @@
 								<string key="NSFrame">{{444, 10}, {25, 25}}</string>
 								<reference key="NSSuperview" ref="382439755"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:225</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -402,7 +402,7 @@
 								<reference key="IBUIFont" ref="108724264"/>
 							</object>
 						</array>
-						<string key="NSFrameSize">{480, 109}</string>
+						<string key="NSFrameSize">{480, 66}</string>
 						<reference key="NSSuperview" ref="400043074"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="112670488"/>
@@ -415,7 +415,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{480, 110}</string>
+				<string key="NSFrameSize">{480, 67}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="382439755"/>
@@ -425,7 +425,7 @@
 				<int key="IBUISelectionStyle">0</int>
 				<reference key="IBUIContentView" ref="382439755"/>
 				<string key="IBUIReuseIdentifier">Cell</string>
-				<real value="133" key="IBUIRowHeight"/>
+				<real value="90" key="IBUIRowHeight"/>
 			</object>
 			<object class="IBUIView" id="1030760924">
 				<reference key="NSNextResponder"/>
@@ -437,6 +437,7 @@
 						<string key="NSFrame">{{332, 10}, {100, 27}}</string>
 						<reference key="NSSuperview" ref="1030760924"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -537,7 +538,7 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUIImage" ref="692967617"/>
+						<reference key="IBUIImage" ref="130107255"/>
 					</object>
 					<object class="IBUITextField" id="187003593">
 						<reference key="NSNextResponder" ref="1030760924"/>
@@ -573,7 +574,7 @@
 						<string key="NSFrame">{{151, 7}, {54, 31}}</string>
 						<reference key="NSSuperview" ref="1030760924"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="660832960"/>
 						<string key="NSReuseIdentifierKey">_NS:304</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -1108,9 +1109,7 @@
 					<string key="className">MarketplaceViewController</string>
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="axeButton">UIImageView</string>
 						<string key="buyButtonView">UIView</string>
-						<string key="coinButton">UIImageView</string>
 						<string key="doneButton">UIButton</string>
 						<string key="itemView">UITableViewCell</string>
 						<string key="leftRope">UIView</string>
@@ -1130,17 +1129,9 @@
 						<string key="topBar">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="axeButton">
-							<string key="name">axeButton</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="buyButtonView">
 							<string key="name">buyButtonView</string>
 							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="coinButton">
-							<string key="name">coinButton</string>
-							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="doneButton">
 							<string key="name">doneButton</string>
@@ -1251,16 +1242,16 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="coininputbg.png">{75, 23}</string>
-			<string key="examplesword.png">{28, 26}</string>
+			<string key="goldcoin.png">{17, 16}</string>
 			<string key="leathertop.png">{445, 46}</string>
 			<string key="listbutton.png">{100, 27}</string>
 			<string key="marketcancelsubmit.png">{31, 27}</string>
 			<string key="marketdefense.png">{12, 13}</string>
 			<string key="marketplaceattack.png">{13, 13}</string>
 			<string key="marketremove.png">{25, 25}</string>
-			<string key="marketshelf.png">{467, 73}</string>
 			<string key="marketsubmit.png">{100, 27}</string>
-			<string key="silvercoin.png">{17, 16}</string>
+			<string key="silvercoin.png">{16, 16}</string>
+			<string key="woodenshelf.png">{467, 73}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1173</string>
 	</data>

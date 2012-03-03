@@ -15,21 +15,21 @@ static NSString *urlBase = @"http://blogs.silverlight.net/blogs/msnow/WindowsLiv
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
 
-- (void) downloadImage: (NSString *)imageName {
+- (UIImage *) downloadImage: (NSString *)imageName {
   // Get an image from the URL below
   NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
   UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
   
-  NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+  NSString *cacheDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
   
   // If you go to the folder below, you will find those pictures
-  NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",docDir, [[url pathComponents] lastObject]];
+  NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",cacheDir, [[url pathComponents] lastObject]];
   NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(image)];
   [data1 writeToFile:pngFilePath atomically:YES];
   
-  NSLog(@"image saved to %@", pngFilePath);
+  NSLog(@"%@ image saved to %@", imageName, pngFilePath);
   
-  [image release];
+  return image;
 }
 
 @end

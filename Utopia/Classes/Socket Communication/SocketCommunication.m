@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.2"
+#define HOST_NAME @"192.168.1.4"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -61,28 +61,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   _currentTagNum = 1;
   
   [[OutgoingEventController sharedOutgoingEventController] startup];
-  //  [self sendVaultMessage:4 requestType:VaultRequestProto_VaultRequestTypeWithdraw];
-  //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
-  //  [self sendVaultMessage:2 requestType:VaultRequestProto_VaultRequestTypeDeposit];
-  //  [self sendTaskActionMessage:2];
-  
-  //  double y = [[NSDate date] timeIntervalSince1970];
-  //  uint64_t x = (uint64_t)(y*1000);
-  
-  //  [self sendPurchaseNormStructureMessage:3 x:0 y:0 time:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
-  //  [self sendPurchaseNormStructureMessage:3 x:3 y:3 time:(uint64_t)([[NSDate date] timeIntervalSince1970]*1000)];
-  //  [self sendPurchaseNormStructureMessage:1 x:3 y:3];
-  //  [self sendFinishNormStructBuildWithDiamondsMessage:18 time:x type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
-  //  [self sendUpgradeNormStructureMessage:13];
-  //  [self sendUpgradeNormStructureMessage:14];
-  //  [self sendUpgradeNormStructureMessage:15];
-  //  [self sendSellNormStructureMessage:11];
-  //  [self sendSellNormStructureMessage:12];
-  //  [self sendNormStructBuildsCompleteMessage:[NSArray arrayWithObjects:[NSNumber numberWithInt:15],nil]];
-  //  [self sendRetrieveCurrencyFromNormStructureMessage:19 time:[[NSDate date] timeIntervalSince1970]*1000];
-  //  [self sendRetrieveCurrencyFromNormStructureMessage:20 time:[[NSDate date] timeIntervalSince1970]*1000];
-  
-  //  [self sendRetrieveStaticDataMessageWithStructIds:[NSArray arrayWithObject:[NSNumber numberWithInt:1]] taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
 }
 
 - (void) readHeader {

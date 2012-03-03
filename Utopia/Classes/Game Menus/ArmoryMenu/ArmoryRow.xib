@@ -54,7 +54,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">marketshelf.png</string>
+									<string key="NSResourceName">woodenshelf.png</string>
 								</object>
 							</object>
 							<object class="IBUIView" id="939520235">
@@ -105,6 +105,7 @@
 								<string key="NSFrame">{{463, -19}, {3, 185}}</string>
 								<reference key="NSSuperview" ref="1435153"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:196</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="914412045">
 									<int key="NSColorSpace">1</int>
@@ -457,7 +458,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">marketshelf.png</string>
+			<string key="NS.key.0">woodenshelf.png</string>
 			<string key="NS.object.0">{467, 73}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1173</string>

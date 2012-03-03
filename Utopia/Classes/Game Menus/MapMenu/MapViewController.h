@@ -11,6 +11,11 @@
 #import "Protocols.pb.h"
 #import "TravellingMissionMap.h"
 
+typedef enum {
+  kMissionMap = 1,
+  kAttackMap
+} MapState;
+
 @interface EnemyAnnotation : MKUserLocation
 
 @property (nonatomic, retain) FullUserProto *fup;
@@ -28,10 +33,13 @@
 @interface MapViewController : UIViewController <MKMapViewDelegate> {
   MKMapView *_mapView;
   BOOL _loaded;
+  MapState _state;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
+
+@property (nonatomic, assign) MapState state;
 
 - (void) retrieveAttackListForCurrentBounds;
 - (void) removeAllPins;
