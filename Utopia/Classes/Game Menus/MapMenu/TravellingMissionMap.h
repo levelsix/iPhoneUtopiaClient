@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Info.pb.h"
+#import "NibUtils.h"
 
-@interface ContinentView : UIButton
+@interface ContinentView : ServerButton
 
 @property (nonatomic, retain) IBOutlet UIImageView *lock;
 

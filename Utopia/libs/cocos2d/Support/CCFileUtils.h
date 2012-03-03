@@ -42,6 +42,8 @@
  
  */
 +(NSString*) fullPathFromRelativePath:(NSString*) relPath;
+
++(NSString*) getDoubleResolutionImage:(NSString*)path validate:(BOOL)validate;
 @end
 
 /** loads a file into memory.

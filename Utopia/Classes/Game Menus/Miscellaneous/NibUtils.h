@@ -39,6 +39,13 @@
 
 @interface ServerImageView : UIImageView 
 
-@property (nonatomic, retain) NSString *imagePath;
+@property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain) NSString *highlightedPath;
+
+@end
+
+@interface ServerButton : UIButton 
+
+@property (nonatomic, retain) NSString *path;
 
 @end

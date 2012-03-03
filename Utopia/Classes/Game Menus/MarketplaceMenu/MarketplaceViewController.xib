@@ -552,10 +552,6 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">itemssoldbg.png</string>
-						</object>
 					</object>
 					<object class="IBUIImageView" id="748673816">
 						<reference key="NSNextResponder" ref="317408690"/>
@@ -1480,6 +1476,21 @@
 				<string key="79.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="83.CustomClassName">ServerImageView</string>
+				<object class="NSMutableDictionary" key="83.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUIUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="100875831"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">path</string>
+								<string key="value">itemssoldbg.png</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="84.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="85.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1638,6 +1649,14 @@
 						<string key="minorKey">./Classes/RopeView.h</string>
 					</object>
 				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ServerImageView</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ServerImageView.h</string>
+					</object>
+				</object>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
@@ -1651,7 +1670,6 @@
 			<string key="collect.png">{86, 27}</string>
 			<string key="finalremovebutton.png">{98, 25}</string>
 			<string key="goldcoin.png">{17, 16}</string>
-			<string key="itemssoldbg.png">{480, 127}</string>
 			<string key="leathertop.png">{445, 46}</string>
 			<string key="listitembutton.png">{116, 25}</string>
 			<string key="marketbuybubble.png">{87, 47}</string>

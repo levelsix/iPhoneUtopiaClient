@@ -11,12 +11,13 @@
 
 @implementation ImageDownloader
 
-static NSString *urlBase = @"http://blogs.silverlight.net/blogs/msnow/WindowsLiveWriter/PartVIICreatingTransparentPNGfilesforSil_D7DE/";
+static NSString *urlBase = @"https://d3agizwlccjarv.cloudfront.net/Resources/";
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
 
 - (UIImage *) downloadImage: (NSString *)imageName {
   // Get an image from the URL below
+  NSLog(@"Beginning download of %@", imageName);
   NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
   UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
   

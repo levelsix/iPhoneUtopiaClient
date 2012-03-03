@@ -71,6 +71,7 @@
 + (void) popupMessage: (NSString *)msg;
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
++ (UIImage *) imageNamed:(NSString *)path;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

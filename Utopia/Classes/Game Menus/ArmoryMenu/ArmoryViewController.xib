@@ -156,7 +156,7 @@
 					<object class="IBUIImageView" id="345394915">
 						<reference key="NSNextResponder" ref="552395135"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{7, 7}, {424, 151}}</string>
+						<string key="NSFrame">{{7, 6}, {424, 151}}</string>
 						<reference key="NSSuperview" ref="552395135"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="50522782"/>
@@ -165,10 +165,6 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">weaponinfobg.png</string>
-						</object>
 					</object>
 					<object class="IBUIImageView" id="764403341">
 						<reference key="NSNextResponder" ref="552395135"/>
@@ -618,9 +614,9 @@
 							<reference ref="362011260"/>
 							<reference ref="50522782"/>
 							<reference ref="316489969"/>
-							<reference ref="345394915"/>
 							<reference ref="892212319"/>
 							<reference ref="352139326"/>
+							<reference ref="345394915"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -696,6 +692,21 @@
 				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="51.CustomClassName">ServerImageView</string>
+				<object class="NSMutableDictionary" key="51.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUIUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="345394915"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">path</string>
+								<string key="value">weaponinfobg.png</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="53.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -894,6 +905,14 @@
 						<string key="minorKey">./Classes/NiceFontLabel.h</string>
 					</object>
 				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ServerImageView</string>
+					<string key="superclassName">UIImageView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ServerImageView.h</string>
+					</object>
+				</object>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
@@ -908,7 +927,6 @@
 			<string key="mycity.png">{64, 29}</string>
 			<string key="numberowned.png">{15, 17}</string>
 			<string key="requirementbarbg.png">{262, 35}</string>
-			<string key="weaponinfobg.png">{424, 151}</string>
 			<string key="woodenbg.png">{480, 320}</string>
 			<string key="woodentopbar.png">{480, 53}</string>
 		</dictionary>

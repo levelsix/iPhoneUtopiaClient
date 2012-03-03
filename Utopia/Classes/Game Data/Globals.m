@@ -11,6 +11,7 @@
 #import "IAPHelper.h"
 #import "GameState.h"
 #import "Protocols.pb.h"
+#import "ImageDownloader.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -299,6 +300,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [animation setToValue:[NSValue valueWithCGPoint:
                          CGPointMake(view.center.x + offset, view.center.y)]];
   [view.layer addAnimation:animation forKey:@"position"];
+}
+
++ (UIImage *) imageNamed:(NSString *)path {
+  if (!path) {
+    return nil;
+  }
+  
+  // prevents overloading the autorelease pool
+  NSString *fullpath = [CCFileUtils fullPathFromRelativePath: path];
+  UIImage *image = nil;
+  
+  // Added for Utopia project
+  if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+    // Image not in NSBundle: look in documents
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *resName = [CCFileUtils getDoubleResolutionImage:path validate:NO];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      // Image not in docs: download it
+      image = [[ImageDownloader sharedImageDownloader] downloadImage:fullpath.lastPathComponent];
+    }
+  }
+  
+  if (!image) {
+    image = [UIImage imageWithContentsOfFile:fullpath];
+  }
+  
+  return image;
 }
 
 // Formulas

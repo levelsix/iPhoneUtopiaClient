@@ -98,7 +98,7 @@ NSString *ccRemoveHDSuffixFromFile( NSString *path )
 		__localFileManager = [[NSFileManager alloc] init];
 }
 
-+(NSString*) getDoubleResolutionImage:(NSString*)path
++(NSString*) getDoubleResolutionImage:(NSString*)path validate:(BOOL)validate
 {
 #if CC_IS_RETINA_DISPLAY_SUPPORTED
 
@@ -130,7 +130,7 @@ NSString *ccRemoveHDSuffixFromFile( NSString *path )
 		NSString *retinaName = [pathWithoutExtension stringByAppendingString:CC_RETINA_DISPLAY_FILENAME_SUFFIX];
 		retinaName = [retinaName stringByAppendingPathExtension:extension];
 
-		if( [__localFileManager fileExistsAtPath:retinaName] )
+		if( !validate || [__localFileManager fileExistsAtPath:retinaName] )
 			return retinaName;
 
 		CCLOG(@"cocos2d: CCFileUtils: Warning HD file not found: %@", [retinaName lastPathComponent] );
@@ -161,7 +161,7 @@ NSString *ccRemoveHDSuffixFromFile( NSString *path )
 	if (fullpath == nil)
 		fullpath = relPath;
 	
-	fullpath = [self getDoubleResolutionImage:fullpath];
+	fullpath = [self getDoubleResolutionImage:fullpath validate:YES];
 	
 	return fullpath;	
 }

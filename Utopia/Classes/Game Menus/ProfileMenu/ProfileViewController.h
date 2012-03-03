@@ -8,6 +8,7 @@
 
 #import "cocos2d.h"
 #import "Protocols.pb.h"
+#import "NibUtils.h"
 
 typedef enum {
   kMyProfile = 1,
@@ -88,7 +89,7 @@ typedef enum {
 
 @end
 
-@interface CurrentEquipView : UIImageView {
+@interface CurrentEquipView : ServerImageView {
   BOOL _selected;
 }
 

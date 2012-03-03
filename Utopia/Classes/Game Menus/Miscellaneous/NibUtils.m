@@ -119,10 +119,25 @@
 
 @implementation ServerImageView
 
-@synthesize imagePath;
+@synthesize path, highlightedPath;
 
 - (void) awakeFromNib {
-  NSLog(@"%@", imagePath);
+  if (path) {
+    self.image = [Globals imageNamed:path];
+  }
+  if (highlightedPath) {
+    self.highlightedImage = [Globals imageNamed:highlightedPath];
+  }
+}
+
+@end
+
+@implementation ServerButton
+
+@synthesize path;
+
+- (void) awakeFromNib {
+  [self setImage:[Globals imageNamed:path] forState:UIControlStateNormal] ;
 }
 
 @end

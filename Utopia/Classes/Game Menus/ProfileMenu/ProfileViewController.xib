@@ -49,10 +49,6 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">profileentirebg.png</string>
-						</object>
 					</object>
 					<object class="IBUIImageView" id="855174867">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -760,10 +756,6 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage" id="107231731">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">equippedbg.png</string>
-								</object>
 							</object>
 							<object class="IBUIImageView" id="490179176">
 								<reference key="NSNextResponder" ref="242269769"/>
@@ -792,7 +784,6 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<reference key="IBUIImage" ref="107231731"/>
 							</object>
 							<object class="IBUIImageView" id="86401840">
 								<reference key="NSNextResponder" ref="242269769"/>
@@ -818,7 +809,6 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<reference key="IBUIImage" ref="107231731"/>
 							</object>
 							<object class="IBUIImageView" id="180521809">
 								<reference key="NSNextResponder" ref="242269769"/>
@@ -3298,7 +3288,7 @@
 						<array key="userDefinedRuntimeAttributes">
 							<object class="IBUserDefinedRuntimeAttribute">
 								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
-								<string key="keyPath">imagePath</string>
+								<string key="keyPath">path</string>
 								<string key="value">profileentirebg.png</string>
 							</object>
 						</array>
@@ -3310,10 +3300,52 @@
 				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="44.CustomClassName">CurrentEquipView</string>
+				<object class="NSMutableDictionary" key="44.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUIUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="50774724"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">path</string>
+								<string key="value">equippedbg.png</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="44.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="45.CustomClassName">CurrentEquipView</string>
+				<object class="NSMutableDictionary" key="45.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUIUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="12192319"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">path</string>
+								<string key="value">equippedbg.png</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="46.CustomClassName">CurrentEquipView</string>
+				<object class="NSMutableDictionary" key="46.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUIUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="261773740"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">path</string>
+								<string key="value">equippedbg.png</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="48.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -3361,13 +3393,11 @@
 			<string key="cantequipbg.png">{257, 26}</string>
 			<string key="close1.png">{30, 30}</string>
 			<string key="equipbutton.png">{72, 26}</string>
-			<string key="equippedbg.png">{82, 63}</string>
 			<string key="equippedbgborder.png">{82, 63}</string>
 			<string key="equippeditemsbg.png">{271, 75}</string>
 			<string key="equipplus.png">{8, 8}</string>
 			<string key="fireactive.png">{17, 21}</string>
 			<string key="fireinactive.png">{17, 21}</string>
-			<string key="profileentirebg.png">{464, 306}</string>
 			<string key="profilepictureframe.png">{137, 86}</string>
 			<string key="skillattackicon.png">{21, 21}</string>
 			<string key="skilldefenseicon.png">{21, 23}</string>

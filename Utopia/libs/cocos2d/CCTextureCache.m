@@ -41,7 +41,7 @@
 #import "CCActionInstant.h"
 
 // needed for Utopia project
-#import "ImageDownloader.h"
+#import "Globals.h"
 
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 static EAGLContext *auxGLcontext = nil;
@@ -289,24 +289,7 @@ static CCTextureCache *sharedTextureCache;
 		}
 		
 		else {
-			
-			// prevents overloading the autorelease pool
-			NSString *fullpath = [CCFileUtils fullPathFromRelativePath: path ];
-      
-      // Added for Utopia project
-      if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-        // Image not in NSBundle: look in documents
-        NSArray *paths = NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString * documentsPath = [paths objectAtIndex:0];
-        fullpath = [documentsPath stringByAppendingPathComponent:path];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-          // Image not in docs: download it
-          [[ImageDownloader sharedImageDownloader] downloadImage:path];
-        }
-      }
-
-			UIImage *image = [ [UIImage alloc] initWithContentsOfFile: fullpath ];
+			UIImage *image = [[Globals imageNamed: path] retain];
 			tex = [ [CCTexture2D alloc] initWithImage: image ];
 			[image release];
 			
