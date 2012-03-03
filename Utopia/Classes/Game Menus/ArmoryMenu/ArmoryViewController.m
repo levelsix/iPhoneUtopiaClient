@@ -15,6 +15,164 @@
 #define BUY_SELL_Y_OFFSET 1.f
 #define BUY_SELL_ANIMATION_DURATION 0.4f
 
+@implementation ArmoryBar
+
+@synthesize weaponButton, armorButton, amuletButton;
+@synthesize weaponButtonClicked, armorButtonClicked, amuletButtonClicked;
+
+- (void) awakeFromNib {
+  _clickedButtons = 0;
+}
+
+- (void) clickButton:(ArmoryBarButton)button {
+  switch (button) {
+    case kWeaponButton:
+      weaponButtonClicked.hidden = NO;
+      _clickedButtons |= kWeaponButton;
+      break;
+      
+    case kArmorButton:
+      armorButtonClicked.hidden = NO;
+      _clickedButtons |= kArmorButton;
+      break;
+      
+    case kAmuletButton:
+      amuletButtonClicked.hidden = NO;
+      _clickedButtons |= kAmuletButton;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(ArmoryBarButton)button {
+  switch (button) {
+    case kWeaponButton:
+      weaponButtonClicked.hidden = YES;
+      _clickedButtons &= ~kWeaponButton;
+      break;
+      
+    case kArmorButton:
+      armorButtonClicked.hidden = YES;
+      _clickedButtons &= ~kArmorButton;
+      break;
+      
+    case kAmuletButton:
+      amuletButtonClicked.hidden = YES;
+      _clickedButtons &= ~kAmuletButton;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:weaponButtonClicked];
+  if (!(_clickedButtons & kWeaponButton) && [weaponButtonClicked pointInside:pt withEvent:nil]) {
+    _trackingWeapon = YES;
+    [self clickButton:kWeaponButton];
+  }
+  
+  pt = [touch locationInView:armorButtonClicked];
+  if (!(_clickedButtons & kArmorButton) && [armorButtonClicked pointInside:pt withEvent:nil]) {
+    _trackingArmor = YES;
+    [self clickButton:kArmorButton];
+  }
+  
+  pt = [touch locationInView:amuletButtonClicked];
+  if (!(_clickedButtons & kAmuletButton) && [amuletButtonClicked pointInside:pt withEvent:nil]) {
+    _trackingAmulet = YES;
+    [self clickButton:kAmuletButton];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:weaponButtonClicked];
+  if (_trackingWeapon) {
+    if ([weaponButtonClicked pointInside:pt withEvent:nil]) {
+      [self clickButton:kWeaponButton];
+    } else {
+      [self unclickButton:kWeaponButton];
+    }
+  }
+  
+  pt = [touch locationInView:armorButtonClicked];
+  if (_trackingArmor) {
+    if ([armorButtonClicked pointInside:pt withEvent:nil]) {
+      [self clickButton:kArmorButton];
+    } else {
+      [self unclickButton:kArmorButton];
+    }
+  }
+  
+  pt = [touch locationInView:amuletButtonClicked];
+  if (_trackingAmulet) {
+    if ([amuletButtonClicked pointInside:pt withEvent:nil]) {
+      [self clickButton:kAmuletButton];
+    } else {
+      [self unclickButton:kAmuletButton];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:weaponButtonClicked];
+  if (_trackingWeapon) {
+    if ([weaponButtonClicked pointInside:pt withEvent:nil]) {
+      [[ArmoryViewController sharedArmoryViewController] setState:kWeaponState];
+      [self clickButton:kWeaponButton];
+      [self unclickButton:kAmuletButton];
+      [self unclickButton:kArmorButton];
+    } else {
+      [self unclickButton:kWeaponButton];
+    }
+  }
+  
+  pt = [touch locationInView:armorButtonClicked];
+  if (_trackingArmor) {
+    if ([armorButtonClicked pointInside:pt withEvent:nil]) {
+      [[ArmoryViewController sharedArmoryViewController] setState:kArmorState];
+      [self clickButton:kArmorButton];
+      [self unclickButton:kWeaponButton];
+      [self unclickButton:kAmuletButton];
+    } else {
+      [self unclickButton:kArmorButton];
+    }
+  }
+  
+  pt = [touch locationInView:amuletButtonClicked];
+  if (_trackingAmulet) {
+    if ([amuletButtonClicked pointInside:pt withEvent:nil]) {
+      [[ArmoryViewController sharedArmoryViewController] setState:kAmuletState];
+      [self clickButton:kAmuletButton];
+      [self unclickButton:kWeaponButton];
+      [self unclickButton:kArmorButton];
+    } else {
+      [self unclickButton:kAmuletButton];
+    }
+  }
+  _trackingWeapon = NO;
+  _trackingArmor = NO;
+  _trackingAmulet = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kWeaponButton];
+  [self unclickButton:kArmorButton];
+  [self unclickButton:kAmuletButton];
+  _trackingWeapon = NO;
+  _trackingArmor = NO;
+  _trackingAmulet = NO;
+}
+
+@end
+
+
 @implementation ArmoryListing
 
 @synthesize attackLabel, defenseLabel, titleLabel, priceLabel;
@@ -138,11 +296,11 @@
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 @synthesize armoryTableView, armoryRow;
-@synthesize equipsList;
 @synthesize buySellView, sellButton, buyButton;
 @synthesize numOwnedLabel, equipDescriptionLabel;
 @synthesize cantEquipView, cantEquipLabel;
 @synthesize equipClicked;
+@synthesize state = _state;
 
 #pragma mark - View lifecycle
 
@@ -151,20 +309,50 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  GameState *gs = [GameState sharedGameState];
   [[OutgoingEventController sharedOutgoingEventController] retrieveEquipStore];
-  while (!(self.equipsList = [gs armoryEquips])) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-  }
   
   buyButton.text = @"Buy";
   sellButton.text = @"Sell";
   _originalBuySellSize = buySellView.frame.size;
+  
+  equipDescriptionLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   [self buySellClosed];
   self.armoryTableView.contentOffset = CGPointMake(0,0);
+  self.state = kWeaponState;
+}
+
+- (void) setState:(ArmoryState)state {
+  if (state != _state) {
+    _state = state;
+    
+    [self refresh];
+  }
+}
+
+- (NSArray *)equipListForCurrentState {
+  GameState *gs = [GameState sharedGameState];
+  NSArray *equipsList = nil;
+  switch (_state) {
+    case kWeaponState:
+      equipsList = gs.armoryWeapons;
+      break;
+      
+    case kArmorState:
+      equipsList = gs.armoryArmor;
+      break;
+      
+    case kAmuletState:
+      equipsList = gs.armoryAmulets;
+      break;
+      
+    default:
+      NSLog(@"Undefined state in armory.");
+      break;
+  }
+  return equipsList;
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -172,11 +360,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  NSArray *equipsList = [self equipListForCurrentState];
   return (int)ceilf(equipsList.count/3.f);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   static NSString *cellId = @"ArmoryRow";
+  NSArray *equipsList = [self equipListForCurrentState];
   
   ArmoryRow *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
@@ -192,6 +382,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   cell.listing3.armoryListing.fep = baseIndex+2<count ? [equipsList objectAtIndex:baseIndex+2] : nil;
   
   return cell;
+}
+
+- (void) refresh {
+  [self.armoryTableView reloadData];
+  [self.armoryTableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void) loadBuySellViewForEquip:(FullEquipProto *)fep {

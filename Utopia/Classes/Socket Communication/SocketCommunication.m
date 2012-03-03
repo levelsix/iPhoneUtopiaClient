@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.4"
+#define HOST_NAME @"localhost"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -105,9 +105,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   }
   
   // Call handle<Proto Class> method in event controller
-  SEL handleMethod = NSSelectorFromString([NSString stringWithFormat:@"handle%@:", [typeClass description]]);
+  NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
+  SEL handleMethod = NSSelectorFromString(selectorStr);
   if ([ec respondsToSelector:handleMethod]) {
     [ec performSelectorOnMainThread:handleMethod withObject:[typeClass parseFromData: data] waitUntilDone:NO];
+  } else {
+    NSLog(@"Unable to find %@ in IncomingEventController", selectorStr);
   }
 }
 

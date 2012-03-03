@@ -109,10 +109,16 @@
 - (void) awakeFromNib { 
   self.state = kDisappear;
   
-  UIImage *darkOverlayImg = [Globals maskImage:backgroundImg.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
-  darkOverlay.image = darkOverlayImg;
-  
   _lockedBuildingColor = [[UIColor colorWithWhite:0.f alpha:0.7f] retain];
+}
+
+- (UIImageView *) darkOverlay {
+  // Can't do this in awakeFromNib because server side image will not be loaded yet.
+  if (!darkOverlay.image) {
+    UIImage *darkOverlayImg = [Globals maskImage:backgroundImg.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
+    darkOverlay.image = darkOverlayImg;
+  }
+  return darkOverlay;
 }
 
 - (void) setState:(ListingState)state {
@@ -128,7 +134,7 @@
         lockedPriceLabel.hidden = YES;
         lockedCollectsLabel.hidden = YES;
         lockedIncomeLabel.hidden = YES;
-        darkOverlay.hidden = YES;
+        self.darkOverlay.hidden = YES;
         break;
         
       case kLocked:
@@ -140,7 +146,7 @@
         lockedPriceLabel.hidden = NO;
         lockedCollectsLabel.hidden = NO;
         lockedIncomeLabel.hidden = NO;
-        darkOverlay.hidden = NO;
+        self.darkOverlay.hidden = NO;
         break;
         
       case kDisappear:
@@ -192,7 +198,7 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   if (self.state == kAvailable) {
-    darkOverlay.hidden = NO;
+    self.darkOverlay.hidden = NO;
   }
 }
 
@@ -201,9 +207,9 @@
   CGPoint loc = [touch locationInView:self];
   if (self.state == kAvailable) {
     if ([self pointInside:loc withEvent:event]) {
-      darkOverlay.hidden = NO;
+      self.darkOverlay.hidden = NO;
     } else {
-      darkOverlay.hidden = YES;
+      self.darkOverlay.hidden = YES;
     }
   }
 }
@@ -212,9 +218,9 @@
   UITouch *touch = [touches anyObject];
   CGPoint loc = [touch locationInView:self];
   if (self.state == kAvailable) {
-    darkOverlay.hidden = NO;
+    self.darkOverlay.hidden = NO;
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-    darkOverlay.hidden = YES;
+    self.darkOverlay.hidden = YES;
     if ([self pointInside:loc withEvent:event]) {
       [[HomeMap sharedHomeMap] preparePurchaseOfStruct:_structId];
       [CarpenterMenuController removeView];
@@ -224,7 +230,7 @@
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   if (self.state == kAvailable) {
-    darkOverlay.hidden = YES;
+    self.darkOverlay.hidden = YES;
   }
 }
 

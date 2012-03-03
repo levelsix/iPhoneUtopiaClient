@@ -11,6 +11,37 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
+
+typedef enum {
+  kWeaponButton = 1,
+  kArmorButton = 1 << 1,
+  kAmuletButton = 1 << 2
+} ArmoryBarButton;
+
+@interface ArmoryBar : UIView {
+  BOOL _trackingWeapon;
+  BOOL _trackingArmor;
+  BOOL _trackingAmulet;
+  
+  int _clickedButtons;
+}
+
+typedef enum {
+  kWeaponState = 1,
+  kArmorState,
+  kAmuletState
+} ArmoryState;
+
+@property (nonatomic, retain) IBOutlet UIImageView *weaponButton;
+@property (nonatomic, retain) IBOutlet UIImageView *armorButton;
+@property (nonatomic, retain) IBOutlet UIImageView *amuletButton;
+
+@property (nonatomic, retain) IBOutlet UIImageView *weaponButtonClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *armorButtonClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *amuletButtonClicked;
+
+@end
+
 @interface ArmoryListing : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *bgdView;
@@ -47,6 +78,8 @@
   ArmoryListing *_clickedAl;
   CGRect _oldClickedRect;
   CGSize _originalBuySellSize;
+  
+  ArmoryState _state;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
@@ -60,10 +93,12 @@
 @property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
 
-@property (nonatomic, retain) NSArray *equipsList;
 @property (nonatomic, assign) BOOL equipClicked;
 
+@property (nonatomic, assign) ArmoryState state;
+
 - (void) armoryViewClicked:(ArmoryListing *)al;
+- (void) refresh;
 
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;

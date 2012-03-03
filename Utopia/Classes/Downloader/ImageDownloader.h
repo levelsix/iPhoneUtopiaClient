@@ -11,6 +11,6 @@
 @interface ImageDownloader : NSObject
 
 + (ImageDownloader *) sharedImageDownloader;
-- (UIImage *) downloadImage: (NSString *)imageName;
+- (void) downloadImage: (NSString *)imageName;
 
 @end

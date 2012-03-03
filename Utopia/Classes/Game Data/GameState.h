@@ -58,7 +58,9 @@
   NSMutableDictionary *_staticUpgradeStructJobs;
   
   NSArray *_carpenterStructs;
-  NSArray *_armoryEquips;
+  NSArray *_armoryWeapons;
+  NSArray *_armoryArmor;
+  NSArray *_armoryAmulets;
   
   NSMutableArray *_myEquips;
   NSMutableArray *_myStructs;
@@ -114,7 +116,9 @@
 @property (retain) NSMutableDictionary *staticUpgradeStructJobs;
 
 @property (retain) NSArray *carpenterStructs;
-@property (retain) NSArray *armoryEquips;
+@property (retain) NSArray *armoryWeapons;
+@property (retain) NSArray *armoryArmor;
+@property (retain) NSArray *armoryAmulets;
 
 @property (retain) NSMutableArray *myEquips;
 @property (retain) NSMutableArray *myStructs;

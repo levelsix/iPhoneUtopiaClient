@@ -49,6 +49,7 @@
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
 + (UIColor *) colorForUnequippable;
++ (UIColor *) colorForUnknownEquip;
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) stringForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity;

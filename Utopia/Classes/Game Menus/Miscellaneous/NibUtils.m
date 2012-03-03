@@ -48,6 +48,8 @@
   _label.textColor = [UIColor colorWithRed:235/255.f green:235/255.f blue:200/255.f alpha:1];
   _label.adjustsFontSizeToFitWidth = NO;
   _label.highlightedTextColor = [_label.textColor colorWithAlphaComponent:0.5f];
+//  _label.shadowColor = [UIColor lightGrayColor];
+//  _label.shadowOffset = CGSizeMake(0, 1);
   [self addSubview:_label];
   [Globals adjustFontSizeForUIViewWithDefaultSize:_label];
   

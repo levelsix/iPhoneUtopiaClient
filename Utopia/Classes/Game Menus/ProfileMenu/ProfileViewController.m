@@ -28,13 +28,12 @@
 @synthesize equipSelectedLargeImage, equipSelectedSmallImage, skillsSelectedSmallImage;
 @synthesize wallSelectedSmallImage, wallSelectedLargeImage;
 @synthesize glowIcon;
-@synthesize clickedButtons;
 
 - (void) awakeFromNib {
   wallSelectedLargeImage.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
   wallSelectedSmallImage.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
   
-  clickedButtons = 0;
+  _clickedButtons = 0;
   
   [self setState:kMyProfile];
 }
@@ -103,7 +102,7 @@
       equipIcon.highlighted = YES;
       equipLabel.highlighted = YES;
       _curEquipSelectedImage.hidden = NO;
-      clickedButtons |= kEquipButton;
+      _clickedButtons |= kEquipButton;
       break;
       
     case kSkillsButton:
@@ -111,7 +110,7 @@
         skillsIcon.highlighted = YES;
         skillsLabel.highlighted = YES;
         _curSkillsSelectedImage.hidden = NO;
-        clickedButtons |= kSkillsButton;
+        _clickedButtons |= kSkillsButton;
       }
       break;
       
@@ -119,7 +118,7 @@
       wallIcon.highlighted = YES;
       wallLabel.highlighted = YES;
       _curWallSelectedImage.hidden = NO;
-      clickedButtons |= kWallButton;
+      _clickedButtons |= kWallButton;
       break;
       
     default:
@@ -133,7 +132,7 @@
       equipIcon.highlighted = NO;
       equipLabel.highlighted = NO;
       _curEquipSelectedImage.hidden = YES;
-      clickedButtons &= ~kEquipButton;
+      _clickedButtons &= ~kEquipButton;
       break;
       
     case kSkillsButton:
@@ -141,7 +140,7 @@
         skillsIcon.highlighted = NO;
         skillsLabel.highlighted = NO;
         _curSkillsSelectedImage.hidden = YES;
-        clickedButtons &= ~kSkillsButton;
+        _clickedButtons &= ~kSkillsButton;
       }
       break;
       
@@ -149,7 +148,7 @@
       wallIcon.highlighted = NO;
       wallLabel.highlighted = NO;
       _curWallSelectedImage.hidden = YES;
-      clickedButtons &= ~kWallButton;
+      _clickedButtons &= ~kWallButton;
       break;
       
     default:
@@ -160,21 +159,21 @@
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:_curEquipSelectedImage];
-  if (!(clickedButtons & kEquipButton) && [_curEquipSelectedImage pointInside:pt withEvent:nil]) {
+  if (!(_clickedButtons & kEquipButton) && [_curEquipSelectedImage pointInside:pt withEvent:nil]) {
     _trackingEquip = YES;
     [self clickButton:kEquipButton];
   }
   
   if (_state == kMyProfile) {
     pt = [touch locationInView:_curSkillsSelectedImage];
-    if (!(clickedButtons & kSkillsButton) && [_curSkillsSelectedImage pointInside:pt withEvent:nil]) {
+    if (!(_clickedButtons & kSkillsButton) && [_curSkillsSelectedImage pointInside:pt withEvent:nil]) {
       _trackingSkills = YES;
       [self clickButton:kSkillsButton];
     }
   }
   
   pt = [touch locationInView:_curWallSelectedImage];
-  if (!(clickedButtons & kWallButton) && [_curWallSelectedImage pointInside:pt withEvent:nil]) {
+  if (!(_clickedButtons & kWallButton) && [_curWallSelectedImage pointInside:pt withEvent:nil]) {
     _trackingWall = YES;
     [self clickButton:kWallButton];
   }
@@ -347,14 +346,49 @@
 
 @implementation CurrentEquipView
 
-@synthesize equipIcon, label, chooseEquipButton, border;
+@synthesize equipIcon, label, chooseEquipButton, border, unknownLabel;
 @synthesize selected = _selected;
+
+- (void) awakeFromNib {
+  [super awakeFromNib];
+  
+  unknownLabel = [[UILabel alloc] initWithFrame:equipIcon.frame];
+  CGRect r = unknownLabel.frame;
+  r.origin.y += 5;
+  unknownLabel.frame = r;
+  
+  unknownLabel.clipsToBounds = NO;
+  unknownLabel.font = [UIFont fontWithName:@"Trajan Pro" size:30];
+  unknownLabel.text = @"?";
+  unknownLabel.textColor = [Globals colorForUnknownEquip];
+  unknownLabel.backgroundColor = [UIColor clearColor];
+  unknownLabel.textAlignment = UITextAlignmentCenter;
+  
+  [self.superview addSubview:unknownLabel];
+}
 
 - (void) setSelected:(BOOL)selected {
   if (selected != _selected) {
     _selected = selected;
     border.hidden = _selected ? NO : YES;
   }
+}
+
+- (void) unknownEquip {
+  label.text = @"Unknown";
+  label.textColor = [Globals colorForUnknownEquip];
+  
+  unknownLabel.hidden = NO;
+  chooseEquipButton.hidden = YES;
+  equipIcon.hidden = YES;
+  
+  self.userInteractionEnabled = NO;
+}
+
+- (void) knownEquip {
+  unknownLabel.hidden = YES;
+  chooseEquipButton.hidden = NO;
+  equipIcon.hidden = NO;
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -385,7 +419,7 @@
 @implementation ProfileViewController
 
 @synthesize state = _state, curScope = _curScope;
-@synthesize userNameLabel, factionLabel, levelLabel, classLabel, attackLabel, defenseLabel;
+@synthesize userNameLabel, typeLabel, levelLabel, attackLabel, defenseLabel, codeLabel;
 @synthesize winsLabel, lossesLabel, fleesLabel;
 @synthesize curArmorView, curAmuletView, curWeaponView;
 @synthesize profilePicture, profileBar;
@@ -394,7 +428,9 @@
 @synthesize equippingView, equipTabView, skillTabView;
 @synthesize attackStatLabel, defenseStatLabel, staminaStatLabel, energyStatLabel, hpStatLabel;
 @synthesize attackStatButton, defenseStatButton, staminaStatButton, energyStatButton, hpStatButton;
+@synthesize enemyAttackLabel, enemyMiddleView;
 @synthesize staminaCostLabel, hpCostLabel, skillPointsLabel;
+@synthesize selfLeftView, enemyLeftView, friendLeftView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -432,6 +468,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   skillTabView.frame = equipTabView.frame;
   [self.view addSubview:skillTabView];
+  
+  enemyMiddleView.frame = equipsScrollView.frame;
+  [equipTabView addSubview:enemyMiddleView];
+  
+  selfLeftView.frame = enemyLeftView.frame;
+  [self.view addSubview:selfLeftView];
+  
+  friendLeftView.frame = enemyLeftView.frame;
+  [self.view addSubview:friendLeftView];
 }
 
 - (void) setCurScope:(EquipScope)curScope {
@@ -668,13 +713,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (animated) {
     [UIView commitAnimations];
   }
-  equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,((j/3)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
+  equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,((j/3+1)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
 }
 
 - (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet touchEnabled:(BOOL)touchEnabled {
   GameState *gs = [GameState sharedGameState];
   
   BOOL weaponFound = NO, armorFound = NO, amuletFound = NO;
+  
+  [curWeaponView knownEquip];
+  [curArmorView knownEquip];
+  [curAmuletView knownEquip];
   
   equips = [self sortEquips:equips];
   EquipView *ev;
@@ -751,8 +800,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [Globals popupMessage:@"Unable to find equipped weapon for this player"];
     }
     curWeaponView.label.text = @"No Weapon";
-    curWeaponView.equipIcon.image = nil;
-    curWeaponView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
+    curWeaponView.label.textColor = [Globals colorForUnknownEquip];
     curWeaponView.equipIcon.hidden = YES;
     curWeaponView.chooseEquipButton.hidden = NO;
     _weaponEquipView = nil;
@@ -762,8 +810,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [Globals popupMessage:@"Unable to find equipped armor for this player"];
     }
     curArmorView.label.text = @"No Armor";
-    curArmorView.equipIcon.image = nil;
-    curArmorView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
+    curArmorView.label.textColor = [Globals colorForUnknownEquip];
     curArmorView.equipIcon.hidden = YES;
     curArmorView.chooseEquipButton.hidden = NO;
     _armorEquipView = nil;
@@ -773,8 +820,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [Globals popupMessage:@"Unable to find equipped amulet for this player"];
     }
     curAmuletView.label.text = @"No Amulet";
-    curAmuletView.equipIcon.image = nil;
-    curAmuletView.label.textColor = [UIColor colorWithWhite:87/256.f alpha:1.f];
+    curAmuletView.label.textColor = [Globals colorForUnknownEquip];
     curAmuletView.equipIcon.hidden = YES;
     curAmuletView.chooseEquipButton.hidden = NO;
     _amuletEquipView = nil;
@@ -796,10 +842,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   lossesLabel.text = [NSString stringWithFormat:@"%d", fup.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", fup.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", fup.level];
-  factionLabel.text = [Globals factionForUserType:fup.userType];
-  classLabel.text = [Globals classForUserType:fup.userType];
-  attackLabel.text = [NSString stringWithFormat:@"%d", fup.attack];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", fup.defense];
+  typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:fup.userType], [Globals classForUserType:fup.userType]];
+  attackLabel.text = @"?";//[NSString stringWithFormat:@"%d", fup.attack];
+  defenseLabel.text = @"?";//[NSString stringWithFormat:@"%d", fup.defense];
+  
+  equipsScrollView.hidden = YES;
+  enemyMiddleView.hidden = NO;
+  
+  enemyLeftView.hidden = NO;
+  friendLeftView.hidden = YES;
+  selfLeftView.hidden = YES;
+  
+  [curWeaponView unknownEquip];
+  [curArmorView unknownEquip];
+  [curAmuletView unknownEquip];
+  
+  enemyAttackLabel.text = [NSString stringWithFormat:@"Attack %@ to see Equipment", fup.name];
   
   self.profileBar.state = kOtherPlayerProfile;
   self.state = kEquipState;
@@ -814,15 +872,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   lossesLabel.text = [NSString stringWithFormat:@"%d", gs.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", gs.level];
-  factionLabel.text = [Globals factionForUserType:gs.type];
-  classLabel.text = [Globals classForUserType:gs.type];
+  typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]];
   attackLabel.text = [NSString stringWithFormat:@"%d", gs.attack];
   defenseLabel.text = [NSString stringWithFormat:@"%d", gs.defense];
+  codeLabel.text = gs.referralCode;
   
   [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
   self.profileBar.state = kMyProfile;
   [self loadSkills];
   self.state = kEquipState;
+  
+  equipsScrollView.hidden = NO;
+  enemyMiddleView.hidden = YES;
+  
+  enemyLeftView.hidden = YES;
+  friendLeftView.hidden = YES;
+  selfLeftView.hidden = NO;
   
   // Update calculate labels
   staminaCostLabel.text = [NSString stringWithFormat:@"(%d skill %@ = %d)", gl.staminaBaseCost, gl.staminaBaseCost != 1 ? @"points" : @"point", gl.staminaBaseGain];

@@ -15,7 +15,7 @@ static NSString *urlBase = @"https://d3agizwlccjarv.cloudfront.net/Resources/";
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
 
-- (UIImage *) downloadImage: (NSString *)imageName {
+- (void) downloadImage: (NSString *)imageName {
   // Get an image from the URL below
   NSLog(@"Beginning download of %@", imageName);
   NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
@@ -29,8 +29,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
   [data1 writeToFile:pngFilePath atomically:YES];
   
   NSLog(@"%@ image saved to %@", imageName, pngFilePath);
-  
-  return image;
 }
 
 @end

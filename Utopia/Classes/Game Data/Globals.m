@@ -98,6 +98,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [UIColor colorWithRed:150/255.f green:0.f blue:0.f alpha:1.f];
 }
 
++ (UIColor *) colorForUnknownEquip {
+  return [UIColor colorWithWhite:87/256.f alpha:1.f];
+}
+
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity {  
   switch (rarity) {
     case FullEquipProto_RarityCommon:
@@ -308,26 +312,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   // prevents overloading the autorelease pool
-  NSString *fullpath = [CCFileUtils fullPathFromRelativePath: path];
+  NSString *resName = [CCFileUtils getDoubleResolutionImage:path validate:NO];
   UIImage *image = nil;
+  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   // Added for Utopia project
-  if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+  if (!fullpath) {
     // Image not in NSBundle: look in documents
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
-    NSString *resName = [CCFileUtils getDoubleResolutionImage:path validate:NO];
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       // Image not in docs: download it
-      image = [[ImageDownloader sharedImageDownloader] downloadImage:fullpath.lastPathComponent];
+      [[ImageDownloader sharedImageDownloader] downloadImage:fullpath.lastPathComponent];
     }
   }
   
-  if (!image) {
-    image = [UIImage imageWithContentsOfFile:fullpath];
-  }
+  image = [UIImage imageWithContentsOfFile:fullpath];
   
   return image;
 }

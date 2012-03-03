@@ -61,7 +61,9 @@
 @synthesize staticUpgradeStructJobs = _staticUpgradeStructJobs;
 
 @synthesize carpenterStructs = _carpenterStructs;
-@synthesize armoryEquips = _armoryEquips;
+@synthesize armoryWeapons = _armoryWeapons;
+@synthesize armoryArmor = _armoryArmor;
+@synthesize armoryAmulets = _armoryAmulets;
 
 @synthesize myEquips = _myEquips;
 @synthesize myStructs = _myStructs;
@@ -266,7 +268,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticPossessEquipJobs = nil;
   self.staticUpgradeStructJobs = nil;
   self.carpenterStructs = nil;
-  self.armoryEquips = nil;
+  self.armoryWeapons = nil;
+  self.armoryArmor = nil;
+  self.armoryAmulets = nil;
   self.attackList = nil;
   [super dealloc];
 }

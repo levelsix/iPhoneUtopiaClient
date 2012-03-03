@@ -202,10 +202,6 @@
 										<string key="NSReuseIdentifierKey">_NS:567</string>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">questlogright.png</string>
-										</object>
 									</object>
 									<object class="IBUIButton" id="528486659">
 										<reference key="NSNextResponder" ref="646119928"/>
@@ -1337,6 +1333,21 @@
 				<string key="86.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="87.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="0.0" key="87.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<string key="88.CustomClassName">ServerImageView</string>
+				<object class="NSMutableDictionary" key="88.IBAttributePlaceholdersKey">
+					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+					<object class="IBUIUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
+						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
+						<reference key="object" ref="979969677"/>
+						<array key="userDefinedRuntimeAttributes">
+							<object class="IBUserDefinedRuntimeAttribute">
+								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
+								<string key="keyPath">path</string>
+								<string key="value">questlogright.png</string>
+							</object>
+						</array>
+					</object>
+				</object>
 				<string key="88.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="89.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="90.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1541,7 +1552,6 @@
 			<string key="close1.png">{30, 30}</string>
 			<string key="mysterybox.png">{45, 48}</string>
 			<string key="questdescription.png">{145, 30}</string>
-			<string key="questlogright.png">{193, 262}</string>
 			<string key="questtasks.png">{145, 30}</string>
 			<string key="rewardboxbottom.png">{158, 54}</string>
 			<string key="rewardboxleft.png">{75, 45}</string>

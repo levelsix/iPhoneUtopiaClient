@@ -64,6 +64,8 @@ typedef enum {
   BOOL _trackingEquip;
   BOOL _trackingSkills;
   BOOL _trackingWall;
+  
+  int _clickedButtons;
 }
 
 @property (nonatomic, assign) ProfileBarState state;
@@ -85,8 +87,6 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIImageView *glowIcon;
 
-@property (nonatomic, assign) int clickedButtons;
-
 @end
 
 @interface CurrentEquipView : ServerImageView {
@@ -94,11 +94,15 @@ typedef enum {
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *label;
+@property (nonatomic, retain) IBOutlet UILabel *unknownLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIView *chooseEquipButton;
 @property (nonatomic, retain) IBOutlet UIView *border;
 
 @property (nonatomic, assign) BOOL selected;
+
+- (void) unknownEquip;
+- (void) knownEquip;
 
 @end
 
@@ -115,10 +119,10 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *lossesLabel;
 @property (nonatomic, retain) IBOutlet UILabel *fleesLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
-@property (nonatomic, retain) IBOutlet UILabel *factionLabel;
-@property (nonatomic, retain) IBOutlet UILabel *classLabel;
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet UILabel *codeLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *profilePicture;
 
 @property (nonatomic, retain) IBOutlet CurrentEquipView *curWeaponView;
@@ -153,6 +157,13 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
 @property (nonatomic, retain) IBOutlet UIView *unequippableView;
 @property (nonatomic, retain) IBOutlet UILabel *unequippableLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *enemyAttackLabel;
+@property (nonatomic, retain) IBOutlet UIView *enemyMiddleView;
+
+@property (nonatomic, retain) IBOutlet UIView *enemyLeftView;
+@property (nonatomic, retain) IBOutlet UIView *selfLeftView;
+@property (nonatomic, retain) IBOutlet UIView *friendLeftView;
 
 @property (nonatomic, retain) UIImageView *equippingView;
 

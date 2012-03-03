@@ -15,6 +15,8 @@
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
 #import "MapViewController.h"
+#import "ArmoryViewController.h"
+#import "CarpenterMenuController.h"
 
 @implementation IncomingEventController
 
@@ -160,7 +162,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs addToStaticStructs:proto.structsList];
   [oec retrieveAllStaticData];
   
-  [[HomeMap sharedHomeMap] refresh];
+  HomeMap *map = [HomeMap sharedHomeMap];
+  [map performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
 }
 
 - (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
@@ -337,20 +340,49 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == RetrieveStaticDataForShopResponseProto_RetrieveStaticDataForShopStatusSuccess) {
     if (proto.structsList.count > 0) {
       [gs setCarpenterStructs:proto.structsList];
-      NSMutableDictionary *fsps = gs.staticStructs;
       
-      for (FullStructureProto *fsp in proto.structsList) {
-        [fsps setObject:fsp forKey:[NSNumber numberWithInt:fsp.structId]];
-      }
+      [gs addToStaticStructs:proto.structsList];
+      
+      CarpenterMenuController *cmc = [CarpenterMenuController sharedCarpenterMenuController];
+      [cmc.carpTable performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     }
     
     if (proto.equipsList.count > 0) {
-      [gs setArmoryEquips:proto.equipsList];
-      NSMutableDictionary *feps = gs.staticEquips;
-      
+      // Need to sort armory equips
+      NSMutableArray *weapons = [NSMutableArray array];
+      NSMutableArray *armor = [NSMutableArray array];
+      NSMutableArray *amulets = [NSMutableArray array];
       for (FullEquipProto *fep in proto.equipsList) {
-        [feps setObject:fep forKey:[NSNumber numberWithInt:fep.equipId]];
+        NSMutableArray *toAdd;
+        if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
+          toAdd = weapons;
+        } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
+          toAdd = armor;
+        } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
+          toAdd = amulets;
+        } else {
+          [Globals popupMessage:@"Found an equip with invalid type"];
+        }
+        
+        // Make sure to enter them in order
+        int i = toAdd.count-1;
+        while (i >= 0) {
+          FullEquipProto *cur = [toAdd objectAtIndex:i];
+          if (cur.equipId < fep.equipId) {
+            break;
+          }
+          i--;
+        }
+        [toAdd insertObject:fep atIndex:i+1];
       }
+      gs.armoryWeapons = weapons;
+      gs.armoryArmor = armor;
+      gs.armoryAmulets = amulets;
+
+      [gs addToStaticEquips:proto.equipsList];
+      
+      ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
+      [avc performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
     }
   } else {
     [Globals popupMessage:@"Unable to reach store.."];
