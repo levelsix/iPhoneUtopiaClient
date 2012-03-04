@@ -186,6 +186,8 @@ message FullCityProto {
 	required int32 minLevel = 3;
 	required int32 expGainedBaseOnRankup = 4;
 	required int32 coinsGainedBaseOnRankup = 5;
+	
+	repeated int32 taskIds = 6;
 }
 
 //------------------------------------------------------------------------------------------
@@ -198,6 +200,15 @@ message FullUserCityExpansionDataProto {
 	required bool isExpanding = 5;
 	optional int64 lastExpandTime = 6;
 	optional ExpansionDirection lastExpandDirection = 7;
+}
+
+//------------------------------------------------------------------------------------------
+
+message FullUserCityProto {
+	required int32 userId = 1;
+	required int32 cityId = 2;
+	required int32 currentRank = 3;
+	required int32 numTasksCurrentlyCompleteInRank = 4;
 }
 
 //------------------------------------------------------------------------------------------
@@ -224,9 +235,29 @@ enum BattleResult {
 
 //------------------------------------------------------------------------------------------
 
+message NeutralCityElementProto {
+	required int32 cityId = 1;
+	required int32 assetId = 2;
+	required string name = 9;
+	required NeutralCityElemType type = 3;
+	required CoordinateProto coords = 4;
+	optional int32 xLength = 5;
+	optional int32 yLength = 6;
+	required string imgId = 7;
+	optional StructOrientation orientation = 8;
+	
+	enum NeutralCityElemType {
+		PERSON = 0;
+		BUILDING = 1;
+		DECORATION = 2;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
 enum MarketplacePostType {
 	PREMIUM_EQUIP_POST = 0;		//diamond, epics, and legendarys for diamonds
-	NORM_EQUIP_POST = 2;		//coin items for coins
+	NORM_EQUIP_POST = 2;		//armory (so non epic and non legendar	y) coin items for coins
 }
 
 message FullMarketplacePostProto {
@@ -280,7 +311,7 @@ enum ExpansionDirection {
 
 message MinimumUserTaskProto {
      required int32 userId = 1;
-     required FullTaskProto task = 2;
+     required int32 taskId = 2;
      required int32 numTimesActed = 3;
 }
 

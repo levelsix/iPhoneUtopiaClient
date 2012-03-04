@@ -252,7 +252,7 @@
     UITouch *touch = [touches anyObject];
     CGPoint loc = [touch locationInView:self];
     if ([self pointInside:loc withEvent:event]) {
-      [[ArmoryViewController sharedArmoryViewController] armoryViewClicked:self];
+      [[ArmoryViewController sharedArmoryViewController] armoryListingClicked:self];
       darkOverlay.hidden = NO;
       [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
@@ -300,6 +300,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 @synthesize numOwnedLabel, equipDescriptionLabel;
 @synthesize cantEquipView, cantEquipLabel;
 @synthesize equipClicked;
+@synthesize armoryBar;
 @synthesize state = _state;
 
 #pragma mark - View lifecycle
@@ -435,7 +436,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   }
 }
 
-- (void) armoryViewClicked:(ArmoryListing *)al {
+- (void) armoryListingClicked:(ArmoryListing *)al {
   // Get the row so we can animate everything
   UIView *rowContentView = al.superview.superview;
   ArmoryRow *row = (ArmoryRow *)rowContentView.superview;
@@ -475,11 +476,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   self.equipClicked = YES;
   
   [UIView commitAnimations];
+  
+  armoryBar.userInteractionEnabled = NO;
 }
 
 - (IBAction) closeBuySellViewClicked:(id)sender {
-  [UIView beginAnimations:nil context:nil];
-  [UIView setAnimationDuration:BUY_SELL_ANIMATION_DURATION];
+  if (sender) {
+    // Check if this was a result of a button click, or programmatic call
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:BUY_SELL_ANIMATION_DURATION];
+  }
   
   ArmoryRow *row = (ArmoryRow *)_clickedAl.superview.superview.superview;
   _clickedAl.superview.frame = _oldClickedRect;
@@ -492,21 +498,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   row.listing2.armoryListing.alpha = 1.f;
   row.listing3.armoryListing.alpha = 1.f;
   
-  [UIView setAnimationDelegate:self];
-  [UIView setAnimationDidStopSelector:@selector(buySellClosed)];
-  
-  [UIView commitAnimations];
-  
-  // Put tableview back
-  if (armoryTableView.contentOffset.y < 0) {
-    [armoryTableView setContentOffset:CGPointMake(0, 0) animated:YES];
-  } else if (armoryTableView.contentOffset.y > armoryTableView.contentSize.height-armoryTableView.frame.size.height) {
-    [armoryTableView setContentOffset:CGPointMake(0, armoryTableView.contentSize.height-armoryTableView.frame.size.height) animated:YES];
+  if (sender) {
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(buySellClosed)];
+    
+    [UIView commitAnimations];
+    
+    // Put tableview back
+    if (armoryTableView.contentOffset.y < 0) {
+      [armoryTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+    } else if (armoryTableView.contentOffset.y > armoryTableView.contentSize.height-armoryTableView.frame.size.height) {
+      [armoryTableView setContentOffset:CGPointMake(0, armoryTableView.contentSize.height-armoryTableView.frame.size.height) animated:YES];
+    }
+  } else {
+    [self buySellClosed];
   }
 }
 
 - (void) buySellClosed {
   [buySellView removeFromSuperview];
+  armoryBar.userInteractionEnabled = YES;
   armoryTableView.scrollEnabled = YES;
   _clickedAl.userInteractionEnabled = YES;
   self.equipClicked = NO;

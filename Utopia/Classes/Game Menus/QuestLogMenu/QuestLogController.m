@@ -319,7 +319,6 @@
     UIImage *taskSeg = [UIImage imageNamed: @"tasksepline.png"];
     for (float i = 1.f; i < total; i+=1) {
       tmpView = [[UIImageView alloc] initWithImage:taskSeg];
-      tmpRect = tmpView.frame;
       tmpView.center = CGPointMake(i/total*self.bgdBar.frame.size.width, self.bgdBar.frame.size.height/2);
       [self.bgdBar addSubview:tmpView];
       [tmpView release];

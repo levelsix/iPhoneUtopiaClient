@@ -7,6 +7,7 @@
 //
 
 #import "Info.pb.h"
+#import "UserData.h"
 #import <CoreLocation/CoreLocation.h>
 
 @interface GameState : NSObject {
@@ -64,6 +65,7 @@
   
   NSMutableArray *_myEquips;
   NSMutableArray *_myStructs;
+  NSMutableDictionary *_myCities;
   
   NSMutableArray *_attackList;
 }
@@ -122,6 +124,7 @@
 
 @property (retain) NSMutableArray *myEquips;
 @property (retain) NSMutableArray *myStructs;
+@property (retain) NSMutableDictionary *myCities;
 
 @property (retain) NSMutableArray *attackList;
 
@@ -132,9 +135,12 @@
 - (FullEquipProto *) equipWithId:(int)equipId;
 - (FullStructureProto *) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
+- (FullTaskProto *) taskWithId:(int)taskId;
 
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
+- (void) addToMyCities:(NSArray *)cities;
+- (UserCity *) myCityWithId:(int)cityId;
 
 - (void) addToStaticStructs:(NSArray *)arr;
 - (void) addToStaticTasks:(NSArray *)arr;

@@ -17,7 +17,6 @@
 - (void) vaultWithdrawal:(int)amount;
 - (void) vaultDeposit:(int)amount;
 
-- (void) tasksForCity:(int)cityId;
 - (void) taskAction:(int)taskId;
 
 - (void) battle:(int)defender;
@@ -49,6 +48,7 @@
 
 - (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
+- (void) rotateNormStruct:(UserStruct *)userStruct to:(StructOrientation)orientation;
 - (void) retrieveFromNormStructure:(UserStruct *)userStruct;
 - (void) sellNormStruct:(UserStruct *)userStruct;
 - (void) instaBuild:(UserStruct *)userStruct;
@@ -61,5 +61,6 @@
 - (void) retrieveEquipStore;
 
 - (void) loadPlayerCity:(int)userId;
+- (void) loadNeutralCity:(FullCityProto *)city;
 
 @end

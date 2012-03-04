@@ -30,7 +30,7 @@
 
 @interface Building : SelectableSprite
 
-+(id) buildingWithFile: (NSString *) file location: (CGRect)loc map: (GameMap *) map;
+@property (nonatomic, assign) StructOrientation orientation;
 
 @end
 
@@ -39,6 +39,7 @@
   BOOL _isSetDown;
   HomeMap *_homeMap;
   CGPoint _startMoveCoordinate;
+  StructOrientation _startOrientation;
   int _level;
 }
 @property (nonatomic, readonly) int level;
@@ -73,14 +74,10 @@
 
 @end
 
-@interface MissionBuilding : Building {
-@protected
-  NSRange _bountyRange;
-  int _experience;
-  //Interaction
-}
+@interface MissionBuilding : Building
 
-@property (nonatomic, readonly) NSRange bountyRange;
-@property (nonatomic, readonly) int experience;
+@property (nonatomic, retain) FullTaskProto *ftp;
+@property (nonatomic, assign) int numTimesActed;
+@property (nonatomic, copy) NSString *name;
 
 @end

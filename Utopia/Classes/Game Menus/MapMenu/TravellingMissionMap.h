@@ -23,7 +23,9 @@
 
 @end
 
-@interface CloseUpContinentView : UIView
+@interface CloseUpContinentView : UIView {
+  FullCityProto *_fcp;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *cityPopup;
 @property (nonatomic, retain) IBOutlet UILabel *cityNameLabel;

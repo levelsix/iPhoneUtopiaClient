@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"localhost"
+#define HOST_NAME @"192.168.1.4"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -160,14 +160,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[vaultReq data] withMessageType:EventProtocolRequestCVaultEvent];
 }
 
-- (void) sendTasksForCityMessage: (int) cityId {
-  RetrieveTasksForCityRequestProto *retReq = [[[[RetrieveTasksForCityRequestProto builder]
-                                                setCityId:cityId]
-                                               setSender:_sender]
-                                              build];
-  [self sendData:[retReq data] withMessageType:EventProtocolRequestCRetrieveTasksForCityEvent];
-}
-
 - (void) sendBattleMessage:(int)defender {
   BattleRequestProto *battleReq = [[[[BattleRequestProto builder]
                                      setAttacker:_sender]
@@ -306,7 +298,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
-  MoveOrRotateNormStructureRequestProto *movReq = 
+  MoveOrRotateNormStructureRequestProto *req = 
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
       setUserStructId:userStructId]
@@ -314,7 +306,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
     setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
    build];
   
-  [self sendData:[movReq data] withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
+  [self sendData:[req data] withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
+}
+
+- (void) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation {
+  MoveOrRotateNormStructureRequestProto *req = 
+  [[[[[[MoveOrRotateNormStructureRequestProto builder]
+       setSender:_sender]
+      setUserStructId:userStructId]
+     setType:MoveOrRotateNormStructureRequestProto_MoveOrRotateNormStructTypeRotate]
+    setNewOrientation:orientation]
+   build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
 - (void) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime {
@@ -441,6 +445,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                          build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCChangeUserLocationEvent];
+}
+
+- (void) sendLoadNeutralCityMessage:(int)cityId {
+  LoadNeutralCityRequestProto *req = [[[[LoadNeutralCityRequestProto builder]
+                                        setSender:_sender]
+                                       setCityId:cityId]
+                                      build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCLoadNeutralCityEvent];
 }
 
 - (void) closeDownConnection {

@@ -24,6 +24,8 @@
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserCityExpansionDataProto;
 @class FullUserCityExpansionDataProto_Builder;
+@class FullUserCityProto;
+@class FullUserCityProto_Builder;
 @class FullUserCritstructProto;
 @class FullUserCritstructProto_Builder;
 @class FullUserEquipProto;
@@ -50,6 +52,8 @@
 @class MinimumUserTaskProto_Builder;
 @class MinimumUserUpgradeStructJobProto;
 @class MinimumUserUpgradeStructJobProto_Builder;
+@class NeutralCityElementProto;
+@class NeutralCityElementProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
 @class UpgradeStructJobProto;
@@ -139,6 +143,14 @@ typedef enum {
 } FullEquipProto_ClassType;
 
 BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
+
+typedef enum {
+  NeutralCityElementProto_NeutralCityElemTypePerson = 0,
+  NeutralCityElementProto_NeutralCityElemTypeBuilding = 1,
+  NeutralCityElementProto_NeutralCityElemTypeDecoration = 2,
+} NeutralCityElementProto_NeutralCityElemType;
+
+BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value);
 
 
 @interface InfoRoot : NSObject {
@@ -1413,6 +1425,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
   int32_t expGainedBaseOnRankup;
   int32_t coinsGainedBaseOnRankup;
   NSString* name;
+  NSMutableArray* mutableTaskIdsList;
 }
 - (BOOL) hasCityId;
 - (BOOL) hasName;
@@ -1424,6 +1437,8 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t expGainedBaseOnRankup;
 @property (readonly) int32_t coinsGainedBaseOnRankup;
+- (NSArray*) taskIdsList;
+- (int32_t) taskIdsAtIndex:(int32_t) index;
 
 + (FullCityProto*) defaultInstance;
 - (FullCityProto*) defaultInstance;
@@ -1483,6 +1498,13 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (int32_t) coinsGainedBaseOnRankup;
 - (FullCityProto_Builder*) setCoinsGainedBaseOnRankup:(int32_t) value;
 - (FullCityProto_Builder*) clearCoinsGainedBaseOnRankup;
+
+- (NSArray*) taskIdsList;
+- (int32_t) taskIdsAtIndex:(int32_t) index;
+- (FullCityProto_Builder*) replaceTaskIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (FullCityProto_Builder*) addTaskIds:(int32_t) value;
+- (FullCityProto_Builder*) addAllTaskIds:(NSArray*) values;
+- (FullCityProto_Builder*) clearTaskIdsList;
 @end
 
 @interface FullUserCityExpansionDataProto : PBGeneratedMessage {
@@ -1585,6 +1607,81 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (ExpansionDirection) lastExpandDirection;
 - (FullUserCityExpansionDataProto_Builder*) setLastExpandDirection:(ExpansionDirection) value;
 - (FullUserCityExpansionDataProto_Builder*) clearLastExpandDirection;
+@end
+
+@interface FullUserCityProto : PBGeneratedMessage {
+@private
+  BOOL hasUserId_:1;
+  BOOL hasCityId_:1;
+  BOOL hasCurrentRank_:1;
+  BOOL hasNumTasksCurrentlyCompleteInRank_:1;
+  int32_t userId;
+  int32_t cityId;
+  int32_t currentRank;
+  int32_t numTasksCurrentlyCompleteInRank;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasCityId;
+- (BOOL) hasCurrentRank;
+- (BOOL) hasNumTasksCurrentlyCompleteInRank;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t cityId;
+@property (readonly) int32_t currentRank;
+@property (readonly) int32_t numTasksCurrentlyCompleteInRank;
+
++ (FullUserCityProto*) defaultInstance;
+- (FullUserCityProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FullUserCityProto_Builder*) builder;
++ (FullUserCityProto_Builder*) builder;
++ (FullUserCityProto_Builder*) builderWithPrototype:(FullUserCityProto*) prototype;
+
++ (FullUserCityProto*) parseFromData:(NSData*) data;
++ (FullUserCityProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserCityProto*) parseFromInputStream:(NSInputStream*) input;
++ (FullUserCityProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FullUserCityProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FullUserCityProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FullUserCityProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FullUserCityProto* result;
+}
+
+- (FullUserCityProto*) defaultInstance;
+
+- (FullUserCityProto_Builder*) clear;
+- (FullUserCityProto_Builder*) clone;
+
+- (FullUserCityProto*) build;
+- (FullUserCityProto*) buildPartial;
+
+- (FullUserCityProto_Builder*) mergeFrom:(FullUserCityProto*) other;
+- (FullUserCityProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FullUserCityProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (FullUserCityProto_Builder*) setUserId:(int32_t) value;
+- (FullUserCityProto_Builder*) clearUserId;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (FullUserCityProto_Builder*) setCityId:(int32_t) value;
+- (FullUserCityProto_Builder*) clearCityId;
+
+- (BOOL) hasCurrentRank;
+- (int32_t) currentRank;
+- (FullUserCityProto_Builder*) setCurrentRank:(int32_t) value;
+- (FullUserCityProto_Builder*) clearCurrentRank;
+
+- (BOOL) hasNumTasksCurrentlyCompleteInRank;
+- (int32_t) numTasksCurrentlyCompleteInRank;
+- (FullUserCityProto_Builder*) setNumTasksCurrentlyCompleteInRank:(int32_t) value;
+- (FullUserCityProto_Builder*) clearNumTasksCurrentlyCompleteInRank;
 @end
 
 @interface CoordinateProto : PBGeneratedMessage {
@@ -1699,6 +1796,128 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (Float64) longitude;
 - (LocationProto_Builder*) setLongitude:(Float64) value;
 - (LocationProto_Builder*) clearLongitude;
+@end
+
+@interface NeutralCityElementProto : PBGeneratedMessage {
+@private
+  BOOL hasCityId_:1;
+  BOOL hasAssetId_:1;
+  BOOL hasXLength_:1;
+  BOOL hasYLength_:1;
+  BOOL hasName_:1;
+  BOOL hasImgId_:1;
+  BOOL hasCoords_:1;
+  BOOL hasType_:1;
+  BOOL hasOrientation_:1;
+  int32_t cityId;
+  int32_t assetId;
+  int32_t xLength;
+  int32_t yLength;
+  NSString* name;
+  NSString* imgId;
+  CoordinateProto* coords;
+  NeutralCityElementProto_NeutralCityElemType type;
+  StructOrientation orientation;
+}
+- (BOOL) hasCityId;
+- (BOOL) hasAssetId;
+- (BOOL) hasName;
+- (BOOL) hasType;
+- (BOOL) hasCoords;
+- (BOOL) hasXLength;
+- (BOOL) hasYLength;
+- (BOOL) hasImgId;
+- (BOOL) hasOrientation;
+@property (readonly) int32_t cityId;
+@property (readonly) int32_t assetId;
+@property (readonly, retain) NSString* name;
+@property (readonly) NeutralCityElementProto_NeutralCityElemType type;
+@property (readonly, retain) CoordinateProto* coords;
+@property (readonly) int32_t xLength;
+@property (readonly) int32_t yLength;
+@property (readonly, retain) NSString* imgId;
+@property (readonly) StructOrientation orientation;
+
++ (NeutralCityElementProto*) defaultInstance;
+- (NeutralCityElementProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (NeutralCityElementProto_Builder*) builder;
++ (NeutralCityElementProto_Builder*) builder;
++ (NeutralCityElementProto_Builder*) builderWithPrototype:(NeutralCityElementProto*) prototype;
+
++ (NeutralCityElementProto*) parseFromData:(NSData*) data;
++ (NeutralCityElementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (NeutralCityElementProto*) parseFromInputStream:(NSInputStream*) input;
++ (NeutralCityElementProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (NeutralCityElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (NeutralCityElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface NeutralCityElementProto_Builder : PBGeneratedMessage_Builder {
+@private
+  NeutralCityElementProto* result;
+}
+
+- (NeutralCityElementProto*) defaultInstance;
+
+- (NeutralCityElementProto_Builder*) clear;
+- (NeutralCityElementProto_Builder*) clone;
+
+- (NeutralCityElementProto*) build;
+- (NeutralCityElementProto*) buildPartial;
+
+- (NeutralCityElementProto_Builder*) mergeFrom:(NeutralCityElementProto*) other;
+- (NeutralCityElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (NeutralCityElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (NeutralCityElementProto_Builder*) setCityId:(int32_t) value;
+- (NeutralCityElementProto_Builder*) clearCityId;
+
+- (BOOL) hasAssetId;
+- (int32_t) assetId;
+- (NeutralCityElementProto_Builder*) setAssetId:(int32_t) value;
+- (NeutralCityElementProto_Builder*) clearAssetId;
+
+- (BOOL) hasName;
+- (NSString*) name;
+- (NeutralCityElementProto_Builder*) setName:(NSString*) value;
+- (NeutralCityElementProto_Builder*) clearName;
+
+- (BOOL) hasType;
+- (NeutralCityElementProto_NeutralCityElemType) type;
+- (NeutralCityElementProto_Builder*) setType:(NeutralCityElementProto_NeutralCityElemType) value;
+- (NeutralCityElementProto_Builder*) clearType;
+
+- (BOOL) hasCoords;
+- (CoordinateProto*) coords;
+- (NeutralCityElementProto_Builder*) setCoords:(CoordinateProto*) value;
+- (NeutralCityElementProto_Builder*) setCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (NeutralCityElementProto_Builder*) mergeCoords:(CoordinateProto*) value;
+- (NeutralCityElementProto_Builder*) clearCoords;
+
+- (BOOL) hasXLength;
+- (int32_t) xLength;
+- (NeutralCityElementProto_Builder*) setXLength:(int32_t) value;
+- (NeutralCityElementProto_Builder*) clearXLength;
+
+- (BOOL) hasYLength;
+- (int32_t) yLength;
+- (NeutralCityElementProto_Builder*) setYLength:(int32_t) value;
+- (NeutralCityElementProto_Builder*) clearYLength;
+
+- (BOOL) hasImgId;
+- (NSString*) imgId;
+- (NeutralCityElementProto_Builder*) setImgId:(NSString*) value;
+- (NeutralCityElementProto_Builder*) clearImgId;
+
+- (BOOL) hasOrientation;
+- (StructOrientation) orientation;
+- (NeutralCityElementProto_Builder*) setOrientation:(StructOrientation) value;
+- (NeutralCityElementProto_Builder*) clearOrientation;
 @end
 
 @interface FullMarketplacePostProto : PBGeneratedMessage {
@@ -1876,17 +2095,17 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 @interface MinimumUserTaskProto : PBGeneratedMessage {
 @private
   BOOL hasUserId_:1;
+  BOOL hasTaskId_:1;
   BOOL hasNumTimesActed_:1;
-  BOOL hasTask_:1;
   int32_t userId;
+  int32_t taskId;
   int32_t numTimesActed;
-  FullTaskProto* task;
 }
 - (BOOL) hasUserId;
-- (BOOL) hasTask;
+- (BOOL) hasTaskId;
 - (BOOL) hasNumTimesActed;
 @property (readonly) int32_t userId;
-@property (readonly, retain) FullTaskProto* task;
+@property (readonly) int32_t taskId;
 @property (readonly) int32_t numTimesActed;
 
 + (MinimumUserTaskProto*) defaultInstance;
@@ -1928,12 +2147,10 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 - (MinimumUserTaskProto_Builder*) setUserId:(int32_t) value;
 - (MinimumUserTaskProto_Builder*) clearUserId;
 
-- (BOOL) hasTask;
-- (FullTaskProto*) task;
-- (MinimumUserTaskProto_Builder*) setTask:(FullTaskProto*) value;
-- (MinimumUserTaskProto_Builder*) setTaskBuilder:(FullTaskProto_Builder*) builderForValue;
-- (MinimumUserTaskProto_Builder*) mergeTask:(FullTaskProto*) value;
-- (MinimumUserTaskProto_Builder*) clearTask;
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (MinimumUserTaskProto_Builder*) setTaskId:(int32_t) value;
+- (MinimumUserTaskProto_Builder*) clearTaskId;
 
 - (BOOL) hasNumTimesActed;
 - (int32_t) numTimesActed;

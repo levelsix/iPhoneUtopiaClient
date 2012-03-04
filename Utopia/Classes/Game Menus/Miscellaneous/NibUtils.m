@@ -35,6 +35,15 @@
 
 @end
 
+@implementation NiceFontLabel4
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
+  self.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:self.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;
@@ -140,6 +149,23 @@
 
 - (void) awakeFromNib {
   [self setImage:[Globals imageNamed:path] forState:UIControlStateNormal] ;
+}
+
+@end
+
+@implementation RopeView
+
+static UIColor *ropeImage = nil;
+
+- (UIColor *)ropeImage {
+  if (!ropeImage) {
+    ropeImage = [[UIColor colorWithPatternImage:[UIImage imageNamed:@"rope.png"]] retain];
+  }
+  return ropeImage;
+}
+
+- (void) awakeFromNib {
+  self.backgroundColor = [self ropeImage];
 }
 
 @end

@@ -62,6 +62,8 @@
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserCityExpansionDataProto;
 @class FullUserCityExpansionDataProto_Builder;
+@class FullUserCityProto;
+@class FullUserCityProto_Builder;
 @class FullUserCritstructProto;
 @class FullUserCritstructProto_Builder;
 @class FullUserEquipProto;
@@ -84,6 +86,10 @@
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
 @class LevelUpResponseProto_Builder;
+@class LoadNeutralCityRequestProto;
+@class LoadNeutralCityRequestProto_Builder;
+@class LoadNeutralCityResponseProto;
+@class LoadNeutralCityResponseProto_Builder;
 @class LoadPlayerCityRequestProto;
 @class LoadPlayerCityRequestProto_Builder;
 @class LoadPlayerCityResponseProto;
@@ -108,6 +114,8 @@
 @class MoveOrRotateNormStructureRequestProto_Builder;
 @class MoveOrRotateNormStructureResponseProto;
 @class MoveOrRotateNormStructureResponseProto_Builder;
+@class NeutralCityElementProto;
+@class NeutralCityElementProto_Builder;
 @class NormStructWaitCompleteRequestProto;
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
@@ -232,7 +240,6 @@ typedef enum {
   EventProtocolRequestCVaultEvent = 2,
   EventProtocolRequestCTaskActionEvent = 3,
   EventProtocolRequestCStartupEvent = 5,
-  EventProtocolRequestCRetrieveTasksForCityEvent = 6,
   EventProtocolRequestCRetrieveQuestsForCityEvent = 7,
   EventProtocolRequestCRetrieveStaticDataForShopEvent = 8,
   EventProtocolRequestCArmoryEvent = 9,
@@ -267,6 +274,7 @@ typedef enum {
   EventProtocolRequestCUserCreateEvent = 38,
   EventProtocolRequestCEquipEquipmentEvent = 39,
   EventProtocolRequestCChangeUserLocationEvent = 40,
+  EventProtocolRequestCLoadNeutralCityEvent = 41,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -278,7 +286,6 @@ typedef enum {
   EventProtocolResponseSVaultEvent = 2,
   EventProtocolResponseSTaskActionEvent = 3,
   EventProtocolResponseSStartupEvent = 5,
-  EventProtocolResponseSRetrieveTasksForCityEvent = 6,
   EventProtocolResponseSRetrieveQuestsForCityEvent = 7,
   EventProtocolResponseSRetrieveStaticDataForShopEvent = 8,
   EventProtocolResponseSArmoryEvent = 9,
@@ -313,6 +320,7 @@ typedef enum {
   EventProtocolResponseSUserCreateEvent = 38,
   EventProtocolResponseSEquipEquipmentEvent = 39,
   EventProtocolResponseSChangeUserLocationEvent = 40,
+  EventProtocolResponseSLoadNeutralCityEvent = 41,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
   EventProtocolResponseSReferralCodeUsedEvent = 53,

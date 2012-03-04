@@ -27,7 +27,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCVaultEvent:
     case EventProtocolRequestCTaskActionEvent:
     case EventProtocolRequestCStartupEvent:
-    case EventProtocolRequestCRetrieveTasksForCityEvent:
     case EventProtocolRequestCRetrieveQuestsForCityEvent:
     case EventProtocolRequestCRetrieveStaticDataForShopEvent:
     case EventProtocolRequestCArmoryEvent:
@@ -62,6 +61,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCUserCreateEvent:
     case EventProtocolRequestCEquipEquipmentEvent:
     case EventProtocolRequestCChangeUserLocationEvent:
+    case EventProtocolRequestCLoadNeutralCityEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -75,7 +75,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSVaultEvent:
     case EventProtocolResponseSTaskActionEvent:
     case EventProtocolResponseSStartupEvent:
-    case EventProtocolResponseSRetrieveTasksForCityEvent:
     case EventProtocolResponseSRetrieveQuestsForCityEvent:
     case EventProtocolResponseSRetrieveStaticDataForShopEvent:
     case EventProtocolResponseSArmoryEvent:
@@ -110,6 +109,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSUserCreateEvent:
     case EventProtocolResponseSEquipEquipmentEvent:
     case EventProtocolResponseSChangeUserLocationEvent:
+    case EventProtocolResponseSLoadNeutralCityEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

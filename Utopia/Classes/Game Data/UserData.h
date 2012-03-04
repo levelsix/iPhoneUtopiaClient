@@ -45,3 +45,13 @@ typedef enum {
 - (FullStructureProto *) fsp;
 
 @end
+
+@interface UserCity : NSObject
+
+@property (nonatomic, assign) int curRank;
+@property (nonatomic, assign) int cityId;
+@property (nonatomic, assign) int numTasksComplete;
+
++ (id) userCityWithProto:(FullUserCityProto *)proto;
+
+@end

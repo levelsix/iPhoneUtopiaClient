@@ -8,7 +8,6 @@
 #import "GameState.h"
 #import "SynthesizeSingleton.h"
 #import "SocketCommunication.h"
-#import "UserData.h"
 #import "Globals.h"
 
 @implementation GameState
@@ -67,6 +66,7 @@
 
 @synthesize myEquips = _myEquips;
 @synthesize myStructs = _myStructs;
+@synthesize myCities = _myCities;
 
 @synthesize attackList = _attackList;
 
@@ -144,17 +144,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.amuletEquipped = user.amuletEquipped;
 }
 
+- (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
+  NSNumber *num = [NSNumber numberWithInt:itemId];
+  id p = [dict objectForKey:num];
+  while (!p) {
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    p = [dict objectForKey:num];
+  }
+  return p;
+}
+
 - (FullEquipProto *) equipWithId:(int)equipId {
   if (equipId == 0) {
     [Globals popupMessage:@"Attempted to access equip 0"];
     return nil;
   }
-  FullEquipProto *p = [self.staticEquips objectForKey:[NSNumber numberWithInt:equipId]];
-  while (!p) {
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    p = [self.staticEquips objectForKey:[NSNumber numberWithInt:equipId]];
-  }
-  return p;
+  return [self getStaticDataFrom:_staticEquips withId:equipId];
 }
 
 - (FullStructureProto *) structWithId:(int)structId {
@@ -162,12 +167,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [Globals popupMessage:@"Attempted to access struct 0"];
     return nil;
   }
-  FullStructureProto *p = [self.staticStructs objectForKey:[NSNumber numberWithInt:structId]];
-  while (!p) {
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    p = [self.staticStructs objectForKey:[NSNumber numberWithInt:structId]];
-  }
-  return p;
+  return [self getStaticDataFrom:_staticStructs withId:structId];
 }
 
 - (FullCityProto *) cityWithId:(int)cityId {
@@ -175,12 +175,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [Globals popupMessage:@"Attempted to access city 0"];
     return nil;
   }
-  FullCityProto *p = [self.staticCities objectForKey:[NSNumber numberWithInt:cityId]];
-  while (!p) {
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    p = [self.staticCities objectForKey:[NSNumber numberWithInt:cityId]];
+  return [self getStaticDataFrom:_staticCities withId:cityId];
+}
+
+- (FullTaskProto *) taskWithId:(int)taskId {
+  if (taskId == 0) {
+    [Globals popupMessage:@"Attempted to access task 0"];
+    return nil;
   }
-  return p;
+  return [self getStaticDataFrom:_staticTasks withId:taskId];
 }
 
 - (void) addToMyEquips:(NSArray *)equips {
@@ -192,9 +195,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyStructs:(NSArray *)structs {
   self.myStructs = [NSMutableArray array];
-  for (FullUserStructureProto *eq in structs) {
-    [self.myStructs addObject:[UserStruct userStructWithProto:eq]];
+  for (FullUserStructureProto *st in structs) {
+    [self.myStructs addObject:[UserStruct userStructWithProto:st]];
   }
+}
+
+- (void) addToMyCities:(NSArray *)cities {
+  self.myCities = [NSMutableDictionary dictionaryWithCapacity:cities.count];
+  for (FullUserCityProto *cit in cities) {
+    [self.myCities setObject:[UserCity userCityWithProto:cit] forKey:[NSNumber numberWithInt:cit.cityId]];
+  }
+}
+
+- (UserCity *) myCityWithId:(int)cityId {
+  return [self.myCities objectForKey:[NSNumber numberWithInt:cityId]];
 }
 
 - (void) addToStaticStructs:(NSArray *)arr {

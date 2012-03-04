@@ -55,6 +55,26 @@
 							<string key="NSResourceName">woodenbg.png</string>
 						</object>
 					</object>
+					<object class="IBUITableView" id="458309360">
+						<reference key="NSNextResponder" ref="996813865"/>
+						<int key="NSvFlags">274</int>
+						<string key="NSFrame">{{0, 39}, {480, 281}}</string>
+						<reference key="NSSuperview" ref="996813865"/>
+						<reference key="NSWindow"/>
+						<string key="NSReuseIdentifierKey">_NS:418</string>
+						<object class="NSColor" key="IBUIBackgroundColor" id="321347730">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MCAwAA</bytes>
+						</object>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<bool key="IBUIAlwaysBounceVertical">YES</bool>
+						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
+						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
+						<float key="IBUIRowHeight">188</float>
+					</object>
 					<object class="IBUIImageView" id="117412202">
 						<reference key="NSNextResponder" ref="996813865"/>
 						<int key="NSvFlags">256</int>
@@ -109,26 +129,6 @@
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
-					</object>
-					<object class="IBUITableView" id="458309360">
-						<reference key="NSNextResponder" ref="996813865"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{0, 43}, {480, 278}}</string>
-						<reference key="NSSuperview" ref="996813865"/>
-						<reference key="NSWindow"/>
-						<string key="NSReuseIdentifierKey">_NS:418</string>
-						<object class="NSColor" key="IBUIBackgroundColor" id="321347730">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
-						</object>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<bool key="IBUIAlwaysBounceVertical">YES</bool>
-						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
-						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
-						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
-						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-						<float key="IBUIRowHeight">188</float>
 					</object>
 					<object class="IBUIView" id="465782099">
 						<reference key="NSNextResponder" ref="996813865"/>
@@ -647,6 +647,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">armoryBar</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="465782099"/>
+					</object>
+					<int key="connectionID">90</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="458309360"/>
 						<reference key="destination" ref="372490531"/>
@@ -769,11 +777,11 @@
 						<int key="objectID">39</int>
 						<reference key="object" ref="996813865"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="458309360"/>
 							<reference ref="429103819"/>
 							<reference ref="117412202"/>
-							<reference ref="855043538"/>
 							<reference ref="465782099"/>
+							<reference ref="855043538"/>
+							<reference ref="458309360"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -990,7 +998,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">89</int>
+			<int key="maxID">90</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1138,6 +1146,7 @@
 					<string key="className">ArmoryViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="armoryBar">ArmoryBar</string>
 						<string key="armoryRow">ArmoryRow</string>
 						<string key="armoryTableView">UITableView</string>
 						<string key="buyButton">LabelButton</string>
@@ -1149,6 +1158,10 @@
 						<string key="sellButton">LabelButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="armoryBar">
+							<string key="name">armoryBar</string>
+							<string key="candidateClassName">ArmoryBar</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="armoryRow">
 							<string key="name">armoryRow</string>
 							<string key="candidateClassName">ArmoryRow</string>

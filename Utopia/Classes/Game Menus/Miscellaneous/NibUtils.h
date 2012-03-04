@@ -17,6 +17,9 @@
 @interface NiceFontLabel3 : UILabel 
 @end
 
+@interface NiceFontLabel4 : UILabel 
+@end
+
 @interface LabelButton : UIButton {
   UILabel *_label;
   NSString *_text;
@@ -47,5 +50,9 @@
 @interface ServerButton : UIButton 
 
 @property (nonatomic, retain) NSString *path;
+
+@end
+
+@interface RopeView : UIView
 
 @end

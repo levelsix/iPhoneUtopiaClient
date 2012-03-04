@@ -80,3 +80,22 @@
 }
 
 @end
+
+@implementation UserCity
+
+@synthesize curRank, cityId, numTasksComplete;
+
+- (id) initWithProto:(FullUserCityProto *)proto {
+  if ((self = [super init])) {
+    self.curRank = proto.currentRank;
+    self.cityId = proto.cityId;
+    self.numTasksComplete = proto.numTasksCurrentlyCompleteInRank;
+  }
+  return self;
+}
+
++ (id) userCityWithProto:(FullUserCityProto *)proto {
+  return [[[self alloc] initWithProto:proto] autorelease];
+}
+
+@end

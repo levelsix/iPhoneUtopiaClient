@@ -2865,6 +2865,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property StartupResponseProto_UpdateStatus updateStatus;
 @property (retain) StartupResponseProto_StartupConstants* startupConstants;
 @property (retain) NSMutableArray* mutableCitiesAvailableToUserList;
+@property (retain) NSMutableArray* mutableUserCityInfosList;
 @property (retain) NSMutableArray* mutableInProgressQuestsList;
 @property (retain) NSMutableArray* mutableAvailableQuestsList;
 @property (retain) NSMutableArray* mutableUserEquipsList;
@@ -2908,6 +2909,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize startupConstants;
 @synthesize mutableCitiesAvailableToUserList;
+@synthesize mutableUserCityInfosList;
 @synthesize mutableInProgressQuestsList;
 @synthesize mutableAvailableQuestsList;
 @synthesize mutableUserEquipsList;
@@ -2928,6 +2930,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.sender = nil;
   self.startupConstants = nil;
   self.mutableCitiesAvailableToUserList = nil;
+  self.mutableUserCityInfosList = nil;
   self.mutableInProgressQuestsList = nil;
   self.mutableAvailableQuestsList = nil;
   self.mutableUserEquipsList = nil;
@@ -2966,6 +2969,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index {
   id value = [mutableCitiesAvailableToUserList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) userCityInfosList {
+  return mutableUserCityInfosList;
+}
+- (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index {
+  id value = [mutableUserCityInfosList objectAtIndex:index];
   return value;
 }
 - (NSArray*) inProgressQuestsList {
@@ -3050,6 +3060,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     return NO;
   }
   for (FullCityProto* element in self.citiesAvailableToUserList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullUserCityProto* element in self.userCityInfosList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -3147,6 +3162,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
     [output writeMessage:15 value:element];
   }
+  for (FullUserCityProto* element in self.userCityInfosList) {
+    [output writeMessage:16 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3200,6 +3218,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
     size += computeMessageSize(15, element);
+  }
+  for (FullUserCityProto* element in self.userCityInfosList) {
+    size += computeMessageSize(16, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4617,6 +4638,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     }
     [result.mutableCitiesAvailableToUserList addObjectsFromArray:other.mutableCitiesAvailableToUserList];
   }
+  if (other.mutableUserCityInfosList.count > 0) {
+    if (result.mutableUserCityInfosList == nil) {
+      result.mutableUserCityInfosList = [NSMutableArray array];
+    }
+    [result.mutableUserCityInfosList addObjectsFromArray:other.mutableUserCityInfosList];
+  }
   if (other.mutableInProgressQuestsList.count > 0) {
     if (result.mutableInProgressQuestsList == nil) {
       result.mutableInProgressQuestsList = [NSMutableArray array];
@@ -4795,6 +4822,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
         [self addReferralNotifications:[subBuilder buildPartial]];
         break;
       }
+      case 130: {
+        FullUserCityProto_Builder* subBuilder = [FullUserCityProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserCityInfos:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -4917,6 +4950,35 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     result.mutableCitiesAvailableToUserList = [NSMutableArray array];
   }
   [result.mutableCitiesAvailableToUserList addObject:value];
+  return self;
+}
+- (NSArray*) userCityInfosList {
+  if (result.mutableUserCityInfosList == nil) { return [NSArray array]; }
+  return result.mutableUserCityInfosList;
+}
+- (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index {
+  return [result userCityInfosAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceUserCityInfosAtIndex:(int32_t) index with:(FullUserCityProto*) value {
+  [result.mutableUserCityInfosList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllUserCityInfos:(NSArray*) values {
+  if (result.mutableUserCityInfosList == nil) {
+    result.mutableUserCityInfosList = [NSMutableArray array];
+  }
+  [result.mutableUserCityInfosList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUserCityInfosList {
+  result.mutableUserCityInfosList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addUserCityInfos:(FullUserCityProto*) value {
+  if (result.mutableUserCityInfosList == nil) {
+    result.mutableUserCityInfosList = [NSMutableArray array];
+  }
+  [result.mutableUserCityInfosList addObject:value];
   return self;
 }
 - (NSArray*) inProgressQuestsList {
@@ -5302,16 +5364,15 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (!self.hasType) {
     return NO;
   }
-  if (!self.hasUserLocation) {
-    return NO;
-  }
   for (FullUserStructureProto* element in self.structuresList) {
     if (!element.isInitialized) {
       return NO;
     }
   }
-  if (!self.userLocation.isInitialized) {
-    return NO;
+  if (self.hasUserLocation) {
+    if (!self.userLocation.isInitialized) {
+      return NO;
+    }
   }
   return YES;
 }
@@ -12879,6 +12940,7 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 @property int32_t newNextLevel;
 @property int32_t experienceRequiredForNewNextLevel;
 @property (retain) NSMutableArray* mutableCitiesAvailableToUserList;
+@property (retain) NSMutableArray* mutableNewlyEquippableAvailableInArmoryList;
 @end
 
 @implementation LevelUpResponseProto
@@ -12912,9 +12974,11 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 }
 @synthesize experienceRequiredForNewNextLevel;
 @synthesize mutableCitiesAvailableToUserList;
+@synthesize mutableNewlyEquippableAvailableInArmoryList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableCitiesAvailableToUserList = nil;
+  self.mutableNewlyEquippableAvailableInArmoryList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -12945,6 +13009,13 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   id value = [mutableCitiesAvailableToUserList objectAtIndex:index];
   return value;
 }
+- (NSArray*) newlyEquippableAvailableInArmoryList {
+  return mutableNewlyEquippableAvailableInArmoryList;
+}
+- (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index {
+  id value = [mutableNewlyEquippableAvailableInArmoryList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   if (!self.hasSender) {
     return NO;
@@ -12956,6 +13027,11 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
     return NO;
   }
   for (FullCityProto* element in self.citiesAvailableToUserList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullEquipProto* element in self.newlyEquippableAvailableInArmoryList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -12977,6 +13053,9 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   }
   for (FullCityProto* element in self.citiesAvailableToUserList) {
     [output writeMessage:5 value:element];
+  }
+  for (FullEquipProto* element in self.newlyEquippableAvailableInArmoryList) {
+    [output writeMessage:6 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -13001,6 +13080,9 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   }
   for (FullCityProto* element in self.citiesAvailableToUserList) {
     size += computeMessageSize(5, element);
+  }
+  for (FullEquipProto* element in self.newlyEquippableAvailableInArmoryList) {
+    size += computeMessageSize(6, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -13105,6 +13187,12 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
     }
     [result.mutableCitiesAvailableToUserList addObjectsFromArray:other.mutableCitiesAvailableToUserList];
   }
+  if (other.mutableNewlyEquippableAvailableInArmoryList.count > 0) {
+    if (result.mutableNewlyEquippableAvailableInArmoryList == nil) {
+      result.mutableNewlyEquippableAvailableInArmoryList = [NSMutableArray array];
+    }
+    [result.mutableNewlyEquippableAvailableInArmoryList addObjectsFromArray:other.mutableNewlyEquippableAvailableInArmoryList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -13156,6 +13244,12 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
         FullCityProto_Builder* subBuilder = [FullCityProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addCitiesAvailableToUser:[subBuilder buildPartial]];
+        break;
+      }
+      case 50: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNewlyEquippableAvailableInArmory:[subBuilder buildPartial]];
         break;
       }
     }
@@ -13266,6 +13360,35 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
     result.mutableCitiesAvailableToUserList = [NSMutableArray array];
   }
   [result.mutableCitiesAvailableToUserList addObject:value];
+  return self;
+}
+- (NSArray*) newlyEquippableAvailableInArmoryList {
+  if (result.mutableNewlyEquippableAvailableInArmoryList == nil) { return [NSArray array]; }
+  return result.mutableNewlyEquippableAvailableInArmoryList;
+}
+- (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index {
+  return [result newlyEquippableAvailableInArmoryAtIndex:index];
+}
+- (LevelUpResponseProto_Builder*) replaceNewlyEquippableAvailableInArmoryAtIndex:(int32_t) index with:(FullEquipProto*) value {
+  [result.mutableNewlyEquippableAvailableInArmoryList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LevelUpResponseProto_Builder*) addAllNewlyEquippableAvailableInArmory:(NSArray*) values {
+  if (result.mutableNewlyEquippableAvailableInArmoryList == nil) {
+    result.mutableNewlyEquippableAvailableInArmoryList = [NSMutableArray array];
+  }
+  [result.mutableNewlyEquippableAvailableInArmoryList addObjectsFromArray:values];
+  return self;
+}
+- (LevelUpResponseProto_Builder*) clearNewlyEquippableAvailableInArmoryList {
+  result.mutableNewlyEquippableAvailableInArmoryList = nil;
+  return self;
+}
+- (LevelUpResponseProto_Builder*) addNewlyEquippableAvailableInArmory:(FullEquipProto*) value {
+  if (result.mutableNewlyEquippableAvailableInArmoryList == nil) {
+    result.mutableNewlyEquippableAvailableInArmoryList = [NSMutableArray array];
+  }
+  [result.mutableNewlyEquippableAvailableInArmoryList addObject:value];
   return self;
 }
 @end
@@ -18897,6 +19020,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 
 @interface LoadPlayerCityResponseProto ()
 @property (retain) MinimumUserProto* sender;
+@property (retain) MinimumUserProto* cityOwner;
 @property LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
 @property (retain) NSMutableArray* mutableOwnerNormStructsList;
 @property (retain) NSMutableArray* mutableOwnerAlliesList;
@@ -18918,6 +19042,13 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasCityOwner {
+  return !!hasCityOwner_;
+}
+- (void) setHasCityOwner:(BOOL) value {
+  hasCityOwner_ = !!value;
+}
+@synthesize cityOwner;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -18972,6 +19103,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 @synthesize userCityExpansionData;
 - (void) dealloc {
   self.sender = nil;
+  self.cityOwner = nil;
   self.mutableOwnerNormStructsList = nil;
   self.mutableOwnerAlliesList = nil;
   self.mutableOwnerEnemiesList = nil;
@@ -18986,6 +19118,7 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.cityOwner = [MinimumUserProto defaultInstance];
     self.status = LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess;
     self.armory = [FullUserCritstructProto defaultInstance];
     self.vault = [FullUserCritstructProto defaultInstance];
@@ -19033,6 +19166,9 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasCityOwner) {
+    return NO;
+  }
   if (!self.hasStatus) {
     return NO;
   }
@@ -19043,6 +19179,9 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
     return NO;
   }
   if (!self.sender.isInitialized) {
+    return NO;
+  }
+  if (!self.cityOwner.isInitialized) {
     return NO;
   }
   for (FullUserStructureProto* element in self.ownerNormStructsList) {
@@ -19092,35 +19231,38 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasCityOwner) {
+    [output writeMessage:2 value:self.cityOwner];
+  }
   if (self.hasStatus) {
-    [output writeEnum:2 value:self.status];
+    [output writeEnum:3 value:self.status];
   }
   for (FullUserStructureProto* element in self.ownerNormStructsList) {
-    [output writeMessage:3 value:element];
-  }
-  for (FullUserProto* element in self.ownerAlliesList) {
     [output writeMessage:4 value:element];
   }
-  for (FullUserProto* element in self.ownerEnemiesList) {
+  for (FullUserProto* element in self.ownerAlliesList) {
     [output writeMessage:5 value:element];
   }
+  for (FullUserProto* element in self.ownerEnemiesList) {
+    [output writeMessage:6 value:element];
+  }
   if (self.hasArmory) {
-    [output writeMessage:6 value:self.armory];
+    [output writeMessage:7 value:self.armory];
   }
   if (self.hasVault) {
-    [output writeMessage:7 value:self.vault];
+    [output writeMessage:8 value:self.vault];
   }
   if (self.hasMarketplace) {
-    [output writeMessage:8 value:self.marketplace];
+    [output writeMessage:9 value:self.marketplace];
   }
   if (self.hasCarpenter) {
-    [output writeMessage:9 value:self.carpenter];
+    [output writeMessage:10 value:self.carpenter];
   }
   if (self.hasAviary) {
-    [output writeMessage:10 value:self.aviary];
+    [output writeMessage:11 value:self.aviary];
   }
   if (self.hasUserCityExpansionData) {
-    [output writeMessage:11 value:self.userCityExpansionData];
+    [output writeMessage:12 value:self.userCityExpansionData];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -19134,35 +19276,38 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
+  if (self.hasCityOwner) {
+    size += computeMessageSize(2, self.cityOwner);
+  }
   if (self.hasStatus) {
-    size += computeEnumSize(2, self.status);
+    size += computeEnumSize(3, self.status);
   }
   for (FullUserStructureProto* element in self.ownerNormStructsList) {
-    size += computeMessageSize(3, element);
-  }
-  for (FullUserProto* element in self.ownerAlliesList) {
     size += computeMessageSize(4, element);
   }
-  for (FullUserProto* element in self.ownerEnemiesList) {
+  for (FullUserProto* element in self.ownerAlliesList) {
     size += computeMessageSize(5, element);
   }
+  for (FullUserProto* element in self.ownerEnemiesList) {
+    size += computeMessageSize(6, element);
+  }
   if (self.hasArmory) {
-    size += computeMessageSize(6, self.armory);
+    size += computeMessageSize(7, self.armory);
   }
   if (self.hasVault) {
-    size += computeMessageSize(7, self.vault);
+    size += computeMessageSize(8, self.vault);
   }
   if (self.hasMarketplace) {
-    size += computeMessageSize(8, self.marketplace);
+    size += computeMessageSize(9, self.marketplace);
   }
   if (self.hasCarpenter) {
-    size += computeMessageSize(9, self.carpenter);
+    size += computeMessageSize(10, self.carpenter);
   }
   if (self.hasAviary) {
-    size += computeMessageSize(10, self.aviary);
+    size += computeMessageSize(11, self.aviary);
   }
   if (self.hasUserCityExpansionData) {
-    size += computeMessageSize(11, self.userCityExpansionData);
+    size += computeMessageSize(12, self.userCityExpansionData);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -19252,6 +19397,9 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasCityOwner) {
+    [self mergeCityOwner:other.cityOwner];
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -19321,34 +19469,43 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 16: {
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasCityOwner) {
+          [subBuilder mergeFrom:self.cityOwner];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCityOwner:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
         int32_t value = [input readEnum];
         if (LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
-          [unknownFields mergeVarintField:2 value:value];
+          [unknownFields mergeVarintField:3 value:value];
         }
         break;
       }
-      case 26: {
+      case 34: {
         FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addOwnerNormStructs:[subBuilder buildPartial]];
         break;
       }
-      case 34: {
+      case 42: {
         FullUserProto_Builder* subBuilder = [FullUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addOwnerAllies:[subBuilder buildPartial]];
         break;
       }
-      case 42: {
+      case 50: {
         FullUserProto_Builder* subBuilder = [FullUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addOwnerEnemies:[subBuilder buildPartial]];
         break;
       }
-      case 50: {
+      case 58: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasArmory) {
           [subBuilder mergeFrom:self.armory];
@@ -19357,7 +19514,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setArmory:[subBuilder buildPartial]];
         break;
       }
-      case 58: {
+      case 66: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasVault) {
           [subBuilder mergeFrom:self.vault];
@@ -19366,7 +19523,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setVault:[subBuilder buildPartial]];
         break;
       }
-      case 66: {
+      case 74: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasMarketplace) {
           [subBuilder mergeFrom:self.marketplace];
@@ -19375,7 +19532,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setMarketplace:[subBuilder buildPartial]];
         break;
       }
-      case 74: {
+      case 82: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasCarpenter) {
           [subBuilder mergeFrom:self.carpenter];
@@ -19384,7 +19541,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setCarpenter:[subBuilder buildPartial]];
         break;
       }
-      case 82: {
+      case 90: {
         FullUserCritstructProto_Builder* subBuilder = [FullUserCritstructProto builder];
         if (self.hasAviary) {
           [subBuilder mergeFrom:self.aviary];
@@ -19393,7 +19550,7 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
         [self setAviary:[subBuilder buildPartial]];
         break;
       }
-      case 90: {
+      case 98: {
         FullUserCityExpansionDataProto_Builder* subBuilder = [FullUserCityExpansionDataProto builder];
         if (self.hasUserCityExpansionData) {
           [subBuilder mergeFrom:self.userCityExpansionData];
@@ -19433,6 +19590,36 @@ BOOL LoadPlayerCityResponseProto_LoadPlayerCityStatusIsValidValue(LoadPlayerCity
 - (LoadPlayerCityResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCityOwner {
+  return result.hasCityOwner;
+}
+- (MinimumUserProto*) cityOwner {
+  return result.cityOwner;
+}
+- (LoadPlayerCityResponseProto_Builder*) setCityOwner:(MinimumUserProto*) value {
+  result.hasCityOwner = YES;
+  result.cityOwner = value;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) setCityOwnerBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setCityOwner:[builderForValue build]];
+}
+- (LoadPlayerCityResponseProto_Builder*) mergeCityOwner:(MinimumUserProto*) value {
+  if (result.hasCityOwner &&
+      result.cityOwner != [MinimumUserProto defaultInstance]) {
+    result.cityOwner =
+      [[[MinimumUserProto builderWithPrototype:result.cityOwner] mergeFrom:value] buildPartial];
+  } else {
+    result.cityOwner = value;
+  }
+  result.hasCityOwner = YES;
+  return self;
+}
+- (LoadPlayerCityResponseProto_Builder*) clearCityOwner {
+  result.hasCityOwner = NO;
+  result.cityOwner = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {
@@ -27205,6 +27392,736 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 - (ChangeUserLocationResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess;
+  return self;
+}
+@end
+
+@interface LoadNeutralCityRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t cityId;
+@end
+
+@implementation LoadNeutralCityRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.cityId = 0;
+  }
+  return self;
+}
+static LoadNeutralCityRequestProto* defaultLoadNeutralCityRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [LoadNeutralCityRequestProto class]) {
+    defaultLoadNeutralCityRequestProtoInstance = [[LoadNeutralCityRequestProto alloc] init];
+  }
+}
++ (LoadNeutralCityRequestProto*) defaultInstance {
+  return defaultLoadNeutralCityRequestProtoInstance;
+}
+- (LoadNeutralCityRequestProto*) defaultInstance {
+  return defaultLoadNeutralCityRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasCityId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:2 value:self.cityId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(2, self.cityId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LoadNeutralCityRequestProto*) parseFromData:(NSData*) data {
+  return (LoadNeutralCityRequestProto*)[[[LoadNeutralCityRequestProto builder] mergeFromData:data] build];
+}
++ (LoadNeutralCityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadNeutralCityRequestProto*)[[[LoadNeutralCityRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LoadNeutralCityRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LoadNeutralCityRequestProto*)[[[LoadNeutralCityRequestProto builder] mergeFromInputStream:input] build];
+}
++ (LoadNeutralCityRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadNeutralCityRequestProto*)[[[LoadNeutralCityRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadNeutralCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LoadNeutralCityRequestProto*)[[[LoadNeutralCityRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LoadNeutralCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadNeutralCityRequestProto*)[[[LoadNeutralCityRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadNeutralCityRequestProto_Builder*) builder {
+  return [[[LoadNeutralCityRequestProto_Builder alloc] init] autorelease];
+}
++ (LoadNeutralCityRequestProto_Builder*) builderWithPrototype:(LoadNeutralCityRequestProto*) prototype {
+  return [[LoadNeutralCityRequestProto builder] mergeFrom:prototype];
+}
+- (LoadNeutralCityRequestProto_Builder*) builder {
+  return [LoadNeutralCityRequestProto builder];
+}
+@end
+
+@interface LoadNeutralCityRequestProto_Builder()
+@property (retain) LoadNeutralCityRequestProto* result;
+@end
+
+@implementation LoadNeutralCityRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LoadNeutralCityRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LoadNeutralCityRequestProto_Builder*) clear {
+  self.result = [[[LoadNeutralCityRequestProto alloc] init] autorelease];
+  return self;
+}
+- (LoadNeutralCityRequestProto_Builder*) clone {
+  return [LoadNeutralCityRequestProto builderWithPrototype:result];
+}
+- (LoadNeutralCityRequestProto*) defaultInstance {
+  return [LoadNeutralCityRequestProto defaultInstance];
+}
+- (LoadNeutralCityRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LoadNeutralCityRequestProto*) buildPartial {
+  LoadNeutralCityRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LoadNeutralCityRequestProto_Builder*) mergeFrom:(LoadNeutralCityRequestProto*) other {
+  if (other == [LoadNeutralCityRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LoadNeutralCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LoadNeutralCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LoadNeutralCityRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LoadNeutralCityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LoadNeutralCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LoadNeutralCityRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (LoadNeutralCityRequestProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (LoadNeutralCityRequestProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+@end
+
+@interface LoadNeutralCityResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property LoadNeutralCityResponseProto_LoadNeutralCityStatus status;
+@property (retain) NSMutableArray* mutableUserTasksInfoList;
+@property (retain) NSMutableArray* mutableDefeatTypeJobEnemiesList;
+@property (retain) NSMutableArray* mutableCityElementsList;
+@property int32_t cityId;
+@end
+
+@implementation LoadNeutralCityResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutableUserTasksInfoList;
+@synthesize mutableDefeatTypeJobEnemiesList;
+@synthesize mutableCityElementsList;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableUserTasksInfoList = nil;
+  self.mutableDefeatTypeJobEnemiesList = nil;
+  self.mutableCityElementsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess;
+    self.cityId = 0;
+  }
+  return self;
+}
+static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [LoadNeutralCityResponseProto class]) {
+    defaultLoadNeutralCityResponseProtoInstance = [[LoadNeutralCityResponseProto alloc] init];
+  }
+}
++ (LoadNeutralCityResponseProto*) defaultInstance {
+  return defaultLoadNeutralCityResponseProtoInstance;
+}
+- (LoadNeutralCityResponseProto*) defaultInstance {
+  return defaultLoadNeutralCityResponseProtoInstance;
+}
+- (NSArray*) userTasksInfoList {
+  return mutableUserTasksInfoList;
+}
+- (MinimumUserTaskProto*) userTasksInfoAtIndex:(int32_t) index {
+  id value = [mutableUserTasksInfoList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) defeatTypeJobEnemiesList {
+  return mutableDefeatTypeJobEnemiesList;
+}
+- (FullUserProto*) defeatTypeJobEnemiesAtIndex:(int32_t) index {
+  id value = [mutableDefeatTypeJobEnemiesList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) cityElementsList {
+  return mutableCityElementsList;
+}
+- (NeutralCityElementProto*) cityElementsAtIndex:(int32_t) index {
+  id value = [mutableCityElementsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.hasCityId) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (MinimumUserTaskProto* element in self.userTasksInfoList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullUserProto* element in self.defeatTypeJobEnemiesList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (NeutralCityElementProto* element in self.cityElementsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  for (MinimumUserTaskProto* element in self.userTasksInfoList) {
+    [output writeMessage:3 value:element];
+  }
+  for (FullUserProto* element in self.defeatTypeJobEnemiesList) {
+    [output writeMessage:4 value:element];
+  }
+  for (NeutralCityElementProto* element in self.cityElementsList) {
+    [output writeMessage:5 value:element];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:6 value:self.cityId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  for (MinimumUserTaskProto* element in self.userTasksInfoList) {
+    size += computeMessageSize(3, element);
+  }
+  for (FullUserProto* element in self.defeatTypeJobEnemiesList) {
+    size += computeMessageSize(4, element);
+  }
+  for (NeutralCityElementProto* element in self.cityElementsList) {
+    size += computeMessageSize(5, element);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(6, self.cityId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LoadNeutralCityResponseProto*) parseFromData:(NSData*) data {
+  return (LoadNeutralCityResponseProto*)[[[LoadNeutralCityResponseProto builder] mergeFromData:data] build];
+}
++ (LoadNeutralCityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadNeutralCityResponseProto*)[[[LoadNeutralCityResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LoadNeutralCityResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LoadNeutralCityResponseProto*)[[[LoadNeutralCityResponseProto builder] mergeFromInputStream:input] build];
+}
++ (LoadNeutralCityResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadNeutralCityResponseProto*)[[[LoadNeutralCityResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadNeutralCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LoadNeutralCityResponseProto*)[[[LoadNeutralCityResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LoadNeutralCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LoadNeutralCityResponseProto*)[[[LoadNeutralCityResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LoadNeutralCityResponseProto_Builder*) builder {
+  return [[[LoadNeutralCityResponseProto_Builder alloc] init] autorelease];
+}
++ (LoadNeutralCityResponseProto_Builder*) builderWithPrototype:(LoadNeutralCityResponseProto*) prototype {
+  return [[LoadNeutralCityResponseProto builder] mergeFrom:prototype];
+}
+- (LoadNeutralCityResponseProto_Builder*) builder {
+  return [LoadNeutralCityResponseProto builder];
+}
+@end
+
+BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralCityResponseProto_LoadNeutralCityStatus value) {
+  switch (value) {
+    case LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess:
+    case LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser:
+    case LoadNeutralCityResponseProto_LoadNeutralCityStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface LoadNeutralCityResponseProto_Builder()
+@property (retain) LoadNeutralCityResponseProto* result;
+@end
+
+@implementation LoadNeutralCityResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LoadNeutralCityResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LoadNeutralCityResponseProto_Builder*) clear {
+  self.result = [[[LoadNeutralCityResponseProto alloc] init] autorelease];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clone {
+  return [LoadNeutralCityResponseProto builderWithPrototype:result];
+}
+- (LoadNeutralCityResponseProto*) defaultInstance {
+  return [LoadNeutralCityResponseProto defaultInstance];
+}
+- (LoadNeutralCityResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LoadNeutralCityResponseProto*) buildPartial {
+  LoadNeutralCityResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LoadNeutralCityResponseProto_Builder*) mergeFrom:(LoadNeutralCityResponseProto*) other {
+  if (other == [LoadNeutralCityResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutableUserTasksInfoList.count > 0) {
+    if (result.mutableUserTasksInfoList == nil) {
+      result.mutableUserTasksInfoList = [NSMutableArray array];
+    }
+    [result.mutableUserTasksInfoList addObjectsFromArray:other.mutableUserTasksInfoList];
+  }
+  if (other.mutableDefeatTypeJobEnemiesList.count > 0) {
+    if (result.mutableDefeatTypeJobEnemiesList == nil) {
+      result.mutableDefeatTypeJobEnemiesList = [NSMutableArray array];
+    }
+    [result.mutableDefeatTypeJobEnemiesList addObjectsFromArray:other.mutableDefeatTypeJobEnemiesList];
+  }
+  if (other.mutableCityElementsList.count > 0) {
+    if (result.mutableCityElementsList == nil) {
+      result.mutableCityElementsList = [NSMutableArray array];
+    }
+    [result.mutableCityElementsList addObjectsFromArray:other.mutableCityElementsList];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LoadNeutralCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        MinimumUserTaskProto_Builder* subBuilder = [MinimumUserTaskProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addUserTasksInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addDefeatTypeJobEnemies:[subBuilder buildPartial]];
+        break;
+      }
+      case 42: {
+        NeutralCityElementProto_Builder* subBuilder = [NeutralCityElementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCityElements:[subBuilder buildPartial]];
+        break;
+      }
+      case 48: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LoadNeutralCityResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LoadNeutralCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (LoadNeutralCityResponseProto_LoadNeutralCityStatus) status {
+  return result.status;
+}
+- (LoadNeutralCityResponseProto_Builder*) setStatus:(LoadNeutralCityResponseProto_LoadNeutralCityStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess;
+  return self;
+}
+- (NSArray*) userTasksInfoList {
+  if (result.mutableUserTasksInfoList == nil) { return [NSArray array]; }
+  return result.mutableUserTasksInfoList;
+}
+- (MinimumUserTaskProto*) userTasksInfoAtIndex:(int32_t) index {
+  return [result userTasksInfoAtIndex:index];
+}
+- (LoadNeutralCityResponseProto_Builder*) replaceUserTasksInfoAtIndex:(int32_t) index with:(MinimumUserTaskProto*) value {
+  [result.mutableUserTasksInfoList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addAllUserTasksInfo:(NSArray*) values {
+  if (result.mutableUserTasksInfoList == nil) {
+    result.mutableUserTasksInfoList = [NSMutableArray array];
+  }
+  [result.mutableUserTasksInfoList addObjectsFromArray:values];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearUserTasksInfoList {
+  result.mutableUserTasksInfoList = nil;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addUserTasksInfo:(MinimumUserTaskProto*) value {
+  if (result.mutableUserTasksInfoList == nil) {
+    result.mutableUserTasksInfoList = [NSMutableArray array];
+  }
+  [result.mutableUserTasksInfoList addObject:value];
+  return self;
+}
+- (NSArray*) defeatTypeJobEnemiesList {
+  if (result.mutableDefeatTypeJobEnemiesList == nil) { return [NSArray array]; }
+  return result.mutableDefeatTypeJobEnemiesList;
+}
+- (FullUserProto*) defeatTypeJobEnemiesAtIndex:(int32_t) index {
+  return [result defeatTypeJobEnemiesAtIndex:index];
+}
+- (LoadNeutralCityResponseProto_Builder*) replaceDefeatTypeJobEnemiesAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableDefeatTypeJobEnemiesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addAllDefeatTypeJobEnemies:(NSArray*) values {
+  if (result.mutableDefeatTypeJobEnemiesList == nil) {
+    result.mutableDefeatTypeJobEnemiesList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeJobEnemiesList addObjectsFromArray:values];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearDefeatTypeJobEnemiesList {
+  result.mutableDefeatTypeJobEnemiesList = nil;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addDefeatTypeJobEnemies:(FullUserProto*) value {
+  if (result.mutableDefeatTypeJobEnemiesList == nil) {
+    result.mutableDefeatTypeJobEnemiesList = [NSMutableArray array];
+  }
+  [result.mutableDefeatTypeJobEnemiesList addObject:value];
+  return self;
+}
+- (NSArray*) cityElementsList {
+  if (result.mutableCityElementsList == nil) { return [NSArray array]; }
+  return result.mutableCityElementsList;
+}
+- (NeutralCityElementProto*) cityElementsAtIndex:(int32_t) index {
+  return [result cityElementsAtIndex:index];
+}
+- (LoadNeutralCityResponseProto_Builder*) replaceCityElementsAtIndex:(int32_t) index with:(NeutralCityElementProto*) value {
+  [result.mutableCityElementsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addAllCityElements:(NSArray*) values {
+  if (result.mutableCityElementsList == nil) {
+    result.mutableCityElementsList = [NSMutableArray array];
+  }
+  [result.mutableCityElementsList addObjectsFromArray:values];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearCityElementsList {
+  result.mutableCityElementsList = nil;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addCityElements:(NeutralCityElementProto*) value {
+  if (result.mutableCityElementsList == nil) {
+    result.mutableCityElementsList = [NSMutableArray array];
+  }
+  [result.mutableCityElementsList addObject:value];
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (LoadNeutralCityResponseProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
   return self;
 }
 @end

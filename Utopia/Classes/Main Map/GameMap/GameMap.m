@@ -137,14 +137,12 @@
     self.selected = nil;
   }
   self.selected = [self selectableForPt:pt];
-  [self doReorder];
 }
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
 {
   // First check if a sprite was clicked
   CGPoint pt = [recognizer locationInView:recognizer.view];
-  pt = [[CCDirector sharedDirector] convertToGL:pt];
   pt = [self convertToNodeSpace:pt];
   
   // Now do drag motion

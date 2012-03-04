@@ -77,8 +77,22 @@
 
 @implementation Building
 
-+(id) buildingWithFile: (NSString *) file location: (CGRect) loc map: (GameMap *) map{
-  return [[[self alloc] initWithFile:file location:loc map:map] autorelease];
+@synthesize orientation;
+
+- (void) setOrientation:(StructOrientation)o {
+  orientation = o % 2;
+  switch (orientation) {
+    case StructOrientationPosition1:
+      self.flipX = NO;
+      break;
+      
+    case StructOrientationPosition2:
+      self.flipX = YES;
+      break;
+      
+    default:
+      break;
+  }
 }
 
 @end
@@ -106,6 +120,7 @@
   [super setIsSelected:isSelected];
   if (isSelected) {
     _startMoveCoordinate = _location.origin;
+    _startOrientation = self.orientation;
   } else {
     if (!_isSetDown) {
       [self cancelMove];
@@ -115,6 +130,7 @@
 
 - (void) cancelMove {
   [self liftBlock];
+  self.orientation = _startOrientation;
   CGRect x = self.location;
   x.origin = _startMoveCoordinate;
   self.location = x;
@@ -309,16 +325,15 @@
 
 @implementation MissionBuilding
 
-@synthesize bountyRange = _bountyRange;
-@synthesize experience = _experience;
+@synthesize ftp, numTimesActed, name;
 
 +(id) missionBuildingWithFile: (NSString *) file location: (CGRect) loc map: (GameMap *) map {
   return [[[self alloc] initWithFile:file location:loc map:map] autorelease];
 }
 
 -(id) initWithFile: (NSString *) file location: (CGRect)loc map: (GameMap *) map{
-  //  if ((self = [super initWithFile:file location:loc])) {
-  //  }
+  if ((self = [super initWithFile:file location:loc map:map])) {
+  }
   return self;
 }
 

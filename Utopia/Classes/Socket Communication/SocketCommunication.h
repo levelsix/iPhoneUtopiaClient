@@ -31,7 +31,6 @@
 // Send different event messages
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient;
 - (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
-- (void) sendTasksForCityMessage: (int) cityId;
 - (void) sendBattleMessage:(int)defender;
 - (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
 - (void) sendStartupMessage:(uint64_t)clientTime;
@@ -53,6 +52,7 @@
 // Norm Struct messages
 - (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
 - (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
+- (void) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
 - (void) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
 - (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
 - (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
@@ -60,11 +60,13 @@
 - (void) sendSellNormStructureMessage:(int)userStructId;
 
 - (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup;
+- (void) sendLoadNeutralCityMessage:(int)cityId;
 
 - (void) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds;
 - (void) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType)type;
 
 - (void) sendEquipEquipmentMessage:(int) equipId;
 - (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
+
 
 @end

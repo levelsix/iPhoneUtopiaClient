@@ -439,23 +439,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   return [[Globals sharedGlobals] maxRepeatedNormStructs]*structId+HOME_BUILDING_TAG_OFFSET;
 }
 
-- (void) refresh {
-  _constrBuilding = nil;
-  _upgrBuilding = nil;
-  _loading = YES;
-  
+- (void) invalidateAllTimers {
   // Invalidate all timers
   [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     NSTimer *t = (NSTimer *)obj;
     [t invalidate];
   }];
   [_timers removeAllObjects];
+}
+
+- (void) refresh {
+  _constrBuilding = nil;
+  _upgrBuilding = nil;
+  _loading = YES;
+  
+  [self invalidateAllTimers];
   
   NSMutableArray *arr = [NSMutableArray array];
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
-  int i = 0;
   for (UserStruct *s in [gs myStructs]) {
     int tag = [self baseTagForStructId:s.structId];
     MoneyBuilding *moneyBuilding = (MoneyBuilding *)[self getChildByTag:tag];
@@ -477,13 +480,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       moneyBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
       [self addChild:moneyBuilding z:0 tag:tag+offset];
       [moneyBuilding release];
-      
-      i++;
     } else {
       [moneyBuilding liftBlock];
       moneyBuilding.location = loc;
     }
     
+    moneyBuilding.orientation = s.orientation;
     moneyBuilding.userStruct = s;
     [_timers removeObject:moneyBuilding.timer];
     
@@ -539,8 +541,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) setPosition:(CGPoint)position {
+  CGPoint oldPos = position_;
   [super setPosition:position];
-  [self updateHomeBuildingMenu];
+  if (!hbMenu.hidden) {
+    CGPoint diff = ccpSub(oldPos, position_);
+    diff.x *= -1;
+    CGRect curRect = hbMenu.frame;
+    curRect.origin = ccpAdd(curRect.origin, diff);
+    hbMenu.frame = curRect;
+  }
 }
 
 - (void) updateHomeBuildingMenu {
@@ -759,12 +768,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
       MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
       [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
+      [[OutgoingEventController sharedOutgoingEventController] rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
     }
   }
 }
 
 - (IBAction)rotateClicked:(id)sender {
-  [_selected setFlipX:!_selected.flipX];
+  if ([_selected isKindOfClass:[Building class]]) {
+    Building *building = (Building *)_selected;
+    [building setOrientation:building.orientation+1];
+  }
 }
 
 - (IBAction)cancelMoveClicked:(id)sender {

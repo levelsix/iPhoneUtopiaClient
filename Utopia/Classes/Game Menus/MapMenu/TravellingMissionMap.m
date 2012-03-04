@@ -9,6 +9,8 @@
 #import "TravellingMissionMap.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "OutgoingEventController.h"
+#import "MapViewController.h"
 
 #define SHAKE_DURATION 0.2f
 #define SHAKE_OFFSET 3.f
@@ -64,10 +66,17 @@
 }
 
 - (void) updatePopupForCity:(CityView *)cv {
-  FullCityProto *fcp = cv.fcp;
+  _fcp = cv.fcp;
+  UserCity *uc = [[GameState sharedGameState] myCityWithId:_fcp.cityId];
   
-  cityNameLabel.text = fcp.name;
+  cityNameLabel.text = _fcp.name;
   cityPopup.center = CGPointMake(cv.center.x+CITY_POPUP_OFFSET, cv.frame.origin.y-cityPopup.frame.size.height/2);
+  progressLabel.text = [NSString stringWithFormat:@"%d/%d", uc.numTasksComplete, _fcp.taskIdsList.count];
+  
+  float fullWidth = progressBar.image.size.width;
+  CGRect r = progressBar.frame;
+  r.size.width = fullWidth * uc.numTasksComplete / _fcp.taskIdsList.count;
+  progressBar.frame = r;
 }
 
 - (IBAction)cityClicked:(CityView *)cv {
@@ -79,8 +88,14 @@
   }
 }
 
+- (IBAction)goClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp];
+  [MapViewController removeView]; 
+}
+
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   cityPopup.hidden = YES;
+  _fcp = nil;
 }
 
 @end

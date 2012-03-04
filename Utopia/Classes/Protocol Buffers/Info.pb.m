@@ -5605,6 +5605,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 @property int32_t minLevel;
 @property int32_t expGainedBaseOnRankup;
 @property int32_t coinsGainedBaseOnRankup;
+@property (retain) NSMutableArray* mutableTaskIdsList;
 @end
 
 @implementation FullCityProto
@@ -5644,8 +5645,10 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
   hasCoinsGainedBaseOnRankup_ = !!value;
 }
 @synthesize coinsGainedBaseOnRankup;
+@synthesize mutableTaskIdsList;
 - (void) dealloc {
   self.name = nil;
+  self.mutableTaskIdsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5669,6 +5672,13 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 }
 - (FullCityProto*) defaultInstance {
   return defaultFullCityProtoInstance;
+}
+- (NSArray*) taskIdsList {
+  return mutableTaskIdsList;
+}
+- (int32_t) taskIdsAtIndex:(int32_t) index {
+  id value = [mutableTaskIdsList objectAtIndex:index];
+  return [value intValue];
 }
 - (BOOL) isInitialized {
   if (!self.hasCityId) {
@@ -5704,6 +5714,9 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (self.hasCoinsGainedBaseOnRankup) {
     [output writeInt32:5 value:self.coinsGainedBaseOnRankup];
   }
+  for (NSNumber* value in self.mutableTaskIdsList) {
+    [output writeInt32:6 value:[value intValue]];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5727,6 +5740,14 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   }
   if (self.hasCoinsGainedBaseOnRankup) {
     size += computeInt32Size(5, self.coinsGainedBaseOnRankup);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableTaskIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableTaskIdsList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5818,6 +5839,12 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (other.hasCoinsGainedBaseOnRankup) {
     [self setCoinsGainedBaseOnRankup:other.coinsGainedBaseOnRankup];
   }
+  if (other.mutableTaskIdsList.count > 0) {
+    if (result.mutableTaskIdsList == nil) {
+      result.mutableTaskIdsList = [NSMutableArray array];
+    }
+    [result.mutableTaskIdsList addObjectsFromArray:other.mutableTaskIdsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5857,6 +5884,10 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
       }
       case 40: {
         [self setCoinsGainedBaseOnRankup:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self addTaskIds:[input readInt32]];
         break;
       }
     }
@@ -5940,6 +5971,37 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 - (FullCityProto_Builder*) clearCoinsGainedBaseOnRankup {
   result.hasCoinsGainedBaseOnRankup = NO;
   result.coinsGainedBaseOnRankup = 0;
+  return self;
+}
+- (NSArray*) taskIdsList {
+  if (result.mutableTaskIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableTaskIdsList;
+}
+- (int32_t) taskIdsAtIndex:(int32_t) index {
+  return [result taskIdsAtIndex:index];
+}
+- (FullCityProto_Builder*) replaceTaskIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableTaskIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullCityProto_Builder*) addTaskIds:(int32_t) value {
+  if (result.mutableTaskIdsList == nil) {
+    result.mutableTaskIdsList = [NSMutableArray array];
+  }
+  [result.mutableTaskIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (FullCityProto_Builder*) addAllTaskIds:(NSArray*) values {
+  if (result.mutableTaskIdsList == nil) {
+    result.mutableTaskIdsList = [NSMutableArray array];
+  }
+  [result.mutableTaskIdsList addObjectsFromArray:values];
+  return self;
+}
+- (FullCityProto_Builder*) clearTaskIdsList {
+  result.mutableTaskIdsList = nil;
   return self;
 }
 @end
@@ -6370,6 +6432,309 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 - (FullUserCityExpansionDataProto_Builder*) clearLastExpandDirection {
   result.hasLastExpandDirection = NO;
   result.lastExpandDirection = ExpansionDirectionNearLeft;
+  return self;
+}
+@end
+
+@interface FullUserCityProto ()
+@property int32_t userId;
+@property int32_t cityId;
+@property int32_t currentRank;
+@property int32_t numTasksCurrentlyCompleteInRank;
+@end
+
+@implementation FullUserCityProto
+
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (BOOL) hasCurrentRank {
+  return !!hasCurrentRank_;
+}
+- (void) setHasCurrentRank:(BOOL) value {
+  hasCurrentRank_ = !!value;
+}
+@synthesize currentRank;
+- (BOOL) hasNumTasksCurrentlyCompleteInRank {
+  return !!hasNumTasksCurrentlyCompleteInRank_;
+}
+- (void) setHasNumTasksCurrentlyCompleteInRank:(BOOL) value {
+  hasNumTasksCurrentlyCompleteInRank_ = !!value;
+}
+@synthesize numTasksCurrentlyCompleteInRank;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.userId = 0;
+    self.cityId = 0;
+    self.currentRank = 0;
+    self.numTasksCurrentlyCompleteInRank = 0;
+  }
+  return self;
+}
+static FullUserCityProto* defaultFullUserCityProtoInstance = nil;
++ (void) initialize {
+  if (self == [FullUserCityProto class]) {
+    defaultFullUserCityProtoInstance = [[FullUserCityProto alloc] init];
+  }
+}
++ (FullUserCityProto*) defaultInstance {
+  return defaultFullUserCityProtoInstance;
+}
+- (FullUserCityProto*) defaultInstance {
+  return defaultFullUserCityProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasUserId) {
+    return NO;
+  }
+  if (!self.hasCityId) {
+    return NO;
+  }
+  if (!self.hasCurrentRank) {
+    return NO;
+  }
+  if (!self.hasNumTasksCurrentlyCompleteInRank) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserId) {
+    [output writeInt32:1 value:self.userId];
+  }
+  if (self.hasCityId) {
+    [output writeInt32:2 value:self.cityId];
+  }
+  if (self.hasCurrentRank) {
+    [output writeInt32:3 value:self.currentRank];
+  }
+  if (self.hasNumTasksCurrentlyCompleteInRank) {
+    [output writeInt32:4 value:self.numTasksCurrentlyCompleteInRank];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasUserId) {
+    size += computeInt32Size(1, self.userId);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(2, self.cityId);
+  }
+  if (self.hasCurrentRank) {
+    size += computeInt32Size(3, self.currentRank);
+  }
+  if (self.hasNumTasksCurrentlyCompleteInRank) {
+    size += computeInt32Size(4, self.numTasksCurrentlyCompleteInRank);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FullUserCityProto*) parseFromData:(NSData*) data {
+  return (FullUserCityProto*)[[[FullUserCityProto builder] mergeFromData:data] build];
+}
++ (FullUserCityProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCityProto*)[[[FullUserCityProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCityProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FullUserCityProto*)[[[FullUserCityProto builder] mergeFromInputStream:input] build];
+}
++ (FullUserCityProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCityProto*)[[[FullUserCityProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCityProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FullUserCityProto*)[[[FullUserCityProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FullUserCityProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FullUserCityProto*)[[[FullUserCityProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FullUserCityProto_Builder*) builder {
+  return [[[FullUserCityProto_Builder alloc] init] autorelease];
+}
++ (FullUserCityProto_Builder*) builderWithPrototype:(FullUserCityProto*) prototype {
+  return [[FullUserCityProto builder] mergeFrom:prototype];
+}
+- (FullUserCityProto_Builder*) builder {
+  return [FullUserCityProto builder];
+}
+@end
+
+@interface FullUserCityProto_Builder()
+@property (retain) FullUserCityProto* result;
+@end
+
+@implementation FullUserCityProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FullUserCityProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FullUserCityProto_Builder*) clear {
+  self.result = [[[FullUserCityProto alloc] init] autorelease];
+  return self;
+}
+- (FullUserCityProto_Builder*) clone {
+  return [FullUserCityProto builderWithPrototype:result];
+}
+- (FullUserCityProto*) defaultInstance {
+  return [FullUserCityProto defaultInstance];
+}
+- (FullUserCityProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FullUserCityProto*) buildPartial {
+  FullUserCityProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FullUserCityProto_Builder*) mergeFrom:(FullUserCityProto*) other {
+  if (other == [FullUserCityProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  if (other.hasCurrentRank) {
+    [self setCurrentRank:other.currentRank];
+  }
+  if (other.hasNumTasksCurrentlyCompleteInRank) {
+    [self setNumTasksCurrentlyCompleteInRank:other.numTasksCurrentlyCompleteInRank];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FullUserCityProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FullUserCityProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setCurrentRank:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setNumTasksCurrentlyCompleteInRank:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (FullUserCityProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (FullUserCityProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (FullUserCityProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (FullUserCityProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+- (BOOL) hasCurrentRank {
+  return result.hasCurrentRank;
+}
+- (int32_t) currentRank {
+  return result.currentRank;
+}
+- (FullUserCityProto_Builder*) setCurrentRank:(int32_t) value {
+  result.hasCurrentRank = YES;
+  result.currentRank = value;
+  return self;
+}
+- (FullUserCityProto_Builder*) clearCurrentRank {
+  result.hasCurrentRank = NO;
+  result.currentRank = 0;
+  return self;
+}
+- (BOOL) hasNumTasksCurrentlyCompleteInRank {
+  return result.hasNumTasksCurrentlyCompleteInRank;
+}
+- (int32_t) numTasksCurrentlyCompleteInRank {
+  return result.numTasksCurrentlyCompleteInRank;
+}
+- (FullUserCityProto_Builder*) setNumTasksCurrentlyCompleteInRank:(int32_t) value {
+  result.hasNumTasksCurrentlyCompleteInRank = YES;
+  result.numTasksCurrentlyCompleteInRank = value;
+  return self;
+}
+- (FullUserCityProto_Builder*) clearNumTasksCurrentlyCompleteInRank {
+  result.hasNumTasksCurrentlyCompleteInRank = NO;
+  result.numTasksCurrentlyCompleteInRank = 0;
   return self;
 }
 @end
@@ -6812,6 +7177,550 @@ static LocationProto* defaultLocationProtoInstance = nil;
 - (LocationProto_Builder*) clearLongitude {
   result.hasLongitude = NO;
   result.longitude = 0;
+  return self;
+}
+@end
+
+@interface NeutralCityElementProto ()
+@property int32_t cityId;
+@property int32_t assetId;
+@property (retain) NSString* name;
+@property NeutralCityElementProto_NeutralCityElemType type;
+@property (retain) CoordinateProto* coords;
+@property int32_t xLength;
+@property int32_t yLength;
+@property (retain) NSString* imgId;
+@property StructOrientation orientation;
+@end
+
+@implementation NeutralCityElementProto
+
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
+- (BOOL) hasAssetId {
+  return !!hasAssetId_;
+}
+- (void) setHasAssetId:(BOOL) value {
+  hasAssetId_ = !!value;
+}
+@synthesize assetId;
+- (BOOL) hasName {
+  return !!hasName_;
+}
+- (void) setHasName:(BOOL) value {
+  hasName_ = !!value;
+}
+@synthesize name;
+- (BOOL) hasType {
+  return !!hasType_;
+}
+- (void) setHasType:(BOOL) value {
+  hasType_ = !!value;
+}
+@synthesize type;
+- (BOOL) hasCoords {
+  return !!hasCoords_;
+}
+- (void) setHasCoords:(BOOL) value {
+  hasCoords_ = !!value;
+}
+@synthesize coords;
+- (BOOL) hasXLength {
+  return !!hasXLength_;
+}
+- (void) setHasXLength:(BOOL) value {
+  hasXLength_ = !!value;
+}
+@synthesize xLength;
+- (BOOL) hasYLength {
+  return !!hasYLength_;
+}
+- (void) setHasYLength:(BOOL) value {
+  hasYLength_ = !!value;
+}
+@synthesize yLength;
+- (BOOL) hasImgId {
+  return !!hasImgId_;
+}
+- (void) setHasImgId:(BOOL) value {
+  hasImgId_ = !!value;
+}
+@synthesize imgId;
+- (BOOL) hasOrientation {
+  return !!hasOrientation_;
+}
+- (void) setHasOrientation:(BOOL) value {
+  hasOrientation_ = !!value;
+}
+@synthesize orientation;
+- (void) dealloc {
+  self.name = nil;
+  self.coords = nil;
+  self.imgId = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.cityId = 0;
+    self.assetId = 0;
+    self.name = @"";
+    self.type = NeutralCityElementProto_NeutralCityElemTypePerson;
+    self.coords = [CoordinateProto defaultInstance];
+    self.xLength = 0;
+    self.yLength = 0;
+    self.imgId = @"";
+    self.orientation = StructOrientationPosition1;
+  }
+  return self;
+}
+static NeutralCityElementProto* defaultNeutralCityElementProtoInstance = nil;
++ (void) initialize {
+  if (self == [NeutralCityElementProto class]) {
+    defaultNeutralCityElementProtoInstance = [[NeutralCityElementProto alloc] init];
+  }
+}
++ (NeutralCityElementProto*) defaultInstance {
+  return defaultNeutralCityElementProtoInstance;
+}
+- (NeutralCityElementProto*) defaultInstance {
+  return defaultNeutralCityElementProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasCityId) {
+    return NO;
+  }
+  if (!self.hasAssetId) {
+    return NO;
+  }
+  if (!self.hasName) {
+    return NO;
+  }
+  if (!self.hasType) {
+    return NO;
+  }
+  if (!self.hasCoords) {
+    return NO;
+  }
+  if (!self.hasImgId) {
+    return NO;
+  }
+  if (!self.coords.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasCityId) {
+    [output writeInt32:1 value:self.cityId];
+  }
+  if (self.hasAssetId) {
+    [output writeInt32:2 value:self.assetId];
+  }
+  if (self.hasType) {
+    [output writeEnum:3 value:self.type];
+  }
+  if (self.hasCoords) {
+    [output writeMessage:4 value:self.coords];
+  }
+  if (self.hasXLength) {
+    [output writeInt32:5 value:self.xLength];
+  }
+  if (self.hasYLength) {
+    [output writeInt32:6 value:self.yLength];
+  }
+  if (self.hasImgId) {
+    [output writeString:7 value:self.imgId];
+  }
+  if (self.hasOrientation) {
+    [output writeEnum:8 value:self.orientation];
+  }
+  if (self.hasName) {
+    [output writeString:9 value:self.name];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasCityId) {
+    size += computeInt32Size(1, self.cityId);
+  }
+  if (self.hasAssetId) {
+    size += computeInt32Size(2, self.assetId);
+  }
+  if (self.hasType) {
+    size += computeEnumSize(3, self.type);
+  }
+  if (self.hasCoords) {
+    size += computeMessageSize(4, self.coords);
+  }
+  if (self.hasXLength) {
+    size += computeInt32Size(5, self.xLength);
+  }
+  if (self.hasYLength) {
+    size += computeInt32Size(6, self.yLength);
+  }
+  if (self.hasImgId) {
+    size += computeStringSize(7, self.imgId);
+  }
+  if (self.hasOrientation) {
+    size += computeEnumSize(8, self.orientation);
+  }
+  if (self.hasName) {
+    size += computeStringSize(9, self.name);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (NeutralCityElementProto*) parseFromData:(NSData*) data {
+  return (NeutralCityElementProto*)[[[NeutralCityElementProto builder] mergeFromData:data] build];
+}
++ (NeutralCityElementProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NeutralCityElementProto*)[[[NeutralCityElementProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (NeutralCityElementProto*) parseFromInputStream:(NSInputStream*) input {
+  return (NeutralCityElementProto*)[[[NeutralCityElementProto builder] mergeFromInputStream:input] build];
+}
++ (NeutralCityElementProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NeutralCityElementProto*)[[[NeutralCityElementProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (NeutralCityElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (NeutralCityElementProto*)[[[NeutralCityElementProto builder] mergeFromCodedInputStream:input] build];
+}
++ (NeutralCityElementProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (NeutralCityElementProto*)[[[NeutralCityElementProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (NeutralCityElementProto_Builder*) builder {
+  return [[[NeutralCityElementProto_Builder alloc] init] autorelease];
+}
++ (NeutralCityElementProto_Builder*) builderWithPrototype:(NeutralCityElementProto*) prototype {
+  return [[NeutralCityElementProto builder] mergeFrom:prototype];
+}
+- (NeutralCityElementProto_Builder*) builder {
+  return [NeutralCityElementProto builder];
+}
+@end
+
+BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value) {
+  switch (value) {
+    case NeutralCityElementProto_NeutralCityElemTypePerson:
+    case NeutralCityElementProto_NeutralCityElemTypeBuilding:
+    case NeutralCityElementProto_NeutralCityElemTypeDecoration:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface NeutralCityElementProto_Builder()
+@property (retain) NeutralCityElementProto* result;
+@end
+
+@implementation NeutralCityElementProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[NeutralCityElementProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (NeutralCityElementProto_Builder*) clear {
+  self.result = [[[NeutralCityElementProto alloc] init] autorelease];
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clone {
+  return [NeutralCityElementProto builderWithPrototype:result];
+}
+- (NeutralCityElementProto*) defaultInstance {
+  return [NeutralCityElementProto defaultInstance];
+}
+- (NeutralCityElementProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (NeutralCityElementProto*) buildPartial {
+  NeutralCityElementProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (NeutralCityElementProto_Builder*) mergeFrom:(NeutralCityElementProto*) other {
+  if (other == [NeutralCityElementProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
+  if (other.hasAssetId) {
+    [self setAssetId:other.assetId];
+  }
+  if (other.hasName) {
+    [self setName:other.name];
+  }
+  if (other.hasType) {
+    [self setType:other.type];
+  }
+  if (other.hasCoords) {
+    [self mergeCoords:other.coords];
+  }
+  if (other.hasXLength) {
+    [self setXLength:other.xLength];
+  }
+  if (other.hasYLength) {
+    [self setYLength:other.yLength];
+  }
+  if (other.hasImgId) {
+    [self setImgId:other.imgId];
+  }
+  if (other.hasOrientation) {
+    [self setOrientation:other.orientation];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (NeutralCityElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (NeutralCityElementProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setCityId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setAssetId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (NeutralCityElementProto_NeutralCityElemTypeIsValidValue(value)) {
+          [self setType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 34: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasCoords) {
+          [subBuilder mergeFrom:self.coords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setXLength:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setYLength:[input readInt32]];
+        break;
+      }
+      case 58: {
+        [self setImgId:[input readString]];
+        break;
+      }
+      case 64: {
+        int32_t value = [input readEnum];
+        if (StructOrientationIsValidValue(value)) {
+          [self setOrientation:value];
+        } else {
+          [unknownFields mergeVarintField:8 value:value];
+        }
+        break;
+      }
+      case 74: {
+        [self setName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (NeutralCityElementProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
+  return self;
+}
+- (BOOL) hasAssetId {
+  return result.hasAssetId;
+}
+- (int32_t) assetId {
+  return result.assetId;
+}
+- (NeutralCityElementProto_Builder*) setAssetId:(int32_t) value {
+  result.hasAssetId = YES;
+  result.assetId = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearAssetId {
+  result.hasAssetId = NO;
+  result.assetId = 0;
+  return self;
+}
+- (BOOL) hasName {
+  return result.hasName;
+}
+- (NSString*) name {
+  return result.name;
+}
+- (NeutralCityElementProto_Builder*) setName:(NSString*) value {
+  result.hasName = YES;
+  result.name = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearName {
+  result.hasName = NO;
+  result.name = @"";
+  return self;
+}
+- (BOOL) hasType {
+  return result.hasType;
+}
+- (NeutralCityElementProto_NeutralCityElemType) type {
+  return result.type;
+}
+- (NeutralCityElementProto_Builder*) setType:(NeutralCityElementProto_NeutralCityElemType) value {
+  result.hasType = YES;
+  result.type = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearType {
+  result.hasType = NO;
+  result.type = NeutralCityElementProto_NeutralCityElemTypePerson;
+  return self;
+}
+- (BOOL) hasCoords {
+  return result.hasCoords;
+}
+- (CoordinateProto*) coords {
+  return result.coords;
+}
+- (NeutralCityElementProto_Builder*) setCoords:(CoordinateProto*) value {
+  result.hasCoords = YES;
+  result.coords = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) setCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCoords:[builderForValue build]];
+}
+- (NeutralCityElementProto_Builder*) mergeCoords:(CoordinateProto*) value {
+  if (result.hasCoords &&
+      result.coords != [CoordinateProto defaultInstance]) {
+    result.coords =
+      [[[CoordinateProto builderWithPrototype:result.coords] mergeFrom:value] buildPartial];
+  } else {
+    result.coords = value;
+  }
+  result.hasCoords = YES;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearCoords {
+  result.hasCoords = NO;
+  result.coords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasXLength {
+  return result.hasXLength;
+}
+- (int32_t) xLength {
+  return result.xLength;
+}
+- (NeutralCityElementProto_Builder*) setXLength:(int32_t) value {
+  result.hasXLength = YES;
+  result.xLength = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearXLength {
+  result.hasXLength = NO;
+  result.xLength = 0;
+  return self;
+}
+- (BOOL) hasYLength {
+  return result.hasYLength;
+}
+- (int32_t) yLength {
+  return result.yLength;
+}
+- (NeutralCityElementProto_Builder*) setYLength:(int32_t) value {
+  result.hasYLength = YES;
+  result.yLength = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearYLength {
+  result.hasYLength = NO;
+  result.yLength = 0;
+  return self;
+}
+- (BOOL) hasImgId {
+  return result.hasImgId;
+}
+- (NSString*) imgId {
+  return result.imgId;
+}
+- (NeutralCityElementProto_Builder*) setImgId:(NSString*) value {
+  result.hasImgId = YES;
+  result.imgId = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearImgId {
+  result.hasImgId = NO;
+  result.imgId = @"";
+  return self;
+}
+- (BOOL) hasOrientation {
+  return result.hasOrientation;
+}
+- (StructOrientation) orientation {
+  return result.orientation;
+}
+- (NeutralCityElementProto_Builder*) setOrientation:(StructOrientation) value {
+  result.hasOrientation = YES;
+  result.orientation = value;
+  return self;
+}
+- (NeutralCityElementProto_Builder*) clearOrientation {
+  result.hasOrientation = NO;
+  result.orientation = StructOrientationPosition1;
   return self;
 }
 @end
@@ -7561,7 +8470,7 @@ static FullUserCritstructProto* defaultFullUserCritstructProtoInstance = nil;
 
 @interface MinimumUserTaskProto ()
 @property int32_t userId;
-@property (retain) FullTaskProto* task;
+@property int32_t taskId;
 @property int32_t numTimesActed;
 @end
 
@@ -7574,13 +8483,13 @@ static FullUserCritstructProto* defaultFullUserCritstructProtoInstance = nil;
   hasUserId_ = !!value;
 }
 @synthesize userId;
-- (BOOL) hasTask {
-  return !!hasTask_;
+- (BOOL) hasTaskId {
+  return !!hasTaskId_;
 }
-- (void) setHasTask:(BOOL) value {
-  hasTask_ = !!value;
+- (void) setHasTaskId:(BOOL) value {
+  hasTaskId_ = !!value;
 }
-@synthesize task;
+@synthesize taskId;
 - (BOOL) hasNumTimesActed {
   return !!hasNumTimesActed_;
 }
@@ -7589,13 +8498,12 @@ static FullUserCritstructProto* defaultFullUserCritstructProtoInstance = nil;
 }
 @synthesize numTimesActed;
 - (void) dealloc {
-  self.task = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.userId = 0;
-    self.task = [FullTaskProto defaultInstance];
+    self.taskId = 0;
     self.numTimesActed = 0;
   }
   return self;
@@ -7616,13 +8524,10 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (!self.hasUserId) {
     return NO;
   }
-  if (!self.hasTask) {
+  if (!self.hasTaskId) {
     return NO;
   }
   if (!self.hasNumTimesActed) {
-    return NO;
-  }
-  if (!self.task.isInitialized) {
     return NO;
   }
   return YES;
@@ -7631,8 +8536,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasUserId) {
     [output writeInt32:1 value:self.userId];
   }
-  if (self.hasTask) {
-    [output writeMessage:2 value:self.task];
+  if (self.hasTaskId) {
+    [output writeInt32:2 value:self.taskId];
   }
   if (self.hasNumTimesActed) {
     [output writeInt32:3 value:self.numTimesActed];
@@ -7649,8 +8554,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (self.hasUserId) {
     size += computeInt32Size(1, self.userId);
   }
-  if (self.hasTask) {
-    size += computeMessageSize(2, self.task);
+  if (self.hasTaskId) {
+    size += computeInt32Size(2, self.taskId);
   }
   if (self.hasNumTimesActed) {
     size += computeInt32Size(3, self.numTimesActed);
@@ -7733,8 +8638,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   if (other.hasUserId) {
     [self setUserId:other.userId];
   }
-  if (other.hasTask) {
-    [self mergeTask:other.task];
+  if (other.hasTaskId) {
+    [self setTaskId:other.taskId];
   }
   if (other.hasNumTimesActed) {
     [self setNumTimesActed:other.numTimesActed];
@@ -7764,13 +8669,8 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
         [self setUserId:[input readInt32]];
         break;
       }
-      case 18: {
-        FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
-        if (self.hasTask) {
-          [subBuilder mergeFrom:self.task];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setTask:[subBuilder buildPartial]];
+      case 16: {
+        [self setTaskId:[input readInt32]];
         break;
       }
       case 24: {
@@ -7796,34 +8696,20 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   result.userId = 0;
   return self;
 }
-- (BOOL) hasTask {
-  return result.hasTask;
+- (BOOL) hasTaskId {
+  return result.hasTaskId;
 }
-- (FullTaskProto*) task {
-  return result.task;
+- (int32_t) taskId {
+  return result.taskId;
 }
-- (MinimumUserTaskProto_Builder*) setTask:(FullTaskProto*) value {
-  result.hasTask = YES;
-  result.task = value;
+- (MinimumUserTaskProto_Builder*) setTaskId:(int32_t) value {
+  result.hasTaskId = YES;
+  result.taskId = value;
   return self;
 }
-- (MinimumUserTaskProto_Builder*) setTaskBuilder:(FullTaskProto_Builder*) builderForValue {
-  return [self setTask:[builderForValue build]];
-}
-- (MinimumUserTaskProto_Builder*) mergeTask:(FullTaskProto*) value {
-  if (result.hasTask &&
-      result.task != [FullTaskProto defaultInstance]) {
-    result.task =
-      [[[FullTaskProto builderWithPrototype:result.task] mergeFrom:value] buildPartial];
-  } else {
-    result.task = value;
-  }
-  result.hasTask = YES;
-  return self;
-}
-- (MinimumUserTaskProto_Builder*) clearTask {
-  result.hasTask = NO;
-  result.task = [FullTaskProto defaultInstance];
+- (MinimumUserTaskProto_Builder*) clearTaskId {
+  result.hasTaskId = NO;
+  result.taskId = 0;
   return self;
 }
 - (BOOL) hasNumTimesActed {

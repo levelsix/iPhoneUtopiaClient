@@ -62,6 +62,8 @@
 @class FullTaskProto_FullTaskEquipReqProto_Builder;
 @class FullUserCityExpansionDataProto;
 @class FullUserCityExpansionDataProto_Builder;
+@class FullUserCityProto;
+@class FullUserCityProto_Builder;
 @class FullUserCritstructProto;
 @class FullUserCritstructProto_Builder;
 @class FullUserEquipProto;
@@ -84,6 +86,10 @@
 @class LevelUpRequestProto_Builder;
 @class LevelUpResponseProto;
 @class LevelUpResponseProto_Builder;
+@class LoadNeutralCityRequestProto;
+@class LoadNeutralCityRequestProto_Builder;
+@class LoadNeutralCityResponseProto;
+@class LoadNeutralCityResponseProto_Builder;
 @class LoadPlayerCityRequestProto;
 @class LoadPlayerCityRequestProto_Builder;
 @class LoadPlayerCityResponseProto;
@@ -108,6 +114,8 @@
 @class MoveOrRotateNormStructureRequestProto_Builder;
 @class MoveOrRotateNormStructureResponseProto;
 @class MoveOrRotateNormStructureResponseProto_Builder;
+@class NeutralCityElementProto;
+@class NeutralCityElementProto_Builder;
 @class NormStructWaitCompleteRequestProto;
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
@@ -622,6 +630,14 @@ typedef enum {
 } ChangeUserLocationResponseProto_ChangeUserLocationStatus;
 
 BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(ChangeUserLocationResponseProto_ChangeUserLocationStatus value);
+
+typedef enum {
+  LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess = 0,
+  LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser = 1,
+  LoadNeutralCityResponseProto_LoadNeutralCityStatusOtherFail = 2,
+} LoadNeutralCityResponseProto_LoadNeutralCityStatus;
+
+BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralCityResponseProto_LoadNeutralCityStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -1296,6 +1312,7 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableCitiesAvailableToUserList;
+  NSMutableArray* mutableUserCityInfosList;
   NSMutableArray* mutableInProgressQuestsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableUserEquipsList;
@@ -1318,6 +1335,8 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 @property (readonly) int32_t experienceRequiredForNextLevel;
 - (NSArray*) citiesAvailableToUserList;
 - (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
+- (NSArray*) userCityInfosList;
+- (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index;
 - (NSArray*) inProgressQuestsList;
 - (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
 - (NSArray*) availableQuestsList;
@@ -1702,6 +1721,13 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 - (StartupResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value;
 - (StartupResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearCitiesAvailableToUserList;
+
+- (NSArray*) userCityInfosList;
+- (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceUserCityInfosAtIndex:(int32_t) index with:(FullUserCityProto*) value;
+- (StartupResponseProto_Builder*) addUserCityInfos:(FullUserCityProto*) value;
+- (StartupResponseProto_Builder*) addAllUserCityInfos:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearUserCityInfosList;
 
 - (NSArray*) inProgressQuestsList;
 - (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
@@ -3522,6 +3548,7 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
   MinimumUserProto* sender;
   LevelUpResponseProto_LevelUpStatus status;
   NSMutableArray* mutableCitiesAvailableToUserList;
+  NSMutableArray* mutableNewlyEquippableAvailableInArmoryList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
@@ -3533,6 +3560,8 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 @property (readonly) int32_t experienceRequiredForNewNextLevel;
 - (NSArray*) citiesAvailableToUserList;
 - (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
+- (NSArray*) newlyEquippableAvailableInArmoryList;
+- (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index;
 
 + (LevelUpResponseProto*) defaultInstance;
 - (LevelUpResponseProto*) defaultInstance;
@@ -3596,6 +3625,13 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 - (LevelUpResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value;
 - (LevelUpResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values;
 - (LevelUpResponseProto_Builder*) clearCitiesAvailableToUserList;
+
+- (NSArray*) newlyEquippableAvailableInArmoryList;
+- (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index;
+- (LevelUpResponseProto_Builder*) replaceNewlyEquippableAvailableInArmoryAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (LevelUpResponseProto_Builder*) addNewlyEquippableAvailableInArmory:(FullEquipProto*) value;
+- (LevelUpResponseProto_Builder*) addAllNewlyEquippableAvailableInArmory:(NSArray*) values;
+- (LevelUpResponseProto_Builder*) clearNewlyEquippableAvailableInArmoryList;
 @end
 
 @interface InAppPurchaseRequestProto : PBGeneratedMessage {
@@ -4902,6 +4938,7 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 @interface LoadPlayerCityResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasCityOwner_:1;
   BOOL hasArmory_:1;
   BOOL hasVault_:1;
   BOOL hasMarketplace_:1;
@@ -4910,6 +4947,7 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
   BOOL hasUserCityExpansionData_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  MinimumUserProto* cityOwner;
   FullUserCritstructProto* armory;
   FullUserCritstructProto* vault;
   FullUserCritstructProto* marketplace;
@@ -4922,6 +4960,7 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
   NSMutableArray* mutableOwnerEnemiesList;
 }
 - (BOOL) hasSender;
+- (BOOL) hasCityOwner;
 - (BOOL) hasStatus;
 - (BOOL) hasArmory;
 - (BOOL) hasVault;
@@ -4930,6 +4969,7 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 - (BOOL) hasAviary;
 - (BOOL) hasUserCityExpansionData;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly, retain) MinimumUserProto* cityOwner;
 @property (readonly) LoadPlayerCityResponseProto_LoadPlayerCityStatus status;
 @property (readonly, retain) FullUserCritstructProto* armory;
 @property (readonly, retain) FullUserCritstructProto* vault;
@@ -4984,6 +5024,13 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 - (LoadPlayerCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (LoadPlayerCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadPlayerCityResponseProto_Builder*) clearSender;
+
+- (BOOL) hasCityOwner;
+- (MinimumUserProto*) cityOwner;
+- (LoadPlayerCityResponseProto_Builder*) setCityOwner:(MinimumUserProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) setCityOwnerBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadPlayerCityResponseProto_Builder*) mergeCityOwner:(MinimumUserProto*) value;
+- (LoadPlayerCityResponseProto_Builder*) clearCityOwner;
 
 - (BOOL) hasStatus;
 - (LoadPlayerCityResponseProto_LoadPlayerCityStatus) status;
@@ -6701,5 +6748,162 @@ BOOL ChangeUserLocationResponseProto_ChangeUserLocationStatusIsValidValue(Change
 - (ChangeUserLocationResponseProto_ChangeUserLocationStatus) status;
 - (ChangeUserLocationResponseProto_Builder*) setStatus:(ChangeUserLocationResponseProto_ChangeUserLocationStatus) value;
 - (ChangeUserLocationResponseProto_Builder*) clearStatus;
+@end
+
+@interface LoadNeutralCityRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCityId_:1;
+  BOOL hasSender_:1;
+  int32_t cityId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasCityId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t cityId;
+
++ (LoadNeutralCityRequestProto*) defaultInstance;
+- (LoadNeutralCityRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LoadNeutralCityRequestProto_Builder*) builder;
++ (LoadNeutralCityRequestProto_Builder*) builder;
++ (LoadNeutralCityRequestProto_Builder*) builderWithPrototype:(LoadNeutralCityRequestProto*) prototype;
+
++ (LoadNeutralCityRequestProto*) parseFromData:(NSData*) data;
++ (LoadNeutralCityRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadNeutralCityRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (LoadNeutralCityRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadNeutralCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LoadNeutralCityRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LoadNeutralCityRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LoadNeutralCityRequestProto* result;
+}
+
+- (LoadNeutralCityRequestProto*) defaultInstance;
+
+- (LoadNeutralCityRequestProto_Builder*) clear;
+- (LoadNeutralCityRequestProto_Builder*) clone;
+
+- (LoadNeutralCityRequestProto*) build;
+- (LoadNeutralCityRequestProto*) buildPartial;
+
+- (LoadNeutralCityRequestProto_Builder*) mergeFrom:(LoadNeutralCityRequestProto*) other;
+- (LoadNeutralCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LoadNeutralCityRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (LoadNeutralCityRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LoadNeutralCityRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadNeutralCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (LoadNeutralCityRequestProto_Builder*) clearSender;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (LoadNeutralCityRequestProto_Builder*) setCityId:(int32_t) value;
+- (LoadNeutralCityRequestProto_Builder*) clearCityId;
+@end
+
+@interface LoadNeutralCityResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasCityId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  int32_t cityId;
+  MinimumUserProto* sender;
+  LoadNeutralCityResponseProto_LoadNeutralCityStatus status;
+  NSMutableArray* mutableUserTasksInfoList;
+  NSMutableArray* mutableDefeatTypeJobEnemiesList;
+  NSMutableArray* mutableCityElementsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasCityId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) LoadNeutralCityResponseProto_LoadNeutralCityStatus status;
+@property (readonly) int32_t cityId;
+- (NSArray*) userTasksInfoList;
+- (MinimumUserTaskProto*) userTasksInfoAtIndex:(int32_t) index;
+- (NSArray*) defeatTypeJobEnemiesList;
+- (FullUserProto*) defeatTypeJobEnemiesAtIndex:(int32_t) index;
+- (NSArray*) cityElementsList;
+- (NeutralCityElementProto*) cityElementsAtIndex:(int32_t) index;
+
++ (LoadNeutralCityResponseProto*) defaultInstance;
+- (LoadNeutralCityResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LoadNeutralCityResponseProto_Builder*) builder;
++ (LoadNeutralCityResponseProto_Builder*) builder;
++ (LoadNeutralCityResponseProto_Builder*) builderWithPrototype:(LoadNeutralCityResponseProto*) prototype;
+
++ (LoadNeutralCityResponseProto*) parseFromData:(NSData*) data;
++ (LoadNeutralCityResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadNeutralCityResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (LoadNeutralCityResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LoadNeutralCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LoadNeutralCityResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LoadNeutralCityResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LoadNeutralCityResponseProto* result;
+}
+
+- (LoadNeutralCityResponseProto*) defaultInstance;
+
+- (LoadNeutralCityResponseProto_Builder*) clear;
+- (LoadNeutralCityResponseProto_Builder*) clone;
+
+- (LoadNeutralCityResponseProto*) build;
+- (LoadNeutralCityResponseProto*) buildPartial;
+
+- (LoadNeutralCityResponseProto_Builder*) mergeFrom:(LoadNeutralCityResponseProto*) other;
+- (LoadNeutralCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LoadNeutralCityResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (LoadNeutralCityResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LoadNeutralCityResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (LoadNeutralCityResponseProto_LoadNeutralCityStatus) status;
+- (LoadNeutralCityResponseProto_Builder*) setStatus:(LoadNeutralCityResponseProto_LoadNeutralCityStatus) value;
+- (LoadNeutralCityResponseProto_Builder*) clearStatus;
+
+- (NSArray*) userTasksInfoList;
+- (MinimumUserTaskProto*) userTasksInfoAtIndex:(int32_t) index;
+- (LoadNeutralCityResponseProto_Builder*) replaceUserTasksInfoAtIndex:(int32_t) index with:(MinimumUserTaskProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addUserTasksInfo:(MinimumUserTaskProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addAllUserTasksInfo:(NSArray*) values;
+- (LoadNeutralCityResponseProto_Builder*) clearUserTasksInfoList;
+
+- (NSArray*) defeatTypeJobEnemiesList;
+- (FullUserProto*) defeatTypeJobEnemiesAtIndex:(int32_t) index;
+- (LoadNeutralCityResponseProto_Builder*) replaceDefeatTypeJobEnemiesAtIndex:(int32_t) index with:(FullUserProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addDefeatTypeJobEnemies:(FullUserProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addAllDefeatTypeJobEnemies:(NSArray*) values;
+- (LoadNeutralCityResponseProto_Builder*) clearDefeatTypeJobEnemiesList;
+
+- (NSArray*) cityElementsList;
+- (NeutralCityElementProto*) cityElementsAtIndex:(int32_t) index;
+- (LoadNeutralCityResponseProto_Builder*) replaceCityElementsAtIndex:(int32_t) index with:(NeutralCityElementProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addCityElements:(NeutralCityElementProto*) value;
+- (LoadNeutralCityResponseProto_Builder*) addAllCityElements:(NSArray*) values;
+- (LoadNeutralCityResponseProto_Builder*) clearCityElementsList;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (LoadNeutralCityResponseProto_Builder*) setCityId:(int32_t) value;
+- (LoadNeutralCityResponseProto_Builder*) clearCityId;
 @end
 

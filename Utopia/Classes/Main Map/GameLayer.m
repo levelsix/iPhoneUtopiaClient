@@ -3,9 +3,8 @@
 //  IsoMap
 //
 //  Created by Ashwin Kamath on 12/7/11.
-//  Copyright __MyCompanyName__ 2011. All rights reserved.
+//  Copyright LVL6 2011. All rights reserved.
 //
-
 
 // Import the interfaces
 #import "GameLayer.h"
@@ -23,9 +22,13 @@
 #import "Globals.h"
 #import "QuestLogController.h"
 #import "TopBar.h"
+#import "SynthesizeSingleton.h"
+#import "MissionMap.h"
 
 // HelloWorldLayer implementation
 @implementation GameLayer
+
+SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 +(CCScene *) scene
 {
@@ -52,26 +55,16 @@
     CCLayerColor *color = [CCLayerColor layerWithColor:ccc4(64,64,64,255)];
     [self addChild:color z:-1];
     
-    _map = [HomeMap sharedHomeMap];
-    [self addChild:_map z:1 tag:2];
-    
-    // move map to the center of the screen
-    CGSize ms = [_map mapSize];
-    CGSize ts = [_map tileSizeInPoints];
-    _map.position = ccp( -(ms.width-8) * ts.width/2, 0 );
+    _homeMap = [HomeMap sharedHomeMap];
+    [self addChild:_homeMap z:1 tag:2];
+    [self loadHomeMap];
     
     _topBar = [TopBar node];
     [self addChild:_topBar z:2];
     
-//    [self schedule:@selector(update)];
-    
 //    BattleLayer *al = [BattleLayer node];
 //    [self addChild:al z:3];
 //    [al doAttackAnimation];
-    
-//    DiamondShopViewController *svc = [[DiamondShopViewController alloc] initWithNibName:nil bundle:nil];
-//    [[[CCDirector sharedDirector] openGLView]addSubview: svc.view];
-//    svc.view.center = [[CCDirector sharedDirector] openGLView].center;
     
 //    ComboBar *bar = [ComboBar bar];
 //    bar.position = ccp(240,160);
@@ -79,6 +72,35 @@
 //    [bar doComboSequence];
   }
   return self;  
+}
+
+- (void) moveMapToCenter:(GameMap *)map {
+  // move map to the center of the screen
+  CGSize ms = [map mapSize];
+  CGSize ts = [map tileSizeInPoints];
+  map.position = ccp( -(ms.width-8) * ts.width/2, 0 );
+}
+
+- (void) unloadCurrentMissionMap {
+  if (_missionMap) {
+    [self removeChild:_missionMap cleanup:YES];
+    [_missionMap release];
+    _missionMap = nil;
+  }
+}
+
+- (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto {
+  [self unloadCurrentMissionMap];
+  _missionMap = [[MissionMap alloc] initWithProto:proto];
+  [self addChild:_missionMap z:1];
+  _homeMap.visible = NO;
+  [self moveMapToCenter:_missionMap];
+}
+
+- (void) loadHomeMap {
+  [self unloadCurrentMissionMap];
+  _homeMap.visible = YES;
+  [self moveMapToCenter:_homeMap];
 }
 
 @end

@@ -109,7 +109,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   missionMap.lumoriaView.hidden = YES;
   
-  self.state = kAttackMap;
+  self.state = kMissionMap;
 }
 
 - (void) setState:(MapState)state {

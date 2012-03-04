@@ -17,6 +17,7 @@
 #import "MapViewController.h"
 #import "ArmoryViewController.h"
 #import "CarpenterMenuController.h"
+#import "GameLayer.h"
 
 @implementation IncomingEventController
 
@@ -37,9 +38,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSArmoryEvent:
       responseClass = [ArmoryResponseProto class];
-      break;
-    case EventProtocolResponseSRetrieveTasksForCityEvent:
-      responseClass = [RetrieveTasksForCityResponseProto class];
       break;
     case EventProtocolResponseSStartupEvent:
       responseClass = [StartupResponseProto class];
@@ -104,6 +102,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSLoadPlayerCityEvent:
       responseClass = [LoadPlayerCityResponseProto class];
       break;
+    case EventProtocolResponseSLoadNeutralCityEvent:
+      responseClass = [LoadNeutralCityResponseProto class];
+      break;
     case EventProtocolResponseSRetrieveStaticDataEvent:
       responseClass = [RetrieveStaticDataResponseProto class];
       break;
@@ -135,19 +136,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleBattleResponseProto: (BattleResponseProto *) proto {
-  NSLog(@"Battle response received");
+  NSLog(@"Battle response received with status %d.", proto.status);
 }
 
 - (void) handleArmoryResponseProto: (ArmoryResponseProto *) proto {
   NSLog(@"Armory response received with status %d", proto.status);
 }
 
-- (void) handleRetrieveTasksForCityResponseProto: (RetrieveTasksForCityResponseProto *) proto {
-  NSLog(@"Tasks message received ");
-}
-
 - (void) handleStartupResponseProto: (StartupResponseProto *) proto {
-  NSLog(@"Startup response received");
+  NSLog(@"Startup response received with status %d.", proto.startupStatus);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -157,6 +154,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs updateUser:proto.sender];
   [gs addToMyEquips:proto.userEquipsList];
   [gs addToMyStructs:proto.userStructuresList];
+  [gs addToMyCities:proto.userCityInfosList];
   [gs addToStaticCities:proto.citiesAvailableToUserList];
   [gs addToStaticEquips:proto.equipsList];
   [gs addToStaticStructs:proto.structsList];
@@ -167,19 +165,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
-  NSLog(@"Level up response received");
+  NSLog(@"Level up response received with status %d.", proto.status);
 }
 
 - (void) handleInAppPurchaseResponseProto: (InAppPurchaseResponseProto *) proto {
-  NSLog(@"In App Purchase response received");
+  NSLog(@"In App Purchase response received with status %d.", proto.status);
 }
 
 - (void) handleTaskActionResponseProto: (TaskActionResponseProto *) proto {
-  NSLog(@"Task action received ");
+  NSLog(@"Task action received with status %d.", proto.status);
 }
 
 - (void) handleUpdateClientUserResponseProto: (UpdateClientUserResponseProto *) proto {
-  NSLog(@"Update client user response received");
+  NSLog(@"Update client user response received.");
   
   [[GameState sharedGameState] updateUser:proto.sender];
 }
@@ -311,13 +309,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleLoadPlayerCityResponseProto: (LoadPlayerCityResponseProto *) proto {
   NSLog(@"Load player city response received with status %d.", proto.status);
-  [[GameState sharedGameState] addToMyStructs:proto.ownerNormStructsList];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-  [[HomeMap sharedHomeMap] refresh];
+  
+  GameState *gs = [GameState sharedGameState];
+  
+  if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
+    [gs addToMyStructs:proto.ownerNormStructsList];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+    [[HomeMap sharedHomeMap] refresh];
+  } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
+    [Globals popupMessage:@"Trying to reach a nonexistent player's city"];
+  } else {
+    [Globals popupMessage:@"Error in load player city."];
+  }
+}
+
+- (void) handleLoadNeutralCityResponseProto: (LoadNeutralCityResponseProto *)proto {
+  NSLog(@"Load neutral city response received with status %d.", proto.status);
+  
+//  GameState *gs = [GameState sharedGameState];
+  
+  if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
+    [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];
+  } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {
+    [Globals popupMessage:@"Trying to reach inaccessible city"];
+  } else {
+    [Globals popupMessage:@"Error in load neutral city."];
+  }
 }
 
 - (void) handleRetrieveStaticDataResponseProto: (RetrieveStaticDataResponseProto *) proto {
-  NSLog(@"Retrieve static data response received with status %d.", proto.status);
+  NSLog(@"Retrieve static data response received with status %d", proto.status);
+  NSLog(@"%d tasks.", proto.tasksList.count);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {

@@ -17,7 +17,6 @@
 #define MIN_ZOOM 0.5f
 
 @interface GameMap : CCTMXTiledMap {
-@protected
   SelectableSprite *_selected;
   NSMutableArray *_selectables;
 }
@@ -36,14 +35,4 @@
 - (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
 - (void) scale:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
 
-@end
-
-@interface MissionMap : GameMap {
-@private
-}
-@end
-
-@interface PlayerMap : GameMap {
-@private
-}
 @end

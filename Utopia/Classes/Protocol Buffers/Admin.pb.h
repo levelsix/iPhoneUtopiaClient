@@ -17,6 +17,7 @@ typedef enum {
   AdminChangeRequestProto_StaticDataReloadTypeStructures = 9,
   AdminChangeRequestProto_StaticDataReloadTypePossessEquipJobs = 10,
   AdminChangeRequestProto_StaticDataReloadTypeLevelsRequiredExperience = 11,
+  AdminChangeRequestProto_StaticDataReloadTypeNeutralCityElems = 12,
 } AdminChangeRequestProto_StaticDataReloadType;
 
 BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequestProto_StaticDataReloadType value);

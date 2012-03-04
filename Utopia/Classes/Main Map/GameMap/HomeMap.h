@@ -121,6 +121,7 @@ typedef enum {
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
+- (void) invalidateAllTimers;
 
 - (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)moveCheckClicked:(id)sender;

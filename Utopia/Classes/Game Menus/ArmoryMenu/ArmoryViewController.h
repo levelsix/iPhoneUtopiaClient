@@ -93,11 +93,13 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
 
+@property (nonatomic, retain) IBOutlet ArmoryBar *armoryBar;
+
 @property (nonatomic, assign) BOOL equipClicked;
 
 @property (nonatomic, assign) ArmoryState state;
 
-- (void) armoryViewClicked:(ArmoryListing *)al;
+- (void) armoryListingClicked:(ArmoryListing *)al;
 - (void) refresh;
 
 + (ArmoryViewController *) sharedArmoryViewController;

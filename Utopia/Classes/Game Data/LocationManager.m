@@ -35,7 +35,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-  NSLog(@"Received new location: lat %f, long %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+  NSLog(@"Received new location: lat %f, long %f with timestamp: %@", newLocation.coordinate.latitude, newLocation.coordinate.longitude, newLocation.timestamp);
   [[GameState sharedGameState] setLocation:newLocation.coordinate];
 }
 

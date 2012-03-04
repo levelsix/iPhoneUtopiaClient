@@ -51,10 +51,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) tasksForCity:(int)cityId {
-  [[SocketCommunication sharedSocketCommunication] sendTasksForCityMessage:cityId];
-}
-
 - (void) taskAction:(int)taskId {
   // TODO: Check to make sure of enough energy and equips
   [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId];
@@ -456,8 +452,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!CGPointEqualToPoint(userStruct.coordinates, newCoord)) {
     [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructId x:x y:y];
     userStruct.coordinates = CGPointMake(x, y);
-  } else {
-    [Globals popupMessage:@"Building is in same place.."];
+  }
+}
+
+- (void) rotateNormStruct:(UserStruct *)userStruct to:(StructOrientation)orientation {
+  if (userStruct.orientation != orientation) {
+    [[SocketCommunication sharedSocketCommunication] sendRotateNormStructureMessage:userStruct.userStructId orientation:orientation];
+    userStruct.orientation = orientation;
   }
 }
 
@@ -660,6 +661,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   MinimumUserProto *mup = [[[MinimumUserProto builder] setUserId:userId] build];
   
   [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:mup];
+}
+
+- (void) loadNeutralCity:(FullCityProto *)city {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (!city) {
+    [Globals popupMessage:@"Trying to visit nil city"];
+    return;
+  }
+  
+  if (city.minLevel <= gs.level) {
+    [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
+    
+    // Load any tasks we don't have as well
+    NSDictionary *sTasks = [gs staticTasks];
+    NSMutableSet *rTasks = [NSMutableSet set];
+    for (NSNumber *taskId in city.taskIdsList) {
+      if (![sTasks objectForKey:taskId]) {
+        [rTasks addObject:taskId];
+      }
+    }
+    
+    if (rTasks.count > 0) {
+      [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+    }
+    NSLog(@"%d", rTasks.count);
+  } else {
+    [Globals popupMessage:@"Trying to visit city above your level."];
+  }
 }
 
 @end

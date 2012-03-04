@@ -15,6 +15,9 @@
 @class ProfilePicture;
 @class GameMap;
 @class TopBar;
+@class HomeMap;
+@class MissionMap;
+@class LoadNeutralCityResponseProto;
 
 // HelloWorldLayer
 @interface GameLayer : CCLayer
@@ -23,13 +26,18 @@
   float _slideDirection;
   NSTimeInterval _prevTouchTime;
   
-  GameMap *_map;
+  HomeMap *_homeMap;
+  MissionMap *_missionMap;
   
   ProfilePicture *_profileBgd;
   TopBar *_topBar;
 }
 
+- (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
+- (void) loadHomeMap;
+
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
++ (CCScene *) scene;
++ (GameLayer *) sharedGameLayer;
 
 @end

@@ -110,6 +110,8 @@ message StartupResponseProto {
     required UpdateStatus updateStatus= 3;
     required StartupConstants startupConstants = 4;
     repeated FullCityProto citiesAvailableToUser = 5;
+    repeated FullUserCityProto userCityInfos = 16;
+    
     repeated FullQuestProto inProgressQuests = 6;
 	repeated FullQuestProto availableQuests = 7;   
 	repeated FullUserEquipProto userEquips = 8;
@@ -172,7 +174,7 @@ message UserCreateRequestProto {
      required string name = 2;
      required UserType type = 3;
      repeated FullUserStructureProto structures = 5;
-     required LocationProto userLocation = 6;     
+     optional LocationProto userLocation = 6;     
      optional string referrerCode = 7;
      optional string deviceToken = 8;
 }
@@ -487,7 +489,8 @@ message LevelUpResponseProto {
      
      optional int32 newNextLevel = 3;
      optional int32 experienceRequiredForNewNextLevel = 4;
-	 repeated FullCityProto citiesAvailableToUser = 5;
+	 repeated FullCityProto citiesAvailableToUser = 5;						//all, not new
+     repeated FullEquipProto newlyEquippableAvailableInArmory = 6;			//only new ones
      
 	enum LevelUpStatus {
      	SUCCESS = 0;
@@ -727,18 +730,19 @@ message LoadPlayerCityRequestProto {
 																						//DONE
 message LoadPlayerCityResponseProto {
     required MinimumUserProto sender = 1;
-	required LoadPlayerCityStatus status = 2;
-	repeated FullUserStructureProto ownerNormStructs = 3;
-	repeated FullUserProto ownerAllies = 4;			//only if owner is an enemy
-	repeated FullUserProto ownerEnemies = 5;		//only if owner is you or ally
+    required MinimumUserProto cityOwner = 2;
+	required LoadPlayerCityStatus status = 3;
+	repeated FullUserStructureProto ownerNormStructs = 4;
+	repeated FullUserProto ownerAllies = 5;			//only if owner is an enemy
+	repeated FullUserProto ownerEnemies = 6;		//only if owner is you or ally
 
-    optional FullUserCritstructProto armory = 6;
-    optional FullUserCritstructProto vault = 7;
-    optional FullUserCritstructProto marketplace = 8;
-    required FullUserCritstructProto carpenter = 9;
-    required FullUserCritstructProto aviary = 10;    
+    optional FullUserCritstructProto armory = 7;
+    optional FullUserCritstructProto vault = 8;
+    optional FullUserCritstructProto marketplace = 9;
+    required FullUserCritstructProto carpenter = 10;
+    required FullUserCritstructProto aviary = 11;    
 
-	optional FullUserCityExpansionDataProto userCityExpansionData = 11;
+	optional FullUserCityExpansionDataProto userCityExpansionData = 12;
      
     enum LoadPlayerCityStatus {
      	SUCCESS = 0;
@@ -819,6 +823,8 @@ message QuestLogDetailsResponseProto {
 
 //------------------------------------------------------------------------------------------
 
+
+//in the future, put in neutral city elems?
 																						//DONE
 message RetrieveStaticDataRequestProto {
     required MinimumUserProto sender = 1;
@@ -1024,6 +1030,29 @@ message ChangeUserLocationResponseProto {
      enum ChangeUserLocationStatus {
      	SUCCESS = 0;
      	INVALID_BOUNDS = 1;
+     	OTHER_FAIL = 2;
+     }    
+}
+
+//------------------------------------------------------------------------------------------
+
+message LoadNeutralCityRequestProto {
+     required MinimumUserProto sender = 1;
+     required int32 cityId = 2;    
+}
+
+message LoadNeutralCityResponseProto {
+     required MinimumUserProto sender = 1;
+     required LoadNeutralCityStatus status = 2;
+     repeated MinimumUserTaskProto userTasksInfo = 3;
+	     //client shouldnt show bars if already at max city level
+     repeated FullUserProto defeatTypeJobEnemies = 4;
+     repeated NeutralCityElementProto cityElements = 5;
+     required int32 cityId = 6;
+     
+     enum LoadNeutralCityStatus {
+     	SUCCESS = 0;
+     	NOT_ACCESSIBLE_TO_USER = 1;
      	OTHER_FAIL = 2;
      }    
 }
