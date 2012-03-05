@@ -11,6 +11,7 @@
 #import "GoldShoppeViewController.h"
 #import "GameState.h"
 #import "RefillMenuController.h"
+#import "OutgoingEventController.h"
 
 @implementation TopBar
 
@@ -165,8 +166,12 @@
   _goldLabel.string = [Globals commafyNumber:gs.gold];
   [self setEnergyBarPercentage:gs.currentEnergy/((float)gs.maxEnergy)];
   [self setStaminaBarPercentage:gs.currentStamina/((float)gs.maxStamina)];
-  [_profilePic setExpPercentage:gs.experience/gs.expRequiredForNextLevel];
+  [_profilePic setExpPercentage:gs.experience/(float)gs.expRequiredForNextLevel];
   [_profilePic setLevel:gs.level];
+  
+  if (gs.experience  >= gs.expRequiredForNextLevel) {
+    [[OutgoingEventController sharedOutgoingEventController] levelUp];
+  }
 }
 
 @end

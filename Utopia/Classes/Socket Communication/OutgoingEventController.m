@@ -84,12 +84,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (int) buyEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  UserEquip *ue = nil;
+  UserEquip *ue = [gs myEquipWithId:equipId];
   
-  for (UserEquip *u in gs.myEquips) {
-    if (u.equipId == equipId) {
-      ue = u;
-    }
+  if (!fep.availInArmory) {
+    [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
   }
   
   if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
@@ -720,6 +718,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   } else {
     [Globals popupMessage:@"Trying to visit city above your level."];
+  }
+}
+
+- (void) changeUserLocationWithCoordinate:(CLLocationCoordinate2D)coord {
+  CGFloat lat = coord.latitude;
+  CGFloat lon = coord.longitude;
+  if (!(lat > 90 || lat < -90 || lon > 180 || lon < -180)) {
+    [[SocketCommunication sharedSocketCommunication] sendChangeUserLocationMessageWithLatitude:lat longitude:lon];
+    [[GameState sharedGameState] setLocation:coord];
+  } else {
+    [Globals popupMessage:@"Trying to change user location with coordinates out of bounds."];
+  }
+}
+
+- (void) levelUp {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.experience >= gs.expRequiredForNextLevel) {
+    [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage];
+    gs.experience -= gs.expRequiredForNextLevel;
+    gs.level++;
+  } else {
+    [Globals popupMessage:@"Trying to level up without enough experience"];
   }
 }
 

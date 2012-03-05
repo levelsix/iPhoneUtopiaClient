@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.4"
+#define HOST_NAME @"192.168.1.10"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -281,9 +281,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 - (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType curTime:(uint64_t)curTime {
   RefillStatWithDiamondsRequestProto *refReq = [[[[[RefillStatWithDiamondsRequestProto builder]
-                                                  setSender:_sender]
-                                                 setStatType:statType]
-                                                setCurTime:curTime]
+                                                   setSender:_sender]
+                                                  setStatType:statType]
+                                                 setCurTime:curTime]
                                                 build];
   
   [self sendData:[refReq data] withMessageType:EventProtocolRequestCRefillStatWithDiamondsEvent];
@@ -441,10 +441,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon {
   ChangeUserLocationRequestProto *req = [[[[ChangeUserLocationRequestProto builder]
                                            setSender:_sender]
-                                          setUserLocation:[[[[LocationProto builder]
-                                                             setLatitude:lat]
-                                                            setLongitude:lon]
-                                                           build]]
+                                          setUserLocation:
+                                          [[[[LocationProto builder]
+                                             setLatitude:lat]
+                                            setLongitude:lon]
+                                           build]]
                                          build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCChangeUserLocationEvent];
@@ -457,6 +458,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                       build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCLoadNeutralCityEvent];
+}
+
+- (void) sendLevelUpMessage {
+  LevelUpRequestProto *req = [[[LevelUpRequestProto builder]
+                               setSender:_sender]
+                              build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCLevelUpEvent];
 }
 
 - (void) closeDownConnection {

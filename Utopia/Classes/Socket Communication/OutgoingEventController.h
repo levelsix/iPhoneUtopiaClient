@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
 #import "UserData.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface OutgoingEventController : NSObject
 
@@ -62,5 +63,9 @@
 
 - (void) loadPlayerCity:(int)userId;
 - (void) loadNeutralCity:(FullCityProto *)city;
+
+- (void) levelUp;
+
+- (void) changeUserLocationWithCoordinate:(CLLocationCoordinate2D)coord;
 
 @end

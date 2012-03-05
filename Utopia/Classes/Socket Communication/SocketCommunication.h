@@ -68,5 +68,6 @@
 - (void) sendEquipEquipmentMessage:(int) equipId;
 - (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
 
+- (void) sendLevelUpMessage;
 
 @end

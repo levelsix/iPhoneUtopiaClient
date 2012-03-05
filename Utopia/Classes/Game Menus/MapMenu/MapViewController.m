@@ -107,9 +107,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     [self retrieveAttackListForCurrentBounds];
   }
   
+  if ([CLLocationManager locationServicesEnabled]) {
+    _mapView.showsUserLocation = YES;
+  } else {
+    _mapView.showsUserLocation = NO;
+  }
+  
   missionMap.lumoriaView.hidden = YES;
   
-  self.state = kMissionMap;
+  self.state = kAttackMap;
 }
 
 - (void) setState:(MapState)state {

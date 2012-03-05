@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface LocationManager : NSObject <CLLocationManagerDelegate>
+@interface LocationManager : NSObject
 
 @property (nonatomic, retain) CLLocationManager *locManager;
+
+- (id) initWithDelegate:(id<CLLocationManagerDelegate>)del;
 
 @end

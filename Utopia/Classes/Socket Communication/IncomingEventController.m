@@ -114,6 +114,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSEquipEquipmentEvent:
       responseClass = [EquipEquipmentResponseProto class];
       break;
+    case EventProtocolResponseSChangeUserLocationEvent:
+      responseClass = [ChangeUserLocationResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -185,7 +188,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto {
-  NSLog(@"Retrieve mkt response received");
+  NSLog(@"Retrieve mkt response received with status %d", proto.status);
   
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   if ([proto.marketplacePostsList count] > 0) {
@@ -213,19 +216,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handlePostToMarketplaceResponseProto: (PostToMarketplaceResponseProto *) proto {
-  NSLog(@"Post to mkt response received, %d", [proto status]);
+  NSLog(@"Post to mkt response received with status %d", [proto status]);
 }
 
 - (void) handlePurchaseFromMarketplaceResponseProto: (PurchaseFromMarketplaceResponseProto *) proto {
-  NSLog(@"Purchase from mkt response received");
+  NSLog(@"Purchase from mkt response received with status %d", proto.status);
 }
 
 - (void) handleRetractMarketplacePostResponseProto: (RetractMarketplacePostResponseProto *) proto {
-  NSLog(@"Retract marketplace response received with status: %d", proto.status);
+  NSLog(@"Retract marketplace response received with status %d", proto.status);
 }
 
 - (void) handleRedeemMarketplaceEarningsRequestProto: (RedeemMarketplaceEarningsResponseProto *) proto {
-  NSLog(@"Redeem response received with status: %d", proto.status);
+  NSLog(@"Redeem response received with statuss %d", proto.status);
 }
 
 - (void) handleGenerateAttackListResponseProto: (GenerateAttackListResponseProto *) proto {
@@ -294,19 +297,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleNormStructWaitCompleteResponseProto: (NormStructWaitCompleteResponseProto *) proto {
-  NSLog(@"Norm struct builds complete response received");
+  NSLog(@"Norm struct builds complete response received with status %d.", proto.status);
+  
+  if (proto.status != NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess) {
+    [Globals popupMessage:@"Server failed to complete normal structure wait time."];
+  }
 }
 
 - (void) handleFinishNormStructWaittimeWithDiamondsResponseProto: (FinishNormStructWaittimeWithDiamondsResponseProto *) proto {
   NSLog(@"Finish norm struct with diamonds response received with status %d.", proto.status);
+  
+  if (proto.status != FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess) {
+    [Globals popupMessage:@"Server failed to speed up normal structure wait time."];
+  }
 }
 
 - (void) handleRetrieveCurrencyFromNormStructureResponseProto: (RetrieveCurrencyFromNormStructureResponseProto *) proto {
   NSLog(@"Retrieve currency response received with status: %d.", proto.status);
+  
+  if (proto.status != RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
+    [Globals popupMessage:@"Server failed to retrieve from normal structure."];
+  }
 }
 
 - (void) handleSellNormStructureResponseProto: (SellNormStructureResponseProto *) proto {
   NSLog(@"Sell norm struct response received with status %d.", proto.status);
+  
+  if (proto.status != SellNormStructureResponseProto_SellNormStructureStatusSuccess) {
+    [Globals popupMessage:@"Server failed to sell normal structure."];
+  }
 }
 
 - (void) handleLoadPlayerCityResponseProto: (LoadPlayerCityResponseProto *) proto {
@@ -319,9 +338,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [[HomeMap sharedHomeMap] refresh];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
-    [Globals popupMessage:@"Trying to reach a nonexistent player's city"];
+    [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
   } else {
-    [Globals popupMessage:@"Error in load player city."];
+    [Globals popupMessage:@"Server failed to load player city."];
   }
 }
 
@@ -334,17 +353,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
   } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {
-    [Globals popupMessage:@"Trying to reach inaccessible city"];
+    [Globals popupMessage:@"Trying to reach inaccessible city.."];
   } else {
-    [Globals popupMessage:@"Error in load neutral city."];
+    [Globals popupMessage:@"Server failed to send back static data."];
   }
 }
 
 - (void) handleRetrieveStaticDataResponseProto: (RetrieveStaticDataResponseProto *) proto {
   NSLog(@"Retrieve static data response received with status %d", proto.status);
-  NSLog(@"%d structs.", proto.structsList.count);
-  NSLog(@"%d equips.", proto.equipsList.count);
-  NSLog(@"%d tasks.", proto.tasksList.count);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.status == RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
@@ -359,6 +375,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+  } else {
+    [Globals popupMessage:@"Server failed to send back static data."];
   }
 }
 
@@ -390,7 +408,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
           toAdd = amulets;
         } else {
-          [Globals popupMessage:@"Found an equip with invalid type"];
+          [Globals popupMessage:@"Found an equip with invalid type."];
         }
         
         // Make sure to enter them in order
@@ -414,7 +432,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [avc performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
     }
   } else {
-    [Globals popupMessage:@"Unable to reach store.."];
+    [Globals popupMessage:@"Server failed to send back store data.."];
   }
 }
 
@@ -422,7 +440,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Equip equipment response received with status %d.", proto.status);
   
   if (proto.status != EquipEquipmentResponseProto_EquipEquipmentStatusSuccess) {
-    [Globals popupMessage:@"Unable to equip equipment."];
+    [Globals popupMessage:@"Server failed to equip equipment."];
+  }
+}
+
+- (void) handleChangeUserLocationResponseProto: (ChangeUserLocationResponseProto *)proto {
+  NSLog(@"Change user location response received with status %d.", proto.status);
+  
+  if (proto.status != ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess) {
+    [Globals popupMessage:@"Server failed to update user location."];
   }
 }
 

@@ -11,7 +11,9 @@
 
 @interface RequiresEquipView : UIImageView
 
-- (id) initWithEquipId:(int)equipId;
+@property (nonatomic, assign) int equipId;
+
+- (id) initWithEquipId:(int)eq;
 
 @end
 
@@ -21,6 +23,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIView *goldView;
+@property (nonatomic, retain) IBOutlet UIView *silverView;
 @property (nonatomic, retain) IBOutlet UIView *enstView;
 @property (nonatomic, retain) IBOutlet UIView *itemsView;
 
@@ -39,6 +42,7 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *itemsScrollView;
 
 - (void) displayBuyGoldView:(int)needsGold;
+- (void) displayBuySilverView;
 - (void) displayEnstView:(BOOL)isEnergy;
 - (void) displayEquipsView:(NSArray *)equipIds;
 

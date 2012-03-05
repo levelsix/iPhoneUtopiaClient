@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class RootViewController;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 	UIWindow			*window;
 	RootViewController	*viewController;
 }

@@ -170,7 +170,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
-+ (NSString *) stringForEquipType:(FullEquipProto_ClassType)type {
++ (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type {
   if (type % 3 == 0) {
     return @"Warrior";
   } else if (type % 3 == 1) {
@@ -183,7 +183,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (BOOL) canEquip:(FullEquipProto *)fep {
   GameState *gs = [GameState sharedGameState];
-  return fep.minLevel <= gs.level && fep.classType == gs.type % 3; 
+  return fep.minLevel <= gs.level && (fep.classType == gs.type % 3 || fep.classType == FullEquipProto_ClassTypeAllAmulet); 
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {

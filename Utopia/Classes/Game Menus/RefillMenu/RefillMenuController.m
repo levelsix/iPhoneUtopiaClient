@@ -12,6 +12,7 @@
 #import "OutgoingEventController.h"
 #import "SynthesizeSingleton.h"
 #import "GoldShoppeViewController.h"
+#import "MapViewController.h"
 
 #define POPUP_ANIMATION_DURATION 0.2f
 
@@ -20,8 +21,11 @@
 
 @implementation RequiresEquipView
 
-- (id) initWithEquipId:(int)equipId {
+@synthesize equipId;
+
+- (id) initWithEquipId:(int)eq {
   if ((self = [super initWithImage:[Globals imageNamed:@"itemsquare.png"]])) {
+    self.equipId = eq;
     UIImageView *equipView = [[UIImageView alloc] initWithImage:[Globals imageForEquip:equipId]];
     equipView.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -42,7 +46,7 @@
 
 @implementation RefillMenuController
 
-@synthesize goldView, itemsView, enstView;
+@synthesize goldView, silverView, itemsView, enstView;
 @synthesize curGoldLabel, needGoldLabel;
 @synthesize enstImageView, enstGoldCostLabel, fillEnstLabel, enstHintLabel;
 @synthesize itemsCostView, itemsSilverLabel;
@@ -57,13 +61,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   
   itemsView.frame = goldView.frame;
   enstView.frame = goldView.frame;
+  silverView.frame = goldView.frame;
   [self.view addSubview:itemsView];
   [self.view addSubview:enstView];
+  [self.view addSubview:silverView];
   itemsView.hidden = YES;
   enstView.hidden = YES;
   goldView.hidden = YES;
-  
-  NSLog(@"B:%@", [NSValue valueWithCGRect:itemsScrollView.frame]);
+  silverView.hidden = YES;
 }
 
 - (void) displayEnstView:(BOOL)isEnergy {
@@ -93,6 +98,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   needGoldLabel.text = [NSString stringWithFormat:@"%d", needsGold];
   
   [self openView:goldView];
+}
+
+- (void) displayBuySilverView {
+  [self openView:silverView];
 }
 
 - (void) displayEquipsView:(NSArray *)equipIds {
@@ -138,6 +147,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     self.itemsScrollView.contentSize = CGSizeMake(itemsScrollView.frame.size.width, itemsScrollView.frame.size.height);
   }
   
+  float center = itemsCostView.center.x;
   NSString *string = [Globals commafyNumber:totalCost];
   itemsSilverLabel.text = string;
   CGSize expectedLabelSize = [string sizeWithFont:itemsSilverLabel.font];
@@ -145,9 +155,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   r.size.width = itemsSilverLabel.frame.origin.x+expectedLabelSize.width;
   itemsCostView.frame = r;
   
-  NSLog(@"%@", [NSValue valueWithCGRect:itemsScrollView.frame]);
-  NSLog(@"%@", [NSValue valueWithCGRect:itemsContainerView.frame]);
-  itemsCostView.center = CGPointMake(itemsView.frame.size.width/2, itemsCostView.center.y);
+  itemsCostView.center = CGPointMake(center, itemsCostView.center.y);
   
   [self openView:itemsView];
 }
@@ -169,7 +177,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
   } completion:^(BOOL finished) {
     view.hidden = YES;
-    if (goldView.hidden && enstView.hidden && itemsView.hidden) {
+    if (goldView.hidden && enstView.hidden && itemsView.hidden && silverView.hidden) {
       [RefillMenuController removeView];
     }
   }];
@@ -199,6 +207,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [GoldShoppeViewController displayView]; 
 }
 
+- (IBAction) buyItemsClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  int amount = itemsSilverLabel.text.intValue;
+  
+  if (amount > gs.silver) {
+    [self displayBuySilverView];
+  } else {
+    // Buy items
+    for (RequiresEquipView *rev in itemsContainerView.subviews) {
+      int equipId = rev.equipId;
+      [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
+    }
+    [self closeView:itemsView];
+  }
+}
+
+- (IBAction) goToAviaryClicked:(id)sender {
+  [self closeView:silverView];
+  [self closeView:itemsView];
+  [MapViewController displayView];
+  [[MapViewController sharedMapViewController] setState:kMissionMap];
+}
+
 - (IBAction) closeClicked:(id)sender {
   int tag = [(UIView *)sender tag];
   
@@ -209,6 +240,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     view = enstView;
   } else if (tag == 3) {
     view = itemsView;
+  } else if (tag == 4) {
+    view = silverView;
   }
   [self closeView:view];
 }

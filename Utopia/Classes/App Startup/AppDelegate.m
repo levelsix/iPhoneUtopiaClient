@@ -15,6 +15,8 @@
 #import "SocketCommunication.h"
 #import "LocationManager.h"
 #import "IAPHelper.h"
+#import "GameState.h"
+#import "OutgoingEventController.h"
 
 @implementation AppDelegate
 
@@ -113,7 +115,9 @@
   
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   
-  [[LocationManager alloc] init];
+  if (![[LocationManager alloc] initWithDelegate:self]) {
+    // Inform of location services off
+  }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -172,12 +176,22 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
 	NSLog(@"My token is: %@", deviceToken);
-  
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
 	NSLog(@"Failed to get token, error: %@", error);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+  NSLog(@"Received new location: lat %f, long %f with timestamp: %@", newLocation.coordinate.latitude, newLocation.coordinate.longitude, newLocation.timestamp);
+  if ([newLocation.timestamp timeIntervalSinceNow] > -60.f) {
+    [[OutgoingEventController sharedOutgoingEventController] changeUserLocationWithCoordinate:newLocation.coordinate];
+    [manager stopUpdatingLocation];
+    [manager release];
+    NSLog(@"Terminating location manager..");
+  }
 }
 
 - (void)dealloc {

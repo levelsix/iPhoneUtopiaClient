@@ -144,6 +144,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.weaponEquipped = user.weaponEquipped;
   self.armorEquipped = user.armorEquipped;
   self.amuletEquipped = user.amuletEquipped;
+  self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {

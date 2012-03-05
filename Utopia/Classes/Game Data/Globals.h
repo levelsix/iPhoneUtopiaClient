@@ -54,7 +54,7 @@
 + (NSString *) stringForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) factionForUserType:(UserType)type;
-+ (NSString *) stringForEquipType:(FullEquipProto_ClassType)type;
++ (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type;
 + (NSString *) classForUserType:(UserType)type;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 

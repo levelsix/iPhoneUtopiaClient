@@ -10,23 +10,14 @@
 #import "Protocols.pb.h"
 #import "SocketCommunication.h"
 #import "Globals.h"
+#import "SynthesizeSingleton.h"
 
 @implementation IAPHelper
 
 @synthesize products = _products;
 @synthesize request = _request;
 
-static IAPHelper * _sharedHelper;
-
-+ (IAPHelper *) sharedIAPHelper {
-  
-  if (_sharedHelper != nil) {
-    return _sharedHelper;
-  }
-  _sharedHelper = [[IAPHelper alloc] init];
-  return _sharedHelper;
-  
-}
+SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 
 - (id)init {
   if ((self = [super init])) {
@@ -40,11 +31,9 @@ static IAPHelper * _sharedHelper;
   self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:productIds] autorelease];
   _request.delegate = self;
   [_request start];
-  
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-  
   NSLog(@"Received products results for %d products...", response.products.count);   
   self.products = response.products;
   self.request = nil;

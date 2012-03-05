@@ -13,30 +13,22 @@
 
 @synthesize locManager;
 
-- (id) init {
+- (id) initWithDelegate:(id<CLLocationManagerDelegate>)del {
   if ((self = [super init])) {
-    NSLog(@"Location services: %d", [CLLocationManager locationServicesEnabled]);
     if ([CLLocationManager locationServicesEnabled]) {
       locManager = [[CLLocationManager alloc] init];
-      locManager.delegate = self;
+      locManager.delegate = del;
       locManager.desiredAccuracy = kCLLocationAccuracyKilometer;
       locManager.distanceFilter = 1000;
       
       [self.locManager startUpdatingLocation];
+    } else {
+      NSLog(@"Location services disabled..");
+      [self release];
+      return nil;
     }
   }
   return self;
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-  NSLog(@"in fail with error");
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-  NSLog(@"Received new location: lat %f, long %f with timestamp: %@", newLocation.coordinate.latitude, newLocation.coordinate.longitude, newLocation.timestamp);
-  [[GameState sharedGameState] setLocation:newLocation.coordinate];
 }
 
 - (void) dealloc {

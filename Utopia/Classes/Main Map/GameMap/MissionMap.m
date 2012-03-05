@@ -179,9 +179,8 @@
     // Perform checks
     if (gs.currentEnergy < ftp.energyCost) {
       // Not enough energy
-      [Globals popupMessage:@"Not enough energy"];
+      [[RefillMenuController sharedRefillMenuController] displayEnstView:YES];
     } else {
-      
       NSMutableArray *arr = [NSMutableArray array];
       for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
         UserEquip *ue = [gs myEquipWithId:equipReq.equipId];
