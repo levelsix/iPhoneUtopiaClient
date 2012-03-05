@@ -188,7 +188,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto {
-  NSLog(@"Retrieve mkt response received with status %d", proto.status);
+  NSLog(@"Retrieve mkt response received with %d posts%@.", proto.marketplacePostsList.count, proto.fromSender ? @" from sender" : @"");
   
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   if ([proto.marketplacePostsList count] > 0) {
