@@ -191,11 +191,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[startReq data] withMessageType:EventProtocolRequestCStartupEvent];
 }
 
-- (void) sendTaskActionMessage:(int)taskId {
-  TaskActionRequestProto *taskReq = [[[[TaskActionRequestProto builder]
-                                       setTaskId:1]
-                                      setSender:_sender]
+- (void) sendTaskActionMessage:(int)taskId curTime:(uint64_t)clientTime {
+  TaskActionRequestProto *taskReq = [[[[[TaskActionRequestProto builder]
+                                        setTaskId:taskId]
+                                       setSender:_sender]
+                                      setCurTime:clientTime]
                                      build];
+  
   [self sendData:[taskReq data] withMessageType:EventProtocolRequestCTaskActionEvent];
 }
 
@@ -277,10 +279,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[attReq data] withMessageType:EventProtocolRequestCGenerateAttackListEvent];
 }
 
-- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType {
-  RefillStatWithDiamondsRequestProto *refReq = [[[[RefillStatWithDiamondsRequestProto builder]
+- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType curTime:(uint64_t)curTime {
+  RefillStatWithDiamondsRequestProto *refReq = [[[[[RefillStatWithDiamondsRequestProto builder]
                                                   setSender:_sender]
                                                  setStatType:statType]
+                                                setCurTime:curTime]
                                                 build];
   
   [self sendData:[refReq data] withMessageType:EventProtocolRequestCRefillStatWithDiamondsEvent];
@@ -437,11 +440,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 - (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon {
   ChangeUserLocationRequestProto *req = [[[[ChangeUserLocationRequestProto builder]
-                                          setSender:_sender]
-                                         setUserLocation:[[[[LocationProto builder]
-                                                            setLatitude:lat]
-                                                           setLongitude:lon]
-                                                          build]]
+                                           setSender:_sender]
+                                          setUserLocation:[[[[LocationProto builder]
+                                                             setLatitude:lat]
+                                                            setLongitude:lon]
+                                                           build]]
                                          build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCChangeUserLocationEvent];

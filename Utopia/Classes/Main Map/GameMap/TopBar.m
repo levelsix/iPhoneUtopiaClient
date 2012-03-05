@@ -10,6 +10,7 @@
 #import "Globals.h"
 #import "GoldShoppeViewController.h"
 #import "GameState.h"
+#import "RefillMenuController.h"
 
 @implementation TopBar
 
@@ -88,8 +89,12 @@
   return self;
 }
 
-- (void) enstBarClicked {
-  //Do something here
+- (void) energyBarClicked {
+  [[RefillMenuController sharedRefillMenuController] displayEnstView:YES];
+}
+
+- (void) staminaBarClicked {
+  [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
 }
 
 - (void) coinBarClicked {
@@ -112,8 +117,16 @@
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
   // No need to include profile pic because it takes care of itself
   CGPoint pt = [self convertTouchToNodeSpace:touch];
-  if (_trackingEnstBar && CGRectContainsPoint(_enstBarRect, pt)) {
-    [self enstBarClicked];
+  
+  CGRect enBar = _enstBarRect, stamBar = _enstBarRect;
+  enBar.size.width /= 2;
+  stamBar.size.width /= 2;
+  stamBar.origin.x += stamBar.size.width;
+  
+  if (_trackingEnstBar && CGRectContainsPoint(enBar, pt)) {
+    [self energyBarClicked];
+  } else if (_trackingEnstBar && CGRectContainsPoint(stamBar, pt)) {
+    [self staminaBarClicked];
   } else if (_trackingCoinBar && CGRectContainsPoint(_coinBarRect, pt)) {
     [self coinBarClicked];
   }
@@ -152,7 +165,7 @@
   _goldLabel.string = [Globals commafyNumber:gs.gold];
   [self setEnergyBarPercentage:gs.currentEnergy/((float)gs.maxEnergy)];
   [self setStaminaBarPercentage:gs.currentStamina/((float)gs.maxStamina)];
-  [_profilePic setExpPercentage:gs.experience/100.f];
+  [_profilePic setExpPercentage:gs.experience/gs.expRequiredForNextLevel];
   [_profilePic setLevel:gs.level];
 }
 

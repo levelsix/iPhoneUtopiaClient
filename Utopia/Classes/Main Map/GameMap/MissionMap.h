@@ -9,6 +9,8 @@
 #import "GameMap.h"
 #import "Protocols.pb.h"
 
+@class MissionMap;
+
 @interface MissionBuildingSummaryMenu : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
@@ -24,6 +26,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *progressBar;
+@property (nonatomic, retain) IBOutlet MissionMap *missionMap;
 
 @end
 
@@ -34,5 +37,6 @@
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
+- (void) performCurrentTask;
 
 @end

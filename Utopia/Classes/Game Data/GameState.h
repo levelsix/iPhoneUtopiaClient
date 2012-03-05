@@ -44,6 +44,7 @@
   int _amuletEquipped;
   
   int _maxCityAccessible;
+  int _expRequiredForNextLevel;
   
   NSMutableArray *_marketplaceEquipPosts;
   NSMutableArray *_marketplaceEquipPostsFromSender;
@@ -103,6 +104,7 @@
 @property (assign) int amuletEquipped;
 
 @property (assign) int maxCityAccessible;
+@property (assign) int expRequiredForNextLevel;
 
 @property (retain) NSMutableArray *marketplaceEquipPosts;
 @property (retain) NSMutableArray *marketplaceEquipPostsFromSender;
@@ -140,6 +142,9 @@
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyCities:(NSArray *)cities;
+
+- (UserEquip *) myEquipWithId:(int)equipId;
+- (UserStruct *) myStructWithId:(int)structId;
 - (UserCity *) myCityWithId:(int)cityId;
 
 - (void) addToStaticStructs:(NSArray *)arr;

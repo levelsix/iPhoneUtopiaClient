@@ -67,7 +67,7 @@
 
 - (BOOL) selectable:(SelectableSprite *)front isInFrontOfSelectable: (SelectableSprite *)back {
   if (front == back) {
-    return NO;
+    return YES;
   }
   
   CGRect frontLoc = front.location;

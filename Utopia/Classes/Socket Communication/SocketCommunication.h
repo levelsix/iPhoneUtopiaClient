@@ -34,7 +34,7 @@
 - (void) sendBattleMessage:(int)defender;
 - (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
 - (void) sendStartupMessage:(uint64_t)clientTime;
-- (void) sendTaskActionMessage:(int) taskId;
+- (void) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;
 - (void) sendInAppPurchaseMessage: (NSString *) receipt;
 
 // Marketplace messages
@@ -47,7 +47,7 @@
 - (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
 - (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
-- (void) sendRefillStatWithDiamondsMessage: (RefillStatWithDiamondsRequestProto_StatType) statType;
+- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType)statType curTime:(uint64_t)curTime;
 
 // Norm Struct messages
 - (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;

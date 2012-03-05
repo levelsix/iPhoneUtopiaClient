@@ -160,6 +160,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs addToStaticStructs:proto.structsList];
   [oec retrieveAllStaticData];
   
+  gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
+  
   HomeMap *map = [HomeMap sharedHomeMap];
   [map performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
 }
@@ -352,6 +354,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticStructs:proto.structsList];
     [gs addToStaticTasks:proto.tasksList];
     [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
+    
+    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
   }
 }
 

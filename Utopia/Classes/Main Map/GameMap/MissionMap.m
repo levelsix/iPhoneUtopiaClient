@@ -10,11 +10,12 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "UserData.h"
+#import "OutgoingEventController.h"
 
 #define ASSET_TAG_BASE 2555
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
-#define SUMMARY_MENU_ANIMATION_DURATION 0.3f
+#define SUMMARY_MENU_ANIMATION_DURATION 0.15f
 
 @implementation MissionBuildingSummaryMenu
 
@@ -32,7 +33,7 @@
 
 @implementation MissionOverBuildingMenu
 
-@synthesize progressBar;
+@synthesize progressBar, missionMap;
 
 - (void) awakeFromNib {
   _separators = [[NSMutableArray array] retain];
@@ -76,6 +77,10 @@
   float width = self.frame.size.width;
   float height = self.frame.size.height;
   self.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [missionMap performCurrentTask];
 }
 
 - (void) dealloc {
@@ -131,7 +136,6 @@
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
     [[[CCDirector sharedDirector] openGLView] addSubview:obMenu];
     [[[CCDirector sharedDirector] openGLView] addSubview:summaryMenu];
-    summaryMenu.hidden = YES;
     obMenu.hidden = YES;
     
     summaryMenu.center = CGPointMake(-summaryMenu.frame.size.width, 290);
@@ -165,38 +169,72 @@
   }
 }
 
-- (void) doSummaryMenuAnimation {
+- (void) performCurrentTask {
+  if ([_selected isKindOfClass:[MissionBuilding class]]) {
+    MissionBuilding *mb = (MissionBuilding *)_selected;
+    FullTaskProto *ftp = mb.ftp;
+    GameState *gs = [GameState sharedGameState];
+    
+    // Perform checks
+    if (gs.currentEnergy < ftp.energyCost) {
+      // Not enough energy
+      [Globals popupMessage:@"Not enough energy"];
+      return;
+    }
+    
+    BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId];
+    
+    if (success) {
+      mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
+      _selected = nil;
+      [self closeMenus];
+    }
+  }
+}
+
+- (void) doMenuAnimations {
   int width = summaryMenu.frame.size.width;
   
-  summaryMenu.hidden = NO;
   summaryMenu.center = CGPointMake(-width/2, summaryMenu.center.y);
+  
+  [self updateMissionBuildingMenu];
+  obMenu.alpha = 0.f;
   
   [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
     summaryMenu.center = CGPointMake(width/2, summaryMenu.center.y);
+    obMenu.alpha = 1.f;
   }];
 }
 
-- (void) closeSummaryMenu {
+- (void) closeMenus {
   int width = summaryMenu.frame.size.width;
   
   [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
     summaryMenu.center = CGPointMake(-width/2, summaryMenu.center.y);
+    obMenu.alpha = 0.f;
   } completion:^(BOOL finished) {
-    summaryMenu.hidden = YES;
+    [self updateMissionBuildingMenu];
   }];
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  SelectableSprite *oldSelected = _selected;
   [super tap:recognizer node:node];
-  if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
-    MissionBuilding *mb = (MissionBuilding *)_selected;
-    [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
-    [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
-    [self doSummaryMenuAnimation];
-  } else if (!summaryMenu.hidden) {
-    [self closeSummaryMenu];
+  if (oldSelected == _selected && [_selected isKindOfClass:[MissionBuilding class]]) {
+    [self performCurrentTask];
+    return;
   }
-  [self updateMissionBuildingMenu];
+  
+  if (_selected){
+    if ([_selected isKindOfClass:[MissionBuilding class]]) {
+      MissionBuilding *mb = (MissionBuilding *)_selected;
+      [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
+      [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
+      [self doMenuAnimations];
+    }
+  } else {
+    [self closeMenus];
+  }
 }
 
 - (void) dealloc {

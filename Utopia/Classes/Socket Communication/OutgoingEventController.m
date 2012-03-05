@@ -51,9 +51,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) taskAction:(int)taskId {
-  // TODO: Check to make sure of enough energy and equips
-  [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId];
+- (BOOL) taskAction:(int)taskId {
+  // Return num times acted
+  GameState *gs = [GameState sharedGameState];
+  FullTaskProto *ftp = [gs taskWithId:taskId];
+  
+  if (ftp.cityId > gs.maxCityAccessible) {
+    [Globals popupMessage:@"Attempting to do task in a locked city"];
+    return NO;
+  }
+  
+  for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
+    UserEquip *ue = [gs myEquipWithId:equipReq.equipId];
+    if (!ue || ue.quantity < equipReq.quantity) {
+      [Globals popupMessage:@"Attempting to do task without required equipment"];
+      return NO;
+    }
+  }
+  
+  if (gs.currentEnergy < ftp.energyCost) {
+    [Globals popupMessage:@"Attempting to do task without enough energy"];
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId curTime:[self getCurrentMilliseconds]];
+  return YES;
 }
 
 - (void) battle:(int)defender {
@@ -388,11 +409,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.gold >= gl.energyRefillCost) {
-    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeEnergy];
+    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeEnergy curTime:[self getCurrentMilliseconds]];
     gs.currentEnergy = gs.maxEnergy;
     gs.gold -= gl.energyRefillCost;
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Not enough diamonds to refill energy. Need: %d, Have: %d.", gl.energyRefillCost, gs.gold]];
+    [Globals popupMessage:[NSString stringWithFormat:@"Not enough gold to refill energy. Need: %d, Have: %d.", gl.energyRefillCost, gs.gold]];
   }
 }
 
@@ -402,7 +423,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.gold >= gl.staminaRefillCost) {
-    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeStamina];
+    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeStamina curTime:[self getCurrentMilliseconds]];
     gs.currentStamina = gs.maxStamina;
     gs.gold -= gl.staminaRefillCost;
   } else {
@@ -644,6 +665,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  NSArray *tasks = [[gs staticTasks] allKeys];
+  for (FullTaskProto_FullTaskEquipReqProto *eq in tasks) {
+    NSNumber *equipId = [NSNumber numberWithInt:eq.equipId];
+    if (![sEquips objectForKey:equipId]) {
+      [rEquips addObject:equipId];
+      shouldSend = YES;
+    }
+  }
+  
   if (shouldSend) {
     [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:nil questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
   }
@@ -686,7 +716,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (rTasks.count > 0) {
       [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
     }
-    NSLog(@"%d", rTasks.count);
   } else {
     [Globals popupMessage:@"Trying to visit city above your level."];
   }

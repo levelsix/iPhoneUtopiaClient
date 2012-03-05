@@ -45,6 +45,7 @@
 @synthesize amuletEquipped = _amuletEquipped;
 
 @synthesize maxCityAccessible = _maxCityAccessible;
+@synthesize expRequiredForNextLevel = _expRequiredForNextLevel;
 
 @synthesize marketplaceEquipPosts = _marketplaceEquipPosts;
 @synthesize marketplaceEquipPostsFromSender = _marketplaceEquipPostsFromSender;
@@ -103,6 +104,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _maxHealth = 1;
     _level = 12;
     _experience = 30;
+    _expRequiredForNextLevel = 40;
   }
   return self;
 }
@@ -205,6 +207,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (FullUserCityProto *cit in cities) {
     [self.myCities setObject:[UserCity userCityWithProto:cit] forKey:[NSNumber numberWithInt:cit.cityId]];
   }
+}
+
+- (UserEquip *) myEquipWithId:(int)equipId {
+  for (UserEquip *ue in self.myEquips) {
+    if (ue.equipId == equipId) {
+      return ue;
+    }
+  }
+  return nil;
+}
+
+- (UserStruct *) myStructWithId:(int)structId {
+  for (UserStruct *us in self.myStructs) {
+    if (us.structId == structId) {
+      return us;
+    }
+  }
+  return nil;
 }
 
 - (UserCity *) myCityWithId:(int)cityId {

@@ -17,7 +17,7 @@
 - (void) vaultWithdrawal:(int)amount;
 - (void) vaultDeposit:(int)amount;
 
-- (void) taskAction:(int)taskId;
+- (BOOL) taskAction:(int)taskId;
 
 - (void) battle:(int)defender;
 - (int) buyEquip:(int)equipId;

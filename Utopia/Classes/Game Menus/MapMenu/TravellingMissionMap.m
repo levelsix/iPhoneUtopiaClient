@@ -94,8 +94,12 @@
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  cityPopup.hidden = YES;
-  _fcp = nil;
+  if (!cityPopup.hidden) {
+    if (![cityPopup pointInside:[[touches anyObject] locationInView:cityPopup] withEvent:event]) {
+      cityPopup.hidden = YES;
+      _fcp = nil;
+    }
+  }
 }
 
 @end
