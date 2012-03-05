@@ -15,12 +15,38 @@
 
 #define POPUP_ANIMATION_DURATION 0.2f
 
+#define REQUIRES_EQUIP_VIEW_OFFSET 5.f
+#define EQUIPS_VIEW_SPACING 1.f
+
+@implementation RequiresEquipView
+
+- (id) initWithEquipId:(int)equipId {
+  if ((self = [super initWithImage:[Globals imageNamed:@"itemsquare.png"]])) {
+    UIImageView *equipView = [[UIImageView alloc] initWithImage:[Globals imageForEquip:equipId]];
+    equipView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    CGRect r = self.bounds;
+    r.origin.x += REQUIRES_EQUIP_VIEW_OFFSET;
+    r.origin.y += REQUIRES_EQUIP_VIEW_OFFSET;
+    r.size.width -= 2*REQUIRES_EQUIP_VIEW_OFFSET;
+    r.size.height -= 2*REQUIRES_EQUIP_VIEW_OFFSET;
+    equipView.frame = r;
+    
+    [self addSubview:equipView];
+    [equipView release];
+  }
+  return self;
+}
+
+@end
+
 @implementation RefillMenuController
 
 @synthesize goldView, itemsView, enstView;
 @synthesize curGoldLabel, needGoldLabel;
 @synthesize enstImageView, enstGoldCostLabel, fillEnstLabel, enstHintLabel;
-@synthesize itemsScrollView;
+@synthesize itemsCostView, itemsSilverLabel;
+@synthesize itemsScrollView, itemsContainerView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
@@ -37,6 +63,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   enstView.hidden = YES;
   goldView.hidden = YES;
   
+  NSLog(@"B:%@", [NSValue valueWithCGRect:itemsScrollView.frame]);
 }
 
 - (void) displayEnstView:(BOOL)isEnergy {
@@ -69,7 +96,58 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 }
 
 - (void) displayEquipsView:(NSArray *)equipIds {
+  if (equipIds.count == 0) {
+    return;
+  }
+  GameState *gs = [GameState sharedGameState];
   
+  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, itemsScrollView.frame.size.height)];
+  [self.itemsContainerView removeFromSuperview];
+  self.itemsContainerView = view;
+  [self.itemsScrollView addSubview:self.itemsContainerView];
+  [view release];
+  
+  RequiresEquipView *rev;
+  int totalCost;
+  
+  for (int i = 0; i < equipIds.count; i++) {
+    int equipId = [[equipIds objectAtIndex:i] intValue];
+    rev = [[RequiresEquipView alloc] initWithEquipId:equipId];
+    
+    CGRect r = rev.frame;
+    r.origin.x = i*(r.size.width+EQUIPS_VIEW_SPACING);
+    r.origin.y = itemsContainerView.frame.size.height/2-r.size.height/2;
+    rev.frame = r;
+    
+    [self.itemsContainerView addSubview:rev];
+    
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    totalCost = fep.coinPrice;
+  }
+  CGRect r = self.itemsContainerView.frame;
+  r.size.width = CGRectGetMaxX(rev.frame);
+  self.itemsContainerView.frame = r;
+  
+  if (itemsContainerView.frame.size.width > itemsScrollView.frame.size.width) {
+    self.itemsScrollView.contentSize = CGSizeMake(itemsContainerView.frame.size.width, itemsScrollView.frame.size.height);
+  } else {
+    CGRect r = self.itemsContainerView.frame;
+    r.origin.x = itemsScrollView.frame.size.width/2-itemsContainerView.frame.size.width/2;
+    self.itemsContainerView.frame = r;
+    
+    self.itemsScrollView.contentSize = CGSizeMake(itemsScrollView.frame.size.width, itemsScrollView.frame.size.height);
+  }
+  
+  NSString *string = [Globals commafyNumber:totalCost];
+  itemsSilverLabel.text = string;
+  CGSize expectedLabelSize = [string sizeWithFont:itemsSilverLabel.font];
+  r = itemsCostView.frame;
+  r.size.width = itemsSilverLabel.frame.origin.x+expectedLabelSize.width;
+  itemsCostView.frame = r;
+  
+  NSLog(@"%@", [NSValue valueWithCGRect:itemsScrollView.frame]);
+  NSLog(@"%@", [NSValue valueWithCGRect:itemsContainerView.frame]);
+  itemsCostView.center = CGPointMake(itemsView.frame.size.width/2, itemsCostView.center.y);
   
   [self openView:itemsView];
 }

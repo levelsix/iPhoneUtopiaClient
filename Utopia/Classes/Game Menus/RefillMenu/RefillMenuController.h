@@ -9,6 +9,12 @@
 #import "cocos2d.h"
 #import "NibUtils.h"
 
+@interface RequiresEquipView : UIImageView
+
+- (id) initWithEquipId:(int)equipId;
+
+@end
+
 @interface RefillMenuController : UIViewController {
   CGRect _fullRect;
   BOOL _isEnergy;
@@ -25,6 +31,10 @@
 @property (nonatomic, retain) IBOutlet UILabel *enstGoldCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *fillEnstLabel;
 @property (nonatomic, retain) IBOutlet UILabel *enstHintLabel;
+
+@property (nonatomic, retain) UIView *itemsContainerView;
+@property (nonatomic, retain) IBOutlet UIView *itemsCostView;
+@property (nonatomic, retain) IBOutlet UILabel *itemsSilverLabel;
 
 @property (nonatomic, retain) IBOutlet UIScrollView *itemsScrollView;
 

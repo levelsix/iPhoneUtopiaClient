@@ -332,6 +332,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
     [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
   } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {
     [Globals popupMessage:@"Trying to reach inaccessible city"];
   } else {
@@ -341,6 +342,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleRetrieveStaticDataResponseProto: (RetrieveStaticDataResponseProto *) proto {
   NSLog(@"Retrieve static data response received with status %d", proto.status);
+  NSLog(@"%d structs.", proto.structsList.count);
+  NSLog(@"%d equips.", proto.equipsList.count);
   NSLog(@"%d tasks.", proto.tasksList.count);
   GameState *gs = [GameState sharedGameState];
   

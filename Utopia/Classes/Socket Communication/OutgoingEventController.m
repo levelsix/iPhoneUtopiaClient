@@ -427,7 +427,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.currentStamina = gs.maxStamina;
     gs.gold -= gl.staminaRefillCost;
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Not enough diamonds to refill stamina. Need: %d, Have: %d.", gl.staminaRefillCost, gs.gold]];
+    [Globals popupMessage:[NSString stringWithFormat:@"Not enough gold to refill stamina. Need: %d, Have: %d.", gl.staminaRefillCost, gs.gold]];
   }
 }
 
@@ -665,12 +665,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  NSArray *tasks = [[gs staticTasks] allKeys];
-  for (FullTaskProto_FullTaskEquipReqProto *eq in tasks) {
-    NSNumber *equipId = [NSNumber numberWithInt:eq.equipId];
-    if (![sEquips objectForKey:equipId]) {
-      [rEquips addObject:equipId];
-      shouldSend = YES;
+  NSArray *tasks = [[gs staticTasks] allValues];
+  for (FullTaskProto *ftp in tasks) {
+    for (FullTaskProto_FullTaskEquipReqProto *eq in ftp.equipReqsList) {
+      NSNumber *equipId = [NSNumber numberWithInt:eq.equipId];
+      if (![sEquips objectForKey:equipId]) {
+        [rEquips addObject:equipId];
+        shouldSend = YES;
+      }
     }
   }
   

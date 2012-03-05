@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "UserData.h"
 #import "OutgoingEventController.h"
+#import "RefillMenuController.h"
 
 #define ASSET_TAG_BASE 2555
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
@@ -179,16 +180,29 @@
     if (gs.currentEnergy < ftp.energyCost) {
       // Not enough energy
       [Globals popupMessage:@"Not enough energy"];
-      return;
+    } else {
+      
+      NSMutableArray *arr = [NSMutableArray array];
+      for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
+        UserEquip *ue = [gs myEquipWithId:equipReq.equipId];
+        if (!ue || ue.quantity < equipReq.quantity) {
+          [arr addObject:[NSNumber numberWithInt:equipReq.equipId]];
+        }
+      }
+      
+      if (arr.count > 0) {
+        [[RefillMenuController sharedRefillMenuController] displayEquipsView:arr];
+      } else {
+        BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId];
+        
+        if (success) {
+          mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
+        }
+      }
     }
     
-    BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId];
-    
-    if (success) {
-      mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
-      _selected = nil;
-      [self closeMenus];
-    }
+    self.selected = nil;
+    [self closeMenus];
   }
 }
 

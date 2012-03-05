@@ -425,7 +425,7 @@
 		CFDCC6F915045F3A0084B88A /* refillbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6E915045F3A0084B88A /* refillbutton@2x.png */; };
 		CFDCC6FA15045F3A0084B88A /* requiresbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6EA15045F3A0084B88A /* requiresbg.png */; };
 		CFDCC6FB15045F3A0084B88A /* requiresbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6EB15045F3A0084B88A /* requiresbg@2x.png */; };
-		CFDCC6FC15045F3A0084B88A /* weaponrequirecontaienr.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6EC15045F3A0084B88A /* weaponrequirecontaienr.png */; };
+		CFDCC6FC15045F3A0084B88A /* weaponrequirecontainer.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6EC15045F3A0084B88A /* weaponrequirecontainer.png */; };
 		CFDCC6FD15045F3A0084B88A /* weaponrequirecontainer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6ED15045F3A0084B88A /* weaponrequirecontainer@2x.png */; };
 		CFE47BFB149240890084E71E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFA149240890084E71E /* QuartzCore.framework */; };
 		CFE47BFD149240890084E71E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFC149240890084E71E /* OpenGLES.framework */; };
@@ -1100,7 +1100,7 @@
 		CFDCC6E915045F3A0084B88A /* refillbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refillbutton@2x.png"; sourceTree = "<group>"; };
 		CFDCC6EA15045F3A0084B88A /* requiresbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = requiresbg.png; sourceTree = "<group>"; };
 		CFDCC6EB15045F3A0084B88A /* requiresbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "requiresbg@2x.png"; sourceTree = "<group>"; };
-		CFDCC6EC15045F3A0084B88A /* weaponrequirecontaienr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponrequirecontaienr.png; sourceTree = "<group>"; };
+		CFDCC6EC15045F3A0084B88A /* weaponrequirecontainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponrequirecontainer.png; sourceTree = "<group>"; };
 		CFDCC6ED15045F3A0084B88A /* weaponrequirecontainer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponrequirecontainer@2x.png"; sourceTree = "<group>"; };
 		CFE47BF6149240890084E71E /* Utopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Utopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE47BFA149240890084E71E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -2209,7 +2209,7 @@
 				CFDCC6E915045F3A0084B88A /* refillbutton@2x.png */,
 				CFDCC6EA15045F3A0084B88A /* requiresbg.png */,
 				CFDCC6EB15045F3A0084B88A /* requiresbg@2x.png */,
-				CFDCC6EC15045F3A0084B88A /* weaponrequirecontaienr.png */,
+				CFDCC6EC15045F3A0084B88A /* weaponrequirecontainer.png */,
 				CFDCC6ED15045F3A0084B88A /* weaponrequirecontainer@2x.png */,
 			);
 			path = "Refill Menu Images";
@@ -3090,7 +3090,7 @@
 				CFDCC6F915045F3A0084B88A /* refillbutton@2x.png in Resources */,
 				CFDCC6FA15045F3A0084B88A /* requiresbg.png in Resources */,
 				CFDCC6FB15045F3A0084B88A /* requiresbg@2x.png in Resources */,
-				CFDCC6FC15045F3A0084B88A /* weaponrequirecontaienr.png in Resources */,
+				CFDCC6FC15045F3A0084B88A /* weaponrequirecontainer.png in Resources */,
 				CFDCC6FD15045F3A0084B88A /* weaponrequirecontainer@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
