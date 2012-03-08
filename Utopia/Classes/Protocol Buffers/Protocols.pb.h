@@ -210,6 +210,10 @@
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_Builder;
+@class StartupResponseProto_TutorialConstants;
+@class StartupResponseProto_TutorialConstants_Builder;
+@class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
+@class StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder;
 @class TaskActionRequestProto;
 @class TaskActionRequestProto_Builder;
 @class TaskActionResponseProto;

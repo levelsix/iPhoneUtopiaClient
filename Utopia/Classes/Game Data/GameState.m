@@ -160,6 +160,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
+  if (itemId == 0) {
+    [Globals popupMessage:@"Attempted to access static item 0"];
+    return nil;
+  }
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
   while (!p) {

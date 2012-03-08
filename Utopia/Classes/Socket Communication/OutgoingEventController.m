@@ -799,6 +799,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  for (PossessEquipJobProto *p in [gs.staticPossessEquipJobs allValues]) {
+    NSNumber *n = [NSNumber numberWithInt:p.equipId];
+    if (![sEquips objectForKey:n]) {
+      [rEquips addObject:n];
+      shouldSend = YES;
+    }
+  }
+  
   if (shouldSend) {
     [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects]];
   }

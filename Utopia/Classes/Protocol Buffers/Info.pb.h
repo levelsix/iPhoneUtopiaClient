@@ -1411,11 +1411,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasExpGainedBaseOnRankup_:1;
   BOOL hasCoinsGainedBaseOnRankup_:1;
   BOOL hasName_:1;
+  BOOL hasMapImgName_:1;
   int32_t cityId;
   int32_t minLevel;
   int32_t expGainedBaseOnRankup;
   int32_t coinsGainedBaseOnRankup;
   NSString* name;
+  NSString* mapImgName;
   NSMutableArray* mutableTaskIdsList;
 }
 - (BOOL) hasCityId;
@@ -1423,11 +1425,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasMinLevel;
 - (BOOL) hasExpGainedBaseOnRankup;
 - (BOOL) hasCoinsGainedBaseOnRankup;
+- (BOOL) hasMapImgName;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t expGainedBaseOnRankup;
 @property (readonly) int32_t coinsGainedBaseOnRankup;
+@property (readonly, retain) NSString* mapImgName;
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
 
@@ -1489,6 +1493,11 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int32_t) coinsGainedBaseOnRankup;
 - (FullCityProto_Builder*) setCoinsGainedBaseOnRankup:(int32_t) value;
 - (FullCityProto_Builder*) clearCoinsGainedBaseOnRankup;
+
+- (BOOL) hasMapImgName;
+- (NSString*) mapImgName;
+- (FullCityProto_Builder*) setMapImgName:(NSString*) value;
+- (FullCityProto_Builder*) clearMapImgName;
 
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
@@ -2149,83 +2158,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (MinimumUserTaskProto_Builder*) clearNumTimesActed;
 @end
 
-@interface MinimumUserQuestTaskProto : PBGeneratedMessage {
-@private
-  BOOL hasUserId_:1;
-  BOOL hasQuestId_:1;
-  BOOL hasNumTimesActed_:1;
-  BOOL hasTask_:1;
-  int32_t userId;
-  int32_t questId;
-  int32_t numTimesActed;
-  FullTaskProto* task;
-}
-- (BOOL) hasUserId;
-- (BOOL) hasQuestId;
-- (BOOL) hasTask;
-- (BOOL) hasNumTimesActed;
-@property (readonly) int32_t userId;
-@property (readonly) int32_t questId;
-@property (readonly, retain) FullTaskProto* task;
-@property (readonly) int32_t numTimesActed;
-
-+ (MinimumUserQuestTaskProto*) defaultInstance;
-- (MinimumUserQuestTaskProto*) defaultInstance;
-
-- (BOOL) isInitialized;
-- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (MinimumUserQuestTaskProto_Builder*) builder;
-+ (MinimumUserQuestTaskProto_Builder*) builder;
-+ (MinimumUserQuestTaskProto_Builder*) builderWithPrototype:(MinimumUserQuestTaskProto*) prototype;
-
-+ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data;
-+ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input;
-+ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-@end
-
-@interface MinimumUserQuestTaskProto_Builder : PBGeneratedMessage_Builder {
-@private
-  MinimumUserQuestTaskProto* result;
-}
-
-- (MinimumUserQuestTaskProto*) defaultInstance;
-
-- (MinimumUserQuestTaskProto_Builder*) clear;
-- (MinimumUserQuestTaskProto_Builder*) clone;
-
-- (MinimumUserQuestTaskProto*) build;
-- (MinimumUserQuestTaskProto*) buildPartial;
-
-- (MinimumUserQuestTaskProto_Builder*) mergeFrom:(MinimumUserQuestTaskProto*) other;
-- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasUserId;
-- (int32_t) userId;
-- (MinimumUserQuestTaskProto_Builder*) setUserId:(int32_t) value;
-- (MinimumUserQuestTaskProto_Builder*) clearUserId;
-
-- (BOOL) hasQuestId;
-- (int32_t) questId;
-- (MinimumUserQuestTaskProto_Builder*) setQuestId:(int32_t) value;
-- (MinimumUserQuestTaskProto_Builder*) clearQuestId;
-
-- (BOOL) hasTask;
-- (FullTaskProto*) task;
-- (MinimumUserQuestTaskProto_Builder*) setTask:(FullTaskProto*) value;
-- (MinimumUserQuestTaskProto_Builder*) setTaskBuilder:(FullTaskProto_Builder*) builderForValue;
-- (MinimumUserQuestTaskProto_Builder*) mergeTask:(FullTaskProto*) value;
-- (MinimumUserQuestTaskProto_Builder*) clearTask;
-
-- (BOOL) hasNumTimesActed;
-- (int32_t) numTimesActed;
-- (MinimumUserQuestTaskProto_Builder*) setNumTimesActed:(int32_t) value;
-- (MinimumUserQuestTaskProto_Builder*) clearNumTimesActed;
-@end
-
 @interface FullUserQuestDataLargeProto : PBGeneratedMessage {
 @private
   BOOL hasRedeemed_:1;
@@ -2342,16 +2274,91 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullUserQuestDataLargeProto_Builder*) clearRequiredPossessEquipJobProgressList;
 @end
 
+@interface MinimumUserQuestTaskProto : PBGeneratedMessage {
+@private
+  BOOL hasUserId_:1;
+  BOOL hasQuestId_:1;
+  BOOL hasTaskId_:1;
+  BOOL hasNumTimesActed_:1;
+  int32_t userId;
+  int32_t questId;
+  int32_t taskId;
+  int32_t numTimesActed;
+}
+- (BOOL) hasUserId;
+- (BOOL) hasQuestId;
+- (BOOL) hasTaskId;
+- (BOOL) hasNumTimesActed;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t questId;
+@property (readonly) int32_t taskId;
+@property (readonly) int32_t numTimesActed;
+
++ (MinimumUserQuestTaskProto*) defaultInstance;
+- (MinimumUserQuestTaskProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserQuestTaskProto_Builder*) builder;
++ (MinimumUserQuestTaskProto_Builder*) builder;
++ (MinimumUserQuestTaskProto_Builder*) builderWithPrototype:(MinimumUserQuestTaskProto*) prototype;
+
++ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data;
++ (MinimumUserQuestTaskProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserQuestTaskProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserQuestTaskProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserQuestTaskProto_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserQuestTaskProto* result;
+}
+
+- (MinimumUserQuestTaskProto*) defaultInstance;
+
+- (MinimumUserQuestTaskProto_Builder*) clear;
+- (MinimumUserQuestTaskProto_Builder*) clone;
+
+- (MinimumUserQuestTaskProto*) build;
+- (MinimumUserQuestTaskProto*) buildPartial;
+
+- (MinimumUserQuestTaskProto_Builder*) mergeFrom:(MinimumUserQuestTaskProto*) other;
+- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserQuestTaskProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (MinimumUserQuestTaskProto_Builder*) setUserId:(int32_t) value;
+- (MinimumUserQuestTaskProto_Builder*) clearUserId;
+
+- (BOOL) hasQuestId;
+- (int32_t) questId;
+- (MinimumUserQuestTaskProto_Builder*) setQuestId:(int32_t) value;
+- (MinimumUserQuestTaskProto_Builder*) clearQuestId;
+
+- (BOOL) hasTaskId;
+- (int32_t) taskId;
+- (MinimumUserQuestTaskProto_Builder*) setTaskId:(int32_t) value;
+- (MinimumUserQuestTaskProto_Builder*) clearTaskId;
+
+- (BOOL) hasNumTimesActed;
+- (int32_t) numTimesActed;
+- (MinimumUserQuestTaskProto_Builder*) setNumTimesActed:(int32_t) value;
+- (MinimumUserQuestTaskProto_Builder*) clearNumTimesActed;
+@end
+
 @interface MinimumUserDefeatTypeJobProto : PBGeneratedMessage {
 @private
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
-  BOOL hasNumDefeated_:1;
   BOOL hasDefeatTypeJobId_:1;
+  BOOL hasNumDefeated_:1;
   int32_t userId;
   int32_t questId;
+  int32_t defeatTypeJobId;
   int32_t numDefeated;
-  DefeatTypeJobProto* defeatTypeJobId;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
@@ -2359,7 +2366,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasNumDefeated;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
-@property (readonly, retain) DefeatTypeJobProto* defeatTypeJobId;
+@property (readonly) int32_t defeatTypeJobId;
 @property (readonly) int32_t numDefeated;
 
 + (MinimumUserDefeatTypeJobProto*) defaultInstance;
@@ -2407,10 +2414,8 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (MinimumUserDefeatTypeJobProto_Builder*) clearQuestId;
 
 - (BOOL) hasDefeatTypeJobId;
-- (DefeatTypeJobProto*) defeatTypeJobId;
-- (MinimumUserDefeatTypeJobProto_Builder*) setDefeatTypeJobId:(DefeatTypeJobProto*) value;
-- (MinimumUserDefeatTypeJobProto_Builder*) setDefeatTypeJobIdBuilder:(DefeatTypeJobProto_Builder*) builderForValue;
-- (MinimumUserDefeatTypeJobProto_Builder*) mergeDefeatTypeJobId:(DefeatTypeJobProto*) value;
+- (int32_t) defeatTypeJobId;
+- (MinimumUserDefeatTypeJobProto_Builder*) setDefeatTypeJobId:(int32_t) value;
 - (MinimumUserDefeatTypeJobProto_Builder*) clearDefeatTypeJobId;
 
 - (BOOL) hasNumDefeated;
@@ -2498,20 +2503,20 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @private
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
+  BOOL hasBuildStructJobId_:1;
   BOOL hasNumOfStructUserHas_:1;
-  BOOL hasBuildStructJob_:1;
   int32_t userId;
   int32_t questId;
+  int32_t buildStructJobId;
   int32_t numOfStructUserHas;
-  BuildStructJobProto* buildStructJob;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
-- (BOOL) hasBuildStructJob;
+- (BOOL) hasBuildStructJobId;
 - (BOOL) hasNumOfStructUserHas;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
-@property (readonly, retain) BuildStructJobProto* buildStructJob;
+@property (readonly) int32_t buildStructJobId;
 @property (readonly) int32_t numOfStructUserHas;
 
 + (MinimumUserBuildStructJobProto*) defaultInstance;
@@ -2558,12 +2563,10 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (MinimumUserBuildStructJobProto_Builder*) setQuestId:(int32_t) value;
 - (MinimumUserBuildStructJobProto_Builder*) clearQuestId;
 
-- (BOOL) hasBuildStructJob;
-- (BuildStructJobProto*) buildStructJob;
-- (MinimumUserBuildStructJobProto_Builder*) setBuildStructJob:(BuildStructJobProto*) value;
-- (MinimumUserBuildStructJobProto_Builder*) setBuildStructJobBuilder:(BuildStructJobProto_Builder*) builderForValue;
-- (MinimumUserBuildStructJobProto_Builder*) mergeBuildStructJob:(BuildStructJobProto*) value;
-- (MinimumUserBuildStructJobProto_Builder*) clearBuildStructJob;
+- (BOOL) hasBuildStructJobId;
+- (int32_t) buildStructJobId;
+- (MinimumUserBuildStructJobProto_Builder*) setBuildStructJobId:(int32_t) value;
+- (MinimumUserBuildStructJobProto_Builder*) clearBuildStructJobId;
 
 - (BOOL) hasNumOfStructUserHas;
 - (int32_t) numOfStructUserHas;
@@ -2639,23 +2642,23 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 
 @interface MinimumUserUpgradeStructJobProto : PBGeneratedMessage {
 @private
-  BOOL hasIsComplete_:1;
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
-  BOOL hasUpgradeStructJob_:1;
-  BOOL isComplete_:1;
+  BOOL hasUpgradeStructJobId_:1;
+  BOOL hasCurrentLevel_:1;
   int32_t userId;
   int32_t questId;
-  UpgradeStructJobProto* upgradeStructJob;
+  int32_t upgradeStructJobId;
+  int32_t currentLevel;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
-- (BOOL) hasUpgradeStructJob;
-- (BOOL) hasIsComplete;
+- (BOOL) hasUpgradeStructJobId;
+- (BOOL) hasCurrentLevel;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
-@property (readonly, retain) UpgradeStructJobProto* upgradeStructJob;
-- (BOOL) isComplete;
+@property (readonly) int32_t upgradeStructJobId;
+@property (readonly) int32_t currentLevel;
 
 + (MinimumUserUpgradeStructJobProto*) defaultInstance;
 - (MinimumUserUpgradeStructJobProto*) defaultInstance;
@@ -2701,17 +2704,15 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (MinimumUserUpgradeStructJobProto_Builder*) setQuestId:(int32_t) value;
 - (MinimumUserUpgradeStructJobProto_Builder*) clearQuestId;
 
-- (BOOL) hasUpgradeStructJob;
-- (UpgradeStructJobProto*) upgradeStructJob;
-- (MinimumUserUpgradeStructJobProto_Builder*) setUpgradeStructJob:(UpgradeStructJobProto*) value;
-- (MinimumUserUpgradeStructJobProto_Builder*) setUpgradeStructJobBuilder:(UpgradeStructJobProto_Builder*) builderForValue;
-- (MinimumUserUpgradeStructJobProto_Builder*) mergeUpgradeStructJob:(UpgradeStructJobProto*) value;
-- (MinimumUserUpgradeStructJobProto_Builder*) clearUpgradeStructJob;
+- (BOOL) hasUpgradeStructJobId;
+- (int32_t) upgradeStructJobId;
+- (MinimumUserUpgradeStructJobProto_Builder*) setUpgradeStructJobId:(int32_t) value;
+- (MinimumUserUpgradeStructJobProto_Builder*) clearUpgradeStructJobId;
 
-- (BOOL) hasIsComplete;
-- (BOOL) isComplete;
-- (MinimumUserUpgradeStructJobProto_Builder*) setIsComplete:(BOOL) value;
-- (MinimumUserUpgradeStructJobProto_Builder*) clearIsComplete;
+- (BOOL) hasCurrentLevel;
+- (int32_t) currentLevel;
+- (MinimumUserUpgradeStructJobProto_Builder*) setCurrentLevel:(int32_t) value;
+- (MinimumUserUpgradeStructJobProto_Builder*) clearCurrentLevel;
 @end
 
 @interface UpgradeStructJobProto : PBGeneratedMessage {
@@ -2784,20 +2785,20 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @private
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
+  BOOL hasPossessEquipJobId_:1;
   BOOL hasNumEquipUserHas_:1;
-  BOOL hasPossessEquipJobProto_:1;
   int32_t userId;
   int32_t questId;
+  int32_t possessEquipJobId;
   int32_t numEquipUserHas;
-  PossessEquipJobProto* possessEquipJobProto;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
-- (BOOL) hasPossessEquipJobProto;
+- (BOOL) hasPossessEquipJobId;
 - (BOOL) hasNumEquipUserHas;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
-@property (readonly, retain) PossessEquipJobProto* possessEquipJobProto;
+@property (readonly) int32_t possessEquipJobId;
 @property (readonly) int32_t numEquipUserHas;
 
 + (MinimumUserPossessEquipJobProto*) defaultInstance;
@@ -2844,12 +2845,10 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (MinimumUserPossessEquipJobProto_Builder*) setQuestId:(int32_t) value;
 - (MinimumUserPossessEquipJobProto_Builder*) clearQuestId;
 
-- (BOOL) hasPossessEquipJobProto;
-- (PossessEquipJobProto*) possessEquipJobProto;
-- (MinimumUserPossessEquipJobProto_Builder*) setPossessEquipJobProto:(PossessEquipJobProto*) value;
-- (MinimumUserPossessEquipJobProto_Builder*) setPossessEquipJobProtoBuilder:(PossessEquipJobProto_Builder*) builderForValue;
-- (MinimumUserPossessEquipJobProto_Builder*) mergePossessEquipJobProto:(PossessEquipJobProto*) value;
-- (MinimumUserPossessEquipJobProto_Builder*) clearPossessEquipJobProto;
+- (BOOL) hasPossessEquipJobId;
+- (int32_t) possessEquipJobId;
+- (MinimumUserPossessEquipJobProto_Builder*) setPossessEquipJobId:(int32_t) value;
+- (MinimumUserPossessEquipJobProto_Builder*) clearPossessEquipJobId;
 
 - (BOOL) hasNumEquipUserHas;
 - (int32_t) numEquipUserHas;

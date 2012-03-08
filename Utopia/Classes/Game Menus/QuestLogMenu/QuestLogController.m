@@ -9,6 +9,7 @@
 #import "QuestLogController.h"
 #import "SynthesizeSingleton.h"
 #import "GameState.h"
+#import "Globals.h"
 #import "OutgoingEventController.h"
 
 #define QUEST_ITEM_HEIGHT 31.f
@@ -40,6 +41,12 @@
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
   }
   [self setNeedsDisplay];
+}
+
+- (void) addSubview:(UIView *)view {
+  [super addSubview:view];
+  [self bringSubviewToFront:topGradient];
+  [self bringSubviewToFront:botGradient];
 }
 
 - (void)updateCCDirector
@@ -408,6 +415,7 @@
 
 @implementation TaskListView
 
+@synthesize taskItemViews;
 @synthesize questNameLabel;
 @synthesize scrollView;
 
@@ -415,7 +423,84 @@
   self.questNameLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];
 }
 
+- (void) unloadTasks {
+  [taskItemViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [(UIView *)obj removeFromSuperview];
+  }];
+  [taskItemViews removeAllObjects];
+}
+
 - (void) refreshWithQuestData:(FullUserQuestDataLargeProto *)data {
+  TaskItemView *tiv = nil;
+  GameState *gs = [GameState sharedGameState];
+  
+  for (MinimumUserDefeatTypeJobProto *p in data.requiredDefeatTypeJobProgressList) {
+    DefeatTypeJobProto *q = [gs getStaticDataFrom:gs.staticDefeatTypeJobs withId:p.defeatTypeJobId];
+    tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tiv.frame), self.scrollView.frame.size.width, 0) 
+                                         text:[NSString stringWithFormat:@"Defeat %d %@ %@s", q.numEnemiesToDefeat, [Globals factionForUserType:q.typeOfEnemy], [Globals classForUserType:q.typeOfEnemy]]
+                                 taskFinished:p.numDefeated
+                                        outOf:q.numEnemiesToDefeat
+                                         type:kDefeatTypeJob 
+                                        jobId:p.defeatTypeJobId];
+    [self addSubview:tiv];
+    [taskItemViews addObject:tiv];
+    [tiv release];
+  }
+  
+  for (MinimumUserQuestTaskProto *p in data.requiredTasksProgressList) {
+    FullTaskProto *q = [gs getStaticDataFrom:gs.staticTasks withId:p.taskId];
+    tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tiv.frame), self.scrollView.frame.size.width, 0) 
+                                         text:q.name 
+                                 taskFinished:p.numTimesActed
+                                        outOf:q.numRequiredForCompletion
+                                         type:kTask 
+                                        jobId:p.taskId];
+    [self addSubview:tiv];
+    [taskItemViews addObject:tiv];
+    [tiv release];
+  }
+  
+  for (MinimumUserPossessEquipJobProto *p in data.requiredPossessEquipJobProgressList) {
+    PossessEquipJobProto *q = [gs getStaticDataFrom:gs.staticPossessEquipJobs withId:p.possessEquipJobId];
+    FullEquipProto *r = [gs equipWithId:q.equipId];
+    tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tiv.frame), self.scrollView.frame.size.width, 0) 
+                                         text:[NSString stringWithFormat:@"Attain %@%@", r.name, q.quantityReq == 1 ? @"" : [NSString stringWithFormat:@" (%d)", q.quantityReq]]
+                                 taskFinished:p.numEquipUserHas
+                                        outOf:q.quantityReq
+                                         type:kPossessEquipJob 
+                                        jobId:p.possessEquipJobId];
+    [self addSubview:tiv];
+    [taskItemViews addObject:tiv];
+    [tiv release];
+  }
+  
+  for (MinimumUserBuildStructJobProto *p in data.requiredBuildStructJobProgressList) {
+    BuildStructJobProto *q = [gs getStaticDataFrom:gs.staticBuildStructJobs withId:p.buildStructJobId];
+    FullStructureProto *r = [gs structWithId:q.structId];
+    tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tiv.frame), self.scrollView.frame.size.width, 0) 
+                                         text:[NSString stringWithFormat:@"Build %@%@", r.name, q.quantityRequired == 1 ? @"" : [NSString stringWithFormat:@" (%d)", q.quantityRequired]]
+                                 taskFinished:p.numOfStructUserHas
+                                        outOf:q.quantityRequired
+                                         type:kBuildStructJob 
+                                        jobId:p.buildStructJobId];
+    [self addSubview:tiv];
+    [taskItemViews addObject:tiv];
+    [tiv release];
+  }
+  
+  for (MinimumUserUpgradeStructJobProto *p in data.requiredUpgradeStructJobProgressList) {
+    UpgradeStructJobProto *q = [gs getStaticDataFrom:gs.staticUpgradeStructJobs withId:p.upgradeStructJobId];
+    FullStructureProto *r = [gs structWithId:q.structId];
+    tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tiv.frame), self.scrollView.frame.size.width, 0) 
+                                         text:[NSString stringWithFormat:@"Upgrade %@ to Level %d", r.name, q.levelReq]
+                                 taskFinished:p.currentLevel
+                                        outOf:q.levelReq
+                                         type:kUpgradeStructJob 
+                                        jobId:p.upgradeStructJobId];
+    [self addSubview:tiv];
+    [taskItemViews addObject:tiv];
+    [tiv release];
+  }
 }
 
 @end
@@ -442,6 +527,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [questListView refresh];
   [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
   _curView = nil;
+  self.userLogData = nil;
 }
 
 - (void) refreshWithQuests:(NSArray *)quests {
@@ -479,6 +565,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   }
   _curView = self.questDescView;
   
+  FullUserQuestDataLargeProto *quest = nil;
+  for (FullUserQuestDataLargeProto *q in self.userLogData) {
+    if (q.questId == fqp.questId) {
+      quest = q;
+      break;
+    }
+  }
+  
+if (quest) {
+  [self.taskView refreshWithQuestData:quest];
+}
 }
 
 - (void)viewDidUnload

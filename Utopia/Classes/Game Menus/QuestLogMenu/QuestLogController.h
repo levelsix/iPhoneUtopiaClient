@@ -89,6 +89,7 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UILabel *questNameLabel;
 @property (nonatomic, retain) IBOutlet TaskListScrollView *scrollView;
+@property (nonatomic, retain) NSMutableArray *taskItemViews;
 
 @end
 

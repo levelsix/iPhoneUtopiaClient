@@ -494,7 +494,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Quest redeem response received with status %d", proto.status);
   
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
-    NSLog(@"New quests: %d", proto.updatedAvailableQuestsList.count);
+    NSLog(@"New quests: %d", proto.newlyAvailableQuestsList.count);
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
   }

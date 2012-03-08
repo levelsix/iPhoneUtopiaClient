@@ -2921,6 +2921,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property StartupResponseProto_StartupStatus startupStatus;
 @property StartupResponseProto_UpdateStatus updateStatus;
 @property (retain) StartupResponseProto_StartupConstants* startupConstants;
+@property (retain) StartupResponseProto_TutorialConstants* tutorialConstants;
 @property (retain) NSMutableArray* mutableCitiesAvailableToUserList;
 @property (retain) NSMutableArray* mutableUserCityInfosList;
 @property (retain) NSMutableArray* mutableInProgressQuestsList;
@@ -2966,6 +2967,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasStartupConstants_ = !!value;
 }
 @synthesize startupConstants;
+- (BOOL) hasTutorialConstants {
+  return !!hasTutorialConstants_;
+}
+- (void) setHasTutorialConstants:(BOOL) value {
+  hasTutorialConstants_ = !!value;
+}
+@synthesize tutorialConstants;
 @synthesize mutableCitiesAvailableToUserList;
 @synthesize mutableUserCityInfosList;
 @synthesize mutableInProgressQuestsList;
@@ -2994,6 +3002,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
+  self.tutorialConstants = nil;
   self.mutableCitiesAvailableToUserList = nil;
   self.mutableUserCityInfosList = nil;
   self.mutableInProgressQuestsList = nil;
@@ -3013,6 +3022,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.startupStatus = StartupResponseProto_StartupStatusUserInDb;
     self.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
     self.startupConstants = [StartupResponseProto_StartupConstants defaultInstance];
+    self.tutorialConstants = [StartupResponseProto_TutorialConstants defaultInstance];
     self.experienceRequiredForNextLevel = 0;
     self.experienceRequiredForCurrentLevel = 0;
   }
@@ -3125,6 +3135,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (!self.startupConstants.isInitialized) {
     return NO;
   }
+  if (self.hasTutorialConstants) {
+    if (!self.tutorialConstants.isInitialized) {
+      return NO;
+    }
+  }
   for (FullCityProto* element in self.citiesAvailableToUserList) {
     if (!element.isInitialized) {
       return NO;
@@ -3234,6 +3249,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasExperienceRequiredForCurrentLevel) {
     [output writeInt32:17 value:self.experienceRequiredForCurrentLevel];
   }
+  if (self.hasTutorialConstants) {
+    [output writeMessage:18 value:self.tutorialConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3293,6 +3311,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasExperienceRequiredForCurrentLevel) {
     size += computeInt32Size(17, self.experienceRequiredForCurrentLevel);
+  }
+  if (self.hasTutorialConstants) {
+    size += computeMessageSize(18, self.tutorialConstants);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4650,6 +4671,1957 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 @end
 
+@interface StartupResponseProto_TutorialConstants ()
+@property int32_t initEnergy;
+@property int32_t initStamina;
+@property int32_t initHealth;
+@property (retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
+@property int32_t structToBuild;
+@property int32_t diamondCostToInstabuildFirstStruct;
+@property int32_t archerInitAttack;
+@property int32_t archerInitDefense;
+@property (retain) FullEquipProto* archerInitWeapon;
+@property (retain) FullEquipProto* archerInitArmor;
+@property int32_t mageInitAttack;
+@property int32_t mageInitDefense;
+@property (retain) FullEquipProto* mageInitWeapon;
+@property (retain) FullEquipProto* mageInitArmor;
+@property int32_t warriorInitAttack;
+@property int32_t warriorInitDefense;
+@property (retain) FullEquipProto* warriorInitWeapon;
+@property (retain) FullEquipProto* warriorInitArmor;
+@end
+
+@implementation StartupResponseProto_TutorialConstants
+
+- (BOOL) hasInitEnergy {
+  return !!hasInitEnergy_;
+}
+- (void) setHasInitEnergy:(BOOL) value {
+  hasInitEnergy_ = !!value;
+}
+@synthesize initEnergy;
+- (BOOL) hasInitStamina {
+  return !!hasInitStamina_;
+}
+- (void) setHasInitStamina:(BOOL) value {
+  hasInitStamina_ = !!value;
+}
+@synthesize initStamina;
+- (BOOL) hasInitHealth {
+  return !!hasInitHealth_;
+}
+- (void) setHasInitHealth:(BOOL) value {
+  hasInitHealth_ = !!value;
+}
+@synthesize initHealth;
+- (BOOL) hasTutorialQuest {
+  return !!hasTutorialQuest_;
+}
+- (void) setHasTutorialQuest:(BOOL) value {
+  hasTutorialQuest_ = !!value;
+}
+@synthesize tutorialQuest;
+- (BOOL) hasStructToBuild {
+  return !!hasStructToBuild_;
+}
+- (void) setHasStructToBuild:(BOOL) value {
+  hasStructToBuild_ = !!value;
+}
+@synthesize structToBuild;
+- (BOOL) hasDiamondCostToInstabuildFirstStruct {
+  return !!hasDiamondCostToInstabuildFirstStruct_;
+}
+- (void) setHasDiamondCostToInstabuildFirstStruct:(BOOL) value {
+  hasDiamondCostToInstabuildFirstStruct_ = !!value;
+}
+@synthesize diamondCostToInstabuildFirstStruct;
+- (BOOL) hasArcherInitAttack {
+  return !!hasArcherInitAttack_;
+}
+- (void) setHasArcherInitAttack:(BOOL) value {
+  hasArcherInitAttack_ = !!value;
+}
+@synthesize archerInitAttack;
+- (BOOL) hasArcherInitDefense {
+  return !!hasArcherInitDefense_;
+}
+- (void) setHasArcherInitDefense:(BOOL) value {
+  hasArcherInitDefense_ = !!value;
+}
+@synthesize archerInitDefense;
+- (BOOL) hasArcherInitWeapon {
+  return !!hasArcherInitWeapon_;
+}
+- (void) setHasArcherInitWeapon:(BOOL) value {
+  hasArcherInitWeapon_ = !!value;
+}
+@synthesize archerInitWeapon;
+- (BOOL) hasArcherInitArmor {
+  return !!hasArcherInitArmor_;
+}
+- (void) setHasArcherInitArmor:(BOOL) value {
+  hasArcherInitArmor_ = !!value;
+}
+@synthesize archerInitArmor;
+- (BOOL) hasMageInitAttack {
+  return !!hasMageInitAttack_;
+}
+- (void) setHasMageInitAttack:(BOOL) value {
+  hasMageInitAttack_ = !!value;
+}
+@synthesize mageInitAttack;
+- (BOOL) hasMageInitDefense {
+  return !!hasMageInitDefense_;
+}
+- (void) setHasMageInitDefense:(BOOL) value {
+  hasMageInitDefense_ = !!value;
+}
+@synthesize mageInitDefense;
+- (BOOL) hasMageInitWeapon {
+  return !!hasMageInitWeapon_;
+}
+- (void) setHasMageInitWeapon:(BOOL) value {
+  hasMageInitWeapon_ = !!value;
+}
+@synthesize mageInitWeapon;
+- (BOOL) hasMageInitArmor {
+  return !!hasMageInitArmor_;
+}
+- (void) setHasMageInitArmor:(BOOL) value {
+  hasMageInitArmor_ = !!value;
+}
+@synthesize mageInitArmor;
+- (BOOL) hasWarriorInitAttack {
+  return !!hasWarriorInitAttack_;
+}
+- (void) setHasWarriorInitAttack:(BOOL) value {
+  hasWarriorInitAttack_ = !!value;
+}
+@synthesize warriorInitAttack;
+- (BOOL) hasWarriorInitDefense {
+  return !!hasWarriorInitDefense_;
+}
+- (void) setHasWarriorInitDefense:(BOOL) value {
+  hasWarriorInitDefense_ = !!value;
+}
+@synthesize warriorInitDefense;
+- (BOOL) hasWarriorInitWeapon {
+  return !!hasWarriorInitWeapon_;
+}
+- (void) setHasWarriorInitWeapon:(BOOL) value {
+  hasWarriorInitWeapon_ = !!value;
+}
+@synthesize warriorInitWeapon;
+- (BOOL) hasWarriorInitArmor {
+  return !!hasWarriorInitArmor_;
+}
+- (void) setHasWarriorInitArmor:(BOOL) value {
+  hasWarriorInitArmor_ = !!value;
+}
+@synthesize warriorInitArmor;
+- (void) dealloc {
+  self.tutorialQuest = nil;
+  self.archerInitWeapon = nil;
+  self.archerInitArmor = nil;
+  self.mageInitWeapon = nil;
+  self.mageInitArmor = nil;
+  self.warriorInitWeapon = nil;
+  self.warriorInitArmor = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.initEnergy = 0;
+    self.initStamina = 0;
+    self.initHealth = 0;
+    self.tutorialQuest = [StartupResponseProto_TutorialConstants_FullTutorialQuestProto defaultInstance];
+    self.structToBuild = 0;
+    self.diamondCostToInstabuildFirstStruct = 0;
+    self.archerInitAttack = 0;
+    self.archerInitDefense = 0;
+    self.archerInitWeapon = [FullEquipProto defaultInstance];
+    self.archerInitArmor = [FullEquipProto defaultInstance];
+    self.mageInitAttack = 0;
+    self.mageInitDefense = 0;
+    self.mageInitWeapon = [FullEquipProto defaultInstance];
+    self.mageInitArmor = [FullEquipProto defaultInstance];
+    self.warriorInitAttack = 0;
+    self.warriorInitDefense = 0;
+    self.warriorInitWeapon = [FullEquipProto defaultInstance];
+    self.warriorInitArmor = [FullEquipProto defaultInstance];
+  }
+  return self;
+}
+static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_TutorialConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_TutorialConstants class]) {
+    defaultStartupResponseProto_TutorialConstantsInstance = [[StartupResponseProto_TutorialConstants alloc] init];
+  }
+}
++ (StartupResponseProto_TutorialConstants*) defaultInstance {
+  return defaultStartupResponseProto_TutorialConstantsInstance;
+}
+- (StartupResponseProto_TutorialConstants*) defaultInstance {
+  return defaultStartupResponseProto_TutorialConstantsInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasInitEnergy) {
+    return NO;
+  }
+  if (!self.hasInitStamina) {
+    return NO;
+  }
+  if (!self.hasInitHealth) {
+    return NO;
+  }
+  if (!self.hasTutorialQuest) {
+    return NO;
+  }
+  if (!self.hasStructToBuild) {
+    return NO;
+  }
+  if (!self.hasDiamondCostToInstabuildFirstStruct) {
+    return NO;
+  }
+  if (!self.hasArcherInitAttack) {
+    return NO;
+  }
+  if (!self.hasArcherInitDefense) {
+    return NO;
+  }
+  if (!self.hasArcherInitWeapon) {
+    return NO;
+  }
+  if (!self.hasArcherInitArmor) {
+    return NO;
+  }
+  if (!self.hasMageInitAttack) {
+    return NO;
+  }
+  if (!self.hasMageInitDefense) {
+    return NO;
+  }
+  if (!self.hasMageInitWeapon) {
+    return NO;
+  }
+  if (!self.hasMageInitArmor) {
+    return NO;
+  }
+  if (!self.hasWarriorInitAttack) {
+    return NO;
+  }
+  if (!self.hasWarriorInitDefense) {
+    return NO;
+  }
+  if (!self.hasWarriorInitWeapon) {
+    return NO;
+  }
+  if (!self.hasWarriorInitArmor) {
+    return NO;
+  }
+  if (!self.tutorialQuest.isInitialized) {
+    return NO;
+  }
+  if (!self.archerInitWeapon.isInitialized) {
+    return NO;
+  }
+  if (!self.archerInitArmor.isInitialized) {
+    return NO;
+  }
+  if (!self.mageInitWeapon.isInitialized) {
+    return NO;
+  }
+  if (!self.mageInitArmor.isInitialized) {
+    return NO;
+  }
+  if (!self.warriorInitWeapon.isInitialized) {
+    return NO;
+  }
+  if (!self.warriorInitArmor.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasInitEnergy) {
+    [output writeInt32:1 value:self.initEnergy];
+  }
+  if (self.hasInitStamina) {
+    [output writeInt32:2 value:self.initStamina];
+  }
+  if (self.hasInitHealth) {
+    [output writeInt32:3 value:self.initHealth];
+  }
+  if (self.hasTutorialQuest) {
+    [output writeMessage:4 value:self.tutorialQuest];
+  }
+  if (self.hasStructToBuild) {
+    [output writeInt32:5 value:self.structToBuild];
+  }
+  if (self.hasDiamondCostToInstabuildFirstStruct) {
+    [output writeInt32:6 value:self.diamondCostToInstabuildFirstStruct];
+  }
+  if (self.hasArcherInitWeapon) {
+    [output writeMessage:7 value:self.archerInitWeapon];
+  }
+  if (self.hasArcherInitArmor) {
+    [output writeMessage:8 value:self.archerInitArmor];
+  }
+  if (self.hasMageInitAttack) {
+    [output writeInt32:9 value:self.mageInitAttack];
+  }
+  if (self.hasMageInitDefense) {
+    [output writeInt32:10 value:self.mageInitDefense];
+  }
+  if (self.hasMageInitWeapon) {
+    [output writeMessage:11 value:self.mageInitWeapon];
+  }
+  if (self.hasMageInitArmor) {
+    [output writeMessage:12 value:self.mageInitArmor];
+  }
+  if (self.hasWarriorInitAttack) {
+    [output writeInt32:13 value:self.warriorInitAttack];
+  }
+  if (self.hasWarriorInitDefense) {
+    [output writeInt32:14 value:self.warriorInitDefense];
+  }
+  if (self.hasWarriorInitWeapon) {
+    [output writeMessage:15 value:self.warriorInitWeapon];
+  }
+  if (self.hasWarriorInitArmor) {
+    [output writeMessage:16 value:self.warriorInitArmor];
+  }
+  if (self.hasArcherInitAttack) {
+    [output writeInt32:17 value:self.archerInitAttack];
+  }
+  if (self.hasArcherInitDefense) {
+    [output writeInt32:18 value:self.archerInitDefense];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasInitEnergy) {
+    size += computeInt32Size(1, self.initEnergy);
+  }
+  if (self.hasInitStamina) {
+    size += computeInt32Size(2, self.initStamina);
+  }
+  if (self.hasInitHealth) {
+    size += computeInt32Size(3, self.initHealth);
+  }
+  if (self.hasTutorialQuest) {
+    size += computeMessageSize(4, self.tutorialQuest);
+  }
+  if (self.hasStructToBuild) {
+    size += computeInt32Size(5, self.structToBuild);
+  }
+  if (self.hasDiamondCostToInstabuildFirstStruct) {
+    size += computeInt32Size(6, self.diamondCostToInstabuildFirstStruct);
+  }
+  if (self.hasArcherInitWeapon) {
+    size += computeMessageSize(7, self.archerInitWeapon);
+  }
+  if (self.hasArcherInitArmor) {
+    size += computeMessageSize(8, self.archerInitArmor);
+  }
+  if (self.hasMageInitAttack) {
+    size += computeInt32Size(9, self.mageInitAttack);
+  }
+  if (self.hasMageInitDefense) {
+    size += computeInt32Size(10, self.mageInitDefense);
+  }
+  if (self.hasMageInitWeapon) {
+    size += computeMessageSize(11, self.mageInitWeapon);
+  }
+  if (self.hasMageInitArmor) {
+    size += computeMessageSize(12, self.mageInitArmor);
+  }
+  if (self.hasWarriorInitAttack) {
+    size += computeInt32Size(13, self.warriorInitAttack);
+  }
+  if (self.hasWarriorInitDefense) {
+    size += computeInt32Size(14, self.warriorInitDefense);
+  }
+  if (self.hasWarriorInitWeapon) {
+    size += computeMessageSize(15, self.warriorInitWeapon);
+  }
+  if (self.hasWarriorInitArmor) {
+    size += computeMessageSize(16, self.warriorInitArmor);
+  }
+  if (self.hasArcherInitAttack) {
+    size += computeInt32Size(17, self.archerInitAttack);
+  }
+  if (self.hasArcherInitDefense) {
+    size += computeInt32Size(18, self.archerInitDefense);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants*)[[[StartupResponseProto_TutorialConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants_Builder*) builder {
+  return [[[StartupResponseProto_TutorialConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_TutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_TutorialConstants*) prototype {
+  return [[StartupResponseProto_TutorialConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) builder {
+  return [StartupResponseProto_TutorialConstants builder];
+}
+@end
+
+@interface StartupResponseProto_TutorialConstants_FullTutorialQuestProto ()
+@property (retain) NSString* goodName;
+@property (retain) NSString* badName;
+@property (retain) NSString* goodDescription;
+@property (retain) NSString* badDescription;
+@property (retain) NSString* goodDoneResponse;
+@property (retain) NSString* badDoneResponse;
+@property (retain) NSString* goodInProgress;
+@property (retain) NSString* badInProgress;
+@property int32_t assetNumWithinCity;
+@property int32_t coinsGained;
+@property int32_t expGained;
+@property (retain) FullTaskProto* firstTaskGood;
+@property (retain) FullTaskProto* firstTaskBad;
+@property int32_t firstTaskCompleteCoinGain;
+@property int32_t firstDefeatTypeJobBattleCoinGain;
+@property int32_t firstDefeatTypeJobBattleExpGain;
+@property (retain) FullEquipProto* firstDefeatTypeJobBattleLootAmulet;
+@end
+
+@implementation StartupResponseProto_TutorialConstants_FullTutorialQuestProto
+
+- (BOOL) hasGoodName {
+  return !!hasGoodName_;
+}
+- (void) setHasGoodName:(BOOL) value {
+  hasGoodName_ = !!value;
+}
+@synthesize goodName;
+- (BOOL) hasBadName {
+  return !!hasBadName_;
+}
+- (void) setHasBadName:(BOOL) value {
+  hasBadName_ = !!value;
+}
+@synthesize badName;
+- (BOOL) hasGoodDescription {
+  return !!hasGoodDescription_;
+}
+- (void) setHasGoodDescription:(BOOL) value {
+  hasGoodDescription_ = !!value;
+}
+@synthesize goodDescription;
+- (BOOL) hasBadDescription {
+  return !!hasBadDescription_;
+}
+- (void) setHasBadDescription:(BOOL) value {
+  hasBadDescription_ = !!value;
+}
+@synthesize badDescription;
+- (BOOL) hasGoodDoneResponse {
+  return !!hasGoodDoneResponse_;
+}
+- (void) setHasGoodDoneResponse:(BOOL) value {
+  hasGoodDoneResponse_ = !!value;
+}
+@synthesize goodDoneResponse;
+- (BOOL) hasBadDoneResponse {
+  return !!hasBadDoneResponse_;
+}
+- (void) setHasBadDoneResponse:(BOOL) value {
+  hasBadDoneResponse_ = !!value;
+}
+@synthesize badDoneResponse;
+- (BOOL) hasGoodInProgress {
+  return !!hasGoodInProgress_;
+}
+- (void) setHasGoodInProgress:(BOOL) value {
+  hasGoodInProgress_ = !!value;
+}
+@synthesize goodInProgress;
+- (BOOL) hasBadInProgress {
+  return !!hasBadInProgress_;
+}
+- (void) setHasBadInProgress:(BOOL) value {
+  hasBadInProgress_ = !!value;
+}
+@synthesize badInProgress;
+- (BOOL) hasAssetNumWithinCity {
+  return !!hasAssetNumWithinCity_;
+}
+- (void) setHasAssetNumWithinCity:(BOOL) value {
+  hasAssetNumWithinCity_ = !!value;
+}
+@synthesize assetNumWithinCity;
+- (BOOL) hasCoinsGained {
+  return !!hasCoinsGained_;
+}
+- (void) setHasCoinsGained:(BOOL) value {
+  hasCoinsGained_ = !!value;
+}
+@synthesize coinsGained;
+- (BOOL) hasExpGained {
+  return !!hasExpGained_;
+}
+- (void) setHasExpGained:(BOOL) value {
+  hasExpGained_ = !!value;
+}
+@synthesize expGained;
+- (BOOL) hasFirstTaskGood {
+  return !!hasFirstTaskGood_;
+}
+- (void) setHasFirstTaskGood:(BOOL) value {
+  hasFirstTaskGood_ = !!value;
+}
+@synthesize firstTaskGood;
+- (BOOL) hasFirstTaskBad {
+  return !!hasFirstTaskBad_;
+}
+- (void) setHasFirstTaskBad:(BOOL) value {
+  hasFirstTaskBad_ = !!value;
+}
+@synthesize firstTaskBad;
+- (BOOL) hasFirstTaskCompleteCoinGain {
+  return !!hasFirstTaskCompleteCoinGain_;
+}
+- (void) setHasFirstTaskCompleteCoinGain:(BOOL) value {
+  hasFirstTaskCompleteCoinGain_ = !!value;
+}
+@synthesize firstTaskCompleteCoinGain;
+- (BOOL) hasFirstDefeatTypeJobBattleCoinGain {
+  return !!hasFirstDefeatTypeJobBattleCoinGain_;
+}
+- (void) setHasFirstDefeatTypeJobBattleCoinGain:(BOOL) value {
+  hasFirstDefeatTypeJobBattleCoinGain_ = !!value;
+}
+@synthesize firstDefeatTypeJobBattleCoinGain;
+- (BOOL) hasFirstDefeatTypeJobBattleExpGain {
+  return !!hasFirstDefeatTypeJobBattleExpGain_;
+}
+- (void) setHasFirstDefeatTypeJobBattleExpGain:(BOOL) value {
+  hasFirstDefeatTypeJobBattleExpGain_ = !!value;
+}
+@synthesize firstDefeatTypeJobBattleExpGain;
+- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet {
+  return !!hasFirstDefeatTypeJobBattleLootAmulet_;
+}
+- (void) setHasFirstDefeatTypeJobBattleLootAmulet:(BOOL) value {
+  hasFirstDefeatTypeJobBattleLootAmulet_ = !!value;
+}
+@synthesize firstDefeatTypeJobBattleLootAmulet;
+- (void) dealloc {
+  self.goodName = nil;
+  self.badName = nil;
+  self.goodDescription = nil;
+  self.badDescription = nil;
+  self.goodDoneResponse = nil;
+  self.badDoneResponse = nil;
+  self.goodInProgress = nil;
+  self.badInProgress = nil;
+  self.firstTaskGood = nil;
+  self.firstTaskBad = nil;
+  self.firstDefeatTypeJobBattleLootAmulet = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.goodName = @"";
+    self.badName = @"";
+    self.goodDescription = @"";
+    self.badDescription = @"";
+    self.goodDoneResponse = @"";
+    self.badDoneResponse = @"";
+    self.goodInProgress = @"";
+    self.badInProgress = @"";
+    self.assetNumWithinCity = 0;
+    self.coinsGained = 0;
+    self.expGained = 0;
+    self.firstTaskGood = [FullTaskProto defaultInstance];
+    self.firstTaskBad = [FullTaskProto defaultInstance];
+    self.firstTaskCompleteCoinGain = 0;
+    self.firstDefeatTypeJobBattleCoinGain = 0;
+    self.firstDefeatTypeJobBattleExpGain = 0;
+    self.firstDefeatTypeJobBattleLootAmulet = [FullEquipProto defaultInstance];
+  }
+  return self;
+}
+static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultStartupResponseProto_TutorialConstants_FullTutorialQuestProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_TutorialConstants_FullTutorialQuestProto class]) {
+    defaultStartupResponseProto_TutorialConstants_FullTutorialQuestProtoInstance = [[StartupResponseProto_TutorialConstants_FullTutorialQuestProto alloc] init];
+  }
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance {
+  return defaultStartupResponseProto_TutorialConstants_FullTutorialQuestProtoInstance;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance {
+  return defaultStartupResponseProto_TutorialConstants_FullTutorialQuestProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasGoodName) {
+    return NO;
+  }
+  if (!self.hasBadName) {
+    return NO;
+  }
+  if (!self.hasGoodDescription) {
+    return NO;
+  }
+  if (!self.hasBadDescription) {
+    return NO;
+  }
+  if (!self.hasGoodDoneResponse) {
+    return NO;
+  }
+  if (!self.hasBadDoneResponse) {
+    return NO;
+  }
+  if (!self.hasGoodInProgress) {
+    return NO;
+  }
+  if (!self.hasBadInProgress) {
+    return NO;
+  }
+  if (!self.hasAssetNumWithinCity) {
+    return NO;
+  }
+  if (!self.hasCoinsGained) {
+    return NO;
+  }
+  if (!self.hasExpGained) {
+    return NO;
+  }
+  if (!self.hasFirstTaskGood) {
+    return NO;
+  }
+  if (!self.hasFirstTaskBad) {
+    return NO;
+  }
+  if (!self.hasFirstTaskCompleteCoinGain) {
+    return NO;
+  }
+  if (!self.hasFirstDefeatTypeJobBattleCoinGain) {
+    return NO;
+  }
+  if (!self.hasFirstDefeatTypeJobBattleExpGain) {
+    return NO;
+  }
+  if (!self.hasFirstDefeatTypeJobBattleLootAmulet) {
+    return NO;
+  }
+  if (!self.firstTaskGood.isInitialized) {
+    return NO;
+  }
+  if (!self.firstTaskBad.isInitialized) {
+    return NO;
+  }
+  if (!self.firstDefeatTypeJobBattleLootAmulet.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasGoodName) {
+    [output writeString:1 value:self.goodName];
+  }
+  if (self.hasBadName) {
+    [output writeString:2 value:self.badName];
+  }
+  if (self.hasGoodDescription) {
+    [output writeString:3 value:self.goodDescription];
+  }
+  if (self.hasBadDescription) {
+    [output writeString:4 value:self.badDescription];
+  }
+  if (self.hasGoodDoneResponse) {
+    [output writeString:5 value:self.goodDoneResponse];
+  }
+  if (self.hasBadDoneResponse) {
+    [output writeString:6 value:self.badDoneResponse];
+  }
+  if (self.hasGoodInProgress) {
+    [output writeString:7 value:self.goodInProgress];
+  }
+  if (self.hasBadInProgress) {
+    [output writeString:8 value:self.badInProgress];
+  }
+  if (self.hasAssetNumWithinCity) {
+    [output writeInt32:9 value:self.assetNumWithinCity];
+  }
+  if (self.hasCoinsGained) {
+    [output writeInt32:10 value:self.coinsGained];
+  }
+  if (self.hasExpGained) {
+    [output writeInt32:11 value:self.expGained];
+  }
+  if (self.hasFirstTaskGood) {
+    [output writeMessage:12 value:self.firstTaskGood];
+  }
+  if (self.hasFirstTaskBad) {
+    [output writeMessage:13 value:self.firstTaskBad];
+  }
+  if (self.hasFirstTaskCompleteCoinGain) {
+    [output writeInt32:14 value:self.firstTaskCompleteCoinGain];
+  }
+  if (self.hasFirstDefeatTypeJobBattleCoinGain) {
+    [output writeInt32:17 value:self.firstDefeatTypeJobBattleCoinGain];
+  }
+  if (self.hasFirstDefeatTypeJobBattleExpGain) {
+    [output writeInt32:18 value:self.firstDefeatTypeJobBattleExpGain];
+  }
+  if (self.hasFirstDefeatTypeJobBattleLootAmulet) {
+    [output writeMessage:19 value:self.firstDefeatTypeJobBattleLootAmulet];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasGoodName) {
+    size += computeStringSize(1, self.goodName);
+  }
+  if (self.hasBadName) {
+    size += computeStringSize(2, self.badName);
+  }
+  if (self.hasGoodDescription) {
+    size += computeStringSize(3, self.goodDescription);
+  }
+  if (self.hasBadDescription) {
+    size += computeStringSize(4, self.badDescription);
+  }
+  if (self.hasGoodDoneResponse) {
+    size += computeStringSize(5, self.goodDoneResponse);
+  }
+  if (self.hasBadDoneResponse) {
+    size += computeStringSize(6, self.badDoneResponse);
+  }
+  if (self.hasGoodInProgress) {
+    size += computeStringSize(7, self.goodInProgress);
+  }
+  if (self.hasBadInProgress) {
+    size += computeStringSize(8, self.badInProgress);
+  }
+  if (self.hasAssetNumWithinCity) {
+    size += computeInt32Size(9, self.assetNumWithinCity);
+  }
+  if (self.hasCoinsGained) {
+    size += computeInt32Size(10, self.coinsGained);
+  }
+  if (self.hasExpGained) {
+    size += computeInt32Size(11, self.expGained);
+  }
+  if (self.hasFirstTaskGood) {
+    size += computeMessageSize(12, self.firstTaskGood);
+  }
+  if (self.hasFirstTaskBad) {
+    size += computeMessageSize(13, self.firstTaskBad);
+  }
+  if (self.hasFirstTaskCompleteCoinGain) {
+    size += computeInt32Size(14, self.firstTaskCompleteCoinGain);
+  }
+  if (self.hasFirstDefeatTypeJobBattleCoinGain) {
+    size += computeInt32Size(17, self.firstDefeatTypeJobBattleCoinGain);
+  }
+  if (self.hasFirstDefeatTypeJobBattleExpGain) {
+    size += computeInt32Size(18, self.firstDefeatTypeJobBattleExpGain);
+  }
+  if (self.hasFirstDefeatTypeJobBattleLootAmulet) {
+    size += computeMessageSize(19, self.firstDefeatTypeJobBattleLootAmulet);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*)[[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*)[[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*)[[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*)[[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*)[[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*)[[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builder {
+  return [[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builderWithPrototype:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) prototype {
+  return [[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builder {
+  return [StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder];
+}
+@end
+
+@interface StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder()
+@property (retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto* result;
+@end
+
+@implementation StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clear {
+  self.result = [[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clone {
+  return [StartupResponseProto_TutorialConstants_FullTutorialQuestProto builderWithPrototype:result];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance {
+  return [StartupResponseProto_TutorialConstants_FullTutorialQuestProto defaultInstance];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) buildPartial {
+  StartupResponseProto_TutorialConstants_FullTutorialQuestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFrom:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) other {
+  if (other == [StartupResponseProto_TutorialConstants_FullTutorialQuestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasGoodName) {
+    [self setGoodName:other.goodName];
+  }
+  if (other.hasBadName) {
+    [self setBadName:other.badName];
+  }
+  if (other.hasGoodDescription) {
+    [self setGoodDescription:other.goodDescription];
+  }
+  if (other.hasBadDescription) {
+    [self setBadDescription:other.badDescription];
+  }
+  if (other.hasGoodDoneResponse) {
+    [self setGoodDoneResponse:other.goodDoneResponse];
+  }
+  if (other.hasBadDoneResponse) {
+    [self setBadDoneResponse:other.badDoneResponse];
+  }
+  if (other.hasGoodInProgress) {
+    [self setGoodInProgress:other.goodInProgress];
+  }
+  if (other.hasBadInProgress) {
+    [self setBadInProgress:other.badInProgress];
+  }
+  if (other.hasAssetNumWithinCity) {
+    [self setAssetNumWithinCity:other.assetNumWithinCity];
+  }
+  if (other.hasCoinsGained) {
+    [self setCoinsGained:other.coinsGained];
+  }
+  if (other.hasExpGained) {
+    [self setExpGained:other.expGained];
+  }
+  if (other.hasFirstTaskGood) {
+    [self mergeFirstTaskGood:other.firstTaskGood];
+  }
+  if (other.hasFirstTaskBad) {
+    [self mergeFirstTaskBad:other.firstTaskBad];
+  }
+  if (other.hasFirstTaskCompleteCoinGain) {
+    [self setFirstTaskCompleteCoinGain:other.firstTaskCompleteCoinGain];
+  }
+  if (other.hasFirstDefeatTypeJobBattleCoinGain) {
+    [self setFirstDefeatTypeJobBattleCoinGain:other.firstDefeatTypeJobBattleCoinGain];
+  }
+  if (other.hasFirstDefeatTypeJobBattleExpGain) {
+    [self setFirstDefeatTypeJobBattleExpGain:other.firstDefeatTypeJobBattleExpGain];
+  }
+  if (other.hasFirstDefeatTypeJobBattleLootAmulet) {
+    [self mergeFirstDefeatTypeJobBattleLootAmulet:other.firstDefeatTypeJobBattleLootAmulet];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        [self setGoodName:[input readString]];
+        break;
+      }
+      case 18: {
+        [self setBadName:[input readString]];
+        break;
+      }
+      case 26: {
+        [self setGoodDescription:[input readString]];
+        break;
+      }
+      case 34: {
+        [self setBadDescription:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setGoodDoneResponse:[input readString]];
+        break;
+      }
+      case 50: {
+        [self setBadDoneResponse:[input readString]];
+        break;
+      }
+      case 58: {
+        [self setGoodInProgress:[input readString]];
+        break;
+      }
+      case 66: {
+        [self setBadInProgress:[input readString]];
+        break;
+      }
+      case 72: {
+        [self setAssetNumWithinCity:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setCoinsGained:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setExpGained:[input readInt32]];
+        break;
+      }
+      case 98: {
+        FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
+        if (self.hasFirstTaskGood) {
+          [subBuilder mergeFrom:self.firstTaskGood];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFirstTaskGood:[subBuilder buildPartial]];
+        break;
+      }
+      case 106: {
+        FullTaskProto_Builder* subBuilder = [FullTaskProto builder];
+        if (self.hasFirstTaskBad) {
+          [subBuilder mergeFrom:self.firstTaskBad];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFirstTaskBad:[subBuilder buildPartial]];
+        break;
+      }
+      case 112: {
+        [self setFirstTaskCompleteCoinGain:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self setFirstDefeatTypeJobBattleCoinGain:[input readInt32]];
+        break;
+      }
+      case 144: {
+        [self setFirstDefeatTypeJobBattleExpGain:[input readInt32]];
+        break;
+      }
+      case 154: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasFirstDefeatTypeJobBattleLootAmulet) {
+          [subBuilder mergeFrom:self.firstDefeatTypeJobBattleLootAmulet];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFirstDefeatTypeJobBattleLootAmulet:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasGoodName {
+  return result.hasGoodName;
+}
+- (NSString*) goodName {
+  return result.goodName;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodName:(NSString*) value {
+  result.hasGoodName = YES;
+  result.goodName = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodName {
+  result.hasGoodName = NO;
+  result.goodName = @"";
+  return self;
+}
+- (BOOL) hasBadName {
+  return result.hasBadName;
+}
+- (NSString*) badName {
+  return result.badName;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadName:(NSString*) value {
+  result.hasBadName = YES;
+  result.badName = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadName {
+  result.hasBadName = NO;
+  result.badName = @"";
+  return self;
+}
+- (BOOL) hasGoodDescription {
+  return result.hasGoodDescription;
+}
+- (NSString*) goodDescription {
+  return result.goodDescription;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodDescription:(NSString*) value {
+  result.hasGoodDescription = YES;
+  result.goodDescription = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodDescription {
+  result.hasGoodDescription = NO;
+  result.goodDescription = @"";
+  return self;
+}
+- (BOOL) hasBadDescription {
+  return result.hasBadDescription;
+}
+- (NSString*) badDescription {
+  return result.badDescription;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadDescription:(NSString*) value {
+  result.hasBadDescription = YES;
+  result.badDescription = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadDescription {
+  result.hasBadDescription = NO;
+  result.badDescription = @"";
+  return self;
+}
+- (BOOL) hasGoodDoneResponse {
+  return result.hasGoodDoneResponse;
+}
+- (NSString*) goodDoneResponse {
+  return result.goodDoneResponse;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodDoneResponse:(NSString*) value {
+  result.hasGoodDoneResponse = YES;
+  result.goodDoneResponse = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodDoneResponse {
+  result.hasGoodDoneResponse = NO;
+  result.goodDoneResponse = @"";
+  return self;
+}
+- (BOOL) hasBadDoneResponse {
+  return result.hasBadDoneResponse;
+}
+- (NSString*) badDoneResponse {
+  return result.badDoneResponse;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadDoneResponse:(NSString*) value {
+  result.hasBadDoneResponse = YES;
+  result.badDoneResponse = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadDoneResponse {
+  result.hasBadDoneResponse = NO;
+  result.badDoneResponse = @"";
+  return self;
+}
+- (BOOL) hasGoodInProgress {
+  return result.hasGoodInProgress;
+}
+- (NSString*) goodInProgress {
+  return result.goodInProgress;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodInProgress:(NSString*) value {
+  result.hasGoodInProgress = YES;
+  result.goodInProgress = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodInProgress {
+  result.hasGoodInProgress = NO;
+  result.goodInProgress = @"";
+  return self;
+}
+- (BOOL) hasBadInProgress {
+  return result.hasBadInProgress;
+}
+- (NSString*) badInProgress {
+  return result.badInProgress;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadInProgress:(NSString*) value {
+  result.hasBadInProgress = YES;
+  result.badInProgress = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadInProgress {
+  result.hasBadInProgress = NO;
+  result.badInProgress = @"";
+  return self;
+}
+- (BOOL) hasAssetNumWithinCity {
+  return result.hasAssetNumWithinCity;
+}
+- (int32_t) assetNumWithinCity {
+  return result.assetNumWithinCity;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setAssetNumWithinCity:(int32_t) value {
+  result.hasAssetNumWithinCity = YES;
+  result.assetNumWithinCity = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearAssetNumWithinCity {
+  result.hasAssetNumWithinCity = NO;
+  result.assetNumWithinCity = 0;
+  return self;
+}
+- (BOOL) hasCoinsGained {
+  return result.hasCoinsGained;
+}
+- (int32_t) coinsGained {
+  return result.coinsGained;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setCoinsGained:(int32_t) value {
+  result.hasCoinsGained = YES;
+  result.coinsGained = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearCoinsGained {
+  result.hasCoinsGained = NO;
+  result.coinsGained = 0;
+  return self;
+}
+- (BOOL) hasExpGained {
+  return result.hasExpGained;
+}
+- (int32_t) expGained {
+  return result.expGained;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setExpGained:(int32_t) value {
+  result.hasExpGained = YES;
+  result.expGained = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearExpGained {
+  result.hasExpGained = NO;
+  result.expGained = 0;
+  return self;
+}
+- (BOOL) hasFirstTaskGood {
+  return result.hasFirstTaskGood;
+}
+- (FullTaskProto*) firstTaskGood {
+  return result.firstTaskGood;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGood:(FullTaskProto*) value {
+  result.hasFirstTaskGood = YES;
+  result.firstTaskGood = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue {
+  return [self setFirstTaskGood:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskGood:(FullTaskProto*) value {
+  if (result.hasFirstTaskGood &&
+      result.firstTaskGood != [FullTaskProto defaultInstance]) {
+    result.firstTaskGood =
+      [[[FullTaskProto builderWithPrototype:result.firstTaskGood] mergeFrom:value] buildPartial];
+  } else {
+    result.firstTaskGood = value;
+  }
+  result.hasFirstTaskGood = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskGood {
+  result.hasFirstTaskGood = NO;
+  result.firstTaskGood = [FullTaskProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFirstTaskBad {
+  return result.hasFirstTaskBad;
+}
+- (FullTaskProto*) firstTaskBad {
+  return result.firstTaskBad;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBad:(FullTaskProto*) value {
+  result.hasFirstTaskBad = YES;
+  result.firstTaskBad = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBadBuilder:(FullTaskProto_Builder*) builderForValue {
+  return [self setFirstTaskBad:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskBad:(FullTaskProto*) value {
+  if (result.hasFirstTaskBad &&
+      result.firstTaskBad != [FullTaskProto defaultInstance]) {
+    result.firstTaskBad =
+      [[[FullTaskProto builderWithPrototype:result.firstTaskBad] mergeFrom:value] buildPartial];
+  } else {
+    result.firstTaskBad = value;
+  }
+  result.hasFirstTaskBad = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskBad {
+  result.hasFirstTaskBad = NO;
+  result.firstTaskBad = [FullTaskProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFirstTaskCompleteCoinGain {
+  return result.hasFirstTaskCompleteCoinGain;
+}
+- (int32_t) firstTaskCompleteCoinGain {
+  return result.firstTaskCompleteCoinGain;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskCompleteCoinGain:(int32_t) value {
+  result.hasFirstTaskCompleteCoinGain = YES;
+  result.firstTaskCompleteCoinGain = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskCompleteCoinGain {
+  result.hasFirstTaskCompleteCoinGain = NO;
+  result.firstTaskCompleteCoinGain = 0;
+  return self;
+}
+- (BOOL) hasFirstDefeatTypeJobBattleCoinGain {
+  return result.hasFirstDefeatTypeJobBattleCoinGain;
+}
+- (int32_t) firstDefeatTypeJobBattleCoinGain {
+  return result.firstDefeatTypeJobBattleCoinGain;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleCoinGain:(int32_t) value {
+  result.hasFirstDefeatTypeJobBattleCoinGain = YES;
+  result.firstDefeatTypeJobBattleCoinGain = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleCoinGain {
+  result.hasFirstDefeatTypeJobBattleCoinGain = NO;
+  result.firstDefeatTypeJobBattleCoinGain = 0;
+  return self;
+}
+- (BOOL) hasFirstDefeatTypeJobBattleExpGain {
+  return result.hasFirstDefeatTypeJobBattleExpGain;
+}
+- (int32_t) firstDefeatTypeJobBattleExpGain {
+  return result.firstDefeatTypeJobBattleExpGain;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleExpGain:(int32_t) value {
+  result.hasFirstDefeatTypeJobBattleExpGain = YES;
+  result.firstDefeatTypeJobBattleExpGain = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleExpGain {
+  result.hasFirstDefeatTypeJobBattleExpGain = NO;
+  result.firstDefeatTypeJobBattleExpGain = 0;
+  return self;
+}
+- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet {
+  return result.hasFirstDefeatTypeJobBattleLootAmulet;
+}
+- (FullEquipProto*) firstDefeatTypeJobBattleLootAmulet {
+  return result.firstDefeatTypeJobBattleLootAmulet;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value {
+  result.hasFirstDefeatTypeJobBattleLootAmulet = YES;
+  result.firstDefeatTypeJobBattleLootAmulet = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmuletBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setFirstDefeatTypeJobBattleLootAmulet:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value {
+  if (result.hasFirstDefeatTypeJobBattleLootAmulet &&
+      result.firstDefeatTypeJobBattleLootAmulet != [FullEquipProto defaultInstance]) {
+    result.firstDefeatTypeJobBattleLootAmulet =
+      [[[FullEquipProto builderWithPrototype:result.firstDefeatTypeJobBattleLootAmulet] mergeFrom:value] buildPartial];
+  } else {
+    result.firstDefeatTypeJobBattleLootAmulet = value;
+  }
+  result.hasFirstDefeatTypeJobBattleLootAmulet = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleLootAmulet {
+  result.hasFirstDefeatTypeJobBattleLootAmulet = NO;
+  result.firstDefeatTypeJobBattleLootAmulet = [FullEquipProto defaultInstance];
+  return self;
+}
+@end
+
+@interface StartupResponseProto_TutorialConstants_Builder()
+@property (retain) StartupResponseProto_TutorialConstants* result;
+@end
+
+@implementation StartupResponseProto_TutorialConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_TutorialConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_TutorialConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clone {
+  return [StartupResponseProto_TutorialConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_TutorialConstants*) defaultInstance {
+  return [StartupResponseProto_TutorialConstants defaultInstance];
+}
+- (StartupResponseProto_TutorialConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_TutorialConstants*) buildPartial {
+  StartupResponseProto_TutorialConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFrom:(StartupResponseProto_TutorialConstants*) other {
+  if (other == [StartupResponseProto_TutorialConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasInitEnergy) {
+    [self setInitEnergy:other.initEnergy];
+  }
+  if (other.hasInitStamina) {
+    [self setInitStamina:other.initStamina];
+  }
+  if (other.hasInitHealth) {
+    [self setInitHealth:other.initHealth];
+  }
+  if (other.hasTutorialQuest) {
+    [self mergeTutorialQuest:other.tutorialQuest];
+  }
+  if (other.hasStructToBuild) {
+    [self setStructToBuild:other.structToBuild];
+  }
+  if (other.hasDiamondCostToInstabuildFirstStruct) {
+    [self setDiamondCostToInstabuildFirstStruct:other.diamondCostToInstabuildFirstStruct];
+  }
+  if (other.hasArcherInitAttack) {
+    [self setArcherInitAttack:other.archerInitAttack];
+  }
+  if (other.hasArcherInitDefense) {
+    [self setArcherInitDefense:other.archerInitDefense];
+  }
+  if (other.hasArcherInitWeapon) {
+    [self mergeArcherInitWeapon:other.archerInitWeapon];
+  }
+  if (other.hasArcherInitArmor) {
+    [self mergeArcherInitArmor:other.archerInitArmor];
+  }
+  if (other.hasMageInitAttack) {
+    [self setMageInitAttack:other.mageInitAttack];
+  }
+  if (other.hasMageInitDefense) {
+    [self setMageInitDefense:other.mageInitDefense];
+  }
+  if (other.hasMageInitWeapon) {
+    [self mergeMageInitWeapon:other.mageInitWeapon];
+  }
+  if (other.hasMageInitArmor) {
+    [self mergeMageInitArmor:other.mageInitArmor];
+  }
+  if (other.hasWarriorInitAttack) {
+    [self setWarriorInitAttack:other.warriorInitAttack];
+  }
+  if (other.hasWarriorInitDefense) {
+    [self setWarriorInitDefense:other.warriorInitDefense];
+  }
+  if (other.hasWarriorInitWeapon) {
+    [self mergeWarriorInitWeapon:other.warriorInitWeapon];
+  }
+  if (other.hasWarriorInitArmor) {
+    [self mergeWarriorInitArmor:other.warriorInitArmor];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setInitEnergy:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setInitStamina:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setInitHealth:[input readInt32]];
+        break;
+      }
+      case 34: {
+        StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder* subBuilder = [StartupResponseProto_TutorialConstants_FullTutorialQuestProto builder];
+        if (self.hasTutorialQuest) {
+          [subBuilder mergeFrom:self.tutorialQuest];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTutorialQuest:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        [self setStructToBuild:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setDiamondCostToInstabuildFirstStruct:[input readInt32]];
+        break;
+      }
+      case 58: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasArcherInitWeapon) {
+          [subBuilder mergeFrom:self.archerInitWeapon];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setArcherInitWeapon:[subBuilder buildPartial]];
+        break;
+      }
+      case 66: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasArcherInitArmor) {
+          [subBuilder mergeFrom:self.archerInitArmor];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setArcherInitArmor:[subBuilder buildPartial]];
+        break;
+      }
+      case 72: {
+        [self setMageInitAttack:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setMageInitDefense:[input readInt32]];
+        break;
+      }
+      case 90: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasMageInitWeapon) {
+          [subBuilder mergeFrom:self.mageInitWeapon];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMageInitWeapon:[subBuilder buildPartial]];
+        break;
+      }
+      case 98: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasMageInitArmor) {
+          [subBuilder mergeFrom:self.mageInitArmor];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMageInitArmor:[subBuilder buildPartial]];
+        break;
+      }
+      case 104: {
+        [self setWarriorInitAttack:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setWarriorInitDefense:[input readInt32]];
+        break;
+      }
+      case 122: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasWarriorInitWeapon) {
+          [subBuilder mergeFrom:self.warriorInitWeapon];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setWarriorInitWeapon:[subBuilder buildPartial]];
+        break;
+      }
+      case 130: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasWarriorInitArmor) {
+          [subBuilder mergeFrom:self.warriorInitArmor];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setWarriorInitArmor:[subBuilder buildPartial]];
+        break;
+      }
+      case 136: {
+        [self setArcherInitAttack:[input readInt32]];
+        break;
+      }
+      case 144: {
+        [self setArcherInitDefense:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasInitEnergy {
+  return result.hasInitEnergy;
+}
+- (int32_t) initEnergy {
+  return result.initEnergy;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setInitEnergy:(int32_t) value {
+  result.hasInitEnergy = YES;
+  result.initEnergy = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitEnergy {
+  result.hasInitEnergy = NO;
+  result.initEnergy = 0;
+  return self;
+}
+- (BOOL) hasInitStamina {
+  return result.hasInitStamina;
+}
+- (int32_t) initStamina {
+  return result.initStamina;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setInitStamina:(int32_t) value {
+  result.hasInitStamina = YES;
+  result.initStamina = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitStamina {
+  result.hasInitStamina = NO;
+  result.initStamina = 0;
+  return self;
+}
+- (BOOL) hasInitHealth {
+  return result.hasInitHealth;
+}
+- (int32_t) initHealth {
+  return result.initHealth;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setInitHealth:(int32_t) value {
+  result.hasInitHealth = YES;
+  result.initHealth = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitHealth {
+  result.hasInitHealth = NO;
+  result.initHealth = 0;
+  return self;
+}
+- (BOOL) hasTutorialQuest {
+  return result.hasTutorialQuest;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) tutorialQuest {
+  return result.tutorialQuest;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setTutorialQuest:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) value {
+  result.hasTutorialQuest = YES;
+  result.tutorialQuest = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setTutorialQuestBuilder:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builderForValue {
+  return [self setTutorialQuest:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeTutorialQuest:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) value {
+  if (result.hasTutorialQuest &&
+      result.tutorialQuest != [StartupResponseProto_TutorialConstants_FullTutorialQuestProto defaultInstance]) {
+    result.tutorialQuest =
+      [[[StartupResponseProto_TutorialConstants_FullTutorialQuestProto builderWithPrototype:result.tutorialQuest] mergeFrom:value] buildPartial];
+  } else {
+    result.tutorialQuest = value;
+  }
+  result.hasTutorialQuest = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialQuest {
+  result.hasTutorialQuest = NO;
+  result.tutorialQuest = [StartupResponseProto_TutorialConstants_FullTutorialQuestProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStructToBuild {
+  return result.hasStructToBuild;
+}
+- (int32_t) structToBuild {
+  return result.structToBuild;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setStructToBuild:(int32_t) value {
+  result.hasStructToBuild = YES;
+  result.structToBuild = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearStructToBuild {
+  result.hasStructToBuild = NO;
+  result.structToBuild = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostToInstabuildFirstStruct {
+  return result.hasDiamondCostToInstabuildFirstStruct;
+}
+- (int32_t) diamondCostToInstabuildFirstStruct {
+  return result.diamondCostToInstabuildFirstStruct;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setDiamondCostToInstabuildFirstStruct:(int32_t) value {
+  result.hasDiamondCostToInstabuildFirstStruct = YES;
+  result.diamondCostToInstabuildFirstStruct = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondCostToInstabuildFirstStruct {
+  result.hasDiamondCostToInstabuildFirstStruct = NO;
+  result.diamondCostToInstabuildFirstStruct = 0;
+  return self;
+}
+- (BOOL) hasArcherInitAttack {
+  return result.hasArcherInitAttack;
+}
+- (int32_t) archerInitAttack {
+  return result.archerInitAttack;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitAttack:(int32_t) value {
+  result.hasArcherInitAttack = YES;
+  result.archerInitAttack = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitAttack {
+  result.hasArcherInitAttack = NO;
+  result.archerInitAttack = 0;
+  return self;
+}
+- (BOOL) hasArcherInitDefense {
+  return result.hasArcherInitDefense;
+}
+- (int32_t) archerInitDefense {
+  return result.archerInitDefense;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitDefense:(int32_t) value {
+  result.hasArcherInitDefense = YES;
+  result.archerInitDefense = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitDefense {
+  result.hasArcherInitDefense = NO;
+  result.archerInitDefense = 0;
+  return self;
+}
+- (BOOL) hasArcherInitWeapon {
+  return result.hasArcherInitWeapon;
+}
+- (FullEquipProto*) archerInitWeapon {
+  return result.archerInitWeapon;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitWeapon:(FullEquipProto*) value {
+  result.hasArcherInitWeapon = YES;
+  result.archerInitWeapon = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitWeaponBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setArcherInitWeapon:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeArcherInitWeapon:(FullEquipProto*) value {
+  if (result.hasArcherInitWeapon &&
+      result.archerInitWeapon != [FullEquipProto defaultInstance]) {
+    result.archerInitWeapon =
+      [[[FullEquipProto builderWithPrototype:result.archerInitWeapon] mergeFrom:value] buildPartial];
+  } else {
+    result.archerInitWeapon = value;
+  }
+  result.hasArcherInitWeapon = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitWeapon {
+  result.hasArcherInitWeapon = NO;
+  result.archerInitWeapon = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasArcherInitArmor {
+  return result.hasArcherInitArmor;
+}
+- (FullEquipProto*) archerInitArmor {
+  return result.archerInitArmor;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitArmor:(FullEquipProto*) value {
+  result.hasArcherInitArmor = YES;
+  result.archerInitArmor = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitArmorBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setArcherInitArmor:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeArcherInitArmor:(FullEquipProto*) value {
+  if (result.hasArcherInitArmor &&
+      result.archerInitArmor != [FullEquipProto defaultInstance]) {
+    result.archerInitArmor =
+      [[[FullEquipProto builderWithPrototype:result.archerInitArmor] mergeFrom:value] buildPartial];
+  } else {
+    result.archerInitArmor = value;
+  }
+  result.hasArcherInitArmor = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitArmor {
+  result.hasArcherInitArmor = NO;
+  result.archerInitArmor = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMageInitAttack {
+  return result.hasMageInitAttack;
+}
+- (int32_t) mageInitAttack {
+  return result.mageInitAttack;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitAttack:(int32_t) value {
+  result.hasMageInitAttack = YES;
+  result.mageInitAttack = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitAttack {
+  result.hasMageInitAttack = NO;
+  result.mageInitAttack = 0;
+  return self;
+}
+- (BOOL) hasMageInitDefense {
+  return result.hasMageInitDefense;
+}
+- (int32_t) mageInitDefense {
+  return result.mageInitDefense;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitDefense:(int32_t) value {
+  result.hasMageInitDefense = YES;
+  result.mageInitDefense = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitDefense {
+  result.hasMageInitDefense = NO;
+  result.mageInitDefense = 0;
+  return self;
+}
+- (BOOL) hasMageInitWeapon {
+  return result.hasMageInitWeapon;
+}
+- (FullEquipProto*) mageInitWeapon {
+  return result.mageInitWeapon;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitWeapon:(FullEquipProto*) value {
+  result.hasMageInitWeapon = YES;
+  result.mageInitWeapon = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitWeaponBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setMageInitWeapon:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeMageInitWeapon:(FullEquipProto*) value {
+  if (result.hasMageInitWeapon &&
+      result.mageInitWeapon != [FullEquipProto defaultInstance]) {
+    result.mageInitWeapon =
+      [[[FullEquipProto builderWithPrototype:result.mageInitWeapon] mergeFrom:value] buildPartial];
+  } else {
+    result.mageInitWeapon = value;
+  }
+  result.hasMageInitWeapon = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitWeapon {
+  result.hasMageInitWeapon = NO;
+  result.mageInitWeapon = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasMageInitArmor {
+  return result.hasMageInitArmor;
+}
+- (FullEquipProto*) mageInitArmor {
+  return result.mageInitArmor;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitArmor:(FullEquipProto*) value {
+  result.hasMageInitArmor = YES;
+  result.mageInitArmor = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitArmorBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setMageInitArmor:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeMageInitArmor:(FullEquipProto*) value {
+  if (result.hasMageInitArmor &&
+      result.mageInitArmor != [FullEquipProto defaultInstance]) {
+    result.mageInitArmor =
+      [[[FullEquipProto builderWithPrototype:result.mageInitArmor] mergeFrom:value] buildPartial];
+  } else {
+    result.mageInitArmor = value;
+  }
+  result.hasMageInitArmor = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitArmor {
+  result.hasMageInitArmor = NO;
+  result.mageInitArmor = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasWarriorInitAttack {
+  return result.hasWarriorInitAttack;
+}
+- (int32_t) warriorInitAttack {
+  return result.warriorInitAttack;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitAttack:(int32_t) value {
+  result.hasWarriorInitAttack = YES;
+  result.warriorInitAttack = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitAttack {
+  result.hasWarriorInitAttack = NO;
+  result.warriorInitAttack = 0;
+  return self;
+}
+- (BOOL) hasWarriorInitDefense {
+  return result.hasWarriorInitDefense;
+}
+- (int32_t) warriorInitDefense {
+  return result.warriorInitDefense;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitDefense:(int32_t) value {
+  result.hasWarriorInitDefense = YES;
+  result.warriorInitDefense = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitDefense {
+  result.hasWarriorInitDefense = NO;
+  result.warriorInitDefense = 0;
+  return self;
+}
+- (BOOL) hasWarriorInitWeapon {
+  return result.hasWarriorInitWeapon;
+}
+- (FullEquipProto*) warriorInitWeapon {
+  return result.warriorInitWeapon;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitWeapon:(FullEquipProto*) value {
+  result.hasWarriorInitWeapon = YES;
+  result.warriorInitWeapon = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitWeaponBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setWarriorInitWeapon:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeWarriorInitWeapon:(FullEquipProto*) value {
+  if (result.hasWarriorInitWeapon &&
+      result.warriorInitWeapon != [FullEquipProto defaultInstance]) {
+    result.warriorInitWeapon =
+      [[[FullEquipProto builderWithPrototype:result.warriorInitWeapon] mergeFrom:value] buildPartial];
+  } else {
+    result.warriorInitWeapon = value;
+  }
+  result.hasWarriorInitWeapon = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitWeapon {
+  result.hasWarriorInitWeapon = NO;
+  result.warriorInitWeapon = [FullEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasWarriorInitArmor {
+  return result.hasWarriorInitArmor;
+}
+- (FullEquipProto*) warriorInitArmor {
+  return result.warriorInitArmor;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitArmor:(FullEquipProto*) value {
+  result.hasWarriorInitArmor = YES;
+  result.warriorInitArmor = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitArmorBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setWarriorInitArmor:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeWarriorInitArmor:(FullEquipProto*) value {
+  if (result.hasWarriorInitArmor &&
+      result.warriorInitArmor != [FullEquipProto defaultInstance]) {
+    result.warriorInitArmor =
+      [[[FullEquipProto builderWithPrototype:result.warriorInitArmor] mergeFrom:value] buildPartial];
+  } else {
+    result.warriorInitArmor = value;
+  }
+  result.hasWarriorInitArmor = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitArmor {
+  result.hasWarriorInitArmor = NO;
+  result.warriorInitArmor = [FullEquipProto defaultInstance];
+  return self;
+}
+@end
+
 @interface StartupResponseProto_Builder()
 @property (retain) StartupResponseProto* result;
 @end
@@ -4703,6 +6675,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (other.hasStartupConstants) {
     [self mergeStartupConstants:other.startupConstants];
+  }
+  if (other.hasTutorialConstants) {
+    [self mergeTutorialConstants:other.tutorialConstants];
   }
   if (other.mutableCitiesAvailableToUserList.count > 0) {
     if (result.mutableCitiesAvailableToUserList == nil) {
@@ -4907,6 +6882,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
         [self setExperienceRequiredForCurrentLevel:[input readInt32]];
         break;
       }
+      case 146: {
+        StartupResponseProto_TutorialConstants_Builder* subBuilder = [StartupResponseProto_TutorialConstants builder];
+        if (self.hasTutorialConstants) {
+          [subBuilder mergeFrom:self.tutorialConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setTutorialConstants:[subBuilder buildPartial]];
+        break;
+      }
     }
   }
 }
@@ -5000,6 +6984,36 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (StartupResponseProto_Builder*) clearStartupConstants {
   result.hasStartupConstants = NO;
   result.startupConstants = [StartupResponseProto_StartupConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasTutorialConstants {
+  return result.hasTutorialConstants;
+}
+- (StartupResponseProto_TutorialConstants*) tutorialConstants {
+  return result.tutorialConstants;
+}
+- (StartupResponseProto_Builder*) setTutorialConstants:(StartupResponseProto_TutorialConstants*) value {
+  result.hasTutorialConstants = YES;
+  result.tutorialConstants = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setTutorialConstantsBuilder:(StartupResponseProto_TutorialConstants_Builder*) builderForValue {
+  return [self setTutorialConstants:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeTutorialConstants:(StartupResponseProto_TutorialConstants*) value {
+  if (result.hasTutorialConstants &&
+      result.tutorialConstants != [StartupResponseProto_TutorialConstants defaultInstance]) {
+    result.tutorialConstants =
+      [[[StartupResponseProto_TutorialConstants builderWithPrototype:result.tutorialConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.tutorialConstants = value;
+  }
+  result.hasTutorialConstants = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearTutorialConstants {
+  result.hasTutorialConstants = NO;
+  result.tutorialConstants = [StartupResponseProto_TutorialConstants defaultInstance];
   return self;
 }
 - (NSArray*) citiesAvailableToUserList {
@@ -5359,7 +7373,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property (retain) NSString* udid;
 @property (retain) NSString* name;
 @property UserType type;
-@property (retain) NSMutableArray* mutableStructuresList;
+@property (retain) FullUserStructureProto* structure;
 @property (retain) LocationProto* userLocation;
 @property (retain) NSString* referrerCode;
 @property (retain) NSString* deviceToken;
@@ -5393,7 +7407,13 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasType_ = !!value;
 }
 @synthesize type;
-@synthesize mutableStructuresList;
+- (BOOL) hasStructure {
+  return !!hasStructure_;
+}
+- (void) setHasStructure:(BOOL) value {
+  hasStructure_ = !!value;
+}
+@synthesize structure;
 - (BOOL) hasUserLocation {
   return !!hasUserLocation_;
 }
@@ -5453,7 +7473,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
-  self.mutableStructuresList = nil;
+  self.structure = nil;
   self.userLocation = nil;
   self.referrerCode = nil;
   self.deviceToken = nil;
@@ -5464,6 +7484,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.udid = @"";
     self.name = @"";
     self.type = UserTypeGoodWarrior;
+    self.structure = [FullUserStructureProto defaultInstance];
     self.userLocation = [LocationProto defaultInstance];
     self.referrerCode = @"";
     self.deviceToken = @"";
@@ -5487,13 +7508,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto*) defaultInstance {
   return defaultUserCreateRequestProtoInstance;
 }
-- (NSArray*) structuresList {
-  return mutableStructuresList;
-}
-- (FullUserStructureProto*) structuresAtIndex:(int32_t) index {
-  id value = [mutableStructuresList objectAtIndex:index];
-  return value;
-}
 - (BOOL) isInitialized {
   if (!self.hasUdid) {
     return NO;
@@ -5502,6 +7516,9 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
     return NO;
   }
   if (!self.hasType) {
+    return NO;
+  }
+  if (!self.hasStructure) {
     return NO;
   }
   if (!self.hasAttack) {
@@ -5519,10 +7536,8 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (!self.hasStamina) {
     return NO;
   }
-  for (FullUserStructureProto* element in self.structuresList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
+  if (!self.structure.isInitialized) {
+    return NO;
   }
   if (self.hasUserLocation) {
     if (!self.userLocation.isInitialized) {
@@ -5541,8 +7556,8 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasType) {
     [output writeEnum:3 value:self.type];
   }
-  for (FullUserStructureProto* element in self.structuresList) {
-    [output writeMessage:5 value:element];
+  if (self.hasStructure) {
+    [output writeMessage:5 value:self.structure];
   }
   if (self.hasUserLocation) {
     [output writeMessage:6 value:self.userLocation];
@@ -5586,8 +7601,8 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasType) {
     size += computeEnumSize(3, self.type);
   }
-  for (FullUserStructureProto* element in self.structuresList) {
-    size += computeMessageSize(5, element);
+  if (self.hasStructure) {
+    size += computeMessageSize(5, self.structure);
   }
   if (self.hasUserLocation) {
     size += computeMessageSize(6, self.userLocation);
@@ -5697,11 +7712,8 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasType) {
     [self setType:other.type];
   }
-  if (other.mutableStructuresList.count > 0) {
-    if (result.mutableStructuresList == nil) {
-      result.mutableStructuresList = [NSMutableArray array];
-    }
-    [result.mutableStructuresList addObjectsFromArray:other.mutableStructuresList];
+  if (other.hasStructure) {
+    [self mergeStructure:other.structure];
   }
   if (other.hasUserLocation) {
     [self mergeUserLocation:other.userLocation];
@@ -5767,8 +7779,11 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 42: {
         FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
+        if (self.hasStructure) {
+          [subBuilder mergeFrom:self.structure];
+        }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addStructures:[subBuilder buildPartial]];
+        [self setStructure:[subBuilder buildPartial]];
         break;
       }
       case 50: {
@@ -5859,33 +7874,34 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   result.type = UserTypeGoodWarrior;
   return self;
 }
-- (NSArray*) structuresList {
-  if (result.mutableStructuresList == nil) { return [NSArray array]; }
-  return result.mutableStructuresList;
+- (BOOL) hasStructure {
+  return result.hasStructure;
 }
-- (FullUserStructureProto*) structuresAtIndex:(int32_t) index {
-  return [result structuresAtIndex:index];
+- (FullUserStructureProto*) structure {
+  return result.structure;
 }
-- (UserCreateRequestProto_Builder*) replaceStructuresAtIndex:(int32_t) index with:(FullUserStructureProto*) value {
-  [result.mutableStructuresList replaceObjectAtIndex:index withObject:value];
+- (UserCreateRequestProto_Builder*) setStructure:(FullUserStructureProto*) value {
+  result.hasStructure = YES;
+  result.structure = value;
   return self;
 }
-- (UserCreateRequestProto_Builder*) addAllStructures:(NSArray*) values {
-  if (result.mutableStructuresList == nil) {
-    result.mutableStructuresList = [NSMutableArray array];
+- (UserCreateRequestProto_Builder*) setStructureBuilder:(FullUserStructureProto_Builder*) builderForValue {
+  return [self setStructure:[builderForValue build]];
+}
+- (UserCreateRequestProto_Builder*) mergeStructure:(FullUserStructureProto*) value {
+  if (result.hasStructure &&
+      result.structure != [FullUserStructureProto defaultInstance]) {
+    result.structure =
+      [[[FullUserStructureProto builderWithPrototype:result.structure] mergeFrom:value] buildPartial];
+  } else {
+    result.structure = value;
   }
-  [result.mutableStructuresList addObjectsFromArray:values];
+  result.hasStructure = YES;
   return self;
 }
-- (UserCreateRequestProto_Builder*) clearStructuresList {
-  result.mutableStructuresList = nil;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) addStructures:(FullUserStructureProto*) value {
-  if (result.mutableStructuresList == nil) {
-    result.mutableStructuresList = [NSMutableArray array];
-  }
-  [result.mutableStructuresList addObject:value];
+- (UserCreateRequestProto_Builder*) clearStructure {
+  result.hasStructure = NO;
+  result.structure = [FullUserStructureProto defaultInstance];
   return self;
 }
 - (BOOL) hasUserLocation {
@@ -13240,7 +15256,7 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 @property LevelUpResponseProto_LevelUpStatus status;
 @property int32_t newNextLevel;
 @property int32_t experienceRequiredForNewNextLevel;
-@property (retain) NSMutableArray* mutableCitiesAvailableToUserList;
+@property (retain) NSMutableArray* mutableCitiesNewlyAvailableToUserList;
 @property (retain) NSMutableArray* mutableNewlyEquippableAvailableInArmoryList;
 @end
 
@@ -13274,11 +15290,11 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
   hasExperienceRequiredForNewNextLevel_ = !!value;
 }
 @synthesize experienceRequiredForNewNextLevel;
-@synthesize mutableCitiesAvailableToUserList;
+@synthesize mutableCitiesNewlyAvailableToUserList;
 @synthesize mutableNewlyEquippableAvailableInArmoryList;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableCitiesAvailableToUserList = nil;
+  self.mutableCitiesNewlyAvailableToUserList = nil;
   self.mutableNewlyEquippableAvailableInArmoryList = nil;
   [super dealloc];
 }
@@ -13303,11 +15319,11 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
 - (LevelUpResponseProto*) defaultInstance {
   return defaultLevelUpResponseProtoInstance;
 }
-- (NSArray*) citiesAvailableToUserList {
-  return mutableCitiesAvailableToUserList;
+- (NSArray*) citiesNewlyAvailableToUserList {
+  return mutableCitiesNewlyAvailableToUserList;
 }
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index {
-  id value = [mutableCitiesAvailableToUserList objectAtIndex:index];
+- (FullCityProto*) citiesNewlyAvailableToUserAtIndex:(int32_t) index {
+  id value = [mutableCitiesNewlyAvailableToUserList objectAtIndex:index];
   return value;
 }
 - (NSArray*) newlyEquippableAvailableInArmoryList {
@@ -13327,7 +15343,7 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   if (!self.sender.isInitialized) {
     return NO;
   }
-  for (FullCityProto* element in self.citiesAvailableToUserList) {
+  for (FullCityProto* element in self.citiesNewlyAvailableToUserList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -13352,7 +15368,7 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   if (self.hasExperienceRequiredForNewNextLevel) {
     [output writeInt32:4 value:self.experienceRequiredForNewNextLevel];
   }
-  for (FullCityProto* element in self.citiesAvailableToUserList) {
+  for (FullCityProto* element in self.citiesNewlyAvailableToUserList) {
     [output writeMessage:5 value:element];
   }
   for (FullEquipProto* element in self.newlyEquippableAvailableInArmoryList) {
@@ -13379,7 +15395,7 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   if (self.hasExperienceRequiredForNewNextLevel) {
     size += computeInt32Size(4, self.experienceRequiredForNewNextLevel);
   }
-  for (FullCityProto* element in self.citiesAvailableToUserList) {
+  for (FullCityProto* element in self.citiesNewlyAvailableToUserList) {
     size += computeMessageSize(5, element);
   }
   for (FullEquipProto* element in self.newlyEquippableAvailableInArmoryList) {
@@ -13482,11 +15498,11 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   if (other.hasExperienceRequiredForNewNextLevel) {
     [self setExperienceRequiredForNewNextLevel:other.experienceRequiredForNewNextLevel];
   }
-  if (other.mutableCitiesAvailableToUserList.count > 0) {
-    if (result.mutableCitiesAvailableToUserList == nil) {
-      result.mutableCitiesAvailableToUserList = [NSMutableArray array];
+  if (other.mutableCitiesNewlyAvailableToUserList.count > 0) {
+    if (result.mutableCitiesNewlyAvailableToUserList == nil) {
+      result.mutableCitiesNewlyAvailableToUserList = [NSMutableArray array];
     }
-    [result.mutableCitiesAvailableToUserList addObjectsFromArray:other.mutableCitiesAvailableToUserList];
+    [result.mutableCitiesNewlyAvailableToUserList addObjectsFromArray:other.mutableCitiesNewlyAvailableToUserList];
   }
   if (other.mutableNewlyEquippableAvailableInArmoryList.count > 0) {
     if (result.mutableNewlyEquippableAvailableInArmoryList == nil) {
@@ -13544,7 +15560,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
       case 42: {
         FullCityProto_Builder* subBuilder = [FullCityProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addCitiesAvailableToUser:[subBuilder buildPartial]];
+        [self addCitiesNewlyAvailableToUser:[subBuilder buildPartial]];
         break;
       }
       case 50: {
@@ -13634,33 +15650,33 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   result.experienceRequiredForNewNextLevel = 0;
   return self;
 }
-- (NSArray*) citiesAvailableToUserList {
-  if (result.mutableCitiesAvailableToUserList == nil) { return [NSArray array]; }
-  return result.mutableCitiesAvailableToUserList;
+- (NSArray*) citiesNewlyAvailableToUserList {
+  if (result.mutableCitiesNewlyAvailableToUserList == nil) { return [NSArray array]; }
+  return result.mutableCitiesNewlyAvailableToUserList;
 }
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index {
-  return [result citiesAvailableToUserAtIndex:index];
+- (FullCityProto*) citiesNewlyAvailableToUserAtIndex:(int32_t) index {
+  return [result citiesNewlyAvailableToUserAtIndex:index];
 }
-- (LevelUpResponseProto_Builder*) replaceCitiesAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value {
-  [result.mutableCitiesAvailableToUserList replaceObjectAtIndex:index withObject:value];
+- (LevelUpResponseProto_Builder*) replaceCitiesNewlyAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value {
+  [result.mutableCitiesNewlyAvailableToUserList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (LevelUpResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values {
-  if (result.mutableCitiesAvailableToUserList == nil) {
-    result.mutableCitiesAvailableToUserList = [NSMutableArray array];
+- (LevelUpResponseProto_Builder*) addAllCitiesNewlyAvailableToUser:(NSArray*) values {
+  if (result.mutableCitiesNewlyAvailableToUserList == nil) {
+    result.mutableCitiesNewlyAvailableToUserList = [NSMutableArray array];
   }
-  [result.mutableCitiesAvailableToUserList addObjectsFromArray:values];
+  [result.mutableCitiesNewlyAvailableToUserList addObjectsFromArray:values];
   return self;
 }
-- (LevelUpResponseProto_Builder*) clearCitiesAvailableToUserList {
-  result.mutableCitiesAvailableToUserList = nil;
+- (LevelUpResponseProto_Builder*) clearCitiesNewlyAvailableToUserList {
+  result.mutableCitiesNewlyAvailableToUserList = nil;
   return self;
 }
-- (LevelUpResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value {
-  if (result.mutableCitiesAvailableToUserList == nil) {
-    result.mutableCitiesAvailableToUserList = [NSMutableArray array];
+- (LevelUpResponseProto_Builder*) addCitiesNewlyAvailableToUser:(FullCityProto*) value {
+  if (result.mutableCitiesNewlyAvailableToUserList == nil) {
+    result.mutableCitiesNewlyAvailableToUserList = [NSMutableArray array];
   }
-  [result.mutableCitiesAvailableToUserList addObject:value];
+  [result.mutableCitiesNewlyAvailableToUserList addObject:value];
   return self;
 }
 - (NSArray*) newlyEquippableAvailableInArmoryList {
@@ -21241,7 +23257,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 
 @interface QuestRedeemResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) NSMutableArray* mutableUpdatedAvailableQuestsList;
+@property (retain) NSMutableArray* mutableNewlyAvailableQuestsList;
 @property QuestRedeemResponseProto_QuestRedeemStatus status;
 @end
 
@@ -21254,7 +23270,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
   hasSender_ = !!value;
 }
 @synthesize sender;
-@synthesize mutableUpdatedAvailableQuestsList;
+@synthesize mutableNewlyAvailableQuestsList;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -21264,7 +23280,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 @synthesize status;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableUpdatedAvailableQuestsList = nil;
+  self.mutableNewlyAvailableQuestsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -21286,11 +23302,11 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
 - (QuestRedeemResponseProto*) defaultInstance {
   return defaultQuestRedeemResponseProtoInstance;
 }
-- (NSArray*) updatedAvailableQuestsList {
-  return mutableUpdatedAvailableQuestsList;
+- (NSArray*) newlyAvailableQuestsList {
+  return mutableNewlyAvailableQuestsList;
 }
-- (FullQuestProto*) updatedAvailableQuestsAtIndex:(int32_t) index {
-  id value = [mutableUpdatedAvailableQuestsList objectAtIndex:index];
+- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index {
+  id value = [mutableNewlyAvailableQuestsList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -21303,7 +23319,7 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (!self.sender.isInitialized) {
     return NO;
   }
-  for (FullQuestProto* element in self.updatedAvailableQuestsList) {
+  for (FullQuestProto* element in self.newlyAvailableQuestsList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -21314,7 +23330,7 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  for (FullQuestProto* element in self.updatedAvailableQuestsList) {
+  for (FullQuestProto* element in self.newlyAvailableQuestsList) {
     [output writeMessage:2 value:element];
   }
   if (self.hasStatus) {
@@ -21332,7 +23348,7 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  for (FullQuestProto* element in self.updatedAvailableQuestsList) {
+  for (FullQuestProto* element in self.newlyAvailableQuestsList) {
     size += computeMessageSize(2, element);
   }
   if (self.hasStatus) {
@@ -21426,11 +23442,11 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.mutableUpdatedAvailableQuestsList.count > 0) {
-    if (result.mutableUpdatedAvailableQuestsList == nil) {
-      result.mutableUpdatedAvailableQuestsList = [NSMutableArray array];
+  if (other.mutableNewlyAvailableQuestsList.count > 0) {
+    if (result.mutableNewlyAvailableQuestsList == nil) {
+      result.mutableNewlyAvailableQuestsList = [NSMutableArray array];
     }
-    [result.mutableUpdatedAvailableQuestsList addObjectsFromArray:other.mutableUpdatedAvailableQuestsList];
+    [result.mutableNewlyAvailableQuestsList addObjectsFromArray:other.mutableNewlyAvailableQuestsList];
   }
   if (other.hasStatus) {
     [self setStatus:other.status];
@@ -21468,7 +23484,7 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
       case 18: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUpdatedAvailableQuests:[subBuilder buildPartial]];
+        [self addNewlyAvailableQuests:[subBuilder buildPartial]];
         break;
       }
       case 24: {
@@ -21513,33 +23529,33 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (NSArray*) updatedAvailableQuestsList {
-  if (result.mutableUpdatedAvailableQuestsList == nil) { return [NSArray array]; }
-  return result.mutableUpdatedAvailableQuestsList;
+- (NSArray*) newlyAvailableQuestsList {
+  if (result.mutableNewlyAvailableQuestsList == nil) { return [NSArray array]; }
+  return result.mutableNewlyAvailableQuestsList;
 }
-- (FullQuestProto*) updatedAvailableQuestsAtIndex:(int32_t) index {
-  return [result updatedAvailableQuestsAtIndex:index];
+- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index {
+  return [result newlyAvailableQuestsAtIndex:index];
 }
-- (QuestRedeemResponseProto_Builder*) replaceUpdatedAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
-  [result.mutableUpdatedAvailableQuestsList replaceObjectAtIndex:index withObject:value];
+- (QuestRedeemResponseProto_Builder*) replaceNewlyAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableNewlyAvailableQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (QuestRedeemResponseProto_Builder*) addAllUpdatedAvailableQuests:(NSArray*) values {
-  if (result.mutableUpdatedAvailableQuestsList == nil) {
-    result.mutableUpdatedAvailableQuestsList = [NSMutableArray array];
+- (QuestRedeemResponseProto_Builder*) addAllNewlyAvailableQuests:(NSArray*) values {
+  if (result.mutableNewlyAvailableQuestsList == nil) {
+    result.mutableNewlyAvailableQuestsList = [NSMutableArray array];
   }
-  [result.mutableUpdatedAvailableQuestsList addObjectsFromArray:values];
+  [result.mutableNewlyAvailableQuestsList addObjectsFromArray:values];
   return self;
 }
-- (QuestRedeemResponseProto_Builder*) clearUpdatedAvailableQuestsList {
-  result.mutableUpdatedAvailableQuestsList = nil;
+- (QuestRedeemResponseProto_Builder*) clearNewlyAvailableQuestsList {
+  result.mutableNewlyAvailableQuestsList = nil;
   return self;
 }
-- (QuestRedeemResponseProto_Builder*) addUpdatedAvailableQuests:(FullQuestProto*) value {
-  if (result.mutableUpdatedAvailableQuestsList == nil) {
-    result.mutableUpdatedAvailableQuestsList = [NSMutableArray array];
+- (QuestRedeemResponseProto_Builder*) addNewlyAvailableQuests:(FullQuestProto*) value {
+  if (result.mutableNewlyAvailableQuestsList == nil) {
+    result.mutableNewlyAvailableQuestsList = [NSMutableArray array];
   }
-  [result.mutableUpdatedAvailableQuestsList addObject:value];
+  [result.mutableNewlyAvailableQuestsList addObject:value];
   return self;
 }
 - (BOOL) hasStatus {

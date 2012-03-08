@@ -210,6 +210,10 @@
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_Builder;
+@class StartupResponseProto_TutorialConstants;
+@class StartupResponseProto_TutorialConstants_Builder;
+@class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
+@class StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder;
 @class TaskActionRequestProto;
 @class TaskActionRequestProto_Builder;
 @class TaskActionResponseProto;
@@ -1334,12 +1338,14 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
+  BOOL hasTutorialConstants_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
+  StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableReferralNotificationsList;
@@ -1358,12 +1364,14 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasStartupStatus;
 - (BOOL) hasUpdateStatus;
 - (BOOL) hasStartupConstants;
+- (BOOL) hasTutorialConstants;
 - (BOOL) hasExperienceRequiredForNextLevel;
 - (BOOL) hasExperienceRequiredForCurrentLevel;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
 @property (readonly, retain) StartupResponseProto_StartupConstants* startupConstants;
+@property (readonly, retain) StartupResponseProto_TutorialConstants* tutorialConstants;
 @property (readonly) int32_t experienceRequiredForNextLevel;
 @property (readonly) int32_t experienceRequiredForCurrentLevel;
 - (NSArray*) citiesAvailableToUserList;
@@ -1707,6 +1715,419 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxItemUsePerBattle;
 @end
 
+@interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
+@private
+  BOOL hasInitEnergy_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasInitHealth_:1;
+  BOOL hasStructToBuild_:1;
+  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
+  BOOL hasArcherInitAttack_:1;
+  BOOL hasArcherInitDefense_:1;
+  BOOL hasWarriorInitDefense_:1;
+  BOOL hasMageInitAttack_:1;
+  BOOL hasMageInitDefense_:1;
+  BOOL hasWarriorInitAttack_:1;
+  BOOL hasWarriorInitArmor_:1;
+  BOOL hasWarriorInitWeapon_:1;
+  BOOL hasMageInitArmor_:1;
+  BOOL hasMageInitWeapon_:1;
+  BOOL hasArcherInitArmor_:1;
+  BOOL hasArcherInitWeapon_:1;
+  BOOL hasTutorialQuest_:1;
+  int32_t initEnergy;
+  int32_t initStamina;
+  int32_t initHealth;
+  int32_t structToBuild;
+  int32_t diamondCostToInstabuildFirstStruct;
+  int32_t archerInitAttack;
+  int32_t archerInitDefense;
+  int32_t warriorInitDefense;
+  int32_t mageInitAttack;
+  int32_t mageInitDefense;
+  int32_t warriorInitAttack;
+  FullEquipProto* warriorInitArmor;
+  FullEquipProto* warriorInitWeapon;
+  FullEquipProto* mageInitArmor;
+  FullEquipProto* mageInitWeapon;
+  FullEquipProto* archerInitArmor;
+  FullEquipProto* archerInitWeapon;
+  StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
+}
+- (BOOL) hasInitEnergy;
+- (BOOL) hasInitStamina;
+- (BOOL) hasInitHealth;
+- (BOOL) hasTutorialQuest;
+- (BOOL) hasStructToBuild;
+- (BOOL) hasDiamondCostToInstabuildFirstStruct;
+- (BOOL) hasArcherInitAttack;
+- (BOOL) hasArcherInitDefense;
+- (BOOL) hasArcherInitWeapon;
+- (BOOL) hasArcherInitArmor;
+- (BOOL) hasMageInitAttack;
+- (BOOL) hasMageInitDefense;
+- (BOOL) hasMageInitWeapon;
+- (BOOL) hasMageInitArmor;
+- (BOOL) hasWarriorInitAttack;
+- (BOOL) hasWarriorInitDefense;
+- (BOOL) hasWarriorInitWeapon;
+- (BOOL) hasWarriorInitArmor;
+@property (readonly) int32_t initEnergy;
+@property (readonly) int32_t initStamina;
+@property (readonly) int32_t initHealth;
+@property (readonly, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
+@property (readonly) int32_t structToBuild;
+@property (readonly) int32_t diamondCostToInstabuildFirstStruct;
+@property (readonly) int32_t archerInitAttack;
+@property (readonly) int32_t archerInitDefense;
+@property (readonly, retain) FullEquipProto* archerInitWeapon;
+@property (readonly, retain) FullEquipProto* archerInitArmor;
+@property (readonly) int32_t mageInitAttack;
+@property (readonly) int32_t mageInitDefense;
+@property (readonly, retain) FullEquipProto* mageInitWeapon;
+@property (readonly, retain) FullEquipProto* mageInitArmor;
+@property (readonly) int32_t warriorInitAttack;
+@property (readonly) int32_t warriorInitDefense;
+@property (readonly, retain) FullEquipProto* warriorInitWeapon;
+@property (readonly, retain) FullEquipProto* warriorInitArmor;
+
++ (StartupResponseProto_TutorialConstants*) defaultInstance;
+- (StartupResponseProto_TutorialConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_TutorialConstants_Builder*) builder;
++ (StartupResponseProto_TutorialConstants_Builder*) builder;
++ (StartupResponseProto_TutorialConstants_Builder*) builderWithPrototype:(StartupResponseProto_TutorialConstants*) prototype;
+
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_TutorialConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_TutorialConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_TutorialConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_TutorialConstants_FullTutorialQuestProto : PBGeneratedMessage {
+@private
+  BOOL hasFirstDefeatTypeJobBattleExpGain_:1;
+  BOOL hasFirstDefeatTypeJobBattleCoinGain_:1;
+  BOOL hasFirstTaskCompleteCoinGain_:1;
+  BOOL hasExpGained_:1;
+  BOOL hasCoinsGained_:1;
+  BOOL hasAssetNumWithinCity_:1;
+  BOOL hasBadInProgress_:1;
+  BOOL hasGoodInProgress_:1;
+  BOOL hasBadDoneResponse_:1;
+  BOOL hasGoodDoneResponse_:1;
+  BOOL hasBadDescription_:1;
+  BOOL hasGoodDescription_:1;
+  BOOL hasBadName_:1;
+  BOOL hasGoodName_:1;
+  BOOL hasFirstTaskGood_:1;
+  BOOL hasFirstTaskBad_:1;
+  BOOL hasFirstDefeatTypeJobBattleLootAmulet_:1;
+  int32_t firstDefeatTypeJobBattleExpGain;
+  int32_t firstDefeatTypeJobBattleCoinGain;
+  int32_t firstTaskCompleteCoinGain;
+  int32_t expGained;
+  int32_t coinsGained;
+  int32_t assetNumWithinCity;
+  NSString* badInProgress;
+  NSString* goodInProgress;
+  NSString* badDoneResponse;
+  NSString* goodDoneResponse;
+  NSString* badDescription;
+  NSString* goodDescription;
+  NSString* badName;
+  NSString* goodName;
+  FullTaskProto* firstTaskGood;
+  FullTaskProto* firstTaskBad;
+  FullEquipProto* firstDefeatTypeJobBattleLootAmulet;
+}
+- (BOOL) hasGoodName;
+- (BOOL) hasBadName;
+- (BOOL) hasGoodDescription;
+- (BOOL) hasBadDescription;
+- (BOOL) hasGoodDoneResponse;
+- (BOOL) hasBadDoneResponse;
+- (BOOL) hasGoodInProgress;
+- (BOOL) hasBadInProgress;
+- (BOOL) hasAssetNumWithinCity;
+- (BOOL) hasCoinsGained;
+- (BOOL) hasExpGained;
+- (BOOL) hasFirstTaskGood;
+- (BOOL) hasFirstTaskBad;
+- (BOOL) hasFirstTaskCompleteCoinGain;
+- (BOOL) hasFirstDefeatTypeJobBattleCoinGain;
+- (BOOL) hasFirstDefeatTypeJobBattleExpGain;
+- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet;
+@property (readonly, retain) NSString* goodName;
+@property (readonly, retain) NSString* badName;
+@property (readonly, retain) NSString* goodDescription;
+@property (readonly, retain) NSString* badDescription;
+@property (readonly, retain) NSString* goodDoneResponse;
+@property (readonly, retain) NSString* badDoneResponse;
+@property (readonly, retain) NSString* goodInProgress;
+@property (readonly, retain) NSString* badInProgress;
+@property (readonly) int32_t assetNumWithinCity;
+@property (readonly) int32_t coinsGained;
+@property (readonly) int32_t expGained;
+@property (readonly, retain) FullTaskProto* firstTaskGood;
+@property (readonly, retain) FullTaskProto* firstTaskBad;
+@property (readonly) int32_t firstTaskCompleteCoinGain;
+@property (readonly) int32_t firstDefeatTypeJobBattleCoinGain;
+@property (readonly) int32_t firstDefeatTypeJobBattleExpGain;
+@property (readonly, retain) FullEquipProto* firstDefeatTypeJobBattleLootAmulet;
+
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builder;
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builder;
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builderWithPrototype:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) prototype;
+
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_TutorialConstants_FullTutorialQuestProto* result;
+}
+
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) defaultInstance;
+
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clear;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clone;
+
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) build;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) buildPartial;
+
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFrom:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) other;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasGoodName;
+- (NSString*) goodName;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodName:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodName;
+
+- (BOOL) hasBadName;
+- (NSString*) badName;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadName:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadName;
+
+- (BOOL) hasGoodDescription;
+- (NSString*) goodDescription;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodDescription:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodDescription;
+
+- (BOOL) hasBadDescription;
+- (NSString*) badDescription;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadDescription:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadDescription;
+
+- (BOOL) hasGoodDoneResponse;
+- (NSString*) goodDoneResponse;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodDoneResponse:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodDoneResponse;
+
+- (BOOL) hasBadDoneResponse;
+- (NSString*) badDoneResponse;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadDoneResponse:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadDoneResponse;
+
+- (BOOL) hasGoodInProgress;
+- (NSString*) goodInProgress;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodInProgress:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodInProgress;
+
+- (BOOL) hasBadInProgress;
+- (NSString*) badInProgress;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadInProgress:(NSString*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadInProgress;
+
+- (BOOL) hasAssetNumWithinCity;
+- (int32_t) assetNumWithinCity;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setAssetNumWithinCity:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearAssetNumWithinCity;
+
+- (BOOL) hasCoinsGained;
+- (int32_t) coinsGained;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setCoinsGained:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearCoinsGained;
+
+- (BOOL) hasExpGained;
+- (int32_t) expGained;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setExpGained:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearExpGained;
+
+- (BOOL) hasFirstTaskGood;
+- (FullTaskProto*) firstTaskGood;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGood:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskGoodBuilder:(FullTaskProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskGood:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskGood;
+
+- (BOOL) hasFirstTaskBad;
+- (FullTaskProto*) firstTaskBad;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBad:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskBadBuilder:(FullTaskProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstTaskBad:(FullTaskProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskBad;
+
+- (BOOL) hasFirstTaskCompleteCoinGain;
+- (int32_t) firstTaskCompleteCoinGain;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstTaskCompleteCoinGain:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstTaskCompleteCoinGain;
+
+- (BOOL) hasFirstDefeatTypeJobBattleCoinGain;
+- (int32_t) firstDefeatTypeJobBattleCoinGain;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleCoinGain:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleCoinGain;
+
+- (BOOL) hasFirstDefeatTypeJobBattleExpGain;
+- (int32_t) firstDefeatTypeJobBattleExpGain;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleExpGain:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleExpGain;
+
+- (BOOL) hasFirstDefeatTypeJobBattleLootAmulet;
+- (FullEquipProto*) firstDefeatTypeJobBattleLootAmulet;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setFirstDefeatTypeJobBattleLootAmuletBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeFirstDefeatTypeJobBattleLootAmulet:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearFirstDefeatTypeJobBattleLootAmulet;
+@end
+
+@interface StartupResponseProto_TutorialConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_TutorialConstants* result;
+}
+
+- (StartupResponseProto_TutorialConstants*) defaultInstance;
+
+- (StartupResponseProto_TutorialConstants_Builder*) clear;
+- (StartupResponseProto_TutorialConstants_Builder*) clone;
+
+- (StartupResponseProto_TutorialConstants*) build;
+- (StartupResponseProto_TutorialConstants*) buildPartial;
+
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFrom:(StartupResponseProto_TutorialConstants*) other;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasInitEnergy;
+- (int32_t) initEnergy;
+- (StartupResponseProto_TutorialConstants_Builder*) setInitEnergy:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitEnergy;
+
+- (BOOL) hasInitStamina;
+- (int32_t) initStamina;
+- (StartupResponseProto_TutorialConstants_Builder*) setInitStamina:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitStamina;
+
+- (BOOL) hasInitHealth;
+- (int32_t) initHealth;
+- (StartupResponseProto_TutorialConstants_Builder*) setInitHealth:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitHealth;
+
+- (BOOL) hasTutorialQuest;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) tutorialQuest;
+- (StartupResponseProto_TutorialConstants_Builder*) setTutorialQuest:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setTutorialQuestBuilder:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeTutorialQuest:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearTutorialQuest;
+
+- (BOOL) hasStructToBuild;
+- (int32_t) structToBuild;
+- (StartupResponseProto_TutorialConstants_Builder*) setStructToBuild:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearStructToBuild;
+
+- (BOOL) hasDiamondCostToInstabuildFirstStruct;
+- (int32_t) diamondCostToInstabuildFirstStruct;
+- (StartupResponseProto_TutorialConstants_Builder*) setDiamondCostToInstabuildFirstStruct:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondCostToInstabuildFirstStruct;
+
+- (BOOL) hasArcherInitAttack;
+- (int32_t) archerInitAttack;
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitAttack:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitAttack;
+
+- (BOOL) hasArcherInitDefense;
+- (int32_t) archerInitDefense;
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitDefense:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitDefense;
+
+- (BOOL) hasArcherInitWeapon;
+- (FullEquipProto*) archerInitWeapon;
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitWeapon:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitWeaponBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeArcherInitWeapon:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitWeapon;
+
+- (BOOL) hasArcherInitArmor;
+- (FullEquipProto*) archerInitArmor;
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitArmor:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setArcherInitArmorBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeArcherInitArmor:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearArcherInitArmor;
+
+- (BOOL) hasMageInitAttack;
+- (int32_t) mageInitAttack;
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitAttack:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitAttack;
+
+- (BOOL) hasMageInitDefense;
+- (int32_t) mageInitDefense;
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitDefense:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitDefense;
+
+- (BOOL) hasMageInitWeapon;
+- (FullEquipProto*) mageInitWeapon;
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitWeapon:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitWeaponBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeMageInitWeapon:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitWeapon;
+
+- (BOOL) hasMageInitArmor;
+- (FullEquipProto*) mageInitArmor;
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitArmor:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setMageInitArmorBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeMageInitArmor:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearMageInitArmor;
+
+- (BOOL) hasWarriorInitAttack;
+- (int32_t) warriorInitAttack;
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitAttack:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitAttack;
+
+- (BOOL) hasWarriorInitDefense;
+- (int32_t) warriorInitDefense;
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitDefense:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitDefense;
+
+- (BOOL) hasWarriorInitWeapon;
+- (FullEquipProto*) warriorInitWeapon;
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitWeapon:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitWeaponBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeWarriorInitWeapon:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitWeapon;
+
+- (BOOL) hasWarriorInitArmor;
+- (FullEquipProto*) warriorInitArmor;
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitArmor:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitArmorBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeWarriorInitArmor:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitArmor;
+@end
+
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
   StartupResponseProto* result;
@@ -1747,6 +2168,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_Builder*) setStartupConstantsBuilder:(StartupResponseProto_StartupConstants_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeStartupConstants:(StartupResponseProto_StartupConstants*) value;
 - (StartupResponseProto_Builder*) clearStartupConstants;
+
+- (BOOL) hasTutorialConstants;
+- (StartupResponseProto_TutorialConstants*) tutorialConstants;
+- (StartupResponseProto_Builder*) setTutorialConstants:(StartupResponseProto_TutorialConstants*) value;
+- (StartupResponseProto_Builder*) setTutorialConstantsBuilder:(StartupResponseProto_TutorialConstants_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeTutorialConstants:(StartupResponseProto_TutorialConstants*) value;
+- (StartupResponseProto_Builder*) clearTutorialConstants;
 
 - (NSArray*) citiesAvailableToUserList;
 - (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
@@ -1847,6 +2275,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasName_:1;
   BOOL hasReferrerCode_:1;
   BOOL hasDeviceToken_:1;
+  BOOL hasStructure_:1;
   BOOL hasUserLocation_:1;
   BOOL hasType_:1;
   int32_t attack;
@@ -1858,13 +2287,14 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   NSString* name;
   NSString* referrerCode;
   NSString* deviceToken;
+  FullUserStructureProto* structure;
   LocationProto* userLocation;
   UserType type;
-  NSMutableArray* mutableStructuresList;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasName;
 - (BOOL) hasType;
+- (BOOL) hasStructure;
 - (BOOL) hasUserLocation;
 - (BOOL) hasReferrerCode;
 - (BOOL) hasDeviceToken;
@@ -1876,6 +2306,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly) UserType type;
+@property (readonly, retain) FullUserStructureProto* structure;
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly, retain) NSString* referrerCode;
 @property (readonly, retain) NSString* deviceToken;
@@ -1884,8 +2315,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t health;
 @property (readonly) int32_t energy;
 @property (readonly) int32_t stamina;
-- (NSArray*) structuresList;
-- (FullUserStructureProto*) structuresAtIndex:(int32_t) index;
 
 + (UserCreateRequestProto*) defaultInstance;
 - (UserCreateRequestProto*) defaultInstance;
@@ -1936,12 +2365,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (UserCreateRequestProto_Builder*) setType:(UserType) value;
 - (UserCreateRequestProto_Builder*) clearType;
 
-- (NSArray*) structuresList;
-- (FullUserStructureProto*) structuresAtIndex:(int32_t) index;
-- (UserCreateRequestProto_Builder*) replaceStructuresAtIndex:(int32_t) index with:(FullUserStructureProto*) value;
-- (UserCreateRequestProto_Builder*) addStructures:(FullUserStructureProto*) value;
-- (UserCreateRequestProto_Builder*) addAllStructures:(NSArray*) values;
-- (UserCreateRequestProto_Builder*) clearStructuresList;
+- (BOOL) hasStructure;
+- (FullUserStructureProto*) structure;
+- (UserCreateRequestProto_Builder*) setStructure:(FullUserStructureProto*) value;
+- (UserCreateRequestProto_Builder*) setStructureBuilder:(FullUserStructureProto_Builder*) builderForValue;
+- (UserCreateRequestProto_Builder*) mergeStructure:(FullUserStructureProto*) value;
+- (UserCreateRequestProto_Builder*) clearStructure;
 
 - (BOOL) hasUserLocation;
 - (LocationProto*) userLocation;
@@ -3630,7 +4059,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t experienceRequiredForNewNextLevel;
   MinimumUserProto* sender;
   LevelUpResponseProto_LevelUpStatus status;
-  NSMutableArray* mutableCitiesAvailableToUserList;
+  NSMutableArray* mutableCitiesNewlyAvailableToUserList;
   NSMutableArray* mutableNewlyEquippableAvailableInArmoryList;
 }
 - (BOOL) hasSender;
@@ -3641,8 +4070,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) LevelUpResponseProto_LevelUpStatus status;
 @property (readonly) int32_t newNextLevel;
 @property (readonly) int32_t experienceRequiredForNewNextLevel;
-- (NSArray*) citiesAvailableToUserList;
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
+- (NSArray*) citiesNewlyAvailableToUserList;
+- (FullCityProto*) citiesNewlyAvailableToUserAtIndex:(int32_t) index;
 - (NSArray*) newlyEquippableAvailableInArmoryList;
 - (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index;
 
@@ -3702,12 +4131,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (LevelUpResponseProto_Builder*) setExperienceRequiredForNewNextLevel:(int32_t) value;
 - (LevelUpResponseProto_Builder*) clearExperienceRequiredForNewNextLevel;
 
-- (NSArray*) citiesAvailableToUserList;
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
-- (LevelUpResponseProto_Builder*) replaceCitiesAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value;
-- (LevelUpResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value;
-- (LevelUpResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values;
-- (LevelUpResponseProto_Builder*) clearCitiesAvailableToUserList;
+- (NSArray*) citiesNewlyAvailableToUserList;
+- (FullCityProto*) citiesNewlyAvailableToUserAtIndex:(int32_t) index;
+- (LevelUpResponseProto_Builder*) replaceCitiesNewlyAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value;
+- (LevelUpResponseProto_Builder*) addCitiesNewlyAvailableToUser:(FullCityProto*) value;
+- (LevelUpResponseProto_Builder*) addAllCitiesNewlyAvailableToUser:(NSArray*) values;
+- (LevelUpResponseProto_Builder*) clearCitiesNewlyAvailableToUserList;
 
 - (NSArray*) newlyEquippableAvailableInArmoryList;
 - (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index;
@@ -5428,14 +5857,14 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   QuestRedeemResponseProto_QuestRedeemStatus status;
-  NSMutableArray* mutableUpdatedAvailableQuestsList;
+  NSMutableArray* mutableNewlyAvailableQuestsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestRedeemResponseProto_QuestRedeemStatus status;
-- (NSArray*) updatedAvailableQuestsList;
-- (FullQuestProto*) updatedAvailableQuestsAtIndex:(int32_t) index;
+- (NSArray*) newlyAvailableQuestsList;
+- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
 
 + (QuestRedeemResponseProto*) defaultInstance;
 - (QuestRedeemResponseProto*) defaultInstance;
@@ -5478,12 +5907,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (QuestRedeemResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (QuestRedeemResponseProto_Builder*) clearSender;
 
-- (NSArray*) updatedAvailableQuestsList;
-- (FullQuestProto*) updatedAvailableQuestsAtIndex:(int32_t) index;
-- (QuestRedeemResponseProto_Builder*) replaceUpdatedAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (QuestRedeemResponseProto_Builder*) addUpdatedAvailableQuests:(FullQuestProto*) value;
-- (QuestRedeemResponseProto_Builder*) addAllUpdatedAvailableQuests:(NSArray*) values;
-- (QuestRedeemResponseProto_Builder*) clearUpdatedAvailableQuestsList;
+- (NSArray*) newlyAvailableQuestsList;
+- (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
+- (QuestRedeemResponseProto_Builder*) replaceNewlyAvailableQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (QuestRedeemResponseProto_Builder*) addNewlyAvailableQuests:(FullQuestProto*) value;
+- (QuestRedeemResponseProto_Builder*) addAllNewlyAvailableQuests:(NSArray*) values;
+- (QuestRedeemResponseProto_Builder*) clearNewlyAvailableQuestsList;
 
 - (BOOL) hasStatus;
 - (QuestRedeemResponseProto_QuestRedeemStatus) status;

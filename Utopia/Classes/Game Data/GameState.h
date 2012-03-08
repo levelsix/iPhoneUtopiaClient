@@ -146,6 +146,7 @@
 
 - (void) updateUser:(FullUserProto *)user;
 
+- (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
 - (FullEquipProto *) equipWithId:(int)equipId;
 - (FullStructureProto *) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;

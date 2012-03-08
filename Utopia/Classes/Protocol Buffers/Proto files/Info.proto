@@ -185,8 +185,9 @@ message FullCityProto {
 	required int32 minLevel = 3;
 	required int32 expGainedBaseOnRankup = 4;
 	required int32 coinsGainedBaseOnRankup = 5;
+	required string mapImgName = 6;
 	
-	repeated int32 taskIds = 6;
+	repeated int32 taskIds = 7;
 }
 
 //------------------------------------------------------------------------------------------
@@ -316,15 +317,6 @@ message MinimumUserTaskProto {
 
 //------------------------------------------------------------------------------------------
 
-message MinimumUserQuestTaskProto {
-     required int32 userId = 1;
-     required int32 questId = 2;
-     required FullTaskProto task = 3;
-     required int32 numTimesActed = 4;
-}
-
-//------------------------------------------------------------------------------------------
-
 message FullUserQuestDataLargeProto {
      required int32 userId = 1;
      required int32 questId = 2;
@@ -336,10 +328,17 @@ message FullUserQuestDataLargeProto {
      repeated MinimumUserPossessEquipJobProto requiredPossessEquipJobProgress = 8;
 }
 
+message MinimumUserQuestTaskProto {
+     required int32 userId = 1;
+     required int32 questId = 2;
+     required int32 taskId = 3;
+     required int32 numTimesActed = 4;
+}
+
 message MinimumUserDefeatTypeJobProto {
      required int32 userId = 1;
      required int32 questId = 2;
-     required DefeatTypeJobProto defeatTypeJobId = 3;
+     required int32 defeatTypeJobId = 3;
      required int32 numDefeated = 4;
 }
 
@@ -353,7 +352,7 @@ message DefeatTypeJobProto {
 message MinimumUserBuildStructJobProto {
      required int32 userId = 1;
      required int32 questId = 2;
-     required BuildStructJobProto buildStructJob = 3;
+     required int32 buildStructJobId = 3;
      required int32 numOfStructUserHas = 4;
 }
 
@@ -366,8 +365,8 @@ message BuildStructJobProto {
 message MinimumUserUpgradeStructJobProto {
      required int32 userId = 1;
      required int32 questId = 2;
-     required UpgradeStructJobProto upgradeStructJob = 3;
-     required bool isComplete = 4;
+     required int32 upgradeStructJobId = 3;
+     required int32 currentLevel = 4;		//0 if not built
 }
 
 message UpgradeStructJobProto {
@@ -379,7 +378,7 @@ message UpgradeStructJobProto {
 message MinimumUserPossessEquipJobProto {
      required int32 userId = 1;
      required int32 questId = 2;
-     required PossessEquipJobProto possessEquipJobProto = 3;
+     required int32 possessEquipJobId = 3;
      required int32 numEquipUserHas = 4;
 }
 
