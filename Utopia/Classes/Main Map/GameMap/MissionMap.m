@@ -96,7 +96,7 @@
 @synthesize summaryMenu, obMenu;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto {
-  NSString *tmxFile = @"iso-test2.tmx";
+  NSString *tmxFile = @"city_map_backup.tmx";
   if ((self = [super initWithTMXFile:tmxFile])) {
     GameState *gs = [GameState sharedGameState];
     FullCityProto *fcp = [gs cityWithId:proto.cityId];

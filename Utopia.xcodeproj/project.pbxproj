@@ -441,6 +441,9 @@
 		CFC2494214B4350A00D601DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBAA01414B3D52F007AB82F /* MainWindow.xib */; };
 		CFC81F8A1502F6AE00DFDD42 /* MissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC81F891502F6AE00DFDD42 /* MissionMap.m */; };
 		CFD2BDA714FE132B00B7557B /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */; };
+		CFD995221508A3FB00B91AE6 /* city_map_backup.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD995211508A3FB00B91AE6 /* city_map_backup.tmx */; };
+		CFD995241508A40400B91AE6 /* Tree_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD995231508A40400B91AE6 /* Tree_Pack.png */; };
+		CFD995261508A41C00B91AE6 /* venetia_city.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD995251508A41C00B91AE6 /* venetia_city.png */; };
 		CFDCC6DB15045EF20084B88A /* RefillMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDCC6D915045EF20084B88A /* RefillMenuController.m */; };
 		CFDCC6DC15045EF20084B88A /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6DA15045EF20084B88A /* RefillMenuController.xib */; };
 		CFDCC6EE15045F3A0084B88A /* bigbolt.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6DE15045F3A0084B88A /* bigbolt.png */; };
@@ -1146,6 +1149,9 @@
 		CFC81F891502F6AE00DFDD42 /* MissionMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MissionMap.m; path = "Utopia/Classes/Main Map/GameMap/MissionMap.m"; sourceTree = SOURCE_ROOT; };
 		CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryRow.xib; path = ArmoryMenu/ArmoryRow.xib; sourceTree = "<group>"; };
 		CFD2BDA814FE133300B7557B /* NibUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NibUtils.h; path = Miscellaneous/NibUtils.h; sourceTree = "<group>"; };
+		CFD995211508A3FB00B91AE6 /* city_map_backup.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = city_map_backup.tmx; sourceTree = "<group>"; };
+		CFD995231508A40400B91AE6 /* Tree_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tree_Pack.png; sourceTree = "<group>"; };
+		CFD995251508A41C00B91AE6 /* venetia_city.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = venetia_city.png; sourceTree = "<group>"; };
 		CFDCC6D815045EF20084B88A /* RefillMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefillMenuController.h; sourceTree = "<group>"; };
 		CFDCC6D915045EF20084B88A /* RefillMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefillMenuController.m; sourceTree = "<group>"; };
 		CFDCC6DA15045EF20084B88A /* RefillMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefillMenuController.xib; sourceTree = "<group>"; };
@@ -1805,6 +1811,9 @@
 		CF1C5A0A1501AED50048D2EC /* Temporary */ = {
 			isa = PBXGroup;
 			children = (
+				CFD995251508A41C00B91AE6 /* venetia_city.png */,
+				CFD995231508A40400B91AE6 /* Tree_Pack.png */,
+				CFD995211508A3FB00B91AE6 /* city_map_backup.tmx */,
 				CF1C5A0B1501AED50048D2EC /* archer.png */,
 				CF1C5A0C1501AED50048D2EC /* archer@2x.png */,
 				CF1C5A0D1501AED50048D2EC /* armorybuybutton.png */,
@@ -3235,6 +3244,9 @@
 				CF1A3D1D1507468500F52450 /* attackchecks.png in Resources */,
 				CF1A3D1E1507468500F52450 /* attackchecks@2x.png in Resources */,
 				CF1A3D201507532C00F52450 /* struct2@2x.png in Resources */,
+				CFD995221508A3FB00B91AE6 /* city_map_backup.tmx in Resources */,
+				CFD995241508A40400B91AE6 /* Tree_Pack.png in Resources */,
+				CFD995261508A41C00B91AE6 /* venetia_city.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -180,8 +180,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs addToAvailableQuests:proto.availableQuestsList];
   [gs addToInProgressQuests:proto.inProgressQuestsList];
   [oec retrieveAllStaticData];
-  [oec acceptQuest:1];
-  [oec acceptQuest:3];
   
   gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
   gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
@@ -203,7 +201,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"In App Purchase response received with status %d.", proto.status);
 }
 
-- (void) handleqionResponseProto: (TaskActionResponseProto *) proto {
+- (void) handleTaskActionResponseProto: (TaskActionResponseProto *) proto {
   NSLog(@"Task action received with status %d.", proto.status);
 }
 
