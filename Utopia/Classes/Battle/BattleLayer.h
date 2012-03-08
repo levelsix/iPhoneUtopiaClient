@@ -8,16 +8,25 @@
 
 #import "cocos2d.h"
 
-@interface BattleLayer : CCLayerColor {
-  CCSprite *left;
-  CCSprite *right;
-  CCLayerColor *flash;
+@interface BattleLayer : CCLayer {
+  CCSprite *_left;
+  CCSprite *_right;
+  
+  CCSprite *_leftHealthBar;
+  CCSprite *_rightHealthBar;
+  
+  CCSprite *_attackButton;
+  CCProgressTimer *_attackProgressTimer;
+  
+  CCSprite *_comboBar;
+  CCProgressTimer *_comboProgressTimer;
+  
+  CCMenu *_bottomMenu;
+  
+  BOOL _comboBarMoving;
 }
 
-@property (nonatomic, retain) CCSprite *left;
-@property (nonatomic, retain) CCSprite *right;
-@property (nonatomic, retain) CCLayerColor *flash;
-
++ (CCScene *) scene;
 - (void) doAttackAnimation;
 
 @end

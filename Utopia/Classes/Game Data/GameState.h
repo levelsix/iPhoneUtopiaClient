@@ -42,8 +42,11 @@
   int _weaponEquipped;
   int _armorEquipped;
   int _amuletEquipped;
+  NSDate *_lastEnergyRefill;
+  NSDate *_lastStaminaRefill;
   
   int _maxCityAccessible;
+  int _expRequiredForCurrentLevel;
   int _expRequiredForNextLevel;
   
   NSMutableArray *_marketplaceEquipPosts;
@@ -67,6 +70,9 @@
   NSMutableArray *_myEquips;
   NSMutableArray *_myStructs;
   NSMutableDictionary *_myCities;
+  
+  NSMutableDictionary *_inProgressQuests;
+  NSMutableDictionary *_availableQuests;
   
   NSMutableArray *_attackList;
 }
@@ -102,8 +108,11 @@
 @property (assign) int weaponEquipped;
 @property (assign) int armorEquipped;
 @property (assign) int amuletEquipped;
+@property (retain) NSDate *lastEnergyRefill;
+@property (retain) NSDate *lastStaminaRefill;
 
 @property (assign) int maxCityAccessible;
+@property (assign) int expRequiredForCurrentLevel;
 @property (assign) int expRequiredForNextLevel;
 
 @property (retain) NSMutableArray *marketplaceEquipPosts;
@@ -128,6 +137,9 @@
 @property (retain) NSMutableArray *myStructs;
 @property (retain) NSMutableDictionary *myCities;
 
+@property (retain) NSMutableDictionary *inProgressQuests;
+@property (retain) NSMutableDictionary *availableQuests;
+
 @property (retain) NSMutableArray *attackList;
 
 + (GameState *) sharedGameState;
@@ -142,6 +154,8 @@
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyCities:(NSArray *)cities;
+- (void) addToAvailableQuests:(NSArray *)quests;
+- (void) addToInProgressQuests:(NSArray *)quests;
 
 - (UserEquip *) myEquipWithId:(int)equipId;
 - (UserStruct *) myStructWithId:(int)structId;

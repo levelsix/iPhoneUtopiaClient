@@ -47,7 +47,8 @@
 - (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
 - (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
-- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType)statType curTime:(uint64_t)curTime;
+- (void) sendRefillStatWaitTimeComplete:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType)type curTime:(uint64_t)curTime;
+- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType)statType;
 
 // Norm Struct messages
 - (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
@@ -69,5 +70,9 @@
 - (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
 
 - (void) sendLevelUpMessage;
+
+- (void) sendQuestAcceptMessage:(int)questId;
+- (void) sendQuestRedeemMessage:(int)questId;
+- (void) sendQuestLogDetailsMessage;
 
 @end

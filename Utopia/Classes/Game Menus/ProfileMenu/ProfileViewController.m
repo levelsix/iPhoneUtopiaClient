@@ -575,7 +575,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     } else {
       [ev doShake];
       if (fep.classType != gs.type % 3) {
-        unequippableLabel.text = [NSString stringWithFormat:@"You Must Be A %@ To Equip This Item", [Globals stringForEquipClassType:fep.classType]];
+        unequippableLabel.text = [NSString stringWithFormat:@"Only %@s Can Equip This Item", [Globals stringForEquipClassType:fep.classType]];
       }
       else if (fep.minLevel > gs.level) {
         unequippableLabel.text = [NSString stringWithFormat:@"You Must Be Level %d To Equip This Item", fep.minLevel];

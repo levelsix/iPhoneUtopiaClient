@@ -49,7 +49,7 @@
     _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
     [_levelCircle addChild:_levelLabel];
-    [Globals adjustFontSizeForCCLabelTTF:_levelLabel];
+    [Globals adjustFontSizeForCCLabelTTF:_levelLabel size:12 ];
     
     self.level = 1;
     self.expPercentage = 0;
@@ -308,8 +308,7 @@
 }
 
 - (void) openVault {
-  [[ProfileViewController sharedProfileViewController] loadMyProfile];
-  [ProfileViewController displayView];
+  [QuestLogController displayView];
 }
 
 - (void) enableButton {

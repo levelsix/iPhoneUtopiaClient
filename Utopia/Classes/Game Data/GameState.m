@@ -43,8 +43,11 @@
 @synthesize weaponEquipped = _weaponEquipped;
 @synthesize armorEquipped = _armorEquipped;
 @synthesize amuletEquipped = _amuletEquipped;
+@synthesize lastEnergyRefill = _lastEnergyRefill;
+@synthesize lastStaminaRefill = _lastStaminaRefill;
 
 @synthesize maxCityAccessible = _maxCityAccessible;
+@synthesize expRequiredForCurrentLevel = _expRequiredForCurrentLevel;
 @synthesize expRequiredForNextLevel = _expRequiredForNextLevel;
 
 @synthesize marketplaceEquipPosts = _marketplaceEquipPosts;
@@ -69,6 +72,9 @@
 @synthesize myStructs = _myStructs;
 @synthesize myCities = _myCities;
 
+@synthesize availableQuests = _availableQuests;
+@synthesize inProgressQuests = _inProgressQuests;
+
 @synthesize attackList = _attackList;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
@@ -88,6 +94,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticPossessEquipJobs = [[NSMutableDictionary alloc] init];
     _staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
     _attackList = [[NSMutableArray alloc] init];
+    
+    _availableQuests = [[NSMutableDictionary alloc] init];
+    _inProgressQuests = [[NSMutableDictionary alloc] init];
     
     //TODO: take this out
     _userId = 2;
@@ -145,6 +154,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.armorEquipped = user.armorEquipped;
   self.amuletEquipped = user.amuletEquipped;
   self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
+  
+  self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:user.lastEnergyRefillTime/1000];
+  self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000];
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
@@ -207,6 +219,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myCities = [NSMutableDictionary dictionaryWithCapacity:cities.count];
   for (FullUserCityProto *cit in cities) {
     [self.myCities setObject:[UserCity userCityWithProto:cit] forKey:[NSNumber numberWithInt:cit.cityId]];
+  }
+}
+
+- (void) addToAvailableQuests:(NSArray *)quests {
+  for (FullQuestProto *fqp in quests) {
+    [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+  }
+}
+
+- (void) addToInProgressQuests:(NSArray *)quests {
+  for (FullQuestProto *fqp in quests) {
+    [self.inProgressQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
   }
 }
 
@@ -307,6 +331,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.armoryArmor = nil;
   self.armoryAmulets = nil;
   self.attackList = nil;
+  self.lastEnergyRefill = nil;
+  self.lastStaminaRefill = nil;
+  self.myCities = nil;
+  self.myEquips = nil;
+  self.myStructs = nil;
+  self.availableQuests = nil;
+  self.inProgressQuests = nil;
   [super dealloc];
 }
 

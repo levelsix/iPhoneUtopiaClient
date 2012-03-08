@@ -314,7 +314,6 @@
 								<string key="NSFrame">{{43, 118}, {66, 21}}</string>
 								<reference key="NSSuperview" ref="847076735"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -487,7 +486,6 @@
 						<string key="NSFrame">{{58, 85}, {70, 21}}</string>
 						<reference key="NSSuperview" ref="670596557"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -726,7 +724,6 @@
 						<string key="NSFrame">{{37, 121}, {78, 21}}</string>
 						<reference key="NSSuperview" ref="882796534"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -934,7 +931,6 @@
 						<string key="NSFrame">{{30, 121}, {92, 21}}</string>
 						<reference key="NSSuperview" ref="471420508"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -1092,6 +1088,14 @@
 						<reference key="destination" ref="471420508"/>
 					</object>
 					<int key="connectionID">139</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">enstTitleLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="602193970"/>
+					</object>
+					<int key="connectionID">142</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1526,7 +1530,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">141</int>
+			<int key="maxID">142</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1554,6 +1558,7 @@
 						<string key="enstGoldCostLabel">UILabel</string>
 						<string key="enstHintLabel">UILabel</string>
 						<string key="enstImageView">UIImageView</string>
+						<string key="enstTitleLabel">UILabel</string>
 						<string key="enstView">UIView</string>
 						<string key="fillEnstLabel">UILabel</string>
 						<string key="goldView">UIView</string>
@@ -1580,6 +1585,10 @@
 						<object class="IBToOneOutletInfo" key="enstImageView">
 							<string key="name">enstImageView</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="enstTitleLabel">
+							<string key="name">enstTitleLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="enstView">
 							<string key="name">enstView</string>

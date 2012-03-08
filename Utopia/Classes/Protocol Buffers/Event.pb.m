@@ -1720,6 +1720,7 @@ BOOL VaultRequestProto_VaultRequestTypeIsValidValue(VaultRequestProto_VaultReque
 
 @interface VaultResponseProto ()
 @property (retain) MinimumUserProto* sender;
+@property VaultResponseProto_VaultStatus status;
 @property int32_t vaultAmount;
 @property int32_t coinAmount;
 @end
@@ -1733,6 +1734,13 @@ BOOL VaultRequestProto_VaultRequestTypeIsValidValue(VaultRequestProto_VaultReque
   hasSender_ = !!value;
 }
 @synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
 - (BOOL) hasVaultAmount {
   return !!hasVaultAmount_;
 }
@@ -1754,6 +1762,7 @@ BOOL VaultRequestProto_VaultRequestTypeIsValidValue(VaultRequestProto_VaultReque
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
+    self.status = VaultResponseProto_VaultStatusSuccess;
     self.vaultAmount = 0;
     self.coinAmount = 0;
   }
@@ -1775,6 +1784,9 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
   if (!self.hasSender) {
     return NO;
   }
+  if (!self.hasStatus) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -1784,11 +1796,14 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
   if (self.hasVaultAmount) {
-    [output writeInt32:2 value:self.vaultAmount];
+    [output writeInt32:3 value:self.vaultAmount];
   }
   if (self.hasCoinAmount) {
-    [output writeInt32:3 value:self.coinAmount];
+    [output writeInt32:4 value:self.coinAmount];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1802,11 +1817,14 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
   if (self.hasVaultAmount) {
-    size += computeInt32Size(2, self.vaultAmount);
+    size += computeInt32Size(3, self.vaultAmount);
   }
   if (self.hasCoinAmount) {
-    size += computeInt32Size(3, self.coinAmount);
+    size += computeInt32Size(4, self.coinAmount);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1841,6 +1859,16 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
 }
 @end
 
+BOOL VaultResponseProto_VaultStatusIsValidValue(VaultResponseProto_VaultStatus value) {
+  switch (value) {
+    case VaultResponseProto_VaultStatusSuccess:
+    case VaultResponseProto_VaultStatusLevelTooLow:
+    case VaultResponseProto_VaultStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface VaultResponseProto_Builder()
 @property (retain) VaultResponseProto* result;
 @end
@@ -1886,6 +1914,9 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
   if (other.hasVaultAmount) {
     [self setVaultAmount:other.vaultAmount];
   }
@@ -1923,10 +1954,19 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
         break;
       }
       case 16: {
-        [self setVaultAmount:[input readInt32]];
+        int32_t value = [input readEnum];
+        if (VaultResponseProto_VaultStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
         break;
       }
       case 24: {
+        [self setVaultAmount:[input readInt32]];
+        break;
+      }
+      case 32: {
         [self setCoinAmount:[input readInt32]];
         break;
       }
@@ -1961,6 +2001,22 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
 - (VaultResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (VaultResponseProto_VaultStatus) status {
+  return result.status;
+}
+- (VaultResponseProto_Builder*) setStatus:(VaultResponseProto_VaultStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (VaultResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = VaultResponseProto_VaultStatusSuccess;
   return self;
 }
 - (BOOL) hasVaultAmount {
@@ -2454,6 +2510,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     case ArmoryResponseProto_ArmoryStatusNotEnoughEquipToSell:
     case ArmoryResponseProto_ArmoryStatusNotEnoughCurrencyToBuy:
     case ArmoryResponseProto_ArmoryStatusCannotSellDiamondEquip:
+    case ArmoryResponseProto_ArmoryStatusLevelTooLow:
     case ArmoryResponseProto_ArmoryStatusOtherFail:
       return YES;
     default:
@@ -2873,6 +2930,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableUserStructuresList;
 @property (retain) NSMutableArray* mutableStructsList;
 @property int32_t experienceRequiredForNextLevel;
+@property int32_t experienceRequiredForCurrentLevel;
 @property (retain) NSMutableArray* mutableMarketplacePurchaseNotificationsList;
 @property (retain) NSMutableArray* mutableAttackNotificationsList;
 @property (retain) NSMutableArray* mutableReferralNotificationsList;
@@ -2923,6 +2981,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasExperienceRequiredForNextLevel_ = !!value;
 }
 @synthesize experienceRequiredForNextLevel;
+- (BOOL) hasExperienceRequiredForCurrentLevel {
+  return !!hasExperienceRequiredForCurrentLevel_;
+}
+- (void) setHasExperienceRequiredForCurrentLevel:(BOOL) value {
+  hasExperienceRequiredForCurrentLevel_ = !!value;
+}
+@synthesize experienceRequiredForCurrentLevel;
 @synthesize mutableMarketplacePurchaseNotificationsList;
 @synthesize mutableAttackNotificationsList;
 @synthesize mutableReferralNotificationsList;
@@ -2949,6 +3014,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.updateStatus = StartupResponseProto_UpdateStatusNoUpdate;
     self.startupConstants = [StartupResponseProto_StartupConstants defaultInstance];
     self.experienceRequiredForNextLevel = 0;
+    self.experienceRequiredForCurrentLevel = 0;
   }
   return self;
 }
@@ -3165,6 +3231,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullUserCityProto* element in self.userCityInfosList) {
     [output writeMessage:16 value:element];
   }
+  if (self.hasExperienceRequiredForCurrentLevel) {
+    [output writeInt32:17 value:self.experienceRequiredForCurrentLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3221,6 +3290,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (FullUserCityProto* element in self.userCityInfosList) {
     size += computeMessageSize(16, element);
+  }
+  if (self.hasExperienceRequiredForCurrentLevel) {
+    size += computeInt32Size(17, self.experienceRequiredForCurrentLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4683,6 +4755,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (other.hasExperienceRequiredForNextLevel) {
     [self setExperienceRequiredForNextLevel:other.experienceRequiredForNextLevel];
   }
+  if (other.hasExperienceRequiredForCurrentLevel) {
+    [self setExperienceRequiredForCurrentLevel:other.experienceRequiredForCurrentLevel];
+  }
   if (other.mutableMarketplacePurchaseNotificationsList.count > 0) {
     if (result.mutableMarketplacePurchaseNotificationsList == nil) {
       result.mutableMarketplacePurchaseNotificationsList = [NSMutableArray array];
@@ -4826,6 +4901,10 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
         FullUserCityProto_Builder* subBuilder = [FullUserCityProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserCityInfos:[subBuilder buildPartial]];
+        break;
+      }
+      case 136: {
+        [self setExperienceRequiredForCurrentLevel:[input readInt32]];
         break;
       }
     }
@@ -5171,6 +5250,22 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   result.experienceRequiredForNextLevel = 0;
   return self;
 }
+- (BOOL) hasExperienceRequiredForCurrentLevel {
+  return result.hasExperienceRequiredForCurrentLevel;
+}
+- (int32_t) experienceRequiredForCurrentLevel {
+  return result.experienceRequiredForCurrentLevel;
+}
+- (StartupResponseProto_Builder*) setExperienceRequiredForCurrentLevel:(int32_t) value {
+  result.hasExperienceRequiredForCurrentLevel = YES;
+  result.experienceRequiredForCurrentLevel = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearExperienceRequiredForCurrentLevel {
+  result.hasExperienceRequiredForCurrentLevel = NO;
+  result.experienceRequiredForCurrentLevel = 0;
+  return self;
+}
 - (NSArray*) marketplacePurchaseNotificationsList {
   if (result.mutableMarketplacePurchaseNotificationsList == nil) { return [NSArray array]; }
   return result.mutableMarketplacePurchaseNotificationsList;
@@ -5268,6 +5363,11 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property (retain) LocationProto* userLocation;
 @property (retain) NSString* referrerCode;
 @property (retain) NSString* deviceToken;
+@property int32_t attack;
+@property int32_t defense;
+@property int32_t health;
+@property int32_t energy;
+@property int32_t stamina;
 @end
 
 @implementation UserCreateRequestProto
@@ -5315,6 +5415,41 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasDeviceToken_ = !!value;
 }
 @synthesize deviceToken;
+- (BOOL) hasAttack {
+  return !!hasAttack_;
+}
+- (void) setHasAttack:(BOOL) value {
+  hasAttack_ = !!value;
+}
+@synthesize attack;
+- (BOOL) hasDefense {
+  return !!hasDefense_;
+}
+- (void) setHasDefense:(BOOL) value {
+  hasDefense_ = !!value;
+}
+@synthesize defense;
+- (BOOL) hasHealth {
+  return !!hasHealth_;
+}
+- (void) setHasHealth:(BOOL) value {
+  hasHealth_ = !!value;
+}
+@synthesize health;
+- (BOOL) hasEnergy {
+  return !!hasEnergy_;
+}
+- (void) setHasEnergy:(BOOL) value {
+  hasEnergy_ = !!value;
+}
+@synthesize energy;
+- (BOOL) hasStamina {
+  return !!hasStamina_;
+}
+- (void) setHasStamina:(BOOL) value {
+  hasStamina_ = !!value;
+}
+@synthesize stamina;
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
@@ -5332,6 +5467,11 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.userLocation = [LocationProto defaultInstance];
     self.referrerCode = @"";
     self.deviceToken = @"";
+    self.attack = 0;
+    self.defense = 0;
+    self.health = 0;
+    self.energy = 0;
+    self.stamina = 0;
   }
   return self;
 }
@@ -5362,6 +5502,21 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
     return NO;
   }
   if (!self.hasType) {
+    return NO;
+  }
+  if (!self.hasAttack) {
+    return NO;
+  }
+  if (!self.hasDefense) {
+    return NO;
+  }
+  if (!self.hasHealth) {
+    return NO;
+  }
+  if (!self.hasEnergy) {
+    return NO;
+  }
+  if (!self.hasStamina) {
     return NO;
   }
   for (FullUserStructureProto* element in self.structuresList) {
@@ -5398,6 +5553,21 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasDeviceToken) {
     [output writeString:8 value:self.deviceToken];
   }
+  if (self.hasAttack) {
+    [output writeInt32:9 value:self.attack];
+  }
+  if (self.hasDefense) {
+    [output writeInt32:10 value:self.defense];
+  }
+  if (self.hasHealth) {
+    [output writeInt32:11 value:self.health];
+  }
+  if (self.hasEnergy) {
+    [output writeInt32:12 value:self.energy];
+  }
+  if (self.hasStamina) {
+    [output writeInt32:13 value:self.stamina];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5427,6 +5597,21 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasDeviceToken) {
     size += computeStringSize(8, self.deviceToken);
+  }
+  if (self.hasAttack) {
+    size += computeInt32Size(9, self.attack);
+  }
+  if (self.hasDefense) {
+    size += computeInt32Size(10, self.defense);
+  }
+  if (self.hasHealth) {
+    size += computeInt32Size(11, self.health);
+  }
+  if (self.hasEnergy) {
+    size += computeInt32Size(12, self.energy);
+  }
+  if (self.hasStamina) {
+    size += computeInt32Size(13, self.stamina);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5527,6 +5712,21 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
   }
+  if (other.hasAttack) {
+    [self setAttack:other.attack];
+  }
+  if (other.hasDefense) {
+    [self setDefense:other.defense];
+  }
+  if (other.hasHealth) {
+    [self setHealth:other.health];
+  }
+  if (other.hasEnergy) {
+    [self setEnergy:other.energy];
+  }
+  if (other.hasStamina) {
+    [self setStamina:other.stamina];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5586,6 +5786,26 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 66: {
         [self setDeviceToken:[input readString]];
+        break;
+      }
+      case 72: {
+        [self setAttack:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setDefense:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setHealth:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setEnergy:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setStamina:[input readInt32]];
         break;
       }
     }
@@ -5728,6 +5948,86 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearDeviceToken {
   result.hasDeviceToken = NO;
   result.deviceToken = @"";
+  return self;
+}
+- (BOOL) hasAttack {
+  return result.hasAttack;
+}
+- (int32_t) attack {
+  return result.attack;
+}
+- (UserCreateRequestProto_Builder*) setAttack:(int32_t) value {
+  result.hasAttack = YES;
+  result.attack = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearAttack {
+  result.hasAttack = NO;
+  result.attack = 0;
+  return self;
+}
+- (BOOL) hasDefense {
+  return result.hasDefense;
+}
+- (int32_t) defense {
+  return result.defense;
+}
+- (UserCreateRequestProto_Builder*) setDefense:(int32_t) value {
+  result.hasDefense = YES;
+  result.defense = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearDefense {
+  result.hasDefense = NO;
+  result.defense = 0;
+  return self;
+}
+- (BOOL) hasHealth {
+  return result.hasHealth;
+}
+- (int32_t) health {
+  return result.health;
+}
+- (UserCreateRequestProto_Builder*) setHealth:(int32_t) value {
+  result.hasHealth = YES;
+  result.health = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearHealth {
+  result.hasHealth = NO;
+  result.health = 0;
+  return self;
+}
+- (BOOL) hasEnergy {
+  return result.hasEnergy;
+}
+- (int32_t) energy {
+  return result.energy;
+}
+- (UserCreateRequestProto_Builder*) setEnergy:(int32_t) value {
+  result.hasEnergy = YES;
+  result.energy = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearEnergy {
+  result.hasEnergy = NO;
+  result.energy = 0;
+  return self;
+}
+- (BOOL) hasStamina {
+  return result.hasStamina;
+}
+- (int32_t) stamina {
+  return result.stamina;
+}
+- (UserCreateRequestProto_Builder*) setStamina:(int32_t) value {
+  result.hasStamina = YES;
+  result.stamina = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearStamina {
+  result.hasStamina = NO;
+  result.stamina = 0;
   return self;
 }
 @end
@@ -10687,6 +10987,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooAheadOfServerTime:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusLevelTooLow:
       return YES;
     default:
       return NO;
@@ -14467,9 +14768,10 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 
 @interface RetrieveCurrentMarketplacePostsResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) NSMutableArray* mutableMarketplacePostsList;
-@property int32_t beforeThisPostId;
 @property BOOL fromSender;
+@property int32_t beforeThisPostId;
+@property RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus status;
+@property (retain) NSMutableArray* mutableMarketplacePostsList;
 @end
 
 @implementation RetrieveCurrentMarketplacePostsResponseProto
@@ -14481,14 +14783,6 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   hasSender_ = !!value;
 }
 @synthesize sender;
-@synthesize mutableMarketplacePostsList;
-- (BOOL) hasBeforeThisPostId {
-  return !!hasBeforeThisPostId_;
-}
-- (void) setHasBeforeThisPostId:(BOOL) value {
-  hasBeforeThisPostId_ = !!value;
-}
-@synthesize beforeThisPostId;
 - (BOOL) hasFromSender {
   return !!hasFromSender_;
 }
@@ -14501,6 +14795,21 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 - (void) setFromSender:(BOOL) value {
   fromSender_ = !!value;
 }
+- (BOOL) hasBeforeThisPostId {
+  return !!hasBeforeThisPostId_;
+}
+- (void) setHasBeforeThisPostId:(BOOL) value {
+  hasBeforeThisPostId_ = !!value;
+}
+@synthesize beforeThisPostId;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutableMarketplacePostsList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableMarketplacePostsList = nil;
@@ -14509,8 +14818,9 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.beforeThisPostId = 0;
     self.fromSender = NO;
+    self.beforeThisPostId = 0;
+    self.status = RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess;
   }
   return self;
 }
@@ -14540,6 +14850,9 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   if (!self.hasFromSender) {
     return NO;
   }
+  if (!self.hasStatus) {
+    return NO;
+  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -14554,14 +14867,17 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  for (FullMarketplacePostProto* element in self.marketplacePostsList) {
-    [output writeMessage:2 value:element];
+  if (self.hasFromSender) {
+    [output writeBool:2 value:self.fromSender];
   }
   if (self.hasBeforeThisPostId) {
     [output writeInt32:3 value:self.beforeThisPostId];
   }
-  if (self.hasFromSender) {
-    [output writeBool:4 value:self.fromSender];
+  if (self.hasStatus) {
+    [output writeEnum:4 value:self.status];
+  }
+  for (FullMarketplacePostProto* element in self.marketplacePostsList) {
+    [output writeMessage:5 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -14575,14 +14891,17 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  for (FullMarketplacePostProto* element in self.marketplacePostsList) {
-    size += computeMessageSize(2, element);
+  if (self.hasFromSender) {
+    size += computeBoolSize(2, self.fromSender);
   }
   if (self.hasBeforeThisPostId) {
     size += computeInt32Size(3, self.beforeThisPostId);
   }
-  if (self.hasFromSender) {
-    size += computeBoolSize(4, self.fromSender);
+  if (self.hasStatus) {
+    size += computeEnumSize(4, self.status);
+  }
+  for (FullMarketplacePostProto* element in self.marketplacePostsList) {
+    size += computeMessageSize(5, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -14617,6 +14936,16 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
 }
 @end
 
+BOOL RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusIsValidValue(RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus value) {
+  switch (value) {
+    case RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess:
+    case RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusLevelTooLow:
+    case RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface RetrieveCurrentMarketplacePostsResponseProto_Builder()
 @property (retain) RetrieveCurrentMarketplacePostsResponseProto* result;
 @end
@@ -14662,17 +14991,20 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
+  if (other.hasFromSender) {
+    [self setFromSender:other.fromSender];
+  }
+  if (other.hasBeforeThisPostId) {
+    [self setBeforeThisPostId:other.beforeThisPostId];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
   if (other.mutableMarketplacePostsList.count > 0) {
     if (result.mutableMarketplacePostsList == nil) {
       result.mutableMarketplacePostsList = [NSMutableArray array];
     }
     [result.mutableMarketplacePostsList addObjectsFromArray:other.mutableMarketplacePostsList];
-  }
-  if (other.hasBeforeThisPostId) {
-    [self setBeforeThisPostId:other.beforeThisPostId];
-  }
-  if (other.hasFromSender) {
-    [self setFromSender:other.fromSender];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -14704,10 +15036,8 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 18: {
-        FullMarketplacePostProto_Builder* subBuilder = [FullMarketplacePostProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addMarketplacePosts:[subBuilder buildPartial]];
+      case 16: {
+        [self setFromSender:[input readBool]];
         break;
       }
       case 24: {
@@ -14715,7 +15045,18 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
         break;
       }
       case 32: {
-        [self setFromSender:[input readBool]];
+        int32_t value = [input readEnum];
+        if (RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+      case 42: {
+        FullMarketplacePostProto_Builder* subBuilder = [FullMarketplacePostProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addMarketplacePosts:[subBuilder buildPartial]];
         break;
       }
     }
@@ -14751,6 +15092,54 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
+- (BOOL) hasFromSender {
+  return result.hasFromSender;
+}
+- (BOOL) fromSender {
+  return result.fromSender;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setFromSender:(BOOL) value {
+  result.hasFromSender = YES;
+  result.fromSender = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearFromSender {
+  result.hasFromSender = NO;
+  result.fromSender = NO;
+  return self;
+}
+- (BOOL) hasBeforeThisPostId {
+  return result.hasBeforeThisPostId;
+}
+- (int32_t) beforeThisPostId {
+  return result.beforeThisPostId;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value {
+  result.hasBeforeThisPostId = YES;
+  result.beforeThisPostId = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearBeforeThisPostId {
+  result.hasBeforeThisPostId = NO;
+  result.beforeThisPostId = 0;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus) status {
+  return result.status;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setStatus:(RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess;
+  return self;
+}
 - (NSArray*) marketplacePostsList {
   if (result.mutableMarketplacePostsList == nil) { return [NSArray array]; }
   return result.mutableMarketplacePostsList;
@@ -14778,38 +15167,6 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
     result.mutableMarketplacePostsList = [NSMutableArray array];
   }
   [result.mutableMarketplacePostsList addObject:value];
-  return self;
-}
-- (BOOL) hasBeforeThisPostId {
-  return result.hasBeforeThisPostId;
-}
-- (int32_t) beforeThisPostId {
-  return result.beforeThisPostId;
-}
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value {
-  result.hasBeforeThisPostId = YES;
-  result.beforeThisPostId = value;
-  return self;
-}
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearBeforeThisPostId {
-  result.hasBeforeThisPostId = NO;
-  result.beforeThisPostId = 0;
-  return self;
-}
-- (BOOL) hasFromSender {
-  return result.hasFromSender;
-}
-- (BOOL) fromSender {
-  return result.fromSender;
-}
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setFromSender:(BOOL) value {
-  result.hasFromSender = YES;
-  result.fromSender = value;
-  return self;
-}
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearFromSender {
-  result.hasFromSender = NO;
-  result.fromSender = NO;
   return self;
 }
 @end
@@ -15256,6 +15613,7 @@ BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMa
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusNoLicense:
+    case PostToMarketplaceResponseProto_PostToMarketplaceStatusLevelTooLow:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail:
       return YES;
     default:
@@ -15762,6 +16120,7 @@ BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValu
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins:
+    case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusLevelTooLow:
       return YES;
     default:
       return NO;
@@ -16325,6 +16684,7 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusNotEnoughMaterials:
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPostNoLongerExists:
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPurchaserIsSeller:
+    case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusLevelTooLow:
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusOtherFail:
       return YES;
     default:
@@ -17733,7 +18093,6 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
 @interface RefillStatWithDiamondsRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property RefillStatWithDiamondsRequestProto_StatType statType;
-@property int64_t curTime;
 @end
 
 @implementation RefillStatWithDiamondsRequestProto
@@ -17752,13 +18111,6 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
   hasStatType_ = !!value;
 }
 @synthesize statType;
-- (BOOL) hasCurTime {
-  return !!hasCurTime_;
-}
-- (void) setHasCurTime:(BOOL) value {
-  hasCurTime_ = !!value;
-}
-@synthesize curTime;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -17767,7 +18119,6 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.statType = RefillStatWithDiamondsRequestProto_StatTypeEnergy;
-    self.curTime = 0L;
   }
   return self;
 }
@@ -17790,9 +18141,6 @@ static RefillStatWithDiamondsRequestProto* defaultRefillStatWithDiamondsRequestP
   if (!self.hasStatType) {
     return NO;
   }
-  if (!self.hasCurTime) {
-    return NO;
-  }
   if (!self.sender.isInitialized) {
     return NO;
   }
@@ -17804,9 +18152,6 @@ static RefillStatWithDiamondsRequestProto* defaultRefillStatWithDiamondsRequestP
   }
   if (self.hasStatType) {
     [output writeEnum:2 value:self.statType];
-  }
-  if (self.hasCurTime) {
-    [output writeInt64:3 value:self.curTime];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -17822,9 +18167,6 @@ static RefillStatWithDiamondsRequestProto* defaultRefillStatWithDiamondsRequestP
   }
   if (self.hasStatType) {
     size += computeEnumSize(2, self.statType);
-  }
-  if (self.hasCurTime) {
-    size += computeInt64Size(3, self.curTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -17916,9 +18258,6 @@ BOOL RefillStatWithDiamondsRequestProto_StatTypeIsValidValue(RefillStatWithDiamo
   if (other.hasStatType) {
     [self setStatType:other.statType];
   }
-  if (other.hasCurTime) {
-    [self setCurTime:other.curTime];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -17956,10 +18295,6 @@ BOOL RefillStatWithDiamondsRequestProto_StatTypeIsValidValue(RefillStatWithDiamo
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
-        break;
-      }
-      case 24: {
-        [self setCurTime:[input readInt64]];
         break;
       }
     }
@@ -18009,22 +18344,6 @@ BOOL RefillStatWithDiamondsRequestProto_StatTypeIsValidValue(RefillStatWithDiamo
 - (RefillStatWithDiamondsRequestProto_Builder*) clearStatType {
   result.hasStatType = NO;
   result.statType = RefillStatWithDiamondsRequestProto_StatTypeEnergy;
-  return self;
-}
-- (BOOL) hasCurTime {
-  return result.hasCurTime;
-}
-- (int64_t) curTime {
-  return result.curTime;
-}
-- (RefillStatWithDiamondsRequestProto_Builder*) setCurTime:(int64_t) value {
-  result.hasCurTime = YES;
-  result.curTime = value;
-  return self;
-}
-- (RefillStatWithDiamondsRequestProto_Builder*) clearCurTime {
-  result.hasCurTime = NO;
-  result.curTime = 0L;
   return self;
 }
 @end
@@ -18146,7 +18465,6 @@ BOOL RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(RefillStat
     case RefillStatWithDiamondsResponseProto_RefillStatStatusNotEnoughDiamonds:
     case RefillStatWithDiamondsResponseProto_RefillStatStatusAlreadyMax:
     case RefillStatWithDiamondsResponseProto_RefillStatStatusOtherFail:
-    case RefillStatWithDiamondsResponseProto_RefillStatStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;

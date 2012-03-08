@@ -29,6 +29,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize attackBaseGain, defenseBaseGain, energyBaseGain, staminaBaseGain, healthBaseGain;
 @synthesize attackBaseCost, defenseBaseCost, energyBaseCost, staminaBaseCost, healthBaseCost;
 @synthesize retractPercentCut, purchasePercentCut;
+@synthesize energyRefillWaitMinutes, staminaRefillWaitMinutes;
 @synthesize energyRefillCost, staminaRefillCost;
 @synthesize maxRepeatedNormStructs, maxEquipId, maxStructId;
 @synthesize productIdentifiers;
@@ -53,6 +54,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     energyBaseGain = 1;
     staminaBaseGain = 1;
     healthBaseGain = 10;
+    
+    energyRefillWaitMinutes = 0.05;
+    staminaRefillWaitMinutes = 0.05;
   }
   return self;
 }
@@ -241,18 +245,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   va_end(params);
 }
 
-+ (void) adjustFontSizeForCCLabelTTF:(CCLabelTTF *)label {
-  label.position = ccpAdd(label.position, ccp(0,-FONT_LABEL_OFFSET));
++ (void) adjustFontSizeForCCLabelTTF:(CCLabelTTF *)label size:(int)size {
+  label.position = ccpAdd(label.position, ccp(0,-FONT_LABEL_OFFSET * size / [self fontSize]));
 }
 
-+ (void) adjustFontSizeForCCLabelTTFs:(CCLabelTTF *)field1, ...
++ (void) adjustFontSizeForSize:(int)size CCLabelTTFs:(CCLabelTTF *)field1, ...
 {
 	va_list params;
 	va_start(params,field1);
 	
   for (CCLabelTTF *arg = field1; arg != nil; arg = va_arg(params, CCLabelTTF *))
   {
-    [self adjustFontSizeForCCLabelTTF:arg];
+    [self adjustFontSizeForCCLabelTTF:arg size:size];
   }
   va_end(params);
 }

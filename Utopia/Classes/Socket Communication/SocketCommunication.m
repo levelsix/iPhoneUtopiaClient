@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.10"
+#define HOST_NAME @"10.1.10.16"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -279,11 +279,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[attReq data] withMessageType:EventProtocolRequestCGenerateAttackListEvent];
 }
 
-- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType curTime:(uint64_t)curTime {
-  RefillStatWithDiamondsRequestProto *refReq = [[[[[RefillStatWithDiamondsRequestProto builder]
-                                                   setSender:_sender]
-                                                  setStatType:statType]
-                                                 setCurTime:curTime]
+- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType {
+  RefillStatWithDiamondsRequestProto *refReq = [[[[RefillStatWithDiamondsRequestProto builder]
+                                                  setSender:_sender]
+                                                 setStatType:statType]
                                                 build];
   
   [self sendData:[refReq data] withMessageType:EventProtocolRequestCRefillStatWithDiamondsEvent];
@@ -466,6 +465,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                               build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCLevelUpEvent];
+}
+
+- (void) sendRefillStatWaitTimeComplete:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType)type curTime:(uint64_t)curTime {
+  RefillStatWaitCompleteRequestProto *req = [[[[[RefillStatWaitCompleteRequestProto builder]
+                                                setSender:_sender]
+                                               setType:type]
+                                              setCurTime:curTime]
+                                             build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCRefillStatWaitCompleteEvent];
+}
+
+- (void) sendQuestAcceptMessage:(int)questId {
+  QuestAcceptRequestProto *req = [[[[QuestAcceptRequestProto builder]
+                                    setSender:_sender]
+                                   setQuestId:questId]
+                                  build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCQuestAcceptEvent];
+}
+
+- (void) sendQuestRedeemMessage:(int)questId {
+  QuestRedeemRequestProto *req = [[[[QuestRedeemRequestProto builder]
+                                    setSender:_sender]
+                                   setQuestId:questId]
+                                  build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCQuestRedeemEvent];
+}
+
+- (void) sendQuestLogDetailsMessage {
+  QuestLogDetailsRequestProto *req = [[[QuestLogDetailsRequestProto builder]
+                                       setSender:_sender]
+                                      build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCQuestLogDetailsEvent];
 }
 
 - (void) closeDownConnection {

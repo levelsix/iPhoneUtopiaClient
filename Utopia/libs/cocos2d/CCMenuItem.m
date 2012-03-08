@@ -456,6 +456,11 @@ const uint32_t	kZoomActionTag = 0xc0c05002;
 	if( (self=[super initWithTarget:target selector:selector]) ) {
 		
 		self.normalImage = normalSprite;
+    if (!selectedSprite) {
+      selectedSprite = [CCSprite spriteWithTexture:((CCSprite *)normalSprite).texture];
+      int greyValue = 150;
+      selectedSprite.color = ccc3(greyValue, greyValue, greyValue);
+    }
 		self.selectedImage = selectedSprite;
 		self.disabledImage = disabledSprite;
 		

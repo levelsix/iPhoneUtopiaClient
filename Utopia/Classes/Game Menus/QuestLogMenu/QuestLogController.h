@@ -7,6 +7,15 @@
 //
 
 #import "cocos2d.h"
+#import "Protocols.pb.h"
+
+typedef enum {
+  kTask = 1,
+  kDefeatTypeJob,
+  kBuildStructJob,
+  kUpgradeStructJob,
+  kPossessEquipJob
+} TaskItemType;
 
 @interface GradientScrollView : UIScrollView <UIScrollViewDelegate>
 
@@ -23,6 +32,7 @@
 @interface QuestItemView : UIView 
 
 @property (nonatomic, retain) UILabel *label;
+@property (nonatomic, retain) FullQuestProto *fqp;
 
 @end
 
@@ -30,6 +40,7 @@
   UIView *_clickedView;
 }
 
+@property (nonatomic, retain) IBOutlet NSMutableArray *questItemViews;
 @property (nonatomic, retain) IBOutlet UILabel *curQuestsLabel;
 @property (nonatomic, retain) IBOutlet QuestListScrollView *scrollView;
 
@@ -64,8 +75,10 @@
 @property (nonatomic, retain) UIImageView *bgdBar;
 @property (nonatomic, retain) UIImageView *taskBar;
 @property (nonatomic, retain) UIButton *visitButton;
+@property (nonatomic, assign) TaskItemType type;
+@property (nonatomic, assign) int jobId;
 
-- (id) initWithFrame:(CGRect)frame text: (NSString *)string taskFinished:(int)completed outOf:(int)total;
+- (id) initWithFrame:(CGRect)frame text: (NSString *)string taskFinished:(int)completed outOf:(int)total type:(TaskItemType)t jobId:(int)j;
 
 @end
 
@@ -86,10 +99,12 @@
 @property (nonatomic, retain) IBOutlet QuestDescriptionView *questDescView;
 @property (nonatomic, retain) IBOutlet TaskListView *taskView;
 @property (nonatomic, retain) IBOutlet QuestListView *questListView;
+@property (nonatomic, retain) NSArray *userLogData;
 
+- (void) refreshWithQuests:(NSArray *)quests;
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;
 + (void) removeView;
-- (void)resetToQuestDescView:(BOOL)up;
+- (void) resetToQuestDescView:(FullQuestProto *)fqp;
 
 @end

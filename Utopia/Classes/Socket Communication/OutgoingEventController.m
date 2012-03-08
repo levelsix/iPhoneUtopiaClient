@@ -12,6 +12,7 @@
 #import "SocketCommunication.h"
 #import "Globals.h"
 #import "MarketplaceViewController.h"
+#import "TopBar.h"
 
 @implementation OutgoingEventController
 
@@ -86,7 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullEquipProto *fep = [gs equipWithId:equipId];
   UserEquip *ue = [gs myEquipWithId:equipId];
   
-  if (!fep.availInArmory) {
+  if (!fep.isBuyableInArmory) {
     [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
   }
   
@@ -401,29 +402,79 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (void) refillEnergy {
+- (void) refillEnergyWaitComplete {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  NSDate *now = [NSDate date];
+  NSTimeInterval tInt = [now timeIntervalSinceDate:gs.lastEnergyRefill];
+  
+  if (gs.currentEnergy >= gs.maxEnergy) {
+    [Globals popupMessage:@"Trying to increase energy when at max.."];
+  } else if (tInt >= 0.f) {
+    [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeEnergy curTime:now.timeIntervalSince1970*1000];
+    
+    int maxChange = gs.maxEnergy-gs.currentEnergy;
+    int change = tInt/(gl.energyRefillWaitMinutes*60);
+    int realChange = MIN(maxChange, change);
+    gs.currentEnergy += realChange;
+    gs.lastEnergyRefill = [gs.lastEnergyRefill dateByAddingTimeInterval:realChange*gl.energyRefillWaitMinutes*60];
+  } else {
+    [Globals popupMessage:@"Trying to refill energy before time.."];
+  }
+}
+
+- (void) refillStaminaWaitComplete {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  NSDate *now = [NSDate date];
+  NSTimeInterval tInt = [now timeIntervalSinceDate:gs.lastStaminaRefill];
+  
+  if (gs.currentEnergy >= gs.maxEnergy) {
+    [Globals popupMessage:@"Trying to increase stamina when at max.."];
+  } else if (tInt >= 0.f) {
+    [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeStamina curTime:now.timeIntervalSince1970*1000];
+    
+    int maxChange = gs.maxStamina-gs.currentStamina;
+    int change = tInt/(gl.staminaRefillWaitMinutes*60);
+    int realChange = MIN(maxChange, change);
+    gs.currentStamina += realChange;
+    gs.lastStaminaRefill = [gs.lastStaminaRefill dateByAddingTimeInterval:realChange*gl.staminaRefillWaitMinutes*60];
+  } else {
+    [Globals popupMessage:@"Trying to refill stamina before time.."];
+  }
+}
+
+- (void) refillEnergyWithDiamonds {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.gold >= gl.energyRefillCost) {
-    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeEnergy curTime:[self getCurrentMilliseconds]];
+  if (gs.currentEnergy >= gs.maxEnergy) {
+    [Globals popupMessage:@"Attempting to refill energy with already full energy"];
+  } else if (gs.gold >= gl.energyRefillCost) {
+    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeEnergy];
     gs.currentEnergy = gs.maxEnergy;
     gs.gold -= gl.energyRefillCost;
+    
+    [[TopBar sharedTopBar] setUpEnergyTimer];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Not enough gold to refill energy. Need: %d, Have: %d.", gl.energyRefillCost, gs.gold]];
   }
 }
 
-- (void) refillStamina {
+- (void) refillStaminaWithDiamonds {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.gold >= gl.staminaRefillCost) {
-    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeStamina curTime:[self getCurrentMilliseconds]];
+  if (gs.currentStamina >= gs.maxStamina) {
+    [Globals popupMessage:@"Attempting to refill stamina with already full stamina"];
+  } else if (gs.gold >= gl.staminaRefillCost) {
+    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeStamina];
     gs.currentStamina = gs.maxStamina;
     gs.gold -= gl.staminaRefillCost;
+    
+    [[TopBar sharedTopBar] setUpStaminaTimer];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Not enough gold to refill stamina. Need: %d, Have: %d.", gl.staminaRefillCost, gs.gold]];
   }
@@ -674,8 +725,82 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  NSMutableSet *rTasks = [NSMutableSet set];
+  NSDictionary *sTasks = [gs staticTasks];
+  NSMutableSet *rBuildStructJobs = [NSMutableSet set];
+  NSDictionary *sBuildStructJobs = [gs staticBuildStructJobs];
+  NSMutableSet *rDefeatTypeJobs = [NSMutableSet set];
+  NSDictionary *sDefeatTypeJobs = [gs staticDefeatTypeJobs];
+  NSMutableSet *rPossessEquipJobs = [NSMutableSet set];
+  NSDictionary *sPossessEquipJobs = [gs staticPossessEquipJobs];
+  NSMutableSet *rUpgradeStructJobs = [NSMutableSet set];
+  NSDictionary *sUpgradeStructJobs = [gs staticUpgradeStructJobs];
+  for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
+    for (NSNumber *num in fqp.taskReqsList) {
+      if (![sTasks objectForKey:num]) {
+        [rTasks addObject:num];
+      }
+    }
+    for (NSNumber *num in fqp.buildStructJobsReqsList) {
+      if (![sBuildStructJobs objectForKey:num]) {
+        [rBuildStructJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+    for (NSNumber *num in fqp.upgradeStructJobsReqsList) {
+      if (![sUpgradeStructJobs objectForKey:num]) {
+        [rUpgradeStructJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+    for (NSNumber *num in fqp.defeatTypeReqsList) {
+      if (![sDefeatTypeJobs objectForKey:num]) {
+        [rDefeatTypeJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+    for (NSNumber *num in fqp.possessEquipJobReqsList) {
+      if (![sPossessEquipJobs objectForKey:num]) {
+        [rPossessEquipJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+  }
+  for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
+    for (NSNumber *num in fqp.taskReqsList) {
+      if (![sTasks objectForKey:num]) {
+        [rTasks addObject:num];
+        shouldSend = YES;
+      }
+    }
+    for (NSNumber *num in fqp.buildStructJobsReqsList) {
+      if (![sBuildStructJobs objectForKey:num]) {
+        [rBuildStructJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+    for (NSNumber *num in fqp.upgradeStructJobsReqsList) {
+      if (![sUpgradeStructJobs objectForKey:num]) {
+        [rUpgradeStructJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+    for (NSNumber *num in fqp.defeatTypeReqsList) {
+      if (![sDefeatTypeJobs objectForKey:num]) {
+        [rDefeatTypeJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+    for (NSNumber *num in fqp.possessEquipJobReqsList) {
+      if (![sPossessEquipJobs objectForKey:num]) {
+        [rPossessEquipJobs addObject:num];
+        shouldSend = YES;
+      }
+    }
+  }
+  
   if (shouldSend) {
-    [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:nil questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+    [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects]];
   }
 }
 
@@ -737,11 +862,48 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.experience >= gs.expRequiredForNextLevel) {
     [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage];
-    gs.experience -= gs.expRequiredForNextLevel;
     gs.level++;
+    gs.currentEnergy = gs.maxEnergy;
+    gs.currentStamina = gs.maxStamina;
+    
+    [[TopBar sharedTopBar] setUpEnergyTimer];
+    [[TopBar sharedTopBar] setUpStaminaTimer];
   } else {
     [Globals popupMessage:@"Trying to level up without enough experience"];
   }
+}
+
+- (void) acceptQuest:(int)questId {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *questIdNum = [NSNumber numberWithInt:questId];
+  FullQuestProto *fqp = [gs.availableQuests objectForKey:questIdNum];
+  
+  if (fqp) {
+    [[SocketCommunication sharedSocketCommunication] sendQuestAcceptMessage:questId];
+    
+    [gs.availableQuests removeObjectForKey:questIdNum];
+    [gs.inProgressQuests setObject:fqp forKey:questIdNum];
+  } else {
+    [Globals popupMessage:@"Attempting to accept unavailable quest"];
+  }
+}
+
+- (void) redeemQuest:(int)questId {
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *questIdNum = [NSNumber numberWithInt:questId];
+  FullQuestProto *fqp = [gs.inProgressQuests objectForKey:questIdNum];
+  
+  if (fqp) {
+    [[SocketCommunication sharedSocketCommunication] sendQuestRedeemMessage:questId];
+    
+    [gs.inProgressQuests setObject:fqp forKey:questIdNum];
+  } else {
+    [Globals popupMessage:@"Attempting to redeem quest that is not in progress"];
+  }
+}
+
+- (void) retrieveQuestLog {
+  [[SocketCommunication sharedSocketCommunication] sendQuestLogDetailsMessage];
 }
 
 @end

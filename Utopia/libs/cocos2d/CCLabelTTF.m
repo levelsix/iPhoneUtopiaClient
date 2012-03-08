@@ -63,7 +63,7 @@
 - (id) initWithString:(NSString*)str dimensions:(CGSize)dimensions alignment:(CCTextAlignment)alignment lineBreakMode:(CCLineBreakMode)lineBreakMode fontName:(NSString*)name fontSize:(CGFloat)size
 {
 	if( (self=[super init]) ) {
-
+    
 		dimensions_ = CGSizeMake( dimensions.width * CC_CONTENT_SCALE_FACTOR(), dimensions.height * CC_CONTENT_SCALE_FACTOR() );
 		alignment_ = alignment;
 		fontName_ = [name retain];
@@ -95,28 +95,30 @@
 
 - (void) setString:(NSString*)str
 {
-	[string_ release];
-	string_ = [str copy];
-
-	CCTexture2D *tex;
-	if( CGSizeEqualToSize( dimensions_, CGSizeZero ) )
-		tex = [[CCTexture2D alloc] initWithString:str
-										 fontName:fontName_
-										 fontSize:fontSize_];
-	else
-		tex = [[CCTexture2D alloc] initWithString:str
-									   dimensions:dimensions_
-										alignment:alignment_
-									lineBreakMode:lineBreakMode_
-										 fontName:fontName_
-										 fontSize:fontSize_];
-
-	[self setTexture:tex];
-	[tex release];
-
-	CGRect rect = CGRectZero;
-	rect.size = [texture_ contentSize];
-	[self setTextureRect: rect];
+  if (![string_ isEqualToString:str]) {
+    [string_ release];
+    string_ = [str copy];
+    
+    CCTexture2D *tex;
+    if( CGSizeEqualToSize( dimensions_, CGSizeZero ) )
+      tex = [[CCTexture2D alloc] initWithString:str
+                                       fontName:fontName_
+                                       fontSize:fontSize_];
+    else
+      tex = [[CCTexture2D alloc] initWithString:str
+                                     dimensions:dimensions_
+                                      alignment:alignment_
+                                  lineBreakMode:lineBreakMode_
+                                       fontName:fontName_
+                                       fontSize:fontSize_];
+    
+    [self setTexture:tex];
+    [tex release];
+    
+    CGRect rect = CGRectZero;
+    rect.size = [texture_ contentSize];
+    [self setTextureRect: rect];
+  }
 }
 
 -(NSString*) string
@@ -128,14 +130,14 @@
 {
 	[string_ release];
 	[fontName_ release];
-
+  
 	[super dealloc];
 }
 
 - (NSString*) description
 {
 	// XXX: string_, fontName_ can't be displayed here, since they might be already released
-
+  
 	return [NSString stringWithFormat:@"<%@ = %08X | FontSize = %.1f>", [self class], self, fontSize_];
 }
 @end

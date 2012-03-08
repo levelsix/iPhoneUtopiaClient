@@ -61,15 +61,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     
     _topBar = [TopBar node];
     [self addChild:_topBar z:2];
-    
-//    BattleLayer *al = [BattleLayer node];
-//    [self addChild:al z:3];
-//    [al doAttackAnimation];
-    
-//    ComboBar *bar = [ComboBar bar];
-//    bar.position = ccp(240,160);
-//    [self addChild:bar z: 5];
-//    [bar doComboSequence];
   }
   return self;  
 }

@@ -249,6 +249,14 @@ typedef enum {
 BOOL VaultRequestProto_VaultRequestTypeIsValidValue(VaultRequestProto_VaultRequestType value);
 
 typedef enum {
+  VaultResponseProto_VaultStatusSuccess = 0,
+  VaultResponseProto_VaultStatusLevelTooLow = 1,
+  VaultResponseProto_VaultStatusOtherFail = 2,
+} VaultResponseProto_VaultStatus;
+
+BOOL VaultResponseProto_VaultStatusIsValidValue(VaultResponseProto_VaultStatus value);
+
+typedef enum {
   ArmoryRequestProto_ArmoryRequestTypeBuy = 0,
   ArmoryRequestProto_ArmoryRequestTypeSell = 1,
 } ArmoryRequestProto_ArmoryRequestType;
@@ -260,7 +268,8 @@ typedef enum {
   ArmoryResponseProto_ArmoryStatusNotEnoughEquipToSell = 1,
   ArmoryResponseProto_ArmoryStatusNotEnoughCurrencyToBuy = 2,
   ArmoryResponseProto_ArmoryStatusCannotSellDiamondEquip = 3,
-  ArmoryResponseProto_ArmoryStatusOtherFail = 4,
+  ArmoryResponseProto_ArmoryStatusLevelTooLow = 4,
+  ArmoryResponseProto_ArmoryStatusOtherFail = 5,
 } ArmoryResponseProto_ArmoryStatus;
 
 BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStatus value);
@@ -364,6 +373,7 @@ typedef enum {
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough = 1,
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail = 2,
   RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooAheadOfServerTime = 3,
+  RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusLevelTooLow = 4,
 } RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus;
 
 BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusIsValidValue(RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatus value);
@@ -428,6 +438,14 @@ typedef enum {
 BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value);
 
 typedef enum {
+  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess = 0,
+  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusLevelTooLow = 1,
+  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusOtherFail = 2,
+} RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus;
+
+BOOL RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusIsValidValue(RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus value);
+
+typedef enum {
   PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess = 0,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusNegativePost = 1,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusNotEnoughEquip = 2,
@@ -437,7 +455,8 @@ typedef enum {
   PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth = 6,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost = 7,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusNoLicense = 8,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 9,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusLevelTooLow = 9,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 10,
 } PostToMarketplaceResponseProto_PostToMarketplaceStatus;
 
 BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMarketplaceResponseProto_PostToMarketplaceStatus value);
@@ -448,6 +467,7 @@ typedef enum {
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists = 2,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds = 3,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins = 4,
+  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusLevelTooLow = 5,
 } RetractMarketplacePostResponseProto_RetractMarketplacePostStatus;
 
 BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValue(RetractMarketplacePostResponseProto_RetractMarketplacePostStatus value);
@@ -457,7 +477,8 @@ typedef enum {
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusNotEnoughMaterials = 1,
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPostNoLongerExists = 2,
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPurchaserIsSeller = 3,
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusOtherFail = 4,
+  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusLevelTooLow = 4,
+  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusOtherFail = 5,
 } PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus;
 
 BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidValue(PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus value);
@@ -501,7 +522,6 @@ typedef enum {
   RefillStatWithDiamondsResponseProto_RefillStatStatusNotEnoughDiamonds = 1,
   RefillStatWithDiamondsResponseProto_RefillStatStatusAlreadyMax = 2,
   RefillStatWithDiamondsResponseProto_RefillStatStatusOtherFail = 3,
-  RefillStatWithDiamondsResponseProto_RefillStatStatusClientTooAheadOfServerTime = 4,
 } RefillStatWithDiamondsResponseProto_RefillStatStatus;
 
 BOOL RefillStatWithDiamondsResponseProto_RefillStatStatusIsValidValue(RefillStatWithDiamondsResponseProto_RefillStatStatus value);
@@ -1034,14 +1054,18 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasVaultAmount_:1;
   BOOL hasCoinAmount_:1;
   BOOL hasSender_:1;
+  BOOL hasStatus_:1;
   int32_t vaultAmount;
   int32_t coinAmount;
   MinimumUserProto* sender;
+  VaultResponseProto_VaultStatus status;
 }
 - (BOOL) hasSender;
+- (BOOL) hasStatus;
 - (BOOL) hasVaultAmount;
 - (BOOL) hasCoinAmount;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) VaultResponseProto_VaultStatus status;
 @property (readonly) int32_t vaultAmount;
 @property (readonly) int32_t coinAmount;
 
@@ -1085,6 +1109,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (VaultResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (VaultResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (VaultResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (VaultResponseProto_VaultStatus) status;
+- (VaultResponseProto_Builder*) setStatus:(VaultResponseProto_VaultStatus) value;
+- (VaultResponseProto_Builder*) clearStatus;
 
 - (BOOL) hasVaultAmount;
 - (int32_t) vaultAmount;
@@ -1301,38 +1330,42 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
+  int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
-  NSMutableArray* mutableCitiesAvailableToUserList;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableUserEquipsList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableUserStructuresList;
-  NSMutableArray* mutableStructsList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableStructsList;
+  NSMutableArray* mutableUserStructuresList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableCitiesAvailableToUserList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
 - (BOOL) hasUpdateStatus;
 - (BOOL) hasStartupConstants;
 - (BOOL) hasExperienceRequiredForNextLevel;
+- (BOOL) hasExperienceRequiredForCurrentLevel;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
 @property (readonly, retain) StartupResponseProto_StartupConstants* startupConstants;
 @property (readonly) int32_t experienceRequiredForNextLevel;
+@property (readonly) int32_t experienceRequiredForCurrentLevel;
 - (NSArray*) citiesAvailableToUserList;
 - (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
@@ -1776,6 +1809,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_Builder*) setExperienceRequiredForNextLevel:(int32_t) value;
 - (StartupResponseProto_Builder*) clearExperienceRequiredForNextLevel;
 
+- (BOOL) hasExperienceRequiredForCurrentLevel;
+- (int32_t) experienceRequiredForCurrentLevel;
+- (StartupResponseProto_Builder*) setExperienceRequiredForCurrentLevel:(int32_t) value;
+- (StartupResponseProto_Builder*) clearExperienceRequiredForCurrentLevel;
+
 - (NSArray*) marketplacePurchaseNotificationsList;
 - (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) marketplacePurchaseNotificationsAtIndex:(int32_t) index;
 - (StartupResponseProto_Builder*) replaceMarketplacePurchaseNotificationsAtIndex:(int32_t) index with:(StartupResponseProto_MarketplacePostPurchasedNotificationProto*) value;
@@ -1800,12 +1838,22 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasAttack_:1;
+  BOOL hasDefense_:1;
+  BOOL hasHealth_:1;
+  BOOL hasEnergy_:1;
+  BOOL hasStamina_:1;
   BOOL hasUdid_:1;
   BOOL hasName_:1;
   BOOL hasReferrerCode_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasUserLocation_:1;
   BOOL hasType_:1;
+  int32_t attack;
+  int32_t defense;
+  int32_t health;
+  int32_t energy;
+  int32_t stamina;
   NSString* udid;
   NSString* name;
   NSString* referrerCode;
@@ -1820,12 +1868,22 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasUserLocation;
 - (BOOL) hasReferrerCode;
 - (BOOL) hasDeviceToken;
+- (BOOL) hasAttack;
+- (BOOL) hasDefense;
+- (BOOL) hasHealth;
+- (BOOL) hasEnergy;
+- (BOOL) hasStamina;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly) UserType type;
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly, retain) NSString* referrerCode;
 @property (readonly, retain) NSString* deviceToken;
+@property (readonly) int32_t attack;
+@property (readonly) int32_t defense;
+@property (readonly) int32_t health;
+@property (readonly) int32_t energy;
+@property (readonly) int32_t stamina;
 - (NSArray*) structuresList;
 - (FullUserStructureProto*) structuresAtIndex:(int32_t) index;
 
@@ -1901,6 +1959,31 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (NSString*) deviceToken;
 - (UserCreateRequestProto_Builder*) setDeviceToken:(NSString*) value;
 - (UserCreateRequestProto_Builder*) clearDeviceToken;
+
+- (BOOL) hasAttack;
+- (int32_t) attack;
+- (UserCreateRequestProto_Builder*) setAttack:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearAttack;
+
+- (BOOL) hasDefense;
+- (int32_t) defense;
+- (UserCreateRequestProto_Builder*) setDefense:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearDefense;
+
+- (BOOL) hasHealth;
+- (int32_t) health;
+- (UserCreateRequestProto_Builder*) setHealth:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearHealth;
+
+- (BOOL) hasEnergy;
+- (int32_t) energy;
+- (UserCreateRequestProto_Builder*) setEnergy:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearEnergy;
+
+- (BOOL) hasStamina;
+- (int32_t) stamina;
+- (UserCreateRequestProto_Builder*) setStamina:(int32_t) value;
+- (UserCreateRequestProto_Builder*) clearStamina;
 @end
 
 @interface UserCreateResponseProto : PBGeneratedMessage {
@@ -3893,17 +3976,21 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasFromSender_:1;
   BOOL hasBeforeThisPostId_:1;
   BOOL hasSender_:1;
+  BOOL hasStatus_:1;
   BOOL fromSender_:1;
   int32_t beforeThisPostId;
   MinimumUserProto* sender;
+  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus status;
   NSMutableArray* mutableMarketplacePostsList;
 }
 - (BOOL) hasSender;
-- (BOOL) hasBeforeThisPostId;
 - (BOOL) hasFromSender;
+- (BOOL) hasBeforeThisPostId;
+- (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t beforeThisPostId;
 - (BOOL) fromSender;
+@property (readonly) int32_t beforeThisPostId;
+@property (readonly) RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus status;
 - (NSArray*) marketplacePostsList;
 - (FullMarketplacePostProto*) marketplacePostsAtIndex:(int32_t) index;
 
@@ -3948,22 +4035,27 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (RetrieveCurrentMarketplacePostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearSender;
 
-- (NSArray*) marketplacePostsList;
-- (FullMarketplacePostProto*) marketplacePostsAtIndex:(int32_t) index;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) replaceMarketplacePostsAtIndex:(int32_t) index with:(FullMarketplacePostProto*) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) addMarketplacePosts:(FullMarketplacePostProto*) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) addAllMarketplacePosts:(NSArray*) values;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearMarketplacePostsList;
+- (BOOL) hasFromSender;
+- (BOOL) fromSender;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setFromSender:(BOOL) value;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearFromSender;
 
 - (BOOL) hasBeforeThisPostId;
 - (int32_t) beforeThisPostId;
 - (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value;
 - (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearBeforeThisPostId;
 
-- (BOOL) hasFromSender;
-- (BOOL) fromSender;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setFromSender:(BOOL) value;
-- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearFromSender;
+- (BOOL) hasStatus;
+- (RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus) status;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) setStatus:(RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus) value;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearStatus;
+
+- (NSArray*) marketplacePostsList;
+- (FullMarketplacePostProto*) marketplacePostsAtIndex:(int32_t) index;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) replaceMarketplacePostsAtIndex:(int32_t) index with:(FullMarketplacePostProto*) value;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) addMarketplacePosts:(FullMarketplacePostProto*) value;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) addAllMarketplacePosts:(NSArray*) values;
+- (RetrieveCurrentMarketplacePostsResponseProto_Builder*) clearMarketplacePostsList;
 @end
 
 @interface PostToMarketplaceRequestProto : PBGeneratedMessage {
@@ -4640,19 +4732,15 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface RefillStatWithDiamondsRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasCurTime_:1;
   BOOL hasSender_:1;
   BOOL hasStatType_:1;
-  int64_t curTime;
   MinimumUserProto* sender;
   RefillStatWithDiamondsRequestProto_StatType statType;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatType;
-- (BOOL) hasCurTime;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RefillStatWithDiamondsRequestProto_StatType statType;
-@property (readonly) int64_t curTime;
 
 + (RefillStatWithDiamondsRequestProto*) defaultInstance;
 - (RefillStatWithDiamondsRequestProto*) defaultInstance;
@@ -4699,11 +4787,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (RefillStatWithDiamondsRequestProto_StatType) statType;
 - (RefillStatWithDiamondsRequestProto_Builder*) setStatType:(RefillStatWithDiamondsRequestProto_StatType) value;
 - (RefillStatWithDiamondsRequestProto_Builder*) clearStatType;
-
-- (BOOL) hasCurTime;
-- (int64_t) curTime;
-- (RefillStatWithDiamondsRequestProto_Builder*) setCurTime:(int64_t) value;
-- (RefillStatWithDiamondsRequestProto_Builder*) clearCurTime;
 @end
 
 @interface RefillStatWithDiamondsResponseProto : PBGeneratedMessage {

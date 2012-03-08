@@ -8,6 +8,8 @@
 
 #import "QuestLogController.h"
 #import "SynthesizeSingleton.h"
+#import "GameState.h"
+#import "OutgoingEventController.h"
 
 #define QUEST_ITEM_HEIGHT 31.f
 
@@ -19,7 +21,7 @@
 - (void) awakeFromNib {
   self.delegate = self;
   [super awakeFromNib];
-  self.scrollIndicatorInsets = UIEdgeInsetsMake(self.topGradient.frame.size.height, 0, self.botGradient.frame.size.height, -2);
+  self.showsVerticalScrollIndicator = NO;
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -83,10 +85,11 @@
 
 @implementation QuestItemView
 
-@synthesize label;
+@synthesize label, fqp;
 
-- (id) initWithFrame:(CGRect)frame {
+- (id) initWithFrame:(CGRect)frame quest:(FullQuestProto *)f {
   if ((self = [super initWithFrame:frame])) {
+    self.fqp = f;
     self.backgroundColor = [UIColor clearColor];
     [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked:)]];
     label = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, self.frame.size.width-20, self.frame.size.height)];
@@ -95,13 +98,13 @@
     label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
     label.textColor = [UIColor colorWithRed:170/256.f green:42/256.f blue:13/256.f alpha:1.f];
     [self addSubview:label];
-    label.text = @"Cold Welcome";
+    label.text = f.name;
   }
   return self;
 }
 
 - (void) viewClicked:(id)sender {
-  [(QuestListView *)self.superview.superview viewClicked:sender];
+  [(QuestListView *)self.superview.superview viewClicked:self];
 }
 
 - (void) dealloc {
@@ -113,6 +116,7 @@
 
 @implementation QuestListView
 
+@synthesize questItemViews;
 @synthesize curQuestsLabel;
 @synthesize scrollView;
 
@@ -120,33 +124,39 @@
   [super awakeFromNib];
   self.curQuestsLabel.font = [UIFont fontWithName:@"Adobe Jenson Pro" size:18];
   
-  for (int i = 0; i < 15; i++) {
-    UIView *view = [[QuestItemView alloc] initWithFrame:CGRectMake(0, QUEST_ITEM_HEIGHT*i+self.scrollView.topGradient.frame.size.height, self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT)];
-    [self.scrollView insertSubview:view atIndex:0];
-    
-    if (i == 0) {
-      _clickedView = view;
-      _clickedView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-    }
-    [view release];
-  }
-  
-  self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT*15+self.scrollView.topGradient.frame.size.height+self.scrollView.botGradient.frame.size.height);
+  self.questItemViews = [NSMutableArray array];
 }
 
-- (void) viewClicked:(id)sender {
-  UITapGestureRecognizer *tap = (UITapGestureRecognizer *)sender;
-  if (_clickedView == tap.view) {
+- (void) refresh {
+  GameState *gs = [GameState sharedGameState];
+  
+  [questItemViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [(UIView *)obj removeFromSuperview];
+  }];
+  [questItemViews removeAllObjects];
+  
+  [gs.inProgressQuests.allValues enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    UIView *view = [[QuestItemView alloc] initWithFrame:CGRectMake(0, QUEST_ITEM_HEIGHT*idx+self.scrollView.topGradient.frame.size.height, self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT) quest:obj];
+    [self.scrollView insertSubview:view atIndex:0];
+    [self.questItemViews addObject:view];
+    [view release];
+  }];
+  self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT*gs.inProgressQuests.allValues.count+self.scrollView.topGradient.frame.size.height+self.scrollView.botGradient.frame.size.height);
+  
+  _clickedView = nil;
+}
+
+- (void) viewClicked:(QuestItemView *)sender {
+  if (_clickedView == sender) {
     return;
   }
   
   _clickedView.backgroundColor = [UIColor clearColor];
   
-  BOOL up = tap.view.frame.origin.y > _clickedView.frame.origin.y;
-  _clickedView = tap.view;
+  _clickedView = sender;
   _clickedView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
   
-  [[QuestLogController sharedQuestLogController] resetToQuestDescView: up];
+  [[QuestLogController sharedQuestLogController] resetToQuestDescView:sender.fqp];
 }
 
 @end
@@ -169,7 +179,7 @@
   rewardWebView.backgroundColor = [UIColor clearColor];
   [self updateWebView];
   
-//  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2 target:self selector:@selector(updateWebView) userInfo:nil repeats:YES] forMode:NSRunLoopCommonModes];
+  //  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2 target:self selector:@selector(updateWebView) userInfo:nil repeats:YES] forMode:NSRunLoopCommonModes];
 }
 
 - (void) updateWebView {
@@ -224,8 +234,12 @@
 
 - (void) awakeFromNib {
   self.questNameLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];
+}
+
+- (void) refreshWithQuest:(FullQuestProto *)fqp {
+  [self.questDescLabel removeFromSuperview];
   
-  NSString *string = @"Welcome to Kirin village, stranger. We are in dire times and we need your help. A moment ago, a strange white light consumed the sky and legion soldiers appeared out of thin air. One seems to have strayed from the pack. We need him taken care of.\n-Cooper Moore";
+  self.questNameLabel.text = fqp.name;
   
   // Update the quest description label
   // We will find out how many lines need to be used, so init to zero
@@ -233,19 +247,19 @@
   self.questDescLabel = tmplabel;
   [tmplabel release];
   self.questDescLabel.textColor = [UIColor blackColor];
-  self.questDescLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:12.2];
+  self.questDescLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:14];
   self.questDescLabel.numberOfLines = 0;
   self.questDescLabel.lineBreakMode = UILineBreakModeWordWrap;
-  self.questDescLabel.text = string;
+  self.questDescLabel.text = fqp.description;
   self.questDescLabel.backgroundColor = [UIColor clearColor];
   
   //Calculate the expected size based on the font and linebreak mode of label
   CGSize maximumLabelSize = CGSizeMake(self.scrollView.frame.size.width-10, 9999);
-  CGSize expectedLabelSize = [string sizeWithFont:self.questDescLabel.font constrainedToSize:maximumLabelSize lineBreakMode:self.questDescLabel.lineBreakMode];
+  CGSize expectedLabelSize = [questDescLabel.text sizeWithFont:self.questDescLabel.font constrainedToSize:maximumLabelSize lineBreakMode:self.questDescLabel.lineBreakMode];
   
   //Adjust the label the the new height
   CGRect newFrame = self.questDescLabel.frame;
-  newFrame.origin.y = CGRectGetMaxY(self.scrollView.topGradient.frame);
+  newFrame.origin.y = self.scrollView.topGradient.frame.size.height;
   newFrame.size.width = expectedLabelSize.width;
   newFrame.size.height = expectedLabelSize.height;
   self.questDescLabel.frame = newFrame;
@@ -255,6 +269,10 @@
   newFrame.origin = CGPointMake(0, CGRectGetMaxY(self.questDescLabel.frame));
   self.rewardView.frame = newFrame;
   
+  self.rewardView.coinRewardLabel.text = [NSString stringWithFormat:@"+%d", fqp.coinsGained];
+  self.rewardView.expRewardLabel.text = [NSString stringWithFormat:@"+%d", fqp.expGained];
+  
+  self.scrollView.contentOffset = CGPointMake(0, 0);
   self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, CGRectGetMaxY(self.rewardView.frame)+self.scrollView.botGradient.frame.size.height);
 }
 
@@ -263,8 +281,9 @@
 @implementation TaskItemView
 
 @synthesize label, taskBar, bgdBar, visitButton;
+@synthesize type, jobId;
 
-- (id) initWithFrame:(CGRect)frame text: (NSString *)string taskFinished:(int)completed outOf:(int)total {
+- (id) initWithFrame:(CGRect)frame text: (NSString *)string taskFinished:(int)completed outOf:(int)total type:(TaskItemType)t jobId:(int)j {
   if ((self = [super initWithFrame:frame])) {
     CGRect tmpRect;
     self.backgroundColor = [UIColor clearColor];
@@ -338,6 +357,9 @@
     tmpRect.origin.y = self.frame.size.height/2-visit.size.height/2;
     tmpRect.size = visit.size;
     self.visitButton.frame = tmpRect;
+    
+    self.type = t;
+    self.jobId = j;
   }
   return self;
 }
@@ -365,7 +387,6 @@
 	// And width 2.0 so they are a bit more visible
   CGContextSetLineWidth(context, 0.5f);
 	
-	// Draw a horizontal line, vertical line, rectangle and circle for comparison
   for (UIView *view in self.subviews) {
     if (view == self.topGradient || view == self.botGradient) {
       break;
@@ -390,17 +411,6 @@
 
 - (void) awakeFromNib {
   self.questNameLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];
-  
-  // Dont add in the height of top gradient because there is no border on top of the first view
-  UIView *view1 = [[[TaskItemView alloc] initWithFrame:CGRectMake(0, 0, self.scrollView.frame.size.width, 0) text:@"Ambush Drunk Soldier" taskFinished:4 outOf:9] autorelease];
-  UIView *view2 = [[[TaskItemView alloc] initWithFrame:CGRectMake(0, view1.frame.size.height, self.scrollView.frame.size.width, 0) text:@"Drinking Contest" taskFinished:3 outOf:5] autorelease];
-  UIView *view3 = [[[TaskItemView alloc] initWithFrame:CGRectMake(0, view1.frame.size.height+view2.frame.size.height, self.scrollView.frame.size.width, 0) text:@"Kill Stray Soldier" taskFinished:6 outOf:6] autorelease];
-  UIView *view4  = [[[TaskItemView alloc] initWithFrame:CGRectMake(0, view1.frame.size.height+view2.frame.size.height+view3.frame.size.height, self.scrollView.frame.size.width, 0) text:@"Participate in Bar Brawl" taskFinished:0 outOf:2] autorelease];
-  [self.scrollView insertSubview:view1 atIndex:0];
-  [self.scrollView insertSubview:view2 atIndex:0];
-  [self.scrollView insertSubview:view3 atIndex:0];
-  [self.scrollView insertSubview:view4 atIndex:0];
-  self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.botGradient.frame.size.height+view1.frame.size.height+view3.frame.size.height+view2.frame.size.height+view4.frame.size.height);
 }
 
 @end
@@ -408,7 +418,7 @@
 
 @implementation QuestLogController
 
-@synthesize taskView, questDescView, questListView;
+@synthesize taskView, questDescView, questListView, userLogData;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
@@ -418,14 +428,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
-  _curView = self.questDescView;
 }
 
-- (void)viewDidUnload
-{
-  questDescView = nil;
-  taskView = nil;
-  [super viewDidUnload];
+- (void) viewDidAppear:(BOOL)animated {
+  taskView.alpha = 0.0;
+  questDescView.alpha = 0.0;
+  [questListView viewClicked:nil];
+  [questListView refresh];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
+  _curView = nil;
+}
+
+- (void) refreshWithQuests:(NSArray *)quests {
+  self.userLogData = quests;
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
@@ -433,7 +448,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)taskButtonTapped:(id)sender {
-//  [UIView transitionFromView:self.questDescView toView:self.taskView duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) { }];
   [UIView animateWithDuration:0.5 animations:^{
     self.questDescView.alpha = 0.0;
     self.taskView.alpha = 1.0;
@@ -442,7 +456,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)questDescButtonTapped:(id)sender {
-  //  [UIView transitionFromView:self.taskView toView:self.questDescView duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) { }];
   [UIView animateWithDuration:0.5 animations:^{
     self.questDescView.alpha = 1.0;
     self.taskView.alpha = 0.0;
@@ -450,15 +463,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   _curView = self.questDescView;
 }
 
-- (void)resetToQuestDescView:(BOOL)up {
-  [self.questDescView.rewardView updateWebView];
+- (void)resetToQuestDescView:(FullQuestProto *)fqp {
+  [self.questDescView refreshWithQuest:fqp];
   if (_curView == self.questDescView) {
-//    [UIView transitionWithView:_curView 
-//                      duration:0.5 
-//                       options:UIViewAnimationOptionTransitionCrossDissolve
-//     //up ? UIViewAnimationOptionTransitionCurlUp:UIViewAnimationOptionTransitionCurlDown 
-//                    animations:^{} 
-//                    completion:^(BOOL finished) {}];
   } else {
     [UIView animateWithDuration:0.5 animations:^{
       self.questDescView.alpha = 1.0;
@@ -467,6 +474,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   }
   _curView = self.questDescView;
   
+}
+
+- (void)viewDidUnload
+{
+  self.questDescView = nil;
+  self.taskView = nil;
+  [super viewDidUnload];
 }
 
 @end

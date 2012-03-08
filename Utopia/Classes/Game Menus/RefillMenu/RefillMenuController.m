@@ -48,7 +48,7 @@
 
 @synthesize goldView, silverView, itemsView, enstView;
 @synthesize curGoldLabel, needGoldLabel;
-@synthesize enstImageView, enstGoldCostLabel, fillEnstLabel, enstHintLabel;
+@synthesize enstTitleLabel, enstImageView, enstGoldCostLabel, fillEnstLabel, enstHintLabel;
 @synthesize itemsCostView, itemsSilverLabel;
 @synthesize itemsScrollView, itemsContainerView;
 
@@ -79,11 +79,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   if (isEnergy) {
     enstImageView.highlighted = NO;
     enstGoldCostLabel.text = [NSString stringWithFormat:@"%d", gl.energyRefillCost];
+    enstTitleLabel.text = @"Need Energy!";
     fillEnstLabel.text = @"FILL ENERGY";
     enstHintLabel.text = @"Hint: Energy refills over time.";
   } else {
     enstImageView.highlighted = YES;
     enstGoldCostLabel.text = [NSString stringWithFormat:@"%d", gl.staminaRefillCost];
+    enstTitleLabel.text = @"Need Stamina!";
     fillEnstLabel.text = @"FILL STAMINA";
     enstHintLabel.text = @"Hint: Stamina refills over time.";
   }
@@ -193,9 +195,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     [self displayBuyGoldView:goldCost];
   } else {
     if (_isEnergy) {
-      [[OutgoingEventController sharedOutgoingEventController] refillEnergy];
+      [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] refillStamina];
+      [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
     }
     
     [self closeView:enstView];

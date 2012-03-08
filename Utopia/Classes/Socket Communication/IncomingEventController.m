@@ -18,6 +18,7 @@
 #import "ArmoryViewController.h"
 #import "CarpenterMenuController.h"
 #import "GameLayer.h"
+#import "QuestLogController.h"
 
 @implementation IncomingEventController
 
@@ -75,6 +76,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSUseSkillPointEvent:
       responseClass = [UseSkillPointResponseProto class];
       break;
+    case EventProtocolResponseSRefillStatWaitCompleteEvent:
+      responseClass = [RefillStatWaitCompleteResponseProto class];
+      break;
     case EventProtocolResponseSRefillStatWithDiamondsEvent:
       responseClass = [RefillStatWithDiamondsResponseProto class];
       break;
@@ -116,6 +120,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSChangeUserLocationEvent:
       responseClass = [ChangeUserLocationResponseProto class];
+      break;
+    case EventProtocolResponseSQuestAcceptEvent:
+      responseClass = [QuestAcceptResponseProto class];
+      break;
+    case EventProtocolResponseSQuestRedeemEvent:
+      responseClass = [QuestRedeemResponseProto class];
+      break;
+    case EventProtocolResponseSQuestLogDetailsEvent:
+      responseClass = [QuestLogDetailsResponseProto class];
+      break;
+    case EventProtocolResponseSQuestCompleteEvent:
+      responseClass = [QuestCompleteResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -161,23 +177,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs addToStaticCities:proto.citiesAvailableToUserList];
   [gs addToStaticEquips:proto.equipsList];
   [gs addToStaticStructs:proto.structsList];
+  [gs addToAvailableQuests:proto.availableQuestsList];
+  [gs addToInProgressQuests:proto.inProgressQuestsList];
   [oec retrieveAllStaticData];
   
+  gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
   gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
   
-  HomeMap *map = [HomeMap sharedHomeMap];
-  [map performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
+  [[HomeMap sharedHomeMap] refresh];
 }
 
 - (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
   NSLog(@"Level up response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == LevelUpResponseProto_LevelUpStatusSuccess) {
+    gs.expRequiredForCurrentLevel = gs.expRequiredForNextLevel;
+    gs.expRequiredForNextLevel = proto.experienceRequiredForNewNextLevel;
+  }
 }
 
 - (void) handleInAppPurchaseResponseProto: (InAppPurchaseResponseProto *) proto {
   NSLog(@"In App Purchase response received with status %d.", proto.status);
 }
 
-- (void) handleTaskActionResponseProto: (TaskActionResponseProto *) proto {
+- (void) handleqionResponseProto: (TaskActionResponseProto *) proto {
   NSLog(@"Task action received with status %d.", proto.status);
 }
 
@@ -256,6 +280,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleUseSkillPointResponseProto: (UseSkillPointResponseProto *) proto {
   NSLog(@"Use skill point response received with status %d.", proto.status);
+}
+
+- (void) handleRefillStatWaitCompleteResponseProto: (RefillStatWaitCompleteResponseProto *) proto {
+  NSLog(@"Refill stat wait complete response received with status %d.", proto.status);
+  
+  
 }
 
 - (void) handleRefillStatWithDiamondsResponseProto: (RefillStatWithDiamondsResponseProto *) proto {
@@ -347,7 +377,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleLoadNeutralCityResponseProto: (LoadNeutralCityResponseProto *)proto {
   NSLog(@"Load neutral city response received with status %d.", proto.status);
   
-//  GameState *gs = [GameState sharedGameState];
+  //  GameState *gs = [GameState sharedGameState];
   
   if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
     [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];
@@ -425,7 +455,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       gs.armoryWeapons = weapons;
       gs.armoryArmor = armor;
       gs.armoryAmulets = amulets;
-
+      
       [gs addToStaticEquips:proto.equipsList];
       
       ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
@@ -450,6 +480,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status != ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess) {
     [Globals popupMessage:@"Server failed to update user location."];
   }
+}
+
+- (void) handleQuestAcceptResponseProto: (QuestAcceptResponseProto *)proto {
+  NSLog(@"Quest accept response received with status %d", proto.status);
+  
+  if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
+    [Globals popupMessage:@"Server failed to accept quest"];
+  }
+}
+
+- (void) handleQuestRedeemResponseProto: (QuestRedeemResponseProto *)proto {
+  NSLog(@"Quest redeem response received with status %d", proto.status);
+  
+  if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
+    NSLog(@"New quests: %d", proto.updatedAvailableQuestsList.count);
+  } else {
+    [Globals popupMessage:@"Server failed to redeem quest"];
+  }
+}
+
+- (void) handleQuestLogDetailsResponseProto: (QuestLogDetailsResponseProto *)proto {
+  NSLog(@"Quest log details response received with status %d", proto.status);
+  if (proto.status == QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess) {
+    [[QuestLogController sharedQuestLogController] refreshWithQuests:proto.inProgressUserQuestDataList];
+  } else {
+    [Globals popupMessage:@"Server failed to send quest log details"];
+  }
+}
+
+- (void) handleQuestCompleteResponseProto: (QuestCompleteResponseProto *)proto {
+  NSLog(@"Received quest complete response for quest %d.", proto.quest.questId);
 }
 
 @end

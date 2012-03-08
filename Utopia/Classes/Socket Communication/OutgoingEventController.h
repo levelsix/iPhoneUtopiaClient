@@ -44,8 +44,10 @@
 - (void) addStaminaSkillPoint;
 - (void) addHealthSkillPoint;
 
-- (void) refillEnergy;
-- (void) refillStamina;
+- (void) refillEnergyWaitComplete;
+- (void) refillStaminaWaitComplete;
+- (void) refillEnergyWithDiamonds;
+- (void) refillStaminaWithDiamonds;
 
 - (UserStruct *) purchaseNormStruct:(int)structId atX:(int)x atY:(int)y;
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y;
@@ -67,5 +69,9 @@
 - (void) levelUp;
 
 - (void) changeUserLocationWithCoordinate:(CLLocationCoordinate2D)coord;
+
+- (void) acceptQuest:(int)questId;
+- (void) redeemQuest:(int)questId;
+- (void) retrieveQuestLog;
 
 @end

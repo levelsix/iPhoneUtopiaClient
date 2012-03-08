@@ -363,10 +363,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t defense;
 @property int32_t stamina;
 @property int64_t lastStaminaRefillTime;
-@property BOOL isLastStaminaStateFull;
 @property int32_t energy;
 @property int64_t lastEnergyRefillTime;
-@property BOOL isLastEnergyStateFull;
 @property int32_t skillPoints;
 @property int32_t healthMax;
 @property int32_t energyMax;
@@ -398,6 +396,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t numBadges;
 @property int64_t lastShortLicensePurchaseTime;
 @property int64_t lastLongLicensePurchaseTime;
+@property BOOL isFake;
 @end
 
 @implementation FullUserProto
@@ -458,18 +457,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasLastStaminaRefillTime_ = !!value;
 }
 @synthesize lastStaminaRefillTime;
-- (BOOL) hasIsLastStaminaStateFull {
-  return !!hasIsLastStaminaStateFull_;
-}
-- (void) setHasIsLastStaminaStateFull:(BOOL) value {
-  hasIsLastStaminaStateFull_ = !!value;
-}
-- (BOOL) isLastStaminaStateFull {
-  return !!isLastStaminaStateFull_;
-}
-- (void) setIsLastStaminaStateFull:(BOOL) value {
-  isLastStaminaStateFull_ = !!value;
-}
 - (BOOL) hasEnergy {
   return !!hasEnergy_;
 }
@@ -484,18 +471,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasLastEnergyRefillTime_ = !!value;
 }
 @synthesize lastEnergyRefillTime;
-- (BOOL) hasIsLastEnergyStateFull {
-  return !!hasIsLastEnergyStateFull_;
-}
-- (void) setHasIsLastEnergyStateFull:(BOOL) value {
-  hasIsLastEnergyStateFull_ = !!value;
-}
-- (BOOL) isLastEnergyStateFull {
-  return !!isLastEnergyStateFull_;
-}
-- (void) setIsLastEnergyStateFull:(BOOL) value {
-  isLastEnergyStateFull_ = !!value;
-}
 - (BOOL) hasSkillPoints {
   return !!hasSkillPoints_;
 }
@@ -713,6 +688,18 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasLastLongLicensePurchaseTime_ = !!value;
 }
 @synthesize lastLongLicensePurchaseTime;
+- (BOOL) hasIsFake {
+  return !!hasIsFake_;
+}
+- (void) setHasIsFake:(BOOL) value {
+  hasIsFake_ = !!value;
+}
+- (BOOL) isFake {
+  return !!isFake_;
+}
+- (void) setIsFake:(BOOL) value {
+  isFake_ = !!value;
+}
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
@@ -731,10 +718,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.defense = 0;
     self.stamina = 0;
     self.lastStaminaRefillTime = 0L;
-    self.isLastStaminaStateFull = NO;
     self.energy = 0;
     self.lastEnergyRefillTime = 0L;
-    self.isLastEnergyStateFull = NO;
     self.skillPoints = 0;
     self.healthMax = 0;
     self.energyMax = 0;
@@ -766,6 +751,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.numBadges = 0;
     self.lastShortLicensePurchaseTime = 0L;
     self.lastLongLicensePurchaseTime = 0L;
+    self.isFake = NO;
   }
   return self;
 }
@@ -803,13 +789,7 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasStamina) {
     return NO;
   }
-  if (!self.hasIsLastStaminaStateFull) {
-    return NO;
-  }
   if (!self.hasEnergy) {
-    return NO;
-  }
-  if (!self.hasIsLastEnergyStateFull) {
     return NO;
   }
   if (!self.hasSkillPoints) {
@@ -875,6 +855,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (!self.hasLastLoginTime) {
     return NO;
   }
+  if (!self.hasIsFake) {
+    return NO;
+  }
   if (!self.userLocation.isInitialized) {
     return NO;
   }
@@ -905,17 +888,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastStaminaRefillTime) {
     [output writeInt64:8 value:self.lastStaminaRefillTime];
   }
-  if (self.hasIsLastStaminaStateFull) {
-    [output writeBool:9 value:self.isLastStaminaStateFull];
-  }
   if (self.hasEnergy) {
     [output writeInt32:10 value:self.energy];
   }
   if (self.hasLastEnergyRefillTime) {
     [output writeInt64:11 value:self.lastEnergyRefillTime];
-  }
-  if (self.hasIsLastEnergyStateFull) {
-    [output writeBool:12 value:self.isLastEnergyStateFull];
   }
   if (self.hasSkillPoints) {
     [output writeInt32:13 value:self.skillPoints];
@@ -1010,6 +987,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasFlees) {
     [output writeInt32:45 value:self.flees];
   }
+  if (self.hasIsFake) {
+    [output writeBool:46 value:self.isFake];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1043,17 +1023,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasLastStaminaRefillTime) {
     size += computeInt64Size(8, self.lastStaminaRefillTime);
   }
-  if (self.hasIsLastStaminaStateFull) {
-    size += computeBoolSize(9, self.isLastStaminaStateFull);
-  }
   if (self.hasEnergy) {
     size += computeInt32Size(10, self.energy);
   }
   if (self.hasLastEnergyRefillTime) {
     size += computeInt64Size(11, self.lastEnergyRefillTime);
-  }
-  if (self.hasIsLastEnergyStateFull) {
-    size += computeBoolSize(12, self.isLastEnergyStateFull);
   }
   if (self.hasSkillPoints) {
     size += computeInt32Size(13, self.skillPoints);
@@ -1147,6 +1121,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasFlees) {
     size += computeInt32Size(45, self.flees);
+  }
+  if (self.hasIsFake) {
+    size += computeBoolSize(46, self.isFake);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1247,17 +1224,11 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastStaminaRefillTime) {
     [self setLastStaminaRefillTime:other.lastStaminaRefillTime];
   }
-  if (other.hasIsLastStaminaStateFull) {
-    [self setIsLastStaminaStateFull:other.isLastStaminaStateFull];
-  }
   if (other.hasEnergy) {
     [self setEnergy:other.energy];
   }
   if (other.hasLastEnergyRefillTime) {
     [self setLastEnergyRefillTime:other.lastEnergyRefillTime];
-  }
-  if (other.hasIsLastEnergyStateFull) {
-    [self setIsLastEnergyStateFull:other.isLastEnergyStateFull];
   }
   if (other.hasSkillPoints) {
     [self setSkillPoints:other.skillPoints];
@@ -1352,6 +1323,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastLongLicensePurchaseTime) {
     [self setLastLongLicensePurchaseTime:other.lastLongLicensePurchaseTime];
   }
+  if (other.hasIsFake) {
+    [self setIsFake:other.isFake];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1410,20 +1384,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setLastStaminaRefillTime:[input readInt64]];
         break;
       }
-      case 72: {
-        [self setIsLastStaminaStateFull:[input readBool]];
-        break;
-      }
       case 80: {
         [self setEnergy:[input readInt32]];
         break;
       }
       case 88: {
         [self setLastEnergyRefillTime:[input readInt64]];
-        break;
-      }
-      case 96: {
-        [self setIsLastEnergyStateFull:[input readBool]];
         break;
       }
       case 104: {
@@ -1553,6 +1519,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 360: {
         [self setFlees:[input readInt32]];
+        break;
+      }
+      case 368: {
+        [self setIsFake:[input readBool]];
         break;
       }
     }
@@ -1686,22 +1656,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastStaminaRefillTime = 0L;
   return self;
 }
-- (BOOL) hasIsLastStaminaStateFull {
-  return result.hasIsLastStaminaStateFull;
-}
-- (BOOL) isLastStaminaStateFull {
-  return result.isLastStaminaStateFull;
-}
-- (FullUserProto_Builder*) setIsLastStaminaStateFull:(BOOL) value {
-  result.hasIsLastStaminaStateFull = YES;
-  result.isLastStaminaStateFull = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearIsLastStaminaStateFull {
-  result.hasIsLastStaminaStateFull = NO;
-  result.isLastStaminaStateFull = NO;
-  return self;
-}
 - (BOOL) hasEnergy {
   return result.hasEnergy;
 }
@@ -1732,22 +1686,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearLastEnergyRefillTime {
   result.hasLastEnergyRefillTime = NO;
   result.lastEnergyRefillTime = 0L;
-  return self;
-}
-- (BOOL) hasIsLastEnergyStateFull {
-  return result.hasIsLastEnergyStateFull;
-}
-- (BOOL) isLastEnergyStateFull {
-  return result.isLastEnergyStateFull;
-}
-- (FullUserProto_Builder*) setIsLastEnergyStateFull:(BOOL) value {
-  result.hasIsLastEnergyStateFull = YES;
-  result.isLastEnergyStateFull = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearIsLastEnergyStateFull {
-  result.hasIsLastEnergyStateFull = NO;
-  result.isLastEnergyStateFull = NO;
   return self;
 }
 - (BOOL) hasSkillPoints {
@@ -2260,6 +2198,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastLongLicensePurchaseTime = 0L;
   return self;
 }
+- (BOOL) hasIsFake {
+  return result.hasIsFake;
+}
+- (BOOL) isFake {
+  return result.isFake;
+}
+- (FullUserProto_Builder*) setIsFake:(BOOL) value {
+  result.hasIsFake = YES;
+  result.isFake = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsFake {
+  result.hasIsFake = NO;
+  result.isFake = NO;
+  return self;
+}
 @end
 
 @interface FullEquipProto ()
@@ -2275,7 +2229,7 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 @property Float32 chanceOfLoss;
 @property FullEquipProto_ClassType classType;
 @property FullEquipProto_Rarity rarity;
-@property BOOL availInArmory;
+@property BOOL isBuyableInArmory;
 @end
 
 @implementation FullEquipProto
@@ -2364,17 +2318,17 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   hasRarity_ = !!value;
 }
 @synthesize rarity;
-- (BOOL) hasAvailInArmory {
-  return !!hasAvailInArmory_;
+- (BOOL) hasIsBuyableInArmory {
+  return !!hasIsBuyableInArmory_;
 }
-- (void) setHasAvailInArmory:(BOOL) value {
-  hasAvailInArmory_ = !!value;
+- (void) setHasIsBuyableInArmory:(BOOL) value {
+  hasIsBuyableInArmory_ = !!value;
 }
-- (BOOL) availInArmory {
-  return !!availInArmory_;
+- (BOOL) isBuyableInArmory {
+  return !!isBuyableInArmory_;
 }
-- (void) setAvailInArmory:(BOOL) value {
-  availInArmory_ = !!value;
+- (void) setIsBuyableInArmory:(BOOL) value {
+  isBuyableInArmory_ = !!value;
 }
 - (void) dealloc {
   self.name = nil;
@@ -2395,7 +2349,7 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
     self.chanceOfLoss = 0;
     self.classType = FullEquipProto_ClassTypeWarrior;
     self.rarity = FullEquipProto_RarityCommon;
-    self.availInArmory = NO;
+    self.isBuyableInArmory = NO;
   }
   return self;
 }
@@ -2442,7 +2396,7 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (!self.hasRarity) {
     return NO;
   }
-  if (!self.hasAvailInArmory) {
+  if (!self.hasIsBuyableInArmory) {
     return NO;
   }
   return YES;
@@ -2484,8 +2438,8 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasRarity) {
     [output writeEnum:12 value:self.rarity];
   }
-  if (self.hasAvailInArmory) {
-    [output writeBool:13 value:self.availInArmory];
+  if (self.hasIsBuyableInArmory) {
+    [output writeBool:13 value:self.isBuyableInArmory];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2532,8 +2486,8 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasRarity) {
     size += computeEnumSize(12, self.rarity);
   }
-  if (self.hasAvailInArmory) {
-    size += computeBoolSize(13, self.availInArmory);
+  if (self.hasIsBuyableInArmory) {
+    size += computeBoolSize(13, self.isBuyableInArmory);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2679,8 +2633,8 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   if (other.hasRarity) {
     [self setRarity:other.rarity];
   }
-  if (other.hasAvailInArmory) {
-    [self setAvailInArmory:other.availInArmory];
+  if (other.hasIsBuyableInArmory) {
+    [self setIsBuyableInArmory:other.isBuyableInArmory];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -2767,7 +2721,7 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
         break;
       }
       case 104: {
-        [self setAvailInArmory:[input readBool]];
+        [self setIsBuyableInArmory:[input readBool]];
         break;
       }
     }
@@ -2965,20 +2919,20 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   result.rarity = FullEquipProto_RarityCommon;
   return self;
 }
-- (BOOL) hasAvailInArmory {
-  return result.hasAvailInArmory;
+- (BOOL) hasIsBuyableInArmory {
+  return result.hasIsBuyableInArmory;
 }
-- (BOOL) availInArmory {
-  return result.availInArmory;
+- (BOOL) isBuyableInArmory {
+  return result.isBuyableInArmory;
 }
-- (FullEquipProto_Builder*) setAvailInArmory:(BOOL) value {
-  result.hasAvailInArmory = YES;
-  result.availInArmory = value;
+- (FullEquipProto_Builder*) setIsBuyableInArmory:(BOOL) value {
+  result.hasIsBuyableInArmory = YES;
+  result.isBuyableInArmory = value;
   return self;
 }
-- (FullEquipProto_Builder*) clearAvailInArmory {
-  result.hasAvailInArmory = NO;
-  result.availInArmory = NO;
+- (FullEquipProto_Builder*) clearIsBuyableInArmory {
+  result.hasIsBuyableInArmory = NO;
+  result.isBuyableInArmory = NO;
   return self;
 }
 @end

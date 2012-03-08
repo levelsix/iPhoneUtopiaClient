@@ -227,27 +227,26 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
-  BOOL hasIsLastEnergyStateFull_:1;
-  BOOL hasIsLastStaminaStateFull_:1;
-  BOOL hasLastEnergyRefillTime_:1;
+  BOOL hasIsFake_:1;
+  BOOL hasLastLongLicensePurchaseTime_:1;
+  BOOL hasLastShortLicensePurchaseTime_:1;
+  BOOL hasLastTimeAttacked_:1;
+  BOOL hasLastBattleNotificationTime_:1;
+  BOOL hasLastLogoutTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
   BOOL hasLastLoginTime_:1;
-  BOOL hasLastLogoutTime_:1;
-  BOOL hasLastBattleNotificationTime_:1;
-  BOOL hasLastTimeAttacked_:1;
-  BOOL hasLastShortLicensePurchaseTime_:1;
-  BOOL hasLastLongLicensePurchaseTime_:1;
-  BOOL hasNumBadges_:1;
-  BOOL hasAmuletEquipped_:1;
-  BOOL hasArmorEquipped_:1;
-  BOOL hasWeaponEquipped_:1;
-  BOOL hasNumMarketplaceSalesUnredeemed_:1;
-  BOOL hasNumPostsInMarketplace_:1;
-  BOOL hasNumReferrals_:1;
-  BOOL hasFlees_:1;
-  BOOL hasBattlesLost_:1;
-  BOOL hasBattlesWon_:1;
+  BOOL hasLastEnergyRefillTime_:1;
   BOOL hasTasksCompleted_:1;
+  BOOL hasBattlesWon_:1;
+  BOOL hasBattlesLost_:1;
+  BOOL hasFlees_:1;
+  BOOL hasNumReferrals_:1;
+  BOOL hasNumPostsInMarketplace_:1;
+  BOOL hasNumMarketplaceSalesUnredeemed_:1;
+  BOOL hasWeaponEquipped_:1;
+  BOOL hasArmorEquipped_:1;
+  BOOL hasAmuletEquipped_:1;
+  BOOL hasNumBadges_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
   BOOL hasAttack_:1;
@@ -270,27 +269,26 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasName_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
-  BOOL isLastEnergyStateFull_:1;
-  BOOL isLastStaminaStateFull_:1;
-  int64_t lastEnergyRefillTime;
+  BOOL isFake_:1;
+  int64_t lastLongLicensePurchaseTime;
+  int64_t lastShortLicensePurchaseTime;
+  int64_t lastTimeAttacked;
+  int64_t lastBattleNotificationTime;
+  int64_t lastLogoutTime;
   int64_t lastStaminaRefillTime;
   int64_t lastLoginTime;
-  int64_t lastLogoutTime;
-  int64_t lastBattleNotificationTime;
-  int64_t lastTimeAttacked;
-  int64_t lastShortLicensePurchaseTime;
-  int64_t lastLongLicensePurchaseTime;
-  int32_t numBadges;
-  int32_t amuletEquipped;
-  int32_t armorEquipped;
-  int32_t weaponEquipped;
-  int32_t numMarketplaceSalesUnredeemed;
-  int32_t numPostsInMarketplace;
-  int32_t numReferrals;
-  int32_t flees;
-  int32_t battlesLost;
-  int32_t battlesWon;
+  int64_t lastEnergyRefillTime;
   int32_t tasksCompleted;
+  int32_t battlesWon;
+  int32_t battlesLost;
+  int32_t flees;
+  int32_t numReferrals;
+  int32_t numPostsInMarketplace;
+  int32_t numMarketplaceSalesUnredeemed;
+  int32_t weaponEquipped;
+  int32_t armorEquipped;
+  int32_t amuletEquipped;
+  int32_t numBadges;
   int32_t userId;
   int32_t level;
   int32_t attack;
@@ -322,10 +320,8 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasDefense;
 - (BOOL) hasStamina;
 - (BOOL) hasLastStaminaRefillTime;
-- (BOOL) hasIsLastStaminaStateFull;
 - (BOOL) hasEnergy;
 - (BOOL) hasLastEnergyRefillTime;
-- (BOOL) hasIsLastEnergyStateFull;
 - (BOOL) hasSkillPoints;
 - (BOOL) hasHealthMax;
 - (BOOL) hasEnergyMax;
@@ -357,6 +353,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasNumBadges;
 - (BOOL) hasLastShortLicensePurchaseTime;
 - (BOOL) hasLastLongLicensePurchaseTime;
+- (BOOL) hasIsFake;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -365,10 +362,8 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) int32_t defense;
 @property (readonly) int32_t stamina;
 @property (readonly) int64_t lastStaminaRefillTime;
-- (BOOL) isLastStaminaStateFull;
 @property (readonly) int32_t energy;
 @property (readonly) int64_t lastEnergyRefillTime;
-- (BOOL) isLastEnergyStateFull;
 @property (readonly) int32_t skillPoints;
 @property (readonly) int32_t healthMax;
 @property (readonly) int32_t energyMax;
@@ -400,6 +395,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) int32_t numBadges;
 @property (readonly) int64_t lastShortLicensePurchaseTime;
 @property (readonly) int64_t lastLongLicensePurchaseTime;
+- (BOOL) isFake;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -475,11 +471,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullUserProto_Builder*) setLastStaminaRefillTime:(int64_t) value;
 - (FullUserProto_Builder*) clearLastStaminaRefillTime;
 
-- (BOOL) hasIsLastStaminaStateFull;
-- (BOOL) isLastStaminaStateFull;
-- (FullUserProto_Builder*) setIsLastStaminaStateFull:(BOOL) value;
-- (FullUserProto_Builder*) clearIsLastStaminaStateFull;
-
 - (BOOL) hasEnergy;
 - (int32_t) energy;
 - (FullUserProto_Builder*) setEnergy:(int32_t) value;
@@ -489,11 +480,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int64_t) lastEnergyRefillTime;
 - (FullUserProto_Builder*) setLastEnergyRefillTime:(int64_t) value;
 - (FullUserProto_Builder*) clearLastEnergyRefillTime;
-
-- (BOOL) hasIsLastEnergyStateFull;
-- (BOOL) isLastEnergyStateFull;
-- (FullUserProto_Builder*) setIsLastEnergyStateFull:(BOOL) value;
-- (FullUserProto_Builder*) clearIsLastEnergyStateFull;
 
 - (BOOL) hasSkillPoints;
 - (int32_t) skillPoints;
@@ -651,11 +637,16 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int64_t) lastLongLicensePurchaseTime;
 - (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value;
 - (FullUserProto_Builder*) clearLastLongLicensePurchaseTime;
+
+- (BOOL) hasIsFake;
+- (BOOL) isFake;
+- (FullUserProto_Builder*) setIsFake:(BOOL) value;
+- (FullUserProto_Builder*) clearIsFake;
 @end
 
 @interface FullEquipProto : PBGeneratedMessage {
 @private
-  BOOL hasAvailInArmory_:1;
+  BOOL hasIsBuyableInArmory_:1;
   BOOL hasChanceOfLoss_:1;
   BOOL hasEquipId_:1;
   BOOL hasAttackBoost_:1;
@@ -668,7 +659,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasEquipType_:1;
   BOOL hasClassType_:1;
   BOOL hasRarity_:1;
-  BOOL availInArmory_:1;
+  BOOL isBuyableInArmory_:1;
   Float32 chanceOfLoss;
   int32_t equipId;
   int32_t attackBoost;
@@ -694,7 +685,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasChanceOfLoss;
 - (BOOL) hasClassType;
 - (BOOL) hasRarity;
-- (BOOL) hasAvailInArmory;
+- (BOOL) hasIsBuyableInArmory;
 @property (readonly) int32_t equipId;
 @property (readonly, retain) NSString* name;
 @property (readonly) FullEquipProto_EquipType equipType;
@@ -707,7 +698,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) Float32 chanceOfLoss;
 @property (readonly) FullEquipProto_ClassType classType;
 @property (readonly) FullEquipProto_Rarity rarity;
-- (BOOL) availInArmory;
+- (BOOL) isBuyableInArmory;
 
 + (FullEquipProto*) defaultInstance;
 - (FullEquipProto*) defaultInstance;
@@ -803,10 +794,10 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullEquipProto_Builder*) setRarity:(FullEquipProto_Rarity) value;
 - (FullEquipProto_Builder*) clearRarity;
 
-- (BOOL) hasAvailInArmory;
-- (BOOL) availInArmory;
-- (FullEquipProto_Builder*) setAvailInArmory:(BOOL) value;
-- (FullEquipProto_Builder*) clearAvailInArmory;
+- (BOOL) hasIsBuyableInArmory;
+- (BOOL) isBuyableInArmory;
+- (FullEquipProto_Builder*) setIsBuyableInArmory:(BOOL) value;
+- (FullEquipProto_Builder*) clearIsBuyableInArmory;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {

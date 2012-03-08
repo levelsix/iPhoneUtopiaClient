@@ -150,7 +150,7 @@
 -(void) setPositionInPixels:(CGPoint)newPosition
 {
 	positionInPixels_ = newPosition;
-
+  
 	if( CC_CONTENT_SCALE_FACTOR() == 1 )
 		position_ = positionInPixels_;
 	else
@@ -205,7 +205,7 @@
 {
 	if( ! CGSizeEqualToSize(size, contentSizeInPixels_) ) {
 		contentSizeInPixels_ = size;
-
+    
 		if( CC_CONTENT_SCALE_FACTOR() == 1 )
 			contentSize_ = contentSizeInPixels_;
 		else
@@ -303,13 +303,13 @@
 		
 		// userData is always inited as nil
 		userData_ = nil;
-        
+    
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-        // lazy allocation
-        gestureRecognizers_ = nil;
-        isTouchEnabled_ = NO;
+    // lazy allocation
+    gestureRecognizers_ = nil;
+    isTouchEnabled_ = NO;
 #endif
-
+    
 		//initialize parent to nil
 		parent_ = nil;
 	}
@@ -344,7 +344,7 @@
 	// children
 	CCNode *child;
 	CCARRAY_FOREACH(children_, child)
-		child.parent = nil;
+  child.parent = nil;
 	
 	[children_ release];
 	
@@ -560,7 +560,7 @@
 		[grid_ beforeDraw];
 		[self transformAncestors];
 	}
-
+  
 	[self transform];
 	
 	if(children_) {
@@ -584,7 +584,7 @@
 			CCNode *child =  arrayData->arr[i];
 			[child visit];
 		}
-
+    
 	} else
 		[self draw];
 	
@@ -684,10 +684,10 @@
 -(void) onEnter
 {
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-    if( isTouchEnabled_ )
-        [self startAllGestureRecognizers];
+  if( isTouchEnabled_ )
+    [self startAllGestureRecognizers];
 #endif
-    
+  
 	[children_ makeObjectsPerformSelector:@selector(onEnter)];	
 	[self resumeSchedulerAndActions];
 	
@@ -702,7 +702,7 @@
 -(void) onExit
 {
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
-    [self stopAllGestureRecognizers];
+  [self stopAllGestureRecognizers];
 #endif
 	[self pauseSchedulerAndActions];
 	isRunning_ = NO;	
@@ -807,135 +807,135 @@
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 -(BOOL) isRunning
 {
-    return isRunning_;
+  return isRunning_;
 }
 
 -(void) setIsRunning:(BOOL)running
 {
-    if( isRunning_ != running )
-    {
-        isRunning_ = running;
-        if( isRunning_ && isTouchEnabled_ )
-            [self startAllGestureRecognizers];
-        else
-            [self stopAllGestureRecognizers];
-    }
+  if( isRunning_ != running )
+  {
+    isRunning_ = running;
+    if( isRunning_ && isTouchEnabled_ )
+      [self startAllGestureRecognizers];
+    else
+      [self stopAllGestureRecognizers];
+  }
 }
 
 - (void)addGestureRecognizer:(CCGestureRecognizer*)gestureRecognizer
 {
-    if( ! gestureRecognizers_ )
-        gestureRecognizers_ = [[CCArray alloc] initWithCapacity:4];
-    [gestureRecognizers_ addObject:gestureRecognizer];
-    gestureRecognizer.node = self;
-      
-    // if we are running we add the recognizer to the view right now
-    // if not we let the one enter take care of it since we don't
-    // want recognizers going off when the node isn't active
-    if( isRunning_ && isTouchEnabled_ )
-        [[CCDirector sharedDirector].openGLView addGestureRecognizer:gestureRecognizer.gestureRecognizer];
+  if( ! gestureRecognizers_ )
+    gestureRecognizers_ = [[CCArray alloc] initWithCapacity:4];
+  [gestureRecognizers_ addObject:gestureRecognizer];
+  gestureRecognizer.node = self;
+  
+  // if we are running we add the recognizer to the view right now
+  // if not we let the one enter take care of it since we don't
+  // want recognizers going off when the node isn't active
+  if( isRunning_ && isTouchEnabled_ )
+    [[CCDirector sharedDirector].openGLView addGestureRecognizer:gestureRecognizer.gestureRecognizer];
 }
 
 - (void)removeGestureRecognizer:(CCGestureRecognizer*)gestureRecognizer
 {
-    [gestureRecognizers_ removeObject:gestureRecognizer];
-    // this is a sanity check to make sure that someone didn't add the
-    // same gestureRecognizer to different nodes
-    if( gestureRecognizer.node == self )
-        [[CCDirector sharedDirector].openGLView removeGestureRecognizer:gestureRecognizer.gestureRecognizer];
+  [gestureRecognizers_ removeObject:gestureRecognizer];
+  // this is a sanity check to make sure that someone didn't add the
+  // same gestureRecognizer to different nodes
+  if( gestureRecognizer.node == self )
+    [[CCDirector sharedDirector].openGLView removeGestureRecognizer:gestureRecognizer.gestureRecognizer];
 }
 
 - (void)stopAllGestureRecognizers
 {
-    CCGestureRecognizer* recognizer;
-    CCARRAY_FOREACH(gestureRecognizers_, recognizer)
-    {
-        if( recognizer.node == self )
-            [[CCDirector sharedDirector].openGLView removeGestureRecognizer:recognizer.gestureRecognizer];
-    }
+  CCGestureRecognizer* recognizer;
+  CCARRAY_FOREACH(gestureRecognizers_, recognizer)
+  {
+    if( recognizer.node == self )
+      [[CCDirector sharedDirector].openGLView removeGestureRecognizer:recognizer.gestureRecognizer];
+  }
 }
 
 -(void) startAllGestureRecognizers
 {
-    CCGestureRecognizer* recognizer;
-    CCARRAY_FOREACH(gestureRecognizers_, recognizer)
-    {
-        if( recognizer.node == self )
-            [[CCDirector sharedDirector].openGLView addGestureRecognizer:recognizer.gestureRecognizer];
-    }
+  CCGestureRecognizer* recognizer;
+  CCARRAY_FOREACH(gestureRecognizers_, recognizer)
+  {
+    if( recognizer.node == self )
+      [[CCDirector sharedDirector].openGLView addGestureRecognizer:recognizer.gestureRecognizer];
+  }
 }
 
 -(BOOL) isPointInArea:(CGPoint)pt
 {
-    if( visible_ == NO )
-        return NO;
-
-    /*  convert the point to the nodes local coordinate system to make it
-        easier to compare against the area the node occupies*/
-    pt = [self convertToNodeSpace:pt];
-      
-    // we have to take the anchor point into account for checking
-    CGRect rect;
-    /*  we should be able to use touchableArea here, even if a node doesn't set
-        this, it will return the contentArea.  */
-    rect.size = self.touchableArea;
-    rect.origin = CGPointZero;
-      
-    if( CGRectContainsPoint(rect,pt) )
-        return YES;
+  if( visible_ == NO )
     return NO;
+  
+  /*  convert the point to the nodes local coordinate system to make it
+   easier to compare against the area the node occupies*/
+  pt = [self convertToNodeSpace:pt];
+  
+  // we have to take the anchor point into account for checking
+  CGRect rect;
+  /*  we should be able to use touchableArea here, even if a node doesn't set
+   this, it will return the contentArea.  */
+  rect.size = self.touchableArea;
+  rect.origin = CGPointZero;
+  
+  if( CGRectContainsPoint(rect,pt) )
+    return YES;
+  return NO;
 }
 
 -(BOOL) isNodeInTreeTouched:(CGPoint)pt
 {
-    if( [self isPointInArea:pt] )
-        return YES;
-
-    BOOL rslt = NO;
-    CCNode* child;
-    CCARRAY_FOREACH(children_, child )
+  if( [self isPointInArea:pt] )
+    return YES;
+  
+  BOOL rslt = NO;
+  CCNode* child;
+  CCARRAY_FOREACH(children_, child )
+  {
+    if( child.visible && [child isNodeInTreeTouched:pt] )
     {
-        if( [child isNodeInTreeTouched:pt] )
-        {
-            rslt = YES;
-            break;
-        }
+      rslt = YES;
+      break;
     }
-    return rslt;
+  }
+  return rslt;
 }
 
 -(CGSize) touchableArea
 {
-    // we use content size if touchable area is 0
-    if( touchableArea_.width != 0.0f || touchableArea_.height != 0.0f )
-        return touchableArea_;
-    else
-        return contentSize_;
+  // we use content size if touchable area is 0
+  if( touchableArea_.width != 0.0f || touchableArea_.height != 0.0f )
+    return touchableArea_;
+  else
+    return contentSize_;
 }
 
 -(void) setTouchableArea:(CGSize)area
 {
-    touchableArea_ = area;
+  touchableArea_ = area;
 }
 
 -(BOOL) isTouchEnabled
 {
-    return isTouchEnabled_;
+  return isTouchEnabled_;
 }
 
 -(void) setIsTouchEnabled:(BOOL)enabled
 {
-    if( isTouchEnabled_ != enabled )
+  if( isTouchEnabled_ != enabled )
+  {
+    isTouchEnabled_ = enabled;
+    CCGestureRecognizer* recognizer;
+    CCARRAY_FOREACH(gestureRecognizers_, recognizer)
     {
-        isTouchEnabled_ = enabled;
-        CCGestureRecognizer* recognizer;
-        CCARRAY_FOREACH(gestureRecognizers_, recognizer)
-        {
-        // just an extra check
-            if( recognizer.node == self )
-                recognizer.gestureRecognizer.enabled = isTouchEnabled_;
-        }
+      // just an extra check
+      if( recognizer.node == self )
+        recognizer.gestureRecognizer.enabled = isTouchEnabled_;
     }
+  }
 }
 #endif
 
@@ -949,7 +949,7 @@
 		
 		if ( !isRelativeAnchorPoint_ && !CGPointEqualToPoint(anchorPointInPixels_, CGPointZero) )
 			transform_ = CGAffineTransformTranslate(transform_, anchorPointInPixels_.x, anchorPointInPixels_.y);
-
+    
 		if( ! CGPointEqualToPoint(positionInPixels_, CGPointZero) )
 			transform_ = CGAffineTransformTranslate(transform_, positionInPixels_.x, positionInPixels_.y);
 		
@@ -968,7 +968,7 @@
 		
 		if( ! CGPointEqualToPoint(anchorPointInPixels_, CGPointZero) )
 			transform_ = CGAffineTransformTranslate(transform_, -anchorPointInPixels_.x, -anchorPointInPixels_.y);
-				
+    
 		isTransformDirty_ = NO;
 	}
 	
@@ -1036,7 +1036,7 @@
 		anchorInPoints = anchorPointInPixels_;
 	else
 		anchorInPoints = ccpMult( anchorPointInPixels_, 1/CC_CONTENT_SCALE_FACTOR() );
-	   
+  
 	return ccpSub(nodePoint, anchorInPoints);
 }
 
@@ -1054,7 +1054,7 @@
 
 - (CGPoint)convertToWindowSpace:(CGPoint)nodePoint
 {
-    CGPoint worldPoint = [self convertToWorldSpace:nodePoint];
+  CGPoint worldPoint = [self convertToWorldSpace:nodePoint];
 	return [[CCDirector sharedDirector] convertToUI:worldPoint];
 }
 

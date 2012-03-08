@@ -670,6 +670,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
+  [self updateHomeBuildingMenu];
 }
 
 - (void) scrollScreenForTouch:(CGPoint)pt {

@@ -31,6 +31,8 @@
 @property (nonatomic, assign) float retractPercentCut;
 @property (nonatomic, assign) float purchasePercentCut;
 
+@property (nonatomic, assign) float energyRefillWaitMinutes;
+@property (nonatomic, assign) float staminaRefillWaitMinutes;
 @property (nonatomic, assign) int energyRefillCost;
 @property (nonatomic, assign) int staminaRefillCost;
 
@@ -64,8 +66,8 @@
 + (void) adjustFontSizeForUIViewsWithDefaultSize:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 + (void) adjustFontSizeForUILabel:(UILabel *)label;
 + (void) adjustFontSizeForUILabels:(UILabel *)field1, ... NS_REQUIRES_NIL_TERMINATION;
-+ (void) adjustFontSizeForCCLabelTTF:(CCLabelTTF *)label;
-+ (void) adjustFontSizeForCCLabelTTFs:(CCLabelTTF *)field1, ... NS_REQUIRES_NIL_TERMINATION;
++ (void) adjustFontSizeForCCLabelTTF:(CCLabelTTF *)label size:(int)size;
++ (void) adjustFontSizeForSize:(int)size CCLabelTTFs:(CCLabelTTF *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 
 + (NSString *) commafyNumber:(int) n;
 

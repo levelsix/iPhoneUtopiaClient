@@ -27,7 +27,6 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCVaultEvent:
     case EventProtocolRequestCTaskActionEvent:
     case EventProtocolRequestCStartupEvent:
-    case EventProtocolRequestCRetrieveQuestsForCityEvent:
     case EventProtocolRequestCRetrieveStaticDataForShopEvent:
     case EventProtocolRequestCArmoryEvent:
     case EventProtocolRequestCInAppPurchaseEvent:
@@ -75,7 +74,6 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSVaultEvent:
     case EventProtocolResponseSTaskActionEvent:
     case EventProtocolResponseSStartupEvent:
-    case EventProtocolResponseSRetrieveQuestsForCityEvent:
     case EventProtocolResponseSRetrieveStaticDataForShopEvent:
     case EventProtocolResponseSArmoryEvent:
     case EventProtocolResponseSInAppPurchaseEvent:
