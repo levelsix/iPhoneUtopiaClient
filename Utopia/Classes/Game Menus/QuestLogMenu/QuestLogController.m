@@ -143,6 +143,8 @@
   }];
   self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT*gs.inProgressQuests.allValues.count+self.scrollView.topGradient.frame.size.height+self.scrollView.botGradient.frame.size.height);
   
+  [self.scrollView setNeedsDisplay];
+  
   _clickedView = nil;
 }
 
@@ -411,6 +413,9 @@
 
 - (void) awakeFromNib {
   self.questNameLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];
+}
+
+- (void) refreshWithQuestData:(FullUserQuestDataLargeProto *)data {
 }
 
 @end
