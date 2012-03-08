@@ -68,6 +68,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   CCScene *scene = [GameLayer scene];
+  [BattleLayer scene];
   [[CCDirector sharedDirector] runWithScene:scene];
 }
 

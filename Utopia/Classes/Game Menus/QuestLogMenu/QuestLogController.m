@@ -431,6 +431,8 @@
 }
 
 - (void) refreshWithQuestData:(FullUserQuestDataLargeProto *)data {
+  [self unloadTasks];
+  
   TaskItemView *tiv = nil;
   GameState *gs = [GameState sharedGameState];
   
@@ -442,7 +444,7 @@
                                         outOf:q.numEnemiesToDefeat
                                          type:kDefeatTypeJob 
                                         jobId:p.defeatTypeJobId];
-    [self addSubview:tiv];
+    [self.scrollView addSubview:tiv];
     [taskItemViews addObject:tiv];
     [tiv release];
   }
@@ -455,7 +457,7 @@
                                         outOf:q.numRequiredForCompletion
                                          type:kTask 
                                         jobId:p.taskId];
-    [self addSubview:tiv];
+    [self.scrollView addSubview:tiv];
     [taskItemViews addObject:tiv];
     [tiv release];
   }
@@ -469,7 +471,7 @@
                                         outOf:q.quantityReq
                                          type:kPossessEquipJob 
                                         jobId:p.possessEquipJobId];
-    [self addSubview:tiv];
+    [self.scrollView addSubview:tiv];
     [taskItemViews addObject:tiv];
     [tiv release];
   }
@@ -483,7 +485,7 @@
                                         outOf:q.quantityRequired
                                          type:kBuildStructJob 
                                         jobId:p.buildStructJobId];
-    [self addSubview:tiv];
+    [self.scrollView addSubview:tiv];
     [taskItemViews addObject:tiv];
     [tiv release];
   }
@@ -497,7 +499,7 @@
                                         outOf:q.levelReq
                                          type:kUpgradeStructJob 
                                         jobId:p.upgradeStructJobId];
-    [self addSubview:tiv];
+    [self.scrollView addSubview:tiv];
     [taskItemViews addObject:tiv];
     [tiv release];
   }
@@ -518,6 +520,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
+  taskView.alpha = 0.0;
+  questDescView.alpha = 0.0;
 }
 
 - (void) viewDidAppear:(BOOL)animated {

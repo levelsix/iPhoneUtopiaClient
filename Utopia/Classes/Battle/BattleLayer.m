@@ -7,31 +7,43 @@
 //
 
 #import "BattleLayer.h"
+#import "GameState.h"
 #import "Globals.h"
+#import "SynthesizeSingleton.h"
+#import "GameLayer.h"
 
-#define HEALTH_BAR_VELOCITY 30.f
+#define HEALTH_BAR_VELOCITY 120.f
 
 #define ATTACK_BUTTON_ANIMATION 4.f
 
-#define MIN_COMBO_BAR_DURATION 0.8f
+#define MIN_COMBO_BAR_DURATION 1.f
 #define MAX_COMBO_BAR_DURATION 1.8f
+
+#define BIG_HEALTH_FONT 14.f
+#define SMALL_HEALTH_FONT 10.f
 
 @implementation BattleLayer
 
+SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
+
+static CCScene *scene = nil;
+
 +(CCScene *) scene
 {
-	// 'scene' is an autorelease object.
-	CCScene *scene = [CCScene node];
-  
-  CCSprite *sprite = [CCSprite spriteWithFile:@"battlebackground1.png"];
-  sprite.anchorPoint = ccp(0,0);
-  [scene addChild:sprite];
-	
-	// 'layer' is an autorelease object.
-	BattleLayer *layer = [BattleLayer node];
-	
-	// add layer as a child to scene
-	[scene addChild: layer];
+  if (!scene) {
+    // 'scene' is an autorelease object.
+    scene = [[CCScene node] retain];
+    
+    CCSprite *sprite = [CCSprite spriteWithFile:@"battlebackground1.png"];
+    sprite.anchorPoint = ccp(0,0);
+    [scene addChild:sprite];
+    
+    // 'layer' is an autorelease object.
+    BattleLayer *layer = [BattleLayer node];
+    
+    // add layer as a child to scene
+    [scene addChild: layer];
+  }
 	
 	// return the scene
 	return scene;
@@ -48,25 +60,25 @@
     [self addChild:_left z:1];
     [self addChild:_right z:1];
     
-    CCSprite *_leftHealthBarBg = [CCSprite spriteWithFile:@"healthbarbg.png"];
-    _leftHealthBarBg.position = ccp(_leftHealthBarBg.contentSize.width/2, self.contentSize.height-_leftHealthBarBg.contentSize.height/2);
-    [self addChild:_leftHealthBarBg];
+    CCSprite *leftHealthBarBg = [CCSprite spriteWithFile:@"healthbarbg.png"];
+    leftHealthBarBg.position = ccp(leftHealthBarBg.contentSize.width/2, self.contentSize.height-leftHealthBarBg.contentSize.height/2);
+    [self addChild:leftHealthBarBg];
     
     _leftHealthBar = [CCSprite spriteWithFile:@"healthbar.png"];
     _leftHealthBar.anchorPoint = ccp(0, 0.5f);
-    _leftHealthBar.position = ccp(0, _leftHealthBarBg.contentSize.height/2);
-    [_leftHealthBarBg addChild:_leftHealthBar];
+    _leftHealthBar.position = ccp(0, leftHealthBarBg.contentSize.height/2);
+    [leftHealthBarBg addChild:_leftHealthBar];
     
-    CCSprite *_rightHealthBarBg = [CCSprite spriteWithTexture:_leftHealthBarBg.texture];
-    _rightHealthBarBg.flipX = YES;
-    _rightHealthBarBg.position = ccp(self.contentSize.width-_leftHealthBarBg.contentSize.width/2, self.contentSize.height-_leftHealthBarBg.contentSize.height/2);
-    [self addChild:_rightHealthBarBg];
+    CCSprite *rightHealthBarBg = [CCSprite spriteWithTexture:leftHealthBarBg.texture];
+    rightHealthBarBg.flipX = YES;
+    rightHealthBarBg.position = ccp(self.contentSize.width-leftHealthBarBg.contentSize.width/2, self.contentSize.height-leftHealthBarBg.contentSize.height/2);
+    [self addChild:rightHealthBarBg];
     
     _rightHealthBar = [CCSprite spriteWithTexture:_leftHealthBar.texture];
     _rightHealthBar.anchorPoint = ccp(1, 0.5f);
-    _rightHealthBar.position = ccp(_rightHealthBarBg.contentSize.width, _rightHealthBarBg.contentSize.height/2);
+    _rightHealthBar.position = ccp(rightHealthBarBg.contentSize.width, rightHealthBarBg.contentSize.height/2);
     _rightHealthBar.flipX = YES;
-    [_rightHealthBarBg addChild:_rightHealthBar];
+    [rightHealthBarBg addChild:_rightHealthBar];
     
     _attackButton = [CCSprite spriteWithFile:@"attackbg.png"];
     _attackButton.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
@@ -112,23 +124,120 @@
     _bottomMenu.position = ccp(self.contentSize.width/2, 0);
     [self addChild:_bottomMenu];
     
-    [self setleftHealthBarPercentage:0.1];
-    [self setrightHealthBarPercentage:0.1];
+    int yOffset = 5.f;
+    _leftMaxHealthLabel = [CCLabelTTF labelWithString:@" / 100" fontName:@"DINCond-Black" fontSize:10];
+    _leftMaxHealthLabel.anchorPoint = ccp(0,0);
+    _leftMaxHealthLabel.position = ccp(leftHealthBarBg.contentSize.width/2, yOffset);
+    [leftHealthBarBg addChild:_leftMaxHealthLabel];
+    _leftCurHealthLabel = [CCLabelTTF labelWithString:@"100" fontName:@"DINCond-Black" fontSize:14];
+    _leftCurHealthLabel.anchorPoint = ccp(1,0);
+    _leftCurHealthLabel.position = ccp(leftHealthBarBg.contentSize.width/2, yOffset);
+    [leftHealthBarBg addChild:_leftCurHealthLabel];
+    
+    _rightMaxHealthLabel = [CCLabelTTF labelWithString:@" / 100" fontName:@"DINCond-Black" fontSize:10];
+    _rightMaxHealthLabel.anchorPoint = ccp(0,0);
+    _rightMaxHealthLabel.position = ccp(rightHealthBarBg.contentSize.width/2, yOffset);
+    [rightHealthBarBg addChild:_rightMaxHealthLabel];
+    _rightCurHealthLabel = [CCLabelTTF labelWithString:@"100" fontName:@"DINCond-Black" fontSize:14];
+    _rightCurHealthLabel.anchorPoint = ccp(1,0);
+    _rightCurHealthLabel.position = ccp(rightHealthBarBg.contentSize.width/2, yOffset);
+    [rightHealthBarBg addChild:_rightCurHealthLabel];
     
     self.isTouchEnabled = YES;
-    
-    [self startTurn];
   }
   return self;
 }
 
-- (void) setleftHealthBarPercentage:(float)percentage {
-  float width = _leftHealthBar.contentSize.width;
-  float endPos = width * percentage;
+- (void) beginBattleAgainst:(FullUserProto *)user {
+  GameState *gs = [GameState sharedGameState];
   
-  CGPoint finalPt = ccp(endPos-width, _leftHealthBar.position.y);
+  _leftCurrentHealth = gs.maxHealth;
+  _leftMaxHealth = gs.maxHealth;
+  _rightMaxHealth = user.healthMax;
+  _rightCurrentHealth = user.healthMax;
+  
+  _rightCurHealthLabel.string = [NSString stringWithFormat:@"%d", _rightCurrentHealth];
+  _rightMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _rightMaxHealth];
+  _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", _leftCurrentHealth];
+  _leftMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _leftMaxHealth];
+  
+  [[CCDirector sharedDirector] pushScene:scene];
+  [self startMyTurn];
+}
+
+- (void) setLeftHealthBarPercentage:(float)percentage {
+  // Anchor point is (0,0.5)
+  CGPoint finalPt;
+  SEL afterAction;
+  float width = _leftHealthBar.contentSize.width;
+  if (percentage > 0) {
+    float endPos = width * percentage / 100;
+    finalPt = ccp(endPos-width, _leftHealthBar.position.y);
+    afterAction = @selector(startMyTurn);
+  } else {
+    finalPt = ccp(-width, _leftHealthBar.position.y);
+    afterAction = @selector(myLoss);
+  }
+  
   float dist = ccpDistance(finalPt, _leftHealthBar.position);
-  [_leftHealthBar runAction:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt]];
+  [_leftHealthBar runAction:[CCSequence actions:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt],
+                             [CCCallFuncN actionWithTarget:self selector:@selector(doneWithLeftHealthBar)],
+                             [CCCallFunc actionWithTarget:self selector:afterAction], nil]];
+  [self schedule:@selector(updateLeftLabel)];
+}
+
+- (void) setRightHealthBarPercentage:(float)percentage {
+  // Anchor point is (1,0.5)
+  CGPoint finalPt;
+  SEL afterAction;
+  float width = _rightHealthBar.contentSize.width;
+  if (percentage > 0) {
+    float endPos = width * percentage / 100;
+    finalPt = ccp(_rightHealthBar.parent.contentSize.width+width-endPos, _rightHealthBar.position.y);
+    afterAction = @selector(startEnemyTurn);
+  } else {
+    finalPt = ccp(_rightHealthBar.parent.contentSize.width+width, _rightHealthBar.position.y);
+    afterAction = @selector(myWin);
+  }
+  float dist = ccpDistance(finalPt, _rightHealthBar.position);
+  [_rightHealthBar runAction:[CCSequence actions:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt],
+                              [CCCallFuncN actionWithTarget:self selector:@selector(doneWithRightHealthBar)],
+                              [CCCallFunc actionWithTarget:self selector:afterAction], nil]];
+  [self schedule:@selector(updateRightLabel)];
+}
+
+- (void) updateLeftLabel {
+  float width = _leftHealthBar.contentSize.width;
+  float pos = _leftHealthBar.position.x;
+  float percentage = (pos+width)*100.f/width;
+  _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", (int)(percentage/100*_leftMaxHealth)];
+}
+
+- (void) updateRightLabel {
+  float width = _rightHealthBar.contentSize.width;
+  float pos = _rightHealthBar.position.x;
+  float percentage = (_rightHealthBar.parent.contentSize.width+width-pos)*100.f/width;
+  _rightCurHealthLabel.string = [NSString stringWithFormat:@"%d", (int)(percentage/100*_rightMaxHealth)];
+}
+
+- (void) doneWithLeftHealthBar {
+  [self unschedule:@selector(updateLeftLabel)];
+  _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", _leftCurrentHealth];
+}
+
+- (void) doneWithRightHealthBar {
+  [self unschedule:@selector(updateRightLabel)];
+  _rightCurHealthLabel.string = [NSString stringWithFormat:@"%d", _rightCurrentHealth];
+}
+
+- (void) myWin {
+  NSLog(@"My Win");
+  [[CCDirector sharedDirector] popScene];
+}
+
+- (void) myLoss {
+  NSLog(@"My Loss");
+  [[CCDirector sharedDirector] popScene];
 }
 
 - (void) fleeClicked {
@@ -149,13 +258,14 @@
   
   float duration = (((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION))+MIN_COMBO_BAR_DURATION;
   [_comboProgressTimer runAction:[CCSequence actionOne:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:duration from:0 to:100] rate:2.5]
-                                                    two:[CCCallFunc actionWithTarget:self selector:@selector(comboMissed)]]];
+                                                   two:[CCCallFunc actionWithTarget:self selector:@selector(comboMissed)]]];
 }
 
 - (void) comboBarClicked {
   if (_comboBarMoving) {
     [_comboProgressTimer stopAllActions];
     _comboBarMoving = NO;
+    _comboPercentage = _comboProgressTimer.percentage;
     NSLog(@"Clicked at percent: %f", _comboProgressTimer.percentage);
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
@@ -164,34 +274,35 @@
 
 - (void) comboMissed {
   _comboBarMoving = NO;
-  [self startTurn];
+  [self startEnemyTurn];
 }
 
-- (void) startTurn {
+- (void) startMyTurn {
   _attackButton.visible = YES;
   _comboBar.visible = NO;
   _bottomMenu.visible = YES;
   
   [_attackProgressTimer runAction:[CCSequence actionOne:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:100 to:0]
-                                   two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
+                                                    two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
+}
+
+- (void) startEnemyTurn {
+  [self doEnemyAttackAnimation];
 }
 
 - (void) turnMissed {
-  [self startTurn];
+  [self startEnemyTurn];
   NSLog(@"Turn missed.");
 }
 
-- (void) setrightHealthBarPercentage:(float)percentage {
-  float width = _rightHealthBar.contentSize.width;
-  float endPos = width * percentage;
-  
-  CGPoint finalPt = ccp(_rightHealthBar.parent.contentSize.width+width-endPos, _rightHealthBar.position.y);
-  float dist = ccpDistance(finalPt, _rightHealthBar.position);
-  [_rightHealthBar runAction:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt]];
+- (int) calculateDamageForPercentage:(float)percent {
+  return 20;
 }
 
-- (void) setInvisible {
-  [self startTurn];
+- (void) attackAnimationDone {
+  int damage = [self calculateDamageForPercentage:_comboPercentage];
+  _rightCurrentHealth -= damage;
+  [self setRightHealthBarPercentage:((float)_rightCurrentHealth)/_rightMaxHealth*100];
 }
 
 - (void) doAttackAnimation {
@@ -202,33 +313,43 @@
   _right.position = ccp([[CCDirector sharedDirector] winSize].width+_left.contentSize.width/2, _right.contentSize.height/2);
   
   [_left runAction: [CCSequence actions: 
-                    // Move to position
-                    [CCMoveBy actionWithDuration:0.4 position:ccp(3*_left.contentSize.width/4,0)], 
-                    // Wait for _right sprite to move
-                    [CCDelayTime actionWithDuration:0.7],
-                    // Move a little back to ready an attack
-                    [CCMoveBy actionWithDuration:0.2 position:ccp(-50, 0)],
-                    // Delay so it looks like we're ready
-                    [CCDelayTime actionWithDuration:0.1],
-                    // ATTACK!!
-                    [CCMoveBy actionWithDuration:0.02 position:ccp(50, 0)],
-                    // Wait for _right sprite to move away
-                    [CCDelayTime actionWithDuration:0.5],
-                    // Fade out and scale, attack done
-                    [CCSpawn actions:
-                     [CCScaleBy actionWithDuration:0.1 scale:1.2],
-                     [CCFadeOut actionWithDuration:0.1],
-                     nil],
-                    // Set this layer to invisible
-                    [CCCallFunc actionWithTarget:self selector:@selector(setInvisible)],
-                    nil]];
+                     // Move to position
+                     [CCMoveBy actionWithDuration:0.4 position:ccp(3*_left.contentSize.width/4,0)], 
+                     // Wait for _right sprite to move
+                     [CCDelayTime actionWithDuration:0.7],
+                     // Move a little back to ready an attack
+                     [CCMoveBy actionWithDuration:0.2 position:ccp(-50, 0)],
+                     // Delay so it looks like we're ready
+                     [CCDelayTime actionWithDuration:0.1],
+                     // ATTACK!!
+                     [CCMoveBy actionWithDuration:0.02 position:ccp(50, 0)],
+                     // Wait for _right sprite to move away
+                     [CCDelayTime actionWithDuration:0.5],
+                     // Fade out and scale, attack done
+                     [CCSpawn actions:
+                      [CCScaleBy actionWithDuration:0.1 scale:1.2],
+                      [CCFadeOut actionWithDuration:0.1],
+                      nil],
+                     // Set this layer to invisible
+                     [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
+                     nil]];
   
   [_right runAction: [CCSequence actions: 
-                     [CCDelayTime actionWithDuration:0.4],
-                     [CCMoveBy actionWithDuration:0.5 position:ccp(-3*_right.contentSize.width/4,0)],
-                     [CCDelayTime actionWithDuration:0.65],
-                     [CCMoveBy actionWithDuration:0.2 position:ccp(3*_right.contentSize.width/4, 0)],
-                     nil]];
+                      [CCDelayTime actionWithDuration:0.4],
+                      [CCMoveBy actionWithDuration:0.5 position:ccp(-3*_right.contentSize.width/4,0)],
+                      [CCDelayTime actionWithDuration:0.65],
+                      [CCMoveBy actionWithDuration:0.2 position:ccp(3*_right.contentSize.width/4, 0)],
+                      nil]];
+}
+
+- (void) enemyAttackDone {
+  int damage = [self calculateDamageForPercentage:_comboPercentage];
+  _leftCurrentHealth -= damage;
+  [self setLeftHealthBarPercentage:((float)_leftCurrentHealth)/_leftMaxHealth*100];
+}
+
+- (void) doEnemyAttackAnimation {
+  [self enemyAttackDone];
 }
 
 - (void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

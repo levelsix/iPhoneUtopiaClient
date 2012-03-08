@@ -180,6 +180,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gs addToAvailableQuests:proto.availableQuestsList];
   [gs addToInProgressQuests:proto.inProgressQuestsList];
   [oec retrieveAllStaticData];
+  [oec acceptQuest:1];
+  [oec acceptQuest:3];
   
   gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
   gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;

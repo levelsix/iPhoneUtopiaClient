@@ -12,6 +12,7 @@
 #import "ProfileViewController.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "BattleLayer.h"
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 5
 
@@ -202,6 +203,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     [ProfileViewController displayView];
   } else if (tag == 2) {
     // Right clicked
+    [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+    [MapViewController removeView];
   }
 }
 

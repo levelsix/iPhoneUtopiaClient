@@ -626,7 +626,7 @@
 		CF1A3CEE1506F10E00F52450 /* battlebackground1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlebackground1@2x.png"; sourceTree = "<group>"; };
 		CF1A3CEF1506F10E00F52450 /* circleattackbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circleattackbutton.png; sourceTree = "<group>"; };
 		CF1A3CF01506F10E00F52450 /* circleattackbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circleattackbutton@2x.png"; sourceTree = "<group>"; };
-		CF1A3CF11506F10E00F52450 /* FF_DIN_Condensed_Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FF_DIN_Condensed_Black.otf; sourceTree = "<group>"; };
+		CF1A3CF11506F10E00F52450 /* FF_DIN_Condensed_Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FF_DIN_Condensed_Black.otf; path = "../Battle Images/FF_DIN_Condensed_Black.otf"; sourceTree = "<group>"; };
 		CF1A3CF21506F10E00F52450 /* flee.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flee.png; sourceTree = "<group>"; };
 		CF1A3CF31506F10E00F52450 /* flee@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flee@2x.png"; sourceTree = "<group>"; };
 		CF1A3CF41506F10E00F52450 /* goodarcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goodarcher.png; sourceTree = "<group>"; };
@@ -1447,7 +1447,6 @@
 				CF1A3CEE1506F10E00F52450 /* battlebackground1@2x.png */,
 				CF1A3CEF1506F10E00F52450 /* circleattackbutton.png */,
 				CF1A3CF01506F10E00F52450 /* circleattackbutton@2x.png */,
-				CF1A3CF11506F10E00F52450 /* FF_DIN_Condensed_Black.otf */,
 				CF1A3CF21506F10E00F52450 /* flee.png */,
 				CF1A3CF31506F10E00F52450 /* flee@2x.png */,
 				CF1A3CF41506F10E00F52450 /* goodarcher.png */,
@@ -1537,6 +1536,7 @@
 		CF1C59401501AED50048D2EC /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CF1A3CF11506F10E00F52450 /* FF_DIN_Condensed_Black.otf */,
 				CF1C59411501AED50048D2EC /* AJensonPro-BoldCapt.otf */,
 				CF1C59421501AED50048D2EC /* AJensonPro-Disp.otf */,
 				CF1C59431501AED50048D2EC /* AJensonPro-SemiboldDisp.otf */,
@@ -2231,8 +2231,8 @@
 				CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */,
 				CF42350014F4B9AE0033C290 /* CarpenterMenu */,
 				CF3D0A5814CB88EA00D972B4 /* GoldShoppeMenu */,
-				CF3D0A5D14CB88EA00D972B4 /* MapMenu */,
 				CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */,
+				CF3D0A5D14CB88EA00D972B4 /* MapMenu */,
 				CFA26F5414E72CB500FC1C71 /* Miscellaneous */,
 				CF6CCF2614FAF9CB008C693D /* ProfileMenu */,
 				CF3D0A6114CB88EA00D972B4 /* QuestLogMenu */,
