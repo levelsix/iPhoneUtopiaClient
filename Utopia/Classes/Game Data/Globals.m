@@ -55,8 +55,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     staminaBaseGain = 1;
     healthBaseGain = 10;
     
-    energyRefillWaitMinutes = 0.05;
-    staminaRefillWaitMinutes = 0.05;
+    energyRefillWaitMinutes = 3;
+    staminaRefillWaitMinutes = 4;
   }
   return self;
 }
@@ -82,7 +82,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) imageNameForStruct:(int)structId {
-  NSString *file = [NSString stringWithFormat:structureImageString, structId];
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
+  NSString *str = [fsp.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+  str = [fsp.name stringByReplacingOccurrencesOfString:@"'" withString:@""];
+  NSString *file = [NSString stringWithFormat:[str stringByAppendingString:@".png"]];
   return file;
 }
 
@@ -91,11 +94,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIImage *) imageForStruct:(int)structId {
-  return [UIImage imageNamed:[self imageNameForStruct:structId]];
+  return [self imageNamed:[self imageNameForStruct:structId]];
 }
 
 + (UIImage *) imageForEquip:(int)eqId {
-  return [UIImage imageNamed:[self imageNameForEquip:eqId]];//[NSString stringWithFormat:equipImageString, eqId];
+  return [self imageNamed:[self imageNameForEquip:eqId]];//[NSString stringWithFormat:equipImageString, eqId];
 }
 
 + (UIColor *) colorForUnequippable {

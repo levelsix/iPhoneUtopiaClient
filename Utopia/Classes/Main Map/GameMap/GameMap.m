@@ -11,6 +11,10 @@
 #import "Globals.h"
 #import "NibUtils.h"
 
+#define MAP_OFFSET 100
+
+#define REORDER_START_Z 150
+
 @implementation GameMap
 
 @synthesize selected = _selected;
@@ -107,7 +111,7 @@
   
   for (int i = 0; i < [_selectables count]; i++) {
     SelectableSprite *child = [_selectables objectAtIndex:i];
-    [self reorderChild:child z:i];
+    [self reorderChild:child z:i+REORDER_START_Z];
   }
 }
 
@@ -197,8 +201,8 @@
 }
 
 -(void) setPosition:(CGPoint)position {
-  float x = MAX(MIN(0, position.x), -self.contentSize.width*self.scaleX + [[CCDirector sharedDirector] winSize].width);
-  float y = MAX(MIN(0, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height);
+  float x = MAX(MIN(MAP_OFFSET, position.x), -self.contentSize.width*self.scaleX + [[CCDirector sharedDirector] winSize].width-MAP_OFFSET);
+  float y = MAX(MIN(MAP_OFFSET, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height-MAP_OFFSET);
   [super setPosition:ccp(x,y)];
 }
 

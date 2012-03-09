@@ -28,6 +28,8 @@
 // HelloWorldLayer implementation
 @implementation GameLayer
 
+@synthesize assetId, currentCity;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 +(CCScene *) scene
@@ -61,6 +63,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     
     _topBar = [TopBar node];
     [self addChild:_topBar z:2];
+    
+    assetId = 0;
   }
   return self;  
 }
@@ -70,6 +74,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   CGSize ms = [map mapSize];
   CGSize ts = [map tileSizeInPoints];
   map.position = ccp( -(ms.width-8) * ts.width/2, 0 );
+}
+
+- (void) moveMap:(GameMap *)map toSprite:(CCSprite *)spr {
+  CGPoint pt = spr.position;
+  CGSize size = [[CCDirector sharedDirector] winSize];
+  map.position = ccp(-pt.x+size.width/2, -pt.y+size.height/2);
+}
+
+- (void) moveMissionMapToAssetId:(int)a {
+  assetId = a;
+  CCSprite *spr = [_missionMap assetWithId:assetId];
+  if (spr) {
+    [self moveMap:_missionMap toSprite:spr];
+  } else {
+    [self moveMapToCenter:_missionMap];
+  }
 }
 
 - (void) unloadCurrentMissionMap {
@@ -83,15 +103,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto {
   [self unloadCurrentMissionMap];
   _missionMap = [[MissionMap alloc] initWithProto:proto];
+  
+  if (assetId == 0) {
+    [self moveMapToCenter:_missionMap];
+  } else {
+    [self moveMissionMapToAssetId:assetId];
+  }
+  
   [self addChild:_missionMap z:1];
   _homeMap.visible = NO;
-  [self moveMapToCenter:_missionMap];
+  currentCity = proto.cityId;
 }
 
 - (void) loadHomeMap {
   [self unloadCurrentMissionMap];
   _homeMap.visible = YES;
   [self moveMapToCenter:_homeMap];
+  currentCity = 0;
 }
 
 @end

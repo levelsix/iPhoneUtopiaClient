@@ -33,6 +33,10 @@
   TopBar *_topBar;
 }
 
+@property (nonatomic, assign) int assetId;
+@property (nonatomic, assign) int currentCity;
+
+- (void) moveMissionMapToAssetId:(int)assetId;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) loadHomeMap;
 

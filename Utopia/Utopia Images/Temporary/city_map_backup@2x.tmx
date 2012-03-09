@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="20" height="20" tilewidth="128" tileheight="64">
+ <tileset firstgid="1" name="Venetia_City" tilewidth="128" tileheight="76">
+  <image source="venetia_city.png" width="256" height="512"/>
+  <tile id="0">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Walkable " value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="53" name="Tree_Tilez" tilewidth="128" tileheight="144">
+  <image source="Tree_Pack.png" width="256" height="512"/>
+  <tile id="0">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Bottom Layer" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJy1k90KwCAIRo0xutgLbGP4/o+5XRSEqPnTLg5BxPFDrQJAJRwfhbmnIDklPD40+NDo47gW8odP69/ZyPTO47PMNptv1hPJ58GSb4Vvb4xvn4bH59mXohDxdTaw/bFeg6s/zv4O+LS9jOST9nplPjrTbD6pp9l8Vma+F73REvU=
+  </data>
+ </layer>
+ <layer name="Top Layer" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAEUljEKAGUmMeJBUvhkcOHhypgJkKNABALArEQFcwTR2ILo8lhC1dizBMDYlEgFiHCfdQGtE7P6OkLW5rDl/6o7T56AXHCSgbUvIEox4jNEyDATplzaG4eMX4AAArtAt0=
+  </data>
+ </layer>
+ <layer name="Really Top Layer" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAMmFKonxJgPoB2jwQwkHE7WAAxYWBBc1cMHKBGHjOjghkwQGmahLnFFIsYuYCa5RDMXdQMM3TzTZHY2OwmBQAATOkDyA==
+  </data>
+ </layer>
+</map>

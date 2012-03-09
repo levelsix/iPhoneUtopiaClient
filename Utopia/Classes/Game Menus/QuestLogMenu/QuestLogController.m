@@ -11,6 +11,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
+#import "GameLayer.h"
 
 #define QUEST_ITEM_HEIGHT 31.f
 
@@ -163,9 +164,12 @@
   _clickedView.backgroundColor = [UIColor clearColor];
   
   _clickedView = sender;
-  _clickedView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
   
-  [[QuestLogController sharedQuestLogController] resetToQuestDescView:sender.fqp];
+  if (_clickedView) {
+    _clickedView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
+    
+    [[QuestLogController sharedQuestLogController] resetToQuestDescView:sender.fqp];
+  }
 }
 
 @end
@@ -268,6 +272,7 @@
   
   //Adjust the label the the new height
   CGRect newFrame = self.questDescLabel.frame;
+  newFrame.origin.x = 5;
   newFrame.origin.y = self.scrollView.topGradient.frame.size.height;
   newFrame.size.width = expectedLabelSize.width;
   newFrame.size.height = expectedLabelSize.height;
@@ -300,6 +305,7 @@
     self.visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *visit = [UIImage imageNamed:@"visit.png"];
     [self.visitButton setImage:visit forState:UIControlStateNormal];
+    [self.visitButton addTarget:self action:@selector(visitClicked) forControlEvents:UIControlEventTouchUpInside];
     if (completed < total)
       [self addSubview:self.visitButton];
     
@@ -373,6 +379,16 @@
   return self;
 }
 
+- (void) visitClicked {
+  GameState *gs = [GameState sharedGameState];
+  
+  if (type == kTask) {
+    FullTaskProto *ftp = [gs taskWithId:jobId];
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:[gs cityWithId:ftp.cityId] asset:ftp.assetNumWithinCity];
+    [QuestLogController removeView];
+  }
+}
+
 - (void) dealloc {
   self.label = nil;
   self.bgdBar = nil;
@@ -421,6 +437,8 @@
 
 - (void) awakeFromNib {
   self.questNameLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];
+  
+  self.taskItemViews = [NSMutableArray array];
 }
 
 - (void) unloadTasks {
@@ -558,17 +576,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   _curView = self.questDescView;
 }
 
-- (void)resetToQuestDescView:(FullQuestProto *)fqp {
-  [self.questDescView refreshWithQuest:fqp];
-  if (_curView == self.questDescView) {
-  } else {
-    [UIView animateWithDuration:0.5 animations:^{
-      self.questDescView.alpha = 1.0;
-      self.taskView.alpha = 0.0;
-    }];
-  }
-  _curView = self.questDescView;
-  
+- (void) reloadTaskView:(FullQuestProto *)fqp {
   FullUserQuestDataLargeProto *quest = nil;
   for (FullUserQuestDataLargeProto *q in self.userLogData) {
     if (q.questId == fqp.questId) {
@@ -577,9 +585,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     }
   }
   
-if (quest) {
-  [self.taskView refreshWithQuestData:quest];
+  if (quest) {
+    [self.taskView refreshWithQuestData:quest];
+  }
 }
+
+- (void)resetToQuestDescView:(FullQuestProto *)fqp {
+  [self.questDescView refreshWithQuest:fqp];
+  
+  if (_curView == self.questDescView) {
+    [self reloadTaskView:fqp];
+  } else {
+    [UIView animateWithDuration:0.5 animations:^{
+      self.questDescView.alpha = 1.0;
+      self.taskView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      [self reloadTaskView:fqp];
+    }];
+  }
+  _curView = self.questDescView;
 }
 
 - (void)viewDidUnload

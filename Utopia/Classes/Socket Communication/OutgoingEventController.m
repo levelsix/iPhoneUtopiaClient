@@ -13,6 +13,7 @@
 #import "Globals.h"
 #import "MarketplaceViewController.h"
 #import "TopBar.h"
+#import "GameLayer.h"
 
 @implementation OutgoingEventController
 
@@ -826,13 +827,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:mup];
 }
 
-- (void) loadNeutralCity:(FullCityProto *)city {
+- (void) loadNeutralCity:(FullCityProto *)city asset:(int)assetId {
   GameState *gs = [GameState sharedGameState];
   
   if (!city) {
     [Globals popupMessage:@"Trying to visit nil city"];
     return;
   }
+  
+  if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
+    if (assetId != 0) {
+      [[GameLayer sharedGameLayer] moveMissionMapToAssetId:assetId];
+      return;
+    }
+  }
+  
+  [[GameLayer sharedGameLayer] setAssetId: assetId];
   
   if (city.minLevel <= gs.level) {
     [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];

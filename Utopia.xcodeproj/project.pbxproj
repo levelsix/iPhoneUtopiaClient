@@ -297,7 +297,6 @@
 		CF1C5B961501AED50048D2EC /* sora_default.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A2C1501AED50048D2EC /* sora_default.plist */; };
 		CF1C5B971501AED50048D2EC /* sora_default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A2D1501AED50048D2EC /* sora_default.png */; };
 		CF1C5B981501AED50048D2EC /* sora_default.png.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A2E1501AED50048D2EC /* sora_default.png.ccz */; };
-		CF1C5B991501AED50048D2EC /* struct1.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A2F1501AED50048D2EC /* struct1.png */; };
 		CF1C5B9A1501AED50048D2EC /* struct1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A301501AED50048D2EC /* struct1@2x.png */; };
 		CF1C5B9B1501AED50048D2EC /* struct2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A311501AED50048D2EC /* struct2.png */; };
 		CF1C5B9D1501AED50048D2EC /* struct3.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A331501AED50048D2EC /* struct3.png */; };
@@ -443,7 +442,10 @@
 		CFD2BDA714FE132B00B7557B /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */; };
 		CFD995221508A3FB00B91AE6 /* city_map_backup.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD995211508A3FB00B91AE6 /* city_map_backup.tmx */; };
 		CFD995241508A40400B91AE6 /* Tree_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD995231508A40400B91AE6 /* Tree_Pack.png */; };
-		CFD995261508A41C00B91AE6 /* venetia_city.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD995251508A41C00B91AE6 /* venetia_city.png */; };
+		CFD995281508AC6B00B91AE6 /* city_map_backup@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFD995271508AC6B00B91AE6 /* city_map_backup@2x.tmx */; };
+		CFD9952C1508B0ED00B91AE6 /* Tree_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD9952B1508B0ED00B91AE6 /* Tree_Pack@2x.png */; };
+		CFD9952E1508B15F00B91AE6 /* venetia_city.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD9952D1508B15F00B91AE6 /* venetia_city.png */; };
+		CFD995301508B68000B91AE6 /* venetia_city@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD9952F1508B68000B91AE6 /* venetia_city@2x.png */; };
 		CFDCC6DB15045EF20084B88A /* RefillMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDCC6D915045EF20084B88A /* RefillMenuController.m */; };
 		CFDCC6DC15045EF20084B88A /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6DA15045EF20084B88A /* RefillMenuController.xib */; };
 		CFDCC6EE15045F3A0084B88A /* bigbolt.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6DE15045F3A0084B88A /* bigbolt.png */; };
@@ -906,7 +908,6 @@
 		CF1C5A2C1501AED50048D2EC /* sora_default.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sora_default.plist; sourceTree = "<group>"; };
 		CF1C5A2D1501AED50048D2EC /* sora_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sora_default.png; sourceTree = "<group>"; };
 		CF1C5A2E1501AED50048D2EC /* sora_default.png.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = sora_default.png.ccz; sourceTree = "<group>"; };
-		CF1C5A2F1501AED50048D2EC /* struct1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = struct1.png; sourceTree = "<group>"; };
 		CF1C5A301501AED50048D2EC /* struct1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct1@2x.png"; sourceTree = "<group>"; };
 		CF1C5A311501AED50048D2EC /* struct2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = struct2.png; sourceTree = "<group>"; };
 		CF1C5A331501AED50048D2EC /* struct3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = struct3.png; sourceTree = "<group>"; };
@@ -1151,7 +1152,10 @@
 		CFD2BDA814FE133300B7557B /* NibUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NibUtils.h; path = Miscellaneous/NibUtils.h; sourceTree = "<group>"; };
 		CFD995211508A3FB00B91AE6 /* city_map_backup.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = city_map_backup.tmx; sourceTree = "<group>"; };
 		CFD995231508A40400B91AE6 /* Tree_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tree_Pack.png; sourceTree = "<group>"; };
-		CFD995251508A41C00B91AE6 /* venetia_city.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = venetia_city.png; sourceTree = "<group>"; };
+		CFD995271508AC6B00B91AE6 /* city_map_backup@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "city_map_backup@2x.tmx"; sourceTree = "<group>"; };
+		CFD9952B1508B0ED00B91AE6 /* Tree_Pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tree_Pack@2x.png"; sourceTree = "<group>"; };
+		CFD9952D1508B15F00B91AE6 /* venetia_city.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = venetia_city.png; sourceTree = "<group>"; };
+		CFD9952F1508B68000B91AE6 /* venetia_city@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "venetia_city@2x.png"; sourceTree = "<group>"; };
 		CFDCC6D815045EF20084B88A /* RefillMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefillMenuController.h; sourceTree = "<group>"; };
 		CFDCC6D915045EF20084B88A /* RefillMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefillMenuController.m; sourceTree = "<group>"; };
 		CFDCC6DA15045EF20084B88A /* RefillMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefillMenuController.xib; sourceTree = "<group>"; };
@@ -1811,9 +1815,12 @@
 		CF1C5A0A1501AED50048D2EC /* Temporary */ = {
 			isa = PBXGroup;
 			children = (
-				CFD995251508A41C00B91AE6 /* venetia_city.png */,
+				CFD9952F1508B68000B91AE6 /* venetia_city@2x.png */,
+				CFD9952D1508B15F00B91AE6 /* venetia_city.png */,
+				CFD9952B1508B0ED00B91AE6 /* Tree_Pack@2x.png */,
 				CFD995231508A40400B91AE6 /* Tree_Pack.png */,
 				CFD995211508A3FB00B91AE6 /* city_map_backup.tmx */,
+				CFD995271508AC6B00B91AE6 /* city_map_backup@2x.tmx */,
 				CF1C5A0B1501AED50048D2EC /* archer.png */,
 				CF1C5A0C1501AED50048D2EC /* archer@2x.png */,
 				CF1C5A0D1501AED50048D2EC /* armorybuybutton.png */,
@@ -1839,8 +1846,8 @@
 				CF1C5A211501AED50048D2EC /* glow@2x.png */,
 				CF1C5A221501AED50048D2EC /* iso-test2.png */,
 				CF1C5A231501AED50048D2EC /* iso-test2.tmx */,
-				CF1C5A241501AED50048D2EC /* iso-test2@2x.png */,
 				CF1C5A251501AED50048D2EC /* iso-test2@2x.tmx */,
+				CF1C5A241501AED50048D2EC /* iso-test2@2x.png */,
 				CF1C5A261501AED50048D2EC /* left.png */,
 				CF1C5A271501AED50048D2EC /* levelnumberbg.png */,
 				CF1C5A281501AED50048D2EC /* levelnumberbg@2x.png */,
@@ -1850,7 +1857,6 @@
 				CF1C5A2C1501AED50048D2EC /* sora_default.plist */,
 				CF1C5A2D1501AED50048D2EC /* sora_default.png */,
 				CF1C5A2E1501AED50048D2EC /* sora_default.png.ccz */,
-				CF1C5A2F1501AED50048D2EC /* struct1.png */,
 				CF1C5A301501AED50048D2EC /* struct1@2x.png */,
 				CF1C5A311501AED50048D2EC /* struct2.png */,
 				CF1C5A331501AED50048D2EC /* struct3.png */,
@@ -3098,7 +3104,6 @@
 				CF1C5B961501AED50048D2EC /* sora_default.plist in Resources */,
 				CF1C5B971501AED50048D2EC /* sora_default.png in Resources */,
 				CF1C5B981501AED50048D2EC /* sora_default.png.ccz in Resources */,
-				CF1C5B991501AED50048D2EC /* struct1.png in Resources */,
 				CF1C5B9A1501AED50048D2EC /* struct1@2x.png in Resources */,
 				CF1C5B9B1501AED50048D2EC /* struct2.png in Resources */,
 				CF1C5B9D1501AED50048D2EC /* struct3.png in Resources */,
@@ -3246,7 +3251,10 @@
 				CF1A3D201507532C00F52450 /* struct2@2x.png in Resources */,
 				CFD995221508A3FB00B91AE6 /* city_map_backup.tmx in Resources */,
 				CFD995241508A40400B91AE6 /* Tree_Pack.png in Resources */,
-				CFD995261508A41C00B91AE6 /* venetia_city.png in Resources */,
+				CFD995281508AC6B00B91AE6 /* city_map_backup@2x.tmx in Resources */,
+				CFD9952C1508B0ED00B91AE6 /* Tree_Pack@2x.png in Resources */,
+				CFD9952E1508B15F00B91AE6 /* venetia_city.png in Resources */,
+				CFD995301508B68000B91AE6 /* venetia_city@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3453,6 +3461,8 @@
 					armv6,
 					"$(ARCHS_STANDARD_32_BIT)",
 				);
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_OBJCPP_ARC_ABI = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3484,6 +3494,8 @@
 					armv6,
 					"$(ARCHS_STANDARD_32_BIT)",
 				);
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_OBJCPP_ARC_ABI = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Utopia/Prefix.pch;

@@ -55,6 +55,12 @@
 
 - (void) updateMenuForTotal:(int)total numTimesActed:(int)numTimesActed {
   [self removeAllSeperators];
+  if (total == 0) {
+    CGRect r = progressBar.frame;
+    r.size.width = 0;
+    progressBar.frame = r;
+    return;
+  }
   
   // Add the segmentors for each total-1 spot
   UIImage *taskSeg = [UIImage imageNamed: @"inbetweenbar.png"];
@@ -107,6 +113,7 @@
         CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, 0, 0);
         MissionBuilding *mb = [[MissionBuilding alloc] initWithFile:ncep.imgId location:loc map:self];
         mb.name = ncep.name;
+        mb.orientation = ncep.orientation;
         [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         [mb release];
       }
@@ -248,6 +255,11 @@
   } else {
     [self closeMenus];
   }
+}
+
+- (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  [super scale:recognizer node:node];
+  [self updateMissionBuildingMenu];
 }
 
 - (void) dealloc {

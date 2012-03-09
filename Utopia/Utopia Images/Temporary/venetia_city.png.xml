@@ -1,0 +1,23 @@
+<sheet>
+	<sprite name="tile_city_canal@2x.png" x="0" y="0" width="128" height="76" />
+	<sprite name="tile_city_canalspark@2x.png" x="128" y="0" width="128" height="76" />
+	<sprite name="tile_city_flowerEast@2x.png" x="256" y="0" width="128" height="76" />
+	<sprite name="tile_city_flowerNorth@2x.png" x="384" y="0" width="128" height="76" />
+	<sprite name="tile_city_flowerSouth@2x.png" x="0" y="76" width="128" height="76" />
+	<sprite name="tile_city_flowerWest@2x.png" x="128" y="76" width="128" height="76" />
+	<sprite name="tile_city_pavement@2x.png" x="256" y="76" width="128" height="76" />
+	<sprite name="tile_city_pavementA@2x.png" x="384" y="76" width="128" height="76" />
+	<sprite name="tile_city_pavementB@2x.png" x="0" y="152" width="128" height="76" />
+	<sprite name="tile_city_pavementC@2x.png" x="128" y="152" width="128" height="76" />
+	<sprite name="tile_city_pavementD@2x.png" x="256" y="152" width="128" height="76" />
+	<sprite name="tile_city_pavementE@2x.png" x="384" y="152" width="128" height="76" />
+	<sprite name="tile_city_pavementF@2x.png" x="0" y="228" width="128" height="76" />
+	<sprite name="tile_city_pavementG@2x.png" x="128" y="228" width="128" height="76" />
+	<sprite name="tile_city_pavementH@2x.png" x="256" y="228" width="128" height="76" />
+	<sprite name="tile_city_road@2x.png" x="384" y="228" width="128" height="76" />
+	<sprite name="tile_city_roadflip@2x.png" x="0" y="304" width="128" height="76" />
+	<sprite name="tile_city_shrubberyEast@2x.png" x="128" y="304" width="128" height="76" />
+	<sprite name="tile_city_shrubberyNorth@2x.png" x="256" y="304" width="128" height="76" />
+	<sprite name="tile_city_shrubberySouth@2x.png" x="384" y="304" width="128" height="76" />
+	<sprite name="tile_city_shrubberyWest@2x.png" x="0" y="380" width="128" height="76" />
+</sheet>

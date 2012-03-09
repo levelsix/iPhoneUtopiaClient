@@ -11,13 +11,13 @@
 
 @implementation ImageDownloader
 
-static NSString *urlBase = @"https://d3agizwlccjarv.cloudfront.net/Resources/";
+static NSString *urlBase = @"https://s3.amazonaws.com/lvl6utopia/Resources/";
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
 
 - (void) downloadImage: (NSString *)imageName {
   // Get an image from the URL below
-  NSLog(@"Beginning download of %@", imageName);
+  NSLog(@"Beginning download of %@ from %@", imageName, [urlBase stringByAppendingString:imageName]);
   NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
   UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
   

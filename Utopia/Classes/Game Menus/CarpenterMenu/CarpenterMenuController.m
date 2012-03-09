@@ -172,7 +172,7 @@
   titleLabel.text = fsp.name;
   _structId = fsp.structId;
   
-  if ([GameState sharedGameState].level > fsp.minLevel) {
+  if ([GameState sharedGameState].level >= fsp.minLevel) {
     incomeLabel.text = [Globals commafyNumber:fsp.income];
     
     if (fsp.coinPrice > 0) {
