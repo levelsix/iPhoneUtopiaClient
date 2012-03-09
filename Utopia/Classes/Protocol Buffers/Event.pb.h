@@ -148,10 +148,6 @@
 @class QuestAcceptResponseProto_Builder;
 @class QuestCompleteResponseProto;
 @class QuestCompleteResponseProto_Builder;
-@class QuestLogDetailsRequestProto;
-@class QuestLogDetailsRequestProto_Builder;
-@class QuestLogDetailsResponseProto;
-@class QuestLogDetailsResponseProto_Builder;
 @class QuestRedeemRequestProto;
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
@@ -234,6 +230,10 @@
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
 @class UserCreateResponseProto_Builder;
+@class UserQuestDetailsRequestProto;
+@class UserQuestDetailsRequestProto_Builder;
+@class UserQuestDetailsResponseProto;
+@class UserQuestDetailsResponseProto_Builder;
 @class VaultRequestProto;
 @class VaultRequestProto_Builder;
 @class VaultResponseProto;
@@ -562,11 +562,12 @@ typedef enum {
 BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseProto_QuestRedeemStatus value);
 
 typedef enum {
-  QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess = 0,
-  QuestLogDetailsResponseProto_QuestLogDetailsStatusSomeFail = 1,
-} QuestLogDetailsResponseProto_QuestLogDetailsStatus;
+  UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess = 0,
+  UserQuestDetailsResponseProto_UserQuestDetailsStatusSuppliedQuestidCurrentlyNotInProgress = 1,
+  UserQuestDetailsResponseProto_UserQuestDetailsStatusSomeFail = 2,
+} UserQuestDetailsResponseProto_UserQuestDetailsStatus;
 
-BOOL QuestLogDetailsResponseProto_QuestLogDetailsStatusIsValidValue(QuestLogDetailsResponseProto_QuestLogDetailsStatus value);
+BOOL UserQuestDetailsResponseProto_UserQuestDetailsStatusIsValidValue(UserQuestDetailsResponseProto_UserQuestDetailsStatus value);
 
 typedef enum {
   RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess = 0,
@@ -1634,18 +1635,22 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasDiamondCostForEnergyRefill_:1;
   BOOL hasDiamondCostForStaminaRefill_:1;
   BOOL hasMaxItemUsePerBattle_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
   int32_t diamondCostForEnergyRefill;
   int32_t diamondCostForStaminaRefill;
   int32_t maxItemUsePerBattle;
+  int32_t maxLevelDifferenceForBattle;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
 - (BOOL) hasDiamondCostForEnergyRefill;
 - (BOOL) hasDiamondCostForStaminaRefill;
 - (BOOL) hasMaxItemUsePerBattle;
+- (BOOL) hasMaxLevelDifferenceForBattle;
 @property (readonly) int32_t diamondCostForEnergyRefill;
 @property (readonly) int32_t diamondCostForStaminaRefill;
 @property (readonly) int32_t maxItemUsePerBattle;
+@property (readonly) int32_t maxLevelDifferenceForBattle;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -1713,6 +1718,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) maxItemUsePerBattle;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxItemUsePerBattle:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxItemUsePerBattle;
+
+- (BOOL) hasMaxLevelDifferenceForBattle;
+- (int32_t) maxLevelDifferenceForBattle;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxLevelDifferenceForBattle:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelDifferenceForBattle;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -5920,123 +5930,132 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (QuestRedeemResponseProto_Builder*) clearStatus;
 @end
 
-@interface QuestLogDetailsRequestProto : PBGeneratedMessage {
+@interface UserQuestDetailsRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasQuestId_:1;
   BOOL hasSender_:1;
+  int32_t questId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
+- (BOOL) hasQuestId;
 @property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t questId;
 
-+ (QuestLogDetailsRequestProto*) defaultInstance;
-- (QuestLogDetailsRequestProto*) defaultInstance;
++ (UserQuestDetailsRequestProto*) defaultInstance;
+- (UserQuestDetailsRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (QuestLogDetailsRequestProto_Builder*) builder;
-+ (QuestLogDetailsRequestProto_Builder*) builder;
-+ (QuestLogDetailsRequestProto_Builder*) builderWithPrototype:(QuestLogDetailsRequestProto*) prototype;
+- (UserQuestDetailsRequestProto_Builder*) builder;
++ (UserQuestDetailsRequestProto_Builder*) builder;
++ (UserQuestDetailsRequestProto_Builder*) builderWithPrototype:(UserQuestDetailsRequestProto*) prototype;
 
-+ (QuestLogDetailsRequestProto*) parseFromData:(NSData*) data;
-+ (QuestLogDetailsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestLogDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (QuestLogDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestLogDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (QuestLogDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestDetailsRequestProto*) parseFromData:(NSData*) data;
++ (UserQuestDetailsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserQuestDetailsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserQuestDetailsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestLogDetailsRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface UserQuestDetailsRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  QuestLogDetailsRequestProto* result;
+  UserQuestDetailsRequestProto* result;
 }
 
-- (QuestLogDetailsRequestProto*) defaultInstance;
+- (UserQuestDetailsRequestProto*) defaultInstance;
 
-- (QuestLogDetailsRequestProto_Builder*) clear;
-- (QuestLogDetailsRequestProto_Builder*) clone;
+- (UserQuestDetailsRequestProto_Builder*) clear;
+- (UserQuestDetailsRequestProto_Builder*) clone;
 
-- (QuestLogDetailsRequestProto*) build;
-- (QuestLogDetailsRequestProto*) buildPartial;
+- (UserQuestDetailsRequestProto*) build;
+- (UserQuestDetailsRequestProto*) buildPartial;
 
-- (QuestLogDetailsRequestProto_Builder*) mergeFrom:(QuestLogDetailsRequestProto*) other;
-- (QuestLogDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (QuestLogDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (UserQuestDetailsRequestProto_Builder*) mergeFrom:(UserQuestDetailsRequestProto*) other;
+- (UserQuestDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserQuestDetailsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (QuestLogDetailsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestLogDetailsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QuestLogDetailsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (QuestLogDetailsRequestProto_Builder*) clearSender;
+- (UserQuestDetailsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UserQuestDetailsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UserQuestDetailsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UserQuestDetailsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasQuestId;
+- (int32_t) questId;
+- (UserQuestDetailsRequestProto_Builder*) setQuestId:(int32_t) value;
+- (UserQuestDetailsRequestProto_Builder*) clearQuestId;
 @end
 
-@interface QuestLogDetailsResponseProto : PBGeneratedMessage {
+@interface UserQuestDetailsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  QuestLogDetailsResponseProto_QuestLogDetailsStatus status;
+  UserQuestDetailsResponseProto_UserQuestDetailsStatus status;
   NSMutableArray* mutableInProgressUserQuestDataList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) QuestLogDetailsResponseProto_QuestLogDetailsStatus status;
+@property (readonly) UserQuestDetailsResponseProto_UserQuestDetailsStatus status;
 - (NSArray*) inProgressUserQuestDataList;
 - (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index;
 
-+ (QuestLogDetailsResponseProto*) defaultInstance;
-- (QuestLogDetailsResponseProto*) defaultInstance;
++ (UserQuestDetailsResponseProto*) defaultInstance;
+- (UserQuestDetailsResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (QuestLogDetailsResponseProto_Builder*) builder;
-+ (QuestLogDetailsResponseProto_Builder*) builder;
-+ (QuestLogDetailsResponseProto_Builder*) builderWithPrototype:(QuestLogDetailsResponseProto*) prototype;
+- (UserQuestDetailsResponseProto_Builder*) builder;
++ (UserQuestDetailsResponseProto_Builder*) builder;
++ (UserQuestDetailsResponseProto_Builder*) builderWithPrototype:(UserQuestDetailsResponseProto*) prototype;
 
-+ (QuestLogDetailsResponseProto*) parseFromData:(NSData*) data;
-+ (QuestLogDetailsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestLogDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (QuestLogDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (QuestLogDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (QuestLogDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestDetailsResponseProto*) parseFromData:(NSData*) data;
++ (UserQuestDetailsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (UserQuestDetailsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UserQuestDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UserQuestDetailsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface QuestLogDetailsResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface UserQuestDetailsResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  QuestLogDetailsResponseProto* result;
+  UserQuestDetailsResponseProto* result;
 }
 
-- (QuestLogDetailsResponseProto*) defaultInstance;
+- (UserQuestDetailsResponseProto*) defaultInstance;
 
-- (QuestLogDetailsResponseProto_Builder*) clear;
-- (QuestLogDetailsResponseProto_Builder*) clone;
+- (UserQuestDetailsResponseProto_Builder*) clear;
+- (UserQuestDetailsResponseProto_Builder*) clone;
 
-- (QuestLogDetailsResponseProto*) build;
-- (QuestLogDetailsResponseProto*) buildPartial;
+- (UserQuestDetailsResponseProto*) build;
+- (UserQuestDetailsResponseProto*) buildPartial;
 
-- (QuestLogDetailsResponseProto_Builder*) mergeFrom:(QuestLogDetailsResponseProto*) other;
-- (QuestLogDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (QuestLogDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (UserQuestDetailsResponseProto_Builder*) mergeFrom:(UserQuestDetailsResponseProto*) other;
+- (UserQuestDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UserQuestDetailsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (QuestLogDetailsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (QuestLogDetailsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (QuestLogDetailsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (QuestLogDetailsResponseProto_Builder*) clearSender;
+- (UserQuestDetailsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (UserQuestDetailsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (UserQuestDetailsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (UserQuestDetailsResponseProto_Builder*) clearSender;
 
 - (NSArray*) inProgressUserQuestDataList;
 - (FullUserQuestDataLargeProto*) inProgressUserQuestDataAtIndex:(int32_t) index;
-- (QuestLogDetailsResponseProto_Builder*) replaceInProgressUserQuestDataAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value;
-- (QuestLogDetailsResponseProto_Builder*) addInProgressUserQuestData:(FullUserQuestDataLargeProto*) value;
-- (QuestLogDetailsResponseProto_Builder*) addAllInProgressUserQuestData:(NSArray*) values;
-- (QuestLogDetailsResponseProto_Builder*) clearInProgressUserQuestDataList;
+- (UserQuestDetailsResponseProto_Builder*) replaceInProgressUserQuestDataAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value;
+- (UserQuestDetailsResponseProto_Builder*) addInProgressUserQuestData:(FullUserQuestDataLargeProto*) value;
+- (UserQuestDetailsResponseProto_Builder*) addAllInProgressUserQuestData:(NSArray*) values;
+- (UserQuestDetailsResponseProto_Builder*) clearInProgressUserQuestDataList;
 
 - (BOOL) hasStatus;
-- (QuestLogDetailsResponseProto_QuestLogDetailsStatus) status;
-- (QuestLogDetailsResponseProto_Builder*) setStatus:(QuestLogDetailsResponseProto_QuestLogDetailsStatus) value;
-- (QuestLogDetailsResponseProto_Builder*) clearStatus;
+- (UserQuestDetailsResponseProto_UserQuestDetailsStatus) status;
+- (UserQuestDetailsResponseProto_Builder*) setStatus:(UserQuestDetailsResponseProto_UserQuestDetailsStatus) value;
+- (UserQuestDetailsResponseProto_Builder*) clearStatus;
 @end
 
 @interface RetrieveStaticDataRequestProto : PBGeneratedMessage {

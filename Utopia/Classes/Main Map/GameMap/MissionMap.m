@@ -12,6 +12,7 @@
 #import "UserData.h"
 #import "OutgoingEventController.h"
 #import "RefillMenuController.h"
+#import "AnimatedSprite.h"
 
 #define ASSET_TAG_BASE 2555
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
@@ -34,7 +35,7 @@
 
 @implementation MissionOverBuildingMenu
 
-@synthesize progressBar, missionMap;
+@synthesize progressBar;
 
 - (void) awakeFromNib {
   _separators = [[NSMutableArray array] retain];
@@ -78,6 +79,10 @@
   }
 }
 
+- (void) setMissionMap:(MissionMap *)m {
+  missionMap = m;
+}
+
 - (void) setFrameForPoint:(CGPoint)pt {
   // place it so that the bottom middle is at pt
   // Remember, frame is relative to top left corner
@@ -100,24 +105,95 @@
 @implementation MissionMap
 
 @synthesize summaryMenu, obMenu;
+@synthesize walkableData = _walkableData;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto {
-  NSString *tmxFile = @"city_map_backup.tmx";
-  if ((self = [super initWithTMXFile:tmxFile])) {
+//  NSString *tmxFile = @"venetia_city.tmx";
+  FullCityProto *fcp = [[GameState sharedGameState] cityWithId:proto.cityId];
+  if ((self = [super initWithTMXFile:fcp.mapImgName])) {
     GameState *gs = [GameState sharedGameState];
     FullCityProto *fcp = [gs cityWithId:proto.cityId];
+    
+    self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
+    for (int i = 0; i < self.mapSize.width; i++) {
+      NSMutableArray *row = [NSMutableArray arrayWithCapacity:self.mapSize.height];
+      for (int j = 0; j < self.mapSize.height; j++) {
+        [row addObject:[NSNumber numberWithBool:YES]];
+      }
+      [self.walkableData addObject:row];
+    }
+    
+    int width = self.mapSize.width;
+    int height = self.mapSize.height;
+    for (CCNode *node in self.children) {
+      if (![node isKindOfClass:[CCTMXLayer class]]) {
+        continue;
+      }
+      CCTMXLayer *layer = (CCTMXLayer *)node;
+      
+      for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+          NSMutableArray *row = [self.walkableData objectAtIndex:i];
+          NSNumber *curVal = [row objectAtIndex:j];
+          if (curVal.boolValue == YES) {
+            // Convert their coordinates to our coordinate system
+            CGPoint tileCoord = ccp(height-j-1, width-i-1);
+            int tileGid = [layer tileGIDAt:tileCoord];
+            if (tileGid) {
+              NSDictionary *properties = [self propertiesForGID:tileGid];
+              if (properties) {
+                NSString *collision = [properties valueForKey:@"Walkable"];
+                if (collision && [collision isEqualToString:@"No"]) {
+                  [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     
     // Add all the buildings
     for (NeutralCityElementProto *ncep in proto.cityElementsList) {
       if (ncep.type == NeutralCityElementProto_NeutralCityElemTypeBuilding) {
-        CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, 0, 0);
+        // Add a mission building
+        CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, ncep.xLength, ncep.yLength);
         MissionBuilding *mb = [[MissionBuilding alloc] initWithFile:ncep.imgId location:loc map:self];
         mb.name = ncep.name;
         mb.orientation = ncep.orientation;
         [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         [mb release];
+        
+        for (int i = 0; i < mb.location.size.width; i++) {
+          for (int j = 0; j < mb.location.size.height; j++) {
+            // Transform to the map's coordinates
+            NSMutableArray *row = [_walkableData objectAtIndex:i+mb.location.origin.x];
+            NSNumber *num = [row objectAtIndex:j+mb.location.origin.y];
+            if ([num boolValue] == YES) {
+              [row replaceObjectAtIndex:j+mb.location.origin.y withObject:[NSNumber numberWithBool:NO]];
+            }
+          }
+        }
+      } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypeDecoration) {
+        // Decorations aren't selectable so just make a map sprite
+        CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, ncep.xLength, ncep.yLength);
+        MapSprite *s = [[MapSprite alloc] initWithFile:ncep.imgId location:loc map:self];
+        [self addChild:s z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        
+        for (int i = 0; i < s.location.size.width; i++) {
+          for (int j = 0; j < s.location.size.height; j++) {
+            // Transform to the map's coordinates
+            NSMutableArray *row = [_walkableData objectAtIndex:i+s.location.origin.x];
+            NSNumber *num = [row objectAtIndex:j+s.location.origin.y];
+            if ([num boolValue] == YES) {
+              [row replaceObjectAtIndex:j+s.location.origin.y withObject:[NSNumber numberWithBool:NO]];
+            }
+          }
+        }
       }
     }
+    [self doReorder];
+    
     
     // Load up the full task protos
     for (NSNumber *taskId in fcp.taskIdsList) {
@@ -144,9 +220,26 @@
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
     [[[CCDirector sharedDirector] openGLView] addSubview:obMenu];
     [[[CCDirector sharedDirector] openGLView] addSubview:summaryMenu];
+    [obMenu setMissionMap:self];
     obMenu.hidden = YES;
     
     summaryMenu.center = CGPointMake(-summaryMenu.frame.size.width, 290);
+    
+    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
+    for (int i=0; i < width; i++) {
+      for (int j=0; j < height; j++) {
+        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
+      }
+      [str appendString:@"\n"];
+    }
+    NSLog(@"%@", str);
+    
+//    for (int i = 0; i < 6; i++) {
+//      CGRect r = CGRectZero;
+//      r.origin = [self randomWalkablePosition];
+//      AnimatedSprite *anim = [[AnimatedSprite alloc] initWithFile:nil location:r map:self];
+//      [self addChild:anim];
+//    }
   }
   return self;
 }
@@ -260,6 +353,40 @@
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
   [self updateMissionBuildingMenu];
+}
+
+- (CGPoint) randomWalkablePosition {
+  while (true) {
+    int x = arc4random() % (int)self.mapSize.width;
+    int y = arc4random() % (int)self.mapSize.height;
+    NSNumber *num = [[_walkableData objectAtIndex:x] objectAtIndex:y];
+    if (num.boolValue == YES) {
+      return CGPointMake(x, y);
+    }
+  }
+}
+
+- (CGPoint) nextWalkablePositionFromPoint:(CGPoint) point {
+  CGPoint left = CGPointMake(point.x-1, point.y);
+  CGPoint right = CGPointMake(point.x+1, point.y);
+  CGPoint up = CGPointMake(point.x, point.y+1);
+  CGPoint down = CGPointMake(point.x, point.y-1);
+  CGPoint pts[4] = {left, right, up, down};
+  int width = mapSize_.width;
+  int height = mapSize_.height;
+  
+  int max = 30;
+  while (max > 0) {
+    int x = arc4random() % 4;
+    CGPoint pt = pts[x];
+    if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
+      if ([[[_walkableData objectAtIndex:pt.x] objectAtIndex:pt.y] boolValue] == YES) {
+        return pt;
+      }
+    }
+    max--;
+  }
+  return point;
 }
 
 - (void) dealloc {

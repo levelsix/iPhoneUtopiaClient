@@ -49,7 +49,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCLoadPlayerCityEvent:
     case EventProtocolRequestCRetrieveStaticDataEvent:
     case EventProtocolRequestCQuestAcceptEvent:
-    case EventProtocolRequestCQuestLogDetailsEvent:
+    case EventProtocolRequestCUserQuestDetailsEvent:
     case EventProtocolRequestCQuestRedeemEvent:
     case EventProtocolRequestCPurchaseCityExpansionEvent:
     case EventProtocolRequestCExpansionWaitCompleteEvent:
@@ -96,7 +96,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSLoadPlayerCityEvent:
     case EventProtocolResponseSRetrieveStaticDataEvent:
     case EventProtocolResponseSQuestAcceptEvent:
-    case EventProtocolResponseSQuestLogDetailsEvent:
+    case EventProtocolResponseSUserQuestDetailsEvent:
     case EventProtocolResponseSQuestRedeemEvent:
     case EventProtocolResponseSPurchaseCityExpansionEvent:
     case EventProtocolResponseSExpansionWaitCompleteEvent:

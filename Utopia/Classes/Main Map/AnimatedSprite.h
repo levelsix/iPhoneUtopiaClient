@@ -7,8 +7,9 @@
 //
 
 #import "cocos2d.h"
+#import "MapSprite.h"
 
-@interface AnimatedSprite : CCSprite 
+@interface AnimatedSprite : MapSprite
 {
   CCSprite *_sprite;
   CCAction *_walkAction;
@@ -19,5 +20,16 @@
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkAction;
 @property (nonatomic, retain) CCAction *moveAction;
+
+@end
+
+@interface MoveToLocation : CCActionInterval <NSCopying> {
+  CGRect startLocation_;
+  CGRect endLocation_;
+  CGPoint delta_;
+}
+
++(id) actionWithDuration: (ccTime) t location: (CGRect) p;
+-(id) initWithDuration: (ccTime) t location: (CGRect) p;
 
 @end

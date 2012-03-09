@@ -148,10 +148,6 @@
 @class QuestAcceptResponseProto_Builder;
 @class QuestCompleteResponseProto;
 @class QuestCompleteResponseProto_Builder;
-@class QuestLogDetailsRequestProto;
-@class QuestLogDetailsRequestProto_Builder;
-@class QuestLogDetailsResponseProto;
-@class QuestLogDetailsResponseProto_Builder;
 @class QuestRedeemRequestProto;
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
@@ -234,6 +230,10 @@
 @class UserCreateRequestProto_Builder;
 @class UserCreateResponseProto;
 @class UserCreateResponseProto_Builder;
+@class UserQuestDetailsRequestProto;
+@class UserQuestDetailsRequestProto_Builder;
+@class UserQuestDetailsResponseProto;
+@class UserQuestDetailsResponseProto_Builder;
 @class VaultRequestProto;
 @class VaultRequestProto_Builder;
 @class VaultResponseProto;
@@ -266,7 +266,7 @@ typedef enum {
   EventProtocolRequestCLoadPlayerCityEvent = 27,
   EventProtocolRequestCRetrieveStaticDataEvent = 28,
   EventProtocolRequestCQuestAcceptEvent = 29,
-  EventProtocolRequestCQuestLogDetailsEvent = 30,
+  EventProtocolRequestCUserQuestDetailsEvent = 30,
   EventProtocolRequestCQuestRedeemEvent = 31,
   EventProtocolRequestCPurchaseCityExpansionEvent = 32,
   EventProtocolRequestCExpansionWaitCompleteEvent = 33,
@@ -311,7 +311,7 @@ typedef enum {
   EventProtocolResponseSLoadPlayerCityEvent = 27,
   EventProtocolResponseSRetrieveStaticDataEvent = 28,
   EventProtocolResponseSQuestAcceptEvent = 29,
-  EventProtocolResponseSQuestLogDetailsEvent = 30,
+  EventProtocolResponseSUserQuestDetailsEvent = 30,
   EventProtocolResponseSQuestRedeemEvent = 31,
   EventProtocolResponseSPurchaseCityExpansionEvent = 32,
   EventProtocolResponseSExpansionWaitCompleteEvent = 33,

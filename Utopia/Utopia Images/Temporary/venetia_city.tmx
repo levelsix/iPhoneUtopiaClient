@@ -61,19 +61,34 @@
    </properties>
   </tile>
  </tileset>
+ <layer name="SUPER LOW LAYER" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA4YcYiTCwa7eYMdDPbwG+zxMdj9S655jHgwPd1EjBtINY8aaoa6eeTGKSG1IHl2KpgHADVBujdABgAA
+  </data>
+ </layer>
  <layer name="Bottom Layer" width="20" height="20">
-  <data encoding="base64" compression="zlib">
-   eJy1k90KwCAIRo0xutgLbGP4/o+5XRSEqPnTLg5BxPFDrQJAJRwfhbmnIDklPD40+NDo47gW8odP69/ZyPTO47PMNptv1hPJ58GSb4Vvb4xvn4bH59mXohDxdTaw/bFeg6s/zv4O+LS9jOST9nplPjrTbD6pp9l8Vma+F73REvU=
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA82UwQrDMAxDBWPk0B9wxsj/f+YOq5kwsk3TywwiIdBnWTQZAEbQgW/F86gVVped6zz3Hc+Iswqe7xfxrOApzT+XmsHzs2a2amYjxl3ewK/u8ro8dv1xjsqfyhwie5Wj4hnpSbw3ZQ9obuRd+V+q2uG5p0fCA+XAPbLye/3a4FVvDvubgRF7ME+9WZ2/ipfpSL7lcs+VP1VX5u3ub+aPe1S8D9MYGFVABgAA
   </data>
  </layer>
  <layer name="Top Layer" width="20" height="20">
-  <data encoding="base64" compression="zlib">
-   eJxjYMAEUljEKAGUmMeJBUvhkcOHhypgJkKNABALArEQFcwTR2ILo8lhC1dizBMDYlEgFiHCfdQGtE7P6OkLW5rDl/6o7T56AXHCSgbUvIEox4jNEyDATplzaG4eMX4AAArtAt0=
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA82T4QrAIAiEBRmxV4i9/3Nug4RxO53Yj3VwKFRfJdpEpIG7vKWP3PYxNYgCPDurwMnwLO9kjfGYVxf7g/rbUzzMZ3lYzxle9d6sb2E/Yx+wM1HveDyLx+VtxK9+9OZtFbG6CMn/5Hn8Sl2jPsjw9mGbiYhXmZvov1Uee19WJ395XAtABgAA
+  </data>
+ </layer>
+ <layer name="Kinda Really But Not Really Top Layer" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAXDAYgDsQAQCwKxEJXMk4NiYSqZJwbEokAsQgXzRsEoGAUDDwCeJ85WQAYAAA==
+  </data>
+ </layer>
+ <layer name="HIGHER!!!!" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWjADdgH2gHjIJRMAoGLQAAYtpKT0AGAAA=
   </data>
  </layer>
  <layer name="Really Top Layer" width="20" height="20">
-  <data encoding="base64" compression="zlib">
-   eJxjYKAMmFKonxJgPoB2jwQwkHE7WAAxYWBBc1cMHKBGHjOjghkwQGmahLnFFIsYuYCa5RDMXdQMM3TzTZHY2OwmBQAATOkDyA==
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA1M8ciRooZWwHwA7R5IYIqDpqVdtNZDT0CK+4hRawGlh2N6pIafzKhgBgxQmrZgbjHFIkYuoGa8w9xFzTBDN5+a5QYA9N5gmUAGAAA=
   </data>
  </layer>
 </map>

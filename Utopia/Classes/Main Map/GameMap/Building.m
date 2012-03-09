@@ -13,68 +13,6 @@
 #import "GameState.h"
 #import "Globals.h"
 
-@implementation SelectableSprite
-
-@synthesize isSelected = _isSelected;
-@synthesize location = _location;
-@synthesize name = _name;
-
--(id) initWithFile: (NSString *) file  location: (CGRect)loc map: (GameMap *) map{
-  if ((self = [super initWithFile:file])) {
-    _map = [map retain];
-    self.isSelected = NO;
-    self.location = loc;
-    self.anchorPoint = ccp(0.5,0);
-    
-    _glow = [[CCSprite spriteWithFile:@"glow.png"] retain];
-    _glow.scale = 0.55;
-    _glow.anchorPoint = ccp(0.5,0.08);
-    _glow.position = ccp(self.contentSize.width/2, 0);
-    _glow.visible = NO;
-    _glow.opacity = 20;
-    [self addChild:_glow z:-1];
-  }
-  return self;
-}
-
--(void) setIsSelected:(BOOL)isSelected {
-  if (self.isSelected == isSelected) {
-    return;
-  }
-  
-  _isSelected = isSelected;
-  if (isSelected) {
-    _glow.visible = YES;
-  } else {
-    _glow.visible = NO;
-  }
-}
-
--(void) setLocation:(CGRect)location {
-  CGSize ms = _map.mapSize;
-  CGSize ts = _map.tileSizeInPoints;
-  
-  location.origin.x = MIN(ms.width-location.size.width, MAX(0, location.origin.x));
-  location.origin.y = MIN(ms.height-location.size.height, MAX(0, location.origin.y));
-  _location = location;
-  self.position = ccp( ms.width * ts.width/2 + ts.width * (location.origin.x-location.origin.y)/2, 
-                      ts.height * (location.origin.y+location.origin.x)/2);
-  
-  [_map doReorder];
-}
-
--(NSString *) description {
-  return [NSString stringWithFormat:@"%f, %f, %f, %f", self.location.origin.x, self.location.origin.y, self.location.size.width, self.location.size.height];
-}
-
--(void) dealloc {
-  [_glow release];
-  [_map release];
-  [super dealloc];
-}
-
-@end
-
 @implementation Building
 
 @synthesize orientation;
@@ -107,9 +45,9 @@
   return [[[self alloc] initWithFile:file location:loc map:map] autorelease];
 }
 
-- (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map{
+- (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map {
   if ((self = [super initWithFile:file location:loc map:map])) {
-    _homeMap = [map retain];
+    _homeMap = map;
     [self placeBlock];
     
   }
@@ -144,7 +82,7 @@
   for (int i = 0; i < self.location.size.width; i++) {
     for (int j = 0; j < self.location.size.height; j++) {
       // Transform to the map's coordinates
-      CGPoint tileCoord = ccp(63-(self.location.origin.y+j), 63-(self.location.origin.x+i));
+      CGPoint tileCoord = ccp(_homeMap.mapSize.height-1-(self.location.origin.y+j), _homeMap.mapSize.width-1-(self.location.origin.x+i));
       int tileGid = [meta tileGIDAt:tileCoord];
       if ([[[_homeMap.buildableData objectAtIndex:i+self.location.origin.x] objectAtIndex:j+self.location.origin.y] boolValue]) {
         if (tileGid != red) {
@@ -163,7 +101,7 @@
   CCTMXLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
   for (int i = 0; i < self.location.size.width; i++) {
     for (int j = 0; j < self.location.size.height; j++) {
-      CGPoint tileCoord = ccp(63-(self.location.origin.y+j), 63-(self.location.origin.x+i));
+      CGPoint tileCoord = ccp(_homeMap.mapSize.height-1-(self.location.origin.y+j),_homeMap.mapSize.width-1-(self.location.origin.x+i));
       [meta removeTileAt:tileCoord];
     }
   }
@@ -326,15 +264,5 @@
 @implementation MissionBuilding
 
 @synthesize ftp, numTimesActed, name;
-
-+(id) missionBuildingWithFile: (NSString *) file location: (CGRect) loc map: (GameMap *) map {
-  return [[[self alloc] initWithFile:file location:loc map:map] autorelease];
-}
-
--(id) initWithFile: (NSString *) file location: (CGRect)loc map: (GameMap *) map{
-  if ((self = [super initWithFile:file location:loc map:map])) {
-  }
-  return self;
-}
 
 @end

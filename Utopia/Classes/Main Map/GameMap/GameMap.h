@@ -18,17 +18,17 @@
 
 @interface GameMap : CCTMXTiledMap {
   SelectableSprite *_selected;
-  NSMutableArray *_selectables;
+  NSMutableArray *_mapSprites;
 }
 
 @property (nonatomic, retain) SelectableSprite *selected;
 
 @property (nonatomic, assign) CGSize tileSizeInPoints;
 
-+(id) tiledMapWithTMXFile:(NSString*)tmxFile;
--(id) initWithTMXFile:(NSString *)tmxFile;
--(CGPoint)convertVectorToGL:(CGPoint)uiPoint;
--(void) doReorder;
++ (id) tiledMapWithTMXFile:(NSString*)tmxFile;
+- (id) initWithTMXFile:(NSString *)tmxFile;
+- (CGPoint)convertVectorToGL:(CGPoint)uiPoint;
+- (void) doReorder;
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node;

@@ -22,6 +22,13 @@
 #define BIG_HEALTH_FONT 14.f
 #define SMALL_HEALTH_FONT 10.f
 
+#define ATTACK_SKILL_POINT_TO_EQUIP_ATTACK_RATIO 2
+#define DEFENSE_SKILL_POINT_TO_EQUIP_DEFENSE_RATIO 2
+#define LOCATION_BAR_MAX 75.f
+#define MAX_ATTACK_MULTIPLIER 1.5
+#define MIN_PERCENT_OF_ENEMY_HEALTH .05
+#define MAX_PERCENT_OF_ENEMY_HEALTH .5
+
 @implementation BattleLayer
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
@@ -39,7 +46,7 @@ static CCScene *scene = nil;
     [scene addChild:sprite];
     
     // 'layer' is an autorelease object.
-    BattleLayer *layer = [BattleLayer node];
+    BattleLayer *layer = [BattleLayer sharedBattleLayer];
     
     // add layer as a child to scene
     [scene addChild: layer];
@@ -161,7 +168,7 @@ static CCScene *scene = nil;
   _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", _leftCurrentHealth];
   _leftMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _leftMaxHealth];
   
-  [[CCDirector sharedDirector] pushScene:scene];
+  [[CCDirector sharedDirector] pushScene:[BattleLayer scene]];
   [self startMyTurn];
 }
 
@@ -295,12 +302,43 @@ static CCScene *scene = nil;
   NSLog(@"Turn missed.");
 }
 
-- (int) calculateDamageForPercentage:(float)percent {
-  return 20;
+- (int) calculateMyDamageForPercentage:(float)percent {
+  int multiplerWeightForSecondHalf = LOCATION_BAR_MAX / (100-LOCATION_BAR_MAX);
+  double amountWorseThanMax = (percent <= LOCATION_BAR_MAX) ? (LOCATION_BAR_MAX-percent)*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX : (percent-LOCATION_BAR_MAX)*multiplerWeightForSecondHalf*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX;
+  
+  
+  //assumes linearity from 0-BAR_MAX and BAR_MAX-100 (diff slope magnitudes for each) to calculate attack value
+  double attackMultiplier = MAX_ATTACK_MULTIPLIER - amountWorseThanMax;
+  
+  double attackStat = _leftAttack * attackMultiplier;
+  double defenseStat = _rightDefense;
+  
+  int minDamage = (int) (_rightMaxHealth * MIN_PERCENT_OF_ENEMY_HEALTH);
+  int maxDamage = (int) (_rightMaxHealth * MAX_PERCENT_OF_ENEMY_HEALTH);
+  
+  return (int)MIN(maxDamage, MAX(minDamage, attackStat-defenseStat));
+
+}
+
+- (int) calculateEnemyDamageForPercentage:(float)percent {
+  int multiplerWeightForSecondHalf = LOCATION_BAR_MAX / (100-LOCATION_BAR_MAX);
+  double amountWorseThanMax = (percent <= LOCATION_BAR_MAX) ? (LOCATION_BAR_MAX-percent)*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX : (percent-LOCATION_BAR_MAX)*multiplerWeightForSecondHalf*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX;
+  
+  
+  //assumes linearity from 0-BAR_MAX and BAR_MAX-100 (diff slope magnitudes for each) to calculate attack value
+  double attackMultiplier = MAX_ATTACK_MULTIPLIER - amountWorseThanMax;
+  
+  double attackStat = _leftAttack * attackMultiplier;
+  double defenseStat = _rightDefense;
+  
+  int minDamage = (int) (_rightMaxHealth * MIN_PERCENT_OF_ENEMY_HEALTH);
+  int maxDamage = (int) (_rightMaxHealth * MAX_PERCENT_OF_ENEMY_HEALTH);
+  
+  return (int)MIN(maxDamage, MAX(minDamage, attackStat-defenseStat));
 }
 
 - (void) attackAnimationDone {
-  int damage = [self calculateDamageForPercentage:_comboPercentage];
+  int damage = [self calculateMyDamageForPercentage:_comboPercentage];
   _rightCurrentHealth -= damage;
   [self setRightHealthBarPercentage:((float)_rightCurrentHealth)/_rightMaxHealth*100];
 }
@@ -343,7 +381,7 @@ static CCScene *scene = nil;
 }
 
 - (void) enemyAttackDone {
-  int damage = [self calculateDamageForPercentage:_comboPercentage];
+  int damage = [self calculateEnemyDamageForPercentage:_comboPercentage];
   _leftCurrentHealth -= damage;
   [self setLeftHealthBarPercentage:((float)_leftCurrentHealth)/_leftMaxHealth*100];
 }

@@ -827,8 +827,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:mup];
 }
 
-- (void) loadNeutralCity:(FullCityProto *)city asset:(int)assetId {
+- (void) loadNeutralCity:(int)cityId asset:(int)assetId {
   GameState *gs = [GameState sharedGameState];
+  FullCityProto *city = [gs cityWithId:cityId];
   
   if (!city) {
     [Globals popupMessage:@"Trying to visit nil city"];
@@ -838,8 +839,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
     if (assetId != 0) {
       [[GameLayer sharedGameLayer] moveMissionMapToAssetId:assetId];
-      return;
     }
+    return;
   }
   
   [[GameLayer sharedGameLayer] setAssetId: assetId];

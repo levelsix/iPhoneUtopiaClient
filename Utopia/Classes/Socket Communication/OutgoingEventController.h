@@ -64,7 +64,7 @@
 - (void) retrieveEquipStore;
 
 - (void) loadPlayerCity:(int)userId;
-- (void) loadNeutralCity:(FullCityProto *)city asset:(int)assetId;
+- (void) loadNeutralCity:(int)cityId asset:(int)assetId;
 
 - (void) levelUp;
 

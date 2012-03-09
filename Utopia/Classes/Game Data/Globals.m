@@ -33,6 +33,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize energyRefillCost, staminaRefillCost;
 @synthesize maxRepeatedNormStructs, maxEquipId, maxStructId;
 @synthesize productIdentifiers;
+@synthesize imageCache;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -57,6 +58,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     energyRefillWaitMinutes = 3;
     staminaRefillWaitMinutes = 4;
+    
+    imageCache = [[NSMutableDictionary alloc] init];
   }
   return self;
 }
@@ -84,7 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (NSString *) imageNameForStruct:(int)structId {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   NSString *str = [fsp.name stringByReplacingOccurrencesOfString:@" " withString:@""];
-  str = [fsp.name stringByReplacingOccurrencesOfString:@"'" withString:@""];
+  str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
   NSString *file = [NSString stringWithFormat:[str stringByAppendingString:@".png"]];
   return file;
 }
@@ -318,6 +321,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return nil;
   }
   
+  Globals *gl = [Globals sharedGlobals];
+  UIImage *cachedImage = [gl.imageCache objectForKey:path];
+  if (cachedImage) {
+    return cachedImage;
+  }
+  
   // prevents overloading the autorelease pool
   NSString *resName = [CCFileUtils getDoubleResolutionImage:path validate:NO];
   UIImage *image = nil;
@@ -337,6 +346,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   image = [UIImage imageWithContentsOfFile:fullpath];
+  
+  if (image) {
+    [gl.imageCache setObject:image forKey:path];
+  }
   
   return image;
 }

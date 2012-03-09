@@ -8,25 +8,10 @@
 
 #import "cocos2d.h"
 #import "UserData.h"
+#import "MapSprite.h"
 
 @class GameMap;
 @class HomeMap;
-
-@interface SelectableSprite : CCSprite {
-  GameMap *_map;
-  BOOL _isSelected;
-  CCSprite *_glow;
-  NSString *_name;
-  CGRect _location;
-}
-
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, assign) CGRect location;
-@property (nonatomic, assign) BOOL isSelected;
-
--(id) initWithFile: (NSString *) file location: (CGRect)loc map: (GameMap *) map;
-
-@end
 
 @interface Building : SelectableSprite
 

@@ -6736,8 +6736,8 @@ static FullUserCityProto* defaultFullUserCityProtoInstance = nil;
 @end
 
 @interface CoordinateProto ()
-@property int32_t x;
-@property int32_t y;
+@property Float32 x;
+@property Float32 y;
 @end
 
 @implementation CoordinateProto
@@ -6789,10 +6789,10 @@ static CoordinateProto* defaultCoordinateProtoInstance = nil;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasX) {
-    [output writeInt32:1 value:self.x];
+    [output writeFloat:1 value:self.x];
   }
   if (self.hasY) {
-    [output writeInt32:2 value:self.y];
+    [output writeFloat:2 value:self.y];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6804,10 +6804,10 @@ static CoordinateProto* defaultCoordinateProtoInstance = nil;
 
   size = 0;
   if (self.hasX) {
-    size += computeInt32Size(1, self.x);
+    size += computeFloatSize(1, self.x);
   }
   if (self.hasY) {
-    size += computeInt32Size(2, self.y);
+    size += computeFloatSize(2, self.y);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6911,12 +6911,12 @@ static CoordinateProto* defaultCoordinateProtoInstance = nil;
         }
         break;
       }
-      case 8: {
-        [self setX:[input readInt32]];
+      case 13: {
+        [self setX:[input readFloat]];
         break;
       }
-      case 16: {
-        [self setY:[input readInt32]];
+      case 21: {
+        [self setY:[input readFloat]];
         break;
       }
     }
@@ -6925,10 +6925,10 @@ static CoordinateProto* defaultCoordinateProtoInstance = nil;
 - (BOOL) hasX {
   return result.hasX;
 }
-- (int32_t) x {
+- (Float32) x {
   return result.x;
 }
-- (CoordinateProto_Builder*) setX:(int32_t) value {
+- (CoordinateProto_Builder*) setX:(Float32) value {
   result.hasX = YES;
   result.x = value;
   return self;
@@ -6941,10 +6941,10 @@ static CoordinateProto* defaultCoordinateProtoInstance = nil;
 - (BOOL) hasY {
   return result.hasY;
 }
-- (int32_t) y {
+- (Float32) y {
   return result.y;
 }
-- (CoordinateProto_Builder*) setY:(int32_t) value {
+- (CoordinateProto_Builder*) setY:(Float32) value {
   result.hasY = YES;
   result.y = value;
   return self;
@@ -8729,12 +8729,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @interface FullUserQuestDataLargeProto ()
 @property int32_t userId;
 @property int32_t questId;
-@property BOOL redeemed;
-@property (retain) NSMutableArray* mutableRequiredTasksProgressList;
+@property BOOL isRedeemed;
+@property BOOL isComplete;
 @property (retain) NSMutableArray* mutableRequiredDefeatTypeJobProgressList;
 @property (retain) NSMutableArray* mutableRequiredBuildStructJobProgressList;
 @property (retain) NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
 @property (retain) NSMutableArray* mutableRequiredPossessEquipJobProgressList;
+@property (retain) NSMutableArray* mutableRequiredTasksProgressList;
 @end
 
 @implementation FullUserQuestDataLargeProto
@@ -8753,36 +8754,49 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
   hasQuestId_ = !!value;
 }
 @synthesize questId;
-- (BOOL) hasRedeemed {
-  return !!hasRedeemed_;
+- (BOOL) hasIsRedeemed {
+  return !!hasIsRedeemed_;
 }
-- (void) setHasRedeemed:(BOOL) value {
-  hasRedeemed_ = !!value;
+- (void) setHasIsRedeemed:(BOOL) value {
+  hasIsRedeemed_ = !!value;
 }
-- (BOOL) redeemed {
-  return !!redeemed_;
+- (BOOL) isRedeemed {
+  return !!isRedeemed_;
 }
-- (void) setRedeemed:(BOOL) value {
-  redeemed_ = !!value;
+- (void) setIsRedeemed:(BOOL) value {
+  isRedeemed_ = !!value;
 }
-@synthesize mutableRequiredTasksProgressList;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) value {
+  hasIsComplete_ = !!value;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) value {
+  isComplete_ = !!value;
+}
 @synthesize mutableRequiredDefeatTypeJobProgressList;
 @synthesize mutableRequiredBuildStructJobProgressList;
 @synthesize mutableRequiredUpgradeStructJobProgressList;
 @synthesize mutableRequiredPossessEquipJobProgressList;
+@synthesize mutableRequiredTasksProgressList;
 - (void) dealloc {
-  self.mutableRequiredTasksProgressList = nil;
   self.mutableRequiredDefeatTypeJobProgressList = nil;
   self.mutableRequiredBuildStructJobProgressList = nil;
   self.mutableRequiredUpgradeStructJobProgressList = nil;
   self.mutableRequiredPossessEquipJobProgressList = nil;
+  self.mutableRequiredTasksProgressList = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.userId = 0;
     self.questId = 0;
-    self.redeemed = NO;
+    self.isRedeemed = NO;
+    self.isComplete = NO;
   }
   return self;
 }
@@ -8797,13 +8811,6 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
 }
 - (FullUserQuestDataLargeProto*) defaultInstance {
   return defaultFullUserQuestDataLargeProtoInstance;
-}
-- (NSArray*) requiredTasksProgressList {
-  return mutableRequiredTasksProgressList;
-}
-- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
-  id value = [mutableRequiredTasksProgressList objectAtIndex:index];
-  return value;
 }
 - (NSArray*) requiredDefeatTypeJobProgressList {
   return mutableRequiredDefeatTypeJobProgressList;
@@ -8833,6 +8840,13 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   id value = [mutableRequiredPossessEquipJobProgressList objectAtIndex:index];
   return value;
 }
+- (NSArray*) requiredTasksProgressList {
+  return mutableRequiredTasksProgressList;
+}
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
+  id value = [mutableRequiredTasksProgressList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   if (!self.hasUserId) {
     return NO;
@@ -8840,13 +8854,11 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (!self.hasQuestId) {
     return NO;
   }
-  if (!self.hasRedeemed) {
+  if (!self.hasIsRedeemed) {
     return NO;
   }
-  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
+  if (!self.hasIsComplete) {
+    return NO;
   }
   for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
     if (!element.isInitialized) {
@@ -8864,6 +8876,11 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
     }
   }
   for (MinimumUserPossessEquipJobProto* element in self.requiredPossessEquipJobProgressList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -8877,11 +8894,11 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (self.hasQuestId) {
     [output writeInt32:2 value:self.questId];
   }
-  if (self.hasRedeemed) {
-    [output writeBool:3 value:self.redeemed];
+  if (self.hasIsRedeemed) {
+    [output writeBool:3 value:self.isRedeemed];
   }
-  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
-    [output writeMessage:4 value:element];
+  if (self.hasIsComplete) {
+    [output writeBool:4 value:self.isComplete];
   }
   for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
     [output writeMessage:5 value:element];
@@ -8894,6 +8911,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   }
   for (MinimumUserPossessEquipJobProto* element in self.requiredPossessEquipJobProgressList) {
     [output writeMessage:8 value:element];
+  }
+  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
+    [output writeMessage:9 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -8910,11 +8930,11 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (self.hasQuestId) {
     size += computeInt32Size(2, self.questId);
   }
-  if (self.hasRedeemed) {
-    size += computeBoolSize(3, self.redeemed);
+  if (self.hasIsRedeemed) {
+    size += computeBoolSize(3, self.isRedeemed);
   }
-  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
-    size += computeMessageSize(4, element);
+  if (self.hasIsComplete) {
+    size += computeBoolSize(4, self.isComplete);
   }
   for (MinimumUserDefeatTypeJobProto* element in self.requiredDefeatTypeJobProgressList) {
     size += computeMessageSize(5, element);
@@ -8927,6 +8947,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   }
   for (MinimumUserPossessEquipJobProto* element in self.requiredPossessEquipJobProgressList) {
     size += computeMessageSize(8, element);
+  }
+  for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
+    size += computeMessageSize(9, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -9009,14 +9032,11 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (other.hasQuestId) {
     [self setQuestId:other.questId];
   }
-  if (other.hasRedeemed) {
-    [self setRedeemed:other.redeemed];
+  if (other.hasIsRedeemed) {
+    [self setIsRedeemed:other.isRedeemed];
   }
-  if (other.mutableRequiredTasksProgressList.count > 0) {
-    if (result.mutableRequiredTasksProgressList == nil) {
-      result.mutableRequiredTasksProgressList = [NSMutableArray array];
-    }
-    [result.mutableRequiredTasksProgressList addObjectsFromArray:other.mutableRequiredTasksProgressList];
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
   }
   if (other.mutableRequiredDefeatTypeJobProgressList.count > 0) {
     if (result.mutableRequiredDefeatTypeJobProgressList == nil) {
@@ -9041,6 +9061,12 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
       result.mutableRequiredPossessEquipJobProgressList = [NSMutableArray array];
     }
     [result.mutableRequiredPossessEquipJobProgressList addObjectsFromArray:other.mutableRequiredPossessEquipJobProgressList];
+  }
+  if (other.mutableRequiredTasksProgressList.count > 0) {
+    if (result.mutableRequiredTasksProgressList == nil) {
+      result.mutableRequiredTasksProgressList = [NSMutableArray array];
+    }
+    [result.mutableRequiredTasksProgressList addObjectsFromArray:other.mutableRequiredTasksProgressList];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -9072,13 +9098,11 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
         break;
       }
       case 24: {
-        [self setRedeemed:[input readBool]];
+        [self setIsRedeemed:[input readBool]];
         break;
       }
-      case 34: {
-        MinimumUserQuestTaskProto_Builder* subBuilder = [MinimumUserQuestTaskProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addRequiredTasksProgress:[subBuilder buildPartial]];
+      case 32: {
+        [self setIsComplete:[input readBool]];
         break;
       }
       case 42: {
@@ -9103,6 +9127,12 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
         MinimumUserPossessEquipJobProto_Builder* subBuilder = [MinimumUserPossessEquipJobProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRequiredPossessEquipJobProgress:[subBuilder buildPartial]];
+        break;
+      }
+      case 74: {
+        MinimumUserQuestTaskProto_Builder* subBuilder = [MinimumUserQuestTaskProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequiredTasksProgress:[subBuilder buildPartial]];
         break;
       }
     }
@@ -9140,49 +9170,36 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   result.questId = 0;
   return self;
 }
-- (BOOL) hasRedeemed {
-  return result.hasRedeemed;
+- (BOOL) hasIsRedeemed {
+  return result.hasIsRedeemed;
 }
-- (BOOL) redeemed {
-  return result.redeemed;
+- (BOOL) isRedeemed {
+  return result.isRedeemed;
 }
-- (FullUserQuestDataLargeProto_Builder*) setRedeemed:(BOOL) value {
-  result.hasRedeemed = YES;
-  result.redeemed = value;
+- (FullUserQuestDataLargeProto_Builder*) setIsRedeemed:(BOOL) value {
+  result.hasIsRedeemed = YES;
+  result.isRedeemed = value;
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) clearRedeemed {
-  result.hasRedeemed = NO;
-  result.redeemed = NO;
+- (FullUserQuestDataLargeProto_Builder*) clearIsRedeemed {
+  result.hasIsRedeemed = NO;
+  result.isRedeemed = NO;
   return self;
 }
-- (NSArray*) requiredTasksProgressList {
-  if (result.mutableRequiredTasksProgressList == nil) { return [NSArray array]; }
-  return result.mutableRequiredTasksProgressList;
+- (BOOL) hasIsComplete {
+  return result.hasIsComplete;
 }
-- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
-  return [result requiredTasksProgressAtIndex:index];
+- (BOOL) isComplete {
+  return result.isComplete;
 }
-- (FullUserQuestDataLargeProto_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserQuestTaskProto*) value {
-  [result.mutableRequiredTasksProgressList replaceObjectAtIndex:index withObject:value];
+- (FullUserQuestDataLargeProto_Builder*) setIsComplete:(BOOL) value {
+  result.hasIsComplete = YES;
+  result.isComplete = value;
   return self;
 }
-- (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values {
-  if (result.mutableRequiredTasksProgressList == nil) {
-    result.mutableRequiredTasksProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredTasksProgressList addObjectsFromArray:values];
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList {
-  result.mutableRequiredTasksProgressList = nil;
-  return self;
-}
-- (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value {
-  if (result.mutableRequiredTasksProgressList == nil) {
-    result.mutableRequiredTasksProgressList = [NSMutableArray array];
-  }
-  [result.mutableRequiredTasksProgressList addObject:value];
+- (FullUserQuestDataLargeProto_Builder*) clearIsComplete {
+  result.hasIsComplete = NO;
+  result.isComplete = NO;
   return self;
 }
 - (NSArray*) requiredDefeatTypeJobProgressList {
@@ -9299,6 +9316,35 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
     result.mutableRequiredPossessEquipJobProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredPossessEquipJobProgressList addObject:value];
+  return self;
+}
+- (NSArray*) requiredTasksProgressList {
+  if (result.mutableRequiredTasksProgressList == nil) { return [NSArray array]; }
+  return result.mutableRequiredTasksProgressList;
+}
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index {
+  return [result requiredTasksProgressAtIndex:index];
+}
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserQuestTaskProto*) value {
+  [result.mutableRequiredTasksProgressList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values {
+  if (result.mutableRequiredTasksProgressList == nil) {
+    result.mutableRequiredTasksProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredTasksProgressList addObjectsFromArray:values];
+  return self;
+}
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList {
+  result.mutableRequiredTasksProgressList = nil;
+  return self;
+}
+- (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value {
+  if (result.mutableRequiredTasksProgressList == nil) {
+    result.mutableRequiredTasksProgressList = [NSMutableArray array];
+  }
+  [result.mutableRequiredTasksProgressList addObject:value];
   return self;
 }
 @end

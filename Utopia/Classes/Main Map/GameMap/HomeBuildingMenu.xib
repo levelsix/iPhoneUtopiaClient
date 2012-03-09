@@ -385,7 +385,7 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">silvercoin.png</string>
 								</object>
-								<object class="NSCustomResource" key="IBUIHighlightedImage">
+								<object class="NSCustomResource" key="IBUIHighlightedImage" id="705482672">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">goldcoin.png</string>
 								</object>
@@ -795,7 +795,7 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUIImage" ref="167026501"/>
+						<reference key="IBUIImage" ref="705482672"/>
 					</object>
 					<object class="IBUILabel" id="265500129">
 						<reference key="NSNextResponder" ref="528876435"/>

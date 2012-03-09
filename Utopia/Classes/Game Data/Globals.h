@@ -42,6 +42,8 @@
 
 @property (nonatomic, assign) NSDictionary *productIdentifiers;
 
+@property (nonatomic, assign) NSMutableDictionary *imageCache;
+
 + (Globals *) sharedGlobals;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 + (NSString *) font;

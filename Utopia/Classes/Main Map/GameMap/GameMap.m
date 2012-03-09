@@ -26,22 +26,22 @@
 }
 
 -(void) addChild:(CCNode *)node z:(NSInteger)z tag:(NSInteger)tag {
-  if ([[node class] isSubclassOfClass:[SelectableSprite class]]) {
-    [_selectables addObject:node];
+  if ([[node class] isSubclassOfClass:[MapSprite class]]) {
+    [_mapSprites addObject:node];
   }
   [super addChild:node z:z tag:tag];
 }
 
 - (void) removeChild:(CCNode *)node cleanup:(BOOL)cleanup {
-  if ([_selectables containsObject:node]) {
-    [_selectables removeObject:node];
+  if ([_mapSprites containsObject:node]) {
+    [_mapSprites removeObject:node];
   }
   [super removeChild:node cleanup:cleanup];
 }
 
 -(id) initWithTMXFile:(NSString *)tmxFile {
   if ((self = [super initWithTMXFile:tmxFile])) {
-    _selectables = [[NSMutableArray array] retain];
+    _mapSprites = [[NSMutableArray array] retain];
     
     // add UIPanGestureRecognizer
     UIPanGestureRecognizer *uig = [[[UIPanGestureRecognizer alloc ]init] autorelease];
@@ -58,18 +58,17 @@
     // add UITapGestureRecognizer
     recognizer = [CCGestureRecognizer CCRecognizerWithRecognizerTargetAction:[[[UITapGestureRecognizer alloc ]init] autorelease] target:self action:@selector(tap:node:)];
     [self addGestureRecognizer:recognizer];
+    
+    if (CC_CONTENT_SCALE_FACTOR() == 2) {
+      tileSizeInPoints = CGSizeMake(self.tileSize.width/2, self.tileSize.height/2);
+    } else {
+      tileSizeInPoints = tileSize_;
+    }
   }
   return self;
 }
 
-- (CGSize) tileSizeInPoints {
-  if (CC_CONTENT_SCALE_FACTOR() == 2) {
-    return CGSizeMake(self.tileSize.width/2, self.tileSize.height/2);
-  }
-  return self.tileSize;
-}
-
-- (BOOL) selectable:(SelectableSprite *)front isInFrontOfSelectable: (SelectableSprite *)back {
+- (BOOL) mapSprite:(MapSprite *)front isInFrontOfMapSprite: (MapSprite *)back {
   if (front == back) {
     return YES;
   }
@@ -92,35 +91,39 @@
 }
 
 - (void) doReorder {
-  for (int i = 1; i < [_selectables count]; i++) {
-    SelectableSprite *toSort = [_selectables objectAtIndex:i];
-    SelectableSprite *sorted = [_selectables objectAtIndex:i-1];
-    if (![self selectable:toSort isInFrontOfSelectable:sorted]) {
+  for (int i = 1; i < [_mapSprites count]; i++) {
+    MapSprite *toSort = [_mapSprites objectAtIndex:i];
+    MapSprite *sorted = [_mapSprites objectAtIndex:i-1];
+    if (![self mapSprite:toSort isInFrontOfMapSprite:sorted]) {
       int j;
       for (j = i-2; j >= 0; j--) {
-        sorted = [_selectables objectAtIndex:j];
-        if ([self selectable:toSort isInFrontOfSelectable:sorted]) {
+        sorted = [_mapSprites objectAtIndex:j];
+        if ([self mapSprite:toSort isInFrontOfMapSprite:sorted]) {
           break;
         }
       }
       
-      [_selectables removeObjectAtIndex:i];
-      [_selectables insertObject:toSort atIndex:j+1];
+      [_mapSprites removeObjectAtIndex:i];
+      [_mapSprites insertObject:toSort atIndex:j+1];
     }
   }
   
-  for (int i = 0; i < [_selectables count]; i++) {
-    SelectableSprite *child = [_selectables objectAtIndex:i];
+  for (int i = 0; i < [_mapSprites count]; i++) {
+    MapSprite *child = [_mapSprites objectAtIndex:i];
     [self reorderChild:child z:i+REORDER_START_Z];
   }
 }
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
   SelectableSprite *toRet = nil;
-  for(SelectableSprite *child in _selectables) {
+  for(MapSprite *spr in _mapSprites) {
+    if (![spr isKindOfClass:[MapSprite class]]) {
+      continue;
+    }
+    SelectableSprite *child = (SelectableSprite *)spr;
     if ([child isPointInArea:pt]) {
       if (_selected) {
-        if ([self selectable:child isInFrontOfSelectable:_selected]) {
+        if ([self mapSprite:child isInFrontOfMapSprite:_selected]) {
           toRet = child;
           break;
         }
@@ -207,7 +210,7 @@
 }
 
 -(void) dealloc {
-  [_selectables release];
+  [_mapSprites release];
   [super dealloc];
 }
 

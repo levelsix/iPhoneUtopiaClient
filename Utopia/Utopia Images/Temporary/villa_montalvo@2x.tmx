@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="15" height="15" tilewidth="128" tileheight="64">
+ <tileset firstgid="1" name="winery_tiles" tilewidth="128" tileheight="80">
+  <image source="winery_tiles.png" width="1024" height="1024"/>
+  <tile id="15">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="97" name="villatree_pack" tilewidth="128" tileheight="148">
+  <image source="villatree_pack.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Moar Gruasu" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGDigAMSKA2QvuXaD9KlBaWrqNcYipgelBdEwA5I4Lr26QOxBhJtw2UuKXlA4KpFoLzJQI0MPJXrVKNCrDMQqSLQqGWYguwOkFwAwK4E7hAMAAA==
+  </data>
+ </layer>
+ <layer name="More Grass" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA1NgYGBQgGJFBlSgiEUMGSggsVXxqCOkV41EvYJomBBA9oMAEJshYVKAAInqqakX3c+k+J+awITO9iEDfGnRGIrJ0UuJvdQAABpRpbOEAwAA
+  </data>
+ </layer>
+ <layer name="Just Grass" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA32SywrCMBBFp38Qt12lKgXB1kXrY6GuBP3/L3ICc/H2Ehs4i4Q5uZPHw8yeRA46oqF15uPsA4u1DTGtuG/nFVjkIDeRO9tyZJnfogaoiz3ZPTsX57ritn9y75KLsyY5u1JzU+yL3EwgX/sw2Zd7Ll55ixP13BCpMmdXz4v7K4xRO1dcHezunIFqtY+WnEwu6G35JqPUwp2ov1K3dQ7kduFynubiLw+xD7tH+/1zHXxPvbi191P3C/62W5GEAwAA
+  </data>
+ </layer>
+ <layer name="Tile Layer 6" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGBzAagDtdoFicoAHBfZSopdc++ht5yhgYDDBgWEAAKhCdkyEAwAA
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgQAW2QGwHxR5I4sZYMDrwwCIG02uChtGBOxBbAbElFjldIFYBYlUcevEBmDvVydCrBLVXkwy95ABGKptHqpsVoJgcvSCgQoFefGmDGL3kAkrspRYAAJwIdNGEAwAA
+  </data>
+ </layer>
+ <layer name="Just Some Borders" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwARmWMSIATZk6oMBFyj2oNAcagArJNoKiU9LYEcHO0bB4AMAKUpXsYQDAAA=
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAXowAWKkdkuuJXj1I9sBi5giMY3Q8IMSPRgAk5QTG+9wxUAAIzZ0k6EAwAA
+  </data>
+ </layer>
+ <layer name="TREES!" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA2SgTgFh3gqHn2EQDIFeukFhoIbBwJgCxdqhxWutIUvzSUTcAchN+KTx5YHCIFkNBofAACtInQdhAMAAA==
+  </data>
+ </layer>
+</map>

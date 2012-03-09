@@ -496,11 +496,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendQuestLogDetailsMessage {
-  QuestLogDetailsRequestProto *req = [[[QuestLogDetailsRequestProto builder]
+  UserQuestDetailsRequestProto *req = [[[UserQuestDetailsRequestProto builder]
                                        setSender:_sender]
                                       build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCQuestLogDetailsEvent];
+  [self sendData:[req data] withMessageType:EventProtocolRequestCUserQuestDetailsEvent];
 }
 
 - (void) closeDownConnection {

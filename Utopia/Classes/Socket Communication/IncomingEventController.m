@@ -127,8 +127,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSQuestRedeemEvent:
       responseClass = [QuestRedeemResponseProto class];
       break;
-    case EventProtocolResponseSQuestLogDetailsEvent:
-      responseClass = [QuestLogDetailsResponseProto class];
+    case EventProtocolResponseSUserQuestDetailsEvent:
+      responseClass = [UserQuestDetailsRequestProto class];
       break;
     case EventProtocolResponseSQuestCompleteEvent:
       responseClass = [QuestCompleteResponseProto class];
@@ -500,9 +500,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleQuestLogDetailsResponseProto: (QuestLogDetailsResponseProto *)proto {
+- (void) handleUserQuestDetailsResponseProto: (UserQuestDetailsResponseProto *)proto {
   NSLog(@"Quest log details response received with status %d", proto.status);
-  if (proto.status == QuestLogDetailsResponseProto_QuestLogDetailsStatusSuccess) {
+  if (proto.status == UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess) {
     [[QuestLogController sharedQuestLogController] refreshWithQuests:proto.inProgressUserQuestDataList];
   } else {
     [Globals popupMessage:@"Server failed to send quest log details"];

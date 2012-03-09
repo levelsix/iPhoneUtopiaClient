@@ -23,20 +23,28 @@
 
 @interface MissionOverBuildingMenu : UIView {
   NSMutableArray *_separators;
+  MissionMap *missionMap;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *progressBar;
-@property (nonatomic, retain) IBOutlet MissionMap *missionMap;
+
+- (void) setMissionMap:(MissionMap *)m;
 
 @end
 
-@interface MissionMap : GameMap
+@interface MissionMap : GameMap {
+  NSMutableArray *_walkableData;
+}
 
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
 @property (nonatomic, retain) IBOutlet MissionOverBuildingMenu *obMenu;
 
+@property (nonatomic, retain) NSMutableArray *walkableData;
+
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
 - (void) performCurrentTask;
+- (CGPoint) randomWalkablePosition;
+- (CGPoint) nextWalkablePositionFromPoint:(CGPoint) point;
 
 @end

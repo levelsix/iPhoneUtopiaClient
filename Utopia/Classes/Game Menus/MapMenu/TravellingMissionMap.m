@@ -89,7 +89,7 @@
 }
 
 - (IBAction)goClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp asset:0];
+  [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp.cityId asset:0];
   [MapViewController removeView]; 
 }
 

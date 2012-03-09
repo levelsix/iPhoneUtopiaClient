@@ -384,7 +384,7 @@
   
   if (type == kTask) {
     FullTaskProto *ftp = [gs taskWithId:jobId];
-    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:[gs cityWithId:ftp.cityId] asset:ftp.assetNumWithinCity];
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:ftp.cityId asset:ftp.assetNumWithinCity];
     [QuestLogController removeView];
   }
 }

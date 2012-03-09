@@ -1688,13 +1688,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @private
   BOOL hasX_:1;
   BOOL hasY_:1;
-  int32_t x;
-  int32_t y;
+  Float32 x;
+  Float32 y;
 }
 - (BOOL) hasX;
 - (BOOL) hasY;
-@property (readonly) int32_t x;
-@property (readonly) int32_t y;
+@property (readonly) Float32 x;
+@property (readonly) Float32 y;
 
 + (CoordinateProto*) defaultInstance;
 - (CoordinateProto*) defaultInstance;
@@ -1731,13 +1731,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (CoordinateProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasX;
-- (int32_t) x;
-- (CoordinateProto_Builder*) setX:(int32_t) value;
+- (Float32) x;
+- (CoordinateProto_Builder*) setX:(Float32) value;
 - (CoordinateProto_Builder*) clearX;
 
 - (BOOL) hasY;
-- (int32_t) y;
-- (CoordinateProto_Builder*) setY:(int32_t) value;
+- (Float32) y;
+- (CoordinateProto_Builder*) setY:(Float32) value;
 - (CoordinateProto_Builder*) clearY;
 @end
 
@@ -2160,26 +2160,28 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 
 @interface FullUserQuestDataLargeProto : PBGeneratedMessage {
 @private
-  BOOL hasRedeemed_:1;
+  BOOL hasIsRedeemed_:1;
+  BOOL hasIsComplete_:1;
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
-  BOOL redeemed_:1;
+  BOOL isRedeemed_:1;
+  BOOL isComplete_:1;
   int32_t userId;
   int32_t questId;
-  NSMutableArray* mutableRequiredTasksProgressList;
   NSMutableArray* mutableRequiredDefeatTypeJobProgressList;
   NSMutableArray* mutableRequiredBuildStructJobProgressList;
   NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
   NSMutableArray* mutableRequiredPossessEquipJobProgressList;
+  NSMutableArray* mutableRequiredTasksProgressList;
 }
 - (BOOL) hasUserId;
 - (BOOL) hasQuestId;
-- (BOOL) hasRedeemed;
+- (BOOL) hasIsRedeemed;
+- (BOOL) hasIsComplete;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
-- (BOOL) redeemed;
-- (NSArray*) requiredTasksProgressList;
-- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
+- (BOOL) isRedeemed;
+- (BOOL) isComplete;
 - (NSArray*) requiredDefeatTypeJobProgressList;
 - (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index;
 - (NSArray*) requiredBuildStructJobProgressList;
@@ -2188,6 +2190,8 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (MinimumUserUpgradeStructJobProto*) requiredUpgradeStructJobProgressAtIndex:(int32_t) index;
 - (NSArray*) requiredPossessEquipJobProgressList;
 - (MinimumUserPossessEquipJobProto*) requiredPossessEquipJobProgressAtIndex:(int32_t) index;
+- (NSArray*) requiredTasksProgressList;
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
 
 + (FullUserQuestDataLargeProto*) defaultInstance;
 - (FullUserQuestDataLargeProto*) defaultInstance;
@@ -2233,17 +2237,15 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullUserQuestDataLargeProto_Builder*) setQuestId:(int32_t) value;
 - (FullUserQuestDataLargeProto_Builder*) clearQuestId;
 
-- (BOOL) hasRedeemed;
-- (BOOL) redeemed;
-- (FullUserQuestDataLargeProto_Builder*) setRedeemed:(BOOL) value;
-- (FullUserQuestDataLargeProto_Builder*) clearRedeemed;
+- (BOOL) hasIsRedeemed;
+- (BOOL) isRedeemed;
+- (FullUserQuestDataLargeProto_Builder*) setIsRedeemed:(BOOL) value;
+- (FullUserQuestDataLargeProto_Builder*) clearIsRedeemed;
 
-- (NSArray*) requiredTasksProgressList;
-- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
-- (FullUserQuestDataLargeProto_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserQuestTaskProto*) value;
-- (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value;
-- (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values;
-- (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList;
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (FullUserQuestDataLargeProto_Builder*) setIsComplete:(BOOL) value;
+- (FullUserQuestDataLargeProto_Builder*) clearIsComplete;
 
 - (NSArray*) requiredDefeatTypeJobProgressList;
 - (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index;
@@ -2272,6 +2274,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullUserQuestDataLargeProto_Builder*) addRequiredPossessEquipJobProgress:(MinimumUserPossessEquipJobProto*) value;
 - (FullUserQuestDataLargeProto_Builder*) addAllRequiredPossessEquipJobProgress:(NSArray*) values;
 - (FullUserQuestDataLargeProto_Builder*) clearRequiredPossessEquipJobProgressList;
+
+- (NSArray*) requiredTasksProgressList;
+- (MinimumUserQuestTaskProto*) requiredTasksProgressAtIndex:(int32_t) index;
+- (FullUserQuestDataLargeProto_Builder*) replaceRequiredTasksProgressAtIndex:(int32_t) index with:(MinimumUserQuestTaskProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value;
+- (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values;
+- (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList;
 @end
 
 @interface MinimumUserQuestTaskProto : PBGeneratedMessage {

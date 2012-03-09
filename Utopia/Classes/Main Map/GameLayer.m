@@ -24,6 +24,7 @@
 #import "TopBar.h"
 #import "SynthesizeSingleton.h"
 #import "MissionMap.h"
+#import "OutgoingEventController.h"
 
 // HelloWorldLayer implementation
 @implementation GameLayer
