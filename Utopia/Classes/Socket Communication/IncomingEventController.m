@@ -364,11 +364,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMyStructs:proto.ownerNormStructsList];
     
     NSMutableArray *arr = [NSMutableArray array];
-    [arr addObject:proto.armory];
-    [arr addObject:proto.marketplace];
-    [arr addObject:proto.aviary];
-    [arr addObject:proto.carpenter];
-    [arr addObject:proto.vault];
+    if (proto.hasArmory) [arr addObject:proto.armory];
+    if (proto.hasMarketplace) [arr addObject:proto.marketplace];
+    if (proto.hasAviary) [arr addObject:proto.aviary];
+    if (proto.hasCarpenter) [arr addObject:proto.carpenter];
+    if (proto.hasVault) [arr addObject:proto.vault];
     [gs addToMyCritStructs:arr];
      
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];

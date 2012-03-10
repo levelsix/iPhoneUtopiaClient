@@ -92,7 +92,6 @@ typedef enum {
 @interface CritStructMenu : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, assign) BOOL isMoving;
 
 @end
 

@@ -271,25 +271,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Main Map/GameMap/HomeMap.m"
-         timestampString = "353053159.503634"
+         timestampString = "353055712.007686"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "549"
-         endingLineNumber = "549"
-         landmarkName = "-refresh"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Game Data/GameState.m"
-         timestampString = "353054003.217711"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "227"
-         endingLineNumber = "227"
-         landmarkName = "-addToMyCritStructs:"
+         startingLineNumber = "686"
+         endingLineNumber = "686"
+         landmarkName = "-drag:node:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

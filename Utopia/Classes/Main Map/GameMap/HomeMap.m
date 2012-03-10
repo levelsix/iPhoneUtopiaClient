@@ -374,12 +374,11 @@
 
 @implementation CritStructMenu
 
-@synthesize titleLabel, isMoving;
+@synthesize titleLabel;
 
 - (void) awakeFromNib {
   [super awakeFromNib];
   self.hidden = YES;
-  self.isMoving = NO;
 }
 
 - (void) setFrameForPoint:(CGPoint)pt {
@@ -553,6 +552,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     csb.orientation = cs.orientation;
     csb.critStruct = cs;
     [arr addObject:csb];
+    [csb placeBlock];
   }
   
   CCNode *c;
@@ -602,7 +602,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) updateCritStructMenu {
   if (_selected && [_selected isKindOfClass:[CritStructBuilding class]]) {
     CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
-    if (!csMenu.isMoving) {
+    if (!_canMove) {
       [csMenu setFrameForPoint:pt];
       csMenu.hidden = NO;
     } else {
@@ -653,7 +653,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
     if ([selected isKindOfClass: [CritStructBuilding class]]) {
       [super setSelected:nil];
-      [[self.hbMenu titleLabel] setText:[(CritStructBuilding *)_selected critStruct].name];
+      [[self.csMenu titleLabel] setText:[(CritStructBuilding *)selected critStruct].name];
     }
     [super setSelected:selected];
     [self updateHomeBuildingMenu];
@@ -946,7 +946,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)criticalStructMoveClicked:(id)sender {
-  csMenu.isMoving = YES;
   _canMove = YES;
   [self updateCritStructMenu];
 }
