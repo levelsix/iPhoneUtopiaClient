@@ -55,3 +55,15 @@ typedef enum {
 + (id) userCityWithProto:(FullUserCityProto *)proto;
 
 @end
+
+@interface CritStruct : NSObject 
+
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, assign) CritStructType type;
+@property (nonatomic, assign) CGRect location;
+@property (nonatomic, assign) StructOrientation orientation;
+
++ (id) critStructWithProto:(FullUserCritstructProto *)proto;
+- (void) openMenu;
+
+@end

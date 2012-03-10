@@ -118,12 +118,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [self.itemsScrollView addSubview:self.itemsContainerView];
   [view release];
   
-  RequiresEquipView *rev;
+  RequiresEquipView *rev = nil;
   int totalCost;
   
   for (int i = 0; i < equipIds.count; i++) {
     int equipId = [[equipIds objectAtIndex:i] intValue];
-    rev = [[RequiresEquipView alloc] initWithEquipId:equipId];
+    rev = [[[RequiresEquipView alloc] initWithEquipId:equipId] autorelease];
     
     CGRect r = rev.frame;
     r.origin.x = i*(r.size.width+EQUIPS_VIEW_SPACING);
@@ -175,6 +175,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 }
 
 - (void) closeView:(UIView *)view {
+  if (!view) {
+    return;
+  }
   [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
     view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
   } completion:^(BOOL finished) {
@@ -235,7 +238,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 - (IBAction) closeClicked:(id)sender {
   int tag = [(UIView *)sender tag];
   
-  UIView *view;
+  UIView *view = nil;
   if (tag == 1) {
     view = goldView;
   } else if (tag == 2) {

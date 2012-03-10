@@ -128,7 +128,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       responseClass = [QuestRedeemResponseProto class];
       break;
     case EventProtocolResponseSUserQuestDetailsEvent:
-      responseClass = [UserQuestDetailsRequestProto class];
+      responseClass = [UserQuestDetailsResponseProto class];
       break;
     case EventProtocolResponseSQuestCompleteEvent:
       responseClass = [QuestCompleteResponseProto class];
@@ -172,19 +172,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gl updateConstants:proto.startupConstants];
   [gs updateUser:proto.sender];
   [gs addToMyEquips:proto.userEquipsList];
-  [gs addToMyStructs:proto.userStructuresList];
   [gs addToMyCities:proto.userCityInfosList];
   [gs addToStaticCities:proto.citiesAvailableToUserList];
   [gs addToStaticEquips:proto.equipsList];
-  [gs addToStaticStructs:proto.structsList];
   [gs addToAvailableQuests:proto.availableQuestsList];
   [gs addToInProgressQuests:proto.inProgressQuestsList];
+  [oec loadPlayerCity:gs.userId];
   [oec retrieveAllStaticData];
   
   gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
   gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
-  
-  [[HomeMap sharedHomeMap] refresh];
 }
 
 - (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
@@ -365,6 +362,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
     [gs addToMyStructs:proto.ownerNormStructsList];
+    
+    NSMutableArray *arr = [NSMutableArray array];
+    [arr addObject:proto.armory];
+    [arr addObject:proto.marketplace];
+    [arr addObject:proto.aviary];
+    [arr addObject:proto.carpenter];
+    [arr addObject:proto.vault];
+    [gs addToMyCritStructs:arr];
+     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [[HomeMap sharedHomeMap] refresh];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
@@ -430,7 +436,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       NSMutableArray *armor = [NSMutableArray array];
       NSMutableArray *amulets = [NSMutableArray array];
       for (FullEquipProto *fep in proto.equipsList) {
-        NSMutableArray *toAdd;
+        NSMutableArray *toAdd = nil;
         if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
           toAdd = weapons;
         } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {

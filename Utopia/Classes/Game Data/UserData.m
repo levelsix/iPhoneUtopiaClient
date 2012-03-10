@@ -10,6 +10,11 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
+#import "VaultMenuController.h"
+#import "MarketplaceViewController.h"
+#import "MapViewController.h"
+#import "ArmoryViewController.h"
+#import "CarpenterMenuController.h"
 
 @implementation UserEquip
 
@@ -79,13 +84,20 @@
   return kWaitingForIncome;
 }
 
+- (void) dealloc {
+  self.lastRetrieved = nil;
+  self.lastUpgradeTime = nil;
+  self.purchaseTime = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation UserCity
 
 @synthesize curRank, cityId, numTasksComplete;
 
-- (id) initWithProto:(FullUserCityProto *)proto {
+- (id) initWithCityProto:(FullUserCityProto *)proto {
   if ((self = [super init])) {
     self.curRank = proto.currentRank;
     self.cityId = proto.cityId;
@@ -95,7 +107,91 @@
 }
 
 + (id) userCityWithProto:(FullUserCityProto *)proto {
-  return [[[self alloc] initWithProto:proto] autorelease];
+  return [[[self alloc] initWithCityProto:proto] autorelease];
+}
+
+@end
+
+@implementation CritStruct
+
+@synthesize name, type, location, orientation;
+
++ (id) critStructWithProto:(FullUserCritstructProto *)proto {
+  return [[[self alloc] initWithCritStructProto:proto] autorelease];
+}
+
+- (id) initWithCritStructProto:(FullUserCritstructProto *)proto {
+  if ((self = [super init])) {
+    Globals *gl = [Globals sharedGlobals];
+    CGSize size = CGSizeZero;
+    
+    type = proto.type;
+    switch (proto.type) {
+      case CritStructTypeVault:
+        name = @"Vault";
+        size = CGSizeMake(gl.vaultXLength, gl.vaultYLength);
+        break;
+        
+      case CritStructTypeArmory:
+        name = @"Armory";
+        size = CGSizeMake(gl.armoryXLength, gl.armoryYLength);
+        break;
+        
+      case CritStructTypeAviary:
+        name = @"Aviary";
+        size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
+        break;
+        
+      case CritStructTypeCarpenter:
+        name = @"Carpenter";
+        size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
+        break;
+        
+      case CritStructTypeMarketplace:
+        name = @"Marketplace";
+        size = CGSizeMake(gl.marketplaceXLength, gl.marketplaceYLength);
+        
+      default:
+        break;
+    }
+    
+    CGPoint coordinates = CGPointMake(proto.coords.x, proto.coords.y);
+    location.size = size;
+    location.origin = coordinates;
+    orientation = proto.orientation;
+  }
+  return self;
+}
+
+- (void) openMenu {
+  switch (type) {
+    case CritStructTypeVault:
+      [VaultMenuController displayView];
+      break;
+      
+    case CritStructTypeArmory:
+      [ArmoryViewController displayView];
+      break;
+      
+    case CritStructTypeAviary:
+      [MapViewController displayView];
+      break;
+      
+    case CritStructTypeCarpenter:
+      [CarpenterMenuController displayView];
+      break;
+      
+    case CritStructTypeMarketplace:
+      [MarketplaceViewController displayView];
+      
+    default:
+      break;
+  }
+}
+
+- (void) dealloc {
+  self.name = nil;
+  [super dealloc];
 }
 
 @end

@@ -98,7 +98,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (ue) {
       ue.quantity++;
     } else {
-      ue = [[UserEquip alloc] init];
+      ue = [[[UserEquip alloc] init] autorelease];
       
       ue.equipId = equipId;
       ue.userId = gs.userId;
@@ -665,7 +665,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   // Check that no other building is being upgraded
   for (UserStruct *us in gs.myStructs) {
     if (us.state == kUpgrading) {
-      [[[UIAlertView alloc] initWithTitle:@"Hold On!" message:@"Already upgrading a building"  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+      [Globals popupMessage:@"Already upgrading a building"];
       return;
     }
   }

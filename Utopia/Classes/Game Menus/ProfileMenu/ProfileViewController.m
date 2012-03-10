@@ -597,10 +597,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev {
   // Synchronize this method, cuz otherwise there are random race conditions
   // for letting go of another button while this is being evaluated
-  EquipScope scope;
+  EquipScope scope = 0;
   
-  if (cev == curWeaponView) {
-    scope = kEquipScopeWeapons;
+  if (cev == curWeaponView) {    scope = kEquipScopeWeapons;
     
     if (scope == _curScope) {
       scope = kEquipScopeAll;
@@ -670,6 +669,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [toRet addObject:bestFuep];
     [arr removeObject:bestFuep];
   }
+  [arr release];
   
   return toRet;
 }
@@ -713,7 +713,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (animated) {
     [UIView commitAnimations];
   }
-  equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,((j/3+1)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
+  equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,(((j+2)/3)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
 }
 
 - (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet touchEnabled:(BOOL)touchEnabled {
@@ -873,8 +873,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", gs.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]];
-  attackLabel.text = [NSString stringWithFormat:@"%d", gs.attack];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", gs.defense];
+  attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped]];
   codeLabel.text = gs.referralCode;
   
   [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];

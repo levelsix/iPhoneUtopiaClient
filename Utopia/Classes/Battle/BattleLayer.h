@@ -21,6 +21,8 @@
   
   CCSprite *_comboBar;
   CCProgressTimer *_comboProgressTimer;
+  CCSprite *_flippedComboBar;
+  CCProgressTimer *_flippedComboProgressTimer;
   
   CCLabelTTF *_leftMaxHealthLabel;
   CCLabelTTF *_leftCurHealthLabel;
@@ -41,7 +43,7 @@
   int _rightAttack;
   int _rightDefense;
   
-  float _comboPercentage;
+  float _damageDone;
 }
 
 + (CCScene *) scene;

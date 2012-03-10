@@ -185,7 +185,7 @@
   float dist = self.contentSize.height/2 + BUTTON_DISTANCE;
   
   // Save the duration of the last action
-  float dur;
+  float dur = 0;
   
   // Use this so that we can have buttons relative to center point
   for (int i = 0; i < [_menuItems count]; i++) {
@@ -219,7 +219,7 @@
   _inAction = YES;
   _menuOut = NO;
   
-  float dur; 
+  float dur = 0; 
   
   [_expCircle runAction: [CCRotateBy actionWithDuration:0.2 angle:-90]];
   
@@ -296,7 +296,8 @@
 }
 
 - (void) openQuestLog {
-  [ArmoryViewController displayView];
+  [[ProfileViewController sharedProfileViewController] loadMyProfile];
+  [ProfileViewController displayView];
 }
 
 - (void) openArmory {

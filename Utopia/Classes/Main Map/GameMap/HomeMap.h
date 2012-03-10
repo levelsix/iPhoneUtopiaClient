@@ -89,6 +89,13 @@ typedef enum {
 
 @end
 
+@interface CritStructMenu : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, assign) BOOL isMoving;
+
+@end
+
 @interface HomeMap : GameMap {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
@@ -107,6 +114,7 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *buildableData;
 
 @property (nonatomic, retain) IBOutlet HomeBuildingMenu *hbMenu;
+@property (nonatomic, retain) IBOutlet CritStructMenu *csMenu;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 
@@ -130,5 +138,7 @@ typedef enum {
 - (IBAction)bigUpgradeClicked:(id)sender;
 - (IBAction)littleUpgradeClicked:(id)sender;
 - (IBAction)finishNowClicked:(id)sender;
+- (IBAction)criticalStructMoveClicked:(id)sender;
+- (IBAction)criticalStructVisitClicked:(id)sender;
 
 @end

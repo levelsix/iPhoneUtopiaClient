@@ -417,8 +417,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];
       _bigTimerLabel.string = [NSString stringWithFormat:@"+1 in %01d:%02d", time/60, time%60];
     }
-  } else if (_bigToolTipState == kStamina) {
-    _bigToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
+  } else if (_bigToolTipState == kStamina) { 
     _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", gs.currentStamina, gs.maxStamina];
     if (gs.currentStamina >= gs.maxStamina) {
       [self fadeOutToolTip:YES];
@@ -436,18 +435,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", gs.currentStamina, gs.maxStamina];
   }
   
-  if (gs.connected && gs.experience >= gs.expRequiredForNextLevel) {
-    [[OutgoingEventController sharedOutgoingEventController] levelUp];
+  if (gs.connected) {
+    if (gs.experience >= gs.expRequiredForNextLevel) {
+      [[OutgoingEventController sharedOutgoingEventController] levelUp];
+    }
+    // Check if timers need to be instantiated
+    if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
+      [self setUpEnergyTimer];
+    }
+    if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
+      [self setUpStaminaTimer];
+    }
   }
-  
-  // Check if timers need to be instantiated
-  if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
-    [self setUpEnergyTimer];
-  }
-  if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
-    [self setUpStaminaTimer];
-  }
-  
 }
 
 @end

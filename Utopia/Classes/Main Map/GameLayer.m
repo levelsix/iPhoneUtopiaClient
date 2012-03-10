@@ -16,7 +16,6 @@
 #import "ProfilePicture.h"
 #import "GoldShoppeViewController.h"
 #import "AnimatedSprite.h"
-#import "ComboBar.h"
 #import "ImageDownloader.h"
 #import "GameState.h"
 #import "Globals.h"
@@ -95,6 +94,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) unloadCurrentMissionMap {
   if (_missionMap) {
+    _missionMap.selected = nil;
     [self removeChild:_missionMap cleanup:YES];
     [_missionMap release];
     _missionMap = nil;
@@ -112,6 +112,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   }
   
   [self addChild:_missionMap z:1];
+  _homeMap.selected = nil;
   _homeMap.visible = NO;
   currentCity = proto.cityId;
 }

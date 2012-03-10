@@ -70,6 +70,7 @@
 
 @synthesize myEquips = _myEquips;
 @synthesize myStructs = _myStructs;
+@synthesize myCritStructs = _myCritStructs;
 @synthesize myCities = _myCities;
 
 @synthesize availableQuests = _availableQuests;
@@ -219,6 +220,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addToMyCritStructs:(NSArray *)structs {
+  self.myCritStructs = [NSMutableArray array];
+  for (FullUserCritstructProto *st in structs) {
+    if (st) {
+      [self.myCritStructs addObject:[CritStruct critStructWithProto:st]];
+    }
+  }
+}
 - (void) addToMyCities:(NSArray *)cities {
   self.myCities = [NSMutableDictionary dictionaryWithCapacity:cities.count];
   for (FullUserCityProto *cit in cities) {

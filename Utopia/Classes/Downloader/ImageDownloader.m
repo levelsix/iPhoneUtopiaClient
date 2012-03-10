@@ -29,6 +29,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
   [data1 writeToFile:pngFilePath atomically:YES];
   
   NSLog(@"%@ image saved to %@", imageName, pngFilePath);
+  [image release];
 }
 
 @end

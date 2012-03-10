@@ -108,7 +108,7 @@
 @synthesize walkableData = _walkableData;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto {
-//  NSString *tmxFile = @"venetia_city.tmx";
+//  NSString *tmxFile = @"villa_montalvo.tmx";
   FullCityProto *fcp = [[GameState sharedGameState] cityWithId:proto.cityId];
   if ((self = [super initWithTMXFile:fcp.mapImgName])) {
     GameState *gs = [GameState sharedGameState];

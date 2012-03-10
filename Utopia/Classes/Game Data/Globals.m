@@ -34,6 +34,8 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize maxRepeatedNormStructs, maxEquipId, maxStructId;
 @synthesize productIdentifiers;
 @synthesize imageCache;
+@synthesize armoryXLength, armoryYLength, carpenterXLength, carpenterYLength, aviaryXLength;
+@synthesize aviaryYLength, marketplaceXLength, marketplaceYLength, vaultXLength, vaultYLength;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -281,7 +283,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   CGContextRef context = UIGraphicsGetCurrentContext();
   
   if (!context) {
-    UIGraphicsGetCurrentContext();
+    CGImageRelease(alphaImage);
     return nil;
   }
   
@@ -298,6 +300,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
+  
+  CGImageRelease(alphaImage);
   
   // return the image
   return theImage;
@@ -411,8 +415,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fsp.minutesToUpgradeBase * us.level;
 }
 
+- (float) calculateAttackForStat:(int)attackStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *weapon = nil;
+  if (weaponId != 0) {
+     weapon = [gs equipWithId:weaponId];
+  }
+  FullEquipProto *armor = nil;
+  if (armorId != 0) {
+    armor = [gs equipWithId:armorId];
+  }
+  FullEquipProto *amulet = nil;
+  if (amuletId != 0) {
+    amulet = [gs equipWithId:amuletId];
+  }
+  
+  return attackStat + weapon.attackBoost + armor.attackBoost + amulet.attackBoost;
+}
+
+- (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *weapon = [gs equipWithId:weaponId];
+  FullEquipProto *armor = [gs equipWithId:armorId];
+  FullEquipProto *amulet = [gs equipWithId:amuletId];
+  
+  return defenseStat + weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost;
+}
+
 + (void) popupMessage: (NSString *)msg {
-  [[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] show];
+  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
 }
 
 - (void) dealloc {

@@ -256,13 +256,26 @@
 - (void) dealloc {
   self.userStruct = nil;
   self.timer = nil;
+  [_retrieveBubble release];
   [super dealloc];
 }
+
+@end
+
+@implementation CritStructBuilding
+
+@synthesize critStruct;
 
 @end
 
 @implementation MissionBuilding
 
 @synthesize ftp, numTimesActed, name;
+
+- (void) dealloc {
+  self.ftp = nil;
+  self.name = nil;
+  [super dealloc];
+}
 
 @end

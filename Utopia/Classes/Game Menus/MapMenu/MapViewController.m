@@ -30,6 +30,11 @@
   return self;
 }
 
+- (void) dealloc {
+  [super dealloc];
+  self.fup = nil;
+}
+
 @end
 
 @implementation PinView
@@ -77,6 +82,13 @@ static UIButton *rightButton = nil;
   }
 }
 
+- (void) dealloc {
+  [super dealloc];
+  self.levelLabel = nil;
+  self.view = nil;
+  self.imgView = nil;
+}
+
 @end
 
 @implementation MapViewController
@@ -116,27 +128,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   missionMap.lumoriaView.hidden = YES;
   
-  self.state = kMissionMap;
+  self.state = kAttackMap;
 }
 
 - (void) setState:(MapState)state {
-  if (state != _state) {
-    _state = state;
-    
-    switch (state) {
-      case kAttackMap:
-        missionMap.hidden = YES;
-        _mapView.hidden = NO;
-        break;
-        
-      case kMissionMap:
-        missionMap.hidden = NO;
-        _mapView.hidden = YES;
-        break;
-        
-      default:
-        break;
-    }
+  _state = state;
+  
+  switch (state) {
+    case kAttackMap:
+      missionMap.hidden = YES;
+      _mapView.hidden = NO;
+      break;
+      
+    case kMissionMap:
+      missionMap.hidden = NO;
+      _mapView.hidden = YES;
+      break;
+      
+    default:
+      break;
   }
 }
 
@@ -185,7 +195,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     MKAnnotationView *mkav = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseId];
     
     if (!mkav) {
-      mkav = [[PinView alloc] initWithAnnotation:annotation reuseIdentifier:reuseId];
+      mkav = [[[PinView alloc] initWithAnnotation:annotation reuseIdentifier:reuseId] autorelease];
     }
     
     return mkav;
@@ -214,6 +224,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 - (void) viewDidUnload {
   [super viewDidUnload];
+  self.mapView = nil;
+  self.missionMap = nil;
+  [sharedMapViewController release];
+  sharedMapViewController = nil;
 }
 
 @end

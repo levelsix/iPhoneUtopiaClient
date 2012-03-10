@@ -42,6 +42,12 @@
 
 @end
 
+@interface CritStructBuilding : HomeBuilding
+
+@property (nonatomic, retain) CritStruct *critStruct;
+
+@end
+
 @interface MoneyBuilding : HomeBuilding {
   ccTime _timeLeft;
   int _income;

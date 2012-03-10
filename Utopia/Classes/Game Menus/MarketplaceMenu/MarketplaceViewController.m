@@ -436,7 +436,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   return rows == 1? 0:rows;
 }
 
-static int x = 0;
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -453,10 +452,9 @@ static int x = 0;
   if (cell == nil) {
     if (nibName) {
       [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil];
-      NSLog(@"New: %d", x++);
       cell = self.itemView;
     } else {
-      cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+      cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
     }
   }
   

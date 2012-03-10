@@ -115,9 +115,9 @@
   
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   
-  if (![[LocationManager alloc] initWithDelegate:self]) {
-    // Inform of location services off
-  }
+//  if (![[LocationManager alloc] initWithDelegate:self]) {
+//    // Inform of location services off
+//  }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -99,7 +99,7 @@
   if ((self = [super initWithFrame:frame])) {
     self.fqp = f;
     self.backgroundColor = [UIColor clearColor];
-    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked:)]];
+    [self addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked:)] autorelease]];
     label = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, self.frame.size.width-20, self.frame.size.height)];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];

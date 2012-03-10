@@ -10,6 +10,21 @@
 		CF05573414DE6F18003739EF /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF05573314DE6F18003739EF /* PullRefreshTableViewController.m */; };
 		CF06C6991501B31000863EA1 /* australia.png in Resources */ = {isa = PBXBuildFile; fileRef = CF06C6981501B31000863EA1 /* australia.png */; };
 		CF08C6D714FB78A900D04206 /* EquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF08C6D614FB78A900D04206 /* EquipView.xib */; };
+		CF160527150AD9E100BE029C /* Admin.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF16051B150AD9E100BE029C /* Admin.pb.m */; };
+		CF160528150AD9E100BE029C /* Event.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF16051D150AD9E100BE029C /* Event.pb.m */; };
+		CF160529150AD9E100BE029C /* Info.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF16051F150AD9E100BE029C /* Info.pb.m */; };
+		CF16052A150AD9E100BE029C /* Admin.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF160521150AD9E100BE029C /* Admin.proto */; };
+		CF16052B150AD9E100BE029C /* Event.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF160522150AD9E100BE029C /* Event.proto */; };
+		CF16052C150AD9E100BE029C /* Info.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF160523150AD9E100BE029C /* Info.proto */; };
+		CF16052D150AD9E100BE029C /* Protocols.proto in Resources */ = {isa = PBXBuildFile; fileRef = CF160524150AD9E100BE029C /* Protocols.proto */; };
+		CF16052E150AD9E100BE029C /* Protocols.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CF160526150AD9E100BE029C /* Protocols.pb.m */; };
+		CF160535150B1D5F00BE029C /* movecrit.png in Resources */ = {isa = PBXBuildFile; fileRef = CF16052F150B1D5F00BE029C /* movecrit.png */; };
+		CF160536150B1D5F00BE029C /* critstructurebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF160530150B1D5F00BE029C /* critstructurebubble.png */; };
+		CF160537150B1D5F00BE029C /* critstructurebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF160531150B1D5F00BE029C /* critstructurebubble@2x.png */; };
+		CF160538150B1D5F00BE029C /* movecrit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF160532150B1D5F00BE029C /* movecrit@2x.png */; };
+		CF160539150B1D5F00BE029C /* enter.png in Resources */ = {isa = PBXBuildFile; fileRef = CF160533150B1D5F00BE029C /* enter.png */; };
+		CF16053A150B1D5F00BE029C /* enter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF160534150B1D5F00BE029C /* enter@2x.png */; };
+		CF16053C150B1DBE00BE029C /* CriticalStructureMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF16053B150B1DBE00BE029C /* CriticalStructureMenu.xib */; };
 		CF1A3D001506F10E00F52450 /* attackbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1A3CE51506F10E00F52450 /* attackbg.png */; };
 		CF1A3D011506F10E00F52450 /* attackbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1A3CE61506F10E00F52450 /* attackbg@2x.png */; };
 		CF1A3D041506F10E00F52450 /* attackcirclebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1A3CE91506F10E00F52450 /* attackcirclebg.png */; };
@@ -377,14 +392,16 @@
 		CF5F085A1509CD7A0069BB21 /* venetia_city@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08591509CD7A0069BB21 /* venetia_city@2x.tmx */; };
 		CF5F08691509F72D0069BB21 /* lw@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08671509F72D0069BB21 /* lw@2x.plist */; };
 		CF5F086A1509F72D0069BB21 /* lw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08681509F72D0069BB21 /* lw@2x.png */; };
-		CF5F0872150A2FD70069BB21 /* villa_montalvo@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F086F150A2FD60069BB21 /* villa_montalvo@2x.tmx */; };
 		CF5F0873150A2FD70069BB21 /* villatree_pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0870150A2FD60069BB21 /* villatree_pack@2x.png */; };
 		CF5F0874150A2FD70069BB21 /* winery_tiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0871150A2FD70069BB21 /* winery_tiles@2x.png */; };
+		CF5F0879150A382A0069BB21 /* villatree_pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0876150A38260069BB21 /* villatree_pack.png */; };
+		CF5F087A150A382A0069BB21 /* winery_tiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0877150A38280069BB21 /* winery_tiles.png */; };
+		CF5F087D150A3AFF0069BB21 /* villa_montalvo.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F087B150A3AF00069BB21 /* villa_montalvo.tmx */; };
+		CF5F087E150A3AFF0069BB21 /* villa_montalvo@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F087C150A3AF50069BB21 /* villa_montalvo@2x.tmx */; };
 		CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */; };
 		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
 		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
 		CF6CCF2F14FAF9D7008C693D /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2D14FAF9D7008C693D /* CarpenterRow.xib */; };
-		CF7ECA7114BD6F9C00249514 /* ComboBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7ECA7014BD6F9C00249514 /* ComboBar.m */; };
 		CF81F8B8150348D400C285BB /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8B7150348D400C285BB /* MapViewController.xib */; };
 		CF81F8BA150348E300C285BB /* MissionBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8B9150348E300C285BB /* MissionBuildingMenu.xib */; };
 		CF81F8CC15034B3500C285BB /* energycost.png in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8BC15034B3500C285BB /* energycost.png */; };
@@ -438,9 +455,6 @@
 		CFBAA04714B3D52F007AB82F /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA02514B3D52F007AB82F /* GameLayer.m */; };
 		CFBAA04914B3D52F007AB82F /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA02914B3D52F007AB82F /* GameViewController.m */; };
 		CFBAA04B14B3D52F007AB82F /* MaskedSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA02C14B3D52F007AB82F /* MaskedSprite.m */; };
-		CFBAA04C14B3D52F007AB82F /* Event.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA02F14B3D52F007AB82F /* Event.pb.m */; };
-		CFBAA04D14B3D52F007AB82F /* Info.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA03114B3D52F007AB82F /* Info.pb.m */; };
-		CFBAA05114B3D52F007AB82F /* Protocols.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA03714B3D52F007AB82F /* Protocols.pb.m */; };
 		CFBAA05314B3D52F007AB82F /* SocketCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA03C14B3D52F007AB82F /* SocketCommunication.m */; };
 		CFC2494214B4350A00D601DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBAA01414B3D52F007AB82F /* MainWindow.xib */; };
 		CFC81F8A1502F6AE00DFDD42 /* MissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC81F891502F6AE00DFDD42 /* MissionMap.m */; };
@@ -577,6 +591,8 @@
 		CFE47D851492A7C80084E71E /* CCGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE47D841492A7C80084E71E /* CCGestureRecognizer.m */; };
 		CFEFC10D14B4EC0100FBF75E /* libProtocolBuffers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEFC10814B4EBF900FBF75E /* libProtocolBuffers.a */; };
 		CFEFC12C14B5484300FBF75E /* ProfilePicture.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEFC12B14B5484300FBF75E /* ProfilePicture.m */; };
+		CFF19704150ABFE700434113 /* attackchecksflipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF19702150ABFE700434113 /* attackchecksflipped.png */; };
+		CFF19705150ABFE700434113 /* attackchecksflipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF19703150ABFE700434113 /* attackchecksflipped@2x.png */; };
 		CFF3A72914EF835700E8F8DF /* VaultMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A72714EF835700E8F8DF /* VaultMenuController.m */; };
 		CFF3A72A14EF835700E8F8DF /* VaultMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF3A72814EF835700E8F8DF /* VaultMenuController.xib */; };
 		CFF3A73514F07D5F00E8F8DF /* UIView+SBExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A72E14F07D5F00E8F8DF /* UIView+SBExtras.m */; };
@@ -624,6 +640,25 @@
 		CF05573314DE6F18003739EF /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		CF06C6981501B31000863EA1 /* australia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = australia.png; sourceTree = "<group>"; };
 		CF08C6D614FB78A900D04206 /* EquipView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipView.xib; sourceTree = "<group>"; };
+		CF16051A150AD9E100BE029C /* Admin.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Admin.pb.h; sourceTree = "<group>"; };
+		CF16051B150AD9E100BE029C /* Admin.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Admin.pb.m; sourceTree = "<group>"; };
+		CF16051C150AD9E100BE029C /* Event.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.pb.h; sourceTree = "<group>"; };
+		CF16051D150AD9E100BE029C /* Event.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.pb.m; sourceTree = "<group>"; };
+		CF16051E150AD9E100BE029C /* Info.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Info.pb.h; sourceTree = "<group>"; };
+		CF16051F150AD9E100BE029C /* Info.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Info.pb.m; sourceTree = "<group>"; };
+		CF160521150AD9E100BE029C /* Admin.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Admin.proto; sourceTree = "<group>"; };
+		CF160522150AD9E100BE029C /* Event.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Event.proto; sourceTree = "<group>"; };
+		CF160523150AD9E100BE029C /* Info.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Info.proto; sourceTree = "<group>"; };
+		CF160524150AD9E100BE029C /* Protocols.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Protocols.proto; sourceTree = "<group>"; };
+		CF160525150AD9E100BE029C /* Protocols.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocols.pb.h; sourceTree = "<group>"; };
+		CF160526150AD9E100BE029C /* Protocols.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Protocols.pb.m; sourceTree = "<group>"; };
+		CF16052F150B1D5F00BE029C /* movecrit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movecrit.png; sourceTree = "<group>"; };
+		CF160530150B1D5F00BE029C /* critstructurebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = critstructurebubble.png; sourceTree = "<group>"; };
+		CF160531150B1D5F00BE029C /* critstructurebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "critstructurebubble@2x.png"; sourceTree = "<group>"; };
+		CF160532150B1D5F00BE029C /* movecrit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movecrit@2x.png"; sourceTree = "<group>"; };
+		CF160533150B1D5F00BE029C /* enter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enter.png; sourceTree = "<group>"; };
+		CF160534150B1D5F00BE029C /* enter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enter@2x.png"; sourceTree = "<group>"; };
+		CF16053B150B1DBE00BE029C /* CriticalStructureMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CriticalStructureMenu.xib; path = "Utopia/Classes/Main Map/GameMap/CriticalStructureMenu.xib"; sourceTree = SOURCE_ROOT; };
 		CF1A3CE51506F10E00F52450 /* attackbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackbg.png; sourceTree = "<group>"; };
 		CF1A3CE61506F10E00F52450 /* attackbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackbg@2x.png"; sourceTree = "<group>"; };
 		CF1A3CE91506F10E00F52450 /* attackcirclebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackcirclebg.png; sourceTree = "<group>"; };
@@ -1061,24 +1096,21 @@
 		CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArmoryViewController.h; path = ArmoryMenu/ArmoryViewController.h; sourceTree = "<group>"; };
 		CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArmoryViewController.m; path = ArmoryMenu/ArmoryViewController.m; sourceTree = "<group>"; };
 		CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryViewController.xib; path = ArmoryMenu/ArmoryViewController.xib; sourceTree = "<group>"; };
-		CF5EE09B14D147610063F1E0 /* Admin.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Admin.proto; sourceTree = "<group>"; };
-		CF5EE09C14D147610063F1E0 /* Event.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Event.proto; sourceTree = "<group>"; };
-		CF5EE09D14D147610063F1E0 /* Info.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Info.proto; sourceTree = "<group>"; };
-		CF5EE09E14D147610063F1E0 /* Protocols.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Protocols.proto; sourceTree = "<group>"; };
 		CF5F08571509CD690069BB21 /* venetia_city.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = venetia_city.tmx; sourceTree = "<group>"; };
 		CF5F08591509CD7A0069BB21 /* venetia_city@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "venetia_city@2x.tmx"; sourceTree = "<group>"; };
 		CF5F08671509F72D0069BB21 /* lw@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "lw@2x.plist"; sourceTree = "<group>"; };
 		CF5F08681509F72D0069BB21 /* lw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lw@2x.png"; sourceTree = "<group>"; };
-		CF5F086F150A2FD60069BB21 /* villa_montalvo@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "villa_montalvo@2x.tmx"; sourceTree = "<group>"; };
 		CF5F0870150A2FD60069BB21 /* villatree_pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "villatree_pack@2x.png"; sourceTree = "<group>"; };
 		CF5F0871150A2FD70069BB21 /* winery_tiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "winery_tiles@2x.png"; sourceTree = "<group>"; };
+		CF5F0876150A38260069BB21 /* villatree_pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = villatree_pack.png; sourceTree = "<group>"; };
+		CF5F0877150A38280069BB21 /* winery_tiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = winery_tiles.png; sourceTree = "<group>"; };
+		CF5F087B150A3AF00069BB21 /* villa_montalvo.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = villa_montalvo.tmx; sourceTree = "<group>"; };
+		CF5F087C150A3AF50069BB21 /* villa_montalvo@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "villa_montalvo@2x.tmx"; sourceTree = "<group>"; };
 		CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterListing.xib; path = CarpenterMenu/CarpenterListing.xib; sourceTree = "<group>"; };
 		CF6CCF2D14FAF9D7008C693D /* CarpenterRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterRow.xib; path = CarpenterMenu/CarpenterRow.xib; sourceTree = "<group>"; };
-		CF7ECA6F14BD6F9C00249514 /* ComboBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComboBar.h; sourceTree = "<group>"; };
-		CF7ECA7014BD6F9C00249514 /* ComboBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComboBar.m; sourceTree = "<group>"; };
 		CF81F8B7150348D400C285BB /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		CF81F8B9150348E300C285BB /* MissionBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MissionBuildingMenu.xib; path = "Utopia/Classes/Main Map/GameMap/MissionBuildingMenu.xib"; sourceTree = SOURCE_ROOT; };
 		CF81F8BC15034B3500C285BB /* energycost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = energycost.png; sourceTree = "<group>"; };
@@ -1146,12 +1178,6 @@
 		CFBAA02914B3D52F007AB82F /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = "../Main Map/GameViewController.m"; sourceTree = "<group>"; };
 		CFBAA02B14B3D52F007AB82F /* MaskedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaskedSprite.h; sourceTree = "<group>"; };
 		CFBAA02C14B3D52F007AB82F /* MaskedSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaskedSprite.m; sourceTree = "<group>"; };
-		CFBAA02E14B3D52F007AB82F /* Event.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.pb.h; sourceTree = "<group>"; };
-		CFBAA02F14B3D52F007AB82F /* Event.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.pb.m; sourceTree = "<group>"; };
-		CFBAA03014B3D52F007AB82F /* Info.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Info.pb.h; sourceTree = "<group>"; };
-		CFBAA03114B3D52F007AB82F /* Info.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Info.pb.m; sourceTree = "<group>"; };
-		CFBAA03614B3D52F007AB82F /* Protocols.pb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocols.pb.h; sourceTree = "<group>"; };
-		CFBAA03714B3D52F007AB82F /* Protocols.pb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Protocols.pb.m; sourceTree = "<group>"; };
 		CFBAA03B14B3D52F007AB82F /* SocketCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketCommunication.h; sourceTree = "<group>"; };
 		CFBAA03C14B3D52F007AB82F /* SocketCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketCommunication.m; sourceTree = "<group>"; };
 		CFBAA05414B4304B007AB82F /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = libs/SynthesizeSingleton.h; sourceTree = "<group>"; };
@@ -1407,6 +1433,8 @@
 		CFEFC11F14B4F35700FBF75E /* ProtocolBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolBuffers.h; path = objectivec/Classes/ProtocolBuffers.h; sourceTree = "<group>"; };
 		CFEFC12A14B5484300FBF75E /* ProfilePicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePicture.h; sourceTree = "<group>"; };
 		CFEFC12B14B5484300FBF75E /* ProfilePicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePicture.m; sourceTree = "<group>"; };
+		CFF19702150ABFE700434113 /* attackchecksflipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackchecksflipped.png; sourceTree = "<group>"; };
+		CFF19703150ABFE700434113 /* attackchecksflipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackchecksflipped@2x.png"; sourceTree = "<group>"; };
 		CFF3A72614EF835700E8F8DF /* VaultMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VaultMenuController.h; path = VaultMenu/VaultMenuController.h; sourceTree = "<group>"; };
 		CFF3A72714EF835700E8F8DF /* VaultMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VaultMenuController.m; path = VaultMenu/VaultMenuController.m; sourceTree = "<group>"; };
 		CFF3A72814EF835700E8F8DF /* VaultMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VaultMenuController.xib; path = VaultMenu/VaultMenuController.xib; sourceTree = "<group>"; };
@@ -1449,12 +1477,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF160520150AD9E100BE029C /* Proto files */ = {
+			isa = PBXGroup;
+			children = (
+				CF160521150AD9E100BE029C /* Admin.proto */,
+				CF160522150AD9E100BE029C /* Event.proto */,
+				CF160523150AD9E100BE029C /* Info.proto */,
+				CF160524150AD9E100BE029C /* Protocols.proto */,
+			);
+			path = "Proto files";
+			sourceTree = "<group>";
+		};
 		CF1A3CE41506F10E00F52450 /* Battle Images */ = {
 			isa = PBXGroup;
 			children = (
 				CF1A3CE51506F10E00F52450 /* attackbg.png */,
 				CF1A3D1B1507468500F52450 /* attackchecks.png */,
 				CF1A3D1C1507468500F52450 /* attackchecks@2x.png */,
+				CFF19702150ABFE700434113 /* attackchecksflipped.png */,
+				CFF19703150ABFE700434113 /* attackchecksflipped@2x.png */,
 				CF1A3CE61506F10E00F52450 /* attackbg@2x.png */,
 				CF1A3CE91506F10E00F52450 /* attackcirclebg.png */,
 				CF1A3CEA1506F10E00F52450 /* attackcirclebg@2x.png */,
@@ -1596,6 +1637,12 @@
 		CF1C59581501AED50048D2EC /* Home Building Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF16052F150B1D5F00BE029C /* movecrit.png */,
+				CF160530150B1D5F00BE029C /* critstructurebubble.png */,
+				CF160531150B1D5F00BE029C /* critstructurebubble@2x.png */,
+				CF160532150B1D5F00BE029C /* movecrit@2x.png */,
+				CF160533150B1D5F00BE029C /* enter.png */,
+				CF160534150B1D5F00BE029C /* enter@2x.png */,
 				CF1C59591501AED50048D2EC /* closex.png */,
 				CF1C595A1501AED50048D2EC /* closex@2x.png */,
 				CF1C595B1501AED50048D2EC /* emptystar.png */,
@@ -1822,7 +1869,10 @@
 		CF1C5A0A1501AED50048D2EC /* Temporary */ = {
 			isa = PBXGroup;
 			children = (
-				CF5F086F150A2FD60069BB21 /* villa_montalvo@2x.tmx */,
+				CF5F087B150A3AF00069BB21 /* villa_montalvo.tmx */,
+				CF5F087C150A3AF50069BB21 /* villa_montalvo@2x.tmx */,
+				CF5F0876150A38260069BB21 /* villatree_pack.png */,
+				CF5F0877150A38280069BB21 /* winery_tiles.png */,
 				CF5F0870150A2FD60069BB21 /* villatree_pack@2x.png */,
 				CF5F0871150A2FD70069BB21 /* winery_tiles@2x.png */,
 				CF5F08671509F72D0069BB21 /* lw@2x.plist */,
@@ -2158,6 +2208,7 @@
 				CFA26F1314E719BA00FC1C71 /* GameMap.h */,
 				CFA26F1414E719BA00FC1C71 /* GameMap.m */,
 				CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */,
+				CF16053B150B1DBE00BE029C /* CriticalStructureMenu.xib */,
 				CFA26F5814E86FAA00FC1C71 /* HomeMap.h */,
 				CFA26F5914E86FAA00FC1C71 /* HomeMap.m */,
 				CF81F8B9150348E300C285BB /* MissionBuildingMenu.xib */,
@@ -2229,8 +2280,6 @@
 			children = (
 				CFBAA01614B3D52F007AB82F /* BattleLayer.h */,
 				CFBAA01714B3D52F007AB82F /* BattleLayer.m */,
-				CF7ECA6F14BD6F9C00249514 /* ComboBar.h */,
-				CF7ECA7014BD6F9C00249514 /* ComboBar.m */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -2283,26 +2332,17 @@
 		CFBAA02D14B3D52F007AB82F /* Protocol Buffers */ = {
 			isa = PBXGroup;
 			children = (
-				CFBAA02E14B3D52F007AB82F /* Event.pb.h */,
-				CFBAA02F14B3D52F007AB82F /* Event.pb.m */,
-				CFBAA03014B3D52F007AB82F /* Info.pb.h */,
-				CFBAA03114B3D52F007AB82F /* Info.pb.m */,
-				CFBAA03214B3D52F007AB82F /* Proto files */,
-				CFBAA03614B3D52F007AB82F /* Protocols.pb.h */,
-				CFBAA03714B3D52F007AB82F /* Protocols.pb.m */,
+				CF16051A150AD9E100BE029C /* Admin.pb.h */,
+				CF16051B150AD9E100BE029C /* Admin.pb.m */,
+				CF16051C150AD9E100BE029C /* Event.pb.h */,
+				CF16051D150AD9E100BE029C /* Event.pb.m */,
+				CF16051E150AD9E100BE029C /* Info.pb.h */,
+				CF16051F150AD9E100BE029C /* Info.pb.m */,
+				CF160520150AD9E100BE029C /* Proto files */,
+				CF160525150AD9E100BE029C /* Protocols.pb.h */,
+				CF160526150AD9E100BE029C /* Protocols.pb.m */,
 			);
 			path = "Protocol Buffers";
-			sourceTree = "<group>";
-		};
-		CFBAA03214B3D52F007AB82F /* Proto files */ = {
-			isa = PBXGroup;
-			children = (
-				CF5EE09B14D147610063F1E0 /* Admin.proto */,
-				CF5EE09C14D147610063F1E0 /* Event.proto */,
-				CF5EE09D14D147610063F1E0 /* Info.proto */,
-				CF5EE09E14D147610063F1E0 /* Protocols.proto */,
-			);
-			path = "Proto files";
 			sourceTree = "<group>";
 		};
 		CFBAA03814B3D52F007AB82F /* Socket Communication */ = {
@@ -3265,9 +3305,25 @@
 				CF5F085A1509CD7A0069BB21 /* venetia_city@2x.tmx in Resources */,
 				CF5F08691509F72D0069BB21 /* lw@2x.plist in Resources */,
 				CF5F086A1509F72D0069BB21 /* lw@2x.png in Resources */,
-				CF5F0872150A2FD70069BB21 /* villa_montalvo@2x.tmx in Resources */,
 				CF5F0873150A2FD70069BB21 /* villatree_pack@2x.png in Resources */,
 				CF5F0874150A2FD70069BB21 /* winery_tiles@2x.png in Resources */,
+				CF5F0879150A382A0069BB21 /* villatree_pack.png in Resources */,
+				CF5F087A150A382A0069BB21 /* winery_tiles.png in Resources */,
+				CF5F087D150A3AFF0069BB21 /* villa_montalvo.tmx in Resources */,
+				CF5F087E150A3AFF0069BB21 /* villa_montalvo@2x.tmx in Resources */,
+				CFF19704150ABFE700434113 /* attackchecksflipped.png in Resources */,
+				CFF19705150ABFE700434113 /* attackchecksflipped@2x.png in Resources */,
+				CF16052A150AD9E100BE029C /* Admin.proto in Resources */,
+				CF16052B150AD9E100BE029C /* Event.proto in Resources */,
+				CF16052C150AD9E100BE029C /* Info.proto in Resources */,
+				CF16052D150AD9E100BE029C /* Protocols.proto in Resources */,
+				CF160535150B1D5F00BE029C /* movecrit.png in Resources */,
+				CF160536150B1D5F00BE029C /* critstructurebubble.png in Resources */,
+				CF160537150B1D5F00BE029C /* critstructurebubble@2x.png in Resources */,
+				CF160538150B1D5F00BE029C /* movecrit@2x.png in Resources */,
+				CF160539150B1D5F00BE029C /* enter.png in Resources */,
+				CF16053A150B1D5F00BE029C /* enter@2x.png in Resources */,
+				CF16053C150B1DBE00BE029C /* CriticalStructureMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3378,16 +3434,12 @@
 				CFBAA04714B3D52F007AB82F /* GameLayer.m in Sources */,
 				CFBAA04914B3D52F007AB82F /* GameViewController.m in Sources */,
 				CFBAA04B14B3D52F007AB82F /* MaskedSprite.m in Sources */,
-				CFBAA04C14B3D52F007AB82F /* Event.pb.m in Sources */,
-				CFBAA04D14B3D52F007AB82F /* Info.pb.m in Sources */,
-				CFBAA05114B3D52F007AB82F /* Protocols.pb.m in Sources */,
 				CFBAA05314B3D52F007AB82F /* SocketCommunication.m in Sources */,
 				CFEFC12C14B5484300FBF75E /* ProfilePicture.m in Sources */,
 				CF2737BD14B6D99800E3A820 /* NSString+MD5Addition.m in Sources */,
 				CF2737BE14B6D99800E3A820 /* UIDevice+IdentifierAddition.m in Sources */,
 				CF2737E314BA86CC00E3A820 /* LocationManager.m in Sources */,
 				CF27380A14BD2AB600E3A820 /* IAPHelper.m in Sources */,
-				CF7ECA7114BD6F9C00249514 /* ComboBar.m in Sources */,
 				CF2AC59114BFE82B00DEDF29 /* AnimatedSprite.m in Sources */,
 				CF2AC5A514C2751D00DEDF29 /* ImageDownloader.m in Sources */,
 				CF3D0A6A14CB88EA00D972B4 /* GoldShoppeViewController.m in Sources */,
@@ -3417,6 +3469,10 @@
 				CFC81F8A1502F6AE00DFDD42 /* MissionMap.m in Sources */,
 				CFDCC6DB15045EF20084B88A /* RefillMenuController.m in Sources */,
 				CF914EA01509B04A00350CB6 /* MapSprite.m in Sources */,
+				CF160527150AD9E100BE029C /* Admin.pb.m in Sources */,
+				CF160528150AD9E100BE029C /* Event.pb.m in Sources */,
+				CF160529150AD9E100BE029C /* Info.pb.m in Sources */,
+				CF16052E150AD9E100BE029C /* Protocols.pb.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

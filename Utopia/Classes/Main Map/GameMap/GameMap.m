@@ -148,10 +148,6 @@
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
 {
-  // First check if a sprite was clicked
-  CGPoint pt = [recognizer locationInView:recognizer.view];
-  pt = [self convertToNodeSpace:pt];
-  
   // Now do drag motion
   UIPanGestureRecognizer* pan = (UIPanGestureRecognizer*)recognizer;
   if([recognizer state] == UIGestureRecognizerStateBegan ||
