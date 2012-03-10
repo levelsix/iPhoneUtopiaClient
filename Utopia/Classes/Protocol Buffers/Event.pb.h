@@ -298,7 +298,7 @@ typedef enum {
   UserCreateResponseProto_UserCreateStatusInvalidName = 1,
   UserCreateResponseProto_UserCreateStatusInvalidLocation = 2,
   UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists = 3,
-  UserCreateResponseProto_UserCreateStatusOtherFail = 4,
+  UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime = 4,
 } UserCreateResponseProto_UserCreateStatus;
 
 BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value);
@@ -368,6 +368,7 @@ typedef enum {
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading = 4,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail = 5,
   UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooAheadOfServerTime = 6,
+  UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAtMaxLevelAlready = 7,
 } UpgradeNormStructureResponseProto_UpgradeNormStructureStatus;
 
 BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(UpgradeNormStructureResponseProto_UpgradeNormStructureStatus value);
@@ -429,7 +430,8 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
 typedef enum {
   LevelUpResponseProto_LevelUpStatusSuccess = 0,
   LevelUpResponseProto_LevelUpStatusNotEnoughExpToNextLevel = 1,
-  LevelUpResponseProto_LevelUpStatusOtherFail = 2,
+  LevelUpResponseProto_LevelUpStatusAlreadyAtMaxLevel = 2,
+  LevelUpResponseProto_LevelUpStatusOtherFail = 3,
 } LevelUpResponseProto_LevelUpStatus;
 
 BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUpStatus value);
@@ -1335,31 +1337,29 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
+  BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
   BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
-  int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
+  int32_t experienceRequiredForCurrentLevel;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableStructsList;
-  NSMutableArray* mutableUserStructuresList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableUserEquipsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableInProgressQuestsList;
-  NSMutableArray* mutableUserCityInfosList;
   NSMutableArray* mutableCitiesAvailableToUserList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1387,10 +1387,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
 - (NSArray*) equipsList;
 - (FullEquipProto*) equipsAtIndex:(int32_t) index;
-- (NSArray*) userStructuresList;
-- (FullUserStructureProto*) userStructuresAtIndex:(int32_t) index;
-- (NSArray*) structsList;
-- (FullStructureProto*) structsAtIndex:(int32_t) index;
 - (NSArray*) marketplacePurchaseNotificationsList;
 - (StartupResponseProto_MarketplacePostPurchasedNotificationProto*) marketplacePurchaseNotificationsAtIndex:(int32_t) index;
 - (NSArray*) attackNotificationsList;
@@ -1632,25 +1628,185 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasDiamondCostForEnergyRefill_:1;
-  BOOL hasDiamondCostForStaminaRefill_:1;
-  BOOL hasMaxItemUsePerBattle_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasMinVaultLevel_:1;
+  BOOL hasMinMarketplaceLevel_:1;
+  BOOL hasMinArmoryLevel_:1;
+  BOOL hasMaxRankForCity_:1;
+  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
+  BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasDiamondCostForFullStaminaRefill_:1;
+  BOOL hasDiamondCostForFullEnergyRefill_:1;
+  BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
+  BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
+  BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
+  BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
+  BOOL hasMinutesForCityExpansion_:1;
+  BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
-  int32_t diamondCostForEnergyRefill;
-  int32_t diamondCostForStaminaRefill;
-  int32_t maxItemUsePerBattle;
+  BOOL hasArmoryXlength_:1;
+  BOOL hasArmoryYlength_:1;
+  BOOL hasVaultXlength_:1;
+  BOOL hasVaultYlength_:1;
+  BOOL hasMarketplaceXlength_:1;
+  BOOL hasMarketplaceYlength_:1;
+  BOOL hasCarpenterXlength_:1;
+  BOOL hasCarpenterYlength_:1;
+  BOOL hasAviaryXlength_:1;
+  BOOL hasAviaryYlength_:1;
+  BOOL hasAttackBaseGain_:1;
+  BOOL hasDefenseBaseGain_:1;
+  BOOL hasEnergyBaseGain_:1;
+  BOOL hasHealthBaseGain_:1;
+  BOOL hasStaminaBaseGain_:1;
+  BOOL hasAttackBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasHealthBaseCost_:1;
+  BOOL hasStaminaBaseCost_:1;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 percentReturnedToUserForSellingNormStructure;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t cutOfVaultDepositTaken;
+  int32_t minVaultLevel;
+  int32_t minMarketplaceLevel;
+  int32_t minArmoryLevel;
+  int32_t maxRankForCity;
+  int32_t maxLevelForStruct;
+  int32_t maxNumOfSingleStruct;
+  int32_t minutesToRefillAenergy;
+  int32_t minutesToRefillAstamina;
+  int32_t diamondCostForFullStaminaRefill;
+  int32_t diamondCostForFullEnergyRefill;
+  int32_t maxNumberOfMarketplacePosts;
+  int32_t numDaysLongMarketplaceLicenseLastsFor;
+  int32_t numDaysShortMarketplaceLicenseLastsFor;
+  int32_t diamondCostOfLongMarketplaceLicense;
+  int32_t diamondCostOfShortMarketplaceLicense;
+  int32_t minutesForCityExpansion;
+  int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t maxLevelDifferenceForBattle;
+  int32_t armoryXlength;
+  int32_t armoryYlength;
+  int32_t vaultXlength;
+  int32_t vaultYlength;
+  int32_t marketplaceXlength;
+  int32_t marketplaceYlength;
+  int32_t carpenterXlength;
+  int32_t carpenterYlength;
+  int32_t aviaryXlength;
+  int32_t aviaryYlength;
+  int32_t attackBaseGain;
+  int32_t defenseBaseGain;
+  int32_t energyBaseGain;
+  int32_t healthBaseGain;
+  int32_t staminaBaseGain;
+  int32_t attackBaseCost;
+  int32_t defenseBaseCost;
+  int32_t energyBaseCost;
+  int32_t healthBaseCost;
+  int32_t staminaBaseCost;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
-- (BOOL) hasDiamondCostForEnergyRefill;
-- (BOOL) hasDiamondCostForStaminaRefill;
-- (BOOL) hasMaxItemUsePerBattle;
 - (BOOL) hasMaxLevelDifferenceForBattle;
-@property (readonly) int32_t diamondCostForEnergyRefill;
-@property (readonly) int32_t diamondCostForStaminaRefill;
-@property (readonly) int32_t maxItemUsePerBattle;
+- (BOOL) hasArmoryXlength;
+- (BOOL) hasArmoryYlength;
+- (BOOL) hasVaultXlength;
+- (BOOL) hasVaultYlength;
+- (BOOL) hasMarketplaceXlength;
+- (BOOL) hasMarketplaceYlength;
+- (BOOL) hasCarpenterXlength;
+- (BOOL) hasCarpenterYlength;
+- (BOOL) hasAviaryXlength;
+- (BOOL) hasAviaryYlength;
+- (BOOL) hasAttackBaseGain;
+- (BOOL) hasDefenseBaseGain;
+- (BOOL) hasEnergyBaseGain;
+- (BOOL) hasHealthBaseGain;
+- (BOOL) hasStaminaBaseGain;
+- (BOOL) hasAttackBaseCost;
+- (BOOL) hasDefenseBaseCost;
+- (BOOL) hasEnergyBaseCost;
+- (BOOL) hasHealthBaseCost;
+- (BOOL) hasStaminaBaseCost;
+- (BOOL) hasSkillPointsGainedOnLevelup;
+- (BOOL) hasCutOfVaultDepositTaken;
+- (BOOL) hasMinVaultLevel;
+- (BOOL) hasMinMarketplaceLevel;
+- (BOOL) hasMinArmoryLevel;
+- (BOOL) hasMaxRankForCity;
+- (BOOL) hasMaxLevelForStruct;
+- (BOOL) hasMaxNumOfSingleStruct;
+- (BOOL) hasPercentReturnedToUserForSellingNormStructure;
+- (BOOL) hasMinutesToRefillAenergy;
+- (BOOL) hasMinutesToRefillAstamina;
+- (BOOL) hasDiamondCostForFullStaminaRefill;
+- (BOOL) hasDiamondCostForFullEnergyRefill;
+- (BOOL) hasMaxNumberOfMarketplacePosts;
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+- (BOOL) hasNumDaysLongMarketplaceLicenseLastsFor;
+- (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor;
+- (BOOL) hasDiamondCostOfLongMarketplaceLicense;
+- (BOOL) hasDiamondCostOfShortMarketplaceLicense;
+- (BOOL) hasMinutesForCityExpansion;
+- (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
+- (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
+@property (readonly) int32_t armoryXlength;
+@property (readonly) int32_t armoryYlength;
+@property (readonly) int32_t vaultXlength;
+@property (readonly) int32_t vaultYlength;
+@property (readonly) int32_t marketplaceXlength;
+@property (readonly) int32_t marketplaceYlength;
+@property (readonly) int32_t carpenterXlength;
+@property (readonly) int32_t carpenterYlength;
+@property (readonly) int32_t aviaryXlength;
+@property (readonly) int32_t aviaryYlength;
+@property (readonly) int32_t attackBaseGain;
+@property (readonly) int32_t defenseBaseGain;
+@property (readonly) int32_t energyBaseGain;
+@property (readonly) int32_t healthBaseGain;
+@property (readonly) int32_t staminaBaseGain;
+@property (readonly) int32_t attackBaseCost;
+@property (readonly) int32_t defenseBaseCost;
+@property (readonly) int32_t energyBaseCost;
+@property (readonly) int32_t healthBaseCost;
+@property (readonly) int32_t staminaBaseCost;
+@property (readonly) int32_t skillPointsGainedOnLevelup;
+@property (readonly) int32_t cutOfVaultDepositTaken;
+@property (readonly) int32_t minVaultLevel;
+@property (readonly) int32_t minMarketplaceLevel;
+@property (readonly) int32_t minArmoryLevel;
+@property (readonly) int32_t maxRankForCity;
+@property (readonly) int32_t maxLevelForStruct;
+@property (readonly) int32_t maxNumOfSingleStruct;
+@property (readonly) Float64 percentReturnedToUserForSellingNormStructure;
+@property (readonly) int32_t minutesToRefillAenergy;
+@property (readonly) int32_t minutesToRefillAstamina;
+@property (readonly) int32_t diamondCostForFullStaminaRefill;
+@property (readonly) int32_t diamondCostForFullEnergyRefill;
+@property (readonly) int32_t maxNumberOfMarketplacePosts;
+@property (readonly) Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+@property (readonly) Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+@property (readonly) int32_t numDaysLongMarketplaceLicenseLastsFor;
+@property (readonly) int32_t numDaysShortMarketplaceLicenseLastsFor;
+@property (readonly) int32_t diamondCostOfLongMarketplaceLicense;
+@property (readonly) int32_t diamondCostOfShortMarketplaceLicense;
+@property (readonly) int32_t minutesForCityExpansion;
+@property (readonly) int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+@property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -1704,64 +1860,272 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_StartupConstants_Builder*) addAllProductDiamondsGiven:(NSArray*) values;
 - (StartupResponseProto_StartupConstants_Builder*) clearProductDiamondsGivenList;
 
-- (BOOL) hasDiamondCostForEnergyRefill;
-- (int32_t) diamondCostForEnergyRefill;
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForEnergyRefill:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForEnergyRefill;
-
-- (BOOL) hasDiamondCostForStaminaRefill;
-- (int32_t) diamondCostForStaminaRefill;
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForStaminaRefill:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForStaminaRefill;
-
-- (BOOL) hasMaxItemUsePerBattle;
-- (int32_t) maxItemUsePerBattle;
-- (StartupResponseProto_StartupConstants_Builder*) setMaxItemUsePerBattle:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMaxItemUsePerBattle;
-
 - (BOOL) hasMaxLevelDifferenceForBattle;
 - (int32_t) maxLevelDifferenceForBattle;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxLevelDifferenceForBattle:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelDifferenceForBattle;
+
+- (BOOL) hasArmoryXlength;
+- (int32_t) armoryXlength;
+- (StartupResponseProto_StartupConstants_Builder*) setArmoryXlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearArmoryXlength;
+
+- (BOOL) hasArmoryYlength;
+- (int32_t) armoryYlength;
+- (StartupResponseProto_StartupConstants_Builder*) setArmoryYlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearArmoryYlength;
+
+- (BOOL) hasVaultXlength;
+- (int32_t) vaultXlength;
+- (StartupResponseProto_StartupConstants_Builder*) setVaultXlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearVaultXlength;
+
+- (BOOL) hasVaultYlength;
+- (int32_t) vaultYlength;
+- (StartupResponseProto_StartupConstants_Builder*) setVaultYlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearVaultYlength;
+
+- (BOOL) hasMarketplaceXlength;
+- (int32_t) marketplaceXlength;
+- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceXlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceXlength;
+
+- (BOOL) hasMarketplaceYlength;
+- (int32_t) marketplaceYlength;
+- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceYlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceYlength;
+
+- (BOOL) hasCarpenterXlength;
+- (int32_t) carpenterXlength;
+- (StartupResponseProto_StartupConstants_Builder*) setCarpenterXlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearCarpenterXlength;
+
+- (BOOL) hasCarpenterYlength;
+- (int32_t) carpenterYlength;
+- (StartupResponseProto_StartupConstants_Builder*) setCarpenterYlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearCarpenterYlength;
+
+- (BOOL) hasAviaryXlength;
+- (int32_t) aviaryXlength;
+- (StartupResponseProto_StartupConstants_Builder*) setAviaryXlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAviaryXlength;
+
+- (BOOL) hasAviaryYlength;
+- (int32_t) aviaryYlength;
+- (StartupResponseProto_StartupConstants_Builder*) setAviaryYlength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAviaryYlength;
+
+- (BOOL) hasAttackBaseGain;
+- (int32_t) attackBaseGain;
+- (StartupResponseProto_StartupConstants_Builder*) setAttackBaseGain:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAttackBaseGain;
+
+- (BOOL) hasDefenseBaseGain;
+- (int32_t) defenseBaseGain;
+- (StartupResponseProto_StartupConstants_Builder*) setDefenseBaseGain:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDefenseBaseGain;
+
+- (BOOL) hasEnergyBaseGain;
+- (int32_t) energyBaseGain;
+- (StartupResponseProto_StartupConstants_Builder*) setEnergyBaseGain:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearEnergyBaseGain;
+
+- (BOOL) hasHealthBaseGain;
+- (int32_t) healthBaseGain;
+- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseGain:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseGain;
+
+- (BOOL) hasStaminaBaseGain;
+- (int32_t) staminaBaseGain;
+- (StartupResponseProto_StartupConstants_Builder*) setStaminaBaseGain:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearStaminaBaseGain;
+
+- (BOOL) hasAttackBaseCost;
+- (int32_t) attackBaseCost;
+- (StartupResponseProto_StartupConstants_Builder*) setAttackBaseCost:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAttackBaseCost;
+
+- (BOOL) hasDefenseBaseCost;
+- (int32_t) defenseBaseCost;
+- (StartupResponseProto_StartupConstants_Builder*) setDefenseBaseCost:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDefenseBaseCost;
+
+- (BOOL) hasEnergyBaseCost;
+- (int32_t) energyBaseCost;
+- (StartupResponseProto_StartupConstants_Builder*) setEnergyBaseCost:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearEnergyBaseCost;
+
+- (BOOL) hasHealthBaseCost;
+- (int32_t) healthBaseCost;
+- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseCost:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseCost;
+
+- (BOOL) hasStaminaBaseCost;
+- (int32_t) staminaBaseCost;
+- (StartupResponseProto_StartupConstants_Builder*) setStaminaBaseCost:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearStaminaBaseCost;
+
+- (BOOL) hasSkillPointsGainedOnLevelup;
+- (int32_t) skillPointsGainedOnLevelup;
+- (StartupResponseProto_StartupConstants_Builder*) setSkillPointsGainedOnLevelup:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearSkillPointsGainedOnLevelup;
+
+- (BOOL) hasCutOfVaultDepositTaken;
+- (int32_t) cutOfVaultDepositTaken;
+- (StartupResponseProto_StartupConstants_Builder*) setCutOfVaultDepositTaken:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearCutOfVaultDepositTaken;
+
+- (BOOL) hasMinVaultLevel;
+- (int32_t) minVaultLevel;
+- (StartupResponseProto_StartupConstants_Builder*) setMinVaultLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinVaultLevel;
+
+- (BOOL) hasMinMarketplaceLevel;
+- (int32_t) minMarketplaceLevel;
+- (StartupResponseProto_StartupConstants_Builder*) setMinMarketplaceLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinMarketplaceLevel;
+
+- (BOOL) hasMinArmoryLevel;
+- (int32_t) minArmoryLevel;
+- (StartupResponseProto_StartupConstants_Builder*) setMinArmoryLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinArmoryLevel;
+
+- (BOOL) hasMaxRankForCity;
+- (int32_t) maxRankForCity;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxRankForCity:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxRankForCity;
+
+- (BOOL) hasMaxLevelForStruct;
+- (int32_t) maxLevelForStruct;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxLevelForStruct:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelForStruct;
+
+- (BOOL) hasMaxNumOfSingleStruct;
+- (int32_t) maxNumOfSingleStruct;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumOfSingleStruct:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumOfSingleStruct;
+
+- (BOOL) hasPercentReturnedToUserForSellingNormStructure;
+- (Float64) percentReturnedToUserForSellingNormStructure;
+- (StartupResponseProto_StartupConstants_Builder*) setPercentReturnedToUserForSellingNormStructure:(Float64) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentReturnedToUserForSellingNormStructure;
+
+- (BOOL) hasMinutesToRefillAenergy;
+- (int32_t) minutesToRefillAenergy;
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesToRefillAenergy:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesToRefillAenergy;
+
+- (BOOL) hasMinutesToRefillAstamina;
+- (int32_t) minutesToRefillAstamina;
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesToRefillAstamina:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesToRefillAstamina;
+
+- (BOOL) hasDiamondCostForFullStaminaRefill;
+- (int32_t) diamondCostForFullStaminaRefill;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForFullStaminaRefill:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForFullStaminaRefill;
+
+- (BOOL) hasDiamondCostForFullEnergyRefill;
+- (int32_t) diamondCostForFullEnergyRefill;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForFullEnergyRefill:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForFullEnergyRefill;
+
+- (BOOL) hasMaxNumberOfMarketplacePosts;
+- (int32_t) maxNumberOfMarketplacePosts;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumberOfMarketplacePosts:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumberOfMarketplacePosts;
+
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+- (Float64) percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+- (StartupResponseProto_StartupConstants_Builder*) setPercentOfSellingCostTakenFromSellerOnMarketplacePurchase:(Float64) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+- (Float64) percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+- (StartupResponseProto_StartupConstants_Builder*) setPercentOfSellingCostTakenFromSellerOnMarketplaceRetract:(Float64) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+
+- (BOOL) hasNumDaysLongMarketplaceLicenseLastsFor;
+- (int32_t) numDaysLongMarketplaceLicenseLastsFor;
+- (StartupResponseProto_StartupConstants_Builder*) setNumDaysLongMarketplaceLicenseLastsFor:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearNumDaysLongMarketplaceLicenseLastsFor;
+
+- (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor;
+- (int32_t) numDaysShortMarketplaceLicenseLastsFor;
+- (StartupResponseProto_StartupConstants_Builder*) setNumDaysShortMarketplaceLicenseLastsFor:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearNumDaysShortMarketplaceLicenseLastsFor;
+
+- (BOOL) hasDiamondCostOfLongMarketplaceLicense;
+- (int32_t) diamondCostOfLongMarketplaceLicense;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfLongMarketplaceLicense:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfLongMarketplaceLicense;
+
+- (BOOL) hasDiamondCostOfShortMarketplaceLicense;
+- (int32_t) diamondCostOfShortMarketplaceLicense;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfShortMarketplaceLicense:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfShortMarketplaceLicense;
+
+- (BOOL) hasMinutesForCityExpansion;
+- (int32_t) minutesForCityExpansion;
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesForCityExpansion:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesForCityExpansion;
+
+- (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
+- (int32_t) maxNumbersOfEnemiesToGenerateAtOnce;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumbersOfEnemiesToGenerateAtOnce:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumbersOfEnemiesToGenerateAtOnce;
+
+- (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
+- (Float64) percentReturnedToUserForSellingEquipInArmory;
+- (StartupResponseProto_StartupConstants_Builder*) setPercentReturnedToUserForSellingEquipInArmory:(Float64) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentReturnedToUserForSellingEquipInArmory;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
-  BOOL hasInitEnergy_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasInitHealth_:1;
-  BOOL hasStructToBuild_:1;
-  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
-  BOOL hasArcherInitAttack_:1;
-  BOOL hasArcherInitDefense_:1;
+  BOOL hasDiamondRewardForBeingReferred_:1;
+  BOOL hasDiamondRewardForReferrer_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasMinNameLength_:1;
   BOOL hasWarriorInitDefense_:1;
-  BOOL hasMageInitAttack_:1;
-  BOOL hasMageInitDefense_:1;
   BOOL hasWarriorInitAttack_:1;
-  BOOL hasWarriorInitArmor_:1;
-  BOOL hasWarriorInitWeapon_:1;
-  BOOL hasMageInitArmor_:1;
-  BOOL hasMageInitWeapon_:1;
-  BOOL hasArcherInitArmor_:1;
+  BOOL hasMageInitDefense_:1;
+  BOOL hasMageInitAttack_:1;
+  BOOL hasArcherInitDefense_:1;
+  BOOL hasArcherInitAttack_:1;
+  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
+  BOOL hasStructToBuild_:1;
+  BOOL hasInitHealth_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasInitEnergy_:1;
   BOOL hasArcherInitWeapon_:1;
+  BOOL hasArcherInitArmor_:1;
+  BOOL hasMageInitWeapon_:1;
+  BOOL hasMageInitArmor_:1;
+  BOOL hasWarriorInitWeapon_:1;
+  BOOL hasWarriorInitArmor_:1;
   BOOL hasTutorialQuest_:1;
-  int32_t initEnergy;
-  int32_t initStamina;
-  int32_t initHealth;
-  int32_t structToBuild;
-  int32_t diamondCostToInstabuildFirstStruct;
-  int32_t archerInitAttack;
-  int32_t archerInitDefense;
+  int32_t diamondRewardForBeingReferred;
+  int32_t diamondRewardForReferrer;
+  int32_t maxNameLength;
+  int32_t minNameLength;
   int32_t warriorInitDefense;
-  int32_t mageInitAttack;
-  int32_t mageInitDefense;
   int32_t warriorInitAttack;
-  FullEquipProto* warriorInitArmor;
-  FullEquipProto* warriorInitWeapon;
-  FullEquipProto* mageInitArmor;
-  FullEquipProto* mageInitWeapon;
-  FullEquipProto* archerInitArmor;
+  int32_t mageInitDefense;
+  int32_t mageInitAttack;
+  int32_t archerInitDefense;
+  int32_t archerInitAttack;
+  int32_t diamondCostToInstabuildFirstStruct;
+  int32_t structToBuild;
+  int32_t initHealth;
+  int32_t initStamina;
+  int32_t initEnergy;
   FullEquipProto* archerInitWeapon;
+  FullEquipProto* archerInitArmor;
+  FullEquipProto* mageInitWeapon;
+  FullEquipProto* mageInitArmor;
+  FullEquipProto* warriorInitWeapon;
+  FullEquipProto* warriorInitArmor;
   StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
 }
 - (BOOL) hasInitEnergy;
@@ -1782,6 +2146,10 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasWarriorInitDefense;
 - (BOOL) hasWarriorInitWeapon;
 - (BOOL) hasWarriorInitArmor;
+- (BOOL) hasMinNameLength;
+- (BOOL) hasMaxNameLength;
+- (BOOL) hasDiamondRewardForReferrer;
+- (BOOL) hasDiamondRewardForBeingReferred;
 @property (readonly) int32_t initEnergy;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t initHealth;
@@ -1800,6 +2168,10 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t warriorInitDefense;
 @property (readonly, retain) FullEquipProto* warriorInitWeapon;
 @property (readonly, retain) FullEquipProto* warriorInitArmor;
+@property (readonly) int32_t minNameLength;
+@property (readonly) int32_t maxNameLength;
+@property (readonly) int32_t diamondRewardForReferrer;
+@property (readonly) int32_t diamondRewardForBeingReferred;
 
 + (StartupResponseProto_TutorialConstants*) defaultInstance;
 - (StartupResponseProto_TutorialConstants*) defaultInstance;
@@ -2136,6 +2508,26 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_TutorialConstants_Builder*) setWarriorInitArmorBuilder:(FullEquipProto_Builder*) builderForValue;
 - (StartupResponseProto_TutorialConstants_Builder*) mergeWarriorInitArmor:(FullEquipProto*) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearWarriorInitArmor;
+
+- (BOOL) hasMinNameLength;
+- (int32_t) minNameLength;
+- (StartupResponseProto_TutorialConstants_Builder*) setMinNameLength:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearMinNameLength;
+
+- (BOOL) hasMaxNameLength;
+- (int32_t) maxNameLength;
+- (StartupResponseProto_TutorialConstants_Builder*) setMaxNameLength:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearMaxNameLength;
+
+- (BOOL) hasDiamondRewardForReferrer;
+- (int32_t) diamondRewardForReferrer;
+- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForReferrer;
+
+- (BOOL) hasDiamondRewardForBeingReferred;
+- (int32_t) diamondRewardForBeingReferred;
+- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForBeingReferred:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForBeingReferred;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -2228,20 +2620,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_Builder*) addAllEquips:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearEquipsList;
 
-- (NSArray*) userStructuresList;
-- (FullUserStructureProto*) userStructuresAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceUserStructuresAtIndex:(int32_t) index with:(FullUserStructureProto*) value;
-- (StartupResponseProto_Builder*) addUserStructures:(FullUserStructureProto*) value;
-- (StartupResponseProto_Builder*) addAllUserStructures:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearUserStructuresList;
-
-- (NSArray*) structsList;
-- (FullStructureProto*) structsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
-- (StartupResponseProto_Builder*) addStructs:(FullStructureProto*) value;
-- (StartupResponseProto_Builder*) addAllStructs:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearStructsList;
-
 - (BOOL) hasExperienceRequiredForNextLevel;
 - (int32_t) experienceRequiredForNextLevel;
 - (StartupResponseProto_Builder*) setExperienceRequiredForNextLevel:(int32_t) value;
@@ -2276,6 +2654,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasTimeOfStructPurchase_:1;
+  BOOL hasTimeOfStructDiamondInstabuild_:1;
   BOOL hasAttack_:1;
   BOOL hasDefense_:1;
   BOOL hasHealth_:1;
@@ -2285,9 +2665,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasName_:1;
   BOOL hasReferrerCode_:1;
   BOOL hasDeviceToken_:1;
-  BOOL hasStructure_:1;
   BOOL hasUserLocation_:1;
+  BOOL hasStructCoords_:1;
   BOOL hasType_:1;
+  int64_t timeOfStructPurchase;
+  int64_t timeOfStructDiamondInstabuild;
   int32_t attack;
   int32_t defense;
   int32_t health;
@@ -2297,14 +2679,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   NSString* name;
   NSString* referrerCode;
   NSString* deviceToken;
-  FullUserStructureProto* structure;
   LocationProto* userLocation;
+  CoordinateProto* structCoords;
   UserType type;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasName;
 - (BOOL) hasType;
-- (BOOL) hasStructure;
 - (BOOL) hasUserLocation;
 - (BOOL) hasReferrerCode;
 - (BOOL) hasDeviceToken;
@@ -2313,10 +2694,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasHealth;
 - (BOOL) hasEnergy;
 - (BOOL) hasStamina;
+- (BOOL) hasTimeOfStructPurchase;
+- (BOOL) hasTimeOfStructDiamondInstabuild;
+- (BOOL) hasStructCoords;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly) UserType type;
-@property (readonly, retain) FullUserStructureProto* structure;
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly, retain) NSString* referrerCode;
 @property (readonly, retain) NSString* deviceToken;
@@ -2325,6 +2708,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t health;
 @property (readonly) int32_t energy;
 @property (readonly) int32_t stamina;
+@property (readonly) int64_t timeOfStructPurchase;
+@property (readonly) int64_t timeOfStructDiamondInstabuild;
+@property (readonly, retain) CoordinateProto* structCoords;
 
 + (UserCreateRequestProto*) defaultInstance;
 - (UserCreateRequestProto*) defaultInstance;
@@ -2375,13 +2761,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (UserCreateRequestProto_Builder*) setType:(UserType) value;
 - (UserCreateRequestProto_Builder*) clearType;
 
-- (BOOL) hasStructure;
-- (FullUserStructureProto*) structure;
-- (UserCreateRequestProto_Builder*) setStructure:(FullUserStructureProto*) value;
-- (UserCreateRequestProto_Builder*) setStructureBuilder:(FullUserStructureProto_Builder*) builderForValue;
-- (UserCreateRequestProto_Builder*) mergeStructure:(FullUserStructureProto*) value;
-- (UserCreateRequestProto_Builder*) clearStructure;
-
 - (BOOL) hasUserLocation;
 - (LocationProto*) userLocation;
 - (UserCreateRequestProto_Builder*) setUserLocation:(LocationProto*) value;
@@ -2423,6 +2802,23 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) stamina;
 - (UserCreateRequestProto_Builder*) setStamina:(int32_t) value;
 - (UserCreateRequestProto_Builder*) clearStamina;
+
+- (BOOL) hasTimeOfStructPurchase;
+- (int64_t) timeOfStructPurchase;
+- (UserCreateRequestProto_Builder*) setTimeOfStructPurchase:(int64_t) value;
+- (UserCreateRequestProto_Builder*) clearTimeOfStructPurchase;
+
+- (BOOL) hasTimeOfStructDiamondInstabuild;
+- (int64_t) timeOfStructDiamondInstabuild;
+- (UserCreateRequestProto_Builder*) setTimeOfStructDiamondInstabuild:(int64_t) value;
+- (UserCreateRequestProto_Builder*) clearTimeOfStructDiamondInstabuild;
+
+- (BOOL) hasStructCoords;
+- (CoordinateProto*) structCoords;
+- (UserCreateRequestProto_Builder*) setStructCoords:(CoordinateProto*) value;
+- (UserCreateRequestProto_Builder*) setStructCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (UserCreateRequestProto_Builder*) mergeStructCoords:(CoordinateProto*) value;
+- (UserCreateRequestProto_Builder*) clearStructCoords;
 @end
 
 @interface UserCreateResponseProto : PBGeneratedMessage {

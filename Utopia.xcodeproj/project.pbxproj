@@ -348,8 +348,6 @@
 		CF1C5BC01501AED50048D2EC /* missionlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A581501AED50048D2EC /* missionlock@2x.png */; };
 		CF1C5BC11501AED50048D2EC /* opencity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A591501AED50048D2EC /* opencity.png */; };
 		CF1C5BC21501AED50048D2EC /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A5A1501AED50048D2EC /* opencity@2x.png */; };
-		CF1C5BC31501AED50048D2EC /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A5B1501AED50048D2EC /* path.png */; };
-		CF1C5BC41501AED50048D2EC /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A5C1501AED50048D2EC /* path@2x.png */; };
 		CF1C5BC51501AED50048D2EC /* clearx.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A5E1501AED50048D2EC /* clearx.png */; };
 		CF1C5BC61501AED50048D2EC /* clearx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A5F1501AED50048D2EC /* clearx@2x.png */; };
 		CF1C5BC71501AED50048D2EC /* deposit.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A601501AED50048D2EC /* deposit.png */; };
@@ -388,16 +386,8 @@
 		CF5EDDED14CBEEDA0063F1E0 /* MarketplaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */; };
 		CF5EE04314CFEE8F0063F1E0 /* ArmoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */; };
 		CF5EE04414CFEE8F0063F1E0 /* ArmoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */; };
-		CF5F08581509CD690069BB21 /* venetia_city.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08571509CD690069BB21 /* venetia_city.tmx */; };
-		CF5F085A1509CD7A0069BB21 /* venetia_city@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08591509CD7A0069BB21 /* venetia_city@2x.tmx */; };
 		CF5F08691509F72D0069BB21 /* lw@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08671509F72D0069BB21 /* lw@2x.plist */; };
 		CF5F086A1509F72D0069BB21 /* lw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08681509F72D0069BB21 /* lw@2x.png */; };
-		CF5F0873150A2FD70069BB21 /* villatree_pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0870150A2FD60069BB21 /* villatree_pack@2x.png */; };
-		CF5F0874150A2FD70069BB21 /* winery_tiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0871150A2FD70069BB21 /* winery_tiles@2x.png */; };
-		CF5F0879150A382A0069BB21 /* villatree_pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0876150A38260069BB21 /* villatree_pack.png */; };
-		CF5F087A150A382A0069BB21 /* winery_tiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F0877150A38280069BB21 /* winery_tiles.png */; };
-		CF5F087D150A3AFF0069BB21 /* villa_montalvo.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F087B150A3AF00069BB21 /* villa_montalvo.tmx */; };
-		CF5F087E150A3AFF0069BB21 /* villa_montalvo@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF5F087C150A3AF50069BB21 /* villa_montalvo@2x.tmx */; };
 		CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */; };
 		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
 		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
@@ -459,10 +449,6 @@
 		CFC2494214B4350A00D601DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBAA01414B3D52F007AB82F /* MainWindow.xib */; };
 		CFC81F8A1502F6AE00DFDD42 /* MissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC81F891502F6AE00DFDD42 /* MissionMap.m */; };
 		CFD2BDA714FE132B00B7557B /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */; };
-		CFD995241508A40400B91AE6 /* Tree_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD995231508A40400B91AE6 /* Tree_Pack.png */; };
-		CFD9952C1508B0ED00B91AE6 /* Tree_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD9952B1508B0ED00B91AE6 /* Tree_Pack@2x.png */; };
-		CFD9952E1508B15F00B91AE6 /* venetia_city.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD9952D1508B15F00B91AE6 /* venetia_city.png */; };
-		CFD995301508B68000B91AE6 /* venetia_city@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD9952F1508B68000B91AE6 /* venetia_city@2x.png */; };
 		CFDCC6DB15045EF20084B88A /* RefillMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDCC6D915045EF20084B88A /* RefillMenuController.m */; };
 		CFDCC6DC15045EF20084B88A /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6DA15045EF20084B88A /* RefillMenuController.xib */; };
 		CFDCC6EE15045F3A0084B88A /* bigbolt.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6DE15045F3A0084B88A /* bigbolt.png */; };
@@ -589,6 +575,70 @@
 		CFE47D521492408B0084E71E /* ZAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE47D511492408B0084E71E /* ZAttributedString.m */; };
 		CFE47D561492408B0084E71E /* ZFont.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE47D551492408B0084E71E /* ZFont.m */; };
 		CFE47D851492A7C80084E71E /* CCGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE47D841492A7C80084E71E /* CCGestureRecognizer.m */; };
+		CFED86CE150B3E3F0098C5DE /* lost.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86B8150B3E210098C5DE /* lost.png */; };
+		CFED86CF150B3E3F0098C5DE /* lost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86B9150B3E230098C5DE /* lost@2x.png */; };
+		CFED86D0150B3E3F0098C5DE /* paused.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86BA150B3E240098C5DE /* paused.png */; };
+		CFED86D1150B3E3F0098C5DE /* win.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86BB150B3E260098C5DE /* win.png */; };
+		CFED86D2150B3E3F0098C5DE /* paused@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86BC150B3E270098C5DE /* paused@2x.png */; };
+		CFED86D3150B3E3F0098C5DE /* win@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86BD150B3E2A0098C5DE /* win@2x.png */; };
+		CFED86D4150B3E3F0098C5DE /* blueokay.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86BE150B3E2B0098C5DE /* blueokay.png */; };
+		CFED86D5150B3E3F0098C5DE /* blueokay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86BF150B3E2B0098C5DE /* blueokay@2x.png */; };
+		CFED86D6150B3E3F0098C5DE /* stolenshield.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C0150B3E2C0098C5DE /* stolenshield.png */; };
+		CFED86D7150B3E3F0098C5DE /* stolenshield@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C1150B3E2D0098C5DE /* stolenshield@2x.png */; };
+		CFED86D8150B3E3F0098C5DE /* stolenswords.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C2150B3E310098C5DE /* stolenswords.png */; };
+		CFED86D9150B3E3F0098C5DE /* stolenswords@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C3150B3E320098C5DE /* stolenswords@2x.png */; };
+		CFED86DA150B3E3F0098C5DE /* itemstolen.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C4150B3E330098C5DE /* itemstolen.png */; };
+		CFED86DB150B3E3F0098C5DE /* itemstolen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C5150B3E340098C5DE /* itemstolen@2x.png */; };
+		CFED86DC150B3E3F0098C5DE /* exampleicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C6150B3E350098C5DE /* exampleicon.png */; };
+		CFED86DD150B3E3F0098C5DE /* exampleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C7150B3E360098C5DE /* exampleicon@2x.png */; };
+		CFED86DE150B3E3F0098C5DE /* vs.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C8150B3E370098C5DE /* vs.png */; };
+		CFED86DF150B3E3F0098C5DE /* vs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C9150B3E3A0098C5DE /* vs@2x.png */; };
+		CFED86E0150B3E3F0098C5DE /* battlesummarybg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86CA150B3E3B0098C5DE /* battlesummarybg.png */; };
+		CFED86E1150B3E3F0098C5DE /* attackagain.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86CB150B3E3D0098C5DE /* attackagain.png */; };
+		CFED86E2150B3E3F0098C5DE /* attackagain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86CC150B3E3D0098C5DE /* attackagain@2x.png */; };
+		CFED86E3150B3E3F0098C5DE /* battlesummarybg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86CD150B3E3E0098C5DE /* battlesummarybg@2x.png */; };
+		CFED86E6150B3E8B0098C5DE /* nametag.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86E4150B3E890098C5DE /* nametag.png */; };
+		CFED86E7150B3E8B0098C5DE /* nametag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86E5150B3E8A0098C5DE /* nametag@2x.png */; };
+		CFED86E9150B44D60098C5DE /* BattleSummaryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFED86E8150B44D60098C5DE /* BattleSummaryView.xib */; };
+		CFED86EC150B4B740098C5DE /* youfled.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86EA150B4B6C0098C5DE /* youfled.png */; };
+		CFED86ED150B4B740098C5DE /* youfled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86EB150B4B700098C5DE /* youfled@2x.png */; };
+		CFED86EF150B4B8E0098C5DE /* RequiemText-HTF-SmallCaps.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFED86EE150B4B8B0098C5DE /* RequiemText-HTF-SmallCaps.otf */; };
+		CFED86F2150B4C4E0098C5DE /* doneresume.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86F0150B4C480098C5DE /* doneresume.png */; };
+		CFED86F3150B4C4E0098C5DE /* doneresume@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86F1150B4C4A0098C5DE /* doneresume@2x.png */; };
+		CFED86F5150B539B0098C5DE /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86F4150B539B0098C5DE /* path@2x.png */; };
+		CFED86F7150B53A20098C5DE /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86F6150B53A20098C5DE /* path.png */; };
+		CFED86FC150B57D00098C5DE /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86F8150B57D00098C5DE /* home.png */; };
+		CFED86FD150B57D00098C5DE /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86F9150B57D00098C5DE /* home@2x.png */; };
+		CFED86FE150B57D00098C5DE /* globe.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86FA150B57D00098C5DE /* globe.png */; };
+		CFED86FF150B57D00098C5DE /* globe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86FB150B57D00098C5DE /* globe@2x.png */; };
+		CFED8712150B6F250098C5DE /* profilebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8710150B6F190098C5DE /* profilebutton.png */; };
+		CFED8713150B6F250098C5DE /* profilebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8711150B6F1F0098C5DE /* profilebutton@2x.png */; };
+		CFED871A150B80D50098C5DE /* TREEZ.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8716150B80D50098C5DE /* TREEZ.png */; };
+		CFED871B150B80D50098C5DE /* Universal_Tiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8717150B80D50098C5DE /* Universal_Tiles.png */; };
+		CFED8722150B80E30098C5DE /* Ellsworth.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED871C150B80E30098C5DE /* Ellsworth.tmx */; };
+		CFED8723150B80E30098C5DE /* Ellsworth@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED871D150B80E30098C5DE /* Ellsworth@2x.tmx */; };
+		CFED8724150B80E30098C5DE /* TILEZINDAHOOD @2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED871E150B80E30098C5DE /* TILEZINDAHOOD @2x.png */; };
+		CFED8725150B80E30098C5DE /* TILEZINDAHOOD.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED871F150B80E30098C5DE /* TILEZINDAHOOD.png */; };
+		CFED8726150B80E30098C5DE /* TREE_PACKZ YEAH!!!.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8720150B80E30098C5DE /* TREE_PACKZ YEAH!!!.png */; };
+		CFED8727150B80E30098C5DE /* TREE_PACKZ YEAH!!!@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8721150B80E30098C5DE /* TREE_PACKZ YEAH!!!@2x.png */; };
+		CFED872D150B816C0098C5DE /* Tree_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8728150B816C0098C5DE /* Tree_Pack.png */; };
+		CFED872E150B816C0098C5DE /* Tree_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8729150B816C0098C5DE /* Tree_Pack@2x.png */; };
+		CFED872F150B816C0098C5DE /* venetia_city.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED872A150B816C0098C5DE /* venetia_city.png */; };
+		CFED8730150B816C0098C5DE /* venetia_city.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED872B150B816C0098C5DE /* venetia_city.tmx */; };
+		CFED8731150B816C0098C5DE /* venetia_city@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED872C150B816C0098C5DE /* venetia_city@2x.png */; };
+		CFED8733150B81890098C5DE /* venetia_city@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8732150B81890098C5DE /* venetia_city@2x.tmx */; };
+		CFED8736150B81D90098C5DE /* KirinVillage.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8734150B81D90098C5DE /* KirinVillage.tmx */; };
+		CFED8737150B81D90098C5DE /* KirinVillage@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8735150B81D90098C5DE /* KirinVillage@2x.tmx */; };
+		CFED873A150B81FF0098C5DE /* TREEZ@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8738150B81FF0098C5DE /* TREEZ@2x.png */; };
+		CFED873B150B81FF0098C5DE /* Universal_Tiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED8739150B81FF0098C5DE /* Universal_Tiles@2x.png */; };
+		CFED8740150B82320098C5DE /* villatree_pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED873C150B82310098C5DE /* villatree_pack.png */; };
+		CFED8741150B82320098C5DE /* villatree_pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED873D150B82310098C5DE /* villatree_pack@2x.png */; };
+		CFED8742150B82320098C5DE /* winery_tiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED873E150B82320098C5DE /* winery_tiles.png */; };
+		CFED8743150B82320098C5DE /* winery_tiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED873F150B82320098C5DE /* winery_tiles@2x.png */; };
+		CFED8746150B823A0098C5DE /* villa_montalvo.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8744150B82390098C5DE /* villa_montalvo.tmx */; };
+		CFED8747150B823A0098C5DE /* villa_montalvo@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8745150B823A0098C5DE /* villa_montalvo@2x.tmx */; };
+		CFED8749150B82460098C5DE /* Home_Map.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8748150B82450098C5DE /* Home_Map.tmx */; };
+		CFED874B150B82500098C5DE /* Home_Map@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED874A150B82500098C5DE /* Home_Map@2x.tmx */; };
 		CFEFC10D14B4EC0100FBF75E /* libProtocolBuffers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEFC10814B4EBF900FBF75E /* libProtocolBuffers.a */; };
 		CFEFC12C14B5484300FBF75E /* ProfilePicture.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEFC12B14B5484300FBF75E /* ProfilePicture.m */; };
 		CFF19704150ABFE700434113 /* attackchecksflipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF19702150ABFE700434113 /* attackchecksflipped.png */; };
@@ -982,8 +1032,6 @@
 		CF1C5A581501AED50048D2EC /* missionlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missionlock@2x.png"; sourceTree = "<group>"; };
 		CF1C5A591501AED50048D2EC /* opencity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opencity.png; sourceTree = "<group>"; };
 		CF1C5A5A1501AED50048D2EC /* opencity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opencity@2x.png"; sourceTree = "<group>"; };
-		CF1C5A5B1501AED50048D2EC /* path.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = path.png; sourceTree = "<group>"; };
-		CF1C5A5C1501AED50048D2EC /* path@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "path@2x.png"; sourceTree = "<group>"; };
 		CF1C5A5E1501AED50048D2EC /* clearx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clearx.png; sourceTree = "<group>"; };
 		CF1C5A5F1501AED50048D2EC /* clearx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "clearx@2x.png"; sourceTree = "<group>"; };
 		CF1C5A601501AED50048D2EC /* deposit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deposit.png; sourceTree = "<group>"; };
@@ -1096,16 +1144,8 @@
 		CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArmoryViewController.h; path = ArmoryMenu/ArmoryViewController.h; sourceTree = "<group>"; };
 		CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArmoryViewController.m; path = ArmoryMenu/ArmoryViewController.m; sourceTree = "<group>"; };
 		CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryViewController.xib; path = ArmoryMenu/ArmoryViewController.xib; sourceTree = "<group>"; };
-		CF5F08571509CD690069BB21 /* venetia_city.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = venetia_city.tmx; sourceTree = "<group>"; };
-		CF5F08591509CD7A0069BB21 /* venetia_city@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "venetia_city@2x.tmx"; sourceTree = "<group>"; };
 		CF5F08671509F72D0069BB21 /* lw@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "lw@2x.plist"; sourceTree = "<group>"; };
 		CF5F08681509F72D0069BB21 /* lw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lw@2x.png"; sourceTree = "<group>"; };
-		CF5F0870150A2FD60069BB21 /* villatree_pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "villatree_pack@2x.png"; sourceTree = "<group>"; };
-		CF5F0871150A2FD70069BB21 /* winery_tiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "winery_tiles@2x.png"; sourceTree = "<group>"; };
-		CF5F0876150A38260069BB21 /* villatree_pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = villatree_pack.png; sourceTree = "<group>"; };
-		CF5F0877150A38280069BB21 /* winery_tiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = winery_tiles.png; sourceTree = "<group>"; };
-		CF5F087B150A3AF00069BB21 /* villa_montalvo.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = villa_montalvo.tmx; sourceTree = "<group>"; };
-		CF5F087C150A3AF50069BB21 /* villa_montalvo@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "villa_montalvo@2x.tmx"; sourceTree = "<group>"; };
 		CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
@@ -1185,10 +1225,6 @@
 		CFC81F891502F6AE00DFDD42 /* MissionMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MissionMap.m; path = "Utopia/Classes/Main Map/GameMap/MissionMap.m"; sourceTree = SOURCE_ROOT; };
 		CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryRow.xib; path = ArmoryMenu/ArmoryRow.xib; sourceTree = "<group>"; };
 		CFD2BDA814FE133300B7557B /* NibUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NibUtils.h; path = Miscellaneous/NibUtils.h; sourceTree = "<group>"; };
-		CFD995231508A40400B91AE6 /* Tree_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tree_Pack.png; sourceTree = "<group>"; };
-		CFD9952B1508B0ED00B91AE6 /* Tree_Pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tree_Pack@2x.png"; sourceTree = "<group>"; };
-		CFD9952D1508B15F00B91AE6 /* venetia_city.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = venetia_city.png; sourceTree = "<group>"; };
-		CFD9952F1508B68000B91AE6 /* venetia_city@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "venetia_city@2x.png"; sourceTree = "<group>"; };
 		CFDCC6D815045EF20084B88A /* RefillMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefillMenuController.h; sourceTree = "<group>"; };
 		CFDCC6D915045EF20084B88A /* RefillMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefillMenuController.m; sourceTree = "<group>"; };
 		CFDCC6DA15045EF20084B88A /* RefillMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefillMenuController.xib; sourceTree = "<group>"; };
@@ -1429,6 +1465,70 @@
 		CFE47D571492408B0084E71E /* LICENSE_FontLabel.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE_FontLabel.txt; path = libs/LICENSE_FontLabel.txt; sourceTree = "<group>"; };
 		CFE47D831492A7C80084E71E /* CCGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCGestureRecognizer.h; path = libs/cocos2d/Platforms/iOS/CCGestureRecognizer.h; sourceTree = "<group>"; };
 		CFE47D841492A7C80084E71E /* CCGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CCGestureRecognizer.m; path = libs/cocos2d/Platforms/iOS/CCGestureRecognizer.m; sourceTree = "<group>"; };
+		CFED86B8150B3E210098C5DE /* lost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lost.png; sourceTree = "<group>"; };
+		CFED86B9150B3E230098C5DE /* lost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lost@2x.png"; sourceTree = "<group>"; };
+		CFED86BA150B3E240098C5DE /* paused.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paused.png; sourceTree = "<group>"; };
+		CFED86BB150B3E260098C5DE /* win.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = win.png; sourceTree = "<group>"; };
+		CFED86BC150B3E270098C5DE /* paused@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paused@2x.png"; sourceTree = "<group>"; };
+		CFED86BD150B3E2A0098C5DE /* win@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "win@2x.png"; sourceTree = "<group>"; };
+		CFED86BE150B3E2B0098C5DE /* blueokay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueokay.png; sourceTree = "<group>"; };
+		CFED86BF150B3E2B0098C5DE /* blueokay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueokay@2x.png"; sourceTree = "<group>"; };
+		CFED86C0150B3E2C0098C5DE /* stolenshield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stolenshield.png; sourceTree = "<group>"; };
+		CFED86C1150B3E2D0098C5DE /* stolenshield@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stolenshield@2x.png"; sourceTree = "<group>"; };
+		CFED86C2150B3E310098C5DE /* stolenswords.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stolenswords.png; sourceTree = "<group>"; };
+		CFED86C3150B3E320098C5DE /* stolenswords@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stolenswords@2x.png"; sourceTree = "<group>"; };
+		CFED86C4150B3E330098C5DE /* itemstolen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemstolen.png; sourceTree = "<group>"; };
+		CFED86C5150B3E340098C5DE /* itemstolen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemstolen@2x.png"; sourceTree = "<group>"; };
+		CFED86C6150B3E350098C5DE /* exampleicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exampleicon.png; sourceTree = "<group>"; };
+		CFED86C7150B3E360098C5DE /* exampleicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "exampleicon@2x.png"; sourceTree = "<group>"; };
+		CFED86C8150B3E370098C5DE /* vs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vs.png; sourceTree = "<group>"; };
+		CFED86C9150B3E3A0098C5DE /* vs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vs@2x.png"; sourceTree = "<group>"; };
+		CFED86CA150B3E3B0098C5DE /* battlesummarybg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battlesummarybg.png; sourceTree = "<group>"; };
+		CFED86CB150B3E3D0098C5DE /* attackagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackagain.png; sourceTree = "<group>"; };
+		CFED86CC150B3E3D0098C5DE /* attackagain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackagain@2x.png"; sourceTree = "<group>"; };
+		CFED86CD150B3E3E0098C5DE /* battlesummarybg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battlesummarybg@2x.png"; sourceTree = "<group>"; };
+		CFED86E4150B3E890098C5DE /* nametag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nametag.png; sourceTree = "<group>"; };
+		CFED86E5150B3E8A0098C5DE /* nametag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nametag@2x.png"; sourceTree = "<group>"; };
+		CFED86E8150B44D60098C5DE /* BattleSummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleSummaryView.xib; sourceTree = "<group>"; };
+		CFED86EA150B4B6C0098C5DE /* youfled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = youfled.png; sourceTree = "<group>"; };
+		CFED86EB150B4B700098C5DE /* youfled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "youfled@2x.png"; sourceTree = "<group>"; };
+		CFED86EE150B4B8B0098C5DE /* RequiemText-HTF-SmallCaps.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RequiemText-HTF-SmallCaps.otf"; sourceTree = "<group>"; };
+		CFED86F0150B4C480098C5DE /* doneresume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doneresume.png; sourceTree = "<group>"; };
+		CFED86F1150B4C4A0098C5DE /* doneresume@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "doneresume@2x.png"; sourceTree = "<group>"; };
+		CFED86F4150B539B0098C5DE /* path@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "path@2x.png"; sourceTree = "<group>"; };
+		CFED86F6150B53A20098C5DE /* path.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = path.png; sourceTree = "<group>"; };
+		CFED86F8150B57D00098C5DE /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		CFED86F9150B57D00098C5DE /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
+		CFED86FA150B57D00098C5DE /* globe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = globe.png; sourceTree = "<group>"; };
+		CFED86FB150B57D00098C5DE /* globe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "globe@2x.png"; sourceTree = "<group>"; };
+		CFED8710150B6F190098C5DE /* profilebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profilebutton.png; sourceTree = "<group>"; };
+		CFED8711150B6F1F0098C5DE /* profilebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profilebutton@2x.png"; sourceTree = "<group>"; };
+		CFED8716150B80D50098C5DE /* TREEZ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TREEZ.png; sourceTree = "<group>"; };
+		CFED8717150B80D50098C5DE /* Universal_Tiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Universal_Tiles.png; sourceTree = "<group>"; };
+		CFED871C150B80E30098C5DE /* Ellsworth.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ellsworth.tmx; sourceTree = "<group>"; };
+		CFED871D150B80E30098C5DE /* Ellsworth@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Ellsworth@2x.tmx"; sourceTree = "<group>"; };
+		CFED871E150B80E30098C5DE /* TILEZINDAHOOD @2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TILEZINDAHOOD @2x.png"; sourceTree = "<group>"; };
+		CFED871F150B80E30098C5DE /* TILEZINDAHOOD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TILEZINDAHOOD.png; sourceTree = "<group>"; };
+		CFED8720150B80E30098C5DE /* TREE_PACKZ YEAH!!!.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TREE_PACKZ YEAH!!!.png"; sourceTree = "<group>"; };
+		CFED8721150B80E30098C5DE /* TREE_PACKZ YEAH!!!@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TREE_PACKZ YEAH!!!@2x.png"; sourceTree = "<group>"; };
+		CFED8728150B816C0098C5DE /* Tree_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tree_Pack.png; sourceTree = "<group>"; };
+		CFED8729150B816C0098C5DE /* Tree_Pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tree_Pack@2x.png"; sourceTree = "<group>"; };
+		CFED872A150B816C0098C5DE /* venetia_city.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = venetia_city.png; sourceTree = "<group>"; };
+		CFED872B150B816C0098C5DE /* venetia_city.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = venetia_city.tmx; sourceTree = "<group>"; };
+		CFED872C150B816C0098C5DE /* venetia_city@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "venetia_city@2x.png"; sourceTree = "<group>"; };
+		CFED8732150B81890098C5DE /* venetia_city@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "venetia_city@2x.tmx"; sourceTree = "<group>"; };
+		CFED8734150B81D90098C5DE /* KirinVillage.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KirinVillage.tmx; sourceTree = "<group>"; };
+		CFED8735150B81D90098C5DE /* KirinVillage@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "KirinVillage@2x.tmx"; sourceTree = "<group>"; };
+		CFED8738150B81FF0098C5DE /* TREEZ@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TREEZ@2x.png"; sourceTree = "<group>"; };
+		CFED8739150B81FF0098C5DE /* Universal_Tiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Universal_Tiles@2x.png"; sourceTree = "<group>"; };
+		CFED873C150B82310098C5DE /* villatree_pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = villatree_pack.png; sourceTree = "<group>"; };
+		CFED873D150B82310098C5DE /* villatree_pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "villatree_pack@2x.png"; sourceTree = "<group>"; };
+		CFED873E150B82320098C5DE /* winery_tiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = winery_tiles.png; sourceTree = "<group>"; };
+		CFED873F150B82320098C5DE /* winery_tiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "winery_tiles@2x.png"; sourceTree = "<group>"; };
+		CFED8744150B82390098C5DE /* villa_montalvo.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = villa_montalvo.tmx; sourceTree = "<group>"; };
+		CFED8745150B823A0098C5DE /* villa_montalvo@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "villa_montalvo@2x.tmx"; sourceTree = "<group>"; };
+		CFED8748150B82450098C5DE /* Home_Map.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home_Map.tmx; sourceTree = "<group>"; };
+		CFED874A150B82500098C5DE /* Home_Map@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home_Map@2x.tmx"; sourceTree = "<group>"; };
 		CFEFC0FD14B4EBF800FBF75E /* ProtocolBuffers.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ProtocolBuffers.xcodeproj; path = objectivec/ProtocolBuffers.xcodeproj; sourceTree = "<group>"; };
 		CFEFC11F14B4F35700FBF75E /* ProtocolBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolBuffers.h; path = objectivec/Classes/ProtocolBuffers.h; sourceTree = "<group>"; };
 		CFEFC12A14B5484300FBF75E /* ProfilePicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePicture.h; sourceTree = "<group>"; };
@@ -1491,6 +1591,37 @@
 		CF1A3CE41506F10E00F52450 /* Battle Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFED8710150B6F190098C5DE /* profilebutton.png */,
+				CFED8711150B6F1F0098C5DE /* profilebutton@2x.png */,
+				CFED86F0150B4C480098C5DE /* doneresume.png */,
+				CFED86F1150B4C4A0098C5DE /* doneresume@2x.png */,
+				CFED86EE150B4B8B0098C5DE /* RequiemText-HTF-SmallCaps.otf */,
+				CFED86EA150B4B6C0098C5DE /* youfled.png */,
+				CFED86EB150B4B700098C5DE /* youfled@2x.png */,
+				CFED86E4150B3E890098C5DE /* nametag.png */,
+				CFED86E5150B3E8A0098C5DE /* nametag@2x.png */,
+				CFED86B8150B3E210098C5DE /* lost.png */,
+				CFED86B9150B3E230098C5DE /* lost@2x.png */,
+				CFED86BA150B3E240098C5DE /* paused.png */,
+				CFED86BB150B3E260098C5DE /* win.png */,
+				CFED86BC150B3E270098C5DE /* paused@2x.png */,
+				CFED86BD150B3E2A0098C5DE /* win@2x.png */,
+				CFED86BE150B3E2B0098C5DE /* blueokay.png */,
+				CFED86BF150B3E2B0098C5DE /* blueokay@2x.png */,
+				CFED86C0150B3E2C0098C5DE /* stolenshield.png */,
+				CFED86C1150B3E2D0098C5DE /* stolenshield@2x.png */,
+				CFED86C2150B3E310098C5DE /* stolenswords.png */,
+				CFED86C3150B3E320098C5DE /* stolenswords@2x.png */,
+				CFED86C4150B3E330098C5DE /* itemstolen.png */,
+				CFED86C5150B3E340098C5DE /* itemstolen@2x.png */,
+				CFED86C6150B3E350098C5DE /* exampleicon.png */,
+				CFED86C7150B3E360098C5DE /* exampleicon@2x.png */,
+				CFED86C8150B3E370098C5DE /* vs.png */,
+				CFED86C9150B3E3A0098C5DE /* vs@2x.png */,
+				CFED86CA150B3E3B0098C5DE /* battlesummarybg.png */,
+				CFED86CB150B3E3D0098C5DE /* attackagain.png */,
+				CFED86CC150B3E3D0098C5DE /* attackagain@2x.png */,
+				CFED86CD150B3E3E0098C5DE /* battlesummarybg@2x.png */,
 				CF1A3CE51506F10E00F52450 /* attackbg.png */,
 				CF1A3D1B1507468500F52450 /* attackchecks.png */,
 				CF1A3D1C1507468500F52450 /* attackchecks@2x.png */,
@@ -1869,20 +2000,34 @@
 		CF1C5A0A1501AED50048D2EC /* Temporary */ = {
 			isa = PBXGroup;
 			children = (
-				CF5F087B150A3AF00069BB21 /* villa_montalvo.tmx */,
-				CF5F087C150A3AF50069BB21 /* villa_montalvo@2x.tmx */,
-				CF5F0876150A38260069BB21 /* villatree_pack.png */,
-				CF5F0877150A38280069BB21 /* winery_tiles.png */,
-				CF5F0870150A2FD60069BB21 /* villatree_pack@2x.png */,
-				CF5F0871150A2FD70069BB21 /* winery_tiles@2x.png */,
+				CFED874A150B82500098C5DE /* Home_Map@2x.tmx */,
+				CFED8748150B82450098C5DE /* Home_Map.tmx */,
+				CFED8744150B82390098C5DE /* villa_montalvo.tmx */,
+				CFED8745150B823A0098C5DE /* villa_montalvo@2x.tmx */,
+				CFED873C150B82310098C5DE /* villatree_pack.png */,
+				CFED873D150B82310098C5DE /* villatree_pack@2x.png */,
+				CFED873E150B82320098C5DE /* winery_tiles.png */,
+				CFED873F150B82320098C5DE /* winery_tiles@2x.png */,
+				CFED8734150B81D90098C5DE /* KirinVillage.tmx */,
+				CFED8735150B81D90098C5DE /* KirinVillage@2x.tmx */,
+				CFED8728150B816C0098C5DE /* Tree_Pack.png */,
+				CFED8729150B816C0098C5DE /* Tree_Pack@2x.png */,
+				CFED872A150B816C0098C5DE /* venetia_city.png */,
+				CFED8732150B81890098C5DE /* venetia_city@2x.tmx */,
+				CFED872B150B816C0098C5DE /* venetia_city.tmx */,
+				CFED872C150B816C0098C5DE /* venetia_city@2x.png */,
+				CFED871C150B80E30098C5DE /* Ellsworth.tmx */,
+				CFED871D150B80E30098C5DE /* Ellsworth@2x.tmx */,
+				CFED871E150B80E30098C5DE /* TILEZINDAHOOD @2x.png */,
+				CFED871F150B80E30098C5DE /* TILEZINDAHOOD.png */,
+				CFED8720150B80E30098C5DE /* TREE_PACKZ YEAH!!!.png */,
+				CFED8721150B80E30098C5DE /* TREE_PACKZ YEAH!!!@2x.png */,
+				CFED8738150B81FF0098C5DE /* TREEZ@2x.png */,
+				CFED8739150B81FF0098C5DE /* Universal_Tiles@2x.png */,
+				CFED8716150B80D50098C5DE /* TREEZ.png */,
+				CFED8717150B80D50098C5DE /* Universal_Tiles.png */,
 				CF5F08671509F72D0069BB21 /* lw@2x.plist */,
 				CF5F08681509F72D0069BB21 /* lw@2x.png */,
-				CFD9952F1508B68000B91AE6 /* venetia_city@2x.png */,
-				CFD9952D1508B15F00B91AE6 /* venetia_city.png */,
-				CFD9952B1508B0ED00B91AE6 /* Tree_Pack@2x.png */,
-				CFD995231508A40400B91AE6 /* Tree_Pack.png */,
-				CF5F08571509CD690069BB21 /* venetia_city.tmx */,
-				CF5F08591509CD7A0069BB21 /* venetia_city@2x.tmx */,
 				CF1C5A0B1501AED50048D2EC /* archer.png */,
 				CF1C5A0C1501AED50048D2EC /* archer@2x.png */,
 				CF1C5A0D1501AED50048D2EC /* armorybuybutton.png */,
@@ -1962,6 +2107,12 @@
 		CF1C5A4B1501AED50048D2EC /* Travelling Mission Map */ = {
 			isa = PBXGroup;
 			children = (
+				CFED86F8150B57D00098C5DE /* home.png */,
+				CFED86F9150B57D00098C5DE /* home@2x.png */,
+				CFED86FA150B57D00098C5DE /* globe.png */,
+				CFED86FB150B57D00098C5DE /* globe@2x.png */,
+				CFED86F6150B53A20098C5DE /* path.png */,
+				CFED86F4150B539B0098C5DE /* path@2x.png */,
 				CF1C5A4D1501AED50048D2EC /* citygobutton.png */,
 				CF1C5A4E1501AED50048D2EC /* citygobutton@2x.png */,
 				CF1C5A4F1501AED50048D2EC /* cityprogressbar.png */,
@@ -1976,8 +2127,6 @@
 				CF1C5A581501AED50048D2EC /* missionlock@2x.png */,
 				CF1C5A591501AED50048D2EC /* opencity.png */,
 				CF1C5A5A1501AED50048D2EC /* opencity@2x.png */,
-				CF1C5A5B1501AED50048D2EC /* path.png */,
-				CF1C5A5C1501AED50048D2EC /* path@2x.png */,
 			);
 			path = "Travelling Mission Map";
 			sourceTree = "<group>";
@@ -2280,6 +2429,7 @@
 			children = (
 				CFBAA01614B3D52F007AB82F /* BattleLayer.h */,
 				CFBAA01714B3D52F007AB82F /* BattleLayer.m */,
+				CFED86E8150B44D60098C5DE /* BattleSummaryView.xib */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -3191,8 +3341,6 @@
 				CF1C5BC01501AED50048D2EC /* missionlock@2x.png in Resources */,
 				CF1C5BC11501AED50048D2EC /* opencity.png in Resources */,
 				CF1C5BC21501AED50048D2EC /* opencity@2x.png in Resources */,
-				CF1C5BC31501AED50048D2EC /* path.png in Resources */,
-				CF1C5BC41501AED50048D2EC /* path@2x.png in Resources */,
 				CF1C5BC51501AED50048D2EC /* clearx.png in Resources */,
 				CF1C5BC61501AED50048D2EC /* clearx@2x.png in Resources */,
 				CF1C5BC71501AED50048D2EC /* deposit.png in Resources */,
@@ -3297,20 +3445,8 @@
 				CF1A3D1D1507468500F52450 /* attackchecks.png in Resources */,
 				CF1A3D1E1507468500F52450 /* attackchecks@2x.png in Resources */,
 				CF1A3D201507532C00F52450 /* struct2@2x.png in Resources */,
-				CFD995241508A40400B91AE6 /* Tree_Pack.png in Resources */,
-				CFD9952C1508B0ED00B91AE6 /* Tree_Pack@2x.png in Resources */,
-				CFD9952E1508B15F00B91AE6 /* venetia_city.png in Resources */,
-				CFD995301508B68000B91AE6 /* venetia_city@2x.png in Resources */,
-				CF5F08581509CD690069BB21 /* venetia_city.tmx in Resources */,
-				CF5F085A1509CD7A0069BB21 /* venetia_city@2x.tmx in Resources */,
 				CF5F08691509F72D0069BB21 /* lw@2x.plist in Resources */,
 				CF5F086A1509F72D0069BB21 /* lw@2x.png in Resources */,
-				CF5F0873150A2FD70069BB21 /* villatree_pack@2x.png in Resources */,
-				CF5F0874150A2FD70069BB21 /* winery_tiles@2x.png in Resources */,
-				CF5F0879150A382A0069BB21 /* villatree_pack.png in Resources */,
-				CF5F087A150A382A0069BB21 /* winery_tiles.png in Resources */,
-				CF5F087D150A3AFF0069BB21 /* villa_montalvo.tmx in Resources */,
-				CF5F087E150A3AFF0069BB21 /* villa_montalvo@2x.tmx in Resources */,
 				CFF19704150ABFE700434113 /* attackchecksflipped.png in Resources */,
 				CFF19705150ABFE700434113 /* attackchecksflipped@2x.png in Resources */,
 				CF16052A150AD9E100BE029C /* Admin.proto in Resources */,
@@ -3324,6 +3460,70 @@
 				CF160539150B1D5F00BE029C /* enter.png in Resources */,
 				CF16053A150B1D5F00BE029C /* enter@2x.png in Resources */,
 				CF16053C150B1DBE00BE029C /* CriticalStructureMenu.xib in Resources */,
+				CFED86CE150B3E3F0098C5DE /* lost.png in Resources */,
+				CFED86CF150B3E3F0098C5DE /* lost@2x.png in Resources */,
+				CFED86D0150B3E3F0098C5DE /* paused.png in Resources */,
+				CFED86D1150B3E3F0098C5DE /* win.png in Resources */,
+				CFED86D2150B3E3F0098C5DE /* paused@2x.png in Resources */,
+				CFED86D3150B3E3F0098C5DE /* win@2x.png in Resources */,
+				CFED86D4150B3E3F0098C5DE /* blueokay.png in Resources */,
+				CFED86D5150B3E3F0098C5DE /* blueokay@2x.png in Resources */,
+				CFED86D6150B3E3F0098C5DE /* stolenshield.png in Resources */,
+				CFED86D7150B3E3F0098C5DE /* stolenshield@2x.png in Resources */,
+				CFED86D8150B3E3F0098C5DE /* stolenswords.png in Resources */,
+				CFED86D9150B3E3F0098C5DE /* stolenswords@2x.png in Resources */,
+				CFED86DA150B3E3F0098C5DE /* itemstolen.png in Resources */,
+				CFED86DB150B3E3F0098C5DE /* itemstolen@2x.png in Resources */,
+				CFED86DC150B3E3F0098C5DE /* exampleicon.png in Resources */,
+				CFED86DD150B3E3F0098C5DE /* exampleicon@2x.png in Resources */,
+				CFED86DE150B3E3F0098C5DE /* vs.png in Resources */,
+				CFED86DF150B3E3F0098C5DE /* vs@2x.png in Resources */,
+				CFED86E0150B3E3F0098C5DE /* battlesummarybg.png in Resources */,
+				CFED86E1150B3E3F0098C5DE /* attackagain.png in Resources */,
+				CFED86E2150B3E3F0098C5DE /* attackagain@2x.png in Resources */,
+				CFED86E3150B3E3F0098C5DE /* battlesummarybg@2x.png in Resources */,
+				CFED86E6150B3E8B0098C5DE /* nametag.png in Resources */,
+				CFED86E7150B3E8B0098C5DE /* nametag@2x.png in Resources */,
+				CFED86E9150B44D60098C5DE /* BattleSummaryView.xib in Resources */,
+				CFED86EC150B4B740098C5DE /* youfled.png in Resources */,
+				CFED86ED150B4B740098C5DE /* youfled@2x.png in Resources */,
+				CFED86EF150B4B8E0098C5DE /* RequiemText-HTF-SmallCaps.otf in Resources */,
+				CFED86F2150B4C4E0098C5DE /* doneresume.png in Resources */,
+				CFED86F3150B4C4E0098C5DE /* doneresume@2x.png in Resources */,
+				CFED86F5150B539B0098C5DE /* path@2x.png in Resources */,
+				CFED86F7150B53A20098C5DE /* path.png in Resources */,
+				CFED86FC150B57D00098C5DE /* home.png in Resources */,
+				CFED86FD150B57D00098C5DE /* home@2x.png in Resources */,
+				CFED86FE150B57D00098C5DE /* globe.png in Resources */,
+				CFED86FF150B57D00098C5DE /* globe@2x.png in Resources */,
+				CFED8712150B6F250098C5DE /* profilebutton.png in Resources */,
+				CFED8713150B6F250098C5DE /* profilebutton@2x.png in Resources */,
+				CFED871A150B80D50098C5DE /* TREEZ.png in Resources */,
+				CFED871B150B80D50098C5DE /* Universal_Tiles.png in Resources */,
+				CFED8722150B80E30098C5DE /* Ellsworth.tmx in Resources */,
+				CFED8723150B80E30098C5DE /* Ellsworth@2x.tmx in Resources */,
+				CFED8724150B80E30098C5DE /* TILEZINDAHOOD @2x.png in Resources */,
+				CFED8725150B80E30098C5DE /* TILEZINDAHOOD.png in Resources */,
+				CFED8726150B80E30098C5DE /* TREE_PACKZ YEAH!!!.png in Resources */,
+				CFED8727150B80E30098C5DE /* TREE_PACKZ YEAH!!!@2x.png in Resources */,
+				CFED872D150B816C0098C5DE /* Tree_Pack.png in Resources */,
+				CFED872E150B816C0098C5DE /* Tree_Pack@2x.png in Resources */,
+				CFED872F150B816C0098C5DE /* venetia_city.png in Resources */,
+				CFED8730150B816C0098C5DE /* venetia_city.tmx in Resources */,
+				CFED8731150B816C0098C5DE /* venetia_city@2x.png in Resources */,
+				CFED8733150B81890098C5DE /* venetia_city@2x.tmx in Resources */,
+				CFED8736150B81D90098C5DE /* KirinVillage.tmx in Resources */,
+				CFED8737150B81D90098C5DE /* KirinVillage@2x.tmx in Resources */,
+				CFED873A150B81FF0098C5DE /* TREEZ@2x.png in Resources */,
+				CFED873B150B81FF0098C5DE /* Universal_Tiles@2x.png in Resources */,
+				CFED8740150B82320098C5DE /* villatree_pack.png in Resources */,
+				CFED8741150B82320098C5DE /* villatree_pack@2x.png in Resources */,
+				CFED8742150B82320098C5DE /* winery_tiles.png in Resources */,
+				CFED8743150B82320098C5DE /* winery_tiles@2x.png in Resources */,
+				CFED8746150B823A0098C5DE /* villa_montalvo.tmx in Resources */,
+				CFED8747150B823A0098C5DE /* villa_montalvo@2x.tmx in Resources */,
+				CFED8749150B82460098C5DE /* Home_Map.tmx in Resources */,
+				CFED874B150B82500098C5DE /* Home_Map@2x.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -808,6 +808,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  for (FullUserProto *fup in gs.attackList) {
+    NSNumber *w = [NSNumber numberWithInt:fup.weaponEquipped];
+    if (fup.armorEquipped && ![sEquips objectForKey:w]) {
+      [rEquips addObject:w];
+      shouldSend = YES;
+    }
+    
+    NSNumber *ar = [NSNumber numberWithInt:fup.armorEquipped];
+    if (fup.weaponEquipped && ![sEquips objectForKey:ar]) {
+      [rEquips addObject:ar];
+      shouldSend = YES;
+    }
+    
+    NSNumber *am = [NSNumber numberWithInt:fup.amuletEquipped];
+    if (fup.amuletEquipped && ![sEquips objectForKey:am]) {
+      [rEquips addObject:am];
+      shouldSend = YES;
+    }
+  }
+  
   if (shouldSend) {
     [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects]];
   }

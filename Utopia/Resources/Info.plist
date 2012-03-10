@@ -54,6 +54,7 @@
 		<string>AJensonPro-SemiboldDisp.otf</string>
 		<string>AJensonPro-BoldCapt.otf</string>
 		<string>FF_DIN_Condensed_Black.otf</string>
+		<string>RequiemText-HTF-SmallCaps.otf</string>
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>

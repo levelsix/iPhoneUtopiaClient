@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="15" height="15" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="TREEFARM" tilewidth="64" tileheight="68">
+  <image source="TREE_PACKZ YEAH!!!.png" width="256" height="512"/>
+ </tileset>
+ <tileset firstgid="29" name="tiles_in_da_hood" tilewidth="64" tileheight="44">
+  <image source="TILEZINDAHOOD.png" width="512" height="512"/>
+  <tile id="18">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Nigga Laya" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgQAA7LNiYAT+ww8MnpBcGVND0GpNgrzEOjE8fPv8RYy+y3eSCoaYXV7gSa95A+ZfagBb+AABdYyzXhAMAAA==
+  </data>
+ </layer>
+ <layer name="Lame Shiz :&lt;" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA42R0QqEIBBF/ZG2lq1nC1+Ejfz/v0phgsNlXPfhoOScmZumEEIyvkKurJXLzrOsjRP7p8ezXxwvi98o0qvYXNaox9q58gHvTv9sHmlzYuWwNQ04MZsZ/3EJ3d3Jyv/23Ah6M5q7AZ3L7z2XuTz3Cn527auZR9nJS5z9h+vdV5E3jlLvwV68w3Xgaga6U8e9AVIUNQWEAwAA
+  </data>
+ </layer>
+ <layer name="Fancy Shiet" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgoB3QQmLrEqEeWY0aCfZoA7E6EepsSTCTGDM0kdikuJdSveQAXHZQYjexejVxiOPSr45GU2I3PkBMmiTVTlxm4tMLAEIVF5yEAwAA
+  </data>
+ </layer>
+ <layer name="TREE LAYA" width="15" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA72TgQrAIAhE1fL/f3kFihaL1hF7IJloXWVEATerzYr5YnEfS8qjKbaaz3W+9ilq2rJWBDUNYj4CujcCqrHz9hZf+fOMN5F9yoBS9ALT2Pe7+/Ne4uR36rIiyH/sAR/r/OyEAwAA
+  </data>
+ </layer>
+</map>

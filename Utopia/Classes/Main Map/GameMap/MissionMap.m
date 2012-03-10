@@ -225,14 +225,14 @@
     
     summaryMenu.center = CGPointMake(-summaryMenu.frame.size.width, 290);
     
-    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
-    for (int i=0; i < width; i++) {
-      for (int j=0; j < height; j++) {
-        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
-      }
-      [str appendString:@"\n"];
-    }
-    NSLog(@"%@", str);
+//    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
+//    for (int i=0; i < width; i++) {
+//      for (int j=0; j < height; j++) {
+//        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
+//      }
+//      [str appendString:@"\n"];
+//    }
+//    NSLog(@"%@", str);
     
 //    for (int i = 0; i < 6; i++) {
 //      CGRect r = CGRectZero;

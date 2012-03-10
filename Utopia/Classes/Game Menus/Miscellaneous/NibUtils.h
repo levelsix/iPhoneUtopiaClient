@@ -20,6 +20,9 @@
 @interface NiceFontLabel4 : UILabel 
 @end
 
+@interface NiceFontLabel5 : UILabel 
+@end
+
 @interface LabelButton : UIButton {
   UILabel *_label;
   NSString *_text;

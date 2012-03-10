@@ -61,6 +61,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     energyRefillWaitMinutes = 3;
     staminaRefillWaitMinutes = 4;
     
+    aviaryXLength = 2;
+    aviaryYLength = 2;
+    armoryXLength = 2;
+    armoryYLength = 2;
+    carpenterXLength = 2;
+    carpenterYLength = 2;
+    marketplaceXLength = 2;
+    marketplaceYLength = 2;
+    vaultXLength = 2;
+    vaultYLength = 2;
+    
     imageCache = [[NSMutableDictionary alloc] init];
   }
   return self;

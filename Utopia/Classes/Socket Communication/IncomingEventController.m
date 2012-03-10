@@ -259,6 +259,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     GameState *gs = [GameState sharedGameState];
     for (FullUserProto *fup in proto.enemiesList) {
       BOOL shouldBeAdded = YES;
+      // Make sure this is not a repeat
       for (FullUserProto *checkFup in gs.attackList) {
         if (checkFup.userId == fup.userId) {
           shouldBeAdded = NO;
@@ -269,6 +270,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [gs.attackList addObject:fup];
       }
     }
+    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [[MapViewController sharedMapViewController] addNewPins];
   } else {
     [Globals popupMessage:@"An error occurred while generating the attack list"];

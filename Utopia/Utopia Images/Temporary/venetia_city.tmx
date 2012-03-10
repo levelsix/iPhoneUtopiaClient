@@ -19,7 +19,7 @@
   </tile>
   <tile id="6">
    <properties>
-    <property name="Walkable" value="Yes"/>
+    <property name="Walkable" value="No"/>
    </properties>
   </tile>
   <tile id="8">
@@ -28,6 +28,16 @@
    </properties>
   </tile>
   <tile id="10">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="24">
    <properties>
     <property name="Walkable" value="Yes"/>
    </properties>
@@ -63,17 +73,17 @@
  </tileset>
  <layer name="SUPER LOW LAYER" width="20" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgwA4YcYiTCwa7eYMdDPbwG+zxMdj9S655jHgwPd1EjBtINY8aaoa6eeTGKSG1IHl2KpgHADVBujdABgAA
+   H4sIAAAAAAAAA2NgwA4YcYiTCwa7eYMdDPbwG+zxMdj9S655jHgwPd1EjBtINY8dyRwYm1Lz2Bmobx6yudQ2j9w4JeQ+mDwp5mHDACHPRQBABgAA
   </data>
  </layer>
  <layer name="Bottom Layer" width="20" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA82UwQrDMAxDBWPk0B9wxsj/f+YOq5kwsk3TywwiIdBnWTQZAEbQgW/F86gVVped6zz3Hc+Iswqe7xfxrOApzT+XmsHzs2a2amYjxl3ewK/u8ro8dv1xjsqfyhwie5Wj4hnpSbw3ZQ9obuRd+V+q2uG5p0fCA+XAPbLye/3a4FVvDvubgRF7ME+9WZ2/ipfpSL7lcs+VP1VX5u3ub+aPe1S8D9MYGFVABgAA
+   H4sIAAAAAAAAA82USwqAMAxEB0S68AJRpPc/pgsNDmGa+lsYCK1iXidj2wKghJywR3wfs4bR045xPuY9nhGnJjyfV+JZwlM5/zxVD+6fdXrLejZivOUVnPGW1/PjqT72UelTnkN4r3xUPKMcibeS94DmRt6d/ZLFE55rGho8kA+8RutbP9fLRzy/G1gf7xVVZ+H5rr4ej9eO/zTjeV2mT8WVftU5Yn0qmMd1mZYNU5L04UAGAAA=
   </data>
  </layer>
  <layer name="Top Layer" width="20" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA82T4QrAIAiEBRmxV4i9/3Nug4RxO53Yj3VwKFRfJdpEpIG7vKWP3PYxNYgCPDurwMnwLO9kjfGYVxf7g/rbUzzMZ3lYzxle9d6sb2E/Yx+wM1HveDyLx+VtxK9+9OZtFbG6CMn/5Hn8Sl2jPsjw9mGbiYhXmZvov1Uee19WJ395XAtABgAA
+   H4sIAAAAAAAAA82T4QqAIAyEBxIi1QtI7/+cKSiM85aW/fDg2KD5xcbmRcSDo7RyKq91TB6iAK++dcAZ4dU8km+Mx7y6WA/OLh/iYT7Lw3nO8L7+d9RZuM+4B+zN0+5YvBqv5K3E3j5a97aK2FyE5Ez7Dzxda/EsPpvrCM/ag94eZV4odqrG4um7CdLO5G2/vTt80y/qJD6Sbzugyd9ABgAA
   </data>
  </layer>
  <layer name="Kinda Really But Not Really Top Layer" width="20" height="20">
@@ -88,7 +98,7 @@
  </layer>
  <layer name="Really Top Layer" width="20" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgwA1M8ciRooZWwHwA7R5IYIqDpqVdtNZDT0CK+4hRawGlh2N6pIafzKhgBgxQmrZgbjHFIkYuoGa8w9xFzTBDN5+a5QYA9N5gmUAGAAA=
+   H4sIAAAAAAAAA2NgwA1M8ciRooZWwHwA7R4pYCDjl57AAof4SPE/LkCNPGZGBTNggBbxQU33DXZgyoAIQ2qEJQAtgRAQQAYAAA==
   </data>
  </layer>
 </map>

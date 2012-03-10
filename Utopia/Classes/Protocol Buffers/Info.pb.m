@@ -63,7 +63,6 @@ BOOL MarketplaceJobRequirementTypeIsValidValue(MarketplaceJobRequirementType val
 BOOL CritStructTypeIsValidValue(CritStructType value) {
   switch (value) {
     case CritStructTypeAviary:
-    case CritStructTypeLumbermill:
     case CritStructTypeCarpenter:
     case CritStructTypeVault:
     case CritStructTypeArmory:
@@ -5560,6 +5559,9 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 @property int32_t expGainedBaseOnRankup;
 @property int32_t coinsGainedBaseOnRankup;
 @property (retain) NSString* mapImgName;
+@property (retain) CoordinateProto* aviaryCoords;
+@property (retain) CoordinateProto* spriteAviaryLandingCoords;
+@property StructOrientation aviaryOrientation;
 @property (retain) NSMutableArray* mutableTaskIdsList;
 @end
 
@@ -5607,10 +5609,33 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
   hasMapImgName_ = !!value;
 }
 @synthesize mapImgName;
+- (BOOL) hasAviaryCoords {
+  return !!hasAviaryCoords_;
+}
+- (void) setHasAviaryCoords:(BOOL) value {
+  hasAviaryCoords_ = !!value;
+}
+@synthesize aviaryCoords;
+- (BOOL) hasSpriteAviaryLandingCoords {
+  return !!hasSpriteAviaryLandingCoords_;
+}
+- (void) setHasSpriteAviaryLandingCoords:(BOOL) value {
+  hasSpriteAviaryLandingCoords_ = !!value;
+}
+@synthesize spriteAviaryLandingCoords;
+- (BOOL) hasAviaryOrientation {
+  return !!hasAviaryOrientation_;
+}
+- (void) setHasAviaryOrientation:(BOOL) value {
+  hasAviaryOrientation_ = !!value;
+}
+@synthesize aviaryOrientation;
 @synthesize mutableTaskIdsList;
 - (void) dealloc {
   self.name = nil;
   self.mapImgName = nil;
+  self.aviaryCoords = nil;
+  self.spriteAviaryLandingCoords = nil;
   self.mutableTaskIdsList = nil;
   [super dealloc];
 }
@@ -5622,6 +5647,9 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
     self.expGainedBaseOnRankup = 0;
     self.coinsGainedBaseOnRankup = 0;
     self.mapImgName = @"";
+    self.aviaryCoords = [CoordinateProto defaultInstance];
+    self.spriteAviaryLandingCoords = [CoordinateProto defaultInstance];
+    self.aviaryOrientation = StructOrientationPosition1;
   }
   return self;
 }
@@ -5663,6 +5691,21 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (!self.hasMapImgName) {
     return NO;
   }
+  if (!self.hasAviaryCoords) {
+    return NO;
+  }
+  if (!self.hasSpriteAviaryLandingCoords) {
+    return NO;
+  }
+  if (!self.hasAviaryOrientation) {
+    return NO;
+  }
+  if (!self.aviaryCoords.isInitialized) {
+    return NO;
+  }
+  if (!self.spriteAviaryLandingCoords.isInitialized) {
+    return NO;
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -5684,8 +5727,17 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (self.hasMapImgName) {
     [output writeString:6 value:self.mapImgName];
   }
+  if (self.hasAviaryCoords) {
+    [output writeMessage:7 value:self.aviaryCoords];
+  }
+  if (self.hasSpriteAviaryLandingCoords) {
+    [output writeMessage:8 value:self.spriteAviaryLandingCoords];
+  }
+  if (self.hasAviaryOrientation) {
+    [output writeEnum:9 value:self.aviaryOrientation];
+  }
   for (NSNumber* value in self.mutableTaskIdsList) {
-    [output writeInt32:7 value:[value intValue]];
+    [output writeInt32:10 value:[value intValue]];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5713,6 +5765,15 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   }
   if (self.hasMapImgName) {
     size += computeStringSize(6, self.mapImgName);
+  }
+  if (self.hasAviaryCoords) {
+    size += computeMessageSize(7, self.aviaryCoords);
+  }
+  if (self.hasSpriteAviaryLandingCoords) {
+    size += computeMessageSize(8, self.spriteAviaryLandingCoords);
+  }
+  if (self.hasAviaryOrientation) {
+    size += computeEnumSize(9, self.aviaryOrientation);
   }
   {
     int32_t dataSize = 0;
@@ -5815,6 +5876,15 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (other.hasMapImgName) {
     [self setMapImgName:other.mapImgName];
   }
+  if (other.hasAviaryCoords) {
+    [self mergeAviaryCoords:other.aviaryCoords];
+  }
+  if (other.hasSpriteAviaryLandingCoords) {
+    [self mergeSpriteAviaryLandingCoords:other.spriteAviaryLandingCoords];
+  }
+  if (other.hasAviaryOrientation) {
+    [self setAviaryOrientation:other.aviaryOrientation];
+  }
   if (other.mutableTaskIdsList.count > 0) {
     if (result.mutableTaskIdsList == nil) {
       result.mutableTaskIdsList = [NSMutableArray array];
@@ -5866,7 +5936,34 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
         [self setMapImgName:[input readString]];
         break;
       }
-      case 56: {
+      case 58: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasAviaryCoords) {
+          [subBuilder mergeFrom:self.aviaryCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAviaryCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 66: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasSpriteAviaryLandingCoords) {
+          [subBuilder mergeFrom:self.spriteAviaryLandingCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSpriteAviaryLandingCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 72: {
+        int32_t value = [input readEnum];
+        if (StructOrientationIsValidValue(value)) {
+          [self setAviaryOrientation:value];
+        } else {
+          [unknownFields mergeVarintField:9 value:value];
+        }
+        break;
+      }
+      case 80: {
         [self addTaskIds:[input readInt32]];
         break;
       }
@@ -5967,6 +6064,82 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 - (FullCityProto_Builder*) clearMapImgName {
   result.hasMapImgName = NO;
   result.mapImgName = @"";
+  return self;
+}
+- (BOOL) hasAviaryCoords {
+  return result.hasAviaryCoords;
+}
+- (CoordinateProto*) aviaryCoords {
+  return result.aviaryCoords;
+}
+- (FullCityProto_Builder*) setAviaryCoords:(CoordinateProto*) value {
+  result.hasAviaryCoords = YES;
+  result.aviaryCoords = value;
+  return self;
+}
+- (FullCityProto_Builder*) setAviaryCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setAviaryCoords:[builderForValue build]];
+}
+- (FullCityProto_Builder*) mergeAviaryCoords:(CoordinateProto*) value {
+  if (result.hasAviaryCoords &&
+      result.aviaryCoords != [CoordinateProto defaultInstance]) {
+    result.aviaryCoords =
+      [[[CoordinateProto builderWithPrototype:result.aviaryCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.aviaryCoords = value;
+  }
+  result.hasAviaryCoords = YES;
+  return self;
+}
+- (FullCityProto_Builder*) clearAviaryCoords {
+  result.hasAviaryCoords = NO;
+  result.aviaryCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasSpriteAviaryLandingCoords {
+  return result.hasSpriteAviaryLandingCoords;
+}
+- (CoordinateProto*) spriteAviaryLandingCoords {
+  return result.spriteAviaryLandingCoords;
+}
+- (FullCityProto_Builder*) setSpriteAviaryLandingCoords:(CoordinateProto*) value {
+  result.hasSpriteAviaryLandingCoords = YES;
+  result.spriteAviaryLandingCoords = value;
+  return self;
+}
+- (FullCityProto_Builder*) setSpriteAviaryLandingCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setSpriteAviaryLandingCoords:[builderForValue build]];
+}
+- (FullCityProto_Builder*) mergeSpriteAviaryLandingCoords:(CoordinateProto*) value {
+  if (result.hasSpriteAviaryLandingCoords &&
+      result.spriteAviaryLandingCoords != [CoordinateProto defaultInstance]) {
+    result.spriteAviaryLandingCoords =
+      [[[CoordinateProto builderWithPrototype:result.spriteAviaryLandingCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.spriteAviaryLandingCoords = value;
+  }
+  result.hasSpriteAviaryLandingCoords = YES;
+  return self;
+}
+- (FullCityProto_Builder*) clearSpriteAviaryLandingCoords {
+  result.hasSpriteAviaryLandingCoords = NO;
+  result.spriteAviaryLandingCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAviaryOrientation {
+  return result.hasAviaryOrientation;
+}
+- (StructOrientation) aviaryOrientation {
+  return result.aviaryOrientation;
+}
+- (FullCityProto_Builder*) setAviaryOrientation:(StructOrientation) value {
+  result.hasAviaryOrientation = YES;
+  result.aviaryOrientation = value;
+  return self;
+}
+- (FullCityProto_Builder*) clearAviaryOrientation {
+  result.hasAviaryOrientation = NO;
+  result.aviaryOrientation = StructOrientationPosition1;
   return self;
 }
 - (NSArray*) taskIdsList {

@@ -186,8 +186,11 @@ message FullCityProto {
 	required int32 expGainedBaseOnRankup = 4;
 	required int32 coinsGainedBaseOnRankup = 5;
 	required string mapImgName = 6;
+	required CoordinateProto aviaryCoords = 7;
+	required CoordinateProto spriteAviaryLandingCoords = 8;
+	required StructOrientation aviaryOrientation = 9;
 	
-	repeated int32 taskIds = 7;
+	repeated int32 taskIds = 10;
 }
 
 //------------------------------------------------------------------------------------------
@@ -281,7 +284,6 @@ enum MarketplaceJobRequirementType {
 
 enum CritStructType {
 	AVIARY = 0;
-	LUMBERMILL = 1;
 	CARPENTER = 2;
 	VAULT = 3;
 	ARMORY = 4;

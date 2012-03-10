@@ -127,4 +127,12 @@
   }
 }
 
+- (IBAction)globeClicked:(id)sender {
+  [UIView animateWithDuration:1.f animations:^{
+    lumoriaView.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    lumoriaView.hidden = YES;
+  }];
+}
+
 @end

@@ -13,6 +13,8 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "BattleLayer.h"
+#import "HomeMap.h"
+#import "GameLayer.h"
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 5
 
@@ -83,10 +85,10 @@ static UIButton *rightButton = nil;
 }
 
 - (void) dealloc {
-  [super dealloc];
   self.levelLabel = nil;
   self.view = nil;
   self.imgView = nil;
+  [super dealloc];
 }
 
 @end
@@ -106,7 +108,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  [self.view addSubview: missionMap];
+  [_mapView addSubview:[[[UIImageView alloc] initWithImage:[Globals imageNamed:@"mapfilter.png"]] autorelease]];
+  
+  // Insert right under the home button
+  [self.view insertSubview: missionMap atIndex:0];
   missionMap.frame = _mapView.frame;
 }
 
@@ -128,7 +133,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   missionMap.lumoriaView.hidden = YES;
   
-  self.state = kAttackMap;
+  self.state = kMissionMap;
 }
 
 - (void) setState:(MapState)state {
@@ -220,7 +225,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 - (IBAction)closeClicked:(id)sender {
   [MapViewController removeView];
-} 
+}
+
+- (IBAction)homeClicked:(id)sender {
+  [[HomeMap sharedHomeMap] refresh];
+  [[GameLayer sharedGameLayer] loadHomeMap];
+  [MapViewController removeView];
+}
 
 - (void) viewDidUnload {
   [super viewDidUnload];

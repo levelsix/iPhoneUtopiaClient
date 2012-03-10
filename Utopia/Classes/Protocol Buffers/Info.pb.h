@@ -93,7 +93,6 @@ BOOL MarketplaceJobRequirementTypeIsValidValue(MarketplaceJobRequirementType val
 
 typedef enum {
   CritStructTypeAviary = 0,
-  CritStructTypeLumbermill = 1,
   CritStructTypeCarpenter = 2,
   CritStructTypeVault = 3,
   CritStructTypeArmory = 4,
@@ -1412,12 +1411,18 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasCoinsGainedBaseOnRankup_:1;
   BOOL hasName_:1;
   BOOL hasMapImgName_:1;
+  BOOL hasAviaryCoords_:1;
+  BOOL hasSpriteAviaryLandingCoords_:1;
+  BOOL hasAviaryOrientation_:1;
   int32_t cityId;
   int32_t minLevel;
   int32_t expGainedBaseOnRankup;
   int32_t coinsGainedBaseOnRankup;
   NSString* name;
   NSString* mapImgName;
+  CoordinateProto* aviaryCoords;
+  CoordinateProto* spriteAviaryLandingCoords;
+  StructOrientation aviaryOrientation;
   NSMutableArray* mutableTaskIdsList;
 }
 - (BOOL) hasCityId;
@@ -1426,12 +1431,18 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasExpGainedBaseOnRankup;
 - (BOOL) hasCoinsGainedBaseOnRankup;
 - (BOOL) hasMapImgName;
+- (BOOL) hasAviaryCoords;
+- (BOOL) hasSpriteAviaryLandingCoords;
+- (BOOL) hasAviaryOrientation;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t expGainedBaseOnRankup;
 @property (readonly) int32_t coinsGainedBaseOnRankup;
 @property (readonly, retain) NSString* mapImgName;
+@property (readonly, retain) CoordinateProto* aviaryCoords;
+@property (readonly, retain) CoordinateProto* spriteAviaryLandingCoords;
+@property (readonly) StructOrientation aviaryOrientation;
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
 
@@ -1498,6 +1509,25 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (NSString*) mapImgName;
 - (FullCityProto_Builder*) setMapImgName:(NSString*) value;
 - (FullCityProto_Builder*) clearMapImgName;
+
+- (BOOL) hasAviaryCoords;
+- (CoordinateProto*) aviaryCoords;
+- (FullCityProto_Builder*) setAviaryCoords:(CoordinateProto*) value;
+- (FullCityProto_Builder*) setAviaryCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullCityProto_Builder*) mergeAviaryCoords:(CoordinateProto*) value;
+- (FullCityProto_Builder*) clearAviaryCoords;
+
+- (BOOL) hasSpriteAviaryLandingCoords;
+- (CoordinateProto*) spriteAviaryLandingCoords;
+- (FullCityProto_Builder*) setSpriteAviaryLandingCoords:(CoordinateProto*) value;
+- (FullCityProto_Builder*) setSpriteAviaryLandingCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullCityProto_Builder*) mergeSpriteAviaryLandingCoords:(CoordinateProto*) value;
+- (FullCityProto_Builder*) clearSpriteAviaryLandingCoords;
+
+- (BOOL) hasAviaryOrientation;
+- (StructOrientation) aviaryOrientation;
+- (FullCityProto_Builder*) setAviaryOrientation:(StructOrientation) value;
+- (FullCityProto_Builder*) clearAviaryOrientation;
 
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;

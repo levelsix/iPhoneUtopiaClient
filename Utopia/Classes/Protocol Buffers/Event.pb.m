@@ -2928,8 +2928,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableAvailableQuestsList;
 @property (retain) NSMutableArray* mutableUserEquipsList;
 @property (retain) NSMutableArray* mutableEquipsList;
-@property (retain) NSMutableArray* mutableUserStructuresList;
-@property (retain) NSMutableArray* mutableStructsList;
 @property int32_t experienceRequiredForNextLevel;
 @property int32_t experienceRequiredForCurrentLevel;
 @property (retain) NSMutableArray* mutableMarketplacePurchaseNotificationsList;
@@ -2980,8 +2978,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableAvailableQuestsList;
 @synthesize mutableUserEquipsList;
 @synthesize mutableEquipsList;
-@synthesize mutableUserStructuresList;
-@synthesize mutableStructsList;
 - (BOOL) hasExperienceRequiredForNextLevel {
   return !!hasExperienceRequiredForNextLevel_;
 }
@@ -3009,8 +3005,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableAvailableQuestsList = nil;
   self.mutableUserEquipsList = nil;
   self.mutableEquipsList = nil;
-  self.mutableUserStructuresList = nil;
-  self.mutableStructsList = nil;
   self.mutableMarketplacePurchaseNotificationsList = nil;
   self.mutableAttackNotificationsList = nil;
   self.mutableReferralNotificationsList = nil;
@@ -3080,20 +3074,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 }
 - (FullEquipProto*) equipsAtIndex:(int32_t) index {
   id value = [mutableEquipsList objectAtIndex:index];
-  return value;
-}
-- (NSArray*) userStructuresList {
-  return mutableUserStructuresList;
-}
-- (FullUserStructureProto*) userStructuresAtIndex:(int32_t) index {
-  id value = [mutableUserStructuresList objectAtIndex:index];
-  return value;
-}
-- (NSArray*) structsList {
-  return mutableStructsList;
-}
-- (FullStructureProto*) structsAtIndex:(int32_t) index {
-  id value = [mutableStructsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) marketplacePurchaseNotificationsList {
@@ -3170,16 +3150,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
       return NO;
     }
   }
-  for (FullUserStructureProto* element in self.userStructuresList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullStructureProto* element in self.structsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
     if (!element.isInitialized) {
       return NO;
@@ -3225,29 +3195,23 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullEquipProto* element in self.equipsList) {
     [output writeMessage:9 value:element];
   }
-  for (FullUserStructureProto* element in self.userStructuresList) {
-    [output writeMessage:10 value:element];
-  }
-  for (FullStructureProto* element in self.structsList) {
-    [output writeMessage:11 value:element];
-  }
   if (self.hasExperienceRequiredForNextLevel) {
-    [output writeInt32:12 value:self.experienceRequiredForNextLevel];
+    [output writeInt32:10 value:self.experienceRequiredForNextLevel];
   }
   for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
-    [output writeMessage:13 value:element];
+    [output writeMessage:12 value:element];
   }
   for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
-    [output writeMessage:14 value:element];
+    [output writeMessage:13 value:element];
   }
   for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
-    [output writeMessage:15 value:element];
+    [output writeMessage:14 value:element];
+  }
+  if (self.hasExperienceRequiredForCurrentLevel) {
+    [output writeInt32:15 value:self.experienceRequiredForCurrentLevel];
   }
   for (FullUserCityProto* element in self.userCityInfosList) {
     [output writeMessage:16 value:element];
-  }
-  if (self.hasExperienceRequiredForCurrentLevel) {
-    [output writeInt32:17 value:self.experienceRequiredForCurrentLevel];
   }
   if (self.hasTutorialConstants) {
     [output writeMessage:18 value:self.tutorialConstants];
@@ -3288,29 +3252,23 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullEquipProto* element in self.equipsList) {
     size += computeMessageSize(9, element);
   }
-  for (FullUserStructureProto* element in self.userStructuresList) {
-    size += computeMessageSize(10, element);
-  }
-  for (FullStructureProto* element in self.structsList) {
-    size += computeMessageSize(11, element);
-  }
   if (self.hasExperienceRequiredForNextLevel) {
-    size += computeInt32Size(12, self.experienceRequiredForNextLevel);
+    size += computeInt32Size(10, self.experienceRequiredForNextLevel);
   }
   for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
-    size += computeMessageSize(13, element);
+    size += computeMessageSize(12, element);
   }
   for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
-    size += computeMessageSize(14, element);
+    size += computeMessageSize(13, element);
   }
   for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
-    size += computeMessageSize(15, element);
+    size += computeMessageSize(14, element);
+  }
+  if (self.hasExperienceRequiredForCurrentLevel) {
+    size += computeInt32Size(15, self.experienceRequiredForCurrentLevel);
   }
   for (FullUserCityProto* element in self.userCityInfosList) {
     size += computeMessageSize(16, element);
-  }
-  if (self.hasExperienceRequiredForCurrentLevel) {
-    size += computeInt32Size(17, self.experienceRequiredForCurrentLevel);
   }
   if (self.hasTutorialConstants) {
     size += computeMessageSize(18, self.tutorialConstants);
@@ -4288,37 +4246,56 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @interface StartupResponseProto_StartupConstants ()
 @property (retain) NSMutableArray* mutableProductIdsList;
 @property (retain) NSMutableArray* mutableProductDiamondsGivenList;
-@property int32_t diamondCostForEnergyRefill;
-@property int32_t diamondCostForStaminaRefill;
-@property int32_t maxItemUsePerBattle;
 @property int32_t maxLevelDifferenceForBattle;
+@property int32_t armoryXlength;
+@property int32_t armoryYlength;
+@property int32_t vaultXlength;
+@property int32_t vaultYlength;
+@property int32_t marketplaceXlength;
+@property int32_t marketplaceYlength;
+@property int32_t carpenterXlength;
+@property int32_t carpenterYlength;
+@property int32_t aviaryXlength;
+@property int32_t aviaryYlength;
+@property int32_t attackBaseGain;
+@property int32_t defenseBaseGain;
+@property int32_t energyBaseGain;
+@property int32_t healthBaseGain;
+@property int32_t staminaBaseGain;
+@property int32_t attackBaseCost;
+@property int32_t defenseBaseCost;
+@property int32_t energyBaseCost;
+@property int32_t healthBaseCost;
+@property int32_t staminaBaseCost;
+@property int32_t skillPointsGainedOnLevelup;
+@property int32_t cutOfVaultDepositTaken;
+@property int32_t minVaultLevel;
+@property int32_t minMarketplaceLevel;
+@property int32_t minArmoryLevel;
+@property int32_t maxRankForCity;
+@property int32_t maxLevelForStruct;
+@property int32_t maxNumOfSingleStruct;
+@property Float64 percentReturnedToUserForSellingNormStructure;
+@property int32_t minutesToRefillAenergy;
+@property int32_t minutesToRefillAstamina;
+@property int32_t diamondCostForFullStaminaRefill;
+@property int32_t diamondCostForFullEnergyRefill;
+@property int32_t maxNumberOfMarketplacePosts;
+@property Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+@property Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+@property int32_t numDaysLongMarketplaceLicenseLastsFor;
+@property int32_t numDaysShortMarketplaceLicenseLastsFor;
+@property int32_t diamondCostOfLongMarketplaceLicense;
+@property int32_t diamondCostOfShortMarketplaceLicense;
+@property int32_t minutesForCityExpansion;
+@property int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+@property Float64 percentReturnedToUserForSellingEquipInArmory;
 @end
 
 @implementation StartupResponseProto_StartupConstants
 
 @synthesize mutableProductIdsList;
 @synthesize mutableProductDiamondsGivenList;
-- (BOOL) hasDiamondCostForEnergyRefill {
-  return !!hasDiamondCostForEnergyRefill_;
-}
-- (void) setHasDiamondCostForEnergyRefill:(BOOL) value {
-  hasDiamondCostForEnergyRefill_ = !!value;
-}
-@synthesize diamondCostForEnergyRefill;
-- (BOOL) hasDiamondCostForStaminaRefill {
-  return !!hasDiamondCostForStaminaRefill_;
-}
-- (void) setHasDiamondCostForStaminaRefill:(BOOL) value {
-  hasDiamondCostForStaminaRefill_ = !!value;
-}
-@synthesize diamondCostForStaminaRefill;
-- (BOOL) hasMaxItemUsePerBattle {
-  return !!hasMaxItemUsePerBattle_;
-}
-- (void) setHasMaxItemUsePerBattle:(BOOL) value {
-  hasMaxItemUsePerBattle_ = !!value;
-}
-@synthesize maxItemUsePerBattle;
 - (BOOL) hasMaxLevelDifferenceForBattle {
   return !!hasMaxLevelDifferenceForBattle_;
 }
@@ -4326,6 +4303,307 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxLevelDifferenceForBattle_ = !!value;
 }
 @synthesize maxLevelDifferenceForBattle;
+- (BOOL) hasArmoryXlength {
+  return !!hasArmoryXlength_;
+}
+- (void) setHasArmoryXlength:(BOOL) value {
+  hasArmoryXlength_ = !!value;
+}
+@synthesize armoryXlength;
+- (BOOL) hasArmoryYlength {
+  return !!hasArmoryYlength_;
+}
+- (void) setHasArmoryYlength:(BOOL) value {
+  hasArmoryYlength_ = !!value;
+}
+@synthesize armoryYlength;
+- (BOOL) hasVaultXlength {
+  return !!hasVaultXlength_;
+}
+- (void) setHasVaultXlength:(BOOL) value {
+  hasVaultXlength_ = !!value;
+}
+@synthesize vaultXlength;
+- (BOOL) hasVaultYlength {
+  return !!hasVaultYlength_;
+}
+- (void) setHasVaultYlength:(BOOL) value {
+  hasVaultYlength_ = !!value;
+}
+@synthesize vaultYlength;
+- (BOOL) hasMarketplaceXlength {
+  return !!hasMarketplaceXlength_;
+}
+- (void) setHasMarketplaceXlength:(BOOL) value {
+  hasMarketplaceXlength_ = !!value;
+}
+@synthesize marketplaceXlength;
+- (BOOL) hasMarketplaceYlength {
+  return !!hasMarketplaceYlength_;
+}
+- (void) setHasMarketplaceYlength:(BOOL) value {
+  hasMarketplaceYlength_ = !!value;
+}
+@synthesize marketplaceYlength;
+- (BOOL) hasCarpenterXlength {
+  return !!hasCarpenterXlength_;
+}
+- (void) setHasCarpenterXlength:(BOOL) value {
+  hasCarpenterXlength_ = !!value;
+}
+@synthesize carpenterXlength;
+- (BOOL) hasCarpenterYlength {
+  return !!hasCarpenterYlength_;
+}
+- (void) setHasCarpenterYlength:(BOOL) value {
+  hasCarpenterYlength_ = !!value;
+}
+@synthesize carpenterYlength;
+- (BOOL) hasAviaryXlength {
+  return !!hasAviaryXlength_;
+}
+- (void) setHasAviaryXlength:(BOOL) value {
+  hasAviaryXlength_ = !!value;
+}
+@synthesize aviaryXlength;
+- (BOOL) hasAviaryYlength {
+  return !!hasAviaryYlength_;
+}
+- (void) setHasAviaryYlength:(BOOL) value {
+  hasAviaryYlength_ = !!value;
+}
+@synthesize aviaryYlength;
+- (BOOL) hasAttackBaseGain {
+  return !!hasAttackBaseGain_;
+}
+- (void) setHasAttackBaseGain:(BOOL) value {
+  hasAttackBaseGain_ = !!value;
+}
+@synthesize attackBaseGain;
+- (BOOL) hasDefenseBaseGain {
+  return !!hasDefenseBaseGain_;
+}
+- (void) setHasDefenseBaseGain:(BOOL) value {
+  hasDefenseBaseGain_ = !!value;
+}
+@synthesize defenseBaseGain;
+- (BOOL) hasEnergyBaseGain {
+  return !!hasEnergyBaseGain_;
+}
+- (void) setHasEnergyBaseGain:(BOOL) value {
+  hasEnergyBaseGain_ = !!value;
+}
+@synthesize energyBaseGain;
+- (BOOL) hasHealthBaseGain {
+  return !!hasHealthBaseGain_;
+}
+- (void) setHasHealthBaseGain:(BOOL) value {
+  hasHealthBaseGain_ = !!value;
+}
+@synthesize healthBaseGain;
+- (BOOL) hasStaminaBaseGain {
+  return !!hasStaminaBaseGain_;
+}
+- (void) setHasStaminaBaseGain:(BOOL) value {
+  hasStaminaBaseGain_ = !!value;
+}
+@synthesize staminaBaseGain;
+- (BOOL) hasAttackBaseCost {
+  return !!hasAttackBaseCost_;
+}
+- (void) setHasAttackBaseCost:(BOOL) value {
+  hasAttackBaseCost_ = !!value;
+}
+@synthesize attackBaseCost;
+- (BOOL) hasDefenseBaseCost {
+  return !!hasDefenseBaseCost_;
+}
+- (void) setHasDefenseBaseCost:(BOOL) value {
+  hasDefenseBaseCost_ = !!value;
+}
+@synthesize defenseBaseCost;
+- (BOOL) hasEnergyBaseCost {
+  return !!hasEnergyBaseCost_;
+}
+- (void) setHasEnergyBaseCost:(BOOL) value {
+  hasEnergyBaseCost_ = !!value;
+}
+@synthesize energyBaseCost;
+- (BOOL) hasHealthBaseCost {
+  return !!hasHealthBaseCost_;
+}
+- (void) setHasHealthBaseCost:(BOOL) value {
+  hasHealthBaseCost_ = !!value;
+}
+@synthesize healthBaseCost;
+- (BOOL) hasStaminaBaseCost {
+  return !!hasStaminaBaseCost_;
+}
+- (void) setHasStaminaBaseCost:(BOOL) value {
+  hasStaminaBaseCost_ = !!value;
+}
+@synthesize staminaBaseCost;
+- (BOOL) hasSkillPointsGainedOnLevelup {
+  return !!hasSkillPointsGainedOnLevelup_;
+}
+- (void) setHasSkillPointsGainedOnLevelup:(BOOL) value {
+  hasSkillPointsGainedOnLevelup_ = !!value;
+}
+@synthesize skillPointsGainedOnLevelup;
+- (BOOL) hasCutOfVaultDepositTaken {
+  return !!hasCutOfVaultDepositTaken_;
+}
+- (void) setHasCutOfVaultDepositTaken:(BOOL) value {
+  hasCutOfVaultDepositTaken_ = !!value;
+}
+@synthesize cutOfVaultDepositTaken;
+- (BOOL) hasMinVaultLevel {
+  return !!hasMinVaultLevel_;
+}
+- (void) setHasMinVaultLevel:(BOOL) value {
+  hasMinVaultLevel_ = !!value;
+}
+@synthesize minVaultLevel;
+- (BOOL) hasMinMarketplaceLevel {
+  return !!hasMinMarketplaceLevel_;
+}
+- (void) setHasMinMarketplaceLevel:(BOOL) value {
+  hasMinMarketplaceLevel_ = !!value;
+}
+@synthesize minMarketplaceLevel;
+- (BOOL) hasMinArmoryLevel {
+  return !!hasMinArmoryLevel_;
+}
+- (void) setHasMinArmoryLevel:(BOOL) value {
+  hasMinArmoryLevel_ = !!value;
+}
+@synthesize minArmoryLevel;
+- (BOOL) hasMaxRankForCity {
+  return !!hasMaxRankForCity_;
+}
+- (void) setHasMaxRankForCity:(BOOL) value {
+  hasMaxRankForCity_ = !!value;
+}
+@synthesize maxRankForCity;
+- (BOOL) hasMaxLevelForStruct {
+  return !!hasMaxLevelForStruct_;
+}
+- (void) setHasMaxLevelForStruct:(BOOL) value {
+  hasMaxLevelForStruct_ = !!value;
+}
+@synthesize maxLevelForStruct;
+- (BOOL) hasMaxNumOfSingleStruct {
+  return !!hasMaxNumOfSingleStruct_;
+}
+- (void) setHasMaxNumOfSingleStruct:(BOOL) value {
+  hasMaxNumOfSingleStruct_ = !!value;
+}
+@synthesize maxNumOfSingleStruct;
+- (BOOL) hasPercentReturnedToUserForSellingNormStructure {
+  return !!hasPercentReturnedToUserForSellingNormStructure_;
+}
+- (void) setHasPercentReturnedToUserForSellingNormStructure:(BOOL) value {
+  hasPercentReturnedToUserForSellingNormStructure_ = !!value;
+}
+@synthesize percentReturnedToUserForSellingNormStructure;
+- (BOOL) hasMinutesToRefillAenergy {
+  return !!hasMinutesToRefillAenergy_;
+}
+- (void) setHasMinutesToRefillAenergy:(BOOL) value {
+  hasMinutesToRefillAenergy_ = !!value;
+}
+@synthesize minutesToRefillAenergy;
+- (BOOL) hasMinutesToRefillAstamina {
+  return !!hasMinutesToRefillAstamina_;
+}
+- (void) setHasMinutesToRefillAstamina:(BOOL) value {
+  hasMinutesToRefillAstamina_ = !!value;
+}
+@synthesize minutesToRefillAstamina;
+- (BOOL) hasDiamondCostForFullStaminaRefill {
+  return !!hasDiamondCostForFullStaminaRefill_;
+}
+- (void) setHasDiamondCostForFullStaminaRefill:(BOOL) value {
+  hasDiamondCostForFullStaminaRefill_ = !!value;
+}
+@synthesize diamondCostForFullStaminaRefill;
+- (BOOL) hasDiamondCostForFullEnergyRefill {
+  return !!hasDiamondCostForFullEnergyRefill_;
+}
+- (void) setHasDiamondCostForFullEnergyRefill:(BOOL) value {
+  hasDiamondCostForFullEnergyRefill_ = !!value;
+}
+@synthesize diamondCostForFullEnergyRefill;
+- (BOOL) hasMaxNumberOfMarketplacePosts {
+  return !!hasMaxNumberOfMarketplacePosts_;
+}
+- (void) setHasMaxNumberOfMarketplacePosts:(BOOL) value {
+  hasMaxNumberOfMarketplacePosts_ = !!value;
+}
+@synthesize maxNumberOfMarketplacePosts;
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase {
+  return !!hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_;
+}
+- (void) setHasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase:(BOOL) value {
+  hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_ = !!value;
+}
+@synthesize percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract {
+  return !!hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_;
+}
+- (void) setHasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract:(BOOL) value {
+  hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_ = !!value;
+}
+@synthesize percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+- (BOOL) hasNumDaysLongMarketplaceLicenseLastsFor {
+  return !!hasNumDaysLongMarketplaceLicenseLastsFor_;
+}
+- (void) setHasNumDaysLongMarketplaceLicenseLastsFor:(BOOL) value {
+  hasNumDaysLongMarketplaceLicenseLastsFor_ = !!value;
+}
+@synthesize numDaysLongMarketplaceLicenseLastsFor;
+- (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor {
+  return !!hasNumDaysShortMarketplaceLicenseLastsFor_;
+}
+- (void) setHasNumDaysShortMarketplaceLicenseLastsFor:(BOOL) value {
+  hasNumDaysShortMarketplaceLicenseLastsFor_ = !!value;
+}
+@synthesize numDaysShortMarketplaceLicenseLastsFor;
+- (BOOL) hasDiamondCostOfLongMarketplaceLicense {
+  return !!hasDiamondCostOfLongMarketplaceLicense_;
+}
+- (void) setHasDiamondCostOfLongMarketplaceLicense:(BOOL) value {
+  hasDiamondCostOfLongMarketplaceLicense_ = !!value;
+}
+@synthesize diamondCostOfLongMarketplaceLicense;
+- (BOOL) hasDiamondCostOfShortMarketplaceLicense {
+  return !!hasDiamondCostOfShortMarketplaceLicense_;
+}
+- (void) setHasDiamondCostOfShortMarketplaceLicense:(BOOL) value {
+  hasDiamondCostOfShortMarketplaceLicense_ = !!value;
+}
+@synthesize diamondCostOfShortMarketplaceLicense;
+- (BOOL) hasMinutesForCityExpansion {
+  return !!hasMinutesForCityExpansion_;
+}
+- (void) setHasMinutesForCityExpansion:(BOOL) value {
+  hasMinutesForCityExpansion_ = !!value;
+}
+@synthesize minutesForCityExpansion;
+- (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce {
+  return !!hasMaxNumbersOfEnemiesToGenerateAtOnce_;
+}
+- (void) setHasMaxNumbersOfEnemiesToGenerateAtOnce:(BOOL) value {
+  hasMaxNumbersOfEnemiesToGenerateAtOnce_ = !!value;
+}
+@synthesize maxNumbersOfEnemiesToGenerateAtOnce;
+- (BOOL) hasPercentReturnedToUserForSellingEquipInArmory {
+  return !!hasPercentReturnedToUserForSellingEquipInArmory_;
+}
+- (void) setHasPercentReturnedToUserForSellingEquipInArmory:(BOOL) value {
+  hasPercentReturnedToUserForSellingEquipInArmory_ = !!value;
+}
+@synthesize percentReturnedToUserForSellingEquipInArmory;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -4333,10 +4611,50 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 }
 - (id) init {
   if ((self = [super init])) {
-    self.diamondCostForEnergyRefill = 0;
-    self.diamondCostForStaminaRefill = 0;
-    self.maxItemUsePerBattle = 0;
     self.maxLevelDifferenceForBattle = 0;
+    self.armoryXlength = 0;
+    self.armoryYlength = 0;
+    self.vaultXlength = 0;
+    self.vaultYlength = 0;
+    self.marketplaceXlength = 0;
+    self.marketplaceYlength = 0;
+    self.carpenterXlength = 0;
+    self.carpenterYlength = 0;
+    self.aviaryXlength = 0;
+    self.aviaryYlength = 0;
+    self.attackBaseGain = 0;
+    self.defenseBaseGain = 0;
+    self.energyBaseGain = 0;
+    self.healthBaseGain = 0;
+    self.staminaBaseGain = 0;
+    self.attackBaseCost = 0;
+    self.defenseBaseCost = 0;
+    self.energyBaseCost = 0;
+    self.healthBaseCost = 0;
+    self.staminaBaseCost = 0;
+    self.skillPointsGainedOnLevelup = 0;
+    self.cutOfVaultDepositTaken = 0;
+    self.minVaultLevel = 0;
+    self.minMarketplaceLevel = 0;
+    self.minArmoryLevel = 0;
+    self.maxRankForCity = 0;
+    self.maxLevelForStruct = 0;
+    self.maxNumOfSingleStruct = 0;
+    self.percentReturnedToUserForSellingNormStructure = 0;
+    self.minutesToRefillAenergy = 0;
+    self.minutesToRefillAstamina = 0;
+    self.diamondCostForFullStaminaRefill = 0;
+    self.diamondCostForFullEnergyRefill = 0;
+    self.maxNumberOfMarketplacePosts = 0;
+    self.percentOfSellingCostTakenFromSellerOnMarketplacePurchase = 0;
+    self.percentOfSellingCostTakenFromSellerOnMarketplaceRetract = 0;
+    self.numDaysLongMarketplaceLicenseLastsFor = 0;
+    self.numDaysShortMarketplaceLicenseLastsFor = 0;
+    self.diamondCostOfLongMarketplaceLicense = 0;
+    self.diamondCostOfShortMarketplaceLicense = 0;
+    self.minutesForCityExpansion = 0;
+    self.maxNumbersOfEnemiesToGenerateAtOnce = 0;
+    self.percentReturnedToUserForSellingEquipInArmory = 0;
   }
   return self;
 }
@@ -4367,16 +4685,136 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   return [value intValue];
 }
 - (BOOL) isInitialized {
-  if (!self.hasDiamondCostForEnergyRefill) {
-    return NO;
-  }
-  if (!self.hasDiamondCostForStaminaRefill) {
-    return NO;
-  }
-  if (!self.hasMaxItemUsePerBattle) {
-    return NO;
-  }
   if (!self.hasMaxLevelDifferenceForBattle) {
+    return NO;
+  }
+  if (!self.hasArmoryXlength) {
+    return NO;
+  }
+  if (!self.hasArmoryYlength) {
+    return NO;
+  }
+  if (!self.hasVaultXlength) {
+    return NO;
+  }
+  if (!self.hasVaultYlength) {
+    return NO;
+  }
+  if (!self.hasMarketplaceXlength) {
+    return NO;
+  }
+  if (!self.hasMarketplaceYlength) {
+    return NO;
+  }
+  if (!self.hasCarpenterXlength) {
+    return NO;
+  }
+  if (!self.hasCarpenterYlength) {
+    return NO;
+  }
+  if (!self.hasAviaryXlength) {
+    return NO;
+  }
+  if (!self.hasAviaryYlength) {
+    return NO;
+  }
+  if (!self.hasAttackBaseGain) {
+    return NO;
+  }
+  if (!self.hasDefenseBaseGain) {
+    return NO;
+  }
+  if (!self.hasEnergyBaseGain) {
+    return NO;
+  }
+  if (!self.hasHealthBaseGain) {
+    return NO;
+  }
+  if (!self.hasStaminaBaseGain) {
+    return NO;
+  }
+  if (!self.hasAttackBaseCost) {
+    return NO;
+  }
+  if (!self.hasDefenseBaseCost) {
+    return NO;
+  }
+  if (!self.hasEnergyBaseCost) {
+    return NO;
+  }
+  if (!self.hasHealthBaseCost) {
+    return NO;
+  }
+  if (!self.hasStaminaBaseCost) {
+    return NO;
+  }
+  if (!self.hasSkillPointsGainedOnLevelup) {
+    return NO;
+  }
+  if (!self.hasCutOfVaultDepositTaken) {
+    return NO;
+  }
+  if (!self.hasMinVaultLevel) {
+    return NO;
+  }
+  if (!self.hasMinMarketplaceLevel) {
+    return NO;
+  }
+  if (!self.hasMinArmoryLevel) {
+    return NO;
+  }
+  if (!self.hasMaxRankForCity) {
+    return NO;
+  }
+  if (!self.hasMaxLevelForStruct) {
+    return NO;
+  }
+  if (!self.hasMaxNumOfSingleStruct) {
+    return NO;
+  }
+  if (!self.hasPercentReturnedToUserForSellingNormStructure) {
+    return NO;
+  }
+  if (!self.hasMinutesToRefillAenergy) {
+    return NO;
+  }
+  if (!self.hasMinutesToRefillAstamina) {
+    return NO;
+  }
+  if (!self.hasDiamondCostForFullStaminaRefill) {
+    return NO;
+  }
+  if (!self.hasDiamondCostForFullEnergyRefill) {
+    return NO;
+  }
+  if (!self.hasMaxNumberOfMarketplacePosts) {
+    return NO;
+  }
+  if (!self.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase) {
+    return NO;
+  }
+  if (!self.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract) {
+    return NO;
+  }
+  if (!self.hasNumDaysLongMarketplaceLicenseLastsFor) {
+    return NO;
+  }
+  if (!self.hasNumDaysShortMarketplaceLicenseLastsFor) {
+    return NO;
+  }
+  if (!self.hasDiamondCostOfLongMarketplaceLicense) {
+    return NO;
+  }
+  if (!self.hasDiamondCostOfShortMarketplaceLicense) {
+    return NO;
+  }
+  if (!self.hasMinutesForCityExpansion) {
+    return NO;
+  }
+  if (!self.hasMaxNumbersOfEnemiesToGenerateAtOnce) {
+    return NO;
+  }
+  if (!self.hasPercentReturnedToUserForSellingEquipInArmory) {
     return NO;
   }
   return YES;
@@ -4388,17 +4826,137 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   for (NSNumber* value in self.mutableProductDiamondsGivenList) {
     [output writeInt32:2 value:[value intValue]];
   }
-  if (self.hasDiamondCostForEnergyRefill) {
-    [output writeInt32:3 value:self.diamondCostForEnergyRefill];
+  if (self.hasMinutesForCityExpansion) {
+    [output writeInt32:3 value:self.minutesForCityExpansion];
   }
-  if (self.hasDiamondCostForStaminaRefill) {
-    [output writeInt32:4 value:self.diamondCostForStaminaRefill];
+  if (self.hasMaxNumbersOfEnemiesToGenerateAtOnce) {
+    [output writeInt32:4 value:self.maxNumbersOfEnemiesToGenerateAtOnce];
   }
-  if (self.hasMaxItemUsePerBattle) {
-    [output writeInt32:5 value:self.maxItemUsePerBattle];
+  if (self.hasPercentReturnedToUserForSellingEquipInArmory) {
+    [output writeDouble:5 value:self.percentReturnedToUserForSellingEquipInArmory];
   }
   if (self.hasMaxLevelDifferenceForBattle) {
     [output writeInt32:6 value:self.maxLevelDifferenceForBattle];
+  }
+  if (self.hasArmoryXlength) {
+    [output writeInt32:7 value:self.armoryXlength];
+  }
+  if (self.hasArmoryYlength) {
+    [output writeInt32:8 value:self.armoryYlength];
+  }
+  if (self.hasVaultXlength) {
+    [output writeInt32:9 value:self.vaultXlength];
+  }
+  if (self.hasVaultYlength) {
+    [output writeInt32:10 value:self.vaultYlength];
+  }
+  if (self.hasMarketplaceXlength) {
+    [output writeInt32:11 value:self.marketplaceXlength];
+  }
+  if (self.hasMarketplaceYlength) {
+    [output writeInt32:12 value:self.marketplaceYlength];
+  }
+  if (self.hasCarpenterXlength) {
+    [output writeInt32:13 value:self.carpenterXlength];
+  }
+  if (self.hasCarpenterYlength) {
+    [output writeInt32:14 value:self.carpenterYlength];
+  }
+  if (self.hasAviaryXlength) {
+    [output writeInt32:15 value:self.aviaryXlength];
+  }
+  if (self.hasAviaryYlength) {
+    [output writeInt32:16 value:self.aviaryYlength];
+  }
+  if (self.hasAttackBaseGain) {
+    [output writeInt32:17 value:self.attackBaseGain];
+  }
+  if (self.hasDefenseBaseGain) {
+    [output writeInt32:18 value:self.defenseBaseGain];
+  }
+  if (self.hasEnergyBaseGain) {
+    [output writeInt32:19 value:self.energyBaseGain];
+  }
+  if (self.hasHealthBaseGain) {
+    [output writeInt32:20 value:self.healthBaseGain];
+  }
+  if (self.hasStaminaBaseGain) {
+    [output writeInt32:21 value:self.staminaBaseGain];
+  }
+  if (self.hasAttackBaseCost) {
+    [output writeInt32:22 value:self.attackBaseCost];
+  }
+  if (self.hasDefenseBaseCost) {
+    [output writeInt32:23 value:self.defenseBaseCost];
+  }
+  if (self.hasEnergyBaseCost) {
+    [output writeInt32:24 value:self.energyBaseCost];
+  }
+  if (self.hasHealthBaseCost) {
+    [output writeInt32:25 value:self.healthBaseCost];
+  }
+  if (self.hasStaminaBaseCost) {
+    [output writeInt32:26 value:self.staminaBaseCost];
+  }
+  if (self.hasSkillPointsGainedOnLevelup) {
+    [output writeInt32:27 value:self.skillPointsGainedOnLevelup];
+  }
+  if (self.hasCutOfVaultDepositTaken) {
+    [output writeInt32:28 value:self.cutOfVaultDepositTaken];
+  }
+  if (self.hasMinVaultLevel) {
+    [output writeInt32:29 value:self.minVaultLevel];
+  }
+  if (self.hasMinMarketplaceLevel) {
+    [output writeInt32:30 value:self.minMarketplaceLevel];
+  }
+  if (self.hasMinArmoryLevel) {
+    [output writeInt32:31 value:self.minArmoryLevel];
+  }
+  if (self.hasMaxRankForCity) {
+    [output writeInt32:32 value:self.maxRankForCity];
+  }
+  if (self.hasMaxLevelForStruct) {
+    [output writeInt32:33 value:self.maxLevelForStruct];
+  }
+  if (self.hasMaxNumOfSingleStruct) {
+    [output writeInt32:34 value:self.maxNumOfSingleStruct];
+  }
+  if (self.hasPercentReturnedToUserForSellingNormStructure) {
+    [output writeDouble:35 value:self.percentReturnedToUserForSellingNormStructure];
+  }
+  if (self.hasMinutesToRefillAenergy) {
+    [output writeInt32:36 value:self.minutesToRefillAenergy];
+  }
+  if (self.hasMinutesToRefillAstamina) {
+    [output writeInt32:37 value:self.minutesToRefillAstamina];
+  }
+  if (self.hasMaxNumberOfMarketplacePosts) {
+    [output writeInt32:40 value:self.maxNumberOfMarketplacePosts];
+  }
+  if (self.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase) {
+    [output writeDouble:41 value:self.percentOfSellingCostTakenFromSellerOnMarketplacePurchase];
+  }
+  if (self.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract) {
+    [output writeDouble:42 value:self.percentOfSellingCostTakenFromSellerOnMarketplaceRetract];
+  }
+  if (self.hasNumDaysLongMarketplaceLicenseLastsFor) {
+    [output writeInt32:43 value:self.numDaysLongMarketplaceLicenseLastsFor];
+  }
+  if (self.hasNumDaysShortMarketplaceLicenseLastsFor) {
+    [output writeInt32:44 value:self.numDaysShortMarketplaceLicenseLastsFor];
+  }
+  if (self.hasDiamondCostOfLongMarketplaceLicense) {
+    [output writeInt32:45 value:self.diamondCostOfLongMarketplaceLicense];
+  }
+  if (self.hasDiamondCostOfShortMarketplaceLicense) {
+    [output writeInt32:46 value:self.diamondCostOfShortMarketplaceLicense];
+  }
+  if (self.hasDiamondCostForFullStaminaRefill) {
+    [output writeInt32:48 value:self.diamondCostForFullStaminaRefill];
+  }
+  if (self.hasDiamondCostForFullEnergyRefill) {
+    [output writeInt32:49 value:self.diamondCostForFullEnergyRefill];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4425,17 +4983,137 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     size += dataSize;
     size += 1 * self.mutableProductDiamondsGivenList.count;
   }
-  if (self.hasDiamondCostForEnergyRefill) {
-    size += computeInt32Size(3, self.diamondCostForEnergyRefill);
+  if (self.hasMinutesForCityExpansion) {
+    size += computeInt32Size(3, self.minutesForCityExpansion);
   }
-  if (self.hasDiamondCostForStaminaRefill) {
-    size += computeInt32Size(4, self.diamondCostForStaminaRefill);
+  if (self.hasMaxNumbersOfEnemiesToGenerateAtOnce) {
+    size += computeInt32Size(4, self.maxNumbersOfEnemiesToGenerateAtOnce);
   }
-  if (self.hasMaxItemUsePerBattle) {
-    size += computeInt32Size(5, self.maxItemUsePerBattle);
+  if (self.hasPercentReturnedToUserForSellingEquipInArmory) {
+    size += computeDoubleSize(5, self.percentReturnedToUserForSellingEquipInArmory);
   }
   if (self.hasMaxLevelDifferenceForBattle) {
     size += computeInt32Size(6, self.maxLevelDifferenceForBattle);
+  }
+  if (self.hasArmoryXlength) {
+    size += computeInt32Size(7, self.armoryXlength);
+  }
+  if (self.hasArmoryYlength) {
+    size += computeInt32Size(8, self.armoryYlength);
+  }
+  if (self.hasVaultXlength) {
+    size += computeInt32Size(9, self.vaultXlength);
+  }
+  if (self.hasVaultYlength) {
+    size += computeInt32Size(10, self.vaultYlength);
+  }
+  if (self.hasMarketplaceXlength) {
+    size += computeInt32Size(11, self.marketplaceXlength);
+  }
+  if (self.hasMarketplaceYlength) {
+    size += computeInt32Size(12, self.marketplaceYlength);
+  }
+  if (self.hasCarpenterXlength) {
+    size += computeInt32Size(13, self.carpenterXlength);
+  }
+  if (self.hasCarpenterYlength) {
+    size += computeInt32Size(14, self.carpenterYlength);
+  }
+  if (self.hasAviaryXlength) {
+    size += computeInt32Size(15, self.aviaryXlength);
+  }
+  if (self.hasAviaryYlength) {
+    size += computeInt32Size(16, self.aviaryYlength);
+  }
+  if (self.hasAttackBaseGain) {
+    size += computeInt32Size(17, self.attackBaseGain);
+  }
+  if (self.hasDefenseBaseGain) {
+    size += computeInt32Size(18, self.defenseBaseGain);
+  }
+  if (self.hasEnergyBaseGain) {
+    size += computeInt32Size(19, self.energyBaseGain);
+  }
+  if (self.hasHealthBaseGain) {
+    size += computeInt32Size(20, self.healthBaseGain);
+  }
+  if (self.hasStaminaBaseGain) {
+    size += computeInt32Size(21, self.staminaBaseGain);
+  }
+  if (self.hasAttackBaseCost) {
+    size += computeInt32Size(22, self.attackBaseCost);
+  }
+  if (self.hasDefenseBaseCost) {
+    size += computeInt32Size(23, self.defenseBaseCost);
+  }
+  if (self.hasEnergyBaseCost) {
+    size += computeInt32Size(24, self.energyBaseCost);
+  }
+  if (self.hasHealthBaseCost) {
+    size += computeInt32Size(25, self.healthBaseCost);
+  }
+  if (self.hasStaminaBaseCost) {
+    size += computeInt32Size(26, self.staminaBaseCost);
+  }
+  if (self.hasSkillPointsGainedOnLevelup) {
+    size += computeInt32Size(27, self.skillPointsGainedOnLevelup);
+  }
+  if (self.hasCutOfVaultDepositTaken) {
+    size += computeInt32Size(28, self.cutOfVaultDepositTaken);
+  }
+  if (self.hasMinVaultLevel) {
+    size += computeInt32Size(29, self.minVaultLevel);
+  }
+  if (self.hasMinMarketplaceLevel) {
+    size += computeInt32Size(30, self.minMarketplaceLevel);
+  }
+  if (self.hasMinArmoryLevel) {
+    size += computeInt32Size(31, self.minArmoryLevel);
+  }
+  if (self.hasMaxRankForCity) {
+    size += computeInt32Size(32, self.maxRankForCity);
+  }
+  if (self.hasMaxLevelForStruct) {
+    size += computeInt32Size(33, self.maxLevelForStruct);
+  }
+  if (self.hasMaxNumOfSingleStruct) {
+    size += computeInt32Size(34, self.maxNumOfSingleStruct);
+  }
+  if (self.hasPercentReturnedToUserForSellingNormStructure) {
+    size += computeDoubleSize(35, self.percentReturnedToUserForSellingNormStructure);
+  }
+  if (self.hasMinutesToRefillAenergy) {
+    size += computeInt32Size(36, self.minutesToRefillAenergy);
+  }
+  if (self.hasMinutesToRefillAstamina) {
+    size += computeInt32Size(37, self.minutesToRefillAstamina);
+  }
+  if (self.hasMaxNumberOfMarketplacePosts) {
+    size += computeInt32Size(40, self.maxNumberOfMarketplacePosts);
+  }
+  if (self.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase) {
+    size += computeDoubleSize(41, self.percentOfSellingCostTakenFromSellerOnMarketplacePurchase);
+  }
+  if (self.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract) {
+    size += computeDoubleSize(42, self.percentOfSellingCostTakenFromSellerOnMarketplaceRetract);
+  }
+  if (self.hasNumDaysLongMarketplaceLicenseLastsFor) {
+    size += computeInt32Size(43, self.numDaysLongMarketplaceLicenseLastsFor);
+  }
+  if (self.hasNumDaysShortMarketplaceLicenseLastsFor) {
+    size += computeInt32Size(44, self.numDaysShortMarketplaceLicenseLastsFor);
+  }
+  if (self.hasDiamondCostOfLongMarketplaceLicense) {
+    size += computeInt32Size(45, self.diamondCostOfLongMarketplaceLicense);
+  }
+  if (self.hasDiamondCostOfShortMarketplaceLicense) {
+    size += computeInt32Size(46, self.diamondCostOfShortMarketplaceLicense);
+  }
+  if (self.hasDiamondCostForFullStaminaRefill) {
+    size += computeInt32Size(48, self.diamondCostForFullStaminaRefill);
+  }
+  if (self.hasDiamondCostForFullEnergyRefill) {
+    size += computeInt32Size(49, self.diamondCostForFullEnergyRefill);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4524,17 +5202,137 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     }
     [result.mutableProductDiamondsGivenList addObjectsFromArray:other.mutableProductDiamondsGivenList];
   }
-  if (other.hasDiamondCostForEnergyRefill) {
-    [self setDiamondCostForEnergyRefill:other.diamondCostForEnergyRefill];
-  }
-  if (other.hasDiamondCostForStaminaRefill) {
-    [self setDiamondCostForStaminaRefill:other.diamondCostForStaminaRefill];
-  }
-  if (other.hasMaxItemUsePerBattle) {
-    [self setMaxItemUsePerBattle:other.maxItemUsePerBattle];
-  }
   if (other.hasMaxLevelDifferenceForBattle) {
     [self setMaxLevelDifferenceForBattle:other.maxLevelDifferenceForBattle];
+  }
+  if (other.hasArmoryXlength) {
+    [self setArmoryXlength:other.armoryXlength];
+  }
+  if (other.hasArmoryYlength) {
+    [self setArmoryYlength:other.armoryYlength];
+  }
+  if (other.hasVaultXlength) {
+    [self setVaultXlength:other.vaultXlength];
+  }
+  if (other.hasVaultYlength) {
+    [self setVaultYlength:other.vaultYlength];
+  }
+  if (other.hasMarketplaceXlength) {
+    [self setMarketplaceXlength:other.marketplaceXlength];
+  }
+  if (other.hasMarketplaceYlength) {
+    [self setMarketplaceYlength:other.marketplaceYlength];
+  }
+  if (other.hasCarpenterXlength) {
+    [self setCarpenterXlength:other.carpenterXlength];
+  }
+  if (other.hasCarpenterYlength) {
+    [self setCarpenterYlength:other.carpenterYlength];
+  }
+  if (other.hasAviaryXlength) {
+    [self setAviaryXlength:other.aviaryXlength];
+  }
+  if (other.hasAviaryYlength) {
+    [self setAviaryYlength:other.aviaryYlength];
+  }
+  if (other.hasAttackBaseGain) {
+    [self setAttackBaseGain:other.attackBaseGain];
+  }
+  if (other.hasDefenseBaseGain) {
+    [self setDefenseBaseGain:other.defenseBaseGain];
+  }
+  if (other.hasEnergyBaseGain) {
+    [self setEnergyBaseGain:other.energyBaseGain];
+  }
+  if (other.hasHealthBaseGain) {
+    [self setHealthBaseGain:other.healthBaseGain];
+  }
+  if (other.hasStaminaBaseGain) {
+    [self setStaminaBaseGain:other.staminaBaseGain];
+  }
+  if (other.hasAttackBaseCost) {
+    [self setAttackBaseCost:other.attackBaseCost];
+  }
+  if (other.hasDefenseBaseCost) {
+    [self setDefenseBaseCost:other.defenseBaseCost];
+  }
+  if (other.hasEnergyBaseCost) {
+    [self setEnergyBaseCost:other.energyBaseCost];
+  }
+  if (other.hasHealthBaseCost) {
+    [self setHealthBaseCost:other.healthBaseCost];
+  }
+  if (other.hasStaminaBaseCost) {
+    [self setStaminaBaseCost:other.staminaBaseCost];
+  }
+  if (other.hasSkillPointsGainedOnLevelup) {
+    [self setSkillPointsGainedOnLevelup:other.skillPointsGainedOnLevelup];
+  }
+  if (other.hasCutOfVaultDepositTaken) {
+    [self setCutOfVaultDepositTaken:other.cutOfVaultDepositTaken];
+  }
+  if (other.hasMinVaultLevel) {
+    [self setMinVaultLevel:other.minVaultLevel];
+  }
+  if (other.hasMinMarketplaceLevel) {
+    [self setMinMarketplaceLevel:other.minMarketplaceLevel];
+  }
+  if (other.hasMinArmoryLevel) {
+    [self setMinArmoryLevel:other.minArmoryLevel];
+  }
+  if (other.hasMaxRankForCity) {
+    [self setMaxRankForCity:other.maxRankForCity];
+  }
+  if (other.hasMaxLevelForStruct) {
+    [self setMaxLevelForStruct:other.maxLevelForStruct];
+  }
+  if (other.hasMaxNumOfSingleStruct) {
+    [self setMaxNumOfSingleStruct:other.maxNumOfSingleStruct];
+  }
+  if (other.hasPercentReturnedToUserForSellingNormStructure) {
+    [self setPercentReturnedToUserForSellingNormStructure:other.percentReturnedToUserForSellingNormStructure];
+  }
+  if (other.hasMinutesToRefillAenergy) {
+    [self setMinutesToRefillAenergy:other.minutesToRefillAenergy];
+  }
+  if (other.hasMinutesToRefillAstamina) {
+    [self setMinutesToRefillAstamina:other.minutesToRefillAstamina];
+  }
+  if (other.hasDiamondCostForFullStaminaRefill) {
+    [self setDiamondCostForFullStaminaRefill:other.diamondCostForFullStaminaRefill];
+  }
+  if (other.hasDiamondCostForFullEnergyRefill) {
+    [self setDiamondCostForFullEnergyRefill:other.diamondCostForFullEnergyRefill];
+  }
+  if (other.hasMaxNumberOfMarketplacePosts) {
+    [self setMaxNumberOfMarketplacePosts:other.maxNumberOfMarketplacePosts];
+  }
+  if (other.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase) {
+    [self setPercentOfSellingCostTakenFromSellerOnMarketplacePurchase:other.percentOfSellingCostTakenFromSellerOnMarketplacePurchase];
+  }
+  if (other.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract) {
+    [self setPercentOfSellingCostTakenFromSellerOnMarketplaceRetract:other.percentOfSellingCostTakenFromSellerOnMarketplaceRetract];
+  }
+  if (other.hasNumDaysLongMarketplaceLicenseLastsFor) {
+    [self setNumDaysLongMarketplaceLicenseLastsFor:other.numDaysLongMarketplaceLicenseLastsFor];
+  }
+  if (other.hasNumDaysShortMarketplaceLicenseLastsFor) {
+    [self setNumDaysShortMarketplaceLicenseLastsFor:other.numDaysShortMarketplaceLicenseLastsFor];
+  }
+  if (other.hasDiamondCostOfLongMarketplaceLicense) {
+    [self setDiamondCostOfLongMarketplaceLicense:other.diamondCostOfLongMarketplaceLicense];
+  }
+  if (other.hasDiamondCostOfShortMarketplaceLicense) {
+    [self setDiamondCostOfShortMarketplaceLicense:other.diamondCostOfShortMarketplaceLicense];
+  }
+  if (other.hasMinutesForCityExpansion) {
+    [self setMinutesForCityExpansion:other.minutesForCityExpansion];
+  }
+  if (other.hasMaxNumbersOfEnemiesToGenerateAtOnce) {
+    [self setMaxNumbersOfEnemiesToGenerateAtOnce:other.maxNumbersOfEnemiesToGenerateAtOnce];
+  }
+  if (other.hasPercentReturnedToUserForSellingEquipInArmory) {
+    [self setPercentReturnedToUserForSellingEquipInArmory:other.percentReturnedToUserForSellingEquipInArmory];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4566,19 +5364,179 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
         break;
       }
       case 24: {
-        [self setDiamondCostForEnergyRefill:[input readInt32]];
+        [self setMinutesForCityExpansion:[input readInt32]];
         break;
       }
       case 32: {
-        [self setDiamondCostForStaminaRefill:[input readInt32]];
+        [self setMaxNumbersOfEnemiesToGenerateAtOnce:[input readInt32]];
         break;
       }
-      case 40: {
-        [self setMaxItemUsePerBattle:[input readInt32]];
+      case 41: {
+        [self setPercentReturnedToUserForSellingEquipInArmory:[input readDouble]];
         break;
       }
       case 48: {
         [self setMaxLevelDifferenceForBattle:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setArmoryXlength:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setArmoryYlength:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setVaultXlength:[input readInt32]];
+        break;
+      }
+      case 80: {
+        [self setVaultYlength:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setMarketplaceXlength:[input readInt32]];
+        break;
+      }
+      case 96: {
+        [self setMarketplaceYlength:[input readInt32]];
+        break;
+      }
+      case 104: {
+        [self setCarpenterXlength:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setCarpenterYlength:[input readInt32]];
+        break;
+      }
+      case 120: {
+        [self setAviaryXlength:[input readInt32]];
+        break;
+      }
+      case 128: {
+        [self setAviaryYlength:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self setAttackBaseGain:[input readInt32]];
+        break;
+      }
+      case 144: {
+        [self setDefenseBaseGain:[input readInt32]];
+        break;
+      }
+      case 152: {
+        [self setEnergyBaseGain:[input readInt32]];
+        break;
+      }
+      case 160: {
+        [self setHealthBaseGain:[input readInt32]];
+        break;
+      }
+      case 168: {
+        [self setStaminaBaseGain:[input readInt32]];
+        break;
+      }
+      case 176: {
+        [self setAttackBaseCost:[input readInt32]];
+        break;
+      }
+      case 184: {
+        [self setDefenseBaseCost:[input readInt32]];
+        break;
+      }
+      case 192: {
+        [self setEnergyBaseCost:[input readInt32]];
+        break;
+      }
+      case 200: {
+        [self setHealthBaseCost:[input readInt32]];
+        break;
+      }
+      case 208: {
+        [self setStaminaBaseCost:[input readInt32]];
+        break;
+      }
+      case 216: {
+        [self setSkillPointsGainedOnLevelup:[input readInt32]];
+        break;
+      }
+      case 224: {
+        [self setCutOfVaultDepositTaken:[input readInt32]];
+        break;
+      }
+      case 232: {
+        [self setMinVaultLevel:[input readInt32]];
+        break;
+      }
+      case 240: {
+        [self setMinMarketplaceLevel:[input readInt32]];
+        break;
+      }
+      case 248: {
+        [self setMinArmoryLevel:[input readInt32]];
+        break;
+      }
+      case 256: {
+        [self setMaxRankForCity:[input readInt32]];
+        break;
+      }
+      case 264: {
+        [self setMaxLevelForStruct:[input readInt32]];
+        break;
+      }
+      case 272: {
+        [self setMaxNumOfSingleStruct:[input readInt32]];
+        break;
+      }
+      case 281: {
+        [self setPercentReturnedToUserForSellingNormStructure:[input readDouble]];
+        break;
+      }
+      case 288: {
+        [self setMinutesToRefillAenergy:[input readInt32]];
+        break;
+      }
+      case 296: {
+        [self setMinutesToRefillAstamina:[input readInt32]];
+        break;
+      }
+      case 320: {
+        [self setMaxNumberOfMarketplacePosts:[input readInt32]];
+        break;
+      }
+      case 329: {
+        [self setPercentOfSellingCostTakenFromSellerOnMarketplacePurchase:[input readDouble]];
+        break;
+      }
+      case 337: {
+        [self setPercentOfSellingCostTakenFromSellerOnMarketplaceRetract:[input readDouble]];
+        break;
+      }
+      case 344: {
+        [self setNumDaysLongMarketplaceLicenseLastsFor:[input readInt32]];
+        break;
+      }
+      case 352: {
+        [self setNumDaysShortMarketplaceLicenseLastsFor:[input readInt32]];
+        break;
+      }
+      case 360: {
+        [self setDiamondCostOfLongMarketplaceLicense:[input readInt32]];
+        break;
+      }
+      case 368: {
+        [self setDiamondCostOfShortMarketplaceLicense:[input readInt32]];
+        break;
+      }
+      case 384: {
+        [self setDiamondCostForFullStaminaRefill:[input readInt32]];
+        break;
+      }
+      case 392: {
+        [self setDiamondCostForFullEnergyRefill:[input readInt32]];
         break;
       }
     }
@@ -4646,54 +5604,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   result.mutableProductDiamondsGivenList = nil;
   return self;
 }
-- (BOOL) hasDiamondCostForEnergyRefill {
-  return result.hasDiamondCostForEnergyRefill;
-}
-- (int32_t) diamondCostForEnergyRefill {
-  return result.diamondCostForEnergyRefill;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForEnergyRefill:(int32_t) value {
-  result.hasDiamondCostForEnergyRefill = YES;
-  result.diamondCostForEnergyRefill = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForEnergyRefill {
-  result.hasDiamondCostForEnergyRefill = NO;
-  result.diamondCostForEnergyRefill = 0;
-  return self;
-}
-- (BOOL) hasDiamondCostForStaminaRefill {
-  return result.hasDiamondCostForStaminaRefill;
-}
-- (int32_t) diamondCostForStaminaRefill {
-  return result.diamondCostForStaminaRefill;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForStaminaRefill:(int32_t) value {
-  result.hasDiamondCostForStaminaRefill = YES;
-  result.diamondCostForStaminaRefill = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForStaminaRefill {
-  result.hasDiamondCostForStaminaRefill = NO;
-  result.diamondCostForStaminaRefill = 0;
-  return self;
-}
-- (BOOL) hasMaxItemUsePerBattle {
-  return result.hasMaxItemUsePerBattle;
-}
-- (int32_t) maxItemUsePerBattle {
-  return result.maxItemUsePerBattle;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMaxItemUsePerBattle:(int32_t) value {
-  result.hasMaxItemUsePerBattle = YES;
-  result.maxItemUsePerBattle = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMaxItemUsePerBattle {
-  result.hasMaxItemUsePerBattle = NO;
-  result.maxItemUsePerBattle = 0;
-  return self;
-}
 - (BOOL) hasMaxLevelDifferenceForBattle {
   return result.hasMaxLevelDifferenceForBattle;
 }
@@ -4708,6 +5618,694 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelDifferenceForBattle {
   result.hasMaxLevelDifferenceForBattle = NO;
   result.maxLevelDifferenceForBattle = 0;
+  return self;
+}
+- (BOOL) hasArmoryXlength {
+  return result.hasArmoryXlength;
+}
+- (int32_t) armoryXlength {
+  return result.armoryXlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setArmoryXlength:(int32_t) value {
+  result.hasArmoryXlength = YES;
+  result.armoryXlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearArmoryXlength {
+  result.hasArmoryXlength = NO;
+  result.armoryXlength = 0;
+  return self;
+}
+- (BOOL) hasArmoryYlength {
+  return result.hasArmoryYlength;
+}
+- (int32_t) armoryYlength {
+  return result.armoryYlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setArmoryYlength:(int32_t) value {
+  result.hasArmoryYlength = YES;
+  result.armoryYlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearArmoryYlength {
+  result.hasArmoryYlength = NO;
+  result.armoryYlength = 0;
+  return self;
+}
+- (BOOL) hasVaultXlength {
+  return result.hasVaultXlength;
+}
+- (int32_t) vaultXlength {
+  return result.vaultXlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setVaultXlength:(int32_t) value {
+  result.hasVaultXlength = YES;
+  result.vaultXlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearVaultXlength {
+  result.hasVaultXlength = NO;
+  result.vaultXlength = 0;
+  return self;
+}
+- (BOOL) hasVaultYlength {
+  return result.hasVaultYlength;
+}
+- (int32_t) vaultYlength {
+  return result.vaultYlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setVaultYlength:(int32_t) value {
+  result.hasVaultYlength = YES;
+  result.vaultYlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearVaultYlength {
+  result.hasVaultYlength = NO;
+  result.vaultYlength = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceXlength {
+  return result.hasMarketplaceXlength;
+}
+- (int32_t) marketplaceXlength {
+  return result.marketplaceXlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceXlength:(int32_t) value {
+  result.hasMarketplaceXlength = YES;
+  result.marketplaceXlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceXlength {
+  result.hasMarketplaceXlength = NO;
+  result.marketplaceXlength = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceYlength {
+  return result.hasMarketplaceYlength;
+}
+- (int32_t) marketplaceYlength {
+  return result.marketplaceYlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceYlength:(int32_t) value {
+  result.hasMarketplaceYlength = YES;
+  result.marketplaceYlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceYlength {
+  result.hasMarketplaceYlength = NO;
+  result.marketplaceYlength = 0;
+  return self;
+}
+- (BOOL) hasCarpenterXlength {
+  return result.hasCarpenterXlength;
+}
+- (int32_t) carpenterXlength {
+  return result.carpenterXlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setCarpenterXlength:(int32_t) value {
+  result.hasCarpenterXlength = YES;
+  result.carpenterXlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearCarpenterXlength {
+  result.hasCarpenterXlength = NO;
+  result.carpenterXlength = 0;
+  return self;
+}
+- (BOOL) hasCarpenterYlength {
+  return result.hasCarpenterYlength;
+}
+- (int32_t) carpenterYlength {
+  return result.carpenterYlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setCarpenterYlength:(int32_t) value {
+  result.hasCarpenterYlength = YES;
+  result.carpenterYlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearCarpenterYlength {
+  result.hasCarpenterYlength = NO;
+  result.carpenterYlength = 0;
+  return self;
+}
+- (BOOL) hasAviaryXlength {
+  return result.hasAviaryXlength;
+}
+- (int32_t) aviaryXlength {
+  return result.aviaryXlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAviaryXlength:(int32_t) value {
+  result.hasAviaryXlength = YES;
+  result.aviaryXlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAviaryXlength {
+  result.hasAviaryXlength = NO;
+  result.aviaryXlength = 0;
+  return self;
+}
+- (BOOL) hasAviaryYlength {
+  return result.hasAviaryYlength;
+}
+- (int32_t) aviaryYlength {
+  return result.aviaryYlength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAviaryYlength:(int32_t) value {
+  result.hasAviaryYlength = YES;
+  result.aviaryYlength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAviaryYlength {
+  result.hasAviaryYlength = NO;
+  result.aviaryYlength = 0;
+  return self;
+}
+- (BOOL) hasAttackBaseGain {
+  return result.hasAttackBaseGain;
+}
+- (int32_t) attackBaseGain {
+  return result.attackBaseGain;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAttackBaseGain:(int32_t) value {
+  result.hasAttackBaseGain = YES;
+  result.attackBaseGain = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAttackBaseGain {
+  result.hasAttackBaseGain = NO;
+  result.attackBaseGain = 0;
+  return self;
+}
+- (BOOL) hasDefenseBaseGain {
+  return result.hasDefenseBaseGain;
+}
+- (int32_t) defenseBaseGain {
+  return result.defenseBaseGain;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDefenseBaseGain:(int32_t) value {
+  result.hasDefenseBaseGain = YES;
+  result.defenseBaseGain = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDefenseBaseGain {
+  result.hasDefenseBaseGain = NO;
+  result.defenseBaseGain = 0;
+  return self;
+}
+- (BOOL) hasEnergyBaseGain {
+  return result.hasEnergyBaseGain;
+}
+- (int32_t) energyBaseGain {
+  return result.energyBaseGain;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setEnergyBaseGain:(int32_t) value {
+  result.hasEnergyBaseGain = YES;
+  result.energyBaseGain = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearEnergyBaseGain {
+  result.hasEnergyBaseGain = NO;
+  result.energyBaseGain = 0;
+  return self;
+}
+- (BOOL) hasHealthBaseGain {
+  return result.hasHealthBaseGain;
+}
+- (int32_t) healthBaseGain {
+  return result.healthBaseGain;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseGain:(int32_t) value {
+  result.hasHealthBaseGain = YES;
+  result.healthBaseGain = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseGain {
+  result.hasHealthBaseGain = NO;
+  result.healthBaseGain = 0;
+  return self;
+}
+- (BOOL) hasStaminaBaseGain {
+  return result.hasStaminaBaseGain;
+}
+- (int32_t) staminaBaseGain {
+  return result.staminaBaseGain;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setStaminaBaseGain:(int32_t) value {
+  result.hasStaminaBaseGain = YES;
+  result.staminaBaseGain = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearStaminaBaseGain {
+  result.hasStaminaBaseGain = NO;
+  result.staminaBaseGain = 0;
+  return self;
+}
+- (BOOL) hasAttackBaseCost {
+  return result.hasAttackBaseCost;
+}
+- (int32_t) attackBaseCost {
+  return result.attackBaseCost;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAttackBaseCost:(int32_t) value {
+  result.hasAttackBaseCost = YES;
+  result.attackBaseCost = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAttackBaseCost {
+  result.hasAttackBaseCost = NO;
+  result.attackBaseCost = 0;
+  return self;
+}
+- (BOOL) hasDefenseBaseCost {
+  return result.hasDefenseBaseCost;
+}
+- (int32_t) defenseBaseCost {
+  return result.defenseBaseCost;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDefenseBaseCost:(int32_t) value {
+  result.hasDefenseBaseCost = YES;
+  result.defenseBaseCost = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDefenseBaseCost {
+  result.hasDefenseBaseCost = NO;
+  result.defenseBaseCost = 0;
+  return self;
+}
+- (BOOL) hasEnergyBaseCost {
+  return result.hasEnergyBaseCost;
+}
+- (int32_t) energyBaseCost {
+  return result.energyBaseCost;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setEnergyBaseCost:(int32_t) value {
+  result.hasEnergyBaseCost = YES;
+  result.energyBaseCost = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearEnergyBaseCost {
+  result.hasEnergyBaseCost = NO;
+  result.energyBaseCost = 0;
+  return self;
+}
+- (BOOL) hasHealthBaseCost {
+  return result.hasHealthBaseCost;
+}
+- (int32_t) healthBaseCost {
+  return result.healthBaseCost;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseCost:(int32_t) value {
+  result.hasHealthBaseCost = YES;
+  result.healthBaseCost = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseCost {
+  result.hasHealthBaseCost = NO;
+  result.healthBaseCost = 0;
+  return self;
+}
+- (BOOL) hasStaminaBaseCost {
+  return result.hasStaminaBaseCost;
+}
+- (int32_t) staminaBaseCost {
+  return result.staminaBaseCost;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setStaminaBaseCost:(int32_t) value {
+  result.hasStaminaBaseCost = YES;
+  result.staminaBaseCost = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearStaminaBaseCost {
+  result.hasStaminaBaseCost = NO;
+  result.staminaBaseCost = 0;
+  return self;
+}
+- (BOOL) hasSkillPointsGainedOnLevelup {
+  return result.hasSkillPointsGainedOnLevelup;
+}
+- (int32_t) skillPointsGainedOnLevelup {
+  return result.skillPointsGainedOnLevelup;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setSkillPointsGainedOnLevelup:(int32_t) value {
+  result.hasSkillPointsGainedOnLevelup = YES;
+  result.skillPointsGainedOnLevelup = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearSkillPointsGainedOnLevelup {
+  result.hasSkillPointsGainedOnLevelup = NO;
+  result.skillPointsGainedOnLevelup = 0;
+  return self;
+}
+- (BOOL) hasCutOfVaultDepositTaken {
+  return result.hasCutOfVaultDepositTaken;
+}
+- (int32_t) cutOfVaultDepositTaken {
+  return result.cutOfVaultDepositTaken;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setCutOfVaultDepositTaken:(int32_t) value {
+  result.hasCutOfVaultDepositTaken = YES;
+  result.cutOfVaultDepositTaken = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearCutOfVaultDepositTaken {
+  result.hasCutOfVaultDepositTaken = NO;
+  result.cutOfVaultDepositTaken = 0;
+  return self;
+}
+- (BOOL) hasMinVaultLevel {
+  return result.hasMinVaultLevel;
+}
+- (int32_t) minVaultLevel {
+  return result.minVaultLevel;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinVaultLevel:(int32_t) value {
+  result.hasMinVaultLevel = YES;
+  result.minVaultLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinVaultLevel {
+  result.hasMinVaultLevel = NO;
+  result.minVaultLevel = 0;
+  return self;
+}
+- (BOOL) hasMinMarketplaceLevel {
+  return result.hasMinMarketplaceLevel;
+}
+- (int32_t) minMarketplaceLevel {
+  return result.minMarketplaceLevel;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinMarketplaceLevel:(int32_t) value {
+  result.hasMinMarketplaceLevel = YES;
+  result.minMarketplaceLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinMarketplaceLevel {
+  result.hasMinMarketplaceLevel = NO;
+  result.minMarketplaceLevel = 0;
+  return self;
+}
+- (BOOL) hasMinArmoryLevel {
+  return result.hasMinArmoryLevel;
+}
+- (int32_t) minArmoryLevel {
+  return result.minArmoryLevel;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinArmoryLevel:(int32_t) value {
+  result.hasMinArmoryLevel = YES;
+  result.minArmoryLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinArmoryLevel {
+  result.hasMinArmoryLevel = NO;
+  result.minArmoryLevel = 0;
+  return self;
+}
+- (BOOL) hasMaxRankForCity {
+  return result.hasMaxRankForCity;
+}
+- (int32_t) maxRankForCity {
+  return result.maxRankForCity;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxRankForCity:(int32_t) value {
+  result.hasMaxRankForCity = YES;
+  result.maxRankForCity = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxRankForCity {
+  result.hasMaxRankForCity = NO;
+  result.maxRankForCity = 0;
+  return self;
+}
+- (BOOL) hasMaxLevelForStruct {
+  return result.hasMaxLevelForStruct;
+}
+- (int32_t) maxLevelForStruct {
+  return result.maxLevelForStruct;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxLevelForStruct:(int32_t) value {
+  result.hasMaxLevelForStruct = YES;
+  result.maxLevelForStruct = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelForStruct {
+  result.hasMaxLevelForStruct = NO;
+  result.maxLevelForStruct = 0;
+  return self;
+}
+- (BOOL) hasMaxNumOfSingleStruct {
+  return result.hasMaxNumOfSingleStruct;
+}
+- (int32_t) maxNumOfSingleStruct {
+  return result.maxNumOfSingleStruct;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumOfSingleStruct:(int32_t) value {
+  result.hasMaxNumOfSingleStruct = YES;
+  result.maxNumOfSingleStruct = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumOfSingleStruct {
+  result.hasMaxNumOfSingleStruct = NO;
+  result.maxNumOfSingleStruct = 0;
+  return self;
+}
+- (BOOL) hasPercentReturnedToUserForSellingNormStructure {
+  return result.hasPercentReturnedToUserForSellingNormStructure;
+}
+- (Float64) percentReturnedToUserForSellingNormStructure {
+  return result.percentReturnedToUserForSellingNormStructure;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPercentReturnedToUserForSellingNormStructure:(Float64) value {
+  result.hasPercentReturnedToUserForSellingNormStructure = YES;
+  result.percentReturnedToUserForSellingNormStructure = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentReturnedToUserForSellingNormStructure {
+  result.hasPercentReturnedToUserForSellingNormStructure = NO;
+  result.percentReturnedToUserForSellingNormStructure = 0;
+  return self;
+}
+- (BOOL) hasMinutesToRefillAenergy {
+  return result.hasMinutesToRefillAenergy;
+}
+- (int32_t) minutesToRefillAenergy {
+  return result.minutesToRefillAenergy;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesToRefillAenergy:(int32_t) value {
+  result.hasMinutesToRefillAenergy = YES;
+  result.minutesToRefillAenergy = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesToRefillAenergy {
+  result.hasMinutesToRefillAenergy = NO;
+  result.minutesToRefillAenergy = 0;
+  return self;
+}
+- (BOOL) hasMinutesToRefillAstamina {
+  return result.hasMinutesToRefillAstamina;
+}
+- (int32_t) minutesToRefillAstamina {
+  return result.minutesToRefillAstamina;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesToRefillAstamina:(int32_t) value {
+  result.hasMinutesToRefillAstamina = YES;
+  result.minutesToRefillAstamina = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesToRefillAstamina {
+  result.hasMinutesToRefillAstamina = NO;
+  result.minutesToRefillAstamina = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostForFullStaminaRefill {
+  return result.hasDiamondCostForFullStaminaRefill;
+}
+- (int32_t) diamondCostForFullStaminaRefill {
+  return result.diamondCostForFullStaminaRefill;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForFullStaminaRefill:(int32_t) value {
+  result.hasDiamondCostForFullStaminaRefill = YES;
+  result.diamondCostForFullStaminaRefill = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForFullStaminaRefill {
+  result.hasDiamondCostForFullStaminaRefill = NO;
+  result.diamondCostForFullStaminaRefill = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostForFullEnergyRefill {
+  return result.hasDiamondCostForFullEnergyRefill;
+}
+- (int32_t) diamondCostForFullEnergyRefill {
+  return result.diamondCostForFullEnergyRefill;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostForFullEnergyRefill:(int32_t) value {
+  result.hasDiamondCostForFullEnergyRefill = YES;
+  result.diamondCostForFullEnergyRefill = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostForFullEnergyRefill {
+  result.hasDiamondCostForFullEnergyRefill = NO;
+  result.diamondCostForFullEnergyRefill = 0;
+  return self;
+}
+- (BOOL) hasMaxNumberOfMarketplacePosts {
+  return result.hasMaxNumberOfMarketplacePosts;
+}
+- (int32_t) maxNumberOfMarketplacePosts {
+  return result.maxNumberOfMarketplacePosts;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumberOfMarketplacePosts:(int32_t) value {
+  result.hasMaxNumberOfMarketplacePosts = YES;
+  result.maxNumberOfMarketplacePosts = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumberOfMarketplacePosts {
+  result.hasMaxNumberOfMarketplacePosts = NO;
+  result.maxNumberOfMarketplacePosts = 0;
+  return self;
+}
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase {
+  return result.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+}
+- (Float64) percentOfSellingCostTakenFromSellerOnMarketplacePurchase {
+  return result.percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPercentOfSellingCostTakenFromSellerOnMarketplacePurchase:(Float64) value {
+  result.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase = YES;
+  result.percentOfSellingCostTakenFromSellerOnMarketplacePurchase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentOfSellingCostTakenFromSellerOnMarketplacePurchase {
+  result.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase = NO;
+  result.percentOfSellingCostTakenFromSellerOnMarketplacePurchase = 0;
+  return self;
+}
+- (BOOL) hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract {
+  return result.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+}
+- (Float64) percentOfSellingCostTakenFromSellerOnMarketplaceRetract {
+  return result.percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPercentOfSellingCostTakenFromSellerOnMarketplaceRetract:(Float64) value {
+  result.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract = YES;
+  result.percentOfSellingCostTakenFromSellerOnMarketplaceRetract = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentOfSellingCostTakenFromSellerOnMarketplaceRetract {
+  result.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract = NO;
+  result.percentOfSellingCostTakenFromSellerOnMarketplaceRetract = 0;
+  return self;
+}
+- (BOOL) hasNumDaysLongMarketplaceLicenseLastsFor {
+  return result.hasNumDaysLongMarketplaceLicenseLastsFor;
+}
+- (int32_t) numDaysLongMarketplaceLicenseLastsFor {
+  return result.numDaysLongMarketplaceLicenseLastsFor;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setNumDaysLongMarketplaceLicenseLastsFor:(int32_t) value {
+  result.hasNumDaysLongMarketplaceLicenseLastsFor = YES;
+  result.numDaysLongMarketplaceLicenseLastsFor = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearNumDaysLongMarketplaceLicenseLastsFor {
+  result.hasNumDaysLongMarketplaceLicenseLastsFor = NO;
+  result.numDaysLongMarketplaceLicenseLastsFor = 0;
+  return self;
+}
+- (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor {
+  return result.hasNumDaysShortMarketplaceLicenseLastsFor;
+}
+- (int32_t) numDaysShortMarketplaceLicenseLastsFor {
+  return result.numDaysShortMarketplaceLicenseLastsFor;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setNumDaysShortMarketplaceLicenseLastsFor:(int32_t) value {
+  result.hasNumDaysShortMarketplaceLicenseLastsFor = YES;
+  result.numDaysShortMarketplaceLicenseLastsFor = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearNumDaysShortMarketplaceLicenseLastsFor {
+  result.hasNumDaysShortMarketplaceLicenseLastsFor = NO;
+  result.numDaysShortMarketplaceLicenseLastsFor = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostOfLongMarketplaceLicense {
+  return result.hasDiamondCostOfLongMarketplaceLicense;
+}
+- (int32_t) diamondCostOfLongMarketplaceLicense {
+  return result.diamondCostOfLongMarketplaceLicense;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfLongMarketplaceLicense:(int32_t) value {
+  result.hasDiamondCostOfLongMarketplaceLicense = YES;
+  result.diamondCostOfLongMarketplaceLicense = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfLongMarketplaceLicense {
+  result.hasDiamondCostOfLongMarketplaceLicense = NO;
+  result.diamondCostOfLongMarketplaceLicense = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostOfShortMarketplaceLicense {
+  return result.hasDiamondCostOfShortMarketplaceLicense;
+}
+- (int32_t) diamondCostOfShortMarketplaceLicense {
+  return result.diamondCostOfShortMarketplaceLicense;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfShortMarketplaceLicense:(int32_t) value {
+  result.hasDiamondCostOfShortMarketplaceLicense = YES;
+  result.diamondCostOfShortMarketplaceLicense = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfShortMarketplaceLicense {
+  result.hasDiamondCostOfShortMarketplaceLicense = NO;
+  result.diamondCostOfShortMarketplaceLicense = 0;
+  return self;
+}
+- (BOOL) hasMinutesForCityExpansion {
+  return result.hasMinutesForCityExpansion;
+}
+- (int32_t) minutesForCityExpansion {
+  return result.minutesForCityExpansion;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinutesForCityExpansion:(int32_t) value {
+  result.hasMinutesForCityExpansion = YES;
+  result.minutesForCityExpansion = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinutesForCityExpansion {
+  result.hasMinutesForCityExpansion = NO;
+  result.minutesForCityExpansion = 0;
+  return self;
+}
+- (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce {
+  return result.hasMaxNumbersOfEnemiesToGenerateAtOnce;
+}
+- (int32_t) maxNumbersOfEnemiesToGenerateAtOnce {
+  return result.maxNumbersOfEnemiesToGenerateAtOnce;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumbersOfEnemiesToGenerateAtOnce:(int32_t) value {
+  result.hasMaxNumbersOfEnemiesToGenerateAtOnce = YES;
+  result.maxNumbersOfEnemiesToGenerateAtOnce = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumbersOfEnemiesToGenerateAtOnce {
+  result.hasMaxNumbersOfEnemiesToGenerateAtOnce = NO;
+  result.maxNumbersOfEnemiesToGenerateAtOnce = 0;
+  return self;
+}
+- (BOOL) hasPercentReturnedToUserForSellingEquipInArmory {
+  return result.hasPercentReturnedToUserForSellingEquipInArmory;
+}
+- (Float64) percentReturnedToUserForSellingEquipInArmory {
+  return result.percentReturnedToUserForSellingEquipInArmory;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPercentReturnedToUserForSellingEquipInArmory:(Float64) value {
+  result.hasPercentReturnedToUserForSellingEquipInArmory = YES;
+  result.percentReturnedToUserForSellingEquipInArmory = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPercentReturnedToUserForSellingEquipInArmory {
+  result.hasPercentReturnedToUserForSellingEquipInArmory = NO;
+  result.percentReturnedToUserForSellingEquipInArmory = 0;
   return self;
 }
 @end
@@ -4731,6 +6329,10 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property int32_t warriorInitDefense;
 @property (retain) FullEquipProto* warriorInitWeapon;
 @property (retain) FullEquipProto* warriorInitArmor;
+@property int32_t minNameLength;
+@property int32_t maxNameLength;
+@property int32_t diamondRewardForReferrer;
+@property int32_t diamondRewardForBeingReferred;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -4861,6 +6463,34 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasWarriorInitArmor_ = !!value;
 }
 @synthesize warriorInitArmor;
+- (BOOL) hasMinNameLength {
+  return !!hasMinNameLength_;
+}
+- (void) setHasMinNameLength:(BOOL) value {
+  hasMinNameLength_ = !!value;
+}
+@synthesize minNameLength;
+- (BOOL) hasMaxNameLength {
+  return !!hasMaxNameLength_;
+}
+- (void) setHasMaxNameLength:(BOOL) value {
+  hasMaxNameLength_ = !!value;
+}
+@synthesize maxNameLength;
+- (BOOL) hasDiamondRewardForReferrer {
+  return !!hasDiamondRewardForReferrer_;
+}
+- (void) setHasDiamondRewardForReferrer:(BOOL) value {
+  hasDiamondRewardForReferrer_ = !!value;
+}
+@synthesize diamondRewardForReferrer;
+- (BOOL) hasDiamondRewardForBeingReferred {
+  return !!hasDiamondRewardForBeingReferred_;
+}
+- (void) setHasDiamondRewardForBeingReferred:(BOOL) value {
+  hasDiamondRewardForBeingReferred_ = !!value;
+}
+@synthesize diamondRewardForBeingReferred;
 - (void) dealloc {
   self.tutorialQuest = nil;
   self.archerInitWeapon = nil;
@@ -4891,6 +6521,10 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.warriorInitDefense = 0;
     self.warriorInitWeapon = [FullEquipProto defaultInstance];
     self.warriorInitArmor = [FullEquipProto defaultInstance];
+    self.minNameLength = 0;
+    self.maxNameLength = 0;
+    self.diamondRewardForReferrer = 0;
+    self.diamondRewardForBeingReferred = 0;
   }
   return self;
 }
@@ -4959,6 +6593,18 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     return NO;
   }
   if (!self.hasWarriorInitArmor) {
+    return NO;
+  }
+  if (!self.hasMinNameLength) {
+    return NO;
+  }
+  if (!self.hasMaxNameLength) {
+    return NO;
+  }
+  if (!self.hasDiamondRewardForReferrer) {
+    return NO;
+  }
+  if (!self.hasDiamondRewardForBeingReferred) {
     return NO;
   }
   if (!self.tutorialQuest.isInitialized) {
@@ -5039,6 +6685,18 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasArcherInitDefense) {
     [output writeInt32:18 value:self.archerInitDefense];
   }
+  if (self.hasMinNameLength) {
+    [output writeInt32:19 value:self.minNameLength];
+  }
+  if (self.hasMaxNameLength) {
+    [output writeInt32:20 value:self.maxNameLength];
+  }
+  if (self.hasDiamondRewardForReferrer) {
+    [output writeInt32:21 value:self.diamondRewardForReferrer];
+  }
+  if (self.hasDiamondRewardForBeingReferred) {
+    [output writeInt32:22 value:self.diamondRewardForBeingReferred];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5101,6 +6759,18 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasArcherInitDefense) {
     size += computeInt32Size(18, self.archerInitDefense);
+  }
+  if (self.hasMinNameLength) {
+    size += computeInt32Size(19, self.minNameLength);
+  }
+  if (self.hasMaxNameLength) {
+    size += computeInt32Size(20, self.maxNameLength);
+  }
+  if (self.hasDiamondRewardForReferrer) {
+    size += computeInt32Size(21, self.diamondRewardForReferrer);
+  }
+  if (self.hasDiamondRewardForBeingReferred) {
+    size += computeInt32Size(22, self.diamondRewardForBeingReferred);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6144,6 +7814,18 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasWarriorInitArmor) {
     [self mergeWarriorInitArmor:other.warriorInitArmor];
   }
+  if (other.hasMinNameLength) {
+    [self setMinNameLength:other.minNameLength];
+  }
+  if (other.hasMaxNameLength) {
+    [self setMaxNameLength:other.maxNameLength];
+  }
+  if (other.hasDiamondRewardForReferrer) {
+    [self setDiamondRewardForReferrer:other.diamondRewardForReferrer];
+  }
+  if (other.hasDiamondRewardForBeingReferred) {
+    [self setDiamondRewardForBeingReferred:other.diamondRewardForBeingReferred];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6270,6 +7952,22 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 144: {
         [self setArcherInitDefense:[input readInt32]];
+        break;
+      }
+      case 152: {
+        [self setMinNameLength:[input readInt32]];
+        break;
+      }
+      case 160: {
+        [self setMaxNameLength:[input readInt32]];
+        break;
+      }
+      case 168: {
+        [self setDiamondRewardForReferrer:[input readInt32]];
+        break;
+      }
+      case 176: {
+        [self setDiamondRewardForBeingReferred:[input readInt32]];
         break;
       }
     }
@@ -6661,6 +8359,70 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   result.warriorInitArmor = [FullEquipProto defaultInstance];
   return self;
 }
+- (BOOL) hasMinNameLength {
+  return result.hasMinNameLength;
+}
+- (int32_t) minNameLength {
+  return result.minNameLength;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMinNameLength:(int32_t) value {
+  result.hasMinNameLength = YES;
+  result.minNameLength = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearMinNameLength {
+  result.hasMinNameLength = NO;
+  result.minNameLength = 0;
+  return self;
+}
+- (BOOL) hasMaxNameLength {
+  return result.hasMaxNameLength;
+}
+- (int32_t) maxNameLength {
+  return result.maxNameLength;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setMaxNameLength:(int32_t) value {
+  result.hasMaxNameLength = YES;
+  result.maxNameLength = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearMaxNameLength {
+  result.hasMaxNameLength = NO;
+  result.maxNameLength = 0;
+  return self;
+}
+- (BOOL) hasDiamondRewardForReferrer {
+  return result.hasDiamondRewardForReferrer;
+}
+- (int32_t) diamondRewardForReferrer {
+  return result.diamondRewardForReferrer;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value {
+  result.hasDiamondRewardForReferrer = YES;
+  result.diamondRewardForReferrer = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForReferrer {
+  result.hasDiamondRewardForReferrer = NO;
+  result.diamondRewardForReferrer = 0;
+  return self;
+}
+- (BOOL) hasDiamondRewardForBeingReferred {
+  return result.hasDiamondRewardForBeingReferred;
+}
+- (int32_t) diamondRewardForBeingReferred {
+  return result.diamondRewardForBeingReferred;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForBeingReferred:(int32_t) value {
+  result.hasDiamondRewardForBeingReferred = YES;
+  result.diamondRewardForBeingReferred = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForBeingReferred {
+  result.hasDiamondRewardForBeingReferred = NO;
+  result.diamondRewardForBeingReferred = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_Builder()
@@ -6755,18 +8517,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       result.mutableEquipsList = [NSMutableArray array];
     }
     [result.mutableEquipsList addObjectsFromArray:other.mutableEquipsList];
-  }
-  if (other.mutableUserStructuresList.count > 0) {
-    if (result.mutableUserStructuresList == nil) {
-      result.mutableUserStructuresList = [NSMutableArray array];
-    }
-    [result.mutableUserStructuresList addObjectsFromArray:other.mutableUserStructuresList];
-  }
-  if (other.mutableStructsList.count > 0) {
-    if (result.mutableStructsList == nil) {
-      result.mutableStructsList = [NSMutableArray array];
-    }
-    [result.mutableStructsList addObjectsFromArray:other.mutableStructsList];
   }
   if (other.hasExperienceRequiredForNextLevel) {
     [self setExperienceRequiredForNextLevel:other.experienceRequiredForNextLevel];
@@ -6879,48 +8629,36 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         [self addEquips:[subBuilder buildPartial]];
         break;
       }
-      case 82: {
-        FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addUserStructures:[subBuilder buildPartial]];
-        break;
-      }
-      case 90: {
-        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addStructs:[subBuilder buildPartial]];
-        break;
-      }
-      case 96: {
+      case 80: {
         [self setExperienceRequiredForNextLevel:[input readInt32]];
         break;
       }
-      case 106: {
+      case 98: {
         StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder* subBuilder = [StartupResponseProto_MarketplacePostPurchasedNotificationProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addMarketplacePurchaseNotifications:[subBuilder buildPartial]];
         break;
       }
-      case 114: {
+      case 106: {
         StartupResponseProto_AttackedNotificationProto_Builder* subBuilder = [StartupResponseProto_AttackedNotificationProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAttackNotifications:[subBuilder buildPartial]];
         break;
       }
-      case 122: {
+      case 114: {
         StartupResponseProto_ReferralNotificationProto_Builder* subBuilder = [StartupResponseProto_ReferralNotificationProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addReferralNotifications:[subBuilder buildPartial]];
+        break;
+      }
+      case 120: {
+        [self setExperienceRequiredForCurrentLevel:[input readInt32]];
         break;
       }
       case 130: {
         FullUserCityProto_Builder* subBuilder = [FullUserCityProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserCityInfos:[subBuilder buildPartial]];
-        break;
-      }
-      case 136: {
-        [self setExperienceRequiredForCurrentLevel:[input readInt32]];
         break;
       }
       case 146: {
@@ -7231,64 +8969,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   [result.mutableEquipsList addObject:value];
   return self;
 }
-- (NSArray*) userStructuresList {
-  if (result.mutableUserStructuresList == nil) { return [NSArray array]; }
-  return result.mutableUserStructuresList;
-}
-- (FullUserStructureProto*) userStructuresAtIndex:(int32_t) index {
-  return [result userStructuresAtIndex:index];
-}
-- (StartupResponseProto_Builder*) replaceUserStructuresAtIndex:(int32_t) index with:(FullUserStructureProto*) value {
-  [result.mutableUserStructuresList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder*) addAllUserStructures:(NSArray*) values {
-  if (result.mutableUserStructuresList == nil) {
-    result.mutableUserStructuresList = [NSMutableArray array];
-  }
-  [result.mutableUserStructuresList addObjectsFromArray:values];
-  return self;
-}
-- (StartupResponseProto_Builder*) clearUserStructuresList {
-  result.mutableUserStructuresList = nil;
-  return self;
-}
-- (StartupResponseProto_Builder*) addUserStructures:(FullUserStructureProto*) value {
-  if (result.mutableUserStructuresList == nil) {
-    result.mutableUserStructuresList = [NSMutableArray array];
-  }
-  [result.mutableUserStructuresList addObject:value];
-  return self;
-}
-- (NSArray*) structsList {
-  if (result.mutableStructsList == nil) { return [NSArray array]; }
-  return result.mutableStructsList;
-}
-- (FullStructureProto*) structsAtIndex:(int32_t) index {
-  return [result structsAtIndex:index];
-}
-- (StartupResponseProto_Builder*) replaceStructsAtIndex:(int32_t) index with:(FullStructureProto*) value {
-  [result.mutableStructsList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (StartupResponseProto_Builder*) addAllStructs:(NSArray*) values {
-  if (result.mutableStructsList == nil) {
-    result.mutableStructsList = [NSMutableArray array];
-  }
-  [result.mutableStructsList addObjectsFromArray:values];
-  return self;
-}
-- (StartupResponseProto_Builder*) clearStructsList {
-  result.mutableStructsList = nil;
-  return self;
-}
-- (StartupResponseProto_Builder*) addStructs:(FullStructureProto*) value {
-  if (result.mutableStructsList == nil) {
-    result.mutableStructsList = [NSMutableArray array];
-  }
-  [result.mutableStructsList addObject:value];
-  return self;
-}
 - (BOOL) hasExperienceRequiredForNextLevel {
   return result.hasExperienceRequiredForNextLevel;
 }
@@ -7414,7 +9094,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 @property (retain) NSString* udid;
 @property (retain) NSString* name;
 @property UserType type;
-@property (retain) FullUserStructureProto* structure;
 @property (retain) LocationProto* userLocation;
 @property (retain) NSString* referrerCode;
 @property (retain) NSString* deviceToken;
@@ -7423,6 +9102,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 @property int32_t health;
 @property int32_t energy;
 @property int32_t stamina;
+@property int64_t timeOfStructPurchase;
+@property int64_t timeOfStructDiamondInstabuild;
+@property (retain) CoordinateProto* structCoords;
 @end
 
 @implementation UserCreateRequestProto
@@ -7448,13 +9130,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   hasType_ = !!value;
 }
 @synthesize type;
-- (BOOL) hasStructure {
-  return !!hasStructure_;
-}
-- (void) setHasStructure:(BOOL) value {
-  hasStructure_ = !!value;
-}
-@synthesize structure;
 - (BOOL) hasUserLocation {
   return !!hasUserLocation_;
 }
@@ -7511,13 +9186,34 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   hasStamina_ = !!value;
 }
 @synthesize stamina;
+- (BOOL) hasTimeOfStructPurchase {
+  return !!hasTimeOfStructPurchase_;
+}
+- (void) setHasTimeOfStructPurchase:(BOOL) value {
+  hasTimeOfStructPurchase_ = !!value;
+}
+@synthesize timeOfStructPurchase;
+- (BOOL) hasTimeOfStructDiamondInstabuild {
+  return !!hasTimeOfStructDiamondInstabuild_;
+}
+- (void) setHasTimeOfStructDiamondInstabuild:(BOOL) value {
+  hasTimeOfStructDiamondInstabuild_ = !!value;
+}
+@synthesize timeOfStructDiamondInstabuild;
+- (BOOL) hasStructCoords {
+  return !!hasStructCoords_;
+}
+- (void) setHasStructCoords:(BOOL) value {
+  hasStructCoords_ = !!value;
+}
+@synthesize structCoords;
 - (void) dealloc {
   self.udid = nil;
   self.name = nil;
-  self.structure = nil;
   self.userLocation = nil;
   self.referrerCode = nil;
   self.deviceToken = nil;
+  self.structCoords = nil;
   [super dealloc];
 }
 - (id) init {
@@ -7525,7 +9221,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     self.udid = @"";
     self.name = @"";
     self.type = UserTypeGoodWarrior;
-    self.structure = [FullUserStructureProto defaultInstance];
     self.userLocation = [LocationProto defaultInstance];
     self.referrerCode = @"";
     self.deviceToken = @"";
@@ -7534,6 +9229,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     self.health = 0;
     self.energy = 0;
     self.stamina = 0;
+    self.timeOfStructPurchase = 0L;
+    self.timeOfStructDiamondInstabuild = 0L;
+    self.structCoords = [CoordinateProto defaultInstance];
   }
   return self;
 }
@@ -7559,9 +9257,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (!self.hasType) {
     return NO;
   }
-  if (!self.hasStructure) {
-    return NO;
-  }
   if (!self.hasAttack) {
     return NO;
   }
@@ -7577,13 +9272,22 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (!self.hasStamina) {
     return NO;
   }
-  if (!self.structure.isInitialized) {
+  if (!self.hasTimeOfStructPurchase) {
+    return NO;
+  }
+  if (!self.hasTimeOfStructDiamondInstabuild) {
+    return NO;
+  }
+  if (!self.hasStructCoords) {
     return NO;
   }
   if (self.hasUserLocation) {
     if (!self.userLocation.isInitialized) {
       return NO;
     }
+  }
+  if (!self.structCoords.isInitialized) {
+    return NO;
   }
   return YES;
 }
@@ -7597,8 +9301,8 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasType) {
     [output writeEnum:3 value:self.type];
   }
-  if (self.hasStructure) {
-    [output writeMessage:5 value:self.structure];
+  if (self.hasStructCoords) {
+    [output writeMessage:4 value:self.structCoords];
   }
   if (self.hasUserLocation) {
     [output writeMessage:6 value:self.userLocation];
@@ -7624,6 +9328,12 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasStamina) {
     [output writeInt32:13 value:self.stamina];
   }
+  if (self.hasTimeOfStructPurchase) {
+    [output writeInt64:14 value:self.timeOfStructPurchase];
+  }
+  if (self.hasTimeOfStructDiamondInstabuild) {
+    [output writeInt64:15 value:self.timeOfStructDiamondInstabuild];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7642,8 +9352,8 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasType) {
     size += computeEnumSize(3, self.type);
   }
-  if (self.hasStructure) {
-    size += computeMessageSize(5, self.structure);
+  if (self.hasStructCoords) {
+    size += computeMessageSize(4, self.structCoords);
   }
   if (self.hasUserLocation) {
     size += computeMessageSize(6, self.userLocation);
@@ -7668,6 +9378,12 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasStamina) {
     size += computeInt32Size(13, self.stamina);
+  }
+  if (self.hasTimeOfStructPurchase) {
+    size += computeInt64Size(14, self.timeOfStructPurchase);
+  }
+  if (self.hasTimeOfStructDiamondInstabuild) {
+    size += computeInt64Size(15, self.timeOfStructDiamondInstabuild);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7753,9 +9469,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasType) {
     [self setType:other.type];
   }
-  if (other.hasStructure) {
-    [self mergeStructure:other.structure];
-  }
   if (other.hasUserLocation) {
     [self mergeUserLocation:other.userLocation];
   }
@@ -7779,6 +9492,15 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (other.hasStamina) {
     [self setStamina:other.stamina];
+  }
+  if (other.hasTimeOfStructPurchase) {
+    [self setTimeOfStructPurchase:other.timeOfStructPurchase];
+  }
+  if (other.hasTimeOfStructDiamondInstabuild) {
+    [self setTimeOfStructDiamondInstabuild:other.timeOfStructDiamondInstabuild];
+  }
+  if (other.hasStructCoords) {
+    [self mergeStructCoords:other.structCoords];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -7818,13 +9540,13 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
         }
         break;
       }
-      case 42: {
-        FullUserStructureProto_Builder* subBuilder = [FullUserStructureProto builder];
-        if (self.hasStructure) {
-          [subBuilder mergeFrom:self.structure];
+      case 34: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasStructCoords) {
+          [subBuilder mergeFrom:self.structCoords];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setStructure:[subBuilder buildPartial]];
+        [self setStructCoords:[subBuilder buildPartial]];
         break;
       }
       case 50: {
@@ -7862,6 +9584,14 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 104: {
         [self setStamina:[input readInt32]];
+        break;
+      }
+      case 112: {
+        [self setTimeOfStructPurchase:[input readInt64]];
+        break;
+      }
+      case 120: {
+        [self setTimeOfStructDiamondInstabuild:[input readInt64]];
         break;
       }
     }
@@ -7913,36 +9643,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearType {
   result.hasType = NO;
   result.type = UserTypeGoodWarrior;
-  return self;
-}
-- (BOOL) hasStructure {
-  return result.hasStructure;
-}
-- (FullUserStructureProto*) structure {
-  return result.structure;
-}
-- (UserCreateRequestProto_Builder*) setStructure:(FullUserStructureProto*) value {
-  result.hasStructure = YES;
-  result.structure = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) setStructureBuilder:(FullUserStructureProto_Builder*) builderForValue {
-  return [self setStructure:[builderForValue build]];
-}
-- (UserCreateRequestProto_Builder*) mergeStructure:(FullUserStructureProto*) value {
-  if (result.hasStructure &&
-      result.structure != [FullUserStructureProto defaultInstance]) {
-    result.structure =
-      [[[FullUserStructureProto builderWithPrototype:result.structure] mergeFrom:value] buildPartial];
-  } else {
-    result.structure = value;
-  }
-  result.hasStructure = YES;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearStructure {
-  result.hasStructure = NO;
-  result.structure = [FullUserStructureProto defaultInstance];
   return self;
 }
 - (BOOL) hasUserLocation {
@@ -8087,6 +9787,68 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   result.stamina = 0;
   return self;
 }
+- (BOOL) hasTimeOfStructPurchase {
+  return result.hasTimeOfStructPurchase;
+}
+- (int64_t) timeOfStructPurchase {
+  return result.timeOfStructPurchase;
+}
+- (UserCreateRequestProto_Builder*) setTimeOfStructPurchase:(int64_t) value {
+  result.hasTimeOfStructPurchase = YES;
+  result.timeOfStructPurchase = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearTimeOfStructPurchase {
+  result.hasTimeOfStructPurchase = NO;
+  result.timeOfStructPurchase = 0L;
+  return self;
+}
+- (BOOL) hasTimeOfStructDiamondInstabuild {
+  return result.hasTimeOfStructDiamondInstabuild;
+}
+- (int64_t) timeOfStructDiamondInstabuild {
+  return result.timeOfStructDiamondInstabuild;
+}
+- (UserCreateRequestProto_Builder*) setTimeOfStructDiamondInstabuild:(int64_t) value {
+  result.hasTimeOfStructDiamondInstabuild = YES;
+  result.timeOfStructDiamondInstabuild = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearTimeOfStructDiamondInstabuild {
+  result.hasTimeOfStructDiamondInstabuild = NO;
+  result.timeOfStructDiamondInstabuild = 0L;
+  return self;
+}
+- (BOOL) hasStructCoords {
+  return result.hasStructCoords;
+}
+- (CoordinateProto*) structCoords {
+  return result.structCoords;
+}
+- (UserCreateRequestProto_Builder*) setStructCoords:(CoordinateProto*) value {
+  result.hasStructCoords = YES;
+  result.structCoords = value;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) setStructCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setStructCoords:[builderForValue build]];
+}
+- (UserCreateRequestProto_Builder*) mergeStructCoords:(CoordinateProto*) value {
+  if (result.hasStructCoords &&
+      result.structCoords != [CoordinateProto defaultInstance]) {
+    result.structCoords =
+      [[[CoordinateProto builderWithPrototype:result.structCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.structCoords = value;
+  }
+  result.hasStructCoords = YES;
+  return self;
+}
+- (UserCreateRequestProto_Builder*) clearStructCoords {
+  result.hasStructCoords = NO;
+  result.structCoords = [CoordinateProto defaultInstance];
+  return self;
+}
 @end
 
 @interface UserCreateResponseProto ()
@@ -8205,7 +9967,7 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
     case UserCreateResponseProto_UserCreateStatusInvalidName:
     case UserCreateResponseProto_UserCreateStatusInvalidLocation:
     case UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists:
-    case UserCreateResponseProto_UserCreateStatusOtherFail:
+    case UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime:
       return YES;
     default:
       return NO;
@@ -12499,6 +14261,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooAheadOfServerTime:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAtMaxLevelAlready:
       return YES;
     default:
       return NO;
@@ -15479,6 +17242,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
   switch (value) {
     case LevelUpResponseProto_LevelUpStatusSuccess:
     case LevelUpResponseProto_LevelUpStatusNotEnoughExpToNextLevel:
+    case LevelUpResponseProto_LevelUpStatusAlreadyAtMaxLevel:
     case LevelUpResponseProto_LevelUpStatusOtherFail:
       return YES;
     default:

@@ -44,6 +44,14 @@
 
 @end
 
+@implementation NiceFontLabel5
+
+- (void) awakeFromNib {
+  self.font = [UIFont fontWithName:@"Requiem Text-HTF-SmallCaps" size:self.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;

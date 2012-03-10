@@ -9,6 +9,14 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 
+@interface BattleSummaryView : UIView
+
+@end
+
+@interface StolenEquipView : UIView
+
+@end
+
 @interface BattleLayer : CCLayer {
   CCSprite *_left;
   CCSprite *_right;
@@ -44,11 +52,27 @@
   int _rightDefense;
   
   float _damageDone;
+  
+  CCLayer *_pausedLayer;
+  CCLayer *_winLayer;
+  CCLayer *_loseLayer;
+  
+  FullUserProto *_fup;
 }
+
+@property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;
+@property (nonatomic, retain) IBOutlet BattleSummaryView *summaryView;
+
+@property (nonatomic, retain) BattleResponseProto *brp;
 
 + (CCScene *) scene;
 + (BattleLayer *) sharedBattleLayer;
 - (void) beginBattleAgainst:(FullUserProto *)user;
 - (void) doAttackAnimation;
+
+- (IBAction)stolenEquipOkayClicked:(id)sender;
+- (IBAction)closeClicked:(id)sender;
+- (IBAction)attackAgainClicked:(id)sender;
+- (IBAction)profileButtonClicked:(id)sender;
 
 @end

@@ -28,10 +28,26 @@
 #define MAX_ATTACK_MULTIPLIER 1.5
 #define MIN_PERCENT_OF_ENEMY_HEALTH .1
 #define MAX_PERCENT_OF_ENEMY_HEALTH .5
+#define BATTLE_DIFFERENCE_MULTIPLIER 1
+#define BATTLE_DIFFERENCE_TUNER 0
 
 #define COMBO_BAR_X_POSITION 100
 
+@implementation BattleSummaryView
+
+
+
+@end
+
+@implementation StolenEquipView
+
+
+
+@end
+
 @implementation BattleLayer
+
+@synthesize summaryView, stolenEquipView, brp;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
@@ -168,6 +184,65 @@ static CCScene *scene = nil;
     _rightCurHealthLabel.position = ccp(rightHealthBarBg.contentSize.width/2, yOffset);
     [rightHealthBarBg addChild:_rightCurHealthLabel];
     
+    _pausedLayer = [CCLayer node];
+    [self addChild:_pausedLayer z:3];
+    
+    CCSprite *p = [CCSprite spriteWithFile:@"paused.png"];
+    p.position = ccp(_pausedLayer.contentSize.width/2, _pausedLayer.contentSize.height/2+35);
+    [_pausedLayer addChild:p];
+    
+    CCSprite *buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
+    CCMenuItemSprite *button = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(resumeClicked)];
+    
+    menu = [CCMenu menuWithItems:button,nil];
+    [_pausedLayer addChild:menu];
+    menu.position = ccp(_pausedLayer.contentSize.width/2, _pausedLayer.contentSize.height/2-15);
+    
+    CCLabelTTF *resumeLabel = [CCLabelTTF labelWithString:@"Resume" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    resumeLabel.color = ccc3(255, 200, 0);
+    [button addChild:resumeLabel];
+    resumeLabel.position = ccp(button.contentSize.width/2, button.contentSize.height/2);
+    
+    _winLayer = [CCLayer node];
+    [self addChild:_winLayer z:3];
+    
+    p = [CCSprite spriteWithFile:@"win.png"];
+    p.position = ccp(_winLayer.contentSize.width/2, _winLayer.contentSize.height/2+35);
+    [_winLayer addChild:p];
+    
+    buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
+    button = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    
+    menu = [CCMenu menuWithItems:button,nil];
+    [_winLayer addChild:menu];
+    menu.position = ccp(_winLayer.contentSize.width/2, _winLayer.contentSize.height/2-15);
+    
+    CCLabelTTF *doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    doneLabel.color = ccc3(255, 200, 0);
+    [button addChild:doneLabel];
+    doneLabel.position = ccp(button.contentSize.width/2, button.contentSize.height/2);
+    
+    _loseLayer = [CCLayer node];
+    [self addChild:_loseLayer z:3];
+    
+    p = [CCSprite spriteWithFile:@"lost.png"];
+    p.position = ccp(_loseLayer.contentSize.width/2, _loseLayer.contentSize.height/2+35);
+    [_loseLayer addChild:p];
+    
+    buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
+    button = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    
+    menu = [CCMenu menuWithItems:button,nil];
+    [_loseLayer addChild:menu];
+    menu.position = ccp(_loseLayer.contentSize.width/2, _loseLayer.contentSize.height/2-15);
+    
+    doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    doneLabel.color = ccc3(255, 200, 0);
+    [button addChild:doneLabel];
+    doneLabel.position = ccp(button.contentSize.width/2, button.contentSize.height/2);
+    
+    [[NSBundle mainBundle] loadNibNamed:@"BattleSummaryView" owner:self options:nil];
+    
     self.isTouchEnabled = YES;
   }
   return self;
@@ -192,7 +267,12 @@ static CCScene *scene = nil;
   _rightAttack = [gl calculateAttackForStat:user.attack weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
   _rightDefense = [gl calculateAttackForStat:user.defense weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
   
-  [[CCDirector sharedDirector] pushScene:[BattleLayer scene]];
+  CCDirector *dir = [CCDirector sharedDirector];
+  CCScene *scene = [BattleLayer scene];
+  if (dir.runningScene != scene) {
+    [dir pushScene:scene];
+  }
+  self.brp = nil;
   [self startBattle];
 }
 
@@ -201,6 +281,9 @@ static CCScene *scene = nil;
   _comboBar.visible = NO;
   _flippedComboBar.visible = NO;
   _bottomMenu.visible = NO;
+  _pausedLayer.visible = NO;
+  _winLayer.visible = NO;
+  _loseLayer.visible = NO;
   _left.position = ccp(-_left.contentSize.width/2, _left.contentSize.height/2);
   _left.opacity = 150;
   _left.scale = 0.5;
@@ -388,7 +471,8 @@ static CCScene *scene = nil;
   int minDamage = (int) (_leftMaxHealth * MIN_PERCENT_OF_ENEMY_HEALTH);
   int maxDamage = (int) (_leftMaxHealth * MAX_PERCENT_OF_ENEMY_HEALTH);
   
-  return (int)MIN(maxDamage, MAX(minDamage, attackStat-defenseStat));
+  int statDamage = attackStat-defenseStat;
+  return (int)MIN(maxDamage, MAX(minDamage, BATTLE_DIFFERENCE_MULTIPLIER*statDamage+BATTLE_DIFFERENCE_TUNER));
 }
 
 - (void) enemyAttackDone {
@@ -431,13 +515,7 @@ static CCScene *scene = nil;
 }
 
 - (void) myWin {
-  NSLog(@"My Win");
-  
-  [_left runAction: [CCSequence actions: 
-                      [CCDelayTime actionWithDuration:0.1],
-                      [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],
-                     [CCCallFunc actionWithTarget:self selector:@selector(closeScene)],
-                     nil]];
+  _winLayer.visible = YES;
   
   [_right runAction:[CCSpawn actions:
                      [CCScaleBy actionWithDuration:0.1 scale:1.2],
@@ -446,14 +524,7 @@ static CCScene *scene = nil;
 }
 
 - (void) myLoss {
-  NSLog(@"My Loss");
-  
-  [_right runAction: [CCSequence actions: 
-                     [CCDelayTime actionWithDuration:0.1],
-                     [CCMoveBy actionWithDuration:0.2 position:ccp(3*_right.contentSize.width/4, 0)],
-                      [CCDelayTime actionWithDuration:5],
-                     [CCCallFunc actionWithTarget:self selector:@selector(closeScene)],
-                     nil]];
+  _loseLayer.visible = YES;
   
   [_left runAction:[CCSpawn actions:
                      [CCScaleBy actionWithDuration:0.1 scale:1.2],
@@ -466,11 +537,37 @@ static CCScene *scene = nil;
 }
 
 - (void) pauseClicked {
-  NSLog(@"pause");
+  _pausedLayer.visible = YES;
+  _attackButton.visible = NO;
+  [_attackProgressTimer pauseSchedulerAndActions];
 }
 
-- (void) closeScene {
-  [[CCDirector sharedDirector] popScene];
+- (void) resumeClicked {
+  _pausedLayer.visible = NO;
+  _attackButton.visible = YES;
+  [_attackProgressTimer resumeSchedulerAndActions];
+}
+
+
+- (void) doneClicked {
+  if (_left.opacity > 0) {
+    [_left runAction: [CCSequence actions: 
+                       [CCDelayTime actionWithDuration:0.1],
+                       [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],
+                       [CCCallFunc actionWithTarget:self selector:@selector(displaySummary)],
+                       nil]];
+  } else {
+    [_right runAction: [CCSequence actions: 
+                        [CCDelayTime actionWithDuration:0.1],
+                        [CCMoveBy actionWithDuration:0.2 position:ccp(3*_right.contentSize.width/4, 0)],
+                        [CCCallFunc actionWithTarget:self selector:@selector(displaySummary)],
+                        nil]];
+  }
+}
+
+- (void) displaySummary {
+  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
+  [view addSubview:stolenEquipView];
 }
 
 - (float) rand {
@@ -481,6 +578,36 @@ static CCScene *scene = nil;
   if (_comboBarMoving) {
     [self comboBarClicked];
   }
+}
+
+- (IBAction)stolenEquipOkayClicked:(id)sender {
+  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
+  [stolenEquipView removeFromSuperview];
+  [view addSubview:summaryView];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [summaryView removeFromSuperview];
+  [self closeScene];
+}
+
+- (IBAction)attackAgainClicked:(id)sender {
+  NSLog(@"attack again");
+}
+
+- (IBAction)profileButtonClicked:(id)sender {
+  NSLog(@"profile clicked");
+}
+
+- (void) closeScene {
+  [[CCDirector sharedDirector] popScene];
+}
+
+- (void) dealloc {
+  self.brp = nil;
+  self.stolenEquipView = nil;
+  self.summaryView = nil;
+  [super dealloc];
 }
 
 @end

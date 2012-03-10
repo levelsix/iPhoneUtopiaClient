@@ -544,17 +544,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [moneyBuilding placeBlock];
   }
   
-  for (CritStruct *cs in gs.myCritStructs) {
-    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-    [self addChild:csb];
-    [csb release];
-    
-    csb.orientation = cs.orientation;
-    csb.critStruct = cs;
-    [arr addObject:csb];
-    [csb placeBlock];
-  }
-  
   CCNode *c;
   CCARRAY_FOREACH(self.children, c) {
     if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
@@ -565,6 +554,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   
+  for (CritStruct *cs in gs.myCritStructs) {
+    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
+    [self addChild:csb];
+    [csb release];
+    
+    csb.orientation = cs.orientation;
+    csb.critStruct = cs;
+    [arr addObject:csb];
+    [csb placeBlock];
+  }
   [self doReorder];
   _loading = NO;
 }

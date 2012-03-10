@@ -203,11 +203,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "353044020.418627"
+         timestampString = "353073320.71568"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "342"
-         endingLineNumber = "342"
+         startingLineNumber = "344"
+         endingLineNumber = "344"
          landmarkName = "-handleRetrieveCurrencyFromNormStructureResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -217,11 +217,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "353044020.418627"
+         timestampString = "353073320.71568"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "334"
-         endingLineNumber = "334"
+         startingLineNumber = "336"
+         endingLineNumber = "336"
          landmarkName = "-handleFinishNormStructWaittimeWithDiamondsResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -231,11 +231,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "353044020.418627"
+         timestampString = "353073320.71568"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "351"
-         endingLineNumber = "351"
+         startingLineNumber = "353"
+         endingLineNumber = "353"
          landmarkName = "-handleSellNormStructureResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -264,19 +264,6 @@
          startingLineNumber = "316"
          endingLineNumber = "316"
          landmarkName = "-winSize"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Main Map/GameMap/HomeMap.m"
-         timestampString = "353055712.007686"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "686"
-         endingLineNumber = "686"
-         landmarkName = "-drag:node:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
