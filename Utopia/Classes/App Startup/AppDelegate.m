@@ -17,6 +17,7 @@
 #import "IAPHelper.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "Globals.h"
 
 @implementation AppDelegate
 
@@ -133,6 +134,7 @@
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
   NSLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
+  [[[Globals sharedGlobals] imageCache] removeAllObjects];
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {

@@ -949,6 +949,7 @@
 										<string key="NSFrame">{{6, 5}, {244, 15}}</string>
 										<reference key="NSSuperview" ref="378080395"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -1524,6 +1525,7 @@
 						<string key="NSFrame">{{236, 179}, {27, 27}}</string>
 						<reference key="NSSuperview" ref="931190212"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -2128,6 +2130,7 @@
 						<string key="NSFrame">{{99, 71}, {52, 31}}</string>
 						<reference key="NSSuperview" ref="342699917"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2218,6 +2221,7 @@
 						<string key="NSFrame">{{47, 6}, {59, 16}}</string>
 						<reference key="NSSuperview" ref="643450221"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2545,6 +2549,30 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">smallAttackButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="950532927"/>
+					</object>
+					<int key="connectionID">287</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">visitButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="210617888"/>
+					</object>
+					<int key="connectionID">288</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">bigAttackButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="487595751"/>
+					</object>
+					<int key="connectionID">289</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">label</string>
 						<reference key="source" ref="50774724"/>
 						<reference key="destination" ref="92182962"/>
@@ -2788,6 +2816,24 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">261</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">attackClicked:</string>
+						<reference key="source" ref="950532927"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">290</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">attackClicked:</string>
+						<reference key="source" ref="487595751"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">291</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3713,7 +3759,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">286</int>
+			<int key="maxID">291</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3901,6 +3947,7 @@
 						<string key="attackLabel">UILabel</string>
 						<string key="attackStatButton">UIButton</string>
 						<string key="attackStatLabel">UILabel</string>
+						<string key="bigAttackButton">UIButton</string>
 						<string key="codeLabel">UILabel</string>
 						<string key="curAmuletView">CurrentEquipView</string>
 						<string key="curArmorView">CurrentEquipView</string>
@@ -3928,6 +3975,7 @@
 						<string key="selfLeftView">UIView</string>
 						<string key="skillPointsLabel">UILabel</string>
 						<string key="skillTabView">UIView</string>
+						<string key="smallAttackButton">UIButton</string>
 						<string key="staminaCostLabel">UILabel</string>
 						<string key="staminaStatButton">UIButton</string>
 						<string key="staminaStatLabel">UILabel</string>
@@ -3935,6 +3983,7 @@
 						<string key="unequippableLabel">UILabel</string>
 						<string key="unequippableView">UIView</string>
 						<string key="userNameLabel">UILabel</string>
+						<string key="visitButton">UIButton</string>
 						<string key="winsLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -3949,6 +3998,10 @@
 						<object class="IBToOneOutletInfo" key="attackStatLabel">
 							<string key="name">attackStatLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bigAttackButton">
+							<string key="name">bigAttackButton</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="codeLabel">
 							<string key="name">codeLabel</string>
@@ -4058,6 +4111,10 @@
 							<string key="name">skillTabView</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="smallAttackButton">
+							<string key="name">smallAttackButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="staminaCostLabel">
 							<string key="name">staminaCostLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -4085,6 +4142,10 @@
 						<object class="IBToOneOutletInfo" key="userNameLabel">
 							<string key="name">userNameLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="visitButton">
+							<string key="name">visitButton</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="winsLabel">
 							<string key="name">winsLabel</string>

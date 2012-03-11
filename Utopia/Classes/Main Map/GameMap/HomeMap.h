@@ -8,8 +8,6 @@
 
 #import "GameMap.h"
 
-#define OVER_HOME_BUILDING_MENU_OFFSET 5.f
-
 typedef enum {
   kNormalState = 1,
   kSellState,

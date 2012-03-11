@@ -43,6 +43,10 @@
 
 @end
 
+@interface FlipButton : UIButton
+
+@end
+
 @interface ServerImageView : UIImageView 
 
 @property (nonatomic, retain) NSString *path;

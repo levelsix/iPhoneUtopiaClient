@@ -160,12 +160,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[vaultReq data] withMessageType:EventProtocolRequestCVaultEvent];
 }
 
-- (void) sendBattleMessage:(int)defender {
-  BattleRequestProto *battleReq = [[[[BattleRequestProto builder]
-                                     setAttacker:_sender]
-                                    setDefender:[[[MinimumUserProto builder] setUserId:defender] build]]
-                                   build];
-  [self sendData:[battleReq data] withMessageType:EventProtocolRequestCBattleEvent];
+- (void) sendBattleMessage:(int)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city {
+  BattleRequestProto_Builder *builder = [[[[[BattleRequestProto builder]
+                                            setAttacker:_sender]
+                                           setDefender:[[[MinimumUserProto builder] setUserId:defender] build]]
+                                          setBattleResult:result]
+                                         setClientTime:curTime];
+  if (city != 0) {
+    [builder setNeutralCityId:city];
+  }
+  
+  BattleRequestProto *req = [builder build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCBattleEvent];
 }
 
 - (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId {
@@ -497,8 +504,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 - (void) sendQuestLogDetailsMessage {
   UserQuestDetailsRequestProto *req = [[[UserQuestDetailsRequestProto builder]
-                                       setSender:_sender]
-                                      build];
+                                        setSender:_sender]
+                                       build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCUserQuestDetailsEvent];
 }

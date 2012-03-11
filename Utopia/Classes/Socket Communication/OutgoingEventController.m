@@ -79,8 +79,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return YES;
 }
 
-- (void) battle:(int)defender {
-  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:defender];
+- (void) battle:(int)defender result:(BattleResult)result city:(int)city {
+  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:defender result:result curTime:[self getCurrentMilliseconds] city:city];
 }
 
 - (int) buyEquip:(int)equipId {
@@ -833,11 +833,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
+- (void) retrieveStaticEquip:(int)equipId {
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+}
+
 - (void) retrieveStructStore {
   [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeAllStructures];
 }
 
 - (void) retrieveEquipStore {
+  // Used primarily for profile and battle
   [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory];
 }
 
@@ -904,6 +909,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.level++;
     gs.currentEnergy = gs.maxEnergy;
     gs.currentStamina = gs.maxStamina;
+    gs.expRequiredForCurrentLevel = gs.expRequiredForNextLevel;
+    gs.expRequiredForNextLevel = 100000000;
     
     [[TopBar sharedTopBar] setUpEnergyTimer];
     [[TopBar sharedTopBar] setUpStaminaTimer];

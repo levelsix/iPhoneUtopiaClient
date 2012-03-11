@@ -7,7 +7,6 @@
 //
 
 #import "DoorViewController.h"
-
 #import "GameViewController.h"
 
 @implementation DoorViewController

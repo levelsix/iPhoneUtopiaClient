@@ -190,6 +190,10 @@
 @class RetrieveTasksForCityRequestProto_Builder;
 @class RetrieveTasksForCityResponseProto;
 @class RetrieveTasksForCityResponseProto_Builder;
+@class RetrieveUserEquipForUserRequestProto;
+@class RetrieveUserEquipForUserRequestProto_Builder;
+@class RetrieveUserEquipForUserResponseProto;
+@class RetrieveUserEquipForUserResponseProto_Builder;
 @class SellNormStructureRequestProto;
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
@@ -813,6 +817,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
   BattleResult battleResult;
+  NSMutableArray* mutableDefenderUserEquipsList;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasDefender;
@@ -824,6 +829,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) BattleResult battleResult;
 @property (readonly) int64_t clientTime;
 @property (readonly) int32_t neutralCityId;
+- (NSArray*) defenderUserEquipsList;
+- (FullUserEquipProto*) defenderUserEquipsAtIndex:(int32_t) index;
 
 + (BattleRequestProto*) defaultInstance;
 - (BattleRequestProto*) defaultInstance;
@@ -887,6 +894,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) neutralCityId;
 - (BattleRequestProto_Builder*) setNeutralCityId:(int32_t) value;
 - (BattleRequestProto_Builder*) clearNeutralCityId;
+
+- (NSArray*) defenderUserEquipsList;
+- (FullUserEquipProto*) defenderUserEquipsAtIndex:(int32_t) index;
+- (BattleRequestProto_Builder*) replaceDefenderUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (BattleRequestProto_Builder*) addDefenderUserEquips:(FullUserEquipProto*) value;
+- (BattleRequestProto_Builder*) addAllDefenderUserEquips:(NSArray*) values;
+- (BattleRequestProto_Builder*) clearDefenderUserEquipsList;
 @end
 
 @interface BattleResponseProto : PBGeneratedMessage {
@@ -1649,7 +1663,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
-  BOOL hasMinutesForCityExpansion_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasArmoryXlength_:1;
@@ -1693,7 +1706,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
-  int32_t minutesForCityExpansion;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t maxLevelDifferenceForBattle;
   int32_t armoryXlength;
@@ -1760,7 +1772,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasNumDaysShortMarketplaceLicenseLastsFor;
 - (BOOL) hasDiamondCostOfLongMarketplaceLicense;
 - (BOOL) hasDiamondCostOfShortMarketplaceLicense;
-- (BOOL) hasMinutesForCityExpansion;
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
@@ -1804,7 +1815,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t numDaysShortMarketplaceLicenseLastsFor;
 @property (readonly) int32_t diamondCostOfLongMarketplaceLicense;
 @property (readonly) int32_t diamondCostOfShortMarketplaceLicense;
-@property (readonly) int32_t minutesForCityExpansion;
 @property (readonly) int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
 - (NSArray*) productIdsList;
@@ -2064,11 +2074,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) diamondCostOfShortMarketplaceLicense;
 - (StartupResponseProto_StartupConstants_Builder*) setDiamondCostOfShortMarketplaceLicense:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearDiamondCostOfShortMarketplaceLicense;
-
-- (BOOL) hasMinutesForCityExpansion;
-- (int32_t) minutesForCityExpansion;
-- (StartupResponseProto_StartupConstants_Builder*) setMinutesForCityExpansion:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinutesForCityExpansion;
 
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (int32_t) maxNumbersOfEnemiesToGenerateAtOnce;
@@ -2654,8 +2659,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasUsedDiamondsToBuilt_:1;
   BOOL hasTimeOfStructPurchase_:1;
-  BOOL hasTimeOfStructDiamondInstabuild_:1;
+  BOOL hasTimeOfStructBuild_:1;
   BOOL hasAttack_:1;
   BOOL hasDefense_:1;
   BOOL hasHealth_:1;
@@ -2668,8 +2674,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasUserLocation_:1;
   BOOL hasStructCoords_:1;
   BOOL hasType_:1;
+  BOOL usedDiamondsToBuilt_:1;
   int64_t timeOfStructPurchase;
-  int64_t timeOfStructDiamondInstabuild;
+  int64_t timeOfStructBuild;
   int32_t attack;
   int32_t defense;
   int32_t health;
@@ -2695,8 +2702,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasEnergy;
 - (BOOL) hasStamina;
 - (BOOL) hasTimeOfStructPurchase;
-- (BOOL) hasTimeOfStructDiamondInstabuild;
+- (BOOL) hasTimeOfStructBuild;
 - (BOOL) hasStructCoords;
+- (BOOL) hasUsedDiamondsToBuilt;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* name;
 @property (readonly) UserType type;
@@ -2709,8 +2717,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t energy;
 @property (readonly) int32_t stamina;
 @property (readonly) int64_t timeOfStructPurchase;
-@property (readonly) int64_t timeOfStructDiamondInstabuild;
+@property (readonly) int64_t timeOfStructBuild;
 @property (readonly, retain) CoordinateProto* structCoords;
+- (BOOL) usedDiamondsToBuilt;
 
 + (UserCreateRequestProto*) defaultInstance;
 - (UserCreateRequestProto*) defaultInstance;
@@ -2808,10 +2817,10 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (UserCreateRequestProto_Builder*) setTimeOfStructPurchase:(int64_t) value;
 - (UserCreateRequestProto_Builder*) clearTimeOfStructPurchase;
 
-- (BOOL) hasTimeOfStructDiamondInstabuild;
-- (int64_t) timeOfStructDiamondInstabuild;
-- (UserCreateRequestProto_Builder*) setTimeOfStructDiamondInstabuild:(int64_t) value;
-- (UserCreateRequestProto_Builder*) clearTimeOfStructDiamondInstabuild;
+- (BOOL) hasTimeOfStructBuild;
+- (int64_t) timeOfStructBuild;
+- (UserCreateRequestProto_Builder*) setTimeOfStructBuild:(int64_t) value;
+- (UserCreateRequestProto_Builder*) clearTimeOfStructBuild;
 
 - (BOOL) hasStructCoords;
 - (CoordinateProto*) structCoords;
@@ -2819,6 +2828,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (UserCreateRequestProto_Builder*) setStructCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
 - (UserCreateRequestProto_Builder*) mergeStructCoords:(CoordinateProto*) value;
 - (UserCreateRequestProto_Builder*) clearStructCoords;
+
+- (BOOL) hasUsedDiamondsToBuilt;
+- (BOOL) usedDiamondsToBuilt;
+- (UserCreateRequestProto_Builder*) setUsedDiamondsToBuilt:(BOOL) value;
+- (UserCreateRequestProto_Builder*) clearUsedDiamondsToBuilt;
 @end
 
 @interface UserCreateResponseProto : PBGeneratedMessage {
@@ -4457,29 +4471,48 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface LevelUpResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasMarketplaceUnlocked_:1;
+  BOOL hasVaultUnlocked_:1;
+  BOOL hasArmoryUnlocked_:1;
+  BOOL hasNewLevel_:1;
   BOOL hasNewNextLevel_:1;
   BOOL hasExperienceRequiredForNewNextLevel_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  BOOL marketplaceUnlocked_:1;
+  BOOL vaultUnlocked_:1;
+  BOOL armoryUnlocked_:1;
+  int32_t newLevel;
   int32_t newNextLevel;
   int32_t experienceRequiredForNewNextLevel;
   MinimumUserProto* sender;
   LevelUpResponseProto_LevelUpStatus status;
   NSMutableArray* mutableCitiesNewlyAvailableToUserList;
-  NSMutableArray* mutableNewlyEquippableAvailableInArmoryList;
+  NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesList;
+  NSMutableArray* mutableNewlyAvailableStructsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasNewLevel;
 - (BOOL) hasNewNextLevel;
 - (BOOL) hasExperienceRequiredForNewNextLevel;
+- (BOOL) hasMarketplaceUnlocked;
+- (BOOL) hasVaultUnlocked;
+- (BOOL) hasArmoryUnlocked;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) LevelUpResponseProto_LevelUpStatus status;
+@property (readonly) int32_t newLevel;
 @property (readonly) int32_t newNextLevel;
 @property (readonly) int32_t experienceRequiredForNewNextLevel;
+- (BOOL) marketplaceUnlocked;
+- (BOOL) vaultUnlocked;
+- (BOOL) armoryUnlocked;
 - (NSArray*) citiesNewlyAvailableToUserList;
 - (FullCityProto*) citiesNewlyAvailableToUserAtIndex:(int32_t) index;
-- (NSArray*) newlyEquippableAvailableInArmoryList;
-- (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index;
+- (NSArray*) newlyEquippableEpicsAndLegendariesList;
+- (FullEquipProto*) newlyEquippableEpicsAndLegendariesAtIndex:(int32_t) index;
+- (NSArray*) newlyAvailableStructsList;
+- (FullStructureProto*) newlyAvailableStructsAtIndex:(int32_t) index;
 
 + (LevelUpResponseProto*) defaultInstance;
 - (LevelUpResponseProto*) defaultInstance;
@@ -4527,6 +4560,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (LevelUpResponseProto_Builder*) setStatus:(LevelUpResponseProto_LevelUpStatus) value;
 - (LevelUpResponseProto_Builder*) clearStatus;
 
+- (BOOL) hasNewLevel;
+- (int32_t) newLevel;
+- (LevelUpResponseProto_Builder*) setNewLevel:(int32_t) value;
+- (LevelUpResponseProto_Builder*) clearNewLevel;
+
 - (BOOL) hasNewNextLevel;
 - (int32_t) newNextLevel;
 - (LevelUpResponseProto_Builder*) setNewNextLevel:(int32_t) value;
@@ -4544,12 +4582,34 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (LevelUpResponseProto_Builder*) addAllCitiesNewlyAvailableToUser:(NSArray*) values;
 - (LevelUpResponseProto_Builder*) clearCitiesNewlyAvailableToUserList;
 
-- (NSArray*) newlyEquippableAvailableInArmoryList;
-- (FullEquipProto*) newlyEquippableAvailableInArmoryAtIndex:(int32_t) index;
-- (LevelUpResponseProto_Builder*) replaceNewlyEquippableAvailableInArmoryAtIndex:(int32_t) index with:(FullEquipProto*) value;
-- (LevelUpResponseProto_Builder*) addNewlyEquippableAvailableInArmory:(FullEquipProto*) value;
-- (LevelUpResponseProto_Builder*) addAllNewlyEquippableAvailableInArmory:(NSArray*) values;
-- (LevelUpResponseProto_Builder*) clearNewlyEquippableAvailableInArmoryList;
+- (NSArray*) newlyEquippableEpicsAndLegendariesList;
+- (FullEquipProto*) newlyEquippableEpicsAndLegendariesAtIndex:(int32_t) index;
+- (LevelUpResponseProto_Builder*) replaceNewlyEquippableEpicsAndLegendariesAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (LevelUpResponseProto_Builder*) addNewlyEquippableEpicsAndLegendaries:(FullEquipProto*) value;
+- (LevelUpResponseProto_Builder*) addAllNewlyEquippableEpicsAndLegendaries:(NSArray*) values;
+- (LevelUpResponseProto_Builder*) clearNewlyEquippableEpicsAndLegendariesList;
+
+- (NSArray*) newlyAvailableStructsList;
+- (FullStructureProto*) newlyAvailableStructsAtIndex:(int32_t) index;
+- (LevelUpResponseProto_Builder*) replaceNewlyAvailableStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
+- (LevelUpResponseProto_Builder*) addNewlyAvailableStructs:(FullStructureProto*) value;
+- (LevelUpResponseProto_Builder*) addAllNewlyAvailableStructs:(NSArray*) values;
+- (LevelUpResponseProto_Builder*) clearNewlyAvailableStructsList;
+
+- (BOOL) hasMarketplaceUnlocked;
+- (BOOL) marketplaceUnlocked;
+- (LevelUpResponseProto_Builder*) setMarketplaceUnlocked:(BOOL) value;
+- (LevelUpResponseProto_Builder*) clearMarketplaceUnlocked;
+
+- (BOOL) hasVaultUnlocked;
+- (BOOL) vaultUnlocked;
+- (LevelUpResponseProto_Builder*) setVaultUnlocked:(BOOL) value;
+- (LevelUpResponseProto_Builder*) clearVaultUnlocked;
+
+- (BOOL) hasArmoryUnlocked;
+- (BOOL) armoryUnlocked;
+- (LevelUpResponseProto_Builder*) setArmoryUnlocked:(BOOL) value;
+- (LevelUpResponseProto_Builder*) clearArmoryUnlocked;
 @end
 
 @interface InAppPurchaseRequestProto : PBGeneratedMessage {
@@ -7832,5 +7892,133 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) cityId;
 - (LoadNeutralCityResponseProto_Builder*) setCityId:(int32_t) value;
 - (LoadNeutralCityResponseProto_Builder*) clearCityId;
+@end
+
+@interface RetrieveUserEquipForUserRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasRelevantUserId_:1;
+  BOOL hasSender_:1;
+  int32_t relevantUserId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasRelevantUserId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t relevantUserId;
+
++ (RetrieveUserEquipForUserRequestProto*) defaultInstance;
+- (RetrieveUserEquipForUserRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUserEquipForUserRequestProto_Builder*) builder;
++ (RetrieveUserEquipForUserRequestProto_Builder*) builder;
++ (RetrieveUserEquipForUserRequestProto_Builder*) builderWithPrototype:(RetrieveUserEquipForUserRequestProto*) prototype;
+
++ (RetrieveUserEquipForUserRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveUserEquipForUserRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserEquipForUserRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUserEquipForUserRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserEquipForUserRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUserEquipForUserRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUserEquipForUserRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveUserEquipForUserRequestProto* result;
+}
+
+- (RetrieveUserEquipForUserRequestProto*) defaultInstance;
+
+- (RetrieveUserEquipForUserRequestProto_Builder*) clear;
+- (RetrieveUserEquipForUserRequestProto_Builder*) clone;
+
+- (RetrieveUserEquipForUserRequestProto*) build;
+- (RetrieveUserEquipForUserRequestProto*) buildPartial;
+
+- (RetrieveUserEquipForUserRequestProto_Builder*) mergeFrom:(RetrieveUserEquipForUserRequestProto*) other;
+- (RetrieveUserEquipForUserRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUserEquipForUserRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUserEquipForUserRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUserEquipForUserRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUserEquipForUserRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUserEquipForUserRequestProto_Builder*) clearSender;
+
+- (BOOL) hasRelevantUserId;
+- (int32_t) relevantUserId;
+- (RetrieveUserEquipForUserRequestProto_Builder*) setRelevantUserId:(int32_t) value;
+- (RetrieveUserEquipForUserRequestProto_Builder*) clearRelevantUserId;
+@end
+
+@interface RetrieveUserEquipForUserResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasRelevantUserId_:1;
+  BOOL hasSender_:1;
+  int32_t relevantUserId;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableUserEquipsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasRelevantUserId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t relevantUserId;
+- (NSArray*) userEquipsList;
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
+
++ (RetrieveUserEquipForUserResponseProto*) defaultInstance;
+- (RetrieveUserEquipForUserResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUserEquipForUserResponseProto_Builder*) builder;
++ (RetrieveUserEquipForUserResponseProto_Builder*) builder;
++ (RetrieveUserEquipForUserResponseProto_Builder*) builderWithPrototype:(RetrieveUserEquipForUserResponseProto*) prototype;
+
++ (RetrieveUserEquipForUserResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveUserEquipForUserResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserEquipForUserResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUserEquipForUserResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUserEquipForUserResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUserEquipForUserResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUserEquipForUserResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveUserEquipForUserResponseProto* result;
+}
+
+- (RetrieveUserEquipForUserResponseProto*) defaultInstance;
+
+- (RetrieveUserEquipForUserResponseProto_Builder*) clear;
+- (RetrieveUserEquipForUserResponseProto_Builder*) clone;
+
+- (RetrieveUserEquipForUserResponseProto*) build;
+- (RetrieveUserEquipForUserResponseProto*) buildPartial;
+
+- (RetrieveUserEquipForUserResponseProto_Builder*) mergeFrom:(RetrieveUserEquipForUserResponseProto*) other;
+- (RetrieveUserEquipForUserResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUserEquipForUserResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUserEquipForUserResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUserEquipForUserResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUserEquipForUserResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUserEquipForUserResponseProto_Builder*) clearSender;
+
+- (BOOL) hasRelevantUserId;
+- (int32_t) relevantUserId;
+- (RetrieveUserEquipForUserResponseProto_Builder*) setRelevantUserId:(int32_t) value;
+- (RetrieveUserEquipForUserResponseProto_Builder*) clearRelevantUserId;
+
+- (NSArray*) userEquipsList;
+- (FullUserEquipProto*) userEquipsAtIndex:(int32_t) index;
+- (RetrieveUserEquipForUserResponseProto_Builder*) replaceUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (RetrieveUserEquipForUserResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value;
+- (RetrieveUserEquipForUserResponseProto_Builder*) addAllUserEquips:(NSArray*) values;
+- (RetrieveUserEquipForUserResponseProto_Builder*) clearUserEquipsList;
 @end
 

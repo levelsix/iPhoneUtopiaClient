@@ -35,6 +35,10 @@
 
 @end
 
+@implementation Aviary
+
+@end
+
 @implementation HomeBuilding
 
 @synthesize level = _level;

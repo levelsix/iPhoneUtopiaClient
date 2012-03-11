@@ -1017,8 +1017,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasMinLevel_:1;
   BOOL hasXLength_:1;
   BOOL hasYLength_:1;
-  BOOL hasUpgradeCoinCostBase_:1;
-  BOOL hasUpgradeDiamondCostBase_:1;
   BOOL hasInstaBuildDiamondCostBase_:1;
   BOOL hasInstaRetrieveDiamondCostBase_:1;
   BOOL hasInstaUpgradeDiamondCostBase_:1;
@@ -1033,8 +1031,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   int32_t minLevel;
   int32_t xLength;
   int32_t yLength;
-  int32_t upgradeCoinCostBase;
-  int32_t upgradeDiamondCostBase;
   int32_t instaBuildDiamondCostBase;
   int32_t instaRetrieveDiamondCostBase;
   int32_t instaUpgradeDiamondCostBase;
@@ -1051,8 +1047,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasMinLevel;
 - (BOOL) hasXLength;
 - (BOOL) hasYLength;
-- (BOOL) hasUpgradeCoinCostBase;
-- (BOOL) hasUpgradeDiamondCostBase;
 - (BOOL) hasInstaBuildDiamondCostBase;
 - (BOOL) hasInstaRetrieveDiamondCostBase;
 - (BOOL) hasInstaUpgradeDiamondCostBase;
@@ -1067,8 +1061,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t xLength;
 @property (readonly) int32_t yLength;
-@property (readonly) int32_t upgradeCoinCostBase;
-@property (readonly) int32_t upgradeDiamondCostBase;
 @property (readonly) int32_t instaBuildDiamondCostBase;
 @property (readonly) int32_t instaRetrieveDiamondCostBase;
 @property (readonly) int32_t instaUpgradeDiamondCostBase;
@@ -1161,16 +1153,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int32_t) yLength;
 - (FullStructureProto_Builder*) setYLength:(int32_t) value;
 - (FullStructureProto_Builder*) clearYLength;
-
-- (BOOL) hasUpgradeCoinCostBase;
-- (int32_t) upgradeCoinCostBase;
-- (FullStructureProto_Builder*) setUpgradeCoinCostBase:(int32_t) value;
-- (FullStructureProto_Builder*) clearUpgradeCoinCostBase;
-
-- (BOOL) hasUpgradeDiamondCostBase;
-- (int32_t) upgradeDiamondCostBase;
-- (FullStructureProto_Builder*) setUpgradeDiamondCostBase:(int32_t) value;
-- (FullStructureProto_Builder*) clearUpgradeDiamondCostBase;
 
 - (BOOL) hasInstaBuildDiamondCostBase;
 - (int32_t) instaBuildDiamondCostBase;

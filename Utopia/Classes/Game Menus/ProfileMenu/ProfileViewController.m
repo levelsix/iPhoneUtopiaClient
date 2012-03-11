@@ -11,6 +11,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
+#import "BattleLayer.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -431,6 +432,7 @@
 @synthesize enemyAttackLabel, enemyMiddleView;
 @synthesize staminaCostLabel, hpCostLabel, skillPointsLabel;
 @synthesize selfLeftView, enemyLeftView, friendLeftView;
+@synthesize visitButton, smallAttackButton, bigAttackButton;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -831,7 +833,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   curAmuletView.userInteractionEnabled = touchEnabled;
 }
 
-- (void) loadProfileForPlayer:(FullUserProto *)fup {
+- (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled {
   if (fup.userId == [[GameState sharedGameState] userId]) {
     [self loadMyProfile];
     return;
@@ -861,6 +863,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   self.profileBar.state = kOtherPlayerProfile;
   self.state = kEquipState;
+  
+  visitButton.enabled = enabled;
+  smallAttackButton.enabled = enabled;
+  bigAttackButton.enabled = enabled;
+  
+  [_fup release];
+  _fup = [fup retain];
 }
 
 - (void) loadMyProfile {
@@ -913,6 +922,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   hpStatButton.enabled = gl.healthBaseCost <= gs.skillPoints;
 }
 
+- (void) openSkillsMenu {
+  self.state = kSkillsState;
+  
+  [profileBar clickButton:kSkillsButton];
+  [profileBar unclickButton:kEquipButton];
+  [profileBar unclickButton:kWallButton];
+}
+
 - (IBAction)skillButtonClicked:(id)sender {
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   
@@ -935,12 +952,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [ProfileViewController removeView];
 }
 
+- (IBAction)attackClicked:(id)sender {
+  [[BattleLayer sharedBattleLayer] beginBattleAgainst:_fup];
+  [ProfileViewController removeView];
+}
+
 - (void) viewDidUnload
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.equipViews = nil;
+  [_fup release];
 }
 
 @end

@@ -94,6 +94,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
   if (!c.view.superview) {\
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:c.view];\
     c.view.center = c.view.superview.center;\
+  } else { \
+    [[[[CCDirector sharedDirector] openGLView] superview] bringSubviewToFront:c.view]; \
   }\
 }\
 \

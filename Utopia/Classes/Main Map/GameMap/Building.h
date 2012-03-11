@@ -19,6 +19,10 @@
 
 @end
 
+@interface Aviary : Building
+
+@end
+
 @interface HomeBuilding : Building {
   CGPoint _startTouchLocation;
   BOOL _isSetDown;

@@ -112,6 +112,7 @@ typedef enum {
   EquipView *_weaponEquipView;
   EquipView *_armorEquipView;
   EquipView *_amuletEquipView;
+  FullUserProto *_fup;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *userNameLabel;
@@ -165,10 +166,15 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *selfLeftView;
 @property (nonatomic, retain) IBOutlet UIView *friendLeftView;
 
+@property (nonatomic, retain) IBOutlet UIButton *visitButton;
+@property (nonatomic, retain) IBOutlet UIButton *smallAttackButton;
+@property (nonatomic, retain) IBOutlet UIButton *bigAttackButton;
+
 @property (nonatomic, retain) UIImageView *equippingView;
 
 - (void) loadMyProfile;
-- (void) loadProfileForPlayer:(FullUserProto *)fup;
+- (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled;
+- (void) openSkillsMenu;
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev;
 

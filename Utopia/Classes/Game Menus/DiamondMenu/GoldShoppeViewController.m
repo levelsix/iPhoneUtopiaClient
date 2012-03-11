@@ -138,7 +138,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     cell = self.itemView;
   }
   [cell updateForProduct:[[[IAPHelper sharedIAPHelper] products] objectAtIndex:indexPath.row]];
-  cell.pkgIcon.image = [UIImage imageNamed:@"stack.png"];
+  cell.pkgIcon.image = [Globals imageNamed:@"stack.png"];
   return cell;
 }
 

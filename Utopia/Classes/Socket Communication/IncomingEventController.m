@@ -19,6 +19,8 @@
 #import "CarpenterMenuController.h"
 #import "GameLayer.h"
 #import "QuestLogController.h"
+#import "BattleLayer.h"
+#import "LevelUpViewController.h"
 
 @implementation IncomingEventController
 
@@ -156,6 +158,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleBattleResponseProto: (BattleResponseProto *) proto {
   NSLog(@"Battle response received with status %d.", proto.status);
+  
+  if (proto.status == BattleResponseProto_BattleStatusSuccess) {
+    GameState *gs = [GameState sharedGameState];
+    
+    if (proto.hasEquipGained) {
+      [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
+    }
+    [[BattleLayer sharedBattleLayer] setBrp:proto];
+  } else {
+    [Globals popupMessage:@"Server failed to record battle"];
+  }
 }
 
 - (void) handleArmoryResponseProto: (ArmoryResponseProto *) proto {
@@ -189,8 +202,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LevelUpResponseProto_LevelUpStatusSuccess) {
-    gs.expRequiredForCurrentLevel = gs.expRequiredForNextLevel;
     gs.expRequiredForNextLevel = proto.experienceRequiredForNewNextLevel;
+    [gs addToStaticEquips:proto.newlyEquippableEpicsAndLegendariesList];
+    [gs addToStaticCities:proto.citiesNewlyAvailableToUserList];
+    [gs addToStaticStructs:proto.newlyAvailableStructsList];
+    
+    // This will be released after the level up controller closes
+    LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
   }
 }
 

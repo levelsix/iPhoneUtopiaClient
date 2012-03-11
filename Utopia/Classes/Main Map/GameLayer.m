@@ -32,16 +32,20 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
+static CCScene *scene = nil;
+
 +(CCScene *) scene
 {
-	// 'scene' is an autorelease object.
-	CCScene *scene = [CCScene node];
-	
-	// 'layer' is an autorelease object.
-	GameLayer *layer = [GameLayer node];
-	
-	// add layer as a child to scene
-	[scene addChild: layer];
+  if (!scene) {
+    // 'scene' is an autorelease object.
+    scene = [[CCScene node] retain];
+    
+    // 'layer' is an autorelease object.
+    GameLayer *layer = [GameLayer node];
+    
+    // add layer as a child to scene
+    [scene addChild: layer];
+  }
 	
 	// return the scene
 	return scene;

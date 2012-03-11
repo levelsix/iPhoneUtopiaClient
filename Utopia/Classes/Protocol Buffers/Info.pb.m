@@ -3832,8 +3832,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 @property int32_t minLevel;
 @property int32_t xLength;
 @property int32_t yLength;
-@property int32_t upgradeCoinCostBase;
-@property int32_t upgradeDiamondCostBase;
 @property int32_t instaBuildDiamondCostBase;
 @property int32_t instaRetrieveDiamondCostBase;
 @property int32_t instaUpgradeDiamondCostBase;
@@ -3918,20 +3916,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   hasYLength_ = !!value;
 }
 @synthesize yLength;
-- (BOOL) hasUpgradeCoinCostBase {
-  return !!hasUpgradeCoinCostBase_;
-}
-- (void) setHasUpgradeCoinCostBase:(BOOL) value {
-  hasUpgradeCoinCostBase_ = !!value;
-}
-@synthesize upgradeCoinCostBase;
-- (BOOL) hasUpgradeDiamondCostBase {
-  return !!hasUpgradeDiamondCostBase_;
-}
-- (void) setHasUpgradeDiamondCostBase:(BOOL) value {
-  hasUpgradeDiamondCostBase_ = !!value;
-}
-@synthesize upgradeDiamondCostBase;
 - (BOOL) hasInstaBuildDiamondCostBase {
   return !!hasInstaBuildDiamondCostBase_;
 }
@@ -3970,8 +3954,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
     self.minLevel = 0;
     self.xLength = 0;
     self.yLength = 0;
-    self.upgradeCoinCostBase = 0;
-    self.upgradeDiamondCostBase = 0;
     self.instaBuildDiamondCostBase = 0;
     self.instaRetrieveDiamondCostBase = 0;
     self.instaUpgradeDiamondCostBase = 0;
@@ -4024,12 +4006,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (!self.hasYLength) {
     return NO;
   }
-  if (!self.hasUpgradeCoinCostBase) {
-    return NO;
-  }
-  if (!self.hasUpgradeDiamondCostBase) {
-    return NO;
-  }
   if (!self.hasInstaBuildDiamondCostBase) {
     return NO;
   }
@@ -4074,12 +4050,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   }
   if (self.hasYLength) {
     [output writeInt32:11 value:self.yLength];
-  }
-  if (self.hasUpgradeCoinCostBase) {
-    [output writeInt32:12 value:self.upgradeCoinCostBase];
-  }
-  if (self.hasUpgradeDiamondCostBase) {
-    [output writeInt32:13 value:self.upgradeDiamondCostBase];
   }
   if (self.hasInstaBuildDiamondCostBase) {
     [output writeInt32:14 value:self.instaBuildDiamondCostBase];
@@ -4131,12 +4101,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   }
   if (self.hasYLength) {
     size += computeInt32Size(11, self.yLength);
-  }
-  if (self.hasUpgradeCoinCostBase) {
-    size += computeInt32Size(12, self.upgradeCoinCostBase);
-  }
-  if (self.hasUpgradeDiamondCostBase) {
-    size += computeInt32Size(13, self.upgradeDiamondCostBase);
   }
   if (self.hasInstaBuildDiamondCostBase) {
     size += computeInt32Size(14, self.instaBuildDiamondCostBase);
@@ -4255,12 +4219,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasYLength) {
     [self setYLength:other.yLength];
   }
-  if (other.hasUpgradeCoinCostBase) {
-    [self setUpgradeCoinCostBase:other.upgradeCoinCostBase];
-  }
-  if (other.hasUpgradeDiamondCostBase) {
-    [self setUpgradeDiamondCostBase:other.upgradeDiamondCostBase];
-  }
   if (other.hasInstaBuildDiamondCostBase) {
     [self setInstaBuildDiamondCostBase:other.instaBuildDiamondCostBase];
   }
@@ -4333,14 +4291,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
       }
       case 88: {
         [self setYLength:[input readInt32]];
-        break;
-      }
-      case 96: {
-        [self setUpgradeCoinCostBase:[input readInt32]];
-        break;
-      }
-      case 104: {
-        [self setUpgradeDiamondCostBase:[input readInt32]];
         break;
       }
       case 112: {
@@ -4532,38 +4482,6 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (FullStructureProto_Builder*) clearYLength {
   result.hasYLength = NO;
   result.yLength = 0;
-  return self;
-}
-- (BOOL) hasUpgradeCoinCostBase {
-  return result.hasUpgradeCoinCostBase;
-}
-- (int32_t) upgradeCoinCostBase {
-  return result.upgradeCoinCostBase;
-}
-- (FullStructureProto_Builder*) setUpgradeCoinCostBase:(int32_t) value {
-  result.hasUpgradeCoinCostBase = YES;
-  result.upgradeCoinCostBase = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearUpgradeCoinCostBase {
-  result.hasUpgradeCoinCostBase = NO;
-  result.upgradeCoinCostBase = 0;
-  return self;
-}
-- (BOOL) hasUpgradeDiamondCostBase {
-  return result.hasUpgradeDiamondCostBase;
-}
-- (int32_t) upgradeDiamondCostBase {
-  return result.upgradeDiamondCostBase;
-}
-- (FullStructureProto_Builder*) setUpgradeDiamondCostBase:(int32_t) value {
-  result.hasUpgradeDiamondCostBase = YES;
-  result.upgradeDiamondCostBase = value;
-  return self;
-}
-- (FullStructureProto_Builder*) clearUpgradeDiamondCostBase {
-  result.hasUpgradeDiamondCostBase = NO;
-  result.upgradeDiamondCostBase = 0;
   return self;
 }
 - (BOOL) hasInstaBuildDiamondCostBase {

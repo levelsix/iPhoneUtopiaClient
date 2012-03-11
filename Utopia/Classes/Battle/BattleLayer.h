@@ -11,9 +11,40 @@
 
 @interface BattleSummaryView : UIView
 
+@property (nonatomic, retain) IBOutlet UILabel *leftNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *leftLevelLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *leftPlayerIcon;
+@property (nonatomic, retain) IBOutlet UILabel *rightNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *rightLevelLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *rightPlayerIcon;
+
+@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel1;
+@property (nonatomic, retain) IBOutlet UIImageView *leftEquipIcon1;
+@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel2;
+@property (nonatomic, retain) IBOutlet UIImageView *leftEquipIcon2;
+@property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel3;
+@property (nonatomic, retain) IBOutlet UIImageView *leftEquipIcon3;
+@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel1;
+@property (nonatomic, retain) IBOutlet UIImageView *rightEquipIcon1;
+@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel2;
+@property (nonatomic, retain) IBOutlet UIImageView *rightEquipIcon2;
+@property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel3;
+@property (nonatomic, retain) IBOutlet UIImageView *rightEquipIcon3;
+
+@property (nonatomic, retain) IBOutlet UILabel *coinsGainedLabel;
+@property (nonatomic, retain) IBOutlet UILabel *coinsLostLabel;
+@property (nonatomic, retain) IBOutlet UILabel *expGainedLabel;
+@property (nonatomic, retain) IBOutlet UIView *winLabelsView;
+@property (nonatomic, retain) IBOutlet UIView *defeatLabelsView;
+
 @end
 
 @interface StolenEquipView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 
 @end
 
@@ -54,8 +85,12 @@
   float _damageDone;
   
   CCLayer *_pausedLayer;
+  CCLayer *_fleeLayer;
+  CCMenuItemSprite *_fleeButton;
   CCLayer *_winLayer;
+  CCMenuItemSprite *_winButton;
   CCLayer *_loseLayer;
+  CCMenuItemSprite *_loseButton;
   
   FullUserProto *_fup;
 }

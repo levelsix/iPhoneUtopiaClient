@@ -11,6 +11,10 @@
 #import "Globals.h"
 #import "SynthesizeSingleton.h"
 #import "GameLayer.h"
+#import "OutgoingEventController.h"
+#import "ProfileViewController.h"
+#import "RefillMenuController.h"
+#import "MapViewController.h"
 
 #define HEALTH_BAR_VELOCITY 120.f
 
@@ -27,7 +31,7 @@
 #define LOCATION_BAR_MAX 75.f
 #define MAX_ATTACK_MULTIPLIER 1.5
 #define MIN_PERCENT_OF_ENEMY_HEALTH .1
-#define MAX_PERCENT_OF_ENEMY_HEALTH .5
+#define MAX_PERCENT_OF_ENEMY_HEALTH .6
 #define BATTLE_DIFFERENCE_MULTIPLIER 1
 #define BATTLE_DIFFERENCE_TUNER 0
 
@@ -35,13 +39,163 @@
 
 @implementation BattleSummaryView
 
+@synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon;
+@synthesize rightNameLabel, rightLevelLabel, rightPlayerIcon;
+@synthesize leftRarityLabel1, leftRarityLabel2, leftRarityLabel3;
+@synthesize leftEquipIcon1, leftEquipIcon2, leftEquipIcon3;
+@synthesize rightRarityLabel1, rightRarityLabel2, rightRarityLabel3;
+@synthesize rightEquipIcon1, rightEquipIcon2, rightEquipIcon3;
+@synthesize coinsGainedLabel, coinsLostLabel, expGainedLabel;
+@synthesize winLabelsView, defeatLabelsView;
 
+- (void) loadBattleSummaryForBattleResponse:(BattleResponseProto *)brp enemy:(FullUserProto *)fup {
+  GameState *gs = [GameState sharedGameState];
+  
+  leftNameLabel.text = gs.name;
+  leftLevelLabel.text = [NSString stringWithFormat:@"Lvl %d", gs.level];
+  
+  rightNameLabel.text = fup.name;
+  rightLevelLabel.text = [NSString stringWithFormat:@"Lvl %d", fup.level];
+  
+  UILabel *rarityLabel = leftRarityLabel1;
+  UIImageView *imgView = leftEquipIcon1;
+  int equipId = gs.weaponEquipped;
+  if (equipId > 0) {
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+    imgView.image = [Globals imageForEquip:fep.equipId];
+  } else {
+    rarityLabel.text = @"";
+    imgView.image = nil;
+  }
+  
+  rarityLabel = leftRarityLabel2;
+  imgView = leftEquipIcon2;
+  equipId = gs.armorEquipped;
+  if (equipId > 0) {
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+    imgView.image = [Globals imageForEquip:fep.equipId];
+  } else {
+    rarityLabel.text = @"";
+    imgView.image = nil;
+  }
+  
+  rarityLabel = leftRarityLabel3;
+  imgView = leftEquipIcon3;
+  equipId = gs.armorEquipped;
+  if (equipId > 0) {
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+    imgView.image = [Globals imageForEquip:fep.equipId];
+  } else {
+    rarityLabel.text = @"";
+    imgView.image = nil;
+  }
+  
+  rarityLabel = rightRarityLabel1;
+  imgView = rightEquipIcon1;
+  equipId = fup.armorEquipped;
+  if (equipId > 0) {
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+    imgView.image = [Globals imageForEquip:fep.equipId];
+  } else {
+    rarityLabel.text = @"";
+    imgView.image = nil;
+  }
+  
+  rarityLabel = rightRarityLabel2;
+  imgView = rightEquipIcon2;
+  equipId = fup.armorEquipped;
+  if (equipId > 0) {
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+    imgView.image = [Globals imageForEquip:fep.equipId];
+  } else {
+    rarityLabel.text = @"";
+    imgView.image = nil;
+  }
+  
+  rarityLabel = rightRarityLabel3;
+  imgView = rightEquipIcon3;
+  equipId = fup.armorEquipped;
+  if (equipId > 0) {
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
+    imgView.image = [Globals imageForEquip:fep.equipId];
+  } else {
+    rarityLabel.text = @"";
+    imgView.image = nil;
+  }
+  
+  if (brp.hasExpGained) {
+    // This is a win
+    winLabelsView.hidden = NO;
+    defeatLabelsView.hidden = YES;
+    coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:brp.coinsGained]];
+    expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:brp.expGained]];
+  } else {
+    winLabelsView.hidden = YES;
+    defeatLabelsView.hidden = NO;
+    // Coins gained is the loss amount
+    coinsLostLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:brp.coinsGained]];
+  }
+}
+
+- (void) dealloc {
+  self.leftNameLabel = nil;
+  self.leftLevelLabel = nil;
+  self.leftPlayerIcon = nil;
+  self.rightNameLabel = nil;
+  self.rightLevelLabel = nil;
+  self.rightPlayerIcon = nil;
+  self.leftRarityLabel1 = nil;
+  self.leftRarityLabel2 = nil;
+  self.leftRarityLabel3 = nil;
+  self.leftEquipIcon1 = nil;
+  self.leftEquipIcon2 = nil;
+  self.leftEquipIcon3 = nil;
+  self.rightRarityLabel1 = nil;
+  self.rightRarityLabel2 = nil;
+  self.rightRarityLabel3 = nil;
+  self.rightEquipIcon1 = nil;
+  self.rightEquipIcon2 = nil;
+  self.rightEquipIcon3 = nil;
+  self.coinsGainedLabel = nil;
+  self.coinsLostLabel = nil;
+  self.expGainedLabel = nil;
+  self.winLabelsView = nil;
+  self.defeatLabelsView = nil;
+  [super dealloc];
+}
 
 @end
 
 @implementation StolenEquipView
 
+@synthesize nameLabel, equipIcon, attackLabel, defenseLabel;
 
+- (void) loadForEquip:(FullEquipProto *)fep {
+  nameLabel.text = fep.name;
+  equipIcon.image = [Globals imageForEquip:fep.equipId];
+  attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+}
+
+- (void) dealloc {
+  self.nameLabel = nil;
+  self.equipIcon = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  [super dealloc];
+}
 
 @end
 
@@ -203,6 +357,25 @@ static CCScene *scene = nil;
     [button addChild:resumeLabel];
     resumeLabel.position = ccp(button.contentSize.width/2, button.contentSize.height/2);
     
+    _fleeLayer = [CCLayer node];
+    [self addChild:_fleeLayer z:3];
+    
+    p = [CCSprite spriteWithFile:@"youfled.png"];
+    p.position = ccp(_fleeLayer.contentSize.width/2, _fleeLayer.contentSize.height/2+35);
+    [_fleeLayer addChild:p];
+    
+    buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
+    _fleeButton = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    
+    menu = [CCMenu menuWithItems:_fleeButton,nil];
+    [_fleeLayer addChild:menu];
+    menu.position = ccp(_fleeLayer.contentSize.width/2, _fleeLayer.contentSize.height/2-15);
+    
+    resumeLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
+    resumeLabel.color = ccc3(255, 200, 0);
+    [_fleeButton addChild:resumeLabel];
+    resumeLabel.position = ccp(_fleeButton.contentSize.width/2, _fleeButton.contentSize.height/2);
+    
     _winLayer = [CCLayer node];
     [self addChild:_winLayer z:3];
     
@@ -211,16 +384,16 @@ static CCScene *scene = nil;
     [_winLayer addChild:p];
     
     buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
-    button = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    _winButton = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
     
-    menu = [CCMenu menuWithItems:button,nil];
+    menu = [CCMenu menuWithItems:_winButton,nil];
     [_winLayer addChild:menu];
     menu.position = ccp(_winLayer.contentSize.width/2, _winLayer.contentSize.height/2-15);
     
     CCLabelTTF *doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
     doneLabel.color = ccc3(255, 200, 0);
-    [button addChild:doneLabel];
-    doneLabel.position = ccp(button.contentSize.width/2, button.contentSize.height/2);
+    [_winButton addChild:doneLabel];
+    doneLabel.position = ccp(_winButton.contentSize.width/2, _winButton.contentSize.height/2);
     
     _loseLayer = [CCLayer node];
     [self addChild:_loseLayer z:3];
@@ -230,16 +403,16 @@ static CCScene *scene = nil;
     [_loseLayer addChild:p];
     
     buttonImage = [CCSprite spriteWithFile:@"doneresume.png"];
-    button = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
+    _loseButton = [CCMenuItemSprite itemFromNormalSprite:buttonImage selectedSprite:nil target:self selector:@selector(doneClicked)];
     
-    menu = [CCMenu menuWithItems:button,nil];
+    menu = [CCMenu menuWithItems:_loseButton,nil];
     [_loseLayer addChild:menu];
     menu.position = ccp(_loseLayer.contentSize.width/2, _loseLayer.contentSize.height/2-15);
     
     doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Requiem Text-HTF-SmallCaps" fontSize:15];
     doneLabel.color = ccc3(255, 200, 0);
-    [button addChild:doneLabel];
-    doneLabel.position = ccp(button.contentSize.width/2, button.contentSize.height/2);
+    [_loseButton addChild:doneLabel];
+    doneLabel.position = ccp(_loseButton.contentSize.width/2, _loseButton.contentSize.height/2);
     
     [[NSBundle mainBundle] loadNibNamed:@"BattleSummaryView" owner:self options:nil];
     
@@ -251,6 +424,14 @@ static CCScene *scene = nil;
 - (void) beginBattleAgainst:(FullUserProto *)user {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.currentStamina <= 0) {
+    [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
+    return;
+  }
+  
+  // Remove mapviewcontroller in case we were called from there
+  [MapViewController removeView];
   
   _leftCurrentHealth = gs.maxHealth;
   _leftMaxHealth = gs.maxHealth;
@@ -272,7 +453,15 @@ static CCScene *scene = nil;
   if (dir.runningScene != scene) {
     [dir pushScene:scene];
   }
+  
   self.brp = nil;
+  
+  [_fup release];
+  _fup = [user retain];
+  
+  [summaryView removeFromSuperview];
+  [stolenEquipView removeFromSuperview];
+  
   [self startBattle];
 }
 
@@ -282,6 +471,7 @@ static CCScene *scene = nil;
   _flippedComboBar.visible = NO;
   _bottomMenu.visible = NO;
   _pausedLayer.visible = NO;
+  _fleeLayer.visible = NO;
   _winLayer.visible = NO;
   _loseLayer.visible = NO;
   _left.position = ccp(-_left.contentSize.width/2, _left.contentSize.height/2);
@@ -327,7 +517,6 @@ static CCScene *scene = nil;
 
 - (void) turnMissed {
   [self startEnemyTurn];
-  NSLog(@"Turn missed.");
 }
 
 - (void) comboBarClicked {
@@ -335,7 +524,10 @@ static CCScene *scene = nil;
     [_comboProgressTimer stopAllActions];
     _comboBarMoving = NO;
     _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
-    NSLog(@"Clicked at percent: %f", _comboProgressTimer.percentage);
+    
+    if (_rightCurrentHealth - _damageDone <= 0) {
+      [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultAttackerWin city:0];
+    }
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
   }
@@ -418,15 +610,19 @@ static CCScene *scene = nil;
   float perc = [self calculateEnemyPercentage];
   _damageDone = [self calculateEnemyDamageForPercentage:perc];
   
+  if (_leftCurrentHealth - _damageDone <= 0) {
+    [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultDefenderWin city:0];
+  }
+  
   _bottomMenu.visible = NO;
   _attackButton.visible = NO;
   _flippedComboBar.visible = YES;
   
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
   [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
-                                  [CCDelayTime actionWithDuration:0.5],
-                                  [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
-                                  nil]];
+                                         [CCDelayTime actionWithDuration:0.5],
+                                         [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
+                                         nil]];
 }
 
 - (void) doEnemyAttackAnimation {
@@ -515,25 +711,62 @@ static CCScene *scene = nil;
 }
 
 - (void) myWin {
-  _winLayer.visible = YES;
-  
   [_right runAction:[CCSpawn actions:
                      [CCScaleBy actionWithDuration:0.1 scale:1.2],
                      [CCFadeOut actionWithDuration:0.1],
                      nil]];
+  
+  _winLayer.visible = YES;
+  if (!brp) {
+    _winButton.visible = NO;
+    [self schedule:@selector(checkWinBrp)];
+  }
+}
+
+- (void) checkWinBrp {
+  if (brp) {
+    _winButton.visible = YES;
+    [self unschedule:@selector(checkWinBrp)];
+  }
 }
 
 - (void) myLoss {
-  _loseLayer.visible = YES;
-  
   [_left runAction:[CCSpawn actions:
-                     [CCScaleBy actionWithDuration:0.1 scale:1.2],
-                     [CCFadeOut actionWithDuration:0.1],
-                     nil]];
+                    [CCScaleBy actionWithDuration:0.1 scale:1.2],
+                    [CCFadeOut actionWithDuration:0.1],
+                    nil]];
+  
+  _loseLayer.visible = YES;
+  if (!brp) {
+    _loseButton.visible = NO;
+    [self schedule:@selector(checkLoseBrp)];
+  }
+  _loseButton.visible = YES;
+}
+
+- (void) checkLoseBrp {
+  if (brp) {
+    _loseButton.visible = YES;
+    [self unschedule:@selector(checkLoseBrp)];
+  }
 }
 
 - (void) fleeClicked {
-  NSLog(@"flee");
+  [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultAttackerFlee city:0];
+  [_attackProgressTimer stopAllActions];
+  _attackButton.visible = NO;
+  _fleeLayer.visible = YES;
+  if (!brp) {
+    _fleeButton.visible = NO;
+    [self schedule:@selector(checkFleeBrp)];
+  }
+}
+
+- (void) checkFleeBrp {
+  if (brp) {
+    _fleeButton.visible = YES;
+    [self unschedule:@selector(checkFleeBrp)];
+  }
 }
 
 - (void) pauseClicked {
@@ -551,10 +784,16 @@ static CCScene *scene = nil;
 
 - (void) doneClicked {
   if (_left.opacity > 0) {
+    SEL completeAction = nil;
+    if (brp.hasEquipGained) {
+      completeAction = @selector(displayStolenEquip);
+    } else {
+      completeAction = @selector(displaySummary);
+    }
     [_left runAction: [CCSequence actions: 
                        [CCDelayTime actionWithDuration:0.1],
                        [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],
-                       [CCCallFunc actionWithTarget:self selector:@selector(displaySummary)],
+                       [CCCallFunc actionWithTarget:self selector:completeAction],
                        nil]];
   } else {
     [_right runAction: [CCSequence actions: 
@@ -565,8 +804,9 @@ static CCScene *scene = nil;
   }
 }
 
-- (void) displaySummary {
+- (void) displayStolenEquip {
   UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
+  [stolenEquipView loadForEquip:brp.equipGained];
   [view addSubview:stolenEquipView];
 }
 
@@ -581,8 +821,13 @@ static CCScene *scene = nil;
 }
 
 - (IBAction)stolenEquipOkayClicked:(id)sender {
-  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [stolenEquipView removeFromSuperview];
+  [self displaySummary];
+}
+
+- (void) displaySummary {
+  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
+  [summaryView loadBattleSummaryForBattleResponse:brp enemy:_fup];
   [view addSubview:summaryView];
 }
 
@@ -592,18 +837,23 @@ static CCScene *scene = nil;
 }
 
 - (IBAction)attackAgainClicked:(id)sender {
-  NSLog(@"attack again");
+  [self beginBattleAgainst:_fup];
 }
 
 - (IBAction)profileButtonClicked:(id)sender {
-  NSLog(@"profile clicked");
+  [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup buttonsEnabled:YES];
+  [ProfileViewController displayView];
 }
 
 - (void) closeScene {
+  [_fup release];
+  _fup = nil;
   [[CCDirector sharedDirector] popScene];
 }
 
 - (void) dealloc {
+  [_fup release];
+  _fup = nil;
   self.brp = nil;
   self.stolenEquipView = nil;
   self.summaryView = nil;

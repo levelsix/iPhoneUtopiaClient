@@ -98,7 +98,6 @@
 						<string key="NSFrame">{{87, 26}, {35, 35}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -313,6 +312,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">GameMap</string>
 					<string key="superclassName">CCTMXTiledMap</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">aviaryMenu</string>
+						<string key="NS.object.0">UIView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">aviaryMenu</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">aviaryMenu</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GameMap.h</string>

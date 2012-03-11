@@ -64,7 +64,7 @@
   }
   
   // Add the segmentors for each total-1 spot
-  UIImage *taskSeg = [UIImage imageNamed: @"inbetweenbar.png"];
+  UIImage *taskSeg = [Globals imageNamed: @"inbetweenbar.png"];
   float width = progressBar.image.size.width;
   
   CGRect r = progressBar.frame;
@@ -118,7 +118,7 @@
     for (int i = 0; i < self.mapSize.width; i++) {
       NSMutableArray *row = [NSMutableArray arrayWithCapacity:self.mapSize.height];
       for (int j = 0; j < self.mapSize.height; j++) {
-        [row addObject:[NSNumber numberWithBool:YES]];
+        [row addObject:[NSNumber numberWithBool:NO]];
       }
       [self.walkableData addObject:row];
     }
@@ -143,8 +143,8 @@
               NSDictionary *properties = [self propertiesForGID:tileGid];
               if (properties) {
                 NSString *collision = [properties valueForKey:@"Walkable"];
-                if (collision && [collision isEqualToString:@"No"]) {
-                  [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+                if (collision && [collision isEqualToString:@"Yes"]) {
+                  [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
                 }
               }
             }
@@ -192,8 +192,15 @@
         }
       }
     }
-    [self doReorder];
     
+    // Add aviary
+    Globals *gl = [Globals sharedGlobals];
+    CGRect avCoords = CGRectMake(fcp.aviaryCoords.x, fcp.aviaryCoords.y, gl.aviaryXLength, gl.aviaryYLength);
+    Aviary *av = [[Aviary alloc] initWithFile:@"Aviary.png" location:avCoords map:self];
+    [self addChild:av];
+    [av release];
+    
+    [self doReorder];
     
     // Load up the full task protos
     for (NSNumber *taskId in fcp.taskIdsList) {
@@ -234,12 +241,12 @@
 //    }
 //    NSLog(@"%@", str);
     
-//    for (int i = 0; i < 6; i++) {
-//      CGRect r = CGRectZero;
-//      r.origin = [self randomWalkablePosition];
-//      AnimatedSprite *anim = [[AnimatedSprite alloc] initWithFile:nil location:r map:self];
-//      [self addChild:anim];
-//    }
+    for (int i = 0; i < 6; i++) {
+      CGRect r = CGRectZero;
+      r.origin = [self randomWalkablePosition];
+      AnimatedSprite *anim = [[AnimatedSprite alloc] initWithFile:nil location:r map:self];
+      [self addChild:anim];
+    }
   }
   return self;
 }

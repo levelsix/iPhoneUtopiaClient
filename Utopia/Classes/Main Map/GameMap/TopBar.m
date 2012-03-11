@@ -173,14 +173,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     [self schedule:@selector(update)];
     
-    [self setUpEnergyTimer];
-    [self setUpStaminaTimer];
+//    [self setUpEnergyTimer];
+//    [self setUpStaminaTimer];
   }
   return self;
 }
 
 - (void) fillClicked {
-  NSLog(@"fill clicked");
+  if (_bigToolTipState == kEnergy) {
+    [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
+  } else if (_bigToolTipState == kStamina) {
+    [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
+  }
 }
 
 - (void) setUpEnergyTimer {
@@ -440,12 +444,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
     }
     // Check if timers need to be instantiated
-    if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
-      [self setUpEnergyTimer];
-    }
-    if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
-      [self setUpStaminaTimer];
-    }
+//    if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
+//      [self setUpEnergyTimer];
+//    }
+//    if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
+//      [self setUpStaminaTimer];
+//    }
   }
 }
 

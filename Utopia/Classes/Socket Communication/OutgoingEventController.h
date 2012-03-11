@@ -20,7 +20,7 @@
 
 - (BOOL) taskAction:(int)taskId;
 
-- (void) battle:(int)defender;
+- (void) battle:(int)defender result:(BattleResult)result city:(int)city;
 - (int) buyEquip:(int)equipId;
 - (int) sellEquip:(int)equipId;
 - (BOOL) wearEquip:(int)equipId;
@@ -60,6 +60,7 @@
 - (void) upgradeNormStruct:(UserStruct *)userStruct;
 
 - (void) retrieveAllStaticData;
+- (void) retrieveStaticEquip:(int)equipId;
 - (void) retrieveStructStore;
 - (void) retrieveEquipStore;
 

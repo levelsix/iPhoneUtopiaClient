@@ -79,8 +79,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
   self.productIdentifiers = [NSDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
-  self.energyRefillCost = constants.diamondCostForEnergyRefill;
-  self.staminaRefillCost = constants.diamondCostForStaminaRefill;
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {
@@ -408,7 +406,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateUpgradeCost:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return us.level/2 * fsp.upgradeCoinCostBase;
+  return us.level/2 * fsp.coinPrice;
 }
 
 - (int) calculateDiamondCostForInstaBuild:(UserStruct *)us {

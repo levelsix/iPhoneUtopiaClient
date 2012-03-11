@@ -10,6 +10,7 @@
 #import "Building.h"
 #import "Globals.h"
 #import "NibUtils.h"
+#import "MapViewController.h"
 
 #define MAP_OFFSET 100
 
@@ -19,6 +20,7 @@
 
 @synthesize selected = _selected;
 @synthesize tileSizeInPoints;
+@synthesize aviaryMenu;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
 {
@@ -64,6 +66,11 @@
     } else {
       tileSizeInPoints = tileSize_;
     }
+    
+    [[NSBundle mainBundle] loadNibNamed:@"AviaryMenu" owner:self options:nil];
+    [[[CCDirector sharedDirector] openGLView] addSubview:self.aviaryMenu];
+    
+    aviaryMenu.hidden = YES;
   }
   return self;
 }
@@ -82,11 +89,26 @@
   return frontLoc.origin.y <= backLoc.origin.y;
 }
 
+- (void) updateAviaryMenu {
+  if (_selected && [_selected isKindOfClass:[Aviary class]]) {
+    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
+    
+    float width = aviaryMenu.frame.size.width;
+    float height = aviaryMenu.frame.size.height;
+    aviaryMenu.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
+    
+    aviaryMenu.hidden = NO;
+  } else {
+    aviaryMenu.hidden = YES;
+  }
+}
+
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
     _selected.isSelected = NO;
     _selected = selected;
     _selected.isSelected = YES;
+    [self updateAviaryMenu];
   }
 }
 
@@ -150,6 +172,7 @@
 {
   // Now do drag motion
   UIPanGestureRecognizer* pan = (UIPanGestureRecognizer*)recognizer;
+  
   if([recognizer state] == UIGestureRecognizerStateBegan ||
      [recognizer state] == UIGestureRecognizerStateChanged )
   {
@@ -159,8 +182,9 @@
     CGPoint delta = [self convertVectorToGL: translation];
     [node setPosition:ccpAdd(node.position, delta)];
     [pan setTranslation:CGPointZero inView:pan.view.superview];
-    
+    self.aviaryMenu.hidden = YES;
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
+    [self updateAviaryMenu];
     CGPoint vel = [pan velocityInView:pan.view.superview];
     vel = [self convertVectorToGL: vel];
     
@@ -197,12 +221,26 @@
   CGPoint diff = ccpSub(afterScale, beforeScale);
   
   node.position = ccpAdd(node.position, ccpMult(diff, node.scale));
+  
+  [self updateAviaryMenu];
 }
 
 -(void) setPosition:(CGPoint)position {
   float x = MAX(MIN(MAP_OFFSET, position.x), -self.contentSize.width*self.scaleX + [[CCDirector sharedDirector] winSize].width-MAP_OFFSET);
   float y = MAX(MIN(MAP_OFFSET, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height-MAP_OFFSET);
+  CGPoint oldPos = position_;
   [super setPosition:ccp(x,y)];
+  if (!aviaryMenu.hidden) {
+    CGPoint diff = ccpSub(oldPos, position_);
+    diff.x *= -1;
+    CGRect curRect = aviaryMenu.frame;
+    curRect.origin = ccpAdd(curRect.origin, diff);
+    aviaryMenu.frame = curRect;
+  }
+}
+
+- (IBAction)enterAviaryClicked:(id)sender {
+  [MapViewController displayView];
 }
 
 -(void) dealloc {

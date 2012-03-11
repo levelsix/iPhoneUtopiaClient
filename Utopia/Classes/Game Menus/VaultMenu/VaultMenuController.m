@@ -120,7 +120,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   withdrawButton.label.shadowColor = shadowColor;
   
   NSMutableArray *m = [NSMutableArray array];
-  UIImage *img = [UIImage imageNamed:@"numbertickerbg.png"];
+  UIImage *img = [Globals imageNamed:@"numbertickerbg.png"];
   for (int i = 0; i < 9; i++) {
     CGRect r = CGRectZero;
     r.size = img.size;

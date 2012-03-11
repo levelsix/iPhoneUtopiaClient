@@ -303,7 +303,7 @@
     self.backgroundColor = [UIColor clearColor];
     
     self.visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *visit = [UIImage imageNamed:@"visit.png"];
+    UIImage *visit = [Globals imageNamed:@"visit.png"];
     [self.visitButton setImage:visit forState:UIControlStateNormal];
     [self.visitButton addTarget:self action:@selector(visitClicked) forControlEvents:UIControlEventTouchUpInside];
     if (completed < total)
@@ -332,13 +332,13 @@
     [self addSubview:self.label];
     
     // Create the image view for the task bar
-    UIImageView *tmpView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"taskbarinset.png"]];
+    UIImageView *tmpView = [[UIImageView alloc] initWithImage:[Globals imageNamed: @"taskbarinset.png"]];
     self.bgdBar = tmpView;
     [tmpView release];
     [self addSubview:tmpView];
     
     // Create the actual task bar and give it the correct percentage
-    tmpView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"taskyellowbar.png"]];
+    tmpView = [[UIImageView alloc] initWithImage:[Globals imageNamed: @"taskyellowbar.png"]];
     self.taskBar = tmpView;
     [tmpView release];
     self.taskBar.contentMode = UIViewContentModeLeft;
@@ -350,7 +350,7 @@
     [self.bgdBar addSubview:self.taskBar];
     
     // Add the segmentors for each total-1 spot
-    UIImage *taskSeg = [UIImage imageNamed: @"tasksepline.png"];
+    UIImage *taskSeg = [Globals imageNamed: @"tasksepline.png"];
     for (float i = 1.f; i < total; i+=1) {
       tmpView = [[UIImageView alloc] initWithImage:taskSeg];
       tmpView.center = CGPointMake(i/total*self.bgdBar.frame.size.width, self.bgdBar.frame.size.height/2);

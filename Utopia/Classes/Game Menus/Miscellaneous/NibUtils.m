@@ -134,6 +134,14 @@
 
 @end
 
+@implementation FlipButton
+
+- (void) awakeFromNib {
+  self.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
+}
+
+@end
+
 @implementation ServerImageView
 
 @synthesize path, highlightedPath;
@@ -165,7 +173,7 @@ static UIColor *ropeImage = nil;
 
 - (UIColor *)ropeImage {
   if (!ropeImage) {
-    ropeImage = [[UIColor colorWithPatternImage:[UIImage imageNamed:@"rope.png"]] retain];
+    ropeImage = [[UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]] retain];
   }
   return ropeImage;
 }

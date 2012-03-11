@@ -30,6 +30,7 @@ message BattleRequestProto {
     required BattleResult battleResult = 3;
     required int64 clientTime = 4;
     optional int32 neutralCityId = 5;
+    repeated FullUserEquipProto defenderUserEquips = 6;
 }
 
 																						//DONE
@@ -205,7 +206,6 @@ message StartupResponseProto {
 		required int32 diamondCostOfLongMarketplaceLicense = 45;
 		required int32 diamondCostOfShortMarketplaceLicense = 46;
 
-		required int32 minutesForCityExpansion = 3;
 		required int32 maxNumbersOfEnemiesToGenerateAtOnce = 4;
 		required double percentReturnedToUserForSellingEquipInArmory = 5;
 		    	   	
@@ -295,8 +295,9 @@ message UserCreateRequestProto {
      required int32 stamina = 13;
      
      required int64 timeOfStructPurchase = 14;
-     required int64 timeOfStructDiamondInstabuild = 15;
+     required int64 timeOfStructBuild = 15;
      required CoordinateProto structCoords = 4;
+     required bool usedDiamondsToBuilt = 16;
 }
 
 message UserCreateResponseProto {
@@ -610,10 +611,15 @@ message LevelUpResponseProto {
      required MinimumUserProto sender = 1;
      required LevelUpStatus status = 2;
      
+     optional int32 newLevel = 11;
      optional int32 newNextLevel = 3;
      optional int32 experienceRequiredForNewNextLevel = 4;
 	 repeated FullCityProto citiesNewlyAvailableToUser = 5;					//only new ones
-     repeated FullEquipProto newlyEquippableAvailableInArmory = 6;			//only new ones
+     repeated FullEquipProto newlyEquippableEpicsAndLegendaries = 6;			//only new ones
+     repeated FullStructureProto newlyAvailableStructs = 7;					//only new ones
+     optional bool marketplaceUnlocked = 8;
+     optional bool vaultUnlocked = 9;
+     optional bool armoryUnlocked = 10;
      
 	enum LevelUpStatus {
      	SUCCESS = 0;
@@ -1172,11 +1178,13 @@ message ChangeUserLocationResponseProto {
 
 //------------------------------------------------------------------------------------------
 
+																						//DONE
 message LoadNeutralCityRequestProto {
      required MinimumUserProto sender = 1;
      required int32 cityId = 2;    
 }
 
+																						//DONE
 message LoadNeutralCityResponseProto {
      required MinimumUserProto sender = 1;
      required LoadNeutralCityStatus status = 2;
@@ -1191,4 +1199,19 @@ message LoadNeutralCityResponseProto {
      	NOT_ACCESSIBLE_TO_USER = 1;
      	OTHER_FAIL = 2;
      }    
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message RetrieveUserEquipForUserRequestProto {
+     required MinimumUserProto sender = 1;
+     required int32 relevantUserId = 2;
+}
+
+																						//DONE
+message RetrieveUserEquipForUserResponseProto {
+    required MinimumUserProto sender = 1;
+    required int32 relevantUserId = 2;
+	repeated FullUserEquipProto userEquips = 3;
 }

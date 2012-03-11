@@ -56,7 +56,7 @@ static UIButton *rightButton = nil;
     
     if (!leftButton) {
       leftButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-      UIImage *img = [UIImage imageNamed:@"mapprofileicon.png"];
+      UIImage *img = [Globals imageNamed:@"mapprofileicon.png"];
       [leftButton setImage:img forState:UIControlStateNormal];
       leftButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
       leftButton.tag = 1;
@@ -64,7 +64,7 @@ static UIButton *rightButton = nil;
     
     if (!rightButton) {
       rightButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-      UIImage *img = [UIImage imageNamed:@"mapattackicon.png"];
+      UIImage *img = [Globals imageNamed:@"mapattackicon.png"];
       [rightButton setImage:img forState:UIControlStateNormal];
       rightButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
       rightButton.tag = 2;
@@ -214,7 +214,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   if (tag == 1) {
     // Left clicked
-    [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:fup];
+    [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:fup buttonsEnabled:YES];
     [ProfileViewController displayView];
   } else if (tag == 2) {
     // Right clicked

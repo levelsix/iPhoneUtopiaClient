@@ -219,7 +219,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView addSubview:self.removeView];
   self.buyButtonView.hidden = YES;
   
-  UIColor *c = [UIColor colorWithPatternImage:[UIImage imageNamed:@"marketrope.png"]];
+  UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"marketrope.png"]];
   leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 34)];
   rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 34)];
   leftRopeFirstRow.backgroundColor = c;

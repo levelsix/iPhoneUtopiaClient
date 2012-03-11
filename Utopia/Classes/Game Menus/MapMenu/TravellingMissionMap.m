@@ -36,9 +36,9 @@
     isLocked = i;
     
     if (!isLocked) {
-      [self setImage:[UIImage imageNamed:@"opencity.png"] forState:UIControlStateNormal] ;
+      [self setImage:[Globals imageNamed:@"opencity.png"] forState:UIControlStateNormal] ;
     } else {
-      [self setImage:[UIImage imageNamed:@"lockedcity.png"] forState:UIControlStateNormal];
+      [self setImage:[Globals imageNamed:@"lockedcity.png"] forState:UIControlStateNormal];
     }
   }
 }

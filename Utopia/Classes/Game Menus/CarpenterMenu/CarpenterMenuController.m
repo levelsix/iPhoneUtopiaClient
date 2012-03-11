@@ -14,6 +14,7 @@
 #import "Globals.h"
 #import "HomeMap.h"
 #import "OutgoingEventController.h"
+#import "RefillMenuController.h"
 
 #define ROW_HEIGHT 215
 
@@ -25,7 +26,7 @@
 @synthesize string;
 
 - (void) awakeFromNib {
-  _tickerImage = [[UIImage imageNamed:@"timetickerbg.png"] retain];
+  _tickerImage = [[Globals imageNamed:@"timetickerbg.png"] retain];
   self.string = @"02:00";
   _font = [[UIFont fontWithName:@"Archer" size:11] retain];
 }
@@ -222,8 +223,17 @@
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     self.darkOverlay.hidden = YES;
     if ([self pointInside:loc withEvent:event]) {
-      [[HomeMap sharedHomeMap] preparePurchaseOfStruct:_structId];
-      [CarpenterMenuController removeView];
+      GameState *gs = [GameState sharedGameState];
+      if (gs.silver >= fsp.coinPrice && gs.gold >= fsp.diamondPrice) {
+        [[HomeMap sharedHomeMap] preparePurchaseOfStruct:_structId];
+        [CarpenterMenuController removeView];
+      } else {
+        if (fsp.coinPrice) {
+          [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+        } else {
+          [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fsp.diamondPrice];
+        }
+      }
     }
   }
 }

@@ -190,6 +190,10 @@
 @class RetrieveTasksForCityRequestProto_Builder;
 @class RetrieveTasksForCityResponseProto;
 @class RetrieveTasksForCityResponseProto_Builder;
+@class RetrieveUserEquipForUserRequestProto;
+@class RetrieveUserEquipForUserRequestProto_Builder;
+@class RetrieveUserEquipForUserResponseProto;
+@class RetrieveUserEquipForUserResponseProto_Builder;
 @class SellNormStructureRequestProto;
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
@@ -243,6 +247,7 @@ typedef enum {
   EventProtocolRequestCBattleEvent = 1,
   EventProtocolRequestCVaultEvent = 2,
   EventProtocolRequestCTaskActionEvent = 3,
+  EventProtocolRequestCRetrieveUserEquipForUser = 4,
   EventProtocolRequestCStartupEvent = 5,
   EventProtocolRequestCRetrieveStaticDataForShopEvent = 8,
   EventProtocolRequestCArmoryEvent = 9,
@@ -288,6 +293,7 @@ typedef enum {
   EventProtocolResponseSBattleEvent = 1,
   EventProtocolResponseSVaultEvent = 2,
   EventProtocolResponseSTaskActionEvent = 3,
+  EventProtocolResponseSRetrieveUserEquipForUser = 4,
   EventProtocolResponseSStartupEvent = 5,
   EventProtocolResponseSRetrieveStaticDataForShopEvent = 8,
   EventProtocolResponseSArmoryEvent = 9,

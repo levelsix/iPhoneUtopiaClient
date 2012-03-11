@@ -10,6 +10,8 @@
 #import "NibUtils.h"
 #import "Building.h"
 
+#define OVER_HOME_BUILDING_MENU_OFFSET 5.f
+
 @class Building;
 @class SelectableSprite;
 
@@ -20,6 +22,8 @@
   SelectableSprite *_selected;
   NSMutableArray *_mapSprites;
 }
+
+@property (nonatomic, retain) IBOutlet UIView *aviaryMenu;
 
 @property (nonatomic, retain) SelectableSprite *selected;
 

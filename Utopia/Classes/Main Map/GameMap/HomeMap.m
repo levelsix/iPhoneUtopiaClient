@@ -31,8 +31,8 @@
 
 - (id) initWithFrame:(CGRect)frame {
   if ((self = [super initWithFrame:frame])) {
-    fullStar = [[UIImage imageNamed:@"fullstar.png"] retain];
-    emptyStar = [[UIImage imageNamed:@"emptystar.png"] retain];
+    fullStar = [[Globals imageNamed:@"fullstar.png"] retain];
+    emptyStar = [[Globals imageNamed:@"emptystar.png"] retain];
     self.level = 1;
     self.userInteractionEnabled = NO;
   }
@@ -449,7 +449,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [[[CCDirector sharedDirector] openGLView] addSubview:self.hbMenu];
-    self.hbMenu.frame = CGRectMake(100, 100, self.hbMenu.frame.size.width, self.hbMenu.frame.size.height);
     
     self.hbMenu.greenButton.label.shadowColor = [UIColor darkGrayColor];
     self.hbMenu.greenButton.label.shadowOffset = CGSizeMake(1, 1);
@@ -555,14 +554,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   for (CritStruct *cs in gs.myCritStructs) {
-    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-    [self addChild:csb];
-    [csb release];
-    
-    csb.orientation = cs.orientation;
-    csb.critStruct = cs;
-    [arr addObject:csb];
-    [csb placeBlock];
+    if (cs.type != CritStructTypeAviary) {
+      CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
+      [self addChild:csb];
+      [csb release];
+      
+      csb.orientation = cs.orientation;
+      csb.critStruct = cs;
+      [arr addObject:csb];
+      [csb placeBlock];
+    } else {
+      Aviary *av = [[Aviary alloc] initWithFile:@"Aviary.png" location:cs.location map:self];
+      [self addChild:av];
+      [av release];
+      
+      av.orientation = cs.orientation;
+      [arr addObject:av];
+      [self changeTiles:av.location toBuildable:NO];
+    }
   }
   [self doReorder];
   _loading = NO;
@@ -585,6 +594,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     CGRect curRect = hbMenu.frame;
     curRect.origin = ccpAdd(curRect.origin, diff);
     hbMenu.frame = curRect;
+  }
+  if (!csMenu.hidden) {
+    CGPoint diff = ccpSub(oldPos, position_);
+    diff.x *= -1;
+    CGRect curRect = csMenu.frame;
+    curRect.origin = ccpAdd(curRect.origin, diff);
+    csMenu.frame = curRect;
   }
 }
 
@@ -735,6 +751,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
   [self updateHomeBuildingMenu];
+  [self updateCritStructMenu];
 }
 
 - (void) scrollScreenForTouch:(CGPoint)pt {

@@ -26,6 +26,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCBattleEvent:
     case EventProtocolRequestCVaultEvent:
     case EventProtocolRequestCTaskActionEvent:
+    case EventProtocolRequestCRetrieveUserEquipForUser:
     case EventProtocolRequestCStartupEvent:
     case EventProtocolRequestCRetrieveStaticDataForShopEvent:
     case EventProtocolRequestCArmoryEvent:
@@ -73,6 +74,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSBattleEvent:
     case EventProtocolResponseSVaultEvent:
     case EventProtocolResponseSTaskActionEvent:
+    case EventProtocolResponseSRetrieveUserEquipForUser:
     case EventProtocolResponseSStartupEvent:
     case EventProtocolResponseSRetrieveStaticDataForShopEvent:
     case EventProtocolResponseSArmoryEvent:

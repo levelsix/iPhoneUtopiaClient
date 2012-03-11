@@ -9,7 +9,7 @@
 #import "cocos2d.h"
 #import "MapSprite.h"
 
-@interface AnimatedSprite : MapSprite
+@interface AnimatedSprite : SelectableSprite
 {
   CCSprite *_sprite;
   CCAction *_walkAction;
