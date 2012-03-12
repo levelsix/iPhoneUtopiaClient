@@ -652,10 +652,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   
   for (int i = 0; i < equips.count; i++) {
-    FullUserEquipProto *bestFuep = [arr objectAtIndex:0];
+    UserEquip *bestFuep = [arr objectAtIndex:0];
     FullEquipProto *bestFep = [gs equipWithId:bestFuep.equipId];
     for (int j = 1; j < arr.count; j++) {
-      FullUserEquipProto *compFuep = [arr objectAtIndex:j];
+      UserEquip *compFuep = [arr objectAtIndex:j];
       FullEquipProto *compFep = [gs equipWithId:compFuep.equipId];
       
       if (compFep.rarity > bestFep.rarity) {

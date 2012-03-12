@@ -36,10 +36,6 @@
 @property (nonatomic, assign) int energyRefillCost;
 @property (nonatomic, assign) int staminaRefillCost;
 
-@property (nonatomic, assign) int maxRepeatedNormStructs;
-@property (nonatomic, assign) int maxEquipId;
-@property (nonatomic, assign) int maxStructId;
-
 @property (nonatomic, assign) int armoryXLength;
 @property (nonatomic, assign) int armoryYLength;
 @property (nonatomic, assign) int aviaryXLength;
@@ -50,6 +46,26 @@
 @property (nonatomic, assign) int marketplaceYLength;
 @property (nonatomic, assign) int vaultXLength;
 @property (nonatomic, assign) int vaultYLength;
+
+@property (nonatomic, assign) int maxLevelDiffForBattle;
+@property (nonatomic, assign) int skillPointsGainedOnLevelup;
+@property (nonatomic, assign) int cutOfVaultDepositTaken;
+
+@property (nonatomic, assign) int maxLevelForStruct;
+@property (nonatomic, assign) int maxRepeatedNormStructs;
+@property (nonatomic, assign) float percentReturnedToUserForSellingNormStructure;
+
+@property (nonatomic, assign) int maxNumberOfMarketplacePosts;
+@property (nonatomic, assign) float percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+@property (nonatomic, assign) float percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+
+@property (nonatomic, assign) int numDaysLongMarketplaceLicenseLastsFor;
+@property (nonatomic, assign) int numDaysShortMarketplaceLicenseLastsFor;
+@property (nonatomic, assign) int diamondCostOfLongMarketplaceLicense;
+@property (nonatomic, assign) int diamondCostOfShortMarketplaceLicense;
+
+@property (nonatomic, assign) int maxNumbersOfEnemiesToGenerateAtOnce;
+@property (nonatomic, assign) float percentReturnedToUserForSellingEquipInArmory;
 
 @property (nonatomic, assign) NSDictionary *productIdentifiers;
 

@@ -74,5 +74,6 @@
 - (void) acceptQuest:(int)questId;
 - (void) redeemQuest:(int)questId;
 - (void) retrieveQuestLog;
+- (void) retrieveQuestDetails:(int)questId;
 
 @end

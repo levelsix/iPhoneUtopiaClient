@@ -35,8 +35,8 @@
   location.origin.x = MIN(ms.width-location.size.width, MAX(0, location.origin.x));
   location.origin.y = MIN(ms.height-location.size.height, MAX(0, location.origin.y));
   _location = location;
-  self.position = ccp( ms.width * ts.width/2 + ts.width * (location.origin.x-location.origin.y)/2, 
-                      ts.height * (location.origin.y+location.origin.x)/2);
+  self.position = ccp( ms.width * ts.width/2.f + ts.width * (location.origin.x-location.origin.y)/2.f, 
+                      ts.height * (location.origin.y+location.origin.x)/2.f);
   
   [_map doReorder];
 }
@@ -50,16 +50,19 @@
 -(id) initWithFile: (NSString *) file  location: (CGRect)loc map: (GameMap *) map{
   if ((self = [super initWithFile:file location:loc map:map])) {
     _isSelected = NO;
-    
-    _glow = [[CCSprite spriteWithFile:@"glow.png"] retain];
-    _glow.scale = 0.55;
-    _glow.anchorPoint = ccp(0.5,0.08);
-    _glow.position = ccp(self.contentSize.width/2, 0);
-    _glow.visible = NO;
-    _glow.opacity = 20;
-    [self addChild:_glow z:-1];
+    [self setUpGlow];
   }
   return self;
+}
+
+- (void) setUpGlow {
+  _glow = [[CCSprite spriteWithFile:@"glow.png"] retain];
+  _glow.scale = 0.55;
+  _glow.anchorPoint = ccp(0.5,0);
+  _glow.position = ccp(self.contentSize.width/2, 0);
+  _glow.visible = NO;
+  _glow.opacity = 100;
+  [self addChild:_glow z:-1];
 }
 
 -(void) setIsSelected:(BOOL)isSelected {

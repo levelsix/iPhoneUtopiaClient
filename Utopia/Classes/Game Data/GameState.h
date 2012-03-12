@@ -175,4 +175,6 @@
 - (void) addToStaticPossessEquipJobs:(NSArray *)arr;
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
 
+- (void) purgeStaticData;
+
 @end

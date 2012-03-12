@@ -173,17 +173,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     [self schedule:@selector(update)];
     
-//    [self setUpEnergyTimer];
-//    [self setUpStaminaTimer];
+    [self setUpEnergyTimer];
+    [self setUpStaminaTimer];
   }
   return self;
 }
 
 - (void) fillClicked {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
   if (_bigToolTipState == kEnergy) {
-    [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
+    if (gs.gold >= gl.energyRefillCost) {
+      [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
+    } else {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.energyRefillCost];
+    }
   } else if (_bigToolTipState == kStamina) {
-    [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
+    if (gs.gold >= gl.staminaRefillCost) {
+      [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
+    } else {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.staminaRefillCost];
+    }
   }
 }
 
@@ -444,12 +455,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
     }
     // Check if timers need to be instantiated
-//    if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
-//      [self setUpEnergyTimer];
-//    }
-//    if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
-//      [self setUpStaminaTimer];
-//    }
+    if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
+      [self setUpEnergyTimer];
+    }
+    if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
+      [self setUpStaminaTimer];
+    }
   }
 }
 

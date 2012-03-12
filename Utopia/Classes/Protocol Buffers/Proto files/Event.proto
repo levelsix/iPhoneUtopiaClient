@@ -187,7 +187,7 @@ message StartupResponseProto {
 		required int32 minMarketplaceLevel = 30;
 		required int32 minArmoryLevel = 31;
 		
-		required int32 maxRankForCity = 32;
+		required int32 maxRankF∑∑orCity = 32;
 		required int32 maxLevelForStruct = 33;
 		required int32 maxNumOfSingleStruct = 34;
 		required double percentReturnedToUserForSellingNormStructure = 35;

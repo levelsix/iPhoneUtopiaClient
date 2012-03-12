@@ -463,6 +463,9 @@ static CCScene *scene = nil;
   [stolenEquipView removeFromSuperview];
   
   [self startBattle];
+  
+  // Close the menus
+  [[GameLayer sharedGameLayer] closeMenus];
 }
 
 - (void) startBattle {

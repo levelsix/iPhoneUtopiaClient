@@ -54,9 +54,11 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *coinRewardLabel;
 @property (nonatomic, retain) IBOutlet UILabel *expLabel;
 @property (nonatomic, retain) IBOutlet UILabel *expRewardLabel;
-@property (nonatomic, retain) IBOutlet UIWebView *rewardWebView;
-
-- (void) updateWebView;
+@property (nonatomic, retain) IBOutlet UIView *equipView;
+@property (nonatomic, retain) IBOutlet UILabel *equipNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *equipAttLabel;
+@property (nonatomic, retain) IBOutlet UILabel *equipDefLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 
 @end
 
@@ -95,17 +97,25 @@ typedef enum {
 
 @interface QuestLogController : UIViewController {
   UIView *_curView;
+  FullQuestProto *_fqp;
 }
 
 @property (nonatomic, retain) IBOutlet QuestDescriptionView *questDescView;
 @property (nonatomic, retain) IBOutlet TaskListView *taskView;
 @property (nonatomic, retain) IBOutlet QuestListView *questListView;
+@property (nonatomic, retain) IBOutlet UIView *rightPage;
+@property (nonatomic, retain) IBOutlet UIView *toTaskButton;
+@property (nonatomic, retain) IBOutlet UIView *redeemButton;
+@property (nonatomic, retain) IBOutlet UIView *acceptButtons;
 @property (nonatomic, retain) NSArray *userLogData;
 
-- (void) refreshWithQuests:(NSArray *)quests;
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;
 + (void) removeView;
+- (void) loadQuestData:(NSArray *)quests;
 - (void) resetToQuestDescView:(FullQuestProto *)fqp;
+- (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress;
+
+- (IBAction)closeButtonClicked:(id)sender;
 
 @end

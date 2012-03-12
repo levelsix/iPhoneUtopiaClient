@@ -108,11 +108,13 @@
 @synthesize walkableData = _walkableData;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto {
-//  NSString *tmxFile = @"villa_montalvo.tmx";
+  //  NSString *tmxFile = @"villa_montalvo.tmx";
   FullCityProto *fcp = [[GameState sharedGameState] cityWithId:proto.cityId];
   if ((self = [super initWithTMXFile:fcp.mapImgName])) {
     GameState *gs = [GameState sharedGameState];
     FullCityProto *fcp = [gs cityWithId:proto.cityId];
+    
+    _cityId = proto.cityId;
     
     self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     for (int i = 0; i < self.mapSize.width; i++) {
@@ -135,7 +137,7 @@
         for (int j = 0; j < height; j++) {
           NSMutableArray *row = [self.walkableData objectAtIndex:i];
           NSNumber *curVal = [row objectAtIndex:j];
-          if (curVal.boolValue == YES) {
+          if (curVal.boolValue == NO) {
             // Convert their coordinates to our coordinate system
             CGPoint tileCoord = ccp(height-j-1, width-i-1);
             int tileGid = [layer tileGIDAt:tileCoord];
@@ -153,7 +155,8 @@
       }
     }
     
-    // Add all the buildings
+    // Add all the buildings, can't add people till after aviary placed
+    NSMutableArray *peopleElems = [NSMutableArray array];
     for (NeutralCityElementProto *ncep in proto.cityElementsList) {
       if (ncep.type == NeutralCityElementProto_NeutralCityElemTypeBuilding) {
         // Add a mission building
@@ -164,32 +167,16 @@
         [self addChild:mb z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         [mb release];
         
-        for (int i = 0; i < mb.location.size.width; i++) {
-          for (int j = 0; j < mb.location.size.height; j++) {
-            // Transform to the map's coordinates
-            NSMutableArray *row = [_walkableData objectAtIndex:i+mb.location.origin.x];
-            NSNumber *num = [row objectAtIndex:j+mb.location.origin.y];
-            if ([num boolValue] == YES) {
-              [row replaceObjectAtIndex:j+mb.location.origin.y withObject:[NSNumber numberWithBool:NO]];
-            }
-          }
-        }
+        [self changeTiles:mb.location canWalk:NO];
       } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypeDecoration) {
         // Decorations aren't selectable so just make a map sprite
         CGRect loc = CGRectMake(ncep.coords.x, ncep.coords.y, ncep.xLength, ncep.yLength);
         MapSprite *s = [[MapSprite alloc] initWithFile:ncep.imgId location:loc map:self];
         [self addChild:s z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         
-        for (int i = 0; i < s.location.size.width; i++) {
-          for (int j = 0; j < s.location.size.height; j++) {
-            // Transform to the map's coordinates
-            NSMutableArray *row = [_walkableData objectAtIndex:i+s.location.origin.x];
-            NSNumber *num = [row objectAtIndex:j+s.location.origin.y];
-            if ([num boolValue] == YES) {
-              [row replaceObjectAtIndex:j+s.location.origin.y withObject:[NSNumber numberWithBool:NO]];
-            }
-          }
-        }
+        [self changeTiles:s.location canWalk:NO];
+      } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypePerson) {
+        [peopleElems addObject:ncep];
       }
     }
     
@@ -197,8 +184,73 @@
     Globals *gl = [Globals sharedGlobals];
     CGRect avCoords = CGRectMake(fcp.aviaryCoords.x, fcp.aviaryCoords.y, gl.aviaryXLength, gl.aviaryYLength);
     Aviary *av = [[Aviary alloc] initWithFile:@"Aviary.png" location:avCoords map:self];
+    av.orientation = fcp.aviaryOrientation;
     [self addChild:av];
     [av release];
+    [self changeTiles:av.location canWalk:NO];
+    
+    // Now add people, first add quest givers
+    for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
+      NSLog(@"%d", fqp.questId);
+      if (fqp.cityId == fcp.cityId) {
+        NeutralCityElementProto *ncep = nil;
+        for (NeutralCityElementProto *n in peopleElems) {
+          if (n.assetId == fqp.assetNumWithinCity) {
+            ncep = n;
+            break;
+          }
+        }
+        [peopleElems removeObject:ncep];
+        
+        if (ncep) {
+          CGRect r = CGRectZero;
+          r.origin = [self randomWalkablePosition];
+          r.size = CGSizeMake(1, 1);
+          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:NO map:self location:r];
+          [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        } else {
+          NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
+        }
+      }
+    }
+    
+    NSLog(@"in prog");
+    // Now add the in progress quest givers, peopleElems will hold only the non-quest givers
+    for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
+      NSLog(@"%d", fqp.questId);
+      if (fqp.cityId == fcp.cityId) {
+        NeutralCityElementProto *ncep = nil;
+        for (NeutralCityElementProto *n in peopleElems) {
+          if (n.assetId == fqp.assetNumWithinCity) {
+            ncep = n;
+            break;
+          }
+        }
+        [peopleElems removeObject:ncep];
+        
+        if (ncep) {
+          CGRect r = CGRectZero;
+          r.origin = [self randomWalkablePosition];
+          r.size = CGSizeMake(1, 1);
+          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:YES map:self location:r];
+          [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        } else {
+          NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
+        }
+      }
+    }
+    
+    NSLog(@"%d neutral elems left", peopleElems.count);
+    // Load the rest of the people in case quest becomes available later.
+    // Set alpha to 0 to they can't be seen
+    for (NeutralCityElementProto *ncep in peopleElems) {
+      CGRect r = CGRectZero;
+      r.origin = [self randomWalkablePosition];
+      r.size = CGSizeMake(1, 1);
+      QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO map:self location:r];
+      [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+      qg.opacity = 0.f;
+    }
     
     [self doReorder];
     
@@ -232,23 +284,33 @@
     
     summaryMenu.center = CGPointMake(-summaryMenu.frame.size.width, 290);
     
-//    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
-//    for (int i=0; i < width; i++) {
-//      for (int j=0; j < height; j++) {
-//        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
-//      }
-//      [str appendString:@"\n"];
-//    }
-//    NSLog(@"%@", str);
-    
-    for (int i = 0; i < 6; i++) {
-      CGRect r = CGRectZero;
-      r.origin = [self randomWalkablePosition];
-      AnimatedSprite *anim = [[AnimatedSprite alloc] initWithFile:nil location:r map:self];
-      [self addChild:anim];
+    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
+    for (int i=0; i < width; i++) {
+      for (int j=0; j < height; j++) {
+        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
+      }
+      [str appendString:@"\n"];
     }
+    NSLog(@"%@", str);
+    
+//    for (int i = 0; i < 1; i++) {
+//      CGRect r = CGRectZero;
+//      r.origin = [self randomWalkablePosition];
+//      r.size = CGSizeMake(1, 1);
+//      QuestGiver *anim = [[QuestGiver alloc] initWithFile:nil location:r map:self];
+//      [self addChild:anim];
+//      anim.isInProgress = NO;
+//    }
   }
   return self;
+}
+
+-(void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk{
+  for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
+    for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
+      [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canWalk]];
+    }
+  }
 }
 
 - (id) assetWithId:(int)assetId {
@@ -345,16 +407,25 @@
     return;
   }
   
-  if (_selected){
-    if ([_selected isKindOfClass:[MissionBuilding class]]) {
-      MissionBuilding *mb = (MissionBuilding *)_selected;
-      [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
-      [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
-      [self doMenuAnimations];
-    }
+  if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
+    MissionBuilding *mb = (MissionBuilding *)_selected;
+    [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
+    [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
+    [self doMenuAnimations];
   } else {
     [self closeMenus];
   }
+}
+
+- (void) drag:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  
+  // During drag, take out menus
+  if([recognizer state] == UIGestureRecognizerStateBegan ) {
+    self.obMenu.hidden = YES;
+  } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
+    [self updateMissionBuildingMenu];
+  }
+  [super drag:recognizer node:node];
 }
 
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
@@ -373,27 +444,96 @@
   }
 }
 
-- (CGPoint) nextWalkablePositionFromPoint:(CGPoint) point {
-  CGPoint left = CGPointMake(point.x-1, point.y);
-  CGPoint right = CGPointMake(point.x+1, point.y);
-  CGPoint up = CGPointMake(point.x, point.y+1);
-  CGPoint down = CGPointMake(point.x, point.y-1);
-  CGPoint pts[4] = {left, right, up, down};
+- (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt {
+  CGPoint diff = ccpSub(point, prevPt);
+  if (diff.y > 0.5f) {
+    diff = ccp(0, 1);
+  } else if (diff.y < -0.5f) {
+    diff = ccp(0, -1);
+  } else if (diff.x > 0.5f) {
+    diff = ccp(1, 0);
+  } else {
+    // Use some default :/ in case stuck
+    diff = ccp(-1, 0);
+  }
+  
+  CGPoint straight = ccpAdd(point, diff);
+  CGPoint left = ccpAdd(point, ccpRotateByAngle(diff, ccp(0,0), M_PI_2));
+  CGPoint right = ccpAdd(point, ccpRotateByAngle(diff, ccp(0,0), -M_PI_2));
+  CGPoint back = ccpSub(point, diff);
+  
+  CGPoint pts[4] = {straight, right, left, back};
   int width = mapSize_.width;
   int height = mapSize_.height;
   
-  int max = 30;
+  // Don't let it infinite loop in case its stuck
+  int max = 50;
   while (max > 0) {
-    int x = arc4random() % 4;
+    // 50% chance to go straight, 20% chance to turn (for each way), 10% chance to go back
+    int x = arc4random() % 100;
+    if (x <= 75) x = 0;
+    else if (x <= 85) x = 1;
+    else if (x <= 95) x = 2;
+    else x = 3;
+    
     CGPoint pt = pts[x];
     if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
       if ([[[_walkableData objectAtIndex:pt.x] objectAtIndex:pt.y] boolValue] == YES) {
-        return pt;
+        return ccp((int)pt.x, (int)pt.y);
       }
     }
     max--;
   }
   return point;
+}
+
+- (void) questAccepted:(FullQuestProto *)fqp {
+  QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
+  qg.isInProgress = YES;
+}
+
+- (void) reloadQuestGivers {
+  GameState *gs = [GameState sharedGameState];
+  
+  NSMutableArray *arr = [[NSMutableArray alloc] init];
+  
+  for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
+    NSLog(@"%d", fqp.questId);
+    if (fqp.cityId == _cityId) {
+      QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
+      qg.quest = fqp;
+      qg.isInProgress = NO;
+      if (qg.opacity == 0) {
+        [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
+      }
+      [arr addObject:qg];
+    }
+  }
+  NSLog(@"in prog");
+  for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
+    NSLog(@"%d", fqp.questId);
+    if (fqp.cityId == _cityId) {
+      QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
+      qg.quest = fqp;
+      qg.isInProgress = YES;
+      if (qg.opacity == 0) {
+        [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
+      }
+      [arr addObject:qg];
+    }
+  }
+  
+  for (CCNode *node in children_) {
+    if ([node isKindOfClass:[QuestGiver class]]) {
+      QuestGiver *qg = (QuestGiver *)node;
+      qg.quest = nil;
+      if (![arr containsObject:qg] && qg.opacity != 0) {
+        [qg runAction:[CCFadeOut actionWithDuration:0.1f]];
+      }
+    }
+  }
+  
+  [arr release];
 }
 
 - (void) dealloc {

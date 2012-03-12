@@ -116,7 +116,8 @@
 }
 
 - (void) dealloc {
-  [label release];
+  self.label = nil;
+  self.fqp = nil;
   [super dealloc];
 }
 
@@ -172,11 +173,19 @@
   }
 }
 
+- (void) dealloc {
+  self.questItemViews = nil;
+  self.curQuestsLabel = nil;
+  self.scrollView = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation RewardsView
 
-@synthesize rewardLabel, coinRewardLabel, expLabel, expRewardLabel, rewardWebView;
+@synthesize rewardLabel, coinRewardLabel, expLabel, expRewardLabel;
+@synthesize equipIcon, equipView, equipAttLabel, equipDefLabel, equipNameLabel;
 
 - (void) awakeFromNib {
   UIFont *font = [UIFont fontWithName:@"AJensonPro-BoldCapt" size:14];
@@ -184,29 +193,11 @@
   self.coinRewardLabel.font = font;
   self.expLabel.font = font;
   self.expRewardLabel.font = font;
-  
-  // Disable bouncing on the webview
-  id scrollview = [rewardWebView.subviews objectAtIndex:0];
-  if ([scrollview respondsToSelector:@selector(setBounces:)])
-    [scrollview setBounces:NO];
-  rewardWebView.backgroundColor = [UIColor clearColor];
-  [self updateWebView];
-  
-  //  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:2 target:self selector:@selector(updateWebView) userInfo:nil repeats:YES] forMode:NSRunLoopCommonModes];
 }
 
-- (void) updateWebView {
-  NSLog(@"updating..");
-  NSString *p = @"<style type=\"text/css\">"
-  "#id1 {font-size:9px;font-family : AJensonPro-BoldCapt; -webkit-user-select: none;}"
-  "g { color : green; } go { color : #FFCC00; } pi { color : #FF0099; }"
-  "</style></head><body>"
-  "<span id=\"id1\">%d%% chance of <g>Regular</g><br>"
-  "%d%% chance of <go>Special</go><br>"
-  "%d%% chance of <pi>Epic</pi></span>";
-  
-  p = [NSString stringWithFormat:p, arc4random()%100, arc4random()%40, arc4random()%5];
-  [self.rewardWebView loadHTMLString:p baseURL:nil];
+- (void) setFrame:(CGRect)frame {
+  [super setFrame:frame];
+  [self setNeedsDisplay];
 }
 
 - (void) drawRect:(CGRect)rect {
@@ -233,7 +224,45 @@
   CGContextAddLineToPoint(context, self.frame.size.width, mid+1);
   
 	CGContextStrokePath(context);
+}
+
+- (void) updateForQuest:(FullQuestProto *)fqp {
+  coinRewardLabel.text = [NSString stringWithFormat:@"+%d", fqp.coinsGained];
+  expRewardLabel.text = [NSString stringWithFormat:@"+%d", fqp.expGained];
   
+  if (fqp.equipIdGained != 0) {
+    FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fqp.equipIdGained];
+    equipIcon.image = [Globals imageForEquip:fep.equipId];
+    equipNameLabel.text = fep.name;
+    equipNameLabel.textColor = [Globals colorForRarity:fep.rarity];
+    equipAttLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
+    equipDefLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+    
+    equipView.hidden = NO;
+    
+    CGRect rect = self.frame;
+    rect.size.height = CGRectGetMaxY(equipView.frame) + 10;
+    self.frame = rect;
+  } else {
+    equipView.hidden = YES;
+    
+    CGRect rect = self.frame;
+    rect.size.height = equipView.frame.origin.y + 10;
+    self.frame = rect;
+  }
+}
+
+- (void) dealloc {
+  self.rewardLabel = nil;
+  self.coinRewardLabel = nil;
+  self.expLabel = nil;
+  self.expRewardLabel = nil;
+  self.equipIcon = nil;
+  self.equipView = nil;
+  self.equipAttLabel = nil;
+  self.equipDefLabel = nil;
+  self.equipNameLabel = nil;
+  [super dealloc];
 }
 
 @end
@@ -283,11 +312,18 @@
   newFrame.origin = CGPointMake(0, CGRectGetMaxY(self.questDescLabel.frame));
   self.rewardView.frame = newFrame;
   
-  self.rewardView.coinRewardLabel.text = [NSString stringWithFormat:@"+%d", fqp.coinsGained];
-  self.rewardView.expRewardLabel.text = [NSString stringWithFormat:@"+%d", fqp.expGained];
+  [self.rewardView updateForQuest:fqp];
   
   self.scrollView.contentOffset = CGPointMake(0, 0);
   self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, CGRectGetMaxY(self.rewardView.frame)+self.scrollView.botGradient.frame.size.height);
+}
+
+- (void) dealloc {
+  self.questNameLabel = nil;
+  self.rewardView = nil;
+  self.questDescLabel = nil;
+  self.scrollView = nil;
+  [super dealloc];
 }
 
 @end
@@ -385,7 +421,7 @@
   if (type == kTask) {
     FullTaskProto *ftp = [gs taskWithId:jobId];
     [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:ftp.cityId asset:ftp.assetNumWithinCity];
-    [QuestLogController removeView];
+    [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
   }
 }
 
@@ -523,12 +559,20 @@
   }
 }
 
+- (void) dealloc {
+  self.taskItemViews = nil;
+  self.scrollView = nil;
+  self.questNameLabel = nil;
+  [super dealloc];
+}
+
 @end
 
 
 @implementation QuestLogController
 
-@synthesize taskView, questDescView, questListView, userLogData;
+@synthesize taskView, questDescView, questListView, userLogData, rightPage;
+@synthesize redeemButton, toTaskButton, acceptButtons;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
@@ -540,24 +584,78 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   // Do any additional setup after loading the view from its nib.
   taskView.alpha = 0.0;
   questDescView.alpha = 0.0;
+  [questDescView addSubview:redeemButton];
+  [questDescView addSubview:acceptButtons];
+  // Other button has tag in 15
+  redeemButton.center = toTaskButton.center;
+  acceptButtons.center = toTaskButton.center;
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
+  CGRect r = rightPage.frame;
+  r.origin.x = CGRectGetMaxX(questListView.frame)-5;
+  r.origin.y = CGRectGetMinY(questListView.frame)-16;
+  rightPage.frame = r;
+  [self.view addSubview:rightPage];
+  
   taskView.alpha = 0.0;
   questDescView.alpha = 0.0;
   [questListView viewClicked:nil];
   [questListView refresh];
+  
   [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
   _curView = nil;
   self.userLogData = nil;
+  _fqp = nil;
+  
+  redeemButton.hidden = YES;
+  acceptButtons.hidden = YES;
+  toTaskButton.hidden = NO;
 }
 
-- (void) refreshWithQuests:(NSArray *)quests {
+- (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress {
+  if (fqp == nil) {
+    return;
+  }
+  
+  CGRect r = rightPage.frame;
+  r.origin.x = 265;
+  r.origin.y = 12;
+  rightPage.frame = r;
+  [questDescView refreshWithQuest:fqp];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:rightPage];
+  questDescView.alpha = 1.f;
+  taskView.alpha = 0.f;
+  redeemButton.hidden = YES;
+  acceptButtons.hidden = inProgress;
+  toTaskButton.hidden = YES;
+  _fqp = fqp;
+}
+
+- (void) loadQuestData:(NSArray *)quests {
   self.userLogData = quests;
+  [self reloadTaskView:_fqp];
+  
+  FullUserQuestDataLargeProto *quest = nil;
+  for (FullUserQuestDataLargeProto *q in self.userLogData) {
+    if (q.questId == _fqp.questId) {
+      quest = q;
+      break;
+    }
+  }
+  
+  if (quest && quest.isComplete) {
+    redeemButton.hidden = NO;
+  } else {
+    redeemButton.hidden = YES;
+  }
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
-  [QuestLogController removeView];
+  [self.view removeFromSuperview];
+  [self.rightPage removeFromSuperview];
+  
+  [[GameLayer sharedGameLayer] closeMenus];
 }
 
 - (IBAction)taskButtonTapped:(id)sender {
@@ -574,6 +672,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     self.taskView.alpha = 0.0;
   }];
   _curView = self.questDescView;
+}
+
+- (IBAction)redeemTapped:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_fqp.questId];
+  [self closeButtonClicked:nil];
+}
+
+- (IBAction)acceptTapped:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] acceptQuest:_fqp.questId];
+  [self closeButtonClicked:nil];
 }
 
 - (void) reloadTaskView:(FullQuestProto *)fqp {
@@ -603,14 +711,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
       [self reloadTaskView:fqp];
     }];
   }
+  _fqp = fqp;
   _curView = self.questDescView;
 }
 
 - (void)viewDidUnload
 {
+  [super viewDidUnload];
+  
   self.questDescView = nil;
   self.taskView = nil;
-  [super viewDidUnload];
+  self.userLogData = nil;
+  self.rightPage = nil;
+  self.questListView = nil;
+  self.redeemButton = nil;
 }
 
 @end

@@ -8,18 +8,31 @@
 
 #import "cocos2d.h"
 #import "MapSprite.h"
+#import "Protocols.pb.h"
+
+@class MissionMap;
 
 @interface AnimatedSprite : SelectableSprite
 {
   CCSprite *_sprite;
   CCAction *_walkAction;
-  CCAction *_moveAction;
+  CGPoint _oldMapPos;
   BOOL _moving;
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkAction;
-@property (nonatomic, retain) CCAction *moveAction;
+
+@end
+
+@interface QuestGiver : AnimatedSprite {
+  CCSprite *_aboveHeadMark;
+}
+
+@property (nonatomic, retain) FullQuestProto *quest;
+@property (nonatomic, assign) BOOL isInProgress;
+
+- (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg map:(GameMap *)map location:(CGRect)location;
 
 @end
 
@@ -29,7 +42,7 @@
   CGPoint delta_;
 }
 
-+(id) actionWithDuration: (ccTime) t location: (CGRect) p;
--(id) initWithDuration: (ccTime) t location: (CGRect) p;
++ (id) actionWithDuration: (ccTime) t location: (CGRect) p;
+- (id) initWithDuration: (ccTime) t location: (CGRect) p;
 
 @end

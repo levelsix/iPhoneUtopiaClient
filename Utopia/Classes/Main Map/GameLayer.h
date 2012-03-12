@@ -35,10 +35,12 @@
 
 @property (nonatomic, assign) int assetId;
 @property (nonatomic, assign) int currentCity;
+@property (nonatomic, retain) MissionMap *missionMap;
 
 - (void) moveMissionMapToAssetId:(int)assetId;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) loadHomeMap;
+- (void) closeMenus;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;

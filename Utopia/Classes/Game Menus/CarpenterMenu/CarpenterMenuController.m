@@ -277,7 +277,7 @@
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) viewDidLoad {
-  self.structsList = [NSMutableArray arrayWithCapacity:[[Globals sharedGlobals] maxStructId]];
+  self.structsList = [NSMutableArray array];
   [[OutgoingEventController sharedOutgoingEventController] retrieveStructStore];
 }
 

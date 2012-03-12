@@ -203,11 +203,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "353160218.012145"
+         timestampString = "353225100.034674"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "363"
-         endingLineNumber = "363"
+         startingLineNumber = "364"
+         endingLineNumber = "364"
          landmarkName = "-handleRetrieveCurrencyFromNormStructureResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -217,11 +217,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "353160218.012145"
+         timestampString = "353225100.034674"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "355"
-         endingLineNumber = "355"
+         startingLineNumber = "356"
+         endingLineNumber = "356"
          landmarkName = "-handleFinishNormStructWaittimeWithDiamondsResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -231,11 +231,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "353160218.012145"
+         timestampString = "353225100.034674"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "372"
-         endingLineNumber = "372"
+         startingLineNumber = "373"
+         endingLineNumber = "373"
          landmarkName = "-handleSellNormStructureResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -245,11 +245,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-         timestampString = "352944985.93683"
+         timestampString = "353218316.928222"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "33"
-         endingLineNumber = "33"
+         startingLineNumber = "34"
+         endingLineNumber = "34"
          landmarkName = "-vaultDeposit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -257,13 +257,39 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/libs/cocos2d/CCDirector.m"
-         timestampString = "351732567.239385"
+         filePath = "Utopia/Classes/Game Data/GameState.m"
+         timestampString = "353226162.467923"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "316"
-         endingLineNumber = "316"
-         landmarkName = "-winSize"
+         startingLineNumber = "182"
+         endingLineNumber = "182"
+         landmarkName = "-equipWithId:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Main Map/AnimatedSprite.m"
+         timestampString = "353232476.099883"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "111"
+         endingLineNumber = "111"
+         landmarkName = "-setIsSelected:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Main Map/GameMap/MissionMap.m"
+         timestampString = "353232538.66497"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "503"
+         endingLineNumber = "503"
+         landmarkName = "-reloadQuestGivers"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

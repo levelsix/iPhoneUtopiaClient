@@ -115,7 +115,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   missionMap.frame = _mapView.frame;
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   
   [self removeAllPins];
@@ -134,6 +134,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   missionMap.lumoriaView.hidden = YES;
   
   self.state = kMissionMap;
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [self removeAllPins];
+  [[[GameState sharedGameState] attackList] removeAllObjects];
 }
 
 - (void) setState:(MapState)state {

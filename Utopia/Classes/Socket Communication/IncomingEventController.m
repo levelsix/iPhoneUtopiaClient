@@ -21,6 +21,7 @@
 #import "QuestLogController.h"
 #import "BattleLayer.h"
 #import "LevelUpViewController.h"
+#import "MissionMap.h"
 
 @implementation IncomingEventController
 
@@ -514,6 +515,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
     [Globals popupMessage:@"Server failed to accept quest"];
+  } else {
+    [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
   }
 }
 
@@ -521,7 +524,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Quest redeem response received with status %d", proto.status);
   
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
-    NSLog(@"New quests: %d", proto.newlyAvailableQuestsList.count);
+    [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
+    
+    [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
   }
@@ -530,7 +535,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleUserQuestDetailsResponseProto: (UserQuestDetailsResponseProto *)proto {
   NSLog(@"Quest log details response received with status %d", proto.status);
   if (proto.status == UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess) {
-    [[QuestLogController sharedQuestLogController] refreshWithQuests:proto.inProgressUserQuestDataList];
+    [[QuestLogController sharedQuestLogController] loadQuestData:proto.inProgressUserQuestDataList];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
   } else {
     [Globals popupMessage:@"Server failed to send quest log details"];
   }

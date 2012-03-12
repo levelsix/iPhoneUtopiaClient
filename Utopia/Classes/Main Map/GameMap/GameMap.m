@@ -240,7 +240,12 @@
 }
 
 - (IBAction)enterAviaryClicked:(id)sender {
+  self.selected = nil;
   [MapViewController displayView];
+}
+
+- (void) layerWillDisappear {
+  self.selected = nil;
 }
 
 -(void) dealloc {

@@ -95,7 +95,7 @@
   sellCostLabel.frame = rect;
   
   rect = sellCoinImageView.frame;
-  rect.origin.x = sellCostLabel.frame.origin.x - rect.size.width;
+  rect.origin.x = sellCostLabel.frame.origin.x - rect.size.width-5;
   sellCoinImageView.frame = rect;
 }
 
@@ -973,8 +973,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 -(void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild {
-  for (int i = buildBlock.origin.x; i < buildBlock.size.width+buildBlock.origin.x; i++) {
-    for (int j = buildBlock.origin.y; j < buildBlock.size.height+buildBlock.origin.y; j++) {
+  for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
+    for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
       [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
     }
   }

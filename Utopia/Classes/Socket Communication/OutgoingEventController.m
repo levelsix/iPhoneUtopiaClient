@@ -14,6 +14,7 @@
 #import "MarketplaceViewController.h"
 #import "TopBar.h"
 #import "GameLayer.h"
+#import "MissionMap.h"
 
 @implementation OutgoingEventController
 
@@ -766,6 +767,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         shouldSend = YES;
       }
     }
+    
+    NSNumber *n = [NSNumber numberWithInt:fqp.equipIdGained];
+    if (fqp.equipIdGained && ![sEquips objectForKey:n]) {
+      [rEquips addObject:n];
+      shouldSend = YES;
+    }
   }
   for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
     for (NSNumber *num in fqp.taskReqsList) {
@@ -797,6 +804,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [rPossessEquipJobs addObject:num];
         shouldSend = YES;
       }
+    }
+    
+    NSNumber *n = [NSNumber numberWithInt:fqp.equipIdGained];
+    if (fqp.equipIdGained && ![sEquips objectForKey:n]) {
+      [rEquips addObject:n];
+      shouldSend = YES;
     }
   }
   
@@ -929,6 +942,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs.availableQuests removeObjectForKey:questIdNum];
     [gs.inProgressQuests setObject:fqp forKey:questIdNum];
+    
+    [[[GameLayer sharedGameLayer] missionMap] questAccepted:fqp];
   } else {
     [Globals popupMessage:@"Attempting to accept unavailable quest"];
   }
@@ -942,14 +957,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (fqp) {
     [[SocketCommunication sharedSocketCommunication] sendQuestRedeemMessage:questId];
     
-    [gs.inProgressQuests setObject:fqp forKey:questIdNum];
+    [gs.inProgressQuests removeObjectForKey:questIdNum];
+    gs.silver += fqp.coinsGained;
+    gs.experience += fqp.expGained;
+    
+    UserEquip *ue = [gs myEquipWithId:fqp.equipIdGained];
+    if (ue) {
+      ue.quantity++;
+    } else {
+      ue = [[UserEquip alloc] init];
+      
+      ue.equipId = fqp.equipIdGained;
+      ue.userId = gs.userId;
+      ue.quantity = 1;
+      ue.isStolen = NO;
+      [gs.myEquips addObject:ue];
+    }
   } else {
     [Globals popupMessage:@"Attempting to redeem quest that is not in progress"];
   }
 }
 
 - (void) retrieveQuestLog {
-  [[SocketCommunication sharedSocketCommunication] sendQuestLogDetailsMessage];
+  [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:0];
+}
+
+- (void) retrieveQuestDetails:(int)questId {
+  if (questId == 0) {
+    [Globals popupMessage:@"Attempting to retrieve information about quest 0"];
+    return;
+  }
+  NSNumber *num = [NSNumber numberWithInt:questId];
+  if ([[[[GameState sharedGameState] inProgressQuests] allKeys] containsObject:num]) {
+    [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:questId];
+  } else {
+    [Globals popupMessage:@"Attempting to retrieve information about un-accepted quest"];
+  }
 }
 
 @end

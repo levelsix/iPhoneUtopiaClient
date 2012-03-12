@@ -9,6 +9,7 @@
 #import "SynthesizeSingleton.h"
 #import "SocketCommunication.h"
 #import "Globals.h"
+#import "OutgoingEventController.h"
 
 @implementation GameState
 
@@ -171,7 +172,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     p = [dict objectForKey:num];
   }
-  return p;
+  // Retain and autorelease in case data gets purged
+  [p retain];
+  return [p autorelease];
 }
 
 - (FullEquipProto *) equipWithId:(int)equipId {
@@ -322,6 +325,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UpgradeStructJobProto *p in arr) {
     [self.staticUpgradeStructJobs setObject:p forKey:[NSNumber numberWithInt:p.upgradeStructJobId]];
   }
+}
+
+- (void) purgeStaticData {
+  [_staticTasks removeAllObjects];
+  [_staticQuests removeAllObjects];
+  [_staticStructs removeAllObjects];
+  [_staticEquips removeAllObjects];
+  [_staticBuildStructJobs removeAllObjects];
+  [_staticDefeatTypeJobs removeAllObjects];
+  [_staticPossessEquipJobs removeAllObjects];
+  [_staticUpgradeStructJobs removeAllObjects];
+  
+  // Reretrieve necessary data
+  [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
 }
 
 - (void) dealloc {

@@ -31,11 +31,17 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize retractPercentCut, purchasePercentCut;
 @synthesize energyRefillWaitMinutes, staminaRefillWaitMinutes;
 @synthesize energyRefillCost, staminaRefillCost;
-@synthesize maxRepeatedNormStructs, maxEquipId, maxStructId;
+@synthesize maxRepeatedNormStructs;
 @synthesize productIdentifiers;
 @synthesize imageCache;
 @synthesize armoryXLength, armoryYLength, carpenterXLength, carpenterYLength, aviaryXLength;
 @synthesize aviaryYLength, marketplaceXLength, marketplaceYLength, vaultXLength, vaultYLength;
+@synthesize diamondCostOfShortMarketplaceLicense, diamondCostOfLongMarketplaceLicense;
+@synthesize cutOfVaultDepositTaken, skillPointsGainedOnLevelup, percentReturnedToUserForSellingEquipInArmory;
+@synthesize percentReturnedToUserForSellingNormStructure, percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+@synthesize percentOfSellingCostTakenFromSellerOnMarketplacePurchase, numDaysLongMarketplaceLicenseLastsFor;
+@synthesize maxLevelForStruct, maxNumbersOfEnemiesToGenerateAtOnce, maxLevelDiffForBattle;
+@synthesize maxNumberOfMarketplacePosts, numDaysShortMarketplaceLicenseLastsFor;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -44,7 +50,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     self.retractPercentCut = 0.05;
     self.depositPercentCut = 0.1;
     self.maxRepeatedNormStructs = 2;
-    maxStructId = 4;
     
     attackBaseCost = 1;
     defenseBaseCost = 1;
@@ -79,6 +84,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
   self.productIdentifiers = [NSDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
+  self.maxLevelDiffForBattle = constants.maxLevelDifferenceForBattle;
+  self.armoryXLength = constants.armoryXlength;
+  self.armoryYLength = constants.armoryYlength;
+  self.vaultXLength = constants.vaultXlength;
+  self.vaultYLength = constants.vaultYlength;
+  self.marketplaceXLength = constants.marketplaceXlength;
+  self.marketplaceYLength = constants.marketplaceYlength;
+  self.carpenterXLength = constants.carpenterXlength;
+  self.carpenterYLength = constants.carpenterYlength;
+  self.attackBaseGain = constants.attackBaseGain;
+  self.attackBaseCost = constants.attackBaseCost;
+  self.defenseBaseGain = constants.defenseBaseGain;
+  self.defenseBaseCost = constants.defenseBaseCost;
+  self.energyBaseGain = constants.energyBaseGain;
+  self.energyBaseCost = constants.energyBaseCost;
+  self.healthBaseGain = constants.healthBaseGain;
+  self.healthBaseCost = constants.healthBaseCost;
+  self.staminaBaseGain = constants.staminaBaseGain;
+  self.staminaBaseCost = constants.staminaBaseCost;
+  self.skillPointsGainedOnLevelup = constants.skillPointsGainedOnLevelup;
+  self.cutOfVaultDepositTaken = constants.cutOfVaultDepositTaken;
+  self.maxLevelForStruct = constants.maxLevelForStruct;
+  self.maxRepeatedNormStructs = constants.maxNumOfSingleStruct;
+  self.percentReturnedToUserForSellingEquipInArmory = constants.percentReturnedToUserForSellingEquipInArmory;
+  self.numDaysLongMarketplaceLicenseLastsFor = constants.numDaysLongMarketplaceLicenseLastsFor;
+  self.numDaysShortMarketplaceLicenseLastsFor = constants.numDaysShortMarketplaceLicenseLastsFor;
+  self.diamondCostOfLongMarketplaceLicense = constants.diamondCostOfLongMarketplaceLicense;
+  self.diamondCostOfShortMarketplaceLicense = constants.diamondCostOfShortMarketplaceLicense;
+  self.maxNumbersOfEnemiesToGenerateAtOnce = constants.maxNumbersOfEnemiesToGenerateAtOnce;
+  self.percentReturnedToUserForSellingEquipInArmory = constants.percentReturnedToUserForSellingEquipInArmory;
+  self.energyRefillCost = constants.diamondCostForFullEnergyRefill;
+  self.staminaRefillCost = constants.diamondCostForFullStaminaRefill;
+  self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;
+  self.staminaRefillWaitMinutes = constants.minutesToRefillAstamina;
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {
@@ -444,9 +483,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
   GameState *gs = [GameState sharedGameState];
-  FullEquipProto *weapon = [gs equipWithId:weaponId];
-  FullEquipProto *armor = [gs equipWithId:armorId];
-  FullEquipProto *amulet = [gs equipWithId:amuletId];
+  FullEquipProto *weapon = weaponId > 0 ? [gs equipWithId:weaponId] : nil;
+  FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
+  FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
   
   return defenseStat + weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost;
 }

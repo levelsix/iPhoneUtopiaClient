@@ -90,7 +90,7 @@
     if (levelUpResponse.newlyAvailableStructsList.count != 0) {
       FullStructureProto *fsp = [levelUpResponse.newlyAvailableStructsList objectAtIndex:indexPath.row];
       [[NSBundle mainBundle] loadNibNamed:@"LevelUpItemView" owner:self options:nil];
-      self.itemIcon.image = [Globals imageForEquip:fsp.structId];
+      self.itemIcon.image = [Globals imageForStruct:fsp.structId];
       self.itemLabel.text = fsp.name;
       [cell.contentView addSubview:self.itemView];
       self.itemIcon = nil;
@@ -115,7 +115,14 @@
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 1;
+  if (section == 0) {
+    return MAX(1, levelUpResponse.citiesNewlyAvailableToUserList.count);
+  } else if (section == 1) {
+    return MAX(1, levelUpResponse.newlyEquippableEpicsAndLegendariesList.count);
+  } else if (section == 2) {
+    return MAX(1, levelUpResponse.newlyAvailableStructsList.count);
+  }
+  return 0;
 }
 
 - (IBAction)okayClicked:(id)sender {

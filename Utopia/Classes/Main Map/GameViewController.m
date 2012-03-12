@@ -54,15 +54,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
                                multiSampling:YES 
                              numberOfSamples:3];
   
+	// Try to use CADisplayLink director
+	// if it fails (SDK < 3.1) use the default director
+	if( ! [CCDirector setDirectorType:kCCDirectorTypeDisplayLink] )
+		[CCDirector setDirectorType:kCCDirectorTypeDefault];
+  
   [self.view insertSubview:glView atIndex:0];
   [[CCDirector sharedDirector] setOpenGLView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
 	if( ! [[CCDirector sharedDirector] enableRetinaDisplay:YES] )
 		CCLOG(@"Retina Display Not supported");
-  
-  // Preload some of the controllers
-  [[QuestLogController sharedQuestLogController] view];
 }
 
 - (void) viewDidAppear:(BOOL)animated {

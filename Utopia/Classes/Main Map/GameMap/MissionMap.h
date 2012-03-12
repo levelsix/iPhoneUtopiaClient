@@ -34,6 +34,7 @@
 
 @interface MissionMap : GameMap {
   NSMutableArray *_walkableData;
+  int _cityId;
 }
 
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
@@ -45,6 +46,9 @@
 - (id) assetWithId:(int)assetId;
 - (void) performCurrentTask;
 - (CGPoint) randomWalkablePosition;
-- (CGPoint) nextWalkablePositionFromPoint:(CGPoint) point;
+- (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
+
+- (void) questAccepted:(FullQuestProto *)fqp;
+- (void) reloadQuestGivers;
 
 @end

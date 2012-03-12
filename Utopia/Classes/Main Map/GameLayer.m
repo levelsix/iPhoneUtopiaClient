@@ -29,6 +29,7 @@
 @implementation GameLayer
 
 @synthesize assetId, currentCity;
+@synthesize missionMap = _missionMap;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
@@ -126,6 +127,16 @@ static CCScene *scene = nil;
   _homeMap.visible = YES;
   [self moveMapToCenter:_homeMap];
   currentCity = 0;
+}
+
+- (void) closeMenus {
+  _missionMap.selected = nil;
+  _homeMap.selected = nil;
+}
+
+- (void) dealloc {
+  self.missionMap = nil;
+  [super dealloc];
 }
 
 @end

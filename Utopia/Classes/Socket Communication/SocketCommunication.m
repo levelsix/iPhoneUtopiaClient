@@ -502,10 +502,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[req data] withMessageType:EventProtocolRequestCQuestRedeemEvent];
 }
 
-- (void) sendQuestLogDetailsMessage {
-  UserQuestDetailsRequestProto *req = [[[UserQuestDetailsRequestProto builder]
-                                        setSender:_sender]
-                                       build];
+- (void) sendUserQuestDetailsMessage:(int)questId {
+  UserQuestDetailsRequestProto_Builder *builder = [[UserQuestDetailsRequestProto builder]
+                                        setSender:_sender];
+  
+  if (questId != 0) {
+    [builder setQuestId:questId];
+  }
+  UserQuestDetailsRequestProto *req = [builder build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCUserQuestDetailsEvent];
 }

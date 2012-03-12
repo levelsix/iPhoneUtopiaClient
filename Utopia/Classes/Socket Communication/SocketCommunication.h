@@ -73,6 +73,6 @@
 
 - (void) sendQuestAcceptMessage:(int)questId;
 - (void) sendQuestRedeemMessage:(int)questId;
-- (void) sendQuestLogDetailsMessage;
+- (void) sendUserQuestDetailsMessage:(int)questId;
 
 @end
