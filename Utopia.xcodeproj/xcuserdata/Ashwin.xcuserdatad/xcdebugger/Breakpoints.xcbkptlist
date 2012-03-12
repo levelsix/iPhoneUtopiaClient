@@ -270,26 +270,52 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Main Map/GameMap/MissionMap.m"
-         timestampString = "353232538.66497"
+         filePath = "Utopia/Classes/Game Menus/QuestLogMenu/QuestLogController.m"
+         timestampString = "353233991.368115"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "503"
-         endingLineNumber = "503"
-         landmarkName = "-reloadQuestGivers"
+         startingLineNumber = "636"
+         endingLineNumber = "636"
+         landmarkName = "-didReceiveMemoryWarning"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Main Map/GameMap/MissionMap.m"
-         timestampString = "353233312.362962"
+         filePath = "Utopia/Classes/Game Menus/QuestLogMenu/QuestLogController.m"
+         timestampString = "353234472.273681"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "516"
-         endingLineNumber = "516"
-         landmarkName = "-reloadQuestGivers"
+         startingLineNumber = "618"
+         endingLineNumber = "618"
+         landmarkName = "-displayRightPageForQuest:inProgress:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
+         timestampString = "353235382.55903"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "843"
+         endingLineNumber = "843"
+         landmarkName = "-retrieveAllStaticData"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
+         timestampString = "353235520.196953"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "703"
+         endingLineNumber = "703"
+         landmarkName = "-retrieveAllStaticData"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

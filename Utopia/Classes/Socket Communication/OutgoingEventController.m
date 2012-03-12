@@ -961,17 +961,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.silver += fqp.coinsGained;
     gs.experience += fqp.expGained;
     
-    UserEquip *ue = [gs myEquipWithId:fqp.equipIdGained];
-    if (ue) {
-      ue.quantity++;
-    } else {
-      ue = [[UserEquip alloc] init];
-      
-      ue.equipId = fqp.equipIdGained;
-      ue.userId = gs.userId;
-      ue.quantity = 1;
-      ue.isStolen = NO;
-      [gs.myEquips addObject:ue];
+    if (fqp.equipIdGained > 0) {
+      UserEquip *ue = [gs myEquipWithId:fqp.equipIdGained];
+      if (ue) {
+        ue.quantity++;
+      } else {
+        ue = [[UserEquip alloc] init];
+        
+        ue.equipId = fqp.equipIdGained;
+        ue.userId = gs.userId;
+        ue.quantity = 1;
+        ue.isStolen = NO;
+        [gs.myEquips addObject:ue];
+      }
     }
   } else {
     [Globals popupMessage:@"Attempting to redeem quest that is not in progress"];

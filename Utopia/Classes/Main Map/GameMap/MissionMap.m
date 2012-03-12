@@ -526,9 +526,11 @@
   for (CCNode *node in children_) {
     if ([node isKindOfClass:[QuestGiver class]]) {
       QuestGiver *qg = (QuestGiver *)node;
-      qg.quest = nil;
-      if (![arr containsObject:qg] && qg.opacity != 0) {
-        [qg runAction:[CCFadeOut actionWithDuration:0.1f]];
+      if (![arr containsObject:qg]) {
+        qg.quest = nil;
+        if (qg.opacity != 0) {
+          [qg runAction:[CCFadeOut actionWithDuration:0.1f]];
+        }
       }
     }
   }
