@@ -270,13 +270,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Main Map/AnimatedSprite.m"
-         timestampString = "353232476.099883"
+         filePath = "Utopia/Classes/Main Map/GameMap/MissionMap.m"
+         timestampString = "353232538.66497"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "111"
-         endingLineNumber = "111"
-         landmarkName = "-setIsSelected:"
+         startingLineNumber = "503"
+         endingLineNumber = "503"
+         landmarkName = "-reloadQuestGivers"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -284,11 +284,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Main Map/GameMap/MissionMap.m"
-         timestampString = "353232538.66497"
+         timestampString = "353233312.362962"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "503"
-         endingLineNumber = "503"
+         startingLineNumber = "516"
+         endingLineNumber = "516"
          landmarkName = "-reloadQuestGivers"
          landmarkType = "5">
       </FileBreakpoint>

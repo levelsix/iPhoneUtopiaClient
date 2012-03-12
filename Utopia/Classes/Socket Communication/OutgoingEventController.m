@@ -431,7 +431,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSDate *now = [NSDate date];
   NSTimeInterval tInt = [now timeIntervalSinceDate:gs.lastStaminaRefill];
   
-  if (gs.currentEnergy >= gs.maxEnergy) {
+  if (gs.currentStamina >= gs.maxStamina) {
     [Globals popupMessage:@"Trying to increase stamina when at max.."];
   } else if (tInt >= 0.f) {
     [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeStamina curTime:now.timeIntervalSince1970*1000];
