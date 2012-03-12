@@ -634,6 +634,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
 - (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress {
   if (fqp == nil) {
+    NSLog(@"nil quest for displaying right page");
     return;
   }
   
@@ -673,8 +674,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   if (quest && quest.isComplete) {
     redeemButton.hidden = NO;
+    toTaskButton.hidden = YES;
   } else {
     redeemButton.hidden = YES;
+    toTaskButton.hidden = NO;
   }
 }
 

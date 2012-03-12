@@ -20,7 +20,7 @@
 
 @implementation MapBar
 
-@synthesize missionButton, enemyButton;
+@synthesize missionLabel, enemyLabel;
 @synthesize missionButtonClicked, enemyButtonClicked;
 
 - (void) awakeFromNib {
@@ -35,11 +35,13 @@
     case kMissionButton:
       missionButtonClicked.hidden = NO;
       _clickedButtons |= kMissionButton;
+      missionLabel.highlighted = NO;
       break;
       
     case kEnemyButton:
       enemyButtonClicked.hidden = NO;
       _clickedButtons |= kEnemyButton;
+      enemyLabel.highlighted = NO;
       break;
       
     default:
@@ -52,11 +54,13 @@
     case kMissionButton:
       missionButtonClicked.hidden = YES;
       _clickedButtons &= ~kMissionButton;
+      missionLabel.highlighted = YES;
       break;
       
     case kEnemyButton:
       enemyButtonClicked.hidden = YES;
       _clickedButtons &= ~kEnemyButton;
+      enemyLabel.highlighted = YES;
       break;
       
     default:

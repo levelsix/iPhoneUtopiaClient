@@ -553,7 +553,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     qcv.questNameLabel.text = fqp.name;
     
     FullCityProto *fcp = [gs cityWithId:fqp.cityId];
-    qcv.visitDescLabel = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward", proto.neutralCityElement.name, fcp.name];
+    qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward", proto.neutralCityElement.name, fcp.name];
+    
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
   } else {
     [Globals popupMessage:@"Server sent quest complete for invalid quest"];
   }

@@ -949,7 +949,6 @@
 										<string key="NSFrame">{{6, 5}, {244, 15}}</string>
 										<reference key="NSSuperview" ref="378080395"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -1525,7 +1524,6 @@
 						<string key="NSFrame">{{236, 179}, {27, 27}}</string>
 						<reference key="NSSuperview" ref="931190212"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -2130,7 +2128,6 @@
 						<string key="NSFrame">{{99, 71}, {52, 31}}</string>
 						<reference key="NSSuperview" ref="342699917"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2221,7 +2218,6 @@
 						<string key="NSFrame">{{47, 6}, {59, 16}}</string>
 						<reference key="NSSuperview" ref="643450221"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2354,14 +2350,6 @@
 						<reference key="destination" ref="191373211"/>
 					</object>
 					<int key="connectionID">3</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">profileBar</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="817679911"/>
-					</object>
-					<int key="connectionID">139</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -2573,6 +2561,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">profileBar</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="817679911"/>
+					</object>
+					<int key="connectionID">139</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">label</string>
 						<reference key="source" ref="50774724"/>
 						<reference key="destination" ref="92182962"/>
@@ -2678,30 +2674,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">equipIcon</string>
-						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="248794385"/>
-					</object>
-					<int key="connectionID">140</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">equipLabel</string>
-						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="890274208"/>
-					</object>
-					<int key="connectionID">141</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">equipSelectedLargeImage</string>
-						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="927091346"/>
-					</object>
-					<int key="connectionID">142</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">equipSelectedSmallImage</string>
 						<reference key="source" ref="817679911"/>
 						<reference key="destination" ref="1071747663"/>
@@ -2710,35 +2682,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">glowIcon</string>
+						<string key="label">wallSelectedSmallImage</string>
 						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="449179403"/>
+						<reference key="destination" ref="1003503683"/>
 					</object>
-					<int key="connectionID">144</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">skillsIcon</string>
-						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="211757417"/>
-					</object>
-					<int key="connectionID">145</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">skillsLabel</string>
-						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="194168475"/>
-					</object>
-					<int key="connectionID">146</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">skillsSelectedSmallImage</string>
-						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="611105011"/>
-					</object>
-					<int key="connectionID">147</int>
+					<int key="connectionID">151</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -2750,11 +2698,27 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">wallLabel</string>
+						<string key="label">skillsIcon</string>
 						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="896356859"/>
+						<reference key="destination" ref="211757417"/>
 					</object>
-					<int key="connectionID">149</int>
+					<int key="connectionID">145</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">equipSelectedLargeImage</string>
+						<reference key="source" ref="817679911"/>
+						<reference key="destination" ref="927091346"/>
+					</object>
+					<int key="connectionID">142</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">equipIcon</string>
+						<reference key="source" ref="817679911"/>
+						<reference key="destination" ref="248794385"/>
+					</object>
+					<int key="connectionID">140</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -2766,11 +2730,43 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">wallSelectedSmallImage</string>
+						<string key="label">skillsSelectedSmallImage</string>
 						<reference key="source" ref="817679911"/>
-						<reference key="destination" ref="1003503683"/>
+						<reference key="destination" ref="611105011"/>
 					</object>
-					<int key="connectionID">151</int>
+					<int key="connectionID">147</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">wallLabel</string>
+						<reference key="source" ref="817679911"/>
+						<reference key="destination" ref="896356859"/>
+					</object>
+					<int key="connectionID">149</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">skillsLabel</string>
+						<reference key="source" ref="817679911"/>
+						<reference key="destination" ref="194168475"/>
+					</object>
+					<int key="connectionID">146</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">glowIcon</string>
+						<reference key="source" ref="817679911"/>
+						<reference key="destination" ref="449179403"/>
+					</object>
+					<int key="connectionID">144</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">equipLabel</string>
+						<reference key="source" ref="817679911"/>
+						<reference key="destination" ref="890274208"/>
+					</object>
+					<int key="connectionID">141</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -3105,11 +3101,6 @@
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">49</int>
-						<reference key="object" ref="890274208"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">48</int>
 						<reference key="object" ref="943477399"/>
 						<reference key="parent" ref="191373211"/>
@@ -3222,11 +3213,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">38</int>
 						<reference key="object" ref="611105011"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">138</int>
-						<reference key="object" ref="817679911"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3519,6 +3505,16 @@
 						<int key="objectID">283</int>
 						<reference key="object" ref="645419554"/>
 						<reference key="parent" ref="643450221"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">49</int>
+						<reference key="object" ref="890274208"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">138</int>
+						<reference key="object" ref="817679911"/>
+						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>
 			</object>

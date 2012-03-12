@@ -29,8 +29,8 @@ typedef enum {
   int _clickedButtons;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *missionButton;
-@property (nonatomic, retain) IBOutlet UIImageView *enemyButton;
+@property (nonatomic, retain) IBOutlet UILabel *missionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *enemyLabel;
 
 @property (nonatomic, retain) IBOutlet UIImageView *missionButtonClicked;
 @property (nonatomic, retain) IBOutlet UIImageView *enemyButtonClicked;
