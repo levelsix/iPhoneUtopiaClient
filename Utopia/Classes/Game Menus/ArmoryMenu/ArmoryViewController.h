@@ -11,12 +11,17 @@
 #import "Protocols.pb.h"
 #import "NibUtils.h"
 
-
 typedef enum {
   kWeaponButton = 1,
   kArmorButton = 1 << 1,
   kAmuletButton = 1 << 2
 } ArmoryBarButton;
+
+typedef enum {
+  kWeaponState = 1,
+  kArmorState,
+  kAmuletState
+} ArmoryState;
 
 @interface ArmoryBar : UIView {
   BOOL _trackingWeapon;
@@ -25,12 +30,6 @@ typedef enum {
   
   int _clickedButtons;
 }
-
-typedef enum {
-  kWeaponState = 1,
-  kArmorState,
-  kAmuletState
-} ArmoryState;
 
 @property (nonatomic, retain) IBOutlet UIImageView *weaponButton;
 @property (nonatomic, retain) IBOutlet UIImageView *armorButton;

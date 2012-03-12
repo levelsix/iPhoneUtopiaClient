@@ -4331,10 +4331,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t staminaBaseCost;
 @property int32_t skillPointsGainedOnLevelup;
 @property int32_t cutOfVaultDepositTaken;
-@property int32_t minVaultLevel;
-@property int32_t minMarketplaceLevel;
-@property int32_t minArmoryLevel;
-@property int32_t maxRankForCity;
 @property int32_t maxLevelForStruct;
 @property int32_t maxNumOfSingleStruct;
 @property Float64 percentReturnedToUserForSellingNormStructure;
@@ -4518,34 +4514,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasCutOfVaultDepositTaken_ = !!value;
 }
 @synthesize cutOfVaultDepositTaken;
-- (BOOL) hasMinVaultLevel {
-  return !!hasMinVaultLevel_;
-}
-- (void) setHasMinVaultLevel:(BOOL) value {
-  hasMinVaultLevel_ = !!value;
-}
-@synthesize minVaultLevel;
-- (BOOL) hasMinMarketplaceLevel {
-  return !!hasMinMarketplaceLevel_;
-}
-- (void) setHasMinMarketplaceLevel:(BOOL) value {
-  hasMinMarketplaceLevel_ = !!value;
-}
-@synthesize minMarketplaceLevel;
-- (BOOL) hasMinArmoryLevel {
-  return !!hasMinArmoryLevel_;
-}
-- (void) setHasMinArmoryLevel:(BOOL) value {
-  hasMinArmoryLevel_ = !!value;
-}
-@synthesize minArmoryLevel;
-- (BOOL) hasMaxRankForCity {
-  return !!hasMaxRankForCity_;
-}
-- (void) setHasMaxRankForCity:(BOOL) value {
-  hasMaxRankForCity_ = !!value;
-}
-@synthesize maxRankForCity;
 - (BOOL) hasMaxLevelForStruct {
   return !!hasMaxLevelForStruct_;
 }
@@ -4688,10 +4656,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.staminaBaseCost = 0;
     self.skillPointsGainedOnLevelup = 0;
     self.cutOfVaultDepositTaken = 0;
-    self.minVaultLevel = 0;
-    self.minMarketplaceLevel = 0;
-    self.minArmoryLevel = 0;
-    self.maxRankForCity = 0;
     self.maxLevelForStruct = 0;
     self.maxNumOfSingleStruct = 0;
     self.percentReturnedToUserForSellingNormStructure = 0;
@@ -4805,18 +4769,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     return NO;
   }
   if (!self.hasCutOfVaultDepositTaken) {
-    return NO;
-  }
-  if (!self.hasMinVaultLevel) {
-    return NO;
-  }
-  if (!self.hasMinMarketplaceLevel) {
-    return NO;
-  }
-  if (!self.hasMinArmoryLevel) {
-    return NO;
-  }
-  if (!self.hasMaxRankForCity) {
     return NO;
   }
   if (!self.hasMaxLevelForStruct) {
@@ -4950,18 +4902,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasCutOfVaultDepositTaken) {
     [output writeInt32:28 value:self.cutOfVaultDepositTaken];
-  }
-  if (self.hasMinVaultLevel) {
-    [output writeInt32:29 value:self.minVaultLevel];
-  }
-  if (self.hasMinMarketplaceLevel) {
-    [output writeInt32:30 value:self.minMarketplaceLevel];
-  }
-  if (self.hasMinArmoryLevel) {
-    [output writeInt32:31 value:self.minArmoryLevel];
-  }
-  if (self.hasMaxRankForCity) {
-    [output writeInt32:32 value:self.maxRankForCity];
   }
   if (self.hasMaxLevelForStruct) {
     [output writeInt32:33 value:self.maxLevelForStruct];
@@ -5104,18 +5044,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasCutOfVaultDepositTaken) {
     size += computeInt32Size(28, self.cutOfVaultDepositTaken);
-  }
-  if (self.hasMinVaultLevel) {
-    size += computeInt32Size(29, self.minVaultLevel);
-  }
-  if (self.hasMinMarketplaceLevel) {
-    size += computeInt32Size(30, self.minMarketplaceLevel);
-  }
-  if (self.hasMinArmoryLevel) {
-    size += computeInt32Size(31, self.minArmoryLevel);
-  }
-  if (self.hasMaxRankForCity) {
-    size += computeInt32Size(32, self.maxRankForCity);
   }
   if (self.hasMaxLevelForStruct) {
     size += computeInt32Size(33, self.maxLevelForStruct);
@@ -5315,18 +5243,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (other.hasCutOfVaultDepositTaken) {
     [self setCutOfVaultDepositTaken:other.cutOfVaultDepositTaken];
   }
-  if (other.hasMinVaultLevel) {
-    [self setMinVaultLevel:other.minVaultLevel];
-  }
-  if (other.hasMinMarketplaceLevel) {
-    [self setMinMarketplaceLevel:other.minMarketplaceLevel];
-  }
-  if (other.hasMinArmoryLevel) {
-    [self setMinArmoryLevel:other.minArmoryLevel];
-  }
-  if (other.hasMaxRankForCity) {
-    [self setMaxRankForCity:other.maxRankForCity];
-  }
   if (other.hasMaxLevelForStruct) {
     [self setMaxLevelForStruct:other.maxLevelForStruct];
   }
@@ -5502,22 +5418,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       }
       case 224: {
         [self setCutOfVaultDepositTaken:[input readInt32]];
-        break;
-      }
-      case 232: {
-        [self setMinVaultLevel:[input readInt32]];
-        break;
-      }
-      case 240: {
-        [self setMinMarketplaceLevel:[input readInt32]];
-        break;
-      }
-      case 248: {
-        [self setMinArmoryLevel:[input readInt32]];
-        break;
-      }
-      case 256: {
-        [self setMaxRankForCity:[input readInt32]];
         break;
       }
       case 264: {
@@ -6007,70 +5907,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (StartupResponseProto_StartupConstants_Builder*) clearCutOfVaultDepositTaken {
   result.hasCutOfVaultDepositTaken = NO;
   result.cutOfVaultDepositTaken = 0;
-  return self;
-}
-- (BOOL) hasMinVaultLevel {
-  return result.hasMinVaultLevel;
-}
-- (int32_t) minVaultLevel {
-  return result.minVaultLevel;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMinVaultLevel:(int32_t) value {
-  result.hasMinVaultLevel = YES;
-  result.minVaultLevel = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMinVaultLevel {
-  result.hasMinVaultLevel = NO;
-  result.minVaultLevel = 0;
-  return self;
-}
-- (BOOL) hasMinMarketplaceLevel {
-  return result.hasMinMarketplaceLevel;
-}
-- (int32_t) minMarketplaceLevel {
-  return result.minMarketplaceLevel;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMinMarketplaceLevel:(int32_t) value {
-  result.hasMinMarketplaceLevel = YES;
-  result.minMarketplaceLevel = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMinMarketplaceLevel {
-  result.hasMinMarketplaceLevel = NO;
-  result.minMarketplaceLevel = 0;
-  return self;
-}
-- (BOOL) hasMinArmoryLevel {
-  return result.hasMinArmoryLevel;
-}
-- (int32_t) minArmoryLevel {
-  return result.minArmoryLevel;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMinArmoryLevel:(int32_t) value {
-  result.hasMinArmoryLevel = YES;
-  result.minArmoryLevel = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMinArmoryLevel {
-  result.hasMinArmoryLevel = NO;
-  result.minArmoryLevel = 0;
-  return self;
-}
-- (BOOL) hasMaxRankForCity {
-  return result.hasMaxRankForCity;
-}
-- (int32_t) maxRankForCity {
-  return result.maxRankForCity;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMaxRankForCity:(int32_t) value {
-  result.hasMaxRankForCity = YES;
-  result.maxRankForCity = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMaxRankForCity {
-  result.hasMaxRankForCity = NO;
-  result.maxRankForCity = 0;
   return self;
 }
 - (BOOL) hasMaxLevelForStruct {
@@ -24848,6 +24684,7 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 @interface QuestCompleteResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) FullQuestProto* quest;
+@property (retain) NeutralCityElementProto* neutralCityElement;
 @end
 
 @implementation QuestCompleteResponseProto
@@ -24866,15 +24703,24 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   hasQuest_ = !!value;
 }
 @synthesize quest;
+- (BOOL) hasNeutralCityElement {
+  return !!hasNeutralCityElement_;
+}
+- (void) setHasNeutralCityElement:(BOOL) value {
+  hasNeutralCityElement_ = !!value;
+}
+@synthesize neutralCityElement;
 - (void) dealloc {
   self.sender = nil;
   self.quest = nil;
+  self.neutralCityElement = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.quest = [FullQuestProto defaultInstance];
+    self.neutralCityElement = [NeutralCityElementProto defaultInstance];
   }
   return self;
 }
@@ -24903,6 +24749,11 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (!self.quest.isInitialized) {
     return NO;
   }
+  if (self.hasNeutralCityElement) {
+    if (!self.neutralCityElement.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -24911,6 +24762,9 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   }
   if (self.hasQuest) {
     [output writeMessage:2 value:self.quest];
+  }
+  if (self.hasNeutralCityElement) {
+    [output writeMessage:3 value:self.neutralCityElement];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -24926,6 +24780,9 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   }
   if (self.hasQuest) {
     size += computeMessageSize(2, self.quest);
+  }
+  if (self.hasNeutralCityElement) {
+    size += computeMessageSize(3, self.neutralCityElement);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -25008,6 +24865,9 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (other.hasQuest) {
     [self mergeQuest:other.quest];
   }
+  if (other.hasNeutralCityElement) {
+    [self mergeNeutralCityElement:other.neutralCityElement];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -25045,6 +24905,15 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setQuest:[subBuilder buildPartial]];
+        break;
+      }
+      case 26: {
+        NeutralCityElementProto_Builder* subBuilder = [NeutralCityElementProto builder];
+        if (self.hasNeutralCityElement) {
+          [subBuilder mergeFrom:self.neutralCityElement];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setNeutralCityElement:[subBuilder buildPartial]];
         break;
       }
     }
@@ -25108,6 +24977,36 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
 - (QuestCompleteResponseProto_Builder*) clearQuest {
   result.hasQuest = NO;
   result.quest = [FullQuestProto defaultInstance];
+  return self;
+}
+- (BOOL) hasNeutralCityElement {
+  return result.hasNeutralCityElement;
+}
+- (NeutralCityElementProto*) neutralCityElement {
+  return result.neutralCityElement;
+}
+- (QuestCompleteResponseProto_Builder*) setNeutralCityElement:(NeutralCityElementProto*) value {
+  result.hasNeutralCityElement = YES;
+  result.neutralCityElement = value;
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) setNeutralCityElementBuilder:(NeutralCityElementProto_Builder*) builderForValue {
+  return [self setNeutralCityElement:[builderForValue build]];
+}
+- (QuestCompleteResponseProto_Builder*) mergeNeutralCityElement:(NeutralCityElementProto*) value {
+  if (result.hasNeutralCityElement &&
+      result.neutralCityElement != [NeutralCityElementProto defaultInstance]) {
+    result.neutralCityElement =
+      [[[NeutralCityElementProto builderWithPrototype:result.neutralCityElement] mergeFrom:value] buildPartial];
+  } else {
+    result.neutralCityElement = value;
+  }
+  result.hasNeutralCityElement = YES;
+  return self;
+}
+- (QuestCompleteResponseProto_Builder*) clearNeutralCityElement {
+  result.hasNeutralCityElement = NO;
+  result.neutralCityElement = [NeutralCityElementProto defaultInstance];
   return self;
 }
 @end

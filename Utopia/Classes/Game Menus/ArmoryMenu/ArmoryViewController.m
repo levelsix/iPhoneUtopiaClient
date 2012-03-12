@@ -22,6 +22,10 @@
 
 - (void) awakeFromNib {
   _clickedButtons = 0;
+  
+  [self clickButton:kWeaponButton];
+  [self unclickButton:kArmorButton];
+  [self unclickButton:kAmuletButton];
 }
 
 - (void) clickButton:(ArmoryBarButton)button {

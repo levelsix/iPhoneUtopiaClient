@@ -1646,12 +1646,10 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasHealthBaseCost_:1;
+  BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
-  BOOL hasMinVaultLevel_:1;
-  BOOL hasMinMarketplaceLevel_:1;
-  BOOL hasMinArmoryLevel_:1;
-  BOOL hasMaxRankForCity_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
@@ -1683,18 +1681,14 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasAttackBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
-  BOOL hasHealthBaseCost_:1;
-  BOOL hasStaminaBaseCost_:1;
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentReturnedToUserForSellingNormStructure;
+  int32_t healthBaseCost;
+  int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   int32_t cutOfVaultDepositTaken;
-  int32_t minVaultLevel;
-  int32_t minMarketplaceLevel;
-  int32_t minArmoryLevel;
-  int32_t maxRankForCity;
   int32_t maxLevelForStruct;
   int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
@@ -1726,8 +1720,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t attackBaseCost;
   int32_t defenseBaseCost;
   int32_t energyBaseCost;
-  int32_t healthBaseCost;
-  int32_t staminaBaseCost;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
@@ -1754,10 +1746,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasStaminaBaseCost;
 - (BOOL) hasSkillPointsGainedOnLevelup;
 - (BOOL) hasCutOfVaultDepositTaken;
-- (BOOL) hasMinVaultLevel;
-- (BOOL) hasMinMarketplaceLevel;
-- (BOOL) hasMinArmoryLevel;
-- (BOOL) hasMaxRankForCity;
 - (BOOL) hasMaxLevelForStruct;
 - (BOOL) hasMaxNumOfSingleStruct;
 - (BOOL) hasPercentReturnedToUserForSellingNormStructure;
@@ -1797,10 +1785,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t staminaBaseCost;
 @property (readonly) int32_t skillPointsGainedOnLevelup;
 @property (readonly) int32_t cutOfVaultDepositTaken;
-@property (readonly) int32_t minVaultLevel;
-@property (readonly) int32_t minMarketplaceLevel;
-@property (readonly) int32_t minArmoryLevel;
-@property (readonly) int32_t maxRankForCity;
 @property (readonly) int32_t maxLevelForStruct;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) Float64 percentReturnedToUserForSellingNormStructure;
@@ -1984,26 +1968,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) cutOfVaultDepositTaken;
 - (StartupResponseProto_StartupConstants_Builder*) setCutOfVaultDepositTaken:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearCutOfVaultDepositTaken;
-
-- (BOOL) hasMinVaultLevel;
-- (int32_t) minVaultLevel;
-- (StartupResponseProto_StartupConstants_Builder*) setMinVaultLevel:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinVaultLevel;
-
-- (BOOL) hasMinMarketplaceLevel;
-- (int32_t) minMarketplaceLevel;
-- (StartupResponseProto_StartupConstants_Builder*) setMinMarketplaceLevel:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinMarketplaceLevel;
-
-- (BOOL) hasMinArmoryLevel;
-- (int32_t) minArmoryLevel;
-- (StartupResponseProto_StartupConstants_Builder*) setMinArmoryLevel:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinArmoryLevel;
-
-- (BOOL) hasMaxRankForCity;
-- (int32_t) maxRankForCity;
-- (StartupResponseProto_StartupConstants_Builder*) setMaxRankForCity:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMaxRankForCity;
 
 - (BOOL) hasMaxLevelForStruct;
 - (int32_t) maxLevelForStruct;
@@ -6201,13 +6165,17 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @private
   BOOL hasSender_:1;
   BOOL hasQuest_:1;
+  BOOL hasNeutralCityElement_:1;
   MinimumUserProto* sender;
   FullQuestProto* quest;
+  NeutralCityElementProto* neutralCityElement;
 }
 - (BOOL) hasSender;
 - (BOOL) hasQuest;
+- (BOOL) hasNeutralCityElement;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) FullQuestProto* quest;
+@property (readonly, retain) NeutralCityElementProto* neutralCityElement;
 
 + (QuestCompleteResponseProto*) defaultInstance;
 - (QuestCompleteResponseProto*) defaultInstance;
@@ -6256,6 +6224,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (QuestCompleteResponseProto_Builder*) setQuestBuilder:(FullQuestProto_Builder*) builderForValue;
 - (QuestCompleteResponseProto_Builder*) mergeQuest:(FullQuestProto*) value;
 - (QuestCompleteResponseProto_Builder*) clearQuest;
+
+- (BOOL) hasNeutralCityElement;
+- (NeutralCityElementProto*) neutralCityElement;
+- (QuestCompleteResponseProto_Builder*) setNeutralCityElement:(NeutralCityElementProto*) value;
+- (QuestCompleteResponseProto_Builder*) setNeutralCityElementBuilder:(NeutralCityElementProto_Builder*) builderForValue;
+- (QuestCompleteResponseProto_Builder*) mergeNeutralCityElement:(NeutralCityElementProto*) value;
+- (QuestCompleteResponseProto_Builder*) clearNeutralCityElement;
 @end
 
 @interface QuestRedeemRequestProto : PBGeneratedMessage {

@@ -16,6 +16,27 @@ typedef enum {
   kAttackMap
 } MapState;
 
+typedef enum {
+  kMissionButton = 1,
+  kEnemyButton = 1 << 1
+} MapBarButton;
+
+
+@interface MapBar : UIView {
+  BOOL _trackingMission;
+  BOOL _trackingEnemy;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UIImageView *missionButton;
+@property (nonatomic, retain) IBOutlet UIImageView *enemyButton;
+
+@property (nonatomic, retain) IBOutlet UIImageView *missionButtonClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *enemyButtonClicked;
+
+@end
+
 @interface EnemyAnnotation : MKUserLocation
 
 @property (nonatomic, retain) FullUserProto *fup;

@@ -8,6 +8,7 @@
 
 #import "cocos2d.h"
 #import "Protocols.pb.h"
+#import "QuestCompleteView.h"
 
 typedef enum {
   kTask = 1,
@@ -108,6 +109,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *redeemButton;
 @property (nonatomic, retain) IBOutlet UIView *acceptButtons;
 @property (nonatomic, retain) NSArray *userLogData;
+
+// This will be used to get the view from the nib and return it
+@property (nonatomic, retain) IBOutlet QuestCompleteView *qcView;
 
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;

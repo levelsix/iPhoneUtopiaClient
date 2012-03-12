@@ -18,6 +18,125 @@
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 5
 
+@implementation MapBar
+
+@synthesize missionButton, enemyButton;
+@synthesize missionButtonClicked, enemyButtonClicked;
+
+- (void) awakeFromNib {
+  _clickedButtons = 0;
+  
+  [self clickButton:kMissionButton];
+  [self unclickButton:kEnemyButton];
+}
+
+- (void) clickButton:(MapBarButton)button {
+  switch (button) {
+    case kMissionButton:
+      missionButtonClicked.hidden = NO;
+      _clickedButtons |= kMissionButton;
+      break;
+      
+    case kEnemyButton:
+      enemyButtonClicked.hidden = NO;
+      _clickedButtons |= kEnemyButton;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(MapBarButton)button {
+  switch (button) {
+    case kMissionButton:
+      missionButtonClicked.hidden = YES;
+      _clickedButtons &= ~kMissionButton;
+      break;
+      
+    case kEnemyButton:
+      enemyButtonClicked.hidden = YES;
+      _clickedButtons &= ~kEnemyButton;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:missionButtonClicked];
+  if (!(_clickedButtons & kMissionButton) && [missionButtonClicked pointInside:pt withEvent:nil]) {
+    _trackingMission = YES;
+    [self clickButton:kMissionButton];
+  }
+  
+  pt = [touch locationInView:enemyButtonClicked];
+  if (!(_clickedButtons & kEnemyButton) && [enemyButtonClicked pointInside:pt withEvent:nil]) {
+    _trackingEnemy = YES;
+    [self clickButton:kEnemyButton];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:missionButtonClicked];
+  if (_trackingMission) {
+    if ([missionButtonClicked pointInside:pt withEvent:nil]) {
+      [self clickButton:kMissionButton];
+    } else {
+      [self unclickButton:kMissionButton];
+    }
+  }
+  
+  pt = [touch locationInView:enemyButtonClicked];
+  if (_trackingEnemy) {
+    if ([enemyButtonClicked pointInside:pt withEvent:nil]) {
+      [self clickButton:kEnemyButton];
+    } else {
+      [self unclickButton:kEnemyButton];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:missionButtonClicked];
+  if (_trackingMission) {
+    if ([missionButtonClicked pointInside:pt withEvent:nil]) {
+      [[MapViewController sharedMapViewController] setState:kMissionMap];
+      [self clickButton:kMissionButton];
+      [self unclickButton:kEnemyButton];
+    } else {
+      [self unclickButton:kMissionButton];
+    }
+  }
+  
+  pt = [touch locationInView:enemyButtonClicked];
+  if (_trackingEnemy) {
+    if ([enemyButtonClicked pointInside:pt withEvent:nil]) {
+      [[MapViewController sharedMapViewController] setState:kAttackMap];
+      [self clickButton:kEnemyButton];
+      [self unclickButton:kMissionButton];
+    } else {
+      [self unclickButton:kEnemyButton];
+    }
+  }
+  _trackingMission = NO;
+  _trackingEnemy = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kMissionButton];
+  [self unclickButton:kEnemyButton];
+  _trackingMission = NO;
+  _trackingEnemy = NO;
+}
+
+@end
+
+
 @implementation EnemyAnnotation
 
 @synthesize fup;

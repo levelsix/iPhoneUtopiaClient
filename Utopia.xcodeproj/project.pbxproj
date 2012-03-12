@@ -553,6 +553,7 @@
 		CFDFD316150DE2A2009AD8AE /* mapnavtopactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDFD312150DE2A2009AD8AE /* mapnavtopactive@2x.png */; };
 		CFDFD317150DE2A2009AD8AE /* mapnavtop.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDFD313150DE2A2009AD8AE /* mapnavtop.png */; };
 		CFDFD318150DE2A2009AD8AE /* mapnavtop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDFD314150DE2A2009AD8AE /* mapnavtop@2x.png */; };
+		CFDFD31A150DF6D6009AD8AE /* QuestCompleteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFDFD319150DF6D6009AD8AE /* QuestCompleteView.xib */; };
 		CFE47BFB149240890084E71E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFA149240890084E71E /* QuartzCore.framework */; };
 		CFE47BFD149240890084E71E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFC149240890084E71E /* OpenGLES.framework */; };
 		CFE47BFF149240890084E71E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE47BFE149240890084E71E /* OpenAL.framework */; };
@@ -735,6 +736,7 @@
 		CFF3A73614F07D5F00E8F8DF /* SBTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73014F07D5F00E8F8DF /* SBTickerView.m */; };
 		CFF3A73714F07D5F00E8F8DF /* SBDoubleSidedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73214F07D5F00E8F8DF /* SBDoubleSidedLayer.m */; };
 		CFF3A73814F07D5F00E8F8DF /* SBGradientOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73414F07D5F00E8F8DF /* SBGradientOverlayLayer.m */; };
+		CFF8088A150DFA0E006DCBF3 /* QuestCompleteView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF80889150DFA0E006DCBF3 /* QuestCompleteView.m */; };
 		CFF9C34114F3833A00CF3B73 /* TopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF9C34014F3833900CF3B73 /* TopBar.m */; };
 		CFFD7C1414AC2C770054CC23 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C1314AC2C770054CC23 /* Default.png */; };
 		CFFD7C3814AC9B770054CC23 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFD7C3614AC9B770054CC23 /* main.m */; };
@@ -1414,6 +1416,7 @@
 		CFDFD312150DE2A2009AD8AE /* mapnavtopactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapnavtopactive@2x.png"; sourceTree = "<group>"; };
 		CFDFD313150DE2A2009AD8AE /* mapnavtop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapnavtop.png; sourceTree = "<group>"; };
 		CFDFD314150DE2A2009AD8AE /* mapnavtop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapnavtop@2x.png"; sourceTree = "<group>"; };
+		CFDFD319150DF6D6009AD8AE /* QuestCompleteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCompleteView.xib; sourceTree = "<group>"; };
 		CFE47BF6149240890084E71E /* Utopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Utopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE47BFA149240890084E71E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CFE47BFC149240890084E71E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1662,7 +1665,7 @@
 		CFED86E8150B44D60098C5DE /* BattleSummaryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BattleSummaryView.xib; sourceTree = "<group>"; };
 		CFED86EA150B4B6C0098C5DE /* youfled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = youfled.png; sourceTree = "<group>"; };
 		CFED86EB150B4B700098C5DE /* youfled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "youfled@2x.png"; sourceTree = "<group>"; };
-		CFED86EE150B4B8B0098C5DE /* RequiemText-HTF-SmallCaps.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RequiemText-HTF-SmallCaps.otf"; sourceTree = "<group>"; };
+		CFED86EE150B4B8B0098C5DE /* RequiemText-HTF-SmallCaps.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RequiemText-HTF-SmallCaps.otf"; path = "../Battle Images/RequiemText-HTF-SmallCaps.otf"; sourceTree = "<group>"; };
 		CFED86F0150B4C480098C5DE /* doneresume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = doneresume.png; sourceTree = "<group>"; };
 		CFED86F1150B4C4A0098C5DE /* doneresume@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "doneresume@2x.png"; sourceTree = "<group>"; };
 		CFED86F4150B539B0098C5DE /* path@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "path@2x.png"; sourceTree = "<group>"; };
@@ -1716,6 +1719,8 @@
 		CFF3A73214F07D5F00E8F8DF /* SBDoubleSidedLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBDoubleSidedLayer.m; sourceTree = "<group>"; };
 		CFF3A73314F07D5F00E8F8DF /* SBGradientOverlayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBGradientOverlayLayer.h; sourceTree = "<group>"; };
 		CFF3A73414F07D5F00E8F8DF /* SBGradientOverlayLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBGradientOverlayLayer.m; sourceTree = "<group>"; };
+		CFF80888150DFA0E006DCBF3 /* QuestCompleteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCompleteView.h; sourceTree = "<group>"; };
+		CFF80889150DFA0E006DCBF3 /* QuestCompleteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCompleteView.m; sourceTree = "<group>"; };
 		CFF9C33F14F3833800CF3B73 /* TopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopBar.h; path = GameMap/TopBar.h; sourceTree = "<group>"; };
 		CFF9C34014F3833900CF3B73 /* TopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopBar.m; path = GameMap/TopBar.m; sourceTree = "<group>"; };
 		CFFD7C1314AC2C770054CC23 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
@@ -1765,7 +1770,6 @@
 				CFED8711150B6F1F0098C5DE /* profilebutton@2x.png */,
 				CFED86F0150B4C480098C5DE /* doneresume.png */,
 				CFED86F1150B4C4A0098C5DE /* doneresume@2x.png */,
-				CFED86EE150B4B8B0098C5DE /* RequiemText-HTF-SmallCaps.otf */,
 				CFED86EA150B4B6C0098C5DE /* youfled.png */,
 				CFED86EB150B4B700098C5DE /* youfled@2x.png */,
 				CFED86E4150B3E890098C5DE /* nametag.png */,
@@ -1897,6 +1901,7 @@
 		CF1C59401501AED50048D2EC /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CFED86EE150B4B8B0098C5DE /* RequiemText-HTF-SmallCaps.otf */,
 				CF1A3CF11506F10E00F52450 /* FF_DIN_Condensed_Black.otf */,
 				CF1C59411501AED50048D2EC /* AJensonPro-BoldCapt.otf */,
 				CF1C59421501AED50048D2EC /* AJensonPro-Disp.otf */,
@@ -2464,6 +2469,9 @@
 				CF3D0A6214CB88EA00D972B4 /* QuestLogController.h */,
 				CF3D0A6314CB88EA00D972B4 /* QuestLogController.m */,
 				CF3D0A6414CB88EA00D972B4 /* QuestLogController.xib */,
+				CFDFD319150DF6D6009AD8AE /* QuestCompleteView.xib */,
+				CFF80888150DFA0E006DCBF3 /* QuestCompleteView.h */,
+				CFF80889150DFA0E006DCBF3 /* QuestCompleteView.m */,
 			);
 			path = QuestLogMenu;
 			sourceTree = "<group>";
@@ -3902,6 +3910,7 @@
 				CFDFD316150DE2A2009AD8AE /* mapnavtopactive@2x.png in Resources */,
 				CFDFD317150DE2A2009AD8AE /* mapnavtop.png in Resources */,
 				CFDFD318150DE2A2009AD8AE /* mapnavtop@2x.png in Resources */,
+				CFDFD31A150DF6D6009AD8AE /* QuestCompleteView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4053,6 +4062,7 @@
 				CFDBE22B150C63AA00F601DB /* CharSelectionViewController.m in Sources */,
 				CFDBE2A6150CA10900F601DB /* LevelUpViewController.m in Sources */,
 				CFD3C8F2150D0637001EC185 /* AnimatedSprite.m in Sources */,
+				CFF8088A150DFA0E006DCBF3 /* QuestCompleteView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

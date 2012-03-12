@@ -297,19 +297,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-         timestampString = "353235382.55903"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "843"
-         endingLineNumber = "843"
-         landmarkName = "-retrieveAllStaticData"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
          timestampString = "353235520.196953"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
