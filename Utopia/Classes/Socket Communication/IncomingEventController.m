@@ -543,7 +543,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleQuestCompleteResponseProto: (QuestCompleteResponseProto *)proto {
-  NSLog(@"Received quest complete response for quest %d.", proto.quest.questId);
+  NSLog(@"Received quest complete response for quest %d.", proto.questId);
+  
+  GameState *gs = [GameState sharedGameState];
+  FullQuestProto *fqp = [[gs inProgressQuests] objectForKey:proto.questId];
+  
+  if (fqp) {
+    QuestCompleteView *qcv = [[QuestLogController sharedQuestLogController] createQuestCompleteView];
+    qcv.questNameLabel = fqp.name;
+    
+    FullCityProto *fcp = [gs cityWithId:fqp.cityId];
+    qcv.visitDescLabel = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward", proto.neutralCityElement.name, fcp.name];
+  } else {
+    [Globals popupMessage:@"Server sent quest complete for invalid quest"];
+  }
 }
 
 @end

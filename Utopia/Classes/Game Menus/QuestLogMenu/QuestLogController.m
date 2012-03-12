@@ -15,6 +15,25 @@
 
 #define QUEST_ITEM_HEIGHT 31.f
 
+
+@implementation QuestCompleteView
+
+@synthesize questNameLabel, visitDescLabel;
+
+- (IBAction)okayClicked:(id)sender {
+  [self removeFromSuperview];
+  [self release];
+}
+
+- (void) dealloc {
+  self.questNameLabel = nil;
+  self.visitDescLabel = nil;
+  [super dealloc];
+}
+
+@end
+
+
 @implementation GradientScrollView
 
 @synthesize topGradient, botGradient;
@@ -721,6 +740,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   }
   _fqp = fqp;
   _curView = self.questDescView;
+}
+
+- (QuestCompleteView *) createQuestCompleteView {
+  [[NSBundle mainBundle] loadNibNamed:@"QuestCompleteView" owner:self options:nil];
+  UIView *q = [self.qcView retain];
+  self.qcView = nil;
+  return [q autorelease];
 }
 
 - (void)viewDidUnload

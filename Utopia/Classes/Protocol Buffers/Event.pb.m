@@ -24683,7 +24683,7 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 
 @interface QuestCompleteResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) FullQuestProto* quest;
+@property int32_t questId;
 @property (retain) NeutralCityElementProto* neutralCityElement;
 @end
 
@@ -24696,13 +24696,13 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasQuest {
-  return !!hasQuest_;
+- (BOOL) hasQuestId {
+  return !!hasQuestId_;
 }
-- (void) setHasQuest:(BOOL) value {
-  hasQuest_ = !!value;
+- (void) setHasQuestId:(BOOL) value {
+  hasQuestId_ = !!value;
 }
-@synthesize quest;
+@synthesize questId;
 - (BOOL) hasNeutralCityElement {
   return !!hasNeutralCityElement_;
 }
@@ -24712,14 +24712,13 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 @synthesize neutralCityElement;
 - (void) dealloc {
   self.sender = nil;
-  self.quest = nil;
   self.neutralCityElement = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.quest = [FullQuestProto defaultInstance];
+    self.questId = 0;
     self.neutralCityElement = [NeutralCityElementProto defaultInstance];
   }
   return self;
@@ -24740,13 +24739,10 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (!self.hasSender) {
     return NO;
   }
-  if (!self.hasQuest) {
+  if (!self.hasQuestId) {
     return NO;
   }
   if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.quest.isInitialized) {
     return NO;
   }
   if (self.hasNeutralCityElement) {
@@ -24760,8 +24756,8 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasQuest) {
-    [output writeMessage:2 value:self.quest];
+  if (self.hasQuestId) {
+    [output writeInt32:2 value:self.questId];
   }
   if (self.hasNeutralCityElement) {
     [output writeMessage:3 value:self.neutralCityElement];
@@ -24778,8 +24774,8 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasQuest) {
-    size += computeMessageSize(2, self.quest);
+  if (self.hasQuestId) {
+    size += computeInt32Size(2, self.questId);
   }
   if (self.hasNeutralCityElement) {
     size += computeMessageSize(3, self.neutralCityElement);
@@ -24862,8 +24858,8 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasQuest) {
-    [self mergeQuest:other.quest];
+  if (other.hasQuestId) {
+    [self setQuestId:other.questId];
   }
   if (other.hasNeutralCityElement) {
     [self mergeNeutralCityElement:other.neutralCityElement];
@@ -24898,13 +24894,8 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 18: {
-        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
-        if (self.hasQuest) {
-          [subBuilder mergeFrom:self.quest];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setQuest:[subBuilder buildPartial]];
+      case 16: {
+        [self setQuestId:[input readInt32]];
         break;
       }
       case 26: {
@@ -24949,34 +24940,20 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasQuest {
-  return result.hasQuest;
+- (BOOL) hasQuestId {
+  return result.hasQuestId;
 }
-- (FullQuestProto*) quest {
-  return result.quest;
+- (int32_t) questId {
+  return result.questId;
 }
-- (QuestCompleteResponseProto_Builder*) setQuest:(FullQuestProto*) value {
-  result.hasQuest = YES;
-  result.quest = value;
+- (QuestCompleteResponseProto_Builder*) setQuestId:(int32_t) value {
+  result.hasQuestId = YES;
+  result.questId = value;
   return self;
 }
-- (QuestCompleteResponseProto_Builder*) setQuestBuilder:(FullQuestProto_Builder*) builderForValue {
-  return [self setQuest:[builderForValue build]];
-}
-- (QuestCompleteResponseProto_Builder*) mergeQuest:(FullQuestProto*) value {
-  if (result.hasQuest &&
-      result.quest != [FullQuestProto defaultInstance]) {
-    result.quest =
-      [[[FullQuestProto builderWithPrototype:result.quest] mergeFrom:value] buildPartial];
-  } else {
-    result.quest = value;
-  }
-  result.hasQuest = YES;
-  return self;
-}
-- (QuestCompleteResponseProto_Builder*) clearQuest {
-  result.hasQuest = NO;
-  result.quest = [FullQuestProto defaultInstance];
+- (QuestCompleteResponseProto_Builder*) clearQuestId {
+  result.hasQuestId = NO;
+  result.questId = 0;
   return self;
 }
 - (BOOL) hasNeutralCityElement {

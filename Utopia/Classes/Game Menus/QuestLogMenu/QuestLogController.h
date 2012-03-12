@@ -8,7 +8,6 @@
 
 #import "cocos2d.h"
 #import "Protocols.pb.h"
-#import "QuestCompleteView.h"
 
 typedef enum {
   kTask = 1,
@@ -17,6 +16,13 @@ typedef enum {
   kUpgradeStructJob,
   kPossessEquipJob
 } TaskItemType;
+
+@interface QuestCompleteView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *questNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *visitDescLabel;
+
+@end
 
 @interface GradientScrollView : UIScrollView <UIScrollViewDelegate>
 
@@ -41,7 +47,7 @@ typedef enum {
   UIView *_clickedView;
 }
 
-@property (nonatomic, retain) IBOutlet NSMutableArray *questItemViews;
+@property (nonatomic, retain) NSMutableArray *questItemViews;
 @property (nonatomic, retain) IBOutlet UILabel *curQuestsLabel;
 @property (nonatomic, retain) IBOutlet QuestListScrollView *scrollView;
 
@@ -121,5 +127,7 @@ typedef enum {
 - (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress;
 
 - (IBAction)closeButtonClicked:(id)sender;
+
+- (QuestCompleteView *) createQuestCompleteView;
 
 @end

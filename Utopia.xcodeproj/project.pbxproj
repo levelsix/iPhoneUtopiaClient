@@ -736,7 +736,6 @@
 		CFF3A73614F07D5F00E8F8DF /* SBTickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73014F07D5F00E8F8DF /* SBTickerView.m */; };
 		CFF3A73714F07D5F00E8F8DF /* SBDoubleSidedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73214F07D5F00E8F8DF /* SBDoubleSidedLayer.m */; };
 		CFF3A73814F07D5F00E8F8DF /* SBGradientOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73414F07D5F00E8F8DF /* SBGradientOverlayLayer.m */; };
-		CFF8088A150DFA0E006DCBF3 /* QuestCompleteView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF80889150DFA0E006DCBF3 /* QuestCompleteView.m */; };
 		CFF9C34114F3833A00CF3B73 /* TopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF9C34014F3833900CF3B73 /* TopBar.m */; };
 		CFFD7C1414AC2C770054CC23 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C1314AC2C770054CC23 /* Default.png */; };
 		CFFD7C3814AC9B770054CC23 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFD7C3614AC9B770054CC23 /* main.m */; };
@@ -1719,8 +1718,6 @@
 		CFF3A73214F07D5F00E8F8DF /* SBDoubleSidedLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBDoubleSidedLayer.m; sourceTree = "<group>"; };
 		CFF3A73314F07D5F00E8F8DF /* SBGradientOverlayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBGradientOverlayLayer.h; sourceTree = "<group>"; };
 		CFF3A73414F07D5F00E8F8DF /* SBGradientOverlayLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBGradientOverlayLayer.m; sourceTree = "<group>"; };
-		CFF80888150DFA0E006DCBF3 /* QuestCompleteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestCompleteView.h; sourceTree = "<group>"; };
-		CFF80889150DFA0E006DCBF3 /* QuestCompleteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestCompleteView.m; sourceTree = "<group>"; };
 		CFF9C33F14F3833800CF3B73 /* TopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopBar.h; path = GameMap/TopBar.h; sourceTree = "<group>"; };
 		CFF9C34014F3833900CF3B73 /* TopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopBar.m; path = GameMap/TopBar.m; sourceTree = "<group>"; };
 		CFFD7C1314AC2C770054CC23 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
@@ -2470,8 +2467,6 @@
 				CF3D0A6314CB88EA00D972B4 /* QuestLogController.m */,
 				CF3D0A6414CB88EA00D972B4 /* QuestLogController.xib */,
 				CFDFD319150DF6D6009AD8AE /* QuestCompleteView.xib */,
-				CFF80888150DFA0E006DCBF3 /* QuestCompleteView.h */,
-				CFF80889150DFA0E006DCBF3 /* QuestCompleteView.m */,
 			);
 			path = QuestLogMenu;
 			sourceTree = "<group>";
@@ -4062,7 +4057,6 @@
 				CFDBE22B150C63AA00F601DB /* CharSelectionViewController.m in Sources */,
 				CFDBE2A6150CA10900F601DB /* LevelUpViewController.m in Sources */,
 				CFD3C8F2150D0637001EC185 /* AnimatedSprite.m in Sources */,
-				CFF8088A150DFA0E006DCBF3 /* QuestCompleteView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6163,18 +6163,18 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface QuestCompleteResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasQuestId_:1;
   BOOL hasSender_:1;
-  BOOL hasQuest_:1;
   BOOL hasNeutralCityElement_:1;
+  int32_t questId;
   MinimumUserProto* sender;
-  FullQuestProto* quest;
   NeutralCityElementProto* neutralCityElement;
 }
 - (BOOL) hasSender;
-- (BOOL) hasQuest;
+- (BOOL) hasQuestId;
 - (BOOL) hasNeutralCityElement;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) FullQuestProto* quest;
+@property (readonly) int32_t questId;
 @property (readonly, retain) NeutralCityElementProto* neutralCityElement;
 
 + (QuestCompleteResponseProto*) defaultInstance;
@@ -6218,12 +6218,10 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (QuestCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (QuestCompleteResponseProto_Builder*) clearSender;
 
-- (BOOL) hasQuest;
-- (FullQuestProto*) quest;
-- (QuestCompleteResponseProto_Builder*) setQuest:(FullQuestProto*) value;
-- (QuestCompleteResponseProto_Builder*) setQuestBuilder:(FullQuestProto_Builder*) builderForValue;
-- (QuestCompleteResponseProto_Builder*) mergeQuest:(FullQuestProto*) value;
-- (QuestCompleteResponseProto_Builder*) clearQuest;
+- (BOOL) hasQuestId;
+- (int32_t) questId;
+- (QuestCompleteResponseProto_Builder*) setQuestId:(int32_t) value;
+- (QuestCompleteResponseProto_Builder*) clearQuestId;
 
 - (BOOL) hasNeutralCityElement;
 - (NeutralCityElementProto*) neutralCityElement;
