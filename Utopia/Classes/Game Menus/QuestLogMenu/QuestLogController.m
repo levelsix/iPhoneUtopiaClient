@@ -591,7 +591,7 @@
 @implementation QuestLogController
 
 @synthesize taskView, questDescView, questListView, userLogData, rightPage;
-@synthesize redeemButton, toTaskButton, acceptButtons;
+@synthesize redeemButton, toTaskButton, acceptButtons, qcView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
@@ -744,7 +744,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
 - (QuestCompleteView *) createQuestCompleteView {
   [[NSBundle mainBundle] loadNibNamed:@"QuestCompleteView" owner:self options:nil];
-  UIView *q = [self.qcView retain];
+  QuestCompleteView *q = [self.qcView retain];
   self.qcView = nil;
   return [q autorelease];
 }
@@ -759,6 +759,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.rightPage = nil;
   self.questListView = nil;
   self.redeemButton = nil;
+  self.qcView = nil;
 }
 
 @end

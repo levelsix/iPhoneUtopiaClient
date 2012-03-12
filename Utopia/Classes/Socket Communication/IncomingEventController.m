@@ -546,11 +546,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Received quest complete response for quest %d.", proto.questId);
   
   GameState *gs = [GameState sharedGameState];
-  FullQuestProto *fqp = [[gs inProgressQuests] objectForKey:proto.questId];
+  FullQuestProto *fqp = [[gs inProgressQuests] objectForKey:[NSNumber numberWithInt:proto.questId]];
   
   if (fqp) {
     QuestCompleteView *qcv = [[QuestLogController sharedQuestLogController] createQuestCompleteView];
-    qcv.questNameLabel = fqp.name;
+    qcv.questNameLabel.text = fqp.name;
     
     FullCityProto *fcp = [gs cityWithId:fqp.cityId];
     qcv.visitDescLabel = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward", proto.neutralCityElement.name, fcp.name];
