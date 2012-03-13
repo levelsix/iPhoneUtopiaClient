@@ -9,6 +9,7 @@
 #import "CharSelectionViewController.h"
 #import "SynthesizeSingleton.h"
 #import "Globals.h"
+#import "TutorialConstants.h"
 
 @implementation CharSelectionViewController
 
@@ -253,7 +254,7 @@
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-  return YES;//str.length < [Globals sharedGlobals] max
+  return str.length <= [[TutorialConstants sharedTutorialConstants] maxNameLength];
 }
 
 - (void)viewDidUnload

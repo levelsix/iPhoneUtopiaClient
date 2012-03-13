@@ -8,6 +8,7 @@
 
 #import "DoorViewController.h"
 #import "GameViewController.h"
+#import "GameState.h"
 
 @implementation DoorViewController
 
@@ -24,7 +25,9 @@
 
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   // Open the door
-  [self.navigationController pushViewController:[GameViewController sharedGameViewController] animated:NO];
+  if ([[GameState sharedGameState] connected]) {
+    [self.navigationController pushViewController:[GameViewController sharedGameViewController] animated:NO];
+  }
 }
 
 @end

@@ -304,8 +304,6 @@
 		CF1C5B901501AED50048D2EC /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A261501AED50048D2EC /* left.png */; };
 		CF1C5B911501AED50048D2EC /* levelnumberbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A271501AED50048D2EC /* levelnumberbg.png */; };
 		CF1C5B921501AED50048D2EC /* levelnumberbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A281501AED50048D2EC /* levelnumberbg@2x.png */; };
-		CF1C5B931501AED50048D2EC /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A291501AED50048D2EC /* retrievebubble.png */; };
-		CF1C5B941501AED50048D2EC /* retrievebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A2A1501AED50048D2EC /* retrievebubble@2x.png */; };
 		CF1C5B951501AED50048D2EC /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A2B1501AED50048D2EC /* right.png */; };
 		CF1C5B9A1501AED50048D2EC /* struct1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A301501AED50048D2EC /* struct1@2x.png */; };
 		CF1C5B9B1501AED50048D2EC /* struct2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A311501AED50048D2EC /* struct2.png */; };
@@ -431,6 +429,9 @@
 		CF9097F71501F15100E74303 /* topnavmidpiece.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9097ED1501F15100E74303 /* topnavmidpiece.png */; };
 		CF9097F81501F15100E74303 /* topnavmidpiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9097EE1501F15100E74303 /* topnavmidpiece@2x.png */; };
 		CF914EA01509B04A00350CB6 /* MapSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CF914E9F1509B04A00350CB6 /* MapSprite.m */; };
+		CFA0FB04150F02B200C88583 /* retrievebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */; };
+		CFA0FB06150F02D600C88583 /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB05150F02D600C88583 /* retrievebubble.png */; };
+		CFA0FB09150F04FE00C88583 /* TutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */; };
 		CFA26F0D14E4A27400FC1C71 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F0C14E4A27300FC1C71 /* UserData.m */; };
 		CFA26F1514E719BA00FC1C71 /* GameMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F1414E719BA00FC1C71 /* GameMap.m */; };
 		CFA26F1714E71A7F00FC1C71 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */; };
@@ -1088,8 +1089,6 @@
 		CF1C5A261501AED50048D2EC /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
 		CF1C5A271501AED50048D2EC /* levelnumberbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = levelnumberbg.png; sourceTree = "<group>"; };
 		CF1C5A281501AED50048D2EC /* levelnumberbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "levelnumberbg@2x.png"; sourceTree = "<group>"; };
-		CF1C5A291501AED50048D2EC /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
-		CF1C5A2A1501AED50048D2EC /* retrievebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retrievebubble@2x.png"; sourceTree = "<group>"; };
 		CF1C5A2B1501AED50048D2EC /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
 		CF1C5A301501AED50048D2EC /* struct1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "struct1@2x.png"; sourceTree = "<group>"; };
 		CF1C5A311501AED50048D2EC /* struct2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = struct2.png; sourceTree = "<group>"; };
@@ -1292,6 +1291,10 @@
 		CF9097EE1501F15100E74303 /* topnavmidpiece@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topnavmidpiece@2x.png"; sourceTree = "<group>"; };
 		CF914E9E1509B04A00350CB6 /* MapSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapSprite.h; path = "Utopia/Classes/Main Map/GameMap/MapSprite.h"; sourceTree = SOURCE_ROOT; };
 		CF914E9F1509B04A00350CB6 /* MapSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapSprite.m; path = "Utopia/Classes/Main Map/GameMap/MapSprite.m"; sourceTree = SOURCE_ROOT; };
+		CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retrievebubble@2x.png"; sourceTree = "<group>"; };
+		CFA0FB05150F02D600C88583 /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
+		CFA0FB07150F04FE00C88583 /* TutorialBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialBattleLayer.h; path = Tutorial/TutorialBattleLayer.h; sourceTree = "<group>"; };
+		CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialBattleLayer.m; path = Tutorial/TutorialBattleLayer.m; sourceTree = "<group>"; };
 		CFA26F0B14E4A27300FC1C71 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
 		CFA26F0C14E4A27300FC1C71 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
 		CFA26F1314E719BA00FC1C71 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMap.h; path = "Utopia/Classes/Main Map/GameMap/GameMap.h"; sourceTree = SOURCE_ROOT; };
@@ -1973,6 +1976,8 @@
 		CF1C59581501AED50048D2EC /* Home Building Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFA0FB05150F02D600C88583 /* retrievebubble.png */,
+				CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */,
 				CF16052F150B1D5F00BE029C /* movecrit.png */,
 				CF160530150B1D5F00BE029C /* critstructurebubble.png */,
 				CF160531150B1D5F00BE029C /* critstructurebubble@2x.png */,
@@ -2285,8 +2290,6 @@
 				CF1C5A261501AED50048D2EC /* left.png */,
 				CF1C5A271501AED50048D2EC /* levelnumberbg.png */,
 				CF1C5A281501AED50048D2EC /* levelnumberbg@2x.png */,
-				CF1C5A291501AED50048D2EC /* retrievebubble.png */,
-				CF1C5A2A1501AED50048D2EC /* retrievebubble@2x.png */,
 				CF1C5A2B1501AED50048D2EC /* right.png */,
 				CF1C5A301501AED50048D2EC /* struct1@2x.png */,
 				CF1C5A311501AED50048D2EC /* struct2.png */,
@@ -2824,6 +2827,8 @@
 				CFDBE227150C634400F601DB /* Character Selection */,
 				CF41C2C8150E30F3005A2919 /* TutorialConstants.h */,
 				CF41C2C9150E30F3005A2919 /* TutorialConstants.m */,
+				CFA0FB07150F04FE00C88583 /* TutorialBattleLayer.h */,
+				CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -3653,8 +3658,6 @@
 				CF1C5B901501AED50048D2EC /* left.png in Resources */,
 				CF1C5B911501AED50048D2EC /* levelnumberbg.png in Resources */,
 				CF1C5B921501AED50048D2EC /* levelnumberbg@2x.png in Resources */,
-				CF1C5B931501AED50048D2EC /* retrievebubble.png in Resources */,
-				CF1C5B941501AED50048D2EC /* retrievebubble@2x.png in Resources */,
 				CF1C5B951501AED50048D2EC /* right.png in Resources */,
 				CF1C5B9A1501AED50048D2EC /* struct1@2x.png in Resources */,
 				CF1C5B9B1501AED50048D2EC /* struct2.png in Resources */,
@@ -3976,6 +3979,8 @@
 				CF41C2CE150EF27C005A2919 /* legionwarrior@2x.png in Resources */,
 				CFDD5E69150EF7E8007C7707 /* legionwarrior.plist in Resources */,
 				CFDD5E6A150EF7E8007C7707 /* legionwarrior.png in Resources */,
+				CFA0FB04150F02B200C88583 /* retrievebubble@2x.png in Resources */,
+				CFA0FB06150F02D600C88583 /* retrievebubble.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4129,6 +4134,7 @@
 				CFD3C8F2150D0637001EC185 /* AnimatedSprite.m in Sources */,
 				CF41C2C6150E2F76005A2919 /* DialogMenuController.m in Sources */,
 				CF41C2CA150E30F3005A2919 /* TutorialConstants.m in Sources */,
+				CFA0FB09150F04FE00C88583 /* TutorialBattleLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

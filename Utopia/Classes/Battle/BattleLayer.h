@@ -110,4 +110,25 @@
 - (IBAction)attackAgainClicked:(id)sender;
 - (IBAction)profileButtonClicked:(id)sender;
 
+- (void) startBattle;
+- (void) startMyTurn;
+- (void) attackStart;
+- (void) turnMissed;
+- (void) comboBarClicked;
+- (void) attackAnimationDone;
+- (void) startEnemyTurn;
+- (void) enemyAttackDone;
+- (void) doneWithLeftHealthBar;
+- (void) myWin;
+- (void) myLoss;
+- (void) checkLoseBrp;
+- (void) fleeClicked;
+- (void) checkFleeBrp;
+- (void) pauseClicked;
+- (void) resumeClicked;
+- (void) doneClicked;
+- (void) displaySummary;
+- (void) closeScene;
+- (int) calculateEnemyDamageForPercentage:(float)percent;
+
 @end

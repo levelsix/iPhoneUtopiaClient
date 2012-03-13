@@ -16,6 +16,8 @@
 
 @interface GameViewController : UIViewController
 
+@property (nonatomic, assign) BOOL isTutorial;
+
 + (GameViewController *) sharedGameViewController;
 
 @end

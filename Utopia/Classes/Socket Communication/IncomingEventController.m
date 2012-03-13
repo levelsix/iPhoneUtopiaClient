@@ -22,6 +22,8 @@
 #import "BattleLayer.h"
 #import "LevelUpViewController.h"
 #import "MissionMap.h"
+#import "TutorialConstants.h"
+#import "GameViewController.h"
 
 @implementation IncomingEventController
 
@@ -181,21 +183,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
-  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   
-  [gl updateConstants:proto.startupConstants];
-  [gs updateUser:proto.sender];
-  [gs addToMyEquips:proto.userEquipsList];
-  [gs addToMyCities:proto.userCityInfosList];
-  [gs addToStaticCities:proto.citiesAvailableToUserList];
-  [gs addToStaticEquips:proto.equipsList];
-  [gs addToAvailableQuests:proto.availableQuestsList];
-  [gs addToInProgressQuests:proto.inProgressQuestsList];
-  [oec loadPlayerCity:gs.userId];
-  [oec retrieveAllStaticData];
-  
-  gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
-  gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
+  if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
+    OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
+    
+    [gl updateConstants:proto.startupConstants];
+    [gs updateUser:proto.sender];
+    [gs addToMyEquips:proto.userEquipsList];
+    [gs addToMyCities:proto.userCityInfosList];
+    [gs addToStaticCities:proto.citiesAvailableToUserList];
+    [gs addToStaticEquips:proto.equipsList];
+    [gs addToAvailableQuests:proto.availableQuestsList];
+    [gs addToInProgressQuests:proto.inProgressQuestsList];
+    [oec loadPlayerCity:gs.userId];
+    [oec retrieveAllStaticData];
+    
+    gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
+    gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
+  } else {
+    // Need to create new player
+    [[GameViewController sharedGameViewController] setIsTutorial:YES];
+    [[GameState sharedGameState] setConnected:YES];
+    [[TutorialConstants sharedTutorialConstants] loadTutorialConstants:proto.tutorialConstants];
+  }
 }
 
 - (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
@@ -392,7 +402,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (proto.hasCarpenter) [arr addObject:proto.carpenter];
     if (proto.hasVault) [arr addObject:proto.vault];
     [gs addToMyCritStructs:arr];
-     
+    
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [[HomeMap sharedHomeMap] refresh];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
@@ -553,7 +563,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     qcv.questNameLabel.text = fqp.name;
     
     FullCityProto *fcp = [gs cityWithId:fqp.cityId];
-    qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward", proto.neutralCityElement.name, fcp.name];
+    qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward!", proto.neutralCityElement.name, fcp.name];
     
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
   } else {

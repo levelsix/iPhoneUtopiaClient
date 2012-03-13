@@ -19,6 +19,7 @@
 #import "BattleLayer.h" 
 #import "SynthesizeSingleton.h"
 #import "QuestLogController.h"
+#import "TutorialBattleLayer.h"
 
 @implementation GameView
 
@@ -42,6 +43,8 @@
 @end
 
 @implementation GameViewController
+
+@synthesize isTutorial;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
@@ -67,9 +70,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 		CCLOG(@"Retina Display Not supported");
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  CCScene *scene = [GameLayer scene];
+  CCScene *scene = isTutorial ? [TutorialBattleLayer scene] : [GameLayer scene];
 //  [BattleLayer scene];
   [[CCDirector sharedDirector] runWithScene:scene];
 }

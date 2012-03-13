@@ -18,20 +18,23 @@
 @property (nonatomic, assign) int diamondCostToInstabuildFirstStruct;
 @property (nonatomic, assign) int archerInitAttack;
 @property (nonatomic, assign) int archerInitDefense;
-@property (nonatomic, assign) FullEquipProto *archerInitWeapon;
-@property (nonatomic, assign) FullEquipProto *archerInitArmor;
+@property (nonatomic, retain) FullEquipProto *archerInitWeapon;
+@property (nonatomic, retain) FullEquipProto *archerInitArmor;
 @property (nonatomic, assign) int mageInitAttack;
 @property (nonatomic, assign) int mageInitDefense;
-@property (nonatomic, assign) FullEquipProto *mageInitWeapon;
-@property (nonatomic, assign) FullEquipProto *mageInitArmor;
+@property (nonatomic, retain) FullEquipProto *mageInitWeapon;
+@property (nonatomic, retain) FullEquipProto *mageInitArmor;
 @property (nonatomic, assign) int warriorInitAttack;
 @property (nonatomic, assign) int warriorInitDefense;
-@property (nonatomic, assign) FullEquipProto *warriorInitWeapon;
-@property (nonatomic, assign) FullEquipProto *warriorInitArmor;
+@property (nonatomic, retain) FullEquipProto *warriorInitWeapon;
+@property (nonatomic, retain) FullEquipProto *warriorInitArmor;
 @property (nonatomic, assign) int minNameLength;
 @property (nonatomic, assign) int maxNameLength;
 @property (nonatomic, assign) int diamondRewardForReferrer;
 @property (nonatomic, assign) int diamondRewardForBeingReferred;
+@property (nonatomic, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutorialQuest;
 
++ (TutorialConstants *) sharedTutorialConstants;
+- (void) loadTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
 
 @end

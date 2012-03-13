@@ -217,8 +217,8 @@ static CCScene *scene = nil;
     sprite.anchorPoint = ccp(0,0);
     [scene addChild:sprite];
     
-    // 'layer' is an autorelease object.
-    BattleLayer *layer = [BattleLayer sharedBattleLayer];
+    // 'layer' is a singleton object.
+    BattleLayer *layer = [self sharedBattleLayer];
     
     // add layer as a child to scene
     [scene addChild: layer];

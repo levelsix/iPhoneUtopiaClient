@@ -22,7 +22,6 @@
 
 - (IBAction)okayClicked:(id)sender {
   [self removeFromSuperview];
-  [self release];
 }
 
 - (void) dealloc {
@@ -634,6 +633,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   redeemButton.hidden = YES;
   acceptButtons.hidden = YES;
   toTaskButton.hidden = NO;
+  
+  [taskView unloadTasks];
 }
 
 - (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress {
@@ -654,6 +655,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   acceptButtons.hidden = inProgress;
   toTaskButton.hidden = YES;
   _fqp = fqp;
+  
+  [taskView unloadTasks];
 }
 
 - (void) didReceiveMemoryWarning {
