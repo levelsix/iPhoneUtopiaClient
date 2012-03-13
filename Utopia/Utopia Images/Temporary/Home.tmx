@@ -4,7 +4,7 @@
   <image source="NEW_Universal_Pack.png" width="2048" height="2048"/>
  </tileset>
  <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="64" tileheight="74">
-  <image source="../Venetia/NEW_Tree_Pack.png" width="1024" height="512"/>
+  <image source="NEW_Tree_Pack.png" width="1024" height="512"/>
  </tileset>
  <layer name="Road" width="16" height="16">
   <data encoding="base64" compression="gzip">
