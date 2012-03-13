@@ -578,6 +578,8 @@
     [taskItemViews addObject:tiv];
     [tiv release];
   }
+  
+  self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, CGRectGetMaxY([[taskItemViews lastObject] frame]));
 }
 
 - (void) dealloc {
