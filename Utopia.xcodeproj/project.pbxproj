@@ -388,14 +388,14 @@
 		CF41C2C6150E2F76005A2919 /* DialogMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41C2C4150E2F76005A2919 /* DialogMenuController.m */; };
 		CF41C2C7150E2F76005A2919 /* DialogMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2C5150E2F76005A2919 /* DialogMenuController.xib */; };
 		CF41C2CA150E30F3005A2919 /* TutorialConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41C2C9150E30F3005A2919 /* TutorialConstants.m */; };
+		CF41C2CD150EF27C005A2919 /* legionwarrior@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2CB150EF27C005A2919 /* legionwarrior@2x.plist */; };
+		CF41C2CE150EF27C005A2919 /* legionwarrior@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2CC150EF27C005A2919 /* legionwarrior@2x.png */; };
 		CF42353B14F4BAA70033C290 /* CarpenterMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42353914F4BAA70033C290 /* CarpenterMenuController.m */; };
 		CF42353C14F4BAA70033C290 /* CarpenterMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */; };
 		CF5EDDEC14CBEEDA0063F1E0 /* MarketplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */; };
 		CF5EDDED14CBEEDA0063F1E0 /* MarketplaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */; };
 		CF5EE04314CFEE8F0063F1E0 /* ArmoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */; };
 		CF5EE04414CFEE8F0063F1E0 /* ArmoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */; };
-		CF5F08691509F72D0069BB21 /* lw@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08671509F72D0069BB21 /* lw@2x.plist */; };
-		CF5F086A1509F72D0069BB21 /* lw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5F08681509F72D0069BB21 /* lw@2x.png */; };
 		CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */; };
 		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
 		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
@@ -556,6 +556,8 @@
 		CFDCC6FB15045F3A0084B88A /* requiresbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6EB15045F3A0084B88A /* requiresbg@2x.png */; };
 		CFDCC6FC15045F3A0084B88A /* weaponrequirecontainer.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6EC15045F3A0084B88A /* weaponrequirecontainer.png */; };
 		CFDCC6FD15045F3A0084B88A /* weaponrequirecontainer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDCC6ED15045F3A0084B88A /* weaponrequirecontainer@2x.png */; };
+		CFDD5E69150EF7E8007C7707 /* legionwarrior.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFDD5E67150EF7E8007C7707 /* legionwarrior.plist */; };
+		CFDD5E6A150EF7E8007C7707 /* legionwarrior.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDD5E68150EF7E8007C7707 /* legionwarrior.png */; };
 		CFDFD30D150DD6FE009AD8AE /* accept.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A691501AED50048D2EC /* accept.png */; };
 		CFDFD30E150DD6FE009AD8AE /* accept@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A6A1501AED50048D2EC /* accept@2x.png */; };
 		CFDFD30F150DD6FE009AD8AE /* dolater.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A741501AED50048D2EC /* dolater.png */; };
@@ -1242,6 +1244,8 @@
 		CF41C2C5150E2F76005A2919 /* DialogMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DialogMenuController.xib; path = "Tutorial/Dialog Menu/DialogMenuController.xib"; sourceTree = "<group>"; };
 		CF41C2C8150E30F3005A2919 /* TutorialConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialConstants.h; path = Tutorial/TutorialConstants.h; sourceTree = "<group>"; };
 		CF41C2C9150E30F3005A2919 /* TutorialConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialConstants.m; path = Tutorial/TutorialConstants.m; sourceTree = "<group>"; };
+		CF41C2CB150EF27C005A2919 /* legionwarrior@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "legionwarrior@2x.plist"; sourceTree = "<group>"; };
+		CF41C2CC150EF27C005A2919 /* legionwarrior@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "legionwarrior@2x.png"; sourceTree = "<group>"; };
 		CF42353814F4BAA70033C290 /* CarpenterMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarpenterMenuController.h; path = CarpenterMenu/CarpenterMenuController.h; sourceTree = "<group>"; };
 		CF42353914F4BAA70033C290 /* CarpenterMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarpenterMenuController.m; path = CarpenterMenu/CarpenterMenuController.m; sourceTree = "<group>"; };
 		CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterMenuController.xib; path = CarpenterMenu/CarpenterMenuController.xib; sourceTree = "<group>"; };
@@ -1251,8 +1255,6 @@
 		CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArmoryViewController.h; path = ArmoryMenu/ArmoryViewController.h; sourceTree = "<group>"; };
 		CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArmoryViewController.m; path = ArmoryMenu/ArmoryViewController.m; sourceTree = "<group>"; };
 		CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryViewController.xib; path = ArmoryMenu/ArmoryViewController.xib; sourceTree = "<group>"; };
-		CF5F08671509F72D0069BB21 /* lw@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "lw@2x.plist"; sourceTree = "<group>"; };
-		CF5F08681509F72D0069BB21 /* lw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lw@2x.png"; sourceTree = "<group>"; };
 		CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
@@ -1435,6 +1437,8 @@
 		CFDCC6EB15045F3A0084B88A /* requiresbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "requiresbg@2x.png"; sourceTree = "<group>"; };
 		CFDCC6EC15045F3A0084B88A /* weaponrequirecontainer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponrequirecontainer.png; sourceTree = "<group>"; };
 		CFDCC6ED15045F3A0084B88A /* weaponrequirecontainer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponrequirecontainer@2x.png"; sourceTree = "<group>"; };
+		CFDD5E67150EF7E8007C7707 /* legionwarrior.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = legionwarrior.plist; sourceTree = "<group>"; };
+		CFDD5E68150EF7E8007C7707 /* legionwarrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legionwarrior.png; sourceTree = "<group>"; };
 		CFDFD311150DE2A2009AD8AE /* mapnavtopactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapnavtopactive.png; sourceTree = "<group>"; };
 		CFDFD312150DE2A2009AD8AE /* mapnavtopactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapnavtopactive@2x.png"; sourceTree = "<group>"; };
 		CFDFD313150DE2A2009AD8AE /* mapnavtop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapnavtop.png; sourceTree = "<group>"; };
@@ -2221,6 +2225,10 @@
 		CF1C5A0A1501AED50048D2EC /* Temporary */ = {
 			isa = PBXGroup;
 			children = (
+				CFDD5E67150EF7E8007C7707 /* legionwarrior.plist */,
+				CFDD5E68150EF7E8007C7707 /* legionwarrior.png */,
+				CF41C2CB150EF27C005A2919 /* legionwarrior@2x.plist */,
+				CF41C2CC150EF27C005A2919 /* legionwarrior@2x.png */,
 				CFED874A150B82500098C5DE /* Home_Map@2x.tmx */,
 				CFED8748150B82450098C5DE /* Home_Map.tmx */,
 				CFED8744150B82390098C5DE /* villa_montalvo.tmx */,
@@ -2247,8 +2255,6 @@
 				CFED8739150B81FF0098C5DE /* Universal_Tiles@2x.png */,
 				CFED8716150B80D50098C5DE /* TREEZ.png */,
 				CFED8717150B80D50098C5DE /* Universal_Tiles.png */,
-				CF5F08671509F72D0069BB21 /* lw@2x.plist */,
-				CF5F08681509F72D0069BB21 /* lw@2x.png */,
 				CF1C5A0B1501AED50048D2EC /* archer.png */,
 				CF1C5A0C1501AED50048D2EC /* archer@2x.png */,
 				CF1C5A0D1501AED50048D2EC /* armorybuybutton.png */,
@@ -3793,8 +3799,6 @@
 				CF1A3D1D1507468500F52450 /* attackchecks.png in Resources */,
 				CF1A3D1E1507468500F52450 /* attackchecks@2x.png in Resources */,
 				CF1A3D201507532C00F52450 /* struct2@2x.png in Resources */,
-				CF5F08691509F72D0069BB21 /* lw@2x.plist in Resources */,
-				CF5F086A1509F72D0069BB21 /* lw@2x.png in Resources */,
 				CFF19704150ABFE700434113 /* attackchecksflipped.png in Resources */,
 				CFF19705150ABFE700434113 /* attackchecksflipped@2x.png in Resources */,
 				CF16052A150AD9E100BE029C /* Admin.proto in Resources */,
@@ -3968,6 +3972,10 @@
 				CF41C2C0150E2F17005A2919 /* tutorialprogressyellow.png in Resources */,
 				CF41C2C1150E2F17005A2919 /* tutorialprogressyellow@2x.png in Resources */,
 				CF41C2C7150E2F76005A2919 /* DialogMenuController.xib in Resources */,
+				CF41C2CD150EF27C005A2919 /* legionwarrior@2x.plist in Resources */,
+				CF41C2CE150EF27C005A2919 /* legionwarrior@2x.png in Resources */,
+				CFDD5E69150EF7E8007C7707 /* legionwarrior.plist in Resources */,
+				CFDD5E6A150EF7E8007C7707 /* legionwarrior.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

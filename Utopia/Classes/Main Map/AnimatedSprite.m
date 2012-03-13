@@ -21,21 +21,21 @@
     
     // This loads an image of the same name (but ending in png), and goes through the
     // plist to add definitions of each frame to the cache.
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"lw.plist" textureFile:@"lw.png"];        
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"legionwarrior.plist"];        
     
     // Create a sprite sheet with the Happy Bear images
-    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"lw.png"];
+    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"legionwarrior.png"];
     [self addChild:spriteSheet];
     
     // Load up the frames of our animation
     NSMutableArray *walkAnimFrames = [NSMutableArray array];
-    for(int i = 0; i <= 3; ++i) {
-      [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"lw-walk-nearleft_%02d.png", i]]];
+    for(int i = 0; i <= 8; ++i) {
+      [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"skeletonking-walking-nearleft_%02d.png", i]]];
     }
-    CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.04f];
+    CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.05f];
     
     // Create a sprite for our bear
-    self.sprite = [CCSprite spriteWithSpriteFrameName:@"lw-walk-nearleft_00.png"];
+    self.sprite = [CCSprite spriteWithSpriteFrameName:@"skeletonking-walking-nearleft_00.png"];
     _sprite.anchorPoint = ccp(-0.3, -0.3);
     
     // Move sprite a bit up
@@ -78,8 +78,9 @@
   _oldMapPos = self.location.origin;
   CGRect r = self.location;
   r.origin = pt;
+  float diff = ccpDistance(_oldMapPos, pt);
   [self runAction:[CCSequence actions:                          
-                     [MoveToLocation actionWithDuration:1 location:r],
+                     [MoveToLocation actionWithDuration:2*diff location:r],
                      [CCCallFunc actionWithTarget:self selector:@selector(walk)],
                      nil
                      ]];
