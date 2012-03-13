@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CharSelectionViewController : UIViewController <UIScrollViewDelegate> {
+@interface CharSelectionViewController : UIViewController <UIScrollViewDelegate, UITextFieldDelegate> {
   int _pageWidth;
   int _barWidth;
   int _curPage;

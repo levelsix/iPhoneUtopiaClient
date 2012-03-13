@@ -826,33 +826,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (IBAction)moveCheckClicked:(id)sender {
   HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
-  _canMove = NO;
-  self.selected = nil;
-  [self doReorder];
-  if (_purchasing) {
-    _purchasing = NO;
-    if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
-      MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
-      
-      // Use return value as an indicator that purchase is accepted by client
-      UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
-      if (us) {
-        moneyBuilding.userStruct = us;
-        _constrBuilding = moneyBuilding;
-        [self updateTimersForBuilding:_constrBuilding];
-      } else {
-        [moneyBuilding liftBlock];
-        [self removeChild:moneyBuilding cleanup:YES];
+  if (homeBuilding.isSetDown) {
+    _canMove = NO;
+    self.selected = nil;
+    [self doReorder];
+    if (_purchasing) {
+      _purchasing = NO;
+      if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
+        MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
+        
+        // Use return value as an indicator that purchase is accepted by client
+        UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
+        if (us) {
+          moneyBuilding.userStruct = us;
+          _constrBuilding = moneyBuilding;
+          [self updateTimersForBuilding:_constrBuilding];
+        } else {
+          [moneyBuilding liftBlock];
+          [self removeChild:moneyBuilding cleanup:YES];
+        }
+        [self refresh];
       }
-      [self refresh];
-    }
-  } else {
-    if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
-      MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
-      [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
-      [[OutgoingEventController sharedOutgoingEventController] rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
-    } else if ([homeBuilding isKindOfClass:[CritStructBuilding class]]) {
-      
+    } else {
+      if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
+        MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
+        [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
+        [[OutgoingEventController sharedOutgoingEventController] rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
+      } else if ([homeBuilding isKindOfClass:[CritStructBuilding class]]) {
+        
+      }
     }
   }
 }

@@ -357,12 +357,14 @@
     CGRect tmpRect;
     self.backgroundColor = [UIColor clearColor];
     
-    self.visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *visit = [Globals imageNamed:@"visit.png"];
-    [self.visitButton setImage:visit forState:UIControlStateNormal];
-    [self.visitButton addTarget:self action:@selector(visitClicked) forControlEvents:UIControlEventTouchUpInside];
-    if (completed < total)
+    UIImage *visit = nil;
+    if (t == kTask && completed < total) {
+      self.visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+      UIImage *visit = [Globals imageNamed:@"visit.png"];
+      [self.visitButton setImage:visit forState:UIControlStateNormal];
+      [self.visitButton addTarget:self action:@selector(visitClicked) forControlEvents:UIControlEventTouchUpInside];
       [self addSubview:self.visitButton];
+    }
     
     // We will find out how many lines need to be used, so init to zero
     UILabel *tmplabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 0, 0)];

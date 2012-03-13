@@ -377,6 +377,17 @@
 		CF3D0A6C14CB88EA00D972B4 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0A5F14CB88EA00D972B4 /* MapViewController.m */; };
 		CF3D0A6E14CB88EA00D972B4 /* QuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0A6314CB88EA00D972B4 /* QuestLogController.m */; };
 		CF3D0A6F14CB88EA00D972B4 /* QuestLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A6414CB88EA00D972B4 /* QuestLogController.xib */; };
+		CF41C2BA150E2F17005A2919 /* green.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B2150E2F17005A2919 /* green.png */; };
+		CF41C2BB150E2F17005A2919 /* green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B3150E2F17005A2919 /* green@2x.png */; };
+		CF41C2BC150E2F17005A2919 /* tutorialbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B4150E2F17005A2919 /* tutorialbg.png */; };
+		CF41C2BD150E2F17005A2919 /* tutorialbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B5150E2F17005A2919 /* tutorialbg@2x.png */; };
+		CF41C2BE150E2F17005A2919 /* tutorialprogressbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B6150E2F17005A2919 /* tutorialprogressbg.png */; };
+		CF41C2BF150E2F17005A2919 /* tutorialprogressbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B7150E2F17005A2919 /* tutorialprogressbg@2x.png */; };
+		CF41C2C0150E2F17005A2919 /* tutorialprogressyellow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B8150E2F17005A2919 /* tutorialprogressyellow.png */; };
+		CF41C2C1150E2F17005A2919 /* tutorialprogressyellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2B9150E2F17005A2919 /* tutorialprogressyellow@2x.png */; };
+		CF41C2C6150E2F76005A2919 /* DialogMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41C2C4150E2F76005A2919 /* DialogMenuController.m */; };
+		CF41C2C7150E2F76005A2919 /* DialogMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2C5150E2F76005A2919 /* DialogMenuController.xib */; };
+		CF41C2CA150E30F3005A2919 /* TutorialConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41C2C9150E30F3005A2919 /* TutorialConstants.m */; };
 		CF42353B14F4BAA70033C290 /* CarpenterMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42353914F4BAA70033C290 /* CarpenterMenuController.m */; };
 		CF42353C14F4BAA70033C290 /* CarpenterMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */; };
 		CF5EDDEC14CBEEDA0063F1E0 /* MarketplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */; };
@@ -1218,6 +1229,19 @@
 		CF3D0A6214CB88EA00D972B4 /* QuestLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogController.h; sourceTree = "<group>"; };
 		CF3D0A6314CB88EA00D972B4 /* QuestLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogController.m; sourceTree = "<group>"; };
 		CF3D0A6414CB88EA00D972B4 /* QuestLogController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestLogController.xib; sourceTree = "<group>"; };
+		CF41C2B2150E2F17005A2919 /* green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green.png; sourceTree = "<group>"; };
+		CF41C2B3150E2F17005A2919 /* green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green@2x.png"; sourceTree = "<group>"; };
+		CF41C2B4150E2F17005A2919 /* tutorialbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialbg.png; sourceTree = "<group>"; };
+		CF41C2B5150E2F17005A2919 /* tutorialbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbg@2x.png"; sourceTree = "<group>"; };
+		CF41C2B6150E2F17005A2919 /* tutorialprogressbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialprogressbg.png; sourceTree = "<group>"; };
+		CF41C2B7150E2F17005A2919 /* tutorialprogressbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialprogressbg@2x.png"; sourceTree = "<group>"; };
+		CF41C2B8150E2F17005A2919 /* tutorialprogressyellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialprogressyellow.png; sourceTree = "<group>"; };
+		CF41C2B9150E2F17005A2919 /* tutorialprogressyellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialprogressyellow@2x.png"; sourceTree = "<group>"; };
+		CF41C2C3150E2F76005A2919 /* DialogMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DialogMenuController.h; path = "Tutorial/Dialog Menu/DialogMenuController.h"; sourceTree = "<group>"; };
+		CF41C2C4150E2F76005A2919 /* DialogMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DialogMenuController.m; path = "Tutorial/Dialog Menu/DialogMenuController.m"; sourceTree = "<group>"; };
+		CF41C2C5150E2F76005A2919 /* DialogMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DialogMenuController.xib; path = "Tutorial/Dialog Menu/DialogMenuController.xib"; sourceTree = "<group>"; };
+		CF41C2C8150E30F3005A2919 /* TutorialConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialConstants.h; path = Tutorial/TutorialConstants.h; sourceTree = "<group>"; };
+		CF41C2C9150E30F3005A2919 /* TutorialConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialConstants.m; path = Tutorial/TutorialConstants.m; sourceTree = "<group>"; };
 		CF42353814F4BAA70033C290 /* CarpenterMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarpenterMenuController.h; path = CarpenterMenu/CarpenterMenuController.h; sourceTree = "<group>"; };
 		CF42353914F4BAA70033C290 /* CarpenterMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarpenterMenuController.m; path = CarpenterMenu/CarpenterMenuController.m; sourceTree = "<group>"; };
 		CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterMenuController.xib; path = CarpenterMenu/CarpenterMenuController.xib; sourceTree = "<group>"; };
@@ -1828,6 +1852,7 @@
 		CF1C592B1501AED40048D2EC /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF41C2B1150E2F17005A2919 /* Tutorial */,
 				CFDBE291150CA0AF00F601DB /* Level Up Images */,
 				CFDBE1C1150C62F400F601DB /* Character Selection Images */,
 				CF1A3CE41506F10E00F52450 /* Battle Images */,
@@ -2471,6 +2496,31 @@
 			path = QuestLogMenu;
 			sourceTree = "<group>";
 		};
+		CF41C2B1150E2F17005A2919 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				CF41C2B2150E2F17005A2919 /* green.png */,
+				CF41C2B3150E2F17005A2919 /* green@2x.png */,
+				CF41C2B4150E2F17005A2919 /* tutorialbg.png */,
+				CF41C2B5150E2F17005A2919 /* tutorialbg@2x.png */,
+				CF41C2B6150E2F17005A2919 /* tutorialprogressbg.png */,
+				CF41C2B7150E2F17005A2919 /* tutorialprogressbg@2x.png */,
+				CF41C2B8150E2F17005A2919 /* tutorialprogressyellow.png */,
+				CF41C2B9150E2F17005A2919 /* tutorialprogressyellow@2x.png */,
+			);
+			path = Tutorial;
+			sourceTree = "<group>";
+		};
+		CF41C2C2150E2F36005A2919 /* DialogMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CF41C2C3150E2F76005A2919 /* DialogMenuController.h */,
+				CF41C2C4150E2F76005A2919 /* DialogMenuController.m */,
+				CF41C2C5150E2F76005A2919 /* DialogMenuController.xib */,
+			);
+			name = DialogMenu;
+			sourceTree = "<group>";
+		};
 		CF42350014F4B9AE0033C290 /* CarpenterMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -2764,7 +2814,10 @@
 		CFDBE226150C633C00F601DB /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				CF41C2C2150E2F36005A2919 /* DialogMenu */,
 				CFDBE227150C634400F601DB /* Character Selection */,
+				CF41C2C8150E30F3005A2919 /* TutorialConstants.h */,
+				CF41C2C9150E30F3005A2919 /* TutorialConstants.m */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -3906,6 +3959,15 @@
 				CFDFD317150DE2A2009AD8AE /* mapnavtop.png in Resources */,
 				CFDFD318150DE2A2009AD8AE /* mapnavtop@2x.png in Resources */,
 				CFDFD31A150DF6D6009AD8AE /* QuestCompleteView.xib in Resources */,
+				CF41C2BA150E2F17005A2919 /* green.png in Resources */,
+				CF41C2BB150E2F17005A2919 /* green@2x.png in Resources */,
+				CF41C2BC150E2F17005A2919 /* tutorialbg.png in Resources */,
+				CF41C2BD150E2F17005A2919 /* tutorialbg@2x.png in Resources */,
+				CF41C2BE150E2F17005A2919 /* tutorialprogressbg.png in Resources */,
+				CF41C2BF150E2F17005A2919 /* tutorialprogressbg@2x.png in Resources */,
+				CF41C2C0150E2F17005A2919 /* tutorialprogressyellow.png in Resources */,
+				CF41C2C1150E2F17005A2919 /* tutorialprogressyellow@2x.png in Resources */,
+				CF41C2C7150E2F76005A2919 /* DialogMenuController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4057,6 +4119,8 @@
 				CFDBE22B150C63AA00F601DB /* CharSelectionViewController.m in Sources */,
 				CFDBE2A6150CA10900F601DB /* LevelUpViewController.m in Sources */,
 				CFD3C8F2150D0637001EC185 /* AnimatedSprite.m in Sources */,
+				CF41C2C6150E2F76005A2919 /* DialogMenuController.m in Sources */,
+				CF41C2CA150E30F3005A2919 /* TutorialConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

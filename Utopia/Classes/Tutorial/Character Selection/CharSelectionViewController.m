@@ -251,6 +251,11 @@
   NSLog(@"submit");
 }
 
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  return YES;//str.length < [Globals sharedGlobals] max
+}
+
 - (void)viewDidUnload
 {
   [super viewDidUnload];
