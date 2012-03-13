@@ -405,7 +405,7 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (id) init {
-  self = [self initWithTMXFile:@"iso-test2.tmx"];
+  self = [self initWithTMXFile:@"Home.tmx"];
   return self;
 }
 

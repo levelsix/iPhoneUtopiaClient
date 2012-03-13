@@ -432,6 +432,12 @@
 		CFA0FB04150F02B200C88583 /* retrievebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */; };
 		CFA0FB06150F02D600C88583 /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB05150F02D600C88583 /* retrievebubble.png */; };
 		CFA0FB09150F04FE00C88583 /* TutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */; };
+		CFA0FB0B150F39B600C88583 /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0A150F39B600C88583 /* Home.tmx */; };
+		CFA0FB10150F39BC00C88583 /* NEW_Tree_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0C150F39BC00C88583 /* NEW_Tree_Pack.png */; };
+		CFA0FB11150F39BC00C88583 /* NEW_Tree_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0D150F39BC00C88583 /* NEW_Tree_Pack@2x.png */; };
+		CFA0FB12150F39BC00C88583 /* NEW_Universal_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0E150F39BC00C88583 /* NEW_Universal_Pack.png */; };
+		CFA0FB13150F39BC00C88583 /* NEW_Universal_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0F150F39BC00C88583 /* NEW_Universal_Pack@2x.png */; };
+		CFA0FB15150F39D000C88583 /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB14150F39D000C88583 /* Home@2x.tmx */; };
 		CFA26F0D14E4A27400FC1C71 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F0C14E4A27300FC1C71 /* UserData.m */; };
 		CFA26F1514E719BA00FC1C71 /* GameMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F1414E719BA00FC1C71 /* GameMap.m */; };
 		CFA26F1714E71A7F00FC1C71 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */; };
@@ -1295,6 +1301,12 @@
 		CFA0FB05150F02D600C88583 /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
 		CFA0FB07150F04FE00C88583 /* TutorialBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialBattleLayer.h; path = Tutorial/TutorialBattleLayer.h; sourceTree = "<group>"; };
 		CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialBattleLayer.m; path = Tutorial/TutorialBattleLayer.m; sourceTree = "<group>"; };
+		CFA0FB0A150F39B600C88583 /* Home.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home.tmx; sourceTree = "<group>"; };
+		CFA0FB0C150F39BC00C88583 /* NEW_Tree_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NEW_Tree_Pack.png; sourceTree = "<group>"; };
+		CFA0FB0D150F39BC00C88583 /* NEW_Tree_Pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NEW_Tree_Pack@2x.png"; sourceTree = "<group>"; };
+		CFA0FB0E150F39BC00C88583 /* NEW_Universal_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NEW_Universal_Pack.png; sourceTree = "<group>"; };
+		CFA0FB0F150F39BC00C88583 /* NEW_Universal_Pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NEW_Universal_Pack@2x.png"; sourceTree = "<group>"; };
+		CFA0FB14150F39D000C88583 /* Home@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home@2x.tmx"; sourceTree = "<group>"; };
 		CFA26F0B14E4A27300FC1C71 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
 		CFA26F0C14E4A27300FC1C71 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
 		CFA26F1314E719BA00FC1C71 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMap.h; path = "Utopia/Classes/Main Map/GameMap/GameMap.h"; sourceTree = SOURCE_ROOT; };
@@ -2230,6 +2242,12 @@
 		CF1C5A0A1501AED50048D2EC /* Temporary */ = {
 			isa = PBXGroup;
 			children = (
+				CFA0FB0C150F39BC00C88583 /* NEW_Tree_Pack.png */,
+				CFA0FB0D150F39BC00C88583 /* NEW_Tree_Pack@2x.png */,
+				CFA0FB0E150F39BC00C88583 /* NEW_Universal_Pack.png */,
+				CFA0FB0F150F39BC00C88583 /* NEW_Universal_Pack@2x.png */,
+				CFA0FB0A150F39B600C88583 /* Home.tmx */,
+				CFA0FB14150F39D000C88583 /* Home@2x.tmx */,
 				CFDD5E67150EF7E8007C7707 /* legionwarrior.plist */,
 				CFDD5E68150EF7E8007C7707 /* legionwarrior.png */,
 				CF41C2CB150EF27C005A2919 /* legionwarrior@2x.plist */,
@@ -3981,6 +3999,12 @@
 				CFDD5E6A150EF7E8007C7707 /* legionwarrior.png in Resources */,
 				CFA0FB04150F02B200C88583 /* retrievebubble@2x.png in Resources */,
 				CFA0FB06150F02D600C88583 /* retrievebubble.png in Resources */,
+				CFA0FB0B150F39B600C88583 /* Home.tmx in Resources */,
+				CFA0FB10150F39BC00C88583 /* NEW_Tree_Pack.png in Resources */,
+				CFA0FB11150F39BC00C88583 /* NEW_Tree_Pack@2x.png in Resources */,
+				CFA0FB12150F39BC00C88583 /* NEW_Universal_Pack.png in Resources */,
+				CFA0FB13150F39BC00C88583 /* NEW_Universal_Pack@2x.png in Resources */,
+				CFA0FB15150F39D000C88583 /* Home@2x.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -106,31 +106,22 @@
   self.summaryView.leftRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.leftEquipIcon2.image = [Globals imageForEquip:fep.equipId];
   
-//  rarityLabel = leftRarityLabel3;
-//  imgView = leftEquipIcon3;
-//  equipId = gs.armorEquipped;
-//  if (equipId > 0) {
-//    FullEquipProto *fep = [gs equipWithId:equipId];
-//    rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
-//    rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-//    imgView.image = [Globals imageForEquip:fep.equipId];
-//  } else {
-//    rarityLabel.text = @"";
-//    imgView.image = nil;
-//  }
-//  
-//  if (brp.hasExpGained) {
-//    // This is a win
-//    winLabelsView.hidden = NO;
-//    defeatLabelsView.hidden = YES;
-//    coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:brp.coinsGained]];
-//    expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:brp.expGained]];
-//  } else {
-//    winLabelsView.hidden = YES;
-//    defeatLabelsView.hidden = NO;
-//    // Coins gained is the loss amount
-//    coinsLostLabel.text = [NSString stringWithFormat:@"-%@", [Globals commafyNumber:brp.coinsGained]];
-//  }
+  self.summaryView.leftRarityLabel3.text = @"";
+  self.summaryView.leftEquipIcon3.image = nil;
+  
+  self.summaryView.rightRarityLabel1.text = @"";
+  self.summaryView.rightEquipIcon1.image = nil;
+  
+  self.summaryView.rightRarityLabel2.text = @"";
+  self.summaryView.rightEquipIcon2.image = nil;
+  
+  self.summaryView.rightRarityLabel3.text = @"";
+  self.summaryView.rightEquipIcon3.image = nil;
+  
+  self.summaryView.winLabelsView.hidden = NO;
+  self.summaryView.defeatLabelsView.hidden = YES;
+  self.summaryView.coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:tc.tutorialQuest.coinsGained]];
+  self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.tutorialQuest.expGained]];
 }
 
 @end
