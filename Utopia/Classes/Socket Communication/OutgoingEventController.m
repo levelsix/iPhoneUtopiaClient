@@ -821,21 +821,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-//  for (UpgradeStructJobProto *p in [gs.staticUpgradeStructJobs allValues]) {
-//    NSNumber *n = [NSNumber numberWithInt:p.structId];
-//    if (![sStructs objectForKey:n]) {
-//      [rStructs addObject:n];
-//      shouldSend = YES;
-//    }
-//  }
-//  
-//  for (BuildStructJobProto *p in [gs.staticBuildStructJobs allValues]) {
-//    NSNumber *n = [NSNumber numberWithInt:p.structId];
-//    if (![sStructs objectForKey:n]) {
-//      [rStructs addObject:n];
-//      shouldSend = YES;
-//    }
-//  }
+  for (UpgradeStructJobProto *p in [gs.staticUpgradeStructJobs allValues]) {
+    NSNumber *n = [NSNumber numberWithInt:p.structId];
+    if (![sStructs objectForKey:n]) {
+      [rStructs addObject:n];
+      shouldSend = YES;
+    }
+  }
+  
+  for (BuildStructJobProto *p in [gs.staticBuildStructJobs allValues]) {
+    NSNumber *n = [NSNumber numberWithInt:p.structId];
+    if (![sStructs objectForKey:n]) {
+      [rStructs addObject:n];
+      shouldSend = YES;
+    }
+  }
   
   for (FullUserProto *fup in gs.attackList) {
     NSNumber *w = [NSNumber numberWithInt:fup.weaponEquipped];
