@@ -168,7 +168,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
+  int numTimes = 0;
   while (!p) {
+    numTimes++;
+    NSAssert(numTimes < 200, @"Waiting too long for static data.. Probably not retrieved!", itemId);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     p = [dict objectForKey:num];
   }
