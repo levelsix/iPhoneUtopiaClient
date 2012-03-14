@@ -14,7 +14,9 @@
 
 @end
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController {
+  BOOL _isRunning;
+}
 
 @property (nonatomic, assign) BOOL isTutorial;
 

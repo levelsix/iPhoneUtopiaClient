@@ -7,38 +7,64 @@
 //
 
 #import "DialogMenuController.h"
-
-@interface DialogMenuController ()
-
-@end
+#import "SynthesizeSingleton.h"
+#import "cocos2d.h"
 
 @implementation DialogMenuController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+#define ANIMATION_DURATION 0.5f
+
+@synthesize label, progressBar;
+
+SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+  [super viewDidLoad];
+  // Do any additional setup after loading the view from its nib.
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
++ (void) displayViewForText:(NSString *)str progress:(int)prog {
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  dmc.label.text = str;
+  
+  CGRect r = dmc.progressBar.frame;
+  r.size.width = 10+43*prog;
+  dmc.progressBar.frame = r;
+  
+  if (!dmc.view.superview) {
+    r = dmc.view.frame;
+    r.origin.y = 320;
+    dmc.view.frame = r;
+    
+    [DialogMenuController displayView];
+    
+    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+      CGRect r = dmc.view.frame;
+      r.origin.y = 320-r.size.height;
+      dmc.view.frame = r;
+    }];
+  }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
++ (void) closeView {
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  
+  [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+    CGRect r = dmc.view.frame;
+    r.origin.y = 320;
+    dmc.view.frame = r;
+  } completion:^(BOOL finished) {
+    [dmc.view removeFromSuperview];
+  }];
+}
+
+- (void) viewDidUnload
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+  [super viewDidUnload];
+  // Release any retained subviews of the main view.
+  self.label = nil;
+  self.progressBar = nil;
 }
 
 @end

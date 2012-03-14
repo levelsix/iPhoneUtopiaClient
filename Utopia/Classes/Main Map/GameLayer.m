@@ -24,6 +24,9 @@
 #import "SynthesizeSingleton.h"
 #import "MissionMap.h"
 #import "OutgoingEventController.h"
+#import "SimpleAudioEngine.h"
+#import "CocosDenshion.h"
+#import "CDXPropertyModifierAction.h"
 
 // HelloWorldLayer implementation
 @implementation GameLayer
@@ -58,15 +61,11 @@ static CCScene *scene = nil;
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
-    
-    CCLayerColor *color = [CCLayerColor layerWithColor:ccc4(64,64,64,255)];
-    [self addChild:color z:-1];
-    
     _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
     [self loadHomeMap];
     
-    _topBar = [TopBar node];
+    _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];
     
     assetId = 0;
@@ -101,8 +100,7 @@ static CCScene *scene = nil;
   if (_missionMap) {
     _missionMap.selected = nil;
     [self removeChild:_missionMap cleanup:YES];
-    [_missionMap release];
-    _missionMap = nil;
+    self.missionMap = nil;
   }
 }
 
@@ -117,9 +115,13 @@ static CCScene *scene = nil;
   }
   
   [self addChild:_missionMap z:1];
-  _homeMap.selected = nil;
-  _homeMap.visible = NO;
-  currentCity = proto.cityId;
+  
+  if (_homeMap.visible) {
+    _homeMap.selected = nil;
+    _homeMap.visible = NO;
+    currentCity = proto.cityId;
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+  }
 }
 
 - (void) loadHomeMap {
@@ -127,6 +129,8 @@ static CCScene *scene = nil;
   _homeMap.visible = YES;
   [self moveMapToCenter:_homeMap];
   currentCity = 0;
+  
+  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
 }
 
 - (void) closeMenus {

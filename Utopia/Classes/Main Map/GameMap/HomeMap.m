@@ -410,7 +410,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (id) initWithTMXFile:(NSString *)tmxFile {
-  
   if ((self = [super initWithTMXFile:tmxFile])) {
     self.buildableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     

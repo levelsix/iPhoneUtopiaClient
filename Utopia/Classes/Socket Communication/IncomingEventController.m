@@ -185,6 +185,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
+    [[GameViewController sharedGameViewController] setIsTutorial:NO];
+    
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
     [gl updateConstants:proto.startupConstants];

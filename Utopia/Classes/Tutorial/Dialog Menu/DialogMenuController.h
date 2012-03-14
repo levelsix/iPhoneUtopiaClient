@@ -10,4 +10,10 @@
 
 @interface DialogMenuController : UIViewController
 
+@property (nonatomic, retain) IBOutlet UILabel *label;
+@property (nonatomic, retain) IBOutlet UIImageView *progressBar;
+
++ (void) displayViewForText:(NSString *)str progress:(int)prog;
++ (void) closeView;
+
 @end

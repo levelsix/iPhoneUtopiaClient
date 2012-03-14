@@ -204,8 +204,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 - (void) layoutSubviews
 {
 	size_ = [renderer_ backingSize];
-
-	[renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
+  
+	[(NSObject *)renderer_ performSelector: @selector(resizeFromLayer:) withObject: self.layer afterDelay: 0.01];
+//	[renderer_ resizeFromLayer:(CAEAGLLayer*)self.layer];
 
 	// Issue #914 #924
 	CCDirector *director = [CCDirector sharedDirector];

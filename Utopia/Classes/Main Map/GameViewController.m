@@ -19,7 +19,8 @@
 #import "BattleLayer.h" 
 #import "SynthesizeSingleton.h"
 #import "QuestLogController.h"
-#import "TutorialBattleLayer.h"
+#import "TutorialStartLayer.h"
+#import "TutorialHomeMap.h"
 
 @implementation GameView
 
@@ -70,11 +71,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 		CCLOG(@"Retina Display Not supported");
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
-  CCScene *scene = isTutorial ? [TutorialBattleLayer scene] : [GameLayer scene];
-//  [BattleLayer scene];
-  [[CCDirector sharedDirector] runWithScene:scene];
+- (void) setIsTutorial:(BOOL)i {
+  isTutorial = i;
+  
+  [self setupCocos2D];
+  CCScene *scene = isTutorial ? [TutorialStartLayer scene] : [GameLayer scene];
+  //  [BattleLayer scene];
+  [[CCDirector sharedDirector] pushScene:scene];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  if (!_isRunning) {
+    [[CCDirector sharedDirector] startAnimation];
+    _isRunning = YES;
+  }
 }
 
 - (void) loadView {
@@ -94,11 +104,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [super didReceiveMemoryWarning];
   
   // Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidLoad {
-  [super viewDidLoad];
-  [self setupCocos2D];
 }
 
 - (void)viewDidUnload {

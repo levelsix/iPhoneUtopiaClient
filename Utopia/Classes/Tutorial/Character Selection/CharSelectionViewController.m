@@ -10,6 +10,9 @@
 #import "SynthesizeSingleton.h"
 #import "Globals.h"
 #import "TutorialConstants.h"
+#import "TutorialBattleLayer.h"
+#import "GameLayer.h"
+#import "TutorialHomeMap.h"
 
 @implementation CharSelectionViewController
 
@@ -23,13 +26,16 @@
 @synthesize greenGlow, redGlow;
 @synthesize bottomBar, chooseNameView;
 @synthesize nameTextField;
+@synthesize submitButton;
+
+//SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CharSelectionViewController);
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
+  [nameTextField setAutocapitalizationType:UITextAutocapitalizationTypeWords];
   
-  charScrollView = [[UIScrollView alloc] initWithFrame:badArcherView.frame];
   _pageWidth = charScrollView.frame.size.width;
   _barWidth = bigAttBar.frame.size.width;
   // Insert right above the background
@@ -98,6 +104,8 @@
   [self updateArrows];
   [self animatePage];
   _curPage = 0;
+  
+  submitButton.hidden = YES;
 }
 
 - (int) currentPage {
@@ -249,12 +257,25 @@
 }
 
 - (IBAction)submitClicked:(id)sender {
-  NSLog(@"submit");
+  [[TutorialHomeMap sharedHomeMap] refresh];
+  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
+  [[self navigationController] popViewControllerAnimated:NO];
 }
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  
+  if (str.length < [[TutorialConstants sharedTutorialConstants] minNameLength]) {
+    self.submitButton.hidden = YES;
+  } else {
+    self.submitButton.hidden = NO;
+  }
+  
   return str.length <= [[TutorialConstants sharedTutorialConstants] maxNameLength];
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+  return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
 }
 
 - (void)viewDidUnload
@@ -262,11 +283,27 @@
   [super viewDidUnload];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-  return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+  self.goodMageView = nil;
+  self.goodArcherView = nil;
+  self.goodWarriorView = nil;
+  self.badMageView = nil;
+  self.badArcherView = nil;
+  self.badWarriorView = nil;
+  self.leftArrowButton = nil;
+  self.rightArrowButton = nil;
+  self.charScrollView = nil;
+  self.smallAttBar = nil;
+  self.medAttBar = nil;
+  self.bigAttBar = nil;
+  self.smallDefBar = nil;
+  self.medDefBar = nil;
+  self.bigDefBar = nil;
+  self.titleLabel = nil;
+  self.greenGlow = nil;
+  self.redGlow = nil;
+  self.bottomBar = nil;
+  self.chooseNameView = nil;
+  self.nameTextField = nil;
 }
 
 @end

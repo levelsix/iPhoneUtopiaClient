@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CharSelectionViewController : UIViewController <UIScrollViewDelegate, UITextFieldDelegate> {
-  int _pageWidth;
-  int _barWidth;
+  float _pageWidth;
+  float _barWidth;
   int _curPage;
   BOOL _isScrolling;
 }
@@ -24,8 +24,9 @@
 
 @property (nonatomic, retain) IBOutlet UIButton *leftArrowButton;
 @property (nonatomic, retain) IBOutlet UIButton *rightArrowButton;
+@property (nonatomic, retain) IBOutlet UIView *submitButton;
 
-@property (nonatomic, retain) UIScrollView *charScrollView;
+@property (nonatomic, retain) IBOutlet UIScrollView *charScrollView;
 
 @property (nonatomic, retain) IBOutlet UIImageView *smallAttBar;
 @property (nonatomic, retain) IBOutlet UIImageView *medAttBar;
@@ -43,4 +44,9 @@
 @property (nonatomic, retain) IBOutlet UIView *chooseNameView;
 
 @property (nonatomic, retain) IBOutlet UITextField *nameTextField;
+
+//+ (CharSelectionViewController *)sharedCharSelectionViewController;
+//+ (void) displayView;
+//+ (void) removeView;
+
 @end

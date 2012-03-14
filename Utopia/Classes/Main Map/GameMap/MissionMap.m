@@ -191,7 +191,6 @@
     
     // Now add people, first add quest givers
     for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
-      NSLog(@"%d", fqp.questId);
       if (fqp.cityId == fcp.cityId) {
         NeutralCityElementProto *ncep = nil;
         for (NeutralCityElementProto *n in peopleElems) {
@@ -214,10 +213,8 @@
       }
     }
     
-    NSLog(@"in prog");
     // Now add the in progress quest givers, peopleElems will hold only the non-quest givers
     for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
-      NSLog(@"%d", fqp.questId);
       if (fqp.cityId == fcp.cityId) {
         NeutralCityElementProto *ncep = nil;
         for (NeutralCityElementProto *n in peopleElems) {

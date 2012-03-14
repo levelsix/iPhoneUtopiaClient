@@ -73,6 +73,31 @@
   [_arrow stopAllActions]; 
 }
 
+- (void) comboBarClicked {
+  if (_comboBarMoving) {
+    [_comboProgressTimer stopAllActions];
+    _comboBarMoving = NO;
+    _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
+    
+    [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
+  }
+}
+
+- (void) startEnemyTurn {
+  float perc = [self calculateEnemyPercentage];
+  _damageDone = [self calculateEnemyDamageForPercentage:perc];
+  
+  _bottomMenu.visible = NO;
+  _attackButton.visible = NO;
+  _flippedComboBar.visible = YES;
+  
+  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
+  [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
+                                         [CCDelayTime actionWithDuration:0.5],
+                                         [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
+                                         nil]];
+}
+
 - (void) pauseClicked {
   return;
 }
@@ -81,8 +106,37 @@
   return;
 }
 
+- (void) doneClicked {
+  [_left runAction: [CCSequence actions: 
+                     [CCDelayTime actionWithDuration:0.1],
+                     [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],
+                     [CCCallFunc actionWithTarget:self selector:@selector(displayStolenEquip)],
+                     nil]];
+}
+
+- (void) displayStolenEquip {
+  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
+  [self loadStolenEquip];
+  [view addSubview:self.stolenEquipView];
+}
+
+- (void) displaySummary {
+  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
+  [self loadBattleSummary];
+  [view addSubview:self.summaryView];
+}
+
 - (int) calculateEnemyDamageForPercentage:(float)percent {
-  return MAX([super calculateEnemyDamageForPercentage:percent], _leftCurrentHealth/2);
+  return MIN([super calculateEnemyDamageForPercentage:percent], _leftCurrentHealth/2);
+}
+
+- (void) loadStolenEquip {
+  FullEquipProto *fep = [[[TutorialConstants sharedTutorialConstants] tutorialQuest] firstDefeatTypeJobBattleLootAmulet];
+  
+  self.stolenEquipView.nameLabel.text = fep.name;
+  self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+  self.stolenEquipView.attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
+  self.stolenEquipView.defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
 }
 
 - (void) loadBattleSummary {
@@ -94,7 +148,6 @@
   
   self.summaryView.rightNameLabel.text = @"Guetta";
   self.summaryView.rightLevelLabel.text = @"Lvl 1";
-  
   
   FullEquipProto *fep = tc.archerInitWeapon;
   self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
@@ -122,6 +175,24 @@
   self.summaryView.defeatLabelsView.hidden = YES;
   self.summaryView.coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:tc.tutorialQuest.coinsGained]];
   self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.tutorialQuest.expGained]];
+}
+
+- (void) myWin {
+  [_right runAction:[CCSpawn actions:
+                     [CCScaleBy actionWithDuration:0.1 scale:1.2],
+                     [CCFadeOut actionWithDuration:0.1],
+                     nil]];
+  
+  _winLayer.visible = YES;
+  _winButton.visible = YES;
+}
+
+- (IBAction)profileButtonClicked:(id)sender {
+  return;
+}
+
+- (IBAction)attackAgainClicked:(id)sender {
+  return;
 }
 
 @end

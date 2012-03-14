@@ -9,6 +9,27 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 
+#define HEALTH_BAR_VELOCITY 120.f
+
+#define ATTACK_BUTTON_ANIMATION 4.f
+
+#define MIN_COMBO_BAR_DURATION 1.f
+#define MAX_COMBO_BAR_DURATION 1.8f
+
+#define BIG_HEALTH_FONT 14.f
+#define SMALL_HEALTH_FONT 10.f
+
+#define ATTACK_SKILL_POINT_TO_EQUIP_ATTACK_RATIO 2
+#define DEFENSE_SKILL_POINT_TO_EQUIP_DEFENSE_RATIO 2
+#define LOCATION_BAR_MAX 75.f
+#define MAX_ATTACK_MULTIPLIER 1.5
+#define MIN_PERCENT_OF_ENEMY_HEALTH .1
+#define MAX_PERCENT_OF_ENEMY_HEALTH .6
+#define BATTLE_DIFFERENCE_MULTIPLIER 1
+#define BATTLE_DIFFERENCE_TUNER 0
+
+#define COMBO_BAR_X_POSITION 100
+
 @interface BattleSummaryView : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *leftNameLabel;
@@ -129,6 +150,9 @@
 - (void) doneClicked;
 - (void) displaySummary;
 - (void) closeScene;
+- (int) calculateMyDamageForPercentage:(float)percent;
 - (int) calculateEnemyDamageForPercentage:(float)percent;
+- (float) calculateEnemyPercentage;
+- (float) rand;
 
 @end

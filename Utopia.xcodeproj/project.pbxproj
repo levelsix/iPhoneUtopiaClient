@@ -390,10 +390,14 @@
 		CF41C2CE150EF27C005A2919 /* legionwarrior@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41C2CC150EF27C005A2919 /* legionwarrior@2x.png */; };
 		CF42353B14F4BAA70033C290 /* CarpenterMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF42353914F4BAA70033C290 /* CarpenterMenuController.m */; };
 		CF42353C14F4BAA70033C290 /* CarpenterMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */; };
+		CF4AE12615103A45003F0F88 /* warbg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF4AE12515103A45003F0F88 /* warbg.jpg */; };
+		CF4AE1291510532B003F0F88 /* TutorialHomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF4AE1281510532B003F0F88 /* TutorialHomeMap.m */; };
 		CF5EDDEC14CBEEDA0063F1E0 /* MarketplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */; };
 		CF5EDDED14CBEEDA0063F1E0 /* MarketplaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */; };
 		CF5EE04314CFEE8F0063F1E0 /* ArmoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */; };
 		CF5EE04414CFEE8F0063F1E0 /* ArmoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */; };
+		CF6230A4150F4299000160BF /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF6230A2150F4299000160BF /* Home.tmx */; };
+		CF6230A5150F4299000160BF /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF6230A3150F4299000160BF /* Home@2x.tmx */; };
 		CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */; };
 		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
 		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
@@ -432,12 +436,10 @@
 		CFA0FB04150F02B200C88583 /* retrievebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */; };
 		CFA0FB06150F02D600C88583 /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB05150F02D600C88583 /* retrievebubble.png */; };
 		CFA0FB09150F04FE00C88583 /* TutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */; };
-		CFA0FB0B150F39B600C88583 /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0A150F39B600C88583 /* Home.tmx */; };
 		CFA0FB10150F39BC00C88583 /* NEW_Tree_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0C150F39BC00C88583 /* NEW_Tree_Pack.png */; };
 		CFA0FB11150F39BC00C88583 /* NEW_Tree_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0D150F39BC00C88583 /* NEW_Tree_Pack@2x.png */; };
 		CFA0FB12150F39BC00C88583 /* NEW_Universal_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0E150F39BC00C88583 /* NEW_Universal_Pack.png */; };
 		CFA0FB13150F39BC00C88583 /* NEW_Universal_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB0F150F39BC00C88583 /* NEW_Universal_Pack@2x.png */; };
-		CFA0FB15150F39D000C88583 /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB14150F39D000C88583 /* Home@2x.tmx */; };
 		CFA26F0D14E4A27400FC1C71 /* UserData.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F0C14E4A27300FC1C71 /* UserData.m */; };
 		CFA26F1514E719BA00FC1C71 /* GameMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F1414E719BA00FC1C71 /* GameMap.m */; };
 		CFA26F1714E71A7F00FC1C71 /* HomeBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */; };
@@ -475,6 +477,34 @@
 		CFD3C904150DC0FA001EC185 /* notificationokaybutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C900150DC0FA001EC185 /* notificationokaybutton@2x.png */; };
 		CFD3C905150DC0FA001EC185 /* questcompletebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C901150DC0FA001EC185 /* questcompletebg.png */; };
 		CFD3C906150DC0FA001EC185 /* questcompletebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C902150DC0FA001EC185 /* questcompletebg@2x.png */; };
+		CFDB6BE3150F799C00B87687 /* CDXMacOSXSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDB6BE0150F799C00B87687 /* CDXMacOSXSupport.m */; };
+		CFDB6BE4150F799C00B87687 /* CDXPropertyModifierAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDB6BE2150F799C00B87687 /* CDXPropertyModifierAction.m */; };
+		CFDB6C08150F7A2500B87687 /* Enter_Store_Bell.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BE7150F7A2500B87687 /* Enter_Store_Bell.m4a */; };
+		CFDB6C09150F7A2500B87687 /* Archers_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BE9150F7A2500B87687 /* Archers_Attack.m4a */; };
+		CFDB6C0A150F7A2500B87687 /* Invoker_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEA150F7A2500B87687 /* Invoker_Attack.m4a */; };
+		CFDB6C0B150F7A2500B87687 /* Panda_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEB150F7A2500B87687 /* Panda_Attack.m4a */; };
+		CFDB6C0C150F7A2500B87687 /* Warriors_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEC150F7A2500B87687 /* Warriors_Attack.m4a */; };
+		CFDB6C0D150F7A2500B87687 /* DragonRoostWhat1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEE150F7A2500B87687 /* DragonRoostWhat1.m4a */; };
+		CFDB6C0E150F7A2500B87687 /* Traveling_DragonFlying.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEF150F7A2500B87687 /* Traveling_DragonFlying.m4a */; };
+		CFDB6C0F150F7A2500B87687 /* Archer_Combo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF1150F7A2500B87687 /* Archer_Combo.m4a */; };
+		CFDB6C10150F7A2500B87687 /* Invoker_Combo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF2150F7A2500B87687 /* Invoker_Combo.m4a */; };
+		CFDB6C11150F7A2500B87687 /* Panda_Combo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF3150F7A2500B87687 /* Panda_Combo.m4a */; };
+		CFDB6C12150F7A2500B87687 /* Warrior_Combo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF4150F7A2500B87687 /* Warrior_Combo.m4a */; };
+		CFDB6C13150F7A2500B87687 /* Coin_drop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF6150F7A2500B87687 /* Coin_drop.m4a */; };
+		CFDB6C14150F7A2500B87687 /* shiny_item.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF7150F7A2500B87687 /* shiny_item.m4a */; };
+		CFDB6C15150F7A2500B87687 /* 03 Battle_Loss.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF9150F7A2500B87687 /* 03 Battle_Loss.m4a */; };
+		CFDB6C16150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFA150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a */; };
+		CFDB6C17150F7A2500B87687 /* Battle_Success.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFB150F7A2500B87687 /* Battle_Success.m4a */; };
+		CFDB6C18150F7A2500B87687 /* Game_Music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFC150F7A2500B87687 /* Game_Music.m4a */; };
+		CFDB6C19150F7A2500B87687 /* Mission_Enemy_song.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFD150F7A2500B87687 /* Mission_Enemy_song.m4a */; };
+		CFDB6C1A150F7A2500B87687 /* DoorClosing_Final.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFF150F7A2500B87687 /* DoorClosing_Final.m4a */; };
+		CFDB6C1B150F7A2500B87687 /* DoorOpening.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6C00150F7A2500B87687 /* DoorOpening.m4a */; };
+		CFDB6C1C150F7A2500B87687 /* notification_alert.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6C02150F7A2500B87687 /* notification_alert.m4a */; };
+		CFDB6C1D150F7A2500B87687 /* Quest Scroll Open.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6C04150F7A2500B87687 /* Quest Scroll Open.m4a */; };
+		CFDB6C1E150F7A2500B87687 /* Quest_Accept_Complete.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6C05150F7A2500B87687 /* Quest_Accept_Complete.m4a */; };
+		CFDB6C1F150F7A2500B87687 /* Coin_Deposit_Withdraw_Buy.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6C07150F7A2500B87687 /* Coin_Deposit_Withdraw_Buy.m4a */; };
+		CFDB6C21150F817F00B87687 /* warbg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6C20150F817F00B87687 /* warbg@2x.jpg */; };
+		CFDB6C24150F81C600B87687 /* TutorialStartLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDB6C23150F81C600B87687 /* TutorialStartLayer.m */; };
 		CFDBE22B150C63AA00F601DB /* CharSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDBE229150C63AA00F601DB /* CharSelectionViewController.m */; };
 		CFDBE22C150C63AA00F601DB /* CharSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFDBE22A150C63AA00F601DB /* CharSelectionViewController.xib */; };
 		CFDBE25F150C7FEB00F601DB /* activeredglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBE22D150C7FEB00F601DB /* activeredglow.png */; };
@@ -744,8 +774,6 @@
 		CFED8743150B82320098C5DE /* winery_tiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED873F150B82320098C5DE /* winery_tiles@2x.png */; };
 		CFED8746150B823A0098C5DE /* villa_montalvo.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8744150B82390098C5DE /* villa_montalvo.tmx */; };
 		CFED8747150B823A0098C5DE /* villa_montalvo@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8745150B823A0098C5DE /* villa_montalvo@2x.tmx */; };
-		CFED8749150B82460098C5DE /* Home_Map.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED8748150B82450098C5DE /* Home_Map.tmx */; };
-		CFED874B150B82500098C5DE /* Home_Map@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CFED874A150B82500098C5DE /* Home_Map@2x.tmx */; };
 		CFEFC10D14B4EC0100FBF75E /* libProtocolBuffers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEFC10814B4EBF900FBF75E /* libProtocolBuffers.a */; };
 		CFEFC12C14B5484300FBF75E /* ProfilePicture.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEFC12B14B5484300FBF75E /* ProfilePicture.m */; };
 		CFF19704150ABFE700434113 /* attackchecksflipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFF19702150ABFE700434113 /* attackchecksflipped.png */; };
@@ -1254,12 +1282,17 @@
 		CF42353814F4BAA70033C290 /* CarpenterMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarpenterMenuController.h; path = CarpenterMenu/CarpenterMenuController.h; sourceTree = "<group>"; };
 		CF42353914F4BAA70033C290 /* CarpenterMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarpenterMenuController.m; path = CarpenterMenu/CarpenterMenuController.m; sourceTree = "<group>"; };
 		CF42353A14F4BAA70033C290 /* CarpenterMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterMenuController.xib; path = CarpenterMenu/CarpenterMenuController.xib; sourceTree = "<group>"; };
+		CF4AE12515103A45003F0F88 /* warbg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = warbg.jpg; sourceTree = "<group>"; };
+		CF4AE1271510532A003F0F88 /* TutorialHomeMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialHomeMap.h; path = Tutorial/TutorialHomeMap.h; sourceTree = "<group>"; };
+		CF4AE1281510532B003F0F88 /* TutorialHomeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialHomeMap.m; path = Tutorial/TutorialHomeMap.m; sourceTree = "<group>"; };
 		CF5EDDE914CBEEDA0063F1E0 /* MarketplaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarketplaceViewController.h; path = MarketplaceMenu/MarketplaceViewController.h; sourceTree = "<group>"; };
 		CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarketplaceViewController.m; path = MarketplaceMenu/MarketplaceViewController.m; sourceTree = "<group>"; };
 		CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MarketplaceViewController.xib; path = MarketplaceMenu/MarketplaceViewController.xib; sourceTree = "<group>"; };
 		CF5EE04014CFEE8F0063F1E0 /* ArmoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArmoryViewController.h; path = ArmoryMenu/ArmoryViewController.h; sourceTree = "<group>"; };
 		CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArmoryViewController.m; path = ArmoryMenu/ArmoryViewController.m; sourceTree = "<group>"; };
 		CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryViewController.xib; path = ArmoryMenu/ArmoryViewController.xib; sourceTree = "<group>"; };
+		CF6230A2150F4299000160BF /* Home.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home.tmx; sourceTree = "<group>"; };
+		CF6230A3150F4299000160BF /* Home@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home@2x.tmx"; sourceTree = "<group>"; };
 		CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
@@ -1301,12 +1334,10 @@
 		CFA0FB05150F02D600C88583 /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
 		CFA0FB07150F04FE00C88583 /* TutorialBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialBattleLayer.h; path = Tutorial/TutorialBattleLayer.h; sourceTree = "<group>"; };
 		CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialBattleLayer.m; path = Tutorial/TutorialBattleLayer.m; sourceTree = "<group>"; };
-		CFA0FB0A150F39B600C88583 /* Home.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home.tmx; sourceTree = "<group>"; };
 		CFA0FB0C150F39BC00C88583 /* NEW_Tree_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NEW_Tree_Pack.png; sourceTree = "<group>"; };
 		CFA0FB0D150F39BC00C88583 /* NEW_Tree_Pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NEW_Tree_Pack@2x.png"; sourceTree = "<group>"; };
 		CFA0FB0E150F39BC00C88583 /* NEW_Universal_Pack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NEW_Universal_Pack.png; sourceTree = "<group>"; };
 		CFA0FB0F150F39BC00C88583 /* NEW_Universal_Pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NEW_Universal_Pack@2x.png"; sourceTree = "<group>"; };
-		CFA0FB14150F39D000C88583 /* Home@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home@2x.tmx"; sourceTree = "<group>"; };
 		CFA26F0B14E4A27300FC1C71 /* UserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserData.h; sourceTree = "<group>"; };
 		CFA26F0C14E4A27300FC1C71 /* UserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserData.m; sourceTree = "<group>"; };
 		CFA26F1314E719BA00FC1C71 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMap.h; path = "Utopia/Classes/Main Map/GameMap/GameMap.h"; sourceTree = SOURCE_ROOT; };
@@ -1361,6 +1392,37 @@
 		CFD3C900150DC0FA001EC185 /* notificationokaybutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationokaybutton@2x.png"; sourceTree = "<group>"; };
 		CFD3C901150DC0FA001EC185 /* questcompletebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = questcompletebg.png; sourceTree = "<group>"; };
 		CFD3C902150DC0FA001EC185 /* questcompletebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "questcompletebg@2x.png"; sourceTree = "<group>"; };
+		CFDB6BDF150F799C00B87687 /* CDXMacOSXSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDXMacOSXSupport.h; sourceTree = "<group>"; };
+		CFDB6BE0150F799C00B87687 /* CDXMacOSXSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXMacOSXSupport.m; sourceTree = "<group>"; };
+		CFDB6BE1150F799C00B87687 /* CDXPropertyModifierAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDXPropertyModifierAction.h; sourceTree = "<group>"; };
+		CFDB6BE2150F799C00B87687 /* CDXPropertyModifierAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXPropertyModifierAction.m; sourceTree = "<group>"; };
+		CFDB6BE7150F7A2500B87687 /* Enter_Store_Bell.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Enter_Store_Bell.m4a; sourceTree = "<group>"; };
+		CFDB6BE9150F7A2500B87687 /* Archers_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Archers_Attack.m4a; sourceTree = "<group>"; };
+		CFDB6BEA150F7A2500B87687 /* Invoker_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Invoker_Attack.m4a; sourceTree = "<group>"; };
+		CFDB6BEB150F7A2500B87687 /* Panda_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Panda_Attack.m4a; sourceTree = "<group>"; };
+		CFDB6BEC150F7A2500B87687 /* Warriors_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Warriors_Attack.m4a; sourceTree = "<group>"; };
+		CFDB6BEE150F7A2500B87687 /* DragonRoostWhat1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DragonRoostWhat1.m4a; sourceTree = "<group>"; };
+		CFDB6BEF150F7A2500B87687 /* Traveling_DragonFlying.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Traveling_DragonFlying.m4a; sourceTree = "<group>"; };
+		CFDB6BF1150F7A2500B87687 /* Archer_Combo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Archer_Combo.m4a; sourceTree = "<group>"; };
+		CFDB6BF2150F7A2500B87687 /* Invoker_Combo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Invoker_Combo.m4a; sourceTree = "<group>"; };
+		CFDB6BF3150F7A2500B87687 /* Panda_Combo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Panda_Combo.m4a; sourceTree = "<group>"; };
+		CFDB6BF4150F7A2500B87687 /* Warrior_Combo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Warrior_Combo.m4a; sourceTree = "<group>"; };
+		CFDB6BF6150F7A2500B87687 /* Coin_drop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Coin_drop.m4a; sourceTree = "<group>"; };
+		CFDB6BF7150F7A2500B87687 /* shiny_item.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = shiny_item.m4a; sourceTree = "<group>"; };
+		CFDB6BF9150F7A2500B87687 /* 03 Battle_Loss.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "03 Battle_Loss.m4a"; sourceTree = "<group>"; };
+		CFDB6BFA150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "03 Battle_SFX_LowQual.m4a"; sourceTree = "<group>"; };
+		CFDB6BFB150F7A2500B87687 /* Battle_Success.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Battle_Success.m4a; sourceTree = "<group>"; };
+		CFDB6BFC150F7A2500B87687 /* Game_Music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Game_Music.m4a; sourceTree = "<group>"; };
+		CFDB6BFD150F7A2500B87687 /* Mission_Enemy_song.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mission_Enemy_song.m4a; sourceTree = "<group>"; };
+		CFDB6BFF150F7A2500B87687 /* DoorClosing_Final.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DoorClosing_Final.m4a; sourceTree = "<group>"; };
+		CFDB6C00150F7A2500B87687 /* DoorOpening.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DoorOpening.m4a; sourceTree = "<group>"; };
+		CFDB6C02150F7A2500B87687 /* notification_alert.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_alert.m4a; sourceTree = "<group>"; };
+		CFDB6C04150F7A2500B87687 /* Quest Scroll Open.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quest Scroll Open.m4a"; sourceTree = "<group>"; };
+		CFDB6C05150F7A2500B87687 /* Quest_Accept_Complete.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quest_Accept_Complete.m4a; sourceTree = "<group>"; };
+		CFDB6C07150F7A2500B87687 /* Coin_Deposit_Withdraw_Buy.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Coin_Deposit_Withdraw_Buy.m4a; sourceTree = "<group>"; };
+		CFDB6C20150F817F00B87687 /* warbg@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "warbg@2x.jpg"; sourceTree = "<group>"; };
+		CFDB6C22150F81C600B87687 /* TutorialStartLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialStartLayer.h; path = Tutorial/TutorialStartLayer.h; sourceTree = "<group>"; };
+		CFDB6C23150F81C600B87687 /* TutorialStartLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialStartLayer.m; path = Tutorial/TutorialStartLayer.m; sourceTree = "<group>"; };
 		CFDBE228150C63AA00F601DB /* CharSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CharSelectionViewController.h; path = "Tutorial/Character Selection/CharSelectionViewController.h"; sourceTree = "<group>"; };
 		CFDBE229150C63AA00F601DB /* CharSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CharSelectionViewController.m; path = "Tutorial/Character Selection/CharSelectionViewController.m"; sourceTree = "<group>"; };
 		CFDBE22A150C63AA00F601DB /* CharSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CharSelectionViewController.xib; path = "Tutorial/Character Selection/CharSelectionViewController.xib"; sourceTree = "<group>"; };
@@ -1742,8 +1804,6 @@
 		CFED873F150B82320098C5DE /* winery_tiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "winery_tiles@2x.png"; sourceTree = "<group>"; };
 		CFED8744150B82390098C5DE /* villa_montalvo.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = villa_montalvo.tmx; sourceTree = "<group>"; };
 		CFED8745150B823A0098C5DE /* villa_montalvo@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "villa_montalvo@2x.tmx"; sourceTree = "<group>"; };
-		CFED8748150B82450098C5DE /* Home_Map.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home_Map.tmx; sourceTree = "<group>"; };
-		CFED874A150B82500098C5DE /* Home_Map@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home_Map@2x.tmx"; sourceTree = "<group>"; };
 		CFEFC0FD14B4EBF800FBF75E /* ProtocolBuffers.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ProtocolBuffers.xcodeproj; path = objectivec/ProtocolBuffers.xcodeproj; sourceTree = "<group>"; };
 		CFEFC11F14B4F35700FBF75E /* ProtocolBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProtocolBuffers.h; path = objectivec/Classes/ProtocolBuffers.h; sourceTree = "<group>"; };
 		CFEFC12A14B5484300FBF75E /* ProfilePicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePicture.h; sourceTree = "<group>"; };
@@ -2242,18 +2302,16 @@
 		CF1C5A0A1501AED50048D2EC /* Temporary */ = {
 			isa = PBXGroup;
 			children = (
+				CF6230A2150F4299000160BF /* Home.tmx */,
+				CF6230A3150F4299000160BF /* Home@2x.tmx */,
 				CFA0FB0C150F39BC00C88583 /* NEW_Tree_Pack.png */,
 				CFA0FB0D150F39BC00C88583 /* NEW_Tree_Pack@2x.png */,
 				CFA0FB0E150F39BC00C88583 /* NEW_Universal_Pack.png */,
 				CFA0FB0F150F39BC00C88583 /* NEW_Universal_Pack@2x.png */,
-				CFA0FB0A150F39B600C88583 /* Home.tmx */,
-				CFA0FB14150F39D000C88583 /* Home@2x.tmx */,
 				CFDD5E67150EF7E8007C7707 /* legionwarrior.plist */,
 				CFDD5E68150EF7E8007C7707 /* legionwarrior.png */,
 				CF41C2CB150EF27C005A2919 /* legionwarrior@2x.plist */,
 				CF41C2CC150EF27C005A2919 /* legionwarrior@2x.png */,
-				CFED874A150B82500098C5DE /* Home_Map@2x.tmx */,
-				CFED8748150B82450098C5DE /* Home_Map.tmx */,
 				CFED8744150B82390098C5DE /* villa_montalvo.tmx */,
 				CFED8745150B823A0098C5DE /* villa_montalvo@2x.tmx */,
 				CFED873C150B82310098C5DE /* villatree_pack.png */,
@@ -2526,6 +2584,8 @@
 		CF41C2B1150E2F17005A2919 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				CF4AE12515103A45003F0F88 /* warbg.jpg */,
+				CFDB6C20150F817F00B87687 /* warbg@2x.jpg */,
 				CF41C2B2150E2F17005A2919 /* green.png */,
 				CF41C2B3150E2F17005A2919 /* green@2x.png */,
 				CF41C2B4150E2F17005A2919 /* tutorialbg.png */,
@@ -2781,6 +2841,129 @@
 			path = "Socket Communication";
 			sourceTree = "<group>";
 		};
+		CFDB6BDE150F799C00B87687 /* CocosDenshionExtras */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BDF150F799C00B87687 /* CDXMacOSXSupport.h */,
+				CFDB6BE0150F799C00B87687 /* CDXMacOSXSupport.m */,
+				CFDB6BE1150F799C00B87687 /* CDXPropertyModifierAction.h */,
+				CFDB6BE2150F799C00B87687 /* CDXPropertyModifierAction.m */,
+			);
+			path = CocosDenshionExtras;
+			sourceTree = "<group>";
+		};
+		CFDB6BE5150F7A2500B87687 /* Compressed Utopia SFX */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BE6150F7A2500B87687 /* Armory:Marketplace */,
+				CFDB6BE8150F7A2500B87687 /* Attacks */,
+				CFDB6BED150F7A2500B87687 /* Aviary */,
+				CFDB6BF0150F7A2500B87687 /* Charge Up */,
+				CFDB6BF5150F7A2500B87687 /* Dropped Goods */,
+				CFDB6BF8150F7A2500B87687 /* In-Game Music */,
+				CFDB6BFE150F7A2500B87687 /* Intro Gates */,
+				CFDB6C01150F7A2500B87687 /* Notifications */,
+				CFDB6C03150F7A2500B87687 /* Quests */,
+				CFDB6C06150F7A2500B87687 /* Vault */,
+			);
+			name = "Compressed Utopia SFX";
+			path = "Classes/Compressed Utopia SFX";
+			sourceTree = "<group>";
+		};
+		CFDB6BE6150F7A2500B87687 /* Armory:Marketplace */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BE7150F7A2500B87687 /* Enter_Store_Bell.m4a */,
+			);
+			path = "Armory:Marketplace";
+			sourceTree = "<group>";
+		};
+		CFDB6BE8150F7A2500B87687 /* Attacks */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BE9150F7A2500B87687 /* Archers_Attack.m4a */,
+				CFDB6BEA150F7A2500B87687 /* Invoker_Attack.m4a */,
+				CFDB6BEB150F7A2500B87687 /* Panda_Attack.m4a */,
+				CFDB6BEC150F7A2500B87687 /* Warriors_Attack.m4a */,
+			);
+			path = Attacks;
+			sourceTree = "<group>";
+		};
+		CFDB6BED150F7A2500B87687 /* Aviary */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BEE150F7A2500B87687 /* DragonRoostWhat1.m4a */,
+				CFDB6BEF150F7A2500B87687 /* Traveling_DragonFlying.m4a */,
+			);
+			path = Aviary;
+			sourceTree = "<group>";
+		};
+		CFDB6BF0150F7A2500B87687 /* Charge Up */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BF1150F7A2500B87687 /* Archer_Combo.m4a */,
+				CFDB6BF2150F7A2500B87687 /* Invoker_Combo.m4a */,
+				CFDB6BF3150F7A2500B87687 /* Panda_Combo.m4a */,
+				CFDB6BF4150F7A2500B87687 /* Warrior_Combo.m4a */,
+			);
+			path = "Charge Up";
+			sourceTree = "<group>";
+		};
+		CFDB6BF5150F7A2500B87687 /* Dropped Goods */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BF6150F7A2500B87687 /* Coin_drop.m4a */,
+				CFDB6BF7150F7A2500B87687 /* shiny_item.m4a */,
+			);
+			path = "Dropped Goods";
+			sourceTree = "<group>";
+		};
+		CFDB6BF8150F7A2500B87687 /* In-Game Music */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BF9150F7A2500B87687 /* 03 Battle_Loss.m4a */,
+				CFDB6BFA150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a */,
+				CFDB6BFB150F7A2500B87687 /* Battle_Success.m4a */,
+				CFDB6BFC150F7A2500B87687 /* Game_Music.m4a */,
+				CFDB6BFD150F7A2500B87687 /* Mission_Enemy_song.m4a */,
+			);
+			path = "In-Game Music";
+			sourceTree = "<group>";
+		};
+		CFDB6BFE150F7A2500B87687 /* Intro Gates */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6BFF150F7A2500B87687 /* DoorClosing_Final.m4a */,
+				CFDB6C00150F7A2500B87687 /* DoorOpening.m4a */,
+			);
+			path = "Intro Gates";
+			sourceTree = "<group>";
+		};
+		CFDB6C01150F7A2500B87687 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6C02150F7A2500B87687 /* notification_alert.m4a */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		CFDB6C03150F7A2500B87687 /* Quests */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6C04150F7A2500B87687 /* Quest Scroll Open.m4a */,
+				CFDB6C05150F7A2500B87687 /* Quest_Accept_Complete.m4a */,
+			);
+			path = Quests;
+			sourceTree = "<group>";
+		};
+		CFDB6C06150F7A2500B87687 /* Vault */ = {
+			isa = PBXGroup;
+			children = (
+				CFDB6C07150F7A2500B87687 /* Coin_Deposit_Withdraw_Buy.m4a */,
+			);
+			path = Vault;
+			sourceTree = "<group>";
+		};
 		CFDBE1C1150C62F400F601DB /* Character Selection Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -2847,6 +3030,10 @@
 				CF41C2C9150E30F3005A2919 /* TutorialConstants.m */,
 				CFA0FB07150F04FE00C88583 /* TutorialBattleLayer.h */,
 				CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */,
+				CFDB6C22150F81C600B87687 /* TutorialStartLayer.h */,
+				CFDB6C23150F81C600B87687 /* TutorialStartLayer.m */,
+				CF4AE1271510532A003F0F88 /* TutorialHomeMap.h */,
+				CF4AE1281510532B003F0F88 /* TutorialHomeMap.m */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -2960,6 +3147,7 @@
 			isa = PBXGroup;
 			children = (
 				CFBAA00C14B3D52F007AB82F /* Classes */,
+				CFDB6BE5150F7A2500B87687 /* Compressed Utopia SFX */,
 				CF1C592B1501AED40048D2EC /* Utopia Images */,
 				CFE47C1F149240890084E71E /* libs */,
 				CFE47C0B149240890084E71E /* Resources */,
@@ -2988,6 +3176,7 @@
 		CFE47C1F149240890084E71E /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CFDB6BDE150F799C00B87687 /* CocosDenshionExtras */,
 				CFE47C20149240890084E71E /* cocos2d */,
 				CFF3A72C14F07D3F00E8F8DF /* SBTickerView */,
 				CF05573214DE6F18003739EF /* PullRefreshTableViewController.h */,
@@ -3895,8 +4084,6 @@
 				CFED8743150B82320098C5DE /* winery_tiles@2x.png in Resources */,
 				CFED8746150B823A0098C5DE /* villa_montalvo.tmx in Resources */,
 				CFED8747150B823A0098C5DE /* villa_montalvo@2x.tmx in Resources */,
-				CFED8749150B82460098C5DE /* Home_Map.tmx in Resources */,
-				CFED874B150B82500098C5DE /* Home_Map@2x.tmx in Resources */,
 				CFDBE22C150C63AA00F601DB /* CharSelectionViewController.xib in Resources */,
 				CFDBE25F150C7FEB00F601DB /* activeredglow.png in Resources */,
 				CFDBE260150C7FEB00F601DB /* activeredglow@2x.png in Resources */,
@@ -3999,12 +4186,38 @@
 				CFDD5E6A150EF7E8007C7707 /* legionwarrior.png in Resources */,
 				CFA0FB04150F02B200C88583 /* retrievebubble@2x.png in Resources */,
 				CFA0FB06150F02D600C88583 /* retrievebubble.png in Resources */,
-				CFA0FB0B150F39B600C88583 /* Home.tmx in Resources */,
 				CFA0FB10150F39BC00C88583 /* NEW_Tree_Pack.png in Resources */,
 				CFA0FB11150F39BC00C88583 /* NEW_Tree_Pack@2x.png in Resources */,
 				CFA0FB12150F39BC00C88583 /* NEW_Universal_Pack.png in Resources */,
 				CFA0FB13150F39BC00C88583 /* NEW_Universal_Pack@2x.png in Resources */,
-				CFA0FB15150F39D000C88583 /* Home@2x.tmx in Resources */,
+				CF6230A4150F4299000160BF /* Home.tmx in Resources */,
+				CF6230A5150F4299000160BF /* Home@2x.tmx in Resources */,
+				CFDB6C08150F7A2500B87687 /* Enter_Store_Bell.m4a in Resources */,
+				CFDB6C09150F7A2500B87687 /* Archers_Attack.m4a in Resources */,
+				CFDB6C0A150F7A2500B87687 /* Invoker_Attack.m4a in Resources */,
+				CFDB6C0B150F7A2500B87687 /* Panda_Attack.m4a in Resources */,
+				CFDB6C0C150F7A2500B87687 /* Warriors_Attack.m4a in Resources */,
+				CFDB6C0D150F7A2500B87687 /* DragonRoostWhat1.m4a in Resources */,
+				CFDB6C0E150F7A2500B87687 /* Traveling_DragonFlying.m4a in Resources */,
+				CFDB6C0F150F7A2500B87687 /* Archer_Combo.m4a in Resources */,
+				CFDB6C10150F7A2500B87687 /* Invoker_Combo.m4a in Resources */,
+				CFDB6C11150F7A2500B87687 /* Panda_Combo.m4a in Resources */,
+				CFDB6C12150F7A2500B87687 /* Warrior_Combo.m4a in Resources */,
+				CFDB6C13150F7A2500B87687 /* Coin_drop.m4a in Resources */,
+				CFDB6C14150F7A2500B87687 /* shiny_item.m4a in Resources */,
+				CFDB6C15150F7A2500B87687 /* 03 Battle_Loss.m4a in Resources */,
+				CFDB6C16150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a in Resources */,
+				CFDB6C17150F7A2500B87687 /* Battle_Success.m4a in Resources */,
+				CFDB6C18150F7A2500B87687 /* Game_Music.m4a in Resources */,
+				CFDB6C19150F7A2500B87687 /* Mission_Enemy_song.m4a in Resources */,
+				CFDB6C1A150F7A2500B87687 /* DoorClosing_Final.m4a in Resources */,
+				CFDB6C1B150F7A2500B87687 /* DoorOpening.m4a in Resources */,
+				CFDB6C1C150F7A2500B87687 /* notification_alert.m4a in Resources */,
+				CFDB6C1D150F7A2500B87687 /* Quest Scroll Open.m4a in Resources */,
+				CFDB6C1E150F7A2500B87687 /* Quest_Accept_Complete.m4a in Resources */,
+				CFDB6C1F150F7A2500B87687 /* Coin_Deposit_Withdraw_Buy.m4a in Resources */,
+				CFDB6C21150F817F00B87687 /* warbg@2x.jpg in Resources */,
+				CF4AE12615103A45003F0F88 /* warbg.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4159,6 +4372,10 @@
 				CF41C2C6150E2F76005A2919 /* DialogMenuController.m in Sources */,
 				CF41C2CA150E30F3005A2919 /* TutorialConstants.m in Sources */,
 				CFA0FB09150F04FE00C88583 /* TutorialBattleLayer.m in Sources */,
+				CFDB6BE3150F799C00B87687 /* CDXMacOSXSupport.m in Sources */,
+				CFDB6BE4150F799C00B87687 /* CDXPropertyModifierAction.m in Sources */,
+				CFDB6C24150F81C600B87687 /* TutorialStartLayer.m in Sources */,
+				CF4AE1291510532B003F0F88 /* TutorialHomeMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

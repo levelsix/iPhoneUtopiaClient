@@ -357,7 +357,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset {
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-  int repeatCt = duration / SHAKE_DURATION;
+  // Divide by 2 to account for autoreversing
+  int repeatCt = duration / SHAKE_DURATION / 2;
   [animation setDuration:SHAKE_DURATION];
   [animation setRepeatCount:repeatCt];
   [animation setAutoreverses:YES];

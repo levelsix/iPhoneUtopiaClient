@@ -17,15 +17,9 @@
 	return ( UIInterfaceOrientationIsLandscape( interfaceOrientation ) );
 }
 
-- (void) viewDidLoad {
-  [super viewDidLoad];
-  // For optimization purposes
-  [[GameViewController sharedGameViewController] view];
-}
-
 -(void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   // Open the door
-  if ([[GameState sharedGameState] connected]) {
+  if ([[GameState sharedGameState] connected] && self.navigationController.viewControllers.count == 1) {
     [self.navigationController pushViewController:[GameViewController sharedGameViewController] animated:NO];
   }
 }
