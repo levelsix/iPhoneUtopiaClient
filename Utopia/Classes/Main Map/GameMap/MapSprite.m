@@ -58,10 +58,8 @@
 - (void) setUpGlow {
   _glow = [[CCSprite spriteWithFile:@"glow.png"] retain];
   _glow.scale = 0.55;
-  _glow.anchorPoint = ccp(0.5,0);
-  _glow.position = ccp(self.contentSize.width/2, 0);
+  _glow.position = ccp(self.contentSize.width/2, _map.tileSizeInPoints.height*self.location.size.width/2);
   _glow.visible = NO;
-  _glow.opacity = 100;
   [self addChild:_glow z:-1];
 }
 

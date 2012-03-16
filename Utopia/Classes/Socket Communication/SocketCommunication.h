@@ -11,7 +11,7 @@
 #import "Event.pb.h"
 #import "Protocols.pb.h"
 
-@interface SocketCommunication : NSObject <GCDAsyncSocketDelegate> {
+@interface SocketCommunication : NSObject <GCDAsyncSocketDelegate, UIAlertViewDelegate> {
 	GCDAsyncSocket *_asyncSocket;
   BOOL readyToRead;
   MinimumUserProto *_sender;

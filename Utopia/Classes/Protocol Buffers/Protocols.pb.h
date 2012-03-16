@@ -142,6 +142,8 @@
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
 @class PurchaseNormStructureResponseProto_Builder;
+@class PurgeClientStaticDataResponseProto;
+@class PurgeClientStaticDataResponseProto_Builder;
 @class QuestAcceptRequestProto;
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
@@ -332,6 +334,7 @@ typedef enum {
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
   EventProtocolResponseSReferralCodeUsedEvent = 53,
+  EventProtocolResponseSPurgeStaticDataEvent = 54,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

@@ -8,6 +8,8 @@
 
 #import "GameMap.h"
 
+#define PROGRESS_BAR_SPEED 2.f
+
 typedef enum {
   kNormalState = 1,
   kSellState,
@@ -82,6 +84,7 @@ typedef enum {
 
 - (void) setFrameForPoint:(CGPoint)pt;
 - (void) setProgressBarProgress:(float)val;
+- (void) updateLabelsForUserStruct:(UserStruct *)us;
 - (float) progressBarProgress;
 - (void) startTimer;
 
@@ -114,6 +117,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet CritStructMenu *csMenu;
 
 @property (nonatomic, assign, readonly) BOOL loading;
+@property (nonatomic, assign) int redGid;
+@property (nonatomic, assign) int greenGid;
 
 + (HomeMap *)sharedHomeMap;
 
@@ -131,6 +136,7 @@ typedef enum {
 - (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)moveCheckClicked:(id)sender;
 - (IBAction)rotateClicked:(id)sender;
+- (IBAction)cancelMoveClicked:(id)sender;
 - (IBAction)redButtonClicked:(id)sender;
 - (IBAction)bigUpgradeClicked:(id)sender;
 - (IBAction)littleUpgradeClicked:(id)sender;

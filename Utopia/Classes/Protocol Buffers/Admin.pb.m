@@ -21,8 +21,7 @@ static PBExtensionRegistry* extensionRegistry = nil;
 
 @interface AdminChangeRequestProto ()
 @property AdminChangeRequestProto_StaticDataReloadType staticDataReloadType;
-@property int32_t salePercentOff;
-@property Float32 multipleOfRecruitsBaseReward;
+@property BOOL purgeStaticDataForConnectedClients;
 @end
 
 @implementation AdminChangeRequestProto
@@ -34,28 +33,25 @@ static PBExtensionRegistry* extensionRegistry = nil;
   hasStaticDataReloadType_ = !!value;
 }
 @synthesize staticDataReloadType;
-- (BOOL) hasSalePercentOff {
-  return !!hasSalePercentOff_;
+- (BOOL) hasPurgeStaticDataForConnectedClients {
+  return !!hasPurgeStaticDataForConnectedClients_;
 }
-- (void) setHasSalePercentOff:(BOOL) value {
-  hasSalePercentOff_ = !!value;
+- (void) setHasPurgeStaticDataForConnectedClients:(BOOL) value {
+  hasPurgeStaticDataForConnectedClients_ = !!value;
 }
-@synthesize salePercentOff;
-- (BOOL) hasMultipleOfRecruitsBaseReward {
-  return !!hasMultipleOfRecruitsBaseReward_;
+- (BOOL) purgeStaticDataForConnectedClients {
+  return !!purgeStaticDataForConnectedClients_;
 }
-- (void) setHasMultipleOfRecruitsBaseReward:(BOOL) value {
-  hasMultipleOfRecruitsBaseReward_ = !!value;
+- (void) setPurgeStaticDataForConnectedClients:(BOOL) value {
+  purgeStaticDataForConnectedClients_ = !!value;
 }
-@synthesize multipleOfRecruitsBaseReward;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.staticDataReloadType = AdminChangeRequestProto_StaticDataReloadTypeAll;
-    self.salePercentOff = 0;
-    self.multipleOfRecruitsBaseReward = 0;
+    self.purgeStaticDataForConnectedClients = NO;
   }
   return self;
 }
@@ -78,11 +74,8 @@ static AdminChangeRequestProto* defaultAdminChangeRequestProtoInstance = nil;
   if (self.hasStaticDataReloadType) {
     [output writeEnum:1 value:self.staticDataReloadType];
   }
-  if (self.hasSalePercentOff) {
-    [output writeInt32:2 value:self.salePercentOff];
-  }
-  if (self.hasMultipleOfRecruitsBaseReward) {
-    [output writeFloat:3 value:self.multipleOfRecruitsBaseReward];
+  if (self.hasPurgeStaticDataForConnectedClients) {
+    [output writeBool:2 value:self.purgeStaticDataForConnectedClients];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -96,11 +89,8 @@ static AdminChangeRequestProto* defaultAdminChangeRequestProtoInstance = nil;
   if (self.hasStaticDataReloadType) {
     size += computeEnumSize(1, self.staticDataReloadType);
   }
-  if (self.hasSalePercentOff) {
-    size += computeInt32Size(2, self.salePercentOff);
-  }
-  if (self.hasMultipleOfRecruitsBaseReward) {
-    size += computeFloatSize(3, self.multipleOfRecruitsBaseReward);
+  if (self.hasPurgeStaticDataForConnectedClients) {
+    size += computeBoolSize(2, self.purgeStaticDataForConnectedClients);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -200,11 +190,8 @@ BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequest
   if (other.hasStaticDataReloadType) {
     [self setStaticDataReloadType:other.staticDataReloadType];
   }
-  if (other.hasSalePercentOff) {
-    [self setSalePercentOff:other.salePercentOff];
-  }
-  if (other.hasMultipleOfRecruitsBaseReward) {
-    [self setMultipleOfRecruitsBaseReward:other.multipleOfRecruitsBaseReward];
+  if (other.hasPurgeStaticDataForConnectedClients) {
+    [self setPurgeStaticDataForConnectedClients:other.purgeStaticDataForConnectedClients];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -237,11 +224,7 @@ BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequest
         break;
       }
       case 16: {
-        [self setSalePercentOff:[input readInt32]];
-        break;
-      }
-      case 29: {
-        [self setMultipleOfRecruitsBaseReward:[input readFloat]];
+        [self setPurgeStaticDataForConnectedClients:[input readBool]];
         break;
       }
     }
@@ -263,36 +246,20 @@ BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequest
   result.staticDataReloadType = AdminChangeRequestProto_StaticDataReloadTypeAll;
   return self;
 }
-- (BOOL) hasSalePercentOff {
-  return result.hasSalePercentOff;
+- (BOOL) hasPurgeStaticDataForConnectedClients {
+  return result.hasPurgeStaticDataForConnectedClients;
 }
-- (int32_t) salePercentOff {
-  return result.salePercentOff;
+- (BOOL) purgeStaticDataForConnectedClients {
+  return result.purgeStaticDataForConnectedClients;
 }
-- (AdminChangeRequestProto_Builder*) setSalePercentOff:(int32_t) value {
-  result.hasSalePercentOff = YES;
-  result.salePercentOff = value;
+- (AdminChangeRequestProto_Builder*) setPurgeStaticDataForConnectedClients:(BOOL) value {
+  result.hasPurgeStaticDataForConnectedClients = YES;
+  result.purgeStaticDataForConnectedClients = value;
   return self;
 }
-- (AdminChangeRequestProto_Builder*) clearSalePercentOff {
-  result.hasSalePercentOff = NO;
-  result.salePercentOff = 0;
-  return self;
-}
-- (BOOL) hasMultipleOfRecruitsBaseReward {
-  return result.hasMultipleOfRecruitsBaseReward;
-}
-- (Float32) multipleOfRecruitsBaseReward {
-  return result.multipleOfRecruitsBaseReward;
-}
-- (AdminChangeRequestProto_Builder*) setMultipleOfRecruitsBaseReward:(Float32) value {
-  result.hasMultipleOfRecruitsBaseReward = YES;
-  result.multipleOfRecruitsBaseReward = value;
-  return self;
-}
-- (AdminChangeRequestProto_Builder*) clearMultipleOfRecruitsBaseReward {
-  result.hasMultipleOfRecruitsBaseReward = NO;
-  result.multipleOfRecruitsBaseReward = 0;
+- (AdminChangeRequestProto_Builder*) clearPurgeStaticDataForConnectedClients {
+  result.hasPurgeStaticDataForConnectedClients = NO;
+  result.purgeStaticDataForConnectedClients = NO;
   return self;
 }
 @end

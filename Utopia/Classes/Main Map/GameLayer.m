@@ -27,6 +27,7 @@
 #import "SimpleAudioEngine.h"
 #import "CocosDenshion.h"
 #import "CDXPropertyModifierAction.h"
+#import "TutorialMissionMap.h"
 
 // HelloWorldLayer implementation
 @implementation GameLayer
@@ -45,7 +46,7 @@ static CCScene *scene = nil;
     scene = [[CCScene node] retain];
     
     // 'layer' is an autorelease object.
-    GameLayer *layer = [GameLayer node];
+    GameLayer *layer = [GameLayer sharedGameLayer];
     
     // add layer as a child to scene
     [scene addChild: layer];
@@ -77,7 +78,7 @@ static CCScene *scene = nil;
   // move map to the center of the screen
   CGSize ms = [map mapSize];
   CGSize ts = [map tileSizeInPoints];
-  map.position = ccp( -(ms.width-8) * ts.width/2, 0 );
+  map.position = ccp( -(ms.width-8) * ts.width/2, -(ms.height-8) * ts.height/2 );
 }
 
 - (void) moveMap:(GameMap *)map toSprite:(CCSprite *)spr {
@@ -115,12 +116,32 @@ static CCScene *scene = nil;
   }
   
   [self addChild:_missionMap z:1];
+  currentCity = proto.cityId;
   
   if (_homeMap.visible) {
     _homeMap.selected = nil;
     _homeMap.visible = NO;
-    currentCity = proto.cityId;
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+  }
+}
+
+- (void) loadTutorialMissionMap {
+  // Need this to be able to run on background thread
+//  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
+//  [EAGLContext setCurrentContext:k_context];
+  
+  [self unloadCurrentMissionMap];
+  TutorialMissionMap *map = [[TutorialMissionMap alloc] init];
+  _missionMap = map;
+  
+  [self moveMapToCenter:_missionMap];
+  
+  [self addChild:_missionMap z:1];
+  [map doBlink];
+  
+  if (_homeMap.visible) {
+    _homeMap.selected = nil;
+    _homeMap.visible = NO;
   }
 }
 

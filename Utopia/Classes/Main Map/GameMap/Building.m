@@ -81,8 +81,8 @@
 
 -(void) updateMeta {
   CCTMXLayer *meta = [_homeMap layerNamed:@"MetaLayer"];
-  int red = [meta tileGIDAt:ccp(0,63)];
-  int green = [meta tileGIDAt:ccp(0,62)];
+  int red = _homeMap.redGid;
+  int green = _homeMap.greenGid;
   for (int i = 0; i < self.location.size.width; i++) {
     for (int j = 0; j < self.location.size.height; j++) {
       // Transform to the map's coordinates

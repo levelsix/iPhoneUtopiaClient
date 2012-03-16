@@ -13,6 +13,7 @@
 #import "TutorialBattleLayer.h"
 #import "GameLayer.h"
 #import "TutorialHomeMap.h"
+#import "GameState.h"
 
 @implementation CharSelectionViewController
 
@@ -106,6 +107,11 @@
   _curPage = 0;
   
   submitButton.hidden = YES;
+  
+  //Do this to speed up for later
+  GameLayer *gLay = [GameLayer sharedGameLayer];
+  [gLay loadTutorialMissionMap];
+//  [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
 }
 
 - (int) currentPage {
@@ -260,6 +266,56 @@
   [[TutorialHomeMap sharedHomeMap] refresh];
   [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
   [[self navigationController] popViewControllerAnimated:NO];
+  
+  GameState *gs = [GameState sharedGameState];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  FullEquipProto *weapon = nil;
+  FullEquipProto *armor = nil;
+  
+  switch (_curPage) {
+    case 0:
+    case 3:
+      weapon = tc.warriorInitWeapon;
+      armor = tc.warriorInitArmor;
+      gs.attack = tc.warriorInitAttack;
+      gs.defense = tc.warriorInitDefense;
+      break;
+      
+    case 1:
+    case 4:
+      weapon = tc.archerInitWeapon;
+      armor = tc.archerInitArmor;
+      gs.attack = tc.archerInitAttack;
+      gs.defense = tc.archerInitDefense;
+      break;
+      
+    case 2:
+    case 5:
+      weapon = tc.mageInitWeapon;
+      armor = tc.mageInitArmor;
+      gs.attack = tc.mageInitAttack;
+      gs.defense = tc.mageInitDefense;
+      break;
+      
+    default:
+      break;
+  }
+  
+  gs.name = nameTextField.text;
+  gs.weaponEquipped = weapon.equipId;
+  gs.armorEquipped = armor.equipId;
+  
+  UserEquip *ue1 = [[UserEquip alloc] init];
+  ue1.equipId = weapon.equipId;
+  ue1.quantity = 1;
+  
+  UserEquip *ue2 = [[UserEquip alloc] init];
+  ue2.equipId = armor.equipId;
+  ue2.quantity = 1;
+  
+  [gs addToMyEquips:[NSArray arrayWithObjects:ue1, ue2, nil]];
+  [ue1 release];
+  [ue2 release];
 }
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

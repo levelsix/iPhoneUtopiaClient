@@ -100,6 +100,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet TaskListScrollView *scrollView;
 @property (nonatomic, retain) NSMutableArray *taskItemViews;
 
+- (void) unloadTasks;
+
 @end
 
 @interface QuestLogController : UIViewController {
@@ -124,10 +126,16 @@ typedef enum {
 + (void) removeView;
 - (void) loadQuestData:(NSArray *)quests;
 - (void) resetToQuestDescView:(FullQuestProto *)fqp;
-- (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress;
+- (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress;
 
 - (IBAction)closeButtonClicked:(id)sender;
 
 - (QuestCompleteView *) createQuestCompleteView;
+
+- (IBAction)closeButtonClicked:(id)sender;
+- (IBAction)taskButtonTapped:(id)sender;
+- (IBAction)questDescButtonTapped:(id)sender;
+- (IBAction)redeemTapped:(id)sender;
+- (IBAction)acceptTapped:(id)sender;
 
 @end

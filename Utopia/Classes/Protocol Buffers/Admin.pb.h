@@ -31,19 +31,15 @@ BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequest
 
 @interface AdminChangeRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasMultipleOfRecruitsBaseReward_:1;
-  BOOL hasSalePercentOff_:1;
+  BOOL hasPurgeStaticDataForConnectedClients_:1;
   BOOL hasStaticDataReloadType_:1;
-  Float32 multipleOfRecruitsBaseReward;
-  int32_t salePercentOff;
+  BOOL purgeStaticDataForConnectedClients_:1;
   AdminChangeRequestProto_StaticDataReloadType staticDataReloadType;
 }
 - (BOOL) hasStaticDataReloadType;
-- (BOOL) hasSalePercentOff;
-- (BOOL) hasMultipleOfRecruitsBaseReward;
+- (BOOL) hasPurgeStaticDataForConnectedClients;
 @property (readonly) AdminChangeRequestProto_StaticDataReloadType staticDataReloadType;
-@property (readonly) int32_t salePercentOff;
-@property (readonly) Float32 multipleOfRecruitsBaseReward;
+- (BOOL) purgeStaticDataForConnectedClients;
 
 + (AdminChangeRequestProto*) defaultInstance;
 - (AdminChangeRequestProto*) defaultInstance;
@@ -84,14 +80,9 @@ BOOL AdminChangeRequestProto_StaticDataReloadTypeIsValidValue(AdminChangeRequest
 - (AdminChangeRequestProto_Builder*) setStaticDataReloadType:(AdminChangeRequestProto_StaticDataReloadType) value;
 - (AdminChangeRequestProto_Builder*) clearStaticDataReloadType;
 
-- (BOOL) hasSalePercentOff;
-- (int32_t) salePercentOff;
-- (AdminChangeRequestProto_Builder*) setSalePercentOff:(int32_t) value;
-- (AdminChangeRequestProto_Builder*) clearSalePercentOff;
-
-- (BOOL) hasMultipleOfRecruitsBaseReward;
-- (Float32) multipleOfRecruitsBaseReward;
-- (AdminChangeRequestProto_Builder*) setMultipleOfRecruitsBaseReward:(Float32) value;
-- (AdminChangeRequestProto_Builder*) clearMultipleOfRecruitsBaseReward;
+- (BOOL) hasPurgeStaticDataForConnectedClients;
+- (BOOL) purgeStaticDataForConnectedClients;
+- (AdminChangeRequestProto_Builder*) setPurgeStaticDataForConnectedClients:(BOOL) value;
+- (AdminChangeRequestProto_Builder*) clearPurgeStaticDataForConnectedClients;
 @end
 

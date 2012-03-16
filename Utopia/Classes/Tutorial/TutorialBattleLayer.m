@@ -10,6 +10,7 @@
 #import "TutorialConstants.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "TutorialMissionMap.h"
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 10
@@ -25,10 +26,10 @@
 }
 
 - (void) beginBattle {
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  GameState *gs = [GameState sharedGameState];
   
-  _leftCurrentHealth = tc.initHealth;
-  _leftMaxHealth = tc.initHealth;
+  _leftCurrentHealth = gs.maxHealth;
+  _leftMaxHealth = gs.maxHealth;
   _rightMaxHealth = ENEMY_HEALTH;
   _rightCurrentHealth = ENEMY_HEALTH;
   
@@ -37,8 +38,8 @@
   _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", _leftCurrentHealth];
   _leftMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _leftMaxHealth];
   
-  _leftAttack = 40;
-  _leftDefense = 40;
+  _leftAttack = [[Globals sharedGlobals] calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:0];
+  _leftDefense = [[Globals sharedGlobals] calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:0];;
   _rightAttack = ENEMY_ATTACK;
   _rightDefense = ENEMY_DEFENSE;
   
@@ -146,7 +147,7 @@
   self.summaryView.leftNameLabel.text = gs.name;
   self.summaryView.leftLevelLabel.text = @"Lvl 1";
   
-  self.summaryView.rightNameLabel.text = @"Guetta";
+  self.summaryView.rightNameLabel.text = tc.enemyName;
   self.summaryView.rightLevelLabel.text = @"Lvl 1";
   
   FullEquipProto *fep = tc.archerInitWeapon;
@@ -173,8 +174,8 @@
   
   self.summaryView.winLabelsView.hidden = NO;
   self.summaryView.defeatLabelsView.hidden = YES;
-  self.summaryView.coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:tc.tutorialQuest.coinsGained]];
-  self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.tutorialQuest.expGained]];
+  self.summaryView.coinsGainedLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:tc.tutorialQuest.firstDefeatTypeJobBattleCoinGain]];
+  self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.tutorialQuest.firstDefeatTypeJobBattleExpGain]];
 }
 
 - (void) myWin {
@@ -185,6 +186,14 @@
   
   _winLayer.visible = YES;
   _winButton.visible = YES;
+  
+  GameState *gs = [GameState sharedGameState];
+  StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
+  gs.experience += tutQuest.firstDefeatTypeJobBattleExpGain;
+  gs.currentStamina -= 1;
+  gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
+  
+  [[TutorialMissionMap sharedTutorialMissionMap] battleDone];
 }
 
 - (IBAction)profileButtonClicked:(id)sender {

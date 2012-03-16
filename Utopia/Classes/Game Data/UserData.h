@@ -66,4 +66,5 @@ typedef enum {
 + (id) critStructWithProto:(FullUserCritstructProto *)proto;
 - (void) openMenu;
 
+
 @end

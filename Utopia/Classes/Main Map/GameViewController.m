@@ -75,6 +75,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   isTutorial = i;
   
   [self setupCocos2D];
+//  [[TutorialHomeMap sharedHomeMap] refresh];
   CCScene *scene = isTutorial ? [TutorialStartLayer scene] : [GameLayer scene];
   //  [BattleLayer scene];
   [[CCDirector sharedDirector] pushScene:scene];
@@ -100,10 +101,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 }
 
 - (void)didReceiveMemoryWarning {
-  // Releases the view if it doesn't have a superview.
-  [super didReceiveMemoryWarning];
-  
-  // Release any cached data, images, etc that aren't in use.
+  // Don't allow release of this
+  return;
 }
 
 - (void)viewDidUnload {

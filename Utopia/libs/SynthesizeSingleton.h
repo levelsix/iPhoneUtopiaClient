@@ -100,4 +100,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
 \
 + (void) removeView {\
   [shared##controllername.view removeFromSuperview];\
-}
+} \
+\
++ (void) deallocSingleton { \
+  [shared##controllername didReceiveMemoryWarning]; \
+  [shared##controllername release]; \
+  shared##controllername = nil; \
+} \

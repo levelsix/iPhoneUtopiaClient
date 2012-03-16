@@ -13,6 +13,7 @@
 #import "UserData.h"
 #import "SynthesizeSingleton.h"
 #import "OutgoingEventController.h"
+#import "GameLayer.h"
 
 #define LEFT_STAR_OFFSET 8
 #define MAX_STARS 5
@@ -21,8 +22,6 @@
 #define UPGRADE_VIEW_LINE_XOFFSET 14.f
 
 #define HOME_BUILDING_TAG_OFFSET 123456
-
-#define PROGRESS_BAR_SPEED 2.f
 
 @implementation UpgradeButtonOverlay
 
@@ -401,6 +400,7 @@
 @synthesize buildableData = _buildableData;
 @synthesize hbMenu, csMenu;
 @synthesize loading = _loading;
+@synthesize redGid, greenGid;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
@@ -414,40 +414,67 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     self.buildableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     
     for (CCTMXLayer *child in [self children]) {
-      if ([[child layerName] isEqualToString: @"MetaLayer"])
+      if ([[child layerName] isEqualToString: @"MetaLayer"]) {
         // Put meta tile layer at front, 
         // when something is selected, we will make it z = 1000
         [self reorderChild:child z:1001];
-      else
+        CGPoint redGidPt = ccp(mapSize_.width-1, mapSize_.height-1);
+        CGPoint greenGidPt = ccp(mapSize_.width-1, mapSize_.height-2);
+        redGid = [child tileGIDAt:redGidPt];
+        greenGid = [child tileGIDAt:greenGidPt];
+        [child removeTileAt:redGidPt];
+        [child removeTileAt:greenGidPt];
+      }
+      else {
         [self reorderChild:child z:-1];
+      }
     }
     
-    CCTMXLayer *blocked = [self layerNamed:@"Blocked"];
-    
+    self.buildableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     for (int i = 0; i < self.mapSize.width; i++) {
       NSMutableArray *row = [NSMutableArray arrayWithCapacity:self.mapSize.height];
       for (int j = 0; j < self.mapSize.height; j++) {
-        CGPoint tileCoord = ccp(63-j, 63-i);
-        int tileGid = [blocked tileGIDAt:tileCoord];
-        if (tileGid) {
-          NSDictionary *properties = [self propertiesForGID:tileGid];
-          if (properties) {
-            NSString *collision = [properties valueForKey:@"Buildable"];
-            if (collision && [collision compare:@"No"] == NSOrderedSame) {
-              [row addObject:[NSNumber numberWithBool:NO]];
-              continue;
-            }
-          }
-        }
-        [row addObject:[NSNumber numberWithBool:YES]];
+        [row addObject:[NSNumber numberWithBool:NO]];
       }
       [self.buildableData addObject:row];
     }
+    
+    int width = self.mapSize.width;
+    int height = self.mapSize.height;
+    for (CCNode *node in self.children) {
+      if (![node isKindOfClass:[CCTMXLayer class]]) {
+        continue;
+      }
+      CCTMXLayer *layer = (CCTMXLayer *)node;
+      
+      for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+          NSMutableArray *row = [self.buildableData objectAtIndex:i];
+          NSNumber *curVal = [row objectAtIndex:j];
+          if (curVal.boolValue == NO) {
+            // Convert their coordinates to our coordinate system
+            CGPoint tileCoord = ccp(height-j-1, width-i-1);
+            int tileGid = [layer tileGIDAt:tileCoord];
+            if (tileGid) {
+              NSDictionary *properties = [self propertiesForGID:tileGid];
+              if (properties) {
+                NSString *collision = [properties valueForKey:@"Buildable"];
+                if (collision && [collision isEqualToString:@"Yes"]) {
+                  [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
     [[NSBundle mainBundle] loadNibNamed:@"CriticalStructureMenu" owner:self options:nil];
-    [[[CCDirector sharedDirector] openGLView] addSubview:self.csMenu];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.csMenu];
     
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
-    [[[CCDirector sharedDirector] openGLView] addSubview:self.hbMenu];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.hbMenu];
+    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
     self.hbMenu.greenButton.label.shadowColor = [UIColor darkGrayColor];
     self.hbMenu.greenButton.label.shadowOffset = CGSizeMake(1, 1);
@@ -584,6 +611,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
+- (void) setVisible:(BOOL)visible {
+  [super setVisible:visible];
+  [self invalidateAllTimers];
+}
+
 - (void) setPosition:(CGPoint)position {
   CGPoint oldPos = position_;
   [super setPosition:position];
@@ -637,7 +669,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
-  CGRect loc = CGRectMake(0, 0, fsp.xLength, fsp.yLength);
+  CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
   
   int baseTag = [self baseTagForStructId:structId];
@@ -657,6 +689,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   _purchStructId = structId;
   
   [self doReorder];
+  
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:_purchBuilding];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {

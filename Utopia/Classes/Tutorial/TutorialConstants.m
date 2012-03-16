@@ -11,7 +11,7 @@
 
 @implementation TutorialConstants
 
-@synthesize initEnergy, initHealth, initStamina;
+@synthesize initEnergy, initHealth, initStamina, initGold, initSilver;
 @synthesize structToBuild, diamondCostToInstabuildFirstStruct;
 @synthesize archerInitArmor, archerInitAttack;
 @synthesize archerInitWeapon, archerInitDefense;
@@ -20,6 +20,8 @@
 @synthesize diamondRewardForReferrer, diamondRewardForBeingReferred;
 @synthesize minNameLength, maxNameLength;
 @synthesize tutorialQuest;
+@synthesize carpenterStructs, firstCityElementsForBad, firstCityElementsForGood;
+@synthesize enemyName;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
 
@@ -27,6 +29,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.initEnergy = constants.initEnergy;
   self.initHealth = constants.initHealth;
   self.initStamina = constants.initStamina;
+  self.initSilver = constants.initCoins;
+  self.initGold = constants.initDiamonds;
   self.structToBuild = constants.structToBuild;
   self.diamondCostToInstabuildFirstStruct = constants.diamondCostToInstabuildFirstStruct;
   self.archerInitArmor = constants.archerInitArmor;
@@ -46,6 +50,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.minNameLength = constants.minNameLength;
   self.maxNameLength = constants.maxNameLength;
   self.tutorialQuest = constants.tutorialQuest;
+  self.firstCityElementsForBad = constants.firstCityElementsForBadList;
+  self.firstCityElementsForGood = constants.firstCityElementsForGoodList;
+  self.carpenterStructs = constants.carpenterStructsList;
+  
+  self.enemyName = @"Woz";
 }
 
 @end

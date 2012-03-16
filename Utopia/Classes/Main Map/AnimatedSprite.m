@@ -36,11 +36,11 @@
     
     // Create a sprite for our bear
     self.sprite = [CCSprite spriteWithSpriteFrameName:@"skeletonking-walking-nearleft_00.png"];
-    _sprite.anchorPoint = ccp(-0.3, -0.3);
+    _sprite.anchorPoint = ccp(0, 0);
     
     // Move sprite a bit up
     self.walkAction = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnim restoreOriginalFrame:NO]];
-    _sprite.scale = 0.5;
+//    _sprite.scale = 0.5;
     [_sprite runAction:_walkAction];
     [spriteSheet addChild:_sprite];
     
@@ -109,11 +109,13 @@
   [super setIsSelected:isSelected];
   
   if (isSelected) {
-    if (self.isInProgress) {
-      [[OutgoingEventController sharedOutgoingEventController] retrieveQuestDetails:quest.questId];
+    if (quest) {
+      if (self.isInProgress) {
+        [[OutgoingEventController sharedOutgoingEventController] retrieveQuestDetails:quest.questId];
+      }
+      [[QuestLogController sharedQuestLogController] displayRightPageForQuest:quest inProgress:isInProgress];
+      [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     }
-    [[QuestLogController sharedQuestLogController] displayRightPageForQuest:quest inProgress:isInProgress];
-    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
   } else {
     [[[QuestLogController sharedQuestLogController] rightPage] removeFromSuperview];
   }
@@ -137,6 +139,12 @@
   [self addChild:_aboveHeadMark];
   _aboveHeadMark.position = ccp(self.sprite.contentSize.width/2, _sprite.contentSize.height*_sprite.scale+_aboveHeadMark.contentSize.height/2+10);
 }
+
+@end
+
+@implementation Enemy
+
+@synthesize user;
 
 @end
 

@@ -40,7 +40,13 @@
 - (void) moveMissionMapToAssetId:(int)assetId;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) loadHomeMap;
+- (void) moveMapToCenter:(GameMap *)map;
+- (void) moveMap:(GameMap *)map toSprite:(CCSprite *)spr;
+- (void) moveMissionMapToAssetId:(int)a;
+- (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
+- (void) loadHomeMap;
 - (void) closeMenus;
+- (void) loadTutorialMissionMap;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;

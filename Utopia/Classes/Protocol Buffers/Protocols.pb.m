@@ -113,6 +113,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:
+    case EventProtocolResponseSPurgeStaticDataEvent:
       return YES;
     default:
       return NO;

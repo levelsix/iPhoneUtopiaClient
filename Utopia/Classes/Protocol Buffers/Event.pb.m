@@ -6190,6 +6190,11 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property int32_t maxNameLength;
 @property int32_t diamondRewardForReferrer;
 @property int32_t diamondRewardForBeingReferred;
+@property (retain) NSMutableArray* mutableFirstCityElementsForGoodList;
+@property (retain) NSMutableArray* mutableFirstCityElementsForBadList;
+@property int32_t initCoins;
+@property int32_t initDiamonds;
+@property (retain) NSMutableArray* mutableCarpenterStructsList;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -6348,6 +6353,23 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasDiamondRewardForBeingReferred_ = !!value;
 }
 @synthesize diamondRewardForBeingReferred;
+@synthesize mutableFirstCityElementsForGoodList;
+@synthesize mutableFirstCityElementsForBadList;
+- (BOOL) hasInitCoins {
+  return !!hasInitCoins_;
+}
+- (void) setHasInitCoins:(BOOL) value {
+  hasInitCoins_ = !!value;
+}
+@synthesize initCoins;
+- (BOOL) hasInitDiamonds {
+  return !!hasInitDiamonds_;
+}
+- (void) setHasInitDiamonds:(BOOL) value {
+  hasInitDiamonds_ = !!value;
+}
+@synthesize initDiamonds;
+@synthesize mutableCarpenterStructsList;
 - (void) dealloc {
   self.tutorialQuest = nil;
   self.archerInitWeapon = nil;
@@ -6356,6 +6378,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   self.mageInitArmor = nil;
   self.warriorInitWeapon = nil;
   self.warriorInitArmor = nil;
+  self.mutableFirstCityElementsForGoodList = nil;
+  self.mutableFirstCityElementsForBadList = nil;
+  self.mutableCarpenterStructsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6382,6 +6407,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.maxNameLength = 0;
     self.diamondRewardForReferrer = 0;
     self.diamondRewardForBeingReferred = 0;
+    self.initCoins = 0;
+    self.initDiamonds = 0;
   }
   return self;
 }
@@ -6396,6 +6423,27 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (StartupResponseProto_TutorialConstants*) defaultInstance {
   return defaultStartupResponseProto_TutorialConstantsInstance;
+}
+- (NSArray*) firstCityElementsForGoodList {
+  return mutableFirstCityElementsForGoodList;
+}
+- (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index {
+  id value = [mutableFirstCityElementsForGoodList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) firstCityElementsForBadList {
+  return mutableFirstCityElementsForBadList;
+}
+- (NeutralCityElementProto*) firstCityElementsForBadAtIndex:(int32_t) index {
+  id value = [mutableFirstCityElementsForBadList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) carpenterStructsList {
+  return mutableCarpenterStructsList;
+}
+- (FullStructureProto*) carpenterStructsAtIndex:(int32_t) index {
+  id value = [mutableCarpenterStructsList objectAtIndex:index];
+  return value;
 }
 - (BOOL) isInitialized {
   if (!self.hasInitEnergy) {
@@ -6464,6 +6512,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (!self.hasDiamondRewardForBeingReferred) {
     return NO;
   }
+  if (!self.hasInitCoins) {
+    return NO;
+  }
+  if (!self.hasInitDiamonds) {
+    return NO;
+  }
   if (!self.tutorialQuest.isInitialized) {
     return NO;
   }
@@ -6484,6 +6538,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (!self.warriorInitArmor.isInitialized) {
     return NO;
+  }
+  for (NeutralCityElementProto* element in self.firstCityElementsForGoodList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (NeutralCityElementProto* element in self.firstCityElementsForBadList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullStructureProto* element in self.carpenterStructsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
   }
   return YES;
 }
@@ -6553,6 +6622,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasDiamondRewardForBeingReferred) {
     [output writeInt32:22 value:self.diamondRewardForBeingReferred];
+  }
+  for (NeutralCityElementProto* element in self.firstCityElementsForGoodList) {
+    [output writeMessage:23 value:element];
+  }
+  for (NeutralCityElementProto* element in self.firstCityElementsForBadList) {
+    [output writeMessage:24 value:element];
+  }
+  if (self.hasInitCoins) {
+    [output writeInt32:25 value:self.initCoins];
+  }
+  if (self.hasInitDiamonds) {
+    [output writeInt32:26 value:self.initDiamonds];
+  }
+  for (FullStructureProto* element in self.carpenterStructsList) {
+    [output writeMessage:27 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6628,6 +6712,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasDiamondRewardForBeingReferred) {
     size += computeInt32Size(22, self.diamondRewardForBeingReferred);
+  }
+  for (NeutralCityElementProto* element in self.firstCityElementsForGoodList) {
+    size += computeMessageSize(23, element);
+  }
+  for (NeutralCityElementProto* element in self.firstCityElementsForBadList) {
+    size += computeMessageSize(24, element);
+  }
+  if (self.hasInitCoins) {
+    size += computeInt32Size(25, self.initCoins);
+  }
+  if (self.hasInitDiamonds) {
+    size += computeInt32Size(26, self.initDiamonds);
+  }
+  for (FullStructureProto* element in self.carpenterStructsList) {
+    size += computeMessageSize(27, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7683,6 +7782,30 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasDiamondRewardForBeingReferred) {
     [self setDiamondRewardForBeingReferred:other.diamondRewardForBeingReferred];
   }
+  if (other.mutableFirstCityElementsForGoodList.count > 0) {
+    if (result.mutableFirstCityElementsForGoodList == nil) {
+      result.mutableFirstCityElementsForGoodList = [NSMutableArray array];
+    }
+    [result.mutableFirstCityElementsForGoodList addObjectsFromArray:other.mutableFirstCityElementsForGoodList];
+  }
+  if (other.mutableFirstCityElementsForBadList.count > 0) {
+    if (result.mutableFirstCityElementsForBadList == nil) {
+      result.mutableFirstCityElementsForBadList = [NSMutableArray array];
+    }
+    [result.mutableFirstCityElementsForBadList addObjectsFromArray:other.mutableFirstCityElementsForBadList];
+  }
+  if (other.hasInitCoins) {
+    [self setInitCoins:other.initCoins];
+  }
+  if (other.hasInitDiamonds) {
+    [self setInitDiamonds:other.initDiamonds];
+  }
+  if (other.mutableCarpenterStructsList.count > 0) {
+    if (result.mutableCarpenterStructsList == nil) {
+      result.mutableCarpenterStructsList = [NSMutableArray array];
+    }
+    [result.mutableCarpenterStructsList addObjectsFromArray:other.mutableCarpenterStructsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7825,6 +7948,32 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 176: {
         [self setDiamondRewardForBeingReferred:[input readInt32]];
+        break;
+      }
+      case 186: {
+        NeutralCityElementProto_Builder* subBuilder = [NeutralCityElementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addFirstCityElementsForGood:[subBuilder buildPartial]];
+        break;
+      }
+      case 194: {
+        NeutralCityElementProto_Builder* subBuilder = [NeutralCityElementProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addFirstCityElementsForBad:[subBuilder buildPartial]];
+        break;
+      }
+      case 200: {
+        [self setInitCoins:[input readInt32]];
+        break;
+      }
+      case 208: {
+        [self setInitDiamonds:[input readInt32]];
+        break;
+      }
+      case 218: {
+        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCarpenterStructs:[subBuilder buildPartial]];
         break;
       }
     }
@@ -8278,6 +8427,125 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForBeingReferred {
   result.hasDiamondRewardForBeingReferred = NO;
   result.diamondRewardForBeingReferred = 0;
+  return self;
+}
+- (NSArray*) firstCityElementsForGoodList {
+  if (result.mutableFirstCityElementsForGoodList == nil) { return [NSArray array]; }
+  return result.mutableFirstCityElementsForGoodList;
+}
+- (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index {
+  return [result firstCityElementsForGoodAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceFirstCityElementsForGoodAtIndex:(int32_t) index with:(NeutralCityElementProto*) value {
+  [result.mutableFirstCityElementsForGoodList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllFirstCityElementsForGood:(NSArray*) values {
+  if (result.mutableFirstCityElementsForGoodList == nil) {
+    result.mutableFirstCityElementsForGoodList = [NSMutableArray array];
+  }
+  [result.mutableFirstCityElementsForGoodList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstCityElementsForGoodList {
+  result.mutableFirstCityElementsForGoodList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addFirstCityElementsForGood:(NeutralCityElementProto*) value {
+  if (result.mutableFirstCityElementsForGoodList == nil) {
+    result.mutableFirstCityElementsForGoodList = [NSMutableArray array];
+  }
+  [result.mutableFirstCityElementsForGoodList addObject:value];
+  return self;
+}
+- (NSArray*) firstCityElementsForBadList {
+  if (result.mutableFirstCityElementsForBadList == nil) { return [NSArray array]; }
+  return result.mutableFirstCityElementsForBadList;
+}
+- (NeutralCityElementProto*) firstCityElementsForBadAtIndex:(int32_t) index {
+  return [result firstCityElementsForBadAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceFirstCityElementsForBadAtIndex:(int32_t) index with:(NeutralCityElementProto*) value {
+  [result.mutableFirstCityElementsForBadList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllFirstCityElementsForBad:(NSArray*) values {
+  if (result.mutableFirstCityElementsForBadList == nil) {
+    result.mutableFirstCityElementsForBadList = [NSMutableArray array];
+  }
+  [result.mutableFirstCityElementsForBadList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstCityElementsForBadList {
+  result.mutableFirstCityElementsForBadList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addFirstCityElementsForBad:(NeutralCityElementProto*) value {
+  if (result.mutableFirstCityElementsForBadList == nil) {
+    result.mutableFirstCityElementsForBadList = [NSMutableArray array];
+  }
+  [result.mutableFirstCityElementsForBadList addObject:value];
+  return self;
+}
+- (BOOL) hasInitCoins {
+  return result.hasInitCoins;
+}
+- (int32_t) initCoins {
+  return result.initCoins;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setInitCoins:(int32_t) value {
+  result.hasInitCoins = YES;
+  result.initCoins = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitCoins {
+  result.hasInitCoins = NO;
+  result.initCoins = 0;
+  return self;
+}
+- (BOOL) hasInitDiamonds {
+  return result.hasInitDiamonds;
+}
+- (int32_t) initDiamonds {
+  return result.initDiamonds;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setInitDiamonds:(int32_t) value {
+  result.hasInitDiamonds = YES;
+  result.initDiamonds = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitDiamonds {
+  result.hasInitDiamonds = NO;
+  result.initDiamonds = 0;
+  return self;
+}
+- (NSArray*) carpenterStructsList {
+  if (result.mutableCarpenterStructsList == nil) { return [NSArray array]; }
+  return result.mutableCarpenterStructsList;
+}
+- (FullStructureProto*) carpenterStructsAtIndex:(int32_t) index {
+  return [result carpenterStructsAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceCarpenterStructsAtIndex:(int32_t) index with:(FullStructureProto*) value {
+  [result.mutableCarpenterStructsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllCarpenterStructs:(NSArray*) values {
+  if (result.mutableCarpenterStructsList == nil) {
+    result.mutableCarpenterStructsList = [NSMutableArray array];
+  }
+  [result.mutableCarpenterStructsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCarpenterStructsList {
+  result.mutableCarpenterStructsList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addCarpenterStructs:(FullStructureProto*) value {
+  if (result.mutableCarpenterStructsList == nil) {
+    result.mutableCarpenterStructsList = [NSMutableArray array];
+  }
+  [result.mutableCarpenterStructsList addObject:value];
   return self;
 }
 @end
@@ -33022,6 +33290,186 @@ static RetrieveUserEquipForUserResponseProto* defaultRetrieveUserEquipForUserRes
     result.mutableUserEquipsList = [NSMutableArray array];
   }
   [result.mutableUserEquipsList addObject:value];
+  return self;
+}
+@end
+
+@interface PurgeClientStaticDataResponseProto ()
+@property int32_t senderId;
+@end
+
+@implementation PurgeClientStaticDataResponseProto
+
+- (BOOL) hasSenderId {
+  return !!hasSenderId_;
+}
+- (void) setHasSenderId:(BOOL) value {
+  hasSenderId_ = !!value;
+}
+@synthesize senderId;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.senderId = 0;
+  }
+  return self;
+}
+static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [PurgeClientStaticDataResponseProto class]) {
+    defaultPurgeClientStaticDataResponseProtoInstance = [[PurgeClientStaticDataResponseProto alloc] init];
+  }
+}
++ (PurgeClientStaticDataResponseProto*) defaultInstance {
+  return defaultPurgeClientStaticDataResponseProtoInstance;
+}
+- (PurgeClientStaticDataResponseProto*) defaultInstance {
+  return defaultPurgeClientStaticDataResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSenderId) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSenderId) {
+    [output writeInt32:1 value:self.senderId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSenderId) {
+    size += computeInt32Size(1, self.senderId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PurgeClientStaticDataResponseProto*) parseFromData:(NSData*) data {
+  return (PurgeClientStaticDataResponseProto*)[[[PurgeClientStaticDataResponseProto builder] mergeFromData:data] build];
+}
++ (PurgeClientStaticDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurgeClientStaticDataResponseProto*)[[[PurgeClientStaticDataResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PurgeClientStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PurgeClientStaticDataResponseProto*)[[[PurgeClientStaticDataResponseProto builder] mergeFromInputStream:input] build];
+}
++ (PurgeClientStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurgeClientStaticDataResponseProto*)[[[PurgeClientStaticDataResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurgeClientStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PurgeClientStaticDataResponseProto*)[[[PurgeClientStaticDataResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PurgeClientStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PurgeClientStaticDataResponseProto*)[[[PurgeClientStaticDataResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PurgeClientStaticDataResponseProto_Builder*) builder {
+  return [[[PurgeClientStaticDataResponseProto_Builder alloc] init] autorelease];
+}
++ (PurgeClientStaticDataResponseProto_Builder*) builderWithPrototype:(PurgeClientStaticDataResponseProto*) prototype {
+  return [[PurgeClientStaticDataResponseProto builder] mergeFrom:prototype];
+}
+- (PurgeClientStaticDataResponseProto_Builder*) builder {
+  return [PurgeClientStaticDataResponseProto builder];
+}
+@end
+
+@interface PurgeClientStaticDataResponseProto_Builder()
+@property (retain) PurgeClientStaticDataResponseProto* result;
+@end
+
+@implementation PurgeClientStaticDataResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PurgeClientStaticDataResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PurgeClientStaticDataResponseProto_Builder*) clear {
+  self.result = [[[PurgeClientStaticDataResponseProto alloc] init] autorelease];
+  return self;
+}
+- (PurgeClientStaticDataResponseProto_Builder*) clone {
+  return [PurgeClientStaticDataResponseProto builderWithPrototype:result];
+}
+- (PurgeClientStaticDataResponseProto*) defaultInstance {
+  return [PurgeClientStaticDataResponseProto defaultInstance];
+}
+- (PurgeClientStaticDataResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PurgeClientStaticDataResponseProto*) buildPartial {
+  PurgeClientStaticDataResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PurgeClientStaticDataResponseProto_Builder*) mergeFrom:(PurgeClientStaticDataResponseProto*) other {
+  if (other == [PurgeClientStaticDataResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSenderId) {
+    [self setSenderId:other.senderId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setSenderId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSenderId {
+  return result.hasSenderId;
+}
+- (int32_t) senderId {
+  return result.senderId;
+}
+- (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value {
+  result.hasSenderId = YES;
+  result.senderId = value;
+  return self;
+}
+- (PurgeClientStaticDataResponseProto_Builder*) clearSenderId {
+  result.hasSenderId = NO;
+  result.senderId = 0;
   return self;
 }
 @end

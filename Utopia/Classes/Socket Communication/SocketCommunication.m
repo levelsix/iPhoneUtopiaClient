@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.10"
+#define HOST_NAME @"10.1.10.29"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -57,10 +57,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) initNetworkCommunication {
   _asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
   [self connectToSocket];
-  [self rebuildSender];
   _currentTagNum = 1;
-  
-  [[OutgoingEventController sharedOutgoingEventController] startup];
+  [self rebuildSender];
 }
 
 - (void) readHeader {
@@ -70,6 +68,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
   NSLog(@"Connected to host");
   
+  [[OutgoingEventController sharedOutgoingEventController] startup];
   [self readHeader];
 }
 
@@ -90,7 +89,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 {
 	NSLog(@"socketDidDisconnect:withError: \"%@\"", err);
   NSLog(@"Attempting to reconnect..");
-  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+  UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
+  [av show];
+  [av release];
+//  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+  [self connectToSocket];
 }
 
 -(void) messageReceived:(NSData *)data withType:(EventProtocolResponse) eventType tag:(int)tag {
@@ -116,6 +122,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 -(void) sendData:(NSData *)data withMessageType: (int) type {
   NSMutableData *messageWithHeader = [NSMutableData data];
+  
+  if (_sender.userId == 0) {
+    NSLog(@"User id is 0!!!");
+  }
   
   // Need to reverse bytes for size and type(to account for endianness??)
   uint8_t header[HEADER_SIZE];
@@ -187,7 +197,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendStartupMessage:(uint64_t)clientTime {
-  NSString *udid = @"6f26355f8994d569fe853d3b5aaf61ec";//@"42d1cadaa64dbf3c3e8133e652a2df06";//[[UIDevice currentDevice] uniqueDeviceIdentifier];
+  NSString *udid = @"3";//@"6f26355f8994d569fe853d3b5aaf61ec";//@"42d1cadaa64dbf3c3e8133e652a2df06";//[[UIDevice currentDevice] uniqueDeviceIdentifier];
   StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
                                      setUdid:udid]
                                     setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]

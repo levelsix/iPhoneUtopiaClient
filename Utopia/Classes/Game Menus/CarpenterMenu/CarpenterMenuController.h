@@ -79,5 +79,7 @@ typedef enum {
 + (CarpenterMenuController *) sharedCarpenterMenuController;
 + (void) displayView;
 + (void) removeView;
++ (void) deallocSingleton;
+- (void) carpListingClicked:(CarpenterListing *)carp;
 
 @end

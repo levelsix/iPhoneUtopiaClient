@@ -11,16 +11,23 @@
 #import "Globals.h"
 #import "NibUtils.h"
 #import "MapViewController.h"
+#import "BattleLayer.h"
 
 #define MAP_OFFSET 100
 
 #define REORDER_START_Z 150
 
+@implementation EnemyPopupView
+
+@synthesize nameLabel, levelLabel;
+
+@end
+
 @implementation GameMap
 
 @synthesize selected = _selected;
 @synthesize tileSizeInPoints;
-@synthesize aviaryMenu;
+@synthesize aviaryMenu, enemyMenu;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
 {
@@ -68,11 +75,20 @@
     }
     
     [[NSBundle mainBundle] loadNibNamed:@"AviaryMenu" owner:self options:nil];
-    [[[CCDirector sharedDirector] openGLView] addSubview:self.aviaryMenu];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.aviaryMenu];
+    [[NSBundle mainBundle] loadNibNamed:@"EnemyPopupView" owner:self options:nil];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.enemyMenu];
+    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
     aviaryMenu.hidden = YES;
+    enemyMenu.hidden = YES;
   }
   return self;
+}
+
+- (void) setVisible:(BOOL)visible {
+  [super setVisible:visible];
+  self.selected = nil;
 }
 
 - (BOOL) mapSprite:(MapSprite *)front isInFrontOfMapSprite: (MapSprite *)back {
@@ -103,12 +119,27 @@
   }
 }
 
+- (void) updateEnemyMenu {
+  if (_selected && [_selected isKindOfClass:[Enemy class]]) {
+    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
+    
+    float width = enemyMenu.frame.size.width;
+    float height = enemyMenu.frame.size.height;
+    enemyMenu.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
+    
+    enemyMenu.hidden = NO;
+  } else {
+    enemyMenu.hidden = YES;
+  }
+}
+
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
     _selected.isSelected = NO;
     _selected = selected;
     _selected.isSelected = YES;
     [self updateAviaryMenu];
+    [self updateEnemyMenu];
   }
 }
 
@@ -183,8 +214,10 @@
     [node setPosition:ccpAdd(node.position, delta)];
     [pan setTranslation:CGPointZero inView:pan.view.superview];
     self.aviaryMenu.hidden = YES;
+    self.enemyMenu.hidden = YES;
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
     [self updateAviaryMenu];
+    [self updateEnemyMenu];
     CGPoint vel = [pan velocityInView:pan.view.superview];
     vel = [self convertVectorToGL: vel];
     
@@ -223,6 +256,7 @@
   node.position = ccpAdd(node.position, ccpMult(diff, node.scale));
   
   [self updateAviaryMenu];
+  [self updateEnemyMenu];
 }
 
 -(void) setPosition:(CGPoint)position {
@@ -244,11 +278,30 @@
   [MapViewController displayView];
 }
 
+- (IBAction)attackClicked:(id)sender {
+  if ([_selected isKindOfClass:[Enemy class]]) {
+    Enemy *enemy = (Enemy *)_selected;
+    FullUserProto *fup = enemy.user;
+    if (fup) {
+      [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+      self.visible = NO;
+    }
+  }
+}
+
+- (IBAction)profileClicked:(id)sender {
+  NSLog(@"Meep");
+}
+
 - (void) layerWillDisappear {
   self.selected = nil;
 }
 
 -(void) dealloc {
+  [self.enemyMenu removeFromSuperview];
+  self.enemyMenu = nil;
+  [self.aviaryMenu removeFromSuperview];
+  self.aviaryMenu = nil;
   [_mapSprites release];
   [super dealloc];
 }

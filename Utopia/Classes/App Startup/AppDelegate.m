@@ -129,7 +129,10 @@
   NSLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
-  [[GameState sharedGameState] purgeStaticData];
+  
+  if (![[GameViewController sharedGameViewController] isTutorial]) {
+    [[GameState sharedGameState] purgeStaticData];
+  }
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {

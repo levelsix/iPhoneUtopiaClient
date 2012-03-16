@@ -357,7 +357,7 @@
     self.backgroundColor = [UIColor clearColor];
     
     UIImage *visit = nil;
-    if (t == kTask && completed < total) {
+    if (t == kTask && completed < total && jobId != 0) {
       self.visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
       UIImage *visit = [Globals imageNamed:@"visit.png"];
       [self.visitButton setImage:visit forState:UIControlStateNormal];

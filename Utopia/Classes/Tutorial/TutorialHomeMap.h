@@ -11,11 +11,14 @@
 @interface TutorialHomeMap : HomeMap {
   BOOL _carpenterPhase;
   BOOL _visitCarpPhase;
+  BOOL _waitingForBuildPhase;
   CCSprite *_ccArrow;
   CritStructBuilding *_csb;
   Aviary *_av;
   UIImageView *_uiArrow;
   BOOL _arrowDir;
 }
+
+@property (nonatomic, retain) CoordinateProto *tutCoords;
 
 @end

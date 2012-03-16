@@ -100,11 +100,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressQuests = [[NSMutableDictionary alloc] init];
     
-    //TODO: take this out
-    _userId = 2;
-    _name = @"Ashwin";
-    _type = UserTypeBadMage;
-    
     _silver = 10000;
     _gold = 50;
     _vaultBalance = 2500;

@@ -14,7 +14,6 @@
 #import "RefillMenuController.h"
 #import "AnimatedSprite.h"
 
-#define ASSET_TAG_BASE 2555
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
 #define SUMMARY_MENU_ANIMATION_DURATION 0.15f
@@ -274,10 +273,11 @@
     }
     
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
-    [[[CCDirector sharedDirector] openGLView] addSubview:obMenu];
-    [[[CCDirector sharedDirector] openGLView] addSubview:summaryMenu];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:obMenu];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:summaryMenu];
     [obMenu setMissionMap:self];
     obMenu.hidden = YES;
+    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
     summaryMenu.center = CGPointMake(-summaryMenu.frame.size.width, 290);
     
@@ -302,7 +302,7 @@
   return self;
 }
 
--(void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk{
+-(void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
     for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
       [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canWalk]];
@@ -371,6 +371,18 @@
   }
 }
 
+- (void) setSelected:(SelectableSprite *)selected {
+  [super setSelected:selected];
+  if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
+    MissionBuilding *mb = (MissionBuilding *)_selected;
+    [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
+    [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
+    [self doMenuAnimations];
+  } else {
+    [self closeMenus];
+  }
+}
+
 - (void) doMenuAnimations {
   int width = summaryMenu.frame.size.width;
   
@@ -402,15 +414,6 @@
   if (oldSelected == _selected && [_selected isKindOfClass:[MissionBuilding class]]) {
     [self performCurrentTask];
     return;
-  }
-  
-  if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
-    MissionBuilding *mb = (MissionBuilding *)_selected;
-    [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
-    [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
-    [self doMenuAnimations];
-  } else {
-    [self closeMenus];
   }
 }
 

@@ -219,22 +219,12 @@
   UITouch *touch = [touches anyObject];
   CGPoint loc = [touch locationInView:self];
   if (self.state == kAvailable) {
-    self.darkOverlay.hidden = NO;
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-    self.darkOverlay.hidden = YES;
     if ([self pointInside:loc withEvent:event]) {
-      GameState *gs = [GameState sharedGameState];
-      if (gs.silver >= fsp.coinPrice && gs.gold >= fsp.diamondPrice) {
-        [[HomeMap sharedHomeMap] preparePurchaseOfStruct:_structId];
-        [CarpenterMenuController removeView];
-      } else {
-        if (fsp.coinPrice) {
-          [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
-        } else {
-          [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fsp.diamondPrice];
-        }
-      }
+      [[CarpenterMenuController sharedCarpenterMenuController] carpListingClicked:self];
+      self.darkOverlay.hidden = NO;
+      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
+    self.darkOverlay.hidden = YES;
   }
 }
 
@@ -246,6 +236,16 @@
 
 - (void) dealloc {
   [_lockedBuildingColor release];
+  self.titleLabel = nil;
+  self.priceLabel = nil;
+  self.priceView = nil;
+  self.incomeLabel = nil;
+  self.buildingIcon = nil;
+  self.tickerView = nil;
+  self.priceIcon = nil;
+  self.darkOverlay = nil;
+  self.backgroundImg = nil;
+  self.fsp = nil;
   [super dealloc];
 }
 
@@ -256,9 +256,15 @@
 @synthesize carpListing;
 
 - (void) awakeFromNib {
+  [super awakeFromNib];
   [[NSBundle mainBundle] loadNibNamed:@"CarpenterListing" owner:self options:nil];
   [self addSubview:self.carpListing];
   [self setBackgroundColor:[UIColor clearColor]];
+}
+
+- (void) dealloc {
+  self.carpListing = nil;
+  [super dealloc];
 }
 
 @end
@@ -266,6 +272,13 @@
 @implementation CarpenterRow
 
 @synthesize listing1, listing2, listing3;
+
+- (void) dealloc {
+  self.listing1 = nil;
+  self.listing2 = nil;
+  self.listing3 = nil;
+  [super dealloc];
+}
 
 @end
 
@@ -336,6 +349,27 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (IBAction)closeClicked:(id)sender {
   [CarpenterMenuController removeView];
+}
+
+- (void) carpListingClicked:(CarpenterListing *)carp {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.silver >= carp.fsp.coinPrice && gs.gold >= carp.fsp.diamondPrice) {
+    [[HomeMap sharedHomeMap] preparePurchaseOfStruct:carp.fsp.structId];
+    [CarpenterMenuController removeView];
+  } else {
+    if (carp.fsp.coinPrice) {
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    } else {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];
+    }
+  }
+}
+
+- (void) viewDidUnload {
+  [super viewDidUnload];
+  self.carpRow = nil;
+  self.carpTable = nil;
+  self.structsList = nil;
 }
 
 @end

@@ -295,8 +295,6 @@
 		CF1C5B871501AED50048D2EC /* fireactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A1D1501AED50048D2EC /* fireactive@2x.png */; };
 		CF1C5B881501AED50048D2EC /* fireinactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A1E1501AED50048D2EC /* fireinactive.png */; };
 		CF1C5B891501AED50048D2EC /* fireinactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A1F1501AED50048D2EC /* fireinactive@2x.png */; };
-		CF1C5B8A1501AED50048D2EC /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A201501AED50048D2EC /* glow.png */; };
-		CF1C5B8B1501AED50048D2EC /* glow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A211501AED50048D2EC /* glow@2x.png */; };
 		CF1C5B8C1501AED50048D2EC /* iso-test2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A221501AED50048D2EC /* iso-test2.png */; };
 		CF1C5B8D1501AED50048D2EC /* iso-test2.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A231501AED50048D2EC /* iso-test2.tmx */; };
 		CF1C5B8E1501AED50048D2EC /* iso-test2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A241501AED50048D2EC /* iso-test2@2x.png */; };
@@ -398,6 +396,21 @@
 		CF5EE04414CFEE8F0063F1E0 /* ArmoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */; };
 		CF6230A4150F4299000160BF /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF6230A2150F4299000160BF /* Home.tmx */; };
 		CF6230A5150F4299000160BF /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF6230A3150F4299000160BF /* Home@2x.tmx */; };
+		CF6653851511A1F40077CB6B /* TutorialCarpenterMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6653841511A1F40077CB6B /* TutorialCarpenterMenuController.m */; };
+		CF665388151222A10077CB6B /* TutorialMissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6653871512229F0077CB6B /* TutorialMissionMap.m */; };
+		CF66538B151236B00077CB6B /* TutorialQuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF66538A151236AE0077CB6B /* TutorialQuestLogController.m */; };
+		CF6653961512D99B0077CB6B /* characterbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF66538E1512D99B0077CB6B /* characterbubble.png */; };
+		CF6653971512D99B0077CB6B /* characterbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF66538F1512D99B0077CB6B /* characterbubble@2x.png */; };
+		CF6653981512D99B0077CB6B /* overpersonbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653901512D99B0077CB6B /* overpersonbubble.png */; };
+		CF6653991512D99B0077CB6B /* overpersonubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653911512D99B0077CB6B /* overpersonubble@2x.png */; };
+		CF66539D1512DA0D0077CB6B /* EnemyPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF66539C1512DA0C0077CB6B /* EnemyPopupView.xib */; };
+		CF6653A21512F2FD0077CB6B /* overheadattackbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF66539E1512F2FD0077CB6B /* overheadattackbutton.png */; };
+		CF6653A31512F2FD0077CB6B /* overheadattackbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF66539F1512F2FD0077CB6B /* overheadattackbutton@2x.png */; };
+		CF6653A41512F2FD0077CB6B /* overheadprofilebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653A01512F2FD0077CB6B /* overheadprofilebutton.png */; };
+		CF6653A51512F2FD0077CB6B /* overheadprofilebutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653A11512F2FD0077CB6B /* overheadprofilebutton@2x.png */; };
+		CF6653A71513428C0077CB6B /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653A61513428C0077CB6B /* glow.png */; };
+		CF6653A9151342910077CB6B /* glow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653A8151342910077CB6B /* glow@2x.png */; };
+		CF6653AD15134CE90077CB6B /* redeem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653AC15134CE80077CB6B /* redeem@2x.png */; };
 		CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */; };
 		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
 		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
@@ -472,7 +485,6 @@
 		CFD3C8FB150D77C2001EC185 /* rewardswords.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C8F5150D77C2001EC185 /* rewardswords.png */; };
 		CFD3C8FC150D77C2001EC185 /* rewardswords@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C8F6150D77C2001EC185 /* rewardswords@2x.png */; };
 		CFD3C8FD150D77C2001EC185 /* redeem.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C8F7150D77C2001EC185 /* redeem.png */; };
-		CFD3C8FE150D77C2001EC185 /* redeem@2x.psd in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C8F8150D77C2001EC185 /* redeem@2x.psd */; };
 		CFD3C903150DC0FA001EC185 /* notificationokaybutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C8FF150DC0F9001EC185 /* notificationokaybutton.png */; };
 		CFD3C904150DC0FA001EC185 /* notificationokaybutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C900150DC0FA001EC185 /* notificationokaybutton@2x.png */; };
 		CFD3C905150DC0FA001EC185 /* questcompletebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFD3C901150DC0FA001EC185 /* questcompletebg.png */; };
@@ -1114,8 +1126,6 @@
 		CF1C5A1D1501AED50048D2EC /* fireactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fireactive@2x.png"; sourceTree = "<group>"; };
 		CF1C5A1E1501AED50048D2EC /* fireinactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fireinactive.png; sourceTree = "<group>"; };
 		CF1C5A1F1501AED50048D2EC /* fireinactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fireinactive@2x.png"; sourceTree = "<group>"; };
-		CF1C5A201501AED50048D2EC /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
-		CF1C5A211501AED50048D2EC /* glow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glow@2x.png"; sourceTree = "<group>"; };
 		CF1C5A221501AED50048D2EC /* iso-test2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iso-test2.png"; sourceTree = "<group>"; };
 		CF1C5A231501AED50048D2EC /* iso-test2.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "iso-test2.tmx"; sourceTree = "<group>"; };
 		CF1C5A241501AED50048D2EC /* iso-test2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iso-test2@2x.png"; sourceTree = "<group>"; };
@@ -1293,6 +1303,24 @@
 		CF5EE04214CFEE8F0063F1E0 /* ArmoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryViewController.xib; path = ArmoryMenu/ArmoryViewController.xib; sourceTree = "<group>"; };
 		CF6230A2150F4299000160BF /* Home.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home.tmx; sourceTree = "<group>"; };
 		CF6230A3150F4299000160BF /* Home@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home@2x.tmx"; sourceTree = "<group>"; };
+		CF6653831511A1F40077CB6B /* TutorialCarpenterMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialCarpenterMenuController.h; path = Tutorial/TutorialCarpenterMenuController.h; sourceTree = "<group>"; };
+		CF6653841511A1F40077CB6B /* TutorialCarpenterMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialCarpenterMenuController.m; path = Tutorial/TutorialCarpenterMenuController.m; sourceTree = "<group>"; };
+		CF6653861512229F0077CB6B /* TutorialMissionMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialMissionMap.h; path = Tutorial/TutorialMissionMap.h; sourceTree = "<group>"; };
+		CF6653871512229F0077CB6B /* TutorialMissionMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialMissionMap.m; path = Tutorial/TutorialMissionMap.m; sourceTree = "<group>"; };
+		CF665389151236AD0077CB6B /* TutorialQuestLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialQuestLogController.h; path = Tutorial/TutorialQuestLogController.h; sourceTree = "<group>"; };
+		CF66538A151236AE0077CB6B /* TutorialQuestLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialQuestLogController.m; path = Tutorial/TutorialQuestLogController.m; sourceTree = "<group>"; };
+		CF66538E1512D99B0077CB6B /* characterbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = characterbubble.png; sourceTree = "<group>"; };
+		CF66538F1512D99B0077CB6B /* characterbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "characterbubble@2x.png"; sourceTree = "<group>"; };
+		CF6653901512D99B0077CB6B /* overpersonbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overpersonbubble.png; sourceTree = "<group>"; };
+		CF6653911512D99B0077CB6B /* overpersonubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overpersonubble@2x.png"; sourceTree = "<group>"; };
+		CF66539C1512DA0C0077CB6B /* EnemyPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EnemyPopupView.xib; path = "Utopia/Classes/Main Map/GameMap/EnemyPopupView.xib"; sourceTree = SOURCE_ROOT; };
+		CF66539E1512F2FD0077CB6B /* overheadattackbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overheadattackbutton.png; sourceTree = "<group>"; };
+		CF66539F1512F2FD0077CB6B /* overheadattackbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overheadattackbutton@2x.png"; sourceTree = "<group>"; };
+		CF6653A01512F2FD0077CB6B /* overheadprofilebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overheadprofilebutton.png; sourceTree = "<group>"; };
+		CF6653A11512F2FD0077CB6B /* overheadprofilebutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overheadprofilebutton@2x.png"; sourceTree = "<group>"; };
+		CF6653A61513428C0077CB6B /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
+		CF6653A8151342910077CB6B /* glow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glow@2x.png"; sourceTree = "<group>"; };
+		CF6653AC15134CE80077CB6B /* redeem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redeem@2x.png"; sourceTree = "<group>"; };
 		CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
@@ -1387,7 +1415,6 @@
 		CFD3C8F5150D77C2001EC185 /* rewardswords.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rewardswords.png; sourceTree = "<group>"; };
 		CFD3C8F6150D77C2001EC185 /* rewardswords@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rewardswords@2x.png"; sourceTree = "<group>"; };
 		CFD3C8F7150D77C2001EC185 /* redeem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redeem.png; sourceTree = "<group>"; };
-		CFD3C8F8150D77C2001EC185 /* redeem@2x.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = "redeem@2x.psd"; sourceTree = "<group>"; };
 		CFD3C8FF150DC0F9001EC185 /* notificationokaybutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationokaybutton.png; sourceTree = "<group>"; };
 		CFD3C900150DC0FA001EC185 /* notificationokaybutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationokaybutton@2x.png"; sourceTree = "<group>"; };
 		CFD3C901150DC0FA001EC185 /* questcompletebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = questcompletebg.png; sourceTree = "<group>"; };
@@ -2016,6 +2043,14 @@
 		CF1C59461501AED50048D2EC /* GameMap */ = {
 			isa = PBXGroup;
 			children = (
+				CF66539E1512F2FD0077CB6B /* overheadattackbutton.png */,
+				CF66539F1512F2FD0077CB6B /* overheadattackbutton@2x.png */,
+				CF6653A01512F2FD0077CB6B /* overheadprofilebutton.png */,
+				CF6653A11512F2FD0077CB6B /* overheadprofilebutton@2x.png */,
+				CF66538E1512D99B0077CB6B /* characterbubble.png */,
+				CF66538F1512D99B0077CB6B /* characterbubble@2x.png */,
+				CF6653901512D99B0077CB6B /* overpersonbubble.png */,
+				CF6653911512D99B0077CB6B /* overpersonubble@2x.png */,
 				CFDBE2B2150CCE5F00F601DB /* aviarybubble.png */,
 				CFDBE2B0150CCE5900F601DB /* aviarybubble@2x.png */,
 				CF1C59471501AED50048D2EC /* metatiles.png */,
@@ -2048,6 +2083,8 @@
 		CF1C59581501AED50048D2EC /* Home Building Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF6653A8151342910077CB6B /* glow@2x.png */,
+				CF6653A61513428C0077CB6B /* glow.png */,
 				CFA0FB05150F02D600C88583 /* retrievebubble.png */,
 				CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */,
 				CF16052F150B1D5F00BE029C /* movecrit.png */,
@@ -2253,6 +2290,7 @@
 		CF1C59EF1501AED50048D2EC /* Quest Log Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF6653AC15134CE80077CB6B /* redeem@2x.png */,
 				CF1C5A691501AED50048D2EC /* accept.png */,
 				CF1C5A6A1501AED50048D2EC /* accept@2x.png */,
 				CF1C5A741501AED50048D2EC /* dolater.png */,
@@ -2266,7 +2304,6 @@
 				CFD3C8F5150D77C2001EC185 /* rewardswords.png */,
 				CFD3C8F6150D77C2001EC185 /* rewardswords@2x.png */,
 				CFD3C8F7150D77C2001EC185 /* redeem.png */,
-				CFD3C8F8150D77C2001EC185 /* redeem@2x.psd */,
 				CFDBE2B4150D00ED00F601DB /* question.png */,
 				CFDBE2B5150D00ED00F601DB /* question@2x.png */,
 				CFDBE2B6150D00ED00F601DB /* exclamation.png */,
@@ -2357,8 +2394,6 @@
 				CF1C5A1D1501AED50048D2EC /* fireactive@2x.png */,
 				CF1C5A1E1501AED50048D2EC /* fireinactive.png */,
 				CF1C5A1F1501AED50048D2EC /* fireinactive@2x.png */,
-				CF1C5A201501AED50048D2EC /* glow.png */,
-				CF1C5A211501AED50048D2EC /* glow@2x.png */,
 				CF1C5A221501AED50048D2EC /* iso-test2.png */,
 				CF1C5A231501AED50048D2EC /* iso-test2.tmx */,
 				CF1C5A251501AED50048D2EC /* iso-test2@2x.tmx */,
@@ -2687,6 +2722,7 @@
 				CFA26F1314E719BA00FC1C71 /* GameMap.h */,
 				CFA26F1414E719BA00FC1C71 /* GameMap.m */,
 				CFDBE2AE150CCDCB00F601DB /* AviaryMenu.xib */,
+				CF66539C1512DA0C0077CB6B /* EnemyPopupView.xib */,
 				CFA26F1614E71A7F00FC1C71 /* HomeBuildingMenu.xib */,
 				CF16053B150B1DBE00BE029C /* CriticalStructureMenu.xib */,
 				CFA26F5814E86FAA00FC1C71 /* HomeMap.h */,
@@ -3034,6 +3070,12 @@
 				CFDB6C23150F81C600B87687 /* TutorialStartLayer.m */,
 				CF4AE1271510532A003F0F88 /* TutorialHomeMap.h */,
 				CF4AE1281510532B003F0F88 /* TutorialHomeMap.m */,
+				CF6653831511A1F40077CB6B /* TutorialCarpenterMenuController.h */,
+				CF6653841511A1F40077CB6B /* TutorialCarpenterMenuController.m */,
+				CF6653861512229F0077CB6B /* TutorialMissionMap.h */,
+				CF6653871512229F0077CB6B /* TutorialMissionMap.m */,
+				CF665389151236AD0077CB6B /* TutorialQuestLogController.h */,
+				CF66538A151236AE0077CB6B /* TutorialQuestLogController.m */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -3856,8 +3898,6 @@
 				CF1C5B871501AED50048D2EC /* fireactive@2x.png in Resources */,
 				CF1C5B881501AED50048D2EC /* fireinactive.png in Resources */,
 				CF1C5B891501AED50048D2EC /* fireinactive@2x.png in Resources */,
-				CF1C5B8A1501AED50048D2EC /* glow.png in Resources */,
-				CF1C5B8B1501AED50048D2EC /* glow@2x.png in Resources */,
 				CF1C5B8C1501AED50048D2EC /* iso-test2.png in Resources */,
 				CF1C5B8D1501AED50048D2EC /* iso-test2.tmx in Resources */,
 				CF1C5B8E1501AED50048D2EC /* iso-test2@2x.png in Resources */,
@@ -4157,7 +4197,6 @@
 				CFD3C8FB150D77C2001EC185 /* rewardswords.png in Resources */,
 				CFD3C8FC150D77C2001EC185 /* rewardswords@2x.png in Resources */,
 				CFD3C8FD150D77C2001EC185 /* redeem.png in Resources */,
-				CFD3C8FE150D77C2001EC185 /* redeem@2x.psd in Resources */,
 				CFD3C903150DC0FA001EC185 /* notificationokaybutton.png in Resources */,
 				CFD3C904150DC0FA001EC185 /* notificationokaybutton@2x.png in Resources */,
 				CFD3C905150DC0FA001EC185 /* questcompletebg.png in Resources */,
@@ -4218,6 +4257,18 @@
 				CFDB6C1F150F7A2500B87687 /* Coin_Deposit_Withdraw_Buy.m4a in Resources */,
 				CFDB6C21150F817F00B87687 /* warbg@2x.jpg in Resources */,
 				CF4AE12615103A45003F0F88 /* warbg.jpg in Resources */,
+				CF6653961512D99B0077CB6B /* characterbubble.png in Resources */,
+				CF6653971512D99B0077CB6B /* characterbubble@2x.png in Resources */,
+				CF6653981512D99B0077CB6B /* overpersonbubble.png in Resources */,
+				CF6653991512D99B0077CB6B /* overpersonubble@2x.png in Resources */,
+				CF66539D1512DA0D0077CB6B /* EnemyPopupView.xib in Resources */,
+				CF6653A21512F2FD0077CB6B /* overheadattackbutton.png in Resources */,
+				CF6653A31512F2FD0077CB6B /* overheadattackbutton@2x.png in Resources */,
+				CF6653A41512F2FD0077CB6B /* overheadprofilebutton.png in Resources */,
+				CF6653A51512F2FD0077CB6B /* overheadprofilebutton@2x.png in Resources */,
+				CF6653A71513428C0077CB6B /* glow.png in Resources */,
+				CF6653A9151342910077CB6B /* glow@2x.png in Resources */,
+				CF6653AD15134CE90077CB6B /* redeem@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4376,6 +4427,9 @@
 				CFDB6BE4150F799C00B87687 /* CDXPropertyModifierAction.m in Sources */,
 				CFDB6C24150F81C600B87687 /* TutorialStartLayer.m in Sources */,
 				CF4AE1291510532B003F0F88 /* TutorialHomeMap.m in Sources */,
+				CF6653851511A1F40077CB6B /* TutorialCarpenterMenuController.m in Sources */,
+				CF665388151222A10077CB6B /* TutorialMissionMap.m in Sources */,
+				CF66538B151236B00077CB6B /* TutorialQuestLogController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

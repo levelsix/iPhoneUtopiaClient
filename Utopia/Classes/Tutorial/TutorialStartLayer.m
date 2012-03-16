@@ -31,20 +31,23 @@
     
     [self addChild:_bgd];
     [_bgd runAction: [CCSequence actions:
-                     [CCMoveTo actionWithDuration:2 position:ccp(-_bgd.contentSize.width+self.contentSize.width, 0)],
+                     [CCMoveTo actionWithDuration:1 position:ccp(-_bgd.contentSize.width+self.contentSize.width, 0)],
                      [CCMoveTo actionWithDuration:0.5 position:ccp(-_bgd.contentSize.width/2+self.contentSize.width/2, 0)],
                      [CCCallFunc actionWithTarget:self selector:@selector(panDone)], nil]];
     
     // Set up the game state
     GameState *gs = [GameState sharedGameState];
-//    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
     
     gs.level = 1;
     gs.experience = 0;
-    gs.currentEnergy = 5;
-    gs.maxEnergy = 5;
-    gs.currentStamina = 1;
-    gs.maxStamina = 1;
+    gs.currentEnergy = tc.initEnergy;
+    gs.maxEnergy = tc.initEnergy;
+    gs.currentStamina = tc.initStamina;
+    gs.maxStamina = tc.initStamina;
+    gs.maxHealth = tc.initHealth;
+    gs.gold = tc.initGold;
+    gs.silver = tc.initSilver;
   }
   return self;
 }
@@ -53,7 +56,7 @@
   CCLayerColor *white = [CCLayerColor layerWithColor:ccc4(255, 255, 255, 0)];
   [self addChild:white z:0 tag:2];
   
-  float dur = 3;
+  float dur = 0.5;
   _origPos = _bgd.position;
   [self shakeMoar];
   [white runAction:[CCSequence actions:

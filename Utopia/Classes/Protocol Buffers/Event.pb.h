@@ -142,6 +142,8 @@
 @class PurchaseNormStructureRequestProto_Builder;
 @class PurchaseNormStructureResponseProto;
 @class PurchaseNormStructureResponseProto_Builder;
+@class PurgeClientStaticDataResponseProto;
+@class PurgeClientStaticDataResponseProto_Builder;
 @class QuestAcceptRequestProto;
 @class QuestAcceptRequestProto_Builder;
 @class QuestAcceptResponseProto;
@@ -2052,50 +2054,57 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
-  BOOL hasDiamondRewardForBeingReferred_:1;
-  BOOL hasDiamondRewardForReferrer_:1;
-  BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasWarriorInitDefense_:1;
   BOOL hasWarriorInitAttack_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasDiamondRewardForReferrer_:1;
   BOOL hasMageInitDefense_:1;
   BOOL hasMageInitAttack_:1;
+  BOOL hasDiamondRewardForBeingReferred_:1;
+  BOOL hasInitCoins_:1;
   BOOL hasArcherInitDefense_:1;
   BOOL hasArcherInitAttack_:1;
   BOOL hasDiamondCostToInstabuildFirstStruct_:1;
   BOOL hasStructToBuild_:1;
+  BOOL hasInitDiamonds_:1;
   BOOL hasInitHealth_:1;
   BOOL hasInitStamina_:1;
   BOOL hasInitEnergy_:1;
-  BOOL hasArcherInitWeapon_:1;
-  BOOL hasArcherInitArmor_:1;
-  BOOL hasMageInitWeapon_:1;
-  BOOL hasMageInitArmor_:1;
-  BOOL hasWarriorInitWeapon_:1;
   BOOL hasWarriorInitArmor_:1;
+  BOOL hasWarriorInitWeapon_:1;
+  BOOL hasMageInitArmor_:1;
+  BOOL hasMageInitWeapon_:1;
+  BOOL hasArcherInitArmor_:1;
+  BOOL hasArcherInitWeapon_:1;
   BOOL hasTutorialQuest_:1;
-  int32_t diamondRewardForBeingReferred;
-  int32_t diamondRewardForReferrer;
-  int32_t maxNameLength;
   int32_t minNameLength;
   int32_t warriorInitDefense;
   int32_t warriorInitAttack;
+  int32_t maxNameLength;
+  int32_t diamondRewardForReferrer;
   int32_t mageInitDefense;
   int32_t mageInitAttack;
+  int32_t diamondRewardForBeingReferred;
+  int32_t initCoins;
   int32_t archerInitDefense;
   int32_t archerInitAttack;
   int32_t diamondCostToInstabuildFirstStruct;
   int32_t structToBuild;
+  int32_t initDiamonds;
   int32_t initHealth;
   int32_t initStamina;
   int32_t initEnergy;
-  FullEquipProto* archerInitWeapon;
-  FullEquipProto* archerInitArmor;
-  FullEquipProto* mageInitWeapon;
-  FullEquipProto* mageInitArmor;
-  FullEquipProto* warriorInitWeapon;
   FullEquipProto* warriorInitArmor;
+  FullEquipProto* warriorInitWeapon;
+  FullEquipProto* mageInitArmor;
+  FullEquipProto* mageInitWeapon;
+  FullEquipProto* archerInitArmor;
+  FullEquipProto* archerInitWeapon;
   StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
+  NSMutableArray* mutableFirstCityElementsForGoodList;
+  NSMutableArray* mutableFirstCityElementsForBadList;
+  NSMutableArray* mutableCarpenterStructsList;
 }
 - (BOOL) hasInitEnergy;
 - (BOOL) hasInitStamina;
@@ -2119,6 +2128,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasMaxNameLength;
 - (BOOL) hasDiamondRewardForReferrer;
 - (BOOL) hasDiamondRewardForBeingReferred;
+- (BOOL) hasInitCoins;
+- (BOOL) hasInitDiamonds;
 @property (readonly) int32_t initEnergy;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t initHealth;
@@ -2141,6 +2152,14 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t maxNameLength;
 @property (readonly) int32_t diamondRewardForReferrer;
 @property (readonly) int32_t diamondRewardForBeingReferred;
+@property (readonly) int32_t initCoins;
+@property (readonly) int32_t initDiamonds;
+- (NSArray*) firstCityElementsForGoodList;
+- (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
+- (NSArray*) firstCityElementsForBadList;
+- (NeutralCityElementProto*) firstCityElementsForBadAtIndex:(int32_t) index;
+- (NSArray*) carpenterStructsList;
+- (FullStructureProto*) carpenterStructsAtIndex:(int32_t) index;
 
 + (StartupResponseProto_TutorialConstants*) defaultInstance;
 - (StartupResponseProto_TutorialConstants*) defaultInstance;
@@ -2497,6 +2516,37 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) diamondRewardForBeingReferred;
 - (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForBeingReferred:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForBeingReferred;
+
+- (NSArray*) firstCityElementsForGoodList;
+- (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceFirstCityElementsForGoodAtIndex:(int32_t) index with:(NeutralCityElementProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addFirstCityElementsForGood:(NeutralCityElementProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllFirstCityElementsForGood:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstCityElementsForGoodList;
+
+- (NSArray*) firstCityElementsForBadList;
+- (NeutralCityElementProto*) firstCityElementsForBadAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceFirstCityElementsForBadAtIndex:(int32_t) index with:(NeutralCityElementProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addFirstCityElementsForBad:(NeutralCityElementProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllFirstCityElementsForBad:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstCityElementsForBadList;
+
+- (BOOL) hasInitCoins;
+- (int32_t) initCoins;
+- (StartupResponseProto_TutorialConstants_Builder*) setInitCoins:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitCoins;
+
+- (BOOL) hasInitDiamonds;
+- (int32_t) initDiamonds;
+- (StartupResponseProto_TutorialConstants_Builder*) setInitDiamonds:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearInitDiamonds;
+
+- (NSArray*) carpenterStructsList;
+- (FullStructureProto*) carpenterStructsAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceCarpenterStructsAtIndex:(int32_t) index with:(FullStructureProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addCarpenterStructs:(FullStructureProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllCarpenterStructs:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCarpenterStructsList;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {
@@ -7993,5 +8043,53 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (RetrieveUserEquipForUserResponseProto_Builder*) addUserEquips:(FullUserEquipProto*) value;
 - (RetrieveUserEquipForUserResponseProto_Builder*) addAllUserEquips:(NSArray*) values;
 - (RetrieveUserEquipForUserResponseProto_Builder*) clearUserEquipsList;
+@end
+
+@interface PurgeClientStaticDataResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSenderId_:1;
+  int32_t senderId;
+}
+- (BOOL) hasSenderId;
+@property (readonly) int32_t senderId;
+
++ (PurgeClientStaticDataResponseProto*) defaultInstance;
+- (PurgeClientStaticDataResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PurgeClientStaticDataResponseProto_Builder*) builder;
++ (PurgeClientStaticDataResponseProto_Builder*) builder;
++ (PurgeClientStaticDataResponseProto_Builder*) builderWithPrototype:(PurgeClientStaticDataResponseProto*) prototype;
+
++ (PurgeClientStaticDataResponseProto*) parseFromData:(NSData*) data;
++ (PurgeClientStaticDataResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurgeClientStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PurgeClientStaticDataResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PurgeClientStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PurgeClientStaticDataResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PurgeClientStaticDataResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PurgeClientStaticDataResponseProto* result;
+}
+
+- (PurgeClientStaticDataResponseProto*) defaultInstance;
+
+- (PurgeClientStaticDataResponseProto_Builder*) clear;
+- (PurgeClientStaticDataResponseProto_Builder*) clone;
+
+- (PurgeClientStaticDataResponseProto*) build;
+- (PurgeClientStaticDataResponseProto*) buildPartial;
+
+- (PurgeClientStaticDataResponseProto_Builder*) mergeFrom:(PurgeClientStaticDataResponseProto*) other;
+- (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PurgeClientStaticDataResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSenderId;
+- (int32_t) senderId;
+- (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value;
+- (PurgeClientStaticDataResponseProto_Builder*) clearSenderId;
 @end
 

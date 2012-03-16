@@ -204,9 +204,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
   } else {
     // Need to create new player
+    StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
+    [[TutorialConstants sharedTutorialConstants] loadTutorialConstants:tc];
+    [gs addToStaticStructs:tc.carpenterStructsList];
+    NSArray *arr = [NSArray arrayWithObjects:tc.warriorInitWeapon, tc.warriorInitArmor, tc.archerInitWeapon, tc.archerInitArmor, tc.mageInitWeapon, tc.mageInitArmor, nil];
+    [gs addToStaticEquips:arr];
+    
     [[GameViewController sharedGameViewController] setIsTutorial:YES];
     [[GameState sharedGameState] setConnected:YES];
-    [[TutorialConstants sharedTutorialConstants] loadTutorialConstants:proto.tutorialConstants];
   }
 }
 

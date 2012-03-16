@@ -14,6 +14,8 @@
 @property (nonatomic, assign) int initEnergy;
 @property (nonatomic, assign) int initStamina;
 @property (nonatomic, assign) int initHealth;
+@property (nonatomic, assign) int initGold;
+@property (nonatomic, assign) int initSilver;
 @property (nonatomic, assign) int structToBuild;
 @property (nonatomic, assign) int diamondCostToInstabuildFirstStruct;
 @property (nonatomic, assign) int archerInitAttack;
@@ -32,7 +34,12 @@
 @property (nonatomic, assign) int maxNameLength;
 @property (nonatomic, assign) int diamondRewardForReferrer;
 @property (nonatomic, assign) int diamondRewardForBeingReferred;
+@property (nonatomic, retain) NSArray *firstCityElementsForGood;
+@property (nonatomic, retain) NSArray *firstCityElementsForBad;
+@property (nonatomic, retain) NSArray *carpenterStructs;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutorialQuest;
+
+@property (nonatomic, retain) NSString *enemyName;
 
 + (TutorialConstants *) sharedTutorialConstants;
 - (void) loadTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;

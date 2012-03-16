@@ -9,6 +9,8 @@
 #import "GameMap.h"
 #import "Protocols.pb.h"
 
+#define ASSET_TAG_BASE 2555
+
 @class MissionMap;
 
 @interface MissionBuildingSummaryMenu : UIView
@@ -45,9 +47,11 @@
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
 - (void) performCurrentTask;
+- (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
 
+- (void) closeMenus;
 - (void) questAccepted:(FullQuestProto *)fqp;
 - (void) reloadQuestGivers;
 

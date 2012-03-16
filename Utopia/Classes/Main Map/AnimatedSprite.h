@@ -36,6 +36,12 @@
 
 @end
 
+@interface Enemy : AnimatedSprite
+
+@property (nonatomic, retain) FullUserProto *user;
+
+@end
+
 @interface MoveToLocation : CCActionInterval <NSCopying> {
   CGRect startLocation_;
   CGRect endLocation_;
