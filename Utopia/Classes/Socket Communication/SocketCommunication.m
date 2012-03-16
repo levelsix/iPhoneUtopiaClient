@@ -68,7 +68,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
   NSLog(@"Connected to host");
   
-  [[OutgoingEventController sharedOutgoingEventController] startup];
+  if (![[GameState sharedGameState] connected]) {
+    [[OutgoingEventController sharedOutgoingEventController] startup];
+  }
   [self readHeader];
 }
 

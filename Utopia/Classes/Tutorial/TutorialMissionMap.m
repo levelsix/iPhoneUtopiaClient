@@ -143,7 +143,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
     [qg addChild:_ccArrow];
-    _ccArrow.position = ccp(qg.contentSize.width/2, qg.contentSize.height+_ccArrow.contentSize.height/2+10);
+    _ccArrow.position = ccp(qg.contentSize.width/2, qg.contentSize.height+_ccArrow.contentSize.height+10);
     
     CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
     [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
@@ -254,9 +254,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     GameState *gs = [GameState sharedGameState];
     QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
     qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
-    qcv.visitDescLabel.text = [NSString stringWithFormat: @"Visit %@ in Kirin Village to redeem your reward."];
+    qcv.visitDescLabel.text = @"Visit Farmer Mitch Lieu in Kirin Village to redeem your reward.";
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
   }
+}
+
+- (void) levelUp {
+  
 }
 
 - (IBAction)attackClicked:(id)sender {

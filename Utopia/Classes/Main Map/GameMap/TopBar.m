@@ -41,6 +41,8 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
+@synthesize profilePic = _profilePic;
+
 - (id) init {
   if ((self = [super init])) {
     _enstBgd = [CCSprite spriteWithFile:@"enstbg.png"];

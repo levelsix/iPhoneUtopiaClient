@@ -52,6 +52,7 @@
     self.acceptButtons.hidden = NO;
     self.redeemButton.hidden = YES;
   } else {
+    [self.questDescView addSubview:_arrow];
     _arrow.center = CGPointMake(CGRectGetMinX(self.redeemButton.frame)-_arrow.frame.size.width-5, self.redeemButton.center.y);
     
     UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
@@ -174,6 +175,7 @@
 
 - (IBAction)redeemTapped:(id)sender {
   [_arrow removeFromSuperview];
+  [TutorialQuestLogController removeView];
 }
 
 - (void) dealloc {

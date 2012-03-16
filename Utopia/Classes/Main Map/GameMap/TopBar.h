@@ -58,6 +58,8 @@ typedef enum {
   NSTimer *_staminaTimer;
 }
 
+@property (nonatomic, retain) ProfilePicture *profilePic;
+
 - (void) setUpEnergyTimer;
 - (void) setUpStaminaTimer;
 
