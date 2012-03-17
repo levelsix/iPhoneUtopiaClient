@@ -29,6 +29,10 @@
   [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
     _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
   } completion:nil];
+  
+  self.curWeaponView.userInteractionEnabled = NO;
+  self.curArmorView.userInteractionEnabled = NO;
+  self.curAmuletView.userInteractionEnabled = NO;
 }
 
 - (IBAction)skillButtonClicked:(id)sender {
@@ -99,25 +103,28 @@
 
 - (IBAction)closeClicked:(id)sender {
   if (_closingPhase) {
-    [self closeClicked:sender];
+    [super closeClicked:sender];
     [[TutorialMissionMap sharedTutorialMissionMap] levelUpComplete];
   }
 }
 
 - (void) equipViewSelected:(EquipView *)ev {
-  [_arrow removeFromSuperview];
-  [self.view addSubview:_arrow];
-  
-  UIView *close = [self.view viewWithTag:20];
-  _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
-  
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-  } completion:nil];
-  
-  _equippingPhase = NO;
-  _closingPhase = YES;
+  if (_equippingPhase && ev.tag == 2) {
+    [super equipViewSelected:ev];
+    [_arrow removeFromSuperview];
+    [self.view addSubview:_arrow];
+    
+    UIView *close = [self.view viewWithTag:20];
+    _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
+    
+    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+    } completion:nil];
+    
+    _equippingPhase = NO;
+    _closingPhase = YES;
+  }
 }
 
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev {

@@ -306,7 +306,8 @@ typedef enum {
   UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists = 3,
   UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime = 4,
   UserCreateResponseProto_UserCreateStatusInvalidSkillPointAllocation = 5,
-  UserCreateResponseProto_UserCreateStatusOtherFail = 6,
+  UserCreateResponseProto_UserCreateStatusInvalidReferCode = 6,
+  UserCreateResponseProto_UserCreateStatusOtherFail = 7,
 } UserCreateResponseProto_UserCreateStatus;
 
 BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value);
@@ -1647,13 +1648,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasHealthBaseCost_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
@@ -1686,13 +1687,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasDefenseBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
   Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 cutOfVaultDepositTaken;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentReturnedToUserForSellingNormStructure;
   int32_t healthBaseCost;
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
-  int32_t cutOfVaultDepositTaken;
   int32_t maxLevelForStruct;
   int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
@@ -1788,7 +1789,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t healthBaseCost;
 @property (readonly) int32_t staminaBaseCost;
 @property (readonly) int32_t skillPointsGainedOnLevelup;
-@property (readonly) int32_t cutOfVaultDepositTaken;
+@property (readonly) Float64 cutOfVaultDepositTaken;
 @property (readonly) int32_t maxLevelForStruct;
 @property (readonly) int32_t maxNumOfSingleStruct;
 @property (readonly) Float64 percentReturnedToUserForSellingNormStructure;
@@ -1969,8 +1970,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_StartupConstants_Builder*) clearSkillPointsGainedOnLevelup;
 
 - (BOOL) hasCutOfVaultDepositTaken;
-- (int32_t) cutOfVaultDepositTaken;
-- (StartupResponseProto_StartupConstants_Builder*) setCutOfVaultDepositTaken:(int32_t) value;
+- (Float64) cutOfVaultDepositTaken;
+- (StartupResponseProto_StartupConstants_Builder*) setCutOfVaultDepositTaken:(Float64) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearCutOfVaultDepositTaken;
 
 - (BOOL) hasMaxLevelForStruct;

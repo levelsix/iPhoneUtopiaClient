@@ -4330,7 +4330,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t healthBaseCost;
 @property int32_t staminaBaseCost;
 @property int32_t skillPointsGainedOnLevelup;
-@property int32_t cutOfVaultDepositTaken;
+@property Float64 cutOfVaultDepositTaken;
 @property int32_t maxLevelForStruct;
 @property int32_t maxNumOfSingleStruct;
 @property Float64 percentReturnedToUserForSellingNormStructure;
@@ -4901,7 +4901,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     [output writeInt32:27 value:self.skillPointsGainedOnLevelup];
   }
   if (self.hasCutOfVaultDepositTaken) {
-    [output writeInt32:28 value:self.cutOfVaultDepositTaken];
+    [output writeDouble:28 value:self.cutOfVaultDepositTaken];
   }
   if (self.hasMaxLevelForStruct) {
     [output writeInt32:33 value:self.maxLevelForStruct];
@@ -5043,7 +5043,7 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     size += computeInt32Size(27, self.skillPointsGainedOnLevelup);
   }
   if (self.hasCutOfVaultDepositTaken) {
-    size += computeInt32Size(28, self.cutOfVaultDepositTaken);
+    size += computeDoubleSize(28, self.cutOfVaultDepositTaken);
   }
   if (self.hasMaxLevelForStruct) {
     size += computeInt32Size(33, self.maxLevelForStruct);
@@ -5416,8 +5416,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
         [self setSkillPointsGainedOnLevelup:[input readInt32]];
         break;
       }
-      case 224: {
-        [self setCutOfVaultDepositTaken:[input readInt32]];
+      case 225: {
+        [self setCutOfVaultDepositTaken:[input readDouble]];
         break;
       }
       case 264: {
@@ -5896,10 +5896,10 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (BOOL) hasCutOfVaultDepositTaken {
   return result.hasCutOfVaultDepositTaken;
 }
-- (int32_t) cutOfVaultDepositTaken {
+- (Float64) cutOfVaultDepositTaken {
   return result.cutOfVaultDepositTaken;
 }
-- (StartupResponseProto_StartupConstants_Builder*) setCutOfVaultDepositTaken:(int32_t) value {
+- (StartupResponseProto_StartupConstants_Builder*) setCutOfVaultDepositTaken:(Float64) value {
   result.hasCutOfVaultDepositTaken = YES;
   result.cutOfVaultDepositTaken = value;
   return self;
@@ -10408,6 +10408,7 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
     case UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists:
     case UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime:
     case UserCreateResponseProto_UserCreateStatusInvalidSkillPointAllocation:
+    case UserCreateResponseProto_UserCreateStatusInvalidReferCode:
     case UserCreateResponseProto_UserCreateStatusOtherFail:
       return YES;
     default:

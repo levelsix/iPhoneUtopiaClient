@@ -16,6 +16,7 @@
 #import "SynthesizeSingleton.h"
 #import "LevelUpViewController.h"
 #import "TutorialProfileViewController.h"
+#import "TutorialMapViewController.h"
 
 @implementation TutorialMissionMap
 
@@ -200,6 +201,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   } else if (_doTaskPhase && [selected isKindOfClass:[MissionBuilding class]] && 
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == tc.tutorialQuest.assetNumWithinCity) {
     [super setSelected:selected];
+  } else if (_aviaryPhase && [selected isKindOfClass:[Aviary class]]) {
+    [super setSelected:selected];
+    [TutorialMapViewController sharedMapViewController];
   } else {
     [super setSelected:nil];
   }
@@ -286,7 +290,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 
 - (void) redeemComplete {
   _redeemQuestPhase = NO;
-  _equippingPhase = YES;
   self.selected = nil;
   [self levelUp];
 }
@@ -305,7 +308,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:nil];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
   [_ccArrow removeFromParentAndCleanup:YES];
-  
 }
 
 - (void) levelUpComplete {
@@ -316,6 +318,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
   [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                          [upAction reverse], nil]]];
+  
+  _aviaryPhase = YES;
 }
 
 - (IBAction)attackClicked:(id)sender {

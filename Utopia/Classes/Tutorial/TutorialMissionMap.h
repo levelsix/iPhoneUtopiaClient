@@ -15,7 +15,7 @@
   BOOL _redeemQuestPhase;
   BOOL _doBattlePhase;
   BOOL _doTaskPhase;
-  BOOL _equippingPhase;
+  BOOL _aviaryPhase;
   
   CCSprite *_ccArrow;
   
