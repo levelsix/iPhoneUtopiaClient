@@ -104,7 +104,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       ue.equipId = equipId;
       ue.userId = gs.userId;
       ue.quantity = 1;
-      ue.isStolen = NO;
       [gs.myEquips addObject:ue];
     }
     
@@ -987,7 +986,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         ue.equipId = fqp.equipIdGained;
         ue.userId = gs.userId;
         ue.quantity = 1;
-        ue.isStolen = NO;
         [gs.myEquips addObject:ue];
       }
     }

@@ -95,14 +95,6 @@
     [self addChild:_expCircle z:2];
     _expCircle.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
-//    CCSprite *health = [CCSprite spriteWithFile:@"healthgreen.png"];
-//    CCSprite *mask = [CCSprite spriteWithFile:@"healthmask.png"];
-//    _healthBar = [[MaskedHealth alloc] initHealthWithFile:health andMask:mask];
-//    _healthBar.percentage = 30;
-//    CCSprite *s = [_healthBar updateSprite];
-//    [self addChild:s z:0 tag:1];
-//    s.position = ccp(s.contentSize.width/2, s.contentSize.height/2);
-    
     _menuItems = [[[NSMutableArray alloc] init] retain];
     
     CCMenuItemImage *button1 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];

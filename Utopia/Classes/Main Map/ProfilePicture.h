@@ -43,5 +43,12 @@
 - (void) buttonClicked:(CCMenuItem *)clickedButton selector:(SEL)sel;
 - (void) setExpPercentage:(float)perc;
 - (void) setLevel:(int)level;
+- (void) popOutButtons;
+- (void) popInButtons;
+- (void) buttonClicked:(CCMenuItem *)clickedButton selector:(SEL)sel;
+- (void) button1Clicked:(id)sender;
+- (void) button2Clicked:(id)sender;
+- (void) button3Clicked:(id)sender;
+- (void) button4Clicked:(id)sender;
 
 @end

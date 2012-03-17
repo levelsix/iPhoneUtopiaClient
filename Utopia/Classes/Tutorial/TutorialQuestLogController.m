@@ -175,7 +175,8 @@
 
 - (IBAction)redeemTapped:(id)sender {
   [_arrow removeFromSuperview];
-  [TutorialQuestLogController removeView];
+  [super closeButtonClicked:nil];
+  [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
 }
 
 - (void) dealloc {

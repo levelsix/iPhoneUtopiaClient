@@ -177,6 +177,10 @@ typedef enum {
 - (void) openSkillsMenu;
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev;
+- (void) loadSkills;
+
+- (IBAction)skillButtonClicked:(id)sender;
+- (IBAction)closeClicked:(id)sender;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) displayView;

@@ -163,6 +163,7 @@
 
 - (void) loadForEquip:(FullEquipProto *)fep {
   nameLabel.text = fep.name;
+  nameLabel.textColor = [Globals colorForRarity:fep.rarity];
   equipIcon.image = [Globals imageForEquip:fep.equipId];
   attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
@@ -435,8 +436,10 @@ static CCScene *scene = nil;
   
   self.brp = nil;
   
-  [_fup release];
-  _fup = [user retain];
+  if (_fup != user) {
+    [_fup release];
+    _fup = [user retain];
+  }
   
   [summaryView removeFromSuperview];
   [stolenEquipView removeFromSuperview];

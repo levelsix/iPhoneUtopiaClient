@@ -62,18 +62,6 @@
   
   TopBar *tb = [TopBar sharedTopBar];
   [tb setIsTouchEnabled:NO];
-  
-  GameState *gs = [GameState sharedGameState];
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  
-  gs.level = 1;
-  gs.experience = 0;
-  gs.currentEnergy = tc.initEnergy;
-  gs.maxEnergy = tc.initEnergy;
-  gs.currentStamina = tc.initStamina;
-  gs.maxStamina = tc.initStamina;
-  gs.gold = tc.initGold;
-  gs.silver = 100;
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {

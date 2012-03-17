@@ -18,14 +18,13 @@
 
 @implementation UserEquip
 
-@synthesize userId, equipId, quantity, isStolen;
+@synthesize userId, equipId, quantity;
 
 - (id) initWithEquipProto:(FullUserEquipProto *)proto {
   if ((self = [super init])){
     self.userId = proto.userId;
     self.equipId = proto.equipId;
     self.quantity = proto.quantity;
-    self.isStolen = proto.isStolen;
   }
   return self;
 }

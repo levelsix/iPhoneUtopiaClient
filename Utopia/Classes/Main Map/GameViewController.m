@@ -21,6 +21,8 @@
 #import "QuestLogController.h"
 #import "TutorialStartLayer.h"
 #import "TutorialHomeMap.h"
+#import "TopBar.h"
+#import "TutorialTopBar.h"
 
 @implementation GameView
 
@@ -60,7 +62,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
 	// Try to use CADisplayLink director
 	// if it fails (SDK < 3.1) use the default director
-	if( ! [CCDirector setDirectorType:kCCDirectorTypeDisplayLink] )
+	if(![CCDirector setDirectorType:kCCDirectorTypeDisplayLink])
 		[CCDirector setDirectorType:kCCDirectorTypeDefault];
   
   [self.view insertSubview:glView atIndex:0];
@@ -75,9 +77,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   isTutorial = i;
   
   [self setupCocos2D];
+  
+  if (isTutorial) {
+    TopBar *tb = [TutorialTopBar sharedTopBar];
+    [[CCTouchDispatcher sharedDispatcher] removeDelegate:tb];
+    [[CCTouchDispatcher sharedDispatcher] removeDelegate:tb.profilePic];
+  }
+  
 //  [[TutorialHomeMap sharedHomeMap] refresh];
   CCScene *scene = isTutorial ? [TutorialStartLayer scene] : [GameLayer scene];
-  //  [BattleLayer scene];
+  
   [[CCDirector sharedDirector] pushScene:scene];
 }
 

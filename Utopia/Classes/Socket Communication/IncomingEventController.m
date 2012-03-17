@@ -165,6 +165,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == BattleResponseProto_BattleStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
     
+    gs.experience += proto.expGained;
+    gs.silver += proto.coinsGained;
+    
+    int equipId = proto.equipGained.equipId;
+    UserEquip *ue = [gs myEquipWithId:equipId];
+    if (ue) {
+      ue.quantity++;
+    } else {
+      UserEquip *ue = [[UserEquip alloc] init];
+      ue.equipId = equipId;
+      ue.quantity = 1;
+      ue.userId = gs.userId;
+      [[gs myEquips] addObject:ue];
+      [ue release];
+    }
+    
     if (proto.hasEquipGained) {
       [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
     }
@@ -184,12 +200,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   
+  [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     [[GameViewController sharedGameViewController] setIsTutorial:NO];
     
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
-    [gl updateConstants:proto.startupConstants];
     [gs updateUser:proto.sender];
     [gs addToMyEquips:proto.userEquipsList];
     [gs addToMyCities:proto.userCityInfosList];
@@ -207,11 +223,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
     [[TutorialConstants sharedTutorialConstants] loadTutorialConstants:tc];
     [gs addToStaticStructs:tc.carpenterStructsList];
-    NSArray *arr = [NSArray arrayWithObjects:tc.warriorInitWeapon, tc.warriorInitArmor, tc.archerInitWeapon, tc.archerInitArmor, tc.mageInitWeapon, tc.mageInitArmor, nil];
+    NSArray *arr = [NSArray arrayWithObjects:tc.warriorInitWeapon, tc.warriorInitArmor, tc.archerInitWeapon, tc.archerInitArmor, tc.mageInitWeapon, tc.mageInitArmor, tc.tutorialQuest.firstDefeatTypeJobBattleLootAmulet, nil];
     [gs addToStaticEquips:arr];
     
     [[GameViewController sharedGameViewController] setIsTutorial:YES];
-    [[GameState sharedGameState] setConnected:YES];
+    
+    GameState *gs = [GameState sharedGameState];
+    [gs setConnected:YES];
+    gs.expRequiredForCurrentLevel = 0;
+    gs.expRequiredForNextLevel = tc.expRequiredForLevelTwo;
   }
 }
 

@@ -1238,6 +1238,7 @@
 						<reference key="NSNextKeyView" ref="890274208"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
+						<int key="IBUITag">20</int>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
@@ -1435,7 +1436,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="931190212">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIButton" id="1038235203">
@@ -1537,7 +1538,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{236, 179}, {27, 27}}</string>
 						<reference key="NSSuperview" ref="931190212"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -2083,7 +2083,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{282, 227}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="1049921951"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="504841318"/>
@@ -2091,7 +2090,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="342699917">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIButton" id="487595751">
@@ -2123,7 +2122,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{99, 71}, {52, 31}}</string>
 						<reference key="NSSuperview" ref="342699917"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2172,14 +2170,13 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{269, 133}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="253471141"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="504841318"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="643450221">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUILabel" id="455502907">
@@ -2211,7 +2208,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{47, 6}, {59, 16}}</string>
 						<reference key="NSSuperview" ref="643450221"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2232,7 +2228,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{133, 27}</string>
-				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="455502907"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="504841318"/>
@@ -3933,6 +3928,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProfileViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="closeClicked:">id</string>
+						<string key="skillButtonClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="closeClicked:">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="skillButtonClicked:">
+							<string key="name">skillButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackLabel">UILabel</string>
 						<string key="attackStatButton">UIButton</string>

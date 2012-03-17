@@ -62,6 +62,9 @@ typedef enum {
 
 - (void) setUpEnergyTimer;
 - (void) setUpStaminaTimer;
+- (void) update;
+- (void) setEnergyBarPercentage:(float)perc;
+- (void) setStaminaBarPercentage:(float)perc;
 
 + (TopBar *) sharedTopBar;
 

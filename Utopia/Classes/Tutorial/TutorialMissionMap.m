@@ -14,6 +14,8 @@
 #import "TutorialQuestLogController.h"
 #import "TutorialBattleLayer.h"
 #import "SynthesizeSingleton.h"
+#import "LevelUpViewController.h"
+#import "TutorialProfileViewController.h"
 
 @implementation TutorialMissionMap
 
@@ -94,11 +96,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     // Add aviary
     Globals *gl = [Globals sharedGlobals];
     CGRect avCoords = CGRectMake(3, 13, gl.aviaryXLength, gl.aviaryYLength);
-    Aviary *av = [[Aviary alloc] initWithFile:@"Aviary.png" location:avCoords map:self];
-    av.orientation = 1;
-    [self addChild:av];
-    [av release];
-    [self changeTiles:av.location canWalk:NO];
+    _aviary = [[Aviary alloc] initWithFile:@"Aviary.png" location:avCoords map:self];
+    _aviary.orientation = 1;
+    [self addChild:_aviary];
+    [_aviary release];
+    [self changeTiles:_aviary.location canWalk:NO];
     
     // Now add people, first add quest givers
     StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = tc.tutorialQuest;
@@ -142,8 +144,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _doTaskPhase = NO;
     
     _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
-    [qg addChild:_ccArrow];
-    _ccArrow.position = ccp(qg.contentSize.width/2, qg.contentSize.height+_ccArrow.contentSize.height+10);
+    [_questGiver addChild:_ccArrow];
+    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+10);
     
     CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
     [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
@@ -195,7 +197,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [tglc displayRightPageForQuest:tc.tutorialQuest inProgress:_redeemQuestPhase];
   } else if (_doBattlePhase && [selected isKindOfClass:[Enemy class]]) {
     [super setSelected:selected];
-    [_ccArrow removeFromParentAndCleanup:YES];
   } else if (_doTaskPhase && [selected isKindOfClass:[MissionBuilding class]] && 
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == tc.tutorialQuest.assetNumWithinCity) {
     [super setSelected:selected];
@@ -235,6 +236,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   _doBattlePhase = NO;
   _doTaskPhase = YES;
   [_enemy removeFromParentAndCleanup:YES];
+  
+  // Move arrow to task
+  [_ccArrow removeFromParentAndCleanup:YES];
+  CCSprite *spr = [self assetWithId:1];
+  [spr addChild:_ccArrow];
+  _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
+  
+  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
+  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                         [upAction reverse], nil]]];
+  
 }
 
 - (void) performCurrentTask {
@@ -252,15 +264,58 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
     GameState *gs = [GameState sharedGameState];
+    gs.silver += tutQuest.firstTaskCompleteCoinGain;
+    // Exp will be same for either task
+    gs.experience += tutQuest.firstTaskGood.expGained;
+    
     QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
     qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
     qcv.visitDescLabel.text = @"Visit Farmer Mitch Lieu in Kirin Village to redeem your reward.";
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
+    
+    // Move arrow back to task quest giver
+    [_ccArrow removeFromParentAndCleanup:YES];
+    [_questGiver addChild:_ccArrow];
+    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+10);
+    
+    CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
+    [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                           [upAction reverse], nil]]];
   }
 }
 
+- (void) redeemComplete {
+  _redeemQuestPhase = NO;
+  _equippingPhase = YES;
+  self.selected = nil;
+  [self levelUp];
+}
+
 - (void) levelUp {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  gs.skillPoints += gl.skillPointsGainedOnLevelup;
+  gs.level += 1;
+  gs.currentEnergy = gs.maxEnergy;
+  gs.currentStamina = gs.maxStamina;
   
+  [TutorialProfileViewController sharedProfileViewController];
+  
+  // This will be released after the level up controller closes
+  LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:nil];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+  [_ccArrow removeFromParentAndCleanup:YES];
+  
+}
+
+- (void) levelUpComplete {
+  // Move arrow to aviary
+  [_aviary addChild:_ccArrow];
+  _ccArrow.position = ccp(_aviary.contentSize.width/2, _aviary.contentSize.height+_ccArrow.contentSize.height/2);
+  
+  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
+  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                         [upAction reverse], nil]]];
 }
 
 - (IBAction)attackClicked:(id)sender {

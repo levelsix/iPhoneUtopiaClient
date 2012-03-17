@@ -411,6 +411,9 @@
 		CF6653A71513428C0077CB6B /* glow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653A61513428C0077CB6B /* glow.png */; };
 		CF6653A9151342910077CB6B /* glow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653A8151342910077CB6B /* glow@2x.png */; };
 		CF6653AD15134CE90077CB6B /* redeem@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6653AC15134CE80077CB6B /* redeem@2x.png */; };
+		CF6653B315138AF00077CB6B /* TutorialProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6653B215138AEC0077CB6B /* TutorialProfileViewController.m */; };
+		CF6653B6151417260077CB6B /* TutorialTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6653B5151417240077CB6B /* TutorialTopBar.m */; };
+		CF6653B915141CFE0077CB6B /* TutorialMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6653B815141CFA0077CB6B /* TutorialMapViewController.m */; };
 		CF6CCF2A14FAF9CB008C693D /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */; };
 		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
 		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
@@ -1321,6 +1324,12 @@
 		CF6653A61513428C0077CB6B /* glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glow.png; sourceTree = "<group>"; };
 		CF6653A8151342910077CB6B /* glow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "glow@2x.png"; sourceTree = "<group>"; };
 		CF6653AC15134CE80077CB6B /* redeem@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redeem@2x.png"; sourceTree = "<group>"; };
+		CF6653B115138AEA0077CB6B /* TutorialProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialProfileViewController.h; path = Tutorial/TutorialProfileViewController.h; sourceTree = "<group>"; };
+		CF6653B215138AEC0077CB6B /* TutorialProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialProfileViewController.m; path = Tutorial/TutorialProfileViewController.m; sourceTree = "<group>"; };
+		CF6653B4151417220077CB6B /* TutorialTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialTopBar.h; path = Tutorial/TutorialTopBar.h; sourceTree = "<group>"; };
+		CF6653B5151417240077CB6B /* TutorialTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialTopBar.m; path = Tutorial/TutorialTopBar.m; sourceTree = "<group>"; };
+		CF6653B715141CF70077CB6B /* TutorialMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialMapViewController.h; path = Tutorial/TutorialMapViewController.h; sourceTree = "<group>"; };
+		CF6653B815141CFA0077CB6B /* TutorialMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TutorialMapViewController.m; path = Tutorial/TutorialMapViewController.m; sourceTree = "<group>"; };
 		CF6CCF2714FAF9CB008C693D /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		CF6CCF2814FAF9CB008C693D /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
@@ -3076,6 +3085,12 @@
 				CF6653871512229F0077CB6B /* TutorialMissionMap.m */,
 				CF665389151236AD0077CB6B /* TutorialQuestLogController.h */,
 				CF66538A151236AE0077CB6B /* TutorialQuestLogController.m */,
+				CF6653B115138AEA0077CB6B /* TutorialProfileViewController.h */,
+				CF6653B215138AEC0077CB6B /* TutorialProfileViewController.m */,
+				CF6653B4151417220077CB6B /* TutorialTopBar.h */,
+				CF6653B5151417240077CB6B /* TutorialTopBar.m */,
+				CF6653B715141CF70077CB6B /* TutorialMapViewController.h */,
+				CF6653B815141CFA0077CB6B /* TutorialMapViewController.m */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -4430,6 +4445,9 @@
 				CF6653851511A1F40077CB6B /* TutorialCarpenterMenuController.m in Sources */,
 				CF665388151222A10077CB6B /* TutorialMissionMap.m in Sources */,
 				CF66538B151236B00077CB6B /* TutorialQuestLogController.m in Sources */,
+				CF6653B315138AF00077CB6B /* TutorialProfileViewController.m in Sources */,
+				CF6653B6151417260077CB6B /* TutorialTopBar.m in Sources */,
+				CF6653B915141CFE0077CB6B /* TutorialMapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

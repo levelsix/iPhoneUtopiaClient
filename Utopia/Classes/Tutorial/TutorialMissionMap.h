@@ -15,17 +15,21 @@
   BOOL _redeemQuestPhase;
   BOOL _doBattlePhase;
   BOOL _doTaskPhase;
+  BOOL _equippingPhase;
   
   CCSprite *_ccArrow;
   
   QuestGiver *_questGiver;
   Enemy *_enemy;
+  Aviary *_aviary;
 }
 
 - (void) doneAcceptingQuest;
 - (void) doBlink;
 - (void) spawnBattleEnemy;
 - (void) battleDone;
+- (void) redeemComplete;
+- (void) levelUpComplete;
 
 + (TutorialMissionMap *) sharedTutorialMissionMap;
 

@@ -13,6 +13,7 @@
 #import "GameViewController.h"
 #import "GameState.h"
 #import "TutorialConstants.h"
+#import "TopBar.h"
 
 @implementation TutorialStartLayer
 
@@ -48,6 +49,8 @@
     gs.maxHealth = tc.initHealth;
     gs.gold = tc.initGold;
     gs.silver = tc.initSilver;
+    
+    [[TopBar sharedTopBar] update];
   }
   return self;
 }

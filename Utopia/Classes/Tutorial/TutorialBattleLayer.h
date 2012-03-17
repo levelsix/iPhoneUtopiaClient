@@ -11,6 +11,8 @@
 @interface TutorialBattleLayer : BattleLayer {
   CCSprite *_arrow;
   CCLabelTTF *_pulsingLabel;
+  
+  UIImageView *_uiArrow;
 }
 
 @end

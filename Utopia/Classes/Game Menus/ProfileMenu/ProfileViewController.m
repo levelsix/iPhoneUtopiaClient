@@ -97,6 +97,25 @@
   glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
 }
 
+- (void) setProfileState:(ProfileState)s {
+  if (s == kEquipState) {
+    [self clickButton:kEquipButton];
+    [self unclickButton:kSkillsState];
+    [self unclickButton:kWallButton];
+    glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
+  } else if (s == kSkillsState) {
+    [self clickButton:kSkillsButton];
+    [self unclickButton:kEquipButton];
+    [self unclickButton:kWallButton];
+    glowIcon.center = CGPointMake(_curSkillsSelectedImage.center.x, glowIcon.center.y);
+  } else if (s == kWallState) {
+    [self clickButton:kWallButton];
+    [self unclickButton:kEquipButton];
+    [self unclickButton:kSkillsButton];
+    glowIcon.center = CGPointMake(_curWallSelectedImage.center.x, glowIcon.center.y);
+  }
+}
+
 - (void) clickButton:(ProfileBarButton)button {
   switch (button) {
     case kEquipButton:
@@ -438,21 +457,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) setState:(ProfileState)state {
   if (state != _state) {
-    _state = state;
     
     switch (state) {
       case kEquipState:
         equipTabView.hidden = NO;
         skillTabView.hidden = YES;
+        [self.profileBar setProfileState:state];
         break;
         
       case kSkillsState:
         equipTabView.hidden = YES;
         skillTabView.hidden = NO;
+        [self.profileBar setProfileState:state];
+        break;
+        
+      case kWallState:
+        state = _state;
+        [self.profileBar setProfileState:state];
+        break;
         
       default:
         break;
     }
+    _state = state;
   }
 }
 
@@ -707,8 +734,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     if ([toDisplay containsObject:ev]) {
       ev.alpha = 1.0;
       ev.center = [self centerForCell:j equipView:ev];
+      ev.tag = j;
       j++;
     } else {
+      ev.tag = -1;
       ev.alpha = 0.0;
     }
   }
@@ -924,10 +953,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) openSkillsMenu {
   self.state = kSkillsState;
-  
-  [profileBar clickButton:kSkillsButton];
-  [profileBar unclickButton:kEquipButton];
-  [profileBar unclickButton:kWallButton];
 }
 
 - (IBAction)skillButtonClicked:(id)sender {

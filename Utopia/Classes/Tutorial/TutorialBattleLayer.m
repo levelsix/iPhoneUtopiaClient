@@ -193,6 +193,13 @@
   gs.currentStamina -= 1;
   gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
   
+  UserEquip *ue = [[UserEquip alloc] init];
+  ue.equipId = tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId;
+  ue.quantity = 1;
+  ue.userId = gs.userId;
+  [[gs myEquips] addObject:ue];
+  [ue release];
+  
   [[TutorialMissionMap sharedTutorialMissionMap] battleDone];
 }
 

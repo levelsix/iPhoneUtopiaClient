@@ -14,7 +14,6 @@
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int equipId;
 @property (nonatomic, assign) int quantity;
-@property (nonatomic, assign) BOOL isStolen;
 
 + (id) userEquipWithProto:(FullUserEquipProto *)proto;
 

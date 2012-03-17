@@ -305,6 +305,8 @@ typedef enum {
   UserCreateResponseProto_UserCreateStatusInvalidLocation = 2,
   UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists = 3,
   UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime = 4,
+  UserCreateResponseProto_UserCreateStatusInvalidSkillPointAllocation = 5,
+  UserCreateResponseProto_UserCreateStatusOtherFail = 6,
 } UserCreateResponseProto_UserCreateStatus;
 
 BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProto_UserCreateStatus value);
@@ -2055,19 +2057,21 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
   BOOL hasMinNameLength_:1;
-  BOOL hasWarriorInitDefense_:1;
-  BOOL hasWarriorInitAttack_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasDiamondRewardForReferrer_:1;
-  BOOL hasMageInitDefense_:1;
-  BOOL hasMageInitAttack_:1;
+  BOOL hasWarriorInitDefense_:1;
+  BOOL hasWarriorInitAttack_:1;
   BOOL hasDiamondRewardForBeingReferred_:1;
   BOOL hasInitCoins_:1;
+  BOOL hasMageInitDefense_:1;
+  BOOL hasMageInitAttack_:1;
+  BOOL hasInitDiamonds_:1;
+  BOOL hasExpRequiredForLevelTwo_:1;
   BOOL hasArcherInitDefense_:1;
   BOOL hasArcherInitAttack_:1;
   BOOL hasDiamondCostToInstabuildFirstStruct_:1;
   BOOL hasStructToBuild_:1;
-  BOOL hasInitDiamonds_:1;
+  BOOL hasExpRequiredForLevelThree_:1;
   BOOL hasInitHealth_:1;
   BOOL hasInitStamina_:1;
   BOOL hasInitEnergy_:1;
@@ -2079,19 +2083,21 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasArcherInitWeapon_:1;
   BOOL hasTutorialQuest_:1;
   int32_t minNameLength;
-  int32_t warriorInitDefense;
-  int32_t warriorInitAttack;
   int32_t maxNameLength;
   int32_t diamondRewardForReferrer;
-  int32_t mageInitDefense;
-  int32_t mageInitAttack;
+  int32_t warriorInitDefense;
+  int32_t warriorInitAttack;
   int32_t diamondRewardForBeingReferred;
   int32_t initCoins;
+  int32_t mageInitDefense;
+  int32_t mageInitAttack;
+  int32_t initDiamonds;
+  int32_t expRequiredForLevelTwo;
   int32_t archerInitDefense;
   int32_t archerInitAttack;
   int32_t diamondCostToInstabuildFirstStruct;
   int32_t structToBuild;
-  int32_t initDiamonds;
+  int32_t expRequiredForLevelThree;
   int32_t initHealth;
   int32_t initStamina;
   int32_t initEnergy;
@@ -2105,6 +2111,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   NSMutableArray* mutableFirstCityElementsForGoodList;
   NSMutableArray* mutableFirstCityElementsForBadList;
   NSMutableArray* mutableCarpenterStructsList;
+  NSMutableArray* mutableCitiesNewlyAvailableToUserAfterLevelupList;
+  NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+  NSMutableArray* mutableNewlyAvailableStructsAfterLevelupList;
 }
 - (BOOL) hasInitEnergy;
 - (BOOL) hasInitStamina;
@@ -2130,6 +2139,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasDiamondRewardForBeingReferred;
 - (BOOL) hasInitCoins;
 - (BOOL) hasInitDiamonds;
+- (BOOL) hasExpRequiredForLevelTwo;
+- (BOOL) hasExpRequiredForLevelThree;
 @property (readonly) int32_t initEnergy;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t initHealth;
@@ -2154,12 +2165,20 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t diamondRewardForBeingReferred;
 @property (readonly) int32_t initCoins;
 @property (readonly) int32_t initDiamonds;
+@property (readonly) int32_t expRequiredForLevelTwo;
+@property (readonly) int32_t expRequiredForLevelThree;
 - (NSArray*) firstCityElementsForGoodList;
 - (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
 - (NSArray*) firstCityElementsForBadList;
 - (NeutralCityElementProto*) firstCityElementsForBadAtIndex:(int32_t) index;
 - (NSArray*) carpenterStructsList;
 - (FullStructureProto*) carpenterStructsAtIndex:(int32_t) index;
+- (NSArray*) citiesNewlyAvailableToUserAfterLevelupList;
+- (FullCityProto*) citiesNewlyAvailableToUserAfterLevelupAtIndex:(int32_t) index;
+- (NSArray*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+- (FullEquipProto*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupAtIndex:(int32_t) index;
+- (NSArray*) newlyAvailableStructsAfterLevelupList;
+- (FullStructureProto*) newlyAvailableStructsAfterLevelupAtIndex:(int32_t) index;
 
 + (StartupResponseProto_TutorialConstants*) defaultInstance;
 - (StartupResponseProto_TutorialConstants*) defaultInstance;
@@ -2547,6 +2566,37 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_TutorialConstants_Builder*) addCarpenterStructs:(FullStructureProto*) value;
 - (StartupResponseProto_TutorialConstants_Builder*) addAllCarpenterStructs:(NSArray*) values;
 - (StartupResponseProto_TutorialConstants_Builder*) clearCarpenterStructsList;
+
+- (BOOL) hasExpRequiredForLevelTwo;
+- (int32_t) expRequiredForLevelTwo;
+- (StartupResponseProto_TutorialConstants_Builder*) setExpRequiredForLevelTwo:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearExpRequiredForLevelTwo;
+
+- (BOOL) hasExpRequiredForLevelThree;
+- (int32_t) expRequiredForLevelThree;
+- (StartupResponseProto_TutorialConstants_Builder*) setExpRequiredForLevelThree:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearExpRequiredForLevelThree;
+
+- (NSArray*) citiesNewlyAvailableToUserAfterLevelupList;
+- (FullCityProto*) citiesNewlyAvailableToUserAfterLevelupAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceCitiesNewlyAvailableToUserAfterLevelupAtIndex:(int32_t) index with:(FullCityProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addCitiesNewlyAvailableToUserAfterLevelup:(FullCityProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllCitiesNewlyAvailableToUserAfterLevelup:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCitiesNewlyAvailableToUserAfterLevelupList;
+
+- (NSArray*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+- (FullEquipProto*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupAtIndex:(int32_t) index with:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelup:(FullEquipProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelup:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+
+- (NSArray*) newlyAvailableStructsAfterLevelupList;
+- (FullStructureProto*) newlyAvailableStructsAfterLevelupAtIndex:(int32_t) index;
+- (StartupResponseProto_TutorialConstants_Builder*) replaceNewlyAvailableStructsAfterLevelupAtIndex:(int32_t) index with:(FullStructureProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addNewlyAvailableStructsAfterLevelup:(FullStructureProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) addAllNewlyAvailableStructsAfterLevelup:(NSArray*) values;
+- (StartupResponseProto_TutorialConstants_Builder*) clearNewlyAvailableStructsAfterLevelupList;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {

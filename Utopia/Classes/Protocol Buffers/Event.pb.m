@@ -6195,6 +6195,11 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property int32_t initCoins;
 @property int32_t initDiamonds;
 @property (retain) NSMutableArray* mutableCarpenterStructsList;
+@property int32_t expRequiredForLevelTwo;
+@property int32_t expRequiredForLevelThree;
+@property (retain) NSMutableArray* mutableCitiesNewlyAvailableToUserAfterLevelupList;
+@property (retain) NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+@property (retain) NSMutableArray* mutableNewlyAvailableStructsAfterLevelupList;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -6370,6 +6375,23 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 @synthesize initDiamonds;
 @synthesize mutableCarpenterStructsList;
+- (BOOL) hasExpRequiredForLevelTwo {
+  return !!hasExpRequiredForLevelTwo_;
+}
+- (void) setHasExpRequiredForLevelTwo:(BOOL) value {
+  hasExpRequiredForLevelTwo_ = !!value;
+}
+@synthesize expRequiredForLevelTwo;
+- (BOOL) hasExpRequiredForLevelThree {
+  return !!hasExpRequiredForLevelThree_;
+}
+- (void) setHasExpRequiredForLevelThree:(BOOL) value {
+  hasExpRequiredForLevelThree_ = !!value;
+}
+@synthesize expRequiredForLevelThree;
+@synthesize mutableCitiesNewlyAvailableToUserAfterLevelupList;
+@synthesize mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+@synthesize mutableNewlyAvailableStructsAfterLevelupList;
 - (void) dealloc {
   self.tutorialQuest = nil;
   self.archerInitWeapon = nil;
@@ -6381,6 +6403,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   self.mutableFirstCityElementsForGoodList = nil;
   self.mutableFirstCityElementsForBadList = nil;
   self.mutableCarpenterStructsList = nil;
+  self.mutableCitiesNewlyAvailableToUserAfterLevelupList = nil;
+  self.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList = nil;
+  self.mutableNewlyAvailableStructsAfterLevelupList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -6409,6 +6434,8 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.diamondRewardForBeingReferred = 0;
     self.initCoins = 0;
     self.initDiamonds = 0;
+    self.expRequiredForLevelTwo = 0;
+    self.expRequiredForLevelThree = 0;
   }
   return self;
 }
@@ -6443,6 +6470,27 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 }
 - (FullStructureProto*) carpenterStructsAtIndex:(int32_t) index {
   id value = [mutableCarpenterStructsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) citiesNewlyAvailableToUserAfterLevelupList {
+  return mutableCitiesNewlyAvailableToUserAfterLevelupList;
+}
+- (FullCityProto*) citiesNewlyAvailableToUserAfterLevelupAtIndex:(int32_t) index {
+  id value = [mutableCitiesNewlyAvailableToUserAfterLevelupList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList {
+  return mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+}
+- (FullEquipProto*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupAtIndex:(int32_t) index {
+  id value = [mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) newlyAvailableStructsAfterLevelupList {
+  return mutableNewlyAvailableStructsAfterLevelupList;
+}
+- (FullStructureProto*) newlyAvailableStructsAfterLevelupAtIndex:(int32_t) index {
+  id value = [mutableNewlyAvailableStructsAfterLevelupList objectAtIndex:index];
   return value;
 }
 - (BOOL) isInitialized {
@@ -6518,6 +6566,12 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (!self.hasInitDiamonds) {
     return NO;
   }
+  if (!self.hasExpRequiredForLevelTwo) {
+    return NO;
+  }
+  if (!self.hasExpRequiredForLevelThree) {
+    return NO;
+  }
   if (!self.tutorialQuest.isInitialized) {
     return NO;
   }
@@ -6550,6 +6604,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     }
   }
   for (FullStructureProto* element in self.carpenterStructsList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullCityProto* element in self.citiesNewlyAvailableToUserAfterLevelupList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullEquipProto* element in self.newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  for (FullStructureProto* element in self.newlyAvailableStructsAfterLevelupList) {
     if (!element.isInitialized) {
       return NO;
     }
@@ -6637,6 +6706,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   for (FullStructureProto* element in self.carpenterStructsList) {
     [output writeMessage:27 value:element];
+  }
+  if (self.hasExpRequiredForLevelTwo) {
+    [output writeInt32:28 value:self.expRequiredForLevelTwo];
+  }
+  if (self.hasExpRequiredForLevelThree) {
+    [output writeInt32:29 value:self.expRequiredForLevelThree];
+  }
+  for (FullCityProto* element in self.citiesNewlyAvailableToUserAfterLevelupList) {
+    [output writeMessage:30 value:element];
+  }
+  for (FullEquipProto* element in self.newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList) {
+    [output writeMessage:31 value:element];
+  }
+  for (FullStructureProto* element in self.newlyAvailableStructsAfterLevelupList) {
+    [output writeMessage:32 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6727,6 +6811,21 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   for (FullStructureProto* element in self.carpenterStructsList) {
     size += computeMessageSize(27, element);
+  }
+  if (self.hasExpRequiredForLevelTwo) {
+    size += computeInt32Size(28, self.expRequiredForLevelTwo);
+  }
+  if (self.hasExpRequiredForLevelThree) {
+    size += computeInt32Size(29, self.expRequiredForLevelThree);
+  }
+  for (FullCityProto* element in self.citiesNewlyAvailableToUserAfterLevelupList) {
+    size += computeMessageSize(30, element);
+  }
+  for (FullEquipProto* element in self.newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList) {
+    size += computeMessageSize(31, element);
+  }
+  for (FullStructureProto* element in self.newlyAvailableStructsAfterLevelupList) {
+    size += computeMessageSize(32, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -7806,6 +7905,30 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableCarpenterStructsList addObjectsFromArray:other.mutableCarpenterStructsList];
   }
+  if (other.hasExpRequiredForLevelTwo) {
+    [self setExpRequiredForLevelTwo:other.expRequiredForLevelTwo];
+  }
+  if (other.hasExpRequiredForLevelThree) {
+    [self setExpRequiredForLevelThree:other.expRequiredForLevelThree];
+  }
+  if (other.mutableCitiesNewlyAvailableToUserAfterLevelupList.count > 0) {
+    if (result.mutableCitiesNewlyAvailableToUserAfterLevelupList == nil) {
+      result.mutableCitiesNewlyAvailableToUserAfterLevelupList = [NSMutableArray array];
+    }
+    [result.mutableCitiesNewlyAvailableToUserAfterLevelupList addObjectsFromArray:other.mutableCitiesNewlyAvailableToUserAfterLevelupList];
+  }
+  if (other.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList.count > 0) {
+    if (result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList == nil) {
+      result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList = [NSMutableArray array];
+    }
+    [result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList addObjectsFromArray:other.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList];
+  }
+  if (other.mutableNewlyAvailableStructsAfterLevelupList.count > 0) {
+    if (result.mutableNewlyAvailableStructsAfterLevelupList == nil) {
+      result.mutableNewlyAvailableStructsAfterLevelupList = [NSMutableArray array];
+    }
+    [result.mutableNewlyAvailableStructsAfterLevelupList addObjectsFromArray:other.mutableNewlyAvailableStructsAfterLevelupList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -7974,6 +8097,32 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addCarpenterStructs:[subBuilder buildPartial]];
+        break;
+      }
+      case 224: {
+        [self setExpRequiredForLevelTwo:[input readInt32]];
+        break;
+      }
+      case 232: {
+        [self setExpRequiredForLevelThree:[input readInt32]];
+        break;
+      }
+      case 242: {
+        FullCityProto_Builder* subBuilder = [FullCityProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addCitiesNewlyAvailableToUserAfterLevelup:[subBuilder buildPartial]];
+        break;
+      }
+      case 250: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelup:[subBuilder buildPartial]];
+        break;
+      }
+      case 258: {
+        FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNewlyAvailableStructsAfterLevelup:[subBuilder buildPartial]];
         break;
       }
     }
@@ -8546,6 +8695,125 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableCarpenterStructsList = [NSMutableArray array];
   }
   [result.mutableCarpenterStructsList addObject:value];
+  return self;
+}
+- (BOOL) hasExpRequiredForLevelTwo {
+  return result.hasExpRequiredForLevelTwo;
+}
+- (int32_t) expRequiredForLevelTwo {
+  return result.expRequiredForLevelTwo;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setExpRequiredForLevelTwo:(int32_t) value {
+  result.hasExpRequiredForLevelTwo = YES;
+  result.expRequiredForLevelTwo = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearExpRequiredForLevelTwo {
+  result.hasExpRequiredForLevelTwo = NO;
+  result.expRequiredForLevelTwo = 0;
+  return self;
+}
+- (BOOL) hasExpRequiredForLevelThree {
+  return result.hasExpRequiredForLevelThree;
+}
+- (int32_t) expRequiredForLevelThree {
+  return result.expRequiredForLevelThree;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setExpRequiredForLevelThree:(int32_t) value {
+  result.hasExpRequiredForLevelThree = YES;
+  result.expRequiredForLevelThree = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearExpRequiredForLevelThree {
+  result.hasExpRequiredForLevelThree = NO;
+  result.expRequiredForLevelThree = 0;
+  return self;
+}
+- (NSArray*) citiesNewlyAvailableToUserAfterLevelupList {
+  if (result.mutableCitiesNewlyAvailableToUserAfterLevelupList == nil) { return [NSArray array]; }
+  return result.mutableCitiesNewlyAvailableToUserAfterLevelupList;
+}
+- (FullCityProto*) citiesNewlyAvailableToUserAfterLevelupAtIndex:(int32_t) index {
+  return [result citiesNewlyAvailableToUserAfterLevelupAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceCitiesNewlyAvailableToUserAfterLevelupAtIndex:(int32_t) index with:(FullCityProto*) value {
+  [result.mutableCitiesNewlyAvailableToUserAfterLevelupList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllCitiesNewlyAvailableToUserAfterLevelup:(NSArray*) values {
+  if (result.mutableCitiesNewlyAvailableToUserAfterLevelupList == nil) {
+    result.mutableCitiesNewlyAvailableToUserAfterLevelupList = [NSMutableArray array];
+  }
+  [result.mutableCitiesNewlyAvailableToUserAfterLevelupList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearCitiesNewlyAvailableToUserAfterLevelupList {
+  result.mutableCitiesNewlyAvailableToUserAfterLevelupList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addCitiesNewlyAvailableToUserAfterLevelup:(FullCityProto*) value {
+  if (result.mutableCitiesNewlyAvailableToUserAfterLevelupList == nil) {
+    result.mutableCitiesNewlyAvailableToUserAfterLevelupList = [NSMutableArray array];
+  }
+  [result.mutableCitiesNewlyAvailableToUserAfterLevelupList addObject:value];
+  return self;
+}
+- (NSArray*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList {
+  if (result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList == nil) { return [NSArray array]; }
+  return result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
+}
+- (FullEquipProto*) newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupAtIndex:(int32_t) index {
+  return [result newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupAtIndex:(int32_t) index with:(FullEquipProto*) value {
+  [result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelup:(NSArray*) values {
+  if (result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList == nil) {
+    result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList = [NSMutableArray array];
+  }
+  [result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList {
+  result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelup:(FullEquipProto*) value {
+  if (result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList == nil) {
+    result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList = [NSMutableArray array];
+  }
+  [result.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList addObject:value];
+  return self;
+}
+- (NSArray*) newlyAvailableStructsAfterLevelupList {
+  if (result.mutableNewlyAvailableStructsAfterLevelupList == nil) { return [NSArray array]; }
+  return result.mutableNewlyAvailableStructsAfterLevelupList;
+}
+- (FullStructureProto*) newlyAvailableStructsAfterLevelupAtIndex:(int32_t) index {
+  return [result newlyAvailableStructsAfterLevelupAtIndex:index];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) replaceNewlyAvailableStructsAfterLevelupAtIndex:(int32_t) index with:(FullStructureProto*) value {
+  [result.mutableNewlyAvailableStructsAfterLevelupList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addAllNewlyAvailableStructsAfterLevelup:(NSArray*) values {
+  if (result.mutableNewlyAvailableStructsAfterLevelupList == nil) {
+    result.mutableNewlyAvailableStructsAfterLevelupList = [NSMutableArray array];
+  }
+  [result.mutableNewlyAvailableStructsAfterLevelupList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearNewlyAvailableStructsAfterLevelupList {
+  result.mutableNewlyAvailableStructsAfterLevelupList = nil;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) addNewlyAvailableStructsAfterLevelup:(FullStructureProto*) value {
+  if (result.mutableNewlyAvailableStructsAfterLevelupList == nil) {
+    result.mutableNewlyAvailableStructsAfterLevelupList = [NSMutableArray array];
+  }
+  [result.mutableNewlyAvailableStructsAfterLevelupList addObject:value];
   return self;
 }
 @end
@@ -10139,6 +10407,8 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
     case UserCreateResponseProto_UserCreateStatusInvalidLocation:
     case UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists:
     case UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime:
+    case UserCreateResponseProto_UserCreateStatusInvalidSkillPointAllocation:
+    case UserCreateResponseProto_UserCreateStatusOtherFail:
       return YES;
     default:
       return NO;
