@@ -109,9 +109,8 @@ typedef enum {
 BOOL StructOrientationIsValidValue(StructOrientation value);
 
 typedef enum {
-  ExpansionDirectionNearLeft = 0,
-  ExpansionDirectionFarLeft = 1,
-  ExpansionDirectionFarRight = 2,
+  ExpansionDirectionFarLeft = 0,
+  ExpansionDirectionFarRight = 1,
 } ExpansionDirection;
 
 BOOL ExpansionDirectionIsValidValue(ExpansionDirection value);
@@ -932,11 +931,9 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 
 @interface FullUserEquipProto : PBGeneratedMessage {
 @private
-  BOOL hasIsStolen_:1;
   BOOL hasUserId_:1;
   BOOL hasEquipId_:1;
   BOOL hasQuantity_:1;
-  BOOL isStolen_:1;
   int32_t userId;
   int32_t equipId;
   int32_t quantity;
@@ -944,11 +941,9 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasUserId;
 - (BOOL) hasEquipId;
 - (BOOL) hasQuantity;
-- (BOOL) hasIsStolen;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t equipId;
 @property (readonly) int32_t quantity;
-- (BOOL) isStolen;
 
 + (FullUserEquipProto*) defaultInstance;
 - (FullUserEquipProto*) defaultInstance;
@@ -998,11 +993,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int32_t) quantity;
 - (FullUserEquipProto_Builder*) setQuantity:(int32_t) value;
 - (FullUserEquipProto_Builder*) clearQuantity;
-
-- (BOOL) hasIsStolen;
-- (BOOL) isStolen;
-- (FullUserEquipProto_Builder*) setIsStolen:(BOOL) value;
-- (FullUserEquipProto_Builder*) clearIsStolen;
 @end
 
 @interface FullStructureProto : PBGeneratedMessage {
@@ -1524,27 +1514,23 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasIsExpanding_:1;
   BOOL hasLastExpandTime_:1;
   BOOL hasUserId_:1;
-  BOOL hasNearLeftExpansions_:1;
   BOOL hasFarLeftExpansions_:1;
   BOOL hasFarRightExpansions_:1;
   BOOL hasLastExpandDirection_:1;
   BOOL isExpanding_:1;
   int64_t lastExpandTime;
   int32_t userId;
-  int32_t nearLeftExpansions;
   int32_t farLeftExpansions;
   int32_t farRightExpansions;
   ExpansionDirection lastExpandDirection;
 }
 - (BOOL) hasUserId;
-- (BOOL) hasNearLeftExpansions;
 - (BOOL) hasFarLeftExpansions;
 - (BOOL) hasFarRightExpansions;
 - (BOOL) hasIsExpanding;
 - (BOOL) hasLastExpandTime;
 - (BOOL) hasLastExpandDirection;
 @property (readonly) int32_t userId;
-@property (readonly) int32_t nearLeftExpansions;
 @property (readonly) int32_t farLeftExpansions;
 @property (readonly) int32_t farRightExpansions;
 - (BOOL) isExpanding;
@@ -1589,11 +1575,6 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int32_t) userId;
 - (FullUserCityExpansionDataProto_Builder*) setUserId:(int32_t) value;
 - (FullUserCityExpansionDataProto_Builder*) clearUserId;
-
-- (BOOL) hasNearLeftExpansions;
-- (int32_t) nearLeftExpansions;
-- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value;
-- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions;
 
 - (BOOL) hasFarLeftExpansions;
 - (int32_t) farLeftExpansions;

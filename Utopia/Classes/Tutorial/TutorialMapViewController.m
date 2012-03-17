@@ -10,4 +10,23 @@
 
 @implementation TutorialMapViewController
 
+- (id) init {
+  return [super initWithNibName:@"MapViewController" bundle:nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  _travelHomePhase = YES;
+}
+
+- (IBAction)closeClicked:(id)sender {
+  return;
+}
+
+- (IBAction)homeClicked:(id)sender {
+  if (_travelHomePhase) {
+    [super homeClicked:sender];
+  }
+}
+
 @end

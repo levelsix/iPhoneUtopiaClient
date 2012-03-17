@@ -304,6 +304,7 @@
   gs.name = nameTextField.text;
   gs.weaponEquipped = weapon.equipId;
   gs.armorEquipped = armor.equipId;
+  gs.type = _curPage;
   
   UserEquip *ue1 = [[UserEquip alloc] init];
   ue1.equipId = weapon.equipId;

@@ -83,7 +83,6 @@ BOOL StructOrientationIsValidValue(StructOrientation value) {
 }
 BOOL ExpansionDirectionIsValidValue(ExpansionDirection value) {
   switch (value) {
-    case ExpansionDirectionNearLeft:
     case ExpansionDirectionFarLeft:
     case ExpansionDirectionFarRight:
       return YES;
@@ -3516,7 +3515,6 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 @property int32_t userId;
 @property int32_t equipId;
 @property int32_t quantity;
-@property BOOL isStolen;
 @end
 
 @implementation FullUserEquipProto
@@ -3542,18 +3540,6 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   hasQuantity_ = !!value;
 }
 @synthesize quantity;
-- (BOOL) hasIsStolen {
-  return !!hasIsStolen_;
-}
-- (void) setHasIsStolen:(BOOL) value {
-  hasIsStolen_ = !!value;
-}
-- (BOOL) isStolen {
-  return !!isStolen_;
-}
-- (void) setIsStolen:(BOOL) value {
-  isStolen_ = !!value;
-}
 - (void) dealloc {
   [super dealloc];
 }
@@ -3562,7 +3548,6 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
     self.userId = 0;
     self.equipId = 0;
     self.quantity = 0;
-    self.isStolen = NO;
   }
   return self;
 }
@@ -3588,9 +3573,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (!self.hasQuantity) {
     return NO;
   }
-  if (!self.hasIsStolen) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -3602,9 +3584,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   }
   if (self.hasQuantity) {
     [output writeInt32:3 value:self.quantity];
-  }
-  if (self.hasIsStolen) {
-    [output writeBool:4 value:self.isStolen];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3623,9 +3602,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   }
   if (self.hasQuantity) {
     size += computeInt32Size(3, self.quantity);
-  }
-  if (self.hasIsStolen) {
-    size += computeBoolSize(4, self.isStolen);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3711,9 +3687,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (other.hasQuantity) {
     [self setQuantity:other.quantity];
   }
-  if (other.hasIsStolen) {
-    [self setIsStolen:other.isStolen];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3745,10 +3718,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
       }
       case 24: {
         [self setQuantity:[input readInt32]];
-        break;
-      }
-      case 32: {
-        [self setIsStolen:[input readBool]];
         break;
       }
     }
@@ -3800,22 +3769,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 - (FullUserEquipProto_Builder*) clearQuantity {
   result.hasQuantity = NO;
   result.quantity = 0;
-  return self;
-}
-- (BOOL) hasIsStolen {
-  return result.hasIsStolen;
-}
-- (BOOL) isStolen {
-  return result.isStolen;
-}
-- (FullUserEquipProto_Builder*) setIsStolen:(BOOL) value {
-  result.hasIsStolen = YES;
-  result.isStolen = value;
-  return self;
-}
-- (FullUserEquipProto_Builder*) clearIsStolen {
-  result.hasIsStolen = NO;
-  result.isStolen = NO;
   return self;
 }
 @end
@@ -6095,7 +6048,6 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 
 @interface FullUserCityExpansionDataProto ()
 @property int32_t userId;
-@property int32_t nearLeftExpansions;
 @property int32_t farLeftExpansions;
 @property int32_t farRightExpansions;
 @property BOOL isExpanding;
@@ -6112,13 +6064,6 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   hasUserId_ = !!value;
 }
 @synthesize userId;
-- (BOOL) hasNearLeftExpansions {
-  return !!hasNearLeftExpansions_;
-}
-- (void) setHasNearLeftExpansions:(BOOL) value {
-  hasNearLeftExpansions_ = !!value;
-}
-@synthesize nearLeftExpansions;
 - (BOOL) hasFarLeftExpansions {
   return !!hasFarLeftExpansions_;
 }
@@ -6165,12 +6110,11 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
 - (id) init {
   if ((self = [super init])) {
     self.userId = 0;
-    self.nearLeftExpansions = 0;
     self.farLeftExpansions = 0;
     self.farRightExpansions = 0;
     self.isExpanding = NO;
     self.lastExpandTime = 0L;
-    self.lastExpandDirection = ExpansionDirectionNearLeft;
+    self.lastExpandDirection = ExpansionDirectionFarLeft;
   }
   return self;
 }
@@ -6190,9 +6134,6 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
   if (!self.hasUserId) {
     return NO;
   }
-  if (!self.hasNearLeftExpansions) {
-    return NO;
-  }
   if (!self.hasFarLeftExpansions) {
     return NO;
   }
@@ -6207,9 +6148,6 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasUserId) {
     [output writeInt32:1 value:self.userId];
-  }
-  if (self.hasNearLeftExpansions) {
-    [output writeInt32:2 value:self.nearLeftExpansions];
   }
   if (self.hasFarLeftExpansions) {
     [output writeInt32:3 value:self.farLeftExpansions];
@@ -6237,9 +6175,6 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
   size = 0;
   if (self.hasUserId) {
     size += computeInt32Size(1, self.userId);
-  }
-  if (self.hasNearLeftExpansions) {
-    size += computeInt32Size(2, self.nearLeftExpansions);
   }
   if (self.hasFarLeftExpansions) {
     size += computeInt32Size(3, self.farLeftExpansions);
@@ -6334,9 +6269,6 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
   if (other.hasUserId) {
     [self setUserId:other.userId];
   }
-  if (other.hasNearLeftExpansions) {
-    [self setNearLeftExpansions:other.nearLeftExpansions];
-  }
   if (other.hasFarLeftExpansions) {
     [self setFarLeftExpansions:other.farLeftExpansions];
   }
@@ -6375,10 +6307,6 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
       }
       case 8: {
         [self setUserId:[input readInt32]];
-        break;
-      }
-      case 16: {
-        [self setNearLeftExpansions:[input readInt32]];
         break;
       }
       case 24: {
@@ -6423,22 +6351,6 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 - (FullUserCityExpansionDataProto_Builder*) clearUserId {
   result.hasUserId = NO;
   result.userId = 0;
-  return self;
-}
-- (BOOL) hasNearLeftExpansions {
-  return result.hasNearLeftExpansions;
-}
-- (int32_t) nearLeftExpansions {
-  return result.nearLeftExpansions;
-}
-- (FullUserCityExpansionDataProto_Builder*) setNearLeftExpansions:(int32_t) value {
-  result.hasNearLeftExpansions = YES;
-  result.nearLeftExpansions = value;
-  return self;
-}
-- (FullUserCityExpansionDataProto_Builder*) clearNearLeftExpansions {
-  result.hasNearLeftExpansions = NO;
-  result.nearLeftExpansions = 0;
   return self;
 }
 - (BOOL) hasFarLeftExpansions {
@@ -6518,7 +6430,7 @@ static FullUserCityExpansionDataProto* defaultFullUserCityExpansionDataProtoInst
 }
 - (FullUserCityExpansionDataProto_Builder*) clearLastExpandDirection {
   result.hasLastExpandDirection = NO;
-  result.lastExpandDirection = ExpansionDirectionNearLeft;
+  result.lastExpandDirection = ExpansionDirectionFarLeft;
   return self;
 }
 @end

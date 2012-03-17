@@ -33,7 +33,7 @@
 - (void) carpListingClicked:(CarpenterListing *)carp {
   if (carp.fsp.structId == 1) {
     [super carpListingClicked:carp];
-    [CarpenterMenuController deallocSingleton];
+    [CarpenterMenuController purgeSingleton];
   }
 }
 

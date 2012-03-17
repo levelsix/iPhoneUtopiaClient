@@ -8,6 +8,9 @@
 
 #import "MapViewController.h"
 
-@interface TutorialMapViewController : MapViewController
+@interface TutorialMapViewController : MapViewController {
+  BOOL _travelHomePhase;
+  BOOL _toAttackMapPhase;
+}
 
 @end

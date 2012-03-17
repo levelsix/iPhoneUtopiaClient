@@ -204,6 +204,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   } else if (_aviaryPhase && [selected isKindOfClass:[Aviary class]]) {
     [super setSelected:selected];
     [TutorialMapViewController sharedMapViewController];
+    [self removeFromParentAndCleanup:YES];
+    [TutorialMissionMap purgeSingleton];
   } else {
     [super setSelected:nil];
   }
@@ -250,6 +252,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
   [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                          [upAction reverse], nil]]];
+  
+  [TutorialBattleLayer purgeSingleton];
   
 }
 

@@ -87,6 +87,9 @@
   if (state == kEquipState) {
     [self.profileBar setUserInteractionEnabled:NO];
     
+    _moveToEquipScreenPhase = NO;
+    _equippingPhase = YES;
+    
     [_arrow removeFromSuperview];
     [self.equipsScrollView addSubview:_arrow];
     _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
@@ -109,6 +112,7 @@
 }
 
 - (void) equipViewSelected:(EquipView *)ev {
+  NSLog(@"%d", ev.tag);
   if (_equippingPhase && ev.tag == 2) {
     [super equipViewSelected:ev];
     [_arrow removeFromSuperview];

@@ -103,4 +103,8 @@
   [nv pushViewController:csvc animated:NO];
 }
 
+- (void) dealloc {
+  [super dealloc];
+}
+
 @end

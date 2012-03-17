@@ -28343,7 +28343,7 @@ BOOL RetrieveStaticDataResponseProto_RetrieveStaticDataStatusIsValidValue(Retrie
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.direction = ExpansionDirectionNearLeft;
+    self.direction = ExpansionDirectionFarLeft;
     self.timeOfPurchase = 0L;
   }
   return self;
@@ -28576,7 +28576,7 @@ static PurchaseCityExpansionRequestProto* defaultPurchaseCityExpansionRequestPro
 }
 - (PurchaseCityExpansionRequestProto_Builder*) clearDirection {
   result.hasDirection = NO;
-  result.direction = ExpansionDirectionNearLeft;
+  result.direction = ExpansionDirectionFarLeft;
   return self;
 }
 - (BOOL) hasTimeOfPurchase {

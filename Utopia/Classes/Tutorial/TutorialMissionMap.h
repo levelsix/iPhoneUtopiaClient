@@ -33,4 +33,6 @@
 
 + (TutorialMissionMap *) sharedTutorialMissionMap;
 
++ (void) purgeSingleton;
+
 @end

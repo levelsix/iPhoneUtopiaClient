@@ -66,8 +66,12 @@ typedef enum {
 - (void) removeAllPins;
 - (void) addNewPins;
 
+
+
 + (MapViewController *) sharedMapViewController;
 + (void) displayView;
 + (void) removeView;
+- (IBAction)closeClicked:(id)sender;
+- (IBAction)homeClicked:(id)sender;
 
 @end

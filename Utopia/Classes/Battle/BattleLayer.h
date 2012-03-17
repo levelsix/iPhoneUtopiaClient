@@ -125,6 +125,7 @@
 + (BattleLayer *) sharedBattleLayer;
 - (void) beginBattleAgainst:(FullUserProto *)user;
 - (void) doAttackAnimation;
++ (void) purgeSingleton;
 
 - (IBAction)stolenEquipOkayClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;

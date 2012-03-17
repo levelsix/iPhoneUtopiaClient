@@ -83,7 +83,12 @@ static classname *shared##classname = nil; \
 - (id)autorelease \
 { \
 	return self; \
-}
+} \
+\
++ (void) purgeSingleton { \
+[shared##classname release]; \
+shared##classname = nil; \
+} \
 
 #define SYNTHESIZE_SINGLETON_FOR_CONTROLLER(controllername) \
 \
@@ -100,10 +105,4 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
 \
 + (void) removeView {\
   [shared##controllername.view removeFromSuperview];\
-} \
-\
-+ (void) deallocSingleton { \
-  [shared##controllername didReceiveMemoryWarning]; \
-  [shared##controllername release]; \
-  shared##controllername = nil; \
-} \
+}
