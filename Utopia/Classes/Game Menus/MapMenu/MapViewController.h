@@ -71,6 +71,8 @@ typedef enum {
 + (MapViewController *) sharedMapViewController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
+
 - (IBAction)closeClicked:(id)sender;
 - (IBAction)homeClicked:(id)sender;
 

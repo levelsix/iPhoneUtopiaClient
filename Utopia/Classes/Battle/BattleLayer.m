@@ -185,24 +185,20 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
-static CCScene *scene = nil;
-
 +(CCScene *) scene
 {
-  if (!scene) {
-    // 'scene' is an autorelease object.
-    scene = [[CCScene node] retain];
-    
-    CCSprite *sprite = [CCSprite spriteWithFile:@"battlebackground1.png"];
-    sprite.anchorPoint = ccp(0,0);
-    [scene addChild:sprite];
-    
-    // 'layer' is a singleton object.
-    BattleLayer *layer = [self sharedBattleLayer];
-    
-    // add layer as a child to scene
-    [scene addChild: layer];
-  }
+  // 'scene' is an autorelease object.
+  CCScene *scene = [CCScene node];
+  
+  CCSprite *sprite = [CCSprite spriteWithFile:@"battlebackground1.png"];
+  sprite.anchorPoint = ccp(0,0);
+  [scene addChild:sprite];
+  
+  // 'layer' is a singleton object.
+  BattleLayer *layer = [self sharedBattleLayer];
+  
+  // add layer as a child to scene
+  [scene addChild: layer];
 	
 	// return the scene
 	return scene;
@@ -246,7 +242,7 @@ static CCScene *scene = nil;
     _attackProgressTimer = [CCProgressTimer progressWithFile:@"yellowtimer.png"];
     _attackProgressTimer.position = ccp(_attackButton.contentSize.width/2, _attackButton.contentSize.height/2);
     _attackProgressTimer.type = kCCProgressTimerTypeRadialCCW;
-    _attackProgressTimer.percentage = 42;
+    _attackProgressTimer.percentage = 0;
     [_attackButton addChild:_attackProgressTimer];
     
     CCSprite *attackImage = [CCSprite spriteWithFile:@"circleattackbutton.png"];
@@ -448,6 +444,13 @@ static CCScene *scene = nil;
   
   // Close the menus
   [[GameLayer sharedGameLayer] closeMenus];
+  
+  _cityId = 0;
+}
+
+- (void) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId {
+  [self beginBattleAgainst:user];
+  _cityId = cityId;
 }
 
 - (void) startBattle {
@@ -511,7 +514,7 @@ static CCScene *scene = nil;
     _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
     
     if (_rightCurrentHealth - _damageDone <= 0) {
-      [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultAttackerWin city:0];
+      [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultAttackerWin city:_cityId];
     }
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
@@ -702,6 +705,8 @@ static CCScene *scene = nil;
                      nil]];
   
   _winLayer.visible = YES;
+  _winLayer.scale = 1.5f;
+  [_winLayer runAction:[CCScaleTo actionWithDuration:0.2f scale:1.f]];
   if (!brp) {
     _winButton.visible = NO;
     [self schedule:@selector(checkWinBrp)];
@@ -722,6 +727,8 @@ static CCScene *scene = nil;
                     nil]];
   
   _loseLayer.visible = YES;
+  _loseLayer.scale = 1.5f;
+  [_loseLayer runAction:[CCScaleTo actionWithDuration:0.2f scale:1.f]];
   if (!brp) {
     _loseButton.visible = NO;
     [self schedule:@selector(checkLoseBrp)];

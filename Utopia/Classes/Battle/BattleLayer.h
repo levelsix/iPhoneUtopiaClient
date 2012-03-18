@@ -114,6 +114,8 @@
   CCMenuItemSprite *_loseButton;
   
   FullUserProto *_fup;
+  
+  int _cityId;
 }
 
 @property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;
@@ -124,6 +126,7 @@
 + (CCScene *) scene;
 + (BattleLayer *) sharedBattleLayer;
 - (void) beginBattleAgainst:(FullUserProto *)user;
+- (void) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId;
 - (void) doAttackAnimation;
 + (void) purgeSingleton;
 

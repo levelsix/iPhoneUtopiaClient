@@ -593,7 +593,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) equipViewSelected:(EquipView *)ev {
   GameState *gs = [GameState sharedGameState];
   FullUserEquipProto *fuep = ev.equip;
-  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
+  FullEquipProto *fep = [gs equipWithId:fuep.equipId];
   if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
     if ([Globals canEquip:fep]) {
       BOOL shouldAnimate = [[OutgoingEventController sharedOutgoingEventController] wearEquip:fep.equipId];

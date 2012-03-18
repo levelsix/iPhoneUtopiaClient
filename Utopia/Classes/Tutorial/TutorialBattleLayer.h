@@ -9,8 +9,11 @@
 #import "BattleLayer.h"
 
 @interface TutorialBattleLayer : BattleLayer {
-  CCSprite *_arrow;
+  CCSprite *_ccArrow;
   CCLabelTTF *_pulsingLabel;
+  
+  BOOL _firstTurn;
+  BOOL _firstAttack;
   
   UIImageView *_uiArrow;
 }

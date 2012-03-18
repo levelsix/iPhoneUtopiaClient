@@ -82,9 +82,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     TopBar *tb = [TutorialTopBar sharedTopBar];
     [[CCTouchDispatcher sharedDispatcher] removeDelegate:tb];
     [[CCTouchDispatcher sharedDispatcher] removeDelegate:tb.profilePic];
+    
+    // Startup the tutorial home map
+    [TutorialHomeMap sharedHomeMap];
   }
   
-//  [[TutorialHomeMap sharedHomeMap] refresh];
   CCScene *scene = isTutorial ? [TutorialStartLayer scene] : [GameLayer scene];
   
   [[CCDirector sharedDirector] pushScene:scene];

@@ -16,18 +16,21 @@
   BOOL _doBattlePhase;
   BOOL _doTaskPhase;
   BOOL _aviaryPhase;
+  BOOL _canUnclick;
   
   CCSprite *_ccArrow;
+  UIImageView *_uiArrow;
   
   QuestGiver *_questGiver;
   Enemy *_enemy;
   Aviary *_aviary;
 }
 
-- (void) doneAcceptingQuest;
 - (void) doBlink;
-- (void) spawnBattleEnemy;
+- (void) questGiverInProgress;
+- (void) questLogClosed;
 - (void) battleDone;
+- (void) battleClosed;
 - (void) redeemComplete;
 - (void) levelUpComplete;
 

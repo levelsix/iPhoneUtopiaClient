@@ -10,11 +10,13 @@
 #import "MissionMap.h"
 #import "QuestLogController.h"
 #import "OutgoingEventController.h"
+#import "Globals.h"
 
 @implementation AnimatedSprite
 
 @synthesize sprite = _sprite;
 @synthesize walkAction = _walkAction;
+@synthesize nameLabel = _nameLabel;
 
 -(id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if((self = [super initWithFile:file location:loc map:map])) {
@@ -51,6 +53,12 @@
     _oldMapPos = loc.origin;
     
     [self walk];
+    
+    _nameLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:[Globals fontSize]];
+    _nameLabel.anchorPoint = ccp(0.5,0.5);
+    [self addChild:_nameLabel];
+    _nameLabel.position = ccp(self.contentSize.width/2, self.sprite.contentSize.height+3);
+    _nameLabel.color = ccc3(255,200,0);
   }
   return self;
 }
@@ -95,7 +103,7 @@
 
 @implementation QuestGiver
 
-@synthesize quest, isInProgress;
+@synthesize quest, isInProgress, name;
 
 - (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg map:(GameMap *)map location:(CGRect)location {
   if ((self = [super initWithFile:nil location:location map:map])) {
@@ -103,6 +111,14 @@
     self.isInProgress = inProg;
   }
   return self;
+}
+
+- (void) setName:(NSString *)n {
+  if (name != n) {
+    [name release];
+    name = [n retain];
+    _nameLabel.string = name;
+  }
 }
 
 - (void) setIsSelected:(BOOL)isSelected {
@@ -145,6 +161,14 @@
 @implementation Enemy
 
 @synthesize user;
+
+- (void) setUser:(FullUserProto *)u {
+  if (user != u) {
+    [user release];
+    user = [u retain];
+    _nameLabel.string = u.name;
+  }
+}
 
 @end
 

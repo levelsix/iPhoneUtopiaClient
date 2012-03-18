@@ -14,6 +14,7 @@
 #import "GameLayer.h"
 #import "TutorialHomeMap.h"
 #import "GameState.h"
+#import "DialogMenuController.h"
 
 @implementation CharSelectionViewController
 
@@ -107,11 +108,22 @@
   _curPage = 0;
   
   submitButton.hidden = YES;
+  self.view.alpha = 0.f;
   
-  //Do this to speed up for later
-  GameLayer *gLay = [GameLayer sharedGameLayer];
-  [gLay loadTutorialMissionMap];
-//  [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
+  
+  // Preload the keyboard so its not super slow
+  UITextField *dummyTextField = [[UITextField alloc] init];
+  dummyTextField.hidden = YES;
+  dummyTextField.userInteractionEnabled = NO;
+  [dummyTextField becomeFirstResponder];
+  [dummyTextField resignFirstResponder];
+  [dummyTextField release];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
+    self.view.alpha = 1.f;
+  } completion:nil];
 }
 
 - (int) currentPage {
@@ -263,12 +275,30 @@
 }
 
 - (IBAction)submitClicked:(id)sender {
-  [[TutorialHomeMap sharedHomeMap] refresh];
-  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
-  [[self navigationController] popViewControllerAnimated:NO];
-  
   GameState *gs = [GameState sharedGameState];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  
+  NSString *realStr = nameTextField.text;
+  realStr = [realStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  
+  if (realStr.length < tc.minNameLength || realStr.length > tc.maxNameLength) {
+    return;
+  }
+  
+  [nameTextField resignFirstResponder];
+  
+  [[TutorialHomeMap sharedHomeMap] refresh];
+  
+  [UIView animateWithDuration:4.f animations:^{
+    self.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.view removeFromSuperview];
+    
+    GameState *gs = [GameState sharedGameState];
+    NSString *str = [NSString stringWithFormat:[[TutorialConstants sharedTutorialConstants] beforeBlinkText], gs.name];
+    [DialogMenuController displayViewForText:str callbackTarget:self action:@selector(runGameLayer)];
+  }];
+  
   FullEquipProto *weapon = nil;
   FullEquipProto *armor = nil;
   
@@ -301,7 +331,7 @@
       break;
   }
   
-  gs.name = nameTextField.text;
+  gs.name = realStr;
   gs.weaponEquipped = weapon.equipId;
   gs.armorEquipped = armor.equipId;
   gs.type = _curPage;
@@ -317,18 +347,26 @@
   [gs addToMyEquips:[NSArray arrayWithObjects:ue1, ue2, nil]];
   [ue1 release];
   [ue2 release];
+  
+}
+
+- (void) runGameLayer {
+  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
 }
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-  
-  if (str.length < [[TutorialConstants sharedTutorialConstants] minNameLength]) {
-    self.submitButton.hidden = YES;
-  } else {
-    self.submitButton.hidden = NO;
+  if (![string isEqualToString:@"\n"]) {
+    NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (str.length < [[TutorialConstants sharedTutorialConstants] minNameLength]) {
+      self.submitButton.hidden = YES;
+    } else {
+      self.submitButton.hidden = NO;
+    }
+    
+    return str.length <= [[TutorialConstants sharedTutorialConstants] maxNameLength];
   }
-  
-  return str.length <= [[TutorialConstants sharedTutorialConstants] maxNameLength];
+  return NO;
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

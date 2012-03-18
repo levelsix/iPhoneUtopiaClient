@@ -57,4 +57,8 @@
   return cell;
 }
 
+- (void) dealloc {
+  [super dealloc];
+}
+
 @end

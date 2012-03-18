@@ -46,6 +46,7 @@
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) loadHomeMap;
 - (void) closeMenus;
+- (void) unloadTutorialMissionMap;
 - (void) loadTutorialMissionMap;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

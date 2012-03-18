@@ -53,6 +53,7 @@
 + (GoldShoppeViewController *)sharedGoldShoppeViewController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
 
 - (IBAction)closeButtonClicked:(id)sender;
 

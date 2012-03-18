@@ -112,12 +112,13 @@
 }
 
 - (void) equipViewSelected:(EquipView *)ev {
-  NSLog(@"%d", ev.tag);
   if (_equippingPhase && ev.tag == 2) {
-    [super equipViewSelected:ev];
-    [_arrow removeFromSuperview];
-    [self.view addSubview:_arrow];
+    FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ev.equip.equipId];
+    [self doEquippingAnimation:ev forType:fep.equipType];
     
+    self.unequippableView.hidden = YES;
+    
+    [self.view addSubview:_arrow];
     UIView *close = [self.view viewWithTag:20];
     _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
     

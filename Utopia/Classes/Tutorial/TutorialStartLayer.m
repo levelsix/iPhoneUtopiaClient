@@ -14,6 +14,7 @@
 #import "GameState.h"
 #import "TutorialConstants.h"
 #import "TopBar.h"
+#import "GameLayer.h"
 
 @implementation TutorialStartLayer
 
@@ -35,6 +36,12 @@
                      [CCMoveTo actionWithDuration:1 position:ccp(-_bgd.contentSize.width+self.contentSize.width, 0)],
                      [CCMoveTo actionWithDuration:0.5 position:ccp(-_bgd.contentSize.width/2+self.contentSize.width/2, 0)],
                      [CCCallFunc actionWithTarget:self selector:@selector(panDone)], nil]];
+    
+    
+    //Do this to speed up for later
+    GameLayer *gLay = [GameLayer sharedGameLayer];
+    //  [gLay loadTutorialMissionMap];
+    [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
     
     // Set up the game state
     GameState *gs = [GameState sharedGameState];
@@ -90,17 +97,13 @@
 }
 
 - (void) flashComplete {
-  NSString *text = @"Somebody help me! Weary soldier! Who are you? What is your name?";
-  [DialogMenuController displayViewForText:text progress:0];
-  [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5],
-                   [CCCallFunc actionWithTarget:self selector:@selector(beginCharSelection)],nil]];
+  NSString *text = [[TutorialConstants sharedTutorialConstants] beforeCharSelectionText];
+  [DialogMenuController displayViewForText:text callbackTarget:self action:@selector(beginCharSelection)];
 }
 
 - (void) beginCharSelection {
-  [DialogMenuController closeView];
-  UINavigationController *nv = [[GameViewController sharedGameViewController] navigationController];
   CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
-  [nv pushViewController:csvc animated:NO];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
 }
 
 - (void) dealloc {

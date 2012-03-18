@@ -18,10 +18,12 @@
   CCAction *_walkAction;
   CGPoint _oldMapPos;
   BOOL _moving;
+  CCLabelTTF *_nameLabel;
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkAction;
+@property (nonatomic, retain) CCLabelTTF *nameLabel;
 
 @end
 
@@ -31,6 +33,7 @@
 
 @property (nonatomic, retain) FullQuestProto *quest;
 @property (nonatomic, assign) BOOL isInProgress;
+@property (nonatomic, retain) NSString *name;
 
 - (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg map:(GameMap *)map location:(CGRect)location;
 

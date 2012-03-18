@@ -2831,16 +2831,16 @@
 		CFBAA01D14B3D52F007AB82F /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
-				CFDBE2A2150CA0CA00F601DB /* LevelUpMenu */,
-				CFDCC6D715045EC10084B88A /* RefillMenu */,
 				CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */,
 				CF42350014F4B9AE0033C290 /* CarpenterMenu */,
 				CF3D0A5814CB88EA00D972B4 /* GoldShoppeMenu */,
-				CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */,
+				CFDBE2A2150CA0CA00F601DB /* LevelUpMenu */,
 				CF3D0A5D14CB88EA00D972B4 /* MapMenu */,
+				CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */,
 				CFA26F5414E72CB500FC1C71 /* Miscellaneous */,
 				CF6CCF2614FAF9CB008C693D /* ProfileMenu */,
 				CF3D0A6114CB88EA00D972B4 /* QuestLogMenu */,
+				CFDCC6D715045EC10084B88A /* RefillMenu */,
 				CFF3A72B14EF835F00E8F8DF /* VaultMenu */,
 			);
 			path = "Game Menus";

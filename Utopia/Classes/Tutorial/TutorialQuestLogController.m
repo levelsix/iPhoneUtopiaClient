@@ -10,12 +10,21 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "TutorialMissionMap.h"
+#import "DialogMenuController.h"
+#import "TutorialConstants.h"
 
 @implementation TutorialQuestLogController
 
 - (id) init {
   // Need to load it with carpenter's nib
   return [super initWithNibName:@"QuestLogController" bundle:nil];
+}
+
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  
+  oldDelegate = self.questDescView.scrollView.delegate;
+  self.questDescView.scrollView.delegate = self;
 }
 
 - (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress {
@@ -35,18 +44,20 @@
   
   self.toTaskButton.hidden = YES;
   _canClose = NO;
+  _acceptingPhase = NO;
   
   if (!inProgress) {
     // Don't release.. need to use later for redeem
     _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
     [self.questDescView addSubview:_arrow];
-    _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
     
-    _arrow.center = CGPointMake(CGRectGetMinX(self.acceptButtons.frame)-_arrow.frame.size.width-5, self.acceptButtons.center.y);
+    CGRect r = self.questDescView.scrollView.frame;
+    int offset = 20;
+    _arrow.center = CGPointMake(CGRectGetMaxX(r)+3, CGRectGetMinY(r)+offset);
     
     UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+    [UIView animateWithDuration:2.f delay:0.f options:opt animations:^{
+      _arrow.center = CGPointMake(_arrow.center.x, CGRectGetMaxY(r)-offset);
     } completion:nil];
     
     self.acceptButtons.hidden = NO;
@@ -71,11 +82,11 @@
   GameState *gs = [GameState sharedGameState];
   UserType typeOfEnemy = gs.type < 3 ? UserTypeBadWarrior : UserTypeGoodWarrior;
   TaskItemView *tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, 0, self.taskView.scrollView.frame.size.width, 0) 
-                                       text:[NSString stringWithFormat:@"Defeat 1 %@ %@", [Globals factionForUserType:typeOfEnemy], [Globals classForUserType:typeOfEnemy]]
-                               taskFinished:0
-                                      outOf:1
-                                       type:kDefeatTypeJob 
-                                      jobId:0];
+                                                     text:[NSString stringWithFormat:@"Defeat 1 %@ %@", [Globals factionForUserType:typeOfEnemy], [Globals classForUserType:typeOfEnemy]]
+                                             taskFinished:0
+                                                    outOf:1
+                                                     type:kDefeatTypeJob 
+                                                    jobId:0];
   [self.taskView.scrollView addSubview:tiv];
   [self.taskView.taskItemViews addObject:tiv];
   [tiv release];
@@ -140,35 +151,45 @@
   self.questDescView.scrollView.contentSize = CGSizeMake(self.questDescView.scrollView.frame.size.width, CGRectGetMaxY(self.questDescView.rewardView.frame)+self.questDescView.scrollView.botGradient.frame.size.height);
 }
 
-- (void) didReceiveMemoryWarning {
-  // Can't afford to unload
-  return;
+- (IBAction)acceptTapped:(id)sender {
+  if (_acceptingPhase) {
+    [[TutorialMissionMap sharedTutorialMissionMap] questGiverInProgress];
+    self.acceptButtons.hidden = YES;
+    self.toTaskButton.hidden = NO;
+    [self taskButtonTapped:nil];
+    
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController displayViewForText:tc.afterQuestAcceptText callbackTarget:nil action:nil];
+    [_arrow removeFromSuperview];
+    
+    [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:2.f];
+    
+    _canClose = YES;
+  }
 }
 
-- (IBAction)acceptTapped:(id)sender {
-  [[TutorialMissionMap sharedTutorialMissionMap] doneAcceptingQuest];
-  self.acceptButtons.hidden = YES;
-  self.toTaskButton.hidden = NO;
-  [self taskButtonTapped:nil];
-  
+- (void) arrowOnClose {
   // Move arrow to close button (tag 20)
-  [_arrow removeFromSuperview];
   [self.rightPage addSubview:_arrow];
   UIView *close = [self.rightPage viewWithTag:20];
-  _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width, close.center.y);
+  _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
   
+  _arrow.alpha = 0.f;
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-  } completion:nil];
-  
-  _canClose = YES;
+  // This is confusing, basically fade in, and then do repeated animation
+  [UIView animateWithDuration:0.3f animations:^{
+    _arrow.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+    } completion:nil];
+  }];
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
   if (_canClose) {
     [super closeButtonClicked:sender];
-    [[TutorialMissionMap sharedTutorialMissionMap] spawnBattleEnemy];
+    [[TutorialMissionMap sharedTutorialMissionMap] questLogClosed];
     [_arrow removeFromSuperview];
   }
 }
@@ -177,6 +198,24 @@
   [_arrow removeFromSuperview];
   [super closeButtonClicked:nil];
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+  [oldDelegate scrollViewDidScroll:scrollView];
+  if (scrollView.contentOffset.y+scrollView.frame.size.height >= scrollView.contentSize.height) {
+    // Scrollview reached the bottom, let's allow accept
+    _acceptingPhase = YES;
+    [_arrow removeFromSuperview];
+    [self.questDescView addSubview:_arrow];
+    _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
+    
+    _arrow.center = CGPointMake(CGRectGetMinX(self.acceptButtons.frame)-_arrow.frame.size.width/2-10, self.acceptButtons.center.y);
+    
+    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+    } completion:nil];
+  }
 }
 
 - (void) dealloc {

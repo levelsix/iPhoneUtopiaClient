@@ -45,8 +45,4 @@
 
 @property (nonatomic, retain) IBOutlet UITextField *nameTextField;
 
-//+ (CharSelectionViewController *)sharedCharSelectionViewController;
-//+ (void) displayView;
-//+ (void) removeView;
-
 @end

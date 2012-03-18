@@ -52,6 +52,7 @@
   
   _carpenterPhase = YES;
   
+  [_ccArrow removeFromParentAndCleanup:YES];
   _ccArrow = [CCSprite spriteWithFile:@"green.png"];
   [self addChild:_ccArrow];
   _ccArrow.position = ccp(_csb.position.x, _csb.position.y+_csb.contentSize.height+_ccArrow.contentSize.height/2);

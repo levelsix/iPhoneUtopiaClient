@@ -124,6 +124,8 @@ typedef enum {
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
+
 - (void) loadQuestData:(NSArray *)quests;
 - (void) resetToQuestDescView:(FullQuestProto *)fqp;
 - (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress;

@@ -659,14 +659,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [taskView unloadTasks];
 }
 
-- (void) didReceiveMemoryWarning {
-  [self.view removeFromSuperview];
-  [rightPage removeFromSuperview];
-  
-  [self release];
-  sharedQuestLogController = nil;
-}
-
 - (void) loadQuestData:(NSArray *)quests {
   self.userLogData = quests;
   [self reloadTaskView:_fqp];

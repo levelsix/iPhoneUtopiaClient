@@ -12,6 +12,7 @@
 #import "NibUtils.h"
 #import "MapViewController.h"
 #import "BattleLayer.h"
+#import "GameLayer.h"
 
 #define MAP_OFFSET 100
 
@@ -121,11 +122,11 @@
 
 - (void) updateEnemyMenu {
   if (_selected && [_selected isKindOfClass:[Enemy class]]) {
-    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
+    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET+5)];
     
     float width = enemyMenu.frame.size.width;
     float height = enemyMenu.frame.size.height;
-    enemyMenu.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
+    enemyMenu.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height-pt.y)-height, width, height);
     
     enemyMenu.hidden = NO;
   } else {
@@ -271,6 +272,13 @@
     curRect.origin = ccpAdd(curRect.origin, diff);
     aviaryMenu.frame = curRect;
   }
+  if (!enemyMenu.hidden) {
+    CGPoint diff = ccpSub(oldPos, position_);
+    diff.x *= -1;
+    CGRect curRect = enemyMenu.frame;
+    curRect.origin = ccpAdd(curRect.origin, diff);
+    enemyMenu.frame = curRect;
+  }
 }
 
 - (IBAction)enterAviaryClicked:(id)sender {
@@ -283,7 +291,7 @@
     Enemy *enemy = (Enemy *)_selected;
     FullUserProto *fup = enemy.user;
     if (fup) {
-      [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+      [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:[[GameLayer sharedGameLayer] currentCity]];
       self.visible = NO;
     }
   }

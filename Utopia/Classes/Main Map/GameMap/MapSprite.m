@@ -82,7 +82,6 @@
 
 -(void) dealloc {
   [_glow release];
-  [_map release];
   [super dealloc];
 }
 

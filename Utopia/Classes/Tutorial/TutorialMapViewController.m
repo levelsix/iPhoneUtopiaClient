@@ -7,6 +7,9 @@
 //
 
 #import "TutorialMapViewController.h"
+#import "TutorialHomeMap.h"
+#import "TutorialMissionMap.h"
+#import "GameLayer.h"
 
 @implementation TutorialMapViewController
 
@@ -17,6 +20,10 @@
 - (void) viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   _travelHomePhase = YES;
+  [[GameLayer sharedGameLayer] unloadTutorialMissionMap];
+  
+  self.mapView.userInteractionEnabled = NO;
+  self.missionMap.userInteractionEnabled = NO;
 }
 
 - (IBAction)closeClicked:(id)sender {
@@ -27,6 +34,10 @@
   if (_travelHomePhase) {
     [super homeClicked:sender];
   }
+}
+
+- (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+  return;
 }
 
 @end

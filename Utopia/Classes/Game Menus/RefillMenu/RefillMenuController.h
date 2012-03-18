@@ -50,5 +50,6 @@
 + (RefillMenuController *) sharedRefillMenuController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
 
 @end

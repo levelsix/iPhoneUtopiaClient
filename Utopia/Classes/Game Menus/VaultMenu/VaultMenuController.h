@@ -27,6 +27,7 @@
 + (VaultMenuController *) sharedVaultMenuController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
 
 - (IBAction)closeClicked:(id)sender;
 - (IBAction)depositClicked:(id)sender;

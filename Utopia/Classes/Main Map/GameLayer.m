@@ -37,20 +37,16 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
-static CCScene *scene = nil;
-
 +(CCScene *) scene
 {
-  if (!scene) {
-    // 'scene' is an autorelease object.
-    scene = [[CCScene node] retain];
-    
-    // 'layer' is an autorelease object.
-    GameLayer *layer = [GameLayer sharedGameLayer];
-    
-    // add layer as a child to scene
-    [scene addChild: layer];
-  }
+  // 'scene' is an autorelease object.
+  CCScene *scene = [CCScene node];
+  
+  // 'layer' is an autorelease object.
+  GameLayer *layer = [GameLayer sharedGameLayer];
+  
+  // add layer as a child to scene
+  [scene addChild: layer];
 	
 	// return the scene
 	return scene;
@@ -78,13 +74,13 @@ static CCScene *scene = nil;
   // move map to the center of the screen
   CGSize ms = [map mapSize];
   CGSize ts = [map tileSizeInPoints];
-  map.position = ccp( -(ms.width-8) * ts.width/2, -(ms.height-8) * ts.height/2 );
+  map.position = ccp((-(ms.width-8)*ts.width/2)*map.scale,(-(ms.height-8)*ts.height/2)*map.scale);
 }
 
 - (void) moveMap:(GameMap *)map toSprite:(CCSprite *)spr {
   CGPoint pt = spr.position;
   CGSize size = [[CCDirector sharedDirector] winSize];
-  map.position = ccp(-pt.x+size.width/2, -pt.y+size.height/2);
+  map.position = ccp((-pt.x+size.width/2), ((-pt.y-spr.contentSize.height/2)+size.height/2));
 }
 
 - (void) moveMissionMapToAssetId:(int)a {
@@ -125,13 +121,19 @@ static CCScene *scene = nil;
   }
 }
 
+- (void) unloadTutorialMissionMap {
+  [[TutorialMissionMap sharedTutorialMissionMap] removeFromParentAndCleanup:YES];
+  [TutorialMissionMap purgeSingleton];
+  _missionMap = nil;
+}
+
 - (void) loadTutorialMissionMap {
   // Need this to be able to run on background thread
-//  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
-//  [EAGLContext setCurrentContext:k_context];
+  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
+  [EAGLContext setCurrentContext:k_context];
   
   [self unloadCurrentMissionMap];
-  TutorialMissionMap *map = [[TutorialMissionMap alloc] init];
+  TutorialMissionMap *map = [TutorialMissionMap sharedTutorialMissionMap];
   _missionMap = map;
   
   [self moveMapToCenter:_missionMap];

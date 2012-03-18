@@ -17,6 +17,10 @@
 #import "LevelUpViewController.h"
 #import "TutorialProfileViewController.h"
 #import "TutorialMapViewController.h"
+#import "DialogMenuController.h"
+#import "GameLayer.h"
+
+#define ENEMY_TAG 100
 
 @implementation TutorialMissionMap
 
@@ -121,6 +125,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
     _questGiver = qg;
     [qg release];
+    qg.name = tc.questGiverName;
     
     [self doReorder];
     
@@ -143,6 +148,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _acceptQuestPhase = YES;
     _doBattlePhase = NO;
     _doTaskPhase = NO;
+    _canUnclick = YES;
     
     _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
     [_questGiver addChild:_ccArrow];
@@ -151,6 +157,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
     [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                            [upAction reverse], nil]]];
+    
+    r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    _enemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    [self addChild:_enemy z:1];
+    [_enemy release];
+    _enemy.nameLabel.string = tc.enemyName;
+    _enemy.tag = ENEMY_TAG;
+    
+    r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    Enemy *randEnemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    [self addChild:randEnemy z:1];
+    [randEnemy release];
+    randEnemy.nameLabel.string = @"Ashton Butcher";
+    
+    r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    randEnemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    [self addChild:randEnemy z:1];
+    [randEnemy release];
+    randEnemy.nameLabel.string = @"Park Mincus";
+    
+    r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    randEnemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    [self addChild:randEnemy z:1];
+    [randEnemy release];
+    randEnemy.nameLabel.string = @"Tret Berrill";
   }
   return self;
 }
@@ -171,19 +210,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [self.parent addChild:top z:5];
   
   ccTime dur = 2.5f;
-  float rate = 2.f;
-  [bot runAction:[CCEaseIn actionWithAction:
-                  [CCEaseBounceIn actionWithAction:
+  [bot runAction:[CCEaseBounceIn actionWithAction:
                    [CCSequence actions:
                     [CCMoveBy actionWithDuration:dur position:ccp(0, -bot.contentSize.height)],
                     [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
-                    nil]] rate:rate]];
-  [top runAction:[CCEaseIn actionWithAction:
-                  [CCEaseBounceIn actionWithAction:
+                    [CCCallFunc actionWithTarget:self selector:@selector(beginAfterBlinkConvo)],
+                    nil]]];
+  [top runAction:[CCEaseBounceIn actionWithAction:
                    [CCSequence actions:
                     [CCMoveBy actionWithDuration:dur position:ccp(0, top.contentSize.height)],
                     [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
-                    nil]] rate:rate]];
+                    nil]]];
+}
+
+- (void) beginAfterBlinkConvo {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  NSString *text = [[GameState sharedGameState] type] < 3 ? tc.afterBlinkTextGood : tc. afterBlinkTextBad;
+  [DialogMenuController displayViewForText:text callbackTarget:self action:@selector(centerOnQuestGiver)];
+}
+
+- (void) centerOnQuestGiver {
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:_questGiver];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
@@ -196,36 +243,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     TutorialQuestLogController *tglc = (TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController];
     // If redeemQuestPhase is true, then this quest has been accepted already
     [tglc displayRightPageForQuest:tc.tutorialQuest inProgress:_redeemQuestPhase];
-  } else if (_doBattlePhase && [selected isKindOfClass:[Enemy class]]) {
+  } else if (_doBattlePhase && [selected isKindOfClass:[Enemy class]] && selected.tag == ENEMY_TAG) {
     [super setSelected:selected];
+    [_ccArrow removeFromParentAndCleanup:YES];
+    _canUnclick = NO;
   } else if (_doTaskPhase && [selected isKindOfClass:[MissionBuilding class]] && 
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == tc.tutorialQuest.assetNumWithinCity) {
     [super setSelected:selected];
+    [_ccArrow removeFromParentAndCleanup:YES];
+    _canUnclick = NO;
   } else if (_aviaryPhase && [selected isKindOfClass:[Aviary class]]) {
     [super setSelected:selected];
-    [TutorialMapViewController sharedMapViewController];
-    [self removeFromParentAndCleanup:YES];
-    [TutorialMissionMap purgeSingleton];
-  } else {
+    _canUnclick = NO;
+    [_ccArrow removeFromParentAndCleanup:YES];
+    
+    // release profile from previous step
+    [[TutorialProfileViewController sharedProfileViewController] didReceiveMemoryWarning];
+    [TutorialProfileViewController purgeSingleton];
+  } else if (_canUnclick) {
     [super setSelected:nil];
   }
 }
 
-- (void) doneAcceptingQuest {
+- (void) questGiverInProgress {
   // For Tut Quest Log
   _acceptQuestPhase = NO;
   _doBattlePhase = YES;
   _questGiver.isInProgress = YES;
 }
 
-- (void) spawnBattleEnemy {
-  CGRect r = CGRectZero;
-  r.origin = [self randomWalkablePosition];
-  r.size = CGSizeMake(1, 1);
-  _enemy = [[Enemy alloc] initWithFile:nil location:r map:self];
-  [self addChild:_enemy z:1];
-  [_enemy release];
-  
+- (void) questLogClosed {
   [_enemy addChild:_ccArrow];
   _ccArrow.position = ccp(_enemy.contentSize.width/2, _enemy.contentSize.height+_ccArrow.contentSize.height/2);
   
@@ -236,59 +283,94 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   self.enemyMenu.nameLabel.text = tc.enemyName;
   self.enemyMenu.levelLabel.text = @"Lvl 1";
+  
+  NSString *str = [NSString stringWithFormat:tc.afterQuestAcceptClosedText, tc.enemyName];
+  [self centerOnEnemy];
+  [DialogMenuController displayViewForText:str callbackTarget:nil action:nil];
+  
+  // Create and add uiArrow to attack screen
+  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  [self.enemyMenu addSubview:_uiArrow];
+  _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
+  
+  UIView *attackButton = [self.enemyMenu viewWithTag:30];
+  _uiArrow.center = CGPointMake(CGRectGetMinX(attackButton.frame)-_uiArrow.frame.size.width/2-2, attackButton.center.y);
+  
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+    _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
+  } completion:nil];
+}
+
+- (void) centerOnEnemy {
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:_enemy];
 }
 
 - (void) battleDone {
   _doBattlePhase = NO;
   _doTaskPhase = YES;
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:[self assetWithId:tc.tutorialQuest.assetNumWithinCity]];
   [_enemy removeFromParentAndCleanup:YES];
   
   // Move arrow to task
   [_ccArrow removeFromParentAndCleanup:YES];
-  CCSprite *spr = [self assetWithId:1];
+  CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
   [spr addChild:_ccArrow];
   _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
   
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
   [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                          [upAction reverse], nil]]];
-  
-  [TutorialBattleLayer purgeSingleton];
-  
+}
+
+- (void) centerOnTask {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:spr];
 }
 
 - (void) performCurrentTask {
   if ([_selected isKindOfClass:[MissionBuilding class]]) {
+    [TutorialBattleLayer purgeSingleton];
+    
     MissionBuilding *mb = (MissionBuilding *)_selected;
     FullTaskProto *ftp = mb.ftp;
     
     mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
     
+    _canUnclick = YES;
     self.selected = nil;
     [self closeMenus];
     
-    _doTaskPhase = NO;
-    _redeemQuestPhase = YES;
-    
-    StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
     GameState *gs = [GameState sharedGameState];
+    StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
     gs.silver += tutQuest.firstTaskCompleteCoinGain;
     // Exp will be same for either task
     gs.experience += tutQuest.firstTaskGood.expGained;
     
-    QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
-    qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
-    qcv.visitDescLabel.text = @"Visit Farmer Mitch Lieu in Kirin Village to redeem your reward.";
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
-    
-    // Move arrow back to task quest giver
-    [_ccArrow removeFromParentAndCleanup:YES];
-    [_questGiver addChild:_ccArrow];
-    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+10);
-    
-    CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
-    [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                           [upAction reverse], nil]]];
+    if (mb.numTimesActed == ftp.numRequiredForCompletion) {
+      _doTaskPhase = NO;
+      _redeemQuestPhase = YES;
+      
+      QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
+      qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
+      qcv.visitDescLabel.text = @"Visit Farmer Mitch Lieu in Kirin Village to redeem your reward.";
+      [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
+      
+      // Move arrow back to task quest giver
+      [_ccArrow removeFromParentAndCleanup:YES];
+      [_questGiver addChild:_ccArrow];
+      _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+10);
+      
+      CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
+      [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                             [upAction reverse], nil]]];
+      
+      
+      [[GameLayer sharedGameLayer] moveMap:self toSprite:_questGiver];
+    }
   }
 }
 
@@ -299,6 +381,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) levelUp {
+  [[TutorialQuestLogController sharedQuestLogController] didReceiveMemoryWarning];
+  [TutorialQuestLogController purgeSingleton];
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   gs.skillPoints += gl.skillPointsGainedOnLevelup;
@@ -308,8 +393,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   
   [TutorialProfileViewController sharedProfileViewController];
   
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  
+  // Create a fake level up proto so we can send it in to the controller
+  LevelUpResponseProto_Builder *lurpb = [LevelUpResponseProto builder];
+  lurpb.sender = [[[MinimumUserProto builder] setUserId:0] build];
+  lurpb.status = LevelUpResponseProto_LevelUpStatusSuccess;
+  lurpb.newLevel = 2;
+  lurpb.newNextLevel = 3;
+  lurpb.experienceRequiredForNewNextLevel = tc.expForLevelThree;
+  [lurpb addAllCitiesNewlyAvailableToUser:tc.levelTwoCities];
+  [lurpb addAllNewlyAvailableStructs:tc.levelTwoStructs];
+  [lurpb addAllNewlyEquippableEpicsAndLegendaries:tc.levelTwoEquips];
+  
   // This will be released after the level up controller closes
-  LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:nil];
+  LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:[lurpb build]];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
   [_ccArrow removeFromParentAndCleanup:YES];
 }
@@ -327,16 +425,47 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (IBAction)attackClicked:(id)sender {
+  _canUnclick = YES;
   self.selected = nil;
   [[CCDirector sharedDirector] pushScene:[TutorialBattleLayer scene]];
+  
+  [_ccArrow removeFromParentAndCleanup:YES];
+  
+  // Move to the aviary now
+  [_uiArrow removeFromSuperview];
+  [self.aviaryMenu addSubview:_uiArrow];
+  
+  UIView *visitButton = [self.aviaryMenu viewWithTag:30];
+  _uiArrow.center = CGPointMake(visitButton.frame.origin.x-_uiArrow.frame.size.width/2, visitButton.center.y);
+  
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+    _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
+  } completion:nil];
+}
+
+- (void) battleClosed {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  GameState *gs = [GameState sharedGameState];
+  [self centerOnTask];
+  NSString *str = gs.type < 3 ? tc.beforeTaskTextGood : tc.beforeTaskTextBad;
+  [DialogMenuController displayViewForText:str callbackTarget:nil action:nil];
 }
 
 - (IBAction)profileClicked:(id)sender {
   return;
 }
 
+- (IBAction)enterAviaryClicked:(id)sender {
+  // Preload map so that it becomes the singleton
+  [TutorialMapViewController sharedMapViewController];
+  [super enterAviaryClicked:sender];
+  [_uiArrow removeFromSuperview];
+}
+
 - (void) dealloc {
   [_ccArrow release];
+  [_uiArrow release];
   [super dealloc];
 }
 

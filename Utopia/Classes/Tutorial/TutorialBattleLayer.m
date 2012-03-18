@@ -11,10 +11,11 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "TutorialMissionMap.h"
+#import "DialogMenuController.h"
 
 #define ENEMY_HEALTH 30
-#define ENEMY_ATTACK 10
-#define ENEMY_DEFENSE 10
+#define ENEMY_ATTACK 20
+#define ENEMY_DEFENSE 20
 
 @implementation TutorialBattleLayer
 
@@ -43,35 +44,87 @@
   _rightAttack = ENEMY_ATTACK;
   _rightDefense = ENEMY_DEFENSE;
   
+  _firstTurn = YES;
+  _firstAttack = YES;
   [self startBattle];
   
-  _arrow = [CCSprite spriteWithFile:@"green.png"];
-  [self addChild:_arrow];
-  _arrow.visible = NO;
+  _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
+  [self addChild:_ccArrow];
+  _ccArrow.visible = NO;
+  
+  _pulsingLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:18];
+  [self addChild:_pulsingLabel];
+  _pulsingLabel.opacity = 0.f;
+  _pulsingLabel.color = ccc3(255,200,0);
+  
+  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
 }
 
 - (void) startMyTurn {
+  if (_firstTurn) {
+    _attackButton.visible = YES;
+    _comboBar.visible = NO;
+    _bottomMenu.visible = YES;
+    
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController displayViewForText:tc.beginBattleText callbackTarget:self action:@selector(startMyTurn)];
+    _firstTurn = NO;
+    return;
+  }
+  
   [super startMyTurn];
-  _arrow.visible = YES;
+  _ccArrow.visible = YES;
   CGPoint pos = ccp(_attackButton.position.x,
-                    _attackButton.position.y+_attackButton.contentSize.height/2+_arrow.contentSize.height/2);
-  _arrow.position = pos;
+                    _attackButton.position.y+_attackButton.contentSize.height/2+_ccArrow.contentSize.height/2);
+  _ccArrow.position = pos;
   
   CCMoveBy *upAction = [CCMoveTo actionWithDuration:1 position:ccp(pos.x, pos.y+20)];
   CCMoveBy *downAction = [CCMoveTo actionWithDuration:1 position:pos];
-  [_arrow stopAllActions];
-  [_arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                       downAction, nil]]];
+  [_ccArrow stopAllActions];
+  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                         downAction, nil]]];
+  
+  _pulsingLabel.opacity = 0.f;
+  [_pulsingLabel stopAllActions];
 }
 
 - (void) turnMissed {
   [self startMyTurn];
+  
+  _pulsingLabel.position = ccp(_ccArrow.position.x, _ccArrow.position.y+40);
+  _pulsingLabel.string = @"Try Again!";
+  _pulsingLabel.opacity = 255;
+  [_pulsingLabel runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f],
+                            [CCFadeOut actionWithDuration:1.f],nil]];
 }
 
 - (void) attackStart {
+  _ccArrow.visible = NO;
+  if (_firstAttack) {
+    [_attackProgressTimer stopAllActions];
+    
+    _bottomMenu.visible = NO;
+    _attackButton.visible = NO;
+    
+    _comboBar.visible = YES;
+    _comboBarMoving = YES;
+    
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController displayViewForText:tc.beginAttackText callbackTarget:self action:@selector(attackStart)];
+    _firstAttack = NO;
+    return;
+  }
+  
   [super attackStart];
-  _arrow.visible = NO;
-  [_arrow stopAllActions]; 
+  [_ccArrow stopAllActions];
+  
+  _pulsingLabel.string = @"Tap anywhere to attack";
+  _pulsingLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2+100);
+  _pulsingLabel.opacity = 255;
+  CCScaleBy *bigger = [CCScaleBy actionWithDuration:1.f scale:1.1f];
+  [_pulsingLabel runAction:[CCRepeatForever actionWithAction:
+                            [CCSequence actions:bigger, [bigger reverse], nil]]];
 }
 
 - (void) comboBarClicked {
@@ -85,6 +138,7 @@
 }
 
 - (void) startEnemyTurn {
+  _pulsingLabel.opacity = 0;
   float perc = [self calculateEnemyPercentage];
   _damageDone = [self calculateEnemyDamageForPercentage:perc];
   
@@ -125,6 +179,12 @@
   UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [self loadBattleSummary];
   [view addSubview:self.summaryView];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.afterBattleText callbackTarget:nil action:nil];
+  [_uiArrow removeFromSuperview];
+  
+  [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:2.f];
 }
 
 - (int) calculateEnemyDamageForPercentage:(float)percent {
@@ -138,6 +198,16 @@
   self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
   self.stolenEquipView.attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   self.stolenEquipView.defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+  
+  // Move arrow to close button (tag 20)
+  [self.stolenEquipView addSubview:_uiArrow];
+  UIView *okayButton = [self.stolenEquipView viewWithTag:20];
+  _uiArrow.center = CGPointMake(CGRectGetMinX(okayButton.frame)-_uiArrow.frame.size.width/2-2, okayButton.center.y);
+  
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+    _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
+  } completion:nil];
 }
 
 - (void) loadBattleSummary {
@@ -178,12 +248,32 @@
   self.summaryView.expGainedLabel.text = [NSString stringWithFormat:@"%@ Exp.", [Globals commafyNumber:tc.tutorialQuest.firstDefeatTypeJobBattleExpGain]];
 }
 
+- (void) arrowOnClose {
+  // Move arrow to close button (tag 20)
+  [self.summaryView addSubview:_uiArrow];
+  UIView *close = [self.summaryView viewWithTag:20];
+  _uiArrow.center = CGPointMake(CGRectGetMinX(close.frame)-_uiArrow.frame.size.width/2-2, close.center.y);
+  
+  _uiArrow.alpha = 0.f;
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  // This is confusing, basically fade in, and then do repeated animation
+  [UIView animateWithDuration:0.3f animations:^{
+    _uiArrow.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+      _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
+    } completion:nil];
+  }];
+}
+
 - (void) myWin {
   [_right runAction:[CCSpawn actions:
                      [CCScaleBy actionWithDuration:0.1 scale:1.2],
                      [CCFadeOut actionWithDuration:0.1],
                      nil]];
   
+  [_pulsingLabel stopAllActions];
+  _pulsingLabel.visible = NO;
   _winLayer.visible = YES;
   _winButton.visible = YES;
   
@@ -209,6 +299,18 @@
 
 - (IBAction)attackAgainClicked:(id)sender {
   return;
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [super closeClicked:sender];
+  [[TutorialMissionMap sharedTutorialMissionMap] battleClosed];
+}
+
+- (void) dealloc {
+  [_uiArrow release];
+  [_pulsingLabel release];
+  [_ccArrow release];
+  [super dealloc];
 }
 
 @end

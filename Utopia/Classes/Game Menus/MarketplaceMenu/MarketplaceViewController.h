@@ -87,6 +87,8 @@ typedef enum {
 + (MarketplaceViewController *) sharedMarketplaceViewController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
+
 - (void) disableEditing;
 - (NSString *) truncateString:(NSString *)num;
 - (NSString *) truncateInt:(int)num;

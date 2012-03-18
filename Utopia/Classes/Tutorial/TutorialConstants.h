@@ -34,12 +34,29 @@
 @property (nonatomic, assign) int maxNameLength;
 @property (nonatomic, assign) int diamondRewardForReferrer;
 @property (nonatomic, assign) int diamondRewardForBeingReferred;
+@property (nonatomic, assign) int expForLevelThree;
 @property (nonatomic, retain) NSArray *firstCityElementsForGood;
 @property (nonatomic, retain) NSArray *firstCityElementsForBad;
 @property (nonatomic, retain) NSArray *carpenterStructs;
+@property (nonatomic, retain) NSArray *levelTwoCities;
+@property (nonatomic, retain) NSArray *levelTwoEquips;
+@property (nonatomic, retain) NSArray *levelTwoStructs;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutorialQuest;
 
+@property (nonatomic, retain) NSString *beforeCharSelectionText;
+@property (nonatomic, retain) NSString *beforeBlinkText;
+@property (nonatomic, retain) NSString *afterBlinkTextGood;
+@property (nonatomic, retain) NSString *afterBlinkTextBad;
+@property (nonatomic, retain) NSString *afterQuestAcceptText;
+@property (nonatomic, retain) NSString *afterQuestAcceptClosedText;
+@property (nonatomic, retain) NSString *beginBattleText;
+@property (nonatomic, retain) NSString *beginAttackText;
+@property (nonatomic, retain) NSString *afterBattleText;
+@property (nonatomic, retain) NSString *beforeTaskTextGood;
+@property (nonatomic, retain) NSString *beforeTaskTextBad;
+
 @property (nonatomic, retain) NSString *enemyName;
+@property (nonatomic, retain) NSString *questGiverName;
 
 + (TutorialConstants *) sharedTutorialConstants;
 - (void) loadTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;

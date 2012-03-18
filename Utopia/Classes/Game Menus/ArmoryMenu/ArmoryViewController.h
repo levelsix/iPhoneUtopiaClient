@@ -104,5 +104,6 @@ typedef enum {
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
 
 @end

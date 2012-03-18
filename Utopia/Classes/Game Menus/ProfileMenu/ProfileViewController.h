@@ -178,11 +178,13 @@ typedef enum {
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev;
 - (void) loadSkills;
+- (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type;
 
 - (IBAction)skillButtonClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;
 
 + (ProfileViewController *) sharedProfileViewController;
++ (void) purgeSingleton;
 + (void) displayView;
 + (void) removeView;
 

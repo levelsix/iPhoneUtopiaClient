@@ -12,6 +12,4 @@
   UIImageView *_arrow;
 }
 
-
-
 @end

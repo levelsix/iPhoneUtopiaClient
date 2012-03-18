@@ -45,6 +45,7 @@
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
 - (void) layerWillDisappear;
 
+- (IBAction)enterAviaryClicked:(id)sender;
 - (IBAction)attackClicked:(id)sender;
 - (IBAction)profileClicked:(id)sender;
 

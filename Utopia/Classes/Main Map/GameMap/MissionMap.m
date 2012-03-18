@@ -206,6 +206,7 @@
           r.size = CGSizeMake(1, 1);
           QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:NO map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+          qg.name = ncep.name;
         } else {
           NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
         }
@@ -230,6 +231,7 @@
           r.size = CGSizeMake(1, 1);
           QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:YES map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+          qg.name = ncep.name;
         } else {
           NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
         }
@@ -246,6 +248,16 @@
       QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO map:self location:r];
       [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
       qg.opacity = 0.f;
+    }
+    
+    for (FullUserProto *fup in proto.defeatTypeJobEnemiesList) {
+      CGRect r = CGRectZero;
+      r.origin = [self randomWalkablePosition];
+      r.size = CGSizeMake(1, 1);
+      Enemy *enemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+      enemy.user = fup;
+      [self addChild:enemy z:1];
+      [enemy release];
     }
     
     [self doReorder];
@@ -498,7 +510,6 @@
   NSMutableArray *arr = [[NSMutableArray alloc] init];
   
   for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
-    NSLog(@"%d", fqp.questId);
     if (fqp.cityId == _cityId) {
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
@@ -509,9 +520,7 @@
       [arr addObject:qg];
     }
   }
-  NSLog(@"in prog");
   for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
-    NSLog(@"%d", fqp.questId);
     if (fqp.cityId == _cityId) {
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
