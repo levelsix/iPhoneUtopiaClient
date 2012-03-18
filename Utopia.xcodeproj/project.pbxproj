@@ -352,6 +352,20 @@
 		CF1C5BCC1501AED50048D2EC /* numbertickerbgbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A651501AED50048D2EC /* numbertickerbgbg@2x.png */; };
 		CF1C5BCD1501AED50048D2EC /* withdraw.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A661501AED50048D2EC /* withdraw.png */; };
 		CF1C5BCE1501AED50048D2EC /* withdraw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A671501AED50048D2EC /* withdraw@2x.png */; };
+		CF202769151570F000F611F5 /* activityfeedbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20275F151570F000F611F5 /* activityfeedbg.png */; };
+		CF20276A151570F000F611F5 /* activityfeedbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202760151570F000F611F5 /* activityfeedbg@2x.png */; };
+		CF20276B151570F000F611F5 /* collect.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202761151570F000F611F5 /* collect.png */; };
+		CF20276C151570F000F611F5 /* collect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202762151570F000F611F5 /* collect@2x.png */; };
+		CF20276D151570F000F611F5 /* goodgirlaf.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202763151570F000F611F5 /* goodgirlaf.png */; };
+		CF20276E151570F000F611F5 /* goodgirlaf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202764151570F000F611F5 /* goodgirlaf@2x.png */; };
+		CF20276F151570F000F611F5 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202765151570F000F611F5 /* profile.png */; };
+		CF202770151570F000F611F5 /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202766151570F000F611F5 /* profile@2x.png */; };
+		CF202771151570F000F611F5 /* revenge.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202767151570F000F611F5 /* revenge.png */; };
+		CF202772151570F000F611F5 /* revenge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF202768151570F000F611F5 /* revenge@2x.png */; };
+		CF202777151571A000F611F5 /* ActivityFeedController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF202775151571A000F611F5 /* ActivityFeedController.m */; };
+		CF202778151571A000F611F5 /* ActivityFeedController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF202776151571A000F611F5 /* ActivityFeedController.xib */; };
+		CF20277A15157AA200F611F5 /* ActivityFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF20277915157AA200F611F5 /* ActivityFeedCell.xib */; };
+		CF20277C151590DD00F611F5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20277B151590DD00F611F5 /* Default@2x.png */; };
 		CF22F1C214D54C5F00B0D32E /* OutgoingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF22F1C114D54C5F00B0D32E /* OutgoingEventController.m */; };
 		CF22F1C414D54CBB00B0D32E /* ArmoryListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF22F1C314D54CBB00B0D32E /* ArmoryListing.xib */; };
 		CF22F1C714D54CCD00B0D32E /* IncomingEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF22F1C614D54CCD00B0D32E /* IncomingEventController.m */; };
@@ -1243,6 +1257,21 @@
 		CF1C5A9F1501AED50048D2EC /* visitcitybubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitcitybubble@2x.png"; sourceTree = "<group>"; };
 		CF1C5AA01501AED50048D2EC /* weaponinfobg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weaponinfobg.png; sourceTree = "<group>"; };
 		CF1C5AA11501AED50048D2EC /* weaponinfobg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weaponinfobg@2x.png"; sourceTree = "<group>"; };
+		CF20275F151570F000F611F5 /* activityfeedbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activityfeedbg.png; sourceTree = "<group>"; };
+		CF202760151570F000F611F5 /* activityfeedbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activityfeedbg@2x.png"; sourceTree = "<group>"; };
+		CF202761151570F000F611F5 /* collect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = collect.png; sourceTree = "<group>"; };
+		CF202762151570F000F611F5 /* collect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "collect@2x.png"; sourceTree = "<group>"; };
+		CF202763151570F000F611F5 /* goodgirlaf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goodgirlaf.png; sourceTree = "<group>"; };
+		CF202764151570F000F611F5 /* goodgirlaf@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goodgirlaf@2x.png"; sourceTree = "<group>"; };
+		CF202765151570F000F611F5 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		CF202766151570F000F611F5 /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
+		CF202767151570F000F611F5 /* revenge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = revenge.png; sourceTree = "<group>"; };
+		CF202768151570F000F611F5 /* revenge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "revenge@2x.png"; sourceTree = "<group>"; };
+		CF202774151571A000F611F5 /* ActivityFeedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityFeedController.h; path = ActivityFeedMenu/ActivityFeedController.h; sourceTree = "<group>"; };
+		CF202775151571A000F611F5 /* ActivityFeedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityFeedController.m; path = ActivityFeedMenu/ActivityFeedController.m; sourceTree = "<group>"; };
+		CF202776151571A000F611F5 /* ActivityFeedController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActivityFeedController.xib; path = ActivityFeedMenu/ActivityFeedController.xib; sourceTree = "<group>"; };
+		CF20277915157AA200F611F5 /* ActivityFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActivityFeedCell.xib; sourceTree = "<group>"; };
+		CF20277B151590DD00F611F5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
 		CF22F1C014D54C5F00B0D32E /* OutgoingEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutgoingEventController.h; sourceTree = "<group>"; };
 		CF22F1C114D54C5F00B0D32E /* OutgoingEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutgoingEventController.m; sourceTree = "<group>"; };
 		CF22F1C314D54CBB00B0D32E /* ArmoryListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryListing.xib; path = ArmoryMenu/ArmoryListing.xib; sourceTree = "<group>"; };
@@ -1967,6 +1996,7 @@
 		CF1C592B1501AED40048D2EC /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF20275E151570F000F611F5 /* Notification Images */,
 				CF41C2B1150E2F17005A2919 /* Tutorial */,
 				CFDBE291150CA0AF00F601DB /* Level Up Images */,
 				CFDBE1C1150C62F400F601DB /* Character Selection Images */,
@@ -2559,6 +2589,34 @@
 			path = "ZZ Server Images";
 			sourceTree = "<group>";
 		};
+		CF20275E151570F000F611F5 /* Notification Images */ = {
+			isa = PBXGroup;
+			children = (
+				CF20275F151570F000F611F5 /* activityfeedbg.png */,
+				CF202760151570F000F611F5 /* activityfeedbg@2x.png */,
+				CF202761151570F000F611F5 /* collect.png */,
+				CF202762151570F000F611F5 /* collect@2x.png */,
+				CF202763151570F000F611F5 /* goodgirlaf.png */,
+				CF202764151570F000F611F5 /* goodgirlaf@2x.png */,
+				CF202765151570F000F611F5 /* profile.png */,
+				CF202766151570F000F611F5 /* profile@2x.png */,
+				CF202767151570F000F611F5 /* revenge.png */,
+				CF202768151570F000F611F5 /* revenge@2x.png */,
+			);
+			path = "Notification Images";
+			sourceTree = "<group>";
+		};
+		CF2027731515714B00F611F5 /* ActivityFeedMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CF202774151571A000F611F5 /* ActivityFeedController.h */,
+				CF202775151571A000F611F5 /* ActivityFeedController.m */,
+				CF202776151571A000F611F5 /* ActivityFeedController.xib */,
+				CF20277915157AA200F611F5 /* ActivityFeedCell.xib */,
+			);
+			name = ActivityFeedMenu;
+			sourceTree = "<group>";
+		};
 		CF2737B814B6D99800E3A820 /* UIDevice Additions */ = {
 			isa = PBXGroup;
 			children = (
@@ -2831,6 +2889,7 @@
 		CFBAA01D14B3D52F007AB82F /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CF2027731515714B00F611F5 /* ActivityFeedMenu */,
 				CF5EE03F14CFEE3B0063F1E0 /* ArmoryMenu */,
 				CF42350014F4B9AE0033C290 /* CarpenterMenu */,
 				CF3D0A5814CB88EA00D972B4 /* GoldShoppeMenu */,
@@ -3217,6 +3276,7 @@
 			isa = PBXGroup;
 			children = (
 				CFFD7C1314AC2C770054CC23 /* Default.png */,
+				CF20277B151590DD00F611F5 /* Default@2x.png */,
 				CFE47C0E149240890084E71E /* fps_images.png */,
 				CFE47C10149240890084E71E /* Icon-72.png */,
 				CFE47C12149240890084E71E /* Icon-Small-50.png */,
@@ -4284,6 +4344,19 @@
 				CF6653A71513428C0077CB6B /* glow.png in Resources */,
 				CF6653A9151342910077CB6B /* glow@2x.png in Resources */,
 				CF6653AD15134CE90077CB6B /* redeem@2x.png in Resources */,
+				CF202769151570F000F611F5 /* activityfeedbg.png in Resources */,
+				CF20276A151570F000F611F5 /* activityfeedbg@2x.png in Resources */,
+				CF20276B151570F000F611F5 /* collect.png in Resources */,
+				CF20276C151570F000F611F5 /* collect@2x.png in Resources */,
+				CF20276D151570F000F611F5 /* goodgirlaf.png in Resources */,
+				CF20276E151570F000F611F5 /* goodgirlaf@2x.png in Resources */,
+				CF20276F151570F000F611F5 /* profile.png in Resources */,
+				CF202770151570F000F611F5 /* profile@2x.png in Resources */,
+				CF202771151570F000F611F5 /* revenge.png in Resources */,
+				CF202772151570F000F611F5 /* revenge@2x.png in Resources */,
+				CF202778151571A000F611F5 /* ActivityFeedController.xib in Resources */,
+				CF20277A15157AA200F611F5 /* ActivityFeedCell.xib in Resources */,
+				CF20277C151590DD00F611F5 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4448,6 +4521,7 @@
 				CF6653B315138AF00077CB6B /* TutorialProfileViewController.m in Sources */,
 				CF6653B6151417260077CB6B /* TutorialTopBar.m in Sources */,
 				CF6653B915141CFE0077CB6B /* TutorialMapViewController.m in Sources */,
+				CF202777151571A000F611F5 /* ActivityFeedController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

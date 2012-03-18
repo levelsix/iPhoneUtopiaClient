@@ -172,11 +172,6 @@
   }
 }
 
--(void) dealloc {
-  [_homeMap release];
-  [super dealloc];
-}
-
 @end
 
 @implementation MoneyBuilding

@@ -59,14 +59,13 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
+@property (nonatomic, retain) IBOutlet MapBar *mapBar;
 
 @property (nonatomic, assign) MapState state;
 
 - (void) retrieveAttackListForCurrentBounds;
 - (void) removeAllPins;
 - (void) addNewPins;
-
-
 
 + (MapViewController *) sharedMapViewController;
 + (void) displayView;

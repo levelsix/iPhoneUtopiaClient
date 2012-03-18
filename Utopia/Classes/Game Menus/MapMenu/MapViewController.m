@@ -25,9 +25,6 @@
 
 - (void) awakeFromNib {
   _clickedButtons = 0;
-  
-  [self clickButton:kMissionButton];
-  [self unclickButton:kEnemyButton];
 }
 
 - (void) clickButton:(MapBarButton)button {
@@ -221,6 +218,7 @@ static UIButton *rightButton = nil;
 @synthesize mapView = _mapView;
 @synthesize missionMap;
 @synthesize state = _state;
+@synthesize mapBar;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
@@ -257,9 +255,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   missionMap.lumoriaView.hidden = YES;
   
   self.state = kMissionMap;
+  
+  [self.mapBar clickButton:kMissionButton];
+  [self.mapBar unclickButton:kEnemyButton];
+  
+  self.view.alpha = 0.f;
+  [UIView animateWithDuration:1.f animations:^{
+    self.view.alpha = 1.f;
+  }];
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
+- (void) viewWillDisappear:(BOOL)animated {
   [self removeAllPins];
   [[[GameState sharedGameState] attackList] removeAllObjects];
 }
@@ -365,8 +371,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [super viewDidUnload];
   self.mapView = nil;
   self.missionMap = nil;
-  [sharedMapViewController release];
-  sharedMapViewController = nil;
+  self.mapBar = nil;
 }
 
 @end
