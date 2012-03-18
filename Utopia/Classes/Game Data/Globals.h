@@ -67,6 +67,9 @@
 @property (nonatomic, assign) int maxNumbersOfEnemiesToGenerateAtOnce;
 @property (nonatomic, assign) float percentReturnedToUserForSellingEquipInArmory;
 
+@property (nonatomic, assign) int diamondRewardForReferrer;
+@property (nonatomic, assign) int diamondRewardForBeingReferred;
+
 @property (nonatomic, assign) NSDictionary *productIdentifiers;
 
 @property (nonatomic, assign) NSMutableDictionary *imageCache;
@@ -87,6 +90,7 @@
 + (NSString *) factionForUserType:(UserType)type;
 + (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type;
 + (NSString *) classForUserType:(UserType)type;
++ (UIImage *) squareImageForUser:(UserType)type;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;

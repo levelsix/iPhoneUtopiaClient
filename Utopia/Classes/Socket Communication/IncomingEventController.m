@@ -401,7 +401,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrieveCurrencyFromNormStructureResponseProto: (RetrieveCurrencyFromNormStructureResponseProto *) proto {
   NSLog(@"Retrieve currency response received with status: %d.", proto.status);
   
-  if (proto.status != RetrieveStaticDataResponseProto_RetrieveStaticDataStatusSuccess) {
+  if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
     [Globals popupMessage:@"Server failed to retrieve from normal structure."];
   }
 }
@@ -486,7 +486,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addToStaticStructs:proto.structsList];
       
       CarpenterMenuController *cmc = [CarpenterMenuController sharedCarpenterMenuController];
-      [cmc.carpTable performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+      [cmc reloadCarpenterStructs];
     }
     
     if (proto.equipsList.count > 0) {
@@ -524,7 +524,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs addToStaticEquips:proto.equipsList];
       
       ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
-      [avc performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
+      [avc refresh];
     }
   } else {
     [Globals popupMessage:@"Server failed to send back store data.."];

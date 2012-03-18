@@ -18,12 +18,15 @@
 #import "CarpenterMenuController.h"
 #import "MapViewController.h"
 #import "ProfileViewController.h"
+#import "ActivityFeedController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
-#define START_ANGLE -20.f
-#define TOTAL_ANGLE -85.f
-#define BUTTON_DISTANCE 46.f
+#define START_ANGLE -14.f
+#define TOTAL_ANGLE -87.f
+#define BUTTON_DISTANCE 60.f
+
+#define PULSATE_DURATION 1.5f
 
 @implementation ExperienceCircle
 
@@ -50,6 +53,15 @@
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
     [_levelCircle addChild:_levelLabel];
     [Globals adjustFontSizeForCCLabelTTF:_levelLabel size:12 ];
+    
+    _notificationAlert = [CCSprite spriteWithFile:@"notificationoverlevel.png"];
+    [_levelCircle addChild:_notificationAlert];
+    _notificationAlert.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
+    
+    CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:
+                                                          [CCFadeOut actionWithDuration:PULSATE_DURATION],
+                                                          [CCFadeIn actionWithDuration:PULSATE_DURATION], nil]];
+    [_notificationAlert runAction:action];
     
     self.level = 1;
     self.expPercentage = 0;
@@ -97,19 +109,19 @@
     
     _menuItems = [[[NSMutableArray alloc] init] retain];
     
-    CCMenuItemImage *button1 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
+    CCMenuItemImage *button1 = [CCMenuItemImage itemFromNormalImage:@"pathnotifications.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
     button1.visible = NO;
     [_menuItems addObject:button1];
     
-    CCMenuItemImage *button2 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
+    CCMenuItemImage *button2 = [CCMenuItemImage itemFromNormalImage:@"pathquests.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
     button2.visible = NO;
     [_menuItems addObject:button2];
     
-    CCMenuItemImage *button3 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
+    CCMenuItemImage *button3 = [CCMenuItemImage itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
     button3.visible = NO;
     [_menuItems addObject:button3];
     
-    CCMenuItemImage *button4 = [CCMenuItemImage itemFromNormalImage:@"circleButton.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+    CCMenuItemImage *button4 = [CCMenuItemImage itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
     button4.visible = NO;
     [_menuItems addObject:button4];
     
@@ -182,7 +194,7 @@
   // Use this so that we can have buttons relative to center point
   for (int i = 0; i < [_menuItems count]; i++) {
     float degree = CC_DEGREES_TO_RADIANS(START_ANGLE + i * step);
-    CCMenuItemImage *button = [_menuItems objectAtIndex:[_menuItems count]-i-1];
+    CCMenuItemImage *button = [_menuItems objectAtIndex:i];
     [button stopAllActions];
     CGPoint pt = ccp(dist*cosf(degree), dist*sinf(degree));
     
@@ -217,7 +229,7 @@
   
   // Use this so that we can have buttons relative to center point
   for (int i = 0; i < [_menuItems count]; i++) {
-    CCMenuItem *button = [_menuItems objectAtIndex:i];
+    CCMenuItem *button = [_menuItems objectAtIndex:[_menuItems count]-i-1];
     [button stopAllActions];
     
     CCFiniteTimeAction *bounceAction = [CCSequence actions:[CCDelayTime actionWithDuration:i*DELAY_BETWEEN_BUTTONS], [CCEaseBackIn actionWithAction:[CCMoveTo actionWithDuration:0.2 position:ccp(0,0)]], nil];
@@ -272,35 +284,35 @@
 }
 
 - (void) button1Clicked:(id)sender {
-  [self buttonClicked:sender selector:@selector(openQuestLog)];
+  [self buttonClicked:sender selector:@selector(openNotifications)];
 }
 
 - (void) button2Clicked:(id)sender {
-  [self buttonClicked:sender selector:@selector(openArmory)];
+  [self buttonClicked:sender selector:@selector(openQuests)];
 }
 
 - (void) button3Clicked:(id)sender {
-  [self buttonClicked:sender selector:@selector(openMarketplace)];
+  [self buttonClicked:sender selector:@selector(openProfile)];
 }
 
 - (void) button4Clicked:(id)sender {
-  [self buttonClicked:sender selector:@selector(openVault)];
+  [self buttonClicked:sender selector:@selector(openSettings)];
 }
 
-- (void) openQuestLog {
+- (void) openNotifications {
+  [ActivityFeedController displayView];
+}
+
+- (void) openQuests {
+  [QuestLogController displayView];
+}
+
+- (void) openProfile {
   [[ProfileViewController sharedProfileViewController] loadMyProfile];
   [ProfileViewController displayView];
 }
 
-- (void) openArmory {
-  [CarpenterMenuController displayView];
-}
-
-- (void) openMarketplace {
-  [MapViewController displayView];
-}
-
-- (void) openVault {
+- (void) openSettings {
   [QuestLogController displayView];
 }
 

@@ -42,6 +42,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize percentOfSellingCostTakenFromSellerOnMarketplacePurchase, numDaysLongMarketplaceLicenseLastsFor;
 @synthesize maxLevelForStruct, maxNumbersOfEnemiesToGenerateAtOnce, maxLevelDiffForBattle;
 @synthesize maxNumberOfMarketplacePosts, numDaysShortMarketplaceLicenseLastsFor;
+@synthesize diamondRewardForReferrer, diamondRewardForBeingReferred;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -405,6 +406,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
   
   return image;
+}
+
++ (UIImage *) squareImageForUser:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return [Globals imageNamed:@"warrior.png"];
+      break;
+      
+    case UserTypeGoodArcher:
+      return [Globals imageNamed:@"alarcher.png"];
+      break;
+      
+    case UserTypeGoodMage:
+      return [Globals imageNamed:@"panda.png"];
+      break;
+      
+    case UserTypeBadWarrior:
+      return [Globals imageNamed:@"skel.png"];
+      break;
+      
+    case UserTypeBadArcher:
+      return [Globals imageNamed:@"legarcher.png"];
+      break;
+      
+    case UserTypeBadMage:
+      return [Globals imageNamed:@"invoker.png"];
+      break;
+      
+    default:
+      break;
+  }
 }
 
 // Formulas

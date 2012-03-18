@@ -982,6 +982,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [ProfileViewController removeView];
 }
 
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self setCurScope:kEquipScopeAll];
+}
+
 - (void) viewDidUnload
 {
   [super viewDidUnload];

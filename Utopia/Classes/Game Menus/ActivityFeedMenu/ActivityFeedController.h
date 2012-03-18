@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserData.h"
 
 @interface ActivityFeedCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UIImageView *userIcon;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *subtitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
 @property (nonatomic, retain) IBOutlet UIButton *button;
+
+@property (nonatomic, retain) UserNotification *notification;
 
 @end
 
@@ -21,5 +25,9 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *activityTableView;
 @property (nonatomic, retain) IBOutlet ActivityFeedCell *actCell;
+
++ (ActivityFeedController *) sharedActivityFeedController;
++ (void) displayView;
++ (void) removeView;
 
 @end

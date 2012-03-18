@@ -65,5 +65,22 @@ typedef enum {
 + (id) critStructWithProto:(FullUserCritstructProto *)proto;
 - (void) openMenu;
 
+@end
+
+typedef enum {
+  kNotificationBattle = 1,
+  kNotificationMarketplace,
+  kNotificationReferral
+} NotificationType;
+
+@interface UserNotification : NSObject
+
+@property (nonatomic, retain) MinimumUserProto *otherPlayer;
+@property (nonatomic, assign) NotificationType type;
+@property (nonatomic, retain) NSDate *time;
+@property (nonatomic, retain) FullMarketplacePostProto *marketPost;
+@property (nonatomic, assign) BattleResult battleResult;
+@property (nonatomic, assign) int coinsStolen;
+@property (nonatomic, assign) int stolenEquipId;
 
 @end

@@ -194,3 +194,48 @@
 }
 
 @end
+
+@implementation UserNotification
+
+@synthesize time, type, otherPlayer;
+@synthesize marketPost;
+@synthesize battleResult, coinsStolen, stolenEquipId;
+
+- (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.attacker;
+    self.battleResult = proto.battleResult;
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.battleCompleteTime/1000];
+    self.coinsStolen = proto.coinsStolen;
+    self.stolenEquipId = proto.stolenEquipId;
+    self.type = kNotificationBattle;
+  }
+  return self;
+}
+
+- (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.buyer;
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000];
+    self.type = kNotificationMarketplace;
+  }
+  return self;
+}
+
+- (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.referred;
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000];
+    self.type = kNotificationReferral;
+  }
+  return self;
+}
+
+- (void) dealloc {
+  self.time = nil;
+  self.otherPlayer = nil;
+  self.marketPost = nil;
+  [super dealloc];
+}
+
+@end

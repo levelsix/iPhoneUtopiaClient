@@ -32,8 +32,6 @@
 @property (nonatomic, retain) FullEquipProto *warriorInitArmor;
 @property (nonatomic, assign) int minNameLength;
 @property (nonatomic, assign) int maxNameLength;
-@property (nonatomic, assign) int diamondRewardForReferrer;
-@property (nonatomic, assign) int diamondRewardForBeingReferred;
 @property (nonatomic, assign) int expForLevelThree;
 @property (nonatomic, retain) NSArray *firstCityElementsForGood;
 @property (nonatomic, retain) NSArray *firstCityElementsForBad;

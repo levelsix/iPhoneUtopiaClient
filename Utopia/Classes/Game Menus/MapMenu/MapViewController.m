@@ -358,13 +358,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [MapViewController removeView];
+  [self fadeOut];
 }
 
 - (IBAction)homeClicked:(id)sender {
   [[HomeMap sharedHomeMap] refresh];
   [[GameLayer sharedGameLayer] loadHomeMap];
-  [MapViewController removeView];
+  [self fadeOut];
+}
+
+- (void) fadeOut {
+  [UIView animateWithDuration:1.f animations:^{
+    self.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [MapViewController removeView];
+  }];
 }
 
 - (void) viewDidUnload {

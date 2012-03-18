@@ -140,9 +140,12 @@ const uint32_t	kZoomActionTag = 0xc0c05002;
 
 -(CGRect) rect
 {
-	return CGRectMake( position_.x - contentSize_.width*anchorPoint_.x,
+  // Changed by LVL6
+  int inset = -5;
+	CGRect r = CGRectMake( position_.x - contentSize_.width*anchorPoint_.x,
 					  position_.y - contentSize_.height*anchorPoint_.y,
-					  contentSize_.width, contentSize_.height);	
+					  contentSize_.width, contentSize_.height);
+  return  CGRectInset(r, inset, inset);
 }
 
 @end

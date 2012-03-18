@@ -18,6 +18,8 @@
   CCSprite *_levelCircle;
   float _expPercentage;
   int _level;
+  
+  CCSprite *_notificationAlert;
 }
 
 @property (nonatomic, assign) float expPercentage;

@@ -161,6 +161,12 @@ enum {
 			CGPoint local = [item convertToNodeSpace:touchLocation];
 			CGRect r = [item rect];
 			r.origin = CGPointZero;
+      
+      // Changed by LVL6
+      if (item == selectedItem_) {
+        int inset = -75;
+        r = CGRectInset(r, inset, inset);
+      }
 			
 			if( CGRectContainsPoint( r, local ) )
 				return item;
@@ -192,8 +198,12 @@ enum {
 {
 	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
 	
+  if ([selectedItem_ isSelected]) {
+    [selectedItem_ activate];
+  }
+  
 	[selectedItem_ unselected];
-	[selectedItem_ activate];
+  selectedItem_ = nil;
 	
 	state_ = kCCMenuStateWaiting;
 }
@@ -203,6 +213,7 @@ enum {
 	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
 	
 	[selectedItem_ unselected];
+  selectedItem_ = nil;
 	
 	state_ = kCCMenuStateWaiting;
 }
@@ -215,9 +226,9 @@ enum {
 	
 	if (currentItem != selectedItem_) {
 		[selectedItem_ unselected];
-		selectedItem_ = currentItem;
+	} else {
 		[selectedItem_ selected];
-	}
+  }
 }
 
 #pragma mark Menu - Mouse

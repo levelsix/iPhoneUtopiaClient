@@ -47,7 +47,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if ((self = [super init])) {
     _enstBgd = [CCSprite spriteWithFile:@"enstbg.png"];
     [self addChild:_enstBgd z:2];
-    _enstBgd.position = ccp(190, self.contentSize.height+_enstBgd.contentSize.height/2);
+    _enstBgd.position = ccp(197, self.contentSize.height+_enstBgd.contentSize.height/2);
     _enstBgd.visible = YES;
     
     // Make the progress bars and place them on top of the background image
@@ -71,7 +71,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     _coinBar = [CCSprite spriteWithFile:@"coinbar.png"];
     [self addChild:_coinBar z:2];
-    _coinBar.position = ccp(370, self.contentSize.height+_coinBar.contentSize.height/2);
+    _coinBar.position = ccp(373, self.contentSize.height+_coinBar.contentSize.height/2);
     
     NSString *fontName = [Globals font];
     _silverLabel = [CCLabelTTF labelWithString:@"2,000,000" fontName:fontName fontSize:12];
@@ -99,7 +99,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     _profilePic = [ProfilePicture profileWithType:UserTypeBadMage];
     [self addChild:_profilePic z:2];
-    _profilePic.position = ccp(45, self.contentSize.height-45);
+    _profilePic.position = ccp(50, self.contentSize.height-50);
     
     // At this point, the bars are still above the screen so subtract 3/2 * width
     _enstBarRect = CGRectMake(_enstBgd.position.x-_enstBgd.contentSize.width/2, _enstBgd.position.y-3*_enstBgd.contentSize.height/2, _enstBgd.contentSize.width, _enstBgd.contentSize.height);

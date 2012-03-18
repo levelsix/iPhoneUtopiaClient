@@ -291,10 +291,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) viewDidLoad {
   self.structsList = [NSMutableArray array];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveStructStore];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+  if (structsList.count <= 0) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveStructStore];
+  } else {
+    [self reloadCarpenterStructs];
+  }
+}
+
+- (void) reloadCarpenterStructs {
   [structsList removeAllObjects];
   
   NSArray *structs;

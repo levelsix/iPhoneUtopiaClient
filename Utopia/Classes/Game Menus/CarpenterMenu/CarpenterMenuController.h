@@ -75,6 +75,8 @@ typedef enum {
 
 @property (nonatomic, retain) NSMutableArray *structsList;
 
+- (void) reloadCarpenterStructs;
+
 - (IBAction)closeClicked:(id)sender;
 + (CarpenterMenuController *) sharedCarpenterMenuController;
 + (void) displayView;
