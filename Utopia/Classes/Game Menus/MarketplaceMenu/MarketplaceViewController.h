@@ -11,12 +11,13 @@
 #import "PullRefreshTableViewController.h"
 #import "UserData.h"
 
+// My selling is when you have the item on the mktplace.
+// Listing is when you own the item but its not on the mktplace.
+
 typedef enum {
-  kSellingEquipState = 1,
-  kSellingCurrencyState,
+  kSellingState = 1,
   kListState,
-  kMySellingEquipState,
-  kMySellingCurrencyState,
+  kMySellingState,
   kSubmitState
 } MarketCellState;
 
@@ -33,10 +34,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *itemView;
 @property (nonatomic, retain) IBOutlet UIButton *listButton;
 @property (nonatomic, retain) IBOutlet UIButton *removeButton;
-@property (nonatomic, retain) IBOutlet UITextField *goldField;
-@property (nonatomic, retain) IBOutlet UITextField *silverField;
-@property (nonatomic, retain) IBOutlet UILabel *goldLabel;
-@property (nonatomic, retain) IBOutlet UILabel *silverLabel;
+@property (nonatomic, retain) IBOutlet UITextField *priceField;
+@property (nonatomic, retain) IBOutlet UIImageView *priceIcon;
+@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defStatLabel;
 
@@ -46,7 +46,6 @@ typedef enum {
 
 - (void) showEquipPost: (FullMarketplacePostProto *)proto;
 - (void) showEquipListing: (FullUserEquipProto *)proto;
-- (NSString *) truncateInt:(int)num;
 
 @end
 
@@ -62,8 +61,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UITableViewCell *itemView;
 @property (nonatomic, retain) IBOutlet UIView *buyButtonView;
 @property (nonatomic, retain) IBOutlet UIView *removeView;
-@property (nonatomic, retain) IBOutlet UILabel *removeGoldLabel;
-@property (nonatomic, retain) IBOutlet UILabel *removeSilverLabel;
+@property (nonatomic, retain) IBOutlet UILabel *removePriceLabel;
 @property (nonatomic, retain) IBOutlet UIButton *doneButton;
 @property (nonatomic, retain) IBOutlet UIButton *listAnItemButton;
 @property (nonatomic, retain) IBOutlet UIView *redeemView;
@@ -90,9 +88,6 @@ typedef enum {
 + (void) purgeSingleton;
 
 - (void) disableEditing;
-- (NSString *) truncateString:(NSString *)num;
-- (NSString *) truncateInt:(int)num;
-- (int) untruncateString:(NSString *)trunc;
 - (void) insertRowsFrom:(int)start;
 - (void) deleteRows:(int)start;
 - (void) resetAllRows;

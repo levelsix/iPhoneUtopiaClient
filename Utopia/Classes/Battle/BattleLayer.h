@@ -70,6 +70,8 @@
 @end
 
 @interface BattleLayer : CCLayer {
+  BOOL _isRunning;
+  
   CCSprite *_left;
   CCSprite *_right;
   

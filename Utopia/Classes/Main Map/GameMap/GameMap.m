@@ -29,6 +29,7 @@
 @synthesize selected = _selected;
 @synthesize tileSizeInPoints;
 @synthesize aviaryMenu, enemyMenu;
+@synthesize mapSprites = _mapSprites;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
 {
@@ -305,15 +306,6 @@
   self.selected = nil;
 }
 
--(void) dealloc {
-  [self.enemyMenu removeFromSuperview];
-  self.enemyMenu = nil;
-  [self.aviaryMenu removeFromSuperview];
-  self.aviaryMenu = nil;
-  [_mapSprites release];
-  [super dealloc];
-}
-
 -(CGPoint)convertVectorToGL:(CGPoint)uiPoint
 {
 	float newY = - uiPoint.y;
@@ -337,6 +329,15 @@
 			break;
 	}
 	return ret;
+}
+
+-(void) dealloc {
+  [self.enemyMenu removeFromSuperview];
+  self.enemyMenu = nil;
+  [self.aviaryMenu removeFromSuperview];
+  self.aviaryMenu = nil;
+  [_mapSprites release];
+  [super dealloc];
 }
 
 @end

@@ -91,6 +91,7 @@
 + (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type;
 + (NSString *) classForUserType:(UserType)type;
 + (UIImage *) squareImageForUser:(UserType)type;
++ (UIImage *) circleImageForUser:(UserType)type;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;

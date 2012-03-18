@@ -439,9 +439,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (UIImage *) circleImageForUser:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return [Globals imageNamed:@"warrioricon.png"];
+      break;
+      
+    case UserTypeGoodArcher:
+      return [Globals imageNamed:@"allarchicon.png"];
+      break;
+      
+    case UserTypeGoodMage:
+      return [Globals imageNamed:@"pandaicon.png"];
+      break;
+      
+    case UserTypeBadWarrior:
+      return [Globals imageNamed:@"skelicon.png"];
+      break;
+      
+    case UserTypeBadArcher:
+      return [Globals imageNamed:@"legarchicon.png"];
+      break;
+      
+    case UserTypeBadMage:
+      return [Globals imageNamed:@"invokericon.png"];
+      break;
+      
+    default:
+      break;
+  }
+}
+
 // Formulas
 
 // Buildings
+
 - (int) calculateIncome:(int)income level:(int)level {
   return income*level;
 }

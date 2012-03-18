@@ -425,9 +425,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _rightDefense = [gl calculateAttackForStat:user.defense weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
   
   CCDirector *dir = [CCDirector sharedDirector];
-  CCScene *scene = [BattleLayer scene];
-  if (dir.runningScene != scene) {
-    [dir pushScene:scene];
+  if (!_isRunning) {
+//    [dir replaceScene:[CCTransitionFadeTR transitionWithDuration:1.f scene:scene]];
+    _isRunning = YES;
+    [dir pushScene:[BattleLayer scene]];
   }
   
   self.brp = nil;
@@ -839,7 +840,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 - (void) closeScene {
   [_fup release];
   _fup = nil;
+//  [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeBL transitionWithDuration:1.f scene:[GameLayer scene]]];
   [[CCDirector sharedDirector] popScene];
+  _isRunning = NO;
 }
 
 - (void) dealloc {

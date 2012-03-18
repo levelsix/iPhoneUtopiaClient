@@ -200,7 +200,9 @@ static UIButton *rightButton = nil;
   [super setAnnotation:annotation];
   
   if ([annotation isKindOfClass:[EnemyAnnotation class]]) {
-    levelLabel.text = [NSString stringWithFormat:@"%d", [[(EnemyAnnotation *)annotation fup] level]];
+    FullUserProto *fup = [(EnemyAnnotation *)annotation fup];
+    levelLabel.text = [NSString stringWithFormat:@"%d", fup.level];
+    imgView.image = [Globals circleImageForUser:fup.userType];
   }
 }
 

@@ -24,6 +24,7 @@
 #import "MissionMap.h"
 #import "TutorialConstants.h"
 #import "GameViewController.h"
+#import "CityRankupViewController.h"
 
 @implementation IncomingEventController
 
@@ -257,6 +258,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleTaskActionResponseProto: (TaskActionResponseProto *) proto {
   NSLog(@"Task action received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == TaskActionResponseProto_TaskActionStatusSuccess) {
+    if (proto.cityRankedUp) {
+      int cityId = 1;
+      UserCity *city = [gs myCityWithId:cityId];
+      city.curRank++;
+      
+      // This will be released after the level up controller closes
+      CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:proto.coinsGained exp:proto.expBonusIfCityRankup];
+      [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+      
+      GameLayer *gLay = [GameLayer sharedGameLayer];
+      if (gLay.currentCity == cityId) {
+        NSArray *sprites = [[gLay missionMap] mapSprites];
+        for (MapSprite *spr in sprites) {
+          if ([spr isKindOfClass:[MissionBuilding class]]) {
+            MissionBuilding *mb = (MissionBuilding *)spr;
+            mb.numTimesActed = 0;
+          }
+        }
+      }
+    }
+  }
 }
 
 - (void) handleUpdateClientUserResponseProto: (UpdateClientUserResponseProto *) proto {
@@ -431,7 +456,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToMyCritStructs:arr];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-    [[HomeMap sharedHomeMap] refresh];
+    
+    while (![[GameViewController sharedGameViewController] canLoad]) {
+      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+    }
+    [[HomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
   } else {

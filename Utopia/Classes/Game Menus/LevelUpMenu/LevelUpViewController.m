@@ -130,6 +130,7 @@
   [[ProfileViewController sharedProfileViewController] loadMyProfile];
   [ProfileViewController displayView];
   [[ProfileViewController sharedProfileViewController] openSkillsMenu];
+  [self didReceiveMemoryWarning];
   [self release];
 }
 

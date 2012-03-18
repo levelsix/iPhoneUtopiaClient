@@ -26,7 +26,7 @@
 #define TOTAL_ANGLE -87.f
 #define BUTTON_DISTANCE 60.f
 
-#define PULSATE_DURATION 1.5f
+#define PULSATE_DURATION 1.587f
 
 @implementation ExperienceCircle
 

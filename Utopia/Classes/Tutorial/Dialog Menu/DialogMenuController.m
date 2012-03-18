@@ -81,6 +81,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   [self sharedDialogMenuController].progress++;
 }
 
+- (void) didReceiveMemoryWarning {
+  return;
+}
+
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [DialogMenuController closeView];
 }

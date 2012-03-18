@@ -75,7 +75,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.beginAttackText = @"Aim for the max for a more powerful attack!";
   self.afterBattleText = @"You made that look easy, but we've still got work to do. Exit the battle and let's finish the last task.";
   self.beforeTaskTextGood = @"It seems the Legion's men are terrorizing the Tavern. Go in there and break it up.";
-  self.beforeTaskTextGood = @"Go to the Tavern and set an example of these men by roughing them up.";
+  self.beforeTaskTextBad = @"Go to the Tavern and set an example of these men by roughing them up.";
 }
 
 @end

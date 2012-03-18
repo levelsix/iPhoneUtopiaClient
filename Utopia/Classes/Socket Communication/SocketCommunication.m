@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"10.1.10.29"
+#define HOST_NAME @"192.168.1.8 "
 #define HOST_PORT 8888
 
 // Tags for keeping state

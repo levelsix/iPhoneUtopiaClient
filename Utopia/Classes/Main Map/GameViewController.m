@@ -23,6 +23,10 @@
 #import "TutorialHomeMap.h"
 #import "TopBar.h"
 #import "TutorialTopBar.h"
+#import "GameState.h"
+
+#define DOOR_CLOSE_DURATION 2.f
+#define DOOR_OPEN_DURATION 1.5f
 
 @implementation GameView
 
@@ -48,8 +52,99 @@
 @implementation GameViewController
 
 @synthesize isTutorial;
+@synthesize canLoad;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
+
+- (void) startDoorAnimation:(CCScene *)scene {
+  CCLayer *layer = [CCLayer node];
+  [scene addChild:layer z:1];
+  
+  splash= [CCSprite spriteWithFile:@"Default.png"];
+  [layer addChild:splash z:10];
+  splash.position = ccp(layer.contentSize.width/2, layer.contentSize.height/2);
+  splash.rotation = 90;
+  
+  doorleft = [CCSprite spriteWithFile:@"doorleft.png"];
+  doorleft.anchorPoint = ccp(1, 0.5);
+  doorleft.position = ccp(0, doorleft.contentSize.height/2);
+  [layer addChild:doorleft z:11];
+  
+  doorright = [CCSprite spriteWithFile:@"doorright.png"];
+  doorright.anchorPoint = ccp(0, 0.5);
+  doorright.position = ccp(layer.contentSize.width, doorright.contentSize.height/2);
+  [layer addChild:doorright z:11];
+  
+  [doorleft runAction:[CCEaseBounceOut actionWithAction:[CCSequence actions:
+                                                         [CCMoveBy actionWithDuration:DOOR_CLOSE_DURATION position:ccp(doorleft.contentSize.width, 0)],
+                                                         [CCCallFunc actionWithTarget:self selector:@selector(doorClosed)],
+                                                         nil]]];
+  [doorright runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:DOOR_CLOSE_DURATION position:ccp(-doorright.contentSize.width, 0)]]];
+  
+  self.canLoad = NO;
+  _isRunning = NO;
+}
+
+- (void) doorClosed {
+  CCSprite *fillButtonSprite = [CCSprite spriteWithFile:@"middlecoin.png"];
+  CCMenuItemSprite *s = [CCMenuItemSprite itemFromNormalSprite:fillButtonSprite selectedSprite:nil target:self selector:@selector(crestClicked)];
+  
+  crest = [CCMenu menuWithItems:s,nil];
+  [doorright addChild:crest];
+  crest.position = ccp(-8, doorright.contentSize.height/2);
+  
+  [splash removeFromParentAndCleanup:YES];
+  
+  s.scale = 5.f;
+  s.opacity = 0;
+  [s runAction:[CCSequence actions:
+                [CCEaseIn actionWithAction:[CCScaleTo actionWithDuration:0.9f scale:1.f] rate:5],
+                [CCCallFunc actionWithTarget:self selector:@selector(crestFallDone)],
+                nil]];
+  [s runAction:[CCFadeIn actionWithDuration:0.5f]];
+}
+
+- (void) crestFallDone {
+  self.canLoad = YES;
+}
+
+- (void) crestClicked {
+  if ([[GameState sharedGameState] connected] && !_isRunning) {
+    // Open door
+    [doorleft runAction:[CCSequence actions:
+                         [CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(-doorleft.contentSize.width+30, 0)],
+                         [CCCallFunc actionWithTarget:self selector:@selector(openDoorDone)],
+                         nil]];
+    [doorright runAction:[CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(doorright.contentSize.width+30, 0)]];
+    _isRunning = YES;
+  }
+}
+
+- (void) openDoorDone {
+  [doorright.parent removeFromParentAndCleanup:YES];
+}
+
+- (void) removeStartupFlicker
+{
+	//
+	// THIS CODE REMOVES THE STARTUP FLICKER
+	//
+	// Uncomment the following code if you Application only supports landscape mode
+	//
+#if GAME_AUTOROTATION == kGameAutorotationUIViewController
+  
+	CC_ENABLE_DEFAULT_GL_STATES();
+	CCDirector *director = [CCDirector sharedDirector];
+	CGSize size = [director winSize];
+	CCSprite *sprite = [CCSprite spriteWithFile:@"Default.png"];
+	sprite.position = ccp(size.width/2, size.height/2);
+	sprite.rotation = -90;
+	[sprite visit];
+	[[director openGLView] swapBuffers];
+	CC_ENABLE_DEFAULT_GL_STATES();
+	
+#endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
+}
 
 - (void)setupCocos2D {
   EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
@@ -60,23 +155,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
                                multiSampling:YES 
                              numberOfSamples:3];
   
-	// Try to use CADisplayLink director
-	// if it fails (SDK < 3.1) use the default director
-	if(![CCDirector setDirectorType:kCCDirectorTypeDisplayLink])
-		[CCDirector setDirectorType:kCCDirectorTypeDefault];
-  
-  [self.view insertSubview:glView atIndex:0];
   [[CCDirector sharedDirector] setOpenGLView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
 	if( ! [[CCDirector sharedDirector] enableRetinaDisplay:YES] )
 		CCLOG(@"Retina Display Not supported");
+  
+  [self removeStartupFlicker];
+  
+  [self.view insertSubview:glView atIndex:0];
+  
+  CCScene *scene = [CCScene node];
+  [self startDoorAnimation:scene];
+  [[CCDirector sharedDirector] runWithScene:scene];
+  
+  [[[self.view subviews] objectAtIndex:1] removeFromSuperview];
 }
 
 - (void) setIsTutorial:(BOOL)i {
   isTutorial = i;
   
-  [self setupCocos2D];
+  while (!self.canLoad) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+  }
   
   if (isTutorial) {
     TopBar *tb = [TutorialTopBar sharedTopBar];
@@ -87,24 +188,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [TutorialHomeMap sharedHomeMap];
   }
   
-  CCScene *scene = isTutorial ? [TutorialStartLayer scene] : [GameLayer scene];
-  
-  [[CCDirector sharedDirector] pushScene:scene];
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-  if (!_isRunning) {
-    [[CCDirector sharedDirector] startAnimation];
-    _isRunning = YES;
-  }
+  CCLayer *layer = isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
+  [[[CCDirector sharedDirector] runningScene] addChild:layer];
 }
 
 - (void) loadView {
   CGRect rect = [[UIScreen mainScreen] bounds];
   rect.size = CGSizeMake( rect.size.height, rect.size.width );
   GameView *v = [[GameView alloc] initWithFrame:rect];
+  UIImageView *i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
+  i.layer.transform = CATransform3DMakeRotation(M_PI_2, 0.f, 0.f, 1.f);
+  i.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
+  [v addSubview:i];
+  [i release];
   self.view = v;
   [v release];
+  [self setupCocos2D];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

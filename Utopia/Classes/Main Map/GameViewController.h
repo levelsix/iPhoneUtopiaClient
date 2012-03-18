@@ -16,9 +16,14 @@
 
 @interface GameViewController : UIViewController {
   BOOL _isRunning;
+  CCSprite *doorright;
+  CCSprite *doorleft;
+  CCMenu *crest;
+  CCSprite *splash;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
+@property (assign) BOOL canLoad;
 
 + (GameViewController *) sharedGameViewController;
 

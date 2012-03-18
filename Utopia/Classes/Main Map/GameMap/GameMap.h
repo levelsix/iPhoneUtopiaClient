@@ -35,6 +35,7 @@
 @property (nonatomic, retain) IBOutlet EnemyPopupView *enemyMenu;
 
 @property (nonatomic, retain) SelectableSprite *selected;
+@property (nonatomic, retain) NSArray *mapSprites;
 
 @property (nonatomic, assign) CGSize tileSizeInPoints;
 

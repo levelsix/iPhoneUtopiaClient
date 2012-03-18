@@ -9,13 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@class RootViewController;
-
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 	UIWindow			*window;
-	RootViewController	*viewController;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) UIWindow *window;
 
 @end

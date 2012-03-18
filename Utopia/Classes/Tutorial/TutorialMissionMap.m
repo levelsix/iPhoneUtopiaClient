@@ -250,7 +250,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   } else if (_doTaskPhase && [selected isKindOfClass:[MissionBuilding class]] && 
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == tc.tutorialQuest.assetNumWithinCity) {
     [super setSelected:selected];
-    [_ccArrow removeFromParentAndCleanup:YES];
     _canUnclick = NO;
   } else if (_aviaryPhase && [selected isKindOfClass:[Aviary class]]) {
     [super setSelected:selected];
@@ -427,7 +426,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 - (IBAction)attackClicked:(id)sender {
   _canUnclick = YES;
   self.selected = nil;
-  [[CCDirector sharedDirector] pushScene:[TutorialBattleLayer scene]];
+//  [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:1.f scene:[BattleLayer scene]]];
+  [[CCDirector sharedDirector] pushScene:[BattleLayer scene]];
   
   [_ccArrow removeFromParentAndCleanup:YES];
   
