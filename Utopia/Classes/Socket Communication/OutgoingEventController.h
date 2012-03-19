@@ -33,7 +33,7 @@
 - (void) retrieveMoreMarketplacePosts;
 - (void) retrieveMostRecentPostsFromSender;
 - (void) retrieveMoreMarketplacePostsFromSender;
-- (void) equipPostToMarketplace:(int)equipId silver:(int)silver gold:(int)gold;
+- (void) equipPostToMarketplace:(int)equipId price:(int)amount;
 - (void) retractMarketplacePost: (int)postId;
 - (void) purchaseFromMarketplace: (int)postId;
 - (void) redeemMarketplaceEarnings;

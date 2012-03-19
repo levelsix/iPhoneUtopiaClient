@@ -470,6 +470,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r {
+  return r >= FullEquipProto_RarityEpic;
+}
+
 // Formulas
 
 // Buildings

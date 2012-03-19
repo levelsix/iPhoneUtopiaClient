@@ -92,6 +92,7 @@
 + (NSString *) classForUserType:(UserType)type;
 + (UIImage *) squareImageForUser:(UserType)type;
 + (UIImage *) circleImageForUser:(UserType)type;
++ (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;

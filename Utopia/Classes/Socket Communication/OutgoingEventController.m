@@ -256,16 +256,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:YES];
 }
 
-- (void) equipPostToMarketplace:(int)equipId silver:(int)silver gold:(int)gold {
+- (void) equipPostToMarketplace:(int)equipId price:(int)price {
   GameState *gs = [GameState sharedGameState];
   
-  if (silver <= 0 && gold <= 0) {
+  if (price <= 0) {
     [Globals popupMessage:@"You need to enter a price!"];
     return;
   }
   
   for (FullUserEquipProto *eq in [gs myEquips]) {
     if (eq.equipId == equipId) {
+      FullEquipProto *fep = [gs equipWithId:equipId];
+      int silver = [Globals sellsForGoldInMarketplace:fep.rarity] ? price : 0;
+      int gold = [Globals sellsForGoldInMarketplace:fep.rarity] ? 0 : price;
       [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
       return;
     }
@@ -298,18 +301,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) purchaseFromMarketplace:(int)postId {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+  GameState *gs = [GameState sharedGameState];
   
   NSMutableArray *mktPosts = [mvc postsForState];
   for (int i = 0; i < mktPosts.count; i++) {
     FullMarketplacePostProto *proto = [mktPosts objectAtIndex:i];
     if ([proto marketplacePostId] == postId) {
-      [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
-      [mktPosts removeObject:proto];
-      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
-      NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
-      NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-      [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
-      return;
+      if (gs.userId != proto.posterId && gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
+        [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
+        [mktPosts removeObject:proto];
+        NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
+        NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+        NSArray *a = [NSArray arrayWithObjects:y, z, nil];
+        [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+        return;
+      }
     }
   }
   

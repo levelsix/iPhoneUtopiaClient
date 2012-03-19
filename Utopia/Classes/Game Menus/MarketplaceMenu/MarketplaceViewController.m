@@ -12,6 +12,8 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
+#import "NibUtils.h"
+#import "RefillMenuController.h"
 
 #define PRICE_DIGITS 7
 #define REFRESH_ROWS 20
@@ -21,9 +23,9 @@
 @synthesize postTitle;
 @synthesize itemImageView;
 @synthesize statsView;
-@synthesize priceView;
-@synthesize submitView;
-@synthesize itemView;
+@synthesize submitView, submitPriceIcon;
+@synthesize submitButton;
+@synthesize buyButton;
 @synthesize listButton;
 @synthesize removeButton;
 @synthesize priceField;
@@ -35,8 +37,15 @@
 - (void) awakeFromNib {
   [super awakeFromNib];
   
-  self.submitView.frame = self.itemView.frame;
-  [self addSubview:self.submitView];
+  self.buyButton.frame = self.listButton.frame;
+  self.removeButton.frame = self.listButton.frame;
+  self.submitButton.frame = self.listButton.frame;
+  [self addSubview:buyButton];
+  [self addSubview:removeButton];
+  [self addSubview:submitButton];
+  
+  self.submitView.frame = self.statsView.frame;
+  [self addSubview:submitView];
   
   [self setState:kSellingState];
 }
@@ -46,36 +55,51 @@
     _state = state;
     switch (state) {
       case kListState:
-        itemView.hidden = NO;
+        statsView.hidden = NO;
         submitView.hidden = YES;
-        priceView.hidden = YES;
         statsView.hidden = NO;
         listButton.hidden = NO;
         removeButton.hidden = YES;
+        buyButton.hidden = YES;
+        submitButton.hidden = YES;
+        priceIcon.hidden = YES;
+        priceLabel.hidden = YES;
         break;
         
       case kSellingState:
-        itemView.hidden = NO;
+        statsView.hidden = NO;
         submitView.hidden = YES;
-        priceView.hidden = NO;
         statsView.hidden = NO;
         listButton.hidden = YES;
         removeButton.hidden = YES;
+        buyButton.hidden = NO;
+        submitButton.hidden = YES;
+        priceIcon.hidden = NO;
+        priceLabel.hidden = NO;
         break;
         
       case kMySellingState:
-        itemView.hidden = NO;
+        statsView.hidden = NO;
         submitView.hidden = YES;
-        priceView.hidden = NO;
         statsView.hidden = NO;
         listButton.hidden = YES;
         removeButton.hidden = NO;
+        buyButton.hidden = YES;
+        submitButton.hidden = YES;
+        priceIcon.hidden = NO;
+        priceLabel.hidden = NO;
         break;
         
       case kSubmitState:
-        itemView.hidden = YES;
+        statsView.hidden = YES;
         submitView.hidden = NO;
         priceField.text = @"0";
+        listButton.hidden = YES;
+        removeButton.hidden = YES;
+        buyButton.hidden = YES;
+        submitButton.hidden = NO;
+        
+        self.priceField.label.textColor = [UIColor whiteColor];
         break;
         
       default:
@@ -94,12 +118,14 @@
     self.priceIcon.highlighted = NO;
     self.priceLabel.text = [Globals commafyNumber:proto.coinCost];
   } else {
-    self.priceIcon.highlighted = NO;
+    self.priceIcon.highlighted = YES;
     self.priceLabel.text = [Globals commafyNumber:proto.diamondCost];
   }
   self.attStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.attackBoost];
   self.defStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.defenseBoost];
   self.postTitle.text = proto.postedEquip.name;
+  self.postTitle.textColor = [Globals colorForRarity:proto.postedEquip.rarity];
+  self.itemImageView.image = [Globals imageForEquip:proto.postedEquip.equipId];
   self.mktProto = proto;
   self.equip = nil;
 }
@@ -109,6 +135,8 @@
   
   FullEquipProto *fullEq = [[GameState sharedGameState] equipWithId:eq.equipId];
   self.postTitle.text = fullEq.name;
+  self.postTitle.textColor = [Globals colorForRarity:fullEq.rarity];
+  self.itemImageView.image = [Globals imageForEquip:fullEq.equipId];
   self.mktProto = nil;
   self.equip = eq;
   self.attStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.attackBoost];
@@ -121,9 +149,7 @@
   self.postTitle = nil;
   self.itemImageView = nil;
   self.statsView = nil;
-  self.priceView = nil;
   self.submitView = nil;
-  self.itemView = nil;
   self.listButton = nil;
   self.removeButton = nil;
   self.priceField = nil;
@@ -142,7 +168,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize navBar, topBar;
 @synthesize itemView;
 @synthesize postsTableView;
-@synthesize buyButtonView;
 @synthesize selectedCell;
 @synthesize removeView;
 @synthesize listing;
@@ -175,19 +200,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [super addPullToRefreshHeader:self.postsTableView];
   [self.postsTableView addSubview:self.ropeView];
   
-  [self.postsTableView addSubview:self.buyButtonView];
-  self.buyButtonView.hidden = YES;
-  
   [self.postsTableView addSubview:self.removeView];
-  self.buyButtonView.hidden = YES;
   
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"marketrope.png"]];
-  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 34)];
-  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 34)];
+  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 39)];
+  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 39)];
   leftRopeFirstRow.backgroundColor = c;
   rightRopeFirstRow.backgroundColor = c;
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
   [self.postsTableView insertSubview:rightRopeFirstRow belowSubview:self.ropeView];
+  
+  self.redeemView.hidden = YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -197,7 +220,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   [self setState:kEquipBuyingState];
   
-  self.buyButtonView.hidden = YES;
   self.removeView.hidden = YES;
   self.postsTableView.contentOffset = CGPointZero;
   
@@ -244,7 +266,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.selectedCell = post;
   
   self.removeView.hidden = YES;
-  self.buyButtonView.hidden = YES;
   
   [post.priceField becomeFirstResponder];
 }
@@ -273,10 +294,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (IBAction)submitClicked:(id)sender {
   ItemPostView *post = (ItemPostView *)[[(UIButton *)sender superview] superview];
   if (post.equip) {
-//    [self disableEditing];
-//    int silver = [self untruncateString:post.silverField.text];
-//    int gold = [self untruncateString:post.goldField.text];
-//    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId silver:silver gold:gold];
+    [self disableEditing];
+    int amount = [post.priceField.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
+    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId price:amount];
   }
 }
 
@@ -294,7 +314,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.removeView.frame = tmp;
     
     self.removeView.hidden = NO;
-    self.buyButtonView.hidden = YES;
     
     FullMarketplacePostProto *mkt = post.mktProto;
     Globals *gl = [Globals sharedGlobals];
@@ -362,9 +381,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)buyClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:self.selectedCell.mktProto.marketplacePostId];
-  self.buyButtonView.hidden = YES;
-  self.selectedCell = nil;
+  ItemPostView *post = (ItemPostView *)[[sender superview] superview];
+  FullMarketplacePostProto *proto = post.mktProto;
+  GameState *gs = [GameState sharedGameState];
+  
+  if (proto.coinCost > gs.silver) {
+    [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+  } else if (proto.diamondCost > gs.gold) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:proto.diamondCost];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:proto.marketplacePostId];
+    self.selectedCell = nil;
+  }
 }
 
 - (IBAction)collectClicked:(id)sender {
@@ -446,49 +474,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   return cell;
 }
 
-- (void)tableView:(UITableView *)t didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-  if (!listing) {
-    UITableViewCell *cell = [t cellForRowAtIndexPath:indexPath];
-    self.buyButtonView.hidden = YES;
-    self.buyButtonView.hidden = YES;
-    if ([cell isKindOfClass:[ItemPostView class]] && ((ItemPostView *)cell).state == kSellingState) {
-      if (self.selectedCell != cell && self.selectedCell.state == kSubmitState) {
-        self.selectedCell.state = kListState;
-      }
-      self.selectedCell = (ItemPostView *)cell;
-      CGRect tmp = self.buyButtonView.frame;
-      tmp.origin = CGPointMake(cell.frame.origin.x+324, cell.frame.origin.y+36);
-      self.buyButtonView.frame = tmp;
-      self.buyButtonView.hidden = NO;
-      self.removeView.hidden = YES;
-      
-      float y = -1;
-      if (!CGRectContainsRect(self.postsTableView.bounds, self.buyButtonView.frame)) {
-        // Button is at the bottom of the screen
-        y = CGRectGetMaxY(self.buyButtonView.frame) - self.postsTableView.frame.size.height+5;
-      } else if (self.postsTableView.contentOffset.y+self.topBar.frame.size.height > t.rowHeight*indexPath.row) {
-        // Button is too far up
-        y = cell.frame.origin.y-self.topBar.frame.size.height;
-      } else if (self.postsTableView.contentSize.height < self.postsTableView.frame.size.height) {
-        [self.postsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
-      } else if (self.postsTableView.contentOffset.y+self.postsTableView.frame.size.height > self.postsTableView.contentSize.height && [t numberOfRowsInSection:0]-1 != indexPath.row) {
-        // Screen has scrolled too far down, need to move back up
-        y = self.postsTableView.contentSize.height - self.postsTableView.frame.size.height;
-      } else if (0 > self.postsTableView.contentOffset.y) {
-        // Screen has scrolled too far up, need to move back down
-        y = 0;
-      }
-      
-      if (y != -1) {
-        [self.postsTableView setContentOffset:CGPointMake(0, y) animated:YES];
-      }
-    }
-  } else {
-    [self disableEditing];
-  }
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   // Refresh table when we get low enough
   if (scrollView.contentOffset.y > scrollView.contentSize.height-scrollView.frame.size.height-REFRESH_ROWS*self.postsTableView.rowHeight) {
@@ -515,7 +500,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
   [super scrollViewWillBeginDragging:scrollView];
-  self.buyButtonView.hidden = YES;
   self.removeView.hidden = YES;
   self.selectedCell = nil;
 }
@@ -546,10 +530,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-  
-  if ([[textField.text stringByReplacingCharactersInRange:range withString:string] length] > PRICE_DIGITS) {
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  if ([str length] > PRICE_DIGITS) {
     return NO;
   }
+  [[(NiceFontTextField *)textField label] setText:str];
   return YES;
 }
 
@@ -559,7 +544,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   } else if ([self.topBar pointInside:[[touches anyObject] locationInView:self.topBar] withEvent:event]) {
     [self.postsTableView setContentOffset: CGPointZero animated:YES];
     self.removeView.hidden = YES;
-    self.buyButtonView.hidden = YES;
   }
 }
 
@@ -601,7 +585,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.postsTableView.contentOffset = CGPointMake(0, 0);
     [self resetAllRows];
     self.removeView.hidden = YES;
-    self.buyButtonView.hidden = YES;
   }
 }
 

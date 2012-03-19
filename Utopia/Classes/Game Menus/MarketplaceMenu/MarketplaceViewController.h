@@ -10,6 +10,7 @@
 #import "Protocols.pb.h"
 #import "PullRefreshTableViewController.h"
 #import "UserData.h"
+#import "NibUtils.h"
 
 // My selling is when you have the item on the mktplace.
 // Listing is when you own the item but its not on the mktplace.
@@ -29,13 +30,14 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIImageView *itemImageView;
 @property (nonatomic, retain) IBOutlet UIView *statsView;
-@property (nonatomic, retain) IBOutlet UIView *priceView;
 @property (nonatomic, retain) IBOutlet UIView *submitView;
-@property (nonatomic, retain) IBOutlet UIView *itemView;
-@property (nonatomic, retain) IBOutlet UIButton *listButton;
-@property (nonatomic, retain) IBOutlet UIButton *removeButton;
-@property (nonatomic, retain) IBOutlet UITextField *priceField;
+@property (nonatomic, retain) IBOutlet UIView *submitButton;
+@property (nonatomic, retain) IBOutlet UIView *listButton;
+@property (nonatomic, retain) IBOutlet UIView *removeButton;
+@property (nonatomic, retain) IBOutlet UIView *buyButton;
+@property (nonatomic, retain) IBOutlet NiceFontTextField *priceField;
 @property (nonatomic, retain) IBOutlet UIImageView *priceIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *submitPriceIcon;
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defStatLabel;
@@ -59,7 +61,6 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *navBar;
 @property (nonatomic, retain) IBOutlet UIView *topBar;
 @property (nonatomic, retain) IBOutlet UITableViewCell *itemView;
-@property (nonatomic, retain) IBOutlet UIView *buyButtonView;
 @property (nonatomic, retain) IBOutlet UIView *removeView;
 @property (nonatomic, retain) IBOutlet UILabel *removePriceLabel;
 @property (nonatomic, retain) IBOutlet UIButton *doneButton;
