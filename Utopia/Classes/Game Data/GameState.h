@@ -44,6 +44,8 @@
   int _amuletEquipped;
   NSDate *_lastEnergyRefill;
   NSDate *_lastStaminaRefill;
+  NSDate *_lastShortLicensePurchaseTime;
+  NSDate *_lastLongLicensePurchaseTime;
   
   int _maxCityAccessible;
   int _expRequiredForCurrentLevel;
@@ -112,6 +114,9 @@
 @property (retain) NSDate *lastEnergyRefill;
 @property (retain) NSDate *lastStaminaRefill;
 
+@property (retain) NSDate *lastShortLicensePurchaseTime;
+@property (retain) NSDate *lastLongLicensePurchaseTime;
+
 @property (assign) int maxCityAccessible;
 @property (assign) int expRequiredForCurrentLevel;
 @property (assign) int expRequiredForNextLevel;
@@ -174,6 +179,8 @@
 - (void) addToStaticDefeatTypeJobs:(NSArray *)arr;
 - (void) addToStaticPossessEquipJobs:(NSArray *)arr;
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
+
+- (BOOL) hasValidLicense;
 
 - (void) purgeStaticData;
 

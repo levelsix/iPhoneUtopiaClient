@@ -412,7 +412,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSArray *a = [self postsForState];
-  int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] : 0;
+  int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] + ![[GameState sharedGameState] hasValidLicense]: 0;
   int rows = [a count]+extra+1;
   if (rows > 1) {
     self.leftRope.alpha = 1.f;
@@ -434,10 +434,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+  GameState *gs = [GameState sharedGameState];
+  BOOL displayLicense = ![gs hasValidLicense];
+  
   NSString *cellId;
   NSString *nibName = nil;
   if ([indexPath row] == 0) {
     cellId = @"Empty";
+  } else if (self.state == kEquipSellingState && indexPath.row == 1 && displayLicense) {
+    cellId = @"License";
+    nibName = @"LicenseRow";
   } else {
     cellId = @"Cell";
     nibName = @"ItemPostView";
@@ -453,10 +459,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     }
   }
   
+  NSLog(@"A: %d, %@", indexPath.row, cellId);
   if ([cell isKindOfClass:[ItemPostView class]]) {
     NSArray *a = [self postsForState];
     if (state == kEquipSellingState && indexPath.row > a.count) {
-      [(ItemPostView *)cell showEquipListing:[[[GameState sharedGameState] myEquips] objectAtIndex:indexPath.row-a.count-1]];
+      NSLog(@"%d", indexPath.row-a.count-displayLicense-1);
+      [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-displayLicense-1]];
       return cell;
     }
     

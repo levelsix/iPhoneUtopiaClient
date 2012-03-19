@@ -174,20 +174,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Utopia/libs/Products/ProtocolBuffers/UnknownFieldSet.h"
-         timestampString = "347324232.658598"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "40"
-         endingLineNumber = "40"
-         landmarkName = "@interface PBUnknownFieldSet"
-         landmarkType = "2">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
          filePath = "Utopia/Classes/Game Data/EventController.m"
          timestampString = "349264233.109269"
          startingColumnNumber = "9223372036854775807"

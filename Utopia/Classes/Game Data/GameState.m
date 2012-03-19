@@ -46,6 +46,8 @@
 @synthesize amuletEquipped = _amuletEquipped;
 @synthesize lastEnergyRefill = _lastEnergyRefill;
 @synthesize lastStaminaRefill = _lastStaminaRefill;
+@synthesize lastShortLicensePurchaseTime = _lastShortLicensePurchaseTime;
+@synthesize lastLongLicensePurchaseTime = _lastLongLicensePurchaseTime;
 
 @synthesize maxCityAccessible = _maxCityAccessible;
 @synthesize expRequiredForCurrentLevel = _expRequiredForCurrentLevel;
@@ -154,6 +156,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:user.lastEnergyRefillTime/1000];
   self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000];
+  self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000];
+  self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000];
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
@@ -170,7 +174,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     p = [dict objectForKey:num];
   }
-  NSLog(@"Waited %d times for static data", numTimes);
   // Retain and autorelease in case data gets purged
   [p retain];
   return [p autorelease];
@@ -324,6 +327,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (UpgradeStructJobProto *p in arr) {
     [self.staticUpgradeStructJobs setObject:p forKey:[NSNumber numberWithInt:p.upgradeStructJobId]];
   }
+}
+
+- (BOOL) hasValidLicense {
+  Globals *gl = [Globals sharedGlobals];
+  
+  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
+  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
+  if (shortLic > time) {
+    return YES;
+  }
+  
+  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
+  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
+  if (longLic > time) {
+    return YES;
+  }
+  
+  return NO;
 }
 
 - (void) purgeStaticData {

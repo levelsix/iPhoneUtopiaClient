@@ -536,6 +536,7 @@
 		CFC702C2151643A900182259 /* mpsubmitbuy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC702B0151643A900182259 /* mpsubmitbuy@2x.png */; };
 		CFC702C3151643A900182259 /* topbarcoinbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC702B1151643A900182259 /* topbarcoinbg.png */; };
 		CFC702C4151643A900182259 /* topbarcoinbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC702B2151643A900182259 /* topbarcoinbg@2x.png */; };
+		CFC71FD71516DE8600DDF2CC /* LicenseRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC71FD61516DE8600DDF2CC /* LicenseRow.xib */; };
 		CFC81F8A1502F6AE00DFDD42 /* MissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC81F891502F6AE00DFDD42 /* MissionMap.m */; };
 		CFD2BDA714FE132B00B7557B /* ArmoryRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */; };
 		CFD3C8F2150D0637001EC185 /* AnimatedSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD3C8F1150D0637001EC185 /* AnimatedSprite.m */; };
@@ -1527,6 +1528,7 @@
 		CFC702B0151643A900182259 /* mpsubmitbuy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mpsubmitbuy@2x.png"; sourceTree = "<group>"; };
 		CFC702B1151643A900182259 /* topbarcoinbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbarcoinbg.png; sourceTree = "<group>"; };
 		CFC702B2151643A900182259 /* topbarcoinbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topbarcoinbg@2x.png"; sourceTree = "<group>"; };
+		CFC71FD61516DE8600DDF2CC /* LicenseRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseRow.xib; sourceTree = "<group>"; };
 		CFC81F881502F6AE00DFDD42 /* MissionMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MissionMap.h; path = "Utopia/Classes/Main Map/GameMap/MissionMap.h"; sourceTree = SOURCE_ROOT; };
 		CFC81F891502F6AE00DFDD42 /* MissionMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MissionMap.m; path = "Utopia/Classes/Main Map/GameMap/MissionMap.m"; sourceTree = SOURCE_ROOT; };
 		CFD2BDA614FE132A00B7557B /* ArmoryRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArmoryRow.xib; path = ArmoryMenu/ArmoryRow.xib; sourceTree = "<group>"; };
@@ -2081,6 +2083,7 @@
 		CF1C592B1501AED40048D2EC /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF1C597C1501AED50048D2EC /* Marketplace Images */,
 				CF2028101515F98A00F611F5 /* Door Images */,
 				CF20280B1515E08900F611F5 /* City Rankup Images */,
 				CF2027991515AEC100F611F5 /* UserIcons */,
@@ -2098,7 +2101,6 @@
 				CF1C59491501AED50048D2EC /* Gold Shoppe Images */,
 				CF1C59581501AED50048D2EC /* Home Building Images */,
 				CF1C59751501AED50048D2EC /* Location Based Map Images */,
-				CF1C597C1501AED50048D2EC /* Marketplace Images */,
 				CF1C59A11501AED50048D2EC /* Miscellaneous */,
 				CF1C59B81501AED50048D2EC /* Profile Images */,
 				CF1C59EF1501AED50048D2EC /* Quest Log Images */,
@@ -2900,6 +2902,7 @@
 				CF5EDDE914CBEEDA0063F1E0 /* MarketplaceViewController.h */,
 				CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */,
 				CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */,
+				CFC71FD61516DE8600DDF2CC /* LicenseRow.xib */,
 			);
 			name = MarketplaceMenu;
 			sourceTree = "<group>";
@@ -4558,6 +4561,7 @@
 				CFC702C2151643A900182259 /* mpsubmitbuy@2x.png in Resources */,
 				CFC702C3151643A900182259 /* topbarcoinbg.png in Resources */,
 				CFC702C4151643A900182259 /* topbarcoinbg@2x.png in Resources */,
+				CFC71FD71516DE8600DDF2CC /* LicenseRow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
