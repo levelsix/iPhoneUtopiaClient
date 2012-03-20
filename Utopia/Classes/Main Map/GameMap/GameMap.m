@@ -293,7 +293,6 @@
     FullUserProto *fup = enemy.user;
     if (fup) {
       [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:[[GameLayer sharedGameLayer] currentCity]];
-      self.visible = NO;
     }
   }
 }

@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ImageDownloader : NSObject
+@interface ImageDownloader : NSObject {
+  dispatch_queue_t _queue;
+  NSString *_cacheDir;
+}
 
 + (ImageDownloader *) sharedImageDownloader;
-- (void) downloadImage: (NSString *)imageName;
+- (void) downloadImage:(NSString *)imageName;
+- (void) downloadImage:(NSString *)imageName completion:(void (^)(void))completed;
 
 @end

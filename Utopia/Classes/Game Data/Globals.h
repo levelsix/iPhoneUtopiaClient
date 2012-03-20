@@ -73,6 +73,7 @@
 @property (nonatomic, assign) NSDictionary *productIdentifiers;
 
 @property (nonatomic, assign) NSMutableDictionary *imageCache;
+@property (assign) NSMutableDictionary *imageViewsWaitingForDownloading;
 
 + (Globals *) sharedGlobals;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
@@ -82,6 +83,8 @@
 + (UIImage *) imageForEquip:(int)eqId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
++ (void) loadImageNamedForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
++ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color;
 + (UIColor *) colorForUnequippable;
 + (UIColor *) colorForUnknownEquip;
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity;

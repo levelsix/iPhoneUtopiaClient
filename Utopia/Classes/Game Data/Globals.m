@@ -16,6 +16,14 @@
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
 
+@implementation UIImageView (ImageDownloader)
+
+- (id) copyWithZone:(NSZone *)zone {
+  return self;
+}
+
+@end
+
 @implementation Globals
 
 static NSString *fontName = @"AJensonPro-BoldCapt";
@@ -33,7 +41,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize energyRefillCost, staminaRefillCost;
 @synthesize maxRepeatedNormStructs;
 @synthesize productIdentifiers;
-@synthesize imageCache;
+@synthesize imageCache, imageViewsWaitingForDownloading;
 @synthesize armoryXLength, armoryYLength, carpenterXLength, carpenterYLength, aviaryXLength;
 @synthesize aviaryYLength, marketplaceXLength, marketplaceYLength, vaultXLength, vaultYLength;
 @synthesize diamondCostOfShortMarketplaceLicense, diamondCostOfLongMarketplaceLicense;
@@ -79,6 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     vaultYLength = 2;
     
     imageCache = [[NSMutableDictionary alloc] init];
+    imageViewsWaitingForDownloading = [[NSMutableDictionary alloc] init];
   }
   return self;
 }
@@ -153,6 +162,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (UIImage *) imageForEquip:(int)eqId {
   return [self imageNamed:[self imageNameForEquip:eqId]];//[NSString stringWithFormat:equipImageString, eqId];
+}
+
++ (void) loadImageNamedForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
+  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil];
 }
 
 + (UIColor *) colorForUnequippable {
@@ -408,6 +421,97 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return image;
 }
 
++ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color {
+  Globals *gl = [Globals sharedGlobals];
+  [[gl imageViewsWaitingForDownloading] removeObjectForKey:view];
+  
+  UIImage *cachedImage = [gl.imageCache objectForKey:imageName];
+  if (cachedImage) {
+    if (color) {
+      cachedImage = [self maskImage:cachedImage   withColor:color];
+    }
+    view.image = cachedImage;
+    
+    return;
+  }
+  
+  // prevents overloading the autorelease pool
+  NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
+  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
+  
+  // Added for Utopia project
+  if (!fullpath) {
+    // Image not in NSBundle: look in documents
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      if (![view viewWithTag:150]) {
+        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        loadingView.tag = 150;
+        [loadingView startAnimating];
+        [view addSubview:loadingView];
+        [loadingView release];
+        
+        int dimensions = MIN(view.frame.size.width/2, view.frame.size.height/2);
+        loadingView.frame = CGRectMake(0, 0, dimensions, dimensions);
+        loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
+      }
+      view.image = nil;
+      
+      [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:view];
+      
+      // Image not in docs: download it
+      // Game will crash if view is released before image download completes so retain it
+      [view retain];
+      [[ImageDownloader sharedImageDownloader] downloadImage:fullpath.lastPathComponent completion:^{
+        NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:view];
+        if ([str isEqualToString:imageName]) {
+          NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
+          NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+          NSString *documentsPath = [paths objectAtIndex:0];
+          NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName]; 
+          UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
+          
+          if (img) {
+            [gl.imageCache setObject:img forKey:imageName];
+          }
+          if (color) {
+            img = [self maskImage:img withColor:color];
+          }
+          
+          view.image = img;
+          [view release];
+          
+          UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
+          [loadingView stopAnimating];
+          [loadingView removeFromSuperview];
+          [[gl imageViewsWaitingForDownloading] removeObjectForKey:view];
+        }
+      }];
+      return;
+    }
+  }
+  
+  UIImage* image = [UIImage imageWithContentsOfFile:fullpath];
+  UIView *loader = [view viewWithTag:150];
+  if (loader) {
+    [loader removeFromSuperview];
+  }
+  
+  if (image) {
+    [gl.imageCache setObject:image forKey:imageName];
+    
+    if (color) {
+      image = [self maskImage:image withColor:color];
+    }
+    
+    view.image = image;
+  }
+  
+}
+
 + (UIImage *) squareImageForUser:(UserType)type {
   switch (type) {
     case UserTypeGoodWarrior:
@@ -536,7 +640,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *weapon = nil;
   if (weaponId != 0) {
-     weapon = [gs equipWithId:weaponId];
+    weapon = [gs equipWithId:weaponId];
   }
   FullEquipProto *armor = nil;
   if (armorId != 0) {
@@ -565,6 +669,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void) dealloc {
   self.productIdentifiers = nil;
+  [imageViewsWaitingForDownloading release];
   [super dealloc];
 }
 

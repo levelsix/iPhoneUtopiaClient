@@ -350,8 +350,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) purgeStaticData {
   [_staticTasks removeAllObjects];
   [_staticQuests removeAllObjects];
-  [_staticStructs removeAllObjects];
-  [_staticEquips removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
   [_staticDefeatTypeJobs removeAllObjects];
   [_staticPossessEquipJobs removeAllObjects];

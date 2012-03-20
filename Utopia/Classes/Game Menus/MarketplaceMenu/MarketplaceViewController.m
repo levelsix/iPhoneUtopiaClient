@@ -204,8 +204,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView addSubview:self.removeView];
   
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"marketrope.png"]];
-  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 39)];
-  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 39)];
+  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 90)];
+  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 90)];
   leftRopeFirstRow.backgroundColor = c;
   rightRopeFirstRow.backgroundColor = c;
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
@@ -218,6 +218,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   longLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfLongMarketplaceLicense];
   shortLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysShortMarketplaceLicenseLastsFor];
   longLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysLongMarketplaceLicenseLastsFor];
+  
+  self.purchLicenseView.center = self.view.center;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -284,14 +286,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     purchLicenseView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
     purchLicenseView.hidden = NO;
     
-    [UIView animateWithDuration:1.f animations:^{
+    [UIView animateWithDuration:0.3f animations:^{
       purchLicenseView.transform = CGAffineTransformMakeScale(1, 1);
     }];
   }
 }
 
 - (IBAction)closePurchLicenseView:(id)sender {
-  [UIView animateWithDuration:1.f animations:^{
+  [UIView animateWithDuration:0.3f animations:^{
     purchLicenseView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
   } completion:^(BOOL finished) {
     [purchLicenseView removeFromSuperview];
@@ -389,7 +391,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)listAnItemClicked:(id)sender {
-  NSLog(@"%d", _refreshing);
   if (!_refreshing) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
     

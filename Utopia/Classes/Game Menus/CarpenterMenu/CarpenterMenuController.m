@@ -109,8 +109,6 @@
 
 - (void) awakeFromNib { 
   self.state = kDisappear;
-  
-  _lockedBuildingColor = [[UIColor colorWithWhite:0.f alpha:0.7f] retain];
 }
 
 - (UIImageView *) darkOverlay {
@@ -187,11 +185,11 @@
     
     int mins = fsp.minutesToBuild;
     tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
-    buildingIcon.image = [Globals imageForStruct:fsp.structId];
+    [Globals loadImageNamedForStruct:fsp.structId toView:buildingIcon masked:NO];
     
     self.state = kAvailable;
   } else {
-    buildingIcon.image = [Globals maskImage:[Globals imageForStruct:fsp.structId] withColor:_lockedBuildingColor];
+    [Globals loadImageNamedForStruct:fsp.structId toView:buildingIcon masked:YES];
     lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
     self.state = kLocked;
   }

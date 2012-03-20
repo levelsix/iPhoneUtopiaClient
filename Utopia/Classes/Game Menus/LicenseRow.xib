@@ -168,7 +168,7 @@
 							<object class="IBUILabel" id="252323383">
 								<reference key="NSNextResponder" ref="10487649"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{266, 12}, {31, 21}}</string>
+								<string key="NSFrame">{{266, 13}, {31, 21}}</string>
 								<reference key="NSSuperview" ref="10487649"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="22908642"/>
@@ -201,7 +201,7 @@
 							<object class="IBUILabel" id="22908642">
 								<reference key="NSNextResponder" ref="10487649"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{291, 12}, {48, 21}}</string>
+								<string key="NSFrame">{{291, 13}, {48, 21}}</string>
 								<reference key="NSSuperview" ref="10487649"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="748231869"/>
@@ -225,7 +225,7 @@
 							<object class="IBUILabel" id="351116353">
 								<reference key="NSNextResponder" ref="10487649"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{372, 12}, {31, 21}}</string>
+								<string key="NSFrame">{{372, 13}, {31, 21}}</string>
 								<reference key="NSSuperview" ref="10487649"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="186213005"/>
@@ -248,7 +248,7 @@
 							<object class="IBUILabel" id="186213005">
 								<reference key="NSNextResponder" ref="10487649"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{392, 12}, {55, 21}}</string>
+								<string key="NSFrame">{{392, 13}, {55, 21}}</string>
 								<reference key="NSSuperview" ref="10487649"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -474,10 +474,15 @@
 					<string key="className">MarketplaceViewController</string>
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="closePurchLicenseView:">id</string>
 						<string key="longLicenseClicked:">id</string>
 						<string key="shortLicenseClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="closePurchLicenseView:">
+							<string key="name">closePurchLicenseView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="longLicenseClicked:">
 							<string key="name">longLicenseClicked:</string>
 							<string key="candidateClassName">id</string>
