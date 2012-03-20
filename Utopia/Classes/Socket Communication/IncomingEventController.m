@@ -313,7 +313,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [eq addObject:fmpp];
     }
     
-    [mvc insertRowsFrom:oldCount+1];
+    [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
   }
   [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }

@@ -176,10 +176,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize state;
 @synthesize removePriceLabel;
 @synthesize doneButton, listAnItemButton;
-@synthesize redeemView;
+@synthesize redeemView, purchLicenseView;
 @synthesize redeemGoldLabel, redeemSilverLabel;
 @synthesize redeemTitleLabel;
 @synthesize ropeView, leftRope, rightRope, leftRopeFirstRow, rightRopeFirstRow;
+@synthesize shortLicenseCost, shortLicenseLength, longLicenseCost, longLicenseLength;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -211,6 +212,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView insertSubview:rightRopeFirstRow belowSubview:self.ropeView];
   
   self.redeemView.hidden = YES;
+  
+  Globals *gl = [Globals sharedGlobals];
+  shortLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfShortMarketplaceLicense];
+  longLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfLongMarketplaceLicense];
+  shortLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysShortMarketplaceLicenseLastsFor];
+  longLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysLongMarketplaceLicenseLastsFor];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -258,16 +265,37 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (IBAction)listButtonClicked:(id)sender {
   // Need to do 2 superviews: first one gives UITableViewCellContentView, second one gives ItemPostView
   ItemPostView *post = (ItemPostView *)[[[(UIButton *)sender superview] superview] superview];
-  post.state = kSubmitState;
+  GameState *gs = [GameState sharedGameState];
   
-  if (self.selectedCell != post && self.selectedCell.state == kSubmitState) {
-    self.selectedCell.state = kListState;
+  if (gs.hasValidLicense) {
+    post.state = kSubmitState;
+    
+    if (self.selectedCell != post && self.selectedCell.state == kSubmitState) {
+      self.selectedCell.state = kListState;
+    }
+    self.selectedCell = post;
+    
+    self.removeView.hidden = YES;
+    
+    [post.priceField becomeFirstResponder];
+  } else {
+    [self.view addSubview:self.purchLicenseView];
+    
+    purchLicenseView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+    purchLicenseView.hidden = NO;
+    
+    [UIView animateWithDuration:1.f animations:^{
+      purchLicenseView.transform = CGAffineTransformMakeScale(1, 1);
+    }];
   }
-  self.selectedCell = post;
-  
-  self.removeView.hidden = YES;
-  
-  [post.priceField becomeFirstResponder];
+}
+
+- (IBAction)closePurchLicenseView:(id)sender {
+  [UIView animateWithDuration:1.f animations:^{
+    purchLicenseView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+  } completion:^(BOOL finished) {
+    [purchLicenseView removeFromSuperview];
+  }];
 }
 
 - (IBAction)submitCloseClicked:(id)sender {
@@ -361,21 +389,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)listAnItemClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
-  
-  if (self.state == kEquipBuyingState) {
-    self.state = kEquipSellingState;
+  NSLog(@"%d", _refreshing);
+  if (!_refreshing) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
+    
+    if (self.state == kEquipBuyingState) {
+      self.state = kEquipSellingState;
+    }
   }
 }
 
 - (IBAction)doneClicked:(id)sender{
-  if (self.listing) {
-    [self disableEditing];
-  } else {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
-    
-    if (self.state == kEquipSellingState) {
-      self.state = kEquipBuyingState;
+  if (!_refreshing) {
+    if (self.listing) {
+      [self disableEditing];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
+      
+      if (self.state == kEquipSellingState) {
+        self.state = kEquipBuyingState;
+      }
     }
   }
 }
@@ -403,6 +436,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.redeemView.hidden = YES;
     self.postsTableView.userInteractionEnabled = YES;
   }];
+}
+
+- (IBAction)shortLicenseClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.gold >= gl.diamondCostOfShortMarketplaceLicense) {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseShortMarketplaceLicense];
+  } else {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfShortMarketplaceLicense];
+  }
+  
+  if (gs.hasValidLicense) {
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+  }
+}
+
+- (IBAction)longLicenseClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.gold >= gl.diamondCostOfLongMarketplaceLicense) {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseLongMarketplaceLicense];
+  } else {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfLongMarketplaceLicense];
+  }
 }
 
 // Customize the number of sections in the table view.
@@ -435,7 +494,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   GameState *gs = [GameState sharedGameState];
-  BOOL displayLicense = ![gs hasValidLicense];
+  BOOL displayLicense = self.state == kEquipSellingState ? ![gs hasValidLicense] : 0;
   
   NSString *cellId;
   NSString *nibName = nil;
@@ -454,21 +513,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (nibName) {
       [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil];
       cell = self.itemView;
+      if ([nibName isEqualToString:@"LicenseRow"]) {
+        Globals *gl = [Globals sharedGlobals];
+        shortLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfShortMarketplaceLicense];
+        longLicenseCost.text = [NSString stringWithFormat:@"%d", gl.diamondCostOfLongMarketplaceLicense];
+        shortLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysShortMarketplaceLicenseLastsFor];
+        longLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysLongMarketplaceLicenseLastsFor];
+      }
     } else {
       cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId] autorelease];
     }
   }
   
-  NSLog(@"A: %d, %@", indexPath.row, cellId);
   if ([cell isKindOfClass:[ItemPostView class]]) {
     NSArray *a = [self postsForState];
-    if (state == kEquipSellingState && indexPath.row > a.count) {
-      NSLog(@"%d", indexPath.row-a.count-displayLicense-1);
+    if (state == kEquipSellingState && indexPath.row > (a.count+displayLicense)) {
       [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-displayLicense-1]];
       return cell;
     }
     
-    FullMarketplacePostProto *p = [a objectAtIndex:indexPath.row-1];
+    FullMarketplacePostProto *p = [a objectAtIndex:indexPath.row-displayLicense-1];
     switch (state) {
       case kEquipBuyingState:
       case kEquipSellingState:
@@ -618,9 +682,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView endUpdates];
   [arr release];
   self.shouldReload = YES;
+  _refreshing = NO;
 }
 
 - (void) deleteRows:(int)start {
+  _refreshing = YES;
   NSMutableArray *arr = [[NSMutableArray alloc] init];
   
   int new = [self tableView:self.postsTableView numberOfRowsInSection:0];
@@ -662,6 +728,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView endUpdates];
   [del release];
   [ins release];
+  
+  _refreshing = NO;
 }
 
 - (NSMutableArray *) postsForState {

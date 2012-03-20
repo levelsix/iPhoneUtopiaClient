@@ -262,6 +262,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (price <= 0) {
     [Globals popupMessage:@"You need to enter a price!"];
     return;
+  } else if (!gs.hasValidLicense) {
+    [Globals popupMessage:@"You need a license to make a post"];
   }
   
   for (FullUserEquipProto *eq in [gs myEquips]) {
@@ -335,6 +337,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [Globals popupMessage:@"Nothing to earn!"];
   }
+}
+
+- (void) purchaseShortMarketplaceLicense {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.hasValidLicense) {
+    [Globals popupMessage:@"Trying to buy short license when you already own one"];
+  } else if (gs.gold < gl.diamondCostOfShortMarketplaceLicense) {
+    [Globals popupMessage:@"Trying to buy short license without enough gold"];
+  } else {
+    NSDate *date = [NSDate date];
+    [sc sendPurchaseMarketplaceLicenseMessage:[date timeIntervalSince1970]*1000 type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeShort];
+    gs.lastShortLicensePurchaseTime = date;
+  }
+}
+
+- (void) purchaseLongMarketplaceLicense {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.hasValidLicense) {
+    [Globals popupMessage:@"Trying to buy long license when you already own one"];
+  } else if (gs.gold < gl.diamondCostOfLongMarketplaceLicense) {
+    [Globals popupMessage:@"Trying to buy long license without enough gold"];
+  } else {
+    NSDate *date = [NSDate date];
+    [sc sendPurchaseMarketplaceLicenseMessage:[date timeIntervalSince1970]*1000 type:PurchaseMarketplaceLicenseRequestProto_LicenseTypeLong];
+    gs.lastLongLicensePurchaseTime = date;
+  } 
 }
 
 - (void) addAttackSkillPoint {

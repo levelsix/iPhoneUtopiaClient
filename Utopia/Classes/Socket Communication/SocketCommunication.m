@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.4"
+#define HOST_NAME @"50.18.173.214"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -274,6 +274,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                                    build];
   
   [self sendData:[redReq data] withMessageType:EventProtocolRequestCRedeemMarketplaceEarningsEvent];
+}
+
+- (void) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type {
+  PurchaseMarketplaceLicenseRequestProto *req = [[[[PurchaseMarketplaceLicenseRequestProto builder]
+                                                  setClientTime:clientTime]
+                                                 setLicenseType:type]
+                                                 build];
+  
+  [self sendData:[req data] withMessageType:EventProtocolRequestCPurchaseMarketplaceLicenseEvent];
 }
 
 - (void) sendUseSkillPointMessage:(UseSkillPointRequestProto_BoostType) boostType {

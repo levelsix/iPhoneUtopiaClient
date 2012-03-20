@@ -56,7 +56,9 @@ typedef enum {
   kEquipSellingState
 } MarketplaceState;
 
-@interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+  BOOL _refreshing;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *navBar;
 @property (nonatomic, retain) IBOutlet UIView *topBar;
@@ -72,6 +74,12 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *ropeView;
 @property (nonatomic, retain) IBOutlet UIView *leftRope;
 @property (nonatomic, retain) IBOutlet UIView *rightRope;
+@property (nonatomic, retain) IBOutlet UIView *purchLicenseView;
+
+@property (nonatomic, retain) IBOutlet UILabel *shortLicenseCost;
+@property (nonatomic, retain) IBOutlet UILabel *longLicenseCost;
+@property (nonatomic, retain) IBOutlet UILabel *shortLicenseLength;
+@property (nonatomic, retain) IBOutlet UILabel *longLicenseLength;
 
 @property (nonatomic, assign) BOOL listing;
 
@@ -94,5 +102,9 @@ typedef enum {
 - (void) resetAllRows;
 - (NSMutableArray *) postsForState;
 - (void) displayRedeemView;
+
+- (IBAction)closePurchLicenseView:(id)sender;
+- (IBAction)shortLicenseClicked:(id)sender;
+- (IBAction)longLicenseClicked:(id)sender;
 
 @end

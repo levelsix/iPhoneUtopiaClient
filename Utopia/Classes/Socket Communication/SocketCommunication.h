@@ -43,6 +43,7 @@
 - (void) sendRetractMarketplacePostMessage: (int)postId;
 - (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
 - (void) sendRedeemMarketplaceEarningsMessage;
+- (void) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type;
 
 - (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
 - (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;

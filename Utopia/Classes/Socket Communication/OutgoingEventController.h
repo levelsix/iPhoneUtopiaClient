@@ -37,6 +37,8 @@
 - (void) retractMarketplacePost: (int)postId;
 - (void) purchaseFromMarketplace: (int)postId;
 - (void) redeemMarketplaceEarnings;
+- (void) purchaseShortMarketplaceLicense;
+- (void) purchaseLongMarketplaceLicense;
 
 - (void) addAttackSkillPoint;
 - (void) addDefenseSkillPoint;
