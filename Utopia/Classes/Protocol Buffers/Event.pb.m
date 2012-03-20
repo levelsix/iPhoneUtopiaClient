@@ -25043,6 +25043,7 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
 @interface QuestAcceptResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property QuestAcceptResponseProto_QuestAcceptStatus status;
+@property (retain) NSMutableArray* mutableEnemiesIfQuestsHaveDefeatTypeJobList;
 @end
 
 @implementation QuestAcceptResponseProto
@@ -25061,8 +25062,10 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
+@synthesize mutableEnemiesIfQuestsHaveDefeatTypeJobList;
 - (void) dealloc {
   self.sender = nil;
+  self.mutableEnemiesIfQuestsHaveDefeatTypeJobList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -25084,6 +25087,13 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
 - (QuestAcceptResponseProto*) defaultInstance {
   return defaultQuestAcceptResponseProtoInstance;
 }
+- (NSArray*) enemiesIfQuestsHaveDefeatTypeJobList {
+  return mutableEnemiesIfQuestsHaveDefeatTypeJobList;
+}
+- (FullUserProto*) enemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index {
+  id value = [mutableEnemiesIfQuestsHaveDefeatTypeJobList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   if (!self.hasSender) {
     return NO;
@@ -25094,6 +25104,11 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   if (!self.sender.isInitialized) {
     return NO;
   }
+  for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -25102,6 +25117,9 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
+  }
+  for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
+    [output writeMessage:3 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -25117,6 +25135,9 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
+  }
+  for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
+    size += computeMessageSize(3, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -25209,6 +25230,12 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.mutableEnemiesIfQuestsHaveDefeatTypeJobList.count > 0) {
+    if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) {
+      result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = [NSMutableArray array];
+    }
+    [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObjectsFromArray:other.mutableEnemiesIfQuestsHaveDefeatTypeJobList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -25246,6 +25273,12 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addEnemiesIfQuestsHaveDefeatTypeJob:[subBuilder buildPartial]];
         break;
       }
     }
@@ -25295,6 +25328,35 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 - (QuestAcceptResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
+  return self;
+}
+- (NSArray*) enemiesIfQuestsHaveDefeatTypeJobList {
+  if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) { return [NSArray array]; }
+  return result.mutableEnemiesIfQuestsHaveDefeatTypeJobList;
+}
+- (FullUserProto*) enemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index {
+  return [result enemiesIfQuestsHaveDefeatTypeJobAtIndex:index];
+}
+- (QuestAcceptResponseProto_Builder*) replaceEnemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) addAllEnemiesIfQuestsHaveDefeatTypeJob:(NSArray*) values {
+  if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) {
+    result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = [NSMutableArray array];
+  }
+  [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObjectsFromArray:values];
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) clearEnemiesIfQuestsHaveDefeatTypeJobList {
+  result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = nil;
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) addEnemiesIfQuestsHaveDefeatTypeJob:(FullUserProto*) value {
+  if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) {
+    result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = [NSMutableArray array];
+  }
+  [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObject:value];
   return self;
 }
 @end

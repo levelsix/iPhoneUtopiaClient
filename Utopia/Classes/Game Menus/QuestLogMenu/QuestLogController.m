@@ -513,7 +513,7 @@
   for (MinimumUserDefeatTypeJobProto *p in data.requiredDefeatTypeJobProgressList) {
     DefeatTypeJobProto *q = [gs getStaticDataFrom:gs.staticDefeatTypeJobs withId:p.defeatTypeJobId];
     tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tiv.frame), self.scrollView.frame.size.width, 0) 
-                                         text:[NSString stringWithFormat:@"Defeat %d %@ %@s", q.numEnemiesToDefeat, [Globals factionForUserType:q.typeOfEnemy], [Globals classForUserType:q.typeOfEnemy]]
+                                         text:[NSString stringWithFormat:@"Defeat %d %@ %@%@ in %@", q.numEnemiesToDefeat, [Globals factionForUserType:q.typeOfEnemy], [Globals classForUserType:q.typeOfEnemy], q.numEnemiesToDefeat == 1 ? @"" : @"s", [gs cityWithId:q.cityId].name]
                                  taskFinished:p.numDefeated
                                         outOf:q.numEnemiesToDefeat
                                          type:kDefeatTypeJob 

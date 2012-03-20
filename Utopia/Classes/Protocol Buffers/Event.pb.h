@@ -6231,11 +6231,14 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
   QuestAcceptResponseProto_QuestAcceptStatus status;
+  NSMutableArray* mutableEnemiesIfQuestsHaveDefeatTypeJobList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestAcceptResponseProto_QuestAcceptStatus status;
+- (NSArray*) enemiesIfQuestsHaveDefeatTypeJobList;
+- (FullUserProto*) enemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index;
 
 + (QuestAcceptResponseProto*) defaultInstance;
 - (QuestAcceptResponseProto*) defaultInstance;
@@ -6282,6 +6285,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (QuestAcceptResponseProto_QuestAcceptStatus) status;
 - (QuestAcceptResponseProto_Builder*) setStatus:(QuestAcceptResponseProto_QuestAcceptStatus) value;
 - (QuestAcceptResponseProto_Builder*) clearStatus;
+
+- (NSArray*) enemiesIfQuestsHaveDefeatTypeJobList;
+- (FullUserProto*) enemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index;
+- (QuestAcceptResponseProto_Builder*) replaceEnemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index with:(FullUserProto*) value;
+- (QuestAcceptResponseProto_Builder*) addEnemiesIfQuestsHaveDefeatTypeJob:(FullUserProto*) value;
+- (QuestAcceptResponseProto_Builder*) addAllEnemiesIfQuestsHaveDefeatTypeJob:(NSArray*) values;
+- (QuestAcceptResponseProto_Builder*) clearEnemiesIfQuestsHaveDefeatTypeJobList;
 @end
 
 @interface QuestCompleteResponseProto : PBGeneratedMessage {
