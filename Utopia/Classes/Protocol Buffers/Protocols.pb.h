@@ -196,6 +196,10 @@
 @class RetrieveUserEquipForUserRequestProto_Builder;
 @class RetrieveUserEquipForUserResponseProto;
 @class RetrieveUserEquipForUserResponseProto_Builder;
+@class RetrieveUsersForUserIdsRequestProto;
+@class RetrieveUsersForUserIdsRequestProto_Builder;
+@class RetrieveUsersForUserIdsResponseProto;
+@class RetrieveUsersForUserIdsResponseProto_Builder;
 @class SellNormStructureRequestProto;
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
@@ -285,6 +289,7 @@ typedef enum {
   EventProtocolRequestCEquipEquipmentEvent = 39,
   EventProtocolRequestCChangeUserLocationEvent = 40,
   EventProtocolRequestCLoadNeutralCityEvent = 41,
+  EventProtocolRequestCRetrieveUsersForUserIdsEvent = 42,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -331,6 +336,7 @@ typedef enum {
   EventProtocolResponseSEquipEquipmentEvent = 39,
   EventProtocolResponseSChangeUserLocationEvent = 40,
   EventProtocolResponseSLoadNeutralCityEvent = 41,
+  EventProtocolResponseSRetrieveUsersForUserIdsEvent = 42,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
   EventProtocolResponseSReferralCodeUsedEvent = 53,

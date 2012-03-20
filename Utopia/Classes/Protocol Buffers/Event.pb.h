@@ -196,6 +196,10 @@
 @class RetrieveUserEquipForUserRequestProto_Builder;
 @class RetrieveUserEquipForUserResponseProto;
 @class RetrieveUserEquipForUserResponseProto_Builder;
+@class RetrieveUsersForUserIdsRequestProto;
+@class RetrieveUsersForUserIdsRequestProto_Builder;
+@class RetrieveUsersForUserIdsResponseProto;
+@class RetrieveUsersForUserIdsResponseProto_Builder;
 @class SellNormStructureRequestProto;
 @class SellNormStructureRequestProto_Builder;
 @class SellNormStructureResponseProto;
@@ -1649,10 +1653,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @private
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasHealthBaseCost_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
@@ -1667,6 +1670,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasDiamondRewardForReferrer_:1;
+  BOOL hasMaxCityRank_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
@@ -1686,12 +1691,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasAttackBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
+  BOOL hasHealthBaseCost_:1;
   Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 cutOfVaultDepositTaken;
+  Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentReturnedToUserForSellingNormStructure;
-  int32_t healthBaseCost;
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
@@ -1706,6 +1711,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t diamondRewardForReferrer;
+  int32_t maxCityRank;
   int32_t maxLevelDifferenceForBattle;
   int32_t armoryXlength;
   int32_t armoryYlength;
@@ -1725,6 +1732,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t attackBaseCost;
   int32_t defenseBaseCost;
   int32_t energyBaseCost;
+  int32_t healthBaseCost;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
@@ -1767,6 +1775,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasDiamondCostOfShortMarketplaceLicense;
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
+- (BOOL) hasDiamondRewardForReferrer;
+- (BOOL) hasMaxCityRank;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1806,6 +1816,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t diamondCostOfShortMarketplaceLicense;
 @property (readonly) int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
+@property (readonly) int32_t diamondRewardForReferrer;
+@property (readonly) int32_t maxCityRank;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2053,62 +2065,70 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (Float64) percentReturnedToUserForSellingEquipInArmory;
 - (StartupResponseProto_StartupConstants_Builder*) setPercentReturnedToUserForSellingEquipInArmory:(Float64) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearPercentReturnedToUserForSellingEquipInArmory;
+
+- (BOOL) hasDiamondRewardForReferrer;
+- (int32_t) diamondRewardForReferrer;
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondRewardForReferrer;
+
+- (BOOL) hasMaxCityRank;
+- (int32_t) maxCityRank;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxCityRank:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxCityRank;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
-  BOOL hasMinNameLength_:1;
+  BOOL hasExpRequiredForLevelThree_:1;
+  BOOL hasExpRequiredForLevelTwo_:1;
+  BOOL hasInitDiamonds_:1;
+  BOOL hasInitCoins_:1;
+  BOOL hasDiamondRewardForBeingReferred_:1;
   BOOL hasMaxNameLength_:1;
-  BOOL hasDiamondRewardForReferrer_:1;
+  BOOL hasMinNameLength_:1;
   BOOL hasWarriorInitDefense_:1;
   BOOL hasWarriorInitAttack_:1;
-  BOOL hasDiamondRewardForBeingReferred_:1;
-  BOOL hasInitCoins_:1;
   BOOL hasMageInitDefense_:1;
-  BOOL hasMageInitAttack_:1;
-  BOOL hasInitDiamonds_:1;
-  BOOL hasExpRequiredForLevelTwo_:1;
-  BOOL hasArcherInitDefense_:1;
-  BOOL hasArcherInitAttack_:1;
-  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
-  BOOL hasStructToBuild_:1;
-  BOOL hasExpRequiredForLevelThree_:1;
-  BOOL hasInitHealth_:1;
-  BOOL hasInitStamina_:1;
   BOOL hasInitEnergy_:1;
-  BOOL hasWarriorInitArmor_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasInitHealth_:1;
+  BOOL hasStructToBuild_:1;
+  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
+  BOOL hasArcherInitAttack_:1;
+  BOOL hasArcherInitDefense_:1;
+  BOOL hasMageInitAttack_:1;
   BOOL hasWarriorInitWeapon_:1;
+  BOOL hasWarriorInitArmor_:1;
+  BOOL hasArcherInitWeapon_:1;
   BOOL hasMageInitArmor_:1;
+  BOOL hasTutorialQuest_:1;
   BOOL hasMageInitWeapon_:1;
   BOOL hasArcherInitArmor_:1;
-  BOOL hasArcherInitWeapon_:1;
-  BOOL hasTutorialQuest_:1;
-  int32_t minNameLength;
+  int32_t expRequiredForLevelThree;
+  int32_t expRequiredForLevelTwo;
+  int32_t initDiamonds;
+  int32_t initCoins;
+  int32_t diamondRewardForBeingReferred;
   int32_t maxNameLength;
-  int32_t diamondRewardForReferrer;
+  int32_t minNameLength;
   int32_t warriorInitDefense;
   int32_t warriorInitAttack;
-  int32_t diamondRewardForBeingReferred;
-  int32_t initCoins;
   int32_t mageInitDefense;
-  int32_t mageInitAttack;
-  int32_t initDiamonds;
-  int32_t expRequiredForLevelTwo;
-  int32_t archerInitDefense;
-  int32_t archerInitAttack;
-  int32_t diamondCostToInstabuildFirstStruct;
-  int32_t structToBuild;
-  int32_t expRequiredForLevelThree;
-  int32_t initHealth;
-  int32_t initStamina;
   int32_t initEnergy;
-  FullEquipProto* warriorInitArmor;
+  int32_t initStamina;
+  int32_t initHealth;
+  int32_t structToBuild;
+  int32_t diamondCostToInstabuildFirstStruct;
+  int32_t archerInitAttack;
+  int32_t archerInitDefense;
+  int32_t mageInitAttack;
   FullEquipProto* warriorInitWeapon;
+  FullEquipProto* warriorInitArmor;
+  FullEquipProto* archerInitWeapon;
   FullEquipProto* mageInitArmor;
+  StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
   FullEquipProto* mageInitWeapon;
   FullEquipProto* archerInitArmor;
-  FullEquipProto* archerInitWeapon;
-  StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
   NSMutableArray* mutableFirstCityElementsForGoodList;
   NSMutableArray* mutableFirstCityElementsForBadList;
   NSMutableArray* mutableCarpenterStructsList;
@@ -2136,7 +2156,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasWarriorInitArmor;
 - (BOOL) hasMinNameLength;
 - (BOOL) hasMaxNameLength;
-- (BOOL) hasDiamondRewardForReferrer;
 - (BOOL) hasDiamondRewardForBeingReferred;
 - (BOOL) hasInitCoins;
 - (BOOL) hasInitDiamonds;
@@ -2162,7 +2181,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly, retain) FullEquipProto* warriorInitArmor;
 @property (readonly) int32_t minNameLength;
 @property (readonly) int32_t maxNameLength;
-@property (readonly) int32_t diamondRewardForReferrer;
 @property (readonly) int32_t diamondRewardForBeingReferred;
 @property (readonly) int32_t initCoins;
 @property (readonly) int32_t initDiamonds;
@@ -2526,11 +2544,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) maxNameLength;
 - (StartupResponseProto_TutorialConstants_Builder*) setMaxNameLength:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearMaxNameLength;
-
-- (BOOL) hasDiamondRewardForReferrer;
-- (int32_t) diamondRewardForReferrer;
-- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value;
-- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForReferrer;
 
 - (BOOL) hasDiamondRewardForBeingReferred;
 - (int32_t) diamondRewardForBeingReferred;
@@ -3292,6 +3305,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasCoinsGained_:1;
   BOOL hasCoinBonusIfCityRankup_:1;
   BOOL hasExpBonusIfCityRankup_:1;
+  BOOL hasCityId_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   BOOL taskCompleted_:1;
@@ -3300,6 +3314,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t coinsGained;
   int32_t coinBonusIfCityRankup;
   int32_t expBonusIfCityRankup;
+  int32_t cityId;
   MinimumUserProto* sender;
   TaskActionResponseProto_TaskActionStatus status;
 }
@@ -3311,6 +3326,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasCoinsGained;
 - (BOOL) hasCoinBonusIfCityRankup;
 - (BOOL) hasExpBonusIfCityRankup;
+- (BOOL) hasCityId;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) TaskActionResponseProto_TaskActionStatus status;
 - (BOOL) taskCompleted;
@@ -3319,6 +3335,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t coinsGained;
 @property (readonly) int32_t coinBonusIfCityRankup;
 @property (readonly) int32_t expBonusIfCityRankup;
+@property (readonly) int32_t cityId;
 
 + (TaskActionResponseProto*) defaultInstance;
 - (TaskActionResponseProto*) defaultInstance;
@@ -3395,6 +3412,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) expBonusIfCityRankup;
 - (TaskActionResponseProto_Builder*) setExpBonusIfCityRankup:(int32_t) value;
 - (TaskActionResponseProto_Builder*) clearExpBonusIfCityRankup;
+
+- (BOOL) hasCityId;
+- (int32_t) cityId;
+- (TaskActionResponseProto_Builder*) setCityId:(int32_t) value;
+- (TaskActionResponseProto_Builder*) clearCityId;
 @end
 
 @interface PurchaseNormStructureRequestProto : PBGeneratedMessage {
@@ -8142,5 +8164,125 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) senderId;
 - (PurgeClientStaticDataResponseProto_Builder*) setSenderId:(int32_t) value;
 - (PurgeClientStaticDataResponseProto_Builder*) clearSenderId;
+@end
+
+@interface RetrieveUsersForUserIdsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableRequestedUserIdsList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) requestedUserIdsList;
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
+
++ (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) builder;
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builder;
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsRequestProto*) prototype;
+
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUsersForUserIdsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveUsersForUserIdsRequestProto* result;
+}
+
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance;
+
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clear;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clone;
+
+- (RetrieveUsersForUserIdsRequestProto*) build;
+- (RetrieveUsersForUserIdsRequestProto*) buildPartial;
+
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsRequestProto*) other;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearSender;
+
+- (NSArray*) requestedUserIdsList;
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserIdsAtIndex:(int32_t) index with:(int32_t) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values;
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList;
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+  NSMutableArray* mutableRequestedUsersList;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+- (NSArray*) requestedUsersList;
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
+
++ (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) builder;
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builder;
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsResponseProto*) prototype;
+
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveUsersForUserIdsResponseProto* result;
+}
+
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance;
+
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clear;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clone;
+
+- (RetrieveUsersForUserIdsResponseProto*) build;
+- (RetrieveUsersForUserIdsResponseProto*) buildPartial;
+
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsResponseProto*) other;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearSender;
+
+- (NSArray*) requestedUsersList;
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceRequestedUsersAtIndex:(int32_t) index with:(FullUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values;
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList;
 @end
 

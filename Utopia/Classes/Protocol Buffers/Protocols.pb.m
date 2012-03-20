@@ -62,6 +62,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCEquipEquipmentEvent:
     case EventProtocolRequestCChangeUserLocationEvent:
     case EventProtocolRequestCLoadNeutralCityEvent:
+    case EventProtocolRequestCRetrieveUsersForUserIdsEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -110,6 +111,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSEquipEquipmentEvent:
     case EventProtocolResponseSChangeUserLocationEvent:
     case EventProtocolResponseSLoadNeutralCityEvent:
+    case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

@@ -4347,6 +4347,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t diamondCostOfShortMarketplaceLicense;
 @property int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property Float64 percentReturnedToUserForSellingEquipInArmory;
+@property int32_t diamondRewardForReferrer;
+@property int32_t maxCityRank;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4626,6 +4628,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasPercentReturnedToUserForSellingEquipInArmory_ = !!value;
 }
 @synthesize percentReturnedToUserForSellingEquipInArmory;
+- (BOOL) hasDiamondRewardForReferrer {
+  return !!hasDiamondRewardForReferrer_;
+}
+- (void) setHasDiamondRewardForReferrer:(BOOL) value {
+  hasDiamondRewardForReferrer_ = !!value;
+}
+@synthesize diamondRewardForReferrer;
+- (BOOL) hasMaxCityRank {
+  return !!hasMaxCityRank_;
+}
+- (void) setHasMaxCityRank:(BOOL) value {
+  hasMaxCityRank_ = !!value;
+}
+@synthesize maxCityRank;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -4672,6 +4688,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.diamondCostOfShortMarketplaceLicense = 0;
     self.maxNumbersOfEnemiesToGenerateAtOnce = 0;
     self.percentReturnedToUserForSellingEquipInArmory = 0;
+    self.diamondRewardForReferrer = 0;
+    self.maxCityRank = 0;
   }
   return self;
 }
@@ -4819,6 +4837,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (!self.hasPercentReturnedToUserForSellingEquipInArmory) {
     return NO;
   }
+  if (!self.hasDiamondRewardForReferrer) {
+    return NO;
+  }
+  if (!self.hasMaxCityRank) {
+    return NO;
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -4939,11 +4963,17 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDiamondCostOfShortMarketplaceLicense) {
     [output writeInt32:46 value:self.diamondCostOfShortMarketplaceLicense];
   }
+  if (self.hasDiamondRewardForReferrer) {
+    [output writeInt32:47 value:self.diamondRewardForReferrer];
+  }
   if (self.hasDiamondCostForFullStaminaRefill) {
     [output writeInt32:48 value:self.diamondCostForFullStaminaRefill];
   }
   if (self.hasDiamondCostForFullEnergyRefill) {
     [output writeInt32:49 value:self.diamondCostForFullEnergyRefill];
+  }
+  if (self.hasMaxCityRank) {
+    [output writeInt32:50 value:self.maxCityRank];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5081,11 +5111,17 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDiamondCostOfShortMarketplaceLicense) {
     size += computeInt32Size(46, self.diamondCostOfShortMarketplaceLicense);
   }
+  if (self.hasDiamondRewardForReferrer) {
+    size += computeInt32Size(47, self.diamondRewardForReferrer);
+  }
   if (self.hasDiamondCostForFullStaminaRefill) {
     size += computeInt32Size(48, self.diamondCostForFullStaminaRefill);
   }
   if (self.hasDiamondCostForFullEnergyRefill) {
     size += computeInt32Size(49, self.diamondCostForFullEnergyRefill);
+  }
+  if (self.hasMaxCityRank) {
+    size += computeInt32Size(50, self.maxCityRank);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5291,6 +5327,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (other.hasPercentReturnedToUserForSellingEquipInArmory) {
     [self setPercentReturnedToUserForSellingEquipInArmory:other.percentReturnedToUserForSellingEquipInArmory];
   }
+  if (other.hasDiamondRewardForReferrer) {
+    [self setDiamondRewardForReferrer:other.diamondRewardForReferrer];
+  }
+  if (other.hasMaxCityRank) {
+    [self setMaxCityRank:other.maxCityRank];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5468,12 +5510,20 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
         [self setDiamondCostOfShortMarketplaceLicense:[input readInt32]];
         break;
       }
+      case 376: {
+        [self setDiamondRewardForReferrer:[input readInt32]];
+        break;
+      }
       case 384: {
         [self setDiamondCostForFullStaminaRefill:[input readInt32]];
         break;
       }
       case 392: {
         [self setDiamondCostForFullEnergyRefill:[input readInt32]];
+        break;
+      }
+      case 400: {
+        [self setMaxCityRank:[input readInt32]];
         break;
       }
     }
@@ -6165,6 +6215,38 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   result.percentReturnedToUserForSellingEquipInArmory = 0;
   return self;
 }
+- (BOOL) hasDiamondRewardForReferrer {
+  return result.hasDiamondRewardForReferrer;
+}
+- (int32_t) diamondRewardForReferrer {
+  return result.diamondRewardForReferrer;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value {
+  result.hasDiamondRewardForReferrer = YES;
+  result.diamondRewardForReferrer = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearDiamondRewardForReferrer {
+  result.hasDiamondRewardForReferrer = NO;
+  result.diamondRewardForReferrer = 0;
+  return self;
+}
+- (BOOL) hasMaxCityRank {
+  return result.hasMaxCityRank;
+}
+- (int32_t) maxCityRank {
+  return result.maxCityRank;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxCityRank:(int32_t) value {
+  result.hasMaxCityRank = YES;
+  result.maxCityRank = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxCityRank {
+  result.hasMaxCityRank = NO;
+  result.maxCityRank = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_TutorialConstants ()
@@ -6188,7 +6270,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 @property (retain) FullEquipProto* warriorInitArmor;
 @property int32_t minNameLength;
 @property int32_t maxNameLength;
-@property int32_t diamondRewardForReferrer;
 @property int32_t diamondRewardForBeingReferred;
 @property (retain) NSMutableArray* mutableFirstCityElementsForGoodList;
 @property (retain) NSMutableArray* mutableFirstCityElementsForBadList;
@@ -6344,13 +6425,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   hasMaxNameLength_ = !!value;
 }
 @synthesize maxNameLength;
-- (BOOL) hasDiamondRewardForReferrer {
-  return !!hasDiamondRewardForReferrer_;
-}
-- (void) setHasDiamondRewardForReferrer:(BOOL) value {
-  hasDiamondRewardForReferrer_ = !!value;
-}
-@synthesize diamondRewardForReferrer;
 - (BOOL) hasDiamondRewardForBeingReferred {
   return !!hasDiamondRewardForBeingReferred_;
 }
@@ -6430,7 +6504,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
     self.warriorInitArmor = [FullEquipProto defaultInstance];
     self.minNameLength = 0;
     self.maxNameLength = 0;
-    self.diamondRewardForReferrer = 0;
     self.diamondRewardForBeingReferred = 0;
     self.initCoins = 0;
     self.initDiamonds = 0;
@@ -6552,9 +6625,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     return NO;
   }
   if (!self.hasMaxNameLength) {
-    return NO;
-  }
-  if (!self.hasDiamondRewardForReferrer) {
     return NO;
   }
   if (!self.hasDiamondRewardForBeingReferred) {
@@ -6686,9 +6756,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasMaxNameLength) {
     [output writeInt32:20 value:self.maxNameLength];
   }
-  if (self.hasDiamondRewardForReferrer) {
-    [output writeInt32:21 value:self.diamondRewardForReferrer];
-  }
   if (self.hasDiamondRewardForBeingReferred) {
     [output writeInt32:22 value:self.diamondRewardForBeingReferred];
   }
@@ -6790,9 +6857,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   if (self.hasMaxNameLength) {
     size += computeInt32Size(20, self.maxNameLength);
-  }
-  if (self.hasDiamondRewardForReferrer) {
-    size += computeInt32Size(21, self.diamondRewardForReferrer);
   }
   if (self.hasDiamondRewardForBeingReferred) {
     size += computeInt32Size(22, self.diamondRewardForBeingReferred);
@@ -7875,9 +7939,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasMaxNameLength) {
     [self setMaxNameLength:other.maxNameLength];
   }
-  if (other.hasDiamondRewardForReferrer) {
-    [self setDiamondRewardForReferrer:other.diamondRewardForReferrer];
-  }
   if (other.hasDiamondRewardForBeingReferred) {
     [self setDiamondRewardForBeingReferred:other.diamondRewardForBeingReferred];
   }
@@ -8063,10 +8124,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 160: {
         [self setMaxNameLength:[input readInt32]];
-        break;
-      }
-      case 168: {
-        [self setDiamondRewardForReferrer:[input readInt32]];
         break;
       }
       case 176: {
@@ -8544,22 +8601,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_TutorialConstants_Builder*) clearMaxNameLength {
   result.hasMaxNameLength = NO;
   result.maxNameLength = 0;
-  return self;
-}
-- (BOOL) hasDiamondRewardForReferrer {
-  return result.hasDiamondRewardForReferrer;
-}
-- (int32_t) diamondRewardForReferrer {
-  return result.diamondRewardForReferrer;
-}
-- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value {
-  result.hasDiamondRewardForReferrer = YES;
-  result.diamondRewardForReferrer = value;
-  return self;
-}
-- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForReferrer {
-  result.hasDiamondRewardForReferrer = NO;
-  result.diamondRewardForReferrer = 0;
   return self;
 }
 - (BOOL) hasDiamondRewardForBeingReferred {
@@ -11993,6 +12034,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
 @property int32_t coinsGained;
 @property int32_t coinBonusIfCityRankup;
 @property int32_t expBonusIfCityRankup;
+@property int32_t cityId;
 @end
 
 @implementation TaskActionResponseProto
@@ -12063,6 +12105,13 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
   hasExpBonusIfCityRankup_ = !!value;
 }
 @synthesize expBonusIfCityRankup;
+- (BOOL) hasCityId {
+  return !!hasCityId_;
+}
+- (void) setHasCityId:(BOOL) value {
+  hasCityId_ = !!value;
+}
+@synthesize cityId;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -12077,6 +12126,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
     self.coinsGained = 0;
     self.coinBonusIfCityRankup = 0;
     self.expBonusIfCityRankup = 0;
+    self.cityId = 0;
   }
   return self;
 }
@@ -12129,6 +12179,9 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   if (self.hasExpBonusIfCityRankup) {
     [output writeInt32:8 value:self.expBonusIfCityRankup];
   }
+  if (self.hasCityId) {
+    [output writeInt32:9 value:self.cityId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -12161,6 +12214,9 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   }
   if (self.hasExpBonusIfCityRankup) {
     size += computeInt32Size(8, self.expBonusIfCityRankup);
+  }
+  if (self.hasCityId) {
+    size += computeInt32Size(9, self.cityId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -12273,6 +12329,9 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
   if (other.hasExpBonusIfCityRankup) {
     [self setExpBonusIfCityRankup:other.expBonusIfCityRankup];
   }
+  if (other.hasCityId) {
+    [self setCityId:other.cityId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12334,6 +12393,10 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
       }
       case 64: {
         [self setExpBonusIfCityRankup:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setCityId:[input readInt32]];
         break;
       }
     }
@@ -12479,6 +12542,22 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
 - (TaskActionResponseProto_Builder*) clearExpBonusIfCityRankup {
   result.hasExpBonusIfCityRankup = NO;
   result.expBonusIfCityRankup = 0;
+  return self;
+}
+- (BOOL) hasCityId {
+  return result.hasCityId;
+}
+- (int32_t) cityId {
+  return result.cityId;
+}
+- (TaskActionResponseProto_Builder*) setCityId:(int32_t) value {
+  result.hasCityId = YES;
+  result.cityId = value;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) clearCityId {
+  result.hasCityId = NO;
+  result.cityId = 0;
   return self;
 }
 @end
@@ -33741,6 +33820,536 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
 - (PurgeClientStaticDataResponseProto_Builder*) clearSenderId {
   result.hasSenderId = NO;
   result.senderId = 0;
+  return self;
+}
+@end
+
+@interface RetrieveUsersForUserIdsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableRequestedUserIdsList;
+@end
+
+@implementation RetrieveUsersForUserIdsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableRequestedUserIdsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableRequestedUserIdsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveUsersForUserIdsRequestProto class]) {
+    defaultRetrieveUsersForUserIdsRequestProtoInstance = [[RetrieveUsersForUserIdsRequestProto alloc] init];
+  }
+}
++ (RetrieveUsersForUserIdsRequestProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsRequestProtoInstance;
+}
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsRequestProtoInstance;
+}
+- (NSArray*) requestedUserIdsList {
+  return mutableRequestedUserIdsList;
+}
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index {
+  id value = [mutableRequestedUserIdsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (NSNumber* value in self.mutableRequestedUserIdsList) {
+    [output writeInt32:2 value:[value intValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableRequestedUserIdsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableRequestedUserIdsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsRequestProto*)[[[RetrieveUsersForUserIdsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builder {
+  return [[[RetrieveUsersForUserIdsRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveUsersForUserIdsRequestProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsRequestProto*) prototype {
+  return [[RetrieveUsersForUserIdsRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) builder {
+  return [RetrieveUsersForUserIdsRequestProto builder];
+}
+@end
+
+@interface RetrieveUsersForUserIdsRequestProto_Builder()
+@property (retain) RetrieveUsersForUserIdsRequestProto* result;
+@end
+
+@implementation RetrieveUsersForUserIdsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveUsersForUserIdsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clear {
+  self.result = [[[RetrieveUsersForUserIdsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clone {
+  return [RetrieveUsersForUserIdsRequestProto builderWithPrototype:result];
+}
+- (RetrieveUsersForUserIdsRequestProto*) defaultInstance {
+  return [RetrieveUsersForUserIdsRequestProto defaultInstance];
+}
+- (RetrieveUsersForUserIdsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveUsersForUserIdsRequestProto*) buildPartial {
+  RetrieveUsersForUserIdsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsRequestProto*) other {
+  if (other == [RetrieveUsersForUserIdsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableRequestedUserIdsList.count > 0) {
+    if (result.mutableRequestedUserIdsList == nil) {
+      result.mutableRequestedUserIdsList = [NSMutableArray array];
+    }
+    [result.mutableRequestedUserIdsList addObjectsFromArray:other.mutableRequestedUserIdsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self addRequestedUserIds:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) requestedUserIdsList {
+  if (result.mutableRequestedUserIdsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableRequestedUserIdsList;
+}
+- (int32_t) requestedUserIdsAtIndex:(int32_t) index {
+  return [result requestedUserIdsAtIndex:index];
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) replaceRequestedUserIdsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableRequestedUserIdsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addRequestedUserIds:(int32_t) value {
+  if (result.mutableRequestedUserIdsList == nil) {
+    result.mutableRequestedUserIdsList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUserIdsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) addAllRequestedUserIds:(NSArray*) values {
+  if (result.mutableRequestedUserIdsList == nil) {
+    result.mutableRequestedUserIdsList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUserIdsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveUsersForUserIdsRequestProto_Builder*) clearRequestedUserIdsList {
+  result.mutableRequestedUserIdsList = nil;
+  return self;
+}
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableRequestedUsersList;
+@end
+
+@implementation RetrieveUsersForUserIdsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableRequestedUsersList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableRequestedUsersList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveUsersForUserIdsResponseProto class]) {
+    defaultRetrieveUsersForUserIdsResponseProtoInstance = [[RetrieveUsersForUserIdsResponseProto alloc] init];
+  }
+}
++ (RetrieveUsersForUserIdsResponseProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsResponseProtoInstance;
+}
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance {
+  return defaultRetrieveUsersForUserIdsResponseProtoInstance;
+}
+- (NSArray*) requestedUsersList {
+  return mutableRequestedUsersList;
+}
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index {
+  id value = [mutableRequestedUsersList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  if (!self.hasSender) {
+    return NO;
+  }
+  if (!self.sender.isInitialized) {
+    return NO;
+  }
+  for (FullUserProto* element in self.requestedUsersList) {
+    if (!element.isInitialized) {
+      return NO;
+    }
+  }
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullUserProto* element in self.requestedUsersList) {
+    [output writeMessage:2 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullUserProto* element in self.requestedUsersList) {
+    size += computeMessageSize(2, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveUsersForUserIdsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveUsersForUserIdsResponseProto*)[[[RetrieveUsersForUserIdsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builder {
+  return [[[RetrieveUsersForUserIdsResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveUsersForUserIdsResponseProto_Builder*) builderWithPrototype:(RetrieveUsersForUserIdsResponseProto*) prototype {
+  return [[RetrieveUsersForUserIdsResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) builder {
+  return [RetrieveUsersForUserIdsResponseProto builder];
+}
+@end
+
+@interface RetrieveUsersForUserIdsResponseProto_Builder()
+@property (retain) RetrieveUsersForUserIdsResponseProto* result;
+@end
+
+@implementation RetrieveUsersForUserIdsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveUsersForUserIdsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clear {
+  self.result = [[[RetrieveUsersForUserIdsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clone {
+  return [RetrieveUsersForUserIdsResponseProto builderWithPrototype:result];
+}
+- (RetrieveUsersForUserIdsResponseProto*) defaultInstance {
+  return [RetrieveUsersForUserIdsResponseProto defaultInstance];
+}
+- (RetrieveUsersForUserIdsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveUsersForUserIdsResponseProto*) buildPartial {
+  RetrieveUsersForUserIdsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFrom:(RetrieveUsersForUserIdsResponseProto*) other {
+  if (other == [RetrieveUsersForUserIdsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableRequestedUsersList.count > 0) {
+    if (result.mutableRequestedUsersList == nil) {
+      result.mutableRequestedUsersList = [NSMutableArray array];
+    }
+    [result.mutableRequestedUsersList addObjectsFromArray:other.mutableRequestedUsersList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullUserProto_Builder* subBuilder = [FullUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addRequestedUsers:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) requestedUsersList {
+  if (result.mutableRequestedUsersList == nil) { return [NSArray array]; }
+  return result.mutableRequestedUsersList;
+}
+- (FullUserProto*) requestedUsersAtIndex:(int32_t) index {
+  return [result requestedUsersAtIndex:index];
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) replaceRequestedUsersAtIndex:(int32_t) index with:(FullUserProto*) value {
+  [result.mutableRequestedUsersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values {
+  if (result.mutableRequestedUsersList == nil) {
+    result.mutableRequestedUsersList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUsersList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList {
+  result.mutableRequestedUsersList = nil;
+  return self;
+}
+- (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value {
+  if (result.mutableRequestedUsersList == nil) {
+    result.mutableRequestedUsersList = [NSMutableArray array];
+  }
+  [result.mutableRequestedUsersList addObject:value];
   return self;
 }
 @end
