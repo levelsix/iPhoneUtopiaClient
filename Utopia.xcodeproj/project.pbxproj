@@ -798,8 +798,6 @@
 		CFED86D9150B3E3F0098C5DE /* stolenswords@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C3150B3E320098C5DE /* stolenswords@2x.png */; };
 		CFED86DA150B3E3F0098C5DE /* itemstolen.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C4150B3E330098C5DE /* itemstolen.png */; };
 		CFED86DB150B3E3F0098C5DE /* itemstolen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C5150B3E340098C5DE /* itemstolen@2x.png */; };
-		CFED86DC150B3E3F0098C5DE /* exampleicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C6150B3E350098C5DE /* exampleicon.png */; };
-		CFED86DD150B3E3F0098C5DE /* exampleicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C7150B3E360098C5DE /* exampleicon@2x.png */; };
 		CFED86DE150B3E3F0098C5DE /* vs.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C8150B3E370098C5DE /* vs.png */; };
 		CFED86DF150B3E3F0098C5DE /* vs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86C9150B3E3A0098C5DE /* vs@2x.png */; };
 		CFED86E0150B3E3F0098C5DE /* battlesummarybg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFED86CA150B3E3B0098C5DE /* battlesummarybg.png */; };
@@ -1908,8 +1906,6 @@
 		CFED86C3150B3E320098C5DE /* stolenswords@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stolenswords@2x.png"; sourceTree = "<group>"; };
 		CFED86C4150B3E330098C5DE /* itemstolen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = itemstolen.png; sourceTree = "<group>"; };
 		CFED86C5150B3E340098C5DE /* itemstolen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itemstolen@2x.png"; sourceTree = "<group>"; };
-		CFED86C6150B3E350098C5DE /* exampleicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exampleicon.png; sourceTree = "<group>"; };
-		CFED86C7150B3E360098C5DE /* exampleicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "exampleicon@2x.png"; sourceTree = "<group>"; };
 		CFED86C8150B3E370098C5DE /* vs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vs.png; sourceTree = "<group>"; };
 		CFED86C9150B3E3A0098C5DE /* vs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vs@2x.png"; sourceTree = "<group>"; };
 		CFED86CA150B3E3B0098C5DE /* battlesummarybg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = battlesummarybg.png; sourceTree = "<group>"; };
@@ -2040,8 +2036,6 @@
 				CFED86C3150B3E320098C5DE /* stolenswords@2x.png */,
 				CFED86C4150B3E330098C5DE /* itemstolen.png */,
 				CFED86C5150B3E340098C5DE /* itemstolen@2x.png */,
-				CFED86C6150B3E350098C5DE /* exampleicon.png */,
-				CFED86C7150B3E360098C5DE /* exampleicon@2x.png */,
 				CFED86C8150B3E370098C5DE /* vs.png */,
 				CFED86C9150B3E3A0098C5DE /* vs@2x.png */,
 				CFED86CA150B3E3B0098C5DE /* battlesummarybg.png */,
@@ -4298,8 +4292,6 @@
 				CFED86D9150B3E3F0098C5DE /* stolenswords@2x.png in Resources */,
 				CFED86DA150B3E3F0098C5DE /* itemstolen.png in Resources */,
 				CFED86DB150B3E3F0098C5DE /* itemstolen@2x.png in Resources */,
-				CFED86DC150B3E3F0098C5DE /* exampleicon.png in Resources */,
-				CFED86DD150B3E3F0098C5DE /* exampleicon@2x.png in Resources */,
 				CFED86DE150B3E3F0098C5DE /* vs.png in Resources */,
 				CFED86DF150B3E3F0098C5DE /* vs@2x.png in Resources */,
 				CFED86E0150B3E3F0098C5DE /* battlesummarybg.png in Resources */,

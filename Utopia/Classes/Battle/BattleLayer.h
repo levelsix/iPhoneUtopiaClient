@@ -71,12 +71,18 @@
 
 @interface BattleLayer : CCLayer {
   BOOL _isRunning;
+  BOOL _isBattling;
   
   CCSprite *_left;
   CCSprite *_right;
   
   CCSprite *_leftHealthBar;
   CCSprite *_rightHealthBar;
+  
+  CCSprite *_leftNameBg;
+  CCSprite *_rightNameBg;
+  CCLabelTTF *_leftNameLabel;
+  CCLabelTTF *_rightNameLabel;
   
   CCSprite *_attackButton;
   CCProgressTimer *_attackProgressTimer;

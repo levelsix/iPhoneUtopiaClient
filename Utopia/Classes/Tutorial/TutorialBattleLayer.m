@@ -216,9 +216,11 @@
   
   self.summaryView.leftNameLabel.text = gs.name;
   self.summaryView.leftLevelLabel.text = @"Lvl 1";
+  self.summaryView.leftPlayerIcon.image = [Globals squareImageForUser:gs.type];
   
   self.summaryView.rightNameLabel.text = tc.enemyName;
   self.summaryView.rightLevelLabel.text = @"Lvl 1";
+  self.summaryView.leftPlayerIcon.image = [Globals squareImageForUser:gs.type < 3 ? 3 : 0];
   
   FullEquipProto *fep = tc.archerInitWeapon;
   self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
