@@ -15,5 +15,6 @@
 }
 
 + (id) scene;
+- (void) start;
 
 @end

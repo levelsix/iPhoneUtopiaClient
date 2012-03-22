@@ -200,6 +200,10 @@
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
 }
 
+- (void) didReceiveMemoryWarning {
+  return;
+}
+
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
   [oldDelegate scrollViewDidScroll:scrollView];
   if (scrollView.contentOffset.y+scrollView.frame.size.height >= scrollView.contentSize.height) {

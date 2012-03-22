@@ -32,9 +32,11 @@
   
   leftNameLabel.text = gs.name;
   leftLevelLabel.text = [NSString stringWithFormat:@"Lvl %d", gs.level];
+  leftPlayerIcon.image = [Globals squareImageForUser:gs.type];
   
   rightNameLabel.text = fup.name;
   rightLevelLabel.text = [NSString stringWithFormat:@"Lvl %d", fup.level];
+  rightPlayerIcon.image = [Globals squareImageForUser:fup.userType];
   
   UILabel *rarityLabel = leftRarityLabel1;
   UIImageView *imgView = leftEquipIcon1;
@@ -224,6 +226,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _leftHealthBar.position = ccp(0, leftHealthBarBg.contentSize.height/2);
     [leftHealthBarBg addChild:_leftHealthBar];
     
+    _leftNameBg = [CCSprite spriteWithFile:@"nametag.png"];
+    _leftNameBg.anchorPoint = ccp(1,1);
+    [leftHealthBarBg addChild:_leftNameBg];
+    _leftNameBg.position = ccp(_leftNameBg.contentSize.width, 1);
+    
+    _leftNameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:14];
+    _leftNameLabel.anchorPoint = ccp(1, 0.5);
+    _leftNameLabel.position = ccp(_leftNameBg.contentSize.width-30, _leftNameBg.contentSize.height/2-2);
+    _leftNameLabel.color = ccc3(255, 200, 0);
+    [_leftNameBg addChild:_leftNameLabel];
+    
     CCSprite *rightHealthBarBg = [CCSprite spriteWithTexture:leftHealthBarBg.texture];
     rightHealthBarBg.flipX = YES;
     rightHealthBarBg.position = ccp(self.contentSize.width-leftHealthBarBg.contentSize.width/2, self.contentSize.height-leftHealthBarBg.contentSize.height/2);
@@ -234,6 +247,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _rightHealthBar.position = ccp(rightHealthBarBg.contentSize.width, rightHealthBarBg.contentSize.height/2);
     _rightHealthBar.flipX = YES;
     [rightHealthBarBg addChild:_rightHealthBar];
+    
+    CCSprite *spr = [CCSprite spriteWithFile:@"nametag.png"];
+    spr.flipX = YES;
+    
+    CCMenuItemSprite *menuSpr = [CCMenuItemSprite itemFromNormalSprite:spr selectedSprite:nil target:self selector:@selector(profileButtonClicked:)];
+    ((CCSprite *)menuSpr.selectedImage).flipX = YES;
+    
+    
+    _rightNameBg = [CCSprite node];
+    _rightNameBg.contentSize = spr.contentSize;
+    _rightNameBg.anchorPoint = ccp(0,1);
+    [rightHealthBarBg addChild:_rightNameBg];
+    
+    CCMenu *nameMenu = [CCMenu menuWithItems:menuSpr, nil];
+    nameMenu.position = ccp(spr.contentSize.width/2, spr.contentSize.height/2);
+    [_rightNameBg addChild:nameMenu];
+    
+    CCSprite *profButton = [CCSprite spriteWithFile:@"profilebutton.png"];
+    profButton.position = ccp(30, _rightNameBg.contentSize.height/2);
+    profButton.anchorPoint = ccp(0,0.2);
+    [_rightNameBg addChild:profButton];
+    
+    _rightNameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:14];
+    _rightNameLabel.color = ccc3(255, 0, 0);
+    _rightNameLabel.anchorPoint = ccp(0, 0.5);
+    _rightNameLabel.position = ccp(profButton.position.x+profButton.contentSize.width, _rightNameBg.contentSize.height/2-2);
+    [_rightNameBg addChild:_rightNameLabel];
     
     _attackButton = [CCSprite spriteWithFile:@"attackbg.png"];
     _attackButton.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
@@ -414,6 +454,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _rightMaxHealth = user.healthMax;
   _rightCurrentHealth = user.healthMax;
   
+  _leftNameLabel.string = gs.name;
+  _leftNameBg.position = ccp(_leftNameBg.contentSize.width+_leftNameLabel.contentSize.width-_leftNameLabel.position.x+15, _leftNameBg.position.y);
+  _rightNameLabel.string = user.name;
+  _rightNameBg.position = ccp(_rightNameBg.parent.contentSize.width-_rightNameLabel.contentSize.width-_rightNameLabel.position.x-15, _rightNameBg.position.y);
+  
   _rightCurHealthLabel.string = [NSString stringWithFormat:@"%d", _rightCurrentHealth];
   _rightMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _rightMaxHealth];
   _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", _leftCurrentHealth];
@@ -469,6 +514,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _right.position = ccp([[CCDirector sharedDirector] winSize].width+_left.contentSize.width/2, _right.contentSize.height/2);
   _right.opacity = 150;
   _right.scale = 0.5;
+  _isBattling = YES;
   
   _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
   _rightHealthBar.position = ccp(_rightHealthBar.parent.contentSize.width, _rightHealthBar.parent.contentSize.height/2);
@@ -775,6 +821,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) doneClicked {
+  _isBattling = NO;
   if (_left.opacity > 0) {
     SEL completeAction = nil;
     if (brp.hasEquipGained) {
@@ -833,6 +880,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)profileButtonClicked:(id)sender {
+  if (_isBattling) {
+    [self pauseClicked];
+  }
+  
   [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup buttonsEnabled:YES];
   [ProfileViewController displayView];
 }

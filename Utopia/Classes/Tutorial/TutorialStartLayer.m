@@ -29,14 +29,7 @@
   if ((self = [super initWithColor:ccc4(0, 0, 0, 255)])) {
     _bgd = [CCSprite spriteWithFile:@"warbg.jpg"];
     _bgd.anchorPoint = ccp(0,0);
-    _incrementor = 0;
-    
     [self addChild:_bgd];
-    [_bgd runAction: [CCSequence actions:
-                     [CCMoveTo actionWithDuration:1 position:ccp(-_bgd.contentSize.width+self.contentSize.width, 0)],
-                     [CCMoveTo actionWithDuration:0.5 position:ccp(-_bgd.contentSize.width/2+self.contentSize.width/2, 0)],
-                     [CCCallFunc actionWithTarget:self selector:@selector(panDone)], nil]];
-    
     
     //Do this to speed up for later
     GameLayer *gLay = [GameLayer sharedGameLayer];
@@ -60,6 +53,14 @@
     [[TopBar sharedTopBar] update];
   }
   return self;
+}
+
+- (void) start {
+  _incrementor = 0;
+  [_bgd runAction: [CCSequence actions:
+                    [CCMoveTo actionWithDuration:1 position:ccp(-_bgd.contentSize.width+self.contentSize.width, 0)],
+                    [CCMoveTo actionWithDuration:0.5 position:ccp(-_bgd.contentSize.width/2+self.contentSize.width/2, 0)],
+                    [CCCallFunc actionWithTarget:self selector:@selector(panDone)], nil]];
 }
 
 - (void) panDone {

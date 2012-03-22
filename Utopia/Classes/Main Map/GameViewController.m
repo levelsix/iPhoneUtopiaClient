@@ -97,11 +97,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   s.scale = 5.f;
   s.opacity = 0;
+  [s runAction:[CCFadeIn actionWithDuration:0.5f]];
   [s runAction:[CCSequence actions:
                 [CCEaseIn actionWithAction:[CCScaleTo actionWithDuration:0.9f scale:1.f] rate:5],
                 [CCCallFunc actionWithTarget:self selector:@selector(crestFallDone)],
                 nil]];
-  [s runAction:[CCFadeIn actionWithDuration:0.5f]];
 }
 
 - (void) crestFallDone {
@@ -112,16 +112,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   if ([[GameState sharedGameState] connected] && !_isRunning) {
     // Open door
     [doorleft runAction:[CCSequence actions:
-                         [CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(-doorleft.contentSize.width+30, 0)],
+                         [CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(-doorleft.contentSize.width-100, 0)],
                          [CCCallFunc actionWithTarget:self selector:@selector(openDoorDone)],
                          nil]];
-    [doorright runAction:[CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(doorright.contentSize.width+30, 0)]];
+    [doorright runAction:[CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(doorright.contentSize.width+100, 0)]];
     _isRunning = YES;
   }
 }
 
 - (void) openDoorDone {
   [doorright.parent removeFromParentAndCleanup:YES];
+  
+  if (self.isTutorial) {
+    TutorialStartLayer *tsl = (TutorialStartLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:5];
+    [tsl start];
+  }
 }
 
 - (void) removeStartupFlicker
@@ -189,6 +194,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   }
   
   CCLayer *layer = isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
+  layer.tag = 5;
   [[[CCDirector sharedDirector] runningScene] addChild:layer];
 }
 
