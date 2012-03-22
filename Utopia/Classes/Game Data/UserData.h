@@ -59,6 +59,13 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) CritStructType type;
+
+- (id) initWithType:(CritStructType)t;
+
+@end
+
+@interface UserCritStruct : CritStruct
+
 @property (nonatomic, assign) CGRect location;
 @property (nonatomic, assign) StructOrientation orientation;
 

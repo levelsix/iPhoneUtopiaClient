@@ -137,7 +137,6 @@
 
 @end
 
-
 @implementation EnemyAnnotation
 
 @synthesize fup;

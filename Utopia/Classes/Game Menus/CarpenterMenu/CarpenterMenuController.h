@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserData.h"
+
+@class FullStructureProto;
 
 typedef enum {
   kAvailable = 1,
@@ -14,7 +17,30 @@ typedef enum {
   kDisappear
 } ListingState;
 
-@class FullStructureProto;
+typedef enum {
+  kIncomeButton = 1,
+  kFunctionalButton = 1 << 1
+} CarpBarButton;
+
+typedef enum {
+  kIncomeCarp = 1,
+  kFunctionalCarp
+} CarpState;
+
+@interface CarpBar : UIView {
+  BOOL _trackingIncome;
+  BOOL _trackingFunctional;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UILabel *incomeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *functionalLabel;
+
+@property (nonatomic, retain) IBOutlet UIImageView *incomeButtonClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *functionalButtonClicked;
+
+@end
 
 @interface CarpenterTicker : UIView {
   UIImage *_tickerImage;
@@ -51,6 +77,7 @@ typedef enum {
 @property (nonatomic, assign) ListingState state;
 
 @property (nonatomic, retain) FullStructureProto *fsp;
+@property (nonatomic, retain) CritStruct *critStruct;
 
 @end
 
@@ -74,6 +101,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UITableView *carpTable;
 
 @property (nonatomic, retain) NSMutableArray *structsList;
+
+@property (nonatomic, assign) CarpState state;
 
 - (void) reloadCarpenterStructs;
 

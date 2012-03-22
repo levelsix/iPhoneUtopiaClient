@@ -21,6 +21,125 @@
 #define TICKER_SEPERATION 1
 #define TICKER_MIDDLE_SEPARATION 5
 
+@implementation CarpBar
+
+@synthesize incomeLabel, functionalLabel;
+@synthesize incomeButtonClicked, functionalButtonClicked;
+
+- (void) awakeFromNib {
+  _clickedButtons = 0;
+}
+
+- (void) clickButton:(CarpBarButton)button {
+  switch (button) {
+    case kIncomeButton:
+      incomeButtonClicked.hidden = NO;
+      _clickedButtons |= kIncomeButton;
+      incomeLabel.highlighted = NO;
+      break;
+      
+    case kFunctionalButton:
+      functionalButtonClicked.hidden = NO;
+      _clickedButtons |= kFunctionalButton;
+      functionalLabel.highlighted = NO;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(CarpBarButton)button {
+  switch (button) {
+    case kIncomeButton:
+      incomeButtonClicked.hidden = YES;
+      _clickedButtons &= ~kIncomeButton;
+      incomeLabel.highlighted = YES;
+      break;
+      
+    case kFunctionalButton:
+      functionalButtonClicked.hidden = YES;
+      _clickedButtons &= ~kFunctionalButton;
+      functionalLabel.highlighted = YES;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:incomeButtonClicked];
+  if (!(_clickedButtons & kIncomeButton) && [incomeButtonClicked pointInside:pt withEvent:nil]) {
+    _trackingIncome = YES;
+    [self clickButton:kIncomeButton];
+  }
+  
+  pt = [touch locationInView:functionalButtonClicked];
+  if (!(_clickedButtons & kFunctionalButton) && [functionalButtonClicked pointInside:pt withEvent:nil]) {
+    _trackingFunctional = YES;
+    [self clickButton:kFunctionalButton];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:incomeButtonClicked];
+  if (_trackingIncome) {
+    if ([incomeButtonClicked pointInside:pt withEvent:nil]) {
+      [self clickButton:kIncomeButton];
+    } else {
+      [self unclickButton:kIncomeButton];
+    }
+  }
+  
+  pt = [touch locationInView:functionalButtonClicked];
+  if (_trackingFunctional) {
+    if ([functionalButtonClicked pointInside:pt withEvent:nil]) {
+      [self clickButton:kFunctionalButton];
+    } else {
+      [self unclickButton:kFunctionalButton];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:incomeButtonClicked];
+  if (_trackingIncome) {
+    if ([incomeButtonClicked pointInside:pt withEvent:nil]) {
+      [[CarpenterMenuController sharedCarpenterMenuController] setState:kIncomeCarp];
+      [self clickButton:kIncomeButton];
+      [self unclickButton:kFunctionalButton];
+    } else {
+      [self unclickButton:kIncomeButton];
+    }
+  }
+  
+  pt = [touch locationInView:functionalButtonClicked];
+  if (_trackingFunctional) {
+    if ([functionalButtonClicked pointInside:pt withEvent:nil]) {
+      [[CarpenterMenuController sharedCarpenterMenuController] setState:kFunctionalCarp];
+      [self clickButton:kFunctionalButton];
+      [self unclickButton:kIncomeButton];
+    } else {
+      [self unclickButton:kFunctionalButton];
+    }
+  }
+  _trackingIncome = NO;
+  _trackingFunctional = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kIncomeButton];
+  [self unclickButton:kFunctionalButton];
+  _trackingIncome = NO;
+  _trackingFunctional = NO;
+}
+
+@end
+
 @implementation CarpenterTicker
 
 @synthesize string;
@@ -195,6 +314,10 @@
   }
 }
 
+- (void) setCritStruct:(CritStruct *)cs {
+  
+}
+
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   if (self.state == kAvailable) {
     self.darkOverlay.hidden = NO;
@@ -284,6 +407,7 @@
 
 @synthesize carpRow, carpTable;
 @synthesize structsList;
+@synthesize state;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 

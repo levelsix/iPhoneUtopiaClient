@@ -228,7 +228,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToMyCritStructs:(NSArray *)structs {
   self.myCritStructs = [NSMutableArray array];
   for (FullUserCritstructProto *st in structs) {
-    [self.myCritStructs addObject:[CritStruct critStructWithProto:st]];
+    [self.myCritStructs addObject:[UserCritStruct critStructWithProto:st]];
   }
 }
 - (void) addToMyCities:(NSArray *)cities {

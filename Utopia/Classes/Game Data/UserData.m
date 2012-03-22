@@ -113,41 +113,75 @@
 
 @implementation CritStruct
 
-@synthesize name, type, location, orientation;
+@synthesize name, type;
+
+- (id) initWithType:(CritStructType)t {
+  if ((self = [super init])) {
+    self.type = t;
+  }
+  return self;
+}
+
+- (void) setType:(CritStructType)t {
+  type = t;
+  switch (type) {
+    case CritStructTypeVault:
+      name = @"Vault";
+      break;
+      
+    case CritStructTypeArmory:
+      name = @"Armory";
+      break;
+      
+    case CritStructTypeAviary:
+      name = @"Aviary";
+      break;
+      
+    case CritStructTypeCarpenter:
+      name = @"Carpenter";
+      break;
+      
+    case CritStructTypeMarketplace:
+      name = @"Marketplace";
+      
+    default:
+      break;
+  }
+}
+
+@end
+
+@implementation UserCritStruct
+
+@synthesize location, orientation;
 
 + (id) critStructWithProto:(FullUserCritstructProto *)proto {
   return [[[self alloc] initWithCritStructProto:proto] autorelease];
 }
 
 - (id) initWithCritStructProto:(FullUserCritstructProto *)proto {
-  if ((self = [super init])) {
+  if ((self = [super initWithType:proto.type])) {
     Globals *gl = [Globals sharedGlobals];
     CGSize size = CGSizeZero;
     
-    type = proto.type;
     switch (proto.type) {
       case CritStructTypeVault:
-        name = @"Vault";
         size = CGSizeMake(gl.vaultXLength, gl.vaultYLength);
         break;
         
       case CritStructTypeArmory:
-        name = @"Armory";
         size = CGSizeMake(gl.armoryXLength, gl.armoryYLength);
         break;
         
       case CritStructTypeAviary:
-        name = @"Aviary";
         size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
         break;
         
       case CritStructTypeCarpenter:
-        name = @"Carpenter";
         size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
         break;
         
       case CritStructTypeMarketplace:
-        name = @"Marketplace";
         size = CGSizeMake(gl.marketplaceXLength, gl.marketplaceYLength);
         
       default:
@@ -163,7 +197,7 @@
 }
 
 - (void) openMenu {
-  switch (type) {
+  switch (self.type) {
     case CritStructTypeVault:
       [VaultMenuController displayView];
       break;
