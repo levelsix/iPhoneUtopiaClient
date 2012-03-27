@@ -12,8 +12,10 @@
 @class FullStructureProto;
 
 typedef enum {
-  kAvailable = 1,
-  kLocked,
+  kIncomeAvailable = 1,
+  kIncomeLocked,
+  kFunctionalAvailable,
+  kFunctionalLocked,
   kDisappear
 } ListingState;
 
@@ -68,6 +70,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *lockedIncomeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *lockedCollectsLabel;
 
+@property (nonatomic, retain) IBOutlet UILabel *availableLabel;
+
 @property (nonatomic, retain) IBOutlet UIImageView *buildingIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *lockIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *backgroundImg;
@@ -95,14 +99,19 @@ typedef enum {
 
 @end
 
-@interface CarpenterMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface CarpenterMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+  BOOL _critStructAvail;
+}
 
 @property (nonatomic, retain) IBOutlet CarpenterRow *carpRow;
 @property (nonatomic, retain) IBOutlet UITableView *carpTable;
 
 @property (nonatomic, retain) NSMutableArray *structsList;
+@property (nonatomic, retain) NSMutableArray *critStructsList;
 
 @property (nonatomic, assign) CarpState state;
+
+@property (nonatomic, retain) IBOutlet CarpBar *carpBar;
 
 - (void) reloadCarpenterStructs;
 

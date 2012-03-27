@@ -1651,12 +1651,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
@@ -1672,6 +1671,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasDiamondRewardForReferrer_:1;
   BOOL hasMaxCityRank_:1;
+  BOOL hasMinLevelForArmory_:1;
+  BOOL hasMinLevelForVault_:1;
+  BOOL hasMinLevelForMarketplace_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
@@ -1692,12 +1694,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasDefenseBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
   BOOL hasHealthBaseCost_:1;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
+  BOOL hasStaminaBaseCost_:1;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
   int32_t maxNumOfSingleStruct;
@@ -1713,6 +1715,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t diamondRewardForReferrer;
   int32_t maxCityRank;
+  int32_t minLevelForArmory;
+  int32_t minLevelForVault;
+  int32_t minLevelForMarketplace;
   int32_t maxLevelDifferenceForBattle;
   int32_t armoryXlength;
   int32_t armoryYlength;
@@ -1733,6 +1738,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t defenseBaseCost;
   int32_t energyBaseCost;
   int32_t healthBaseCost;
+  int32_t staminaBaseCost;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
@@ -1777,6 +1783,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
 - (BOOL) hasDiamondRewardForReferrer;
 - (BOOL) hasMaxCityRank;
+- (BOOL) hasMinLevelForArmory;
+- (BOOL) hasMinLevelForVault;
+- (BOOL) hasMinLevelForMarketplace;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1818,6 +1827,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
 @property (readonly) int32_t diamondRewardForReferrer;
 @property (readonly) int32_t maxCityRank;
+@property (readonly) int32_t minLevelForArmory;
+@property (readonly) int32_t minLevelForVault;
+@property (readonly) int32_t minLevelForMarketplace;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2075,6 +2087,21 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) maxCityRank;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxCityRank:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxCityRank;
+
+- (BOOL) hasMinLevelForArmory;
+- (int32_t) minLevelForArmory;
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForArmory:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForArmory;
+
+- (BOOL) hasMinLevelForVault;
+- (int32_t) minLevelForVault;
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForVault:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForVault;
+
+- (BOOL) hasMinLevelForMarketplace;
+- (int32_t) minLevelForMarketplace;
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForMarketplace:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForMarketplace;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

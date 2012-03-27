@@ -536,7 +536,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.silver >= fsp.coinPrice && gs.gold >= fsp.diamondPrice) {
     [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
-    us = [[[UserStruct alloc] init] autorelease];
+    us = [[UserStruct alloc] init];
     
     // UserStructId will come in the response
     us.userId = [[GameState sharedGameState] userId];
@@ -548,6 +548,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.purchaseTime = [NSDate date];
     us.lastRetrieved = nil;
     [[[GameState sharedGameState] myStructs] addObject:us];
+    [us release];
     
     // Update game state
     gs.silver -= fsp.coinPrice;
@@ -616,11 +617,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) instaBuild:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  Globals *gl = [Globals sharedGlobals];
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
+  } else if (gs.gold < [gl calculateDiamondCostForInstaBuild:userStruct]) {
+    [Globals popupMessage:@"Not enough diamonds to speed up build"];
   } else if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
@@ -638,11 +642,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) instaUpgrade:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  Globals *gl = [Globals sharedGlobals];
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
+  } else if (gs.gold < [gl calculateDiamondCostForInstaUpgrade:userStruct]) {
+    [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
   } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
     [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
@@ -724,6 +731,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.gold -= [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
   } else {
     [Globals popupMessage:@"This building is not upgradable"];
+  }
+}
+
+- (UserCritStruct *) placeCritStruct:(CritStructType)type x:(int)x y:(int)y {
+  GameState *gs = [GameState sharedGameState];
+  
+  for (UserCritStruct *ucs in gs.myCritStructs) {
+    if (ucs.type == type) {
+      [Globals popupMessage:@"Already have this critical structure"];
+      return ucs;
+    }
+  }
+  
+  UserCritStruct *ucs = [[UserCritStruct alloc] initWithType:type];
+  if (gs.level >= ucs.minLevel) {
+    [[SocketCommunication sharedSocketCommunication] sendCritStructPlace:type x:x y:y];
+    ucs.location = CGRectMake(x, y, ucs.size.width, ucs.size.height);
+    ucs.orientation = StructOrientationPosition1;
+    [gs.myCritStructs addObject:ucs];
+    [ucs release];
+    return ucs;
+  } else {
+    [Globals popupMessage:@"Not high enough level to build this critical struct"];
+  }
+  [ucs release];
+  return nil;
+}
+
+- (void) moveCritStruct:(UserCritStruct *)cs x:(int)x y:(int)y {
+  if (!CGPointEqualToPoint(cs.location.origin, CGPointMake(x, y))) {
+    [[SocketCommunication sharedSocketCommunication] sendCritStructMove:cs.type x:x y:y];
+    cs.location = CGRectMake(x, y, cs.size.width, cs.size.height);
+  }
+}
+
+- (void) rotateCritStruct:(UserCritStruct *)cs orientation:(StructOrientation)orientation {
+  if (cs.orientation != orientation) {
+    [[SocketCommunication sharedSocketCommunication] sendCritStructRotate:cs.type orientation:orientation];
+    cs.orientation = orientation;
   }
 }
 

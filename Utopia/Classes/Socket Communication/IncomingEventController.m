@@ -109,6 +109,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSSellNormStructureEvent:
       responseClass = [SellNormStructureResponseProto class];
       break;
+    case EventProtocolResponseSCritStructureActionEvent:
+      responseClass = [CriticalStructureActionResponseProto class];
+      break;
     case EventProtocolResponseSLoadPlayerCityEvent:
       responseClass = [LoadPlayerCityResponseProto class];
       break;
@@ -436,6 +439,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status != SellNormStructureResponseProto_SellNormStructureStatusSuccess) {
     [Globals popupMessage:@"Server failed to sell normal structure."];
+  }
+}
+
+- (void) handleCriticalStructureActionResponseProto: (CriticalStructureActionResponseProto *) proto {
+  NSLog(@"Crit struct action response received with status %d", proto.status);
+  
+  if (proto.status != CriticalStructureActionResponseProto_CritStructActionStatusSuccess) {
+    [Globals popupMessage:@"Server failed to perform critical struct action"];
   }
 }
 

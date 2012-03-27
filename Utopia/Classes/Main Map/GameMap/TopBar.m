@@ -181,6 +181,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   return self;
 }
 
+- (void) setIsTouchEnabled:(BOOL)isTouchEnabled {
+  [super setIsTouchEnabled:isTouchEnabled];
+  [_profilePic setIsTouchEnabled:isTouchEnabled];
+}
+
 - (void) fillClicked {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];

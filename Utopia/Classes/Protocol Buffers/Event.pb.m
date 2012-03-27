@@ -4349,6 +4349,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property Float64 percentReturnedToUserForSellingEquipInArmory;
 @property int32_t diamondRewardForReferrer;
 @property int32_t maxCityRank;
+@property int32_t minLevelForArmory;
+@property int32_t minLevelForVault;
+@property int32_t minLevelForMarketplace;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4642,6 +4645,27 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxCityRank_ = !!value;
 }
 @synthesize maxCityRank;
+- (BOOL) hasMinLevelForArmory {
+  return !!hasMinLevelForArmory_;
+}
+- (void) setHasMinLevelForArmory:(BOOL) value {
+  hasMinLevelForArmory_ = !!value;
+}
+@synthesize minLevelForArmory;
+- (BOOL) hasMinLevelForVault {
+  return !!hasMinLevelForVault_;
+}
+- (void) setHasMinLevelForVault:(BOOL) value {
+  hasMinLevelForVault_ = !!value;
+}
+@synthesize minLevelForVault;
+- (BOOL) hasMinLevelForMarketplace {
+  return !!hasMinLevelForMarketplace_;
+}
+- (void) setHasMinLevelForMarketplace:(BOOL) value {
+  hasMinLevelForMarketplace_ = !!value;
+}
+@synthesize minLevelForMarketplace;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -4690,6 +4714,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.percentReturnedToUserForSellingEquipInArmory = 0;
     self.diamondRewardForReferrer = 0;
     self.maxCityRank = 0;
+    self.minLevelForArmory = 0;
+    self.minLevelForVault = 0;
+    self.minLevelForMarketplace = 0;
   }
   return self;
 }
@@ -4843,6 +4870,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (!self.hasMaxCityRank) {
     return NO;
   }
+  if (!self.hasMinLevelForArmory) {
+    return NO;
+  }
+  if (!self.hasMinLevelForVault) {
+    return NO;
+  }
+  if (!self.hasMinLevelForMarketplace) {
+    return NO;
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -4974,6 +5010,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMaxCityRank) {
     [output writeInt32:50 value:self.maxCityRank];
+  }
+  if (self.hasMinLevelForArmory) {
+    [output writeInt32:51 value:self.minLevelForArmory];
+  }
+  if (self.hasMinLevelForVault) {
+    [output writeInt32:52 value:self.minLevelForVault];
+  }
+  if (self.hasMinLevelForMarketplace) {
+    [output writeInt32:53 value:self.minLevelForMarketplace];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5122,6 +5167,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMaxCityRank) {
     size += computeInt32Size(50, self.maxCityRank);
+  }
+  if (self.hasMinLevelForArmory) {
+    size += computeInt32Size(51, self.minLevelForArmory);
+  }
+  if (self.hasMinLevelForVault) {
+    size += computeInt32Size(52, self.minLevelForVault);
+  }
+  if (self.hasMinLevelForMarketplace) {
+    size += computeInt32Size(53, self.minLevelForMarketplace);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5333,6 +5387,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (other.hasMaxCityRank) {
     [self setMaxCityRank:other.maxCityRank];
   }
+  if (other.hasMinLevelForArmory) {
+    [self setMinLevelForArmory:other.minLevelForArmory];
+  }
+  if (other.hasMinLevelForVault) {
+    [self setMinLevelForVault:other.minLevelForVault];
+  }
+  if (other.hasMinLevelForMarketplace) {
+    [self setMinLevelForMarketplace:other.minLevelForMarketplace];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5524,6 +5587,18 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       }
       case 400: {
         [self setMaxCityRank:[input readInt32]];
+        break;
+      }
+      case 408: {
+        [self setMinLevelForArmory:[input readInt32]];
+        break;
+      }
+      case 416: {
+        [self setMinLevelForVault:[input readInt32]];
+        break;
+      }
+      case 424: {
+        [self setMinLevelForMarketplace:[input readInt32]];
         break;
       }
     }
@@ -6245,6 +6320,54 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxCityRank {
   result.hasMaxCityRank = NO;
   result.maxCityRank = 0;
+  return self;
+}
+- (BOOL) hasMinLevelForArmory {
+  return result.hasMinLevelForArmory;
+}
+- (int32_t) minLevelForArmory {
+  return result.minLevelForArmory;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForArmory:(int32_t) value {
+  result.hasMinLevelForArmory = YES;
+  result.minLevelForArmory = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForArmory {
+  result.hasMinLevelForArmory = NO;
+  result.minLevelForArmory = 0;
+  return self;
+}
+- (BOOL) hasMinLevelForVault {
+  return result.hasMinLevelForVault;
+}
+- (int32_t) minLevelForVault {
+  return result.minLevelForVault;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForVault:(int32_t) value {
+  result.hasMinLevelForVault = YES;
+  result.minLevelForVault = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForVault {
+  result.hasMinLevelForVault = NO;
+  result.minLevelForVault = 0;
+  return self;
+}
+- (BOOL) hasMinLevelForMarketplace {
+  return result.hasMinLevelForMarketplace;
+}
+- (int32_t) minLevelForMarketplace {
+  return result.minLevelForMarketplace;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForMarketplace:(int32_t) value {
+  result.hasMinLevelForMarketplace = YES;
+  result.minLevelForMarketplace = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForMarketplace {
+  result.hasMinLevelForMarketplace = NO;
+  result.minLevelForMarketplace = 0;
   return self;
 }
 @end

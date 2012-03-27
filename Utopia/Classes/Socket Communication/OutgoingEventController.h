@@ -60,7 +60,9 @@
 - (void) instaUpgrade:(UserStruct *)userStruct;
 - (void) normStructWaitComplete:(UserStruct *)userStruct;
 - (void) upgradeNormStruct:(UserStruct *)userStruct;
-
+- (UserCritStruct *) placeCritStruct:(CritStructType)type x:(int)x y:(int)y;
+- (void) moveCritStruct:(UserCritStruct *)cs x:(int)x y:(int)y;
+- (void) rotateCritStruct:(UserCritStruct *)cs orientation:(StructOrientation)orientation;
 - (void) retrieveAllStaticData;
 - (void) retrieveStaticEquip:(int)equipId;
 - (void) retrieveStructStore;

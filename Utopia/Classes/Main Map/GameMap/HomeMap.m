@@ -14,6 +14,8 @@
 #import "SynthesizeSingleton.h"
 #import "OutgoingEventController.h"
 #import "GameLayer.h"
+#import "RefillMenuController.h"
+#import "CritStructPopupController.h"
 
 #define LEFT_STAR_OFFSET 8
 #define MAX_STARS 5
@@ -193,7 +195,6 @@
   self.state = kNormalState;
   greenButton.text = @"Upgrade";
   [Globals adjustFontSizeForUILabel:titleLabel];
-  titleLabel.text = @"Executioner Arena";
   
   [self addSubview:moveView];
   int width = moveView.frame.size.width;
@@ -587,7 +588,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   
-  for (CritStruct *cs in gs.myCritStructs) {
+  for (UserCritStruct *cs in gs.myCritStructs) {
     if (cs.type != CritStructTypeAviary) {
       CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
       [self addChild:csb];
@@ -598,7 +599,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [arr addObject:csb];
       [csb placeBlock];
     } else {
-      Aviary *av = [[Aviary alloc] initWithFile:@"Aviary.png" location:cs.location map:self];
+      Aviary *av = [[Aviary alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
       [self addChild:av];
       [av release];
       
@@ -699,6 +700,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self doReorder];
   
   [[GameLayer sharedGameLayer] moveMap:self toSprite:_purchBuilding];
+}
+
+- (void) preparePurchaseOfCritStruct:(CritStruct *)cs {
+  CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, cs.size.width, cs.size.height);
+  CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:loc map:self];
+
+  [self addChild:csb z:0];
+  [csb release];
+  
+  self.selected = csb;
+  self.hbMenu.state = kMoveState;
+  _canMove = YES;
+  _purchasing = YES;
+  _purchCritStructType = cs.type;
+  
+  [self doReorder];
+  
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:csb];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
@@ -866,7 +885,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)moveCheckClicked:(id)sender {
+  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
+  
   if (homeBuilding.isSetDown) {
     _canMove = NO;
     self.selected = nil;
@@ -887,21 +908,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           [self removeChild:moneyBuilding cleanup:YES];
         }
         [self refresh];
+      } else if ([homeBuilding isKindOfClass:[CritStructBuilding class]]) {
+        CritStructBuilding *csb = (CritStructBuilding *)homeBuilding;
+        UserCritStruct *usc = [oec placeCritStruct:_purchCritStructType x:csb.location.origin.x y:csb.location.origin.y];
+        if (usc) {
+          csb.critStruct = usc;
+          
+          // This will be released after the level up controller closes
+          CritStructPopupController *vc = [[CritStructPopupController alloc] initWithCritStruct:usc];
+          [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+        } else {
+          [csb liftBlock];
+          [self removeChild:csb cleanup:YES];
+        }
       }
     } else {
       if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
         MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
-        [[OutgoingEventController sharedOutgoingEventController] moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
-        [[OutgoingEventController sharedOutgoingEventController] rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
+        [oec moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
+        [oec rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
       } else if ([homeBuilding isKindOfClass:[CritStructBuilding class]]) {
-        
+        CritStructBuilding *csb = (CritStructBuilding *)homeBuilding;
+        [oec moveCritStruct:csb.critStruct x:csb.location.origin.x y:csb.location.origin.y];
+        [oec rotateCritStruct:csb.critStruct orientation:csb.orientation];
       }
     }
   }
 }
 
 - (IBAction)rotateClicked:(id)sender {
-  if ([_selected isKindOfClass:[Building class]]) {
+  if ([_selected isKindOfClass:[Building class]] && !_purchasing) {
     Building *building = (Building *)_selected;
     [building setOrientation:building.orientation+1];
   }
@@ -968,6 +1004,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (IBAction)finishNowClicked:(id)sender {
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
   UserStructState state = mb.userStruct.state;
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  if (state == kUpgrading) {
+    int goldCost = [gl calculateDiamondCostForInstaUpgrade:_upgrBuilding.userStruct];
+    if (gs.gold < goldCost) {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+    }
+  } else if (state == kBuilding) {
+    int goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];
+    if (gs.gold < goldCost) {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+    }
+  }
+  
   self.hbMenu.finishNowButton.enabled = NO;
   self.hbMenu.blueButton.enabled = NO;
   if (state == kUpgrading) {
@@ -975,6 +1026,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   } else if (state == kBuilding) {
     [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
   }
+  
   if (mb.userStruct.state == kWaitingForIncome) {
     if (_selected == _constrBuilding) {
       _constrBuilding = nil;

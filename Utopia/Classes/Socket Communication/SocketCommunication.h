@@ -55,6 +55,9 @@
 - (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
 - (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
 - (void) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
+- (void) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y;
+- (void) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y;
+- (void) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation;
 - (void) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
 - (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
 - (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;

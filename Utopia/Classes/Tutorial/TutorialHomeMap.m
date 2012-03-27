@@ -21,7 +21,7 @@
   Globals *gl = [Globals sharedGlobals];
   
   // Add aviary
-  CritStruct *cs = [[CritStruct alloc] init];
+  UserCritStruct *cs = [[UserCritStruct alloc] init];
   cs.type = CritStructTypeAviary;
   cs.location = CGRectMake(10, 10, gl.aviaryXLength, gl.aviaryYLength);
   cs.orientation = StructOrientationPosition1;
@@ -36,7 +36,7 @@
   [cs release];
   
   // Add carpenter
-  cs = [[CritStruct alloc] init];
+  cs = [[UserCritStruct alloc] init];
   cs.type = CritStructTypeCarpenter;
   cs.location = CGRectMake(10, 6, gl.carpenterXLength, gl.carpenterYLength);
   cs.orientation = StructOrientationPosition1;

@@ -113,7 +113,7 @@
 
 @implementation CritStruct
 
-@synthesize name, type;
+@synthesize name, type, minLevel, size;
 
 - (id) initWithType:(CritStructType)t {
   if ((self = [super init])) {
@@ -123,77 +123,42 @@
 }
 
 - (void) setType:(CritStructType)t {
+  Globals *gl = [Globals sharedGlobals];
   type = t;
   switch (type) {
     case CritStructTypeVault:
       name = @"Vault";
+      minLevel = gl.minLevelForVault;
+      size = CGSizeMake(gl.vaultXLength, gl.vaultYLength);
       break;
       
     case CritStructTypeArmory:
       name = @"Armory";
+      minLevel = gl.minLevelForArmory;
+      size = CGSizeMake(gl.armoryXLength, gl.armoryYLength);
       break;
       
     case CritStructTypeAviary:
       name = @"Aviary";
+      minLevel = 1;
+      size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
       break;
       
     case CritStructTypeCarpenter:
       name = @"Carpenter";
+      minLevel = 1;
+      size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
       break;
       
     case CritStructTypeMarketplace:
       name = @"Marketplace";
+      minLevel = gl.minLevelForMarketplace;
+      size = CGSizeMake(gl.marketplaceXLength, gl.marketplaceYLength);
+      break;
       
     default:
       break;
   }
-}
-
-@end
-
-@implementation UserCritStruct
-
-@synthesize location, orientation;
-
-+ (id) critStructWithProto:(FullUserCritstructProto *)proto {
-  return [[[self alloc] initWithCritStructProto:proto] autorelease];
-}
-
-- (id) initWithCritStructProto:(FullUserCritstructProto *)proto {
-  if ((self = [super initWithType:proto.type])) {
-    Globals *gl = [Globals sharedGlobals];
-    CGSize size = CGSizeZero;
-    
-    switch (proto.type) {
-      case CritStructTypeVault:
-        size = CGSizeMake(gl.vaultXLength, gl.vaultYLength);
-        break;
-        
-      case CritStructTypeArmory:
-        size = CGSizeMake(gl.armoryXLength, gl.armoryYLength);
-        break;
-        
-      case CritStructTypeAviary:
-        size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
-        break;
-        
-      case CritStructTypeCarpenter:
-        size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
-        break;
-        
-      case CritStructTypeMarketplace:
-        size = CGSizeMake(gl.marketplaceXLength, gl.marketplaceYLength);
-        
-      default:
-        break;
-    }
-    
-    CGPoint coordinates = CGPointMake(proto.coords.x, proto.coords.y);
-    location.size = size;
-    location.origin = coordinates;
-    orientation = proto.orientation;
-  }
-  return self;
 }
 
 - (void) openMenu {
@@ -220,6 +185,26 @@
     default:
       break;
   }
+}
+
+@end
+
+@implementation UserCritStruct
+
+@synthesize location, orientation;
+
++ (id) critStructWithProto:(FullUserCritstructProto *)proto {
+  return [[[self alloc] initWithCritStructProto:proto] autorelease];
+}
+
+- (id) initWithCritStructProto:(FullUserCritstructProto *)proto {
+  if ((self = [super initWithType:proto.type])) {
+    CGPoint coordinates = CGPointMake(proto.coords.x, proto.coords.y);
+    location.size = self.size;
+    location.origin = coordinates;
+    orientation = proto.orientation;
+  }
+  return self;
 }
 
 - (void) dealloc {

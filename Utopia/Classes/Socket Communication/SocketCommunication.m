@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"50.18.173.214"
+#define HOST_NAME @"192.168.1.8"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -94,7 +94,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
   [av show];
   [av release];
-//  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+  //  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -278,8 +278,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 - (void) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type {
   PurchaseMarketplaceLicenseRequestProto *req = [[[[PurchaseMarketplaceLicenseRequestProto builder]
-                                                  setClientTime:clientTime]
-                                                 setLicenseType:type]
+                                                   setClientTime:clientTime]
+                                                  setLicenseType:type]
                                                  build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCPurchaseMarketplaceLicenseEvent];
@@ -400,6 +400,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                             build];
   
   [self sendData:[sellReq data] withMessageType:EventProtocolRequestCSellNormStructureEvent];
+}
+
+- (void) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y {
+  CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
+                                                  setSender:_sender]
+                                                 setActionType:CriticalStructureActionRequestProto_CritStructActionTypePlace]
+                                                setCritStructType:type]
+                                               setCritStructCoordinates:[[[[CoordinateProto builder]
+                                                                           setX:x]
+                                                                          setY:y]
+                                                                         build]]
+                                              build];
+  
+  [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
+}
+
+- (void) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y {
+  CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
+                                                  setSender:_sender]
+                                                 setActionType:CriticalStructureActionRequestProto_CritStructActionTypeMove]
+                                                setCritStructType:type]
+                                               setCritStructCoordinates:[[[[CoordinateProto builder]
+                                                                           setX:x]
+                                                                          setY:y]
+                                                                         build]]
+                                              build];
+  
+  [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
+}
+
+- (void) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation {
+  CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
+                                                  setSender:_sender]
+                                                 setActionType:CriticalStructureActionRequestProto_CritStructActionTypeRotate]
+                                                setCritStructType:type]
+                                               setOrientation:orientation] 
+                                              build];
+  
+  [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
 }
 
 - (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup {
@@ -525,7 +564,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 - (void) sendUserQuestDetailsMessage:(int)questId {
   UserQuestDetailsRequestProto_Builder *builder = [[UserQuestDetailsRequestProto builder]
-                                        setSender:_sender];
+                                                   setSender:_sender];
   
   if (questId != 0) {
     [builder setQuestId:questId];

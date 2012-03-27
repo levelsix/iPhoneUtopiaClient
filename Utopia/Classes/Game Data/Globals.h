@@ -47,6 +47,10 @@
 @property (nonatomic, assign) int vaultXLength;
 @property (nonatomic, assign) int vaultYLength;
 
+@property (nonatomic, assign) int minLevelForArmory;
+@property (nonatomic, assign) int minLevelForMarketplace;
+@property (nonatomic, assign) int minLevelForVault;
+
 @property (nonatomic, assign) int maxLevelDiffForBattle;
 @property (nonatomic, assign) int skillPointsGainedOnLevelup;
 @property (nonatomic, assign) int cutOfVaultDepositTaken;
@@ -83,8 +87,9 @@
 + (UIImage *) imageForEquip:(int)eqId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
-+ (void) loadImageNamedForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
++ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color;
+
 + (UIColor *) colorForUnequippable;
 + (UIColor *) colorForUnknownEquip;
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity;

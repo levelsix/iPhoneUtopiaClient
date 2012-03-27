@@ -222,9 +222,10 @@
 
 @synthesize titleLabel, priceLabel, priceView, incomeLabel, buildingIcon, tickerView, priceIcon;
 @synthesize lockIcon, lockedPriceLabel, lockedCollectsLabel, lockedIncomeLabel;
+@synthesize availableLabel;
 @synthesize darkOverlay, backgroundImg;
 @synthesize state = _state;
-@synthesize fsp;
+@synthesize fsp, critStruct;
 
 - (void) awakeFromNib { 
   self.state = kDisappear;
@@ -243,27 +244,61 @@
   if (state != _state) {
     _state = state;
     switch (state) {
-      case kAvailable:
+      case kIncomeAvailable:
         self.hidden = NO;
         priceView.hidden = NO;
         incomeLabel.hidden = NO;
         tickerView.hidden = NO;
         lockIcon.hidden = YES;
+        availableLabel.hidden = YES;
         lockedPriceLabel.hidden = YES;
         lockedCollectsLabel.hidden = YES;
         lockedIncomeLabel.hidden = YES;
         self.darkOverlay.hidden = YES;
         break;
         
-      case kLocked:
+      case kIncomeLocked:
         self.hidden = NO;
         priceView.hidden = YES;
         incomeLabel.hidden = YES;
         tickerView.hidden = YES;
         lockIcon.hidden = NO;
+        availableLabel.hidden = YES;
         lockedPriceLabel.hidden = NO;
         lockedCollectsLabel.hidden = NO;
         lockedIncomeLabel.hidden = NO;
+        self.darkOverlay.hidden = NO;
+        lockedCollectsLabel.text = @"Unknown";
+        lockedIncomeLabel.text = @"Unknown";
+        break;
+        
+      case kFunctionalAvailable:
+        self.hidden = NO;
+        priceView.hidden = YES;
+        incomeLabel.hidden = YES;
+        tickerView.hidden = YES;
+        lockIcon.hidden = YES;
+        availableLabel.hidden = NO;
+        lockedPriceLabel.hidden = YES;
+        lockedCollectsLabel.hidden = NO;
+        lockedIncomeLabel.hidden = NO;
+        lockedCollectsLabel.text = @"N/A";
+        lockedIncomeLabel.text = @"N/A";
+        self.darkOverlay.hidden = YES;
+        break;
+        
+      case kFunctionalLocked:
+        self.hidden = NO;
+        priceView.hidden = YES;
+        incomeLabel.hidden = YES;
+        tickerView.hidden = YES;
+        lockIcon.hidden = YES;
+        availableLabel.hidden = YES;
+        lockedPriceLabel.hidden = NO;
+        lockedCollectsLabel.hidden = NO;
+        lockedIncomeLabel.hidden = NO;
+        lockedCollectsLabel.text = @"N/A";
+        lockedIncomeLabel.text = @"N/A";
         self.darkOverlay.hidden = NO;
         break;
         
@@ -304,22 +339,41 @@
     
     int mins = fsp.minutesToBuild;
     tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
-    [Globals loadImageNamedForStruct:fsp.structId toView:buildingIcon masked:NO];
+    [Globals loadImageForStruct:fsp.structId toView:buildingIcon masked:NO];
     
-    self.state = kAvailable;
+    self.state = kIncomeAvailable;
   } else {
-    [Globals loadImageNamedForStruct:fsp.structId toView:buildingIcon masked:YES];
+    [Globals loadImageForStruct:fsp.structId toView:buildingIcon masked:YES];
     lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
-    self.state = kLocked;
+    self.state = kIncomeLocked;
   }
 }
 
 - (void) setCritStruct:(CritStruct *)cs {
+  if (cs != critStruct) {
+    [critStruct release];
+    critStruct = [cs retain];
+  }
   
+  if (!critStruct) {
+    self.state = kDisappear;
+    return;
+  }
+  
+  titleLabel.text = critStruct.name;
+  
+  if ([GameState sharedGameState].level >= critStruct.minLevel) {
+    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:nil];
+    self.state = kFunctionalAvailable;
+  } else {
+    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.7f]];
+    lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", critStruct.minLevel];
+    self.state = kFunctionalLocked;
+  }
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (self.state == kAvailable) {
+  if (self.state == kIncomeAvailable || self.state == kFunctionalAvailable) {
     self.darkOverlay.hidden = NO;
   }
 }
@@ -327,7 +381,7 @@
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
   CGPoint loc = [touch locationInView:self];
-  if (self.state == kAvailable) {
+  if (self.state == kIncomeAvailable || self.state == kFunctionalAvailable) {
     if ([self pointInside:loc withEvent:event]) {
       self.darkOverlay.hidden = NO;
     } else {
@@ -339,7 +393,7 @@
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
   CGPoint loc = [touch locationInView:self];
-  if (self.state == kAvailable) {
+  if (self.state == kIncomeAvailable || self.state == kFunctionalAvailable) {
     if ([self pointInside:loc withEvent:event]) {
       [[CarpenterMenuController sharedCarpenterMenuController] carpListingClicked:self];
       self.darkOverlay.hidden = NO;
@@ -350,7 +404,7 @@
 }
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (self.state == kAvailable) {
+  if (self.state == kIncomeAvailable) {
     self.darkOverlay.hidden = YES;
   }
 }
@@ -367,6 +421,11 @@
   self.darkOverlay = nil;
   self.backgroundImg = nil;
   self.fsp = nil;
+  self.critStruct = nil;
+  self.lockedIncomeLabel = nil;
+  self.lockedPriceLabel = nil;
+  self.lockedCollectsLabel = nil;
+  self.availableLabel = nil;
   [super dealloc];
 }
 
@@ -406,35 +465,52 @@
 @implementation CarpenterMenuController
 
 @synthesize carpRow, carpTable;
-@synthesize structsList;
+@synthesize structsList, critStructsList;
 @synthesize state;
+@synthesize carpBar;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) viewDidLoad {
   self.structsList = [NSMutableArray array];
+  self.critStructsList = [NSMutableArray array];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   if (structsList.count <= 0) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveStructStore];
+  }
+  
+  [self reloadCarpenterStructs];
+  
+  if (_critStructAvail) {
+    self.state = kFunctionalCarp;
+    
+    [self.carpBar clickButton:kFunctionalButton];
+    [self.carpBar unclickButton:kIncomeButton];
   } else {
-    [self reloadCarpenterStructs];
+    self.state = kIncomeCarp;
+    
+    [self.carpBar clickButton:kIncomeButton];
+    [self.carpBar unclickButton:kFunctionalButton];
   }
 }
 
 - (void) reloadCarpenterStructs {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  _critStructAvail = NO;
+  
   [structsList removeAllObjects];
+  [critStructsList removeAllObjects];
   
-  NSArray *structs;
-  while (!(structs = [[GameState sharedGameState] carpenterStructs])) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-  }
+  NSArray *structs = [gs carpenterStructs];
   
-  int max = [[Globals sharedGlobals] maxRepeatedNormStructs];
+  int max = [gl maxRepeatedNormStructs];
   for (FullStructureProto *fsp in structs) {
     int count = 0;
-    for (FullUserStructureProto *fusp in [[GameState sharedGameState] myStructs]) {
+    for (FullUserStructureProto *fusp in [gs myStructs]) {
       if (fusp.structId == fsp.structId) {
         count++;
       }
@@ -446,7 +522,59 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
       [structsList addObject:fsp];
     }
   }
+  
+  BOOL hasMarketplace = NO;
+  BOOL hasVault = NO;
+  BOOL hasArmory = NO;
+  
+  for (UserCritStruct *ucs in gs.myCritStructs) {
+    if (ucs.type == CritStructTypeMarketplace) {
+      hasMarketplace = YES;
+    } else if (ucs.type == CritStructTypeVault) {
+      hasVault = YES;
+    } else if (ucs.type == CritStructTypeArmory) {
+      hasArmory = YES;
+    }
+  }
+  
+  // This should be in the order of min levels
+  if (!hasArmory) {
+    CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeArmory];
+    [critStructsList addObject:cs];
+    [cs release];
+    
+    if (gs.level >= cs.minLevel) {
+      _critStructAvail = YES;
+    }
+  }
+  if (!hasVault) {
+    CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeVault];
+    [critStructsList addObject:cs];
+    [cs release];
+    
+    if (gs.level >= cs.minLevel) {
+      _critStructAvail = YES;
+    }
+  }
+  if (!hasMarketplace) {
+    CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeMarketplace];
+    [critStructsList addObject:cs];
+    [cs release];
+    
+    if (gs.level >= cs.minLevel) {
+      _critStructAvail = YES;
+    }
+  }
+  
   [self.carpTable reloadData];
+}
+
+- (void) setState:(CarpState)s {
+  if (state != s) {
+    state = s;
+    
+    [self.carpTable reloadData];
+  }
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -454,7 +582,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return (int)ceilf(structsList.count/3.f);
+  NSArray *list = self.state == kIncomeCarp ? structsList : critStructsList;
+  return (int)ceilf(list.count/3.f);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -467,11 +596,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     cell = self.carpRow;
   }
   
-  int baseIndex = 3*indexPath.row;
-  int count = structsList.count;
-  cell.listing1.carpListing.fsp = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
-  cell.listing2.carpListing.fsp = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
-  cell.listing3.carpListing.fsp = baseIndex+2<count ? [structsList objectAtIndex:baseIndex+2] : nil;
+  if (self.state == kIncomeCarp) {
+    int baseIndex = 3*indexPath.row;
+    int count = structsList.count;
+    cell.listing1.carpListing.fsp = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
+    cell.listing2.carpListing.fsp = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
+    cell.listing3.carpListing.fsp = baseIndex+2<count ? [structsList objectAtIndex:baseIndex+2] : nil;
+  } else {
+    int baseIndex = 3*indexPath.row;
+    int count = critStructsList.count;
+    cell.listing1.carpListing.critStruct = baseIndex<count ? [critStructsList objectAtIndex:baseIndex] : nil;
+    cell.listing2.carpListing.critStruct = baseIndex+1<count ? [critStructsList objectAtIndex:baseIndex+1] : nil;
+    cell.listing3.carpListing.critStruct = baseIndex+2<count ? [critStructsList objectAtIndex:baseIndex+2] : nil;
+  }
   
   return cell;
 }
@@ -481,16 +618,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (void) carpListingClicked:(CarpenterListing *)carp {
-  GameState *gs = [GameState sharedGameState];
-  if (gs.silver >= carp.fsp.coinPrice && gs.gold >= carp.fsp.diamondPrice) {
-    [[HomeMap sharedHomeMap] preparePurchaseOfStruct:carp.fsp.structId];
-    [CarpenterMenuController removeView];
-  } else {
-    if (carp.fsp.coinPrice) {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+  if (self.state == kIncomeCarp) {
+    // Buy the Income building
+    GameState *gs = [GameState sharedGameState];
+    if (gs.silver >= carp.fsp.coinPrice && gs.gold >= carp.fsp.diamondPrice) {
+      [[HomeMap sharedHomeMap] preparePurchaseOfStruct:carp.fsp.structId];
+      [CarpenterMenuController removeView];
     } else {
-      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];
+      if (carp.fsp.coinPrice) {
+        [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      } else {
+        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];
+      }
     }
+  } else {
+    // Buy the Functional building
+    [[HomeMap sharedHomeMap] preparePurchaseOfCritStruct:carp.critStruct];
+    [CarpenterMenuController removeView];
   }
 }
 

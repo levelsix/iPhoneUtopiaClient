@@ -44,6 +44,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize imageCache, imageViewsWaitingForDownloading;
 @synthesize armoryXLength, armoryYLength, carpenterXLength, carpenterYLength, aviaryXLength;
 @synthesize aviaryYLength, marketplaceXLength, marketplaceYLength, vaultXLength, vaultYLength;
+@synthesize minLevelForVault, minLevelForArmory, minLevelForMarketplace;
 @synthesize diamondCostOfShortMarketplaceLicense, diamondCostOfLongMarketplaceLicense;
 @synthesize cutOfVaultDepositTaken, skillPointsGainedOnLevelup, percentReturnedToUserForSellingEquipInArmory;
 @synthesize percentReturnedToUserForSellingNormStructure, percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
@@ -103,6 +104,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.marketplaceYLength = constants.marketplaceYlength;
   self.carpenterXLength = constants.carpenterXlength;
   self.carpenterYLength = constants.carpenterYlength;
+  self.minLevelForVault = constants.minLevelForVault;
+  self.minLevelForMarketplace = constants.minLevelForMarketplace;
+  self.minLevelForArmory = constants.minLevelForArmory;
   self.attackBaseGain = constants.attackBaseGain;
   self.attackBaseCost = constants.attackBaseCost;
   self.defenseBaseGain = constants.defenseBaseGain;
@@ -164,7 +168,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return [self imageNamed:[self imageNameForEquip:eqId]];//[NSString stringWithFormat:equipImageString, eqId];
 }
 
-+ (void) loadImageNamedForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
++ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
   [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil];
 }
 

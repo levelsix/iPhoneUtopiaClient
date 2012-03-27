@@ -103,10 +103,11 @@ typedef enum {
   BOOL _loading;
   BOOL _purchasing;
   int _purchStructId;
+  CritStructType _purchCritStructType;
   
   MoneyBuilding *_constrBuilding;
   MoneyBuilding *_upgrBuilding;
-  MoneyBuilding *_purchBuilding;
+  HomeBuilding *_purchBuilding;
   
   NSMutableArray *_timers;
 }
@@ -129,6 +130,7 @@ typedef enum {
 - (void) refresh;
 - (int) baseTagForStructId:(int)structId;
 - (void) preparePurchaseOfStruct:(int)structId;
+- (void) preparePurchaseOfCritStruct:(CritStruct *)cs;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
