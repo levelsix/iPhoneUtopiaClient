@@ -10,6 +10,8 @@
 #import "Protocols.pb.h"
 #import "UserData.h"
 
+#define BUTTON_CLICKED_LEEWAY 30
+
 @interface Globals : NSObject
 
 @property (nonatomic, assign) float depositPercentCut;
@@ -100,6 +102,7 @@
 + (NSString *) classForUserType:(UserType)type;
 + (UIImage *) squareImageForUser:(UserType)type;
 + (UIImage *) circleImageForUser:(UserType)type;
++ (UIImage *) profileImageForUser:(UserType)type;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 

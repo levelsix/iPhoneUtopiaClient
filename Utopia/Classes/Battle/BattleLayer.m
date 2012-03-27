@@ -266,7 +266,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     CCSprite *profButton = [CCSprite spriteWithFile:@"profilebutton.png"];
     profButton.position = ccp(30, _rightNameBg.contentSize.height/2);
-    profButton.anchorPoint = ccp(0,0.2);
+    profButton.anchorPoint = ccp(0.2,0.5);
     [_rightNameBg addChild:profButton];
     
     _rightNameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:14];
@@ -809,9 +809,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) pauseClicked {
-  _pausedLayer.visible = YES;
-  _attackButton.visible = NO;
-  [_attackProgressTimer pauseSchedulerAndActions];
+  if (_isBattling) {
+    _pausedLayer.visible = YES;
+    _attackButton.visible = NO;
+    [_attackProgressTimer pauseSchedulerAndActions];
+  }
 }
 
 - (void) resumeClicked {

@@ -87,7 +87,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:incomeButtonClicked];
   if (_trackingIncome) {
-    if ([incomeButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(incomeButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kIncomeButton];
     } else {
       [self unclickButton:kIncomeButton];
@@ -96,7 +96,7 @@
   
   pt = [touch locationInView:functionalButtonClicked];
   if (_trackingFunctional) {
-    if ([functionalButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(functionalButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kFunctionalButton];
     } else {
       [self unclickButton:kFunctionalButton];
@@ -108,7 +108,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:incomeButtonClicked];
   if (_trackingIncome) {
-    if ([incomeButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(incomeButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [[CarpenterMenuController sharedCarpenterMenuController] setState:kIncomeCarp];
       [self clickButton:kIncomeButton];
       [self unclickButton:kFunctionalButton];
@@ -119,7 +119,7 @@
   
   pt = [touch locationInView:functionalButtonClicked];
   if (_trackingFunctional) {
-    if ([functionalButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(functionalButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [[CarpenterMenuController sharedCarpenterMenuController] setState:kFunctionalCarp];
       [self clickButton:kFunctionalButton];
       [self unclickButton:kIncomeButton];
@@ -474,6 +474,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 - (void) viewDidLoad {
   self.structsList = [NSMutableArray array];
   self.critStructsList = [NSMutableArray array];
+  
+  // Add rope to the very top
+  UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
+  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(15, -150, 3, 150)];
+  UIView *rightRope = [[UIView alloc] initWithFrame:CGRectMake(463, -150, 3, 150)];
+  leftRope.backgroundColor = c;
+  rightRope.backgroundColor = c;
+  [self.carpTable addSubview:leftRope];
+  [self.carpTable addSubview:rightRope];
+  [leftRope release];
+  [rightRope release];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

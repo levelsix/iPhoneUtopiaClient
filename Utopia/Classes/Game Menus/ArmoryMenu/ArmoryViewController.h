@@ -10,6 +10,7 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 #import "NibUtils.h"
+#import "CoinBar.h"
 
 typedef enum {
   kWeaponButton = 1,
@@ -31,9 +32,9 @@ typedef enum {
   int _clickedButtons;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *weaponButton;
-@property (nonatomic, retain) IBOutlet UIImageView *armorButton;
-@property (nonatomic, retain) IBOutlet UIImageView *amuletButton;
+@property (nonatomic, retain) IBOutlet UIImageView *weaponIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *armorIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *amuletIcon;
 
 @property (nonatomic, retain) IBOutlet UIImageView *weaponButtonClicked;
 @property (nonatomic, retain) IBOutlet UIImageView *armorButtonClicked;
@@ -47,6 +48,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *maskedEquipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
+
+@property (nonatomic, retain) IBOutlet UIView *priceView;
+@property (nonatomic, retain) IBOutlet UILabel *naLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
@@ -87,10 +91,13 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *buySellView;
 @property (nonatomic, retain) IBOutlet LabelButton *buyButton;
 @property (nonatomic, retain) IBOutlet LabelButton *sellButton;
+@property (nonatomic, retain) IBOutlet UILabel *cantBuyLabel;
 @property (nonatomic, retain) IBOutlet UILabel *cantEquipLabel;
 @property (nonatomic, retain) IBOutlet UIView *cantEquipView;
 @property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
+
+@property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
 @property (nonatomic, retain) IBOutlet ArmoryBar *armoryBar;
 

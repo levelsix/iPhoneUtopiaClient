@@ -11,13 +11,14 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
+#import "RefillMenuController.h"
 
 #define BUY_SELL_Y_OFFSET 1.f
 #define BUY_SELL_ANIMATION_DURATION 0.4f
 
 @implementation ArmoryBar
 
-@synthesize weaponButton, armorButton, amuletButton;
+@synthesize weaponIcon, armorIcon, amuletIcon;
 @synthesize weaponButtonClicked, armorButtonClicked, amuletButtonClicked;
 
 - (void) awakeFromNib {
@@ -32,16 +33,19 @@
   switch (button) {
     case kWeaponButton:
       weaponButtonClicked.hidden = NO;
+      weaponIcon.highlighted = YES;
       _clickedButtons |= kWeaponButton;
       break;
       
     case kArmorButton:
       armorButtonClicked.hidden = NO;
+      armorIcon.highlighted = YES;
       _clickedButtons |= kArmorButton;
       break;
       
     case kAmuletButton:
       amuletButtonClicked.hidden = NO;
+      amuletIcon.highlighted = YES;
       _clickedButtons |= kAmuletButton;
       break;
       
@@ -54,16 +58,19 @@
   switch (button) {
     case kWeaponButton:
       weaponButtonClicked.hidden = YES;
+      weaponIcon.highlighted = NO;
       _clickedButtons &= ~kWeaponButton;
       break;
       
     case kArmorButton:
       armorButtonClicked.hidden = YES;
+      armorIcon.highlighted = NO;
       _clickedButtons &= ~kArmorButton;
       break;
       
     case kAmuletButton:
       amuletButtonClicked.hidden = YES;
+      amuletIcon.highlighted = NO;
       _clickedButtons &= ~kAmuletButton;
       break;
       
@@ -97,7 +104,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:weaponButtonClicked];
   if (_trackingWeapon) {
-    if ([weaponButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(weaponButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kWeaponButton];
     } else {
       [self unclickButton:kWeaponButton];
@@ -106,7 +113,7 @@
   
   pt = [touch locationInView:armorButtonClicked];
   if (_trackingArmor) {
-    if ([armorButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(armorButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kArmorButton];
     } else {
       [self unclickButton:kArmorButton];
@@ -115,7 +122,7 @@
   
   pt = [touch locationInView:amuletButtonClicked];
   if (_trackingAmulet) {
-    if ([amuletButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(amuletButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kAmuletButton];
     } else {
       [self unclickButton:kAmuletButton];
@@ -127,7 +134,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:weaponButtonClicked];
   if (_trackingWeapon) {
-    if ([weaponButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(weaponButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [[ArmoryViewController sharedArmoryViewController] setState:kWeaponState];
       [self clickButton:kWeaponButton];
       [self unclickButton:kAmuletButton];
@@ -139,7 +146,7 @@
   
   pt = [touch locationInView:armorButtonClicked];
   if (_trackingArmor) {
-    if ([armorButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(armorButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [[ArmoryViewController sharedArmoryViewController] setState:kArmorState];
       [self clickButton:kArmorButton];
       [self unclickButton:kWeaponButton];
@@ -151,7 +158,7 @@
   
   pt = [touch locationInView:amuletButtonClicked];
   if (_trackingAmulet) {
-    if ([amuletButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(amuletButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [[ArmoryViewController sharedArmoryViewController] setState:kAmuletState];
       [self clickButton:kAmuletButton];
       [self unclickButton:kWeaponButton];
@@ -174,6 +181,16 @@
   _trackingAmulet = NO;
 }
 
+- (void) dealloc {
+  self.weaponIcon = nil;
+  self.armorIcon = nil;
+  self.amuletIcon = nil;
+  self.weaponButtonClicked = nil;
+  self.armorButtonClicked = nil;
+  self.amuletButtonClicked = nil;
+  [super dealloc];
+}
+
 @end
 
 
@@ -183,6 +200,7 @@
 @synthesize bgdView, equipIcon, maskedEquipIcon, coinIcon;
 @synthesize fep;
 @synthesize darkOverlay;
+@synthesize priceView, naLabel;
 
 - (void) awakeFromNib {
   int offset = 5;
@@ -211,14 +229,21 @@
   attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
   
-  if (fep.coinPrice) {
-    priceLabel.text = [Globals commafyNumber:fep.coinPrice];
-    coinIcon.highlighted = NO;
-  } else if (fep.diamondPrice) {
-    priceLabel.text = [Globals commafyNumber:fep.diamondPrice];
-    coinIcon.highlighted = YES;
+  if (fep.isBuyableInArmory) {
+    priceView.hidden = NO;
+    naLabel.hidden = YES;
+    if (fep.coinPrice) {
+      priceLabel.text = [Globals commafyNumber:fep.coinPrice];
+      coinIcon.highlighted = NO;
+    } else if (fep.diamondPrice) {
+      priceLabel.text = [Globals commafyNumber:fep.diamondPrice];
+      coinIcon.highlighted = YES;
+    } else {
+      [Globals popupMessage:@"Error: Found equip with no price.."];
+    }
   } else {
-    [Globals popupMessage:@"Error: Found equip with no price.."];
+    priceView.hidden = YES;
+    naLabel.hidden = NO;
   }
   
   equipIcon.image = [Globals imageForEquip:fep.equipId];
@@ -272,6 +297,17 @@
 
 - (void) dealloc {
   self.fep = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.titleLabel = nil;
+  self.priceLabel = nil;
+  self.bgdView = nil;
+  self.equipIcon = nil;
+  self.maskedEquipIcon = nil;
+  self.coinIcon = nil;
+  self.darkOverlay = nil;
+  self.priceView = nil;
+  self.naLabel = nil;
   [super dealloc];
 }
 
@@ -287,11 +323,23 @@
   [self setBackgroundColor:[UIColor clearColor]];
 }
 
+- (void) dealloc {
+  self.armoryListing = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation ArmoryRow
 
 @synthesize listing1, listing2, listing3;
+
+- (void) dealloc {
+  self.listing1 = nil;
+  self.listing2 = nil;
+  self.listing3 = nil;
+  [super dealloc];
+}
 
 @end
 
@@ -302,9 +350,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 @synthesize armoryTableView, armoryRow;
 @synthesize buySellView, sellButton, buyButton;
 @synthesize numOwnedLabel, equipDescriptionLabel;
-@synthesize cantEquipView, cantEquipLabel;
+@synthesize cantEquipView, cantEquipLabel, cantBuyLabel;
 @synthesize equipClicked;
 @synthesize armoryBar;
+@synthesize coinBar;
 @synthesize state = _state;
 
 #pragma mark - View lifecycle
@@ -321,12 +370,43 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   _originalBuySellSize = buySellView.frame.size;
   
   equipDescriptionLabel.adjustsFontSizeToFitWidth = YES;
+  
+  self.state = kWeaponState;
+  
+  // Add rope to the very top
+  UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
+  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(15, -150, 3, 150)];
+  UIView *rightRope = [[UIView alloc] initWithFrame:CGRectMake(463, -150, 3, 150)];
+  leftRope.backgroundColor = c;
+  rightRope.backgroundColor = c;
+  [self.armoryTableView addSubview:leftRope];
+  [self.armoryTableView addSubview:rightRope];
+  [leftRope release];
+  [rightRope release];
+}
+
+- (void) viewDidUnload {
+  [super viewDidUnload];
+  
+  self.armoryTableView = nil;
+  self.armoryRow = nil;
+  self.buySellView = nil;
+  self.sellButton = nil;
+  self.buyButton = nil;
+  self.numOwnedLabel = nil;
+  self.equipDescriptionLabel = nil;
+  self.cantEquipView = nil;
+  self.cantEquipLabel = nil;
+  self.cantBuyLabel = nil;
+  self.armoryBar = nil;
+  self.coinBar = nil;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-  [self buySellClosed];
+  [self closeBuySellViewClicked:nil];
   self.armoryTableView.contentOffset = CGPointMake(0,0);
   self.state = kWeaponState;
+  [coinBar updateLabels];
 }
 
 - (void) setState:(ArmoryState)state {
@@ -413,6 +493,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     cantEquipView.hidden = YES;
   }
   
+  if (fep.isBuyableInArmory) {
+    buyButton.hidden = NO;
+    sellButton.hidden = NO;
+    cantBuyLabel.hidden = YES;
+  } else {
+    buyButton.hidden = YES;
+    sellButton.hidden = YES;
+    cantBuyLabel.hidden = NO;
+  }
+  
   UserEquip *ue = nil;
   for (UserEquip *f in [[GameState sharedGameState] myEquips]) {
     if (f.equipId == fep.equipId) {
@@ -431,12 +521,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   } else {
     numOwnedLabel.text = @"0";
     sellButton.enabled = NO;
-  }
-  
-  if (fep.coinPrice > gs.silver || fep.diamondPrice > gs.gold) {
-    buyButton.enabled = NO;
-  } else {
-    buyButton.enabled = YES;
   }
 }
 
@@ -531,6 +615,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = _clickedAl.fep;
   
+  if (gs.gold < fep.diamondPrice) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fep.diamondPrice];
+    return;
+  } else if (gs.silver < fep.coinPrice) {
+    [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    return;
+  }
+  
   int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
   numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
   
@@ -538,11 +630,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     sellButton.enabled = YES;
   }
   
-  if (fep.coinPrice > gs.silver || fep.diamondPrice > gs.gold) {
-    buyButton.enabled = NO;
-  } else {
-    buyButton.enabled = YES;
-  }
+  [coinBar updateLabels];
 }
 
 - (IBAction)sellClicked:(id)sender {
@@ -554,6 +642,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   if (updatedQuantity == 0) {
     sellButton.enabled = NO;
   }
+  
+  [coinBar updateLabels];
 }
 
 - (IBAction)backClicked:(id)sender {

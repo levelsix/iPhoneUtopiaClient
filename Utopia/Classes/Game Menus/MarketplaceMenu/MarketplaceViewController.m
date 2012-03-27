@@ -203,7 +203,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   [self.postsTableView addSubview:self.removeView];
   
-  UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"marketrope.png"]];
+  UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
   leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 90)];
   rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 90)];
   leftRopeFirstRow.backgroundColor = c;

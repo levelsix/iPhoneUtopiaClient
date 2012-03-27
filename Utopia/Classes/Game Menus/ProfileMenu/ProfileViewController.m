@@ -39,6 +39,22 @@
   [self setState:kMyProfile];
 }
 
+- (void) dealloc {
+  self.equipIcon = nil;
+  self.skillsIcon = nil;
+  self.wallIcon = nil;
+  self.equipLabel = nil;
+  self.skillsLabel = nil;
+  self.wallLabel = nil;
+  self.equipSelectedLargeImage = nil;
+  self.equipSelectedSmallImage = nil;
+  self.skillsSelectedSmallImage = nil;
+  self.wallSelectedLargeImage = nil;
+  self.wallSelectedSmallImage = nil;
+  self.glowIcon = nil;
+  [super dealloc];
+}
+
 - (void) setState:(ProfileBarState)state {
   if (state != _state) {
     _state = state;
@@ -358,7 +374,16 @@
 }
 
 - (void) dealloc {
-  [darkOverlay release];
+  self.bgd = nil;
+  self.equipIcon = nil;
+  self.maskedEquipIcon = nil;
+  self.border = nil;
+  self.rarityLabel = nil;
+  self.quantityLabel = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.equip = nil;
+  self.darkOverlay = nil;
   [super dealloc];
 }
 
@@ -434,6 +459,16 @@
   border.hidden = _selected ? NO : YES;
 }
 
+- (void) dealloc {
+  self.equipIcon = nil;
+  self.label = nil;
+  self.chooseEquipButton = nil;
+  self.border = nil;
+  self.unknownLabel = nil;
+  
+  [super dealloc];
+}
+
 @end
 
 @implementation ProfileViewController
@@ -454,6 +489,57 @@
 @synthesize visitButton, smallAttackButton, bigAttackButton;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
+
+- (void) viewDidUnload
+{
+  [super viewDidUnload];
+  // Release any retained subviews of the main view.
+  // e.g. self.myOutlet = nil;
+  self.equipViews = nil;
+  [_fup release];
+  self.userNameLabel = nil;
+  self.typeLabel = nil;
+  self.levelLabel = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.codeLabel = nil;
+  self.winsLabel = nil;
+  self.lossesLabel = nil;
+  self.fleesLabel = nil;
+  self.curArmorView = nil;
+  self.curAmuletView = nil;
+  self.curWeaponView = nil;
+  self.profilePicture = nil;
+  self.profileBar = nil;
+  self.nibEquipView = nil;
+  self.equipsScrollView = nil;
+  self.unequippableView = nil;
+  self.unequippableLabel = nil;
+  self.equippingView = nil;
+  self.equipTabView = nil;
+  self.skillTabView = nil;
+  self.attackStatLabel = nil;
+  self.defenseStatLabel = nil;
+  self.staminaStatLabel = nil;
+  self.energyStatLabel = nil;
+  self.hpStatLabel = nil;
+  self.attackStatButton = nil;
+  self.defenseStatButton = nil;
+  self.staminaStatButton = nil;
+  self.energyStatButton = nil;
+  self.hpStatButton = nil;
+  self.enemyAttackLabel = nil;
+  self.enemyMiddleView = nil;
+  self.staminaCostLabel = nil;
+  self.hpCostLabel = nil;
+  self.skillPointsLabel = nil;
+  self.selfLeftView = nil;
+  self.enemyLeftView = nil;
+  self.friendLeftView = nil;
+  self.visitButton = nil;
+  self.smallAttackButton = nil;
+  self.bigAttackButton = nil;
+}
 
 - (void) setState:(ProfileState)state {
   if (state != _state) {
@@ -869,6 +955,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   
   userNameLabel.text = fup.name;
+  profilePicture.image = [Globals profileImageForUser:fup.userType];
   winsLabel.text = [NSString stringWithFormat:@"%d", fup.battlesWon];
   lossesLabel.text = [NSString stringWithFormat:@"%d", fup.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", fup.flees];
@@ -906,6 +993,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   Globals *gl = [Globals sharedGlobals];
   
   userNameLabel.text = gs.name;
+  profilePicture.image = [Globals profileImageForUser:gs.type];
   winsLabel.text = [NSString stringWithFormat:@"%d", gs.battlesWon];
   lossesLabel.text = [NSString stringWithFormat:@"%d", gs.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
@@ -984,15 +1072,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [self setCurScope:kEquipScopeAll];
-}
-
-- (void) viewDidUnload
-{
-  [super viewDidUnload];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  self.equipViews = nil;
-  [_fup release];
 }
 
 @end

@@ -63,6 +63,8 @@
   _label.backgroundColor = [UIColor clearColor];
   _label.textAlignment = UITextAlignmentCenter;
   _label.textColor = [UIColor colorWithRed:235/255.f green:235/255.f blue:200/255.f alpha:1];
+  _label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.4f];
+  _label.shadowOffset = CGSizeMake(0, 1.f);
   _label.adjustsFontSizeToFitWidth = NO;
   _label.highlightedTextColor = [_label.textColor colorWithAlphaComponent:0.5f];
   [self addSubview:_label];

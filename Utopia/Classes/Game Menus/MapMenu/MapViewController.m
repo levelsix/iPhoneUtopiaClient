@@ -84,7 +84,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:missionButtonClicked];
   if (_trackingMission) {
-    if ([missionButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(missionButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kMissionButton];
     } else {
       [self unclickButton:kMissionButton];
@@ -93,7 +93,7 @@
   
   pt = [touch locationInView:enemyButtonClicked];
   if (_trackingEnemy) {
-    if ([enemyButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(enemyButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kEnemyButton];
     } else {
       [self unclickButton:kEnemyButton];
@@ -105,7 +105,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:missionButtonClicked];
   if (_trackingMission) {
-    if ([missionButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(missionButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [[MapViewController sharedMapViewController] setState:kMissionMap];
       [self clickButton:kMissionButton];
       [self unclickButton:kEnemyButton];
@@ -116,7 +116,7 @@
   
   pt = [touch locationInView:enemyButtonClicked];
   if (_trackingEnemy) {
-    if ([enemyButtonClicked pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(enemyButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [[MapViewController sharedMapViewController] setState:kAttackMap];
       [self clickButton:kEnemyButton];
       [self unclickButton:kMissionButton];

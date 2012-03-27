@@ -116,7 +116,7 @@
 							<object class="IBUIView" id="352345844">
 								<reference key="NSNextResponder" ref="204435654"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{15, -5}, {3, 188}}</string>
+								<string key="NSFrame">{{15, -12}, {3, 190}}</string>
 								<reference key="NSSuperview" ref="204435654"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1001025036"/>
@@ -281,9 +281,42 @@
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
+					<string key="className">CarpBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="functionalButtonClicked">UIImageView</string>
+						<string key="functionalLabel">UILabel</string>
+						<string key="incomeButtonClicked">UIImageView</string>
+						<string key="incomeLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="functionalButtonClicked">
+							<string key="name">functionalButtonClicked</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="functionalLabel">
+							<string key="name">functionalLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="incomeButtonClicked">
+							<string key="name">incomeButtonClicked</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="incomeLabel">
+							<string key="name">incomeLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CarpBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">CarpenterListing</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="availableLabel">UILabel</string>
 						<string key="backgroundImg">UIImageView</string>
 						<string key="buildingIcon">UIImageView</string>
 						<string key="darkOverlay">UIImageView</string>
@@ -299,6 +332,10 @@
 						<string key="titleLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="availableLabel">
+							<string key="name">availableLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="backgroundImg">
 							<string key="name">backgroundImg</string>
 							<string key="candidateClassName">UIImageView</string>
@@ -391,10 +428,15 @@
 						</object>
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="carpBar">CarpBar</string>
 						<string key="carpRow">CarpenterRow</string>
 						<string key="carpTable">UITableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="carpBar">
+							<string key="name">carpBar</string>
+							<string key="candidateClassName">CarpBar</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="carpRow">
 							<string key="name">carpRow</string>
 							<string key="candidateClassName">CarpenterRow</string>

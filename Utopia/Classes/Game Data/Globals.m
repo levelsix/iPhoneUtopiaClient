@@ -578,6 +578,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (UIImage *) profileImageForUser:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return [Globals imageNamed:@"pwarrior.png"];
+      break;
+      
+    case UserTypeGoodArcher:
+      return [Globals imageNamed:@"paarcher.png"];
+      break;
+      
+    case UserTypeGoodMage:
+      return [Globals imageNamed:@"ppanda.png"];
+      break;
+      
+    case UserTypeBadWarrior:
+      return [Globals imageNamed:@"pskel.png"];
+      break;
+      
+    case UserTypeBadArcher:
+      return [Globals imageNamed:@"plarcher.png"];
+      break;
+      
+    case UserTypeBadMage:
+      return [Globals imageNamed:@"pinvoker.png"];
+      break;
+      
+    default:
+      break;
+  }
+}
+
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r {
   return r >= FullEquipProto_RarityEpic;
 }
