@@ -28,6 +28,7 @@
 #import "CocosDenshion.h"
 #import "CDXPropertyModifierAction.h"
 #import "TutorialMissionMap.h"
+#import "MapViewController.h"
 
 // HelloWorldLayer implementation
 @implementation GameLayer
@@ -102,6 +103,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto {
+  // Need this to be able to run on background thread
+  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
+  [EAGLContext setCurrentContext:k_context];
+  
   [self unloadCurrentMissionMap];
   _missionMap = [[MissionMap alloc] initWithProto:proto];
   
@@ -119,6 +124,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _homeMap.visible = NO;
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
   }
+  
+  [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(fadeOut) withObject:nil waitUntilDone:YES];
 }
 
 - (void) unloadTutorialMissionMap {

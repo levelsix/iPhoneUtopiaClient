@@ -78,6 +78,8 @@
   NSMutableDictionary *_availableQuests;
   
   NSMutableArray *_attackList;
+  
+  NSMutableArray *_notifications;
 }
 
 @property (assign) BOOL connected;
@@ -148,6 +150,7 @@
 @property (retain) NSMutableDictionary *availableQuests;
 
 @property (retain) NSMutableArray *attackList;
+@property (retain) NSMutableArray *notifications;
 
 + (GameState *) sharedGameState;
 
@@ -165,6 +168,7 @@
 - (void) addToMyCities:(NSArray *)cities;
 - (void) addToAvailableQuests:(NSArray *)quests;
 - (void) addToInProgressQuests:(NSArray *)quests;
+- (void) addNotification:(UserNotification *)un;
 
 - (UserEquip *) myEquipWithId:(int)equipId;
 - (UserStruct *) myStructWithId:(int)structId;

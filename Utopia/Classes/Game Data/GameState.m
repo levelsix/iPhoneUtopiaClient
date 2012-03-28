@@ -10,6 +10,7 @@
 #import "SocketCommunication.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"
+#import "TopBar.h"
 
 @implementation GameState
 
@@ -80,6 +81,7 @@
 @synthesize inProgressQuests = _inProgressQuests;
 
 @synthesize attackList = _attackList;
+@synthesize notifications = _notifications;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
@@ -98,6 +100,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticPossessEquipJobs = [[NSMutableDictionary alloc] init];
     _staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
     _attackList = [[NSMutableArray alloc] init];
+    _notifications = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressQuests = [[NSMutableDictionary alloc] init];
@@ -250,6 +253,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addNotification:(UserNotification *)un {
+  [self.notifications addObject:un];
+  [self.notifications sortUsingComparator:^NSComparisonResult(UserNotification *obj1, UserNotification *obj2) {
+    return [obj1.time compare:obj2.time];
+  }];
+  
+  [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+}
+
 - (UserEquip *) myEquipWithId:(int)equipId {
   for (UserEquip *ue in self.myEquips) {
     if (ue.equipId == equipId) {
@@ -348,7 +360,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) purgeStaticData {
-  [_staticTasks removeAllObjects];
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
   [_staticDefeatTypeJobs removeAllObjects];
@@ -384,6 +395,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myStructs = nil;
   self.availableQuests = nil;
   self.inProgressQuests = nil;
+  self.notifications = nil;
   [super dealloc];
 }
 

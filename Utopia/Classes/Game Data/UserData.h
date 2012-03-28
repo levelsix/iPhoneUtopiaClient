@@ -92,4 +92,11 @@ typedef enum {
 @property (nonatomic, assign) int coinsStolen;
 @property (nonatomic, assign) int stolenEquipId;
 
+- (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto;
+- (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto;
+- (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto;
+- (id) initWithBattleResponse:(BattleResponseProto *)proto;
+- (id) initWithMarketplaceResponse:(PurchaseFromMarketplaceResponseProto *)proto;
+- (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
+
 @end

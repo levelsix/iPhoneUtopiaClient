@@ -64,11 +64,17 @@
   }
 }
 
+- (IBAction)buttonClicked:(id)sender {
+  NSLog(@"%@", buttonLabel.text);
+}
+
 - (void) dealloc {
   self.titleLabel = nil;
   self.subtitleLabel = nil;
   self.userIcon = nil;
   self.button = nil;
+  self.buttonLabel = nil;
+  self.notification = nil;
   [super dealloc];
 }
 
@@ -91,7 +97,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return 3;
+  return [[[GameState sharedGameState] notifications] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -103,22 +109,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
     cell = self.actCell;
   }
   
-  UserNotification *un = [[UserNotification alloc] init];
-  MinimumUserProto_Builder *mupb = [[[MinimumUserProto builder] setName:@"Meepert"] setUserId:5];
-  if (indexPath.row == 0) {
-    un.type = kNotificationBattle;
-    mupb.userType = UserTypeGoodArcher;
-    un.stolenEquipId = 0;
-    un.coinsStolen = 3;
-    un.battleResult = BattleResultAttackerWin;
-  } else if (indexPath.row == 1) {
-    un.type = kNotificationMarketplace;
-    mupb.userType = UserTypeBadWarrior;
-  } else {
-    un.type = kNotificationReferral;
-    mupb.userType = UserTypeGoodMage;
-  }
-  un.otherPlayer = [mupb build];
+  UserNotification *un = [[[GameState sharedGameState] notifications] objectAtIndex:indexPath.row];
   [cell updateForNotification:un];
   
   return cell;
@@ -134,6 +125,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.activityTableView = nil;
+  self.actCell = nil;
 }
 
 @end

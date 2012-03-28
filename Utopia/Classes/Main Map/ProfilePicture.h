@@ -18,6 +18,7 @@
   CCSprite *_levelCircle;
   float _expPercentage;
   int _level;
+  BOOL _flashing;
   
   CCSprite *_notificationAlert;
 }
@@ -52,5 +53,7 @@
 - (void) button2Clicked:(id)sender;
 - (void) button3Clicked:(id)sender;
 - (void) button4Clicked:(id)sender;
+- (void) incrementNotificationBadge;
+- (void) incrementProfileBadge;
 
 @end

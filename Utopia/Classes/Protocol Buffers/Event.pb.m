@@ -1030,6 +1030,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 @property (retain) MinimumUserProto* attacker;
 @property (retain) MinimumUserProto* defender;
 @property BattleResponseProto_BattleStatus status;
+@property BattleResult battleResult;
 @property int32_t coinsGained;
 @property (retain) FullEquipProto* equipGained;
 @property int32_t expGained;
@@ -1058,6 +1059,13 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasBattleResult {
+  return !!hasBattleResult_;
+}
+- (void) setHasBattleResult:(BOOL) value {
+  hasBattleResult_ = !!value;
+}
+@synthesize battleResult;
 - (BOOL) hasCoinsGained {
   return !!hasCoinsGained_;
 }
@@ -1090,6 +1098,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
     self.attacker = [MinimumUserProto defaultInstance];
     self.defender = [MinimumUserProto defaultInstance];
     self.status = BattleResponseProto_BattleStatusSuccess;
+    self.battleResult = BattleResultAttackerWin;
     self.coinsGained = 0;
     self.equipGained = [FullEquipProto defaultInstance];
     self.expGained = 0;
@@ -1116,6 +1125,9 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
     return NO;
   }
   if (!self.hasStatus) {
+    return NO;
+  }
+  if (!self.hasBattleResult) {
     return NO;
   }
   if (!self.attacker.isInitialized) {
@@ -1150,6 +1162,9 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   if (self.hasExpGained) {
     [output writeInt32:6 value:self.expGained];
   }
+  if (self.hasBattleResult) {
+    [output writeEnum:7 value:self.battleResult];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1176,6 +1191,9 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   }
   if (self.hasExpGained) {
     size += computeInt32Size(6, self.expGained);
+  }
+  if (self.hasBattleResult) {
+    size += computeEnumSize(7, self.battleResult);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1270,6 +1288,9 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasBattleResult) {
+    [self setBattleResult:other.battleResult];
+  }
   if (other.hasCoinsGained) {
     [self setCoinsGained:other.coinsGained];
   }
@@ -1342,6 +1363,15 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
       }
       case 48: {
         [self setExpGained:[input readInt32]];
+        break;
+      }
+      case 56: {
+        int32_t value = [input readEnum];
+        if (BattleResultIsValidValue(value)) {
+          [self setBattleResult:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
         break;
       }
     }
@@ -1421,6 +1451,22 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
 - (BattleResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = BattleResponseProto_BattleStatusSuccess;
+  return self;
+}
+- (BOOL) hasBattleResult {
+  return result.hasBattleResult;
+}
+- (BattleResult) battleResult {
+  return result.battleResult;
+}
+- (BattleResponseProto_Builder*) setBattleResult:(BattleResult) value {
+  result.hasBattleResult = YES;
+  result.battleResult = value;
+  return self;
+}
+- (BattleResponseProto_Builder*) clearBattleResult {
+  result.hasBattleResult = NO;
+  result.battleResult = BattleResultAttackerWin;
   return self;
 }
 - (BOOL) hasCoinsGained {

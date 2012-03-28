@@ -214,12 +214,31 @@ static UIButton *rightButton = nil;
 
 @end
 
+@implementation LoadingView
+
+@synthesize darkView, actIndView, label;
+
+- (void) awakeFromNib {
+  self.darkView.layer.cornerRadius = 10.f;
+}
+
+- (void) dealloc {
+  self.darkView = nil;
+  self.actIndView = nil;
+  self.label = nil;
+  
+  [super dealloc];
+}
+
+@end
+
 @implementation MapViewController
 
 @synthesize mapView = _mapView;
 @synthesize missionMap;
 @synthesize state = _state;
 @synthesize mapBar;
+@synthesize loadingView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
@@ -259,6 +278,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   [self.mapBar clickButton:kMissionButton];
   [self.mapBar unclickButton:kEnemyButton];
+  
+  // Just in case the loading screen wasn't removed
+  [self stopLoading];
   
   self.view.alpha = 0.f;
   [UIView animateWithDuration:1.f animations:^{
@@ -353,8 +375,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     [ProfileViewController displayView];
   } else if (tag == 2) {
     // Right clicked
+    
+    // BattleLayer will fade out view
     [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
-    [MapViewController removeView];
   }
 }
 
@@ -368,12 +391,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [self fadeOut];
 }
 
+- (void) startLoadingWithText:(NSString *)str {
+  loadingView.label.text = str;
+  [loadingView.actIndView startAnimating];
+  
+  [self.view addSubview:loadingView];
+  _isDisplayingLoadingView = YES;
+}
+
+- (void) stopLoading {
+  if (_isDisplayingLoadingView) {
+    [loadingView.actIndView stopAnimating];
+    [loadingView removeFromSuperview];
+    _isDisplayingLoadingView = NO;
+  }
+}
+
 - (void) fadeOut {
-  [UIView animateWithDuration:1.f animations:^{
-    self.view.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [MapViewController removeView];
-  }];
+  if (self.view.superview) {
+    [self stopLoading];
+    
+    [UIView animateWithDuration:1.f animations:^{
+      self.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [MapViewController removeView];
+    }];
+  }
 }
 
 - (void) viewDidUnload {
@@ -381,6 +424,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   self.mapView = nil;
   self.missionMap = nil;
   self.mapBar = nil;
+  self.loadingView = nil;
 }
 
 @end

@@ -169,26 +169,56 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == BattleResponseProto_BattleStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
     
-    gs.experience += proto.expGained;
-    gs.silver += proto.coinsGained;
-    
-    int equipId = proto.equipGained.equipId;
-    UserEquip *ue = [gs myEquipWithId:equipId];
-    if (ue) {
-      ue.quantity++;
+    if (proto.attacker.userId == gs.userId) {
+      gs.experience += proto.expGained;
+      
+      if (proto.battleResult == BattleResultAttackerWin) {
+        gs.silver += proto.coinsGained;
+      } else {
+        gs.silver -= proto.coinsGained;
+      }
+      
+      if (proto.hasEquipGained) {
+        [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
+        
+        int equipId = proto.equipGained.equipId;
+        UserEquip *ue = [gs myEquipWithId:equipId];
+        if (ue) {
+          ue.quantity++;
+        } else {
+          UserEquip *ue = [[UserEquip alloc] init];
+          ue.equipId = equipId;
+          ue.quantity = 1;
+          ue.userId = gs.userId;
+          [[gs myEquips] addObject:ue];
+          [ue release];
+        }
+      }
+      [[BattleLayer sharedBattleLayer] setBrp:proto];
     } else {
-      UserEquip *ue = [[UserEquip alloc] init];
-      ue.equipId = equipId;
-      ue.quantity = 1;
-      ue.userId = gs.userId;
-      [[gs myEquips] addObject:ue];
-      [ue release];
+      if (proto.battleResult == BattleResultAttackerWin) {
+        gs.silver -= proto.coinsGained;
+      } else {
+        gs.silver += proto.coinsGained;
+      }
+      
+      if (proto.hasEquipGained) {
+        [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
+        
+        int equipId = proto.equipGained.equipId;
+        UserEquip *ue = [gs myEquipWithId:equipId];
+        if (ue) {
+          ue.quantity--;
+          if (ue.quantity == 0) {
+            [gs.myEquips removeObject:ue];
+          }
+        }
+      }
+      
+      UserNotification *un = [[UserNotification alloc] initWithBattleResponse:proto];
+      [gs addNotification:un];
+      [un release];
     }
-    
-    if (proto.hasEquipGained) {
-      [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-    }
-    [[BattleLayer sharedBattleLayer] setBrp:proto];
   } else {
     [Globals popupMessage:@"Server failed to record battle"];
   }
@@ -222,6 +252,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
     gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
+    
+    UserNotification *un;
+    for (StartupResponseProto_AttackedNotificationProto *p in proto.attackNotificationsList) {
+      un = [[UserNotification alloc] initBattleNotificationAtStartup:p];
+      [gs addNotification:un];
+      [un release];
+    }
+    for (StartupResponseProto_MarketplacePostPurchasedNotificationProto *p in proto.marketplacePurchaseNotificationsList) {
+      un = [[UserNotification alloc] initMarketplaceNotificationAtStartup:p];
+      [gs addNotification:un];
+      [un release];
+    }
+    for (StartupResponseProto_ReferralNotificationProto *p in proto.referralNotificationsList) {
+      un = [[UserNotification alloc] initReferralNotificationAtStartup:p];
+      [gs addNotification:un];
+      [un release];
+    }
   } else {
     // Need to create new player
     StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
@@ -327,6 +374,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handlePurchaseFromMarketplaceResponseProto: (PurchaseFromMarketplaceResponseProto *) proto {
   NSLog(@"Purchase from mkt response received with status %d", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.posterId == gs.userId) {
+    // This is a notification
+    UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
+    [gs addNotification:un];
+    [un release];
+  }
 }
 
 - (void) handleRetractMarketplacePostResponseProto: (RetractMarketplacePostResponseProto *) proto {
@@ -485,7 +540,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   //  GameState *gs = [GameState sharedGameState];
   
   if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
-    [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];
+//    [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];
+    [[GameLayer sharedGameLayer] performSelectorInBackground:@selector(loadMissionMapWithProto:) withObject:proto];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
   } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {
     [Globals popupMessage:@"Trying to reach inaccessible city.."];

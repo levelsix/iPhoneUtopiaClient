@@ -15,6 +15,7 @@
 #import "TopBar.h"
 #import "GameLayer.h"
 #import "MissionMap.h"
+#import "MapViewController.h"
 
 @implementation OutgoingEventController
 
@@ -969,6 +970,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) loadNeutralCity:(int)cityId asset:(int)assetId {
   GameState *gs = [GameState sharedGameState];
   FullCityProto *city = [gs cityWithId:cityId];
+  MapViewController *mvc = [MapViewController sharedMapViewController];
   
   if (!city) {
     [Globals popupMessage:@"Trying to visit nil city"];
@@ -979,10 +981,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (assetId != 0) {
       [[GameLayer sharedGameLayer] moveMissionMapToAssetId:assetId];
     }
+    [mvc fadeOut];
     return;
   }
   
   [[GameLayer sharedGameLayer] setAssetId: assetId];
+  [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
   
   if (city.minLevel <= gs.level) {
     [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];

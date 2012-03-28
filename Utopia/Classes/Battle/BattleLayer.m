@@ -447,7 +447,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
   
   // Remove mapviewcontroller in case we were called from there
-  [MapViewController removeView];
+  [[MapViewController sharedMapViewController] fadeOut];
   
   _leftCurrentHealth = gs.maxHealth;
   _leftMaxHealth = gs.maxHealth;

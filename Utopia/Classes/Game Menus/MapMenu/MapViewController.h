@@ -51,15 +51,26 @@ typedef enum {
 
 @end
 
+@interface LoadingView : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *darkView;
+@property (nonatomic, retain) IBOutlet UILabel *label;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
+
+@end
+
 @interface MapViewController : UIViewController <MKMapViewDelegate> {
   MKMapView *_mapView;
   BOOL _loaded;
   MapState _state;
+  
+  BOOL _isDisplayingLoadingView;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
 @property (nonatomic, retain) IBOutlet MapBar *mapBar;
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
 
 @property (nonatomic, assign) MapState state;
 
@@ -74,5 +85,9 @@ typedef enum {
 
 - (IBAction)closeClicked:(id)sender;
 - (IBAction)homeClicked:(id)sender;
+
+- (void) fadeOut;
+- (void) startLoadingWithText:(NSString *)str;
+- (void) stopLoading;
 
 @end

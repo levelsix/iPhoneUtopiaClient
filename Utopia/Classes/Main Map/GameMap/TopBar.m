@@ -280,10 +280,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   if (isEnergy) {
+    [_toolTipTimerDate release];
     _toolTipTimerDate = [[gs.lastEnergyRefill dateByAddingTimeInterval:gl.energyRefillWaitMinutes*60] retain];
     _bigGoldCostLabel.string = [NSString stringWithFormat:@"%d", gl.energyRefillCost];
     _bigGoldCostLabelShadow.string = [NSString stringWithFormat:@"%d", gl.energyRefillCost];
   } else {
+    [_toolTipTimerDate release];
     _toolTipTimerDate = [[gs.lastStaminaRefill dateByAddingTimeInterval:gl.staminaRefillWaitMinutes*60] retain];
     _bigGoldCostLabel.string = [NSString stringWithFormat:@"%d", gl.staminaRefillCost];
     _bigGoldCostLabelShadow.string = [NSString stringWithFormat:@"%d", gl.staminaRefillCost];
@@ -310,8 +312,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) setInvisible:(CCNode *)sender {
   sender.visible = NO;
-  [_toolTipTimerDate release];
-  _toolTipTimerDate = nil;
   
   if (sender == _bigToolTip) {
     _bigToolTipState = kNotShowing;
@@ -469,6 +469,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       [self setUpStaminaTimer];
     }
   }
+}
+
+- (void) dealloc {
+  [_enstBgd release];
+  [_energyBar release];
+  [_staminaBar release];
+  [_curEnergyBar release];
+  [_curStaminaBar release];
+  [_coinBar release];
+  [_silverLabel release];
+  [_goldLabel release];
+  [_goldButton release];
+  [_toolTipTimerDate release];
+  [_bigToolTip release];
+  [_bigCurValLabel release];
+  [_bigTimerLabel release];
+  [_bigGoldCostLabel release];
+  [_bigGoldCostLabelShadow release];
+  [_littleToolTip release];
+  [_littleCurValLabel release];
+  [_profilePic release];
+  [super dealloc];
 }
 
 @end

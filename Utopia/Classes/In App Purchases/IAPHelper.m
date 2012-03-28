@@ -11,6 +11,7 @@
 #import "SocketCommunication.h"
 #import "Globals.h"
 #import "SynthesizeSingleton.h"
+#import "GameState.h"
 
 @implementation IAPHelper
 
@@ -34,9 +35,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-  NSLog(@"Received products results for %d products...", response.products.count);   
+  NSLog(@"Received products results for %d products...", response.products.count);
+  
   self.products = response.products;
   self.request = nil;
+  
+//  if (response.products.count == 0) {
+//    [self requestProducts];
+//  }
 }
 
 - (NSString*)base64forData:(NSData*)theData {
@@ -77,7 +83,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
   [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:encodedReceipt];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
-  
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {

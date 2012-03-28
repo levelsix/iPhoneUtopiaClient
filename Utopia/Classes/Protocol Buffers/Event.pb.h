@@ -920,22 +920,26 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasDefender_:1;
   BOOL hasEquipGained_:1;
   BOOL hasStatus_:1;
+  BOOL hasBattleResult_:1;
   int32_t coinsGained;
   int32_t expGained;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
   FullEquipProto* equipGained;
   BattleResponseProto_BattleStatus status;
+  BattleResult battleResult;
 }
 - (BOOL) hasAttacker;
 - (BOOL) hasDefender;
 - (BOOL) hasStatus;
+- (BOOL) hasBattleResult;
 - (BOOL) hasCoinsGained;
 - (BOOL) hasEquipGained;
 - (BOOL) hasExpGained;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly, retain) MinimumUserProto* defender;
 @property (readonly) BattleResponseProto_BattleStatus status;
+@property (readonly) BattleResult battleResult;
 @property (readonly) int32_t coinsGained;
 @property (readonly, retain) FullEquipProto* equipGained;
 @property (readonly) int32_t expGained;
@@ -992,6 +996,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BattleResponseProto_BattleStatus) status;
 - (BattleResponseProto_Builder*) setStatus:(BattleResponseProto_BattleStatus) value;
 - (BattleResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasBattleResult;
+- (BattleResult) battleResult;
+- (BattleResponseProto_Builder*) setBattleResult:(BattleResult) value;
+- (BattleResponseProto_Builder*) clearBattleResult;
 
 - (BOOL) hasCoinsGained;
 - (int32_t) coinsGained;

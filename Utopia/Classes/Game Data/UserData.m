@@ -236,6 +236,7 @@
   if ((self = [super init])) {
     self.otherPlayer = proto.buyer;
     self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000];
+    self.marketPost = proto.marketplacePost;
     self.type = kNotificationMarketplace;
   }
   return self;
@@ -245,6 +246,36 @@
   if ((self = [super init])) {
     self.otherPlayer = proto.referred;
     self.time = [NSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000];
+    self.type = kNotificationReferral;
+  }
+  return self;
+}
+
+- (id) initWithBattleResponse:(BattleResponseProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.attacker;
+    self.battleResult = proto.battleResult;
+    self.time = [NSDate date];
+    self.coinsStolen = proto.coinsGained;
+    self.stolenEquipId = proto.equipGained.equipId;
+    self.type = kNotificationBattle;
+  }
+  return self;
+}
+
+- (id) initWithMarketplaceResponse:(PurchaseFromMarketplaceResponseProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.purchaser;
+    self.time = [NSDate date];
+    self.type = kNotificationMarketplace;
+  }
+  return self;
+}
+
+- (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto {
+  if ((self = [super init])) {
+    self.otherPlayer = proto.sender;
+    self.time = [NSDate date];
     self.type = kNotificationReferral;
   }
   return self;

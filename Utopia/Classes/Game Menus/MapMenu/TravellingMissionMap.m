@@ -90,7 +90,6 @@
 
 - (IBAction)goClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp.cityId asset:0];
-  [MapViewController removeView]; 
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

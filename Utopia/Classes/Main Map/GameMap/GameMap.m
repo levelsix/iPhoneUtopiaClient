@@ -176,7 +176,7 @@
       continue;
     }
     SelectableSprite *child = (SelectableSprite *)spr;
-    if ([child isPointInArea:pt]) {
+    if ([child isPointInArea:pt] && child.visible && child.opacity > 0.f) {
       if (_selected) {
         if ([self mapSprite:child isInFrontOfMapSprite:_selected]) {
           toRet = child;

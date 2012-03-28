@@ -52,22 +52,41 @@
     _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
     [_levelCircle addChild:_levelLabel];
-    [Globals adjustFontSizeForCCLabelTTF:_levelLabel size:12 ];
+    [Globals adjustFontSizeForCCLabelTTF:_levelLabel size:12];
     
     _notificationAlert = [CCSprite spriteWithFile:@"notificationoverlevel.png"];
     [_levelCircle addChild:_notificationAlert];
     _notificationAlert.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
-    
-    CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:
-                                                          [CCFadeOut actionWithDuration:PULSATE_DURATION],
-                                                          [CCFadeIn actionWithDuration:PULSATE_DURATION], nil]];
-    [_notificationAlert runAction:action];
+    _notificationAlert.visible = NO;
     
     self.level = 1;
     self.expPercentage = 0;
   }
   
   return self;
+}
+
+- (void) flashNotification {
+  if (!_flashing) {
+    _flashing = YES;
+    _notificationAlert.visible = YES;
+    _notificationAlert.opacity = 255;
+    CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:
+                                                          [CCFadeTo actionWithDuration:PULSATE_DURATION opacity:180],
+                                                          [CCFadeTo actionWithDuration:PULSATE_DURATION opacity:255], nil]];
+    [_notificationAlert runAction:action];
+  }
+}
+
+- (void) stopNotification {
+  [_notificationAlert stopAllActions];
+  [_notificationAlert runAction:[CCSequence actions:[CCFadeTo actionWithDuration:PULSATE_DURATION opacity:0], 
+                                 [CCCallFunc actionWithTarget:self selector:@selector(setNotificationInvisible)], nil]];
+  _flashing = NO;
+}
+
+- (void) setNotificationInvisible {
+  _notificationAlert.visible = NO;
 }
 
 - (void) setRotation:(float)rotation {
@@ -204,8 +223,8 @@
     
     CCFiniteTimeAction *bounceAction = [CCSequence actions:[CCDelayTime actionWithDuration:i*DELAY_BETWEEN_BUTTONS], [CCEaseBackOut actionWithAction:[CCMoveBy actionWithDuration:0.2 position:pt]], nil];
     CCFiniteTimeAction *fullAction = [CCSpawn actions:bounceAction, 
-                                       [CCRotateTo actionWithDuration:[bounceAction duration]/1.5 angle:TOTAL_ROTATION_ANGLE], 
-                                       nil];
+                                      [CCRotateTo actionWithDuration:[bounceAction duration]/1.5 angle:TOTAL_ROTATION_ANGLE], 
+                                      nil];
     [button runAction:fullAction];
     
     dur = [fullAction duration];
@@ -217,6 +236,9 @@
    [CCSequence actions:
     [CCDelayTime actionWithDuration:dur], 
     [CCCallFunc actionWithTarget:self selector:@selector(enableButton)], nil]];
+  
+  // Stop the notification alert
+  [_expCircle stopNotification];
 }
 
 - (void) popInButtons {
@@ -322,6 +344,14 @@
 
 - (void) setInvisible: (CCMenuItem *) sender {
   sender.visible = NO;
+}
+
+- (void) incrementNotificationBadge {
+  [_expCircle flashNotification];
+}
+
+- (void) incrementProfileBadge {
+  [_expCircle flashNotification];
 }
 
 - (void) dealloc {
