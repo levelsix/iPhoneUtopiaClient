@@ -39,6 +39,11 @@
   _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", _leftCurrentHealth];
   _leftMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _leftMaxHealth];
   
+  _leftNameLabel.string = gs.name;
+  _leftNameBg.position = ccp(_leftNameBg.contentSize.width+_leftNameLabel.contentSize.width-_leftNameLabel.position.x+15, _leftNameBg.position.y);
+  _rightNameLabel.string = [[TutorialConstants sharedTutorialConstants] enemyName];
+  _rightNameBg.position = ccp(_rightNameBg.parent.contentSize.width-_rightNameLabel.contentSize.width-_rightNameLabel.position.x-15, _rightNameBg.position.y);
+  
   _leftAttack = [[Globals sharedGlobals] calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:0];
   _leftDefense = [[Globals sharedGlobals] calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:0];;
   _rightAttack = ENEMY_ATTACK;
