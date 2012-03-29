@@ -47,8 +47,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize minLevelForVault, minLevelForArmory, minLevelForMarketplace;
 @synthesize diamondCostOfShortMarketplaceLicense, diamondCostOfLongMarketplaceLicense;
 @synthesize cutOfVaultDepositTaken, skillPointsGainedOnLevelup, percentReturnedToUserForSellingEquipInArmory;
-@synthesize percentReturnedToUserForSellingNormStructure, percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-@synthesize percentOfSellingCostTakenFromSellerOnMarketplacePurchase, numDaysLongMarketplaceLicenseLastsFor;
+@synthesize percentReturnedToUserForSellingNormStructure, numDaysLongMarketplaceLicenseLastsFor;
 @synthesize maxLevelForStruct, maxNumbersOfEnemiesToGenerateAtOnce, maxLevelDiffForBattle;
 @synthesize maxNumberOfMarketplacePosts, numDaysShortMarketplaceLicenseLastsFor;
 @synthesize diamondRewardForReferrer, diamondRewardForBeingReferred;
@@ -57,10 +56,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (id) init {
   if ((self = [super init])) {
-    self.retractPercentCut = 0.05;
-    self.depositPercentCut = 0.1;
-    self.maxRepeatedNormStructs = 2;
-    
     attackBaseCost = 1;
     defenseBaseCost = 1;
     energyBaseCost = 1;
@@ -127,7 +122,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.diamondCostOfLongMarketplaceLicense = constants.diamondCostOfLongMarketplaceLicense;
   self.diamondCostOfShortMarketplaceLicense = constants.diamondCostOfShortMarketplaceLicense;
   self.maxNumbersOfEnemiesToGenerateAtOnce = constants.maxNumbersOfEnemiesToGenerateAtOnce;
-  self.percentReturnedToUserForSellingEquipInArmory = constants.percentReturnedToUserForSellingEquipInArmory;
+  self.purchasePercentCut = constants.percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  self.retractPercentCut = constants.percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  self.maxNumberOfMarketplacePosts = constants.maxNumberOfMarketplacePosts;
   self.energyRefillCost = constants.diamondCostForFullEnergyRefill;
   self.staminaRefillCost = constants.diamondCostForFullStaminaRefill;
   self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;

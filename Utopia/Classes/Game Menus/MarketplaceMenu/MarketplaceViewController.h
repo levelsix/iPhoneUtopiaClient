@@ -79,6 +79,8 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
+@property (nonatomic, retain) IBOutlet UIImageView *retractPriceIcon;
+
 @property (nonatomic, retain) IBOutlet UILabel *shortLicenseCost;
 @property (nonatomic, retain) IBOutlet UILabel *longLicenseCost;
 @property (nonatomic, retain) IBOutlet UILabel *shortLicenseLength;

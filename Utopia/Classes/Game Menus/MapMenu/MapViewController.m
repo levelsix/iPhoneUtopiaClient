@@ -214,7 +214,7 @@ static UIButton *rightButton = nil;
 
 @end
 
-@implementation LoadingView
+@implementation MapLoadingView
 
 @synthesize darkView, actIndView, label;
 

@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "SynthesizeSingleton.h"
 #import "GameState.h"
+#import "GoldShoppeViewController.h"
 
 @implementation IAPHelper
 
@@ -82,6 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
   [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:encodedReceipt];
+  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 

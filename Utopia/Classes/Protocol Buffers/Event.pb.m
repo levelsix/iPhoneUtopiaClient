@@ -21292,6 +21292,7 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
 @interface PurchaseFromMarketplaceResponseProto ()
 @property (retain) MinimumUserProto* purchaser;
 @property int32_t posterId;
+@property (retain) FullMarketplacePostProto* marketplacePost;
 @property PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 @end
 
@@ -21311,6 +21312,13 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
   hasPosterId_ = !!value;
 }
 @synthesize posterId;
+- (BOOL) hasMarketplacePost {
+  return !!hasMarketplacePost_;
+}
+- (void) setHasMarketplacePost:(BOOL) value {
+  hasMarketplacePost_ = !!value;
+}
+@synthesize marketplacePost;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -21320,12 +21328,14 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
 @synthesize status;
 - (void) dealloc {
   self.purchaser = nil;
+  self.marketplacePost = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.purchaser = [MinimumUserProto defaultInstance];
     self.posterId = 0;
+    self.marketplacePost = [FullMarketplacePostProto defaultInstance];
     self.status = PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess;
   }
   return self;
@@ -21355,6 +21365,11 @@ static PurchaseFromMarketplaceResponseProto* defaultPurchaseFromMarketplaceRespo
   if (!self.purchaser.isInitialized) {
     return NO;
   }
+  if (self.hasMarketplacePost) {
+    if (!self.marketplacePost.isInitialized) {
+      return NO;
+    }
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -21364,8 +21379,11 @@ static PurchaseFromMarketplaceResponseProto* defaultPurchaseFromMarketplaceRespo
   if (self.hasPosterId) {
     [output writeInt32:2 value:self.posterId];
   }
+  if (self.hasMarketplacePost) {
+    [output writeMessage:3 value:self.marketplacePost];
+  }
   if (self.hasStatus) {
-    [output writeEnum:3 value:self.status];
+    [output writeEnum:4 value:self.status];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -21382,8 +21400,11 @@ static PurchaseFromMarketplaceResponseProto* defaultPurchaseFromMarketplaceRespo
   if (self.hasPosterId) {
     size += computeInt32Size(2, self.posterId);
   }
+  if (self.hasMarketplacePost) {
+    size += computeMessageSize(3, self.marketplacePost);
+  }
   if (self.hasStatus) {
-    size += computeEnumSize(3, self.status);
+    size += computeEnumSize(4, self.status);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -21479,6 +21500,9 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
   if (other.hasPosterId) {
     [self setPosterId:other.posterId];
   }
+  if (other.hasMarketplacePost) {
+    [self mergeMarketplacePost:other.marketplacePost];
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -21516,12 +21540,21 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
         [self setPosterId:[input readInt32]];
         break;
       }
-      case 24: {
+      case 26: {
+        FullMarketplacePostProto_Builder* subBuilder = [FullMarketplacePostProto builder];
+        if (self.hasMarketplacePost) {
+          [subBuilder mergeFrom:self.marketplacePost];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMarketplacePost:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
         int32_t value = [input readEnum];
         if (PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
-          [unknownFields mergeVarintField:3 value:value];
+          [unknownFields mergeVarintField:4 value:value];
         }
         break;
       }
@@ -21572,6 +21605,36 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 - (PurchaseFromMarketplaceResponseProto_Builder*) clearPosterId {
   result.hasPosterId = NO;
   result.posterId = 0;
+  return self;
+}
+- (BOOL) hasMarketplacePost {
+  return result.hasMarketplacePost;
+}
+- (FullMarketplacePostProto*) marketplacePost {
+  return result.marketplacePost;
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) setMarketplacePost:(FullMarketplacePostProto*) value {
+  result.hasMarketplacePost = YES;
+  result.marketplacePost = value;
+  return self;
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) setMarketplacePostBuilder:(FullMarketplacePostProto_Builder*) builderForValue {
+  return [self setMarketplacePost:[builderForValue build]];
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) mergeMarketplacePost:(FullMarketplacePostProto*) value {
+  if (result.hasMarketplacePost &&
+      result.marketplacePost != [FullMarketplacePostProto defaultInstance]) {
+    result.marketplacePost =
+      [[[FullMarketplacePostProto builderWithPrototype:result.marketplacePost] mergeFrom:value] buildPartial];
+  } else {
+    result.marketplacePost = value;
+  }
+  result.hasMarketplacePost = YES;
+  return self;
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) clearMarketplacePost {
+  result.hasMarketplacePost = NO;
+  result.marketplacePost = [FullMarketplacePostProto defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {

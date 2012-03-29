@@ -13,6 +13,7 @@
   BOOL _animating;
   int _index;
   int _numTicksComplete;
+  BOOL _firstTick;
 }
 
 @property (nonatomic, retain) IBOutlet LabelButton *depositButton;

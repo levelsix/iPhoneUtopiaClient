@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1296</int>
+		<int key="IBDocument.SystemTarget">1280</int>
 		<string key="IBDocument.SystemVersion">11D50b</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
 		<string key="IBDocument.AppKitVersion">1138.32</string>
@@ -438,7 +438,7 @@
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
-					<object class="IBUIImageView" id="32046047">
+					<object class="IBUIImageView" id="743655758">
 						<reference key="NSNextResponder" ref="1027003871"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{252, 60}</string>
@@ -461,7 +461,7 @@
 						<string key="NSFrame">{{-32, 4}, {247, 21}}</string>
 						<reference key="NSSuperview" ref="1027003871"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="32046047"/>
+						<reference key="NSNextKeyView" ref="743655758"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -512,7 +512,7 @@
 						<string key="NSFrame">{{123, 27}, {116, 28}}</string>
 						<reference key="NSSuperview" ref="1027003871"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="897406137"/>
+						<reference key="NSNextKeyView" ref="193001471"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -537,7 +537,7 @@
 						<string key="NSFrame">{{6, 27}, {116, 28}}</string>
 						<reference key="NSSuperview" ref="1027003871"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="996844163"/>
+						<reference key="NSNextKeyView" ref="651261188"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -581,7 +581,7 @@
 						<reference key="IBUIFontDescription" ref="924590559"/>
 						<reference key="IBUIFont" ref="29956891"/>
 					</object>
-					<object class="IBUILabel" id="996844163">
+					<object class="IBUILabel" id="651261188">
 						<reference key="NSNextResponder" ref="1027003871"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{29, 29}, {70, 21}}</string>
@@ -611,7 +611,7 @@
 						<reference key="IBUIFont" ref="29956891"/>
 						<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 					</object>
-					<object class="IBUILabel" id="897406137">
+					<object class="IBUILabel" id="193001471">
 						<reference key="NSNextResponder" ref="1027003871"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{142, 29}, {78, 21}}</string>
@@ -1437,6 +1437,14 @@
 					<int key="connectionID">142</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">retractPriceIcon</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="529792289"/>
+					</object>
+					<int key="connectionID">145</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">backClicked:</string>
 						<reference key="source" ref="757401876"/>
@@ -1602,14 +1610,14 @@
 						<int key="objectID">39</int>
 						<reference key="object" ref="1027003871"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="32046047"/>
+							<reference ref="743655758"/>
 							<reference ref="529792289"/>
 							<reference ref="231820673"/>
 							<reference ref="518156745"/>
 							<reference ref="22783172"/>
 							<reference ref="135864082"/>
-							<reference ref="996844163"/>
-							<reference ref="897406137"/>
+							<reference ref="651261188"/>
+							<reference ref="193001471"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1871,17 +1879,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">141</int>
-						<reference key="object" ref="32046047"/>
+						<reference key="object" ref="743655758"/>
 						<reference key="parent" ref="1027003871"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">143</int>
-						<reference key="object" ref="996844163"/>
+						<reference key="object" ref="651261188"/>
 						<reference key="parent" ref="1027003871"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">144</int>
-						<reference key="object" ref="897406137"/>
+						<reference key="object" ref="193001471"/>
 						<reference key="parent" ref="1027003871"/>
 					</object>
 				</array>
@@ -1991,7 +1999,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">144</int>
+			<int key="maxID">145</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2055,6 +2063,7 @@
 						<string key="redeemView">UIView</string>
 						<string key="removePriceLabel">UILabel</string>
 						<string key="removeView">UIView</string>
+						<string key="retractPriceIcon">UIImageView</string>
 						<string key="rightRope">UIView</string>
 						<string key="ropeView">UIView</string>
 						<string key="shortLicenseCost">UILabel</string>
@@ -2121,6 +2130,10 @@
 						<object class="IBToOneOutletInfo" key="removeView">
 							<string key="name">removeView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="retractPriceIcon">
+							<string key="name">retractPriceIcon</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rightRope">
 							<string key="name">rightRope</string>
@@ -2203,10 +2216,6 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1296" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">

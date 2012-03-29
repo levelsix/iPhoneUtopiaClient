@@ -62,8 +62,6 @@
 @property (nonatomic, assign) float percentReturnedToUserForSellingNormStructure;
 
 @property (nonatomic, assign) int maxNumberOfMarketplacePosts;
-@property (nonatomic, assign) float percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-@property (nonatomic, assign) float percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
 
 @property (nonatomic, assign) int numDaysLongMarketplaceLicenseLastsFor;
 @property (nonatomic, assign) int numDaysShortMarketplaceLicenseLastsFor;

@@ -175,7 +175,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize shouldReload;
 @synthesize state;
 @synthesize coinBar;
-@synthesize removePriceLabel;
+@synthesize removePriceLabel, retractPriceIcon;
 @synthesize doneButton, listAnItemButton;
 @synthesize redeemView, purchLicenseView;
 @synthesize redeemGoldLabel, redeemSilverLabel;
@@ -369,7 +369,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     
     FullMarketplacePostProto *mkt = post.mktProto;
     Globals *gl = [Globals sharedGlobals];
-    self.removePriceLabel.text = [Globals commafyNumber:(int)ceilf(mkt.diamondCost * gl.retractPercentCut)];
+    
+    if (mkt.diamondCost > 0) {
+      self.removePriceLabel.text = [Globals commafyNumber:(int)ceilf(mkt.diamondCost * gl.retractPercentCut)];
+      self.retractPriceIcon.highlighted = YES;
+    } else {
+      self.removePriceLabel.text = [Globals commafyNumber:(int)ceilf(mkt.coinCost * gl.retractPercentCut)];
+      self.retractPriceIcon.highlighted = NO;
+    }
     
     NSIndexPath *indexPath = [self.postsTableView indexPathForCell:post];
     

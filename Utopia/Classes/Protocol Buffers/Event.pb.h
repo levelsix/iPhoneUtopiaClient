@@ -5402,16 +5402,20 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @private
   BOOL hasPosterId_:1;
   BOOL hasPurchaser_:1;
+  BOOL hasMarketplacePost_:1;
   BOOL hasStatus_:1;
   int32_t posterId;
   MinimumUserProto* purchaser;
+  FullMarketplacePostProto* marketplacePost;
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 }
 - (BOOL) hasPurchaser;
 - (BOOL) hasPosterId;
+- (BOOL) hasMarketplacePost;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* purchaser;
 @property (readonly) int32_t posterId;
+@property (readonly, retain) FullMarketplacePostProto* marketplacePost;
 @property (readonly) PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 
 + (PurchaseFromMarketplaceResponseProto*) defaultInstance;
@@ -5459,6 +5463,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) posterId;
 - (PurchaseFromMarketplaceResponseProto_Builder*) setPosterId:(int32_t) value;
 - (PurchaseFromMarketplaceResponseProto_Builder*) clearPosterId;
+
+- (BOOL) hasMarketplacePost;
+- (FullMarketplacePostProto*) marketplacePost;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setMarketplacePost:(FullMarketplacePostProto*) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setMarketplacePostBuilder:(FullMarketplacePostProto_Builder*) builderForValue;
+- (PurchaseFromMarketplaceResponseProto_Builder*) mergeMarketplacePost:(FullMarketplacePostProto*) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) clearMarketplacePost;
 
 - (BOOL) hasStatus;
 - (PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus) status;

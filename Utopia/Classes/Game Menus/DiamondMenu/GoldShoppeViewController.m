@@ -94,9 +94,26 @@
 
 @end
 
+@implementation GoldShoppeLoadingView
+
+@synthesize darkView, actIndView;
+
+- (void) awakeFromNib {
+  self.darkView.layer.cornerRadius = 10.f;
+}
+
+- (void) dealloc {
+  self.darkView = nil;
+  self.actIndView = nil;
+  
+  [super dealloc];
+}
+
+@end
 
 @implementation GoldShoppeViewController
 
+@synthesize loadingView;
 @synthesize itemView = _itemView;
 @synthesize pkgTableView, curGoldLabel;
 @synthesize leftTopBarLabel, rightTopBarLabel, leftBarButton, rightBarButton;
@@ -147,10 +164,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [gpv buyItem];
   [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.07]];
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  [self startLoading];
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
   [GoldShoppeViewController removeView];
+}
+
+- (void) startLoading {
+  [loadingView.actIndView startAnimating];
+  
+  [self.view addSubview:loadingView];
+  _isDisplayingLoadingView = YES;
+}
+
+- (void) stopLoading {
+  if (_isDisplayingLoadingView) {
+    [loadingView.actIndView stopAnimating];
+    [loadingView removeFromSuperview];
+    _isDisplayingLoadingView = NO;
+  }
+}
+
+- (void) fadeOut {
+  if (self.view.superview) {
+    [self stopLoading];
+    
+    [UIView animateWithDuration:1.f animations:^{
+      self.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      [GoldShoppeViewController removeView];
+    }];
+  }
 }
 
 - (void)viewDidUnload
@@ -158,6 +203,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [super viewDidUnload];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
+  self.loadingView = nil;
+  self.itemView = nil;
+  self.pkgTableView = nil;
+  self.curGoldLabel = nil;
+  self.leftTopBarLabel = nil;
+  self.rightTopBarLabel = nil;
+  self.leftBarButton = nil;
+  self.rightBarButton = nil;
 }
 
 @end

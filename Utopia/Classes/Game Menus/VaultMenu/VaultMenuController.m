@@ -171,35 +171,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     NSString *newStr = [NSString stringWithFormat:@"%09d", realBalance];
     _index = [self firstDifference:vaultBalance second:newStr];
     self.vaultBalance = newStr;
+    _firstTick = YES;
     [self animateNextNum];
   }
-  
-  // increment by atleast 1 every time
-  //  if (realBalance != num) {
-  //    int newVal = realBalance > num ? MAX(MIN(TICK_MIN_JUMP, realBalance - num), (realBalance - num)/TICK_DIVISOR) : MIN(MAX(-TICK_MIN_JUMP, realBalance - num), (realBalance - num)/TICK_DIVISOR);
-  //    NSString *newStr = [NSString stringWithFormat:@"%09d", num + newVal];
-  //    
-  //    [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-  //      VaultTickView *back = (VaultTickView *)[(SBTickerView *)obj backView];
-  //      VaultTickView *front = (VaultTickView *)[(SBTickerView *)obj frontView];
-  //      int new = [[newStr substringWithRange:NSMakeRange(idx, 1)] intValue];
-  //      if (new != front.num) {
-  //        back.num = new;
-  //        [obj tick:SBTickerViewTickDirectionDown animated:YES completion:^{NSLog(@"Done");}];
-  //      }
-  //    }];
-  //    self.vaultBalance = newStr;
-  //  }
 }
 
 - (void) animateNextNum {
   _numTicksComplete = 0;
   if (_index != vaultBalance.length) {
-    if ([[vaultBalance substringWithRange:NSMakeRange(_index, 1)] intValue] == 0) {
+    if ([[vaultBalance substringWithRange:NSMakeRange(_index, 1)] intValue] == 0 && !_firstTick) {
       _index++;
+      _firstTick = NO;
       [self animateNextNum];
       return;
     }
+    // Need to use first tick in the event that the left most num becomes 0 -> 12345 to 2345.
+    _firstTick = NO;
     [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if (idx >= _index) {
         VaultTickView *back = (VaultTickView *)[(SBTickerView *)obj backView];

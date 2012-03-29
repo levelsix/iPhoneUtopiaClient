@@ -35,12 +35,20 @@
 
 @end
 
+@interface GoldShoppeLoadingView : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *darkView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
+
+@end
 
 @interface GoldShoppeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   UIScrollView *_scrollView;
   GoldPackageView *_itemView;
+  BOOL _isDisplayingLoadingView;
 }
 
+@property (nonatomic, retain) IBOutlet GoldShoppeLoadingView *loadingView;
 @property (nonatomic, retain) IBOutlet UITableView *pkgTableView;
 @property (nonatomic, retain) IBOutlet GoldPackageView *itemView;
 @property (nonatomic, retain) IBOutlet UILabel *curGoldLabel;
@@ -56,5 +64,6 @@
 + (void) purgeSingleton;
 
 - (IBAction)closeButtonClicked:(id)sender;
+- (void) stopLoading;
 
 @end

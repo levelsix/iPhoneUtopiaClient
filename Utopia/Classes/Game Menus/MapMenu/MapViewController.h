@@ -51,7 +51,7 @@ typedef enum {
 
 @end
 
-@interface LoadingView : UIView
+@interface MapLoadingView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *darkView;
 @property (nonatomic, retain) IBOutlet UILabel *label;
@@ -70,7 +70,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
 @property (nonatomic, retain) IBOutlet MapBar *mapBar;
-@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+@property (nonatomic, retain) IBOutlet MapLoadingView *loadingView;
 
 @property (nonatomic, assign) MapState state;
 
