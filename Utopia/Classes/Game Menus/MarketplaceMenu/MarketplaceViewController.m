@@ -399,7 +399,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)removeItemClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:self.selectedCell.mktProto.marketplacePostId];
+  FullMarketplacePostProto *fmpp = self.selectedCell.mktProto;
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (fmpp.diamondCost > 0) {
+    int amount = (int) ceilf(fmpp.diamondCost*gl.retractPercentCut);
+    if (gs.gold >= amount) {
+      [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
+    } else {
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    }
+  } else {
+    int amount = (int) ceilf(fmpp.coinCost*gl.retractPercentCut);
+    if (gs.silver >= amount) {
+      [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
+    } else {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fmpp.diamondCost];
+    }
+  }
+  
   self.removeView.hidden = YES;
   self.selectedCell = nil;
   

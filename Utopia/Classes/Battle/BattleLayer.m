@@ -66,7 +66,7 @@
   
   rarityLabel = leftRarityLabel3;
   imgView = leftEquipIcon3;
-  equipId = gs.armorEquipped;
+  equipId = gs.amuletEquipped;
   if (equipId > 0) {
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
@@ -79,7 +79,7 @@
   
   rarityLabel = rightRarityLabel1;
   imgView = rightEquipIcon1;
-  equipId = fup.armorEquipped;
+  equipId = fup.weaponEquipped;
   if (equipId > 0) {
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
@@ -105,7 +105,7 @@
   
   rarityLabel = rightRarityLabel3;
   imgView = rightEquipIcon3;
-  equipId = fup.armorEquipped;
+  equipId = fup.amuletEquipped;
   if (equipId > 0) {
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];

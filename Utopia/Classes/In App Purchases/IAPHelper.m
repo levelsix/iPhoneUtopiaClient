@@ -41,6 +41,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   self.products = response.products;
   self.request = nil;
   
+  NSLog(@"Invalid product ids: %@", response.invalidProductIdentifiers);
+  
 //  if (response.products.count == 0) {
 //    [self requestProducts];
 //  }

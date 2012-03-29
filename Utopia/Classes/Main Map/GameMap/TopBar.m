@@ -143,6 +143,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [fillButton addChild:_bigGoldCostLabel];
     _bigGoldCostLabelShadow = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
     _bigGoldCostLabelShadow.color = ccc3(100, 60, 0);
+    _bigGoldCostLabelShadow.opacity = 100;
     _bigGoldCostLabelShadow.position = ccp(_bigGoldCostLabel.contentSize.width/2+1, _bigGoldCostLabel.contentSize.height/2-1);
     [_bigGoldCostLabel addChild:_bigGoldCostLabelShadow z:-1];
     
@@ -152,6 +153,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [fillButton addChild:fillLabel];
     CCLabelTTF *fillLabelShadow = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
     fillLabelShadow.color = ccc3(100, 60, 0);
+    fillLabelShadow.opacity = 100;
     fillLabelShadow.position = ccp(fillLabel.contentSize.width/2+1, fillLabel.contentSize.height/2-1);
     [fillLabel addChild:fillLabelShadow z:-1];
     
@@ -440,6 +442,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       _bigTimerLabel.string = [NSString stringWithFormat:@"+1 in %01d:%02d", time/60, time%60];
     }
   } else if (_bigToolTipState == kStamina) { 
+    _bigToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
     _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", gs.currentStamina, gs.maxStamina];
     if (gs.currentStamina >= gs.maxStamina) {
       [self fadeOutToolTip:YES];

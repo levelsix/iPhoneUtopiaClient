@@ -289,11 +289,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retractMarketplacePost:(int)postId {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   NSMutableArray *mktPostsFromSender = [mvc postsForState];
   for (int i = 0; i < mktPostsFromSender.count; i++) {
     FullMarketplacePostProto *proto = [mktPostsFromSender objectAtIndex:i];
     if ([proto marketplacePostId] == postId) {
+      if (proto.diamondCost > 0) {
+        int amount = (int) ceilf(proto.diamondCost*gl.retractPercentCut);
+        if (gs.gold >= amount) {
+          gs.gold -= amount;
+        } else {
+          [Globals popupMessage:@"Not enough gold to retract"];
+          return;
+        }
+      } else {
+        int amount = (int) ceilf(proto.coinCost*gl.retractPercentCut);
+        if (gs.silver >= amount) {
+          gs.silver -= amount;
+        } else {
+          [Globals popupMessage:@"Not enough silver to retract"];
+          return;
+        }
+      }
       [sc sendRetractMarketplacePostMessage:postId];
       [mktPostsFromSender removeObject:proto];
       NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![[GameState sharedGameState] hasValidLicense] inSection:0];
@@ -316,13 +335,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (int i = 0; i < mktPosts.count; i++) {
     FullMarketplacePostProto *proto = [mktPosts objectAtIndex:i];
     if ([proto marketplacePostId] == postId) {
-      if (gs.userId != proto.posterId && gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
-        [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
-        [mktPosts removeObject:proto];
-        NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![gs hasValidLicense] inSection:0];
-        NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
-        NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-        [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+      if (gs.userId != proto.posterId) {
+        if (gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
+          [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
+          [mktPosts removeObject:proto];
+          NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![gs hasValidLicense] inSection:0];
+          NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+          NSArray *a = [NSArray arrayWithObjects:y, z, nil];
+          [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+          
+          gs.gold -= proto.diamondCost;
+          gs.silver -= proto.coinCost;
+        } else {
+          [Globals popupMessage:@"Not enough coins to purchase"];
+        }
         return;
       }
     }
@@ -735,7 +761,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];
     
     // Update game state
-    gs.gold -= [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
+    gs.silver -= [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
   } else {
     [Globals popupMessage:@"This building is not upgradable"];
   }
