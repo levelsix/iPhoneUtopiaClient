@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.8"//@"50.18.173.214"
+#define HOST_NAME @"10.1.10.19"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -30,7 +30,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 - (void) connectToSocket {
 	NSError *error = nil;
-  NSString *host = HOST_NAME;
+  NSString *host  = HOST_NAME;
   uint16_t port = HOST_PORT;
   
   // Make connection to host
@@ -172,10 +172,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[vaultReq data] withMessageType:EventProtocolRequestCVaultEvent];
 }
 
-- (void) sendBattleMessage:(int)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city {
+- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city {
   BattleRequestProto_Builder *builder = [[[[[BattleRequestProto builder]
                                             setAttacker:_sender]
-                                           setDefender:[[[MinimumUserProto builder] setUserId:defender] build]]
+                                           setDefender:defender]
                                           setBattleResult:result]
                                          setClientTime:curTime];
   if (city != 0) {
@@ -277,7 +277,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type {
-  PurchaseMarketplaceLicenseRequestProto *req = [[[[PurchaseMarketplaceLicenseRequestProto builder]
+  PurchaseMarketplaceLicenseRequestProto *req = [[[[[PurchaseMarketplaceLicenseRequestProto builder]
+                                                    setSender:_sender]
                                                    setClientTime:clientTime]
                                                   setLicenseType:type]
                                                  build];

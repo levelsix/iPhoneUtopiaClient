@@ -609,8 +609,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSString *) battleImageNameForUser:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return @"bwarrior.png";
+      break;
+      
+    case UserTypeGoodArcher:
+      return @"baarcher.png";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"bpanda.png";
+      break;
+      
+    case UserTypeBadWarrior:
+      return @"bskel.png";
+      break;
+      
+    case UserTypeBadArcher:
+      return @"blarcher.png";
+      break;
+      
+    case UserTypeBadMage:
+      return @"binvoker.png";
+      break;
+      
+    default:
+      break;
+  }
+}
+
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r {
-  return r >= FullEquipProto_RarityEpic;
+  return r == FullEquipProto_RarityEpic || r == FullEquipProto_RarityLegendary;
 }
 
 // Formulas

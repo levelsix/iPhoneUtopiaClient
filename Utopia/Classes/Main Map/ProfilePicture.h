@@ -32,6 +32,15 @@
 
 @end
 
+@interface ProfileButton : CCMenuItemImage {
+  CCSprite *_badge;
+  CCLabelTTF *_badgeLabel;
+}
+
+@property (nonatomic, assign) int badgeNum;
+
+@end
+
 @interface ProfilePicture : CCSprite <CCTargetedTouchDelegate> {
   BOOL _inAction;
   BOOL _menuOut;

@@ -31,7 +31,7 @@
 // Send different event messages
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient;
 - (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
-- (void) sendBattleMessage:(int)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city;
+- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city;
 - (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
 - (void) sendStartupMessage:(uint64_t)clientTime;
 - (void) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;

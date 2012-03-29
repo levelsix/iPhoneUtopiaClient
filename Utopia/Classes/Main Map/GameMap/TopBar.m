@@ -472,24 +472,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) dealloc {
-  [_enstBgd release];
+  // These were the only things actually retained
   [_energyBar release];
   [_staminaBar release];
-  [_curEnergyBar release];
-  [_curStaminaBar release];
-  [_coinBar release];
-  [_silverLabel release];
-  [_goldLabel release];
-  [_goldButton release];
   [_toolTipTimerDate release];
-  [_bigToolTip release];
-  [_bigCurValLabel release];
-  [_bigTimerLabel release];
-  [_bigGoldCostLabel release];
-  [_bigGoldCostLabelShadow release];
-  [_littleToolTip release];
-  [_littleCurValLabel release];
-  [_profilePic release];
   [super dealloc];
 }
 

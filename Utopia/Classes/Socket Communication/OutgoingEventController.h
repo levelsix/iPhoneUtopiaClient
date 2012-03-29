@@ -20,7 +20,7 @@
 
 - (BOOL) taskAction:(int)taskId;
 
-- (void) battle:(int)defender result:(BattleResult)result city:(int)city;
+- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city;
 - (int) buyEquip:(int)equipId;
 - (int) sellEquip:(int)equipId;
 - (BOOL) wearEquip:(int)equipId;

@@ -174,6 +174,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize curField;
 @synthesize shouldReload;
 @synthesize state;
+@synthesize coinBar;
 @synthesize removePriceLabel;
 @synthesize doneButton, listAnItemButton;
 @synthesize redeemView, purchLicenseView;
@@ -204,8 +205,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView addSubview:self.removeView];
   
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
-  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 90)];
-  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 90)];
+  leftRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(15, 30, 3, 40)];
+  rightRopeFirstRow = [[UIView alloc] initWithFrame:CGRectMake(463, 30, 3, 40)];
   leftRopeFirstRow.backgroundColor = c;
   rightRopeFirstRow.backgroundColor = c;
   [self.postsTableView insertSubview:leftRopeFirstRow belowSubview:self.ropeView];
@@ -238,6 +239,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   } completion:^(BOOL finished) {
     [self displayRedeemView];
   }];
+  
+  [coinBar updateLabels];
 }
 
 - (void) displayRedeemView {
@@ -268,6 +271,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   // Need to do 2 superviews: first one gives UITableViewCellContentView, second one gives ItemPostView
   ItemPostView *post = (ItemPostView *)[[[(UIButton *)sender superview] superview] superview];
   GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:post.equip.equipId];
   
   if (gs.hasValidLicense) {
     post.state = kSubmitState;
@@ -276,6 +280,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       self.selectedCell.state = kListState;
     }
     self.selectedCell = post;
+    
+    if ([Globals sellsForGoldInMarketplace:fep.rarity]) {
+      post.submitPriceIcon.highlighted = YES;
+    } else {
+      post.submitPriceIcon.highlighted = NO;
+    }
     
     self.removeView.hidden = YES;
     
@@ -327,7 +337,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     [self disableEditing];
     int amount = [post.priceField.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
     [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId price:amount];
+    
+    post.state = kListState;
+    
+    [postsTableView beginUpdates];
+    
+    if (post.equip.quantity == 0) {
+      [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
+    }
+//    [postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1+![[GameState sharedGameState] hasValidLicense] inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+    
+    [postsTableView endUpdates];
   }
+  [coinBar updateLabels];
 }
 
 - (IBAction)minusButtonClicked:(id)sender {
@@ -340,7 +362,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.selectedCell = post;
     
     CGRect tmp = self.removeView.frame;
-    tmp.origin = CGPointMake(post.frame.origin.x+216, post.frame.origin.y-26);
+    tmp.origin = CGPointMake(post.frame.origin.x+100, post.frame.origin.y-5);
     self.removeView.frame = tmp;
     
     self.removeView.hidden = NO;
@@ -373,6 +395,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:self.selectedCell.mktProto.marketplacePostId];
   self.removeView.hidden = YES;
   self.selectedCell = nil;
+  
+  [coinBar updateLabels];
 }
 
 - (IBAction)cancelRemoveClicked:(id)sender {
@@ -427,6 +451,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:proto.marketplacePostId];
     self.selectedCell = nil;
   }
+  
+  [coinBar updateLabels];
 }
 
 - (IBAction)collectClicked:(id)sender {
@@ -437,6 +463,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.redeemView.hidden = YES;
     self.postsTableView.userInteractionEnabled = YES;
   }];
+  
+  [coinBar updateLabels];
 }
 
 - (IBAction)shortLicenseClicked:(id)sender {
@@ -452,6 +480,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if (gs.hasValidLicense) {
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
   }
+  
+  [coinBar updateLabels];
 }
 
 - (IBAction)longLicenseClicked:(id)sender {
@@ -463,6 +493,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfLongMarketplaceLicense];
   }
+  
+  [coinBar updateLabels];
 }
 
 // Customize the number of sections in the table view.
@@ -683,7 +715,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView endUpdates];
   [arr release];
   self.shouldReload = YES;
-  _refreshing = NO;
 }
 
 - (void) deleteRows:(int)start {
@@ -729,8 +760,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self.postsTableView endUpdates];
   [del release];
   [ins release];
-  
-  _refreshing = NO;
 }
 
 - (NSMutableArray *) postsForState {
@@ -740,6 +769,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     return [[GameState sharedGameState] marketplaceEquipPostsFromSender];
   }
   return nil;
+}
+
+- (void) doneRefreshing {
+  _refreshing = NO;
 }
 
 - (void) refresh {

@@ -281,6 +281,10 @@
   return self;
 }
 
+- (NSString *) description {
+  return [NSString stringWithFormat:@"<UserNotification> Type: %d", self.type];
+}
+
 - (void) dealloc {
   self.time = nil;
   self.otherPlayer = nil;

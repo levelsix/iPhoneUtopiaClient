@@ -76,6 +76,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRedeemMarketplaceEarningsEvent:
       responseClass = [RedeemMarketplaceEarningsResponseProto class];
       break;
+    case EventProtocolResponseSPurchaseMarketplaceLicenseEvent:
+      responseClass = [PurchaseMarketplaceLicenseResponseProto class];
+      break;
     case EventProtocolResponseSGenerateAttackListEvent:
       responseClass = [GenerateAttackListResponseProto class];
       break;
@@ -365,6 +368,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
   }
+  [mvc doneRefreshing];
   [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }
 
@@ -390,6 +394,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleRedeemMarketplaceEarningsRequestProto: (RedeemMarketplaceEarningsResponseProto *) proto {
   NSLog(@"Redeem response received with statuss %d", proto.status);
+}
+
+- (void) handlePurchaseMarketplaceLicenseResponseProto: (PurchaseMarketplaceLicenseResponseProto *) proto {
+  NSLog(@"Purchase marketplace license received with status %d", proto.status);
+  
+  if (proto.status != PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess) {
+    [Globals popupMessage:@"Server failed to purchase marketplace license"];
+  }
 }
 
 - (void) handleGenerateAttackListResponseProto: (GenerateAttackListResponseProto *) proto {

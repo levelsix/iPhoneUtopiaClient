@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "TopBar.h"
+#import "ActivityFeedController.h"
 
 @implementation GameState
 
@@ -234,6 +235,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [self.myCritStructs addObject:[UserCritStruct critStructWithProto:st]];
   }
 }
+
 - (void) addToMyCities:(NSArray *)cities {
   self.myCities = [NSMutableDictionary dictionaryWithCapacity:cities.count];
   for (FullUserCityProto *cit in cities) {
@@ -256,9 +258,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addNotification:(UserNotification *)un {
   [self.notifications addObject:un];
   [self.notifications sortUsingComparator:^NSComparisonResult(UserNotification *obj1, UserNotification *obj2) {
-    return [obj1.time compare:obj2.time];
+    return [obj2.time compare:obj1.time];
   }];
   
+  [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+
   [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
 }
 

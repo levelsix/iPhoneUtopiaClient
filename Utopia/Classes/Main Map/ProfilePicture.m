@@ -110,6 +110,54 @@
 
 @end
 
+@implementation ProfileButton
+
+@synthesize badgeNum;
+
+- (id) initFromNormalSprite:(CCNode<CCRGBAProtocol> *)normalSprite selectedSprite:(CCNode<CCRGBAProtocol> *)selectedSprite disabledSprite:(CCNode<CCRGBAProtocol> *)disabledSprite target:(id)target selector:(SEL)selector {
+  if ((self = [super initFromNormalSprite:normalSprite selectedSprite:selectedSprite disabledSprite:disabledSprite target:target selector:selector])) {
+    _badge = [CCSprite spriteWithFile:@"notificationnumber.png"];
+    _badge.anchorPoint = ccp(1,1);
+    _badge.position = ccp(self.contentSize.width+5, self.contentSize.height+1);
+    [self addChild:_badge];
+    
+    _badgeLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
+    _badgeLabel.position = ccp(_badge.contentSize.width/2, _badge.contentSize.height/2-2);
+    [_badge addChild:_badgeLabel];
+    
+    badgeNum = 0;
+  }
+  return self;
+}
+
+- (void) setBadgeNum:(int)b {
+  if (badgeNum != b) {
+    badgeNum = b;
+    _badgeLabel.string = [NSString stringWithFormat:@"%d", badgeNum];
+  }
+}
+
+- (void) hideBadge {
+  _badge.visible = NO;
+}
+
+- (void) fadeInBadge {
+  _badge.visible = YES;
+  [_badge runAction:[CCFadeIn actionWithDuration:0.2f]];
+  [_badgeLabel runAction:[CCFadeIn actionWithDuration:0.2f]];
+}
+
+- (void) fadeOutBadge {
+  if (self.visible) {
+    [_badge runAction:[CCSequence actions:
+                       [CCFadeOut actionWithDuration:0.2f],
+                       [CCCallFunc actionWithTarget:self selector:@selector(hideBadge)], nil]];
+    [_badgeLabel runAction:[CCFadeOut actionWithDuration:0.2f]];
+  }
+}
+
+@end
+
 @implementation ProfilePicture 
 
 + (id) profileWithType: (UserType) type {
@@ -128,19 +176,19 @@
     
     _menuItems = [[[NSMutableArray alloc] init] retain];
     
-    CCMenuItemImage *button1 = [CCMenuItemImage itemFromNormalImage:@"pathnotifications.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
+    ProfileButton *button1 = [ProfileButton itemFromNormalImage:@"pathnotifications.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
     button1.visible = NO;
     [_menuItems addObject:button1];
     
-    CCMenuItemImage *button2 = [CCMenuItemImage itemFromNormalImage:@"pathquests.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
+    ProfileButton *button2 = [ProfileButton itemFromNormalImage:@"pathquests.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
     button2.visible = NO;
     [_menuItems addObject:button2];
     
-    CCMenuItemImage *button3 = [CCMenuItemImage itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
+    ProfileButton *button3 = [ProfileButton itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
     button3.visible = NO;
     [_menuItems addObject:button3];
     
-    CCMenuItemImage *button4 = [CCMenuItemImage itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
     button4.visible = NO;
     [_menuItems addObject:button4];
     
@@ -197,7 +245,6 @@
 }
 
 - (void) popOutButtons {
-  
   _inAction = YES;
   _menuOut = YES;
   
@@ -213,17 +260,20 @@
   // Use this so that we can have buttons relative to center point
   for (int i = 0; i < [_menuItems count]; i++) {
     float degree = CC_DEGREES_TO_RADIANS(START_ANGLE + i * step);
-    CCMenuItemImage *button = [_menuItems objectAtIndex:i];
+    ProfileButton *button = [_menuItems objectAtIndex:i];
     [button stopAllActions];
+    [button hideBadge];
     CGPoint pt = ccp(dist*cosf(degree), dist*sinf(degree));
     
     button.scale = 1;
     button.position = ccp(0,0);
     button.opacity = 255;
     
-    CCFiniteTimeAction *bounceAction = [CCSequence actions:[CCDelayTime actionWithDuration:i*DELAY_BETWEEN_BUTTONS], [CCEaseBackOut actionWithAction:[CCMoveBy actionWithDuration:0.2 position:pt]], nil];
+    CCFiniteTimeAction *action = [CCCallFunc actionWithTarget:button selector:@selector(fadeInBadge)];
+    
+    CCFiniteTimeAction *bounceAction = [CCSequence actions:[CCDelayTime actionWithDuration:i*DELAY_BETWEEN_BUTTONS], [CCEaseBackOut actionWithAction:[CCMoveBy actionWithDuration:0.2 position:pt]], button.badgeNum > 0 ? action : nil, nil];
     CCFiniteTimeAction *fullAction = [CCSpawn actions:bounceAction, 
-                                      [CCRotateTo actionWithDuration:[bounceAction duration]/1.5 angle:TOTAL_ROTATION_ANGLE], 
+                                      [CCRotateTo actionWithDuration:[bounceAction duration]/1.5 angle:TOTAL_ROTATION_ANGLE],
                                       nil];
     [button runAction:fullAction];
     
@@ -251,15 +301,16 @@
   
   // Use this so that we can have buttons relative to center point
   for (int i = 0; i < [_menuItems count]; i++) {
-    CCMenuItem *button = [_menuItems objectAtIndex:[_menuItems count]-i-1];
+    ProfileButton *button = [_menuItems objectAtIndex:[_menuItems count]-i-1];
     [button stopAllActions];
+    [button hideBadge];
     
     CCFiniteTimeAction *bounceAction = [CCSequence actions:[CCDelayTime actionWithDuration:i*DELAY_BETWEEN_BUTTONS], [CCEaseBackIn actionWithAction:[CCMoveTo actionWithDuration:0.2 position:ccp(0,0)]], nil];
     
     CCFiniteTimeAction *fullAction = [CCSequence actions:
                                       [CCSpawn actions:bounceAction, 
-                                       [CCRotateBy actionWithDuration:[bounceAction duration] angle:-TOTAL_ROTATION_ANGLE], 
-                                       nil], 
+                                       [CCRotateBy actionWithDuration:[bounceAction duration] angle:-TOTAL_ROTATION_ANGLE],
+                                       nil],
                                       [CCCallFuncN actionWithTarget:self selector:@selector(setInvisible:)], nil];
     
     [button runAction:fullAction];
@@ -272,10 +323,12 @@
                     [CCCallFunc actionWithTarget:self selector:@selector(enableButton)], nil]];
 }
 
-- (void) buttonClicked:(CCMenuItem *)clickedButton selector:(SEL)sel {
+- (void) buttonClicked:(ProfileButton *)clickedButton selector:(SEL)sel {
   if (_inAction || !_menuOut) {
     return;
   }
+  
+  clickedButton.badgeNum = 0;
   
   [_expCircle runAction: [CCRotateBy actionWithDuration:0.2 angle:-90]];
   
@@ -292,7 +345,8 @@
                             [CCCallFunc actionWithTarget:self selector:sel],
                             nil]];
   
-  for (CCMenuItem *button in _menuItems) {
+  for (ProfileButton *button in _menuItems) {
+    [button hideBadge];
     if (button != clickedButton) {
       [button runAction:[CCSequence actions:
                          [CCSpawn actions:
@@ -347,10 +401,14 @@
 }
 
 - (void) incrementNotificationBadge {
+  ProfileButton *pb = [_menuItems objectAtIndex:0];
+  pb.badgeNum++;
   [_expCircle flashNotification];
 }
 
 - (void) incrementProfileBadge {
+  ProfileButton *pb = [_menuItems objectAtIndex:2];
+  pb.badgeNum++;
   [_expCircle flashNotification];
 }
 

@@ -11,6 +11,7 @@
 #import "PullRefreshTableViewController.h"
 #import "UserData.h"
 #import "NibUtils.h"
+#import "CoinBar.h"
 
 // My selling is when you have the item on the mktplace.
 // Listing is when you own the item but its not on the mktplace.
@@ -76,6 +77,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *rightRope;
 @property (nonatomic, retain) IBOutlet UIView *purchLicenseView;
 
+@property (nonatomic, retain) IBOutlet CoinBar *coinBar;
+
 @property (nonatomic, retain) IBOutlet UILabel *shortLicenseCost;
 @property (nonatomic, retain) IBOutlet UILabel *longLicenseCost;
 @property (nonatomic, retain) IBOutlet UILabel *shortLicenseLength;
@@ -102,6 +105,7 @@ typedef enum {
 - (void) resetAllRows;
 - (NSMutableArray *) postsForState;
 - (void) displayRedeemView;
+- (void) doneRefreshing;
 
 - (IBAction)closePurchLicenseView:(id)sender;
 - (IBAction)shortLicenseClicked:(id)sender;

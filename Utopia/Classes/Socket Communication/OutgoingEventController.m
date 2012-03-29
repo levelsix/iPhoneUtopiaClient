@@ -81,8 +81,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return YES;
 }
 
-- (void) battle:(int)defender result:(BattleResult)result city:(int)city {
-  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:defender result:result curTime:[self getCurrentMilliseconds] city:city];
+- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city {
+  MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:defender.name] setUserId:defender.userId] setUserType:defender.userType] build];
+  
+  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city];
 }
 
 - (int) buyEquip:(int)equipId {
@@ -267,17 +269,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"You need a license to make a post"];
   }
   
-  for (FullUserEquipProto *eq in [gs myEquips]) {
-    if (eq.equipId == equipId) {
-      FullEquipProto *fep = [gs equipWithId:equipId];
-      int silver = [Globals sellsForGoldInMarketplace:fep.rarity] ? price : 0;
-      int gold = [Globals sellsForGoldInMarketplace:fep.rarity] ? 0 : price;
-      [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
-      return;
-    }
-  }
+  UserEquip *eq = [gs myEquipWithId:equipId];
   
-  [Globals popupMessage:@"Unable to find this equip!"];
+  if (eq) {
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    int silver = [Globals sellsForGoldInMarketplace:fep.rarity] ? 0 : price;
+    int gold = [Globals sellsForGoldInMarketplace:fep.rarity] ? price : 0;
+    [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
+    eq.quantity--;
+    
+    if (eq.quantity == 0) {
+      [gs.myEquips removeObject:eq];
+    }
+  } else {
+    [Globals popupMessage:@"Unable to find this equip!"];
+  }
 }
 
 - (void) retractMarketplacePost:(int)postId {
@@ -290,8 +296,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if ([proto marketplacePostId] == postId) {
       [sc sendRetractMarketplacePostMessage:postId];
       [mktPostsFromSender removeObject:proto];
-      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
-      NSIndexPath *z = mktPostsFromSender.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+      NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![[GameState sharedGameState] hasValidLicense] inSection:0];
+      NSIndexPath *z = mktPostsFromSender.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
       NSArray *a = [NSArray arrayWithObjects:y, z, nil];
       [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
       return;
@@ -313,7 +319,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if (gs.userId != proto.posterId && gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
         [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
         [mktPosts removeObject:proto];
-        NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
+        NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![gs hasValidLicense] inSection:0];
         NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
         NSArray *a = [NSArray arrayWithObjects:y, z, nil];
         [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
@@ -940,6 +946,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (fup.amuletEquipped && ![sEquips objectForKey:am]) {
       [rEquips addObject:am];
       shouldSend = YES;
+    }
+  }
+  
+  for (UserNotification *un in gs.notifications) {
+    if (un.stolenEquipId != 0) {
+      NSNumber *n = [NSNumber numberWithInt:un.stolenEquipId];
+      if (![sEquips objectForKey:n]) {
+        [rEquips addObject:n];
+        shouldSend = YES;
+      }
+    }
+    
+    if (un.marketPost.postedEquip.equipId) {
+      NSNumber *n = [NSNumber numberWithInt:un.marketPost.postedEquip.equipId];
+      if (![sEquips objectForKey:n]) {
+        [rEquips addObject:n];
+        shouldSend = YES;
+      }
     }
   }
   

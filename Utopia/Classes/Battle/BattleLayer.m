@@ -208,15 +208,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (id) init {
   if ((self = [super init])) {
-    _left = [CCSprite spriteWithFile:@"goodarcher.png"];
-    _right = [CCSprite spriteWithFile:@"badarcher.png"];
-    
-    _left.position = ccp(-_left.contentSize.width/2, _left.contentSize.height/2);
-    _right.position = ccp([[CCDirector sharedDirector] winSize].width+_left.contentSize.width/2, _right.contentSize.height/2);
-    
-    [self addChild:_left z:1];
-    [self addChild:_right z:1];
-    
     CCSprite *leftHealthBarBg = [CCSprite spriteWithFile:@"healthbarbg.png"];
     leftHealthBarBg.position = ccp(leftHealthBarBg.contentSize.width/2, self.contentSize.height-leftHealthBarBg.contentSize.height/2);
     [self addChild:leftHealthBarBg];
@@ -433,6 +424,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [[NSBundle mainBundle] loadNibNamed:@"BattleSummaryView" owner:self options:nil];
     
     self.isTouchEnabled = YES;
+    
+    _left = nil;
+    _right = nil;
   }
   return self;
 }
@@ -448,6 +442,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   // Remove mapviewcontroller in case we were called from there
   [[MapViewController sharedMapViewController] fadeOut];
+  
+  [self removeChild:_left cleanup:YES];
+  [self removeChild:_right cleanup:YES];
+  
+  _left = [CCSprite spriteWithFile:[Globals battleImageNameForUser:gs.type]];
+  _right = [CCSprite spriteWithFile:[Globals battleImageNameForUser:user.userType]];
+  _right.flipX = YES;
+  
+  _left.position = ccp(-_left.contentSize.width/2, _left.contentSize.height/2);
+  _right.position = ccp([[CCDirector sharedDirector] winSize].width+_left.contentSize.width/2, _right.contentSize.height/2);
+  
+  [self addChild:_left z:1];
+  [self addChild:_right z:1];
   
   _leftCurrentHealth = gs.maxHealth;
   _leftMaxHealth = gs.maxHealth;
@@ -508,12 +515,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _fleeLayer.visible = NO;
   _winLayer.visible = NO;
   _loseLayer.visible = NO;
-  _left.position = ccp(-_left.contentSize.width/2, _left.contentSize.height/2);
-  _left.opacity = 150;
-  _left.scale = 0.5;
-  _right.position = ccp([[CCDirector sharedDirector] winSize].width+_left.contentSize.width/2, _right.contentSize.height/2);
-  _right.opacity = 150;
-  _right.scale = 0.5;
   _isBattling = YES;
   
   _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
@@ -561,7 +562,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
     
     if (_rightCurrentHealth - _damageDone <= 0) {
-      [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultAttackerWin city:_cityId];
+      [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerWin city:_cityId];
     }
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
@@ -646,7 +647,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _damageDone = [self calculateEnemyDamageForPercentage:perc];
   
   if (_leftCurrentHealth - _damageDone <= 0) {
-    [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultDefenderWin city:0];
+    [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultDefenderWin city:0];
   }
   
   _bottomMenu.visible = NO;
@@ -791,7 +792,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) fleeClicked {
-  [[OutgoingEventController sharedOutgoingEventController] battle:_fup.userId result:BattleResultAttackerFlee city:0];
+  [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:0];
   [_attackProgressTimer stopAllActions];
   _attackButton.visible = NO;
   _fleeLayer.visible = YES;

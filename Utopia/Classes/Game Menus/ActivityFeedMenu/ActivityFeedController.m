@@ -19,9 +19,10 @@
 
 - (void) updateForNotification:(UserNotification *)n {
   GameState *gs = [GameState sharedGameState];
-  NSString *name = notification.otherPlayer.name;
   
   self.notification = n;
+  
+  NSString *name = notification.otherPlayer.name;
   userIcon.image = [Globals squareImageForUser:notification.otherPlayer.userType];
   
   if (notification.type == kNotificationBattle) {
@@ -56,7 +57,7 @@
     buttonLabel.text = @"Collect";
   } else if (notification.type == kNotificationReferral) {
     titleLabel.text = [NSString stringWithFormat:@"%@ used your referral code", name];
-    subtitleLabel.text = [NSString stringWithFormat:@"Have %d coins on us", [[Globals sharedGlobals] diamondRewardForReferrer]];
+    subtitleLabel.text = [NSString stringWithFormat:@"Have %d gold on us", [[Globals sharedGlobals] diamondRewardForReferrer]];
     
     titleLabel.textColor = [UIColor colorWithRed:100/256.f green:200/256.f blue:200/256.f alpha:1.f];
     [button setImage:[Globals imageNamed:@"profile.png"] forState:UIControlStateNormal];

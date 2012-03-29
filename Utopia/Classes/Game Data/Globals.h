@@ -103,6 +103,7 @@
 + (UIImage *) squareImageForUser:(UserType)type;
 + (UIImage *) circleImageForUser:(UserType)type;
 + (UIImage *) profileImageForUser:(UserType)type;
++ (NSString *) battleImageNameForUser:(UserType)type;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
