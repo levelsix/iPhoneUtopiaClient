@@ -477,7 +477,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   CCDirector *dir = [CCDirector sharedDirector];
   if (!_isRunning) {
-//    [dir replaceScene:[CCTransitionFadeTR transitionWithDuration:1.f scene:scene]];
+    //    [dir replaceScene:[CCTransitionFadeTR transitionWithDuration:1.f scene:scene]];
     _isRunning = YES;
     [dir pushScene:[BattleLayer scene]];
   }
@@ -599,20 +599,48 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                      // ATTACK!!
                      [CCMoveBy actionWithDuration:0.02 position:ccp(50, 0)],
                      // Fade out and scale, attack done
-                     [CCCallFunc actionWithTarget:self selector:@selector(rightClassSpecificAnimation)],
+                     [CCCallFunc actionWithTarget:self selector:@selector(leftClassSpecificAnimation)],
                      nil]];
   
 }
 
-- (void) rightClassSpecificAnimation {
+- (CGPoint) startParticlePositionForType:(UserType) type {
+  switch (type) {
+    case UserTypeGoodArcher:
+      return ccp(211,105);
+      
+    case UserTypeBadArcher:
+      return ccp(211,112);
+      
+    case UserTypeGoodWarrior:
+    case UserTypeBadWarrior:
+      return ccp(420, 45);
+      
+    default:
+      break;
+  }
+  return ccp(0,0);
+}
+
+- (void) leftClassSpecificAnimation {
   GameState *gs = [GameState sharedGameState];
-  CCParticleSystemQuad *ps = [[CCParticleSystemQuad alloc] initWithFile:[Globals battleAnimationFileForUser:gs.type]];
-  [self addChild:ps];
-  ps.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-  [ps runAction:[CCSequence actions:
-                 [CCMoveBy actionWithDuration:ps.duration position:ccp(100,0)],
-                 [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
-                 nil]];
+  UserType type = gs.type;
+  CCParticleSystemQuad *ps = [[CCParticleSystemQuad alloc] initWithFile:[Globals battleAnimationFileForUser:type]];
+  [self addChild:ps z:2];
+  ps.position = [self startParticlePositionForType:type];
+  
+  if (type == UserTypeBadArcher) {
+    [ps runAction:[CCSequence actions:
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(200,5)],
+                   [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
+                   nil]];
+  } else if (type == UserTypeGoodArcher) {
+    [ps runAction:[CCSequence actions:
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(200,0)],
+                   [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
+                   nil]];
+  }
+  
 }
 
 - (void) attackAnimationDone {
@@ -684,8 +712,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                       [CCMoveBy actionWithDuration:0.02 position:ccp(-50, 0)],
                       // Wait a bit before 
                       // Call the done selector
-                      [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
+                      [CCCallFunc actionWithTarget:self selector:@selector(rightClassSpecificAnimation)],
                       nil]];
+}
+
+- (void) rightClassSpecificAnimation {
+  UserType type = _fup.userType;
+  CCParticleSystemQuad *ps = [[CCParticleSystemQuad alloc] initWithFile:[Globals battleAnimationFileForUser:type]];
+  [self addChild:ps z:2];
+  ps.angle = 180 - ps.angle;
+  ps.gravity = ccp(-ps.gravity.x, ps.gravity.y);
+  
+  CGPoint pos = [self startParticlePositionForType:type];
+  ps.position = ccp(self.contentSize.width-pos.x, pos.y);
+  
+  if (type == UserTypeGoodArcher) {
+    [ps runAction:[CCSequence actions:
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(-200,0)],
+                   [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
+                   nil]];
+  } else if (type == UserTypeGoodWarrior) {
+    [ps runAction:[CCSequence actions:
+                   [CCDelayTime actionWithDuration:ps.duration+ps.life],
+                   [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
+                   nil]];
+  }
+  
+}
+
+- (void) enemyAttackDone {
+  _leftCurrentHealth -= _damageDone;
+  _leftCurrentHealth = MAX(0, _leftCurrentHealth);
+  [self setLeftHealthBarPercentage:((float)_leftCurrentHealth)/_leftMaxHealth*100];
 }
 
 - (float) calculateEnemyPercentage {
@@ -717,12 +775,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   int statDamage = attackStat-defenseStat;
   return (int)MIN(maxDamage, MAX(minDamage, BATTLE_DIFFERENCE_MULTIPLIER*statDamage+BATTLE_DIFFERENCE_TUNER));
-}
-
-- (void) enemyAttackDone {
-  _leftCurrentHealth -= _damageDone;
-  _leftCurrentHealth = MAX(0, _leftCurrentHealth);
-  [self setLeftHealthBarPercentage:((float)_leftCurrentHealth)/_leftMaxHealth*100];
 }
 
 - (void) setLeftHealthBarPercentage:(float)percentage {
@@ -760,6 +812,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (void) myWin {
   _isBattling = NO;
+  _isAnimating = NO;
   [_right runAction:[CCSpawn actions:
                      [CCScaleBy actionWithDuration:0.1 scale:1.2],
                      [CCFadeOut actionWithDuration:0.1],
@@ -783,6 +836,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (void) myLoss {
   _isBattling = NO;
+  _isAnimating = NO;
   [_left runAction:[CCSpawn actions:
                     [CCScaleBy actionWithDuration:0.1 scale:1.2],
                     [CCFadeOut actionWithDuration:0.1],
@@ -911,7 +965,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 - (void) closeScene {
   [_fup release];
   _fup = nil;
-//  [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeBL transitionWithDuration:1.f scene:[GameLayer scene]]];
+  //  [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeBL transitionWithDuration:1.f scene:[GameLayer scene]]];
   [[CCDirector sharedDirector] popScene];
   _isRunning = NO;
 }

@@ -267,6 +267,7 @@
   if ((self = [super init])) {
     self.otherPlayer = proto.purchaser;
     self.time = [NSDate date];
+    self.marketPost = proto.marketplacePost;
     self.type = kNotificationMarketplace;
   }
   return self;

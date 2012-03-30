@@ -534,6 +534,7 @@
 		CFC02BC11525803500B0E42A /* ppanda@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC02B9D1525803500B0E42A /* ppanda@2x.png */; };
 		CFC02BC4152591E400B0E42A /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC02BC2152591E400B0E42A /* arrow.png */; };
 		CFC02BC5152591E400B0E42A /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC02BC3152591E400B0E42A /* arrow@2x.png */; };
+		CFC02BC715259D2500B0E42A /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = CFC02BC615259D2500B0E42A /* iTunesArtwork */; };
 		CFC2494214B4350A00D601DE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBAA01414B3D52F007AB82F /* MainWindow.xib */; };
 		CFC702B3151643A900182259 /* inputpricebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC702A1151643A900182259 /* inputpricebg.png */; };
 		CFC702B4151643A900182259 /* inputpricebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC702A2151643A900182259 /* inputpricebg@2x.png */; };
@@ -722,7 +723,6 @@
 		CFE47C17149240890084E71E /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE47C16149240890084E71E /* Icon-Small@2x.png */; };
 		CFE47C19149240890084E71E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE47C18149240890084E71E /* Icon.png */; };
 		CFE47C1B149240890084E71E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE47C1A149240890084E71E /* Icon@2x.png */; };
-		CFE47C1E149240890084E71E /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = CFE47C1D149240890084E71E /* iTunesArtwork */; };
 		CFE47C23149240890084E71E /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE47C22149240890084E71E /* CCAction.m */; };
 		CFE47C26149240890084E71E /* CCActionCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE47C25149240890084E71E /* CCActionCamera.m */; };
 		CFE47C29149240890084E71E /* CCActionEase.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE47C28149240890084E71E /* CCActionEase.m */; };
@@ -1578,6 +1578,7 @@
 		CFC02B9D1525803500B0E42A /* ppanda@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ppanda@2x.png"; path = "User Icons/ppanda@2x.png"; sourceTree = "<group>"; };
 		CFC02BC2152591E400B0E42A /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		CFC02BC3152591E400B0E42A /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
+		CFC02BC615259D2500B0E42A /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		CFC702A1151643A900182259 /* inputpricebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inputpricebg.png; sourceTree = "<group>"; };
 		CFC702A2151643A900182259 /* inputpricebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inputpricebg@2x.png"; sourceTree = "<group>"; };
 		CFC702A3151643A900182259 /* merchantlicensebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = merchantlicensebg.png; sourceTree = "<group>"; };
@@ -1772,7 +1773,6 @@
 		CFE47C18149240890084E71E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
 		CFE47C1A149240890084E71E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		CFE47C1C149240890084E71E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		CFE47C1D149240890084E71E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		CFE47C21149240890084E71E /* CCAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CCAction.h; path = libs/cocos2d/CCAction.h; sourceTree = "<group>"; };
 		CFE47C22149240890084E71E /* CCAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CCAction.m; path = libs/cocos2d/CCAction.m; sourceTree = "<group>"; };
 		CFE47C24149240890084E71E /* CCActionCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CCActionCamera.h; path = libs/cocos2d/CCActionCamera.h; sourceTree = "<group>"; };
@@ -3604,7 +3604,7 @@
 				CFE47C18149240890084E71E /* Icon.png */,
 				CFE47C1A149240890084E71E /* Icon@2x.png */,
 				CFE47C1C149240890084E71E /* Info.plist */,
-				CFE47C1D149240890084E71E /* iTunesArtwork */,
+				CFC02BC615259D2500B0E42A /* iTunesArtwork */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -4052,7 +4052,6 @@
 				CFE47C17149240890084E71E /* Icon-Small@2x.png in Resources */,
 				CFE47C19149240890084E71E /* Icon.png in Resources */,
 				CFE47C1B149240890084E71E /* Icon@2x.png in Resources */,
-				CFE47C1E149240890084E71E /* iTunesArtwork in Resources */,
 				CFFD7C1414AC2C770054CC23 /* Default.png in Resources */,
 				CFC2494214B4350A00D601DE /* MainWindow.xib in Resources */,
 				CF3D0A6914CB88EA00D972B4 /* GoldPackageView.xib in Resources */,
@@ -4779,6 +4778,7 @@
 				CFC02BC11525803500B0E42A /* ppanda@2x.png in Resources */,
 				CFC02BC4152591E400B0E42A /* arrow.png in Resources */,
 				CFC02BC5152591E400B0E42A /* arrow@2x.png in Resources */,
+				CFC02BC715259D2500B0E42A /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

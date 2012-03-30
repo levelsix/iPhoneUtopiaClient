@@ -97,7 +97,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
     [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
     
-    _profilePic = [ProfilePicture profileWithType:[[GameState sharedGameState] type]];
+    GameState *gs = [GameState sharedGameState];
+    _profilePic = [ProfilePicture profileWithType:gs.type];
     [self addChild:_profilePic z:2];
     _profilePic.position = ccp(50, self.contentSize.height-50);
     

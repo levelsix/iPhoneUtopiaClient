@@ -339,7 +339,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     s = [NSString stringWithFormat:@"%03d,%@", n%1000, s];
     n /= 1000;
   }
-  return [s stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"0"]];
+  s = [s stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"0"]];
+  return s.length > 0 ? s : @"0";
 }
 
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {

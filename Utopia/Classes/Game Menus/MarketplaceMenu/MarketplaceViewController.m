@@ -223,7 +223,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.purchLicenseView.center = self.view.center;
   
   UILabel *retractLabel = (UILabel *)[self.view viewWithTag:15];
-  retractLabel.text = [NSString stringWithFormat:@"Removing items incurs a %f% fee", [[Globals sharedGlobals] retractPercentCut]];
+  retractLabel.text = [NSString stringWithFormat:@"Removing items incurs a %d% fee", (int)([[Globals sharedGlobals] retractPercentCut]*100)];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

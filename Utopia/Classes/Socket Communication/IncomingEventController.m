@@ -239,11 +239,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
+    // Update user before creating map
+    [gs updateUser:proto.sender];
     [[GameViewController sharedGameViewController] setIsTutorial:NO];
     
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
-    [gs updateUser:proto.sender];
     [gs addToMyEquips:proto.userEquipsList];
     [gs addToMyCities:proto.userCityInfosList];
     [gs addToStaticCities:proto.citiesAvailableToUserList];
