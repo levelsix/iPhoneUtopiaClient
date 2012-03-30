@@ -165,7 +165,7 @@
 }
 
 - (id) initWithType:(UserType)type {
-  if ((self = [super initWithFile:@"healthcenter.png"])) {
+  if ((self = [super initWithFile:[Globals headshotImageNameForUser:type]])) {
     _inAction = NO;
     _menuOut = NO;
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
@@ -196,10 +196,6 @@
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     [self addChild:menu z:-1];
-    
-    CCSprite *charImage = [CCSprite spriteWithFile:@"dude.png"];
-    charImage.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    [self addChild:charImage z:1];
   }
   return self;
 }

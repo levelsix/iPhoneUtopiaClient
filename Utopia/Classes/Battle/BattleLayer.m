@@ -245,14 +245,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     CCMenuItemSprite *menuSpr = [CCMenuItemSprite itemFromNormalSprite:spr selectedSprite:nil target:self selector:@selector(profileButtonClicked:)];
     ((CCSprite *)menuSpr.selectedImage).flipX = YES;
     
-    
     _rightNameBg = [CCSprite node];
     _rightNameBg.contentSize = spr.contentSize;
     _rightNameBg.anchorPoint = ccp(0,1);
     [rightHealthBarBg addChild:_rightNameBg];
     
     CCMenu *nameMenu = [CCMenu menuWithItems:menuSpr, nil];
-    nameMenu.position = ccp(spr.contentSize.width/2, spr.contentSize.height/2);
+    nameMenu.position = ccp(spr.contentSize.width/2, spr.contentSize.height/2+1);
     [_rightNameBg addChild:nameMenu];
     
     CCSprite *profButton = [CCSprite spriteWithFile:@"profilebutton.png"];
@@ -533,6 +532,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _attackButton.visible = YES;
   _comboBar.visible = NO;
   _bottomMenu.visible = YES;
+  _isAnimating = NO;
   
   [_attackProgressTimer runAction:[CCSequence actionOne:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:100 to:0]
                                                     two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
@@ -543,6 +543,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   _bottomMenu.visible = NO;
   _attackButton.visible = NO;
+  _isAnimating = YES;
   
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
   [_comboProgressTimer runAction:[CCSequence actionOne:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:duration from:0 to:100] rate:2.5]
@@ -598,9 +599,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                      // ATTACK!!
                      [CCMoveBy actionWithDuration:0.02 position:ccp(50, 0)],
                      // Fade out and scale, attack done
-                     [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
+                     [CCCallFunc actionWithTarget:self selector:@selector(rightClassSpecificAnimation)],
                      nil]];
   
+}
+
+- (void) rightClassSpecificAnimation {
+  GameState *gs = [GameState sharedGameState];
+  CCParticleSystemQuad *ps = [[CCParticleSystemQuad alloc] initWithFile:[Globals battleAnimationFileForUser:gs.type]];
+  [self addChild:ps];
+  ps.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+  [ps runAction:[CCSequence actions:
+                 [CCMoveBy actionWithDuration:ps.duration position:ccp(100,0)],
+                 [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
+                 nil]];
 }
 
 - (void) attackAnimationDone {
@@ -747,6 +759,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) myWin {
+  _isBattling = NO;
   [_right runAction:[CCSpawn actions:
                      [CCScaleBy actionWithDuration:0.1 scale:1.2],
                      [CCFadeOut actionWithDuration:0.1],
@@ -769,6 +782,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) myLoss {
+  _isBattling = NO;
   [_left runAction:[CCSpawn actions:
                     [CCScaleBy actionWithDuration:0.1 scale:1.2],
                     [CCFadeOut actionWithDuration:0.1],
@@ -824,7 +838,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) doneClicked {
-  _isBattling = NO;
   if (_left.opacity > 0) {
     SEL completeAction = nil;
     if (brp.hasEquipGained) {
@@ -883,6 +896,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)profileButtonClicked:(id)sender {
+  if (_isAnimating) {
+    return;
+  }
+  
   if (_isBattling) {
     [self pauseClicked];
   }

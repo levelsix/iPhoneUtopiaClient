@@ -273,8 +273,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (eq) {
     FullEquipProto *fep = [gs equipWithId:equipId];
-    int silver = [Globals sellsForGoldInMarketplace:fep.rarity] ? 0 : price;
-    int gold = [Globals sellsForGoldInMarketplace:fep.rarity] ? price : 0;
+    BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
+    int silver = sellsForGold ? 0 : price;
+    int gold = sellsForGold ? price : 0;
     [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
     eq.quantity--;
     
@@ -316,7 +317,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [sc sendRetractMarketplacePostMessage:postId];
       [mktPostsFromSender removeObject:proto];
       NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![[GameState sharedGameState] hasValidLicense] inSection:0];
-      NSIndexPath *z = mktPostsFromSender.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+      NSIndexPath *z = mktPostsFromSender.count+gs.myEquips.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
       NSArray *a = [NSArray arrayWithObjects:y, z, nil];
       [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
       return;

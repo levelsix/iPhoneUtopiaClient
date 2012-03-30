@@ -103,7 +103,9 @@
 + (UIImage *) circleImageForUser:(UserType)type;
 + (UIImage *) profileImageForUser:(UserType)type;
 + (NSString *) battleImageNameForUser:(UserType)type;
-+ (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r;
++ (NSString *) headshotImageNameForUser:(UserType)type;
++ (NSString *) battleAnimationFileForUser:(UserType)type;
++ (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;

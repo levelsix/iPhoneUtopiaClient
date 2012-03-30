@@ -72,6 +72,7 @@
 @interface BattleLayer : CCLayer {
   BOOL _isRunning;
   BOOL _isBattling;
+  BOOL _isAnimating;
   
   CCSprite *_left;
   CCSprite *_right;

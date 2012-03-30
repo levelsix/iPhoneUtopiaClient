@@ -374,6 +374,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handlePostToMarketplaceResponseProto: (PostToMarketplaceResponseProto *) proto {
   NSLog(@"Post to mkt response received with status %d", [proto status]);
+  
+  if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
+  } else {
+    [Globals popupMessage:@"Server failed to post item"];
+  }
 }
 
 - (void) handlePurchaseFromMarketplaceResponseProto: (PurchaseFromMarketplaceResponseProto *) proto {

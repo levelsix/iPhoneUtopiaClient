@@ -180,19 +180,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (UIColor *) colorForRarity:(FullEquipProto_Rarity)rarity {  
   switch (rarity) {
     case FullEquipProto_RarityCommon:
-      return [UIColor whiteColor];
+      return [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
       
     case FullEquipProto_RarityUncommon:
-      return [UIColor greenColor];
+      return [UIColor colorWithRed:160/255.f green:218/255.f blue:21/255.f alpha:1.f];
       
     case FullEquipProto_RarityRare:
-      return [UIColor blueColor];
+      return [UIColor colorWithRed:12/255.f green:217/255.f blue:241/255.f alpha:1.f];
       
     case FullEquipProto_RarityEpic:
-      return [UIColor purpleColor];
+      return [UIColor colorWithRed:138/255.f green:0/255.f blue:255/255.f alpha:1.f];
       
     case FullEquipProto_RarityLegendary:
-      return [UIColor yellowColor];
+      return [UIColor colorWithRed:255/255.f green:102/255.f blue:0/255.f alpha:1.f];
       
     default:
       break;
@@ -333,12 +333,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) commafyNumber:(int) n {
-  NSString *s = @"";
+  NSString *s = [NSString stringWithFormat:@"%03d", n%1000, s];
+  n /= 1000;
   while (n > 0) {
-    s = [NSString stringWithFormat:@"%d,%@", n%1000, s];
+    s = [NSString stringWithFormat:@"%03d,%@", n%1000, s];
     n /= 1000;
   }
-  return s;
+  return [s stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"0"]];
 }
 
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
@@ -642,8 +643,70 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (BOOL) sellsForGoldInMarketplace:(FullEquipProto_Rarity)r {
-  return r == FullEquipProto_RarityEpic || r == FullEquipProto_RarityLegendary;
++ (NSString *) headshotImageNameForUser:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return @"hwarrior.png";
+      break;
+      
+    case UserTypeGoodArcher:
+      return @"haarcher.png";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"hpanda.png";
+      break;
+      
+    case UserTypeBadWarrior:
+      return @"hskel.png";
+      break;
+      
+    case UserTypeBadArcher:
+      return @"hlarcher.png";
+      break;
+      
+    case UserTypeBadMage:
+      return @"hinvoker.png";
+      break;
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) battleAnimationFileForUser:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return @"warrior.plist";
+      break;
+      
+    case UserTypeGoodArcher:
+      return @"aarcher.plist";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"panda.plist";
+      break;
+      
+    case UserTypeBadWarrior:
+      return @"warrior.plist";
+      break;
+      
+    case UserTypeBadArcher:
+      return @"larcher.plist";
+      break;
+      
+    case UserTypeBadMage:
+      return @"invoker.plist";
+      break;
+      
+    default:
+      break;
+  }
+}
+
++ (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep {
+  return fep.rarity == FullEquipProto_RarityEpic || fep.rarity == FullEquipProto_RarityLegendary || !(fep.diamondPrice == 0);
 }
 
 // Formulas

@@ -221,6 +221,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   longLicenseLength.text = [NSString stringWithFormat:@"%d days", gl.numDaysLongMarketplaceLicenseLastsFor];
   
   self.purchLicenseView.center = self.view.center;
+  
+  UILabel *retractLabel = (UILabel *)[self.view viewWithTag:15];
+  retractLabel.text = [NSString stringWithFormat:@"Removing items incurs a %f% fee", [[Globals sharedGlobals] retractPercentCut]];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -282,7 +285,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     }
     self.selectedCell = post;
     
-    if ([Globals sellsForGoldInMarketplace:fep.rarity]) {
+    if ([Globals sellsForGoldInMarketplace:fep]) {
       post.submitPriceIcon.highlighted = YES;
     } else {
       post.submitPriceIcon.highlighted = NO;
@@ -765,28 +768,44 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (void) resetAllRows {
-  NSMutableArray *del = [[NSMutableArray alloc] init];
-  NSMutableArray *ins = [[NSMutableArray alloc] init];
+  NSMutableArray *delAnim = [[NSMutableArray alloc] init];
+  NSMutableArray *delNoAnim = [[NSMutableArray alloc] init];
+  NSMutableArray *insAnim = [[NSMutableArray alloc] init];
+  NSMutableArray *insNoAnim = [[NSMutableArray alloc] init];
   
   int numRows = [self.postsTableView numberOfRowsInSection:0];
+  NSIndexPath *ip = [self.postsTableView indexPathForRowAtPoint:postsTableView.contentOffset];
   for (int i = 0; i < numRows; i++) {
-    [del addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    if (i >= ip.row && i <= ip.row+5) {
+      [delAnim addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    } else {
+      [delNoAnim addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
   }
   numRows = [self tableView:self.postsTableView numberOfRowsInSection:0];
   for (int i = 0; i < numRows; i++) {
-    [ins addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    if (i <= 5) {
+      [insAnim addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    } else {
+      [insNoAnim addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
   }
   
   [self.postsTableView beginUpdates];
-  if (del.count > 0) {
-    [self.postsTableView deleteRowsAtIndexPaths:del withRowAnimation:UITableViewRowAnimationTop];
+  if (delAnim.count > 0) {
+    [self.postsTableView deleteRowsAtIndexPaths:delAnim withRowAnimation:UITableViewRowAnimationTop];
+    [self.postsTableView deleteRowsAtIndexPaths:delNoAnim withRowAnimation:UITableViewRowAnimationNone];
   }
-  if (ins.count > 0) {
-    [self.postsTableView insertRowsAtIndexPaths:ins withRowAnimation:UITableViewRowAnimationTop];
+  if (insAnim.count > 0) {
+    [self.postsTableView insertRowsAtIndexPaths:insAnim withRowAnimation:UITableViewRowAnimationTop];
+    [self.postsTableView insertRowsAtIndexPaths:insNoAnim withRowAnimation:UITableViewRowAnimationNone];
   }
   [self.postsTableView endUpdates];
-  [del release];
-  [ins release];
+  [self.postsTableView setContentOffset:ccp(0,0) animated:NO];
+  [delAnim release];
+  [delNoAnim release];
+  [insAnim release];
+  [insNoAnim release];
 }
 
 - (NSMutableArray *) postsForState {
