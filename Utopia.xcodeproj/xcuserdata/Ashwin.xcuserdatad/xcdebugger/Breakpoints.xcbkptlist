@@ -241,19 +241,6 @@
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
-         ignoreCount = "1"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Socket Communication/SocketCommunication.m"
-         timestampString = "353653371.979681"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "129"
-         endingLineNumber = "129"
-         landmarkName = "-sendData:withMessageType:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Tutorial/TutorialHomeMap.m"
@@ -328,6 +315,32 @@
          startingLineNumber = "929"
          endingLineNumber = "929"
          landmarkName = "-retrieveAllStaticData"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
+         timestampString = "354758546.128447"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "495"
+         endingLineNumber = "495"
+         landmarkName = "-viewDidUnload"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
+         timestampString = "354758556.954959"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1078"
+         endingLineNumber = "1078"
+         landmarkName = "-didReceiveMemoryWarning"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -9,6 +9,7 @@
 #import "CoinBar.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "GoldShoppeViewController.h"
 
 @implementation CoinBar
 
@@ -19,6 +20,10 @@
   
   goldLabel.text = [Globals commafyNumber:gs.gold];
   silverLabel.text = [Globals commafyNumber:gs.silver];
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [GoldShoppeViewController displayView];
 }
 
 @end

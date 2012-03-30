@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UserData.h"
+#import "CoinBar.h"
 
 @class FullStructureProto;
 
@@ -112,6 +113,7 @@ typedef enum {
 @property (nonatomic, assign) CarpState state;
 
 @property (nonatomic, retain) IBOutlet CarpBar *carpBar;
+@property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
 - (void) reloadCarpenterStructs;
 

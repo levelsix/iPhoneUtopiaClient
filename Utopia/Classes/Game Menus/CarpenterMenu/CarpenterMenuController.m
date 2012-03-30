@@ -467,7 +467,7 @@
 @synthesize carpRow, carpTable;
 @synthesize structsList, critStructsList;
 @synthesize state;
-@synthesize carpBar;
+@synthesize carpBar, coinBar;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
@@ -505,6 +505,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     [self.carpBar clickButton:kIncomeButton];
     [self.carpBar unclickButton:kFunctionalButton];
   }
+  
+[coinBar updateLabels];
 }
 
 - (void) reloadCarpenterStructs {
@@ -642,6 +644,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
         [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];
       }
     }
+    [coinBar updateLabels];
   } else {
     // Buy the Functional building
     [[HomeMap sharedHomeMap] preparePurchaseOfCritStruct:carp.critStruct];
@@ -652,6 +655,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 - (void) viewDidUnload {
   [super viewDidUnload];
   self.carpRow = nil;
+  self.coinBar = nil;
   self.carpTable = nil;
   self.structsList = nil;
 }

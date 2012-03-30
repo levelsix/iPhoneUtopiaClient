@@ -493,8 +493,6 @@
 		CFB153CA1505D5FC005CB976 /* quantleftwithtimer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB153C41505D5FC005CB976 /* quantleftwithtimer@2x.png */; };
 		CFB7848915004B2B006AE852 /* PinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFB7848815004B2B006AE852 /* PinView.xib */; };
 		CFBAA03D14B3D52F007AB82F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA00F14B3D52F007AB82F /* AppDelegate.m */; };
-		CFBAA03E14B3D52F007AB82F /* DoorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA01114B3D52F007AB82F /* DoorViewController.m */; };
-		CFBAA03F14B3D52F007AB82F /* DoorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBAA01214B3D52F007AB82F /* DoorViewController.xib */; };
 		CFBAA04114B3D52F007AB82F /* BattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA01714B3D52F007AB82F /* BattleLayer.m */; };
 		CFBAA04314B3D52F007AB82F /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA01C14B3D52F007AB82F /* GameState.m */; };
 		CFBAA04714B3D52F007AB82F /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBAA02514B3D52F007AB82F /* GameLayer.m */; };
@@ -1511,9 +1509,6 @@
 		CFB7848815004B2B006AE852 /* PinView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PinView.xib; sourceTree = "<group>"; };
 		CFBAA00E14B3D52F007AB82F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CFBAA00F14B3D52F007AB82F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CFBAA01014B3D52F007AB82F /* DoorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoorViewController.h; sourceTree = "<group>"; };
-		CFBAA01114B3D52F007AB82F /* DoorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoorViewController.m; sourceTree = "<group>"; };
-		CFBAA01214B3D52F007AB82F /* DoorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DoorViewController.xib; sourceTree = "<group>"; };
 		CFBAA01314B3D52F007AB82F /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		CFBAA01414B3D52F007AB82F /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		CFBAA01614B3D52F007AB82F /* BattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleLayer.h; sourceTree = "<group>"; };
@@ -3130,9 +3125,6 @@
 			children = (
 				CFBAA00E14B3D52F007AB82F /* AppDelegate.h */,
 				CFBAA00F14B3D52F007AB82F /* AppDelegate.m */,
-				CFBAA01014B3D52F007AB82F /* DoorViewController.h */,
-				CFBAA01114B3D52F007AB82F /* DoorViewController.m */,
-				CFBAA01214B3D52F007AB82F /* DoorViewController.xib */,
 				CFBAA02814B3D52F007AB82F /* GameViewController.h */,
 				CFBAA02914B3D52F007AB82F /* GameViewController.m */,
 				CFBAA01314B3D52F007AB82F /* GameConfig.h */,
@@ -4005,7 +3997,6 @@
 				CFE47C1B149240890084E71E /* Icon@2x.png in Resources */,
 				CFE47C1E149240890084E71E /* iTunesArtwork in Resources */,
 				CFFD7C1414AC2C770054CC23 /* Default.png in Resources */,
-				CFBAA03F14B3D52F007AB82F /* DoorViewController.xib in Resources */,
 				CFC2494214B4350A00D601DE /* MainWindow.xib in Resources */,
 				CF3D0A6914CB88EA00D972B4 /* GoldPackageView.xib in Resources */,
 				CF3D0A6B14CB88EA00D972B4 /* GoldShoppeViewController.xib in Resources */,
@@ -4816,7 +4807,6 @@
 				CFE47D851492A7C80084E71E /* CCGestureRecognizer.m in Sources */,
 				CFFD7C3814AC9B770054CC23 /* main.m in Sources */,
 				CFBAA03D14B3D52F007AB82F /* AppDelegate.m in Sources */,
-				CFBAA03E14B3D52F007AB82F /* DoorViewController.m in Sources */,
 				CFBAA04114B3D52F007AB82F /* BattleLayer.m in Sources */,
 				CFBAA04314B3D52F007AB82F /* GameState.m in Sources */,
 				CFBAA04714B3D52F007AB82F /* GameLayer.m in Sources */,

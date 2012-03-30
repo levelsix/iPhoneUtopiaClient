@@ -30,9 +30,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 
 - (void)requestProducts {
   NSSet *productIds = [NSSet setWithArray:[[[Globals sharedGlobals] productIdentifiers] allKeys]];
-  self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:productIds] autorelease];
-  _request.delegate = self;
-  [_request start];
+  
+  if (productIds.count > 0) {
+    self.request = [[[SKProductsRequest alloc] initWithProductIdentifiers:productIds] autorelease];
+    _request.delegate = self;
+    [_request start];
+  }
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {

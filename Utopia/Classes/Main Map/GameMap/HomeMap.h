@@ -122,6 +122,7 @@ typedef enum {
 @property (nonatomic, assign) int greenGid;
 
 + (HomeMap *)sharedHomeMap;
++ (void) purgeSingleton;
 
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;

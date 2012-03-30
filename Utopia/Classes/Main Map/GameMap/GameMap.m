@@ -13,6 +13,7 @@
 #import "MapViewController.h"
 #import "BattleLayer.h"
 #import "GameLayer.h"
+#import "ProfileViewController.h"
 
 #define MAP_OFFSET 100
 
@@ -139,6 +140,10 @@
   if (_selected != selected) {
     _selected.isSelected = NO;
     _selected = selected;
+    if ([selected isKindOfClass: [Enemy class]]) {
+      [[self.enemyMenu nameLabel] setText:[(Enemy *)selected user].name];
+      [[self.enemyMenu levelLabel] setText:[NSString stringWithFormat:@"Lvl %d", [(Enemy *)selected user].level]];
+    }
     _selected.isSelected = YES;
     [self updateAviaryMenu];
     [self updateEnemyMenu];
@@ -263,7 +268,7 @@
 
 -(void) setPosition:(CGPoint)position {
   float x = MAX(MIN(MAP_OFFSET, position.x), -self.contentSize.width*self.scaleX + [[CCDirector sharedDirector] winSize].width-MAP_OFFSET);
-  float y = MAX(MIN(MAP_OFFSET, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height-MAP_OFFSET);
+  float y = MAX(MIN(MAP_OFFSET, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height-2*MAP_OFFSET);
   CGPoint oldPos = position_;
   [super setPosition:ccp(x,y)];
   if (!aviaryMenu.hidden) {
@@ -282,6 +287,11 @@
   }
 }
 
+- (BOOL) isPointInArea:(CGPoint)pt {
+  // Whole screen is in area
+  return YES;
+}
+
 - (IBAction)enterAviaryClicked:(id)sender {
   self.selected = nil;
   [MapViewController displayView];
@@ -298,7 +308,11 @@
 }
 
 - (IBAction)profileClicked:(id)sender {
-  NSLog(@"Meep");
+  if ([_selected isKindOfClass:[Enemy class]]) {
+    Enemy *enemy = (Enemy *)_selected;
+    [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:enemy.user buttonsEnabled:YES];
+    [ProfileViewController displayView];
+  }
 }
 
 - (void) layerWillDisappear {

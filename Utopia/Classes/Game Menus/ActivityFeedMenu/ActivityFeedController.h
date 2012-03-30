@@ -29,5 +29,6 @@
 + (ActivityFeedController *) sharedActivityFeedController;
 + (void) displayView;
 + (void) removeView;
++ (void) purgeSingleton;
 
 @end

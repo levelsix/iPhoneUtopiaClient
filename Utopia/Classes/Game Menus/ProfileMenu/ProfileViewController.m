@@ -1074,4 +1074,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self setCurScope:kEquipScopeAll];
 }
 
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
+}
+
 @end

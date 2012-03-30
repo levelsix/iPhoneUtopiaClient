@@ -80,6 +80,7 @@
 @property (assign) NSMutableDictionary *imageViewsWaitingForDownloading;
 
 + (Globals *) sharedGlobals;
++ (void) purgeSingleton;
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 + (NSString *) font;
 + (int) fontSize;

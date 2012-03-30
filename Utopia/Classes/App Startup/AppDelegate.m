@@ -31,7 +31,7 @@
 	// Uncomment the following code if you Application only supports landscape mode
 	//
 #if GAME_AUTOROTATION == kGameAutorotationUIViewController
-
+  
 	CC_ENABLE_DEFAULT_GL_STATES();
 	CCDirector *director = [CCDirector sharedDirector];
 	CGSize size = [director winSize];
@@ -51,29 +51,29 @@
    (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
   
 	// Init the window
-//	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  //	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
 	CCDirector *director = [CCDirector sharedDirector];
 	
   /*
-	// Init the View Controller
-	viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
-	viewController.wantsFullScreenLayout = YES;
-	
-	//
-	// Create the EAGLView manually
-	//  1. Create a RGB565 format. Alternative: RGBA8
-	//	2. depth format of 0 bit. Use 16 or 24 bit for 3d effects, like CCPageTurnTransition
-	//
-	//
-	EAGLView *glView = [EAGLView viewWithFrame:[window bounds]
-								   pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
-								   depthFormat:0						// GL_DEPTH_COMPONENT16_OES
-						];
-	
-	// attach the openglView to the director
-	[director setOpenGLView:glView];
-	*/
+   // Init the View Controller
+   viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+   viewController.wantsFullScreenLayout = YES;
+   
+   //
+   // Create the EAGLView manually
+   //  1. Create a RGB565 format. Alternative: RGBA8
+   //	2. depth format of 0 bit. Use 16 or 24 bit for 3d effects, like CCPageTurnTransition
+   //
+   //
+   EAGLView *glView = [EAGLView viewWithFrame:[window bounds]
+   pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
+   depthFormat:0						// GL_DEPTH_COMPONENT16_OES
+   ];
+   
+   // attach the openglView to the director
+   [director setOpenGLView:glView];
+   */
 	
 	//
 	// VERY IMPORTANT:
@@ -94,13 +94,13 @@
 	[director setDisplayFPS:YES];
 	
 	/*
-	// make the OpenGLView a child of the view controller
-	[viewController setView:glView];
-	
-	// make the View Controller a child of the main window
-	[window addSubview: viewController.view];
-	*/
+   // make the OpenGLView a child of the view controller
+   [viewController setView:glView];
    
+   // make the View Controller a child of the main window
+   [window addSubview: viewController.view];
+   */
+  
 	[window makeKeyAndVisible];
 	
 	// Default texture format for PNG/BMP/TIFF/JPEG/GIF images
@@ -110,9 +110,9 @@
   
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   
-//  if (![[LocationManager alloc] initWithDelegate:self]) {
-//    // Inform of location services off
-//  }
+  //  if (![[LocationManager alloc] initWithDelegate:self]) {
+  //    // Inform of location services off
+  //  }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -139,19 +139,27 @@
   NSLog(@"did enter background");
 	[[CCDirector sharedDirector] stopAnimation];
   UILocalNotification *ln = [[UILocalNotification alloc] init];
-  ln.alertBody = @"WHY YOU NO STAY??";
+  ln.alertBody = @"Y U NO STAY??";
   ln.alertAction = @"SERIOUSLY!?";
   ln.applicationIconBadgeNumber = 3;
   ln.soundName = UILocalNotificationDefaultSoundName;
   ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:2];
   [[UIApplication sharedApplication] scheduleLocalNotification:ln];
   [ln release];
+  
+  // Release all our views
+  [GameViewController releaseAllViews];
+  [[CCDirector sharedDirector] stopAnimation];
+  
+  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   NSLog(@"will enter foreground");
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   if ([[CCDirector sharedDirector] runningScene]) {
-      [[CCDirector sharedDirector] startAnimation];
+    [[CCDirector sharedDirector] startAnimation];
+    [[GameViewController sharedGameViewController] startDoorAnimation];
   }
 }
 
@@ -161,7 +169,7 @@
 	
 	[[director openGLView] removeFromSuperview];
 	
-//	[viewController release];
+  //	[viewController release];
 	
 	[window release];
 	

@@ -234,6 +234,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.postsTableView.contentOffset = CGPointZero;
   
   self.view.alpha = 0.f;
+  self.redeemView.hidden = YES;
   [UIView animateWithDuration:1.f animations:^{
     self.view.alpha = 1.f;
   } completion:^(BOOL finished) {

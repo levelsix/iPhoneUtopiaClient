@@ -24,6 +24,21 @@
 #import "TopBar.h"
 #import "TutorialTopBar.h"
 #import "GameState.h"
+#import "ActivityFeedController.h"
+#import "CarpenterMenuController.h"
+#import "GameState.h"
+#import "Globals.h"
+#import "ArmoryViewController.h"
+#import "GoldShoppeViewController.h"
+#import "MapViewController.h"
+#import "MarketplaceViewController.h"
+#import "ProfileViewController.h"
+#import "QuestLogController.h"
+#import "RefillMenuController.h"
+#import "VaultMenuController.h"
+#import "GameLayer.h"
+#import "HomeMap.h"
+#import "BattleLayer.h"
 
 #define DOOR_CLOSE_DURATION 2.f
 #define DOOR_OPEN_DURATION 1.5f
@@ -47,6 +62,11 @@
   }
 }
 
+- (void) dealloc {
+  self.glView = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation GameViewController
@@ -54,9 +74,45 @@
 @synthesize isTutorial;
 @synthesize canLoad;
 
++ (void) releaseAllViews {
+  [GameState purgeSingleton];
+  [Globals purgeSingleton];
+  [ActivityFeedController removeView];
+  [ActivityFeedController purgeSingleton];
+  [CarpenterMenuController removeView];
+  [CarpenterMenuController purgeSingleton];
+  [ArmoryViewController removeView];
+  [ArmoryViewController purgeSingleton];
+  [GoldShoppeViewController removeView];
+  [GoldShoppeViewController purgeSingleton];
+  [MapViewController removeView];
+  [MapViewController purgeSingleton];
+  [MarketplaceViewController removeView];
+  [MarketplaceViewController purgeSingleton];
+  [ProfileViewController removeView];
+  [ProfileViewController purgeSingleton];
+  [QuestLogController removeView];
+  [QuestLogController purgeSingleton];
+  [RefillMenuController removeView];
+  [RefillMenuController purgeSingleton];
+  [VaultMenuController removeView];
+  [VaultMenuController purgeSingleton];
+  [GameLayer purgeSingleton];
+  [HomeMap purgeSingleton];
+  [BattleLayer purgeSingleton];
+  
+  [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
+}
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
-- (void) startDoorAnimation:(CCScene *)scene {
+- (void) startDoorAnimation {
+  CCScene *scene = [[CCDirector sharedDirector] runningScene];
+  if (!scene) {
+    scene = [CCScene node];
+    [[CCDirector sharedDirector] runWithScene:scene];
+  }
+  
   CCLayer *layer = [CCLayer node];
   [scene addChild:layer z:1];
   
@@ -75,6 +131,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   doorright.position = ccp(layer.contentSize.width, doorright.contentSize.height/2);
   [layer addChild:doorright z:11];
   
+  CCSprite *fillButtonSprite = [CCSprite spriteWithFile:@"middlecoin.png"];
+  CCMenuItemSprite *s = [CCMenuItemSprite itemFromNormalSprite:fillButtonSprite selectedSprite:nil target:self selector:@selector(crestClicked)];
+  
+  crest = [CCMenu menuWithItems:s,nil];
+  [doorright addChild:crest];
+  crest.position = ccp(-8, doorright.contentSize.height/2);
+  
   [doorleft runAction:[CCEaseBounceOut actionWithAction:[CCSequence actions:
                                                          [CCMoveBy actionWithDuration:DOOR_CLOSE_DURATION position:ccp(doorleft.contentSize.width, 0)],
                                                          [CCCallFunc actionWithTarget:self selector:@selector(doorClosed)],
@@ -86,25 +149,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 }
 
 - (void) doorClosed {
-  CCSprite *fillButtonSprite = [CCSprite spriteWithFile:@"middlecoin.png"];
-  CCMenuItemSprite *s = [CCMenuItemSprite itemFromNormalSprite:fillButtonSprite selectedSprite:nil target:self selector:@selector(crestClicked)];
-  
-  crest = [CCMenu menuWithItems:s,nil];
-  [doorright addChild:crest];
-  crest.position = ccp(-8, doorright.contentSize.height/2);
-  
   [splash removeFromParentAndCleanup:YES];
-  
-  s.scale = 5.f;
-  s.opacity = 0;
-  [s runAction:[CCFadeIn actionWithDuration:0.5f]];
-  [s runAction:[CCSequence actions:
-                [CCEaseIn actionWithAction:[CCScaleTo actionWithDuration:0.9f scale:1.f] rate:5],
-                [CCCallFunc actionWithTarget:self selector:@selector(crestFallDone)],
-                nil]];
-}
-
-- (void) crestFallDone {
   self.canLoad = YES;
 }
 
@@ -170,9 +215,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   [self.view insertSubview:glView atIndex:0];
   
-  CCScene *scene = [CCScene node];
-  [self startDoorAnimation:scene];
-  [[CCDirector sharedDirector] runWithScene:scene];
+  [self startDoorAnimation];
   
   [[[self.view subviews] objectAtIndex:1] removeFromSuperview];
 }

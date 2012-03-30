@@ -689,6 +689,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   [self addChild:_purchBuilding z:0 tag:tag];
+  // Only keep a weak ref
   [_purchBuilding release];
   
   self.selected = _purchBuilding;
@@ -1084,6 +1085,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   return YES;
+}
+
+-(void) dealloc {
+  [self.csMenu removeFromSuperview];
+  self.csMenu = nil;
+  [self.hbMenu removeFromSuperview];
+  self.hbMenu = nil;
+  self.buildableData = nil;
+  
+  [self invalidateAllTimers];
+  [_timers release];
+  
+  [super dealloc];
 }
 
 @end

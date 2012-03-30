@@ -25,6 +25,10 @@
 @property (nonatomic, assign) BOOL isTutorial;
 @property (assign) BOOL canLoad;
 
+- (void) startDoorAnimation;
+- (void) setupCocos2D;
+
 + (GameViewController *) sharedGameViewController;
++ (void) releaseAllViews;
 
 @end

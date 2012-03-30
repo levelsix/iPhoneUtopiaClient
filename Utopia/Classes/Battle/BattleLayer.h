@@ -133,6 +133,7 @@
 
 + (CCScene *) scene;
 + (BattleLayer *) sharedBattleLayer;
++ (void) purgeSingleton;
 - (void) beginBattleAgainst:(FullUserProto *)user;
 - (void) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId;
 - (void) doAttackAnimation;

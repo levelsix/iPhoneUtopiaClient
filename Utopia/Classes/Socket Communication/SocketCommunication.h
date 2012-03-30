@@ -13,7 +13,7 @@
 
 @interface SocketCommunication : NSObject <GCDAsyncSocketDelegate, UIAlertViewDelegate> {
 	GCDAsyncSocket *_asyncSocket;
-  BOOL readyToRead;
+  BOOL _shouldReconnect;
   MinimumUserProto *_sender;
   int _currentTagNum;
   int _nextMsgType;
@@ -25,6 +25,7 @@
 
 + (SocketCommunication *)sharedSocketCommunication;
 - (void) initNetworkCommunication;
+- (void) closeDownConnection;
 - (void) readHeader;
 - (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
 

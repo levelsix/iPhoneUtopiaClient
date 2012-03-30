@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.8"//@"50.18.173.214"
+#define HOST_NAME @"10.1.10.23"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -59,6 +59,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self connectToSocket];
   _currentTagNum = 1;
   [self rebuildSender];
+  _shouldReconnect = YES;
 }
 
 - (void) readHeader {
@@ -90,10 +91,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
 	NSLog(@"socketDidDisconnect:withError: \"%@\"", err);
-  NSLog(@"Attempting to reconnect..");
-  UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
-  [av show];
-  [av release];
+  
+  if (_shouldReconnect) {
+    NSLog(@"Asking to reconnect..");
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
+    [av show];
+    [av release];
+  }
   //  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
 }
 
@@ -577,8 +581,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 - (void) closeDownConnection {
   if (_asyncSocket) {
+    NSLog(@"Disconnecting from socket..");
+    _shouldReconnect = NO;
     [_asyncSocket disconnect];
     [_asyncSocket release];
+    _asyncSocket = nil;
   }
 }
 

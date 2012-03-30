@@ -153,6 +153,7 @@
 @property (retain) NSMutableArray *notifications;
 
 + (GameState *) sharedGameState;
++ (void) purgeSingleton;
 
 - (void) updateUser:(FullUserProto *)user;
 
