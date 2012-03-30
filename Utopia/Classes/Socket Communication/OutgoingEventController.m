@@ -339,7 +339,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         if (gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
           [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
           [mktPosts removeObject:proto];
-          NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![gs hasValidLicense] inSection:0];
+          NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
           NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
           NSArray *a = [NSArray arrayWithObjects:y, z, nil];
           [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
@@ -1127,6 +1127,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         ue.userId = gs.userId;
         ue.quantity = 1;
         [gs.myEquips addObject:ue];
+        [ue release];
       }
     }
   } else {

@@ -207,6 +207,7 @@
           QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:NO map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
           qg.name = ncep.name;
+          [qg release];
         } else {
           NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
         }
@@ -232,6 +233,7 @@
           QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:YES map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
           qg.name = ncep.name;
+          [qg release];
         } else {
           NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
         }
@@ -248,6 +250,7 @@
       QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO map:self location:r];
       [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
       qg.opacity = 0.f;
+      [qg release];
     }
     
     for (FullUserProto *fup in proto.defeatTypeJobEnemiesList) {

@@ -333,7 +333,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) commafyNumber:(int) n {
-  return [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithInt:n] numberStyle:NSNumberFormatterDecimalStyle];
+  NSString *s = @"";
+  while (n > 0) {
+    s = [NSString stringWithFormat:@"%d,%@", n%1000, s];
+    n /= 1000;
+  }
+  return s;
 }
 
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
