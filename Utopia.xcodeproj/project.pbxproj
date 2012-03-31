@@ -447,6 +447,8 @@
 		CF6CCF2B14FAF9CB008C693D /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */; };
 		CF6CCF2E14FAF9D7008C693D /* CarpenterListing.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */; };
 		CF6CCF2F14FAF9D7008C693D /* CarpenterRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6CCF2D14FAF9D7008C693D /* CarpenterRow.xib */; };
+		CF6FC57015267A02003631D8 /* CCLabelFX.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6FC56D15267A02003631D8 /* CCLabelFX.m */; };
+		CF6FC57115267A02003631D8 /* CCTexture2D+TextShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6FC56F15267A02003631D8 /* CCTexture2D+TextShadow.m */; };
 		CF81F8B8150348D400C285BB /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8B7150348D400C285BB /* MapViewController.xib */; };
 		CF81F8BA150348E300C285BB /* MissionBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8B9150348E300C285BB /* MissionBuildingMenu.xib */; };
 		CF81F8CC15034B3500C285BB /* energycost.png in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8BC15034B3500C285BB /* energycost.png */; };
@@ -578,10 +580,10 @@
 		CFDB6BE3150F799C00B87687 /* CDXMacOSXSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDB6BE0150F799C00B87687 /* CDXMacOSXSupport.m */; };
 		CFDB6BE4150F799C00B87687 /* CDXPropertyModifierAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CFDB6BE2150F799C00B87687 /* CDXPropertyModifierAction.m */; };
 		CFDB6C08150F7A2500B87687 /* Enter_Store_Bell.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BE7150F7A2500B87687 /* Enter_Store_Bell.m4a */; };
-		CFDB6C09150F7A2500B87687 /* Archers_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BE9150F7A2500B87687 /* Archers_Attack.m4a */; };
+		CFDB6C09150F7A2500B87687 /* Archer_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BE9150F7A2500B87687 /* Archer_Attack.m4a */; };
 		CFDB6C0A150F7A2500B87687 /* Invoker_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEA150F7A2500B87687 /* Invoker_Attack.m4a */; };
 		CFDB6C0B150F7A2500B87687 /* Panda_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEB150F7A2500B87687 /* Panda_Attack.m4a */; };
-		CFDB6C0C150F7A2500B87687 /* Warriors_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEC150F7A2500B87687 /* Warriors_Attack.m4a */; };
+		CFDB6C0C150F7A2500B87687 /* Warrior_Attack.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEC150F7A2500B87687 /* Warrior_Attack.m4a */; };
 		CFDB6C0D150F7A2500B87687 /* DragonRoostWhat1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEE150F7A2500B87687 /* DragonRoostWhat1.m4a */; };
 		CFDB6C0E150F7A2500B87687 /* Traveling_DragonFlying.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BEF150F7A2500B87687 /* Traveling_DragonFlying.m4a */; };
 		CFDB6C0F150F7A2500B87687 /* Archer_Combo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF1150F7A2500B87687 /* Archer_Combo.m4a */; };
@@ -590,8 +592,8 @@
 		CFDB6C12150F7A2500B87687 /* Warrior_Combo.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF4150F7A2500B87687 /* Warrior_Combo.m4a */; };
 		CFDB6C13150F7A2500B87687 /* Coin_drop.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF6150F7A2500B87687 /* Coin_drop.m4a */; };
 		CFDB6C14150F7A2500B87687 /* shiny_item.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF7150F7A2500B87687 /* shiny_item.m4a */; };
-		CFDB6C15150F7A2500B87687 /* 03 Battle_Loss.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF9150F7A2500B87687 /* 03 Battle_Loss.m4a */; };
-		CFDB6C16150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFA150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a */; };
+		CFDB6C15150F7A2500B87687 /* Battle_Loss.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BF9150F7A2500B87687 /* Battle_Loss.m4a */; };
+		CFDB6C16150F7A2500B87687 /* Battle_Music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFA150F7A2500B87687 /* Battle_Music.m4a */; };
 		CFDB6C17150F7A2500B87687 /* Battle_Success.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFB150F7A2500B87687 /* Battle_Success.m4a */; };
 		CFDB6C18150F7A2500B87687 /* Game_Music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFC150F7A2500B87687 /* Game_Music.m4a */; };
 		CFDB6C19150F7A2500B87687 /* Mission_Enemy_song.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFDB6BFD150F7A2500B87687 /* Mission_Enemy_song.m4a */; };
@@ -1475,6 +1477,10 @@
 		CF6CCF2914FAF9CB008C693D /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		CF6CCF2C14FAF9D7008C693D /* CarpenterListing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterListing.xib; path = CarpenterMenu/CarpenterListing.xib; sourceTree = "<group>"; };
 		CF6CCF2D14FAF9D7008C693D /* CarpenterRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CarpenterRow.xib; path = CarpenterMenu/CarpenterRow.xib; sourceTree = "<group>"; };
+		CF6FC56C15267A02003631D8 /* CCLabelFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelFX.h; sourceTree = "<group>"; };
+		CF6FC56D15267A02003631D8 /* CCLabelFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLabelFX.m; sourceTree = "<group>"; };
+		CF6FC56E15267A02003631D8 /* CCTexture2D+TextShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCTexture2D+TextShadow.h"; sourceTree = "<group>"; };
+		CF6FC56F15267A02003631D8 /* CCTexture2D+TextShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCTexture2D+TextShadow.m"; sourceTree = "<group>"; };
 		CF81F8B7150348D400C285BB /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		CF81F8B9150348E300C285BB /* MissionBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MissionBuildingMenu.xib; path = "Utopia/Classes/Main Map/GameMap/MissionBuildingMenu.xib"; sourceTree = SOURCE_ROOT; };
 		CF81F8BC15034B3500C285BB /* energycost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = energycost.png; sourceTree = "<group>"; };
@@ -1626,10 +1632,10 @@
 		CFDB6BE1150F799C00B87687 /* CDXPropertyModifierAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDXPropertyModifierAction.h; sourceTree = "<group>"; };
 		CFDB6BE2150F799C00B87687 /* CDXPropertyModifierAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDXPropertyModifierAction.m; sourceTree = "<group>"; };
 		CFDB6BE7150F7A2500B87687 /* Enter_Store_Bell.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Enter_Store_Bell.m4a; sourceTree = "<group>"; };
-		CFDB6BE9150F7A2500B87687 /* Archers_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Archers_Attack.m4a; sourceTree = "<group>"; };
+		CFDB6BE9150F7A2500B87687 /* Archer_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Archer_Attack.m4a; sourceTree = "<group>"; };
 		CFDB6BEA150F7A2500B87687 /* Invoker_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Invoker_Attack.m4a; sourceTree = "<group>"; };
 		CFDB6BEB150F7A2500B87687 /* Panda_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Panda_Attack.m4a; sourceTree = "<group>"; };
-		CFDB6BEC150F7A2500B87687 /* Warriors_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Warriors_Attack.m4a; sourceTree = "<group>"; };
+		CFDB6BEC150F7A2500B87687 /* Warrior_Attack.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Warrior_Attack.m4a; sourceTree = "<group>"; };
 		CFDB6BEE150F7A2500B87687 /* DragonRoostWhat1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DragonRoostWhat1.m4a; sourceTree = "<group>"; };
 		CFDB6BEF150F7A2500B87687 /* Traveling_DragonFlying.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Traveling_DragonFlying.m4a; sourceTree = "<group>"; };
 		CFDB6BF1150F7A2500B87687 /* Archer_Combo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Archer_Combo.m4a; sourceTree = "<group>"; };
@@ -1638,8 +1644,8 @@
 		CFDB6BF4150F7A2500B87687 /* Warrior_Combo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Warrior_Combo.m4a; sourceTree = "<group>"; };
 		CFDB6BF6150F7A2500B87687 /* Coin_drop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Coin_drop.m4a; sourceTree = "<group>"; };
 		CFDB6BF7150F7A2500B87687 /* shiny_item.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = shiny_item.m4a; sourceTree = "<group>"; };
-		CFDB6BF9150F7A2500B87687 /* 03 Battle_Loss.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "03 Battle_Loss.m4a"; sourceTree = "<group>"; };
-		CFDB6BFA150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "03 Battle_SFX_LowQual.m4a"; sourceTree = "<group>"; };
+		CFDB6BF9150F7A2500B87687 /* Battle_Loss.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Battle_Loss.m4a; sourceTree = "<group>"; };
+		CFDB6BFA150F7A2500B87687 /* Battle_Music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Battle_Music.m4a; sourceTree = "<group>"; };
 		CFDB6BFB150F7A2500B87687 /* Battle_Success.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Battle_Success.m4a; sourceTree = "<group>"; };
 		CFDB6BFC150F7A2500B87687 /* Game_Music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Game_Music.m4a; sourceTree = "<group>"; };
 		CFDB6BFD150F7A2500B87687 /* Mission_Enemy_song.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Mission_Enemy_song.m4a; sourceTree = "<group>"; };
@@ -3086,6 +3092,17 @@
 			path = ProfileMenu;
 			sourceTree = "<group>";
 		};
+		CF6FC56B15267A02003631D8 /* CCLabelFX */ = {
+			isa = PBXGroup;
+			children = (
+				CF6FC56C15267A02003631D8 /* CCLabelFX.h */,
+				CF6FC56D15267A02003631D8 /* CCLabelFX.m */,
+				CF6FC56E15267A02003631D8 /* CCTexture2D+TextShadow.h */,
+				CF6FC56F15267A02003631D8 /* CCTexture2D+TextShadow.m */,
+			);
+			path = CCLabelFX;
+			sourceTree = "<group>";
+		};
 		CF81F8BB15034B3500C285BB /* Mission Building Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -3316,10 +3333,10 @@
 		CFDB6BE8150F7A2500B87687 /* Attacks */ = {
 			isa = PBXGroup;
 			children = (
-				CFDB6BE9150F7A2500B87687 /* Archers_Attack.m4a */,
+				CFDB6BE9150F7A2500B87687 /* Archer_Attack.m4a */,
 				CFDB6BEA150F7A2500B87687 /* Invoker_Attack.m4a */,
 				CFDB6BEB150F7A2500B87687 /* Panda_Attack.m4a */,
-				CFDB6BEC150F7A2500B87687 /* Warriors_Attack.m4a */,
+				CFDB6BEC150F7A2500B87687 /* Warrior_Attack.m4a */,
 			);
 			path = Attacks;
 			sourceTree = "<group>";
@@ -3356,8 +3373,8 @@
 		CFDB6BF8150F7A2500B87687 /* In-Game Music */ = {
 			isa = PBXGroup;
 			children = (
-				CFDB6BF9150F7A2500B87687 /* 03 Battle_Loss.m4a */,
-				CFDB6BFA150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a */,
+				CFDB6BF9150F7A2500B87687 /* Battle_Loss.m4a */,
+				CFDB6BFA150F7A2500B87687 /* Battle_Music.m4a */,
 				CFDB6BFB150F7A2500B87687 /* Battle_Success.m4a */,
 				CFDB6BFC150F7A2500B87687 /* Game_Music.m4a */,
 				CFDB6BFD150F7A2500B87687 /* Mission_Enemy_song.m4a */,
@@ -3612,6 +3629,7 @@
 		CFE47C1F149240890084E71E /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CF6FC56B15267A02003631D8 /* CCLabelFX */,
 				CFDB6BDE150F799C00B87687 /* CocosDenshionExtras */,
 				CFE47C20149240890084E71E /* cocos2d */,
 				CFF3A72C14F07D3F00E8F8DF /* SBTickerView */,
@@ -4597,10 +4615,10 @@
 				CF6230A4150F4299000160BF /* Home.tmx in Resources */,
 				CF6230A5150F4299000160BF /* Home@2x.tmx in Resources */,
 				CFDB6C08150F7A2500B87687 /* Enter_Store_Bell.m4a in Resources */,
-				CFDB6C09150F7A2500B87687 /* Archers_Attack.m4a in Resources */,
+				CFDB6C09150F7A2500B87687 /* Archer_Attack.m4a in Resources */,
 				CFDB6C0A150F7A2500B87687 /* Invoker_Attack.m4a in Resources */,
 				CFDB6C0B150F7A2500B87687 /* Panda_Attack.m4a in Resources */,
-				CFDB6C0C150F7A2500B87687 /* Warriors_Attack.m4a in Resources */,
+				CFDB6C0C150F7A2500B87687 /* Warrior_Attack.m4a in Resources */,
 				CFDB6C0D150F7A2500B87687 /* DragonRoostWhat1.m4a in Resources */,
 				CFDB6C0E150F7A2500B87687 /* Traveling_DragonFlying.m4a in Resources */,
 				CFDB6C0F150F7A2500B87687 /* Archer_Combo.m4a in Resources */,
@@ -4609,8 +4627,8 @@
 				CFDB6C12150F7A2500B87687 /* Warrior_Combo.m4a in Resources */,
 				CFDB6C13150F7A2500B87687 /* Coin_drop.m4a in Resources */,
 				CFDB6C14150F7A2500B87687 /* shiny_item.m4a in Resources */,
-				CFDB6C15150F7A2500B87687 /* 03 Battle_Loss.m4a in Resources */,
-				CFDB6C16150F7A2500B87687 /* 03 Battle_SFX_LowQual.m4a in Resources */,
+				CFDB6C15150F7A2500B87687 /* Battle_Loss.m4a in Resources */,
+				CFDB6C16150F7A2500B87687 /* Battle_Music.m4a in Resources */,
 				CFDB6C17150F7A2500B87687 /* Battle_Success.m4a in Resources */,
 				CFDB6C18150F7A2500B87687 /* Game_Music.m4a in Resources */,
 				CFDB6C19150F7A2500B87687 /* Mission_Enemy_song.m4a in Resources */,
@@ -4946,6 +4964,8 @@
 				CF2028091515E03700F611F5 /* CityRankupViewController.m in Sources */,
 				CFFEE9BE1520052A003C51BF /* CoinBar.m in Sources */,
 				CFFEE9C315214CA2003C51BF /* CritStructPopupController.m in Sources */,
+				CF6FC57015267A02003631D8 /* CCLabelFX.m in Sources */,
+				CF6FC57115267A02003631D8 /* CCTexture2D+TextShadow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,6 +29,7 @@
 #define BATTLE_DIFFERENCE_TUNER 0
 
 #define COMBO_BAR_X_POSITION 100
+#define DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND 0.4f
 
 @interface BattleSummaryView : UIView
 
@@ -125,6 +126,8 @@
   FullUserProto *_fup;
   
   int _cityId;
+  
+  int _comboBarWindupSound;
 }
 
 @property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;

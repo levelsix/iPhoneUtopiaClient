@@ -20,7 +20,7 @@
 
 @implementation MissionBuildingSummaryMenu
 
-@synthesize titleLabel, descriptionLabel, energyLabel, rewardLabel, experienceLabel;
+@synthesize titleLabel, descriptionLabel, energyLabel, rewardLabel, experienceLabel, itemChanceLabel;
 
 - (void) updateLabelsForTask:(FullTaskProto *)ftp name:(NSString *)name {
   titleLabel.text = name;
@@ -28,6 +28,31 @@
   energyLabel.text = [NSString stringWithFormat:@"%d", ftp.energyCost];
   rewardLabel.text = [Globals commafyNumber:(ftp.maxCoinsGained-ftp.minCoinsGained)/2];
   experienceLabel.text = [NSString stringWithFormat:@"%d Exp.", ftp.expGained];
+  
+  if (ftp.potentialLootEquipIdsList.count > 0) {
+    FullEquipProto_Rarity rarity = 0;
+    GameState *gs = [GameState sharedGameState];
+    for (NSNumber *n in ftp.potentialLootEquipIdsList) {
+      FullEquipProto *fep = [gs equipWithId:n.intValue];
+      if (fep.rarity > rarity) {
+        rarity = fep.rarity;
+      }
+    }
+    itemChanceLabel.text = [Globals shortenedStringForRarity:rarity];
+    itemChanceLabel.textColor = [Globals colorForRarity:rarity];
+  } else {
+    itemChanceLabel.text = @"";
+  }
+}
+
+- (void) dealloc {
+  self.titleLabel = nil;
+  self.descriptionLabel = nil;
+  self.energyLabel = nil;
+  self.rewardLabel = nil;
+  self.experienceLabel = nil;
+  self.itemChanceLabel = nil;
+  [super dealloc];
 }
 
 @end

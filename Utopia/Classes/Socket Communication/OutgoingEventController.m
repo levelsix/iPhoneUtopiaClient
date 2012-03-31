@@ -844,6 +844,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         shouldSend = YES;
       }
     }
+    for (FullTaskProto_FullTaskEquipReqProto *eq in ftp.potentialLootEquipIdsList) {
+      NSNumber *equipId = [NSNumber numberWithInt:eq.equipId];
+      if (![sEquips objectForKey:equipId]) {
+        [rEquips addObject:equipId];
+        shouldSend = YES;
+      }
+    }
   }
   
   NSMutableSet *rTasks = [NSMutableSet set];

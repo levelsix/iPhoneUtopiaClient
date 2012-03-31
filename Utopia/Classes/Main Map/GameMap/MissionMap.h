@@ -20,6 +20,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *energyLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rewardLabel;
 @property (nonatomic, retain) IBOutlet UILabel *experienceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *itemChanceLabel;
 
 @end
 

@@ -108,6 +108,9 @@
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
++ (NSString *) comboBarChargeupSound:(UserType)type;
++ (NSString *) battleAttackSound:(UserType)type;
+
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;
 + (void) adjustFontSizeForUIViewWithDefaultSize:(UIView *)somethingWithText;

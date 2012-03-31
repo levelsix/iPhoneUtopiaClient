@@ -11,7 +11,7 @@
 	<key>blendFuncSource</key>
 	<integer>772</integer>
 	<key>duration</key>
-	<real>0.5</real>
+	<real>0.2</real>
 	<key>emitterType</key>
 	<integer>0</integer>
 	<key>finishColorAlpha</key>
@@ -67,9 +67,9 @@
 	<key>rotationStartVariance</key>
 	<real>0</real>
 	<key>sourcePositionVariancex</key>
-	<real>7</real>
+	<integer>30</integer>
 	<key>sourcePositionVariancey</key>
-	<real>7</real>
+	<integer>3</integer>
 	<key>sourcePositionx</key>
 	<real>247.5</real>
 	<key>sourcePositiony</key>
@@ -95,7 +95,7 @@
 	<key>startColorVarianceRed</key>
 	<real>0</real>
 	<key>startParticleSize</key>
-	<real>30.3157901763916</real>
+	<integer>5</integer>
 	<key>startParticleSizeVariance</key>
 	<real>3.789999961853027</real>
 	<key>tangentialAccelVariance</key>

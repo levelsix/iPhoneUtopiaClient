@@ -15,6 +15,7 @@
 #import "ProfileViewController.h"
 #import "RefillMenuController.h"
 #import "MapViewController.h"
+#import "SimpleAudioEngine.h"
 
 @implementation BattleSummaryView
 
@@ -434,6 +435,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
+  if (_isBattling) {
+    return;
+  }
+  
   if (gs.currentStamina <= 0) {
     [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
     return;
@@ -519,10 +524,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
   _rightHealthBar.position = ccp(_rightHealthBar.parent.contentSize.width, _rightHealthBar.parent.contentSize.height/2);
   
-  [_left runAction: [CCMoveBy actionWithDuration:0.4 position:ccp(3*_left.contentSize.width/4,0)]];
+  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Battle_Music.m4a"];
+  
+  [_left runAction: [CCMoveBy actionWithDuration:0.6 position:ccp(3*_left.contentSize.width/4,0)]];
   
   [_right runAction:[CCSequence actions:
-                     [CCDelayTime actionWithDuration:0.4],
+                     [CCDelayTime actionWithDuration:0.6],
                      [CCMoveBy actionWithDuration:0.5 position:ccp(-3*_right.contentSize.width/4,0)],
                      [CCCallFunc actionWithTarget:self selector:@selector(startMyTurn)],
                      nil]];
@@ -548,11 +555,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
   [_comboProgressTimer runAction:[CCSequence actionOne:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:duration from:0 to:100] rate:2.5]
                                                    two:[CCCallFunc actionWithTarget:self selector:@selector(comboBarClicked)]]];
+  
+  [self runAction:[CCSequence actions:
+                   [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],
+                   [CCCallBlock actionWithBlock:^{
+    if (_comboBarMoving) {
+      _comboBarWindupSound = [[SimpleAudioEngine sharedEngine] playEffect:[Globals comboBarChargeupSound:[GameState sharedGameState].type]];
+    }
+  }], nil]];
+  
   _comboBar.visible = YES;
   _comboBarMoving = YES;
 }
 
 - (void) turnMissed {
+  [[SimpleAudioEngine sharedEngine] stopEffect:_comboBarWindupSound];
   [self startEnemyTurn];
 }
 
@@ -560,6 +577,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   if (_comboBarMoving) {
     [_comboProgressTimer stopAllActions];
     _comboBarMoving = NO;
+    [self stopAllActions];
+    
+    [[SimpleAudioEngine sharedEngine] stopEffect:_comboBarWindupSound];
+    
     _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
     
     if (_rightCurrentHealth - _damageDone <= 0) {
@@ -614,7 +635,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       
     case UserTypeGoodWarrior:
     case UserTypeBadWarrior:
-      return ccp(420, 45);
+      return ccp(430, 55);
+      
+    case UserTypeBadMage:
+    case UserTypeGoodMage:
+      return ccp(211,105);
       
     default:
       break;
@@ -623,6 +648,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) leftClassSpecificAnimation {
+  [[SimpleAudioEngine sharedEngine] playEffect:[Globals battleAttackSound:[GameState sharedGameState].type]];
+  
   GameState *gs = [GameState sharedGameState];
   UserType type = gs.type;
   CCParticleSystemQuad *ps = [[CCParticleSystemQuad alloc] initWithFile:[Globals battleAnimationFileForUser:type]];
@@ -631,12 +658,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   if (type == UserTypeBadArcher) {
     [ps runAction:[CCSequence actions:
-                   [CCMoveBy actionWithDuration:ps.duration position:ccp(200,5)],
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(220,5)],
                    [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
                    nil]];
   } else if (type == UserTypeGoodArcher) {
     [ps runAction:[CCSequence actions:
-                   [CCMoveBy actionWithDuration:ps.duration position:ccp(200,0)],
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(220,0)],
+                   [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
+                   nil]];
+  } else if (type == UserTypeBadMage) {
+    [ps runAction:[CCSequence actions:
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(220,0)],
                    [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
                    nil]];
   }
@@ -647,6 +679,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _rightCurrentHealth -= _damageDone;
   _rightCurrentHealth = MAX(0, _rightCurrentHealth);
   [self setRightHealthBarPercentage:((float)_rightCurrentHealth)/_rightMaxHealth*100];
+  
+  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", (int)_damageDone] fontName:@"DINCond-Black" fontSize:35];
+  [self addChild:damageLabel z:3];
+  damageLabel.position = ccp(430, 180);
+  damageLabel.color = ccc3(255, 0, 0);
+  [damageLabel runAction:[CCSequence actions:
+                          [CCSpawn actions:
+                           [CCFadeOut actionWithDuration:1.f], 
+                           [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
+                          [CCCallBlock actionWithBlock:^{[damageLabel removeFromParentAndCleanup:YES];}], nil]];
 }
 
 - (void) setRightHealthBarPercentage:(float)percentage {
@@ -667,6 +709,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                               [CCCallFuncN actionWithTarget:self selector:@selector(doneWithRightHealthBar)],
                               [CCDelayTime actionWithDuration:0.5],
                               [CCCallFunc actionWithTarget:self selector:afterAction], nil]];
+  
   [self schedule:@selector(updateRightLabel)];
 }
 
@@ -699,9 +742,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                                          [CCDelayTime actionWithDuration:0.5],
                                          [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
                                          nil]];
+  
+  [self runAction:[CCSequence actions:
+                   [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],
+                   [CCCallBlock actionWithBlock:^{
+    _comboBarWindupSound = [[SimpleAudioEngine sharedEngine] playEffect:[Globals comboBarChargeupSound:_fup.userType]];
+  }], nil]];
 }
 
 - (void) doEnemyAttackAnimation {
+  [[SimpleAudioEngine sharedEngine] stopEffect:_comboBarWindupSound];
+  
   _flippedComboBar.visible = NO;
   [_right runAction: [CCSequence actions:
                       // Move a little back to ready an attack
@@ -722,18 +773,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [self addChild:ps z:2];
   ps.angle = 180 - ps.angle;
   ps.gravity = ccp(-ps.gravity.x, ps.gravity.y);
+  [[SimpleAudioEngine sharedEngine] playEffect:[Globals battleAttackSound:_fup.userType]];
   
   CGPoint pos = [self startParticlePositionForType:type];
   ps.position = ccp(self.contentSize.width-pos.x, pos.y);
   
   if (type == UserTypeGoodArcher) {
     [ps runAction:[CCSequence actions:
-                   [CCMoveBy actionWithDuration:ps.duration position:ccp(-200,0)],
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(-220,0)],
                    [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
                    nil]];
   } else if (type == UserTypeGoodWarrior) {
     [ps runAction:[CCSequence actions:
                    [CCDelayTime actionWithDuration:ps.duration+ps.life],
+                   [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
+                   nil]];
+  } else if (type == UserTypeGoodMage) {
+    [ps runAction:[CCSequence actions:
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(-220,0)],
                    [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
                    nil]];
   }
@@ -744,6 +801,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _leftCurrentHealth -= _damageDone;
   _leftCurrentHealth = MAX(0, _leftCurrentHealth);
   [self setLeftHealthBarPercentage:((float)_leftCurrentHealth)/_leftMaxHealth*100];
+  
+  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", (int)_damageDone] fontName:@"DINCond-Black" fontSize:35];
+  [self addChild:damageLabel z:3];
+  damageLabel.position = ccp(50, 180);
+  damageLabel.color = ccc3(255, 0, 0);
+  [damageLabel runAction:[CCSequence actions:
+                          [CCSpawn actions:
+                           [CCFadeOut actionWithDuration:1.f], 
+                           [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
+                          [CCCallBlock actionWithBlock:^{[damageLabel removeFromParentAndCleanup:YES];}], nil]];
 }
 
 - (float) calculateEnemyPercentage {
@@ -811,16 +878,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) myWin {
-  _isBattling = NO;
   _isAnimating = NO;
   [_right runAction:[CCSpawn actions:
-                     [CCScaleBy actionWithDuration:0.1 scale:1.2],
-                     [CCFadeOut actionWithDuration:0.1],
+                     [CCScaleBy actionWithDuration:0.3 scale:1.2],
+                     [CCFadeOut actionWithDuration:0.3],
                      nil]];
+  
+  CCParticleSystemQuad *ps = [CCParticleSystemQuad particleWithFile:@"death.plist"];
+  [self addChild:ps z:3];
   
   _winLayer.visible = YES;
   _winLayer.scale = 1.5f;
   [_winLayer runAction:[CCScaleTo actionWithDuration:0.2f scale:1.f]];
+  
+  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic]; 
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Success.m4a"];
+  
   if (!brp) {
     _winButton.visible = NO;
     [self schedule:@selector(checkWinBrp)];
@@ -835,16 +908,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) myLoss {
-  _isBattling = NO;
   _isAnimating = NO;
   [_left runAction:[CCSpawn actions:
-                    [CCScaleBy actionWithDuration:0.1 scale:1.2],
-                    [CCFadeOut actionWithDuration:0.1],
+                    [CCScaleBy actionWithDuration:0.3 scale:1.2],
+                    [CCFadeOut actionWithDuration:0.3],
                     nil]];
+  
+  
+  CCParticleSystemQuad *ps = [CCParticleSystemQuad particleWithFile:@"death.plist"];
+  [self addChild:ps z:3];
+  ps.position = ccp(self.contentSize.width-ps.position.x, ps.position.y);
+  ps.angle = 180-ps.angle;
   
   _loseLayer.visible = YES;
   _loseLayer.scale = 1.5f;
   [_loseLayer runAction:[CCScaleTo actionWithDuration:0.2f scale:1.f]];
+  
+  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Loss.m4a"];
+  
   if (!brp) {
     _loseButton.visible = NO;
     [self schedule:@selector(checkLoseBrp)];
@@ -864,6 +946,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [_attackProgressTimer stopAllActions];
   _attackButton.visible = NO;
   _fleeLayer.visible = YES;
+  
+  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Loss.m4a"];
+  
   if (!brp) {
     _fleeButton.visible = NO;
     [self schedule:@selector(checkFleeBrp)];
@@ -892,6 +978,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) doneClicked {
+  _isBattling = NO;
   if (_left.opacity > 0) {
     SEL completeAction = nil;
     if (brp.hasEquipGained) {
@@ -901,13 +988,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     }
     [_left runAction: [CCSequence actions: 
                        [CCDelayTime actionWithDuration:0.1],
-                       [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],
+                       [CCMoveBy actionWithDuration:0.4 position:ccp(-3*_right.contentSize.width/4, 0)],
                        [CCCallFunc actionWithTarget:self selector:completeAction],
                        nil]];
   } else {
     [_right runAction: [CCSequence actions: 
                         [CCDelayTime actionWithDuration:0.1],
-                        [CCMoveBy actionWithDuration:0.2 position:ccp(3*_right.contentSize.width/4, 0)],
+                        [CCMoveBy actionWithDuration:0.4 position:ccp(3*_right.contentSize.width/4, 0)],
                         [CCCallFunc actionWithTarget:self selector:@selector(displaySummary)],
                         nil]];
   }

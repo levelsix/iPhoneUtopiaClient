@@ -706,6 +706,56 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSString *) comboBarChargeupSound:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+    case UserTypeBadWarrior:
+      return @"Warrior_Combo.m4a";
+      break;
+      
+    case UserTypeGoodArcher:
+    case UserTypeBadArcher:
+      return @"Archer_Combo.m4a";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"Panda_Combo.m4a";
+      break;
+      
+    case UserTypeBadMage:
+      return @"Invoker_Combo.m4a";
+      break;
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) battleAttackSound:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+    case UserTypeBadWarrior:
+      return @"Warrior_Attack.m4a";
+      break;
+      
+    case UserTypeGoodArcher:
+    case UserTypeBadArcher:
+      return @"Archer_Attack.m4a";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"Panda_Attack.m4a";
+      break;
+      
+    case UserTypeBadMage:
+      return @"Invoker_Attack.m4a";
+      break;
+      
+    default:
+      break;
+  }
+}
+
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep {
   return fep.rarity == FullEquipProto_RarityEpic || fep.rarity == FullEquipProto_RarityLegendary || !(fep.diamondPrice == 0);
 }
