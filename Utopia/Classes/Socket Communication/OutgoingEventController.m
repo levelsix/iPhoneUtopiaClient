@@ -844,8 +844,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         shouldSend = YES;
       }
     }
-    for (FullTaskProto_FullTaskEquipReqProto *eq in ftp.potentialLootEquipIdsList) {
-      NSNumber *equipId = [NSNumber numberWithInt:eq.equipId];
+    for (NSNumber *equipId in ftp.potentialLootEquipIdsList) {
       if (![sEquips objectForKey:equipId]) {
         [rEquips addObject:equipId];
         shouldSend = YES;
