@@ -17,6 +17,7 @@
 #import "SimpleAudioEngine.h"
 #import "TopBar.h"
 #import "GameState.h"
+#import "CCLabelFX.h"
 
 #define MAP_OFFSET 100
 
@@ -172,8 +173,8 @@
   
   [ss stopAllActions];
   
-  CCLabelTTF *coinLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%d", ss.amount] fontName:@"DINCond-Black" fontSize:25];
-  [self addChild:coinLabel z:1003];
+  CCLabelTTF *coinLabel = [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d", ss.amount] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  [self addChild:coinLabel z:1005];
   coinLabel.position = ss.position;
   coinLabel.color = ccc3(174, 237, 0);
   [coinLabel runAction:[CCSequence actions:
@@ -214,7 +215,7 @@
   float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
   [ed runAction:[CCSpawn actions:
                  [CCFadeIn actionWithDuration:0.1],
-                 [CCScaleTo actionWithDuration:0.1 scale:1],
+                 [CCScaleTo actionWithDuration:0.1 scale:0.65],
                  [CCSequence actions:
                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
                   [CCEaseBounceOut actionWithAction:
@@ -228,10 +229,13 @@
   [ed stopAllActions];
   
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ed.equipId];
-  CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:fep.name fontName:@"DINCond-Black" fontSize:25];
-  [self addChild:nameLabel z:1003];
+  CCLabelFX *nameLabel = [CCLabelFX labelWithString:fep.name fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  [self addChild:nameLabel z:1005];
   nameLabel.position = ed.position;
-  nameLabel.color = ccc3(174, 237, 0);
+  UIColor *col = [Globals colorForRarity:fep.rarity];
+  CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+  [col getRed:&red green:&green blue:&blue alpha:&alpha];
+  nameLabel.color = ccc3((int)(red*255), (int)(green*255), (int)(blue*255));
   [nameLabel runAction:[CCSequence actions:
                         [CCSpawn actions:
                          [CCFadeOut actionWithDuration:2.f], 

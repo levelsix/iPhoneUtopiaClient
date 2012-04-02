@@ -143,7 +143,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [fillButton addChild:_bigGoldCostLabel];
     _bigGoldCostLabelShadow = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
     _bigGoldCostLabelShadow.color = ccc3(100, 60, 0);
-    _bigGoldCostLabelShadow.opacity = 100;
+    _bigGoldCostLabelShadow.opacity = 25;
     _bigGoldCostLabelShadow.position = ccp(_bigGoldCostLabel.contentSize.width/2+1, _bigGoldCostLabel.contentSize.height/2-1);
     [_bigGoldCostLabel addChild:_bigGoldCostLabelShadow z:-1];
     
@@ -153,7 +153,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [fillButton addChild:fillLabel];
     CCLabelTTF *fillLabelShadow = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
     fillLabelShadow.color = ccc3(100, 60, 0);
-    fillLabelShadow.opacity = 100;
+    fillLabelShadow.opacity = 25;
     fillLabelShadow.position = ccp(fillLabel.contentSize.width/2+1, fillLabel.contentSize.height/2-1);
     [fillLabel addChild:fillLabelShadow z:-1];
     
@@ -495,6 +495,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
   
   [_profilePic setLevel:gs.level];
+  
+  if (_profilePic.expLabel.visible) {
+    [_profilePic.expLabel setString:[NSString stringWithFormat:@"%d/%d", _curExp-gs.expRequiredForCurrentLevel, gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
+  }
   
   if (_bigToolTipState == kEnergy) {
     _bigToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_bigToolTip.contentSize.height/2);

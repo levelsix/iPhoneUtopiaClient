@@ -58,7 +58,6 @@
 - (id) initWithEquipId:(int)eq {
   if ((self = [super initWithFile:[Globals imageNameForEquip:equipId]])) {
     equipId = eq;
-    self.scale = 0.3;
     
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     // Set isTouchEnabled to YES so that gesture recognizers will ignore

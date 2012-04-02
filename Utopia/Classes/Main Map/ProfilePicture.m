@@ -19,6 +19,7 @@
 #import "MapViewController.h"
 #import "ProfileViewController.h"
 #import "ActivityFeedController.h"
+#import "CCLabelFX.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
@@ -124,7 +125,7 @@
     [self addChild:_badge];
     
     _badgeLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
-    _badgeLabel.position = ccp(_badge.contentSize.width/2, _badge.contentSize.height/2-2);
+    _badgeLabel.position = ccp(_badge.contentSize.width/2, _badge.contentSize.height/2-3);
     [_badge addChild:_badgeLabel];
     
     badgeNum = 0;
@@ -160,7 +161,9 @@
 
 @end
 
-@implementation ProfilePicture 
+@implementation ProfilePicture
+
+@synthesize expLabel = _expLabel;
 
 + (id) profileWithType: (UserType) type {
   return [[[self alloc] initWithType: type] autorelease];
@@ -198,6 +201,18 @@
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     [self addChild:menu z:-1];
+    
+    _expLabel = [CCLabelFX labelWithString:@"" 
+                                  fontName:[Globals font]
+                                  fontSize:12.f 
+                              shadowOffset:CGSizeMake(0, -1) 
+                                shadowBlur:1.f 
+                               shadowColor:ccc4(0, 0, 0, 100) 
+                                 fillColor:ccc4(236, 230, 195, 255)];
+    [self addChild:_expLabel];
+    _expLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2-2);
+    _expLabel.visible = NO;
+    
   }
   return self;
 }
@@ -248,6 +263,8 @@
   
   [_expCircle runAction: [CCRotateBy actionWithDuration:0.2 angle:90]];
   
+  [self fadeInExpLabel];
+  
   // Move out right to bottom 
   float step = TOTAL_ANGLE/([_menuItems count]-1);
   float dist = self.contentSize.height/2 + BUTTON_DISTANCE;
@@ -293,7 +310,9 @@
   _inAction = YES;
   _menuOut = NO;
   
-  float dur = 0; 
+  float dur = 0;
+  
+  [self fadeOutExpLabel];
   
   [_expCircle runAction: [CCRotateBy actionWithDuration:0.2 angle:-90]];
   
@@ -328,10 +347,13 @@
   
   clickedButton.badgeNum = 0;
   
+  _expLabel.visible = NO;
   [_expCircle runAction: [CCRotateBy actionWithDuration:0.2 angle:-90]];
   
   _inAction = YES;
   _menuOut = NO;
+  
+  [self fadeOutExpLabel];
   
   [clickedButton runAction:[CCSequence actions:
                             [CCSpawn actions:
@@ -392,6 +414,22 @@
 
 - (void) enableButton {
   _inAction = NO;
+}
+
+- (void) fadeInExpLabel {
+  _expLabel.visible = YES;
+  [self runAction:[CCTintTo actionWithDuration:0.3f red:65 green:65 blue:65]];
+  [_expLabel runAction:[CCFadeIn actionWithDuration:0.3f]];
+}
+
+- (void) fadeOutExpLabel {
+  [self runAction:[CCTintTo actionWithDuration:0.3f red:255 green:255 blue:255]];
+  [_expLabel runAction:[CCSequence actions:
+                        [CCFadeOut actionWithDuration:0.3f],
+                        [CCCallBlock actionWithBlock:
+                         ^{
+                           _expLabel.visible = NO;
+                         }], nil]];
 }
 
 - (void) setInvisible: (CCMenuItem *) sender {

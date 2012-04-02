@@ -13,6 +13,7 @@
 #import "OutgoingEventController.h"
 #import "RefillMenuController.h"
 #import "AnimatedSprite.h"
+#import "CCLabelFX.h"
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
@@ -425,6 +426,7 @@
     if (gs.currentEnergy < ftp.energyCost) {
       // Not enough energy
       [[RefillMenuController sharedRefillMenuController] displayEnstView:YES];
+      self.selected = nil;
     } else {
       NSMutableArray *arr = [NSMutableArray array];
       for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
@@ -458,7 +460,7 @@
   MissionBuilding *mb = (MissionBuilding *)_selected;
   FullTaskProto *ftp = mb.ftp;
   
-  CCLabelTTF *expLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%d Exp.", ftp.expGained] fontName:@"DINCond-Black" fontSize:20];
+  CCLabelTTF *expLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Exp.", ftp.expGained] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:expLabel z:1003];
   expLabel.position = ccp(_taskProgBar.position.x, _taskProgBar.position.y+_taskProgBar.contentSize.height);
   expLabel.color = ccc3(255,200,0);
@@ -469,6 +471,10 @@
                           [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
   
   [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
+  
+  if (tarp.hasLootEquipId) {
+    [self addEquipDrop:tarp.lootEquipId fromSprite:_selected];
+  }
   
   _receivedTaskActionResponse = YES;
   
