@@ -41,6 +41,8 @@
 @property (nonatomic, retain) NSArray *levelTwoStructs;
 @property (nonatomic, retain) StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutorialQuest;
 
+@property (nonatomic, retain) NSArray *duringPanTexts;
+
 @property (nonatomic, retain) NSString *beforeCharSelectionText;
 @property (nonatomic, retain) NSString *beforeBlinkText;
 @property (nonatomic, retain) NSString *afterBlinkTextGood;
@@ -52,8 +54,10 @@
 @property (nonatomic, retain) NSString *afterBattleText;
 @property (nonatomic, retain) NSString *beforeTaskTextGood;
 @property (nonatomic, retain) NSString *beforeTaskTextBad;
+@property (nonatomic, retain) NSString *beforeSkillsText;
 
 @property (nonatomic, retain) NSString *enemyName;
+@property (nonatomic, assign) UserType enemyType;
 @property (nonatomic, retain) NSString *questGiverName;
 
 + (TutorialConstants *) sharedTutorialConstants;

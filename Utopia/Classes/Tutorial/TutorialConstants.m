@@ -22,12 +22,14 @@
 @synthesize expForLevelThree;
 @synthesize levelTwoCities, levelTwoEquips, levelTwoStructs;
 @synthesize carpenterStructs, firstCityElementsForBad, firstCityElementsForGood;
-@synthesize enemyName, questGiverName;
+@synthesize enemyName, enemyType, questGiverName;
 @synthesize beforeBlinkText, beforeCharSelectionText;
 @synthesize afterBlinkTextBad, afterBlinkTextGood;
 @synthesize afterQuestAcceptText, afterQuestAcceptClosedText;
 @synthesize beginBattleText, beginAttackText, afterBattleText;
 @synthesize beforeTaskTextGood, beforeTaskTextBad;
+@synthesize beforeSkillsText;
+@synthesize duringPanTexts;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
 
@@ -63,7 +65,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.levelTwoStructs = constants.newlyAvailableStructsAfterLevelupList;
   
   self.enemyName = @"Rizzy Wirk";
-  self.questGiverName = @"Farmer Lieu";
+  self.questGiverName = @"Farmer Mitch";
+  
+  self.duringPanTexts = [NSArray arrayWithObjects:@"Legends spoke of two royal brothers destined for greatness...",
+                    @"Tristan,  assumed the throne leading the Alliance and all that is good.",
+                    @"Enraged, Fenrir fled to the Legion, seeking unimaginable powers to destroy the Alliance.",
+                    @"Today, he returns with a vengeance, spreading war and chaos across the lands.",
+                    @"Just as the Alliance is about to fall, a white light consumes the skies...", nil];
   
   self.beforeCharSelectionText = @"Somebody help me! Weary soldier! Who are you? What is your name?";
   self.beforeBlinkText = @"Please %@, open your eyes!";
@@ -76,6 +84,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.afterBattleText = @"You made that look easy, but we've still got work to do. Exit the battle and let's finish the last task.";
   self.beforeTaskTextGood = @"It seems the Legion's men are terrorizing the Tavern. Go in there and break it up.";
   self.beforeTaskTextBad = @"Go to the Tavern and set an example of these men by roughing them up.";
+  self.beforeSkillsText = @"Skill points are key to your success. Allocate them wisely."; 
 }
 
 @end

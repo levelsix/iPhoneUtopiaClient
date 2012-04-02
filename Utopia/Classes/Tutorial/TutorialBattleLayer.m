@@ -28,6 +28,7 @@
 
 - (void) beginBattle {
   GameState *gs = [GameState sharedGameState];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
   _leftCurrentHealth = gs.maxHealth;
   _leftMaxHealth = gs.maxHealth;
@@ -49,10 +50,6 @@
   _rightAttack = ENEMY_ATTACK;
   _rightDefense = ENEMY_DEFENSE;
   
-  _firstTurn = YES;
-  _firstAttack = YES;
-  [self startBattle];
-  
   _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
   [self addChild:_ccArrow];
   _ccArrow.visible = NO;
@@ -64,6 +61,22 @@
   
   _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
   _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
+  
+  _left = [CCSprite spriteWithFile:[Globals battleImageNameForUser:gs.type]];
+  _right = [CCSprite spriteWithFile:[Globals battleImageNameForUser:tc.enemyType]];
+  _right.flipX = YES;
+  
+  _left.position = ccp(-_left.contentSize.width/2, _left.contentSize.height/2);
+  _right.position = ccp([[CCDirector sharedDirector] winSize].width+_left.contentSize.width/2, _right.contentSize.height/2);
+  
+  _enemyType = tc.enemyType;
+  
+  [self addChild:_left z:1];
+  [self addChild:_right z:1];
+  
+  _firstTurn = YES;
+  _firstAttack = YES;
+  [self startBattle]; 
 }
 
 - (void) startMyTurn {
@@ -144,18 +157,7 @@
 
 - (void) startEnemyTurn {
   _pulsingLabel.opacity = 0;
-  float perc = [self calculateEnemyPercentage];
-  _damageDone = [self calculateEnemyDamageForPercentage:perc];
-  
-  _bottomMenu.visible = NO;
-  _attackButton.visible = NO;
-  _flippedComboBar.visible = YES;
-  
-  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
-  [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
-                                         [CCDelayTime actionWithDuration:0.5],
-                                         [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
-                                         nil]];
+  [super startEnemyTurn];
 }
 
 - (void) pauseClicked {
@@ -225,7 +227,7 @@
   
   self.summaryView.rightNameLabel.text = tc.enemyName;
   self.summaryView.rightLevelLabel.text = @"Lvl 1";
-  self.summaryView.leftPlayerIcon.image = [Globals squareImageForUser:gs.type < 3 ? 3 : 0];
+  self.summaryView.rightPlayerIcon.image = [Globals squareImageForUser:tc.enemyType];
   
   FullEquipProto *fep = tc.archerInitWeapon;
   self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
@@ -268,7 +270,7 @@
     _uiArrow.alpha = 1.f;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-      _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
+      _uiArrow.center = CGPointMake(_uiArrow.center.x+10, _uiArrow.center.y);
     } completion:nil];
   }];
 }
@@ -289,6 +291,7 @@
   gs.experience += tutQuest.firstDefeatTypeJobBattleExpGain;
   gs.currentStamina -= 1;
   gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
+  gs.battlesWon = 1;
   
   UserEquip *ue = [[UserEquip alloc] init];
   ue.equipId = tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId;

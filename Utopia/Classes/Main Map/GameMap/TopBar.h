@@ -56,6 +56,12 @@ typedef enum {
   
   NSTimer *_energyTimer;
   NSTimer *_staminaTimer;
+  
+  int _curGold;
+  int _curSilver;
+  int _curEnergy;
+  int _curStamina;
+  int _curExp;
 }
 
 @property (nonatomic, retain) ProfilePicture *profilePic;
@@ -65,7 +71,9 @@ typedef enum {
 - (void) update;
 - (void) setEnergyBarPercentage:(float)perc;
 - (void) setStaminaBarPercentage:(float)perc;
+- (void) start;
 
 + (TopBar *) sharedTopBar;
++ (void) purgeSingleton;
 
 @end

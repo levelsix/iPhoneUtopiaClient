@@ -14,14 +14,59 @@
 #import "BattleLayer.h"
 #import "GameLayer.h"
 #import "ProfileViewController.h"
+#import "SimpleAudioEngine.h"
+#import "TopBar.h"
+#import "GameState.h"
 
 #define MAP_OFFSET 100
 
 #define REORDER_START_Z 150
 
+#define SILVER_STACK_BOUNCE_DURATION 1.f
+
+//CCMoveByCustom
+@interface CCMoveByCustom : CCMoveBy
+
+-(void) update: (ccTime) t;
+
+@end
+
+@implementation CCMoveByCustom
+- (void) update: (ccTime) t {	
+	//Here we neglect to change something with a zero delta.
+	if (delta_.x == 0) {
+		[target_ setPosition: ccp( [(CCNode*)target_ position].x, (startPosition_.y + delta_.y * t ) )];
+	} else if (delta_.y == 0) {
+		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), [(CCNode*)target_ position].y )];
+	} else {
+		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), (startPosition_.y + delta_.y * t ) )];
+	}
+}
+@end
+
+//CCMoveToCustom
+@interface CCMoveToCustom : CCMoveTo
+
+- (void) update: (ccTime) t;
+
+@end
+
+@implementation CCMoveToCustom
+- (void) update: (ccTime) t {
+	//Here we neglect to change something with a zero delta.
+	if (delta_.x == 0) {
+		[target_ setPosition: ccp( [(CCNode*)target_ position].x, (startPosition_.y + delta_.y * t ) )];
+	} else if (delta_.y == 0) {
+		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), [(CCNode*)target_ position].y )];
+	} else{
+		[target_ setPosition: ccp( (startPosition_.x + delta_.x * t ), (startPosition_.y + delta_.y * t ) )];
+	}
+}
+@end
+
 @implementation EnemyPopupView
 
-@synthesize nameLabel, levelLabel;
+@synthesize nameLabel, levelLabel, imageIcon;
 
 @end
 
@@ -31,6 +76,7 @@
 @synthesize tileSizeInPoints;
 @synthesize aviaryMenu, enemyMenu;
 @synthesize mapSprites = _mapSprites;
+@synthesize silverOnMap;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
 {
@@ -94,6 +140,123 @@
   self.selected = nil;
 }
 
+- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite {
+  silverOnMap += amount;
+  
+  SilverStack *ss = [[SilverStack alloc] initWithAmount:amount];
+  [self addChild:ss z:1004];
+  [ss release];
+  ss.position = ccpAdd(sprite.position, ccp(0,sprite.contentSize.height/2));
+  ss.scale = 0.01;
+  ss.opacity = 5;
+  
+  // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
+  float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
+  float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+  [ss runAction:[CCSpawn actions:
+                 [CCFadeIn actionWithDuration:0.1],
+                 [CCScaleTo actionWithDuration:0.1 scale:1],
+                 [CCSequence actions:
+                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
+                  [CCEaseBounceOut actionWithAction:
+                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                  nil],
+                 [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
+                 nil]];
+  
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Coin_drop.m4a"];
+}
+
+- (void) pickUpSilverDrop:(SilverStack *)ss {
+  silverOnMap -= ss.amount;
+  
+  [ss stopAllActions];
+  
+  CCLabelTTF *coinLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%d", ss.amount] fontName:@"DINCond-Black" fontSize:25];
+  [self addChild:coinLabel z:1003];
+  coinLabel.position = ss.position;
+  coinLabel.color = ccc3(174, 237, 0);
+  [coinLabel runAction:[CCSequence actions:
+                        [CCSpawn actions:
+                         [CCFadeOut actionWithDuration:2.f], 
+                         [CCMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
+                        [CCCallBlock actionWithBlock:^{[coinLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  TopBar *tb = [TopBar sharedTopBar];
+  CGPoint world = [ss.parent convertToWorldSpace:ss.position];
+  CGPoint pos = [tb convertToNodeSpace:world];
+  [ss removeFromParentAndCleanup:NO];
+  ss.position = pos;
+  [tb addChild:ss z:-1];
+  
+  [ss runAction:[CCSequence actions:
+                 [CCSpawn actions:
+                  [CCEaseSineIn actionWithAction:
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(ss.position.x,292)]],
+                  [CCEaseSineOut actionWithAction:
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(352,ss.position.y)]],
+                  [CCScaleTo actionWithDuration:0.5 scale:0.5],
+                  nil],
+                 [CCCallBlock actionWithBlock:^{[ss removeFromParentAndCleanup:YES];}],
+                 nil]];
+}
+
+- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite {
+  EquipDrop *ed = [[EquipDrop alloc] initWithEquipId:equipId];
+  [self addChild:ed z:1004];
+  [ed release];
+  ed.position = ccpAdd(sprite.position, ccp(0,sprite.contentSize.height/2));
+  ed.scale = 0.01;
+  ed.opacity = 5;
+  
+  // Need to fade in, scale to 1, bounce in y dir, move normal in x dir
+  float xPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*120-60;
+  float yPos = ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX)*20-10;
+  [ed runAction:[CCSpawn actions:
+                 [CCFadeIn actionWithDuration:0.1],
+                 [CCScaleTo actionWithDuration:0.1 scale:1],
+                 [CCSequence actions:
+                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.2 position:ccp(0,40)],
+                  [CCEaseBounceOut actionWithAction:
+                   [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION*0.8 position:ccp(0,-85+yPos)]],
+                  nil],
+                 [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
+                 nil]];
+}
+
+- (void) pickUpEquipDrop:(EquipDrop *)ed {
+  [ed stopAllActions];
+  
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ed.equipId];
+  CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:fep.name fontName:@"DINCond-Black" fontSize:25];
+  [self addChild:nameLabel z:1003];
+  nameLabel.position = ed.position;
+  nameLabel.color = ccc3(174, 237, 0);
+  [nameLabel runAction:[CCSequence actions:
+                        [CCSpawn actions:
+                         [CCFadeOut actionWithDuration:2.f], 
+                         [CCMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
+                        [CCCallBlock actionWithBlock:^{[nameLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  TopBar *tb = [TopBar sharedTopBar];
+  CGPoint world = [ed.parent convertToWorldSpace:ed.position];
+  CGPoint pos = [tb convertToNodeSpace:world];
+  [ed removeFromParentAndCleanup:NO];
+  ed.position = pos;
+  [tb addChild:ed z:-1];
+  
+  [ed runAction:[CCSequence actions:
+                 [CCSpawn actions:
+                  [CCEaseSineIn actionWithAction:
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(ed.position.x,tb.profilePic.position.y)]],
+                  [CCEaseSineOut actionWithAction:
+                   [CCMoveToCustom actionWithDuration:0.5 position:ccp(tb.profilePic.position.x,ed.position.y)]],
+                  [CCScaleTo actionWithDuration:0.5 scale:0.5],
+                  nil],
+                 [CCCallBlock actionWithBlock:^{[ed removeFromParentAndCleanup:YES];}],
+                 nil]];
+}
+
 - (BOOL) mapSprite:(MapSprite *)front isInFrontOfMapSprite: (MapSprite *)back {
   if (front == back) {
     return YES;
@@ -141,8 +304,10 @@
     _selected.isSelected = NO;
     _selected = selected;
     if ([selected isKindOfClass: [Enemy class]]) {
-      [[self.enemyMenu nameLabel] setText:[(Enemy *)selected user].name];
-      [[self.enemyMenu levelLabel] setText:[NSString stringWithFormat:@"Lvl %d", [(Enemy *)selected user].level]];
+      FullUserProto *fup = [(Enemy *)selected user];
+      [[self.enemyMenu nameLabel] setText:fup.name];
+      [[self.enemyMenu levelLabel] setText:[NSString stringWithFormat:@"Lvl %d", fup.level]];
+      [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:fup.userType]];
     }
     _selected.isSelected = YES;
     [self updateAviaryMenu];
@@ -321,27 +486,27 @@
 
 -(CGPoint)convertVectorToGL:(CGPoint)uiPoint
 {
-	float newY = - uiPoint.y;
-	float newX = - uiPoint.x;
-	
-	CGPoint ret = CGPointZero;
-	switch ([[CCDirector sharedDirector] deviceOrientation]) {
-		case CCDeviceOrientationPortrait:
-			ret = ccp( uiPoint.x, newY );
-			break;
-		case CCDeviceOrientationPortraitUpsideDown:
-			ret = ccp(newX, uiPoint.y);
-			break;
-		case CCDeviceOrientationLandscapeLeft:
-			ret.x = uiPoint.y;
-			ret.y = uiPoint.x;
-			break;
-		case CCDeviceOrientationLandscapeRight:
-			ret.x = newY;
-			ret.y = newX;
-			break;
-	}
-	return ret;
+  float newY = - uiPoint.y;
+  float newX = - uiPoint.x;
+  
+  CGPoint ret = CGPointZero;
+  switch ([[CCDirector sharedDirector] deviceOrientation]) {
+    case CCDeviceOrientationPortrait:
+      ret = ccp( uiPoint.x, newY );
+      break;
+    case CCDeviceOrientationPortraitUpsideDown:
+      ret = ccp(newX, uiPoint.y);
+      break;
+    case CCDeviceOrientationLandscapeLeft:
+      ret.x = uiPoint.y;
+      ret.y = uiPoint.x;
+      break;
+    case CCDeviceOrientationLandscapeRight:
+      ret.x = newY;
+      ret.y = newX;
+      break;
+  }
+  return ret;
 }
 
 -(void) dealloc {

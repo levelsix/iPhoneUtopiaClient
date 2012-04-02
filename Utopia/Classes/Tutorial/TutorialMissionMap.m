@@ -19,6 +19,7 @@
 #import "TutorialMapViewController.h"
 #import "DialogMenuController.h"
 #import "GameLayer.h"
+#import "TopBar.h"
 
 #define ENEMY_TAG 100
 
@@ -227,6 +228,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   NSString *text = [[GameState sharedGameState] type] < 3 ? tc.afterBlinkTextGood : tc. afterBlinkTextBad;
   [DialogMenuController displayViewForText:text callbackTarget:self action:@selector(centerOnQuestGiver)];
+  
+  [[TopBar sharedTopBar] start];
 }
 
 - (void) centerOnQuestGiver {
@@ -247,6 +250,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [super setSelected:selected];
     [_ccArrow removeFromParentAndCleanup:YES];
     _canUnclick = NO;
+    
+    [[self.enemyMenu nameLabel] setText:tc.enemyName];
+    [[self.enemyMenu levelLabel] setText:@"Lvl 1"];
+    [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:tc.enemyType]];
   } else if (_doTaskPhase && [selected isKindOfClass:[MissionBuilding class]] && 
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == tc.tutorialQuest.assetNumWithinCity) {
     [super setSelected:selected];
@@ -345,7 +352,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     GameState *gs = [GameState sharedGameState];
     StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
-    gs.silver += tutQuest.firstTaskCompleteCoinGain;
+    [self addSilverDrop:tutQuest.firstTaskCompleteCoinGain fromSprite:mb];
     // Exp will be same for either task
     gs.experience += tutQuest.firstTaskGood.expGained;
     
@@ -366,7 +373,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
       [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                              [upAction reverse], nil]]];
-      
       
       [[GameLayer sharedGameLayer] moveMap:self toSprite:_questGiver];
     }
@@ -426,7 +432,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 - (IBAction)attackClicked:(id)sender {
   _canUnclick = YES;
   self.selected = nil;
-//  [[CCDirector sharedDirector] replaceScene:[CCTransitionFadeTR transitionWithDuration:1.f scene:[BattleLayer scene]]];
   [[CCDirector sharedDirector] pushScene:[TutorialBattleLayer scene]];
   
   [_ccArrow removeFromParentAndCleanup:YES];

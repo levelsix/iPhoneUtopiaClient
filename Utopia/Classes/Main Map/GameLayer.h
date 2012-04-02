@@ -48,6 +48,7 @@
 - (void) closeMenus;
 - (void) unloadTutorialMissionMap;
 - (void) loadTutorialMissionMap;
+- (GameMap *) currentMap;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;

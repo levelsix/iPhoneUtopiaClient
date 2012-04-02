@@ -122,7 +122,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   if (_homeMap.visible) {
     _homeMap.selected = nil;
     _homeMap.visible = NO;
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
   }
   
   [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(fadeOut) withObject:nil waitUntilDone:YES];
@@ -160,7 +159,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self moveMapToCenter:_homeMap];
   currentCity = 0;
   
-  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
+}
+
+- (GameMap *) currentMap {
+  if (_homeMap.visible) {
+    return _homeMap;
+  } else {
+    return _missionMap;
+  }
+}
+
+- (void) onEnter {
+  [super onEnter];
+  if (_homeMap.visible) {
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
+  } else {
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+  }
 }
 
 - (void) closeMenus {

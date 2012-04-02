@@ -104,8 +104,10 @@
 }
 
 - (void) setLevel:(int)level {
-  [_levelLabel setString:[NSString stringWithFormat:@"%d", level]];
-  _level = level;
+  if (level != _level) {
+    [_levelLabel setString:[NSString stringWithFormat:@"%d", level]];
+    _level = level;
+  }
 }
 
 @end

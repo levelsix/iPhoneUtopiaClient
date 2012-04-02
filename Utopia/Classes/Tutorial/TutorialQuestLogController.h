@@ -15,7 +15,7 @@
   BOOL _canClose;
   BOOL _acceptingPhase;
   
-  id<UIScrollViewDelegate> oldDelegate;
+//  id<UIScrollViewDelegate> oldDelegate;
   UIImageView *_arrow;
 }
 

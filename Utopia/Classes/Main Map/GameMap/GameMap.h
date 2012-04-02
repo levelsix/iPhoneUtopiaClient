@@ -10,6 +10,7 @@
 #import "NibUtils.h"
 #import "Building.h"
 #import "AnimatedSprite.h"
+#import "Drops.h"
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
@@ -23,6 +24,7 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *imageIcon;
 
 @end
 
@@ -39,12 +41,17 @@
 
 @property (nonatomic, assign) CGSize tileSizeInPoints;
 
+@property (nonatomic, assign) int silverOnMap;
+
 + (id) tiledMapWithTMXFile:(NSString*)tmxFile;
 - (id) initWithTMXFile:(NSString *)tmxFile;
 - (CGPoint)convertVectorToGL:(CGPoint)uiPoint;
 - (void) doReorder;
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
 - (void) layerWillDisappear;
+
+- (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite;
+- (void) pickUpSilverDrop:(SilverStack *)ss;
 
 - (IBAction)enterAviaryClicked:(id)sender;
 - (IBAction)attackClicked:(id)sender;

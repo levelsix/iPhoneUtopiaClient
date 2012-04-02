@@ -10,4 +10,6 @@
 
 @interface TutorialTopBar : TopBar
 
+- (void) updateIcon;
+
 @end

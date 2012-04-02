@@ -13,6 +13,8 @@
 #import "RefillMenuController.h"
 #import "OutgoingEventController.h"
 #import "SynthesizeSingleton.h"
+#import "GameLayer.h"
+#import "GameMap.h"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -74,15 +76,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _coinBar.position = ccp(373, self.contentSize.height+_coinBar.contentSize.height/2);
     
     NSString *fontName = [Globals font];
-    _silverLabel = [CCLabelTTF labelWithString:@"2,000,000" fontName:fontName fontSize:12];
+    _silverLabel = [CCLabelTTF labelWithString:@"" fontName:fontName fontSize:12];
     [_coinBar addChild:_silverLabel];
     _silverLabel.color = ccc3(212,210,199);
-    _silverLabel.position = ccp(55, 15);
+    _silverLabel.position = ccp(55, 16);
     
-    _goldLabel = [CCLabelTTF labelWithString:@"30" fontName:fontName fontSize:12];
+    _goldLabel = [CCLabelTTF labelWithString:@"" fontName:fontName fontSize:12];
     [_coinBar addChild:_goldLabel];
     _goldLabel.color = ccc3(212,210,199);
-    _goldLabel.position = ccp(127, 15);
+    _goldLabel.position = ccp(127, 16);
     
     _goldButton = [CCSprite spriteWithFile:@"plus.png"];
     [_coinBar addChild:_goldButton z:-1];
@@ -93,9 +95,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     // Adjust the labels
     [Globals adjustFontSizeForSize:12 CCLabelTTFs:_silverLabel, _goldLabel, nil];
     
-    // Drop the bars down
-    [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
-    [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
     
     GameState *gs = [GameState sharedGameState];
     _profilePic = [ProfilePicture profileWithType:gs.type];
@@ -176,12 +175,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
     
-    [self schedule:@selector(update)];
-    
     [self setUpEnergyTimer];
     [self setUpStaminaTimer];
+    
+    _curSilver = 0;
+    _curGold = 0;
+    _curEnergy = 0;
+    _curStamina = 0;
+    _curExp = gs.expRequiredForCurrentLevel;
   }
   return self;
+}
+
+- (void) start {
+  // Drop the bars down
+  [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
+  [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
+
+  [self schedule:@selector(update)];
 }
 
 - (void) setIsTouchEnabled:(BOOL)isTouchEnabled {
@@ -426,16 +437,68 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
-  _silverLabel.string = [Globals commafyNumber:gs.silver];
-  _goldLabel.string = [Globals commafyNumber:gs.gold];
-  [self setEnergyBarPercentage:gs.currentEnergy/((float)gs.maxEnergy)];
-  [self setStaminaBarPercentage:gs.currentStamina/((float)gs.maxStamina)];
-  [_profilePic setExpPercentage:(gs.experience-gs.expRequiredForCurrentLevel)/(float)(gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel)];
+  
+  int silver = gs.silver-[[[GameLayer sharedGameLayer] currentMap] silverOnMap];
+  if (silver != _curSilver) {
+    int diff = silver - _curSilver;
+    int change = 0;
+    if (diff > 0) {
+      change = MAX((int)(0.1*diff), 1);
+    } else if (diff < 0) {
+      change = MAX((int)(0.1*diff), -1);
+    }
+    _silverLabel.string = [Globals commafyNumber:_curSilver+change];
+    _curSilver += change;
+  }
+  if (gs.gold != _curGold) {
+    int diff = gs.gold - _curGold;
+    int change = 0;
+    if (diff > 0) {
+      change = MAX((int)(0.1*diff), 1);
+    } else if (diff < 0) {
+      change = MAX((int)(0.1*diff), -1);
+    }
+    _goldLabel.string = [Globals commafyNumber:_curGold+change];
+    _curGold += change;
+  }
+  
+  if (gs.currentEnergy != _curEnergy) {
+    int diff = gs.currentEnergy - _curEnergy;
+    int change;
+    if (diff > 0) {
+      change = MAX(MIN((int)(0.02*gs.maxEnergy), diff), 1);
+    } else if (diff < 0) {
+      change = MIN(MAX((int)(-0.02*gs.maxEnergy), diff), -1);
+    }
+    [self setEnergyBarPercentage:(_curEnergy+change)/((float)gs.maxEnergy)];
+    _curEnergy += change;
+  }
+  
+  if (gs.currentStamina != _curStamina) {
+    int diff = gs.currentStamina - _curStamina;
+    int change;
+    if (diff > 0) {
+      change = MAX(MIN((int)(0.02*gs.maxStamina), diff), 1);
+    } else if (diff < 0) {
+      change = MIN(MAX((int)(-0.02*gs.maxStamina), diff), -1);
+    }
+    [self setStaminaBarPercentage:(_curStamina+change)/((float)gs.maxStamina)];
+    _curStamina += change;
+  }
+  
+  if (gs.experience != _curExp) {
+    int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
+    int diff = gs.experience - _curExp;
+    int change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
+    [_profilePic setExpPercentage:(_curExp+change-gs.expRequiredForCurrentLevel)/(float)(gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel)];
+    _curExp += change;
+  }
+  
   [_profilePic setLevel:gs.level];
   
   if (_bigToolTipState == kEnergy) {
     _bigToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
-    _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", gs.currentEnergy, gs.maxEnergy];
+    _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curEnergy, gs.maxEnergy];
     if (gs.currentEnergy >= gs.maxEnergy) {
       [self fadeOutToolTip:YES];
     } else {
@@ -444,7 +507,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     }
   } else if (_bigToolTipState == kStamina) { 
     _bigToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
-    _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", gs.currentStamina, gs.maxStamina];
+    _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
     if (gs.currentStamina >= gs.maxStamina) {
       [self fadeOutToolTip:YES];
     } else {
@@ -455,10 +518,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (_littleToolTipState == kEnergy) {
     _littleToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
-    _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", gs.currentEnergy, gs.maxEnergy];
+    _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curEnergy, gs.maxEnergy];
   } else if (_littleToolTipState == kStamina) {
     _littleToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
-    _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", gs.currentStamina, gs.maxStamina];
+    _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
   }
   
   if (gs.connected) {

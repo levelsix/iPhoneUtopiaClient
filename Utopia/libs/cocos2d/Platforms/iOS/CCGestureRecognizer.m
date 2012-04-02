@@ -117,14 +117,14 @@
     
     // first is to check children
     CCNode* n;
-    /*CCARRAY_FOREACH(node_.children, node)
-     {
-     if( [node isNodeInTreeTouched:pt] )
-     {
-     rslt = NO;
-     break;
-     }
-     }*/
+    CCARRAY_FOREACH(node_.children, n)
+    {
+      if(n.isTouchEnabled && [n isNodeInTreeTouched:pt])
+      {
+        rslt = NO;
+        break;
+      }
+    }
     
     // ok, still ok, now check children of parents after this node
     n = node_;

@@ -87,6 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [DialogMenuController closeView];
+  [[CCTouchDispatcher sharedDispatcher] touchesEnded:touches withEvent:event];
 }
 
 - (void) viewDidUnload

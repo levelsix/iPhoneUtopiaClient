@@ -10,6 +10,8 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "TutorialMissionMap.h"
+#import "DialogMenuController.h"
+#import "TutorialConstants.h"
 
 @implementation TutorialProfileViewController
 
@@ -33,6 +35,13 @@
   self.curWeaponView.userInteractionEnabled = NO;
   self.curArmorView.userInteractionEnabled = NO;
   self.curAmuletView.userInteractionEnabled = NO;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeSkillsText callbackTarget:nil action:nil];
 }
 
 - (IBAction)skillButtonClicked:(id)sender {

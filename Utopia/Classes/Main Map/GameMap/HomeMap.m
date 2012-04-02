@@ -816,7 +816,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) scrollScreenForTouch:(CGPoint)pt {
-  //  CGPoint relPt = [self convertToNodeSpace:pt];
+  // CGPoint relPt = [self convertToNodeSpace:pt];
   // TODO: Implement this
   // As you get closer to edge, it scrolls faster
 }
@@ -836,6 +836,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   if (mb.userStruct.state == kWaitingForIncome) {
     mb.retrievable = NO;
     [self updateTimersForBuilding:mb];
+    [self addSilverDrop:[[Globals sharedGlobals] calculateIncomeForUserStruct:mb.userStruct] fromSprite:mb];
   }
 }
 
@@ -996,10 +997,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (IBAction)littleUpgradeClicked:(id)sender {
   UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
-  [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-  _upgrBuilding = (MoneyBuilding *)_selected;
-  [self updateTimersForBuilding:_upgrBuilding];
-  [self.hbMenu updateLabelsForUserStruct:us];
+  Globals *gl = [Globals sharedGlobals];
+  if (us.level < gl.maxLevelForStruct) {
+    [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
+    _upgrBuilding = (MoneyBuilding *)_selected;
+    [self updateTimersForBuilding:_upgrBuilding];
+    [self.hbMenu updateLabelsForUserStruct:us];
+  }
 }
 
 - (IBAction)finishNowClicked:(id)sender {

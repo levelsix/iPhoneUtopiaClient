@@ -15,6 +15,7 @@
 #import "TutorialHomeMap.h"
 #import "GameState.h"
 #import "DialogMenuController.h"
+#import "TutorialTopBar.h"
 
 @implementation CharSelectionViewController
 
@@ -335,6 +336,9 @@
   gs.weaponEquipped = weapon.equipId;
   gs.armorEquipped = armor.equipId;
   gs.type = _curPage;
+  tc.enemyType = gs.type < 3 ? 3 : 0;
+  
+  [(TutorialTopBar *)[TutorialTopBar sharedTopBar] updateIcon];
   
   UserEquip *ue1 = [[UserEquip alloc] init];
   ue1.equipId = weapon.equipId;

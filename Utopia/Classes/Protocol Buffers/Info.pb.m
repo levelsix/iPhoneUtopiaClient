@@ -4499,6 +4499,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 @property (retain) NSMutableArray* mutablePotentialLootEquipIdsList;
 @property int32_t expGained;
 @property int32_t assetNumWithinCity;
+@property (retain) NSString* processingText;
 @property (retain) NSMutableArray* mutableEquipReqsList;
 @end
 
@@ -4575,10 +4576,18 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   hasAssetNumWithinCity_ = !!value;
 }
 @synthesize assetNumWithinCity;
+- (BOOL) hasProcessingText {
+  return !!hasProcessingText_;
+}
+- (void) setHasProcessingText:(BOOL) value {
+  hasProcessingText_ = !!value;
+}
+@synthesize processingText;
 @synthesize mutableEquipReqsList;
 - (void) dealloc {
   self.name = nil;
   self.mutablePotentialLootEquipIdsList = nil;
+  self.processingText = nil;
   self.mutableEquipReqsList = nil;
   [super dealloc];
 }
@@ -4594,6 +4603,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
     self.chanceOfEquipLoot = 0;
     self.expGained = 0;
     self.assetNumWithinCity = 0;
+    self.processingText = @"";
   }
   return self;
 }
@@ -4654,6 +4664,9 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (!self.hasAssetNumWithinCity) {
     return NO;
   }
+  if (!self.hasProcessingText) {
+    return NO;
+  }
   for (FullTaskProto_FullTaskEquipReqProto* element in self.equipReqsList) {
     if (!element.isInitialized) {
       return NO;
@@ -4695,8 +4708,11 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasAssetNumWithinCity) {
     [output writeInt32:11 value:self.assetNumWithinCity];
   }
+  if (self.hasProcessingText) {
+    [output writeString:12 value:self.processingText];
+  }
   for (FullTaskProto_FullTaskEquipReqProto* element in self.equipReqsList) {
-    [output writeMessage:12 value:element];
+    [output writeMessage:13 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4745,8 +4761,11 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   if (self.hasAssetNumWithinCity) {
     size += computeInt32Size(11, self.assetNumWithinCity);
   }
+  if (self.hasProcessingText) {
+    size += computeStringSize(12, self.processingText);
+  }
   for (FullTaskProto_FullTaskEquipReqProto* element in self.equipReqsList) {
-    size += computeMessageSize(12, element);
+    size += computeMessageSize(13, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5121,6 +5140,9 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
   if (other.hasAssetNumWithinCity) {
     [self setAssetNumWithinCity:other.assetNumWithinCity];
   }
+  if (other.hasProcessingText) {
+    [self setProcessingText:other.processingText];
+  }
   if (other.mutableEquipReqsList.count > 0) {
     if (result.mutableEquipReqsList == nil) {
       result.mutableEquipReqsList = [NSMutableArray array];
@@ -5193,6 +5215,10 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
         break;
       }
       case 98: {
+        [self setProcessingText:[input readString]];
+        break;
+      }
+      case 106: {
         FullTaskProto_FullTaskEquipReqProto_Builder* subBuilder = [FullTaskProto_FullTaskEquipReqProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEquipReqs:[subBuilder buildPartial]];
@@ -5390,6 +5416,22 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 - (FullTaskProto_Builder*) clearAssetNumWithinCity {
   result.hasAssetNumWithinCity = NO;
   result.assetNumWithinCity = 0;
+  return self;
+}
+- (BOOL) hasProcessingText {
+  return result.hasProcessingText;
+}
+- (NSString*) processingText {
+  return result.processingText;
+}
+- (FullTaskProto_Builder*) setProcessingText:(NSString*) value {
+  result.hasProcessingText = YES;
+  result.processingText = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearProcessingText {
+  result.hasProcessingText = NO;
+  result.processingText = @"";
   return self;
 }
 - (NSArray*) equipReqsList {

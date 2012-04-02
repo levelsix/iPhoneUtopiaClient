@@ -1172,6 +1172,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasExpGained_:1;
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasName_:1;
+  BOOL hasProcessingText_:1;
   Float32 chanceOfEquipLoot;
   int32_t taskId;
   int32_t cityId;
@@ -1182,6 +1183,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   int32_t expGained;
   int32_t assetNumWithinCity;
   NSString* name;
+  NSString* processingText;
   NSMutableArray* mutablePotentialLootEquipIdsList;
   NSMutableArray* mutableEquipReqsList;
 }
@@ -1195,6 +1197,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasChanceOfEquipLoot;
 - (BOOL) hasExpGained;
 - (BOOL) hasAssetNumWithinCity;
+- (BOOL) hasProcessingText;
 @property (readonly) int32_t taskId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t cityId;
@@ -1205,6 +1208,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) Float32 chanceOfEquipLoot;
 @property (readonly) int32_t expGained;
 @property (readonly) int32_t assetNumWithinCity;
+@property (readonly, retain) NSString* processingText;
 - (NSArray*) potentialLootEquipIdsList;
 - (int32_t) potentialLootEquipIdsAtIndex:(int32_t) index;
 - (NSArray*) equipReqsList;
@@ -1366,6 +1370,11 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int32_t) assetNumWithinCity;
 - (FullTaskProto_Builder*) setAssetNumWithinCity:(int32_t) value;
 - (FullTaskProto_Builder*) clearAssetNumWithinCity;
+
+- (BOOL) hasProcessingText;
+- (NSString*) processingText;
+- (FullTaskProto_Builder*) setProcessingText:(NSString*) value;
+- (FullTaskProto_Builder*) clearProcessingText;
 
 - (NSArray*) equipReqsList;
 - (FullTaskProto_FullTaskEquipReqProto*) equipReqsAtIndex:(int32_t) index;

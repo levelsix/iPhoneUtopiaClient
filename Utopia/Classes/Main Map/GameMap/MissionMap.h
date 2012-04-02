@@ -8,6 +8,7 @@
 
 #import "GameMap.h"
 #import "Protocols.pb.h"
+#import "CCLabelFX.h"
 
 #define ASSET_TAG_BASE 2555
 
@@ -35,9 +36,25 @@
 
 @end
 
+@interface TaskProgressBar : CCSprite {
+  CCProgressTimer *_progressBar;
+  CCLabelFX *_label;
+}
+
+@property (nonatomic, assign) BOOL isAnimating;
+
+- (void) animateBarWithText:(NSString *)str;
+
+@end
+
 @interface MissionMap : GameMap {
   NSMutableArray *_walkableData;
   int _cityId;
+  
+  TaskProgressBar *_taskProgBar;
+  
+  BOOL _receivedTaskActionResponse;
+  BOOL _performingTask;
 }
 
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
@@ -48,6 +65,7 @@
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
 - (void) performCurrentTask;
+- (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;

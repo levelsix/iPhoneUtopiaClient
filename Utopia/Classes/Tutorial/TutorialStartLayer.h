@@ -7,11 +7,14 @@
 //
 
 #import "cocos2d.h"
+#import "CCLabelFX.h"
 
 @interface TutorialStartLayer : CCLayerColor {
   CGPoint _origPos;
   CCSprite *_bgd;
   int _incrementor;
+  CCLabelFX *_label;
+  int _curLabel;
 }
 
 + (id) scene;

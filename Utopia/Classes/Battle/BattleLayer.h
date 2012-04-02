@@ -115,6 +115,8 @@
   
   float _damageDone;
   
+  UserType _enemyType;
+  
   CCLayer *_pausedLayer;
   CCLayer *_fleeLayer;
   CCMenuItemSprite *_fleeButton;

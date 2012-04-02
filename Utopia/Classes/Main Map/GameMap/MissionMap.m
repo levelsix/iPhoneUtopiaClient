@@ -18,6 +18,8 @@
 
 #define SUMMARY_MENU_ANIMATION_DURATION 0.15f
 
+#define TASK_BAR_DURATION 2.f
+
 @implementation MissionBuildingSummaryMenu
 
 @synthesize titleLabel, descriptionLabel, energyLabel, rewardLabel, experienceLabel, itemChanceLabel;
@@ -26,7 +28,7 @@
   titleLabel.text = name;
   descriptionLabel.text = ftp.name;
   energyLabel.text = [NSString stringWithFormat:@"%d", ftp.energyCost];
-  rewardLabel.text = [Globals commafyNumber:(ftp.maxCoinsGained-ftp.minCoinsGained)/2];
+  rewardLabel.text = [NSString stringWithFormat:@"%d-%d", ftp.minCoinsGained, ftp.maxCoinsGained];
   experienceLabel.text = [NSString stringWithFormat:@"%d Exp.", ftp.expGained];
   
   if (ftp.potentialLootEquipIdsList.count > 0) {
@@ -122,6 +124,48 @@
 - (void) dealloc {
   [_separators release];
   [super dealloc];
+}
+
+@end
+
+@implementation TaskProgressBar
+
+@synthesize isAnimating;
+
++ (id) node {
+  return [[[self alloc] initBar] autorelease];
+}
+
+- (id) initBar {
+  if ((self = [super initWithFile:@"taskbarbg.png"])) {
+    _progressBar = [CCProgressTimer progressWithFile:@"yellowtaskbar.png"];
+    [self addChild:_progressBar];
+    _progressBar.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    _progressBar.type = kCCProgressTimerTypeHorizontalBarLR;
+    
+    _label = [CCLabelFX labelWithString:@""
+                               fontName:@"DINCond-Black"
+                               fontSize:10
+                           shadowOffset:CGSizeMake(0, -1) 
+                             shadowBlur:1.f 
+                            shadowColor:ccc4(0, 0, 0, 80) 
+                              fillColor:ccc4(255,255,255,255)];
+    [self addChild:_label];
+    _label.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+  }
+  return self;
+}
+
+- (void) animateBarWithText:(NSString *)str {
+  if (!isAnimating) {
+    _label.string = [str uppercaseString];
+    _progressBar.percentage = 0.f;
+    isAnimating = YES;
+    [_progressBar runAction:[CCSequence actions:
+                             [CCProgressTo actionWithDuration:TASK_BAR_DURATION percent:100.f], 
+                             [CCCallBlock actionWithBlock:^{ isAnimating = NO; }], 
+                             [CCCallFunc actionWithTarget:self.parent selector:@selector(taskBarAnimDone)],nil]];
+  }
 }
 
 @end
@@ -321,23 +365,18 @@
     
     summaryMenu.center = CGPointMake(-summaryMenu.frame.size.width, 290);
     
-    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
-    for (int i=0; i < width; i++) {
-      for (int j=0; j < height; j++) {
-        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
-      }
-      [str appendString:@"\n"];
-    }
-    NSLog(@"%@", str);
+    _taskProgBar = [TaskProgressBar node];
+    [self addChild:_taskProgBar z:1002];
+    _taskProgBar.visible = NO;
     
-//    for (int i = 0; i < 1; i++) {
-//      CGRect r = CGRectZero;
-//      r.origin = [self randomWalkablePosition];
-//      r.size = CGSizeMake(1, 1);
-//      QuestGiver *anim = [[QuestGiver alloc] initWithFile:nil location:r map:self];
-//      [self addChild:anim];
-//      anim.isInProgress = NO;
+//    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
+//    for (int i=0; i < width; i++) {
+//      for (int j=0; j < height; j++) {
+//        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
+//      }
+//      [str appendString:@"\n"];
 //    }
+//    NSLog(@"%@", str);
   }
   return self;
 }
@@ -397,17 +436,54 @@
       
       if (arr.count > 0) {
         [[RefillMenuController sharedRefillMenuController] displayEquipsView:arr];
+        self.selected = nil;
       } else {
         BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId];
         
         if (success) {
+          _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
+          [_taskProgBar animateBarWithText:@"MEEPING"];
+          _taskProgBar.visible = YES;
           mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
+          _receivedTaskActionResponse = NO;
+          _performingTask = YES;
         }
       }
     }
-    
-    self.selected = nil;
     [self closeMenus];
+  }
+}
+
+- (void) receivedTaskResponse:(TaskActionResponseProto *)tarp {
+  MissionBuilding *mb = (MissionBuilding *)_selected;
+  FullTaskProto *ftp = mb.ftp;
+  
+  CCLabelTTF *expLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"+%d Exp.", ftp.expGained] fontName:@"DINCond-Black" fontSize:20];
+  [self addChild:expLabel z:1003];
+  expLabel.position = ccp(_taskProgBar.position.x, _taskProgBar.position.y+_taskProgBar.contentSize.height);
+  expLabel.color = ccc3(255,200,0);
+  [expLabel runAction:[CCSequence actions:
+                          [CCSpawn actions:
+                           [CCFadeOut actionWithDuration:1.f], 
+                           [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
+                          [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
+  
+  _receivedTaskActionResponse = YES;
+  
+  if (!_taskProgBar.isAnimating) {
+    _taskProgBar.visible = NO;
+    self.selected = nil;
+    _performingTask = NO;
+  }
+}
+
+- (void) taskBarAnimDone {
+  if (_receivedTaskActionResponse) {
+    _taskProgBar.visible = NO;
+    self.selected = nil;
+    _performingTask = NO;
   }
 }
 
@@ -449,6 +525,10 @@
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  if (_performingTask) {
+    return;
+  }
+  
   SelectableSprite *oldSelected = _selected;
   [super tap:recognizer node:node];
   if (oldSelected == _selected && [_selected isKindOfClass:[MissionBuilding class]]) {

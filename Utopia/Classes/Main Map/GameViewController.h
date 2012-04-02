@@ -18,8 +18,10 @@
   BOOL _isRunning;
   CCSprite *doorright;
   CCSprite *doorleft;
-  CCMenu *crest;
   CCSprite *splash;
+  CCSprite *eyes;
+  CCParticleSystemQuad *leftBurn;
+  CCParticleSystemQuad *rightBurn;
 }
 
 @property (nonatomic, assign) BOOL isTutorial;
@@ -27,6 +29,7 @@
 
 - (void) startDoorAnimation;
 - (void) setupCocos2D;
+- (void) allowOpeningOfDoor;
 
 + (GameViewController *) sharedGameViewController;
 + (void) releaseAllViews;

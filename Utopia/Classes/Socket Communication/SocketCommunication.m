@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.8"//@"50.18.173.214"
+#define HOST_NAME @"10.1.10.23"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -34,7 +34,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   uint16_t port = HOST_PORT;
   
   // Make connection to host
-	if (![_asyncSocket connectToHost:host onPort:port error:&error])
+	if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error])
 	{
 		NSLog(@"Unable to connect to due to invalid configuration: %@", error);
 	}

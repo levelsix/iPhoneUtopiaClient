@@ -17,8 +17,8 @@
   return [super initWithNibName:@"MapViewController" bundle:nil];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   _travelHomePhase = YES;
   [[GameLayer sharedGameLayer] unloadTutorialMissionMap];
   

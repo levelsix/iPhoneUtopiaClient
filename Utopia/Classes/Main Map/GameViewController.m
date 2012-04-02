@@ -39,9 +39,15 @@
 #import "GameLayer.h"
 #import "HomeMap.h"
 #import "BattleLayer.h"
+#import "SimpleAudioEngine.h"
+#import "TopBar.h"
 
-#define DOOR_CLOSE_DURATION 2.f
-#define DOOR_OPEN_DURATION 1.5f
+#define DOOR_CLOSE_DURATION 1.5f
+#define DOOR_OPEN_DURATION 1.f
+
+#define EYES_START_ALPHA 80.f
+#define EYES_END_ALPHA 180.f
+#define EYES_PULSATE_DURATION 2.f
 
 @implementation GameView
 
@@ -100,6 +106,7 @@
   [GameLayer purgeSingleton];
   [HomeMap purgeSingleton];
   [BattleLayer purgeSingleton];
+  [TopBar purgeSingleton];
   
   [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
 }
@@ -112,6 +119,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     scene = [CCScene node];
     [[CCDirector sharedDirector] runWithScene:scene];
   }
+  [[SimpleAudioEngine sharedEngine] playEffect:@"DoorClosing_Final.m4a"];
   
   CCLayer *layer = [CCLayer node];
   [scene addChild:layer z:1];
@@ -131,12 +139,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   doorright.position = ccp(layer.contentSize.width, doorright.contentSize.height/2);
   [layer addChild:doorright z:11];
   
-  CCSprite *fillButtonSprite = [CCSprite spriteWithFile:@"middlecoin.png"];
-  CCMenuItemSprite *s = [CCMenuItemSprite itemFromNormalSprite:fillButtonSprite selectedSprite:nil target:self selector:@selector(crestClicked)];
+  CCSprite *crest = [CCSprite spriteWithFile:@"skullmedalnomid.png"];
+  [doorright addChild:crest z:1];
+  crest.position = ccp(0, doorright.contentSize.height/2);
   
-  crest = [CCMenu menuWithItems:s,nil];
-  [doorright addChild:crest];
-  crest.position = ccp(-8, doorright.contentSize.height/2);
+  eyes = [CCSprite spriteWithFile:@"eyesbig.png"];
+  [crest addChild:eyes ];
+  eyes.opacity = EYES_START_ALPHA;
+  eyes.position = ccp(crest.contentSize.width/2, crest.contentSize.height/2);
   
   [doorleft runAction:[CCEaseBounceOut actionWithAction:[CCSequence actions:
                                                          [CCMoveBy actionWithDuration:DOOR_CLOSE_DURATION position:ccp(doorleft.contentSize.width, 0)],
@@ -146,6 +156,53 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   self.canLoad = NO;
   _isRunning = NO;
+  
+  leftBurn = [CCParticleSystemQuad particleWithFile:@"eyesburning.plist"];
+  [eyes addChild:leftBurn z:1];
+  leftBurn.position = ccp(56,70);
+  leftBurn.startSize /= 2.5;
+  leftBurn.endSize /= 2.5;
+  
+  rightBurn = [CCParticleSystemQuad particleWithFile:@"eyesburning.plist"];
+  [eyes addChild:rightBurn z:1];
+  rightBurn.position = ccp(93,70);
+  rightBurn.startSize /= 2.5;
+  rightBurn.endSize /= 2.5;
+  
+  [eyes runAction:[CCRepeatForever actionWithAction:
+                   [CCSequence actions:
+                    [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_END_ALPHA],
+                    [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_START_ALPHA],
+                    nil]]];
+  
+  CCParticleSystemQuad *around = [CCParticleSystemQuad particleWithFile:@"particlesaround.plist"];
+  [doorright addChild:around];
+  around.position = ccp(0, doorright.contentSize.height/2);
+  
+}
+
+- (void) allowOpeningOfDoor {
+  if (!_isRunning) {
+    [eyes stopAllActions];
+    
+    float dur = (EYES_END_ALPHA-EYES_START_ALPHA)*EYES_PULSATE_DURATION/(255-eyes.opacity);
+    [eyes runAction:[CCFadeTo actionWithDuration:dur opacity:255]];
+    
+    leftBurn.startSize *= 4;
+    leftBurn.endSize *= 4;
+    leftBurn.speedVar *= 3;
+    rightBurn.startSize *= 4;
+    rightBurn.endSize *= 4;
+    rightBurn.speedVar *= 3;
+    
+    CCMenuItem *touchLayer = [CCMenuItem itemWithBlock:^(id sender) {
+      [self openDoor];
+    }];
+    touchLayer.contentSize = doorright.parent.contentSize;
+    
+    CCMenu *menu = [CCMenu menuWithItems:touchLayer, nil];
+    [doorright.parent addChild:menu];
+  }
 }
 
 - (void) doorClosed {
@@ -153,15 +210,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   self.canLoad = YES;
 }
 
-- (void) crestClicked {
+- (void) openDoor {
   if ([[GameState sharedGameState] connected] && !_isRunning) {
     // Open door
+    [[SimpleAudioEngine sharedEngine] playEffect:@"DoorOpening.m4a" pitch:1.f pan:0.f gain:1.f];
+    
     [doorleft runAction:[CCSequence actions:
                          [CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(-doorleft.contentSize.width-100, 0)],
                          [CCCallFunc actionWithTarget:self selector:@selector(openDoorDone)],
                          nil]];
     [doorright runAction:[CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(doorright.contentSize.width+100, 0)]];
     _isRunning = YES;
+    
   }
 }
 
@@ -171,6 +231,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   if (self.isTutorial) {
     TutorialStartLayer *tsl = (TutorialStartLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:5];
     [tsl start];
+  } else {
+    [[TopBar sharedTopBar] start];
   }
 }
 
@@ -216,8 +278,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [self.view insertSubview:glView atIndex:0];
   
   [self startDoorAnimation];
+}
+
+- (void) preloadLayer {
+  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
+  [EAGLContext setCurrentContext:k_context];
   
-  [[[self.view subviews] objectAtIndex:1] removeFromSuperview];
+  CCLayer *layer = isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
+  layer.tag = 5;
+  [[[CCDirector sharedDirector] runningScene] addChild:layer];
+  
+  if (isTutorial) {
+    [self allowOpeningOfDoor];
+  }
 }
 
 - (void) setIsTutorial:(BOOL)i {
@@ -236,22 +309,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [TutorialHomeMap sharedHomeMap];
   }
   
-  CCLayer *layer = isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
-  layer.tag = 5;
-  [[[CCDirector sharedDirector] runningScene] addChild:layer];
+  [self performSelectorInBackground:@selector(preloadLayer) withObject:nil];
 }
 
 - (void) loadView {
   CGRect rect = [[UIScreen mainScreen] bounds];
   rect.size = CGSizeMake( rect.size.height, rect.size.width );
   GameView *v = [[GameView alloc] initWithFrame:rect];
-  UIImageView *i = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
-  i.layer.transform = CATransform3DMakeRotation(M_PI_2, 0.f, 0.f, 1.f);
-  i.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
-  [v addSubview:i];
-  [i release];
   self.view = v;
   [v release];
+  
   [self setupCocos2D];
 }
 

@@ -23,8 +23,8 @@
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  oldDelegate = self.questDescView.scrollView.delegate;
-  self.questDescView.scrollView.delegate = self;
+//  oldDelegate = self.questDescView.scrollView.delegate;
+//  self.questDescView.scrollView.delegate = self;
 }
 
 - (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress {
@@ -50,18 +50,28 @@
     // Don't release.. need to use later for redeem
     _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
     [self.questDescView addSubview:_arrow];
+    _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
     
-    CGRect r = self.questDescView.scrollView.frame;
-    int offset = 20;
-    _arrow.center = CGPointMake(CGRectGetMaxX(r)+3, CGRectGetMinY(r)+offset);
+    _arrow.center = CGPointMake(CGRectGetMinX(self.acceptButtons.frame)-_arrow.frame.size.width/2-10, self.acceptButtons.center.y);
     
     UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-    [UIView animateWithDuration:2.f delay:0.f options:opt animations:^{
-      _arrow.center = CGPointMake(_arrow.center.x, CGRectGetMaxY(r)-offset);
+    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
     } completion:nil];
+    
+//    CGRect r = self.questDescView.scrollView.frame;
+//    int offset = 20;
+//    _arrow.center = CGPointMake(CGRectGetMaxX(r)+3, CGRectGetMinY(r)+offset);
+//    
+//    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+//    [UIView animateWithDuration:2.f delay:0.f options:opt animations:^{
+//      _arrow.center = CGPointMake(_arrow.center.x, CGRectGetMaxY(r)-offset);
+//    } completion:nil];
     
     self.acceptButtons.hidden = NO;
     self.redeemButton.hidden = YES;
+    
+    _acceptingPhase = YES;
   } else {
     [self.questDescView addSubview:_arrow];
     _arrow.center = CGPointMake(CGRectGetMinX(self.redeemButton.frame)-_arrow.frame.size.width-5, self.redeemButton.center.y);
@@ -172,6 +182,7 @@
   // Move arrow to close button (tag 20)
   [self.rightPage addSubview:_arrow];
   UIView *close = [self.rightPage viewWithTag:20];
+  [_arrow.layer removeAllAnimations];
   _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
   
   _arrow.alpha = 0.f;
@@ -204,23 +215,23 @@
   return;
 }
 
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-  [oldDelegate scrollViewDidScroll:scrollView];
-  if (scrollView.contentOffset.y+scrollView.frame.size.height >= scrollView.contentSize.height) {
-    // Scrollview reached the bottom, let's allow accept
-    _acceptingPhase = YES;
-    [_arrow removeFromSuperview];
-    [self.questDescView addSubview:_arrow];
-    _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
-    
-    _arrow.center = CGPointMake(CGRectGetMinX(self.acceptButtons.frame)-_arrow.frame.size.width/2-10, self.acceptButtons.center.y);
-    
-    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-    } completion:nil];
-  }
-}
+//- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+//  [oldDelegate scrollViewDidScroll:scrollView];
+//  if (scrollView.contentOffset.y+scrollView.frame.size.height >= scrollView.contentSize.height) {
+//    // Scrollview reached the bottom, let's allow accept
+//    _acceptingPhase = YES;
+//    [_arrow removeFromSuperview];
+//    [self.questDescView addSubview:_arrow];
+//    _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
+//    
+//    _arrow.center = CGPointMake(CGRectGetMinX(self.acceptButtons.frame)-_arrow.frame.size.width/2-10, self.acceptButtons.center.y);
+//    
+//    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+//    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+//      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+//    } completion:nil];
+//  }
+//}
 
 - (void) dealloc {
   [_arrow release];

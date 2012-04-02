@@ -339,7 +339,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     s = [NSString stringWithFormat:@"%03d,%@", n%1000, s];
     n /= 1000;
   }
-  s = [s stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"0"]];
+  
+  int x = 0;
+  while (x < s.length && [s characterAtIndex:x] == '0') {
+    x++;
+  }
+  s = [s substringFromIndex:x];
   return s.length > 0 ? s : @"0";
 }
 

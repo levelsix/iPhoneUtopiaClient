@@ -314,17 +314,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Task action received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
+  GameLayer *gLay = [GameLayer sharedGameLayer];
+  [[gLay missionMap] receivedTaskResponse:proto];
+  
   if (proto.status == TaskActionResponseProto_TaskActionStatusSuccess) {
+    gs.silver +=  proto.coinsGained;
+    
     if (proto.cityRankedUp) {
       int cityId = 1;
       UserCity *city = [gs myCityWithId:cityId];
       city.curRank++;
       
+      gs.silver += proto.coinBonusIfCityRankup;
+      gs.experience += proto.expBonusIfCityRankup;
+            
       // This will be released after the level up controller closes
       CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:proto.coinsGained exp:proto.expBonusIfCityRankup];
       [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
       
-      GameLayer *gLay = [GameLayer sharedGameLayer];
       if (gLay.currentCity == cityId) {
         NSArray *sprites = [[gLay missionMap] mapSprites];
         for (MapSprite *spr in sprites) {
@@ -335,6 +342,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         }
       }
     }
+  } else {
+    [Globals popupMessage:@"Server failed to complete task"];
   }
 }
 
@@ -546,6 +555,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
     }
     [[HomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
+    [[GameViewController sharedGameViewController] allowOpeningOfDoor];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
   } else {
