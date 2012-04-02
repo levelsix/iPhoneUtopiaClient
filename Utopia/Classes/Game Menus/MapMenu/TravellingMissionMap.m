@@ -47,7 +47,7 @@
 
 @implementation CloseUpContinentView
 
-@synthesize cityPopup, cityNameLabel, progressLabel, progressBar;
+@synthesize cityPopup, cityNameLabel, cityRankLabel, progressLabel, progressBar;
 
 - (void) awakeFromNib {
   [self addSubview:cityPopup];
@@ -70,8 +70,9 @@
   UserCity *uc = [[GameState sharedGameState] myCityWithId:_fcp.cityId];
   
   cityNameLabel.text = _fcp.name;
-  cityPopup.center = CGPointMake(cv.center.x+CITY_POPUP_OFFSET, cv.frame.origin.y-cityPopup.frame.size.height/2);
+  cityRankLabel.text = [NSString stringWithFormat:@"Rank: %d", uc.curRank];
   progressLabel.text = [NSString stringWithFormat:@"%d/%d", uc.numTasksComplete, _fcp.taskIdsList.count];
+  cityPopup.center = CGPointMake(cv.center.x+CITY_POPUP_OFFSET, cv.frame.origin.y-cityPopup.frame.size.height/2);
   
   float fullWidth = progressBar.image.size.width;
   CGRect r = progressBar.frame;

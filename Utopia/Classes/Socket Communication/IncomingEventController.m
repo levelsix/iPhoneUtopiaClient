@@ -285,6 +285,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     GameState *gs = [GameState sharedGameState];
     [gs setConnected:YES];
+    gs.connected = YES;
     gs.expRequiredForCurrentLevel = 0;
     gs.expRequiredForNextLevel = tc.expRequiredForLevelTwo;
   }
@@ -554,8 +555,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     while (![[GameViewController sharedGameViewController] canLoad]) {
       [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
     }
-    [[HomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
-    [[GameViewController sharedGameViewController] allowOpeningOfDoor];
+    dispatch_queue_t queue = dispatch_queue_create(nil, nil);
+    dispatch_async(queue, ^{
+      [[HomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
+      gs.connected = YES;
+      [[GameViewController sharedGameViewController] allowOpeningOfDoor];
+    });
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
   } else {
@@ -678,7 +683,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
     [Globals popupMessage:@"Server failed to accept quest"];
   } else {
-    [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
+    if ([[GameLayer sharedGameLayer] currentCity]) {
+      [[[GameLayer sharedGameLayer] missionMap] receivedQuestAcceptResponse:proto];
+    }
   }
 }
 

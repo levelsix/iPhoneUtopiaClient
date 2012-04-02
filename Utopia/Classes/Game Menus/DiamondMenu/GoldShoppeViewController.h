@@ -55,8 +55,8 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *leftTopBarLabel;
 @property (nonatomic, retain) IBOutlet UILabel *rightTopBarLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *leftBarButton;
-@property (nonatomic, retain) IBOutlet UIImageView *rightBarButton;
+
+//@property (nonatomic, 
 
 + (GoldShoppeViewController *)sharedGoldShoppeViewController;
 + (void) displayView;

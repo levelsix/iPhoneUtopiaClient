@@ -122,8 +122,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) updateUser:(FullUserProto *)user {
-  self.connected = YES;
-  
   // Copy over data from full user proto
   if (_userId != user.userId || ![_name isEqualToString:user.name] || _type != user.userType) {
     self.userId = user.userId;

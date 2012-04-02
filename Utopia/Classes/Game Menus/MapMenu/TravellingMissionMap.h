@@ -29,6 +29,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView *cityPopup;
 @property (nonatomic, retain) IBOutlet UILabel *cityNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *cityRankLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *progressBar;
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 

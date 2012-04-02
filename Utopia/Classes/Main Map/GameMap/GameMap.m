@@ -188,6 +188,7 @@
   CGPoint pos = [tb convertToNodeSpace:world];
   [ss removeFromParentAndCleanup:NO];
   ss.position = pos;
+  ss.scale *= self.scale;
   [tb addChild:ss z:-1];
   
   [ss runAction:[CCSequence actions:
@@ -247,6 +248,7 @@
   CGPoint pos = [tb convertToNodeSpace:world];
   [ed removeFromParentAndCleanup:NO];
   ed.position = pos;
+  ed.scale *= self.scale;
   [tb addChild:ed z:-1];
   
   [ed runAction:[CCSequence actions:

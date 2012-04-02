@@ -9,6 +9,9 @@
 #import "MapSprite.h"
 #import "GameMap.h"
 
+#define GLOW_ACTION_TAG 3021
+#define GLOW_DURATION 0.6f
+
 @implementation MapSprite
 
 @synthesize location = _location;
@@ -56,11 +59,11 @@
 }
 
 - (void) setUpGlow {
-  _glow = [[CCSprite spriteWithFile:@"glow.png"] retain];
-  _glow.scale = 0.55;
-  _glow.position = ccp(self.contentSize.width/2, _map.tileSizeInPoints.height*self.location.size.width/2);
-  _glow.visible = NO;
-  [self addChild:_glow z:-1];
+//  _glow = [[CCSprite spriteWithFile:@"glow.png"] retain];
+//  _glow.scale = 0.55;
+//  _glow.position = ccp(self.contentSize.width/2, _map.tileSizeInPoints.height*self.location.size.width/2);
+//  _glow.visible = NO;
+//  [self addChild:_glow z:-1];
 }
 
 -(void) setIsSelected:(BOOL)isSelected {
@@ -70,9 +73,16 @@
   
   _isSelected = isSelected;
   if (isSelected) {
-    _glow.visible = YES;
+//    _glow.visible = YES;
+    int amt = 120;
+    CCTintBy *tint = [CCTintBy actionWithDuration:GLOW_DURATION red:-amt green:-amt blue:-amt];
+    CCAction *action = [CCRepeatForever actionWithAction:[CCSequence actions:tint, tint.reverse, nil]];
+    action.tag = GLOW_ACTION_TAG;
+    [self runAction:action];
   } else {
-    _glow.visible = NO;
+//    _glow.visible = NO;
+    [self stopActionByTag:GLOW_ACTION_TAG];
+    self.color = ccc3(255, 255, 255);
   }
 }
 

@@ -116,7 +116,7 @@
 @synthesize loadingView;
 @synthesize itemView = _itemView;
 @synthesize pkgTableView, curGoldLabel;
-@synthesize leftTopBarLabel, rightTopBarLabel, leftBarButton, rightBarButton;
+@synthesize leftTopBarLabel, rightTopBarLabel;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
@@ -127,9 +127,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   self.pkgTableView.rowHeight = 62;
-  
-  rightBarButton.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
-  leftBarButton.highlighted = YES;
   
   curGoldLabel.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] gold]];
 }
@@ -209,8 +206,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.curGoldLabel = nil;
   self.leftTopBarLabel = nil;
   self.rightTopBarLabel = nil;
-  self.leftBarButton = nil;
-  self.rightBarButton = nil;
 }
 
 @end

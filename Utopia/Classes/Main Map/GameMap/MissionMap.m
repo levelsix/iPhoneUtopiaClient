@@ -323,15 +323,7 @@
       [qg release];
     }
     
-    for (FullUserProto *fup in proto.defeatTypeJobEnemiesList) {
-      CGRect r = CGRectZero;
-      r.origin = [self randomWalkablePosition];
-      r.size = CGSizeMake(1, 1);
-      Enemy *enemy = [[Enemy alloc] initWithFile:nil location:r map:self];
-      enemy.user = fup;
-      [self addChild:enemy z:1];
-      [enemy release];
-    }
+    [self addEnemiesFromArray:proto.defeatTypeJobEnemiesList];
     
     [self doReorder];
     
@@ -380,6 +372,21 @@
 //    NSLog(@"%@", str);
   }
   return self;
+}
+
+- (void) addEnemiesFromArray:(NSArray *)arr {
+  for (FullUserProto *fup in arr) {
+    CGRect r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    Enemy *enemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    enemy.user = fup;
+    [self addChild:enemy z:1];
+    [enemy release];
+    
+    enemy.opacity = 0;
+    [enemy runAction:[CCFadeIn actionWithDuration:0.5f]];
+  }
 }
 
 -(void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk {
@@ -616,6 +623,11 @@
 - (void) questAccepted:(FullQuestProto *)fqp {
   QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
   qg.isInProgress = YES;
+}
+
+- (void) receivedQuestAcceptResponse:(QuestAcceptResponseProto *)qarp {
+  [self reloadQuestGivers];
+  [self addEnemiesFromArray:qarp.enemiesIfQuestsHaveDefeatTypeJobList];
 }
 
 - (void) reloadQuestGivers {

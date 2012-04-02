@@ -73,5 +73,6 @@
 - (void) closeMenus;
 - (void) questAccepted:(FullQuestProto *)fqp;
 - (void) reloadQuestGivers;
+- (void) receivedQuestAcceptResponse:(QuestAcceptResponseProto *)qarp;
 
 @end
