@@ -52,6 +52,8 @@
 
 - (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite;
 - (void) pickUpSilverDrop:(SilverStack *)ss;
+- (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite;
+- (void) pickUpEquipDrop:(EquipDrop *)ed;
 
 - (IBAction)enterAviaryClicked:(id)sender;
 - (IBAction)attackClicked:(id)sender;

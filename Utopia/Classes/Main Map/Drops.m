@@ -55,9 +55,10 @@
 
 @synthesize equipId;
 
-- (id) initWithEquipId:(int)equipId {
-  if ((self = [super initWithFile:[Globals])) {
-    amount = amt;
+- (id) initWithEquipId:(int)eq {
+  if ((self = [super initWithFile:[Globals imageNameForEquip:equipId]])) {
+    equipId = eq;
+    self.scale = 0.3;
     
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     // Set isTouchEnabled to YES so that gesture recognizers will ignore
@@ -67,7 +68,7 @@
 }
 
 - (BOOL) isPointInArea:(CGPoint)pt {
-  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width, self.contentSize.height), -40, -40);
+  CGRect rect = CGRectInset(CGRectMake(0, 0, self.contentSize.width*self.scale, self.contentSize.height*self.scale), -40, -40);
   pt = [self convertToNodeSpace:pt];
   
   if (CGRectContainsPoint(rect, pt)) {
@@ -86,7 +87,7 @@
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
   GameMap *map = (GameMap *)self.parent;
-  [map pickUpSilverDrop:self];
+  [map pickUpEquipDrop:self];
   _clicked = YES;
 }
 
