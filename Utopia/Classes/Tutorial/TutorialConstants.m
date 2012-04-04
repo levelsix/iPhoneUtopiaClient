@@ -91,6 +91,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.afterSkillPointsText = @"Great! Now let's equip that amulet you stole during battle.";
   self.beforeAviaryText1 = @"You seem tired… but its too dangerous to rest here! Why don't we go back to your place? ";
   self.beforeAviaryText2 = @"Click on the Aviary to navigate around the world of Utopia. There will be one present in every location.";
+  self.insideAviaryText = @"Before we go to your place, let me teach you how to use the Aviary.";
+  self.missionAviaryText = @"In the missions tab, navigate the world and complete quests by using this map.";
+  self.beforeEnemiesAviaryText = @"Now let's check out the Attack tab. Hurry! I'm getting tired.";
+  self.enemiesAviaryText = @"Utilize this map to fight and defeat real players in their real locations all around the world!";
+  self.beforeHomeAviaryText = @"Let's get some rest now by going home!";
 }
 
 @end

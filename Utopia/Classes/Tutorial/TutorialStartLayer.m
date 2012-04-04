@@ -16,6 +16,7 @@
 #import "TopBar.h"
 #import "GameLayer.h"
 #import "SimpleAudioEngine.h"
+#import "TutorialMapViewController.h"
 
 #define PAN_DURATION 2.f//25.f
 
@@ -137,8 +138,10 @@
 }
 
 - (void) beginCharSelection {
-  CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
-  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
+//  CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
+//  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
+  [TutorialMapViewController sharedMapViewController];
+  [TutorialMapViewController displayView];
 }
 
 - (void) dealloc {

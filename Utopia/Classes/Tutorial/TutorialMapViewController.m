@@ -10,6 +10,9 @@
 #import "TutorialHomeMap.h"
 #import "TutorialMissionMap.h"
 #import "GameLayer.h"
+#import "DialogMenuController.h"
+#import "TutorialConstants.h"
+#import "Globals.h"
 
 @implementation TutorialMapViewController
 
@@ -19,11 +22,72 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  _travelHomePhase = YES;
   [[GameLayer sharedGameLayer] unloadTutorialMissionMap];
   
   self.mapView.userInteractionEnabled = NO;
   self.missionMap.userInteractionEnabled = NO;
+  
+  _enemyTabPhase = YES;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.insideAviaryText callbackTarget:self action:@selector(missionsDialog)];
+}
+
+- (void) missionsDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.missionAviaryText callbackTarget:self action:@selector(beforeEnemiesDialog)];
+}
+
+- (void) beforeEnemiesDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeEnemiesAviaryText callbackTarget:nil action:nil];
+  
+  _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
+  _arrow.center = CGPointMake(self.view.center.x-_arrow.frame.size.width/2, self.view.center.y);
+  _arrow.alpha = 0.f;
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  // This is confusing, basically fade in, and then do repeated animation
+  [UIView animateWithDuration:0.3f animations:^{
+    _arrow.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+    } completion:nil];
+  }];
+}
+
+- (void) goHomeDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeHomeAviaryText callbackTarget:nil action:nil];
+}
+
+- (void) setState:(MapState)state {
+  [super setState:state];
+  
+  if (state == kAttackMap && _enemyTabPhase) {
+    _enemyTabPhase = NO;
+    _travelHomePhase = YES;
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController displayViewForText:tc.enemiesAviaryText callbackTarget:self action:@selector(goHomeDialog)];
+    
+    _arrow.layer.transform = CATransform3DIdentity;
+    _arrow.center = CGPointMake(self.view.center.x-_arrow.frame.size.width/2, self.view.center.y);
+    _arrow.alpha = 0.f;
+    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+    // This is confusing, basically fade in, and then do repeated animation
+    [UIView animateWithDuration:0.3f animations:^{
+      _arrow.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+        _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+      } completion:nil];
+    }];
+  }
 }
 
 - (IBAction)closeClicked:(id)sender {

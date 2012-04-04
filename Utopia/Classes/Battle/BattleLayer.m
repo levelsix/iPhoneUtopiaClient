@@ -818,8 +818,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                    nil]];
   } else if (type == UserTypeBadArcher) {
     [ps runAction:[CCSequence actions:
-                   [CCMoveBy actionWithDuration:ps.duration position:ccp(220,5)],
-                   [CCCallFunc actionWithTarget:self selector:@selector(attackAnimationDone)],
+                   [CCMoveBy actionWithDuration:ps.duration position:ccp(-220,5)],
+                   [CCCallFunc actionWithTarget:self selector:@selector(enemyAttackDone)],
                    nil]];
   } 
   

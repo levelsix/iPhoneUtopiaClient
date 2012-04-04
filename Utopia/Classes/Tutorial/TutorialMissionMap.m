@@ -256,7 +256,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [_ccArrow removeFromParentAndCleanup:YES];
     
     // release profile from previous step
-    [[TutorialProfileViewController sharedProfileViewController] didReceiveMemoryWarning];
     [TutorialProfileViewController purgeSingleton];
   } else if (_canUnclick) {
     [super setSelected:nil];

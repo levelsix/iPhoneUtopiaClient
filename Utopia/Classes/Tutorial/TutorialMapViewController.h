@@ -11,6 +11,9 @@
 @interface TutorialMapViewController : MapViewController {
   BOOL _travelHomePhase;
   BOOL _toAttackMapPhase;
+  BOOL _enemyTabPhase;
+  
+  UIImageView *_arrow;
 }
 
 @end
