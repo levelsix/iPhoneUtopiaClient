@@ -506,7 +506,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     [self.carpBar unclickButton:kFunctionalButton];
   }
   
-[coinBar updateLabels];
+  [coinBar updateLabels];
 }
 
 - (void) reloadCarpenterStructs {

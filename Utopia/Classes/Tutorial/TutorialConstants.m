@@ -33,6 +33,8 @@
 @synthesize afterSkillPointsText;
 @synthesize beforeAviaryText1, beforeAviaryText2;
 @synthesize insideAviaryText, missionAviaryText, beforeHomeAviaryText, enemiesAviaryText, beforeEnemiesAviaryText;
+@synthesize insideHomeText, beforeCarpenterText, insideCarpenterText1, insideCarpenterText2;
+@synthesize beforePurchaseText, afterPurchaseText, beforePlacingText, afterSpeedUpText;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
 
@@ -96,6 +98,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.beforeEnemiesAviaryText = @"Now let's check out the Attack tab. Hurry! I'm getting tired.";
   self.enemiesAviaryText = @"Utilize this map to fight and defeat real players in their real locations all around the world!";
   self.beforeHomeAviaryText = @"Let's get some rest now by going home!";
+  self.insideHomeText = @"Wait… you mean to tell me you don't even have a bed to sleep in!?";
+  self.beforeCarpenterText = @"Click on your carpenter and build an inn now!";
+  self.insideCarpenterText1 = @"The carpenter allows you to construct buildings in your home map.";
+  self.insideCarpenterText2 = @"Additionally, in the Special tab, you can acquire buildings that provide special features free of cost.";
+  self.beforePurchaseText = @"Now, click on the Inn to purchase it.";
+  self.beforePurchaseText = @"You can only place buildings on certain tiles. Move the Inn off the road and click the green checkmark when you are ready.";
+  self.afterPurchaseText = @"I don't have time to wait around for your inn to finish. Speed it up!";
+  self.afterSpeedUpText = @"Finally! Unfortunately, I'm too tired to play now. Why don't you return to Kirin Village and complete more quests?";
 }
 
 @end

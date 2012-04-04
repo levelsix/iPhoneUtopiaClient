@@ -12,6 +12,8 @@
 #import "TutorialCarpenterMenuController.h"
 #import "TopBar.h"
 #import "TutorialConstants.h"
+#import "DialogMenuController.h"
+#import "GameLayer.h"
 
 @implementation TutorialHomeMap
 
@@ -52,7 +54,21 @@
   
   _carpenterPhase = YES;
   
-  [_ccArrow removeFromParentAndCleanup:YES];
+  TopBar *tb = [TopBar sharedTopBar];
+  [tb setIsTouchEnabled:NO];
+}
+
+- (void) preparePurchaseOfStruct:(int)structId {
+  [super preparePurchaseOfStruct:structId];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforePlacingText callbackTarget:nil action:nil];
+}
+
+- (void) beforeCarpDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeCarpenterText callbackTarget:nil action:nil];
+  
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:_csb];
   _ccArrow = [CCSprite spriteWithFile:@"green.png"];
   [self addChild:_ccArrow];
   _ccArrow.position = ccp(_csb.position.x, _csb.position.y+_csb.contentSize.height+_ccArrow.contentSize.height/2);
@@ -60,9 +76,6 @@
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
   [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                          [upAction reverse], nil]]];
-  
-  TopBar *tb = [TopBar sharedTopBar];
-  [tb setIsTouchEnabled:NO];
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
@@ -160,6 +173,9 @@
     
     _visitCarpPhase = NO;
     _waitingForBuildPhase = YES;
+    
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController displayViewForText:tc.afterPurchaseText callbackTarget:nil action:nil];
   }
 }
 

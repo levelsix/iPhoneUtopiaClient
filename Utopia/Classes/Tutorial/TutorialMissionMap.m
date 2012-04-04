@@ -414,8 +414,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) levelUpComplete2 {
-  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeAviaryText2 callbackTarget:self action:@selector(levelUpComplete2)];
+  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeAviaryText2 callbackTarget:nil   action:nil];
   // Move arrow to aviary
+  [_ccArrow removeFromParentAndCleanup:YES];
   [_aviary addChild:_ccArrow];
   _ccArrow.position = ccp(_aviary.contentSize.width/2, _aviary.contentSize.height+_ccArrow.contentSize.height/2);
   

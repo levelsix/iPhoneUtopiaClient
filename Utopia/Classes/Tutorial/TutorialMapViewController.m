@@ -28,6 +28,8 @@
   self.missionMap.userInteractionEnabled = NO;
   
   _enemyTabPhase = YES;
+  
+  self.mapBar.userInteractionEnabled = NO;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -45,10 +47,12 @@
 - (void) beforeEnemiesDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.beforeEnemiesAviaryText callbackTarget:nil action:nil];
+  self.mapBar.userInteractionEnabled = YES;
   
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  [self.view addSubview:_arrow];
   _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
-  _arrow.center = CGPointMake(self.view.center.x-_arrow.frame.size.width/2, self.view.center.y);
+  _arrow.center = CGPointMake(self.mapBar.center.x-_arrow.frame.size.width/2, self.mapBar.center.y);
   _arrow.alpha = 0.f;
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
   // This is confusing, basically fade in, and then do repeated animation
@@ -56,7 +60,7 @@
     _arrow.alpha = 1.f;
   } completion:^(BOOL finished) {
     [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
+      _arrow.center = CGPointMake(_arrow.center.x-10, _arrow.center.y);
     } completion:nil];
   }];
 }
@@ -64,6 +68,19 @@
 - (void) goHomeDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.beforeHomeAviaryText callbackTarget:nil action:nil];
+  
+  UIView *homeButton = [self.view viewWithTag:23];
+  _arrow.layer.transform = CATransform3DIdentity;
+  _arrow.center = CGPointMake(homeButton.center.x, homeButton.frame.origin.y-_arrow.frame.size.height/2);
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  // This is confusing, basically fade in, and then do repeated animation
+  [UIView animateWithDuration:0.3f animations:^{
+    _arrow.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+      _arrow.center = CGPointMake(_arrow.center.x, _arrow.center.y-40);
+    } completion:nil];
+  }];
 }
 
 - (void) setState:(MapState)state {
@@ -75,18 +92,8 @@
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
     [DialogMenuController displayViewForText:tc.enemiesAviaryText callbackTarget:self action:@selector(goHomeDialog)];
     
-    _arrow.layer.transform = CATransform3DIdentity;
-    _arrow.center = CGPointMake(self.view.center.x-_arrow.frame.size.width/2, self.view.center.y);
+    [_arrow.layer removeAllAnimations];
     _arrow.alpha = 0.f;
-    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-    // This is confusing, basically fade in, and then do repeated animation
-    [UIView animateWithDuration:0.3f animations:^{
-      _arrow.alpha = 1.f;
-    } completion:^(BOOL finished) {
-      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-        _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-      } completion:nil];
-    }];
   }
 }
 
@@ -98,6 +105,12 @@
   if (_travelHomePhase) {
     [super homeClicked:sender];
   }
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.insideHomeText callbackTarget:[TutorialHomeMap sharedHomeMap] action:@selector(beforeCarpDialog)];
 }
 
 - (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {

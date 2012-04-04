@@ -16,6 +16,8 @@
 #define ANIMATION_VERTICAL_MOVEMENT 124
 
 @synthesize label, progressBar;
+@synthesize target = _target;
+@synthesize selector = _selector;
 @synthesize progress = _progress;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
@@ -27,16 +29,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 }
 
 - (void) registerCallback:(id)t action:(SEL)s {
-  [_target release];
-  _target = [t retain];
-  _selector = s;
+  self.target = t;
+  self.selector = s;
 }
 
 - (void) performCallback {
-  [_target performSelector:_selector];
-  [_target release];
-  _target = nil;
-  _selector = nil;
+  // release before performing selector to ensure that if selector sets this,
+  // we don't lose information about the new target
+  id target = [_target retain];
+  SEL selector = _selector;
+  self.target = nil;
+  self.selector = nil;
+  
+  [target performSelector:selector];
+  
+  [target release];
 }
 
 + (void) displayViewForText:(NSString *)str callbackTarget:(id)t action:(SEL)s {
@@ -94,6 +101,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.
+  self.target = nil;
+  self.selector = nil;
   self.label = nil;
   self.progressBar = nil;
 }

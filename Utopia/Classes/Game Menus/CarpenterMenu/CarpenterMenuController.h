@@ -43,6 +43,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *incomeButtonClicked;
 @property (nonatomic, retain) IBOutlet UIImageView *functionalButtonClicked;
 
+- (void) clickButton:(CarpBarButton)button;
+- (void) unclickButton:(CarpBarButton)button;
+
 @end
 
 @interface CarpenterTicker : UIView {

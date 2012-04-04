@@ -288,7 +288,7 @@
   
   [nameTextField resignFirstResponder];
   
-  [[TutorialHomeMap sharedHomeMap] refresh];
+  [[TutorialHomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
   
   [UIView animateWithDuration:4.f animations:^{
     self.view.alpha = 0.f;

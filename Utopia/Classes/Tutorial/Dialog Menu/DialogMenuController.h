@@ -14,6 +14,8 @@
   int _progress;
 }
 
+@property (nonatomic, retain) id target;
+@property (nonatomic, assign) SEL selector;
 @property (nonatomic, retain) IBOutlet UILabel *label;
 @property (nonatomic, retain) IBOutlet UIImageView *progressBar;
 @property (nonatomic, assign) int progress;
