@@ -362,7 +362,7 @@
     self.jobId = j;
     
     UIImage *visit = nil;
-    if (t == kTask && completed < total && jobId != 0) {
+    if (t != kPossessEquipJob && completed < total && jobId != 0) {
       self.visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
       visit = [Globals imageNamed:@"visit.png"];
       [self.visitButton setImage:visit forState:UIControlStateNormal];
@@ -444,6 +444,13 @@
     FullTaskProto *ftp = [gs taskWithId:jobId];
     [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:ftp.cityId asset:ftp.assetNumWithinCity];
     [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
+  } else if (type == kDefeatTypeJob) {
+    DefeatTypeJobProto *p = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:jobId]];
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId asset:0];
+  } else if (type == kUpgradeStructJob) {
+    [[GameLayer sharedGameLayer] loadHomeMap];
+  } else if (type == kBuildStructJob) {
+    [[GameLayer sharedGameLayer] loadHomeMap];
   }
 }
 
@@ -742,9 +749,68 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   }
 }
 
+- (void) createFakeUserQuestData {
+  
+  // Lets create a fake FullUserQuestDataLarge for this quest
+  GameState *gs = [GameState sharedGameState];
+  FullUserQuestDataLargeProto_Builder *bldr = [FullUserQuestDataLargeProto builder];
+  bldr.userId = gs.userId;
+  bldr.questId = _fqp.questId;
+  bldr.isRedeemed = NO;
+  bldr.isComplete = NO;
+  
+  for (NSNumber *n in _fqp.defeatTypeReqsList) {
+    MinimumUserDefeatTypeJobProto_Builder *b = [MinimumUserDefeatTypeJobProto builder];
+    b.defeatTypeJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numDefeated = 0;
+    [bldr addRequiredDefeatTypeJobProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.taskReqsList) {
+    MinimumUserQuestTaskProto_Builder *b = [MinimumUserQuestTaskProto builder];
+    b.taskId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numTimesActed = 0;
+    [bldr addRequiredTasksProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.possessEquipJobReqsList) {
+    MinimumUserPossessEquipJobProto_Builder *b = [MinimumUserPossessEquipJobProto builder];
+    b.possessEquipJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numEquipUserHas = 0;
+    [bldr addRequiredPossessEquipJobProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.buildStructJobsReqsList) {
+    MinimumUserBuildStructJobProto_Builder *b = [MinimumUserBuildStructJobProto builder];
+    b.buildStructJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numOfStructUserHas = 0;
+    [bldr addRequiredBuildStructJobProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.upgradeStructJobsReqsList) {
+    MinimumUserUpgradeStructJobProto_Builder *b = [MinimumUserUpgradeStructJobProto builder];
+    b.upgradeStructJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.currentLevel = 0;
+    [bldr addRequiredUpgradeStructJobProgress:[b build]];
+  }
+  self.userLogData = [NSArray arrayWithObject:[bldr build]];
+}
+
 - (IBAction)acceptTapped:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] acceptQuest:_fqp.questId];
-  [self closeButtonClicked:nil];
+  
+  [self createFakeUserQuestData];
+  
+  [self reloadTaskView:_fqp];
+  self.acceptButtons.hidden = YES;
+  self.toTaskButton.hidden = NO;
+  [self taskButtonTapped:nil];
 }
 
 - (void) reloadTaskView:(FullQuestProto *)fqp {
@@ -756,9 +822,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     }
   }
   
-  if (quest) {
-    [self.taskView refreshWithQuestData:quest];
-  }
+  [self.taskView refreshWithQuestData:quest];
 }
 
 - (void)resetToQuestDescView:(FullQuestProto *)fqp {

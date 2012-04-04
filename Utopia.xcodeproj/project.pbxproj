@@ -949,6 +949,30 @@
 		CFF3A73714F07D5F00E8F8DF /* SBDoubleSidedLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73214F07D5F00E8F8DF /* SBDoubleSidedLayer.m */; };
 		CFF3A73814F07D5F00E8F8DF /* SBGradientOverlayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF3A73414F07D5F00E8F8DF /* SBGradientOverlayLayer.m */; };
 		CFF9C34114F3833A00CF3B73 /* TopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF9C34014F3833900CF3B73 /* TopBar.m */; };
+		CFFAA829152CCEF500753272 /* AllianceArcher.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA811152CCEF400753272 /* AllianceArcher.png */; };
+		CFFAA82A152CCEF500753272 /* AllianceArcher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA812152CCEF400753272 /* AllianceArcher@2x.png */; };
+		CFFAA82B152CCEF500753272 /* AllianceTutorialGuide.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA813152CCEF400753272 /* AllianceTutorialGuide.png */; };
+		CFFAA82C152CCEF500753272 /* AllianceTutorialGuide@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA814152CCEF400753272 /* AllianceTutorialGuide@2x.png */; };
+		CFFAA82D152CCEF500753272 /* Bard.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA815152CCEF400753272 /* Bard.png */; };
+		CFFAA82E152CCEF500753272 /* Bard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA816152CCEF400753272 /* Bard@2x.png */; };
+		CFFAA82F152CCEF500753272 /* DrowArcher.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA817152CCEF400753272 /* DrowArcher.png */; };
+		CFFAA830152CCEF500753272 /* DrowArcher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA818152CCEF400753272 /* DrowArcher@2x.png */; };
+		CFFAA831152CCEF500753272 /* Farmer.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA819152CCEF400753272 /* Farmer.png */; };
+		CFFAA832152CCEF500753272 /* Farmer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA81A152CCEF400753272 /* Farmer@2x.png */; };
+		CFFAA833152CCEF500753272 /* FemaleFarmer.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA81B152CCEF400753272 /* FemaleFarmer.png */; };
+		CFFAA834152CCEF500753272 /* FemaleFarmer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA81C152CCEF400753272 /* FemaleFarmer@2x.png */; };
+		CFFAA835152CCEF500753272 /* LegionMage.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA81D152CCEF400753272 /* LegionMage.png */; };
+		CFFAA836152CCEF500753272 /* LegionMage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA81E152CCEF400753272 /* LegionMage@2x.png */; };
+		CFFAA837152CCEF500753272 /* PandaMage.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA81F152CCEF400753272 /* PandaMage.png */; };
+		CFFAA838152CCEF500753272 /* PandaMage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA820152CCEF400753272 /* PandaMage@2x.png */; };
+		CFFAA839152CCEF500753272 /* Seaman.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA821152CCEF400753272 /* Seaman.png */; };
+		CFFAA83A152CCEF500753272 /* Seaman@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA822152CCEF400753272 /* Seaman@2x.png */; };
+		CFFAA83B152CCEF500753272 /* SkeletonWarrior.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA823152CCEF400753272 /* SkeletonWarrior.png */; };
+		CFFAA83C152CCEF500753272 /* SkeletonWarrior@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA824152CCEF400753272 /* SkeletonWarrior@2x.png */; };
+		CFFAA83D152CCEF500753272 /* Syndicate.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA825152CCEF400753272 /* Syndicate.png */; };
+		CFFAA83E152CCEF500753272 /* Syndicate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA826152CCEF400753272 /* Syndicate@2x.png */; };
+		CFFAA83F152CCEF500753272 /* AllianceWarrior.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA827152CCEF400753272 /* AllianceWarrior.png */; };
+		CFFAA840152CCEF500753272 /* AllianceWarrior@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFAA828152CCEF400753272 /* AllianceWarrior@2x.png */; };
 		CFFD7C1414AC2C770054CC23 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CFFD7C1314AC2C770054CC23 /* Default.png */; };
 		CFFD7C3814AC9B770054CC23 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFD7C3614AC9B770054CC23 /* main.m */; };
 		CFFEE9BE1520052A003C51BF /* CoinBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFEE9BD1520052A003C51BF /* CoinBar.m */; };
@@ -2132,6 +2156,30 @@
 		CFF3A73414F07D5F00E8F8DF /* SBGradientOverlayLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBGradientOverlayLayer.m; sourceTree = "<group>"; };
 		CFF9C33F14F3833800CF3B73 /* TopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopBar.h; path = GameMap/TopBar.h; sourceTree = "<group>"; };
 		CFF9C34014F3833900CF3B73 /* TopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopBar.m; path = GameMap/TopBar.m; sourceTree = "<group>"; };
+		CFFAA811152CCEF400753272 /* AllianceArcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcher.png; sourceTree = "<group>"; };
+		CFFAA812152CCEF400753272 /* AllianceArcher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcher@2x.png"; sourceTree = "<group>"; };
+		CFFAA813152CCEF400753272 /* AllianceTutorialGuide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceTutorialGuide.png; sourceTree = "<group>"; };
+		CFFAA814152CCEF400753272 /* AllianceTutorialGuide@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceTutorialGuide@2x.png"; sourceTree = "<group>"; };
+		CFFAA815152CCEF400753272 /* Bard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bard.png; sourceTree = "<group>"; };
+		CFFAA816152CCEF400753272 /* Bard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bard@2x.png"; sourceTree = "<group>"; };
+		CFFAA817152CCEF400753272 /* DrowArcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrowArcher.png; sourceTree = "<group>"; };
+		CFFAA818152CCEF400753272 /* DrowArcher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowArcher@2x.png"; sourceTree = "<group>"; };
+		CFFAA819152CCEF400753272 /* Farmer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Farmer.png; sourceTree = "<group>"; };
+		CFFAA81A152CCEF400753272 /* Farmer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Farmer@2x.png"; sourceTree = "<group>"; };
+		CFFAA81B152CCEF400753272 /* FemaleFarmer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FemaleFarmer.png; sourceTree = "<group>"; };
+		CFFAA81C152CCEF400753272 /* FemaleFarmer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FemaleFarmer@2x.png"; sourceTree = "<group>"; };
+		CFFAA81D152CCEF400753272 /* LegionMage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMage.png; sourceTree = "<group>"; };
+		CFFAA81E152CCEF400753272 /* LegionMage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMage@2x.png"; sourceTree = "<group>"; };
+		CFFAA81F152CCEF400753272 /* PandaMage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PandaMage.png; sourceTree = "<group>"; };
+		CFFAA820152CCEF400753272 /* PandaMage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PandaMage@2x.png"; sourceTree = "<group>"; };
+		CFFAA821152CCEF400753272 /* Seaman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Seaman.png; sourceTree = "<group>"; };
+		CFFAA822152CCEF400753272 /* Seaman@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Seaman@2x.png"; sourceTree = "<group>"; };
+		CFFAA823152CCEF400753272 /* SkeletonWarrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SkeletonWarrior.png; sourceTree = "<group>"; };
+		CFFAA824152CCEF400753272 /* SkeletonWarrior@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SkeletonWarrior@2x.png"; sourceTree = "<group>"; };
+		CFFAA825152CCEF400753272 /* Syndicate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Syndicate.png; sourceTree = "<group>"; };
+		CFFAA826152CCEF400753272 /* Syndicate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Syndicate@2x.png"; sourceTree = "<group>"; };
+		CFFAA827152CCEF400753272 /* AllianceWarrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarrior.png; sourceTree = "<group>"; };
+		CFFAA828152CCEF400753272 /* AllianceWarrior@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarrior@2x.png"; sourceTree = "<group>"; };
 		CFFD7C1314AC2C770054CC23 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		CFFD7C3614AC9B770054CC23 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CFFD7C3714AC9B770054CC23 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -2269,6 +2317,7 @@
 		CF1C592B1501AED40048D2EC /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFFAA810152CCEF400753272 /* Sprites */,
 				CF1C597C1501AED50048D2EC /* Marketplace Images */,
 				CF2028101515F98A00F611F5 /* Door Images */,
 				CF20280B1515E08900F611F5 /* City Rankup Images */,
@@ -4065,6 +4114,37 @@
 			name = SBTickerView;
 			sourceTree = "<group>";
 		};
+		CFFAA810152CCEF400753272 /* Sprites */ = {
+			isa = PBXGroup;
+			children = (
+				CFFAA811152CCEF400753272 /* AllianceArcher.png */,
+				CFFAA812152CCEF400753272 /* AllianceArcher@2x.png */,
+				CFFAA813152CCEF400753272 /* AllianceTutorialGuide.png */,
+				CFFAA814152CCEF400753272 /* AllianceTutorialGuide@2x.png */,
+				CFFAA815152CCEF400753272 /* Bard.png */,
+				CFFAA816152CCEF400753272 /* Bard@2x.png */,
+				CFFAA817152CCEF400753272 /* DrowArcher.png */,
+				CFFAA818152CCEF400753272 /* DrowArcher@2x.png */,
+				CFFAA819152CCEF400753272 /* Farmer.png */,
+				CFFAA81A152CCEF400753272 /* Farmer@2x.png */,
+				CFFAA81B152CCEF400753272 /* FemaleFarmer.png */,
+				CFFAA81C152CCEF400753272 /* FemaleFarmer@2x.png */,
+				CFFAA81D152CCEF400753272 /* LegionMage.png */,
+				CFFAA81E152CCEF400753272 /* LegionMage@2x.png */,
+				CFFAA81F152CCEF400753272 /* PandaMage.png */,
+				CFFAA820152CCEF400753272 /* PandaMage@2x.png */,
+				CFFAA821152CCEF400753272 /* Seaman.png */,
+				CFFAA822152CCEF400753272 /* Seaman@2x.png */,
+				CFFAA823152CCEF400753272 /* SkeletonWarrior.png */,
+				CFFAA824152CCEF400753272 /* SkeletonWarrior@2x.png */,
+				CFFAA825152CCEF400753272 /* Syndicate.png */,
+				CFFAA826152CCEF400753272 /* Syndicate@2x.png */,
+				CFFAA827152CCEF400753272 /* AllianceWarrior.png */,
+				CFFAA828152CCEF400753272 /* AllianceWarrior@2x.png */,
+			);
+			path = Sprites;
+			sourceTree = "<group>";
+		};
 		CFFEE9BF15214C77003C51BF /* CritStructPopup */ = {
 			isa = PBXGroup;
 			children = (
@@ -4947,6 +5027,30 @@
 				CF229674152C46C50083ED78 /* inputrefcode@2x.png in Resources */,
 				CF229675152C46C50083ED78 /* skip.png in Resources */,
 				CF229676152C46C50083ED78 /* skip@2x.png in Resources */,
+				CFFAA829152CCEF500753272 /* AllianceArcher.png in Resources */,
+				CFFAA82A152CCEF500753272 /* AllianceArcher@2x.png in Resources */,
+				CFFAA82B152CCEF500753272 /* AllianceTutorialGuide.png in Resources */,
+				CFFAA82C152CCEF500753272 /* AllianceTutorialGuide@2x.png in Resources */,
+				CFFAA82D152CCEF500753272 /* Bard.png in Resources */,
+				CFFAA82E152CCEF500753272 /* Bard@2x.png in Resources */,
+				CFFAA82F152CCEF500753272 /* DrowArcher.png in Resources */,
+				CFFAA830152CCEF500753272 /* DrowArcher@2x.png in Resources */,
+				CFFAA831152CCEF500753272 /* Farmer.png in Resources */,
+				CFFAA832152CCEF500753272 /* Farmer@2x.png in Resources */,
+				CFFAA833152CCEF500753272 /* FemaleFarmer.png in Resources */,
+				CFFAA834152CCEF500753272 /* FemaleFarmer@2x.png in Resources */,
+				CFFAA835152CCEF500753272 /* LegionMage.png in Resources */,
+				CFFAA836152CCEF500753272 /* LegionMage@2x.png in Resources */,
+				CFFAA837152CCEF500753272 /* PandaMage.png in Resources */,
+				CFFAA838152CCEF500753272 /* PandaMage@2x.png in Resources */,
+				CFFAA839152CCEF500753272 /* Seaman.png in Resources */,
+				CFFAA83A152CCEF500753272 /* Seaman@2x.png in Resources */,
+				CFFAA83B152CCEF500753272 /* SkeletonWarrior.png in Resources */,
+				CFFAA83C152CCEF500753272 /* SkeletonWarrior@2x.png in Resources */,
+				CFFAA83D152CCEF500753272 /* Syndicate.png in Resources */,
+				CFFAA83E152CCEF500753272 /* Syndicate@2x.png in Resources */,
+				CFFAA83F152CCEF500753272 /* AllianceWarrior.png in Resources */,
+				CFFAA840152CCEF500753272 /* AllianceWarrior@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

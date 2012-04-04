@@ -274,7 +274,7 @@
           CGRect r = CGRectZero;
           r.origin = [self randomWalkablePosition];
           r.size = CGSizeMake(1, 1);
-          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:NO map:self location:r];
+          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:NO file:ncep.imgId map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
           qg.name = ncep.name;
           [qg release];
@@ -300,7 +300,7 @@
           CGRect r = CGRectZero;
           r.origin = [self randomWalkablePosition];
           r.size = CGSizeMake(1, 1);
-          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:YES map:self location:r];
+          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:YES file:ncep.imgId map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
           qg.name = ncep.name;
           [qg release];
@@ -317,7 +317,7 @@
       CGRect r = CGRectZero;
       r.origin = [self randomWalkablePosition];
       r.size = CGSizeMake(1, 1);
-      QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO map:self location:r];
+      QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO file:ncep.imgId map:self location:r];
       [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
       qg.opacity = 0.f;
       [qg release];
@@ -379,14 +379,14 @@
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    Enemy *enemy = [[Enemy alloc] initWithFile:nil location:r map:self];
-    enemy.user = fup;
+    Enemy *enemy = [[Enemy alloc] initWithUser:fup location:r map:self];
     [self addChild:enemy z:1];
     [enemy release];
     
     enemy.opacity = 0;
     [enemy runAction:[CCFadeIn actionWithDuration:0.5f]];
   }
+  [self doReorder];
 }
 
 - (void) killEnemy:(int)userId {

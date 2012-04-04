@@ -81,7 +81,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   
   self.beforeCharSelectionText = @"Somebody help me! Weary soldier! Who are you? What is your name?";
   self.beforeBlinkText = @"Please %@, open your eyes!";
-  self.afterBlinkTextGood = @"Thank goodness you're awake! The Legion has invaded our town. Talk to Farmer Lieu. He'll know what to do.";
+  self.afterBlinkTextGood = @"Thank goodness you're awake! The Legion has invaded our town. Talk to Farmer Mitch. He'll know what to do.";
   self.afterBlinkTextBad = @"Welcome back comrade. I do not know how we got here, but talk to Farmer Lieu. He's a Legion informant.";
   self.afterQuestAcceptText = @"Here are the tasks you need to complete for this quest. Close the scroll to begin.";
   self.afterQuestAcceptClosedText = @"Now that you have accepted your quest, let's start by attacking that soldier.";

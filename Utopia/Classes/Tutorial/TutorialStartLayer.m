@@ -46,11 +46,6 @@
     [self addChild:_label];
     _label.position = ccp(self.contentSize.width/2, 40);
     
-    //Do this to speed up for later
-    GameLayer *gLay = [GameLayer sharedGameLayer];
-    //  [gLay loadTutorialMissionMap];
-    [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
-    
     // Set up the game state
     GameState *gs = [GameState sharedGameState];
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];

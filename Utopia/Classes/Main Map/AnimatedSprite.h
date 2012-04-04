@@ -12,22 +12,28 @@
 
 @class MissionMap;
 
-@interface AnimatedSprite : SelectableSprite
+@interface CharacterSprite : SelectableSprite {
+  CCLabelTTF *_nameLabel;
+}
+
+@property (nonatomic, retain) CCLabelTTF *nameLabel;
+
+@end
+
+@interface AnimatedSprite : CharacterSprite
 {
   CCSprite *_sprite;
   CCAction *_walkAction;
   CGPoint _oldMapPos;
   BOOL _moving;
-  CCLabelTTF *_nameLabel;
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkAction;
-@property (nonatomic, retain) CCLabelTTF *nameLabel;
 
 @end
 
-@interface QuestGiver : AnimatedSprite {
+@interface QuestGiver : CharacterSprite {
   CCSprite *_aboveHeadMark;
 }
 
@@ -35,13 +41,15 @@
 @property (nonatomic, assign) BOOL isInProgress;
 @property (nonatomic, retain) NSString *name;
 
-- (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg map:(GameMap *)map location:(CGRect)location;
+- (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg file:(NSString *)file map:(GameMap *)map location:(CGRect)location;
 
 @end
 
-@interface Enemy : AnimatedSprite
+@interface Enemy : CharacterSprite
 
 @property (nonatomic, retain) FullUserProto *user;
+
+- (id) initWithUser:(FullUserProto *)fup location:(CGRect)loc map:(GameMap *)map;
 
 @end
 

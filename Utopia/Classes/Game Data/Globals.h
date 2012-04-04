@@ -105,6 +105,7 @@
 + (UIImage *) profileImageForUser:(UserType)type;
 + (NSString *) battleImageNameForUser:(UserType)type;
 + (NSString *) headshotImageNameForUser:(UserType)type;
++ (NSString *) spriteImageNameForUser:(UserType)type;
 + (NSString *) battleAnimationFileForUser:(UserType)type;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
 + (BOOL) canEquip:(FullEquipProto *)fep;

@@ -42,6 +42,7 @@
 - (void) missionsDialog {
   // By now, we can ensure fade in is complete so unload mission map
   [[GameLayer sharedGameLayer] unloadTutorialMissionMap];
+  [[TutorialHomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.missionAviaryText callbackTarget:self action:@selector(beforeEnemiesDialog)];

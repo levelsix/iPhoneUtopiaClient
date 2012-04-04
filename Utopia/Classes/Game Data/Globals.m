@@ -149,7 +149,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   NSString *str = [fsp.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
   str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
-  NSString *file = [NSString stringWithFormat:[str stringByAppendingString:@".png"]];
+  NSString *file = [str stringByAppendingString:@".png"];
   return file;
 }
 
@@ -157,7 +157,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:eqId];
   NSString *str = [fep.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
   str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
-  NSString *file = [NSString stringWithFormat:[str stringByAppendingString:@".png"]];
+  NSString *file = [str stringByAppendingString:@".png"];
   return file;
 }
 
@@ -690,6 +690,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     case UserTypeBadMage:
       return @"hinvoker.png";
+      break;
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) spriteImageNameForUser:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return @"AllianceWarrior.png";
+      break;
+      
+    case UserTypeGoodArcher:
+      return @"AllianceArcher.png";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"PandaMage.png";
+      break;
+      
+    case UserTypeBadWarrior:
+      return @"SkeletonWarrior.png";
+      break;
+      
+    case UserTypeBadArcher:
+      return @"DrowArcher.png";
+      break;
+      
+    case UserTypeBadMage:
+      return @"LegionMage.png";
       break;
       
     default:

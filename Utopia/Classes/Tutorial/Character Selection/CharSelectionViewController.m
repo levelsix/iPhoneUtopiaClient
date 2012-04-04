@@ -288,8 +288,6 @@
   
   [nameTextField resignFirstResponder];
   
-  [[TutorialHomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
-  
   [UIView animateWithDuration:4.f animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
@@ -354,6 +352,8 @@
   [ue1 release];
   [ue2 release];
   
+  GameLayer *gLay = [GameLayer sharedGameLayer];
+  [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
 }
 
 - (void) runGameLayer {

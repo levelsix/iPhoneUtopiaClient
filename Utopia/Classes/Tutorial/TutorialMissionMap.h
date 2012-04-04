@@ -20,6 +20,8 @@
   
   BOOL _pickupSilver;
   
+  int _coinsGiven;
+  
   CCSprite *_ccArrow;
   UIImageView *_uiArrow;
   

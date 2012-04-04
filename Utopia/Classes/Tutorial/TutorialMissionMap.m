@@ -122,7 +122,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO map:self location:r];
+    QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO file:@"Farmer.png" map:self location:r];
     [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
     _questGiver = qg;
     [qg release];
@@ -162,7 +162,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    _enemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    UserType type = tc.enemyType;
+    _enemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
     [self addChild:_enemy z:1];
     [_enemy release];
     _enemy.nameLabel.string = tc.enemyName;
@@ -171,7 +172,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    Enemy *randEnemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    type = tc.enemyType < 3 ? 1 : 4;
+    Enemy *randEnemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
     [self addChild:randEnemy z:1];
     [randEnemy release];
     randEnemy.nameLabel.string = @"Ashton Butcher";
@@ -179,15 +181,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    randEnemy = [[Enemy alloc] initWithFile:nil location:r map:self];
+    type = tc.enemyType < 3 ? 2 : 5;
+    randEnemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
     [self addChild:randEnemy z:1];
     [randEnemy release];
     randEnemy.nameLabel.string = @"Tret Berrill";
     
+    [self doReorder];
     
     _taskProgBar = [TaskProgressBar node];
     [self addChild:_taskProgBar z:1002];
     _taskProgBar.visible = NO;
+    
+    _coinsGiven = 0;
   }
   return self;
 }
@@ -347,25 +353,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [self closeMenus];
     
     _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
-    [_taskProgBar animateBarWithText:@"MEEPING"];
+    [_taskProgBar animateBarWithText:ftp.processingText];
     _taskProgBar.visible = YES;
     mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
     _receivedTaskActionResponse = YES;
     
-    [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.5f], 
-                     [CCCallBlock actionWithBlock:
-                      ^{
-                        GameState *gs = [GameState sharedGameState];
-                        StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
-                        gs.silver += tutQuest.firstTaskCompleteCoinGain;
-                        [self addSilverDrop:tutQuest.firstTaskCompleteCoinGain fromSprite:mb];
-                        // Exp will be same for either task
-                        gs.experience += tutQuest.firstTaskGood.expGained;
-                      }], nil]];
-    
     if (mb.numTimesActed == ftp.numRequiredForCompletion) {
       _doTaskPhase = NO;
     }
+    
+    [self runAction:
+     [CCSequence actions:[CCDelayTime actionWithDuration:1.5f], 
+      [CCCallBlock actionWithBlock:
+       ^{
+         GameState *gs = [GameState sharedGameState];
+         StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
+         
+         int coins = 0;
+         if (_doTaskPhase) {
+           int diff = (tutQuest.firstTaskGood.maxCoinsGained-tutQuest.firstTaskGood.minCoinsGained)/2;
+           int changeFromMid = arc4random() % diff - diff/2;
+           coins = tutQuest.firstTaskGood.minCoinsGained+changeFromMid;
+         } else {
+           coins = tutQuest.firstTaskCompleteCoinGain-_coinsGiven;
+         }
+         
+         gs.silver += coins;
+         [self addSilverDrop:coins fromSprite:mb];
+         _coinsGiven += coins;
+         // Exp will be same for either task
+         gs.experience += tutQuest.firstTaskGood.expGained;
+       }], nil]];
+    
     
     _pickupSilver = YES;
   }
@@ -386,7 +405,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) removeChild:(CCNode *)node cleanup:(BOOL)cleanup {
-  [super removeChild:node cleanup:cleanup];
   if ([node isKindOfClass:[SilverStack class]]) {
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
     if (_doTaskPhase) {
@@ -424,6 +442,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     }
     _pickupSilver = NO;
   }
+  [super removeChild:node cleanup:cleanup];
 }
 
 - (void) redeemComplete {

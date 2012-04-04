@@ -12,11 +12,32 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 
+@implementation CharacterSprite
+
+@synthesize nameLabel = _nameLabel;
+
+- (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:file location:loc map:map])) {
+    _nameLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:[Globals fontSize]];
+    [self addChild:_nameLabel];
+    _nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
+    _nameLabel.color = ccc3(255,200,0);
+    [_nameLabel release];
+  }
+  return self;
+}
+
+- (void) setOpacity:(GLubyte)opacity {
+  [super setOpacity:opacity];
+  _nameLabel.opacity = opacity;
+}
+
+@end
+
 @implementation AnimatedSprite
 
 @synthesize sprite = _sprite;
 @synthesize walkAction = _walkAction;
-@synthesize nameLabel = _nameLabel;
 
 -(id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if((self = [super initWithFile:file location:loc map:map])) {
@@ -36,13 +57,12 @@
     }
     CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.05f];
     
-    // Create a sprite for our bear
+    // Create sprite
     self.sprite = [CCSprite spriteWithSpriteFrameName:@"skeletonking-walking-nearleft_00.png"];
     _sprite.anchorPoint = ccp(0, 0);
     
     // Move sprite a bit up
     self.walkAction = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnim restoreOriginalFrame:NO]];
-//    _sprite.scale = 0.5;
     [_sprite runAction:_walkAction];
     [spriteSheet addChild:_sprite];
     
@@ -52,13 +72,9 @@
     
     _oldMapPos = loc.origin;
     
-    [self walk];
+    self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     
-    _nameLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:[Globals fontSize]];
-    _nameLabel.anchorPoint = ccp(0.5,0.5);
-    [self addChild:_nameLabel];
-    _nameLabel.position = ccp(self.contentSize.width/2, self.sprite.contentSize.height+3);
-    _nameLabel.color = ccc3(255,200,0);
+    [self walk];
   }
   return self;
 }
@@ -66,7 +82,6 @@
 - (void) setOpacity:(GLubyte)opacity {
   [super setOpacity:opacity];
   _sprite.opacity = opacity;
-  _nameLabel.opacity = opacity;
 }
 
 - (void) setIsSelected:(BOOL)isSelected {
@@ -106,8 +121,8 @@
 
 @synthesize quest, isInProgress, name;
 
-- (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg map:(GameMap *)map location:(CGRect)location {
-  if ((self = [super initWithFile:nil location:location map:map])) {
+- (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg file:(NSString *)file map:(GameMap *)map location:(CGRect)location {
+  if ((self = [super initWithFile:file location:location map:map])) {
     self.quest = fqp;
     self.isInProgress = inProg;
   }
@@ -154,7 +169,7 @@
     _aboveHeadMark = [CCSprite spriteWithFile:@"exclamation.png"];
   }
   [self addChild:_aboveHeadMark];
-  _aboveHeadMark.position = ccp(self.sprite.contentSize.width/2, _sprite.contentSize.height*_sprite.scale+_aboveHeadMark.contentSize.height/2+10);
+  _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+_aboveHeadMark.contentSize.height/2+10);
 }
 
 @end
@@ -162,6 +177,13 @@
 @implementation Enemy
 
 @synthesize user;
+
+- (id) initWithUser:(FullUserProto *)fup location:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:[Globals spriteImageNameForUser:fup.userType] location:loc map:map])) {
+    self.user = fup;
+  }
+  return self;
+}
 
 - (void) setUser:(FullUserProto *)u {
   if (user != u) {
