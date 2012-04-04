@@ -477,7 +477,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.hbMenu];
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
-    self.hbMenu.greenButton.label.shadowColor = [UIColor darkGrayColor];
+    self.hbMenu.greenButton.label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
     self.hbMenu.greenButton.label.shadowOffset = CGSizeMake(1, 1);
     
     _loading = YES;
@@ -1091,7 +1091,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   return YES;
 }
 
--(void) dealloc {
+- (void) dealloc {
   [self.csMenu removeFromSuperview];
   self.csMenu = nil;
   [self.hbMenu removeFromSuperview];

@@ -127,12 +127,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   self.pkgTableView.rowHeight = 62;
-  
-  curGoldLabel.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] gold]];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   [self.pkgTableView reloadData];
+  
+  curGoldLabel.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] gold]];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -181,6 +181,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     [loadingView removeFromSuperview];
     _isDisplayingLoadingView = NO;
   }
+  
+  curGoldLabel.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] gold]];
 }
 
 - (void) fadeOut {

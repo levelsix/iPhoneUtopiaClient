@@ -88,8 +88,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
   [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:encodedReceipt];
-  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+  
+  NSNumber *goldAmt = [[[Globals sharedGlobals] productIdentifiers] objectForKey:transaction.payment.productIdentifier];
+  GameState *gs = [GameState sharedGameState];
+  gs.gold += goldAmt.intValue;
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {

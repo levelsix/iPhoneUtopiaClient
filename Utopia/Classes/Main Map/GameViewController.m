@@ -119,6 +119,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     scene = [CCScene node];
     [[CCDirector sharedDirector] runWithScene:scene];
   }
+  
+  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
   [[SimpleAudioEngine sharedEngine] playEffect:@"DoorClosing_Final.m4a"];
   
   CCLayer *layer = [CCLayer node];

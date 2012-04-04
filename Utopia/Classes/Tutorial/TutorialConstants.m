@@ -30,6 +30,9 @@
 @synthesize beforeTaskTextGood, beforeTaskTextBad;
 @synthesize beforeSkillsText;
 @synthesize duringPanTexts;
+@synthesize afterSkillPointsText;
+@synthesize beforeAviaryText1, beforeAviaryText2;
+@synthesize insideAviaryText, missionAviaryText, beforeHomeAviaryText, enemiesAviaryText, beforeEnemiesAviaryText;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
 
@@ -84,7 +87,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.afterBattleText = @"You made that look easy, but we've still got work to do. Exit the battle and let's finish the last task.";
   self.beforeTaskTextGood = @"It seems the Legion's men are terrorizing the Tavern. Go in there and break it up.";
   self.beforeTaskTextBad = @"Go to the Tavern and set an example of these men by roughing them up.";
-  self.beforeSkillsText = @"Skill points are key to your success. Allocate them wisely."; 
+  self.beforeSkillsText = @"Skill points are key to your success. Allocate them wisely.";
+  self.afterSkillPointsText = @"Great! Now let's equip that amulet you stole during battle.";
+  self.beforeAviaryText1 = @"You seem tired… but its too dangerous to rest here! Why don't we go back to your place? ";
+  self.beforeAviaryText2 = @"Click on the Aviary to navigate around the world of Utopia. There will be one present in every location.";
 }
 
 @end

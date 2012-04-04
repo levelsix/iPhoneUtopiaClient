@@ -89,6 +89,8 @@
   [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
     _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
   } completion:nil];
+  
+  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].afterSkillPointsText callbackTarget:nil action:nil];
 }
 
 - (void) setState:(ProfileState)state {

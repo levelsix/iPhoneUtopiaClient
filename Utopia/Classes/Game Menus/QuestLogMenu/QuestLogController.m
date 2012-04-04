@@ -297,20 +297,24 @@
 }
 
 - (void) refreshWithQuest:(FullQuestProto *)fqp {
-  [self.questDescLabel removeFromSuperview];
-  
   self.questNameLabel.text = fqp.name;
+  [self.rewardView updateForQuest:fqp];
+  [self setQuestDescription:fqp.description];
+}
+
+- (void) setQuestDescription:(NSString *)description {
+  [self.questDescLabel removeFromSuperview];
   
   // Update the quest description label
   // We will find out how many lines need to be used, so init to zero
   UILabel *tmplabel = [[UILabel alloc] initWithFrame:CGRectZero];
   self.questDescLabel = tmplabel;
   [tmplabel release];
+  self.questDescLabel.text = description;
   self.questDescLabel.textColor = [UIColor blackColor];
   self.questDescLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:14];
   self.questDescLabel.numberOfLines = 0;
   self.questDescLabel.lineBreakMode = UILineBreakModeWordWrap;
-  self.questDescLabel.text = fqp.description;
   self.questDescLabel.backgroundColor = [UIColor clearColor];
   
   //Calculate the expected size based on the font and linebreak mode of label
@@ -329,8 +333,6 @@
   newFrame = self.rewardView.frame;
   newFrame.origin = CGPointMake(0, CGRectGetMaxY(self.questDescLabel.frame));
   self.rewardView.frame = newFrame;
-  
-  [self.rewardView updateForQuest:fqp];
   
   self.scrollView.contentOffset = CGPointMake(0, 0);
   self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, CGRectGetMaxY(self.rewardView.frame)+self.scrollView.botGradient.frame.size.height);
@@ -356,10 +358,13 @@
     CGRect tmpRect;
     self.backgroundColor = [UIColor clearColor];
     
+    self.type = t;
+    self.jobId = j;
+    
     UIImage *visit = nil;
     if (t == kTask && completed < total && jobId != 0) {
       self.visitButton = [UIButton buttonWithType:UIButtonTypeCustom];
-      UIImage *visit = [Globals imageNamed:@"visit.png"];
+      visit = [Globals imageNamed:@"visit.png"];
       [self.visitButton setImage:visit forState:UIControlStateNormal];
       [self.visitButton addTarget:self action:@selector(visitClicked) forControlEvents:UIControlEventTouchUpInside];
       [self addSubview:self.visitButton];
@@ -428,9 +433,6 @@
     tmpRect.origin.y = self.frame.size.height/2-visit.size.height/2;
     tmpRect.size = visit.size;
     self.visitButton.frame = tmpRect;
-    
-    self.type = t;
-    self.jobId = j;
   }
   return self;
 }
@@ -594,7 +596,7 @@
 @implementation QuestLogController
 
 @synthesize taskView, questDescView, questListView, userLogData, rightPage;
-@synthesize redeemButton, toTaskButton, acceptButtons, qcView;
+@synthesize redeemButton, redeemLabel, toTaskButton, acceptButtons, qcView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
@@ -635,6 +637,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   toTaskButton.hidden = NO;
   
   [taskView unloadTasks];
+  
+  rightPage.alpha = 1.f;
+  
+  self.view.alpha = 0.f;
+  [UIView animateWithDuration:0.5f animations:^{
+    self.view.alpha = 1.f;
+  }];
 }
 
 - (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress {
@@ -642,6 +651,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     NSLog(@"nil quest for displaying right page");
     return;
   }
+  // Need to do this in case 
+  [self view];
   
   CGRect r = rightPage.frame;
   r.origin.x = 265;
@@ -657,6 +668,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   _fqp = fqp;
   
   [taskView unloadTasks];
+  
+  rightPage.alpha = 0.f;
+  [UIView animateWithDuration:0.5f animations:^{
+    rightPage.alpha = 1.f;
+  }];
 }
 
 - (void) loadQuestData:(NSArray *)quests {
@@ -673,6 +689,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   if (quest && quest.isComplete) {
     redeemButton.hidden = NO;
+    redeemLabel.text = @"Redeem";
     toTaskButton.hidden = YES;
   } else {
     redeemButton.hidden = YES;
@@ -681,8 +698,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
-  [self.view removeFromSuperview];
-  [self.rightPage removeFromSuperview];
+  [UIView animateWithDuration:0.5f animations:^{
+    NSLog(@"%f", self.rightPage.alpha);
+    self.rightPage.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [self.rightPage removeFromSuperview];
+  }];
   
   [[GameLayer sharedGameLayer] closeMenus];
 }
@@ -704,8 +725,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)redeemTapped:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_fqp.questId];
-  [self closeButtonClicked:nil];
+  if ([redeemLabel.text isEqualToString:@"Redeem"]) {
+    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_fqp.questId];
+    
+    redeemLabel.text = @"Quest Complete";
+    [self.questDescView setQuestDescription:_fqp.doneResponse];
+  } else {
+    [self closeButtonClicked:nil];
+  }
 }
 
 - (IBAction)acceptTapped:(id)sender {
@@ -751,6 +778,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   return [q autorelease];
 }
 
+- (void) didReceiveMemoryWarning {
+  if (rightPage.superview) {
+    return;
+  }
+  
+  [super didReceiveMemoryWarning];
+}
+
 - (void)viewDidUnload
 {
   [super viewDidUnload];
@@ -762,6 +797,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.questListView = nil;
   self.redeemButton = nil;
   self.qcView = nil;
+  self.redeemLabel = nil;
 }
 
 @end

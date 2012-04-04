@@ -16,6 +16,7 @@
 #import "RefillMenuController.h"
 #import "MapViewController.h"
 #import "SimpleAudioEngine.h"
+#import "MissionMap.h"
 
 @implementation BattleSummaryView
 
@@ -587,6 +588,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     if (_rightCurrentHealth - _damageDone <= 0) {
       [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerWin city:_cityId];
+      
+      if (_cityId > 0 && [[GameLayer sharedGameLayer] currentCity] == _cityId) {
+        [[[GameLayer sharedGameLayer] missionMap] killEnemy:_fup.userId];
+      }
     }
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];

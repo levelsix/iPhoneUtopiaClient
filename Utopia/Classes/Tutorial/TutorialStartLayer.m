@@ -15,8 +15,9 @@
 #import "TutorialConstants.h"
 #import "TopBar.h"
 #import "GameLayer.h"
+#import "SimpleAudioEngine.h"
 
-#define PAN_DURATION 25.f
+#define PAN_DURATION 2.f//25.f
 
 @implementation TutorialStartLayer
 
@@ -70,6 +71,8 @@
 }
 
 - (void) start {
+  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+  
   _incrementor = 0;
   [_bgd runAction: [CCSequence actions:
                     [CCMoveTo actionWithDuration:PAN_DURATION position:ccp(-_bgd.contentSize.width+self.contentSize.width, 0)],
@@ -125,6 +128,7 @@
 - (void) removeBg {
   [self removeChild:_label cleanup:YES];
   [self removeChild:_bgd cleanup:YES];
+  [[CCDirector sharedDirector] purgeCachedData];
 }
 
 - (void) flashComplete {

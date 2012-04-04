@@ -55,6 +55,15 @@
 @property (nonatomic, retain) NSString *beforeTaskTextGood;
 @property (nonatomic, retain) NSString *beforeTaskTextBad;
 @property (nonatomic, retain) NSString *beforeSkillsText;
+@property (nonatomic, retain) NSString *afterSkillPointsText;
+
+@property (nonatomic, retain) NSString *beforeAviaryText1;
+@property (nonatomic, retain) NSString *beforeAviaryText2;
+@property (nonatomic, retain) NSString *insideAviaryText;
+@property (nonatomic, retain) NSString *missionAviaryText;
+@property (nonatomic, retain) NSString *beforeEnemiesAviaryText;
+@property (nonatomic, retain) NSString *enemiesAviaryText;
+@property (nonatomic, retain) NSString *beforeHomeAviaryText;
 
 @property (nonatomic, retain) NSString *enemyName;
 @property (nonatomic, assign) UserType enemyType;

@@ -25,6 +25,7 @@
 #import "TutorialConstants.h"
 #import "GameViewController.h"
 #import "CityRankupViewController.h"
+#import "GoldShoppeViewController.h"
 
 @implementation IncomingEventController
 
@@ -309,6 +310,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleInAppPurchaseResponseProto: (InAppPurchaseResponseProto *) proto {
   NSLog(@"In App Purchase response received with status %d.", proto.status);
+  
+  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
+  if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
+    [Globals popupMessage:@"Sorry! Server failed to process in app purchase! Please send us an email at support@lvl6.com"];
+  }
 }
 
 - (void) handleTaskActionResponseProto: (TaskActionResponseProto *) proto {

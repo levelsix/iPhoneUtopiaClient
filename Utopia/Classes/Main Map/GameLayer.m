@@ -61,7 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 	if( (self=[super init])) {
     _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
-    [self loadHomeMap];
+    [self moveMapToCenter:_homeMap];
     
     _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];
@@ -124,6 +124,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _homeMap.visible = NO;
   }
   
+  if (_curMusic != kMissionMusic) {
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+    _curMusic = kMissionMusic;
+  }
+  
   [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(fadeOut) withObject:nil waitUntilDone:YES];
 }
 
@@ -147,6 +152,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self addChild:_missionMap z:1];
   [map doBlink];
   
+  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+  _curMusic = kMissionMusic;
+  
   if (_homeMap.visible) {
     _homeMap.selected = nil;
     _homeMap.visible = NO;
@@ -155,10 +163,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadHomeMap {
   [self unloadCurrentMissionMap];
+  [_homeMap refresh];
   _homeMap.visible = YES;
   [self moveMapToCenter:_homeMap];
   currentCity = 0;
   
+  if (_curMusic != kHomeMusic) {
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
+    _curMusic = kHomeMusic;
+  }
 }
 
 - (GameMap *) currentMap {
@@ -173,8 +186,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [super onEnter];
   if (_homeMap.visible) {
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
+    _curMusic = kHomeMusic;
   } else {
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
+    _curMusic = kMissionMusic;
   }
 }
 

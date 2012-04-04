@@ -1072,6 +1072,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [self setCurScope:kEquipScopeAll];
+  
 }
 
 - (void) didReceiveMemoryWarning {

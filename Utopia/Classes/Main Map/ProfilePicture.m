@@ -52,6 +52,7 @@
     
     _levelLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:12];
     _levelLabel.position = ccp(_levelCircle.contentSize.width/2, _levelCircle.contentSize.height/2);
+    _levelLabel.string = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] level]];
     [_levelCircle addChild:_levelLabel];
     [Globals adjustFontSizeForCCLabelTTF:_levelLabel size:12];
     
@@ -173,7 +174,6 @@
   if ((self = [super initWithFile:[Globals headshotImageNameForUser:type]])) {
     _inAction = NO;
     _menuOut = NO;
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     
     _expCircle = [ExperienceCircle circle];
     [self addChild:_expCircle z:2];
@@ -213,8 +213,20 @@
     _expLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2-2);
     _expLabel.visible = NO;
     
+    self.isTouchEnabled = YES;
   }
   return self;
+}
+
+- (void) setIsTouchEnabled:(BOOL)isTouchEnabled {
+  if (isTouchEnabled != isTouchEnabled_) {
+    [super setIsTouchEnabled:isTouchEnabled];
+    if (isTouchEnabled) {
+      [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+    } else {
+      [[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
+    }
+  }
 }
 
 - (void) setExpPercentage:(float)perc {

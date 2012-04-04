@@ -1109,6 +1109,14 @@
 					<int key="connectionID">245</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">redeemLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="336308435"/>
+					</object>
+					<int key="connectionID">247</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">closeButtonClicked:</string>
 						<reference key="source" ref="683937592"/>
@@ -1803,7 +1811,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">246</int>
+			<int key="maxID">247</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1954,6 +1962,7 @@
 						<string key="questDescView">QuestDescriptionView</string>
 						<string key="questListView">QuestListView</string>
 						<string key="redeemButton">UIView</string>
+						<string key="redeemLabel">UILabel</string>
 						<string key="rightPage">UIView</string>
 						<string key="taskView">TaskListView</string>
 						<string key="toTaskButton">UIView</string>
@@ -1978,6 +1987,10 @@
 						<object class="IBToOneOutletInfo" key="redeemButton">
 							<string key="name">redeemButton</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="redeemLabel">
+							<string key="name">redeemLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rightPage">
 							<string key="name">rightPage</string>

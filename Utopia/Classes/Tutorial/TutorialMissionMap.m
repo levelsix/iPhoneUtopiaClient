@@ -182,14 +182,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     randEnemy = [[Enemy alloc] initWithFile:nil location:r map:self];
     [self addChild:randEnemy z:1];
     [randEnemy release];
-    randEnemy.nameLabel.string = @"Park Mincus";
-    
-    r = CGRectZero;
-    r.origin = [self randomWalkablePosition];
-    r.size = CGSizeMake(1, 1);
-    randEnemy = [[Enemy alloc] initWithFile:nil location:r map:self];
-    [self addChild:randEnemy z:1];
-    [randEnemy release];
     randEnemy.nameLabel.string = @"Tret Berrill";
   }
   return self;
@@ -352,6 +344,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     GameState *gs = [GameState sharedGameState];
     StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
+    gs.silver += tutQuest.firstTaskCompleteCoinGain;
     [self addSilverDrop:tutQuest.firstTaskCompleteCoinGain fromSprite:mb];
     // Exp will be same for either task
     gs.experience += tutQuest.firstTaskGood.expGained;
@@ -418,6 +411,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) levelUpComplete {
+  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeAviaryText1 callbackTarget:self action:@selector(levelUpComplete2)];
+}
+
+- (void) levelUpComplete2 {
+  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeAviaryText2 callbackTarget:self action:@selector(levelUpComplete2)];
   // Move arrow to aviary
   [_aviary addChild:_ccArrow];
   _ccArrow.position = ccp(_aviary.contentSize.width/2, _aviary.contentSize.height+_ccArrow.contentSize.height/2);
@@ -427,6 +425,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
                                                          [upAction reverse], nil]]];
   
   _aviaryPhase = YES;
+  
+  [[GameLayer sharedGameLayer] moveMap:self toSprite:_aviary];
 }
 
 - (IBAction)attackClicked:(id)sender {

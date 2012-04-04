@@ -15,7 +15,7 @@
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
-#define ENEMY_DEFENSE 20
+#define ENEMY_DEFENSE 15
 
 @implementation TutorialBattleLayer
 

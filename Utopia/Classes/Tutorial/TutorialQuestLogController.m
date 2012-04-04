@@ -84,6 +84,11 @@
     self.acceptButtons.hidden = YES;
     self.redeemButton.hidden = NO;
   }
+  
+  self.rightPage.alpha = 0.f;
+  [UIView animateWithDuration:0.5f animations:^{
+    self.rightPage.alpha = 1.f;
+  }];
 }
 
 - (void) loadTutQuestData:(StartupResponseProto_TutorialConstants_FullTutorialQuestProto *)quest {
@@ -209,10 +214,7 @@
   [_arrow removeFromSuperview];
   [super closeButtonClicked:nil];
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
-}
-
-- (void) didReceiveMemoryWarning {
-  return;
+  [TutorialQuestLogController purgeSingleton];
 }
 
 //- (void) scrollViewDidScroll:(UIScrollView *)scrollView {

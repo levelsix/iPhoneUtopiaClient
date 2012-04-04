@@ -76,6 +76,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet RewardsView *rewardView;
 @property (nonatomic, retain) IBOutlet GradientScrollView *scrollView;
 
+- (void) setQuestDescription:(NSString *)description;
+
 @end
 
 @interface TaskItemView : UIView
@@ -117,6 +119,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *redeemButton;
 @property (nonatomic, retain) IBOutlet UIView *acceptButtons;
 @property (nonatomic, retain) NSArray *userLogData;
+
+@property (nonatomic, retain) IBOutlet UILabel *redeemLabel;
 
 // This will be used to get the view from the nib and return it
 @property (nonatomic, retain) IBOutlet QuestCompleteView *qcView;

@@ -70,6 +70,8 @@
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
 
+- (void) killEnemy:(int)userId;
+
 - (void) closeMenus;
 - (void) questAccepted:(FullQuestProto *)fqp;
 - (void) reloadQuestGivers;

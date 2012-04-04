@@ -294,6 +294,8 @@
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];
+    [self didReceiveMemoryWarning];
+    [self release];
     
     GameState *gs = [GameState sharedGameState];
     NSString *str = [NSString stringWithFormat:[[TutorialConstants sharedTutorialConstants] beforeBlinkText], gs.name];

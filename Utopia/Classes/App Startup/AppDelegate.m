@@ -18,6 +18,10 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
+#import "Apsalar.h"
+
+#define APSALAR_API_KEY @"lvl6"
+#define APSALAR_SECRET @"K7kbMwwF"
 
 @implementation AppDelegate
 
@@ -44,7 +48,7 @@
 	
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
 }
-- (void) applicationDidFinishLaunching:(UIApplication*)application
+- (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// Let the device know we want to receive push notifications
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
@@ -113,6 +117,9 @@
   //  if (![[LocationManager alloc] initWithDelegate:self]) {
   //    // Inform of location services off
   //  }
+  [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
+  
+  return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

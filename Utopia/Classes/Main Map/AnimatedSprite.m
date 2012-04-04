@@ -66,6 +66,7 @@
 - (void) setOpacity:(GLubyte)opacity {
   [super setOpacity:opacity];
   _sprite.opacity = opacity;
+  _nameLabel.opacity = opacity;
 }
 
 - (void) setIsSelected:(BOOL)isSelected {

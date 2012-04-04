@@ -362,14 +362,14 @@
     [self addChild:_taskProgBar z:1002];
     _taskProgBar.visible = NO;
     
-//    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
-//    for (int i=0; i < width; i++) {
-//      for (int j=0; j < height; j++) {
-//        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
-//      }
-//      [str appendString:@"\n"];
-//    }
-//    NSLog(@"%@", str);
+    //    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
+    //    for (int i=0; i < width; i++) {
+    //      for (int j=0; j < height; j++) {
+    //        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
+    //      }
+    //      [str appendString:@"\n"];
+    //    }
+    //    NSLog(@"%@", str);
   }
   return self;
 }
@@ -388,6 +388,23 @@
     [enemy runAction:[CCFadeIn actionWithDuration:0.5f]];
   }
 }
+
+- (void) killEnemy:(int)userId {
+  for (CCNode *child in children_) {
+    if ([child isKindOfClass:[Enemy class]]) {
+      Enemy *enemy = (Enemy *)child;
+      if (enemy.user.userId == userId) {
+        [enemy runAction:[CCSequence actions:
+                          [CCFadeOut actionWithDuration:0.5f],
+                          [CCCallBlock actionWithBlock:
+                           ^{
+                             [enemy removeFromParentAndCleanup:YES];
+                           }], nil]];
+      }
+    }
+  }
+}
+
 
 -(void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
@@ -472,10 +489,10 @@
   expLabel.position = ccp(_taskProgBar.position.x, _taskProgBar.position.y+_taskProgBar.contentSize.height);
   expLabel.color = ccc3(255,200,0);
   [expLabel runAction:[CCSequence actions:
-                          [CCSpawn actions:
-                           [CCFadeOut actionWithDuration:1.f], 
-                           [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
-                          [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
+                       [CCSpawn actions:
+                        [CCFadeOut actionWithDuration:1.f], 
+                        [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
+                       [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
   
   [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
   

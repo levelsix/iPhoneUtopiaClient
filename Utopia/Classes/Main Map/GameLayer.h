@@ -19,6 +19,11 @@
 @class MissionMap;
 @class LoadNeutralCityResponseProto;
 
+typedef enum {
+  kHomeMusic = 1,
+  kMissionMusic
+} MusicState;
+
 // HelloWorldLayer
 @interface GameLayer : CCLayer
 {
@@ -31,6 +36,8 @@
   
   ProfilePicture *_profileBgd;
   TopBar *_topBar;
+  
+  MusicState _curMusic;
 }
 
 @property (nonatomic, assign) int assetId;
