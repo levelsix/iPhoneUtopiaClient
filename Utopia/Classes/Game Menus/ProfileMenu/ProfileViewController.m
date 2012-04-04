@@ -943,10 +943,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     curAmuletView.chooseEquipButton.hidden = NO;
     _amuletEquipView = nil;
   }
-  
-  curWeaponView.userInteractionEnabled = touchEnabled;
-  curArmorView.userInteractionEnabled = touchEnabled;
-  curAmuletView.userInteractionEnabled = touchEnabled;
 }
 
 - (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled {

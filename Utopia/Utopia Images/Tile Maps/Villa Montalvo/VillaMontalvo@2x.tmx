@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="18" height="18" tilewidth="128" tileheight="64">
+ <tileset firstgid="1" name="winery_tiles" tilewidth="128" tileheight="80">
+  <image source="winery_tiles.png" width="1024" height="1024"/>
+  <tile id="15">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="Walkable" value="No"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="97" name="villatree_pack" tilewidth="128" tileheight="148">
+  <image source="villatree_pack.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Moar Gruasu" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA62RSwqAMAxExyO4cls/KH433v9uGqwwSio27cCQUtqXaQMAFexy3qlijtQ6AydFzLnXlky9wnH60d/64uzK3nC6I4vKl0H7Ic56uiD/kcbZ6L7UPoIjM2j8ejTkYXFfZ7jPHOe94PnPMTluzmbM0fq+UmfY5hXKx/NKUY48InnnhOudOXUAWfEz5xAFAAA=
+  </data>
+ </layer>
+ <layer name="More Grass" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA1NgYGBQgGJFBlSgiEUMF1BAYqsSqQcbEENiq1FgjiAaJgRw+VMAiM2QMLlAgAK91DDHBQnDzEEPI1LCi1rAggF3PJsQod8diK2A2JJqLsIPCOUHJSqYow/EugwQ/xMKA2Lz52ADjAPtABwAADqXRL0QBQAA
+  </data>
+ </layer>
+ <layer name="Just Grass" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA52TzQ6CQAyE6xusV04rGhKjwgH8/zmZyPs/kUsyzY7NLqiTfCFAO7TdcheRB+HBgpjRc6aVqD6wAoL3c6JN+JSBDVC9Ak8g+L7W48ino5wKz7ke1gnxivVR/8bUU+O6DxwCxxGfArFD/2uqp8T9oJupR2fjzKwsVtbHoQetxxOFTc6Iv8d9efTUJGYhiFFc4p59cj1UEs9hoEZel/CxugYugTM81WcZ2FGerU/n0mfmwees+6V5tXzOeMzHI0f3QH0W8CkobsrHS9xJIZ+txP9uSupTGZ9v98T6sFLnk5PGpnxSO/+PfqlH9QaVHVWTEAUAAA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 6" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgIB9YUKCXWHOsqGQOKYCQOS5QTKk5HsQ5hyAg1RwFKtmLbo4HA2luYYfSalRxDfX8RS336FLJHAUS1GrhkdMjwRxsavXwyBFrjjuUZkSTU2bA73ZlPHIKBOQIYTUkNgBvHwGYEAUAAA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA62Tyw6CMBBFx5Vrl+5QscagLhBfqCwMif7/FzmVabyWQaB6k5Mp7fR26IPoU1emEB7Qv1UgLwfV1G/nZUzaMf/O5MxJGRsLXXy+ydaU/MFnqvRZnzzACzUCumjQMj7/rZyXbozpOScSfJ8QxRJLIaQeV5NTSvV72VcLaK8D5k+oukclsPFyIqrvY5N2zJ45kH6n3Z45T3zbuM6FGTJHz8dIDvoYxceel92PM73fM/qsJM4kJtKOBb9dAEv1z6t3YM8za4kE309uTkPmEAUAAA==
+  </data>
+ </layer>
+ <layer name="Just Some Borders" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwARmWMRIBTZUMAMGXKDYg4pmUhtYIdHImBoA5n87ItUTq244ARcK9CpQwX5tKNaiglnUAMSkAQUgVqOSfdQyBwTISb/GSFgPSpNjDgB9kAN5EAUAAA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgGAWUAhcoRmbDsAeZZiGbx4CFjQ4M0fhmSBidb8Yw8oATFI+CkQWMiMDIAADt10MdEAUAAA==
+  </data>
+ </layer>
+ <layer name="TREES!" width="18" height="18">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NgwA2SgTgFyk7BoSYVjxw+c7GJpZJozmAC2Pw0CvADQmGGTZ7UtEYuwJUWSU2juPIHqeklBYfdpIZHKhl2wwCp+oZingAA4cgxbBAFAAA=
+  </data>
+ </layer>
+</map>

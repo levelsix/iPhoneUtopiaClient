@@ -56,7 +56,7 @@
 @synthesize equipId;
 
 - (id) initWithEquipId:(int)eq {
-  if ((self = [super initWithFile:[Globals imageNameForEquip:equipId]])) {
+  if ((self = [super initWithFile:[Globals imageNameForEquip:eq]])) {
     equipId = eq;
     
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];

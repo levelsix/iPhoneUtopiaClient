@@ -373,7 +373,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
          if (_doTaskPhase) {
            int diff = (tutQuest.firstTaskGood.maxCoinsGained-tutQuest.firstTaskGood.minCoinsGained)/2;
            int changeFromMid = arc4random() % diff - diff/2;
-           coins = tutQuest.firstTaskGood.minCoinsGained+changeFromMid;
+           coins = tutQuest.firstTaskGood.minCoinsGained+diff+changeFromMid;
          } else {
            coins = tutQuest.firstTaskCompleteCoinGain-_coinsGiven;
          }
