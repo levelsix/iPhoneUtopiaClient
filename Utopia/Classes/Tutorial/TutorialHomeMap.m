@@ -69,8 +69,8 @@
   [DialogMenuController displayViewForText:tc.beforeCarpenterText callbackTarget:nil action:nil];
   
   [[GameLayer sharedGameLayer] moveMap:self toSprite:_csb];
-  _ccArrow = [CCSprite spriteWithFile:@"green.png"];
-  [self addChild:_ccArrow];
+  _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
+  [self addChild:_ccArrow z:2000];
   _ccArrow.position = ccp(_csb.position.x, _csb.position.y+_csb.contentSize.height+_ccArrow.contentSize.height/2);
   
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
@@ -91,18 +91,29 @@
       
       _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
       [self.csMenu addSubview:_uiArrow];
-      [_uiArrow release];
       _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
       
       [TutorialCarpenterMenuController sharedCarpenterMenuController];
       
-      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, [self.csMenu viewWithTag:10].center.y);
+      UIView *enterButton = [self.csMenu viewWithTag:10];
+      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, enterButton.center.y);
       
       UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
       [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-        _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2, [self.csMenu viewWithTag:10].center.y);
+        _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2, enterButton.center.y);
       } completion:nil];
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
+      [_ccArrow stopAllActions];
+      _ccArrow.visible = NO;
+      [_uiArrow removeFromSuperview];
+      [self.hbMenu addSubview:_uiArrow];
+      UIView *finishNowButton = [self.hbMenu viewWithTag:17];
+      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, finishNowButton.center.y);
+      
+      UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+        _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
+      } completion:nil];
     } else {
       self.selected = nil;
     }
@@ -161,6 +172,7 @@
     [us release];
     
     _constrBuilding = moneyBuilding;
+    _purchBuilding = nil;
     
     self.tutCoords = [[[[CoordinateProto builder] setX:moneyBuilding.location.origin.x] setY:moneyBuilding.location.origin.y] build];
     
@@ -176,6 +188,17 @@
     
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
     [DialogMenuController displayViewForText:tc.afterPurchaseText callbackTarget:nil action:nil];
+    
+    _ccArrow.visible = YES;
+    _ccArrow.position = ccp(_constrBuilding.position.x, _constrBuilding.position.y+_constrBuilding.contentSize.height+_ccArrow.contentSize.height/2);
+    
+    CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
+    [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                           [upAction reverse], nil]]];
+    
+    // Set the struct coords and time of purchase
+    tc.structCoords = moneyBuilding.location.origin;
+    tc.structTimeOfPurchase = [NSDate date];
   }
 }
 
@@ -186,6 +209,22 @@
     [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
   }
   _constrBuilding = nil;
+  _waitingForBuildPhase = NO;
+}
+
+- (void) upgradeComplete:(NSTimer *)timer {
+  MoneyBuilding *mb = [timer userInfo];
+  [self updateTimersForBuilding:mb];
+  if (mb == _selected && self.hbMenu.state != kMoveState) {
+    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+  }
+  _upgrBuilding = nil;
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:nil action:nil];
+  
+  tc.structUsedDiamonds = NO;
+  tc.structTimeOfBuildComplete = [NSDate date];
 }
 
 - (IBAction)finishNowClicked:(id)sender {
@@ -219,9 +258,23 @@
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
   }];
   [self updateTimersForBuilding:mb];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:self action:@selector(showReferralDialog)];
+  
+  tc.structUsedDiamonds = YES;
+  tc.structTimeOfBuildComplete = [NSDate date];
+  
+  [_uiArrow removeFromSuperview];
+}
+
+- (void) showReferralDialog {
+  [DialogMenuController displayViewForReferral];
 }
 
 - (void) dealloc {
+  [_ccArrow release];
+  [_uiArrow release];
   self.tutCoords = nil;
   [super dealloc];
 }

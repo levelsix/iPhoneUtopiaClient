@@ -229,12 +229,12 @@
   self.summaryView.rightLevelLabel.text = @"Lvl 1";
   self.summaryView.rightPlayerIcon.image = [Globals squareImageForUser:tc.enemyType];
   
-  FullEquipProto *fep = tc.archerInitWeapon;
+  FullEquipProto *fep = [gs equipWithId:gs.weaponEquipped];
   self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.leftRarityLabel1.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.leftEquipIcon1.image = [Globals imageForEquip:fep.equipId];
   
-  fep = tc.archerInitWeapon;
+  fep = [gs equipWithId:gs.armorEquipped];
   self.summaryView.leftRarityLabel2.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.leftRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.leftEquipIcon2.image = [Globals imageForEquip:fep.equipId];
@@ -242,11 +242,15 @@
   self.summaryView.leftRarityLabel3.text = @"";
   self.summaryView.leftEquipIcon3.image = nil;
   
-  self.summaryView.rightRarityLabel1.text = @"";
-  self.summaryView.rightEquipIcon1.image = nil;
+  fep = tc.warriorInitWeapon;
+  self.summaryView.rightRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
+  self.summaryView.rightRarityLabel1.text = [Globals shortenedStringForRarity:fep.rarity];
+  self.summaryView.rightEquipIcon1.image = [Globals imageForEquip:fep.equipId];
   
-  self.summaryView.rightRarityLabel2.text = @"";
-  self.summaryView.rightEquipIcon2.image = nil;
+  fep = tc.warriorInitArmor;
+  self.summaryView.rightRarityLabel2.textColor = [Globals colorForRarity:fep.rarity];
+  self.summaryView.rightRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
+  self.summaryView.rightEquipIcon2.image = [Globals imageForEquip:fep.equipId];
   
   self.summaryView.rightRarityLabel3.text = @"";
   self.summaryView.rightEquipIcon3.image = nil;

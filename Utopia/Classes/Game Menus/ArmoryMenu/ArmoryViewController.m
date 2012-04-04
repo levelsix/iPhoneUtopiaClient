@@ -246,14 +246,13 @@
     naLabel.hidden = NO;
   }
   
-  equipIcon.image = [Globals imageForEquip:fep.equipId];
-  
   if ([Globals canEquip:fep]) {
     bgdView.highlighted = NO;
+    [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
     maskedEquipIcon.hidden = YES;
   } else {
     bgdView.highlighted = YES;
-    maskedEquipIcon.image = [Globals maskImage:equipIcon.image withColor:[Globals colorForUnequippable]];
+    [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:maskedEquipIcon];
     maskedEquipIcon.hidden = NO;
   }
 }

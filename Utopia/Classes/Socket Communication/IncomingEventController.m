@@ -35,6 +35,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // This is very hacky but I suppose necessary.. :/
   Class responseClass;
   switch (type) {
+    case EventProtocolResponseSUserCreateEvent:
+      responseClass = [UserCreateResponseProto class];
+      break;
     case EventProtocolResponseSChatEvent:
       responseClass = [ChatResponseProto class];
       break;
@@ -155,6 +158,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) receivedResponseForMessage:(int)tag {
   // Clear the static data we have held
+}
+
+- (void) handleUserCreateResponseProto: (UserCreateResponseProto *) proto {
+  NSLog(@"Received user create with status %d", proto.status);
+  
+  if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
+    [[GameState sharedGameState] updateUser:proto.sender];
+  }
 }
 
 - (void) handleChatResponseProto: (ChatResponseProto *) proto {

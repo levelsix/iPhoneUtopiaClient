@@ -35,6 +35,7 @@
 @synthesize insideAviaryText, missionAviaryText, beforeHomeAviaryText, enemiesAviaryText, beforeEnemiesAviaryText;
 @synthesize insideHomeText, beforeCarpenterText, insideCarpenterText1, insideCarpenterText2;
 @synthesize beforePurchaseText, afterPurchaseText, beforePlacingText, afterSpeedUpText;
+@synthesize referralCode, structCoords, structTimeOfPurchase, structTimeOfBuildComplete, structUsedDiamonds;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
 
@@ -103,9 +104,61 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.insideCarpenterText1 = @"The carpenter allows you to construct buildings in your home map.";
   self.insideCarpenterText2 = @"Additionally, in the Special tab, you can acquire buildings that provide special features free of cost.";
   self.beforePurchaseText = @"Now, click on the Inn to purchase it.";
-  self.beforePurchaseText = @"You can only place buildings on certain tiles. Move the Inn off the road and click the green checkmark when you are ready.";
+  self.beforePlacingText = @"You can only place buildings on certain tiles. Move the Inn off the road and click the green checkmark when you are ready.";
   self.afterPurchaseText = @"I don't have time to wait around for your inn to finish. Speed it up!";
   self.afterSpeedUpText = @"Finally! Unfortunately, I'm too tired to play now. Why don't you return to Kirin Village and complete more quests?";
+}
+
+- (void) dealloc {
+  self.archerInitArmor = nil;
+  self.archerInitWeapon = nil;
+  self.warriorInitArmor = nil;
+  self.warriorInitWeapon = nil;
+  self.mageInitArmor = nil;
+  self.mageInitWeapon = nil;
+  self.firstCityElementsForBad = nil;
+  self.firstCityElementsForGood = nil;
+  self.carpenterStructs = nil;
+  self.levelTwoCities = nil;
+  self.levelTwoEquips = nil;
+  self.levelTwoStructs = nil;
+  self.tutorialQuest = nil;
+  self.duringPanTexts = nil;
+  self.beforeCharSelectionText = nil;
+  self.beforeBlinkText = nil;
+  self.afterBlinkTextBad = nil;
+  self.afterBlinkTextGood = nil;
+  self.afterQuestAcceptText = nil;
+  self.afterQuestAcceptClosedText = nil;
+  self.beginBattleText = nil;
+  self.beginAttackText = nil;
+  self.afterBattleText = nil;
+  self.beforeTaskTextBad = nil;
+  self.beforeTaskTextGood = nil;
+  self.beforeSkillsText = nil;
+  self.afterSkillPointsText = nil;
+  self.beforeAviaryText1 = nil;
+  self.beforeAviaryText2 = nil;
+  self.insideAviaryText = nil;
+  self.missionAviaryText = nil;
+  self.beforeEnemiesAviaryText = nil;
+  self.enemiesAviaryText = nil;
+  self.beforeHomeAviaryText = nil;
+  self.insideHomeText = nil;
+  self.beforeCarpenterText = nil;
+  self.insideCarpenterText1 = nil;
+  self.insideCarpenterText2 = nil;
+  self.beforePurchaseText = nil;
+  self.beforePlacingText = nil;
+  self.afterPurchaseText = nil;
+  self.afterSpeedUpText = nil;
+  self.enemyName = nil;
+  self.questGiverName = nil;
+  self.referralCode = nil;
+  self.structTimeOfPurchase = nil;
+  self.structTimeOfBuildComplete = nil;
+  
+  [super dealloc];
 }
 
 @end

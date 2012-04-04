@@ -6274,16 +6274,20 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface QuestAcceptResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasCityIdOfAcceptedQuest_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  int32_t cityIdOfAcceptedQuest;
   MinimumUserProto* sender;
   QuestAcceptResponseProto_QuestAcceptStatus status;
   NSMutableArray* mutableEnemiesIfQuestsHaveDefeatTypeJobList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasCityIdOfAcceptedQuest;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestAcceptResponseProto_QuestAcceptStatus status;
+@property (readonly) int32_t cityIdOfAcceptedQuest;
 - (NSArray*) enemiesIfQuestsHaveDefeatTypeJobList;
 - (FullUserProto*) enemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index;
 
@@ -6339,6 +6343,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (QuestAcceptResponseProto_Builder*) addEnemiesIfQuestsHaveDefeatTypeJob:(FullUserProto*) value;
 - (QuestAcceptResponseProto_Builder*) addAllEnemiesIfQuestsHaveDefeatTypeJob:(NSArray*) values;
 - (QuestAcceptResponseProto_Builder*) clearEnemiesIfQuestsHaveDefeatTypeJobList;
+
+- (BOOL) hasCityIdOfAcceptedQuest;
+- (int32_t) cityIdOfAcceptedQuest;
+- (QuestAcceptResponseProto_Builder*) setCityIdOfAcceptedQuest:(int32_t) value;
+- (QuestAcceptResponseProto_Builder*) clearCityIdOfAcceptedQuest;
 @end
 
 @interface QuestCompleteResponseProto : PBGeneratedMessage {

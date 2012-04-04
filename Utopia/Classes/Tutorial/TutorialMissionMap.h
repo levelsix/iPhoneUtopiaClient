@@ -18,6 +18,8 @@
   BOOL _aviaryPhase;
   BOOL _canUnclick;
   
+  BOOL _pickupSilver;
+  
   CCSprite *_ccArrow;
   UIImageView *_uiArrow;
   

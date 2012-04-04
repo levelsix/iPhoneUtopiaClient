@@ -363,10 +363,10 @@
   titleLabel.text = critStruct.name;
   
   if ([GameState sharedGameState].level >= critStruct.minLevel) {
-    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:nil];
+    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray];
     self.state = kFunctionalAvailable;
   } else {
-    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.7f]];
+    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.7f] indicator:UIActivityIndicatorViewStyleGray];
     lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", critStruct.minLevel];
     self.state = kFunctionalLocked;
   }

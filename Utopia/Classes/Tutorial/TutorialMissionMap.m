@@ -183,6 +183,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [self addChild:randEnemy z:1];
     [randEnemy release];
     randEnemy.nameLabel.string = @"Tret Berrill";
+    
+    
+    _taskProgBar = [TaskProgressBar node];
+    [self addChild:_taskProgBar z:1002];
+    _taskProgBar.visible = NO;
   }
   return self;
 }
@@ -204,16 +209,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   
   ccTime dur = 2.5f;
   [bot runAction:[CCEaseBounceIn actionWithAction:
-                   [CCSequence actions:
-                    [CCMoveBy actionWithDuration:dur position:ccp(0, -bot.contentSize.height)],
-                    [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
-                    [CCCallFunc actionWithTarget:self selector:@selector(beginAfterBlinkConvo)],
-                    nil]]];
+                  [CCSequence actions:
+                   [CCMoveBy actionWithDuration:dur position:ccp(0, -bot.contentSize.height)],
+                   [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
+                   [CCCallFunc actionWithTarget:self selector:@selector(beginAfterBlinkConvo)],
+                   nil]]];
   [top runAction:[CCEaseBounceIn actionWithAction:
-                   [CCSequence actions:
-                    [CCMoveBy actionWithDuration:dur position:ccp(0, top.contentSize.height)],
-                    [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
-                    nil]]];
+                  [CCSequence actions:
+                   [CCMoveBy actionWithDuration:dur position:ccp(0, top.contentSize.height)],
+                   [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
+                   nil]]];
 }
 
 - (void) beginAfterBlinkConvo {
@@ -246,7 +251,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [[self.enemyMenu nameLabel] setText:tc.enemyName];
     [[self.enemyMenu levelLabel] setText:@"Lvl 1"];
     [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:tc.enemyType]];
-  } else if (_doTaskPhase && [selected isKindOfClass:[MissionBuilding class]] && 
+  } else if (_doTaskPhase && !_pickupSilver && [selected isKindOfClass:[MissionBuilding class]] && 
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == tc.tutorialQuest.assetNumWithinCity) {
     [super setSelected:selected];
     _canUnclick = NO;
@@ -332,26 +337,74 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   if ([_selected isKindOfClass:[MissionBuilding class]]) {
     [TutorialBattleLayer purgeSingleton];
     
+    [_ccArrow removeFromParentAndCleanup:YES];
+    
     MissionBuilding *mb = (MissionBuilding *)_selected;
     FullTaskProto *ftp = mb.ftp;
-    
-    mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
     
     _canUnclick = YES;
     self.selected = nil;
     [self closeMenus];
     
-    GameState *gs = [GameState sharedGameState];
-    StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
-    gs.silver += tutQuest.firstTaskCompleteCoinGain;
-    [self addSilverDrop:tutQuest.firstTaskCompleteCoinGain fromSprite:mb];
-    // Exp will be same for either task
-    gs.experience += tutQuest.firstTaskGood.expGained;
+    _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
+    [_taskProgBar animateBarWithText:@"MEEPING"];
+    _taskProgBar.visible = YES;
+    mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
+    _receivedTaskActionResponse = YES;
+    
+    [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.5f], 
+                     [CCCallBlock actionWithBlock:
+                      ^{
+                        GameState *gs = [GameState sharedGameState];
+                        StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
+                        gs.silver += tutQuest.firstTaskCompleteCoinGain;
+                        [self addSilverDrop:tutQuest.firstTaskCompleteCoinGain fromSprite:mb];
+                        // Exp will be same for either task
+                        gs.experience += tutQuest.firstTaskGood.expGained;
+                      }], nil]];
     
     if (mb.numTimesActed == ftp.numRequiredForCompletion) {
       _doTaskPhase = NO;
+    }
+    
+    _pickupSilver = YES;
+  }
+}
+
+- (void) addChild:(CCNode *)node z:(NSInteger)z tag:(NSInteger)tag {
+  [super addChild:node z:z tag:tag];
+  if ([node isKindOfClass:[SilverStack class]]) {
+    [_ccArrow removeFromParentAndCleanup:YES];
+    [node addChild:_ccArrow];
+    _ccArrow.rotation = -90;
+    _ccArrow.position = ccp(-_ccArrow.contentSize.width/2, _ccArrow.contentSize.height/2);
+    
+    CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(-20, 0)]];
+    [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                           [upAction reverse], nil]]];
+  }
+}
+
+- (void) removeChild:(CCNode *)node cleanup:(BOOL)cleanup {
+  [super removeChild:node cleanup:cleanup];
+  if ([node isKindOfClass:[SilverStack class]]) {
+    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    if (_doTaskPhase) {
+      // Move arrow to task
+      [_ccArrow removeFromParentAndCleanup:YES];
+      _ccArrow.rotation = 0;
+      CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
+      [spr addChild:_ccArrow];
+      _ccArrow.position = ccp(spr.contentSize.width/2, spr.contentSize.height+_ccArrow.contentSize.height/2);
+      
+      CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
+      [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                             [upAction reverse], nil]]];
+    } else {
       _redeemQuestPhase = YES;
       
+      GameState *gs = [GameState sharedGameState];
+      StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
       QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
       qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
       qcv.visitDescLabel.text = @"Visit Farmer Mitch Lieu in Kirin Village to redeem your reward.";
@@ -359,6 +412,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       
       // Move arrow back to task quest giver
       [_ccArrow removeFromParentAndCleanup:YES];
+      _ccArrow.rotation = 0;
       [_questGiver addChild:_ccArrow];
       _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+10);
       
@@ -368,6 +422,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       
       [[GameLayer sharedGameLayer] moveMap:self toSprite:_questGiver];
     }
+    _pickupSilver = NO;
   }
 }
 

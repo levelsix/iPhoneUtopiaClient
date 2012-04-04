@@ -49,7 +49,7 @@
     //Do this to speed up for later
     GameLayer *gLay = [GameLayer sharedGameLayer];
     //  [gLay loadTutorialMissionMap];
-//    [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
+    [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
     
     // Set up the game state
     GameState *gs = [GameState sharedGameState];
@@ -139,13 +139,13 @@
 }
 
 - (void) beginCharSelection {
-//  CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
-  //  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
-  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
-  [[TutorialHomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
-  [TutorialMapViewController sharedMapViewController];
-  [TutorialMapViewController displayView];
-  [[GameState sharedGameState] setSilver:150];
+  CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
+//  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
+//  [[TutorialHomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
+//  [TutorialMapViewController sharedMapViewController];
+//  [TutorialMapViewController displayView];
+//  [[GameState sharedGameState] setSilver:150];
 }
 
 - (void) dealloc {

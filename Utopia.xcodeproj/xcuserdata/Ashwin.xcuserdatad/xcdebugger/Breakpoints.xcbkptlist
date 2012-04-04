@@ -147,11 +147,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "355051296.654158"
+         timestampString = "355232658.827769"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "519"
-         endingLineNumber = "519"
+         startingLineNumber = "530"
+         endingLineNumber = "530"
          landmarkName = "-handleRetrieveCurrencyFromNormStructureResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -161,11 +161,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "355051296.654158"
+         timestampString = "355232658.827769"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "511"
-         endingLineNumber = "511"
+         startingLineNumber = "522"
+         endingLineNumber = "522"
          landmarkName = "-handleFinishNormStructWaittimeWithDiamondsResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -175,11 +175,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "355051296.654158"
+         timestampString = "355232658.827769"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "528"
-         endingLineNumber = "528"
+         startingLineNumber = "539"
+         endingLineNumber = "539"
          landmarkName = "-handleSellNormStructureResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -189,11 +189,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-         timestampString = "354662561.586085"
+         timestampString = "355232117.379049"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "35"
-         endingLineNumber = "35"
+         startingLineNumber = "61"
+         endingLineNumber = "61"
          landmarkName = "-vaultDeposit:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -253,13 +253,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Tutorial/Dialog Menu/DialogMenuController.m"
-         timestampString = "355209988.26413"
+         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
+         timestampString = "355232633.362949"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "102"
-         endingLineNumber = "102"
-         landmarkName = "-viewDidUnload"
+         startingLineNumber = "166"
+         endingLineNumber = "166"
+         landmarkName = "-handleUserCreateResponseProto:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

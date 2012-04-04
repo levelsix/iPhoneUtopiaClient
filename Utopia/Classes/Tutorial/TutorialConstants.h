@@ -82,6 +82,13 @@
 @property (nonatomic, assign) UserType enemyType;
 @property (nonatomic, retain) NSString *questGiverName;
 
+// Values needed for user create
+@property (nonatomic, retain) NSString *referralCode;
+@property (nonatomic, retain) NSDate *structTimeOfPurchase;
+@property (nonatomic, retain) NSDate *structTimeOfBuildComplete;
+@property (nonatomic, assign) CGPoint structCoords;
+@property (nonatomic, assign) BOOL structUsedDiamonds;
+
 + (TutorialConstants *) sharedTutorialConstants;
 - (void) loadTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
 

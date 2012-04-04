@@ -158,6 +158,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   _currentTagNum++;
 }
 
+- (void) sendUserCreateMessageWithUdid:(NSString *)udid name:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
+  UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
+  
+  bldr.udid = udid;
+  bldr.name = name;
+  bldr.type = type;
+  
+  if (lat != 0 || lon != 0) {
+    bldr.userLocation = [[[[LocationProto builder] setLatitude:lat] setLongitude:lon] build];
+  }
+  
+  if (refCode) {
+    bldr.referrerCode = refCode;
+  }
+  
+  if (deviceToken) {
+    bldr.deviceToken = deviceToken;
+  }
+  
+  bldr.attack = attack;
+  bldr.defense = defense;
+  bldr.health = health;
+  bldr.energy = energy;
+  bldr.stamina = stamina;
+  bldr.timeOfStructPurchase = timeOfStructPurchase;
+  bldr.timeOfStructBuild = timeOfStructBuild;
+  bldr.structCoords = [[[[CoordinateProto builder] setX:structX] setY:structY] build];
+  bldr.usedDiamondsToBuilt = usedDiamondsToBuild;
+  
+  UserCreateRequestProto *req = [bldr build];
+  [self sendData:req.data withMessageType:EventProtocolRequestCUserCreateEvent];
+}
+
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient {
   ChatRequestProto *c = [[[[[ChatRequestProto builder] 
                             setMessage:message] 

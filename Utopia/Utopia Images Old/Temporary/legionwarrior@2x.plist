@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>skeletonking-attack-nearleft_00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{17, 33}, {45, 80}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{317, 293}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{34, 19}, {39, 94}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{234, 413}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{34, 19}, {37, 94}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{388, 447}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{15, 25}, {55, 88}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 494}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{4, 32}, {59, 80}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{157, 402}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{7, 40}, {57, 72}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{240, 293}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{8, 40}, {55, 72}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{80, 402}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{5, 41}, {57, 72}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{394, 327}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-attack-nearleft_08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{6, 38}, {55, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{77, 120}</string>
+			<key>spriteSourceSize</key>
+			<string>{77, 120}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{311, 413}, {77, 120}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{18, 10}, {40, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{344, 0}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{12, 10}, {46, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{86, 92}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{5, 11}, {52, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{258, 92}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{8, 11}, {48, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{9, 10}, {48, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{258, 0}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{13, 8}, {44, 76}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 184}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{20, 10}, {38, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{172, 92}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{20, 10}, {38, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{172, 0}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{20, 10}, {38, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{344, 92}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{19, 9}, {38, 76}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 92}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-generic hand move-nearleft_10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{18, 10}, {40, 74}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{86, 92}</string>
+			<key>spriteSourceSize</key>
+			<string>{86, 92}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{86, 0}, {86, 92}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{16, 21}, {48, 81}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{86, 184}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{12, 24}, {44, 77}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 276}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{17, 23}, {40, 79}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{430, 109}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{19, 9}, {40, 93}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{326, 184}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{15, 15}, {48, 87}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 385}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{12, 5}, {40, 97}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{160, 293}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{13, 25}, {56, 77}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{430, 0}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{13, 26}, {56, 75}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{80, 293}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{12, 27}, {58, 75}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{246, 184}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_09.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{13, 24}, {52, 77}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{406, 218}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-throwing-nearleft_10.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{16, 21}, {46, 81}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 109}</string>
+			<key>spriteSourceSize</key>
+			<string>{80, 109}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{166, 184}, {80, 109}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_00.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{7, 12}, {52, 75}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{149, 522}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_01.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{9, 9}, {50, 75}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{437, 567}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_02.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{10, 6}, {46, 77}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{77, 522}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_03.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{11, 9}, {44, 73}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 707}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_04.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{12, 12}, {48, 69}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{72, 615}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_05.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{11, 9}, {46, 71}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{365, 567}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_06.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{10, 7}, {46, 73}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 614}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_07.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{9, 9}, {48, 73}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{293, 533}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>skeletonking-walking-nearleft_08.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{8, 11}, {50, 73}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{72, 93}</string>
+			<key>spriteSourceSize</key>
+			<string>{72, 93}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{221, 533}, {72, 93}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.2</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{512, 1024}</string>
+		<key>name</key>
+		<string>Untitled</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>legionwarrior</string>
+			<key>textureFileExtension</key>
+			<string>.png</string>
+			<key>coordinatesFileName</key>
+			<string>legionwarrior</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

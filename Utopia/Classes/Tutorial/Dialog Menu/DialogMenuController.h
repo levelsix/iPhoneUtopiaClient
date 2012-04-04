@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DialogMenuController : UIViewController {
+@interface DialogMenuController : UIViewController <UITextFieldDelegate> {
   id _target;
   SEL _selector;
   int _progress;
@@ -20,7 +20,12 @@
 @property (nonatomic, retain) IBOutlet UIImageView *progressBar;
 @property (nonatomic, assign) int progress;
 
+@property (nonatomic, retain) IBOutlet UIView *textView;
+@property (nonatomic, retain) IBOutlet UIView *referralView;
+@property (nonatomic, retain) IBOutlet UITextField *referralTextField;
+
 + (void) displayViewForText:(NSString *)str callbackTarget:(id)t action:(SEL)s;
++ (void) displayViewForReferral;
 + (void) closeView;
 + (void) incrementProgress;
 

@@ -16,6 +16,7 @@
 #import "GameLayer.h"
 #import "MissionMap.h"
 #import "MapViewController.h"
+#import "TutorialConstants.h"
 
 @implementation OutgoingEventController
 
@@ -23,6 +24,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (uint64_t) getCurrentMilliseconds {
   return (uint64_t)([[NSDate date] timeIntervalSince1970]*1000);
+}
+
+- (void) createUser {
+  GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  
+  NSString *udid = @"10";
+  [sc sendUserCreateMessageWithUdid:udid
+                               name:gs.name 
+                               type:gs.type
+                                lat:gs.location.latitude 
+                                lon:gs.location.longitude
+                       referralCode:tc.referralCode
+                        deviceToken:nil
+                             attack:gs.attack
+                            defense:gs.defense 
+                             health:gs.maxHealth
+                             energy:gs.maxEnergy
+                            stamina:gs.maxStamina
+               timeOfStructPurchase:tc.structTimeOfPurchase.timeIntervalSince1970*1000
+                  timeOfStructBuild:tc.structTimeOfBuildComplete.timeIntervalSince1970*1000
+                            structX:tc.structCoords.x
+                            structY:tc.structCoords.y
+                       usedDiamonds:tc.structUsedDiamonds];
 }
 
 - (void) vaultDeposit:(int)amount {

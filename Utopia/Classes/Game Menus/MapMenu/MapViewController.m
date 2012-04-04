@@ -407,6 +407,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   }
 }
 
+- (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+  [[OutgoingEventController sharedOutgoingEventController] changeUserLocationWithCoordinate:userLocation.location.coordinate];
+}
+
 - (void) fadeOut {
   if (self.view.superview) {
     [self stopLoading];

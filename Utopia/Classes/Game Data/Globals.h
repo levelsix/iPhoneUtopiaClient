@@ -89,7 +89,8 @@
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
-+ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color;
++ (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
++ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle;
 
 + (UIColor *) colorForUnequippable;
 + (UIColor *) colorForUnknownEquip;

@@ -15,6 +15,8 @@
 
 + (OutgoingEventController *) sharedOutgoingEventController;
 
+- (void) createUser;
+
 - (void) vaultWithdrawal:(int)amount;
 - (void) vaultDeposit:(int)amount;
 

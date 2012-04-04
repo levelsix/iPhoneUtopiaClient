@@ -13,6 +13,7 @@
 #import "DialogMenuController.h"
 #import "TutorialConstants.h"
 #import "Globals.h"
+#import "GameState.h"
 
 @implementation TutorialMapViewController
 
@@ -22,7 +23,6 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [[GameLayer sharedGameLayer] unloadTutorialMissionMap];
   
   self.mapView.userInteractionEnabled = NO;
   self.missionMap.userInteractionEnabled = NO;
@@ -40,6 +40,9 @@
 }
 
 - (void) missionsDialog {
+  // By now, we can ensure fade in is complete so unload mission map
+  [[GameLayer sharedGameLayer] unloadTutorialMissionMap];
+  
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.missionAviaryText callbackTarget:self action:@selector(beforeEnemiesDialog)];
 }
@@ -111,10 +114,17 @@
   [super viewDidDisappear:animated];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.insideHomeText callbackTarget:[TutorialHomeMap sharedHomeMap] action:@selector(beforeCarpDialog)];
+  
+  [MapViewController purgeSingleton];
 }
 
 - (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
   return;
+}
+
+- (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+  GameState *gs = [GameState sharedGameState];
+  gs.location = userLocation.location.coordinate;
 }
 
 @end

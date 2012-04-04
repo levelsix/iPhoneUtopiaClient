@@ -147,14 +147,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (NSString *) imageNameForStruct:(int)structId {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
-  NSString *str = [fsp.name stringByReplacingOccurrencesOfString:@" " withString:@""];
+  NSString *str = [fsp.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
   str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
   NSString *file = [NSString stringWithFormat:[str stringByAppendingString:@".png"]];
   return file;
 }
 
 + (NSString *) imageNameForEquip:(int)eqId {
-  return @"exampleweapon.png";//[NSString stringWithFormat:equipImageString, eqId];
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:eqId];
+  NSString *str = [fep.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
+  str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
+  NSString *file = [NSString stringWithFormat:[str stringByAppendingString:@".png"]];
+  return file;
 }
 
 + (UIImage *) imageForStruct:(int)structId {
@@ -162,11 +166,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIImage *) imageForEquip:(int)eqId {
-  return [self imageNamed:[self imageNameForEquip:eqId]];//[NSString stringWithFormat:equipImageString, eqId];
+  return [self imageNamed:[self imageNameForEquip:eqId]];
 }
 
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
-  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil];
+  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:UIActivityIndicatorViewStyleGray];
+}
+
++ (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
+  [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite];
+  
+  if (maskedView) {
+    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
+     maskedView.hidden = YES;
+  }
 }
 
 + (UIColor *) colorForUnequippable {
@@ -434,7 +447,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return image;
 }
 
-+ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color {
++ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle {
   Globals *gl = [Globals sharedGlobals];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:view];
   
@@ -444,6 +457,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       cachedImage = [self maskImage:cachedImage   withColor:color];
     }
     view.image = cachedImage;
+    // Do this for equip masked images
+    view.hidden = NO;
     
     return;
   }
@@ -461,7 +476,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       if (![view viewWithTag:150]) {
-        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
         loadingView.tag = 150;
         [loadingView startAnimating];
         [view addSubview:loadingView];
@@ -496,6 +511,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           
           view.image = img;
           [view release];
+          view.hidden = NO;
           
           UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
           [loadingView stopAnimating];
@@ -521,6 +537,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
     
     view.image = image;
+    view.hidden = NO;
   }
   
 }

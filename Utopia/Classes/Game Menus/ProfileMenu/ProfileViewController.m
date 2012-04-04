@@ -219,7 +219,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:_curEquipSelectedImage];
   if (_trackingEquip) {
-    if ([_curEquipSelectedImage pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(_curEquipSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kEquipButton];
     } else {
       [self unclickButton:kEquipButton];
@@ -229,7 +229,7 @@
   if (_state == kMyProfile) {
     pt = [touch locationInView:_curSkillsSelectedImage];
     if (_trackingSkills) {
-      if ([_curSkillsSelectedImage pointInside:pt withEvent:nil]) {
+      if (CGRectContainsPoint(CGRectInset(_curSkillsSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
         [self clickButton:kSkillsButton];
       } else {
         [self unclickButton:kSkillsButton];
@@ -239,7 +239,7 @@
   
   pt = [touch locationInView:_curWallSelectedImage];
   if (_trackingWall) {
-    if ([_curWallSelectedImage pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(_curWallSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kWallButton];
     } else {
       [self unclickButton:kWallButton];
@@ -251,7 +251,7 @@
   UITouch *touch = [touches anyObject];
   CGPoint pt = [touch locationInView:_curEquipSelectedImage];
   if (_trackingEquip) {
-    if ([_curEquipSelectedImage pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(_curEquipSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kEquipButton];
       [self unclickButton:kWallButton];
       [self unclickButton:kSkillsButton];
@@ -265,7 +265,7 @@
   if (_state == kMyProfile) {
     pt = [touch locationInView:_curSkillsSelectedImage];
     if (_trackingSkills) {
-      if ([_curSkillsSelectedImage pointInside:pt withEvent:nil]) {
+      if (CGRectContainsPoint(CGRectInset(_curSkillsSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
         [self clickButton:kSkillsButton];
         [self unclickButton:kEquipButton];
         [self unclickButton:kWallButton];
@@ -279,7 +279,7 @@
   
   pt = [touch locationInView:_curWallSelectedImage];
   if (_trackingWall) {
-    if ([_curWallSelectedImage pointInside:pt withEvent:nil]) {
+    if (CGRectContainsPoint(CGRectInset(_curWallSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kWallButton];
       [self unclickButton:kEquipButton];
       [self unclickButton:kSkillsButton];
@@ -635,10 +635,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   
   cev.equipIcon.image = ev.equipIcon.image;
-  cev.equipIcon.alpha = 0.5f;
+  cev.equipIcon.alpha = 0.25f;
   cev.chooseEquipButton.hidden = YES;
   cev.equipIcon.hidden = NO;
-  equipTabView.userInteractionEnabled = NO;
   ev.border.alpha = 0.f;
   
   [UIView beginAnimations:nil context:nil];
@@ -657,7 +656,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   CATransition *labelAnimation = [CATransition animation];
   labelAnimation.duration = EQUIPPING_DURATION;
-  labelAnimation.type = kCATransitionFade; 
+  labelAnimation.type = kCATransitionFade;
+  [cev.label.layer removeAnimationForKey:@"changeTextTransition"];
   [cev.label.layer addAnimation:labelAnimation forKey:@"changeTextTransition"];
   
   cev.label.text = fep.name;
@@ -666,7 +666,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) finishedEquippingAnimation {
   equippingView.hidden = YES;
-  equipTabView.userInteractionEnabled = YES;
   curWeaponView.equipIcon.alpha = 1.f;
   curArmorView.equipIcon.alpha = 1.f;
   curAmuletView.equipIcon.alpha = 1.f;
@@ -714,7 +713,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   // for letting go of another button while this is being evaluated
   EquipScope scope = 0;
   
-  if (cev == curWeaponView) {    scope = kEquipScopeWeapons;
+  if (cev == curWeaponView) {
+    scope = kEquipScopeWeapons;
     
     if (scope == _curScope) {
       scope = kEquipScopeAll;
@@ -756,6 +756,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [Globals popupMessage:@"Error attaining scope value"];
   }
   
+  [self.equipsScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
   self.curScope = scope;
 }
 
@@ -1072,7 +1073,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [self setCurScope:kEquipScopeAll];
-  
+  curWeaponView.selected = NO;
+  curArmorView.selected = NO;
+  curAmuletView.selected = NO;
 }
 
 - (void) didReceiveMemoryWarning {

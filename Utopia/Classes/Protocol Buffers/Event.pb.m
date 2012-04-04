@@ -25276,6 +25276,7 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
 @property (retain) MinimumUserProto* sender;
 @property QuestAcceptResponseProto_QuestAcceptStatus status;
 @property (retain) NSMutableArray* mutableEnemiesIfQuestsHaveDefeatTypeJobList;
+@property int32_t cityIdOfAcceptedQuest;
 @end
 
 @implementation QuestAcceptResponseProto
@@ -25295,6 +25296,13 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
 }
 @synthesize status;
 @synthesize mutableEnemiesIfQuestsHaveDefeatTypeJobList;
+- (BOOL) hasCityIdOfAcceptedQuest {
+  return !!hasCityIdOfAcceptedQuest_;
+}
+- (void) setHasCityIdOfAcceptedQuest:(BOOL) value {
+  hasCityIdOfAcceptedQuest_ = !!value;
+}
+@synthesize cityIdOfAcceptedQuest;
 - (void) dealloc {
   self.sender = nil;
   self.mutableEnemiesIfQuestsHaveDefeatTypeJobList = nil;
@@ -25304,6 +25312,7 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
+    self.cityIdOfAcceptedQuest = 0;
   }
   return self;
 }
@@ -25353,6 +25362,9 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
     [output writeMessage:3 value:element];
   }
+  if (self.hasCityIdOfAcceptedQuest) {
+    [output writeInt32:4 value:self.cityIdOfAcceptedQuest];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -25370,6 +25382,9 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   }
   for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
     size += computeMessageSize(3, element);
+  }
+  if (self.hasCityIdOfAcceptedQuest) {
+    size += computeInt32Size(4, self.cityIdOfAcceptedQuest);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -25468,6 +25483,9 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
     }
     [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObjectsFromArray:other.mutableEnemiesIfQuestsHaveDefeatTypeJobList];
   }
+  if (other.hasCityIdOfAcceptedQuest) {
+    [self setCityIdOfAcceptedQuest:other.cityIdOfAcceptedQuest];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -25511,6 +25529,10 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
         FullUserProto_Builder* subBuilder = [FullUserProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEnemiesIfQuestsHaveDefeatTypeJob:[subBuilder buildPartial]];
+        break;
+      }
+      case 32: {
+        [self setCityIdOfAcceptedQuest:[input readInt32]];
         break;
       }
     }
@@ -25589,6 +25611,22 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
     result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = [NSMutableArray array];
   }
   [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObject:value];
+  return self;
+}
+- (BOOL) hasCityIdOfAcceptedQuest {
+  return result.hasCityIdOfAcceptedQuest;
+}
+- (int32_t) cityIdOfAcceptedQuest {
+  return result.cityIdOfAcceptedQuest;
+}
+- (QuestAcceptResponseProto_Builder*) setCityIdOfAcceptedQuest:(int32_t) value {
+  result.hasCityIdOfAcceptedQuest = YES;
+  result.cityIdOfAcceptedQuest = value;
+  return self;
+}
+- (QuestAcceptResponseProto_Builder*) clearCityIdOfAcceptedQuest {
+  result.hasCityIdOfAcceptedQuest = NO;
+  result.cityIdOfAcceptedQuest = 0;
   return self;
 }
 @end

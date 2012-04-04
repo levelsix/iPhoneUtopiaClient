@@ -30,6 +30,8 @@
 - (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
 
 // Send different event messages
+- (void) sendUserCreateMessageWithUdid:(NSString *)udid name:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild;
+
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient;
 - (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
 - (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city;
