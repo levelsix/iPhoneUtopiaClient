@@ -26,6 +26,7 @@
 #import "GameViewController.h"
 #import "CityRankupViewController.h"
 #import "GoldShoppeViewController.h"
+#import "ActivityFeedController.h"
 
 @implementation IncomingEventController
 
@@ -151,6 +152,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSRetrieveUserEquipForUser:
       responseClass = [RetrieveUserEquipForUserResponseProto class];
+      break;
+    case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
+      responseClass = [RetrieveUsersForUserIdsResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -759,6 +763,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
+}
+
+- (void) handleRetrieveUserIdsForUserResponseProto: (RetrieveUsersForUserIdsResponseProto *)proto {
+  NSLog(@"Retrieve user ids for user received.");
+  
+  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
+  for (FullUserProto *fup in proto.requestedUsersList) {
+    [oec retrieveStaticEquip:fup.weaponEquipped];
+    [oec retrieveStaticEquip:fup.armorEquipped];
+    [oec retrieveStaticEquip:fup.amuletEquipped];
+  }
+  
+  [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];
 }
 
 @end

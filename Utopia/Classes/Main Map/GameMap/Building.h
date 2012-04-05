@@ -26,6 +26,7 @@
 @interface HomeBuilding : Building {
   CGPoint _startTouchLocation;
   BOOL _isSetDown;
+  BOOL _isConstructing;
   HomeMap *_homeMap;
   CGPoint _startMoveCoordinate;
   StructOrientation _startOrientation;
@@ -34,6 +35,7 @@
 @property (nonatomic, readonly) int level;
 @property (nonatomic, assign) CGPoint startTouchLocation;
 @property (nonatomic, assign) BOOL isSetDown;
+@property (nonatomic, assign) BOOL isConstructing;
 
 + (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map;
 - (id) initWithFile: (NSString *) file location: (CGRect)loc map: (HomeMap *) map;

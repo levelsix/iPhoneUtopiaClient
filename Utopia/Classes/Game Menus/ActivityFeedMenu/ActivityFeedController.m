@@ -13,6 +13,7 @@
 #import "GameState.h"
 #import "MarketplaceViewController.h"
 #import "OutgoingEventController.h"
+#import "BattleLayer.h"
 
 @implementation ActivityFeedCell
 
@@ -73,7 +74,20 @@
     [ActivityFeedController removeView];
     [MarketplaceViewController displayView];
   } else if (notification.type == kNotificationBattle) {
+    NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
     
+    FullUserProto *user = nil;
+    for (FullUserProto *fup in users) {
+      if (fup.userId == notification.otherPlayer.userId) {
+        user = fup;
+        break;
+      }
+    }
+    
+    if (user) {
+      [[BattleLayer sharedBattleLayer] beginBattleAgainst:user];
+      [ActivityFeedController removeView];
+    }
   }
 }
 

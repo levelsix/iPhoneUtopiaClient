@@ -10616,7 +10616,7 @@ BOOL UserCreateResponseProto_UserCreateStatusIsValidValue(UserCreateResponseProt
     case UserCreateResponseProto_UserCreateStatusInvalidName:
     case UserCreateResponseProto_UserCreateStatusInvalidLocation:
     case UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists:
-    case UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime:
+    case UserCreateResponseProto_UserCreateStatusTimeIssue:
     case UserCreateResponseProto_UserCreateStatusInvalidSkillPointAllocation:
     case UserCreateResponseProto_UserCreateStatusInvalidReferCode:
     case UserCreateResponseProto_UserCreateStatusOtherFail:

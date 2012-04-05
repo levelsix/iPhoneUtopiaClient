@@ -26,11 +26,13 @@
 @property (nonatomic, retain) IBOutlet UITableView *activityTableView;
 @property (nonatomic, retain) IBOutlet ActivityFeedCell *actCell;
 
-@property (nonatomic, retain) NSArray *users;
+@property (retain) NSArray *users;
 
 + (ActivityFeedController *) sharedActivityFeedController;
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
+
+- (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto;
 
 @end

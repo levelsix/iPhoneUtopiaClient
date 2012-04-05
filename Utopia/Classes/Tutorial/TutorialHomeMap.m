@@ -182,6 +182,7 @@
     
     moneyBuilding.userStruct = us;
     [self updateTimersForBuilding:_constrBuilding];
+    moneyBuilding.isConstructing = YES;
     
     _visitCarpPhase = NO;
     _waitingForBuildPhase = YES;
@@ -208,6 +209,8 @@
   if (mb == _selected && self.hbMenu.state != kMoveState) {
     [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
   }
+  mb.isConstructing = NO;
+  [self updateHomeBuildingMenu];
   _constrBuilding = nil;
   _waitingForBuildPhase = NO;
 }
@@ -256,6 +259,8 @@
     self.hbMenu.finishNowButton.enabled = YES;
     self.hbMenu.blueButton.enabled = YES;
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
+    [self updateHomeBuildingMenu];
+    mb.isConstructing = NO;
   }];
   [self updateTimersForBuilding:mb];
   

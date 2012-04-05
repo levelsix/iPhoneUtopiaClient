@@ -7310,7 +7310,7 @@ static LocationProto* defaultLocationProtoInstance = nil;
     self.cityId = 0;
     self.assetId = 0;
     self.name = @"";
-    self.type = NeutralCityElementProto_NeutralCityElemTypePerson;
+    self.type = NeutralCityElementProto_NeutralCityElemTypePersonQuestgivier;
     self.coords = [CoordinateProto defaultInstance];
     self.xLength = 0;
     self.yLength = 0;
@@ -7454,9 +7454,10 @@ static NeutralCityElementProto* defaultNeutralCityElementProtoInstance = nil;
 
 BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value) {
   switch (value) {
-    case NeutralCityElementProto_NeutralCityElemTypePerson:
+    case NeutralCityElementProto_NeutralCityElemTypePersonQuestgivier:
     case NeutralCityElementProto_NeutralCityElemTypeBuilding:
     case NeutralCityElementProto_NeutralCityElemTypeDecoration:
+    case NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy:
       return YES;
     default:
       return NO;
@@ -7667,7 +7668,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 }
 - (NeutralCityElementProto_Builder*) clearType {
   result.hasType = NO;
-  result.type = NeutralCityElementProto_NeutralCityElemTypePerson;
+  result.type = NeutralCityElementProto_NeutralCityElemTypePersonQuestgivier;
   return self;
 }
 - (BOOL) hasCoords {

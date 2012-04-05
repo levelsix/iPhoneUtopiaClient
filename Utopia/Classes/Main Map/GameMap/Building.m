@@ -13,6 +13,8 @@
 #import "GameState.h"
 #import "Globals.h"
 
+#define CONSTRUCTION_TAG 49
+
 @implementation Building
 
 @synthesize orientation;
@@ -44,6 +46,7 @@
 @synthesize level = _level;
 @synthesize startTouchLocation = _startTouchLocation;
 @synthesize isSetDown = _isSetDown;
+@synthesize isConstructing = _isConstructing;
 
 + (id) homeWithFile: (NSString *) file location: (CGRect) loc map: (HomeMap *) map {
   return [[[self alloc] initWithFile:file location:loc map:map] autorelease];
@@ -66,6 +69,32 @@
   } else {
     if (!_isSetDown) {
       [self cancelMove];
+    }
+  }
+}
+
+- (CGSize) contentSize {
+  CCNode *spr = [self getChildByTag:CONSTRUCTION_TAG];
+  if (spr) {
+    return spr.contentSize;
+  }
+  return [super contentSize];
+}
+
+- (void) setIsConstructing:(BOOL)isConstructing {
+  if (_isConstructing != isConstructing) {
+    _isConstructing = isConstructing;
+    
+    if (_isConstructing) {
+      self.opacity = 1;
+      
+      CCSprite *sprite = [CCSprite spriteWithFile:[Globals imageNameForConstructionWithSize:self.location.size]];
+      [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
+      sprite.anchorPoint = ccp(0.5, 0.f);
+      sprite.position = ccp(self.contentSize.width/2, 0);
+    } else {
+      self.opacity = 255;
+      [self removeChildByTag:CONSTRUCTION_TAG cleanup:YES];
     }
   }
 }
@@ -116,18 +145,24 @@
     return;
   }
   
+  CCSprite *sprite = (CCSprite *)[self getChildByTag:CONSTRUCTION_TAG];
+  sprite = sprite ? sprite : self;
+  
   if ([_homeMap isBlockBuildable:self.location]) {
-    self.opacity = 255;
+    sprite.opacity = 255;
     [_homeMap changeTiles:self.location toBuildable:NO];
     _isSetDown = YES;
   } else {
-    self.opacity = 150;
+    sprite.opacity = 150;
   }
 }
 
 - (void) liftBlock {
+  CCSprite *sprite = (CCSprite *)[self getChildByTag:CONSTRUCTION_TAG];
+  sprite = sprite ? sprite : self;
+  
   if (self.isSetDown) {
-    self.opacity = 150;
+    sprite.opacity = 150;
     [_homeMap changeTiles:self.location toBuildable:YES];
   }
   self.isSetDown = NO;

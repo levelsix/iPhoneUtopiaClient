@@ -136,7 +136,7 @@
 @property (nonatomic, retain) IBOutlet BattleSummaryView *summaryView;
 
 @property (nonatomic, retain) BattleResponseProto *brp;
-@property (nonatomic, retain) NSArray *enemyEquips;
+@property (retain) NSArray *enemyEquips;
 
 + (CCScene *) scene;
 + (BattleLayer *) sharedBattleLayer;

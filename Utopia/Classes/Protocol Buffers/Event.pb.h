@@ -308,7 +308,7 @@ typedef enum {
   UserCreateResponseProto_UserCreateStatusInvalidName = 1,
   UserCreateResponseProto_UserCreateStatusInvalidLocation = 2,
   UserCreateResponseProto_UserCreateStatusUserWithUdidAlreadyExists = 3,
-  UserCreateResponseProto_UserCreateStatusClientTooAheadOfServerTime = 4,
+  UserCreateResponseProto_UserCreateStatusTimeIssue = 4,
   UserCreateResponseProto_UserCreateStatusInvalidSkillPointAllocation = 5,
   UserCreateResponseProto_UserCreateStatusInvalidReferCode = 6,
   UserCreateResponseProto_UserCreateStatusOtherFail = 7,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="isometric" width="16" height="16" tilewidth="128" tileheight="64">
  <tileset firstgid="1" name="NEW_Universal_Pack" tilewidth="128" tileheight="112">
-  <image source="NEW_Universal_Pack.png" width="2048" height="2048"/>
+  <image source="NEW_Universal_Pack.png" width="1024" height="1024"/>
   <tile id="141">
    <properties>
     <property name="Buildable" value="Yes"/>
@@ -69,26 +69,34 @@
   </tile>
  </tileset>
  <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="128" tileheight="148">
-  <image source="../Venetia/NEW_Tree_Pack.png" width="1024" height="512"/>
+  <image source="NEW_Tree_Pack.png" width="512" height="256"/>
+ </tileset>
+ <tileset firstgid="313" name="metatiles" tilewidth="128" tileheight="64">
+  <image source="metatiles.png" width="128" height="32"/>
  </tileset>
  <layer name="Road" width="16" height="16">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgwA6mQzEuYA/FuMCofuL0z8KB50IxLvl5UEypfkrdP6p/aOsHACGd2/oABAAA
+  <data encoding="base64" compression="zlib">
+   eJxjYMAOpkMxLmAPxbjAqH7i9M/CgedCMS75eVBMqX5K3T+qf2jrBwBnTyrF
   </data>
  </layer>
  <layer name="Buildable" width="16" height="16">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+tjYGDoQ8OTGBBgGhb5PiR5bHIjSf8ULHgykvxUHGoGC5iABU9Eku/HoQYGBjr8R/VTph8AzqeH2wAEAAA=
+  <data encoding="base64" compression="zlib">
+   eJzrY2Bg6EPDkxgQYBoW+T4keWxyI0n/FCx4MpL8VBxqBguYgAVPRJLvx6EGBgY6/Ef1U6YfAEyVXiE=
   </data>
  </layer>
  <layer name="Fence" width="16" height="16">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGF5gGYX6lwPxUgr1jwLigMJAO2AUMAAALY7x1gAEAAA=
+  <data encoding="base64" compression="zlib">
+   eJxjYBheYBmF+pcD8VIK9Y8C4oDCQDtgFDAAANOFAro=
   </data>
  </layer>
  <layer name="Treez" width="16" height="16">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgIB/oMVKgGQh0KNSvS6F+fQr1U+p/Su0f6YDS8KM0/Qx0/FPD/QAADcZQAAQAAA==
+  <data encoding="base64" compression="zlib">
+   eJxjYCAf6DFSoBkIdCjUr0uhfn0K9VPqf0rtH+mA0vCjNP0MdPxTw/0AKjwCNA==
+  </data>
+ </layer>
+ <layer name="MetaLayer" width="16" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDEVgxUiZfkugfgAUkgB2
   </data>
  </layer>
 </map>

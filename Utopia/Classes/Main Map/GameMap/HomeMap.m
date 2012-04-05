@@ -538,9 +538,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
     if (!moneyBuilding) {
       NSString *imgName = [Globals imageNameForStruct:s.structId];
-      if (s.state == kBuilding) {
-        imgName = [Globals imageNameForConstructionWithSize:CGSizeMake(fsp.xLength, fsp.yLength)];
-      }
       moneyBuilding = [[MoneyBuilding alloc] initWithFile:imgName location:loc map:self];
       [self addChild:moneyBuilding z:0 tag:tag+offset];
       [moneyBuilding release];
@@ -563,6 +560,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       case kBuilding:
         moneyBuilding.retrievable = NO;
         _constrBuilding = moneyBuilding;
+        moneyBuilding.isConstructing = YES;
         break;
         
       case kWaitingForIncome:
@@ -860,10 +858,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [Globals popupMessage:@"Build Completed"];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
-  mb.texture = [[CCTextureCache sharedTextureCache] addImage:[Globals imageNameForStruct:mb.userStruct.structId]];
+  mb.isConstructing = NO;
   if (mb == _selected && hbMenu.state != kMoveState) {
     [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
   }
+  [self updateHomeBuildingMenu];
   _constrBuilding = nil;
 }
 
@@ -910,8 +909,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           moneyBuilding.userStruct = us;
           _constrBuilding = moneyBuilding;
           [self updateTimersForBuilding:_constrBuilding];
-          NSString *imgName = [Globals imageNameForConstructionWithSize:moneyBuilding.location.size];
-          moneyBuilding.texture = [[CCTextureCache sharedTextureCache] addImage:imgName];
+          moneyBuilding.isConstructing = YES;
         } else {
           [moneyBuilding liftBlock];
           [self removeChild:moneyBuilding cleanup:YES];
@@ -1029,7 +1027,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     }
-    mb.texture = [[CCTextureCache sharedTextureCache] addImage:[Globals imageNameForStruct:mb.userStruct.structId]];
   }
   
   self.hbMenu.finishNowButton.enabled = NO;
@@ -1061,6 +1058,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       self.hbMenu.finishNowButton.enabled = YES;
       self.hbMenu.blueButton.enabled = YES;
       [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
+      mb.isConstructing = NO;
+      [self updateHomeBuildingMenu];
     }];
     [self updateTimersForBuilding:mb];
   } else {
