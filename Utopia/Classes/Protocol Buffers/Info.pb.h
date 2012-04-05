@@ -143,7 +143,7 @@ typedef enum {
 BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value);
 
 typedef enum {
-  NeutralCityElementProto_NeutralCityElemTypePersonQuestgivier = 0,
+  NeutralCityElementProto_NeutralCityElemTypePersonQuestGiver = 0,
   NeutralCityElementProto_NeutralCityElemTypeBuilding = 1,
   NeutralCityElementProto_NeutralCityElemTypeDecoration = 2,
   NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy = 3,
