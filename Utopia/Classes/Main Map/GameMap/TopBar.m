@@ -15,6 +15,7 @@
 #import "SynthesizeSingleton.h"
 #import "GameLayer.h"
 #import "GameMap.h"
+#import "HomeMap.h"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -171,7 +172,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bigToolTip.visible = NO;
     _littleToolTip.visible = NO;
     
-    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
     
@@ -183,6 +183,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _curEnergy = 0;
     _curStamina = 0;
     _curExp = gs.expRequiredForCurrentLevel;
+    
+    self.isTouchEnabled = YES;
   }
   return self;
 }
@@ -192,12 +194,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
 
+  [[HomeMap sharedHomeMap] beginTimers];
+  
   [self schedule:@selector(update)];
 }
 
 - (void) setIsTouchEnabled:(BOOL)isTouchEnabled {
   [super setIsTouchEnabled:isTouchEnabled];
   [_profilePic setIsTouchEnabled:isTouchEnabled];
+}
+
+- (void) registerWithTouchDispatcher {
+  [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
 - (void) fillClicked {
@@ -225,6 +233,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   // Invalidate old timer
   [_energyTimer invalidate];
+  _energyTimer = nil;
   
   if (!gs.connected) {
     return;
@@ -253,6 +262,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   // Invalidate old timer
   [_staminaTimer invalidate];
+  _staminaTimer = nil;
   
   if (!gs.connected) {
     return;
@@ -371,6 +381,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (!isRunning_) {
+    return NO;
+  }
   CGPoint pt = [self convertTouchToNodeSpace:touch];
   
   if (CGRectContainsPoint(_enstBarRect, pt)) {
@@ -476,7 +489,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (gs.currentStamina != _curStamina) {
     int diff = gs.currentStamina - _curStamina;
-    int change;
+    int change = 0;;
     if (diff > 0) {
       change = MAX(MIN((int)(0.02*gs.maxStamina), diff), 1);
     } else if (diff < 0) {
@@ -489,7 +502,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (gs.experience != _curExp) {
     int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
     int diff = gs.experience - _curExp;
-    int change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
+    int change = 0;
+    if (diff > 0) {
+      change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
+    } else if (diff < 0) {
+      change = MIN(MAX((int)(0.01*levelDiff), diff), -1);
+    }
     [_profilePic setExpPercentage:(_curExp+change-gs.expRequiredForCurrentLevel)/(float)(gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel)];
     _curExp += change;
   }
@@ -544,6 +562,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) dealloc {
   // These were the only things actually retained
+  [_staminaTimer invalidate];
+  _staminaTimer = nil;
+  [_energyTimer invalidate];
+  _energyTimer = nil;
   [_energyBar release];
   [_staminaBar release];
   [_toolTipTimerDate release];

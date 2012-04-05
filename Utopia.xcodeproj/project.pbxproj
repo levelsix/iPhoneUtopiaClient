@@ -457,6 +457,10 @@
 		CF53839C152D902000D283BB /* unfilledstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF538396152D902000D283BB /* unfilledstar@2x.png */; };
 		CF5383A7152D913800D283BB /* BuildUpgradePopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5383A5152D913800D283BB /* BuildUpgradePopupController.m */; };
 		CF5383A8152D913800D283BB /* BuildUpgradePopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5383A6152D913800D283BB /* BuildUpgradePopupController.xib */; };
+		CF5383AB152E602000D283BB /* notificationbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5383A9152E602000D283BB /* notificationbg.png */; };
+		CF5383AC152E602000D283BB /* notificationbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5383AA152E602000D283BB /* notificationbg@2x.png */; };
+		CF5383B1152E608400D283BB /* GenericPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5383AF152E608400D283BB /* GenericPopupController.m */; };
+		CF5383B2152E608400D283BB /* GenericPopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5383B0152E608400D283BB /* GenericPopupController.xib */; };
 		CF5EDDEC14CBEEDA0063F1E0 /* MarketplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */; };
 		CF5EDDED14CBEEDA0063F1E0 /* MarketplaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */; };
 		CF5EE04314CFEE8F0063F1E0 /* ArmoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5EE04114CFEE8F0063F1E0 /* ArmoryViewController.m */; };
@@ -1493,6 +1497,11 @@
 		CF5383A4152D913800D283BB /* BuildUpgradePopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BuildUpgradePopupController.h; path = BuildUpgradePopup/BuildUpgradePopupController.h; sourceTree = "<group>"; };
 		CF5383A5152D913800D283BB /* BuildUpgradePopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BuildUpgradePopupController.m; path = BuildUpgradePopup/BuildUpgradePopupController.m; sourceTree = "<group>"; };
 		CF5383A6152D913800D283BB /* BuildUpgradePopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BuildUpgradePopupController.xib; path = BuildUpgradePopup/BuildUpgradePopupController.xib; sourceTree = "<group>"; };
+		CF5383A9152E602000D283BB /* notificationbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationbg.png; sourceTree = "<group>"; };
+		CF5383AA152E602000D283BB /* notificationbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationbg@2x.png"; sourceTree = "<group>"; };
+		CF5383AE152E608400D283BB /* GenericPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericPopupController.h; sourceTree = "<group>"; };
+		CF5383AF152E608400D283BB /* GenericPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericPopupController.m; sourceTree = "<group>"; };
+		CF5383B0152E608400D283BB /* GenericPopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenericPopupController.xib; sourceTree = "<group>"; };
 		CF5EDDE914CBEEDA0063F1E0 /* MarketplaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MarketplaceViewController.h; path = MarketplaceMenu/MarketplaceViewController.h; sourceTree = "<group>"; };
 		CF5EDDEA14CBEEDA0063F1E0 /* MarketplaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MarketplaceViewController.m; path = MarketplaceMenu/MarketplaceViewController.m; sourceTree = "<group>"; };
 		CF5EDDEB14CBEEDA0063F1E0 /* MarketplaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MarketplaceViewController.xib; path = MarketplaceMenu/MarketplaceViewController.xib; sourceTree = "<group>"; };
@@ -2544,6 +2553,8 @@
 		CF1C59A11501AED50048D2EC /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
+				CF5383A9152E602000D283BB /* notificationbg.png */,
+				CF5383AA152E602000D283BB /* notificationbg@2x.png */,
 				CF2AC581152833520025CA5F /* coinstack.png */,
 				CF2AC582152833520025CA5F /* coinstack@2x.png */,
 				CF1C59A21501AED50048D2EC /* attackswords.png */,
@@ -3111,6 +3122,17 @@
 			name = BuildUpgradePopup;
 			sourceTree = "<group>";
 		};
+		CF5383AD152E602F00D283BB /* GenericPopup */ = {
+			isa = PBXGroup;
+			children = (
+				CF5383AE152E608400D283BB /* GenericPopupController.h */,
+				CF5383AF152E608400D283BB /* GenericPopupController.m */,
+				CF5383B0152E608400D283BB /* GenericPopupController.xib */,
+			);
+			name = GenericPopup;
+			path = "Generic Popup";
+			sourceTree = "<group>";
+		};
 		CF5EDDE814CBEE5A0063F1E0 /* MarketplaceMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -3364,6 +3386,7 @@
 		CFBAA01D14B3D52F007AB82F /* Game Menus */ = {
 			isa = PBXGroup;
 			children = (
+				CF5383AD152E602F00D283BB /* GenericPopup */,
 				CF53839D152D902900D283BB /* BuildUpgradePopup */,
 				CFFEE9BF15214C77003C51BF /* CritStructPopup */,
 				CF2028051515DF2400F611F5 /* CityRankupMenu */,
@@ -5032,6 +5055,9 @@
 				CF53839B152D902000D283BB /* unfilledstar.png in Resources */,
 				CF53839C152D902000D283BB /* unfilledstar@2x.png in Resources */,
 				CF5383A8152D913800D283BB /* BuildUpgradePopupController.xib in Resources */,
+				CF5383AB152E602000D283BB /* notificationbg.png in Resources */,
+				CF5383AC152E602000D283BB /* notificationbg@2x.png in Resources */,
+				CF5383B2152E608400D283BB /* GenericPopupController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5203,6 +5229,7 @@
 				CF6FC57115267A02003631D8 /* CCTexture2D+TextShadow.m in Sources */,
 				CF2AC5801527FB5D0025CA5F /* Drops.m in Sources */,
 				CF5383A7152D913800D283BB /* BuildUpgradePopupController.m in Sources */,
+				CF5383B1152E608400D283BB /* GenericPopupController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

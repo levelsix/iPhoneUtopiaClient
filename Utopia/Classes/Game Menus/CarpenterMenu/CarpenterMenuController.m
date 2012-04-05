@@ -337,7 +337,7 @@
       priceLabel.text = [Globals commafyNumber:fsp.diamondPrice];
     }
     
-    int mins = fsp.minutesToBuild;
+    int mins = fsp.minutesToGain;
     tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
     [Globals loadImageForStruct:fsp.structId toView:buildingIcon masked:NO];
     

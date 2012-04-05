@@ -125,7 +125,8 @@
   self.defStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.defenseBoost];
   self.postTitle.text = proto.postedEquip.name;
   self.postTitle.textColor = [Globals colorForRarity:proto.postedEquip.rarity];
-  self.itemImageView.image = [Globals imageForEquip:proto.postedEquip.equipId];
+//  self.itemImageView.image = [Globals imageForEquip:proto.postedEquip.equipId];
+  [Globals loadImageForEquip:proto.postedEquip.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = proto;
   self.equip = nil;
 }
@@ -136,7 +137,8 @@
   FullEquipProto *fullEq = [[GameState sharedGameState] equipWithId:eq.equipId];
   self.postTitle.text = fullEq.name;
   self.postTitle.textColor = [Globals colorForRarity:fullEq.rarity];
-  self.itemImageView.image = [Globals imageForEquip:fullEq.equipId];
+//  self.itemImageView.image = [Globals imageForEquip:fullEq.equipId];
+  [Globals loadImageForEquip:fullEq.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = nil;
   self.equip = eq;
   self.attStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.attackBoost];

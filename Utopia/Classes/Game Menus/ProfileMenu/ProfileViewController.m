@@ -327,7 +327,8 @@
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
   attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
-  equipIcon.image = [Globals imageForEquip:fuep.equipId];
+//  equipIcon.image = [Globals imageForEquip:fuep.equipId];
+  [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
   rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
   rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
   quantityLabel.text = [NSString stringWithFormat:@"x%d", fuep.quantity];
@@ -874,7 +875,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curWeaponView.label.text = fep.name;
       curWeaponView.label.textColor = [Globals colorForRarity:fep.rarity];
-      curWeaponView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+//      curWeaponView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
       curWeaponView.equipIcon.hidden = NO;
       curWeaponView.chooseEquipButton.hidden = YES;
       
@@ -885,7 +887,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curArmorView.label.text = fep.name;
       curArmorView.label.textColor = [Globals colorForRarity:fep.rarity];
-      curArmorView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+//      curArmorView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
       curArmorView.equipIcon.hidden = NO;
       curArmorView.chooseEquipButton.hidden = YES;
       
@@ -896,7 +899,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curAmuletView.label.text = fep.name;
       curAmuletView.label.textColor = [Globals colorForRarity:fep.rarity];
-      curAmuletView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+//      curAmuletView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
       curAmuletView.equipIcon.hidden = NO;
       curAmuletView.chooseEquipButton.hidden = YES;
       

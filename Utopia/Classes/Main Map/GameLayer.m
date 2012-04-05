@@ -164,6 +164,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) loadHomeMap {
   [self unloadCurrentMissionMap];
   [_homeMap refresh];
+  [_homeMap beginTimers];
   _homeMap.visible = YES;
   [self moveMapToCenter:_homeMap];
   currentCity = 0;

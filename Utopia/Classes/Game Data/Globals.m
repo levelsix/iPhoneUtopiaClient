@@ -12,6 +12,7 @@
 #import "GameState.h"
 #import "Protocols.pb.h"
 #import "ImageDownloader.h"
+#import "GenericPopupController.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -903,7 +904,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) popupMessage: (NSString *)msg {
-  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+//  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+  [GenericPopupController displayViewWithText:msg];
 }
 
 - (void) dealloc {

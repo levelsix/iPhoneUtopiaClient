@@ -20,6 +20,7 @@
   _profilePic = [ProfilePicture profileWithType:gs.type];
   [self addChild:_profilePic z:2];
   _profilePic.position = ccp(50, self.contentSize.height-50);
+  self.isTouchEnabled = NO;
 }
 
 - (void) update {

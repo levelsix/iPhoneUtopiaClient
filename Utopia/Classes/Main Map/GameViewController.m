@@ -308,8 +308,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   if (isTutorial) {
     TopBar *tb = [TutorialTopBar sharedTopBar];
-    [[CCTouchDispatcher sharedDispatcher] removeDelegate:tb];
-    [[CCTouchDispatcher sharedDispatcher] removeDelegate:tb.profilePic];
+    tb.isTouchEnabled = NO;
     
     // Startup the tutorial home map
     [TutorialHomeMap sharedHomeMap];

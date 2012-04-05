@@ -180,9 +180,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void) handleVaultResponseProto: (VaultResponseProto *) proto {
-  [[GameState sharedGameState] setVaultBalance:proto.vaultAmount];
-  [[GameState sharedGameState] setSilver:proto.coinAmount];
-  NSLog(@"Vault: %d, Coins: %d", proto.vaultAmount, proto.coinAmount);
+  NSLog(@"Vault response received with status %d", proto.status);
+  
+  if (proto.status == VaultResponseProto_VaultStatusSuccess) {
+    [[GameState sharedGameState] setVaultBalance:proto.vaultAmount];
+    [[GameState sharedGameState] setSilver:proto.coinAmount];
+  } else {
+    [Globals popupMessage:@"Server failed to perform vault action."];
+  }
 }
 
 - (void) handleBattleResponseProto: (BattleResponseProto *) proto {
@@ -248,6 +253,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleArmoryResponseProto: (ArmoryResponseProto *) proto {
   NSLog(@"Armory response received with status %d", proto.status);
+  
+  if (proto.status != ArmoryResponseProto_ArmoryStatusSuccess) {
+    [Globals popupMessage:@"Server failed to perform armory action."];
+  }
 }
 
 - (void) handleStartupResponseProto: (StartupResponseProto *) proto {
@@ -323,6 +332,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // This will be released after the level up controller closes
     LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+  } else {
+    [Globals popupMessage:@"Server failed to handle level up"];
   }
 }
 
@@ -379,32 +390,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 }
 
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto {
-  NSLog(@"Retrieve mkt response received with %d posts%@.", proto.marketplacePostsList.count, proto.fromSender ? @" from sender" : @"");
+  NSLog(@"Retrieve mkt response received with %d posts%@ and status %d.", proto.marketplacePostsList.count, proto.fromSender ? @" from sender" : @"", proto.status);
   
-  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
-  if ([proto.marketplacePostsList count] > 0) {
-    NSMutableArray *eq;
-    
-    if (proto.fromSender) {
-      eq = [[GameState sharedGameState] marketplaceEquipPostsFromSender];
-    } else {
-      eq = [[GameState sharedGameState] marketplaceEquipPosts];
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess) {
+    MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+    if ([proto.marketplacePostsList count] > 0) {
+      NSMutableArray *eq;
+      NSMutableArray *staticEquips = [NSMutableArray arrayWithCapacity:proto.marketplacePostsList.count];
+      
+      if (proto.fromSender) {
+        eq = [gs marketplaceEquipPostsFromSender];
+      } else {
+        eq = [gs marketplaceEquipPosts];
+      }
+      
+      if (proto.beforeThisPostId == 0) {
+        [eq removeAllObjects];
+      }
+      
+      int oldCount = [eq count];
+      
+      for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
+        [eq addObject:fmpp];
+        [staticEquips addObject:fmpp.postedEquip];
+      }
+      [gs addToStaticEquips:staticEquips];
+      
+      [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
     }
-    
-    if (proto.beforeThisPostId == 0) {
-      [eq removeAllObjects];
-    }
-    
-    int oldCount = [eq count];
-    
-    for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
-      [eq addObject:fmpp];
-    }
-    
-    [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
+    [mvc doneRefreshing];
+    [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
+  } else {
+    [Globals popupMessage:@"Server failed to retrieve current marketplace posts."];
   }
-  [mvc doneRefreshing];
-  [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }
 
 - (void) handlePostToMarketplaceResponseProto: (PostToMarketplaceResponseProto *) proto {
@@ -413,28 +432,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
   } else {
-    [Globals popupMessage:@"Server failed to post item"];
+    [Globals popupMessage:@"Server failed to post item."];
   }
 }
 
 - (void) handlePurchaseFromMarketplaceResponseProto: (PurchaseFromMarketplaceResponseProto *) proto {
   NSLog(@"Purchase from mkt response received with status %d", proto.status);
   
-  GameState *gs = [GameState sharedGameState];
-  if (proto.posterId == gs.userId) {
-    // This is a notification
-    UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
-    [gs addNotification:un];
-    [un release];
+  if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess) {
+    GameState *gs = [GameState sharedGameState];
+    if (proto.posterId == gs.userId) {
+      // This is a notification
+      UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
+      [gs addNotification:un];
+      [un release];
+    }
+  } else {
+    [Globals popupMessage:@"Server failed to purchase from marketplace."];
   }
 }
 
 - (void) handleRetractMarketplacePostResponseProto: (RetractMarketplacePostResponseProto *) proto {
   NSLog(@"Retract marketplace response received with status %d", proto.status);
+  
+  if (proto.status != RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess) {
+    [Globals popupMessage:@"Server failed to retract marketplace post."];
+  }
 }
 
 - (void) handleRedeemMarketplaceEarningsRequestProto: (RedeemMarketplaceEarningsResponseProto *) proto {
-  NSLog(@"Redeem response received with statuss %d", proto.status);
+  NSLog(@"Redeem response received with status %d", proto.status);
+  
+  if (proto.status != RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess) {
+    [Globals popupMessage:@"Server failed to redeem marketplace earnings."];
+  }
 }
 
 - (void) handlePurchaseMarketplaceLicenseResponseProto: (PurchaseMarketplaceLicenseResponseProto *) proto {
@@ -472,50 +503,72 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleUseSkillPointResponseProto: (UseSkillPointResponseProto *) proto {
   NSLog(@"Use skill point response received with status %d.", proto.status);
+  
+  if (proto.status != UseSkillPointResponseProto_UseSkillPointStatusSuccess) {
+    [Globals popupMessage:@"Server failed to add skill point."];
+  }
 }
 
 - (void) handleRefillStatWaitCompleteResponseProto: (RefillStatWaitCompleteResponseProto *) proto {
   NSLog(@"Refill stat wait complete response received with status %d.", proto.status);
   
-  
+  if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
+    [Globals popupMessage:@"Server failed to refill stat."];
+  }
 }
 
 - (void) handleRefillStatWithDiamondsResponseProto: (RefillStatWithDiamondsResponseProto *) proto {
   NSLog(@"Refill stat with diamonds response with status %d.", proto.status);
+  
+  if (proto.status != RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess) {
+    [Globals popupMessage:@"Server failed to refill stat with diamonds."];
+  }
 }
 
 - (void) handlePurchaseNormStructureResponseProto: (PurchaseNormStructureResponseProto *) proto {
   NSLog(@"Purchase norm struct response received with status: %d.", proto.status);
   
-  // Get the userstruct without a userStructId
-  UserStruct *us = nil;
-  for (UserStruct *u in [[GameState sharedGameState] myStructs]) {
-    if (u.userStructId == 0) {
-      us = u;
-      break;
+  if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
+    // Get the userstruct without a userStructId
+    UserStruct *us = nil;
+    for (UserStruct *u in [[GameState sharedGameState] myStructs]) {
+      if (u.userStructId == 0) {
+        us = u;
+        break;
+      }
     }
-  }
-  
-  if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
-    if (proto.hasUserStructId) {
-      us.userStructId = proto.userStructId;
+    
+    if (proto.status == PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusSuccess) {
+      if (proto.hasUserStructId) {
+        us.userStructId = proto.userStructId;
+      } else {
+        // This should never happen
+        NSLog(@"Received success in purchase with no userStructId");
+      }
     } else {
-      // This should never happen
-      NSLog(@"Received success in purchase with no userStructId");
+      [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", proto.status]];
+      [[[GameState sharedGameState] myStructs] removeObject:us];
+      [[HomeMap sharedHomeMap] refresh];
     }
   } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Something went wrong in the purchase. Error Status: %d", proto.status]];
-    [[[GameState sharedGameState] myStructs] removeObject:us];
-    [[HomeMap sharedHomeMap] refresh];
+    [Globals popupMessage:@"Server failed to purchase building."];
   }
 }
 
 - (void) handleMoveOrRotateNormStructureResponseProto: (MoveOrRotateNormStructureResponseProto *) proto {
   NSLog(@"Move norm struct response received with status: %d.", proto.status);
+  
+  if (proto.status != MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess) {
+    [Globals popupMessage:@"Server failed to change building location or orientation."];
+  }
 }
 
 - (void) handleUpgradeNormStructureResponseProto: (UpgradeNormStructureResponseProto *) proto {
   NSLog(@"Upgrade norm structure response received with status %d.", proto.status);
+  
+  if (proto.status != UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess) {
+    [Globals popupMessage:@"Server failed to upgrade building."];
+  }
 }
 
 - (void) handleNormStructWaitCompleteResponseProto: (NormStructWaitCompleteResponseProto *) proto {

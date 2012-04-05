@@ -137,6 +137,8 @@ typedef enum {
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
 
+- (void) beginTimers;
+
 - (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)moveCheckClicked:(id)sender;
 - (IBAction)rotateClicked:(id)sender;

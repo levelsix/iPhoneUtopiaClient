@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.18"//@"50.18.173.214"
+#define HOST_NAME @"192.168.1.11"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -237,7 +237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendStartupMessage:(uint64_t)clientTime {
-  NSString *udid = @"42d1cadaa64dbf3c3e8133e652a2df06";//[[UIDevice currentDevice] uniqueDeviceIdentifier];
+  NSString *udid = @"6f26355f8994d569fe853d3b5aaf621ec";//@"42d1cadaa64dbf3c3e8133e652a2df06";//[[UIDevice currentDevice] uniqueDeviceIdentifier];
   StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
                                      setUdid:udid]
                                     setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]

@@ -23,6 +23,8 @@
     _nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     _nameLabel.color = ccc3(255,200,0);
     [_nameLabel release];
+    
+    self.flipX = arc4random() % 2;
   }
   return self;
 }

@@ -509,6 +509,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self refresh];
 }
 
+- (void) beginTimers {
+  for (CCNode *node in children_) {
+    if ([node isKindOfClass:[MoneyBuilding class]]) {
+      [self updateTimersForBuilding:(MoneyBuilding *)node];
+    }
+  }
+}
+
 - (void) refresh {
   _constrBuilding = nil;
   _upgrBuilding = nil;
@@ -549,7 +557,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     
     moneyBuilding.orientation = s.orientation;
     moneyBuilding.userStruct = s;
-    [_timers removeObject:moneyBuilding.timer];
     
     UserStructState st = s.state;
     switch (st) {
@@ -575,7 +582,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       default:
         break;
     }
-    [self updateTimersForBuilding:moneyBuilding];
     
     [arr addObject:moneyBuilding];
     [moneyBuilding placeBlock];
@@ -621,11 +627,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   if (_isMoving || ([_selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)_selected).isSetDown)) {
     [self reorderChild:_selected z:1000];
   }
-}
-
-- (void) setVisible:(BOOL)visible {
-  [super setVisible:visible];
-  [self invalidateAllTimers];
 }
 
 - (void) setPosition:(CGPoint)position {
@@ -829,8 +830,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [mb createTimerForCurrentState];
   
   if (mb.timer) {
-    [[NSRunLoop mainRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
     [_timers addObject:mb.timer];
+    [[NSRunLoop mainRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
   }
 }
 
@@ -845,7 +846,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) upgradeComplete:(NSTimer *)timer {
   MoneyBuilding *mb = [timer userInfo];
-  [Globals popupMessage:@"Upgrade Completed"];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
@@ -858,7 +858,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) buildComplete:(NSTimer *)timer {
   MoneyBuilding *mb = [timer userInfo];
-  [Globals popupMessage:@"Build Completed"];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   mb.isConstructing = NO;
@@ -919,7 +918,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           [moneyBuilding liftBlock];
           [self removeChild:moneyBuilding cleanup:YES];
         }
-        [self refresh];
       } else if ([homeBuilding isKindOfClass:[CritStructBuilding class]]) {
         CritStructBuilding *csb = (CritStructBuilding *)homeBuilding;
         UserCritStruct *usc = [oec placeCritStruct:_purchCritStructType x:csb.location.origin.x y:csb.location.origin.y];

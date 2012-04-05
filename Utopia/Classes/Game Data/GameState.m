@@ -163,22 +163,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
-  if (itemId == 0) {
-    [Globals popupMessage:@"Attempted to access static item 0"];
-    return nil;
+  @synchronized (self) {
+    if (itemId == 0) {
+      [Globals popupMessage:@"Attempted to access static item 0"];
+      return nil;
+    }
+    NSNumber *num = [NSNumber numberWithInt:itemId];
+    id p = [dict objectForKey:num];
+    int numTimes = 0;
+    while (!p) {
+      numTimes++;
+      if (numTimes == 1000) {
+        NSLog(@"Lotsa wait time for this");
+      }
+      NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+      p = [dict objectForKey:num];
+    }
+    // Retain and autorelease in case data gets purged
+    [p retain];
+    return [p autorelease];
   }
-  NSNumber *num = [NSNumber numberWithInt:itemId];
-  id p = [dict objectForKey:num];
-  int numTimes = 0;
-  while (!p) {
-    numTimes++;
-    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    p = [dict objectForKey:num];
-  }
-  // Retain and autorelease in case data gets purged
-  [p retain];
-  return [p autorelease];
 }
 
 - (FullEquipProto *) equipWithId:(int)equipId {
@@ -260,7 +265,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }];
   
   [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-
+  
   [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
 }
 

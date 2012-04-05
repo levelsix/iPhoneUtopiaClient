@@ -362,15 +362,19 @@
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
   if (![string isEqualToString:@"\n"]) {
-    NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *oldStr = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    NSString *str = [oldStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (str.length < [[TutorialConstants sharedTutorialConstants] minNameLength]) {
       self.submitButton.hidden = YES;
     } else {
       self.submitButton.hidden = NO;
     }
     
-    return str.length <= [[TutorialConstants sharedTutorialConstants] maxNameLength];
+    if (str.length <= [[TutorialConstants sharedTutorialConstants] maxNameLength]) {
+      [[(NiceFontTextField *)textField label] setText:oldStr];
+      return YES;
+    }
+    return NO;
   }
   return NO;
 }
