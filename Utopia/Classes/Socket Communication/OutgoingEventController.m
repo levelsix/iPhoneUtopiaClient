@@ -1,4 +1,4 @@
-  //
+//
 //  OutgoingEventController.m
 //  Utopia
 //
@@ -107,10 +107,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   return YES;
 }
 
-- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city {
+- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips {
   MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:defender.name] setUserId:defender.userId] setUserType:defender.userType] build];
   
-  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city];
+  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips];
 }
 
 - (int) buyEquip:(int)equipId {
@@ -850,6 +850,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+    NSLog(@"Trying to retrieve equip id 0");
+  }
+  
   NSArray *structs = [gs myStructs];
   NSDictionary *sStructs = [gs staticStructs];
   NSMutableSet *rStructs = [NSMutableSet set];
@@ -875,6 +879,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [rEquips addObject:equipId];
         shouldSend = YES;
       }
+    }
+    
+    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+      NSLog(@"Trying to retrieve equip id 0");
     }
   }
   
@@ -924,6 +932,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [rEquips addObject:n];
       shouldSend = YES;
     }
+    
+    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+      NSLog(@"Trying to retrieve equip id 0");
+    }
   }
   for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
     for (NSNumber *num in fqp.taskReqsList) {
@@ -962,6 +974,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [rEquips addObject:n];
       shouldSend = YES;
     }
+    
+    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+      NSLog(@"Trying to retrieve equip id 0");
+    }
   }
   
   for (PossessEquipJobProto *p in [gs.staticPossessEquipJobs allValues]) {
@@ -969,6 +985,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (![sEquips objectForKey:n]) {
       [rEquips addObject:n];
       shouldSend = YES;
+    }
+    
+    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+      NSLog(@"Trying to retrieve equip id 0");
     }
   }
   
@@ -995,16 +1015,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       shouldSend = YES;
     }
     
+    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+      NSLog(@"Trying to retrieve equip id 0");
+    }
+    
     NSNumber *ar = [NSNumber numberWithInt:fup.armorEquipped];
     if (fup.weaponEquipped && ![sEquips objectForKey:ar]) {
       [rEquips addObject:ar];
       shouldSend = YES;
     }
     
+    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+      NSLog(@"Trying to retrieve equip id 0");
+    }
+    
     NSNumber *am = [NSNumber numberWithInt:fup.amuletEquipped];
     if (fup.amuletEquipped && ![sEquips objectForKey:am]) {
       [rEquips addObject:am];
       shouldSend = YES;
+    }
+    
+    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+      NSLog(@"Trying to retrieve equip id 0");
     }
   }
   
@@ -1015,6 +1047,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [rEquips addObject:n];
         shouldSend = YES;
       }
+      
+      if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+        NSLog(@"Trying to retrieve equip id 0");
+      }
     }
     
     if (un.marketPost.postedEquip.equipId) {
@@ -1022,6 +1058,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if (![sEquips objectForKey:n]) {
         [rEquips addObject:n];
         shouldSend = YES;
+      }
+      
+      if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
+        NSLog(@"Trying to retrieve equip id 0");
       }
     }
   }
@@ -1032,7 +1072,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrieveStaticEquip:(int)equipId {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+  GameState *gs = [GameState sharedGameState];
+  NSNumber *n = [NSNumber numberWithInt:equipId];
+  if (![gs.staticEquips objectForKey:n]) {
+    [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+  }
 }
 
 - (void) retrieveStructStore {
@@ -1183,6 +1227,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [Globals popupMessage:@"Attempting to retrieve information about un-accepted quest"];
   }
+}
+
+- (void) retrieveEquipsForUser:(int)userId {
+  if (userId == 0) {
+    [Globals popupMessage:@"Attempting to retrieve equips for user 0"];
+    return;
+  }
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveUserEquipForUserMessage:userId];
+}
+
+- (void) retrieveUsersForUserIds:(NSArray *)userIds {
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:userIds];
 }
 
 @end

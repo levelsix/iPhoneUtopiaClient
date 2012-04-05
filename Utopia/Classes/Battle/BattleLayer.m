@@ -185,7 +185,7 @@
 
 @implementation BattleLayer
 
-@synthesize summaryView, stolenEquipView, brp;
+@synthesize summaryView, stolenEquipView, brp, enemyEquips;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
@@ -445,6 +445,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     return;
   }
   
+  self.enemyEquips = nil;
+  [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
+  
   // Remove mapviewcontroller in case we were called from there
   [[MapViewController sharedMapViewController] fadeOut];
   
@@ -587,7 +590,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
     
     if (_rightCurrentHealth - _damageDone <= 0) {
-      [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerWin city:_cityId];
+      [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerWin city:_cityId equips:enemyEquips];
       
       if (_cityId > 0 && [[GameLayer sharedGameLayer] currentCity] == _cityId) {
         [[[GameLayer sharedGameLayer] missionMap] killEnemy:_fup.userId];
@@ -747,7 +750,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _damageDone = [self calculateEnemyDamageForPercentage:perc];
   
   if (_leftCurrentHealth - _damageDone <= 0) {
-    [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultDefenderWin city:0];
+    [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultDefenderWin city:0 equips:nil];
   }
   
   _bottomMenu.visible = NO;
@@ -970,9 +973,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) fleeClicked {
-  [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:0];
+  [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:0 equips:nil];
   [_attackProgressTimer stopAllActions];
   _attackButton.visible = NO;
+  _pausedLayer.visible = NO;
   _fleeLayer.visible = YES;
   
   [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -992,7 +996,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) pauseClicked {
-  if (_isBattling) {
+  if (_isBattling && !_winLayer.visible && !_loseLayer.visible && !_fleeLayer.visible) {
     _pausedLayer.visible = YES;
     _attackButton.visible = NO;
     [_attackProgressTimer pauseSchedulerAndActions];
@@ -1074,19 +1078,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
   
   [ProfileViewController displayView];
-  [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup buttonsEnabled:YES];
+  [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup equips:self.enemyEquips];
 }
 
 - (void) closeScene {
+  self.enemyEquips = nil;
   [_fup release];
   _fup = nil;
   [[CCDirector sharedDirector] popScene];//WithTransition:[CCTransitionFadeBL class] duration:1.f];
   _isRunning = NO;
 }
 
+- (void) receivedUserEquips:(RetrieveUserEquipForUserResponseProto *)proto {
+  if (proto.relevantUserId == _fup.userId) {
+    // Make sure it is not null
+    NSArray *empty = [NSArray array];
+    self.enemyEquips = proto.userEquipsList ? proto.userEquipsList : empty;
+    [[ProfileViewController sharedProfileViewController] updateEquips:self.enemyEquips];
+  }
+}
+
 - (void) dealloc {
+  self.enemyEquips = nil;
   [_fup release];
-  _fup = nil;
   self.brp = nil;
   self.stolenEquipView = nil;
   self.summaryView = nil;

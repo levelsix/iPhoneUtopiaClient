@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "MarketplaceViewController.h"
+#import "OutgoingEventController.h"
 
 @implementation ActivityFeedCell
 
@@ -62,7 +63,7 @@
     subtitleLabel.text = [NSString stringWithFormat:@"Have %d gold on us", [[Globals sharedGlobals] diamondRewardForReferrer]];
     
     titleLabel.textColor = [UIColor colorWithRed:100/256.f green:200/256.f blue:200/256.f alpha:1.f];
-    [button setImage:[Globals imageNamed:@"profile.png"] forState:UIControlStateNormal];
+    [button setImage:nil forState:UIControlStateNormal];
     buttonLabel.text = @"Profile";
   }
 }
@@ -71,6 +72,8 @@
   if (notification.type == kNotificationMarketplace) {
     [ActivityFeedController removeView];
     [MarketplaceViewController displayView];
+  } else if (notification.type == kNotificationBattle) {
+    
   }
 }
 
@@ -96,6 +99,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  NSArray *notifications = [[GameState sharedGameState] notifications];
+  NSMutableArray *userIds = [NSMutableArray arrayWithCapacity:notifications.count];
+  
+  for (UserNotification *un in notifications) {
+    if (un.type == kNotificationBattle) {
+      [userIds addObject:[NSNumber numberWithInt:un.otherPlayer.userId]];
+    }
+  }
+  
+  self.users = nil;
+  
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:userIds];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -125,6 +143,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   [ActivityFeedController removeView];
 }
 
+- (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto {
+  self.users = proto.requestedUsersList;
+}
+
 - (void)viewDidUnload
 {
   [super viewDidUnload];
@@ -132,6 +154,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   // e.g. self.myOutlet = nil;
   self.activityTableView = nil;
   self.actCell = nil;
+  self.users = nil;
 }
 
 @end

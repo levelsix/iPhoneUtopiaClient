@@ -119,6 +119,8 @@
   //  }
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
   
+  [self removeLocalNotifications];
+  
   return YES;
 }
 
@@ -145,14 +147,7 @@
 -(void) applicationDidEnterBackground:(UIApplication*)application {
   NSLog(@"did enter background");
 	[[CCDirector sharedDirector] stopAnimation];
-  UILocalNotification *ln = [[UILocalNotification alloc] init];
-  ln.alertBody = @"Y U NO STAY??";
-  ln.alertAction = @"SERIOUSLY!?";
-  ln.applicationIconBadgeNumber = 3;
-  ln.soundName = UILocalNotificationDefaultSoundName;
-  ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:2];
-  [[UIApplication sharedApplication] scheduleLocalNotification:ln];
-  [ln release];
+  [self registerLocalNotifications];
   
   // Release all our views
   [GameViewController releaseAllViews];
@@ -163,6 +158,7 @@
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   NSLog(@"will enter foreground");
+  [self removeLocalNotifications];
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
@@ -173,10 +169,9 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
   NSLog(@"will terminate");
 	CCDirector *director = [CCDirector sharedDirector];
+  [self registerLocalNotifications];
 	
 	[[director openGLView] removeFromSuperview];
-	
-  //	[viewController release];
 	
 	[window release];
 	
@@ -198,15 +193,69 @@
 	NSLog(@"Failed to get token, error: %@", error);
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-  NSLog(@"Received new location: lat %f, long %f with timestamp: %@", newLocation.coordinate.latitude, newLocation.coordinate.longitude, newLocation.timestamp);
-  if ([newLocation.timestamp timeIntervalSinceNow] > -60.f) {
-    [[OutgoingEventController sharedOutgoingEventController] changeUserLocationWithCoordinate:newLocation.coordinate];
-    [manager stopUpdatingLocation];
-    [manager release];
-    NSLog(@"Terminating location manager..");
+- (void) scheduleNotificationWithText:(NSString *)text badge:(int)badge date:(NSDate *)date {
+  UILocalNotification *ln = [[UILocalNotification alloc] init];
+  ln.alertBody = text;
+  ln.applicationIconBadgeNumber = badge;
+  ln.soundName = UILocalNotificationDefaultSoundName;
+  ln.fireDate = date;
+  [[UIApplication sharedApplication] scheduleLocalNotification:ln];
+  [ln release];
+}
+
+- (void) registerLocalNotifications {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  // Determine times so we can choose order of badge icons
+  NSDate *energyRefilled = [gs.lastEnergyRefill dateByAddingTimeInterval:gl.energyRefillWaitMinutes*60*(gs.maxEnergy-gs.currentEnergy)];
+  NSDate *staminaRefilled = [gs.lastStaminaRefill dateByAddingTimeInterval:gl.staminaRefillWaitMinutes*60*(gs.maxStamina-gs.currentStamina)];
+  
+  BOOL shouldSendEnergyNotification = gs.connected ? gs.maxEnergy > gs.currentEnergy : NO;
+  BOOL shouldSendStaminaNotification = gs.connected ? gs.maxStamina > gs.currentStamina : NO;
+  
+  if (shouldSendEnergyNotification) {
+    // Stamina refilled
+    NSString *text = [NSString stringWithFormat:@"Your energy has fully recharged! Hurry back and complete quests in the name of the %@!", [Globals factionForUserType:(gs.type+3)%6]];
+    int badge = shouldSendStaminaNotification && [staminaRefilled compare:energyRefilled] == NSOrderedAscending ? 2 : 1;
+    [self scheduleNotificationWithText:text badge:badge date:energyRefilled];
   }
+  
+  if (shouldSendStaminaNotification) {
+    // Energy refilled
+    NSString *text = [NSString stringWithFormat:@"Your stamina has fully recharged! Come back to show the %@ who's superior!", [Globals factionForUserType:(gs.type+3)%6]];
+    int badge = shouldSendEnergyNotification && [energyRefilled compare:staminaRefilled] == NSOrderedAscending ? 2 : 1;
+    [self scheduleNotificationWithText:text badge:badge date:staminaRefilled];
+  }
+  
+  int curBadgeCount = shouldSendEnergyNotification + shouldSendStaminaNotification + 1;
+  NSString *text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
+  NSDate *date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
+  
+  curBadgeCount++;
+  text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
+  date = [NSDate dateWithTimeIntervalSinceNow:5*24*60*60];
+  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
+  
+  curBadgeCount++;
+  text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
+  date = [NSDate dateWithTimeIntervalSinceNow:7*24*60*60];
+  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
+  
+  curBadgeCount++;
+  text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
+  date = [NSDate dateWithTimeIntervalSinceNow:14*24*60*60];
+  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
+  
+  curBadgeCount++;
+  text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
+  date = [NSDate dateWithTimeIntervalSinceNow:30*24*60*60];
+  [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
+}
+
+- (void) removeLocalNotifications {
+  [[UIApplication sharedApplication] cancelAllLocalNotifications];
 }
 
 - (void)dealloc {

@@ -145,6 +145,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fontSize;
 }
 
++ (NSString *) imageNameForConstructionWithSize:(CGSize)size {
+  return [NSString stringWithFormat:@"ConstructionSite%dx%d.png", (int)size.width, (int)size.height];
+}
+
 + (NSString *) imageNameForStruct:(int)structId {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   NSString *str = [fsp.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -176,10 +180,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
   [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite];
   
-  if (maskedView) {
-    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
-     maskedView.hidden = YES;
-  }
+//  if (maskedView) {
+//    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
+//     maskedView.hidden = YES;
+//  }
 }
 
 + (UIColor *) colorForUnequippable {

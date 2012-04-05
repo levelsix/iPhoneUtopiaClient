@@ -22,7 +22,7 @@
 
 - (BOOL) taskAction:(int)taskId;
 
-- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city;
+- (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips;
 - (int) buyEquip:(int)equipId;
 - (int) sellEquip:(int)equipId;
 - (BOOL) wearEquip:(int)equipId;
@@ -81,5 +81,8 @@
 - (void) redeemQuest:(int)questId;
 - (void) retrieveQuestLog;
 - (void) retrieveQuestDetails:(int)questId;
+
+- (void) retrieveEquipsForUser:(int)userId;
+- (void) retrieveUsersForUserIds:(NSArray *)userIds;
 
 @end

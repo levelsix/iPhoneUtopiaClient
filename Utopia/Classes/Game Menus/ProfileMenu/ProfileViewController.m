@@ -487,6 +487,7 @@
 @synthesize staminaCostLabel, hpCostLabel, skillPointsLabel;
 @synthesize selfLeftView, enemyLeftView, friendLeftView;
 @synthesize visitButton, smallAttackButton, bigAttackButton;
+@synthesize spinner;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -592,6 +593,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   friendLeftView.frame = enemyLeftView.frame;
   [self.view addSubview:friendLeftView];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  self.spinner.hidden = YES;
+  [self.spinner stopAnimating];
 }
 
 - (void) setCurScope:(EquipScope)curScope {
@@ -756,8 +762,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [Globals popupMessage:@"Error attaining scope value"];
   }
   
-  [self.equipsScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
   self.curScope = scope;
+  
+  [self.equipsScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (NSArray *) sortEquips:(NSArray *)equips {
@@ -985,6 +992,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   _fup = [fup retain];
 }
 
+- (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips {
+  [self loadProfileForPlayer:fup buttonsEnabled:YES];
+  
+  equipsScrollView.hidden = NO;
+  enemyMiddleView.hidden = YES;
+  
+  if (equips) {
+    [self loadEquips:equips curWeapon:fup.weaponEquipped curArmor:fup.armorEquipped curAmulet:fup.amuletEquipped touchEnabled:NO];
+  } else {
+    self.spinner.hidden = NO;
+    [self.spinner startAnimating];
+    _waitingForEquips = YES;
+  }
+}
+
+- (void) updateEquips:(NSArray *)equips {
+  if (_waitingForEquips) {
+    self.spinner.hidden = YES;
+    [self.spinner stopAnimating];
+    [self loadEquips:equips curWeapon:_fup.weaponEquipped curArmor:_fup.armorEquipped curAmulet:_fup.amuletEquipped touchEnabled:NO];
+  }
+}
+
 - (void) loadMyProfile {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -1072,10 +1102,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   curWeaponView.selected = NO;
   curArmorView.selected = NO;
   curAmuletView.selected = NO;
-}
-
-- (void) didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
 }
 
 @end

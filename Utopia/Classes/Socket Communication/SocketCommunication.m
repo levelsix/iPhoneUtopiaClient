@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.13"//@"50.18.173.214"
+#define HOST_NAME @"192.168.1.18"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 // Tags for keeping state
@@ -209,12 +209,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   [self sendData:[vaultReq data] withMessageType:EventProtocolRequestCVaultEvent];
 }
 
-- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city {
-  BattleRequestProto_Builder *builder = [[[[[BattleRequestProto builder]
-                                            setAttacker:_sender]
-                                           setDefender:defender]
-                                          setBattleResult:result]
-                                         setClientTime:curTime];
+- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
+  BattleRequestProto_Builder *builder = [[[[[[BattleRequestProto builder]
+                                             setAttacker:_sender]
+                                            setDefender:defender]
+                                           setBattleResult:result]
+                                          setClientTime:curTime]
+                                         addAllDefenderUserEquips:equips];
   if (city != 0) {
     [builder setNeutralCityId:city];
   }
@@ -610,6 +611,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   UserQuestDetailsRequestProto *req = [builder build];
   
   [self sendData:[req data] withMessageType:EventProtocolRequestCUserQuestDetailsEvent];
+}
+
+- (void) sendRetrieveUserEquipForUserMessage:(int)userId {
+  RetrieveUserEquipForUserRequestProto *req = [[[[RetrieveUserEquipForUserRequestProto builder]
+                                                 setSender:_sender]
+                                                setRelevantUserId:userId]
+                                               build];
+  
+  [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveUserEquipForUser];
+}
+
+- (void) sendRetrieveUsersForUserIds:(NSArray *)userIds {
+  RetrieveUsersForUserIdsRequestProto *req = [[[[RetrieveUsersForUserIdsRequestProto builder]
+                                                setSender:_sender]
+                                               addAllRequestedUserIds:userIds]
+                                              build];
+  
+  [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveUsersForUserIdsEvent];
 }
 
 - (void) closeDownConnection {

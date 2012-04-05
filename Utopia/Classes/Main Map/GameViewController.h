@@ -16,6 +16,7 @@
 
 @interface GameViewController : UIViewController {
   BOOL _isRunning;
+  BOOL _canOpenDoor;
   CCSprite *doorright;
   CCSprite *doorleft;
   CCSprite *splash;

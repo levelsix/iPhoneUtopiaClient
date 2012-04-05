@@ -136,6 +136,7 @@
 @property (nonatomic, retain) IBOutlet BattleSummaryView *summaryView;
 
 @property (nonatomic, retain) BattleResponseProto *brp;
+@property (nonatomic, retain) NSArray *enemyEquips;
 
 + (CCScene *) scene;
 + (BattleLayer *) sharedBattleLayer;
@@ -143,7 +144,6 @@
 - (void) beginBattleAgainst:(FullUserProto *)user;
 - (void) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId;
 - (void) doAttackAnimation;
-+ (void) purgeSingleton;
 
 - (IBAction)stolenEquipOkayClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;
@@ -173,5 +173,7 @@
 - (int) calculateEnemyDamageForPercentage:(float)percent;
 - (float) calculateEnemyPercentage;
 - (float) rand;
+
+- (void)receivedUserEquips:(RetrieveUserEquipForUserResponseProto *)proto;
 
 @end

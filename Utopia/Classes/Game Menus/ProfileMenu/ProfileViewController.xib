@@ -11,12 +11,13 @@
 			<string key="NS.object.0">1179</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBUIScrollView</string>
-			<string>IBUIButton</string>
-			<string>IBUIImageView</string>
 			<string>IBUIView</string>
+			<string>IBUIImageView</string>
 			<string>IBUILabel</string>
 			<string>IBProxyObject</string>
+			<string>IBUIActivityIndicatorView</string>
+			<string>IBUIScrollView</string>
+			<string>IBUIButton</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -935,6 +936,18 @@
 								<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 								<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
 							</object>
+							<object class="IBUIActivityIndicatorView" id="62230212">
+								<reference key="NSNextResponder" ref="242269769"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{123, 134}, {37, 37}}</string>
+								<reference key="NSSuperview" ref="242269769"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIHidesWhenStopped">NO</bool>
+								<int key="IBUIStyle">0</int>
+							</object>
 							<object class="IBUIView" id="378080395">
 								<reference key="NSNextResponder" ref="242269769"/>
 								<int key="NSvFlags">274</int>
@@ -962,6 +975,7 @@
 										<string key="NSFrame">{{6, 5}, {244, 15}}</string>
 										<reference key="NSSuperview" ref="378080395"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -2557,6 +2571,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">spinner</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="62230212"/>
+					</object>
+					<int key="connectionID">293</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">label</string>
 						<reference key="source" ref="50774724"/>
 						<reference key="destination" ref="92182962"/>
@@ -2914,6 +2936,7 @@
 							<reference ref="86401840"/>
 							<reference ref="180521809"/>
 							<reference ref="378080395"/>
+							<reference ref="62230212"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -3504,6 +3527,11 @@
 						<reference key="object" ref="360891169"/>
 						<reference key="parent" ref="23809267"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">292</int>
+						<reference key="object" ref="62230212"/>
+						<reference key="parent" ref="242269769"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3634,6 +3662,7 @@
 				<string key="283.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="29.CustomClassName">NiceFontLabel</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="292.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="30.CustomClassName">NiceFontLabel</string>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="31.CustomClassName">NiceFontLabel</string>
@@ -3743,7 +3772,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">291</int>
+			<int key="maxID">293</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3974,6 +4003,7 @@
 						<string key="skillPointsLabel">UILabel</string>
 						<string key="skillTabView">UIView</string>
 						<string key="smallAttackButton">UIButton</string>
+						<string key="spinner">UIActivityIndicatorView</string>
 						<string key="staminaCostLabel">UILabel</string>
 						<string key="staminaStatButton">UIButton</string>
 						<string key="staminaStatLabel">UILabel</string>
@@ -4112,6 +4142,10 @@
 						<object class="IBToOneOutletInfo" key="smallAttackButton">
 							<string key="name">smallAttackButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="staminaCostLabel">
 							<string key="name">staminaCostLabel</string>

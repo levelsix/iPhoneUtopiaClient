@@ -34,7 +34,7 @@
 
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient;
 - (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
-- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city;
+- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips;
 - (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
 - (void) sendStartupMessage:(uint64_t)clientTime;
 - (void) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;
@@ -81,5 +81,8 @@
 - (void) sendQuestAcceptMessage:(int)questId;
 - (void) sendQuestRedeemMessage:(int)questId;
 - (void) sendUserQuestDetailsMessage:(int)questId;
+
+- (void) sendRetrieveUserEquipForUserMessage:(int)userId;
+- (void) sendRetrieveUsersForUserIds:(NSArray *)userIds;
 
 @end

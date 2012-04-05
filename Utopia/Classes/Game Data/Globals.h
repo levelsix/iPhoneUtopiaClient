@@ -84,6 +84,7 @@
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
 + (NSString *) font;
 + (int) fontSize;
++ (NSString *) imageNameForConstructionWithSize:(CGSize)size;
 + (UIImage *) imageForStruct:(int)structId;
 + (UIImage *) imageForEquip:(int)eqId;
 + (NSString *) imageNameForStruct:(int)structId;

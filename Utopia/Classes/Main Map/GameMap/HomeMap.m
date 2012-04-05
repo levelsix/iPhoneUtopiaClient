@@ -537,7 +537,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     FullStructureProto *fsp = [gs structWithId:s.structId];
     CGRect loc = CGRectMake(s.coordinates.x, s.coordinates.y, fsp.xLength, fsp.yLength);
     if (!moneyBuilding) {
-      moneyBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:s.structId] location:loc map:self];
+      NSString *imgName = [Globals imageNameForStruct:s.structId];
+      if (s.state == kBuilding) {
+        imgName = [Globals imageNameForConstructionWithSize:CGSizeMake(fsp.xLength, fsp.yLength)];
+      }
+      moneyBuilding = [[MoneyBuilding alloc] initWithFile:imgName location:loc map:self];
       [self addChild:moneyBuilding z:0 tag:tag+offset];
       [moneyBuilding release];
     } else {
@@ -856,6 +860,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [Globals popupMessage:@"Build Completed"];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
+  mb.texture = [[CCTextureCache sharedTextureCache] addImage:[Globals imageNameForStruct:mb.userStruct.structId]];
   if (mb == _selected && hbMenu.state != kMoveState) {
     [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
   }
@@ -898,6 +903,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       _purchasing = NO;
       if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
         MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
+        FullStructureProto *fsp = [[GameState sharedGameState] structWithId:moneyBuilding.userStruct.structId];
         
         // Use return value as an indicator that purchase is accepted by client
         UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
@@ -905,6 +911,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           moneyBuilding.userStruct = us;
           _constrBuilding = moneyBuilding;
           [self updateTimersForBuilding:_constrBuilding];
+          NSString *imgName = [Globals imageNameForConstructionWithSize:CGSizeMake(fsp.xLength, fsp.yLength)];
+          moneyBuilding.texture = [[CCTextureCache sharedTextureCache] addImage:imgName];
         } else {
           [moneyBuilding liftBlock];
           [self removeChild:moneyBuilding cleanup:YES];
@@ -1022,6 +1030,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     }
+    mb.texture = [[CCTextureCache sharedTextureCache] addImage:[Globals imageNameForStruct:mb.userStruct.structId]];
   }
   
   self.hbMenu.finishNowButton.enabled = NO;

@@ -499,6 +499,10 @@
 		CF70CA0D152D06F300546785 /* villatree_pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9EF152D06F300546785 /* villatree_pack@2x.png */; };
 		CF70CA0E152D06F300546785 /* winery_tiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9F0152D06F300546785 /* winery_tiles.png */; };
 		CF70CA0F152D06F300546785 /* winery_tiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9F1152D06F300546785 /* winery_tiles@2x.png */; };
+		CF70CA14152D73E500546785 /* ConstructionSite2x2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70CA10152D73E500546785 /* ConstructionSite2x2.png */; };
+		CF70CA15152D73E500546785 /* ConstructionSite2x2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70CA11152D73E500546785 /* ConstructionSite2x2@2x.png */; };
+		CF70CA16152D73E500546785 /* ConstructionSite3x3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70CA12152D73E500546785 /* ConstructionSite3x3@2x.png */; };
+		CF70CA17152D73E500546785 /* ConstructionSite3x3.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70CA13152D73E500546785 /* ConstructionSite3x3.png */; };
 		CF81F8B8150348D400C285BB /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8B7150348D400C285BB /* MapViewController.xib */; };
 		CF81F8BA150348E300C285BB /* MissionBuildingMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8B9150348E300C285BB /* MissionBuildingMenu.xib */; };
 		CF81F8CC15034B3500C285BB /* energycost.png in Resources */ = {isa = PBXBuildFile; fileRef = CF81F8BC15034B3500C285BB /* energycost.png */; };
@@ -1533,6 +1537,10 @@
 		CF70C9EF152D06F300546785 /* villatree_pack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "villatree_pack@2x.png"; path = "Villa Montalvo/villatree_pack@2x.png"; sourceTree = "<group>"; };
 		CF70C9F0152D06F300546785 /* winery_tiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = winery_tiles.png; path = "Villa Montalvo/winery_tiles.png"; sourceTree = "<group>"; };
 		CF70C9F1152D06F300546785 /* winery_tiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "winery_tiles@2x.png"; path = "Villa Montalvo/winery_tiles@2x.png"; sourceTree = "<group>"; };
+		CF70CA10152D73E500546785 /* ConstructionSite2x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ConstructionSite2x2.png; sourceTree = "<group>"; };
+		CF70CA11152D73E500546785 /* ConstructionSite2x2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ConstructionSite2x2@2x.png"; sourceTree = "<group>"; };
+		CF70CA12152D73E500546785 /* ConstructionSite3x3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ConstructionSite3x3@2x.png"; sourceTree = "<group>"; };
+		CF70CA13152D73E500546785 /* ConstructionSite3x3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ConstructionSite3x3.png; sourceTree = "<group>"; };
 		CF81F8B7150348D400C285BB /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		CF81F8B9150348E300C285BB /* MissionBuildingMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MissionBuildingMenu.xib; path = "Utopia/Classes/Main Map/GameMap/MissionBuildingMenu.xib"; sourceTree = SOURCE_ROOT; };
 		CF81F8BC15034B3500C285BB /* energycost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = energycost.png; sourceTree = "<group>"; };
@@ -2392,6 +2400,10 @@
 		CF1C59581501AED50048D2EC /* Home Building Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF70CA10152D73E500546785 /* ConstructionSite2x2.png */,
+				CF70CA11152D73E500546785 /* ConstructionSite2x2@2x.png */,
+				CF70CA12152D73E500546785 /* ConstructionSite3x3@2x.png */,
+				CF70CA13152D73E500546785 /* ConstructionSite3x3.png */,
 				CFFEE9C515214D73003C51BF /* popupbubble.png */,
 				CFFEE9C615214D73003C51BF /* popupbubble@2x.png */,
 				CF6653A8151342910077CB6B /* glow@2x.png */,
@@ -4975,6 +4987,10 @@
 				CF70CA0D152D06F300546785 /* villatree_pack@2x.png in Resources */,
 				CF70CA0E152D06F300546785 /* winery_tiles.png in Resources */,
 				CF70CA0F152D06F300546785 /* winery_tiles@2x.png in Resources */,
+				CF70CA14152D73E500546785 /* ConstructionSite2x2.png in Resources */,
+				CF70CA15152D73E500546785 /* ConstructionSite2x2@2x.png in Resources */,
+				CF70CA16152D73E500546785 /* ConstructionSite3x3@2x.png in Resources */,
+				CF70CA17152D73E500546785 /* ConstructionSite3x3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

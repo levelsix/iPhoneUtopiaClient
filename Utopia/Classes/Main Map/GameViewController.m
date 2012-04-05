@@ -181,11 +181,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [doorright addChild:around];
   around.position = ccp(0, doorright.contentSize.height/2);
   
+  _canOpenDoor = NO;
+  CCMenuItem *touchLayer = [CCMenuItem itemWithBlock:^(id sender) {
+    if (_canOpenDoor) {
+      [self openDoor];
+    }
+  }];
+  touchLayer.contentSize = doorright.parent.contentSize;
+  
+  CCMenu *menu = [CCMenu menuWithItems:touchLayer, nil];
+  [doorright.parent addChild:menu];
+  
 }
 
 - (void) allowOpeningOfDoor {
   if (!_isRunning) {
     [eyes stopAllActions];
+    _canOpenDoor = YES;
     
     float dur = (EYES_END_ALPHA-EYES_START_ALPHA)*EYES_PULSATE_DURATION/(255-eyes.opacity);
     [eyes runAction:[CCFadeTo actionWithDuration:dur opacity:255]];
@@ -196,14 +208,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     rightBurn.startSize *= 4;
     rightBurn.endSize *= 4;
     rightBurn.speedVar *= 3;
-    
-    CCMenuItem *touchLayer = [CCMenuItem itemWithBlock:^(id sender) {
-      [self openDoor];
-    }];
-    touchLayer.contentSize = doorright.parent.contentSize;
-    
-    CCMenu *menu = [CCMenu menuWithItems:touchLayer, nil];
-    [doorright.parent addChild:menu];
   }
 }
 

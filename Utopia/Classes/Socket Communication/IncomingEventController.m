@@ -149,6 +149,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSQuestCompleteEvent:
       responseClass = [QuestCompleteResponseProto class];
       break;
+    case EventProtocolResponseSRetrieveUserEquipForUser:
+      responseClass = [RetrieveUserEquipForUserResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -745,6 +748,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server sent quest complete for invalid quest"];
   }
+}
+
+- (void) handleRetrieveUserEquipForUserResponseProto: (RetrieveUserEquipForUserResponseProto *)proto {
+  NSLog(@"Retrieve user equip response received.");
+  
+  OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
+  for (FullUserEquipProto *fuep in proto.userEquipsList) {
+    [oec retrieveStaticEquip:fuep.equipId];
+  }
+  
+  [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
 }
 
 @end
