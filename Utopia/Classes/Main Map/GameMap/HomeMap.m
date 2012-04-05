@@ -903,7 +903,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       _purchasing = NO;
       if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
         MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
-        FullStructureProto *fsp = [[GameState sharedGameState] structWithId:moneyBuilding.userStruct.structId];
         
         // Use return value as an indicator that purchase is accepted by client
         UserStruct *us = [[OutgoingEventController sharedOutgoingEventController] purchaseNormStruct:_purchStructId atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
@@ -911,7 +910,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           moneyBuilding.userStruct = us;
           _constrBuilding = moneyBuilding;
           [self updateTimersForBuilding:_constrBuilding];
-          NSString *imgName = [Globals imageNameForConstructionWithSize:CGSizeMake(fsp.xLength, fsp.yLength)];
+          NSString *imgName = [Globals imageNameForConstructionWithSize:moneyBuilding.location.size];
           moneyBuilding.texture = [[CCTextureCache sharedTextureCache] addImage:imgName];
         } else {
           [moneyBuilding liftBlock];

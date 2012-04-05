@@ -91,7 +91,7 @@
 
 @implementation ActivityFeedController
 
-@synthesize activityTableView, actCell;
+@synthesize activityTableView, actCell, users;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 
