@@ -102,6 +102,7 @@
   CCMenu *_bottomMenu;
   
   BOOL _comboBarMoving;
+  BOOL _attackMoving;
   
   int _leftMaxHealth;
   int _leftCurrentHealth;

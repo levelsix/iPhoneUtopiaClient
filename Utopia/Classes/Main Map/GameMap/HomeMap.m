@@ -16,6 +16,7 @@
 #import "GameLayer.h"
 #import "RefillMenuController.h"
 #import "CritStructPopupController.h"
+#import "BuildUpgradePopupController.h"
 
 #define LEFT_STAR_OFFSET 8
 #define MAX_STARS 5
@@ -847,8 +848,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [Globals popupMessage:@"Upgrade Completed"];
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
+  [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
   if (mb == _selected && hbMenu.state != kMoveState) {
-    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+    self.selected = nil;
   }
   _upgrBuilding = nil;
 }
@@ -859,8 +862,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   mb.isConstructing = NO;
+  [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
   if (mb == _selected && hbMenu.state != kMoveState) {
-    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+    self.selected = nil;
   }
   [self updateHomeBuildingMenu];
   _constrBuilding = nil;
@@ -1021,21 +1026,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     int goldCost = [gl calculateDiamondCostForInstaUpgrade:_upgrBuilding.userStruct];
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:_upgrBuilding.userStruct];
     }
   } else if (state == kBuilding) {
     int goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
     }
   }
   
   self.hbMenu.finishNowButton.enabled = NO;
   self.hbMenu.blueButton.enabled = NO;
-  if (state == kUpgrading) {
-    [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:_upgrBuilding.userStruct];
-  } else if (state == kBuilding) {
-    [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
-  }
   
   if (mb.userStruct.state == kWaitingForIncome) {
     if (_selected == _constrBuilding) {
@@ -1053,13 +1057,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [UIView animateWithDuration:secs animations:^{
       [self.hbMenu setProgressBarProgress:1.f];
     } completion:^(BOOL finished) {
-      [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-      [self.hbMenu startTimer];
+      [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
+      [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
       self.hbMenu.finishNowButton.enabled = YES;
       self.hbMenu.blueButton.enabled = YES;
-      [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
+      [self.hbMenu startTimer];
       mb.isConstructing = NO;
-      [self updateHomeBuildingMenu];
+      self.selected = nil;
+//      [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+//      [self updateHomeBuildingMenu];
     }];
     [self updateTimersForBuilding:mb];
   } else {
@@ -1096,6 +1102,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   return YES;
+}
+
+- (void) displayUpgradeBuildPopupForUserStruct:(UserStruct *)us {
+  // This will be released after the level up controller closes
+  BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithUserStruct:us];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
 }
 
 - (void) dealloc {

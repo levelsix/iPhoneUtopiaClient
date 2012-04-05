@@ -1010,7 +1010,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   for (FullUserProto *fup in gs.attackList) {
     NSNumber *w = [NSNumber numberWithInt:fup.weaponEquipped];
-    if (fup.armorEquipped && ![sEquips objectForKey:w]) {
+    if (fup.weaponEquipped && ![sEquips objectForKey:w]) {
       [rEquips addObject:w];
       shouldSend = YES;
     }
@@ -1020,7 +1020,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
     
     NSNumber *ar = [NSNumber numberWithInt:fup.armorEquipped];
-    if (fup.weaponEquipped && ![sEquips objectForKey:ar]) {
+    if (fup.armorEquipped && ![sEquips objectForKey:ar]) {
       [rEquips addObject:ar];
       shouldSend = YES;
     }
@@ -1074,7 +1074,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retrieveStaticEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
-  if (![gs.staticEquips objectForKey:n]) {
+  if (![gs.staticEquips objectForKey:n] && equipId != 0) {
     [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
   }
 }

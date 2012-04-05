@@ -546,12 +546,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _comboBar.visible = NO;
   _bottomMenu.visible = YES;
   _isAnimating = NO;
+  _attackMoving = YES;
   
   [_attackProgressTimer runAction:[CCSequence actionOne:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:100 to:0]
                                                     two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
 }
 
 - (void) attackStart {
+  if (!_attackMoving) {
+    return;
+  }
+  _attackMoving = NO;
   [_attackProgressTimer stopAllActions];
   
   _bottomMenu.visible = NO;
@@ -564,17 +569,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   [self runAction:[CCSequence actions:
                    [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],
-                   [CCCallBlock actionWithBlock:^{
-    if (_comboBarMoving) {
-      _comboBarWindupSound = [[SimpleAudioEngine sharedEngine] playEffect:[Globals comboBarChargeupSound:[GameState sharedGameState].type]];
-    }
-  }], nil]];
+                   [CCCallBlock actionWithBlock:
+                    ^{
+                      if (_comboBarMoving) {
+                        _comboBarWindupSound = [[SimpleAudioEngine sharedEngine] playEffect:[Globals comboBarChargeupSound:[GameState sharedGameState].type]];
+                      }
+                    }], nil]];
   
   _comboBar.visible = YES;
   _comboBarMoving = YES;
 }
 
 - (void) turnMissed {
+  if (!_attackMoving) {
+    return;
+  }
+  _attackButton.visible = NO;
+  _attackMoving = NO;
   [[SimpleAudioEngine sharedEngine] stopEffect:_comboBarWindupSound];
   [self startEnemyTurn];
 }

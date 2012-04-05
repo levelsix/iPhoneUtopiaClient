@@ -170,21 +170,17 @@
     [self addSubview:view];
     self.frame = view.frame;
     
-    if (!leftButton) {
-      UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-      UIImage *img = [Globals imageNamed:@"mapprofileicon.png"];
-      [leftButton setImage:img forState:UIControlStateNormal];
-      leftButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
-      leftButton.tag = 1;
-    }
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *img = [Globals imageNamed:@"mapprofileicon.png"];
+    [leftButton setImage:img forState:UIControlStateNormal];
+    leftButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+    leftButton.tag = 1;
     
-    if (!rightButton) {
-      UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-      UIImage *img = [Globals imageNamed:@"mapattackicon.png"];
-      [rightButton setImage:img forState:UIControlStateNormal];
-      rightButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
-      rightButton.tag = 2;
-    }
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    img = [Globals imageNamed:@"mapattackicon.png"];
+    [rightButton setImage:img forState:UIControlStateNormal];
+    rightButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+    rightButton.tag = 2;
     
     self.leftCalloutAccessoryView = leftButton;
     self.rightCalloutAccessoryView = rightButton;

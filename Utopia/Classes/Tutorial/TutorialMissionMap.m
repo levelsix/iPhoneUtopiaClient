@@ -94,7 +94,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
         [self addChild:s z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         
         [self changeTiles:s.location canWalk:NO];
-      } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypePerson) {
+      } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypePersonQuestGiver) {
         [peopleElems addObject:ncep];
       }
     }

@@ -266,19 +266,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Tutorial/TutorialMissionMap.m"
-         timestampString = "355267861.335699"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "165"
-         endingLineNumber = "165"
-         landmarkName = "-init"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
          timestampString = "355302010.91681"
          startingColumnNumber = "9223372036854775807"

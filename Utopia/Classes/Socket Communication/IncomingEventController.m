@@ -765,7 +765,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
 }
 
-- (void) handleRetrieveUserIdsForUserResponseProto: (RetrieveUsersForUserIdsResponseProto *)proto {
+- (void) handleRetrieveUsersForUserIdsResponseProto: (RetrieveUsersForUserIdsResponseProto *)proto {
   NSLog(@"Retrieve user ids for user received.");
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
