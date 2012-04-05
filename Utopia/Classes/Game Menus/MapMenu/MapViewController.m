@@ -162,9 +162,6 @@
 
 @synthesize levelLabel, view, imgView;
 
-static UIButton *leftButton = nil;
-static UIButton *rightButton = nil;
-
 - (id) initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
   if ((self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier])) {
     self.canShowCallout = YES;
@@ -174,7 +171,7 @@ static UIButton *rightButton = nil;
     self.frame = view.frame;
     
     if (!leftButton) {
-      leftButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+      UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
       UIImage *img = [Globals imageNamed:@"mapprofileicon.png"];
       [leftButton setImage:img forState:UIControlStateNormal];
       leftButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
@@ -182,7 +179,7 @@ static UIButton *rightButton = nil;
     }
     
     if (!rightButton) {
-      rightButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+      UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
       UIImage *img = [Globals imageNamed:@"mapattackicon.png"];
       [rightButton setImage:img forState:UIControlStateNormal];
       rightButton.frame = CGRectMake(0, 0, img.size.width, img.size.height);
