@@ -38,12 +38,12 @@
     
     BOOL won = notification.battleResult != BattleResultAttackerWin ? YES : NO;
     if (won) {
-      titleLabel.text = [NSString stringWithFormat:@"You beat %@", name ];
-      subtitleLabel.text = [NSString stringWithFormat:@"You won %d silver%@", notification.coinsStolen, equipStr];
+      titleLabel.text = [NSString stringWithFormat:@"You beat %@.", name ];
+      subtitleLabel.text = [NSString stringWithFormat:@"You won %d silver%@.", notification.coinsStolen, equipStr];
       titleLabel.textColor = [UIColor colorWithRed:182/256.f green:191/256.f blue:46/256.f alpha:1.f];
     } else {
-      titleLabel.text = [NSString stringWithFormat:@"You lost to %@", name ];
-      subtitleLabel.text = [NSString stringWithFormat:@"You lost %d silver%@", notification.coinsStolen, equipStr];
+      titleLabel.text = [NSString stringWithFormat:@"You lost to %@.", name ];
+      subtitleLabel.text = [NSString stringWithFormat:@"You lost %d silver%@.", notification.coinsStolen, equipStr];
       titleLabel.textColor = [UIColor colorWithRed:205/256.f green:57/256.f blue:57/256.f alpha:1.f];
     }
     
@@ -51,21 +51,21 @@
     buttonLabel.text = @"Revenge";
   } else if (notification.type == kNotificationMarketplace) {
     FullEquipProto *fep = [gs equipWithId:notification.marketPost.postedEquip.equipId];
-    titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@", name, fep.name ];
+    titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];
     
     NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*(1-gl.purchasePercentCut))] : [NSString stringWithFormat:@"%d gold", (int)ceilf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
         
-    subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you", coinStr];
+    subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you.", coinStr];
     titleLabel.textColor = [UIColor colorWithRed:255/256.f green:200/256.f blue:0/256.f alpha:1.f];
     [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
     buttonLabel.text = @"Collect";
   } else if (notification.type == kNotificationReferral) {
-    titleLabel.text = [NSString stringWithFormat:@"%@ used your referral code", name];
-    subtitleLabel.text = [NSString stringWithFormat:@"Have %d gold on us", [[Globals sharedGlobals] diamondRewardForReferrer]];
+    titleLabel.text = [NSString stringWithFormat:@"%@ used your referral code.", name];
+    subtitleLabel.text = [NSString stringWithFormat:@"You received %d gold.", [[Globals sharedGlobals] diamondRewardForReferrer]];
     
     titleLabel.textColor = [UIColor colorWithRed:100/256.f green:200/256.f blue:200/256.f alpha:1.f];
     [button setImage:nil forState:UIControlStateNormal];
-    buttonLabel.text = @"Profile";
+    buttonLabel.text = @"";
   }
 }
 

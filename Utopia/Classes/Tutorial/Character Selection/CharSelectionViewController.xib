@@ -552,7 +552,6 @@
 								<string key="NSFrame">{{429, 31}, {43, 42}}</string>
 								<reference key="NSSuperview" ref="267745839"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUITag">6</int>
@@ -677,7 +676,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="1042921211">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="536420224">
@@ -685,6 +684,7 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{198, 21}, {419, 299}}</string>
 						<reference key="NSSuperview" ref="1042921211"/>
+						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -697,6 +697,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{617, 320}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="536420224"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="766093501"/>
@@ -739,7 +741,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="256227290">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="13836407">
@@ -747,6 +749,7 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{155, 21}, {334, 299}}</string>
 						<reference key="NSSuperview" ref="256227290"/>
+						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -759,6 +762,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{617, 320}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="13836407"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="766093501"/>
@@ -770,7 +775,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="405222859">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="238911470">
@@ -778,6 +783,7 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{155, 21}, {334, 299}}</string>
 						<reference key="NSSuperview" ref="405222859"/>
+						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -790,6 +796,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{617, 320}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="238911470"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="766093501"/>
@@ -801,7 +809,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="845288981">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="IBUIImageView" id="255417197">
@@ -809,6 +817,7 @@
 						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{190, 5}, {283, 315}}</string>
 						<reference key="NSSuperview" ref="845288981"/>
+						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">4</int>
@@ -821,6 +830,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{617, 320}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="255417197"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<reference key="IBUIBackgroundColor" ref="766093501"/>
@@ -966,7 +977,7 @@
 					<object class="IBUITextField" id="500664974">
 						<reference key="NSNextResponder" ref="102940742"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{62, 61}, {138, 31}}</string>
+						<string key="NSFrame">{{62, 61}, {133, 31}}</string>
 						<reference key="NSSuperview" ref="102940742"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="70334985"/>
@@ -984,7 +995,6 @@
 							<int key="IBUIKeyboardType">1</int>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
-						<int key="IBUIClearButtonMode">3</int>
 						<reference key="IBUIFontDescription" ref="891506672"/>
 						<reference key="IBUIFont" ref="740003706"/>
 					</object>
@@ -1020,7 +1030,6 @@
 								<string key="NSFrame">{{1, 1}, {88, 32}}</string>
 								<reference key="NSSuperview" ref="70334985"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1775,7 +1784,7 @@
 						<string key="leftArrowButton">UIButton</string>
 						<string key="medAttBar">UIImageView</string>
 						<string key="medDefBar">UIImageView</string>
-						<string key="nameTextField">UITextField</string>
+						<string key="nameTextField">NiceFontTextField</string>
 						<string key="redGlow">UIImageView</string>
 						<string key="rightArrowButton">UIButton</string>
 						<string key="smallAttBar">UIImageView</string>
@@ -1846,7 +1855,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="nameTextField">
 							<string key="name">nameTextField</string>
-							<string key="candidateClassName">UITextField</string>
+							<string key="candidateClassName">NiceFontTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="redGlow">
 							<string key="name">redGlow</string>

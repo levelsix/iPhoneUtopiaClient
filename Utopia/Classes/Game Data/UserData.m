@@ -275,7 +275,7 @@
 
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto {
   if ((self = [super init])) {
-    self.otherPlayer = proto.sender;
+    self.otherPlayer = proto.referredPlayer;
     self.time = [NSDate date];
     self.type = kNotificationReferral;
   }

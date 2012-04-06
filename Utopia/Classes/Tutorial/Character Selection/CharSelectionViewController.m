@@ -93,8 +93,6 @@
   // Set tag to 10 so it doesnt get hidden when select is clicked
   charScrollView.tag = 10;
   
-  nameTextField.font = [UIFont fontWithName:@"Requiem Text-HTF-SmallCaps" size:17];
-  
   smallAttBar.alpha = 0.f;
   medAttBar.alpha = 0.f;
   bigAttBar.alpha = 0.f;
@@ -119,6 +117,8 @@
   [dummyTextField becomeFirstResponder];
   [dummyTextField resignFirstResponder];
   [dummyTextField release];
+  
+  nameTextField.label.textColor = [UIColor whiteColor];
 }
 
 - (void) viewDidAppear:(BOOL)animated {

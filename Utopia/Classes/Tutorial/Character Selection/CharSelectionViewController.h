@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NibUtils.h"
 
 @interface CharSelectionViewController : UIViewController <UIScrollViewDelegate, UITextFieldDelegate> {
   float _pageWidth;
@@ -43,6 +44,6 @@
 @property (nonatomic, retain) IBOutlet UIView *bottomBar;
 @property (nonatomic, retain) IBOutlet UIView *chooseNameView;
 
-@property (nonatomic, retain) IBOutlet UITextField *nameTextField;
+@property (nonatomic, retain) IBOutlet NiceFontTextField *nameTextField;
 
 @end

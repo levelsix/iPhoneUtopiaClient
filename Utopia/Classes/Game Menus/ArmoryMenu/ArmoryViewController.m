@@ -245,14 +245,15 @@
     priceView.hidden = YES;
     naLabel.hidden = NO;
   }
+  equipIcon.image = [Globals imageForEquip:fep.equipId];
   
   if ([Globals canEquip:fep]) {
     bgdView.highlighted = NO;
-    [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
+//    [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
     maskedEquipIcon.hidden = YES;
   } else {
     bgdView.highlighted = YES;
-    [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:maskedEquipIcon];
+//    [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:maskedEquipIcon];
     maskedEquipIcon.hidden = NO;
   }
 }

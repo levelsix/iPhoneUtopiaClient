@@ -80,6 +80,10 @@
 }
 
 - (void) startMyTurn {
+  if (_isAnimating) {
+    return;
+  }
+  
   if (_firstTurn) {
     _attackButton.visible = YES;
     _comboBar.visible = NO;

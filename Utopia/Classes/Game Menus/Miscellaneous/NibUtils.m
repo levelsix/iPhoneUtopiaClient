@@ -109,6 +109,7 @@
   [Globals adjustFontSizeForUILabel:label];
   self.textColor = [UIColor clearColor];
   label.textColor = [UIColor colorWithRed:65/255.f green:65/255.f blue:65/255.f alpha:1.f];
+  label.lineBreakMode = UILineBreakModeHeadTruncation;
   
   //Adjust frame a bit
   CGRect f = self.frame;

@@ -72,7 +72,6 @@
 @property (nonatomic, assign) float percentReturnedToUserForSellingEquipInArmory;
 
 @property (nonatomic, assign) int diamondRewardForReferrer;
-@property (nonatomic, assign) int diamondRewardForBeingReferred;
 
 @property (nonatomic, assign) NSDictionary *productIdentifiers;
 

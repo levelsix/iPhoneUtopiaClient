@@ -156,6 +156,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
       responseClass = [RetrieveUsersForUserIdsResponseProto class];
       break;
+    case EventProtocolResponseSReferralCodeUsedEvent:
+      responseClass = [ReferralCodeUsedResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -167,7 +170,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   // Clear the static data we have held
 }
 
-- (void) handleUserCreateResponseProto: (UserCreateResponseProto *) proto {
+- (void) handleUserCreateResponseProto:(UserCreateResponseProto *) proto {
   NSLog(@"Received user create with status %d", proto.status);
   
   if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
@@ -175,11 +178,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleChatResponseProto: (ChatResponseProto *) proto {
+- (void) handleChatResponseProto:(ChatResponseProto *) proto {
   NSLog(@"%@", [proto message]);
 }
 
-- (void) handleVaultResponseProto: (VaultResponseProto *) proto {
+- (void) handleVaultResponseProto:(VaultResponseProto *) proto {
   NSLog(@"Vault response received with status %d", proto.status);
   
   if (proto.status == VaultResponseProto_VaultStatusSuccess) {
@@ -190,7 +193,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleBattleResponseProto: (BattleResponseProto *) proto {
+- (void) handleBattleResponseProto:(BattleResponseProto *) proto {
   NSLog(@"Battle response received with status %d.", proto.status);
   
   if (proto.status == BattleResponseProto_BattleStatusSuccess) {
@@ -251,7 +254,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleArmoryResponseProto: (ArmoryResponseProto *) proto {
+- (void) handleArmoryResponseProto:(ArmoryResponseProto *) proto {
   NSLog(@"Armory response received with status %d", proto.status);
   
   if (proto.status != ArmoryResponseProto_ArmoryStatusSuccess) {
@@ -259,7 +262,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleStartupResponseProto: (StartupResponseProto *) proto {
+- (void) handleStartupResponseProto:(StartupResponseProto *) proto {
   NSLog(@"Startup response received with status %d.", proto.startupStatus);
   
   Globals *gl = [Globals sharedGlobals];
@@ -319,7 +322,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleLevelUpResponseProto: (LevelUpResponseProto *) proto {
+- (void) handleLevelUpResponseProto:(LevelUpResponseProto *) proto {
   NSLog(@"Level up response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
@@ -337,7 +340,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleInAppPurchaseResponseProto: (InAppPurchaseResponseProto *) proto {
+- (void) handleInAppPurchaseResponseProto:(InAppPurchaseResponseProto *) proto {
   NSLog(@"In App Purchase response received with status %d.", proto.status);
   
   [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
@@ -346,7 +349,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleTaskActionResponseProto: (TaskActionResponseProto *) proto {
+- (void) handleTaskActionResponseProto:(TaskActionResponseProto *) proto {
   NSLog(@"Task action received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
@@ -383,7 +386,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleUpdateClientUserResponseProto: (UpdateClientUserResponseProto *) proto {
+- (void) handleUpdateClientUserResponseProto:(UpdateClientUserResponseProto *) proto {
   NSLog(@"Update client user response received.");
   
   [[GameState sharedGameState] updateUser:proto.sender];
@@ -426,7 +429,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handlePostToMarketplaceResponseProto: (PostToMarketplaceResponseProto *) proto {
+- (void) handlePostToMarketplaceResponseProto:(PostToMarketplaceResponseProto *) proto {
   NSLog(@"Post to mkt response received with status %d", [proto status]);
   
   if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess) {
@@ -436,7 +439,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handlePurchaseFromMarketplaceResponseProto: (PurchaseFromMarketplaceResponseProto *) proto {
+- (void) handlePurchaseFromMarketplaceResponseProto:(PurchaseFromMarketplaceResponseProto *) proto {
   NSLog(@"Purchase from mkt response received with status %d", proto.status);
   
   if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess) {
@@ -452,7 +455,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetractMarketplacePostResponseProto: (RetractMarketplacePostResponseProto *) proto {
+- (void) handleRetractMarketplacePostResponseProto:(RetractMarketplacePostResponseProto *) proto {
   NSLog(@"Retract marketplace response received with status %d", proto.status);
   
   if (proto.status != RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess) {
@@ -460,7 +463,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRedeemMarketplaceEarningsRequestProto: (RedeemMarketplaceEarningsResponseProto *) proto {
+- (void) handleRedeemMarketplaceEarningsRequestProto:(RedeemMarketplaceEarningsResponseProto *) proto {
   NSLog(@"Redeem response received with status %d", proto.status);
   
   if (proto.status != RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess) {
@@ -468,7 +471,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handlePurchaseMarketplaceLicenseResponseProto: (PurchaseMarketplaceLicenseResponseProto *) proto {
+- (void) handlePurchaseMarketplaceLicenseResponseProto:(PurchaseMarketplaceLicenseResponseProto *) proto {
   NSLog(@"Purchase marketplace license received with status %d", proto.status);
   
   if (proto.status != PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess) {
@@ -476,7 +479,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleGenerateAttackListResponseProto: (GenerateAttackListResponseProto *) proto {
+- (void) handleGenerateAttackListResponseProto:(GenerateAttackListResponseProto *) proto {
   NSLog(@"Generate attack list response received with status %d and %d enemies.", proto.status, proto.enemiesList.count);
   
   if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
@@ -501,7 +504,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleUseSkillPointResponseProto: (UseSkillPointResponseProto *) proto {
+- (void) handleUseSkillPointResponseProto:(UseSkillPointResponseProto *) proto {
   NSLog(@"Use skill point response received with status %d.", proto.status);
   
   if (proto.status != UseSkillPointResponseProto_UseSkillPointStatusSuccess) {
@@ -509,7 +512,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRefillStatWaitCompleteResponseProto: (RefillStatWaitCompleteResponseProto *) proto {
+- (void) handleRefillStatWaitCompleteResponseProto:(RefillStatWaitCompleteResponseProto *) proto {
   NSLog(@"Refill stat wait complete response received with status %d.", proto.status);
   
   if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
@@ -517,7 +520,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRefillStatWithDiamondsResponseProto: (RefillStatWithDiamondsResponseProto *) proto {
+- (void) handleRefillStatWithDiamondsResponseProto:(RefillStatWithDiamondsResponseProto *) proto {
   NSLog(@"Refill stat with diamonds response with status %d.", proto.status);
   
   if (proto.status != RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess) {
@@ -525,7 +528,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handlePurchaseNormStructureResponseProto: (PurchaseNormStructureResponseProto *) proto {
+- (void) handlePurchaseNormStructureResponseProto:(PurchaseNormStructureResponseProto *) proto {
   NSLog(@"Purchase norm struct response received with status: %d.", proto.status);
   
   if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
@@ -555,7 +558,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleMoveOrRotateNormStructureResponseProto: (MoveOrRotateNormStructureResponseProto *) proto {
+- (void) handleMoveOrRotateNormStructureResponseProto:(MoveOrRotateNormStructureResponseProto *) proto {
   NSLog(@"Move norm struct response received with status: %d.", proto.status);
   
   if (proto.status != MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess) {
@@ -563,7 +566,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleUpgradeNormStructureResponseProto: (UpgradeNormStructureResponseProto *) proto {
+- (void) handleUpgradeNormStructureResponseProto:(UpgradeNormStructureResponseProto *) proto {
   NSLog(@"Upgrade norm structure response received with status %d.", proto.status);
   
   if (proto.status != UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess) {
@@ -571,7 +574,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleNormStructWaitCompleteResponseProto: (NormStructWaitCompleteResponseProto *) proto {
+- (void) handleNormStructWaitCompleteResponseProto:(NormStructWaitCompleteResponseProto *) proto {
   NSLog(@"Norm struct builds complete response received with status %d.", proto.status);
   
   if (proto.status != NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess) {
@@ -579,7 +582,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleFinishNormStructWaittimeWithDiamondsResponseProto: (FinishNormStructWaittimeWithDiamondsResponseProto *) proto {
+- (void) handleFinishNormStructWaittimeWithDiamondsResponseProto:(FinishNormStructWaittimeWithDiamondsResponseProto *) proto {
   NSLog(@"Finish norm struct with diamonds response received with status %d.", proto.status);
   
   if (proto.status != FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess) {
@@ -587,7 +590,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveCurrencyFromNormStructureResponseProto: (RetrieveCurrencyFromNormStructureResponseProto *) proto {
+- (void) handleRetrieveCurrencyFromNormStructureResponseProto:(RetrieveCurrencyFromNormStructureResponseProto *) proto {
   NSLog(@"Retrieve currency response received with status: %d.", proto.status);
   
   if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
@@ -595,7 +598,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleSellNormStructureResponseProto: (SellNormStructureResponseProto *) proto {
+- (void) handleSellNormStructureResponseProto:(SellNormStructureResponseProto *) proto {
   NSLog(@"Sell norm struct response received with status %d.", proto.status);
   
   if (proto.status != SellNormStructureResponseProto_SellNormStructureStatusSuccess) {
@@ -603,7 +606,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleCriticalStructureActionResponseProto: (CriticalStructureActionResponseProto *) proto {
+- (void) handleCriticalStructureActionResponseProto:(CriticalStructureActionResponseProto *) proto {
   NSLog(@"Crit struct action response received with status %d", proto.status);
   
   if (proto.status != CriticalStructureActionResponseProto_CritStructActionStatusSuccess) {
@@ -611,7 +614,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleLoadPlayerCityResponseProto: (LoadPlayerCityResponseProto *) proto {
+- (void) handleLoadPlayerCityResponseProto:(LoadPlayerCityResponseProto *) proto {
   NSLog(@"Load player city response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
@@ -645,7 +648,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleLoadNeutralCityResponseProto: (LoadNeutralCityResponseProto *)proto {
+- (void) handleLoadNeutralCityResponseProto:(LoadNeutralCityResponseProto *)proto {
   NSLog(@"Load neutral city response received with status %d.", proto.status);
   
   //  GameState *gs = [GameState sharedGameState];
@@ -661,7 +664,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveStaticDataResponseProto: (RetrieveStaticDataResponseProto *) proto {
+- (void) handleRetrieveStaticDataResponseProto:(RetrieveStaticDataResponseProto *) proto {
   NSLog(@"Retrieve static data response received with status %d", proto.status);
   GameState *gs = [GameState sharedGameState];
   
@@ -682,7 +685,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveStaticDataForShopResponseProto: (RetrieveStaticDataForShopResponseProto *)proto {
+- (void) handleRetrieveStaticDataForShopResponseProto:(RetrieveStaticDataForShopResponseProto *)proto {
   NSLog(@"Retrieve static data for shop response received with status %d, %d structs, %d equips.", proto.status, proto.structsList.count, proto.equipsList.count);
   
   GameState *gs = [GameState sharedGameState];
@@ -738,7 +741,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleEquipEquipmentResponseProto: (EquipEquipmentResponseProto *)proto {
+- (void) handleEquipEquipmentResponseProto:(EquipEquipmentResponseProto *)proto {
   NSLog(@"Equip equipment response received with status %d.", proto.status);
   
   if (proto.status != EquipEquipmentResponseProto_EquipEquipmentStatusSuccess) {
@@ -746,7 +749,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleChangeUserLocationResponseProto: (ChangeUserLocationResponseProto *)proto {
+- (void) handleChangeUserLocationResponseProto:(ChangeUserLocationResponseProto *)proto {
   NSLog(@"Change user location response received with status %d.", proto.status);
   
   if (proto.status != ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess) {
@@ -754,7 +757,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleQuestAcceptResponseProto: (QuestAcceptResponseProto *)proto {
+- (void) handleQuestAcceptResponseProto:(QuestAcceptResponseProto *)proto {
   NSLog(@"Quest accept response received with status %d", proto.status);
   
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
@@ -766,7 +769,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleQuestRedeemResponseProto: (QuestRedeemResponseProto *)proto {
+- (void) handleQuestRedeemResponseProto:(QuestRedeemResponseProto *)proto {
   NSLog(@"Quest redeem response received with status %d", proto.status);
   
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
@@ -778,7 +781,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleUserQuestDetailsResponseProto: (UserQuestDetailsResponseProto *)proto {
+- (void) handleUserQuestDetailsResponseProto:(UserQuestDetailsResponseProto *)proto {
   NSLog(@"Quest log details response received with status %d", proto.status);
   if (proto.status == UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess) {
     [[QuestLogController sharedQuestLogController] loadQuestData:proto.inProgressUserQuestDataList];
@@ -788,7 +791,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleQuestCompleteResponseProto: (QuestCompleteResponseProto *)proto {
+- (void) handleQuestCompleteResponseProto:(QuestCompleteResponseProto *)proto {
   NSLog(@"Received quest complete response for quest %d.", proto.questId);
   
   GameState *gs = [GameState sharedGameState];
@@ -807,7 +810,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleRetrieveUserEquipForUserResponseProto: (RetrieveUserEquipForUserResponseProto *)proto {
+- (void) handleRetrieveUserEquipForUserResponseProto:(RetrieveUserEquipForUserResponseProto *)proto {
   NSLog(@"Retrieve user equip response received.");
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
@@ -818,7 +821,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
 }
 
-- (void) handleRetrieveUsersForUserIdsResponseProto: (RetrieveUsersForUserIdsResponseProto *)proto {
+- (void) handleRetrieveUsersForUserIdsResponseProto:(RetrieveUsersForUserIdsResponseProto *)proto {
   NSLog(@"Retrieve user ids for user received.");
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
@@ -829,6 +832,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];
+}
+
+- (void) handleReferralCodeUsedResponseProto:(ReferralCodeUsedResponseProto *)proto {
+  NSLog(@"Referral code used received.");
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  gs.gold += gl.diamondRewardForReferrer;
+  UserNotification *un = [[UserNotification alloc] initWithReferralResponse:proto];
+  [gs addNotification:un];
+  [un release];
 }
 
 @end

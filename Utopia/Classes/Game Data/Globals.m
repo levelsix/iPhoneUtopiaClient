@@ -51,7 +51,7 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize percentReturnedToUserForSellingNormStructure, numDaysLongMarketplaceLicenseLastsFor;
 @synthesize maxLevelForStruct, maxNumbersOfEnemiesToGenerateAtOnce, maxLevelDiffForBattle;
 @synthesize maxNumberOfMarketplacePosts, numDaysShortMarketplaceLicenseLastsFor;
-@synthesize diamondRewardForReferrer, diamondRewardForBeingReferred;
+@synthesize diamondRewardForReferrer;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -130,6 +130,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.staminaRefillCost = constants.diamondCostForFullStaminaRefill;
   self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;
   self.staminaRefillWaitMinutes = constants.minutesToRefillAstamina;
+  self.diamondRewardForReferrer = constants.diamondRewardForReferrer;
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {

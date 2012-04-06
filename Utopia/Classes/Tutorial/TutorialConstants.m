@@ -36,6 +36,7 @@
 @synthesize insideHomeText, beforeCarpenterText, insideCarpenterText1, insideCarpenterText2;
 @synthesize beforePurchaseText, afterPurchaseText, beforePlacingText, afterSpeedUpText;
 @synthesize referralCode, structCoords, structTimeOfPurchase, structTimeOfBuildComplete, structUsedDiamonds;
+@synthesize diamondRewardForBeingReferred;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
 
@@ -69,6 +70,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.levelTwoCities = constants.citiesNewlyAvailableToUserAfterLevelupList;
   self.levelTwoEquips = constants.newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
   self.levelTwoStructs = constants.newlyAvailableStructsAfterLevelupList;
+  self.diamondRewardForBeingReferred = constants.diamondRewardForBeingReferred;
   
   self.enemyName = @"Rizzy Wirk";
   self.questGiverName = @"Farmer Mitch";

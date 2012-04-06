@@ -89,6 +89,8 @@
 @property (nonatomic, assign) CGPoint structCoords;
 @property (nonatomic, assign) BOOL structUsedDiamonds;
 
+@property (nonatomic, assign) int diamondRewardForBeingReferred;
+
 + (TutorialConstants *) sharedTutorialConstants;
 - (void) loadTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
 
