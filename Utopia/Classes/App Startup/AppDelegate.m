@@ -150,10 +150,13 @@
   [self registerLocalNotifications];
   
   // Release all our views
-  [GameViewController releaseAllViews];
   [[CCDirector sharedDirector] stopAnimation];
   
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+  
+  if (![[GameState sharedGameState] isTutorial]) {
+    [GameViewController releaseAllViews];
+  }
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
@@ -162,7 +165,10 @@
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
-    [[GameViewController sharedGameViewController] startDoorAnimation];
+    
+    if (![[GameState sharedGameState] isTutorial]) {
+      [[GameViewController sharedGameViewController] startDoorAnimation];
+    }
   }
 }
 

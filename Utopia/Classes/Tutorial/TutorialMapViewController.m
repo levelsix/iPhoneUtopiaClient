@@ -91,13 +91,24 @@
   [super setState:state];
   
   if (state == kAttackMap && _enemyTabPhase) {
+    self.mapBar.userInteractionEnabled = NO;
+    
+    
     _enemyTabPhase = NO;
     _travelHomePhase = YES;
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    [DialogMenuController displayViewForText:tc.enemiesAviaryText callbackTarget:self action:@selector(goHomeDialog)];
+    [DialogMenuController displayViewForText:tc.enemiesAviaryText callbackTarget:self action:@selector(determineNextDialog)];
     
     [_arrow.layer removeAllAnimations];
     _arrow.alpha = 0.f;
+  }
+}
+
+- (void) determineNextDialog {
+  if (_rejectedLocation) {
+    [self rejectLocationDialog];
+  } else {
+    [self goHomeDialog];
   }
 }
 
@@ -121,6 +132,15 @@
 
 - (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
   return;
+}
+
+- (void) rejectLocationDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.rejectLocationText callbackTarget:self action:@selector(goHomeDialog)];
+}
+
+- (void) mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {
+  _rejectedLocation = YES;
 }
 
 - (void) mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {

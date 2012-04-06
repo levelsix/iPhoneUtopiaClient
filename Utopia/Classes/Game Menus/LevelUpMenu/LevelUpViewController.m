@@ -73,7 +73,8 @@
     if (levelUpResponse.newlyEquippableEpicsAndLegendariesList.count != 0) {
       FullEquipProto *fep = [levelUpResponse.newlyEquippableEpicsAndLegendariesList objectAtIndex:indexPath.row];
       [[NSBundle mainBundle] loadNibNamed:@"LevelUpItemView" owner:self options:nil];
-      self.itemIcon.image = [Globals imageForEquip:fep.equipId];
+//      self.itemIcon.image = [Globals imageForEquip:fep.equipId];
+      [Globals loadImageForEquip:fep.equipId toView:self.itemIcon maskedView:nil];
       self.itemLabel.textColor = [Globals colorForRarity:fep.rarity];
       self.itemLabel.text = fep.name;
       self.itemView.center = CGPointMake(tableView.frame.size.width/2, tableView.rowHeight/2);
@@ -90,7 +91,8 @@
     if (levelUpResponse.newlyAvailableStructsList.count != 0) {
       FullStructureProto *fsp = [levelUpResponse.newlyAvailableStructsList objectAtIndex:indexPath.row];
       [[NSBundle mainBundle] loadNibNamed:@"LevelUpItemView" owner:self options:nil];
-      self.itemIcon.image = [Globals imageForStruct:fsp.structId];
+//      self.itemIcon.image = [Globals imageForStruct:fsp.structId];
+      [Globals loadImageForStruct:fsp.structId toView:self.itemIcon masked:NO];
       self.itemLabel.text = fsp.name;
       [cell.contentView addSubview:self.itemView];
       self.itemIcon = nil;

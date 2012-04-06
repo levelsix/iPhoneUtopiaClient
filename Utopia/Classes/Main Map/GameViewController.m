@@ -301,6 +301,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) setIsTutorial:(BOOL)i {
   isTutorial = i;
+  [[GameState sharedGameState] setIsTutorial:i];
   
   while (!self.canLoad) {
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];

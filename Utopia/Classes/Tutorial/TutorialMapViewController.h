@@ -13,6 +13,8 @@
   BOOL _toAttackMapPhase;
   BOOL _enemyTabPhase;
   
+  BOOL _rejectedLocation;
+  
   UIImageView *_arrow;
 }
 

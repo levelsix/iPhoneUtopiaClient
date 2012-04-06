@@ -155,6 +155,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   NSString *str = [fsp.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
   str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
+  str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
   NSString *file = [str stringByAppendingString:@".png"];
   return file;
 }
@@ -163,6 +164,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:eqId];
   NSString *str = [fep.name.capitalizedString stringByReplacingOccurrencesOfString:@" " withString:@""];
   str = [str stringByReplacingOccurrencesOfString:@"'" withString:@""];
+  str = [str stringByReplacingOccurrencesOfString:@"-" withString:@""];
   NSString *file = [str stringByAppendingString:@".png"];
   return file;
 }
@@ -487,9 +489,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         [loadingView startAnimating];
         [view addSubview:loadingView];
         [loadingView release];
-        
-        int dimensions = MIN(view.frame.size.width/2, view.frame.size.height/2);
-        loadingView.frame = CGRectMake(0, 0, dimensions, dimensions);
         loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
       }
       view.image = nil;

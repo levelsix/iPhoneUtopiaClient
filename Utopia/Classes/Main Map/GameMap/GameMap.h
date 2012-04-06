@@ -31,6 +31,7 @@
 @interface GameMap : CCTMXTiledMap {
   SelectableSprite *_selected;
   NSMutableArray *_mapSprites;
+  NSMutableArray *_walkableData;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *aviaryMenu;
@@ -38,6 +39,8 @@
 
 @property (nonatomic, retain) SelectableSprite *selected;
 @property (nonatomic, retain) NSArray *mapSprites;
+
+@property (nonatomic, retain) NSMutableArray *walkableData;
 
 @property (nonatomic, assign) CGSize tileSizeInPoints;
 
@@ -49,6 +52,9 @@
 - (void) doReorder;
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
 - (void) layerWillDisappear;
+
+- (CGPoint) randomWalkablePosition;
+- (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
 
 - (void) addSilverDrop:(int)amount fromSprite:(MapSprite *)sprite;
 - (void) pickUpSilverDrop:(SilverStack *)ss;

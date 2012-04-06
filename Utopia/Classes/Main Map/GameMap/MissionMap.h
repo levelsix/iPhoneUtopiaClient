@@ -48,7 +48,6 @@
 @end
 
 @interface MissionMap : GameMap {
-  NSMutableArray *_walkableData;
   int _cityId;
   
   TaskProgressBar *_taskProgBar;
@@ -60,15 +59,11 @@
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
 @property (nonatomic, retain) IBOutlet MissionOverBuildingMenu *obMenu;
 
-@property (nonatomic, retain) NSMutableArray *walkableData;
-
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto;
 - (id) assetWithId:(int)assetId;
 - (void) performCurrentTask;
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
-- (CGPoint) randomWalkablePosition;
-- (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
 
 - (void) killEnemy:(int)userId;
 

@@ -458,7 +458,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     if (diff > 0) {
       change = MAX((int)(0.1*diff), 1);
     } else if (diff < 0) {
-      change = MAX((int)(0.1*diff), -1);
+      change = MIN((int)(0.1*diff), -1);
     }
     _silverLabel.string = [Globals commafyNumber:_curSilver+change];
     _curSilver += change;
@@ -469,7 +469,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     if (diff > 0) {
       change = MAX((int)(0.1*diff), 1);
     } else if (diff < 0) {
-      change = MAX((int)(0.1*diff), -1);
+      change = MIN((int)(0.1*diff), -1);
     }
     _goldLabel.string = [Globals commafyNumber:_curGold+change];
     _curGold += change;

@@ -7,6 +7,7 @@
 //
 
 #import "MissionMap.h"
+#import "LevelUpViewController.h"
 
 @class QuestGiver;
 
@@ -28,6 +29,9 @@
   QuestGiver *_questGiver;
   Enemy *_enemy;
   Aviary *_aviary;
+  
+  // For preloading
+  LevelUpViewController *luvc;
 }
 
 - (void) doBlink;

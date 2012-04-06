@@ -25,7 +25,7 @@ typedef enum {
 } MusicState;
 
 // HelloWorldLayer
-@interface GameLayer : CCLayer
+@interface GameLayer : CCLayerGradient
 {
   float _slideVelocity;
   float _slideDirection;

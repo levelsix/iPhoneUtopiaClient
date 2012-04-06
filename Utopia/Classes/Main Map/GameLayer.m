@@ -58,7 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
-	if( (self=[super init])) {
+	if( (self=[super initWithColor:ccc4(0, 140, 140, 255) fadingTo:ccc4(0, 0, 0, 255)])) {
     _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
     [self moveMapToCenter:_homeMap];

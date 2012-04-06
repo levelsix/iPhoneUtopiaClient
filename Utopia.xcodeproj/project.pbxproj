@@ -543,6 +543,16 @@
 		CFA26F5714E72CE900FC1C71 /* NibUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5614E72CE900FC1C71 /* NibUtils.m */; };
 		CFA26F5A14E86FAA00FC1C71 /* HomeMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA26F5914E86FAA00FC1C71 /* HomeMap.m */; };
 		CFAA94EB14E881D100B0F791 /* Building.m in Sources */ = {isa = PBXBuildFile; fileRef = CFAA94EA14E881D100B0F791 /* Building.m */; };
+		CFAAF0FF152EEAAA007047C9 /* Inn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF0FE152EEAAA007047C9 /* Inn@2x.png */; };
+		CFAAF101152F0296007047C9 /* Inn.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF100152F0296007047C9 /* Inn.png */; };
+		CFAAF105152F02B9007047C9 /* Aviary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF102152F02B9007047C9 /* Aviary@2x.png */; };
+		CFAAF106152F02B9007047C9 /* Farm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF103152F02B9007047C9 /* Farm@2x.png */; };
+		CFAAF107152F02B9007047C9 /* Stables@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF104152F02B9007047C9 /* Stables@2x.png */; };
+		CFAAF109152F02F8007047C9 /* Aviary.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF108152F02F8007047C9 /* Aviary.png */; };
+		CFAAF10B152F030F007047C9 /* Farm.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF10A152F030F007047C9 /* Farm.png */; };
+		CFAAF10D152F0327007047C9 /* Stables.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF10C152F0327007047C9 /* Stables.png */; };
+		CFAAF110152F03D2007047C9 /* Tavern.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF10E152F03D2007047C9 /* Tavern.png */; };
+		CFAAF111152F03D2007047C9 /* Tavern@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAAF10F152F03D2007047C9 /* Tavern@2x.png */; };
 		CFADD7D714A690F400BC2F75 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFADD7D614A690F400BC2F75 /* CFNetwork.framework */; };
 		CFB153C51505D5FC005CB976 /* fillbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB153BF1505D5FC005CB976 /* fillbutton.png */; };
 		CFB153C61505D5FC005CB976 /* fillbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB153C01505D5FC005CB976 /* fillbutton@2x.png */; };
@@ -1601,6 +1611,16 @@
 		CFA26F5914E86FAA00FC1C71 /* HomeMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeMap.m; path = "Utopia/Classes/Main Map/GameMap/HomeMap.m"; sourceTree = SOURCE_ROOT; };
 		CFAA94E914E881D100B0F791 /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Building.h; path = "Utopia/Classes/Main Map/GameMap/Building.h"; sourceTree = SOURCE_ROOT; };
 		CFAA94EA14E881D100B0F791 /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Building.m; path = "Utopia/Classes/Main Map/GameMap/Building.m"; sourceTree = SOURCE_ROOT; };
+		CFAAF0FE152EEAAA007047C9 /* Inn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Inn@2x.png"; sourceTree = "<group>"; };
+		CFAAF100152F0296007047C9 /* Inn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Inn.png; sourceTree = "<group>"; };
+		CFAAF102152F02B9007047C9 /* Aviary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Aviary@2x.png"; sourceTree = "<group>"; };
+		CFAAF103152F02B9007047C9 /* Farm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Farm@2x.png"; sourceTree = "<group>"; };
+		CFAAF104152F02B9007047C9 /* Stables@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Stables@2x.png"; sourceTree = "<group>"; };
+		CFAAF108152F02F8007047C9 /* Aviary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Aviary.png; sourceTree = "<group>"; };
+		CFAAF10A152F030F007047C9 /* Farm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Farm.png; sourceTree = "<group>"; };
+		CFAAF10C152F0327007047C9 /* Stables.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Stables.png; sourceTree = "<group>"; };
+		CFAAF10E152F03D2007047C9 /* Tavern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tavern.png; sourceTree = "<group>"; };
+		CFAAF10F152F03D2007047C9 /* Tavern@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tavern@2x.png"; sourceTree = "<group>"; };
 		CFADD7D614A690F400BC2F75 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CFB153BF1505D5FC005CB976 /* fillbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fillbutton.png; sourceTree = "<group>"; };
 		CFB153C01505D5FC005CB976 /* fillbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fillbutton@2x.png"; sourceTree = "<group>"; };
@@ -3072,6 +3092,16 @@
 		CF41C2B1150E2F17005A2919 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				CFAAF10E152F03D2007047C9 /* Tavern.png */,
+				CFAAF10F152F03D2007047C9 /* Tavern@2x.png */,
+				CFAAF102152F02B9007047C9 /* Aviary@2x.png */,
+				CFAAF108152F02F8007047C9 /* Aviary.png */,
+				CFAAF103152F02B9007047C9 /* Farm@2x.png */,
+				CFAAF10A152F030F007047C9 /* Farm.png */,
+				CFAAF104152F02B9007047C9 /* Stables@2x.png */,
+				CFAAF10C152F0327007047C9 /* Stables.png */,
+				CFAAF0FE152EEAAA007047C9 /* Inn@2x.png */,
+				CFAAF100152F0296007047C9 /* Inn.png */,
 				CF22966F152C46C50083ED78 /* inputrefcode.png */,
 				CF229670152C46C50083ED78 /* inputrefcode@2x.png */,
 				CF229671152C46C50083ED78 /* skip.png */,
@@ -5058,6 +5088,16 @@
 				CF5383AB152E602000D283BB /* notificationbg.png in Resources */,
 				CF5383AC152E602000D283BB /* notificationbg@2x.png in Resources */,
 				CF5383B2152E608400D283BB /* GenericPopupController.xib in Resources */,
+				CFAAF0FF152EEAAA007047C9 /* Inn@2x.png in Resources */,
+				CFAAF101152F0296007047C9 /* Inn.png in Resources */,
+				CFAAF105152F02B9007047C9 /* Aviary@2x.png in Resources */,
+				CFAAF106152F02B9007047C9 /* Farm@2x.png in Resources */,
+				CFAAF107152F02B9007047C9 /* Stables@2x.png in Resources */,
+				CFAAF109152F02F8007047C9 /* Aviary.png in Resources */,
+				CFAAF10B152F030F007047C9 /* Farm.png in Resources */,
+				CFAAF10D152F0327007047C9 /* Stables.png in Resources */,
+				CFAAF110152F03D2007047C9 /* Tavern.png in Resources */,
+				CFAAF111152F03D2007047C9 /* Tavern@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

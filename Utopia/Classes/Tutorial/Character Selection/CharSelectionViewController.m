@@ -278,15 +278,25 @@
 - (IBAction)submitClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [nameTextField resignFirstResponder];
   
   NSString *realStr = nameTextField.text;
   realStr = [realStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   
+  // make sure length is okay
   if (realStr.length < tc.minNameLength || realStr.length > tc.maxNameLength) {
     return;
   }
   
-  [nameTextField resignFirstResponder];
+  // make sure there are no obvious swear words
+  NSString *lowerStr = [realStr lowercaseString];
+  NSArray *swearWords = [NSArray arrayWithObjects:@"fuck", @"shit", @"bitch", nil];
+  for (NSString *swear in swearWords) {
+    if ([lowerStr rangeOfString:swear].location != NSNotFound) {
+      [Globals popupMessage:@"Please refrain from using vulgar language within this game."];
+      return;
+    }
+  }
   
   [UIView animateWithDuration:4.f animations:^{
     self.view.alpha = 0.f;

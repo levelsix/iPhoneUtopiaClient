@@ -238,7 +238,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
-{
+{ 
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
@@ -257,12 +257,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   
   if (_loaded) {
     [self retrieveAttackListForCurrentBounds];
-  }
-  
-  if ([CLLocationManager locationServicesEnabled]) {
-    _mapView.showsUserLocation = YES;
-  } else {
-    _mapView.showsUserLocation = NO;
   }
   
   missionMap.lumoriaView.hidden = YES;
@@ -293,6 +287,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     case kAttackMap:
       missionMap.hidden = YES;
       _mapView.hidden = NO;
+      
+      if ([CLLocationManager locationServicesEnabled]) {
+        _mapView.showsUserLocation = YES;
+      } else {
+        _mapView.showsUserLocation = NO;
+      }
       break;
       
     case kMissionMap:

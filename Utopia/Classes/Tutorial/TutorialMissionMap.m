@@ -348,8 +348,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     MissionBuilding *mb = (MissionBuilding *)_selected;
     FullTaskProto *ftp = mb.ftp;
     
-    _canUnclick = YES;
-    self.selected = nil;
     [self closeMenus];
     
     _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
@@ -360,7 +358,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     if (mb.numTimesActed == ftp.numRequiredForCompletion) {
       _doTaskPhase = NO;
+      
+      [self performSelectorInBackground:@selector(preloadLevelUp) withObject:nil];
     }
+    _performingTask = YES;
     
     [self runAction:
      [CCSequence actions:[CCDelayTime actionWithDuration:1.5f], 
@@ -378,13 +379,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
            coins = tutQuest.firstTaskCompleteCoinGain-_coinsGiven;
          }
          
+         // Fake a task action response
+         TaskActionResponseProto *tarp = [[[[[TaskActionResponseProto builder]
+                                             setSender:[[[MinimumUserProto builder] setUserId:0] build]]
+                                            setStatus:TaskActionResponseProto_TaskActionStatusSuccess]
+                                           setCoinsGained:coins]
+                                          build];
+         [self receivedTaskResponse:tarp];
+         _canUnclick = YES;
+         
          gs.silver += coins;
-         [self addSilverDrop:coins fromSprite:mb];
          _coinsGiven += coins;
          // Exp will be same for either task
          gs.experience += tutQuest.firstTaskGood.expGained;
        }], nil]];
-    
     
     _pickupSilver = YES;
   }
@@ -425,7 +433,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
       QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
       qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
-      qcv.visitDescLabel.text = @"Visit Farmer Mitch Lieu in Kirin Village to redeem your reward.";
+      qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in Kirin Village to redeem your reward.", tc.questGiverName];
       [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
       
       // Move arrow back to task quest giver
@@ -451,19 +459,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [self levelUp];
 }
 
-- (void) levelUp {
-  [[TutorialQuestLogController sharedQuestLogController] didReceiveMemoryWarning];
-  [TutorialQuestLogController purgeSingleton];
-  
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  gs.skillPoints += gl.skillPointsGainedOnLevelup;
-  gs.level += 1;
-  gs.currentEnergy = gs.maxEnergy;
-  gs.currentStamina = gs.maxStamina;
-  
-  [TutorialProfileViewController sharedProfileViewController];
-  
+- (void) preloadLevelUp {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
   // Create a fake level up proto so we can send it in to the controller
@@ -478,12 +474,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [lurpb addAllNewlyEquippableEpicsAndLegendaries:tc.levelTwoEquips];
   
   // This will be released after the level up controller closes
-  LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:[lurpb build]];
-  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+  luvc = [[LevelUpViewController alloc] initWithLevelUpResponse:[lurpb build]];
+  [luvc view];
+}
+
+- (void) levelUp {
+  [[TutorialQuestLogController sharedQuestLogController] didReceiveMemoryWarning];
+  [TutorialQuestLogController purgeSingleton];
+  
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  gs.skillPoints += gl.skillPointsGainedOnLevelup;
+  gs.level += 1;
+  gs.currentEnergy = gs.maxEnergy;
+  gs.currentStamina = gs.maxStamina;
+  gs.expRequiredForCurrentLevel = gs.expRequiredForNextLevel;
+  gs.expRequiredForNextLevel = tc.expForLevelThree;
+  
+  [TutorialProfileViewController sharedProfileViewController];
+  
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:luvc.view];
   [_ccArrow removeFromParentAndCleanup:YES];
 }
 
 - (void) levelUpComplete {
+  [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeAviaryText1 callbackTarget:self action:@selector(levelUpComplete2)];
 }
 
@@ -528,6 +544,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   GameState *gs = [GameState sharedGameState];
   [self centerOnTask];
   NSString *str = gs.type < 3 ? tc.beforeTaskTextGood : tc.beforeTaskTextBad;
+  [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:str callbackTarget:nil action:nil];
 }
 

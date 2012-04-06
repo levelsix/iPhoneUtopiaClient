@@ -15,6 +15,7 @@
 
 @implementation GameState
 
+@synthesize isTutorial = _isTutorial;
 @synthesize connected = _connected;
 @synthesize userId = _userId;
 @synthesize name = _name;

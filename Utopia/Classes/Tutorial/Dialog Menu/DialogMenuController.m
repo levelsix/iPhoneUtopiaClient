@@ -11,12 +11,13 @@
 #import "cocos2d.h"
 #import "NibUtils.h"
 #import "OutgoingEventController.h"
-#import "GameState.h"
+#import "TutorialConstants.h"
 
 @implementation DialogMenuController
 
 #define ANIMATION_DURATION 0.5f
 #define ANIMATION_VERTICAL_MOVEMENT 124
+#define WIN_HEIGHT [[UIScreen mainScreen] applicationFrame].size.width
 
 @synthesize label, progressBar;
 @synthesize target = _target;
@@ -68,14 +69,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   
   if (!dmc.view.superview) {
     r = dmc.view.frame;
-    r.origin.y = ANIMATION_VERTICAL_MOVEMENT;
+    r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
     dmc.view.frame = r;
     
     [DialogMenuController displayView];
     
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
       CGRect r = dmc.view.frame;
-      r.origin.y = 0;
+      r.origin.y = WIN_HEIGHT-r.size.height;
       dmc.view.frame = r;
     }];
   }
@@ -93,14 +94,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   
   if (!dmc.view.superview) {
     r = dmc.view.frame;
-    r.origin.y = ANIMATION_VERTICAL_MOVEMENT;
+    r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
     dmc.view.frame = r;
     
     [DialogMenuController displayView];
     
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
       CGRect r = dmc.view.frame;
-      r.origin.y = 0;
+      r.origin.y = WIN_HEIGHT-r.size.height;
       dmc.view.frame = r;
     }];
   }
@@ -111,7 +112,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   
   [UIView animateWithDuration:ANIMATION_DURATION animations:^{
     CGRect r = dmc.view.frame;
-    r.origin.y = ANIMATION_VERTICAL_MOVEMENT;
+    r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
     dmc.view.frame = r;
   } completion:^(BOOL finished) {
     [dmc.view removeFromSuperview];
@@ -137,13 +138,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField {
   [UIView animateWithDuration:0.3f animations:^{
-    self.view.center = CGPointMake(self.view.center.x, self.view.center.y-self.view.frame.size.height/2);
+    self.view.center = CGPointMake(self.view.center.x, self.view.center.y-WIN_HEIGHT/2);
   }];
 }
 
 - (void) textFieldDidEndEditing:(UITextField *)textField {
   [UIView animateWithDuration:0.3f animations:^{
-    self.view.center = CGPointMake(self.view.center.x, self.view.center.y+self.view.frame.size.height/2);
+    self.view.center = CGPointMake(self.view.center.x, self.view.center.y+WIN_HEIGHT/2);
   }];
 }
 
@@ -154,8 +155,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 }
 
 - (IBAction)enterClicked:(id)sender {
-  GameState *gs = [GameState sharedGameState];
-  gs.referralCode = referralTextField.text;
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  tc.referralCode = referralTextField.text;
   
   [[OutgoingEventController sharedOutgoingEventController] createUser];
 }

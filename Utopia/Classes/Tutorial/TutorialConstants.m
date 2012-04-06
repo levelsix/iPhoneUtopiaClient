@@ -8,6 +8,7 @@
 
 #import "TutorialConstants.h"
 #import "SynthesizeSingleton.h"
+#import "Globals.h"
 
 @implementation TutorialConstants
 
@@ -36,7 +37,9 @@
 @synthesize insideHomeText, beforeCarpenterText, insideCarpenterText1, insideCarpenterText2;
 @synthesize beforePurchaseText, afterPurchaseText, beforePlacingText, afterSpeedUpText;
 @synthesize referralCode, structCoords, structTimeOfPurchase, structTimeOfBuildComplete, structUsedDiamonds;
+@synthesize rejectLocationText;
 @synthesize diamondRewardForBeingReferred;
+@synthesize createSuccessText, invalidReferCodeText, otherFailText, timeSyncErrorText;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
 
@@ -83,8 +86,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   
   self.beforeCharSelectionText = @"Somebody help me! Weary soldier! Who are you? What is your name?";
   self.beforeBlinkText = @"Please %@, open your eyes!";
-  self.afterBlinkTextGood = @"Thank goodness you're awake! The Legion has invaded our town. Talk to Farmer Mitch. He'll know what to do.";
-  self.afterBlinkTextBad = @"Welcome back comrade. I do not know how we got here, but talk to Farmer Lieu. He's a Legion informant.";
+  self.afterBlinkTextGood = [NSString stringWithFormat:@"Thank goodness you're awake! The Legion has invaded our town. Talk to %@. He'll know what to do.", self.questGiverName];;
+  self.afterBlinkTextBad = [NSString stringWithFormat:@"Welcome back comrade. I do not know how we got here, but talk to %@. He's a Legion informant.", self.questGiverName];
   self.afterQuestAcceptText = @"Here are the tasks you need to complete for this quest. Close the scroll to begin.";
   self.afterQuestAcceptClosedText = @"Now that you have accepted your quest, let's start by attacking that soldier.";
   self.beginBattleText = @"Tap the attack dial to begin. Take him out!";
@@ -92,7 +95,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.afterBattleText = @"You made that look easy, but we've still got work to do. Exit the battle and let's finish the last task.";
   self.beforeTaskTextGood = @"It seems the Legion's men are terrorizing the Tavern. Go in there and break it up.";
   self.beforeTaskTextBad = @"Go to the Tavern and set an example of these men by roughing them up.";
-  self.beforeSkillsText = @"Skill points are key to your success. Allocate them wisely.";
+  self.beforeSkillsText = [NSString stringWithFormat:@"Skill points are key to your success. You are awarded %d skill points every level. Allocate them wisely.", [[Globals sharedGlobals] skillPointsGainedOnLevelup]];
   self.afterSkillPointsText = @"Great! Now let's equip that amulet you stole during battle.";
   self.beforeAviaryText1 = @"You seem tired… but its too dangerous to rest here! Why don't we go back to your place? ";
   self.beforeAviaryText2 = @"Click on the Aviary to navigate around the world of Utopia. There will be one present in every location.";
@@ -100,15 +103,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.missionAviaryText = @"In the missions tab, navigate the world and complete quests by using this map.";
   self.beforeEnemiesAviaryText = @"Now let's check out the Attack tab. Hurry! I'm getting tired.";
   self.enemiesAviaryText = @"Utilize this map to fight and defeat real players in their real locations all around the world!";
+  self.rejectLocationText = @"We will assign you a random location. You can give 'Lost Nations' location permissions in your device settings anytime.";
   self.beforeHomeAviaryText = @"Let's get some rest now by going home!";
   self.insideHomeText = @"Wait… you mean to tell me you don't even have a bed to sleep in!?";
   self.beforeCarpenterText = @"Click on your carpenter and build an inn now!";
-  self.insideCarpenterText1 = @"The carpenter allows you to construct buildings in your home map.";
+  self.insideCarpenterText1 = @"The carpenter allows you to construct buildings in your home map. Buildings generate silver for you over time.";
   self.insideCarpenterText2 = @"Additionally, in the Special tab, you can acquire buildings that provide special features free of cost.";
   self.beforePurchaseText = @"Now, click on the Inn to purchase it.";
   self.beforePlacingText = @"You can only place buildings on certain tiles. Move the Inn off the road and click the green checkmark when you are ready.";
   self.afterPurchaseText = @"I don't have time to wait around for your inn to finish. Speed it up!";
-  self.afterSpeedUpText = @"Finally! Unfortunately, I'm too tired to play now. Why don't you return to Kirin Village and complete more quests?";
+  self.afterSpeedUpText = @"Alright! Now take a short break. In the meanwhile, if someone referred you, enter his or her referral code to earn both of you some extra gold.";
+  self.createSuccessText = @"Congratulations %@! It seems like you know what you're doing. Get back out there and bring glory to the %@!";
+  self.timeSyncErrorText = @"Please change your device's time to \"Set Automatically\" to prevent crashes during gameplay.";
+  self.invalidReferCodeText = @"The referral code you entered is invalid.";
+  self.otherFailText = @"There was an error in creating your player. Please contact support@lvl6.com to let us know how this happened.";
 }
 
 - (void) dealloc {

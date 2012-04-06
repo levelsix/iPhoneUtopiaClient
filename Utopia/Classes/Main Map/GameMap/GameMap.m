@@ -24,6 +24,7 @@
 #define REORDER_START_Z 150
 
 #define SILVER_STACK_BOUNCE_DURATION 1.f
+#define DROP_LABEL_DURATION 3.f
 
 //CCMoveByCustom
 @interface CCMoveByCustom : CCMoveBy
@@ -78,6 +79,7 @@
 @synthesize aviaryMenu, enemyMenu;
 @synthesize mapSprites = _mapSprites;
 @synthesize silverOnMap;
+@synthesize walkableData = _walkableData;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
 {
@@ -179,8 +181,8 @@
   coinLabel.color = ccc3(174, 237, 0);
   [coinLabel runAction:[CCSequence actions:
                         [CCSpawn actions:
-                         [CCFadeOut actionWithDuration:2.f], 
-                         [CCMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
+                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION], 
+                         [CCMoveBy actionWithDuration:DROP_LABEL_DURATION position:ccp(0,40)],nil],
                         [CCCallBlock actionWithBlock:^{[coinLabel removeFromParentAndCleanup:YES];}], nil]];
   
   TopBar *tb = [TopBar sharedTopBar];
@@ -239,8 +241,8 @@
   nameLabel.color = ccc3((int)(red*255), (int)(green*255), (int)(blue*255));
   [nameLabel runAction:[CCSequence actions:
                         [CCSpawn actions:
-                         [CCFadeOut actionWithDuration:2.f], 
-                         [CCMoveBy actionWithDuration:2.f position:ccp(0,40)],nil],
+                         [CCFadeOut actionWithDuration:DROP_LABEL_DURATION], 
+                         [CCMoveBy actionWithDuration:DROP_LABEL_DURATION position:ccp(0,40)],nil],
                         [CCCallBlock actionWithBlock:^{[nameLabel removeFromParentAndCleanup:YES];}], nil]];
   
   TopBar *tb = [TopBar sharedTopBar];
@@ -385,7 +387,7 @@
   if([recognizer state] == UIGestureRecognizerStateBegan ||
      [recognizer state] == UIGestureRecognizerStateChanged )
   {
-    [node stopAllActions];
+    [node stopActionByTag:190];
     CGPoint translation = [pan translationInView:pan.view.superview];
     
     CGPoint delta = [self convertVectorToGL: translation];
@@ -407,7 +409,9 @@
     vel.x /= 3;
     vel.y /= 3;
     id actionID = [CCMoveBy actionWithDuration:dist/1500 position:vel];
-    [node runAction:[CCEaseSineOut actionWithAction:actionID]];
+    CCEaseOut *action = [CCEaseSineOut actionWithAction:actionID];
+    action.tag = 190;
+    [node runAction:action];
   }
 }
 
@@ -513,6 +517,76 @@
       break;
   }
   return ret;
+}
+
+- (CGPoint) randomWalkablePosition {
+  while (true) {
+    int x = arc4random() % (int)self.mapSize.width;
+    int y = arc4random() % (int)self.mapSize.height;
+    NSNumber *num = [[_walkableData objectAtIndex:x] objectAtIndex:y];
+    if (num.boolValue == YES) {
+      // Make sure it is not too close to another sprite
+      BOOL acceptable = YES;
+      for (CCNode *child in self.children) {
+        if ([child isKindOfClass:[CharacterSprite class]]) {
+          CharacterSprite *cs = (CharacterSprite *)child;
+          int xDiff = ABS(cs.location.origin.x-x);
+          int yDiff = ABS(cs.location.origin.y-y);
+          if (xDiff <= 2 && yDiff <= 2) {
+            acceptable = NO;
+            break;
+          }
+        }
+      }
+      
+      if (acceptable) {
+        return CGPointMake(x, y);
+      }
+    }
+  }
+}
+
+- (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt {
+  CGPoint diff = ccpSub(point, prevPt);
+  if (diff.y > 0.5f) {
+    diff = ccp(0, 1);
+  } else if (diff.y < -0.5f) {
+    diff = ccp(0, -1);
+  } else if (diff.x > 0.5f) {
+    diff = ccp(1, 0);
+  } else {
+    // Use some default :/ in case stuck
+    diff = ccp(-1, 0);
+  }
+  
+  CGPoint straight = ccpAdd(point, diff);
+  CGPoint left = ccpAdd(point, ccpRotateByAngle(diff, ccp(0,0), M_PI_2));
+  CGPoint right = ccpAdd(point, ccpRotateByAngle(diff, ccp(0,0), -M_PI_2));
+  CGPoint back = ccpSub(point, diff);
+  
+  CGPoint pts[4] = {straight, right, left, back};
+  int width = mapSize_.width;
+  int height = mapSize_.height;
+  
+  // Don't let it infinite loop in case its stuck
+  int max = 50;
+  while (max > 0) {
+    // 50% chance to go straight, 20% chance to turn (for each way), 10% chance to go back
+    int x = arc4random() % 100;
+    if (x <= 75) x = 0;
+    else if (x <= 85) x = 1;
+    else if (x <= 95) x = 2;
+    else x = 3;
+    
+    CGPoint pt = pts[x];
+    if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
+      if ([[[_walkableData objectAtIndex:pt.x] objectAtIndex:pt.y] boolValue] == YES) {
+        return ccp((int)pt.x, (int)pt.y);
+      }
+    }
+    max--;
+  }
+  return point;
 }
 
 -(void) dealloc {

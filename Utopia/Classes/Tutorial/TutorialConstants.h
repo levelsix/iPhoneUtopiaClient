@@ -66,6 +66,7 @@
 @property (nonatomic, retain) NSString *missionAviaryText;
 @property (nonatomic, retain) NSString *beforeEnemiesAviaryText;
 @property (nonatomic, retain) NSString *enemiesAviaryText;
+@property (nonatomic, retain) NSString *rejectLocationText;
 @property (nonatomic, retain) NSString *beforeHomeAviaryText;
 
 @property (nonatomic, retain) NSString *insideHomeText;
@@ -77,6 +78,11 @@
 @property (nonatomic, retain) NSString *afterPurchaseText;
 
 @property (nonatomic, retain) NSString *afterSpeedUpText;
+
+@property (nonatomic, retain) NSString *createSuccessText;
+@property (nonatomic, retain) NSString *timeSyncErrorText;
+@property (nonatomic, retain) NSString *invalidReferCodeText;
+@property (nonatomic, retain) NSString *otherFailText;
 
 @property (nonatomic, retain) NSString *enemyName;
 @property (nonatomic, assign) UserType enemyType;

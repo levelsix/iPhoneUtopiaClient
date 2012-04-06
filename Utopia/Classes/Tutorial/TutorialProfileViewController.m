@@ -41,6 +41,7 @@
   [super viewDidAppear:animated];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:tc.beforeSkillsText callbackTarget:nil action:nil];
 }
 

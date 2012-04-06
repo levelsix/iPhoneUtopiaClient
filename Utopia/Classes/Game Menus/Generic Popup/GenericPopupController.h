@@ -10,9 +10,12 @@
 
 @interface GenericPopupController : UIViewController
 
+@property (nonatomic, assign) BOOL toAppStore;
+
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 
 + (void) displayViewWithText:(NSString *)string;
++ (void) displayMajorUpdatePopup;
 + (void) removeView;
 + (void) purgeSingleton;
 

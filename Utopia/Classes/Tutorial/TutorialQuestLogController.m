@@ -174,6 +174,7 @@
     [self taskButtonTapped:nil];
     
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+    [DialogMenuController incrementProgress];
     [DialogMenuController displayViewForText:tc.afterQuestAcceptText callbackTarget:nil action:nil];
     [_arrow removeFromSuperview];
     
@@ -211,6 +212,10 @@
 }
 
 - (IBAction)redeemTapped:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  gs.silver += _tutQuest.coinsGained;
+  gs.experience += _tutQuest.expGained;
+  
   [_arrow removeFromSuperview];
   [super closeButtonClicked:nil];
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];

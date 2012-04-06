@@ -27,6 +27,7 @@
 #import "CityRankupViewController.h"
 #import "GoldShoppeViewController.h"
 #import "ActivityFeedController.h"
+#import "GenericPopupController.h"
 
 @implementation IncomingEventController
 
@@ -267,6 +268,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  
+  if (proto.updateStatus == StartupResponseProto_UpdateStatusMajorUpdate) {
+    [GenericPopupController displayMajorUpdatePopup];
+    return;
+  } else if (proto.updateStatus == StartupResponseProto_UpdateStatusMinorUpdate) {
+    [Globals popupMessage:@"There is an update available. Head over to the app store to download it now!"];
+  }
   
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {

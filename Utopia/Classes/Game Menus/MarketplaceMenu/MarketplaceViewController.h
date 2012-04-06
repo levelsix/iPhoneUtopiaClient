@@ -42,6 +42,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defStatLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *quanityBackground;
+@property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 
 @property (nonatomic, assign) MarketCellState state;
 @property (nonatomic, retain) FullMarketplacePostProto *mktProto;

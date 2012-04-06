@@ -80,10 +80,6 @@
 }
 
 - (void) startMyTurn {
-  if (_isAnimating) {
-    return;
-  }
-  
   if (_firstTurn) {
     _attackButton.visible = YES;
     _comboBar.visible = NO;
@@ -112,6 +108,9 @@
 }
 
 - (void) turnMissed {
+  if (_isAnimating) {
+    return;
+  }
   [self startMyTurn];
   
   _pulsingLabel.position = ccp(_ccArrow.position.x, _ccArrow.position.y+40);
@@ -206,7 +205,8 @@
   FullEquipProto *fep = [[[TutorialConstants sharedTutorialConstants] tutorialQuest] firstDefeatTypeJobBattleLootAmulet];
   
   self.stolenEquipView.nameLabel.text = fep.name;
-  self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+//  self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+  [Globals loadImageForEquip:fep.equipId toView:self.stolenEquipView.equipIcon maskedView:nil];
   self.stolenEquipView.attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   self.stolenEquipView.defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
   

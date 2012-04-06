@@ -33,6 +33,7 @@
 @synthesize attStatLabel, defStatLabel;
 @synthesize state = _state;
 @synthesize mktProto, equip;
+@synthesize quantityLabel, quanityBackground;
 
 - (void) awakeFromNib {
   [super awakeFromNib];
@@ -64,6 +65,8 @@
         submitButton.hidden = YES;
         priceIcon.hidden = YES;
         priceLabel.hidden = YES;
+        quanityBackground.hidden = NO;
+        quantityLabel.hidden = NO;
         break;
         
       case kSellingState:
@@ -76,6 +79,8 @@
         submitButton.hidden = YES;
         priceIcon.hidden = NO;
         priceLabel.hidden = NO;
+        quanityBackground.hidden = YES;
+        quantityLabel.hidden = YES;
         break;
         
       case kMySellingState:
@@ -88,6 +93,8 @@
         submitButton.hidden = YES;
         priceIcon.hidden = NO;
         priceLabel.hidden = NO;
+        quanityBackground.hidden = YES;
+        quantityLabel.hidden = YES;
         break;
         
       case kSubmitState:
@@ -98,6 +105,8 @@
         removeButton.hidden = YES;
         buyButton.hidden = YES;
         submitButton.hidden = NO;
+        quanityBackground.hidden = NO;
+        quantityLabel.hidden = NO;
         
         self.priceField.label.textColor = [UIColor whiteColor];
         break;
@@ -137,6 +146,8 @@
   FullEquipProto *fullEq = [[GameState sharedGameState] equipWithId:eq.equipId];
   self.postTitle.text = fullEq.name;
   self.postTitle.textColor = [Globals colorForRarity:fullEq.rarity];
+  self.quantityLabel.text = [NSString stringWithFormat:@"x%d", eq.quantity];
+  self.quantityLabel.textColor = [Globals colorForRarity:fullEq.rarity];
 //  self.itemImageView.image = [Globals imageForEquip:fullEq.equipId];
   [Globals loadImageForEquip:fullEq.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = nil;

@@ -10,19 +10,36 @@
 #import "SynthesizeSingleton.h"
 #import "cocos2d.h"
 
+#define APP_STORE_LINK @"itms-apps://itunes.apple.com/us/app/scramble-with-friends/id485078615?mt=8&uo=4"
+
 @implementation GenericPopupController
 
 @synthesize descriptionLabel;
+@synthesize toAppStore;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 
 + (void) displayViewWithText:(NSString *)string {
-  [[[GenericPopupController sharedGenericPopupController] descriptionLabel] setText:string];
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  gpc.descriptionLabel.text = string;
   [GenericPopupController displayView];
+  gpc.toAppStore = NO;
+}
+
++ (void) displayMajorUpdatePopup {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  gpc.descriptionLabel.text = @"There is a major update available. Click Okay to be taken to the App store.";
+  [GenericPopupController displayView];
+  gpc.toAppStore = YES;
 }
 
 - (IBAction)okayClicked:(id)sender {
-  [GenericPopupController removeView];
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  if (gpc.toAppStore) {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_STORE_LINK]];
+  } else {
+    [GenericPopupController removeView];
+  }
 }
 
 - (void)viewDidUnload

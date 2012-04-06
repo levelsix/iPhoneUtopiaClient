@@ -205,6 +205,14 @@
 
 - (void) buildComplete:(NSTimer *)timer {
   MoneyBuilding *mb = [timer userInfo];
+  UserStruct *userStruct = mb.userStruct;
+  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
+  
+  [_ccArrow removeFromParentAndCleanup:YES];
+  
+  userStruct.lastRetrieved = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
+  userStruct.isComplete = YES;
+  
   [self updateTimersForBuilding:mb];
   if (mb == _selected && self.hbMenu.state != kMoveState) {
     [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
@@ -213,6 +221,13 @@
   [self updateHomeBuildingMenu];
   _constrBuilding = nil;
   _waitingForBuildPhase = NO;
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController incrementProgress];
+  [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:nil action:nil];
+  
+  tc.structUsedDiamonds = NO;
+  tc.structTimeOfBuildComplete = [NSDate date];
 }
 
 - (void) upgradeComplete:(NSTimer *)timer {
@@ -222,12 +237,6 @@
     [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
   }
   _upgrBuilding = nil;
-  
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:nil action:nil];
-  
-  tc.structUsedDiamonds = NO;
-  tc.structTimeOfBuildComplete = [NSDate date];
 }
 
 - (IBAction)finishNowClicked:(id)sender {
@@ -265,6 +274,7 @@
   [self updateTimersForBuilding:mb];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:self action:@selector(showReferralDialog)];
   
   tc.structUsedDiamonds = YES;

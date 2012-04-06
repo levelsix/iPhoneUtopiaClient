@@ -20,6 +20,7 @@
 #define SUMMARY_MENU_ANIMATION_DURATION 0.15f
 
 #define TASK_BAR_DURATION 2.f
+#define EXP_LABEL_DURATION 3.f
 
 @implementation MissionBuildingSummaryMenu
 
@@ -174,7 +175,6 @@
 @implementation MissionMap
 
 @synthesize summaryMenu, obMenu;
-@synthesize walkableData = _walkableData;
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto {
   //  NSString *tmxFile = @"villa_montalvo.tmx";
@@ -490,8 +490,8 @@
   expLabel.color = ccc3(255,200,0);
   [expLabel runAction:[CCSequence actions:
                        [CCSpawn actions:
-                        [CCFadeOut actionWithDuration:1.f], 
-                        [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
+                        [CCFadeOut actionWithDuration:EXP_LABEL_DURATION], 
+                        [CCMoveBy actionWithDuration:EXP_LABEL_DURATION position:ccp(0,40)],nil],
                        [CCCallBlock actionWithBlock:^{[expLabel removeFromParentAndCleanup:YES];}], nil]];
   
   [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
@@ -581,60 +581,6 @@
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
   [self updateMissionBuildingMenu];
-}
-
-- (CGPoint) randomWalkablePosition {
-  while (true) {
-    int x = arc4random() % (int)self.mapSize.width;
-    int y = arc4random() % (int)self.mapSize.height;
-    NSNumber *num = [[_walkableData objectAtIndex:x] objectAtIndex:y];
-    if (num.boolValue == YES) {
-      return CGPointMake(x, y);
-    }
-  }
-}
-
-- (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt {
-  CGPoint diff = ccpSub(point, prevPt);
-  if (diff.y > 0.5f) {
-    diff = ccp(0, 1);
-  } else if (diff.y < -0.5f) {
-    diff = ccp(0, -1);
-  } else if (diff.x > 0.5f) {
-    diff = ccp(1, 0);
-  } else {
-    // Use some default :/ in case stuck
-    diff = ccp(-1, 0);
-  }
-  
-  CGPoint straight = ccpAdd(point, diff);
-  CGPoint left = ccpAdd(point, ccpRotateByAngle(diff, ccp(0,0), M_PI_2));
-  CGPoint right = ccpAdd(point, ccpRotateByAngle(diff, ccp(0,0), -M_PI_2));
-  CGPoint back = ccpSub(point, diff);
-  
-  CGPoint pts[4] = {straight, right, left, back};
-  int width = mapSize_.width;
-  int height = mapSize_.height;
-  
-  // Don't let it infinite loop in case its stuck
-  int max = 50;
-  while (max > 0) {
-    // 50% chance to go straight, 20% chance to turn (for each way), 10% chance to go back
-    int x = arc4random() % 100;
-    if (x <= 75) x = 0;
-    else if (x <= 85) x = 1;
-    else if (x <= 95) x = 2;
-    else x = 3;
-    
-    CGPoint pt = pts[x];
-    if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height) {
-      if ([[[_walkableData objectAtIndex:pt.x] objectAtIndex:pt.y] boolValue] == YES) {
-        return ccp((int)pt.x, (int)pt.y);
-      }
-    }
-    max--;
-  }
-  return point;
 }
 
 - (void) questAccepted:(FullQuestProto *)fqp {

@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface GameState : NSObject {
+  BOOL _isTutorial;
   BOOL _connected;
   int _userId;
   NSString *_name;
@@ -82,6 +83,7 @@
   NSMutableArray *_notifications;
 }
 
+@property (assign) BOOL isTutorial;
 @property (assign) BOOL connected;
 @property (assign) int userId;
 @property (retain) NSString *name;
