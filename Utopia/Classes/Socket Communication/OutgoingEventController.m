@@ -81,10 +81,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (BOOL) taskAction:(int)taskId {
+- (BOOL) taskAction:(int)taskId curTimesActed:(int)numTimesActed {
   // Return num times acted
   GameState *gs = [GameState sharedGameState];
   FullTaskProto *ftp = [gs taskWithId:taskId];
+  UserCity *fcp = [gs myCityWithId:ftp.cityId];
   
   if (ftp.cityId > gs.maxCityAccessible) {
     [Globals popupMessage:@"Attempting to do task in a locked city"];
@@ -101,6 +102,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.currentEnergy < ftp.energyCost) {
     [Globals popupMessage:@"Attempting to do task without enough energy"];
+  }
+  
+  if (numTimesActed+1 == ftp.numRequiredForCompletion) {
+    fcp.numTasksComplete++;
   }
   
   [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId curTime:[self getCurrentMilliseconds]];

@@ -371,12 +371,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       int cityId = 1;
       UserCity *city = [gs myCityWithId:cityId];
       city.curRank++;
+      city.numTasksComplete = 0;
       
       gs.silver += proto.coinBonusIfCityRankup;
       gs.experience += proto.expBonusIfCityRankup;
             
       // This will be released after the level up controller closes
-      CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:proto.coinsGained exp:proto.expBonusIfCityRankup];
+      CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:proto.coinBonusIfCityRankup exp:proto.expBonusIfCityRankup];
       [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
       
       if (gLay.currentCity == cityId) {

@@ -133,7 +133,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     [self.itemsContainerView addSubview:rev];
     
     FullEquipProto *fep = [gs equipWithId:equipId];
-    totalCost = fep.coinPrice;
+    totalCost += fep.coinPrice;
   }
   CGRect r = self.itemsContainerView.frame;
   r.size.width = CGRectGetMaxX(rev.frame);

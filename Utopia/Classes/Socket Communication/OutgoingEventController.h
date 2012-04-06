@@ -20,7 +20,7 @@
 - (void) vaultWithdrawal:(int)amount;
 - (void) vaultDeposit:(int)amount;
 
-- (BOOL) taskAction:(int)taskId;
+- (BOOL) taskAction:(int)taskId curTimesActed:(int)numTimesActed;
 
 - (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips;
 - (int) buyEquip:(int)equipId;

@@ -464,7 +464,7 @@
         [[RefillMenuController sharedRefillMenuController] displayEquipsView:arr];
         self.selected = nil;
       } else {
-        BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId];
+        BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:mb.numTimesActed];
         
         if (success) {
           _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);

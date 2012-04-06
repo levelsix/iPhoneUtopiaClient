@@ -193,11 +193,11 @@
     button3.visible = NO;
     [_menuItems addObject:button3];
     
-    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
-    button4.visible = NO;
-    [_menuItems addObject:button4];
+//    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+//    button4.visible = NO;
+//    [_menuItems addObject:button4];
     
-    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, button4, nil];
+    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, nil];
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     [self addChild:menu z:-1];
