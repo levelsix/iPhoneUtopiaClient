@@ -28,6 +28,7 @@
 #import "GoldShoppeViewController.h"
 #import "ActivityFeedController.h"
 #import "GenericPopupController.h"
+#import "DialogMenuController.h"
 
 @implementation IncomingEventController
 
@@ -174,6 +175,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleUserCreateResponseProto:(UserCreateResponseProto *) proto {
   NSLog(@"Received user create with status %d", proto.status);
   
+  [[DialogMenuController sharedDialogMenuController] receivedUserCreateResponse:proto];
   if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
     [[GameState sharedGameState] updateUser:proto.sender];
   }

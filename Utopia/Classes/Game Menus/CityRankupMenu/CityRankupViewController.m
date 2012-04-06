@@ -31,7 +31,7 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  rankupLabel.text = [NSString stringWithFormat:@"This city has reached rank %d", rank];
+  rankupLabel.text = [NSString stringWithFormat:@"This city has reached rank %d!", rank];
   coinLabel.text = [NSString stringWithFormat:@"%d", coins];
   expLabel.text = [NSString stringWithFormat:@"Exp. +%d", exp];
 }

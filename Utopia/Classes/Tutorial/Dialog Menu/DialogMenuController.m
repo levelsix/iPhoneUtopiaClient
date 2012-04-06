@@ -12,6 +12,25 @@
 #import "NibUtils.h"
 #import "OutgoingEventController.h"
 #import "TutorialConstants.h"
+#import "GameState.h"
+#import "Globals.h"
+
+@implementation DialogMenuLoadingView
+
+@synthesize darkView, actIndView;
+
+- (void) awakeFromNib {
+  self.darkView.layer.cornerRadius = 10.f;
+}
+
+- (void) dealloc {
+  self.darkView = nil;
+  self.actIndView = nil;
+  
+  [super dealloc];
+}
+
+@end
 
 @implementation DialogMenuController
 
@@ -19,12 +38,14 @@
 #define ANIMATION_VERTICAL_MOVEMENT 124
 #define WIN_HEIGHT [[UIScreen mainScreen] applicationFrame].size.width
 
+@synthesize loadingView;
 @synthesize label, progressBar;
 @synthesize target = _target;
 @synthesize selector = _selector;
 @synthesize progress = _progress;
 @synthesize textView, referralView;
 @synthesize referralTextField;
+@synthesize retryView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 
@@ -34,6 +55,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   // Do any additional setup after loading the view from its nib.
   [self.view addSubview:self.referralView];
   self.referralView.frame = self.textView.frame;
+  
+  CGRect r = loadingView.frame;
+  r.origin.y = self.view.frame.size.height - r.size.height;
+  loadingView.frame = r;
 }
 
 - (void) registerCallback:(id)t action:(SEL)s {
@@ -60,6 +85,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   
   dmc.textView.hidden = NO;
   dmc.referralView.hidden = YES;
+  dmc.retryView.hidden = YES;
   
   [dmc registerCallback:t action:s];
   
@@ -82,29 +108,33 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   }
 }
 
-+ (void) displayViewForReferral {
-  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+- (void) displayViewForReferral {
+  self.textView.hidden = YES;
+  self.referralView.hidden = NO;
+  self.retryView.hidden = YES;
   
-  dmc.textView.hidden = YES;
-  dmc.referralView.hidden = NO;
+  CGRect r = self.progressBar.frame;
+  r.size.width = 10+43*self.progress;
+  self.progressBar.frame = r;
   
-  CGRect r = dmc.progressBar.frame;
-  r.size.width = 10+43*dmc.progress;
-  dmc.progressBar.frame = r;
-  
-  if (!dmc.view.superview) {
-    r = dmc.view.frame;
+  if (!self.view.superview) {
+    r = self.view.frame;
     r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
-    dmc.view.frame = r;
+    self.view.frame = r;
     
     [DialogMenuController displayView];
     
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-      CGRect r = dmc.view.frame;
+      CGRect r = self.view.frame;
       r.origin.y = WIN_HEIGHT-r.size.height;
-      dmc.view.frame = r;
+      self.view.frame = r;
     }];
   }
+}
+
++ (void) displayViewForReferral {
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  [dmc displayViewForReferral];
 }
 
 + (void) closeView {
@@ -124,8 +154,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   [self sharedDialogMenuController].progress++;
 }
 
-- (void) didReceiveMemoryWarning {
-  return;
+- (void) startLoading {
+  [loadingView.actIndView startAnimating];
+  
+  [self.view addSubview:loadingView];
+  _isDisplayingLoadingView = YES;
+}
+
+- (void) stopLoading {
+  if (_isDisplayingLoadingView) {
+    [loadingView.actIndView stopAnimating];
+    [loadingView removeFromSuperview];
+    _isDisplayingLoadingView = NO;
+  }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -159,10 +200,66 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   tc.referralCode = referralTextField.text;
   
   [[OutgoingEventController sharedOutgoingEventController] createUser];
+  [referralTextField resignFirstResponder];
+  
+  [self startLoading];
 }
 
 - (IBAction)skipClicked:(id)sender {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  tc.referralCode = nil;
+  
   [[OutgoingEventController sharedOutgoingEventController] createUser];
+  [referralTextField resignFirstResponder];
+  
+  [self startLoading];
+}
+
+- (IBAction)retryClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] createUser];
+  [referralTextField resignFirstResponder];
+  
+  [self startLoading];
+}
+
+- (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp {
+  if (ucrp.status == UserCreateResponseProto_UserCreateStatusSuccess) {
+    [self registerCallback:self action:@selector(displayUserCreateSuccessDialog)];
+  } else if (ucrp.status == UserCreateResponseProto_UserCreateStatusTimeIssue) {
+    [self registerCallback:self action:@selector(displayTimeSyncDialog)];
+  } else if (ucrp.status == UserCreateResponseProto_UserCreateStatusInvalidReferCode) {
+    [self registerCallback:self action:@selector(displayReferralCodeFailDialog)];
+  } else {
+    [self registerCallback:self action:@selector(displayOtherFailDialog)];
+  }
+  [DialogMenuController closeView];
+  [self stopLoading];
+}
+
+- (void) displayUserCreateSuccessDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  GameState *gs = [GameState sharedGameState];
+  NSString *string = [NSString stringWithFormat:tc.createSuccessText, gs.name, [Globals factionForUserType:gs.type]];
+  [DialogMenuController displayViewForText:string callbackTarget:nil action:nil];
+}
+
+- (void) displayTimeSyncDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.timeSyncErrorText callbackTarget:nil action:nil];
+  
+  // Display retry button
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  dmc.retryView.hidden = NO;
+}
+
+- (void) displayReferralCodeFailDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.invalidReferCodeText callbackTarget:self action:@selector(displayViewForReferral)];
+}
+
+- (void) displayOtherFailDialog {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.otherFailText callbackTarget:nil action:nil];
 }
 
 - (void) viewDidUnload

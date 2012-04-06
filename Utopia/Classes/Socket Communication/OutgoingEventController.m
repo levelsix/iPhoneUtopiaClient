@@ -31,7 +31,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
-  NSString *udid = @"10";
+  NSString *udid = @"11";
   [sc sendUserCreateMessageWithUdid:udid
                                name:gs.name 
                                type:gs.type
