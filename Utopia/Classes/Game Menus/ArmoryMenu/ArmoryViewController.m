@@ -617,9 +617,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   if (gs.gold < fep.diamondPrice) {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fep.diamondPrice];
+    [Analytics notEnoughGoldInArmory:fep.equipId];
     return;
   } else if (gs.silver < fep.coinPrice) {
     [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    [Analytics notEnoughSilverInArmory:fep.equipId];
     return;
   }
   

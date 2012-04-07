@@ -394,7 +394,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   loadingView.label.text = str;
   [loadingView.actIndView startAnimating];
   
-  [self.view addSubview:loadingView];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:loadingView];
   _isDisplayingLoadingView = YES;
 }
 
@@ -411,9 +411,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 }
 
 - (void) fadeOut {
+  [self stopLoading];
   if (self.view.superview) {
-    [self stopLoading];
-    
     [UIView animateWithDuration:1.f animations:^{
       self.view.alpha = 0.f;
     } completion:^(BOOL finished) {

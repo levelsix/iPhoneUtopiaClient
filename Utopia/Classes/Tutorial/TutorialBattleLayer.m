@@ -301,12 +301,7 @@
   gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
   gs.battlesWon = 1;
   
-  UserEquip *ue = [[UserEquip alloc] init];
-  ue.equipId = tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId;
-  ue.quantity = 1;
-  ue.userId = gs.userId;
-  [[gs myEquips] addObject:ue];
-  [ue release];
+  [gs changeQuantityForEquip:tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId by:1];
   
   [[TutorialMissionMap sharedTutorialMissionMap] battleDone];
 }

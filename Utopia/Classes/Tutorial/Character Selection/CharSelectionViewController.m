@@ -350,17 +350,8 @@
   
   [(TutorialTopBar *)[TutorialTopBar sharedTopBar] updateIcon];
   
-  UserEquip *ue1 = [[UserEquip alloc] init];
-  ue1.equipId = weapon.equipId;
-  ue1.quantity = 1;
-  
-  UserEquip *ue2 = [[UserEquip alloc] init];
-  ue2.equipId = armor.equipId;
-  ue2.quantity = 1;
-  
-  [gs addToMyEquips:[NSArray arrayWithObjects:ue1, ue2, nil]];
-  [ue1 release];
-  [ue2 release];
+  [gs changeQuantityForEquip:weapon.equipId by:1];
+  [gs changeQuantityForEquip:armor.equipId by:1];
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];

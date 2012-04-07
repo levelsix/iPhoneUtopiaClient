@@ -157,6 +157,7 @@
   if (![[GameState sharedGameState] isTutorial]) {
     [GameViewController releaseAllViews];
   }
+  [Apsalar endSession];
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
@@ -170,6 +171,7 @@
       [[GameViewController sharedGameViewController] startDoorAnimation];
     }
   }
+  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -181,7 +183,9 @@
 	
 	[window release];
 	
-	[director end];	
+	[director end];
+  
+  [Apsalar endSession];
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {

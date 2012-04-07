@@ -10,6 +10,16 @@
 #import <QuartzCore/QuartzCore.h>
 #import <StoreKit/StoreKit.h>
 
+typedef enum {
+  kPackagesState = 1,
+  kEarnFreeState
+} GoldShoppeState;
+
+typedef enum {
+  kGoldCoinsButton = 1,
+  kEarnFreeButton = 1 << 1
+} GoldShoppeButton;
+
 @interface PriceLabel : UIView
 
 @property (nonatomic, retain) NSString *price;
@@ -35,6 +45,21 @@
 
 @end
 
+@interface GoldShoppeBar : UIView {
+  BOOL _trackingGoldCoins;
+  BOOL _trackingEarnFree;
+  
+  int _clickedButtons;
+}
+
+@property (nonatomic, retain) IBOutlet UILabel *goldCoinsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *earnFreeLabel;
+
+@property (nonatomic, retain) IBOutlet UIImageView *goldCoinsClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *earnFreeClicked;
+
+@end
+
 @interface GoldShoppeLoadingView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *darkView;
@@ -46,17 +71,16 @@
   UIScrollView *_scrollView;
   GoldPackageView *_itemView;
   BOOL _isDisplayingLoadingView;
+  GoldShoppeState _state;
 }
 
 @property (nonatomic, retain) IBOutlet GoldShoppeLoadingView *loadingView;
 @property (nonatomic, retain) IBOutlet UITableView *pkgTableView;
 @property (nonatomic, retain) IBOutlet GoldPackageView *itemView;
 @property (nonatomic, retain) IBOutlet UILabel *curGoldLabel;
+@property (nonatomic, retain) IBOutlet GoldShoppeBar *topBar;
 
-@property (nonatomic, retain) IBOutlet UILabel *leftTopBarLabel;
-@property (nonatomic, retain) IBOutlet UILabel *rightTopBarLabel;
-
-//@property (nonatomic, 
+@property (nonatomic, assign) GoldShoppeState state;
 
 + (GoldShoppeViewController *)sharedGoldShoppeViewController;
 + (void) displayView;

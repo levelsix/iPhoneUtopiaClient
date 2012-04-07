@@ -175,6 +175,23 @@
 
 @end
 
+@implementation MarketplaceLoadingView
+
+@synthesize darkView, actIndView;
+
+- (void) awakeFromNib {
+  self.darkView.layer.cornerRadius = 10.f;
+}
+
+- (void) dealloc {
+  self.darkView = nil;
+  self.actIndView = nil;
+  
+  [super dealloc];
+}
+
+@end
+
 @implementation MarketplaceViewController
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
@@ -195,6 +212,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize redeemTitleLabel;
 @synthesize ropeView, leftRope, rightRope, leftRopeFirstRow, rightRopeFirstRow;
 @synthesize shortLicenseCost, shortLicenseLength, longLicenseCost, longLicenseLength;
+@synthesize loadingView;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -284,11 +302,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }];
 }
 
+- (IBAction)searchBarClicked:(id)sender {
+  [Globals popupMessage:@"Sorry, search isn't ready yet. We will be adding it soon!"];
+  [Analytics clickedMarketplaceSearch];
+}
+
 - (IBAction)listButtonClicked:(id)sender {
   // Need to do 2 superviews: first one gives UITableViewCellContentView, second one gives ItemPostView
   ItemPostView *post = (ItemPostView *)[[[(UIButton *)sender superview] superview] superview];
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:post.equip.equipId];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.numPostsInMarketplace >= gl.maxNumberOfMarketplacePosts) {
+    [Globals popupMessage:@"You already have %d items in the marketplace. Remove a listing to post a new item."];
+    return;
+  }
   
   if (gs.hasValidLicense) {
     post.state = kSubmitState;
@@ -354,17 +383,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     [self disableEditing];
     int amount = [post.priceField.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
     [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId price:amount];
-    
     post.state = kListState;
-    
-    [postsTableView beginUpdates];
-    
     if (post.equip.quantity == 0) {
       [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
     }
-//    [postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1+![[GameState sharedGameState] hasValidLicense] inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-    
-    [postsTableView endUpdates];
   }
   [coinBar updateLabels];
 }
@@ -425,14 +447,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (gs.gold >= amount) {
       [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
     } else {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fmpp.diamondCost];
+      [Analytics notEnoughGoldForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.diamondCost];
     }
   } else {
     int amount = (int) ceilf(fmpp.coinCost*gl.retractPercentCut);
     if (gs.silver >= amount) {
       [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
     } else {
-      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fmpp.diamondCost];
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      [Analytics notEnoughSilverForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.coinCost];
     }
   }
   
@@ -488,10 +512,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   if (proto.coinCost > gs.silver) {
     [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    [Analytics notEnoughSilverForMarketplaceBuy:proto.postedEquip.equipId cost:proto.coinCost];
   } else if (proto.diamondCost > gs.gold) {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:proto.diamondCost];
+    [Analytics notEnoughGoldForMarketplaceBuy:proto.postedEquip.equipId cost:proto.diamondCost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:proto.marketplacePostId];
+    [self displayLoadingView];
     self.selectedCell = nil;
   }
   
@@ -516,12 +543,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   if (gs.gold >= gl.diamondCostOfShortMarketplaceLicense) {
     [[OutgoingEventController sharedOutgoingEventController] purchaseShortMarketplaceLicense];
+    [self licensePurchaseSuccessful];
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfShortMarketplaceLicense];
-  }
-  
-  if (gs.hasValidLicense) {
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    [Analytics notEnoughGoldForMarketplaceShortLicense];
   }
   
   [coinBar updateLabels];
@@ -533,11 +558,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   if (gs.gold >= gl.diamondCostOfLongMarketplaceLicense) {
     [[OutgoingEventController sharedOutgoingEventController] purchaseLongMarketplaceLicense];
+    [self licensePurchaseSuccessful];
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfLongMarketplaceLicense];
+    [Analytics notEnoughGoldForMarketplaceLongLicense];
   }
   
   [coinBar updateLabels];
+}
+
+- (void) licensePurchaseSuccessful {
+  self.purchLicenseView.hidden = YES;
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.hasValidLicense) {
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+  }
 }
 
 // Customize the number of sections in the table view.
@@ -842,6 +878,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
   [self.postsTableView reloadData];
   self.shouldReload = YES;
+}
+
+- (void) displayLoadingView {
+  [loadingView.actIndView startAnimating];
+  
+  [self.view addSubview:loadingView];
+  _isDisplayingLoadingView = YES;
+}
+
+- (void) removeLoadingView {
+  if (_isDisplayingLoadingView) {
+    [loadingView.actIndView stopAnimating];
+    [loadingView removeFromSuperview];
+    _isDisplayingLoadingView = NO;
+  }
 }
 
 - (void) dealloc {

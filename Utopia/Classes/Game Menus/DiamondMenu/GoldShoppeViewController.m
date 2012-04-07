@@ -94,6 +94,124 @@
 
 @end
 
+@implementation GoldShoppeBar
+
+@synthesize goldCoinsLabel, goldCoinsClicked, earnFreeLabel, earnFreeClicked;
+
+- (void) awakeFromNib {
+  _clickedButtons = 0;
+}
+
+- (void) clickButton:(GoldShoppeButton)button {
+  switch (button) {
+    case kGoldCoinsButton:
+      goldCoinsClicked.hidden = NO;
+      _clickedButtons |= kGoldCoinsButton;
+      goldCoinsLabel.highlighted = NO;
+      break;
+      
+    case kEarnFreeButton:
+      earnFreeClicked.hidden = NO;
+      _clickedButtons |= kEarnFreeButton;
+      earnFreeLabel.highlighted = NO;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) unclickButton:(GoldShoppeButton)button {
+  switch (button) {
+    case kGoldCoinsButton:
+      goldCoinsClicked.hidden = YES;
+      _clickedButtons &= ~kGoldCoinsButton;
+      goldCoinsLabel.highlighted = YES;
+      break;
+      
+    case kEarnFreeButton:
+      earnFreeClicked.hidden = YES;
+      _clickedButtons &= ~kEarnFreeButton;
+      earnFreeLabel.highlighted = YES;
+      break;
+      
+    default:
+      break;
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:goldCoinsClicked];
+  if (!(_clickedButtons & kGoldCoinsButton) && [goldCoinsClicked pointInside:pt withEvent:nil]) {
+    _trackingGoldCoins = YES;
+    [self clickButton:kGoldCoinsButton];
+  }
+  
+  pt = [touch locationInView:earnFreeClicked];
+  if (!(_clickedButtons & kEarnFreeButton) && [earnFreeClicked pointInside:pt withEvent:nil]) {
+    _trackingEarnFree = YES;
+    [self clickButton:kEarnFreeButton];
+  }
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:goldCoinsClicked];
+  if (_trackingGoldCoins) {
+    if (CGRectContainsPoint(CGRectInset(goldCoinsClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kGoldCoinsButton];
+    } else {
+      [self unclickButton:kGoldCoinsButton];
+    }
+  }
+  
+  pt = [touch locationInView:earnFreeClicked];
+  if (_trackingEarnFree) {
+    if (CGRectContainsPoint(CGRectInset(earnFreeClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kEarnFreeButton];
+    } else {
+      [self unclickButton:kEarnFreeButton];
+    }
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  CGPoint pt = [touch locationInView:goldCoinsClicked];
+  if (_trackingGoldCoins) {
+    if (CGRectContainsPoint(CGRectInset(goldCoinsClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [[GoldShoppeViewController sharedGoldShoppeViewController] setState:kPackagesState];
+      [self clickButton:kGoldCoinsButton];
+      [self unclickButton:kEarnFreeButton];
+    } else {
+      [self unclickButton:kGoldCoinsButton];
+    }
+  }
+  
+  pt = [touch locationInView:earnFreeClicked];
+  if (_trackingEarnFree) {
+    if (CGRectContainsPoint(CGRectInset(earnFreeClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kEarnFreeButton];
+      [self unclickButton:kGoldCoinsButton];
+      [[GoldShoppeViewController sharedGoldShoppeViewController] setState:kEarnFreeState];
+    } else {
+      [self unclickButton:kEarnFreeButton];
+    }
+  }
+  _trackingGoldCoins = NO;
+  _trackingEarnFree = NO;
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kGoldCoinsButton];
+  [self unclickButton:kEarnFreeButton];
+  _trackingGoldCoins = NO;
+  _trackingEarnFree = NO;
+}
+
+@end
+
 @implementation GoldShoppeLoadingView
 
 @synthesize darkView, actIndView;
@@ -116,7 +234,8 @@
 @synthesize loadingView;
 @synthesize itemView = _itemView;
 @synthesize pkgTableView, curGoldLabel;
-@synthesize leftTopBarLabel, rightTopBarLabel;
+@synthesize state = _state;
+@synthesize topBar;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
@@ -127,12 +246,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   self.pkgTableView.rowHeight = 62;
+  
+  self.state = kPackagesState;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
   [self.pkgTableView reloadData];
   
   curGoldLabel.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] gold]];
+}
+
+- (void) setState:(GoldShoppeState)state {
+  if (state != _state) {
+    _state = state;
+    switch (state) {
+      case kEarnFreeState:
+        [Globals popupMessage:@"There are no free offers at this time. Please check back in a future version."];
+        [Analytics clickedFreeOffers];
+        _state = kPackagesState;
+        break;
+        
+      default:
+        break;
+    }
+    [self.topBar unclickButton:kEarnFreeButton];
+    [self.topBar clickButton:kGoldCoinsButton];
+  }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -185,18 +324,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   curGoldLabel.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] gold]];
 }
 
-- (void) fadeOut {
-  if (self.view.superview) {
-    [self stopLoading];
-    
-    [UIView animateWithDuration:1.f animations:^{
-      self.view.alpha = 0.f;
-    } completion:^(BOOL finished) {
-      [GoldShoppeViewController removeView];
-    }];
-  }
-}
-
 - (void)viewDidUnload
 {
   [super viewDidUnload];
@@ -206,8 +333,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.itemView = nil;
   self.pkgTableView = nil;
   self.curGoldLabel = nil;
-  self.leftTopBarLabel = nil;
-  self.rightTopBarLabel = nil;
 }
 
 @end

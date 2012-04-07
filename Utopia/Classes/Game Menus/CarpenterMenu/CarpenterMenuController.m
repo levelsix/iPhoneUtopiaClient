@@ -640,8 +640,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     } else {
       if (carp.fsp.coinPrice) {
         [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+        [Analytics notEnoughSilverInCarpenter:carp.fsp.structId];
       } else {
         [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];
+        [Analytics notEnoughGoldInCarpenter:carp.fsp.structId];
       }
     }
     [coinBar updateLabels];

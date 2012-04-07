@@ -96,8 +96,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 - (void) displayBuyGoldView:(int)needsGold {
   GameState *gs = [GameState sharedGameState];
   
-  curGoldLabel.text = [NSString stringWithFormat:@"%d", gs.gold];
-  needGoldLabel.text = [NSString stringWithFormat:@"%d", needsGold];
+  curGoldLabel.text = [Globals commafyNumber:gs.gold];
+  needGoldLabel.text = [Globals commafyNumber:needsGold];
   
   [self openView:goldView];
 }
@@ -200,6 +200,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   
   if (goldCost > gs.gold) {
     [self displayBuyGoldView:goldCost];
+    if (_isEnergy) {
+      [Analytics notEnoughGoldToRefillEnergyPopup];
+    } else {
+      [Analytics notEnoughGoldToRefillStaminaPopup];
+    }
   } else {
     if (_isEnergy) {
       [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
@@ -213,7 +218,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
 - (IBAction) getMoreGoldClicked:(id)sender {
   [self closeView:goldView];
-  [GoldShoppeViewController displayView]; 
+  [GoldShoppeViewController displayView];
+  [Analytics clickedGetMoreGold:[[needGoldLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""] intValue]];
 }
 
 - (IBAction) buyItemsClicked:(id)sender {
@@ -252,6 +258,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [self closeView:itemsView];
   [MapViewController displayView];
   [[MapViewController sharedMapViewController] setState:kMissionMap];
+  [Analytics clickedGetMoreSilver];
 }
 
 - (IBAction) closeClicked:(id)sender {

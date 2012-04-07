@@ -54,6 +54,13 @@ typedef enum {
 
 @end
 
+@interface MarketplaceLoadingView : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *darkView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
+
+@end
+
 typedef enum {
   kEquipBuyingState = 1,
   kEquipSellingState
@@ -61,6 +68,7 @@ typedef enum {
 
 @interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL _refreshing;
+  BOOL _isDisplayingLoadingView;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *navBar;
@@ -78,6 +86,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *leftRope;
 @property (nonatomic, retain) IBOutlet UIView *rightRope;
 @property (nonatomic, retain) IBOutlet UIView *purchLicenseView;
+
+@property (nonatomic, retain) IBOutlet MarketplaceLoadingView *loadingView;
 
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 
@@ -110,6 +120,9 @@ typedef enum {
 - (NSMutableArray *) postsForState;
 - (void) displayRedeemView;
 - (void) doneRefreshing;
+
+- (void) displayLoadingView;
+- (void) removeLoadingView;
 
 - (IBAction)closePurchLicenseView:(id)sender;
 - (IBAction)shortLicenseClicked:(id)sender;

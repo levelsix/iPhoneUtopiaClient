@@ -188,6 +188,7 @@
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
 
 - (BOOL) hasValidLicense;
+- (void) changeQuantityForEquip:(int)equipId by:(int)qDelta;
 
 - (void) purgeStaticData;
 

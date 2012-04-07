@@ -560,6 +560,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
         break;
         
       case kWallState:
+        [Globals popupMessage:@"Sorry, wall isn't quite ready yet. It's coming soon though!"];
+        [Analytics clickedProfileWall];
         state = _state;
         [self.profileBar setProfileState:state];
         break;

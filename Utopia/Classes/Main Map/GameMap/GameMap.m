@@ -593,8 +593,10 @@
   // move map to the center of the screen
   CGSize ms = [self mapSize];
   CGSize ts = [self tileSizeInPoints];
-  float x = (-(ms.width-8)*ts.width/2)*self.scale;
-  float y = (-(ms.height-8)*ts.height/2)*self.scale;
+  CGSize size = [[CCDirector sharedDirector] winSize];
+  
+  float x = -ms.width*ts.width/2*scaleX_+size.width/2;
+  float y = -ms.height*ts.height/2*scaleY_+size.height/2;
   self.position = ccp(x,y);
 }
 
@@ -602,7 +604,11 @@
   if (spr) {
     CGPoint pt = spr.position;
     CGSize size = [[CCDirector sharedDirector] winSize];
-    self.position = ccp((-pt.x+size.width/2), ((-pt.y-self.contentSize.height/2)+size.height/2));
+    
+    // Since all sprites have anchor point ccp(0.5,0) adjust accordingly
+    float x = -pt.x*scaleX_+size.width/2;
+    float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
+    self.position = ccp(x,y);
   }
 }
 

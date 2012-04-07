@@ -593,6 +593,7 @@
   }
   
   self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, CGRectGetMaxY([[taskItemViews lastObject] frame]));
+  self.scrollView.scrollEnabled = self.scrollView.contentSize.height > self.scrollView.frame.size.height;
 }
 
 - (void) dealloc {

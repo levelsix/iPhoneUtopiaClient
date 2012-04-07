@@ -213,19 +213,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       if (proto.hasEquipGained) {
         [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        
-        int equipId = proto.equipGained.equipId;
-        UserEquip *ue = [gs myEquipWithId:equipId];
-        if (ue) {
-          ue.quantity++;
-        } else {
-          UserEquip *ue = [[UserEquip alloc] init];
-          ue.equipId = equipId;
-          ue.quantity = 1;
-          ue.userId = gs.userId;
-          [[gs myEquips] addObject:ue];
-          [ue release];
-        }
+        [gs changeQuantityForEquip:proto.equipGained.equipId by:1];
       }
       [[BattleLayer sharedBattleLayer] setBrp:proto];
     } else {
@@ -237,15 +225,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       if (proto.hasEquipGained) {
         [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        
-        int equipId = proto.equipGained.equipId;
-        UserEquip *ue = [gs myEquipWithId:equipId];
-        if (ue) {
-          ue.quantity--;
-          if (ue.quantity == 0) {
-            [gs.myEquips removeObject:ue];
-          }
-        }
+        [gs changeQuantityForEquip:proto.equipGained.equipId by:-1];
       }
       
       UserNotification *un = [[UserNotification alloc] initWithBattleResponse:proto];
@@ -407,8 +387,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   NSLog(@"Retrieve mkt response received with %d posts%@ and status %d.", proto.marketplacePostsList.count, proto.fromSender ? @" from sender" : @"", proto.status);
   
   GameState *gs = [GameState sharedGameState];
+  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   if (proto.status == RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess) {
-    MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
     if ([proto.marketplacePostsList count] > 0) {
       NSMutableArray *eq;
       NSMutableArray *staticEquips = [NSMutableArray arrayWithCapacity:proto.marketplacePostsList.count];
@@ -433,11 +413,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
     }
-    [mvc doneRefreshing];
-    [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
   } else {
     [Globals popupMessage:@"Server failed to retrieve current marketplace posts."];
   }
+  [mvc doneRefreshing];
+  [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
 }
 
 - (void) handlePostToMarketplaceResponseProto:(PostToMarketplaceResponseProto *) proto {
@@ -453,6 +433,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePurchaseFromMarketplaceResponseProto:(PurchaseFromMarketplaceResponseProto *) proto {
   NSLog(@"Purchase from mkt response received with status %d", proto.status);
   
+  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
     if (proto.posterId == gs.userId) {
@@ -460,10 +441,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
       [gs addNotification:un];
       [un release];
+    } else {
+      NSMutableArray *mktPosts = [mvc postsForState];
+      
+      for (int i = 0; i < mktPosts.count; i++) {
+        FullMarketplacePostProto *p = [mktPosts objectAtIndex:i];
+        if (p.marketplacePostId == proto.marketplacePost.marketplacePostId) {
+          [mktPosts removeObject:proto];
+          NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
+          NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+          NSArray *a = [NSArray arrayWithObjects:y, z, nil];
+          [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+          
+          [gs changeQuantityForEquip:p.postedEquip.equipId by:1];
+          break;
+        }
+      }
     }
   } else {
     [Globals popupMessage:@"Server failed to purchase from marketplace."];
   }
+  [mvc removeLoadingView];
 }
 
 - (void) handleRetractMarketplacePostResponseProto:(RetractMarketplacePostResponseProto *) proto {
@@ -662,10 +660,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleLoadNeutralCityResponseProto:(LoadNeutralCityResponseProto *)proto {
   NSLog(@"Load neutral city response received with status %d.", proto.status);
   
-  //  GameState *gs = [GameState sharedGameState];
-  
   if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
-//    [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];
     [[GameLayer sharedGameLayer] performSelectorInBackground:@selector(loadMissionMapWithProto:) withObject:proto];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
   } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {
@@ -785,6 +780,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
     [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
   } else {

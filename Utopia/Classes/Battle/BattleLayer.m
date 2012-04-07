@@ -442,6 +442,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   if (gs.currentStamina <= 0) {
     [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
+    [Analytics notEnoughStaminaForBattle];
     return;
   }
   

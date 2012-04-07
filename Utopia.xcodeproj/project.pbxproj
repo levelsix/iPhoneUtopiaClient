@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF018B7D1530422A00FDD214 /* Analytics.m in Sources */ = {isa = PBXBuildFile; fileRef = CF018B7C1530422A00FDD214 /* Analytics.m */; };
 		CF05573414DE6F18003739EF /* PullRefreshTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF05573314DE6F18003739EF /* PullRefreshTableViewController.m */; };
 		CF08C6D714FB78A900D04206 /* EquipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF08C6D614FB78A900D04206 /* EquipView.xib */; };
 		CF0AC061152BD3630018059E /* doorleft.png in Resources */ = {isa = PBXBuildFile; fileRef = CF0AC057152BD3630018059E /* doorleft.png */; };
@@ -1027,6 +1028,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CF018B7B1530422A00FDD214 /* Analytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analytics.h; sourceTree = "<group>"; };
+		CF018B7C1530422A00FDD214 /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		CF05573214DE6F18003739EF /* PullRefreshTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullRefreshTableViewController.h; sourceTree = "<group>"; };
 		CF05573314DE6F18003739EF /* PullRefreshTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullRefreshTableViewController.m; sourceTree = "<group>"; };
 		CF06C6981501B31000863EA1 /* australia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = australia.png; sourceTree = "<group>"; };
@@ -2230,6 +2233,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF018B7A153041B900FDD214 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				CF018B7B1530422A00FDD214 /* Analytics.h */,
+				CF018B7C1530422A00FDD214 /* Analytics.m */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
 		CF160520150AD9E100BE029C /* Proto files */ = {
 			isa = PBXGroup;
 			children = (
@@ -3361,6 +3373,7 @@
 		CFBAA00C14B3D52F007AB82F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CF018B7A153041B900FDD214 /* Analytics */,
 				CFDBE226150C633C00F601DB /* Tutorial */,
 				CFBAA00D14B3D52F007AB82F /* App Startup */,
 				CFBAA01514B3D52F007AB82F /* Battle */,
@@ -5270,6 +5283,7 @@
 				CF2AC5801527FB5D0025CA5F /* Drops.m in Sources */,
 				CF5383A7152D913800D283BB /* BuildUpgradePopupController.m in Sources */,
 				CF5383B1152E608400D283BB /* GenericPopupController.m in Sources */,
+				CF018B7D1530422A00FDD214 /* Analytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

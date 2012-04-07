@@ -82,8 +82,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
 }
 
+- (NSString *) priceForProduct:(SKProduct *)product {
+  NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+  [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+  [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+  [numberFormatter setLocale:product.priceLocale];
+  return [numberFormatter stringFromNumber:product.price];
+}
+
 - (void)completeTransaction:(SKPaymentTransaction *)transaction {
-  
   NSLog(@"completeTransaction...");
   
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
@@ -93,6 +100,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   NSNumber *goldAmt = [[[Globals sharedGlobals] productIdentifiers] objectForKey:transaction.payment.productIdentifier];
   GameState *gs = [GameState sharedGameState];
   gs.gold += goldAmt.intValue;
+  
+  // Find the SKProduct so we can send it in to analytics
+  SKProduct *product = nil;
+  for (SKProduct *p in self.products) {
+    if ([p.productIdentifier isEqualToString:transaction.payment.productIdentifier]) {
+      product = p;
+      break;
+    }
+  }
+  float price = [[[self priceForProduct:product] substringFromIndex:1] floatValue];
+  [Analytics purchasedGoldPackage:product.productIdentifier price:price goldAmount:goldAmt.intValue];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
@@ -100,10 +118,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
     NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
+  } else {
+    // Transaction was cancelled
+    [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
+    [Analytics cancelledGoldPackage:transaction.payment.productIdentifier];
   }
   
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
-  
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions

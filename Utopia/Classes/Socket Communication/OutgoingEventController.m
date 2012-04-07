@@ -129,17 +129,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
     [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
-    
-    if (ue) {
-      ue.quantity++;
-    } else {
-      ue = [[[UserEquip alloc] init] autorelease];
-      
-      ue.equipId = equipId;
-      ue.userId = gs.userId;
-      ue.quantity = 1;
-      [gs.myEquips addObject:ue];
-    }
+    [gs changeQuantityForEquip:equipId by:1];
     
     gs.silver -= fep.coinPrice;
     gs.gold -= fep.diamondPrice;
@@ -163,28 +153,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (ue) {
     [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
-    ue.quantity--;
+    [gs changeQuantityForEquip:equipId by:-1];
     
     gs.silver += [gl calculateEquipSilverSellCost:ue];
     gs.gold += [gl calculateEquipGoldSellCost:ue];
-    
-    if (ue.quantity == 0) {
-      if (ue.equipId == gs.weaponEquipped) {
-        gs.weaponEquipped = 0;
-      } else if (ue.equipId == gs.armorEquipped) {
-        gs.armorEquipped = 0;
-      } else if (ue.equipId == gs.amuletEquipped) {
-        gs.amuletEquipped = 0;
-      }
-      
-      [gs.myEquips removeObject:ue];
-      return 0;
-    }
   } else {
     [Globals popupMessage:@"You do not own this equipment"];
   }
   
-  return ue.quantity;
+  return [gs myEquipWithId:equipId].quantity;
 }
 
 - (BOOL) wearEquip:(int)equipId {
@@ -308,11 +285,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int silver = sellsForGold ? 0 : price;
     int gold = sellsForGold ? price : 0;
     [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
-    eq.quantity--;
-    
-    if (eq.quantity == 0) {
-      [gs.myEquips removeObject:eq];
-    }
+    [gs changeQuantityForEquip:equipId by:-1];
   } else {
     [Globals popupMessage:@"Unable to find this equip!"];
   }
@@ -370,12 +343,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if (gs.userId != proto.posterId) {
         if (gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
           [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
-          [mktPosts removeObject:proto];
-          NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
-          NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
-          NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-          [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
-          
           gs.gold -= proto.diamondCost;
           gs.silver -= proto.coinCost;
         } else {
@@ -1220,18 +1187,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.experience += fqp.expGained;
     
     if (fqp.equipIdGained > 0) {
-      UserEquip *ue = [gs myEquipWithId:fqp.equipIdGained];
-      if (ue) {
-        ue.quantity++;
-      } else {
-        ue = [[UserEquip alloc] init];
-        
-        ue.equipId = fqp.equipIdGained;
-        ue.userId = gs.userId;
-        ue.quantity = 1;
-        [gs.myEquips addObject:ue];
-        [ue release];
-      }
+      [gs changeQuantityForEquip:fqp.equipIdGained by:1];
     }
   } else {
     [Globals popupMessage:@"Attempting to redeem quest that is not in progress"];

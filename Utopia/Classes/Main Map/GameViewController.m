@@ -104,6 +104,7 @@
   [VaultMenuController removeView];
   [VaultMenuController purgeSingleton];
   [GameLayer purgeSingleton];
+  [[HomeMap sharedHomeMap] invalidateAllTimers];
   [HomeMap purgeSingleton];
   [BattleLayer purgeSingleton];
   [TopBar purgeSingleton];

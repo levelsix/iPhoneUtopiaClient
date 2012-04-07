@@ -1052,9 +1052,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   GameState *gs = [GameState sharedGameState];
   
   if (state == kUpgrading) {
-    int goldCost = [gl calculateDiamondCostForInstaUpgrade:_upgrBuilding.userStruct];
+    UserStruct *us = _upgrBuilding.userStruct;
+    int goldCost = [gl calculateDiamondCostForInstaUpgrade:us];
     if (gs.gold < goldCost) {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
+      [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:_upgrBuilding.userStruct];
     }
@@ -1064,6 +1066,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] instaBuild:_constrBuilding.userStruct];
+      [Analytics notEnoughGoldForInstaBuild:_constrBuilding.userStruct.structId];
     }
   }
   

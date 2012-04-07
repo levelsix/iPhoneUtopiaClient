@@ -87,16 +87,30 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 - (IBAction)depositClicked:(id)sender {
   [transferField resignFirstResponder];
   if (!_animating) {
-    [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:transferField.text.intValue];
-    [self updateBalance];
+    GameState *gs = [GameState sharedGameState];
+    int amount = transferField.text.intValue;
+    if (amount > gs.silver) {
+      [Globals popupMessage:[NSString stringWithFormat: @"You don't have %d silver on hand! Please try again.", amount]];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:amount];
+      [self updateBalance];
+    }
+    transferField.text = @"0";
   }
 }
 
 - (IBAction)withdrawClicked:(id)sender {
   [transferField resignFirstResponder];
   if (!_animating) {
-    [[OutgoingEventController sharedOutgoingEventController] vaultWithdrawal:transferField.text.intValue];
-    [self updateBalance];
+    GameState *gs = [GameState sharedGameState];
+    int amount = transferField.text.intValue;
+    if (amount > gs.vaultBalance) {
+      [Globals popupMessage:[NSString stringWithFormat: @"You don't have %d silver in the vault! Please try again.", amount]];
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] vaultWithdrawal:amount];
+      [self updateBalance];
+    }
+    transferField.text = @"0";
   }
 }
 
@@ -230,6 +244,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     frame.size.height += VIEW_JUMP_UPON_TEXT_FIELD;
     self.view.frame = frame;
   }];
+  
+  if ([textField.text isEqualToString:@"0"]) {
+    textField.text = @"";
+  }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -239,6 +257,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     frame.size.height -= VIEW_JUMP_UPON_TEXT_FIELD;
     self.view.frame = frame;
   }];
+  
+  if ([textField.text isEqualToString:@""]) {
+    textField.text = @"0";
+  }
 }
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

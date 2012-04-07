@@ -103,6 +103,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
     _attackList = [[NSMutableArray alloc] init];
     _notifications = [[NSMutableArray alloc] init];
+    _myEquips = [[NSMutableArray alloc] init];
+    _myStructs = [[NSMutableArray alloc] init];
+    _myCritStructs = [[NSMutableArray alloc] init];
+    _myCities = [[NSMutableDictionary alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressQuests = [[NSMutableDictionary alloc] init];
@@ -220,28 +224,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addToMyEquips:(NSArray *)equips {
-  self.myEquips = [NSMutableArray array];
   for (FullUserEquipProto *eq in equips) {
     [self.myEquips addObject:[UserEquip userEquipWithProto:eq]];
   }
 }
 
 - (void) addToMyStructs:(NSArray *)structs {
-  self.myStructs = [NSMutableArray array];
   for (FullUserStructureProto *st in structs) {
     [self.myStructs addObject:[UserStruct userStructWithProto:st]];
   }
 }
 
 - (void) addToMyCritStructs:(NSArray *)structs {
-  self.myCritStructs = [NSMutableArray array];
   for (FullUserCritstructProto *st in structs) {
     [self.myCritStructs addObject:[UserCritStruct critStructWithProto:st]];
   }
 }
 
 - (void) addToMyCities:(NSArray *)cities {
-  self.myCities = [NSMutableDictionary dictionaryWithCapacity:cities.count];
   for (FullUserCityProto *cit in cities) {
     [self.myCities setObject:[UserCity userCityWithProto:cit] forKey:[NSNumber numberWithInt:cit.cityId]];
   }
@@ -365,6 +365,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   
   return NO;
+}
+
+- (void) changeQuantityForEquip:(int)equipId by:(int)qDelta {
+  UserEquip *ue = [self myEquipWithId:equipId];
+  if (ue) {
+    ue.quantity += qDelta;
+  } else {
+    ue = [[UserEquip alloc] init];
+    ue.userId = self.userId;
+    ue.equipId = equipId;
+    ue.quantity = qDelta;
+    [_myEquips addObject:ue];
+    [ue release];
+  }
+  
+  if (ue.quantity < 1) {
+    [_myEquips removeObject:ue];
+    if (_weaponEquipped == equipId) {
+      _weaponEquipped = 0;
+    } else if (_armorEquipped == equipId) {
+      _armorEquipped = 0;
+    } else if (_amuletEquipped == equipId) {
+      _amuletEquipped = 0;
+    }
+  }
 }
 
 - (void) purgeStaticData {

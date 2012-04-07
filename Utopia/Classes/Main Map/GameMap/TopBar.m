@@ -77,12 +77,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _coinBar.position = ccp(373, self.contentSize.height+_coinBar.contentSize.height/2);
     
     NSString *fontName = [Globals font];
-    _silverLabel = [CCLabelTTF labelWithString:@"" fontName:fontName fontSize:12];
+    _silverLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12];
     [_coinBar addChild:_silverLabel];
     _silverLabel.color = ccc3(212,210,199);
     _silverLabel.position = ccp(55, 16);
     
-    _goldLabel = [CCLabelTTF labelWithString:@"" fontName:fontName fontSize:12];
+    _goldLabel = [CCLabelTTF labelWithString:@"0" fontName:fontName fontSize:12];
     [_coinBar addChild:_goldLabel];
     _goldLabel.color = ccc3(212,210,199);
     _goldLabel.position = ccp(127, 16);
@@ -113,7 +113,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [_enstBgd addChild:_bigToolTip z:2];
     
     int fontSize = 12;
-    _bigCurValLabel = [CCLabelTTF labelWithString:@"" fontName:[Globals font] fontSize:fontSize];
+    _bigCurValLabel = [CCLabelTTF labelWithString:@"0" fontName:[Globals font] fontSize:fontSize];
     _bigCurValLabel.position = ccp(_bigToolTip.contentSize.width/2, 47);
     [_bigToolTip addChild:_bigCurValLabel];
     [Globals adjustFontSizeForCCLabelTTF:_bigCurValLabel size:fontSize];
@@ -217,12 +217,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.energyRefillCost];
+      [Analytics notEnoughGoldToRefillEnergyTopBar];
     }
   } else if (_bigToolTipState == kStamina) {
     if (gs.gold >= gl.staminaRefillCost) {
       [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.staminaRefillCost];
+      [Analytics notEnoughGoldToRefillStaminaTopBar];
     }
   }
 }
@@ -378,6 +380,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) coinBarClicked {
   [GoldShoppeViewController displayView];
+  [Analytics viewedGoldShopFromTopMenu];
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {

@@ -454,6 +454,7 @@
     if (gs.currentEnergy < ftp.energyCost) {
       // Not enough energy
       [[RefillMenuController sharedRefillMenuController] displayEnstView:YES];
+      [Analytics notEnoughEnergyForTasks:ftp.taskId];
       self.selected = nil;
     } else {
       NSMutableArray *arr = [NSMutableArray array];
@@ -466,6 +467,7 @@
       
       if (arr.count > 0) {
         [[RefillMenuController sharedRefillMenuController] displayEquipsView:arr];
+        [Analytics notEnoughEquipsForTasks:ftp.taskId equipReqs:arr];
         self.selected = nil;
       } else {
         BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:mb.numTimesActed];

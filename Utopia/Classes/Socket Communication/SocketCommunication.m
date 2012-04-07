@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"204.102.225.39"//@"50.18.173.214"
+#define HOST_NAME @"192.168.1.6"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 #define UDID @"m"//@"42d1cadaa64dbf3c3e8133e652a2df06" //[[UIDevice currentDevice] uniqueDeviceIdentifier]

@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 #import "UserData.h"
+#import "Analytics.h"
 
 #define BUTTON_CLICKED_LEEWAY 30
 
