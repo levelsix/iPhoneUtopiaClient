@@ -200,6 +200,8 @@
     // Set the struct coords and time of purchase
     tc.structCoords = moneyBuilding.location.origin;
     tc.structTimeOfPurchase = [NSDate date];
+    
+    [Analytics tutorialPlaceInn];
   }
 }
 
@@ -228,15 +230,7 @@
   
   tc.structUsedDiamonds = NO;
   tc.structTimeOfBuildComplete = [NSDate date];
-}
-
-- (void) upgradeComplete:(NSTimer *)timer {
-  MoneyBuilding *mb = [timer userInfo];
-  [self updateTimersForBuilding:mb];
-  if (mb == _selected && self.hbMenu.state != kMoveState) {
-    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-  }
-  _upgrBuilding = nil;
+  [Analytics tutorialWaitBuild];
 }
 
 - (IBAction)finishNowClicked:(id)sender {
@@ -281,6 +275,8 @@
   tc.structTimeOfBuildComplete = [NSDate date];
   
   [_uiArrow removeFromSuperview];
+  
+  [Analytics tutorialFinishNow];
 }
 
 - (void) showReferralDialog {

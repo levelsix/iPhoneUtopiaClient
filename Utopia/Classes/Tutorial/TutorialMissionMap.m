@@ -447,6 +447,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
                                                              [upAction reverse], nil]]];
       
       [self moveToSprite:_questGiver];
+      [Analytics tutorialTaskComplete];
     }
     _pickupSilver = NO;
   }
@@ -546,6 +547,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   NSString *str = gs.type < 3 ? tc.beforeTaskTextGood : tc.beforeTaskTextBad;
   [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:str callbackTarget:nil action:nil];
+  [Analytics tutorialBattleComplete];
 }
 
 - (IBAction)profileClicked:(id)sender {

@@ -49,4 +49,30 @@
 + (void) clickedProfileWall;
 + (void) clickedFreeOffers;
 
+// Tutorial
++ (void) tutorialStart;
++ (void) tutorialOpenedDoor;
++ (void) tutorialPanDone;
++ (void) tutorialCharChosen;
++ (void) tutorialQuestAccept;
++ (void) tutorialBattleStart;
++ (void) tutorialBattleComplete;
++ (void) tutorialTaskComplete;
++ (void) tutorialQuestRedeem;
++ (void) tutorialSkillPointsAdded;
++ (void) tutorialAmuletEquipped;
++ (void) tutorialEnterAviary;
++ (void) tutorialEnemiesTab;
++ (void) tutorialRejectedLocation;
++ (void) tutorialEnabledLocation;
++ (void) tutorialGoHome;
++ (void) tutorialEnterCarpenter;
++ (void) tutorialPurchaseInn;
++ (void) tutorialPlaceInn;
++ (void) tutorialFinishNow;
++ (void) tutorialWaitBuild;
++ (void) tutorialEnterredReferral;
++ (void) tutorialSkippedReferral;
++ (void) tutorialComplete;
+
 @end

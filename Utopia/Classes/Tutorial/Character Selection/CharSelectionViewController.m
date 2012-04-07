@@ -355,6 +355,7 @@
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
+  [Analytics tutorialCharChosen];
 }
 
 - (void) runGameLayer {

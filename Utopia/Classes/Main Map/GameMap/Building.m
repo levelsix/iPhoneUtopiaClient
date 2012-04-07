@@ -240,7 +240,9 @@
     _userStruct = [userStruct retain];
     
     // Re-set location
-    self.location = self.location;
+    if (userStruct) {
+      self.location = self.location;
+    }
   }
 }
 

@@ -181,6 +181,7 @@
     [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:2.f];
     
     _canClose = YES;
+    [Analytics tutorialQuestAccept];
   }
 }
 
@@ -220,6 +221,7 @@
   [super closeButtonClicked:nil];
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
   [TutorialQuestLogController purgeSingleton];
+  [Analytics tutorialQuestRedeem];
 }
 
 //- (void) scrollViewDidScroll:(UIScrollView *)scrollView {

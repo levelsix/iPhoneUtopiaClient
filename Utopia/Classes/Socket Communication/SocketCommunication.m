@@ -17,7 +17,7 @@
 #define HOST_PORT 8888
 
 #define UDID @"m"//@"42d1cadaa64dbf3c3e8133e652a2df06" //[[UIDevice currentDevice] uniqueDeviceIdentifier]
-//#define FORCE_TUTORIAL
+#define FORCE_TUTORIAL
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1

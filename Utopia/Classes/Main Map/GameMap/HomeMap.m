@@ -722,6 +722,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
+  _purchBuilding.position = ccpAdd(_purchBuilding.position, ccp(0, fsp.imgVerticalPixelOffeset));
   
   int baseTag = [self baseTagForStructId:structId];
   int tag;

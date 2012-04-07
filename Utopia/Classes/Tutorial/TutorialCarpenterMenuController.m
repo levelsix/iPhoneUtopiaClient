@@ -36,6 +36,7 @@
   [DialogMenuController displayViewForText:tc.insideCarpenterText1 callbackTarget:self action:@selector(insideCarpDialog)];
   
   [self.coinBar updateLabels];
+  [Analytics tutorialEnterCarpenter];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -78,6 +79,7 @@
   if (carp.fsp.structId == 1) {
     [super carpListingClicked:carp];
     [CarpenterMenuController purgeSingleton];
+    [Analytics tutorialPurchaseInn];
   }
 }
 

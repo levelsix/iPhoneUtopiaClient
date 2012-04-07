@@ -37,6 +37,7 @@
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.insideAviaryText callbackTarget:self action:@selector(missionsDialog)];
+  [Analytics tutorialEnterAviary];
 }
 
 - (void) missionsDialog {
@@ -93,7 +94,6 @@
   if (state == kAttackMap && _enemyTabPhase) {
     self.mapBar.userInteractionEnabled = NO;
     
-    
     _enemyTabPhase = NO;
     _travelHomePhase = YES;
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
@@ -101,14 +101,17 @@
     
     [_arrow.layer removeAllAnimations];
     _arrow.alpha = 0.f;
+    [Analytics tutorialEnemiesTab];
   }
 }
 
 - (void) determineNextDialog {
   if (_rejectedLocation) {
     [self rejectLocationDialog];
+    [Analytics tutorialRejectedLocation];
   } else {
     [self goHomeDialog];
+    [Analytics tutorialEnabledLocation];
   }
 }
 
@@ -119,6 +122,7 @@
 - (IBAction)homeClicked:(id)sender {
   if (_travelHomePhase) {
     [super homeClicked:sender];
+    [Analytics tutorialGoHome];
   }
 }
 

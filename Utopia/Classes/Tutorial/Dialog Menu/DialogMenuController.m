@@ -203,6 +203,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   [referralTextField resignFirstResponder];
   
   [self startLoading];
+  
+  [Analytics tutorialEnterredReferral];
 }
 
 - (IBAction)skipClicked:(id)sender {
@@ -213,6 +215,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   [referralTextField resignFirstResponder];
   
   [self startLoading];
+  
+  [Analytics tutorialSkippedReferral];
 }
 
 - (IBAction)retryClicked:(id)sender {
@@ -237,10 +241,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 }
 
 - (void) displayUserCreateSuccessDialog {
+  self.progress++;
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   GameState *gs = [GameState sharedGameState];
   NSString *string = [NSString stringWithFormat:tc.createSuccessText, gs.name, [Globals factionForUserType:gs.type]];
   [DialogMenuController displayViewForText:string callbackTarget:nil action:nil];
+  [Analytics tutorialComplete];
 }
 
 - (void) displayTimeSyncDialog {

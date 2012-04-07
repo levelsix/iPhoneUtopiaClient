@@ -106,6 +106,8 @@
                     [CCDelayTime actionWithDuration:2],
                     [CCCallFunc actionWithTarget:self selector:@selector(flashComplete)],
                     nil]];
+  
+  [Analytics tutorialPanDone];
 }
 
 - (void) shakeMoar {

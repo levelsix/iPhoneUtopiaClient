@@ -43,6 +43,31 @@
 #define CLICKED_WALL @"Profile: Clicked wall"
 #define CLICKED_FREE_OFFERS @"Gold Shop: Clicked free offers"
 
+#define TUTORIAL_START @"Tutorial: Start"
+#define TUTORIAL_OPENED_DOOR @"Tutorial: Opened door"
+#define TUTORIAL_PAN_DONE @"Tutorial: Pan done"
+#define TUTORIAL_CHAR_CHOSEN @"Tutorial: Character chosen"
+#define TUTORIAL_QUEST_ACCEPTED @"Tutorial: Quest accepted"
+#define TUTORIAL_BATTLE_START @"Tutorial: Battle started"
+#define TUTORIAL_BATTLE_COMPLETE @"Tutorial: Battle complete"
+#define TUTORIAL_TASK_COMPLETE @"Tutorial: Task complete"
+#define TUTORIAL_QUEST_REDEEM @"Tutorial: Quest redeemed"
+#define TUTORIAL_SKILL_POINTS_ADDED @"Tutorial: Skill points added"
+#define TUTORIAL_AMULET_EQUIPPED @"Tutorial: Amulet equipped"
+#define TUTORIAL_ENTER_AVIARY @"Tutorial: Enterred aviary"
+#define TUTORIAL_ENEMIES_TAB @"Tutorial: Clicked enemies tab"
+#define TUTORIAL_REJECT_LOCATION_SERVICES @"Tutorial: Rejected location"
+#define TUTORIAL_ENABLED_LOCATION_SERVICES @"Tutorial: Enabled location"
+#define TUTORIAL_GO_HOME @"Tutorial: Clicked home"
+#define TUTORIAL_ENTER_CARPENTER @"Tutorial: Enterred carpenter"
+#define TUTORIAL_PURCHASE_INN @"Tutorial: Clicked Inn"
+#define TUTORIAL_PLACE_INN @"Tutorial: Placed Inn"
+#define TUTORIAL_FINISH_NOW @"Tutorial: Insta build"
+#define TUTORIAL_WAIT_BUILD @"Tutorial: Waited for build"
+#define TUTORIAL_ENTERRED_REFERRAL @"Tutorial: Enterred referral"
+#define TUTORIAL_SKIPPED_REFERRAL @"Tutorial: Skipped referral"
+#define TUTORIAL_COMPLETE @"Tutorial: Complete"
+
 @implementation Analytics
 
 + (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold {
@@ -302,6 +327,104 @@
 
 + (void) clickedFreeOffers {
   [Apsalar event:CLICKED_FREE_OFFERS];
+}
+
+// Tutorial
+
++ (void) tutorialStart {
+  [Apsalar event:TUTORIAL_START];
+}
+
++ (void) tutorialOpenedDoor {
+  [Apsalar event:TUTORIAL_OPENED_DOOR];
+}
+
++ (void) tutorialPanDone {
+  [Apsalar event:TUTORIAL_PAN_DONE];
+}
+
++ (void) tutorialCharChosen {
+  [Apsalar event:TUTORIAL_CHAR_CHOSEN];
+}
+
++ (void) tutorialQuestAccept {
+  [Apsalar event:TUTORIAL_QUEST_ACCEPTED];
+}
+
++ (void) tutorialBattleStart {
+  [Apsalar event:TUTORIAL_BATTLE_START];
+}
+
++ (void) tutorialBattleComplete {
+  [Apsalar event:TUTORIAL_BATTLE_COMPLETE];
+}
+
++ (void) tutorialTaskComplete {
+  [Apsalar event:TUTORIAL_TASK_COMPLETE];
+}
+
++ (void) tutorialQuestRedeem {
+  [Apsalar event:TUTORIAL_QUEST_REDEEM];
+}
+
++ (void) tutorialSkillPointsAdded {
+  [Apsalar event:TUTORIAL_SKILL_POINTS_ADDED];
+}
+
++ (void) tutorialAmuletEquipped {
+  [Apsalar event:TUTORIAL_AMULET_EQUIPPED];
+}
+
++ (void) tutorialEnterAviary {
+  [Apsalar event:TUTORIAL_ENTER_AVIARY];
+}
+
++ (void) tutorialEnemiesTab {
+  [Apsalar event:TUTORIAL_ENEMIES_TAB];
+}
+
++ (void) tutorialRejectedLocation {
+  [Apsalar event:TUTORIAL_REJECT_LOCATION_SERVICES];
+}
+
++ (void) tutorialEnabledLocation {
+  [Apsalar event:TUTORIAL_ENABLED_LOCATION_SERVICES];
+}
+
++ (void) tutorialGoHome {
+  [Apsalar event:TUTORIAL_GO_HOME];
+}
+
++ (void) tutorialEnterCarpenter {
+  [Apsalar event:TUTORIAL_ENTER_CARPENTER];
+}
+
++ (void) tutorialPurchaseInn {
+  [Apsalar event:TUTORIAL_PURCHASE_INN];
+}
+
++ (void) tutorialPlaceInn {
+  [Apsalar event:TUTORIAL_PLACE_INN];
+}
+
++ (void) tutorialFinishNow {
+  [Apsalar event:TUTORIAL_FINISH_NOW];
+}
+
++ (void) tutorialWaitBuild {
+  [Apsalar event:TUTORIAL_WAIT_BUILD];
+}
+
++ (void) tutorialEnterredReferral {
+  [Apsalar event:TUTORIAL_ENTERRED_REFERRAL];
+}
+
++ (void) tutorialSkippedReferral {
+  [Apsalar event:TUTORIAL_SKIPPED_REFERRAL];
+}
+
++ (void) tutorialComplete {
+  [Apsalar event:TUTORIAL_COMPLETE];
 }
 
 @end

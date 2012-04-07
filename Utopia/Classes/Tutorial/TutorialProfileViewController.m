@@ -92,6 +92,7 @@
   } completion:nil];
   
   [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].afterSkillPointsText callbackTarget:nil action:nil];
+  [Analytics tutorialSkillPointsAdded];
 }
 
 - (void) setState:(ProfileState)state {
@@ -141,6 +142,7 @@
     
     _equippingPhase = NO;
     _closingPhase = YES;
+    [Analytics tutorialAmuletEquipped];
   }
 }
 

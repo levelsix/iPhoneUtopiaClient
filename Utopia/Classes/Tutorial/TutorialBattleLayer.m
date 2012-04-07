@@ -76,7 +76,8 @@
   
   _firstTurn = YES;
   _firstAttack = YES;
-  [self startBattle]; 
+  [self startBattle];
+  [Analytics tutorialBattleStart];
 }
 
 - (void) startMyTurn {

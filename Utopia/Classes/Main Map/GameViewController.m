@@ -238,6 +238,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   if (self.isTutorial) {
     TutorialStartLayer *tsl = (TutorialStartLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:5];
     [tsl start];
+    [Analytics tutorialOpenedDoor];
   } else {
     [[TopBar sharedTopBar] start];
   }
@@ -297,6 +298,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   if (isTutorial) {
     [self allowOpeningOfDoor];
+    [Analytics tutorialStart];
   }
 }
 
