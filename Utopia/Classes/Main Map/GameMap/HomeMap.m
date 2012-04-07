@@ -621,6 +621,44 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   _loading = NO;
 }
 
+- (void) moveToStruct:(int)structId {
+  int baseTag = [self baseTagForStructId:structId];
+  BOOL structExists = NO;
+  MoneyBuilding *mb = nil;
+  for (int tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
+    MoneyBuilding *check;
+    if ((check = (MoneyBuilding *)[self getChildByTag:tag])) {
+      if (!mb || check.userStruct.level > mb.userStruct.level) {
+        mb = check;
+        structExists = YES;
+      }
+    } else {
+      break;
+    }
+  }
+  
+  if (mb) {
+    [self moveToSprite:mb];
+  } else {
+    // Find the carpenter
+    [self moveToCritStruct:CritStructTypeCarpenter];
+  }
+}
+
+- (void) moveToCritStruct:(CritStructType)type {
+  CCSprite *csb = nil;
+  for (CCNode *c in children_) {
+    if ([c isKindOfClass:[CritStructBuilding class]]) {
+      CritStructBuilding *check = (CritStructBuilding *)c;
+      if (check.critStruct.type == type) {
+        csb = check;
+        break;
+      }
+    }
+  }
+  [self moveToSprite:csb];
+}
+
 - (void) doReorder {
   [super doReorder];
   
@@ -692,6 +730,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       break;
     }
   }
+  if (tag == baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]) {
+    [Globals popupMessage:@"Already have max of this building."];
+    return;
+  }
+  
   [self addChild:_purchBuilding z:0 tag:tag];
   // Only keep a weak ref
   [_purchBuilding release];
@@ -704,7 +747,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   [self doReorder];
   
-  [[GameLayer sharedGameLayer] moveMap:self toSprite:_purchBuilding];
+  [self moveToSprite:_purchBuilding];
 }
 
 - (void) preparePurchaseOfCritStruct:(CritStruct *)cs {
@@ -722,7 +765,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   [self doReorder];
   
-  [[GameLayer sharedGameLayer] moveMap:self toSprite:csb];
+  [self moveToSprite:csb];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {

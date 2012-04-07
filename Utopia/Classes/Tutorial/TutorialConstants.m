@@ -97,7 +97,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.beforeTaskTextBad = @"Go to the Tavern and set an example of these men by roughing them up.";
   self.beforeSkillsText = [NSString stringWithFormat:@"Skill points are key to your success. You are awarded %d skill points every level. Allocate them wisely.", [[Globals sharedGlobals] skillPointsGainedOnLevelup]];
   self.afterSkillPointsText = @"Great! Now let's equip that amulet you stole during battle.";
-  self.beforeAviaryText1 = @"You seem tired… but its too dangerous to rest here! Why don't we go back to your place? ";
+  self.beforeAviaryText1 = @"Battles cost stamina and tasks cost energy, but that's the only way you're going to steal coins, loot equipment, and get stronger! Now let's go back to your place and rest up.";
   self.beforeAviaryText2 = @"Click on the Aviary to navigate around the world of Utopia. There will be one present in every location.";
   self.insideAviaryText = @"Before we go to your place, let me teach you how to use the Aviary.";
   self.missionAviaryText = @"In the missions tab, navigate the world and complete quests by using this map.";

@@ -13,8 +13,11 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.6"//@"50.18.173.214"
+#define HOST_NAME @"204.102.225.39"//@"50.18.173.214"
 #define HOST_PORT 8888
+
+#define UDID @"m"//@"42d1cadaa64dbf3c3e8133e652a2df06" //[[UIDevice currentDevice] uniqueDeviceIdentifier]
+//#define FORCE_TUTORIAL
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
@@ -210,6 +213,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
+  NSLog(@"Sent Battle Message");
   BattleRequestProto_Builder *builder = [[[[[[BattleRequestProto builder]
                                              setAttacker:_sender]
                                             setDefender:defender]
@@ -237,7 +241,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 }
 
 - (void) sendStartupMessage:(uint64_t)clientTime {
-  NSString *udid = @"3";//@"42d1cadaa64dbf3c3e8133e652a2df06";//[[UIDevice currentDevice] uniqueDeviceIdentifier];
+  NSString *udid = nil;
+#ifdef FORCE_TUTORIAL
+  udid = [NSString stringWithFormat:@"%d", arc4random()];
+#else
+  udid = UDID;
+#endif
   StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
                                      setUdid:udid]
                                     setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]

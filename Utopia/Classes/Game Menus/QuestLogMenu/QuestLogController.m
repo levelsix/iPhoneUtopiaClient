@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "GameLayer.h"
+#import "HomeMap.h"
 
 #define QUEST_ITEM_HEIGHT 31.f
 
@@ -446,12 +447,16 @@
     [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
   } else if (type == kDefeatTypeJob) {
     DefeatTypeJobProto *p = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:jobId]];
-    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId asset:0];
+    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId enemyType:p.typeOfEnemy];
   } else if (type == kUpgradeStructJob) {
+    UpgradeStructJobProto *p = [gs.staticUpgradeStructJobs objectForKey:[NSNumber numberWithInt:jobId]];
     [[GameLayer sharedGameLayer] loadHomeMap];
+    [[HomeMap sharedHomeMap] moveToStruct:p.structId];
   } else if (type == kBuildStructJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
+    [[HomeMap sharedHomeMap] moveToCritStruct:CritStructTypeCarpenter];
   }
+  [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
 }
 
 - (void) dealloc {

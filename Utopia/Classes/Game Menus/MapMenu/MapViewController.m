@@ -15,6 +15,8 @@
 #import "BattleLayer.h"
 #import "HomeMap.h"
 #import "GameLayer.h"
+#import "ArmoryViewController.h"
+#import "MarketplaceViewController.h"
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 5
 
@@ -272,6 +274,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   self.view.alpha = 0.f;
   [UIView animateWithDuration:1.f animations:^{
     self.view.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    // In case we got here from the marketplace or armory
+    [MarketplaceViewController removeView];
+    [ArmoryViewController removeView];
   }];
 }
 

@@ -30,9 +30,8 @@
   HomeMap *_homeMap;
   CGPoint _startMoveCoordinate;
   StructOrientation _startOrientation;
-  int _level;
 }
-@property (nonatomic, readonly) int level;
+
 @property (nonatomic, assign) CGPoint startTouchLocation;
 @property (nonatomic, assign) BOOL isSetDown;
 @property (nonatomic, assign) BOOL isConstructing;

@@ -236,7 +236,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) centerOnQuestGiver {
-  [[GameLayer sharedGameLayer] moveMap:self toSprite:_questGiver];
+  [self moveToSprite:_questGiver];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
@@ -311,7 +311,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) centerOnEnemy {
-  [[GameLayer sharedGameLayer] moveMap:self toSprite:_enemy];
+  [self moveToSprite:_enemy];
 }
 
 - (void) battleDone {
@@ -319,7 +319,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   _doTaskPhase = YES;
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [[GameLayer sharedGameLayer] moveMap:self toSprite:[self assetWithId:tc.tutorialQuest.assetNumWithinCity]];
+  [self moveToSprite:[self assetWithId:tc.tutorialQuest.assetNumWithinCity]];
   [_enemy removeFromParentAndCleanup:YES];
   
   // Move arrow to task
@@ -336,7 +336,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 - (void) centerOnTask {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   CCSprite *spr = [self assetWithId:tc.tutorialQuest.firstTaskGood.assetNumWithinCity];
-  [[GameLayer sharedGameLayer] moveMap:self toSprite:spr];
+  [self moveToSprite:spr];
 }
 
 - (void) performCurrentTask {
@@ -446,7 +446,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                              [upAction reverse], nil]]];
       
-      [[GameLayer sharedGameLayer] moveMap:self toSprite:_questGiver];
+      [self moveToSprite:_questGiver];
     }
     _pickupSilver = NO;
   }
@@ -516,7 +516,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   
   _aviaryPhase = YES;
   
-  [[GameLayer sharedGameLayer] moveMap:self toSprite:_aviary];
+  [self moveToSprite:_aviary];
 }
 
 - (IBAction)attackClicked:(id)sender {

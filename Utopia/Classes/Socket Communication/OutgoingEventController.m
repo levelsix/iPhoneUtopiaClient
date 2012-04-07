@@ -1099,7 +1099,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:mup];
 }
 
-- (void) loadNeutralCity:(int)cityId asset:(int)assetId {
+- (void) loadNeutralCity:(int)cityId {
   GameState *gs = [GameState sharedGameState];
   FullCityProto *city = [gs cityWithId:cityId];
   MapViewController *mvc = [MapViewController sharedMapViewController];
@@ -1108,16 +1108,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to visit nil city"];
     return;
   }
-  
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
-    if (assetId != 0) {
-      [[GameLayer sharedGameLayer] moveMissionMapToAssetId:assetId];
-    }
     [mvc fadeOut];
     return;
   }
   
-  [[GameLayer sharedGameLayer] setAssetId: assetId];
   [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
   
   if (city.minLevel <= gs.level) {
@@ -1138,6 +1133,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [Globals popupMessage:@"Trying to visit city above your level."];
   }
+}
+
+- (void) loadNeutralCity:(int)cityId asset:(int)assetId {
+  GameState *gs = [GameState sharedGameState];
+  FullCityProto *city = [gs cityWithId:cityId];
+  
+  if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
+    if (assetId != 0) {
+      [[[GameLayer sharedGameLayer] missionMap] moveToAssetId:assetId];
+    }
+  }
+  
+  [[GameLayer sharedGameLayer] setAssetId: assetId];
+  [self loadNeutralCity:cityId];
+}
+
+- (void) loadNeutralCity:(int)cityId enemyType:(UserType)type {
+  GameState *gs = [GameState sharedGameState];
+  FullCityProto *city = [gs cityWithId:cityId];
+  
+  if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
+      [[[GameLayer sharedGameLayer] missionMap] moveToEnemyType:type];
+  }
+  
+  [[GameLayer sharedGameLayer] setEnemyType:type];
+  [self loadNeutralCity:cityId];
 }
 
 - (void) changeUserLocationWithCoordinate:(CLLocationCoordinate2D)coord {

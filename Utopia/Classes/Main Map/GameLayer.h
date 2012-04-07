@@ -9,6 +9,7 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
+#import "Protocols.pb.h"
 
 @class ShopLayer;
 @class MaskedBar;
@@ -38,20 +39,17 @@ typedef enum {
   TopBar *_topBar;
   
   MusicState _curMusic;
+  
+  BOOL _shouldCenterOnEnemy;
 }
 
 @property (nonatomic, assign) int assetId;
+@property (nonatomic, assign) UserType enemyType;
 @property (nonatomic, assign) int currentCity;
 @property (nonatomic, retain) MissionMap *missionMap;
 
-- (void) moveMissionMapToAssetId:(int)assetId;
-- (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) loadHomeMap;
-- (void) moveMapToCenter:(GameMap *)map;
-- (void) moveMap:(GameMap *)map toSprite:(CCSprite *)spr;
-- (void) moveMissionMapToAssetId:(int)a;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
-- (void) loadHomeMap;
 - (void) closeMenus;
 - (void) unloadTutorialMissionMap;
 - (void) loadTutorialMissionMap;

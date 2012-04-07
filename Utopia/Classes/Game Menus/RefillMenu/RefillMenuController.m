@@ -119,7 +119,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [view release];
   
   RequiresEquipView *rev = nil;
-  int totalCost;
+  int totalCost = 0;
   
   for (int i = 0; i < equipIds.count; i++) {
     int equipId = [[equipIds objectAtIndex:i] intValue];
@@ -153,8 +153,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   NSString *string = [Globals commafyNumber:totalCost];
   itemsSilverLabel.text = string;
   CGSize expectedLabelSize = [string sizeWithFont:itemsSilverLabel.font];
+  r = itemsSilverLabel.frame;
+  r.size.width = expectedLabelSize.width;
+  itemsSilverLabel.frame = r;
+  
   r = itemsCostView.frame;
-  r.size.width = itemsSilverLabel.frame.origin.x+expectedLabelSize.width;
+  r.size.width = CGRectGetMaxX(itemsSilverLabel.frame);
   itemsCostView.frame = r;
   
   itemsCostView.center = CGPointMake(center, itemsCostView.center.y);
@@ -214,17 +218,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
 - (IBAction) buyItemsClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  int amount = itemsSilverLabel.text.intValue;
+  Globals *gl = [Globals sharedGlobals];
+  int amount = [itemsSilverLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
   
   if (amount > gs.silver) {
     [self displayBuySilverView];
+  } else if (gs.level < gl.minLevelForArmory) {
+    [Globals popupMessage:@"You are not high enough level to purchase equipment from the armory"];
   } else {
-    // Buy items
-    for (RequiresEquipView *rev in itemsContainerView.subviews) {
-      int equipId = rev.equipId;
-      [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
+    // Check that they actually have an armory
+    BOOL armory = NO;
+    for (CritStruct *cs in gs.myCritStructs) {
+      if (cs.type == CritStructTypeArmory) {
+        armory = YES;
+      }
     }
-    [self closeView:itemsView];
+    
+    if (!armory) {
+      [Globals popupMessage:@"It seems you have not yet built your armory. Please visit your carpenter to build one now!"];
+    } else {
+      // Buy items
+      for (RequiresEquipView *rev in itemsContainerView.subviews) {
+        int equipId = rev.equipId;
+        [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
+      }
+      [self closeView:itemsView];
+    }
   }
 }
 

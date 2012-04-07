@@ -23,9 +23,9 @@
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
-#define START_ANGLE -14.f
-#define TOTAL_ANGLE -87.f
-#define BUTTON_DISTANCE 60.f
+#define START_ANGLE -17.f//-14.f
+#define TOTAL_ANGLE -81.f//-87.f
+#define BUTTON_DISTANCE 40.f//60.f
 
 #define PULSATE_DURATION 1.587f
 

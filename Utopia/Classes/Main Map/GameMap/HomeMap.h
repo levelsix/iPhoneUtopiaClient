@@ -137,6 +137,9 @@ typedef enum {
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
 
+- (void) moveToStruct:(int)structId;
+- (void) moveToCritStruct:(CritStructType)type;
+
 - (void) beginTimers;
 
 - (IBAction)leftButtonClicked:(id)sender;

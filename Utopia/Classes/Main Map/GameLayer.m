@@ -33,7 +33,7 @@
 // HelloWorldLayer implementation
 @implementation GameLayer
 
-@synthesize assetId, currentCity;
+@synthesize assetId, enemyType, currentCity;
 @synthesize missionMap = _missionMap;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
@@ -61,7 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 	if( (self=[super initWithColor:ccc4(0, 140, 140, 255) fadingTo:ccc4(0, 0, 0, 255)])) {
     _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
-    [self moveMapToCenter:_homeMap];
+    [_homeMap moveToCenter];
     
     _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];
@@ -71,27 +71,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   return self;  
 }
 
-- (void) moveMapToCenter:(GameMap *)map {
-  // move map to the center of the screen
-  CGSize ms = [map mapSize];
-  CGSize ts = [map tileSizeInPoints];
-  map.position = ccp((-(ms.width-8)*ts.width/2)*map.scale,(-(ms.height-8)*ts.height/2)*map.scale);
-}
-
-- (void) moveMap:(GameMap *)map toSprite:(CCSprite *)spr {
-  CGPoint pt = spr.position;
-  CGSize size = [[CCDirector sharedDirector] winSize];
-  map.position = ccp((-pt.x+size.width/2), ((-pt.y-spr.contentSize.height/2)+size.height/2));
-}
-
-- (void) moveMissionMapToAssetId:(int)a {
-  assetId = a;
-  CCSprite *spr = [_missionMap assetWithId:assetId];
-  if (spr) {
-    [self moveMap:_missionMap toSprite:spr];
-  } else {
-    [self moveMapToCenter:_missionMap];
-  }
+- (void) setEnemyType:(UserType)type {
+  enemyType = type;
+  _shouldCenterOnEnemy = YES;
 }
 
 - (void) unloadCurrentMissionMap {
@@ -110,10 +92,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self unloadCurrentMissionMap];
   _missionMap = [[MissionMap alloc] initWithProto:proto];
   
-  if (assetId == 0) {
-    [self moveMapToCenter:_missionMap];
-  } else {
-    [self moveMissionMapToAssetId:assetId];
+  [_missionMap moveToCenter];
+  if (_shouldCenterOnEnemy) {
+    [_missionMap moveToEnemyType:enemyType];
+    _shouldCenterOnEnemy = NO;
+  } else if (assetId != 0) {
+    [_missionMap moveToAssetId:assetId];
+    self.assetId = 0;
   }
   
   [self addChild:_missionMap z:1];
@@ -147,7 +132,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   TutorialMissionMap *map = [TutorialMissionMap sharedTutorialMissionMap];
   _missionMap = map;
   
-  [self moveMapToCenter:_missionMap];
+  [_missionMap moveToCenter];
   
   [self addChild:_missionMap z:1];
   [map doBlink];
@@ -166,7 +151,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [_homeMap refresh];
   [_homeMap beginTimers];
   _homeMap.visible = YES;
-  [self moveMapToCenter:_homeMap];
+  [_homeMap moveToCenter];
   currentCity = 0;
   
   if (_curMusic != kHomeMusic) {

@@ -53,6 +53,10 @@
 - (SelectableSprite *) selectableForPt:(CGPoint)pt;
 - (void) layerWillDisappear;
 
+- (void) moveToCenter;
+- (void) moveToSprite:(CCSprite *)spr;
+- (void) moveToEnemyType:(UserType)type;
+
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
 

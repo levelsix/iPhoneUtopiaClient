@@ -71,6 +71,8 @@
 - (void) retrieveEquipStore;
 
 - (void) loadPlayerCity:(int)userId;
+- (void) loadNeutralCity:(int)cityId;
+- (void) loadNeutralCity:(int)cityId enemyType:(UserType)type;
 - (void) loadNeutralCity:(int)cityId asset:(int)assetId;
 
 - (void) levelUp;

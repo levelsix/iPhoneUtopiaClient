@@ -3788,6 +3788,7 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 @property int32_t instaBuildDiamondCostBase;
 @property int32_t instaRetrieveDiamondCostBase;
 @property int32_t instaUpgradeDiamondCostBase;
+@property int32_t imgVerticalPixelOffeset;
 @end
 
 @implementation FullStructureProto
@@ -3890,6 +3891,13 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   hasInstaUpgradeDiamondCostBase_ = !!value;
 }
 @synthesize instaUpgradeDiamondCostBase;
+- (BOOL) hasImgVerticalPixelOffeset {
+  return !!hasImgVerticalPixelOffeset_;
+}
+- (void) setHasImgVerticalPixelOffeset:(BOOL) value {
+  hasImgVerticalPixelOffeset_ = !!value;
+}
+@synthesize imgVerticalPixelOffeset;
 - (void) dealloc {
   self.name = nil;
   [super dealloc];
@@ -3910,6 +3918,7 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
     self.instaBuildDiamondCostBase = 0;
     self.instaRetrieveDiamondCostBase = 0;
     self.instaUpgradeDiamondCostBase = 0;
+    self.imgVerticalPixelOffeset = 0;
   }
   return self;
 }
@@ -3968,6 +3977,9 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (!self.hasInstaUpgradeDiamondCostBase) {
     return NO;
   }
+  if (!self.hasImgVerticalPixelOffeset) {
+    return NO;
+  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -4012,6 +4024,9 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   }
   if (self.hasInstaUpgradeDiamondCostBase) {
     [output writeInt32:16 value:self.instaUpgradeDiamondCostBase];
+  }
+  if (self.hasImgVerticalPixelOffeset) {
+    [output writeInt32:17 value:self.imgVerticalPixelOffeset];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4063,6 +4078,9 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   }
   if (self.hasInstaUpgradeDiamondCostBase) {
     size += computeInt32Size(16, self.instaUpgradeDiamondCostBase);
+  }
+  if (self.hasImgVerticalPixelOffeset) {
+    size += computeInt32Size(17, self.imgVerticalPixelOffeset);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4181,6 +4199,9 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasInstaUpgradeDiamondCostBase) {
     [self setInstaUpgradeDiamondCostBase:other.instaUpgradeDiamondCostBase];
   }
+  if (other.hasImgVerticalPixelOffeset) {
+    [self setImgVerticalPixelOffeset:other.imgVerticalPixelOffeset];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4256,6 +4277,10 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
       }
       case 128: {
         [self setInstaUpgradeDiamondCostBase:[input readInt32]];
+        break;
+      }
+      case 136: {
+        [self setImgVerticalPixelOffeset:[input readInt32]];
         break;
       }
     }
@@ -4483,6 +4508,22 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 - (FullStructureProto_Builder*) clearInstaUpgradeDiamondCostBase {
   result.hasInstaUpgradeDiamondCostBase = NO;
   result.instaUpgradeDiamondCostBase = 0;
+  return self;
+}
+- (BOOL) hasImgVerticalPixelOffeset {
+  return result.hasImgVerticalPixelOffeset;
+}
+- (int32_t) imgVerticalPixelOffeset {
+  return result.imgVerticalPixelOffeset;
+}
+- (FullStructureProto_Builder*) setImgVerticalPixelOffeset:(int32_t) value {
+  result.hasImgVerticalPixelOffeset = YES;
+  result.imgVerticalPixelOffeset = value;
+  return self;
+}
+- (FullStructureProto_Builder*) clearImgVerticalPixelOffeset {
+  result.hasImgVerticalPixelOffeset = NO;
+  result.imgVerticalPixelOffeset = 0;
   return self;
 }
 @end

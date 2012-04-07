@@ -589,7 +589,37 @@
   return point;
 }
 
--(void) dealloc {
+- (void) moveToCenter {
+  // move map to the center of the screen
+  CGSize ms = [self mapSize];
+  CGSize ts = [self tileSizeInPoints];
+  float x = (-(ms.width-8)*ts.width/2)*self.scale;
+  float y = (-(ms.height-8)*ts.height/2)*self.scale;
+  self.position = ccp(x,y);
+}
+
+- (void) moveToSprite:(CCSprite *)spr {
+  if (spr) {
+    CGPoint pt = spr.position;
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    self.position = ccp((-pt.x+size.width/2), ((-pt.y-self.contentSize.height/2)+size.height/2));
+  }
+}
+
+- (void) moveToEnemyType:(UserType)type {
+  Enemy *enemyWithType = nil;
+  for (CCNode *child in children_) {
+    if ([child isKindOfClass:[Enemy class]]) {
+      Enemy *enemy = (Enemy *)child;
+      if (enemy.user.userType == type) {
+        enemyWithType = enemy;
+      }
+    }
+  }
+  [self moveToSprite:enemyWithType];
+}
+
+- (void) dealloc {
   [self.enemyMenu removeFromSuperview];
   self.enemyMenu = nil;
   [self.aviaryMenu removeFromSuperview];

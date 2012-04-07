@@ -418,6 +418,10 @@
   return [self getChildByTag:assetId+ASSET_TAG_BASE];
 }
 
+- (void) moveToAssetId:(int)a {
+  [self moveToSprite:[self assetWithId:a]];
+}
+
 - (void) setPosition:(CGPoint)position {
   CGPoint oldPos = position_;
   [super setPosition:position];

@@ -90,7 +90,7 @@
 }
 
 - (IBAction)goClicked:(id)sender {
-  [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp.cityId asset:0];
+  [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_fcp.cityId];
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

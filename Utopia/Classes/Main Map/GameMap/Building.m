@@ -43,7 +43,6 @@
 
 @implementation HomeBuilding
 
-@synthesize level = _level;
 @synthesize startTouchLocation = _startTouchLocation;
 @synthesize isSetDown = _isSetDown;
 @synthesize isConstructing = _isConstructing;
@@ -224,6 +223,25 @@
   _retrieveBubble = [[CCSprite spriteWithFile:@"retrievebubble.png"] retain];
   [self addChild:_retrieveBubble];
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
+}
+
+- (void) setLocation:(CGRect)location {
+  [super setLocation:location];
+  
+  if (_userStruct) {
+    FullStructureProto *fsp = [[GameState sharedGameState] structWithId:_userStruct.structId];
+    self.position = ccpAdd(self.position, ccp(0,fsp.imgVerticalPixelOffeset));
+  }
+}
+
+- (void) setUserStruct:(UserStruct *)userStruct {
+  if (_userStruct != userStruct) {
+    [_userStruct release];
+    _userStruct = [userStruct retain];
+    
+    // Re-set location
+    self.location = self.location;
+  }
 }
 
 - (void) setRetrievable:(BOOL)retrievable {
