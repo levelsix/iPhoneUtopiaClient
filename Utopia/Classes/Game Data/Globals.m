@@ -11,19 +11,11 @@
 #import "IAPHelper.h"
 #import "GameState.h"
 #import "Protocols.pb.h"
-#import "ImageDownloader.h"
+#import "Downloader.h"
 #import "GenericPopupController.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
-
-@implementation UIImageView (ImageDownloader)
-
-- (id) copyWithZone:(NSZone *)zone {
-  return self;
-}
-
-@end
 
 @implementation Globals
 
@@ -417,6 +409,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [view.layer addAnimation:animation forKey:@"position"];
 }
 
++ (NSString *) pathToMap:(NSString *)mapName {
+  if (!mapName) {
+    return nil;
+  }
+  
+  // prevents overloading the autorelease pool
+  NSString *resName = [CCFileUtils getDoubleResolutionImage:mapName validate:NO];
+  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
+  
+  // Added for Utopia project
+  if (!fullpath) {
+    // Image not in NSBundle: look in documents
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      // Map not in docs: download it
+      [[Downloader sharedDownloader] syncDownloadMap:fullpath.lastPathComponent];
+    }
+  }
+  
+  return fullpath;
+}
+
 + (UIImage *) imageNamed:(NSString *)path {
   if (!path) {
     return nil;
@@ -442,7 +459,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       // Image not in docs: download it
-      [[ImageDownloader sharedImageDownloader] downloadImage:fullpath.lastPathComponent];
+      [[Downloader sharedDownloader] syncDownloadImage:fullpath.lastPathComponent];
     }
   }
   
@@ -493,13 +510,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       }
       view.image = nil;
       
-      [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:view];
+      NSString *key = [NSString stringWithFormat:@"%p", view];
+      [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
       
       // Image not in docs: download it
       // Game will crash if view is released before image download completes so retain it
       [view retain];
-      [[ImageDownloader sharedImageDownloader] downloadImage:fullpath.lastPathComponent completion:^{
-        NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:view];
+      [[Downloader sharedDownloader] downloadImage:fullpath.lastPathComponent completion:^{
+        NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
           NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
           NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);

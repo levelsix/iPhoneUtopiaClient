@@ -16,7 +16,7 @@
 #import "ProfilePicture.h"
 #import "GoldShoppeViewController.h"
 #import "AnimatedSprite.h"
-#import "ImageDownloader.h"
+#import "Downloader.h"
 #import "GameState.h"
 #import "Globals.h"
 #import "QuestLogController.h"

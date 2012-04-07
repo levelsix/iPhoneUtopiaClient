@@ -41,6 +41,9 @@
 #import "Support/ZipUtils.h"
 #import "Support/CCFileUtils.h"
 
+// Added by LVL6
+#import "Globals.h"
+
 #pragma mark -
 #pragma mark TMXLayerInfo
 
@@ -164,8 +167,10 @@
 
 - (void) parseXMLFile:(NSString *)xmlFilename
 {
-  NSURL *url = [NSURL fileURLWithPath:[CCFileUtils fullPathFromRelativePath:xmlFilename] ];
+  NSString *string = [Globals pathToMap:xmlFilename];
+  NSURL *url = [NSURL fileURLWithPath:string];
   NSData *data = [NSData dataWithContentsOfURL:url];
+  
   NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
 
 	// we'll do the parsing

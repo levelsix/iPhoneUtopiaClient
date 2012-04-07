@@ -369,7 +369,7 @@
 		CF229646152C2EAA0083ED78 /* europe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A791501AED50048D2EC /* europe@2x.png */; };
 		CF229647152C2EAA0083ED78 /* goldshoppebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A7A1501AED50048D2EC /* goldshoppebg.png */; };
 		CF229648152C2EAA0083ED78 /* goldshoppebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A7B1501AED50048D2EC /* goldshoppebg@2x.png */; };
-		CF229649152C2EAA0083ED78 /* greeland.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A7C1501AED50048D2EC /* greeland.png */; };
+		CF229649152C2EAA0083ED78 /* greenland.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A7C1501AED50048D2EC /* greenland.png */; };
 		CF22964A152C2EAA0083ED78 /* greenland@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A7D1501AED50048D2EC /* greenland@2x.png */; };
 		CF22964B152C2EAA0083ED78 /* incomecollectbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A7E1501AED50048D2EC /* incomecollectbg.png */; };
 		CF22964C152C2EAA0083ED78 /* incomecollectbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1C5A7F1501AED50048D2EC /* incomecollectbg@2x.png */; };
@@ -426,7 +426,7 @@
 		CF2AC5801527FB5D0025CA5F /* Drops.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2AC57F1527FB5C0025CA5F /* Drops.m */; };
 		CF2AC583152833520025CA5F /* coinstack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2AC581152833520025CA5F /* coinstack.png */; };
 		CF2AC584152833520025CA5F /* coinstack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2AC582152833520025CA5F /* coinstack@2x.png */; };
-		CF2AC5A514C2751D00DEDF29 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2AC5A414C2751D00DEDF29 /* ImageDownloader.m */; };
+		CF2AC5A514C2751D00DEDF29 /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2AC5A414C2751D00DEDF29 /* Downloader.m */; };
 		CF314F4F14FF30210023A706 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF314F4E14FF30210023A706 /* MapKit.framework */; };
 		CF36FB321500B37100AB10B7 /* TravellingMissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF36FB311500B37100AB10B7 /* TravellingMissionMap.m */; };
 		CF3D0A6914CB88EA00D972B4 /* GoldPackageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0A5914CB88EA00D972B4 /* GoldPackageView.xib */; };
@@ -492,14 +492,8 @@
 		CF6FC57515268834003631D8 /* bottomyellowbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FC57315268834003631D8 /* bottomyellowbar.png */; };
 		CF70C9F2152D06F300546785 /* Ellsworth.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D0152D06F300546785 /* Ellsworth.tmx */; };
 		CF70C9F3152D06F300546785 /* Ellsworth@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D1152D06F300546785 /* Ellsworth@2x.tmx */; };
-		CF70C9F4152D06F300546785 /* TREEZ.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D2152D06F300546785 /* TREEZ.png */; };
-		CF70C9F5152D06F300546785 /* TREEZ@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D3152D06F300546785 /* TREEZ@2x.png */; };
-		CF70C9F6152D06F300546785 /* Universal_Tiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D4152D06F300546785 /* Universal_Tiles.png */; };
-		CF70C9F7152D06F300546785 /* Universal_Tiles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D5152D06F300546785 /* Universal_Tiles@2x.png */; };
 		CF70C9F8152D06F300546785 /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D7152D06F300546785 /* Home.tmx */; };
 		CF70C9F9152D06F300546785 /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9D8152D06F300546785 /* Home@2x.tmx */; };
-		CF70C9FE152D06F300546785 /* KirinVillage.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9DE152D06F300546785 /* KirinVillage.tmx */; };
-		CF70C9FF152D06F300546785 /* KirinVillage@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9DF152D06F300546785 /* KirinVillage@2x.tmx */; };
 		CF70CA04152D06F300546785 /* NEW_Tree_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9E5152D06F300546785 /* NEW_Tree_Pack.png */; };
 		CF70CA05152D06F300546785 /* NEW_Tree_Pack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9E6152D06F300546785 /* NEW_Tree_Pack@2x.png */; };
 		CF70CA06152D06F300546785 /* NEW_Universal_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF70C9E7152D06F300546785 /* NEW_Universal_Pack.png */; };
@@ -1354,7 +1348,7 @@
 		CF1C5A791501AED50048D2EC /* europe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "europe@2x.png"; sourceTree = "<group>"; };
 		CF1C5A7A1501AED50048D2EC /* goldshoppebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = goldshoppebg.png; sourceTree = "<group>"; };
 		CF1C5A7B1501AED50048D2EC /* goldshoppebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goldshoppebg@2x.png"; sourceTree = "<group>"; };
-		CF1C5A7C1501AED50048D2EC /* greeland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greeland.png; sourceTree = "<group>"; };
+		CF1C5A7C1501AED50048D2EC /* greenland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenland.png; sourceTree = "<group>"; };
 		CF1C5A7D1501AED50048D2EC /* greenland@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenland@2x.png"; sourceTree = "<group>"; };
 		CF1C5A7E1501AED50048D2EC /* incomecollectbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = incomecollectbg.png; sourceTree = "<group>"; };
 		CF1C5A7F1501AED50048D2EC /* incomecollectbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "incomecollectbg@2x.png"; sourceTree = "<group>"; };
@@ -1468,8 +1462,8 @@
 		CF2AC57F1527FB5C0025CA5F /* Drops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Drops.m; path = "Utopia/Classes/Main Map/Drops.m"; sourceTree = SOURCE_ROOT; };
 		CF2AC581152833520025CA5F /* coinstack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coinstack.png; sourceTree = "<group>"; };
 		CF2AC582152833520025CA5F /* coinstack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coinstack@2x.png"; sourceTree = "<group>"; };
-		CF2AC5A314C2751D00DEDF29 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
-		CF2AC5A414C2751D00DEDF29 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
+		CF2AC5A314C2751D00DEDF29 /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
+		CF2AC5A414C2751D00DEDF29 /* Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		CF314F4E14FF30210023A706 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CF36FB301500B37100AB10B7 /* TravellingMissionMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravellingMissionMap.h; sourceTree = "<group>"; };
 		CF36FB311500B37100AB10B7 /* TravellingMissionMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravellingMissionMap.m; sourceTree = "<group>"; };
@@ -2862,7 +2856,7 @@
 				CF1C5A791501AED50048D2EC /* europe@2x.png */,
 				CF1C5A7A1501AED50048D2EC /* goldshoppebg.png */,
 				CF1C5A7B1501AED50048D2EC /* goldshoppebg@2x.png */,
-				CF1C5A7C1501AED50048D2EC /* greeland.png */,
+				CF1C5A7C1501AED50048D2EC /* greenland.png */,
 				CF1C5A7D1501AED50048D2EC /* greenland@2x.png */,
 				CF1C5A7E1501AED50048D2EC /* incomecollectbg.png */,
 				CF1C5A7F1501AED50048D2EC /* incomecollectbg@2x.png */,
@@ -3059,8 +3053,8 @@
 		CF2AC5A214C274FF00DEDF29 /* Downloader */ = {
 			isa = PBXGroup;
 			children = (
-				CF2AC5A314C2751D00DEDF29 /* ImageDownloader.h */,
-				CF2AC5A414C2751D00DEDF29 /* ImageDownloader.m */,
+				CF2AC5A314C2751D00DEDF29 /* Downloader.h */,
+				CF2AC5A414C2751D00DEDF29 /* Downloader.m */,
 			);
 			path = Downloader;
 			sourceTree = "<group>";
@@ -4999,7 +4993,7 @@
 				CF229646152C2EAA0083ED78 /* europe@2x.png in Resources */,
 				CF229647152C2EAA0083ED78 /* goldshoppebg.png in Resources */,
 				CF229648152C2EAA0083ED78 /* goldshoppebg@2x.png in Resources */,
-				CF229649152C2EAA0083ED78 /* greeland.png in Resources */,
+				CF229649152C2EAA0083ED78 /* greenland.png in Resources */,
 				CF22964A152C2EAA0083ED78 /* greenland@2x.png in Resources */,
 				CF22964B152C2EAA0083ED78 /* incomecollectbg.png in Resources */,
 				CF22964C152C2EAA0083ED78 /* incomecollectbg@2x.png in Resources */,
@@ -5067,14 +5061,8 @@
 				CFFAA840152CCEF500753272 /* AllianceWarrior@2x.png in Resources */,
 				CF70C9F2152D06F300546785 /* Ellsworth.tmx in Resources */,
 				CF70C9F3152D06F300546785 /* Ellsworth@2x.tmx in Resources */,
-				CF70C9F4152D06F300546785 /* TREEZ.png in Resources */,
-				CF70C9F5152D06F300546785 /* TREEZ@2x.png in Resources */,
-				CF70C9F6152D06F300546785 /* Universal_Tiles.png in Resources */,
-				CF70C9F7152D06F300546785 /* Universal_Tiles@2x.png in Resources */,
 				CF70C9F8152D06F300546785 /* Home.tmx in Resources */,
 				CF70C9F9152D06F300546785 /* Home@2x.tmx in Resources */,
-				CF70C9FE152D06F300546785 /* KirinVillage.tmx in Resources */,
-				CF70C9FF152D06F300546785 /* KirinVillage@2x.tmx in Resources */,
 				CF70CA04152D06F300546785 /* NEW_Tree_Pack.png in Resources */,
 				CF70CA05152D06F300546785 /* NEW_Tree_Pack@2x.png in Resources */,
 				CF70CA06152D06F300546785 /* NEW_Universal_Pack.png in Resources */,
@@ -5226,7 +5214,7 @@
 				CF2737BE14B6D99800E3A820 /* UIDevice+IdentifierAddition.m in Sources */,
 				CF2737E314BA86CC00E3A820 /* LocationManager.m in Sources */,
 				CF27380A14BD2AB600E3A820 /* IAPHelper.m in Sources */,
-				CF2AC5A514C2751D00DEDF29 /* ImageDownloader.m in Sources */,
+				CF2AC5A514C2751D00DEDF29 /* Downloader.m in Sources */,
 				CF3D0A6A14CB88EA00D972B4 /* GoldShoppeViewController.m in Sources */,
 				CF3D0A6C14CB88EA00D972B4 /* MapViewController.m in Sources */,
 				CF3D0A6E14CB88EA00D972B4 /* QuestLogController.m in Sources */,

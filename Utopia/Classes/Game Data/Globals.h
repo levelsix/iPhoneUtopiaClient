@@ -89,6 +89,7 @@
 + (UIImage *) imageForEquip:(int)eqId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
++ (NSString *) pathToMap:(NSString *)mapName;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle;

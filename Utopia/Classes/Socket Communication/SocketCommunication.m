@@ -13,11 +13,11 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"192.168.1.6"//@"50.18.173.214"
+#define HOST_NAME @"204.102.226.37"//@"50.18.173.214"
 #define HOST_PORT 8888
 
 #define UDID @"m"//@"42d1cadaa64dbf3c3e8133e652a2df06" //[[UIDevice currentDevice] uniqueDeviceIdentifier]
-#define FORCE_TUTORIAL
+//#define FORCE_TUTORIAL
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
@@ -161,10 +161,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   _currentTagNum++;
 }
 
-- (void) sendUserCreateMessageWithUdid:(NSString *)udid name:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
+- (void) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
-  bldr.udid = udid;
+  bldr.udid = UDID;
   bldr.name = name;
   bldr.type = type;
   

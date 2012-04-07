@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "ImageDownloader.h"
+#import "Downloader.h"
 #import "SynthesizeSingleton.h"
 
-@implementation ImageDownloader
+#define URL_BASE @"https://s3.amazonaws.com/lvl6utopia/Resources/";
 
-static NSString *urlBase = @"https://s3.amazonaws.com/lvl6utopia/Resources/";
+@implementation Downloader
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
+SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (id) init {
   if ((self = [super init])) {
@@ -25,33 +25,53 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageDownloader);
 
 - (void) downloadImage:(NSString *)imageName {
   // NSLogs here are NOT thread safe, be careful
+  NSString *urlBase = URL_BASE;
   NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
   NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
   if (![[NSFileManager defaultManager] fileExistsAtPath:pngFilePath]) {
-//    NSLog(@"Beginning download of %@ from %@", imageName, [urlBase stringByAppendingString:imageName]);
     UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
     
     if (image) {
       NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(image)];
       
       [data1 writeToFile:pngFilePath atomically:YES];
-      
-//      NSLog(@"%@ image saved to %@", imageName, pngFilePath);
-    } else {
-//      NSLog(@"%@ image failed to download", imageName);
     }
     [image release];
-  } else {
-//    NSLog(@"%@ has already been downloaded..", imageName);
   }
 }
 
 - (void) downloadImage:(NSString *)imageName completion:(void (^)(void))completed {
   // Get an image from the URL below
+  NSLog(@"Beginning async download of %@", imageName);
   dispatch_async(_queue, ^{
     [self downloadImage:imageName];
     dispatch_async(dispatch_get_main_queue(), completed);
   });
+  NSLog(@"Download of %@ complete", imageName);
+}
+
+- (void) syncDownloadImage:(NSString *)imageName {
+  NSLog(@"Beginning sync download of %@", imageName);
+  dispatch_sync(_queue, ^{
+    [self downloadImage:imageName];
+  });
+  NSLog(@"Download of %@ complete", imageName);
+}
+
+- (void) syncDownloadMap:(NSString *)mapName {
+  NSLog(@"Beginning sync download of map %@", mapName);
+  dispatch_sync(_queue, ^{
+    NSString *urlBase = URL_BASE;
+    NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:mapName]];
+    NSString *mapFilePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:mapFilePath]) {
+      NSData *map = [NSData dataWithContentsOfURL:url];
+      if (map) {
+        [map writeToFile:mapFilePath atomically:YES];
+      }
+    }
+  });
+  NSLog(@"Download of %@ complete", mapName);
 }
 
 - (void) dealloc {

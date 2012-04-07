@@ -596,7 +596,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSArray *list = self.state == kIncomeCarp ? structsList : critStructsList;
-  return (int)ceilf(list.count/3.f);
+  int rows = (int)ceilf(list.count/3.f);
+  tableView.scrollEnabled = rows != 0;
+  return rows;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
