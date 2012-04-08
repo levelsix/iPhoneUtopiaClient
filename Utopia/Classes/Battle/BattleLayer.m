@@ -18,6 +18,8 @@
 #import "SimpleAudioEngine.h"
 #import "MissionMap.h"
 
+#define FAKE_PLAYER_RAND 6
+
 @implementation BattleSummaryView
 
 @synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon;
@@ -482,8 +484,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   _leftAttack = [gl calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
   _leftDefense = [gl calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
-  _rightAttack = [gl calculateAttackForStat:user.attack weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
-  _rightDefense = [gl calculateAttackForStat:user.defense weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
+  
+  if (user.isFake) {
+    int randAtt = arc4random() % 6;
+    int randDef = arc4random() % 6;
+    if (user.level > gs.level) {
+      _rightAttack = _leftAttack + randAtt;
+      _rightDefense = _leftDefense + randDef;
+    } else {
+      _rightAttack = _leftAttack - randAtt;
+      _rightDefense = _leftDefense - randDef;
+    }
+  } else {
+    _rightAttack = [gl calculateAttackForStat:user.attack weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
+    _rightDefense = [gl calculateAttackForStat:user.defense weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
+  }
   
   _enemyType = user.userType;
   

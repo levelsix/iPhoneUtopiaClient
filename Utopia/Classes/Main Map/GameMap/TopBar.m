@@ -461,6 +461,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) update {
   GameState *gs = [GameState sharedGameState];
   
+  if (gs.connected) {
+    if (gs.experience >= gs.expRequiredForNextLevel) {
+      [[OutgoingEventController sharedOutgoingEventController] levelUp];
+    }
+    // Check if timers need to be instantiated
+    if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
+      [self setUpEnergyTimer];
+    }
+    if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
+      [self setUpStaminaTimer];
+    }
+  }
+  
   int silver = gs.silver-[[[GameLayer sharedGameLayer] currentMap] silverOnMap];
   if (silver != _curSilver) {
     int diff = silver - _curSilver;
@@ -554,19 +567,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } else if (_littleToolTipState == kStamina) {
     _littleToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
     _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
-  }
-  
-  if (gs.connected) {
-    if (gs.experience >= gs.expRequiredForNextLevel) {
-      [[OutgoingEventController sharedOutgoingEventController] levelUp];
-    }
-    // Check if timers need to be instantiated
-    if (!_energyTimer && gs.currentEnergy < gs.maxEnergy) {
-      [self setUpEnergyTimer];
-    }
-    if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
-      [self setUpStaminaTimer];
-    }
   }
 }
 

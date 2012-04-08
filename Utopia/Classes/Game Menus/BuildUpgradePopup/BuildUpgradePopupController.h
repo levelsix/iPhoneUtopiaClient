@@ -11,6 +11,8 @@
 
 @interface BuildUpgradePopupController : UIViewController {
   UserStruct *_userStruct;
+  
+  NSString *_critStruct;
 }
 
 @property (nonatomic, retain) IBOutlet UIImageView *structIcon;
@@ -23,6 +25,10 @@
 @property (nonatomic, retain) IBOutlet UIImageView *star4;
 @property (nonatomic, retain) IBOutlet UIImageView *star5;
 
+@property (nonatomic, retain) IBOutlet UIView *normStructView;
+@property (nonatomic, retain) IBOutlet UILabel *critStructLabel;  
+
 - (id) initWithUserStruct:(UserStruct *)us;
+- (id) initWithCritStruct:(NSString *)cs;
 
 @end

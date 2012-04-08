@@ -12,6 +12,8 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 
+#define ABOVE_HEAD_FADE_DURATION 1.f
+
 @implementation CharacterSprite
 
 @synthesize nameLabel = _nameLabel;
@@ -106,10 +108,10 @@
   r.origin = pt;
   float diff = ccpDistance(_oldMapPos, pt);
   [self runAction:[CCSequence actions:                          
-                     [MoveToLocation actionWithDuration:2*diff location:r],
-                     [CCCallFunc actionWithTarget:self selector:@selector(walk)],
-                     nil
-                     ]];
+                   [MoveToLocation actionWithDuration:2*diff location:r],
+                   [CCCallFunc actionWithTarget:self selector:@selector(walk)],
+                   nil
+                   ]];
 }
 
 - (void) dealloc {
@@ -172,6 +174,12 @@
   }
   [self addChild:_aboveHeadMark];
   _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+_aboveHeadMark.contentSize.height/2+10);
+  
+  [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:
+                             [CCSequence actions:
+                              [CCFadeTo actionWithDuration:1.f opacity:150],
+                              [CCFadeTo actionWithDuration:1.f opacity:255],
+                              nil]]];
 }
 
 @end
@@ -201,7 +209,7 @@
 
 +(id) actionWithDuration: (ccTime) t location: (CGRect) p
 {	
-return [[[self alloc] initWithDuration:t location:p ] autorelease];
+  return [[[self alloc] initWithDuration:t location:p ] autorelease];
 }
 
 -(id) initWithDuration: (ccTime) t location: (CGRect) p

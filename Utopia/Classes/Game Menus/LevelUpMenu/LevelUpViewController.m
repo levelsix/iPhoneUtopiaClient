@@ -9,6 +9,8 @@
 #import "LevelUpViewController.h"
 #import "Globals.h"
 #import "ProfileViewController.h"
+#import "GameState.h"
+#import "BuildUpgradePopupController.h"
 
 @implementation LevelUpViewController
 
@@ -130,6 +132,23 @@
 - (IBAction)okayClicked:(id)sender {
   [self.view removeFromSuperview];
   [[ProfileViewController sharedProfileViewController] loadMyProfile];
+  
+  // Load build struct first if something is unlocked
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  if (gs.level == gl.minLevelForVault) {
+    BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithCritStruct:@"Vault"];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+  } 
+  if (gs.level == gl.minLevelForArmory) {
+    BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithCritStruct:@"Armory"];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+  }
+  if (gs.level == gl.minLevelForMarketplace) {
+    BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithCritStruct:@"Marketplace"];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+  }
+  
   [ProfileViewController displayView];
   [[ProfileViewController sharedProfileViewController] openSkillsMenu];
   [self didReceiveMemoryWarning];
