@@ -1172,11 +1172,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self invalidateAllTimers];
 }
 
-- (void) onEnter {
-  [super onEnter];
-  [self beginTimers];
-}
-
 - (void) dealloc {
   [self.csMenu removeFromSuperview];
   self.csMenu = nil;
