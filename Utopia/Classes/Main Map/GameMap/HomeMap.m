@@ -902,6 +902,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   _constrBuilding = nil;
 }
 
+- (void) upgradeComplete:(NSTimer *)timer {
+  MoneyBuilding *mb = [timer userInfo];
+  [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
+  [self updateTimersForBuilding:mb];
+  [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
+  if (mb == _selected && hbMenu.state != kMoveState) {
+//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+    self.selected = nil;
+  }
+  _upgrBuilding = nil;
+}
+
 - (void) waitForIncomeComplete:(NSTimer *)timer {
   MoneyBuilding *mb = [timer userInfo];
   mb.retrievable = YES;
