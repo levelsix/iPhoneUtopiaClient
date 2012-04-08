@@ -12,6 +12,7 @@
   BOOL _carpenterPhase;
   BOOL _visitCarpPhase;
   BOOL _waitingForBuildPhase;
+  BOOL _goToArmory;
   CCSprite *_ccArrow;
   CritStructBuilding *_csb;
   Aviary *_av;

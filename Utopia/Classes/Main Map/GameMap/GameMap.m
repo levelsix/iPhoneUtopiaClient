@@ -26,6 +26,10 @@
 #define SILVER_STACK_BOUNCE_DURATION 1.f
 #define DROP_LABEL_DURATION 3.f
 
+#define MAX_ZOOM 1.8f
+#define MIN_ZOOM 0.8f
+#define DEFAULT_ZOOM 1.3f
+
 //CCMoveByCustom
 @interface CCMoveByCustom : CCMoveBy
 
@@ -134,6 +138,8 @@
     
     aviaryMenu.hidden = YES;
     enemyMenu.hidden = YES;
+    
+    self.scale = DEFAULT_ZOOM;
   }
   return self;
 }
@@ -422,7 +428,7 @@
   // See if zoom should even be allowed
   float newScale = node.scale * pinch.scale;
   pinch.scale = 1.0f; // we just reset the scaling so we only wory about the delta
-  if (newScale > 2.0f || newScale < 0.5f) {
+  if (newScale > MAX_ZOOM || newScale < MIN_ZOOM) {
     return;
   }
   

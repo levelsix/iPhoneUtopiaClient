@@ -107,6 +107,7 @@
   [[HomeMap sharedHomeMap] invalidateAllTimers];
   [HomeMap purgeSingleton];
   [BattleLayer purgeSingleton];
+  [[TopBar sharedTopBar] invalidateTimers];
   [TopBar purgeSingleton];
   
   [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];

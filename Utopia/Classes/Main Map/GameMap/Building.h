@@ -16,6 +16,7 @@
 @interface Building : SelectableSprite
 
 @property (nonatomic, assign) StructOrientation orientation;
+@property (nonatomic, assign) float verticalOffset;
 
 @end
 

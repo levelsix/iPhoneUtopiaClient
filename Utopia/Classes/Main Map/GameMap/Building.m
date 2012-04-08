@@ -18,6 +18,7 @@
 @implementation Building
 
 @synthesize orientation;
+@synthesize verticalOffset;
 
 - (void) setOrientation:(StructOrientation)o {
   orientation = o % 2;
@@ -32,6 +33,18 @@
       
     default:
       break;
+  }
+}
+
+- (void) setLocation:(CGRect)location {
+  [super setLocation:location];
+  self.position = ccpAdd(self.position, ccp(0,self.verticalOffset));
+}
+
+- (void) setVerticalOffset:(float)v {
+  if (v != verticalOffset) {
+    verticalOffset = v;
+    self.location = self.location;
   }
 }
 
@@ -225,15 +238,6 @@
   _retrieveBubble.position = ccp(self.contentSize.width/2,self.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET);
 }
 
-- (void) setLocation:(CGRect)location {
-  [super setLocation:location];
-  
-  if (_userStruct) {
-    FullStructureProto *fsp = [[GameState sharedGameState] structWithId:_userStruct.structId];
-    self.position = ccpAdd(self.position, ccp(0,fsp.imgVerticalPixelOffeset));
-  }
-}
-
 - (void) setUserStruct:(UserStruct *)userStruct {
   if (_userStruct != userStruct) {
     [_userStruct release];
@@ -241,7 +245,8 @@
     
     // Re-set location
     if (userStruct) {
-      self.location = self.location;
+      FullStructureProto *fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
+      self.verticalOffset = fsp.imgVerticalPixelOffeset;
     }
   }
 }

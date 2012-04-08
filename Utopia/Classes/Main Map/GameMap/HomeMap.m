@@ -722,7 +722,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
-  _purchBuilding.position = ccpAdd(_purchBuilding.position, ccp(0, fsp.imgVerticalPixelOffeset));
+  _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffeset;
   
   int baseTag = [self baseTagForStructId:structId];
   int tag;
@@ -1032,17 +1032,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)bigUpgradeClicked:(id)sender {
-  hbMenu.state = kUpgradeState;
+  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (us.level < gl.maxLevelForStruct) {
+    hbMenu.state = kUpgradeState;
+  }
 }
 
 - (IBAction)littleUpgradeClicked:(id)sender {
   UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
   Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
   if (us.level < gl.maxLevelForStruct) {
-    [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-    _upgrBuilding = (MoneyBuilding *)_selected;
-    [self updateTimersForBuilding:_upgrBuilding];
-    [self.hbMenu updateLabelsForUserStruct:us];
+    int cost = [gl calculateUpgradeCost:us];
+    if (cost > gs.silver) {
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      self.selected = nil;
+    } else {
+      [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
+      _upgrBuilding = (MoneyBuilding *)_selected;
+      [self updateTimersForBuilding:_upgrBuilding];
+      [self.hbMenu updateLabelsForUserStruct:us];
+    }
   }
 }
 
@@ -1141,6 +1153,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // This will be released after the level up controller closes
   BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithUserStruct:us];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+}
+
+- (void) onExit {
+  [super onExit];
+  [self invalidateAllTimers];
+}
+
+- (void) onEnter {
+  [super onEnter];
+  [self beginTimers];
 }
 
 - (void) dealloc {

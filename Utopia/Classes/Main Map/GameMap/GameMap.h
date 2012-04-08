@@ -17,9 +17,6 @@
 @class Building;
 @class SelectableSprite;
 
-#define MAX_ZOOM 1.5f
-#define MIN_ZOOM 0.5f
-
 @interface EnemyPopupView : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;

@@ -451,6 +451,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
 }
 
+- (void) invalidateTimers {
+  [_staminaTimer invalidate];
+  _staminaTimer = nil;
+  [_energyTimer invalidate];
+  _energyTimer = nil;
+}
+
 - (void) update {
   GameState *gs = [GameState sharedGameState];
   
@@ -565,10 +572,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) dealloc {
   // These were the only things actually retained
-  [_staminaTimer invalidate];
-  _staminaTimer = nil;
-  [_energyTimer invalidate];
-  _energyTimer = nil;
+  [self invalidateTimers];
   [_energyBar release];
   [_staminaBar release];
   [_toolTipTimerDate release];

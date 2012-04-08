@@ -14,6 +14,9 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdColorView;
+
 + (void) displayViewWithText:(NSString *)string;
 + (void) displayMajorUpdatePopup;
 + (void) removeView;

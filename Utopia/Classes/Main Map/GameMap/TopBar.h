@@ -73,6 +73,8 @@ typedef enum {
 - (void) setStaminaBarPercentage:(float)perc;
 - (void) start;
 
+- (void) invalidateTimers;
+
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;
 

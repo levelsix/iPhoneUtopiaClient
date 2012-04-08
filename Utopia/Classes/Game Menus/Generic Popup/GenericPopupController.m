@@ -10,14 +10,28 @@
 #import "SynthesizeSingleton.h"
 #import "cocos2d.h"
 
+#define POPUP_ANIMATION_DURATION 0.2f
+
 #define APP_STORE_LINK @"itms-apps://itunes.apple.com/us/app/scramble-with-friends/id485078615?mt=8&uo=4"
 
 @implementation GenericPopupController
 
 @synthesize descriptionLabel;
 @synthesize toAppStore;
+@synthesize mainView, bgdColorView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
+
+- (void) viewWillAppear:(BOOL)animated {
+  self.view.hidden = NO;
+  self.mainView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+  self.bgdColorView.alpha = 0.f;
+  
+  [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
+    self.mainView.transform = CGAffineTransformMakeScale(1, 1);
+    self.bgdColorView.alpha = 1.f;
+  }];
+}
 
 + (void) displayViewWithText:(NSString *)string {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
@@ -34,11 +48,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 }
 
 - (IBAction)okayClicked:(id)sender {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  if (gpc.toAppStore) {
+  if (toAppStore) {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_STORE_LINK]];
   } else {
-    [GenericPopupController removeView];
+    [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
+      self.mainView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+      self.bgdColorView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      self.view.hidden = YES;
+      [self.view removeFromSuperview];
+    }];
   }
 }
 
