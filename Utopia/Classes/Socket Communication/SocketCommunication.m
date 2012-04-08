@@ -13,10 +13,10 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 
-#define HOST_NAME @"204.102.226.37"//@"50.18.173.214"
+#define HOST_NAME @"192.168.1.6"//@"50.18.173.214"
 #define HOST_PORT 8888
 
-#define UDID @"11";//@"42d1cadaa64dbf3c3e8133e652a2df06" //[[UIDevice currentDevice] uniqueDeviceIdentifier]
+#define UDID @"m";//@"42d1cadaa64dbf3c3e8133e652a2df06" //[[UIDevice currentDevice] uniqueDeviceIdentifier]
 //#define FORCE_TUTORIAL
 
 // Tags for keeping state
@@ -29,7 +29,20 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
+static NSString *udid = nil;
+
 @synthesize currentTagNum = _currentTagNum;
+
+- (id) init {
+  if ((self = [super init])) {
+#ifdef FORCE_TUTORIAL
+    udid = [NSString stringWithFormat:@"%d", arc4random()];
+#else
+    udid = UDID;
+#endif
+  }
+  return self;
+}
 
 - (void) connectToSocket {
 	NSError *error = nil;
@@ -164,7 +177,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 - (void) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
-  bldr.udid = UDID;
+  bldr.udid = udid;
   bldr.name = name;
   bldr.type = type;
   
@@ -193,6 +206,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
   UserCreateRequestProto *req = [bldr build];
   [self sendData:req.data withMessageType:EventProtocolRequestCUserCreateEvent];
 }
+      
+      - (void) sendStartupMessage:(uint64_t)clientTime {
+        StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
+                                           setUdid:udid]
+                                          setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
+                                         build];
+        
+        NSLog(@"Sent over udid: %@", udid);
+        
+        [self sendData:[startReq data] withMessageType:EventProtocolRequestCStartupEvent];
+      }
 
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient {
   ChatRequestProto *c = [[[[[ChatRequestProto builder] 
@@ -238,23 +262,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
                                 build];
   
   [self sendData:[arpReq data] withMessageType:EventProtocolRequestCArmoryEvent];
-}
-
-- (void) sendStartupMessage:(uint64_t)clientTime {
-  NSString *udid = nil;
-#ifdef FORCE_TUTORIAL
-  udid = [NSString stringWithFormat:@"%d", arc4random()];
-#else
-  udid = UDID;
-#endif
-  StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
-                                     setUdid:udid]
-                                    setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
-                                   build];
-  
-  NSLog(@"Sent over udid: %@", udid);
-  
-  [self sendData:[startReq data] withMessageType:EventProtocolRequestCStartupEvent];
 }
 
 - (void) sendTaskActionMessage:(int)taskId curTime:(uint64_t)clientTime {

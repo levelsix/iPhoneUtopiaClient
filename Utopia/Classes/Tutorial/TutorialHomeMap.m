@@ -21,13 +21,17 @@
 
 - (void) refresh {
   Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
   
   // Add aviary
   UserCritStruct *cs = [[UserCritStruct alloc] init];
   cs.type = CritStructTypeAviary;
   cs.location = CGRectMake(10, 10, gl.aviaryXLength, gl.aviaryYLength);
   cs.orientation = StructOrientationPosition1;
-  cs.name = @"Armory";
+  cs.name = @"Aviary";
+  cs.minLevel = 1;
+  cs.size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
+  [gs.myCritStructs addObject:cs];
   
   _av = [[Aviary alloc] initWithFile:@"Aviary.png" location:cs.location map:self];
   [self addChild:_av];
@@ -43,6 +47,9 @@
   cs.location = CGRectMake(10, 6, gl.carpenterXLength, gl.carpenterYLength);
   cs.orientation = StructOrientationPosition1;
   cs.name = @"Carpenter";
+  cs.minLevel = 1;
+  cs.size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
+  [gs.myCritStructs addObject:cs];
   
   _csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
   [self addChild:_csb];
@@ -109,6 +116,18 @@
       [self.hbMenu addSubview:_uiArrow];
       UIView *finishNowButton = [self.hbMenu viewWithTag:17];
       _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, finishNowButton.center.y);
+      
+      UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+        _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
+      } completion:nil];
+    } else if (_goToAviary && [_selected isKindOfClass:[Aviary class]]) {
+      [_ccArrow stopAllActions];
+      _ccArrow.visible = NO;
+      [_uiArrow removeFromSuperview];
+      [self.aviaryMenu addSubview:_uiArrow];
+      UIView *enterButton = [self.aviaryMenu viewWithTag:30];
+      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, enterButton.center.y);
       
       UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
       [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
@@ -210,8 +229,6 @@
   UserStruct *userStruct = mb.userStruct;
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
   
-  [_ccArrow removeFromParentAndCleanup:YES];
-  
   userStruct.lastRetrieved = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
   userStruct.isComplete = YES;
   
@@ -222,14 +239,11 @@
   mb.isConstructing = NO;
   [self updateHomeBuildingMenu];
   _constrBuilding = nil;
-  _waitingForBuildPhase = NO;
+  self.selected = nil;
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController incrementProgress];
-  [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:nil action:nil];
-  
   tc.structUsedDiamonds = NO;
-  tc.structTimeOfBuildComplete = [NSDate date];
+  [self buildingComplete];
   [Analytics tutorialWaitBuild];
 }
 
@@ -264,23 +278,65 @@
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     [self updateHomeBuildingMenu];
     mb.isConstructing = NO;
+    self.selected = nil;
   }];
   [self updateTimersForBuilding:mb];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  tc.structUsedDiamonds = YES;
+  [self buildingComplete];
+  [Analytics tutorialFinishNow];
+}
+
+- (void) buildingComplete {
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:self action:@selector(showReferralDialog)];
   
-  tc.structUsedDiamonds = YES;
   tc.structTimeOfBuildComplete = [NSDate date];
   
+  _waitingForBuildPhase = NO;
+  
+  _ccArrow.visible = NO;
   [_uiArrow removeFromSuperview];
   
-  [Analytics tutorialFinishNow];
 }
 
 - (void) showReferralDialog {
   [DialogMenuController displayViewForReferral];
+}
+
+- (void) startGoToAviaryPhase {
+  _goToAviary = YES;
+  
+  _ccArrow.visible = YES;
+  _ccArrow.position = ccp(_av.position.x, _av.position.y+_av.contentSize.height+_ccArrow.contentSize.height/2);
+  
+  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
+  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                         [upAction reverse], nil]]];
+  
+  [self moveToSprite:_av];
+}
+
+- (void) enterAviaryClicked:(id)sender {
+  [super enterAviaryClicked:sender];
+  
+  [self performSelector:@selector(endTutorial) withObject:nil afterDelay:1.f];
+}
+
+- (void) endTutorial {
+  [self removeFromParentAndCleanup:YES];
+  [[TopBar sharedTopBar] removeFromParentAndCleanup:YES];
+  [TutorialHomeMap purgeSingleton];
+  [TopBar purgeSingleton];
+  
+  [[GameLayer sharedGameLayer] begin];
+  [[TopBar sharedTopBar] start];
+  [[HomeMap sharedHomeMap] refresh];
+  [[CCDirector sharedDirector] purgeCachedData];
+  
+  [Analytics tutorialComplete];
 }
 
 - (void) dealloc {

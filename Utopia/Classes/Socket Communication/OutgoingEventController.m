@@ -738,6 +738,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) upgradeNormStruct:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  FullStructureProto *fsp = [gs structWithId:userStruct.structId];
   
   // Check that no other building is being upgraded
   for (UserStruct *us in gs.myStructs) {
@@ -752,13 +753,34 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete) {
-    int64_t ms = [self getCurrentMilliseconds];
-    [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
-    userStruct.isComplete = NO;
-    userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    int cost = [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
+    BOOL isGoldBuilding = fsp.diamondPrice > 0;
+    if (isGoldBuilding) {
+      if (cost > gs.gold) {
+        [Globals popupMessage:@"Trying to upgrade without enough gold"];
+      } else {
+        int64_t ms = [self getCurrentMilliseconds];
+        [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
+        userStruct.isComplete = NO;
+        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];\
+        
+        // Update game state
+        gs.gold -= cost;
+      }
+    } else {
+      if (cost > gs.silver) {
+        [Globals popupMessage:@"Trying to upgrade without enough silver"];
+      } else {
+        int64_t ms = [self getCurrentMilliseconds];
+        [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
+        userStruct.isComplete = NO;
+        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];\
+        
+        // Update game state
+        gs.silver -= cost;
+      }
+    }
     
-    // Update game state
-    gs.silver -= [[Globals sharedGlobals] calculateUpgradeCost:userStruct];
   } else {
     [Globals popupMessage:@"This building is not upgradable"];
   }

@@ -12,7 +12,10 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 
-#define ABOVE_HEAD_FADE_DURATION 1.f
+#define ABOVE_HEAD_FADE_DURATION 1.5f
+#define ABOVE_HEAD_FADE_OPACITY 100
+
+#define VERTICAL_OFFSET 10.f
 
 @implementation CharacterSprite
 
@@ -34,6 +37,11 @@
 - (void) setOpacity:(GLubyte)opacity {
   [super setOpacity:opacity];
   _nameLabel.opacity = opacity;
+}
+
+- (void) setLocation:(CGRect)location {
+  [super setLocation:location];
+  self.position = ccpAdd(self.position, ccp(0, VERTICAL_OFFSET));
 }
 
 @end
@@ -177,8 +185,8 @@
   
   [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:
                              [CCSequence actions:
-                              [CCFadeTo actionWithDuration:1.f opacity:150],
-                              [CCFadeTo actionWithDuration:1.f opacity:255],
+                              [CCFadeTo actionWithDuration:ABOVE_HEAD_FADE_DURATION opacity:ABOVE_HEAD_FADE_OPACITY],
+                              [CCFadeTo actionWithDuration:ABOVE_HEAD_FADE_DURATION opacity:255],
                               nil]]];
 }
 

@@ -1011,7 +1011,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasInstaBuildDiamondCostBase_:1;
   BOOL hasInstaRetrieveDiamondCostBase_:1;
   BOOL hasInstaUpgradeDiamondCostBase_:1;
-  BOOL hasImgVerticalPixelOffeset_:1;
+  BOOL hasImgVerticalPixelOffset_:1;
   BOOL hasName_:1;
   int32_t structId;
   int32_t income;
@@ -1026,7 +1026,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   int32_t instaBuildDiamondCostBase;
   int32_t instaRetrieveDiamondCostBase;
   int32_t instaUpgradeDiamondCostBase;
-  int32_t imgVerticalPixelOffeset;
+  int32_t imgVerticalPixelOffset;
   NSString* name;
 }
 - (BOOL) hasStructId;
@@ -1043,7 +1043,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasInstaBuildDiamondCostBase;
 - (BOOL) hasInstaRetrieveDiamondCostBase;
 - (BOOL) hasInstaUpgradeDiamondCostBase;
-- (BOOL) hasImgVerticalPixelOffeset;
+- (BOOL) hasImgVerticalPixelOffset;
 @property (readonly) int32_t structId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t income;
@@ -1058,7 +1058,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) int32_t instaBuildDiamondCostBase;
 @property (readonly) int32_t instaRetrieveDiamondCostBase;
 @property (readonly) int32_t instaUpgradeDiamondCostBase;
-@property (readonly) int32_t imgVerticalPixelOffeset;
+@property (readonly) int32_t imgVerticalPixelOffset;
 
 + (FullStructureProto*) defaultInstance;
 - (FullStructureProto*) defaultInstance;
@@ -1164,10 +1164,10 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullStructureProto_Builder*) setInstaUpgradeDiamondCostBase:(int32_t) value;
 - (FullStructureProto_Builder*) clearInstaUpgradeDiamondCostBase;
 
-- (BOOL) hasImgVerticalPixelOffeset;
-- (int32_t) imgVerticalPixelOffeset;
-- (FullStructureProto_Builder*) setImgVerticalPixelOffeset:(int32_t) value;
-- (FullStructureProto_Builder*) clearImgVerticalPixelOffeset;
+- (BOOL) hasImgVerticalPixelOffset;
+- (int32_t) imgVerticalPixelOffset;
+- (FullStructureProto_Builder*) setImgVerticalPixelOffset:(int32_t) value;
+- (FullStructureProto_Builder*) clearImgVerticalPixelOffset;
 @end
 
 @interface FullTaskProto : PBGeneratedMessage {

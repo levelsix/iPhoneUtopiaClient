@@ -74,4 +74,8 @@
   [_profilePic setLevel:gs.level];
 }
 
+- (void) dealloc {
+  [super dealloc];
+}
+
 @end

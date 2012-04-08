@@ -74,10 +74,10 @@
 
 @property (nonatomic, assign) int diamondRewardForReferrer;
 
-@property (nonatomic, assign) NSDictionary *productIdentifiers;
+@property (nonatomic, retain) NSDictionary *productIdentifiers;
 
-@property (nonatomic, assign) NSMutableDictionary *imageCache;
-@property (assign) NSMutableDictionary *imageViewsWaitingForDownloading;
+@property (nonatomic, retain) NSMutableDictionary *imageCache;
+@property (retain) NSMutableDictionary *imageViewsWaitingForDownloading;
 
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;

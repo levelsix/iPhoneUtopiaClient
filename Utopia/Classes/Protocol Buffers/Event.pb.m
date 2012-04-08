@@ -76,20 +76,6 @@ static ChatRequestProto* defaultChatRequestProtoInstance = nil;
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasMessage) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (MinimumUserProto* element in self.recipientsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -373,15 +359,6 @@ static ChatResponseProto* defaultChatResponseProtoInstance = nil;
   return defaultChatResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasMessage) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -655,29 +632,6 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasAttacker) {
-    return NO;
-  }
-  if (!self.hasDefender) {
-    return NO;
-  }
-  if (!self.hasBattleResult) {
-    return NO;
-  }
-  if (!self.hasClientTime) {
-    return NO;
-  }
-  if (!self.attacker.isInitialized) {
-    return NO;
-  }
-  if (!self.defender.isInitialized) {
-    return NO;
-  }
-  for (FullUserEquipProto* element in self.defenderUserEquipsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -1118,29 +1072,6 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   return defaultBattleResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasAttacker) {
-    return NO;
-  }
-  if (!self.hasDefender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.hasBattleResult) {
-    return NO;
-  }
-  if (!self.attacker.isInitialized) {
-    return NO;
-  }
-  if (!self.defender.isInitialized) {
-    return NO;
-  }
-  if (self.hasEquipGained) {
-    if (!self.equipGained.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -1587,12 +1518,6 @@ static VaultRequestProto* defaultVaultRequestProtoInstance = nil;
   return defaultVaultRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -1889,15 +1814,6 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
   return defaultVaultResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -2224,21 +2140,6 @@ static ArmoryRequestProto* defaultArmoryRequestProtoInstance = nil;
   return defaultArmoryRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasRequestType) {
-    return NO;
-  }
-  if (!self.hasQuantity) {
-    return NO;
-  }
-  if (!self.hasEquipId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -2546,15 +2447,6 @@ static ArmoryResponseProto* defaultArmoryResponseProtoInstance = nil;
   return defaultArmoryResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -2818,12 +2710,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   return defaultStartupRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasUdid) {
-    return NO;
-  }
-  if (!self.hasVersionNum) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -3041,6 +2927,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableMarketplacePurchaseNotificationsList;
 @property (retain) NSMutableArray* mutableAttackNotificationsList;
 @property (retain) NSMutableArray* mutableReferralNotificationsList;
+@property (retain) NSString* appStoreUrl;
 @end
 
 @implementation StartupResponseProto
@@ -3103,6 +2990,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableMarketplacePurchaseNotificationsList;
 @synthesize mutableAttackNotificationsList;
 @synthesize mutableReferralNotificationsList;
+- (BOOL) hasAppStoreUrl {
+  return !!hasAppStoreUrl_;
+}
+- (void) setHasAppStoreUrl:(BOOL) value {
+  hasAppStoreUrl_ = !!value;
+}
+@synthesize appStoreUrl;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3116,6 +3010,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableMarketplacePurchaseNotificationsList = nil;
   self.mutableAttackNotificationsList = nil;
   self.mutableReferralNotificationsList = nil;
+  self.appStoreUrl = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3127,6 +3022,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.tutorialConstants = [StartupResponseProto_TutorialConstants defaultInstance];
     self.experienceRequiredForNextLevel = 0;
     self.experienceRequiredForCurrentLevel = 0;
+    self.appStoreUrl = @"";
   }
   return self;
 }
@@ -3206,73 +3102,6 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasStartupStatus) {
-    return NO;
-  }
-  if (!self.hasUpdateStatus) {
-    return NO;
-  }
-  if (!self.hasStartupConstants) {
-    return NO;
-  }
-  if (self.hasSender) {
-    if (!self.sender.isInitialized) {
-      return NO;
-    }
-  }
-  if (!self.startupConstants.isInitialized) {
-    return NO;
-  }
-  if (self.hasTutorialConstants) {
-    if (!self.tutorialConstants.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullCityProto* element in self.citiesAvailableToUserList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullUserCityProto* element in self.userCityInfosList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullQuestProto* element in self.availableQuestsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullUserEquipProto* element in self.userEquipsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullEquipProto* element in self.equipsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (StartupResponseProto_AttackedNotificationProto* element in self.attackNotificationsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (StartupResponseProto_ReferralNotificationProto* element in self.referralNotificationsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -3320,6 +3149,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (FullUserCityProto* element in self.userCityInfosList) {
     [output writeMessage:16 value:element];
+  }
+  if (self.hasAppStoreUrl) {
+    [output writeString:17 value:self.appStoreUrl];
   }
   if (self.hasTutorialConstants) {
     [output writeMessage:18 value:self.tutorialConstants];
@@ -3377,6 +3209,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (FullUserCityProto* element in self.userCityInfosList) {
     size += computeMessageSize(16, element);
+  }
+  if (self.hasAppStoreUrl) {
+    size += computeStringSize(17, self.appStoreUrl);
   }
   if (self.hasTutorialConstants) {
     size += computeMessageSize(18, self.tutorialConstants);
@@ -3488,21 +3323,6 @@ static StartupResponseProto_MarketplacePostPurchasedNotificationProto* defaultSt
   return defaultStartupResponseProto_MarketplacePostPurchasedNotificationProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasMarketplacePost) {
-    return NO;
-  }
-  if (!self.hasBuyer) {
-    return NO;
-  }
-  if (!self.hasTimeOfPurchase) {
-    return NO;
-  }
-  if (!self.marketplacePost.isInitialized) {
-    return NO;
-  }
-  if (!self.buyer.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -3813,18 +3633,6 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   return defaultStartupResponseProto_AttackedNotificationProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasAttacker) {
-    return NO;
-  }
-  if (!self.hasBattleResult) {
-    return NO;
-  }
-  if (!self.hasBattleCompleteTime) {
-    return NO;
-  }
-  if (!self.attacker.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -4152,15 +3960,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   return defaultStartupResponseProto_ReferralNotificationProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasReferred) {
-    return NO;
-  }
-  if (!self.hasRecruitTime) {
-    return NO;
-  }
-  if (!self.referred.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -4398,6 +4197,11 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t minLevelForArmory;
 @property int32_t minLevelForVault;
 @property int32_t minLevelForMarketplace;
+@property int32_t armoryImgVerticalPixelOffset;
+@property int32_t vaultImgVerticalPixelOffset;
+@property int32_t marketplaceImgVerticalPixelOffset;
+@property int32_t carpenterImgVerticalPixelOffset;
+@property int32_t aviaryImgVerticalPixelOffset;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4712,6 +4516,41 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMinLevelForMarketplace_ = !!value;
 }
 @synthesize minLevelForMarketplace;
+- (BOOL) hasArmoryImgVerticalPixelOffset {
+  return !!hasArmoryImgVerticalPixelOffset_;
+}
+- (void) setHasArmoryImgVerticalPixelOffset:(BOOL) value {
+  hasArmoryImgVerticalPixelOffset_ = !!value;
+}
+@synthesize armoryImgVerticalPixelOffset;
+- (BOOL) hasVaultImgVerticalPixelOffset {
+  return !!hasVaultImgVerticalPixelOffset_;
+}
+- (void) setHasVaultImgVerticalPixelOffset:(BOOL) value {
+  hasVaultImgVerticalPixelOffset_ = !!value;
+}
+@synthesize vaultImgVerticalPixelOffset;
+- (BOOL) hasMarketplaceImgVerticalPixelOffset {
+  return !!hasMarketplaceImgVerticalPixelOffset_;
+}
+- (void) setHasMarketplaceImgVerticalPixelOffset:(BOOL) value {
+  hasMarketplaceImgVerticalPixelOffset_ = !!value;
+}
+@synthesize marketplaceImgVerticalPixelOffset;
+- (BOOL) hasCarpenterImgVerticalPixelOffset {
+  return !!hasCarpenterImgVerticalPixelOffset_;
+}
+- (void) setHasCarpenterImgVerticalPixelOffset:(BOOL) value {
+  hasCarpenterImgVerticalPixelOffset_ = !!value;
+}
+@synthesize carpenterImgVerticalPixelOffset;
+- (BOOL) hasAviaryImgVerticalPixelOffset {
+  return !!hasAviaryImgVerticalPixelOffset_;
+}
+- (void) setHasAviaryImgVerticalPixelOffset:(BOOL) value {
+  hasAviaryImgVerticalPixelOffset_ = !!value;
+}
+@synthesize aviaryImgVerticalPixelOffset;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -4763,6 +4602,11 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.minLevelForArmory = 0;
     self.minLevelForVault = 0;
     self.minLevelForMarketplace = 0;
+    self.armoryImgVerticalPixelOffset = 0;
+    self.vaultImgVerticalPixelOffset = 0;
+    self.marketplaceImgVerticalPixelOffset = 0;
+    self.carpenterImgVerticalPixelOffset = 0;
+    self.aviaryImgVerticalPixelOffset = 0;
   }
   return self;
 }
@@ -4793,138 +4637,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   return [value intValue];
 }
 - (BOOL) isInitialized {
-  if (!self.hasMaxLevelDifferenceForBattle) {
-    return NO;
-  }
-  if (!self.hasArmoryXlength) {
-    return NO;
-  }
-  if (!self.hasArmoryYlength) {
-    return NO;
-  }
-  if (!self.hasVaultXlength) {
-    return NO;
-  }
-  if (!self.hasVaultYlength) {
-    return NO;
-  }
-  if (!self.hasMarketplaceXlength) {
-    return NO;
-  }
-  if (!self.hasMarketplaceYlength) {
-    return NO;
-  }
-  if (!self.hasCarpenterXlength) {
-    return NO;
-  }
-  if (!self.hasCarpenterYlength) {
-    return NO;
-  }
-  if (!self.hasAviaryXlength) {
-    return NO;
-  }
-  if (!self.hasAviaryYlength) {
-    return NO;
-  }
-  if (!self.hasAttackBaseGain) {
-    return NO;
-  }
-  if (!self.hasDefenseBaseGain) {
-    return NO;
-  }
-  if (!self.hasEnergyBaseGain) {
-    return NO;
-  }
-  if (!self.hasHealthBaseGain) {
-    return NO;
-  }
-  if (!self.hasStaminaBaseGain) {
-    return NO;
-  }
-  if (!self.hasAttackBaseCost) {
-    return NO;
-  }
-  if (!self.hasDefenseBaseCost) {
-    return NO;
-  }
-  if (!self.hasEnergyBaseCost) {
-    return NO;
-  }
-  if (!self.hasHealthBaseCost) {
-    return NO;
-  }
-  if (!self.hasStaminaBaseCost) {
-    return NO;
-  }
-  if (!self.hasSkillPointsGainedOnLevelup) {
-    return NO;
-  }
-  if (!self.hasCutOfVaultDepositTaken) {
-    return NO;
-  }
-  if (!self.hasMaxLevelForStruct) {
-    return NO;
-  }
-  if (!self.hasMaxNumOfSingleStruct) {
-    return NO;
-  }
-  if (!self.hasPercentReturnedToUserForSellingNormStructure) {
-    return NO;
-  }
-  if (!self.hasMinutesToRefillAenergy) {
-    return NO;
-  }
-  if (!self.hasMinutesToRefillAstamina) {
-    return NO;
-  }
-  if (!self.hasDiamondCostForFullStaminaRefill) {
-    return NO;
-  }
-  if (!self.hasDiamondCostForFullEnergyRefill) {
-    return NO;
-  }
-  if (!self.hasMaxNumberOfMarketplacePosts) {
-    return NO;
-  }
-  if (!self.hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase) {
-    return NO;
-  }
-  if (!self.hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract) {
-    return NO;
-  }
-  if (!self.hasNumDaysLongMarketplaceLicenseLastsFor) {
-    return NO;
-  }
-  if (!self.hasNumDaysShortMarketplaceLicenseLastsFor) {
-    return NO;
-  }
-  if (!self.hasDiamondCostOfLongMarketplaceLicense) {
-    return NO;
-  }
-  if (!self.hasDiamondCostOfShortMarketplaceLicense) {
-    return NO;
-  }
-  if (!self.hasMaxNumbersOfEnemiesToGenerateAtOnce) {
-    return NO;
-  }
-  if (!self.hasPercentReturnedToUserForSellingEquipInArmory) {
-    return NO;
-  }
-  if (!self.hasDiamondRewardForReferrer) {
-    return NO;
-  }
-  if (!self.hasMaxCityRank) {
-    return NO;
-  }
-  if (!self.hasMinLevelForArmory) {
-    return NO;
-  }
-  if (!self.hasMinLevelForVault) {
-    return NO;
-  }
-  if (!self.hasMinLevelForMarketplace) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -5065,6 +4777,21 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMinLevelForMarketplace) {
     [output writeInt32:53 value:self.minLevelForMarketplace];
+  }
+  if (self.hasArmoryImgVerticalPixelOffset) {
+    [output writeInt32:54 value:self.armoryImgVerticalPixelOffset];
+  }
+  if (self.hasVaultImgVerticalPixelOffset) {
+    [output writeInt32:55 value:self.vaultImgVerticalPixelOffset];
+  }
+  if (self.hasMarketplaceImgVerticalPixelOffset) {
+    [output writeInt32:56 value:self.marketplaceImgVerticalPixelOffset];
+  }
+  if (self.hasCarpenterImgVerticalPixelOffset) {
+    [output writeInt32:57 value:self.carpenterImgVerticalPixelOffset];
+  }
+  if (self.hasAviaryImgVerticalPixelOffset) {
+    [output writeInt32:58 value:self.aviaryImgVerticalPixelOffset];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5222,6 +4949,21 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMinLevelForMarketplace) {
     size += computeInt32Size(53, self.minLevelForMarketplace);
+  }
+  if (self.hasArmoryImgVerticalPixelOffset) {
+    size += computeInt32Size(54, self.armoryImgVerticalPixelOffset);
+  }
+  if (self.hasVaultImgVerticalPixelOffset) {
+    size += computeInt32Size(55, self.vaultImgVerticalPixelOffset);
+  }
+  if (self.hasMarketplaceImgVerticalPixelOffset) {
+    size += computeInt32Size(56, self.marketplaceImgVerticalPixelOffset);
+  }
+  if (self.hasCarpenterImgVerticalPixelOffset) {
+    size += computeInt32Size(57, self.carpenterImgVerticalPixelOffset);
+  }
+  if (self.hasAviaryImgVerticalPixelOffset) {
+    size += computeInt32Size(58, self.aviaryImgVerticalPixelOffset);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5442,6 +5184,21 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (other.hasMinLevelForMarketplace) {
     [self setMinLevelForMarketplace:other.minLevelForMarketplace];
   }
+  if (other.hasArmoryImgVerticalPixelOffset) {
+    [self setArmoryImgVerticalPixelOffset:other.armoryImgVerticalPixelOffset];
+  }
+  if (other.hasVaultImgVerticalPixelOffset) {
+    [self setVaultImgVerticalPixelOffset:other.vaultImgVerticalPixelOffset];
+  }
+  if (other.hasMarketplaceImgVerticalPixelOffset) {
+    [self setMarketplaceImgVerticalPixelOffset:other.marketplaceImgVerticalPixelOffset];
+  }
+  if (other.hasCarpenterImgVerticalPixelOffset) {
+    [self setCarpenterImgVerticalPixelOffset:other.carpenterImgVerticalPixelOffset];
+  }
+  if (other.hasAviaryImgVerticalPixelOffset) {
+    [self setAviaryImgVerticalPixelOffset:other.aviaryImgVerticalPixelOffset];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5645,6 +5402,26 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       }
       case 424: {
         [self setMinLevelForMarketplace:[input readInt32]];
+        break;
+      }
+      case 432: {
+        [self setArmoryImgVerticalPixelOffset:[input readInt32]];
+        break;
+      }
+      case 440: {
+        [self setVaultImgVerticalPixelOffset:[input readInt32]];
+        break;
+      }
+      case 448: {
+        [self setMarketplaceImgVerticalPixelOffset:[input readInt32]];
+        break;
+      }
+      case 456: {
+        [self setCarpenterImgVerticalPixelOffset:[input readInt32]];
+        break;
+      }
+      case 464: {
+        [self setAviaryImgVerticalPixelOffset:[input readInt32]];
         break;
       }
     }
@@ -6416,6 +6193,86 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   result.minLevelForMarketplace = 0;
   return self;
 }
+- (BOOL) hasArmoryImgVerticalPixelOffset {
+  return result.hasArmoryImgVerticalPixelOffset;
+}
+- (int32_t) armoryImgVerticalPixelOffset {
+  return result.armoryImgVerticalPixelOffset;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setArmoryImgVerticalPixelOffset:(int32_t) value {
+  result.hasArmoryImgVerticalPixelOffset = YES;
+  result.armoryImgVerticalPixelOffset = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearArmoryImgVerticalPixelOffset {
+  result.hasArmoryImgVerticalPixelOffset = NO;
+  result.armoryImgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasVaultImgVerticalPixelOffset {
+  return result.hasVaultImgVerticalPixelOffset;
+}
+- (int32_t) vaultImgVerticalPixelOffset {
+  return result.vaultImgVerticalPixelOffset;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setVaultImgVerticalPixelOffset:(int32_t) value {
+  result.hasVaultImgVerticalPixelOffset = YES;
+  result.vaultImgVerticalPixelOffset = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearVaultImgVerticalPixelOffset {
+  result.hasVaultImgVerticalPixelOffset = NO;
+  result.vaultImgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasMarketplaceImgVerticalPixelOffset {
+  return result.hasMarketplaceImgVerticalPixelOffset;
+}
+- (int32_t) marketplaceImgVerticalPixelOffset {
+  return result.marketplaceImgVerticalPixelOffset;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceImgVerticalPixelOffset:(int32_t) value {
+  result.hasMarketplaceImgVerticalPixelOffset = YES;
+  result.marketplaceImgVerticalPixelOffset = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceImgVerticalPixelOffset {
+  result.hasMarketplaceImgVerticalPixelOffset = NO;
+  result.marketplaceImgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasCarpenterImgVerticalPixelOffset {
+  return result.hasCarpenterImgVerticalPixelOffset;
+}
+- (int32_t) carpenterImgVerticalPixelOffset {
+  return result.carpenterImgVerticalPixelOffset;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setCarpenterImgVerticalPixelOffset:(int32_t) value {
+  result.hasCarpenterImgVerticalPixelOffset = YES;
+  result.carpenterImgVerticalPixelOffset = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearCarpenterImgVerticalPixelOffset {
+  result.hasCarpenterImgVerticalPixelOffset = NO;
+  result.carpenterImgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasAviaryImgVerticalPixelOffset {
+  return result.hasAviaryImgVerticalPixelOffset;
+}
+- (int32_t) aviaryImgVerticalPixelOffset {
+  return result.aviaryImgVerticalPixelOffset;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAviaryImgVerticalPixelOffset:(int32_t) value {
+  result.hasAviaryImgVerticalPixelOffset = YES;
+  result.aviaryImgVerticalPixelOffset = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAviaryImgVerticalPixelOffset {
+  result.hasAviaryImgVerticalPixelOffset = NO;
+  result.aviaryImgVerticalPixelOffset = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_TutorialConstants ()
@@ -6736,132 +6593,6 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasInitEnergy) {
-    return NO;
-  }
-  if (!self.hasInitStamina) {
-    return NO;
-  }
-  if (!self.hasInitHealth) {
-    return NO;
-  }
-  if (!self.hasTutorialQuest) {
-    return NO;
-  }
-  if (!self.hasStructToBuild) {
-    return NO;
-  }
-  if (!self.hasDiamondCostToInstabuildFirstStruct) {
-    return NO;
-  }
-  if (!self.hasArcherInitAttack) {
-    return NO;
-  }
-  if (!self.hasArcherInitDefense) {
-    return NO;
-  }
-  if (!self.hasArcherInitWeapon) {
-    return NO;
-  }
-  if (!self.hasArcherInitArmor) {
-    return NO;
-  }
-  if (!self.hasMageInitAttack) {
-    return NO;
-  }
-  if (!self.hasMageInitDefense) {
-    return NO;
-  }
-  if (!self.hasMageInitWeapon) {
-    return NO;
-  }
-  if (!self.hasMageInitArmor) {
-    return NO;
-  }
-  if (!self.hasWarriorInitAttack) {
-    return NO;
-  }
-  if (!self.hasWarriorInitDefense) {
-    return NO;
-  }
-  if (!self.hasWarriorInitWeapon) {
-    return NO;
-  }
-  if (!self.hasWarriorInitArmor) {
-    return NO;
-  }
-  if (!self.hasMinNameLength) {
-    return NO;
-  }
-  if (!self.hasMaxNameLength) {
-    return NO;
-  }
-  if (!self.hasDiamondRewardForBeingReferred) {
-    return NO;
-  }
-  if (!self.hasInitCoins) {
-    return NO;
-  }
-  if (!self.hasInitDiamonds) {
-    return NO;
-  }
-  if (!self.hasExpRequiredForLevelTwo) {
-    return NO;
-  }
-  if (!self.hasExpRequiredForLevelThree) {
-    return NO;
-  }
-  if (!self.tutorialQuest.isInitialized) {
-    return NO;
-  }
-  if (!self.archerInitWeapon.isInitialized) {
-    return NO;
-  }
-  if (!self.archerInitArmor.isInitialized) {
-    return NO;
-  }
-  if (!self.mageInitWeapon.isInitialized) {
-    return NO;
-  }
-  if (!self.mageInitArmor.isInitialized) {
-    return NO;
-  }
-  if (!self.warriorInitWeapon.isInitialized) {
-    return NO;
-  }
-  if (!self.warriorInitArmor.isInitialized) {
-    return NO;
-  }
-  for (NeutralCityElementProto* element in self.firstCityElementsForGoodList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (NeutralCityElementProto* element in self.firstCityElementsForBadList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullStructureProto* element in self.carpenterStructsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullCityProto* element in self.citiesNewlyAvailableToUserAfterLevelupList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullEquipProto* element in self.newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullStructureProto* element in self.newlyAvailableStructsAfterLevelupList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -7283,66 +7014,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   return defaultStartupResponseProto_TutorialConstants_FullTutorialQuestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasGoodName) {
-    return NO;
-  }
-  if (!self.hasBadName) {
-    return NO;
-  }
-  if (!self.hasGoodDescription) {
-    return NO;
-  }
-  if (!self.hasBadDescription) {
-    return NO;
-  }
-  if (!self.hasGoodDoneResponse) {
-    return NO;
-  }
-  if (!self.hasBadDoneResponse) {
-    return NO;
-  }
-  if (!self.hasGoodInProgress) {
-    return NO;
-  }
-  if (!self.hasBadInProgress) {
-    return NO;
-  }
-  if (!self.hasAssetNumWithinCity) {
-    return NO;
-  }
-  if (!self.hasCoinsGained) {
-    return NO;
-  }
-  if (!self.hasExpGained) {
-    return NO;
-  }
-  if (!self.hasFirstTaskGood) {
-    return NO;
-  }
-  if (!self.hasFirstTaskBad) {
-    return NO;
-  }
-  if (!self.hasFirstTaskCompleteCoinGain) {
-    return NO;
-  }
-  if (!self.hasFirstDefeatTypeJobBattleCoinGain) {
-    return NO;
-  }
-  if (!self.hasFirstDefeatTypeJobBattleExpGain) {
-    return NO;
-  }
-  if (!self.hasFirstDefeatTypeJobBattleLootAmulet) {
-    return NO;
-  }
-  if (!self.firstTaskGood.isInitialized) {
-    return NO;
-  }
-  if (!self.firstTaskBad.isInitialized) {
-    return NO;
-  }
-  if (!self.firstDefeatTypeJobBattleLootAmulet.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -9145,6 +8816,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableReferralNotificationsList addObjectsFromArray:other.mutableReferralNotificationsList];
   }
+  if (other.hasAppStoreUrl) {
+    [self setAppStoreUrl:other.appStoreUrl];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9262,6 +8936,10 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         FullUserCityProto_Builder* subBuilder = [FullUserCityProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addUserCityInfos:[subBuilder buildPartial]];
+        break;
+      }
+      case 138: {
+        [self setAppStoreUrl:[input readString]];
         break;
       }
       case 146: {
@@ -9691,6 +9369,22 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   [result.mutableReferralNotificationsList addObject:value];
   return self;
 }
+- (BOOL) hasAppStoreUrl {
+  return result.hasAppStoreUrl;
+}
+- (NSString*) appStoreUrl {
+  return result.appStoreUrl;
+}
+- (StartupResponseProto_Builder*) setAppStoreUrl:(NSString*) value {
+  result.hasAppStoreUrl = YES;
+  result.appStoreUrl = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearAppStoreUrl {
+  result.hasAppStoreUrl = NO;
+  result.appStoreUrl = @"";
+  return self;
+}
 @end
 
 @interface UserCreateRequestProto ()
@@ -9865,50 +9559,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   return defaultUserCreateRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasUdid) {
-    return NO;
-  }
-  if (!self.hasName) {
-    return NO;
-  }
-  if (!self.hasType) {
-    return NO;
-  }
-  if (!self.hasAttack) {
-    return NO;
-  }
-  if (!self.hasDefense) {
-    return NO;
-  }
-  if (!self.hasHealth) {
-    return NO;
-  }
-  if (!self.hasEnergy) {
-    return NO;
-  }
-  if (!self.hasStamina) {
-    return NO;
-  }
-  if (!self.hasTimeOfStructPurchase) {
-    return NO;
-  }
-  if (!self.hasTimeOfStructBuild) {
-    return NO;
-  }
-  if (!self.hasStructCoords) {
-    return NO;
-  }
-  if (!self.hasUsedDiamondsToBuilt) {
-    return NO;
-  }
-  if (self.hasUserLocation) {
-    if (!self.userLocation.isInitialized) {
-      return NO;
-    }
-  }
-  if (!self.structCoords.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -10545,14 +10195,6 @@ static UserCreateResponseProto* defaultUserCreateResponseProtoInstance = nil;
   return defaultUserCreateResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (self.hasSender) {
-    if (!self.sender.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -10808,12 +10450,6 @@ static RetrieveTasksForCityRequestProto* defaultRetrieveTasksForCityRequestProto
   return defaultRetrieveTasksForCityRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -11050,17 +10686,6 @@ static RetrieveTasksForCityResponseProto* defaultRetrieveTasksForCityResponsePro
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullTaskProto* element in self.tasksList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -11314,15 +10939,6 @@ static RetrieveStaticDataForShopRequestProto* defaultRetrieveStaticDataForShopRe
   return defaultRetrieveStaticDataForShopRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -11592,25 +11208,6 @@ static RetrieveStaticDataForShopResponseProto* defaultRetrieveStaticDataForShopR
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullEquipProto* element in self.equipsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullStructureProto* element in self.structsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -11963,18 +11560,6 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
   return defaultTaskActionRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasTaskId) {
-    return NO;
-  }
-  if (!self.hasCurTime) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -12312,15 +11897,6 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   return defaultTaskActionResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -12795,24 +12371,6 @@ static PurchaseNormStructureRequestProto* defaultPurchaseNormStructureRequestPro
   return defaultPurchaseNormStructureRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStructCoordinates) {
-    return NO;
-  }
-  if (!self.hasStructId) {
-    return NO;
-  }
-  if (!self.hasTimeOfPurchase) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.structCoordinates.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -13134,15 +12692,6 @@ static PurchaseNormStructureResponseProto* defaultPurchaseNormStructureResponseP
   return defaultPurchaseNormStructureResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -13454,23 +13003,6 @@ static MoveOrRotateNormStructureRequestProto* defaultMoveOrRotateNormStructureRe
   return defaultMoveOrRotateNormStructureRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasUserStructId) {
-    return NO;
-  }
-  if (!self.hasType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (self.hasCurStructCoordinates) {
-    if (!self.curStructCoordinates.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -13831,15 +13363,6 @@ static MoveOrRotateNormStructureResponseProto* defaultMoveOrRotateNormStructureR
   return defaultMoveOrRotateNormStructureResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -14089,15 +13612,6 @@ static SellNormStructureRequestProto* defaultSellNormStructureRequestProtoInstan
   return defaultSellNormStructureRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasUserStructId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -14333,15 +13847,6 @@ static SellNormStructureResponseProto* defaultSellNormStructureResponseProtoInst
   return defaultSellNormStructureResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -14600,18 +14105,6 @@ static UpgradeNormStructureRequestProto* defaultUpgradeNormStructureRequestProto
   return defaultUpgradeNormStructureRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasUserStructId) {
-    return NO;
-  }
-  if (!self.hasTimeOfUpgrade) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -14876,15 +14369,6 @@ static UpgradeNormStructureResponseProto* defaultUpgradeNormStructureResponsePro
   return defaultUpgradeNormStructureResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -15149,18 +14633,6 @@ static RetrieveCurrencyFromNormStructureRequestProto* defaultRetrieveCurrencyFro
   return defaultRetrieveCurrencyFromNormStructureRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasUserStructId) {
-    return NO;
-  }
-  if (!self.hasTimeOfRetrieval) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -15425,15 +14897,6 @@ static RetrieveCurrencyFromNormStructureResponseProto* defaultRetrieveCurrencyFr
   return defaultRetrieveCurrencyFromNormStructureResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -15714,23 +15177,6 @@ static CriticalStructureActionRequestProto* defaultCriticalStructureActionReques
   return defaultCriticalStructureActionRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasActionType) {
-    return NO;
-  }
-  if (!self.hasCritStructType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (self.hasCritStructCoordinates) {
-    if (!self.critStructCoordinates.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -16097,15 +15543,6 @@ static CriticalStructureActionResponseProto* defaultCriticalStructureActionRespo
   return defaultCriticalStructureActionResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -16376,21 +15813,6 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   return defaultFinishNormStructWaittimeWithDiamondsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasUserStructId) {
-    return NO;
-  }
-  if (!self.hasTimeOfPurchase) {
-    return NO;
-  }
-  if (!self.hasWaitTimeType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -16699,15 +16121,6 @@ static FinishNormStructWaittimeWithDiamondsResponseProto* defaultFinishNormStruc
   return defaultFinishNormStructWaittimeWithDiamondsResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -16969,15 +16382,6 @@ static NormStructWaitCompleteRequestProto* defaultNormStructWaitCompleteRequestP
   return [value intValue];
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasCurTime) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -17275,20 +16679,6 @@ static NormStructWaitCompleteResponseProto* defaultNormStructWaitCompleteRespons
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullUserStructureProto* element in self.userStructList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -17578,12 +16968,6 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
   return defaultLevelUpRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -17889,30 +17273,6 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullCityProto* element in self.citiesNewlyAvailableToUserList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullEquipProto* element in self.newlyEquippableEpicsAndLegendariesList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullStructureProto* element in self.newlyAvailableStructsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -18480,15 +17840,6 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   return defaultInAppPurchaseRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasReceipt) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -18733,15 +18084,6 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   return defaultInAppPurchaseResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -19020,15 +18362,6 @@ static UpdateClientUserResponseProto* defaultUpdateClientUserResponseProtoInstan
   return defaultUpdateClientUserResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasTimeOfUserUpdate) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -19278,15 +18611,6 @@ static RetrieveCurrentMarketplacePostsRequestProto* defaultRetrieveCurrentMarket
   return defaultRetrieveCurrentMarketplacePostsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasFromSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -19584,23 +18908,6 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasFromSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullMarketplacePostProto* element in self.marketplacePostsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -19974,15 +19281,6 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   return defaultPostToMarketplaceRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasPostedEquipId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -20276,15 +19574,6 @@ static PostToMarketplaceResponseProto* defaultPostToMarketplaceResponseProtoInst
   return defaultPostToMarketplaceResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -20543,15 +19832,6 @@ static RetractMarketplacePostRequestProto* defaultRetractMarketplacePostRequestP
   return defaultRetractMarketplacePostRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasMarketplacePostId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -20787,15 +20067,6 @@ static RetractMarketplacePostResponseProto* defaultRetractMarketplacePostRespons
   return defaultRetractMarketplacePostResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -21058,18 +20329,6 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
   return defaultPurchaseFromMarketplaceRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasMarketplacePostId) {
-    return NO;
-  }
-  if (!self.hasPosterId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -21353,23 +20612,6 @@ static PurchaseFromMarketplaceResponseProto* defaultPurchaseFromMarketplaceRespo
   return defaultPurchaseFromMarketplaceResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasPurchaser) {
-    return NO;
-  }
-  if (!self.hasPosterId) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.purchaser.isInitialized) {
-    return NO;
-  }
-  if (self.hasMarketplacePost) {
-    if (!self.marketplacePost.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -21700,15 +20942,6 @@ static UseSkillPointRequestProto* defaultUseSkillPointRequestProtoInstance = nil
   return defaultUseSkillPointRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasBoostType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -21961,15 +21194,6 @@ static UseSkillPointResponseProto* defaultUseSkillPointResponseProtoInstance = n
   return defaultUseSkillPointResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -22256,15 +21480,6 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   return defaultGenerateAttackListRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasNumEnemies) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -22626,20 +21841,6 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullUserProto* element in self.enemiesList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -22938,15 +22139,6 @@ static RefillStatWithDiamondsRequestProto* defaultRefillStatWithDiamondsRequestP
   return defaultRefillStatWithDiamondsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -23196,15 +22388,6 @@ static RefillStatWithDiamondsResponseProto* defaultRefillStatWithDiamondsRespons
   return defaultRefillStatWithDiamondsResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -23447,12 +22630,6 @@ static RedeemMarketplaceEarningsRequestProto* defaultRedeemMarketplaceEarningsRe
   return defaultRedeemMarketplaceEarningsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -23659,15 +22836,6 @@ static RedeemMarketplaceEarningsResponseProto* defaultRedeemMarketplaceEarningsR
   return defaultRedeemMarketplaceEarningsResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -23918,18 +23086,6 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   return defaultLoadPlayerCityRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasCityOwner) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.cityOwner.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -24284,68 +23440,6 @@ static LoadPlayerCityResponseProto* defaultLoadPlayerCityResponseProtoInstance =
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasCityOwner) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.hasCarpenter) {
-    return NO;
-  }
-  if (!self.hasAviary) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.cityOwner.isInitialized) {
-    return NO;
-  }
-  for (FullUserStructureProto* element in self.ownerNormStructsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullUserProto* element in self.ownerAlliesList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullUserProto* element in self.ownerEnemiesList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  if (self.hasArmory) {
-    if (!self.armory.isInitialized) {
-      return NO;
-    }
-  }
-  if (self.hasVault) {
-    if (!self.vault.isInitialized) {
-      return NO;
-    }
-  }
-  if (self.hasMarketplace) {
-    if (!self.marketplace.isInitialized) {
-      return NO;
-    }
-  }
-  if (!self.carpenter.isInitialized) {
-    return NO;
-  }
-  if (!self.aviary.isInitialized) {
-    return NO;
-  }
-  if (self.hasUserCityExpansionData) {
-    if (!self.userCityExpansionData.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -25073,15 +24167,6 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
   return defaultQuestAcceptRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasQuestId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -25336,20 +24421,6 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -25686,20 +24757,6 @@ static QuestCompleteResponseProto* defaultQuestCompleteResponseProtoInstance = n
   return defaultQuestCompleteResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasQuestId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (self.hasNeutralCityElement) {
-    if (!self.neutralCityElement.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -25983,15 +25040,6 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
   return defaultQuestRedeemRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasQuestId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -26237,20 +25285,6 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullQuestProto* element in self.newlyAvailableQuestsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -26548,12 +25582,6 @@ static UserQuestDetailsRequestProto* defaultUserQuestDetailsRequestProtoInstance
   return defaultUserQuestDetailsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -26799,20 +25827,6 @@ static UserQuestDetailsResponseProto* defaultUserQuestDetailsResponseProtoInstan
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -27200,12 +26214,6 @@ static RetrieveStaticDataRequestProto* defaultRetrieveStaticDataRequestProtoInst
   return [value intValue];
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -28008,60 +27016,6 @@ static RetrieveStaticDataResponseProto* defaultRetrieveStaticDataResponseProtoIn
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullStructureProto* element in self.structsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullTaskProto* element in self.tasksList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullQuestProto* element in self.questsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullCityProto* element in self.citiesList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullEquipProto* element in self.equipsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (BuildStructJobProto* element in self.buildStructJobsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (DefeatTypeJobProto* element in self.defeatTypeJobsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (PossessEquipJobProto* element in self.possessEquipJobsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (UpgradeStructJobProto* element in self.upgradeStructJobsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -28772,18 +27726,6 @@ static PurchaseCityExpansionRequestProto* defaultPurchaseCityExpansionRequestPro
   return defaultPurchaseCityExpansionRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasDirection) {
-    return NO;
-  }
-  if (!self.hasTimeOfPurchase) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -29053,15 +27995,6 @@ static PurchaseCityExpansionResponseProto* defaultPurchaseCityExpansionResponseP
   return defaultPurchaseCityExpansionResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -29314,15 +28247,6 @@ static ExpansionWaitCompleteRequestProto* defaultExpansionWaitCompleteRequestPro
   return defaultExpansionWaitCompleteRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasCurTime) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -29558,15 +28482,6 @@ static ExpansionWaitCompleteResponseProto* defaultExpansionWaitCompleteResponseP
   return defaultExpansionWaitCompleteResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -29828,18 +28743,6 @@ static RefillStatWaitCompleteRequestProto* defaultRefillStatWaitCompleteRequestP
   return defaultRefillStatWaitCompleteRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasCurTime) {
-    return NO;
-  }
-  if (!self.hasType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -30118,15 +29021,6 @@ static RefillStatWaitCompleteResponseProto* defaultRefillStatWaitCompleteRespons
   return defaultRefillStatWaitCompleteResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -30380,15 +29274,6 @@ static EnableAPNSRequestProto* defaultEnableAPNSRequestProtoInstance = nil;
   return defaultEnableAPNSRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasDeviceToken) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -30624,15 +29509,6 @@ static EnableAPNSResponseProto* defaultEnableAPNSResponseProtoInstance = nil;
   return defaultEnableAPNSResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -30891,18 +29767,6 @@ static PurchaseMarketplaceLicenseRequestProto* defaultPurchaseMarketplaceLicense
   return defaultPurchaseMarketplaceLicenseRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasClientTime) {
-    return NO;
-  }
-  if (!self.hasLicenseType) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -31181,15 +30045,6 @@ static PurchaseMarketplaceLicenseResponseProto* defaultPurchaseMarketplaceLicens
   return defaultPurchaseMarketplaceLicenseResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -31443,18 +30298,6 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   return defaultReferralCodeUsedResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasReferredPlayer) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.referredPlayer.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -31709,15 +30552,6 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   return defaultEquipEquipmentRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasEquipId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -31953,15 +30787,6 @@ static EquipEquipmentResponseProto* defaultEquipEquipmentResponseProtoInstance =
   return defaultEquipEquipmentResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -32216,18 +31041,6 @@ static ChangeUserLocationRequestProto* defaultChangeUserLocationRequestProtoInst
   return defaultChangeUserLocationRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasUserLocation) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  if (!self.userLocation.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -32482,15 +31295,6 @@ static ChangeUserLocationResponseProto* defaultChangeUserLocationResponseProtoIn
   return defaultChangeUserLocationResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -32741,15 +31545,6 @@ static LoadNeutralCityRequestProto* defaultLoadNeutralCityRequestProtoInstance =
   return defaultLoadNeutralCityRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasCityId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -33024,33 +31819,6 @@ static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasStatus) {
-    return NO;
-  }
-  if (!self.hasCityId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (MinimumUserTaskProto* element in self.userTasksInfoList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (FullUserProto* element in self.defeatTypeJobEnemiesList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
-  for (NeutralCityElementProto* element in self.cityElementsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -33471,15 +32239,6 @@ static RetrieveUserEquipForUserRequestProto* defaultRetrieveUserEquipForUserRequ
   return defaultRetrieveUserEquipForUserRequestProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasRelevantUserId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -33725,20 +32484,6 @@ static RetrieveUserEquipForUserResponseProto* defaultRetrieveUserEquipForUserRes
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.hasRelevantUserId) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullUserEquipProto* element in self.userEquipsList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -34011,9 +32756,6 @@ static PurgeClientStaticDataResponseProto* defaultPurgeClientStaticDataResponseP
   return defaultPurgeClientStaticDataResponseProtoInstance;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSenderId) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -34202,12 +32944,6 @@ static RetrieveUsersForUserIdsRequestProto* defaultRetrieveUsersForUserIdsReques
   return [value intValue];
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
@@ -34467,17 +33203,6 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
   return value;
 }
 - (BOOL) isInitialized {
-  if (!self.hasSender) {
-    return NO;
-  }
-  if (!self.sender.isInitialized) {
-    return NO;
-  }
-  for (FullUserProto* element in self.requestedUsersList) {
-    if (!element.isInitialized) {
-      return NO;
-    }
-  }
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {

@@ -176,10 +176,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
   [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite];
   
-//  if (maskedView) {
-//    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
-//     maskedView.hidden = YES;
-//  }
+  if (maskedView) {
+    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
+     maskedView.hidden = YES;
+  }
 }
 
 + (UIColor *) colorForUnequippable {
@@ -474,7 +474,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle {
   Globals *gl = [Globals sharedGlobals];
-  [[gl imageViewsWaitingForDownloading] removeObjectForKey:view];
+  NSString *key = [NSString stringWithFormat:@"%p", view];
+  [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
+  
+  UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
+  [loadingView stopAnimating];
+  [loadingView removeFromSuperview];
   
   UIImage *cachedImage = [gl.imageCache objectForKey:imageName];
   if (cachedImage) {
@@ -510,7 +515,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       }
       view.image = nil;
       
-      NSString *key = [NSString stringWithFormat:@"%p", view];
       [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
       
       // Image not in docs: download it
@@ -928,7 +932,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (void) dealloc {
   self.productIdentifiers = nil;
-  [imageViewsWaitingForDownloading release];
+  self.imageCache = nil;
+  self.imageViewsWaitingForDownloading = nil;
   [super dealloc];
 }
 

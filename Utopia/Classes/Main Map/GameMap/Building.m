@@ -52,6 +52,10 @@
 
 @implementation Aviary
 
+- (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
+  return [super initWithFile:file location:loc map:map];
+}
+
 @end
 
 @implementation HomeBuilding
@@ -324,6 +328,10 @@
 @implementation CritStructBuilding
 
 @synthesize critStruct;
+
+- (id) initWithFile:(NSString *)file location:(CGRect)loc map:(HomeMap *)map {
+  return [super initWithFile:file location:loc map:map];
+}
 
 @end
 

@@ -130,7 +130,7 @@
 
 @implementation HomeBuildingUpgradeView
 
-@synthesize costView, costLabel;
+@synthesize costView, costLabel, upgradeCoinIcon;
 
 - (void) awakeFromNib {
   self.backgroundColor = [UIColor clearColor];
@@ -346,9 +346,11 @@
     if (silverSellCost != 0) {
       [self.infoView setSellCostString:[Globals commafyNumber:silverSellCost]];
       self.infoView.coinIcon.highlighted = NO;
+      self.upgradeView.upgradeCoinIcon.highlighted = NO;
     } else {
       [self.infoView setSellCostString:[Globals commafyNumber:[gl calculateStructGoldSellCost:us]]];
       self.infoView.coinIcon.highlighted = YES;
+      self.upgradeView.upgradeCoinIcon.highlighted = YES;
     }
     
     self.upgradeCurIncomeLabel.text = [Globals commafyNumber:[gl calculateIncomeForUserStruct:us]];
@@ -587,16 +589,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [moneyBuilding placeBlock];
   }
   
-  CCNode *c;
-  CCARRAY_FOREACH(self.children, c) {
-    if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
-      if ([c isKindOfClass:[HomeBuilding class]]) {
-        [(HomeBuilding *)c liftBlock];
-      }
-      [self removeChild:c cleanup:YES];
-    }
-  }
-  
   for (UserCritStruct *cs in gs.myCritStructs) {
     if (cs.type != CritStructTypeAviary) {
       CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
@@ -617,6 +609,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [self changeTiles:av.location toBuildable:NO];
     }
   }
+  
+  CCNode *c;
+  CCARRAY_FOREACH(self.children, c) {
+    if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
+      if ([c isKindOfClass:[HomeBuilding class]]) {
+        [(HomeBuilding *)c liftBlock];
+      }
+      [self removeChild:c cleanup:YES];
+    }
+  }
+  
   [self doReorder];
   _loading = NO;
 }
@@ -1056,16 +1059,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  FullStructureProto *fsp = [gs structWithId:us.structId];
   if (us.level < gl.maxLevelForStruct) {
     int cost = [gl calculateUpgradeCost:us];
-    if (cost > gs.silver) {
-      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
-      self.selected = nil;
+    BOOL isGoldBuilding = fsp.diamondPrice > 0;
+    if (!isGoldBuilding) {
+      if (cost > gs.silver) {
+        [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+        [Analytics notEnoughSilverForUpgrade:us.structId cost:cost];
+        self.selected = nil;
+      } else {
+        [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
+        _upgrBuilding = (MoneyBuilding *)_selected;
+        [self updateTimersForBuilding:_upgrBuilding];
+        [self.hbMenu updateLabelsForUserStruct:us];
+      }
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
-      _upgrBuilding = (MoneyBuilding *)_selected;
-      [self updateTimersForBuilding:_upgrBuilding];
-      [self.hbMenu updateLabelsForUserStruct:us];
+      if (cost > gs.gold) {
+        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+        [Analytics notEnoughGoldForUpgrade:us.structId cost:cost];
+        self.selected = nil;
+      } else {
+        [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
+        _upgrBuilding = (MoneyBuilding *)_selected;
+        [self updateTimersForBuilding:_upgrBuilding];
+        [self.hbMenu updateLabelsForUserStruct:us];
+      }
     }
   }
 }

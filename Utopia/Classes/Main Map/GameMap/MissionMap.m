@@ -474,7 +474,7 @@
         
         if (success) {
           _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
-          [_taskProgBar animateBarWithText:@"MEEPING"];
+          [_taskProgBar animateBarWithText:ftp.processingText];
           _taskProgBar.visible = YES;
           mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
           _receivedTaskActionResponse = NO;

@@ -212,7 +212,7 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="321281671"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<float key="IBUIAlpha">0.30000001192092896</float>
+						<float key="IBUIAlpha">0.80000001192092896</float>
 						<int key="IBUIContentMode">1</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -427,10 +427,10 @@
 							<reference ref="395744251"/>
 							<reference ref="987880602"/>
 							<reference ref="832957648"/>
-							<reference ref="542006948"/>
 							<reference ref="321052923"/>
 							<reference ref="40517796"/>
 							<reference ref="611027439"/>
+							<reference ref="542006948"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>

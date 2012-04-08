@@ -14,6 +14,7 @@
 #import "TutorialConstants.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "TutorialHomeMap.h"
 
 @implementation DialogMenuLoadingView
 
@@ -38,6 +39,8 @@
 #define ANIMATION_VERTICAL_MOVEMENT 124
 #define WIN_HEIGHT [[UIScreen mainScreen] applicationFrame].size.width
 
+@synthesize nameLabel;
+@synthesize girlImageView;
 @synthesize loadingView;
 @synthesize label, progressBar;
 @synthesize target = _target;
@@ -86,6 +89,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   dmc.textView.hidden = NO;
   dmc.referralView.hidden = YES;
   dmc.retryView.hidden = YES;
+  dmc.girlImageView.hidden = NO;
+  
+  GameState *gs = [GameState sharedGameState];
+  dmc.nameLabel.text = gs.type < 3 ? @"Ruby" : @"Adriana";
   
   [dmc registerCallback:t action:s];
   
@@ -108,10 +115,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   }
 }
 
++ (void) displayViewForBeginningText:(NSString *)str callbackTarget:(id)t action:(SEL)s {
+  [self displayViewForText:str callbackTarget:t action:s];
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  dmc.nameLabel.text = @"???";
+  dmc.girlImageView.hidden = YES;
+  UIImageView *masked = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"maskedgirl.png"]];
+  masked.tag = 35;
+  [dmc.view addSubview:masked];
+  masked.center = CGPointMake(dmc.girlImageView.center.x, CGRectGetMaxY(dmc.girlImageView.frame)-masked.frame.size.height/2);
+}
+
 - (void) displayViewForReferral {
   self.textView.hidden = YES;
   self.referralView.hidden = NO;
   self.retryView.hidden = YES;
+  self.girlImageView.hidden = NO;
+  
+  GameState *gs = [GameState sharedGameState];
+  self.nameLabel.text = gs.type < 3 ? @"Ruby" : @"Adriana";
   
   CGRect r = self.progressBar.frame;
   r.size.width = 10+43*self.progress;
@@ -145,6 +167,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
     r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
     dmc.view.frame = r;
   } completion:^(BOOL finished) {
+    [[dmc.view viewWithTag:35] removeFromSuperview];
     [dmc.view removeFromSuperview];
     [dmc performCallback];
   }];
@@ -246,26 +269,35 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   GameState *gs = [GameState sharedGameState];
   NSString *string = [NSString stringWithFormat:tc.createSuccessText, gs.name, [Globals factionForUserType:gs.type]];
   [DialogMenuController displayViewForText:string callbackTarget:nil action:nil];
-  [Analytics tutorialComplete];
+  
+  [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startGoToAviaryPhase];
+  
+  [Analytics tutorialUserCreated];
 }
 
 - (void) displayTimeSyncDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.timeSyncErrorText callbackTarget:nil action:nil];
+  [DialogMenuController displayViewForText:tc.otherFailText callbackTarget:nil action:nil];
   
-  // Display retry button
-  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-  dmc.retryView.hidden = NO;
+//  // Display retry button
+//  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+//  dmc.retryView.hidden = NO;
+  
+  [Analytics tutorialTimeSync];
 }
 
 - (void) displayReferralCodeFailDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.invalidReferCodeText callbackTarget:self action:@selector(displayViewForReferral)];
+  
+  [Analytics tutorialInvalidReferral];
 }
 
 - (void) displayOtherFailDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.otherFailText callbackTarget:nil action:nil];
+  
+  [Analytics tutorialOtherFail];
 }
 
 - (void) viewDidUnload

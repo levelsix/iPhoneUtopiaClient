@@ -350,6 +350,8 @@
   
   [(TutorialTopBar *)[TutorialTopBar sharedTopBar] updateIcon];
   
+  [[DialogMenuController sharedDialogMenuController].girlImageView awakeFromNib];
+  
   [gs changeQuantityForEquip:weapon.equipId by:1];
   [gs changeQuantityForEquip:armor.equipId by:1];
   

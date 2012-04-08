@@ -132,7 +132,7 @@
 
 - (void) flashComplete {
   NSString *text = [[TutorialConstants sharedTutorialConstants] beforeCharSelectionText];
-  [DialogMenuController displayViewForText:text callbackTarget:self action:@selector(beginCharSelection)];
+  [DialogMenuController displayViewForBeginningText:text callbackTarget:self action:@selector(beginCharSelection)];
 }
 
 - (void) beginCharSelection {

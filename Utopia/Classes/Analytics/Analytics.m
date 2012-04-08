@@ -20,6 +20,8 @@
 #define GET_MORE_SILVER @"Clicked \"Go to Aviary\""
 #define NOT_ENOUGH_SILVER_ARMORY @"Armory: Not enough silver"
 #define NOT_ENOUGH_GOLD_ARMORY @"Armory: Not enough gold"
+#define NOT_ENOUGH_SILVER_UPGRADE @"Upgrade: Not enough silver"
+#define NOT_ENOUGH_GOLD_UPGRADE @"Upgrade: Not enough gold"
 #define NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_POPUP @"Stamina Popup: Not enough gold"
 #define NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_POPUP @"Energy Popup: Not enough gold"
 #define NOT_ENOUGH_SILVER_CARPENTER @"Carpenter: Not enough silver"
@@ -66,6 +68,10 @@
 #define TUTORIAL_WAIT_BUILD @"Tutorial: Waited for build"
 #define TUTORIAL_ENTERRED_REFERRAL @"Tutorial: Enterred referral"
 #define TUTORIAL_SKIPPED_REFERRAL @"Tutorial: Skipped referral"
+#define TUTORIAL_USER_CREATED @"Tutorial: User Created"
+#define TUTORIAL_INVALID_REFERRAL @"Tutorial: Invalid referral"
+#define TUTORIAL_TIME_SYNC @"Tutorial: Time not synced"
+#define TUTORIAL_OTHER_FAIL @"Tutorial: Other fail"
 #define TUTORIAL_COMPLETE @"Tutorial: Complete"
 
 @implementation Analytics
@@ -177,6 +183,28 @@
                         nil];
   
   [Apsalar event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];
+}
+
++ (void) notEnoughSilverForUpgrade:(int)structId cost:(int)cost {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:structId], @"struct id",
+                        [NSNumber numberWithInt:gs.silver], @"current silver",
+                        [NSNumber numberWithInt:cost], @"silver needed",
+                        nil];
+  
+  [Apsalar event:NOT_ENOUGH_SILVER_UPGRADE withArgs:args];
+}
+
++ (void) notEnoughGoldForUpgrade:(int)structId cost:(int)cost {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:structId], @"struct id",
+                        [NSNumber numberWithInt:gs.gold], @"current gold",
+                        [NSNumber numberWithInt:cost], @"gold needed",
+                        nil];
+  
+  [Apsalar event:NOT_ENOUGH_GOLD_UPGRADE withArgs:args];
 }
 
 + (void) notEnoughGoldForInstaBuild:(int)structId {
@@ -421,6 +449,22 @@
 
 + (void) tutorialSkippedReferral {
   [Apsalar event:TUTORIAL_SKIPPED_REFERRAL];
+}
+
++ (void) tutorialUserCreated {
+  [Apsalar event:TUTORIAL_USER_CREATED];
+}
+
++ (void) tutorialInvalidReferral {
+  [Apsalar event:TUTORIAL_INVALID_REFERRAL];
+}
+
++ (void) tutorialTimeSync {
+  [Apsalar event:TUTORIAL_TIME_SYNC];
+}
+
++ (void) tutorialOtherFail {
+  [Apsalar event:TUTORIAL_OTHER_FAIL];
 }
 
 + (void) tutorialComplete {

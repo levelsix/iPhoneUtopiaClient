@@ -1369,20 +1369,22 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasExperienceRequiredForCurrentLevel_:1;
-  BOOL hasSender_:1;
-  BOOL hasStartupConstants_:1;
+  BOOL hasExperienceRequiredForNextLevel_:1;
+  BOOL hasAppStoreUrl_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasStartupStatus_:1;
+  BOOL hasStartupConstants_:1;
+  BOOL hasSender_:1;
   BOOL hasUpdateStatus_:1;
-  int32_t experienceRequiredForNextLevel;
+  BOOL hasStartupStatus_:1;
   int32_t experienceRequiredForCurrentLevel;
-  FullUserProto* sender;
-  StartupResponseProto_StartupConstants* startupConstants;
+  int32_t experienceRequiredForNextLevel;
+  NSString* appStoreUrl;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_StartupStatus startupStatus;
+  StartupResponseProto_StartupConstants* startupConstants;
+  FullUserProto* sender;
   StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableCitiesAvailableToUserList;
   NSMutableArray* mutableUserCityInfosList;
   NSMutableArray* mutableInProgressQuestsList;
@@ -1400,6 +1402,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasTutorialConstants;
 - (BOOL) hasExperienceRequiredForNextLevel;
 - (BOOL) hasExperienceRequiredForCurrentLevel;
+- (BOOL) hasAppStoreUrl;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
@@ -1407,6 +1410,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly, retain) StartupResponseProto_TutorialConstants* tutorialConstants;
 @property (readonly) int32_t experienceRequiredForNextLevel;
 @property (readonly) int32_t experienceRequiredForCurrentLevel;
+@property (readonly, retain) NSString* appStoreUrl;
 - (NSArray*) citiesAvailableToUserList;
 - (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
@@ -1662,11 +1666,9 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @private
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
@@ -1683,6 +1685,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasMinLevelForArmory_:1;
   BOOL hasMinLevelForVault_:1;
   BOOL hasMinLevelForMarketplace_:1;
+  BOOL hasArmoryImgVerticalPixelOffset_:1;
+  BOOL hasVaultImgVerticalPixelOffset_:1;
+  BOOL hasMarketplaceImgVerticalPixelOffset_:1;
+  BOOL hasCarpenterImgVerticalPixelOffset_:1;
+  BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
@@ -1704,13 +1711,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasEnergyBaseCost_:1;
   BOOL hasHealthBaseCost_:1;
   BOOL hasStaminaBaseCost_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasMaxLevelForStruct_:1;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  int32_t skillPointsGainedOnLevelup;
-  int32_t maxLevelForStruct;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
   int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
@@ -1727,6 +1734,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t minLevelForArmory;
   int32_t minLevelForVault;
   int32_t minLevelForMarketplace;
+  int32_t armoryImgVerticalPixelOffset;
+  int32_t vaultImgVerticalPixelOffset;
+  int32_t marketplaceImgVerticalPixelOffset;
+  int32_t carpenterImgVerticalPixelOffset;
+  int32_t aviaryImgVerticalPixelOffset;
   int32_t maxLevelDifferenceForBattle;
   int32_t armoryXlength;
   int32_t armoryYlength;
@@ -1748,6 +1760,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t energyBaseCost;
   int32_t healthBaseCost;
   int32_t staminaBaseCost;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t maxLevelForStruct;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
@@ -1795,6 +1809,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasMinLevelForArmory;
 - (BOOL) hasMinLevelForVault;
 - (BOOL) hasMinLevelForMarketplace;
+- (BOOL) hasArmoryImgVerticalPixelOffset;
+- (BOOL) hasVaultImgVerticalPixelOffset;
+- (BOOL) hasMarketplaceImgVerticalPixelOffset;
+- (BOOL) hasCarpenterImgVerticalPixelOffset;
+- (BOOL) hasAviaryImgVerticalPixelOffset;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1839,6 +1858,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t minLevelForArmory;
 @property (readonly) int32_t minLevelForVault;
 @property (readonly) int32_t minLevelForMarketplace;
+@property (readonly) int32_t armoryImgVerticalPixelOffset;
+@property (readonly) int32_t vaultImgVerticalPixelOffset;
+@property (readonly) int32_t marketplaceImgVerticalPixelOffset;
+@property (readonly) int32_t carpenterImgVerticalPixelOffset;
+@property (readonly) int32_t aviaryImgVerticalPixelOffset;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2111,6 +2135,31 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) minLevelForMarketplace;
 - (StartupResponseProto_StartupConstants_Builder*) setMinLevelForMarketplace:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForMarketplace;
+
+- (BOOL) hasArmoryImgVerticalPixelOffset;
+- (int32_t) armoryImgVerticalPixelOffset;
+- (StartupResponseProto_StartupConstants_Builder*) setArmoryImgVerticalPixelOffset:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearArmoryImgVerticalPixelOffset;
+
+- (BOOL) hasVaultImgVerticalPixelOffset;
+- (int32_t) vaultImgVerticalPixelOffset;
+- (StartupResponseProto_StartupConstants_Builder*) setVaultImgVerticalPixelOffset:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearVaultImgVerticalPixelOffset;
+
+- (BOOL) hasMarketplaceImgVerticalPixelOffset;
+- (int32_t) marketplaceImgVerticalPixelOffset;
+- (StartupResponseProto_StartupConstants_Builder*) setMarketplaceImgVerticalPixelOffset:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMarketplaceImgVerticalPixelOffset;
+
+- (BOOL) hasCarpenterImgVerticalPixelOffset;
+- (int32_t) carpenterImgVerticalPixelOffset;
+- (StartupResponseProto_StartupConstants_Builder*) setCarpenterImgVerticalPixelOffset:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearCarpenterImgVerticalPixelOffset;
+
+- (BOOL) hasAviaryImgVerticalPixelOffset;
+- (int32_t) aviaryImgVerticalPixelOffset;
+- (StartupResponseProto_StartupConstants_Builder*) setAviaryImgVerticalPixelOffset:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAviaryImgVerticalPixelOffset;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -2769,6 +2818,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_Builder*) addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*) value;
 - (StartupResponseProto_Builder*) addAllReferralNotifications:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearReferralNotificationsList;
+
+- (BOOL) hasAppStoreUrl;
+- (NSString*) appStoreUrl;
+- (StartupResponseProto_Builder*) setAppStoreUrl:(NSString*) value;
+- (StartupResponseProto_Builder*) clearAppStoreUrl;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {

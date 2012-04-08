@@ -385,7 +385,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 }
 
 - (IBAction)homeClicked:(id)sender {
-  [[HomeMap sharedHomeMap] refresh];
   [[GameLayer sharedGameLayer] loadHomeMap];
   [self fadeOut];
 }

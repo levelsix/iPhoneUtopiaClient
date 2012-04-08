@@ -12,14 +12,17 @@
   BOOL _carpenterPhase;
   BOOL _visitCarpPhase;
   BOOL _waitingForBuildPhase;
-  BOOL _goToArmory;
+  BOOL _goToAviary;
   CCSprite *_ccArrow;
   CritStructBuilding *_csb;
   Aviary *_av;
   UIImageView *_uiArrow;
   BOOL _arrowDir;
+  BOOL _canUnclick;
 }
 
 @property (nonatomic, retain) CoordinateProto *tutCoords;
+
+- (void) startGoToAviaryPhase;
 
 @end

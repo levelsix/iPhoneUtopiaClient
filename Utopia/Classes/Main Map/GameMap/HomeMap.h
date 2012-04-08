@@ -45,6 +45,7 @@ typedef enum {
 @interface HomeBuildingUpgradeView : UIView 
 
 @property (nonatomic, retain) IBOutlet UIView *costView;
+@property (nonatomic, retain) IBOutlet UIImageView *upgradeCoinIcon;
 @property (nonatomic, retain) IBOutlet UILabel *costLabel;
 
 - (void) setUpgradeCostString:(NSString *)s;

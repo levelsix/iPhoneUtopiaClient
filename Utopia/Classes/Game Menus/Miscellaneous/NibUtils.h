@@ -63,3 +63,7 @@
 @interface RopeView : UIView
 
 @end
+
+@interface TutorialGirlImageView : UIImageView
+
+@end

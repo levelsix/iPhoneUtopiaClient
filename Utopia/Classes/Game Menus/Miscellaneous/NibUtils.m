@@ -8,6 +8,7 @@
 
 #import "NibUtils.h"
 #import "Globals.h"
+#import "GameState.h"
 
 @implementation NiceFontLabel
 
@@ -183,6 +184,17 @@ static UIColor *ropeImage = nil;
 
 - (void) awakeFromNib {
   self.backgroundColor = [self ropeImage];
+}
+
+@end
+
+@implementation TutorialGirlImageView
+
+- (void) awakeFromNib {
+  GameState *gs = [GameState sharedGameState];
+  self.contentMode = UIViewContentModeScaleToFill;
+  NSString *imageName = gs.type < 3 ? @"goodgirltall.png" : @"badgirltall.png";
+  self.image = [Globals imageNamed:imageName];
 }
 
 @end

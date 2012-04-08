@@ -48,6 +48,7 @@ typedef enum {
 @property (nonatomic, assign) int currentCity;
 @property (nonatomic, retain) MissionMap *missionMap;
 
+- (void) begin;
 - (void) loadHomeMap;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) closeMenus;

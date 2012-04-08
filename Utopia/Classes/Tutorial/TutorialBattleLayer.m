@@ -270,7 +270,7 @@
   // Move arrow to close button (tag 20)
   [self.summaryView addSubview:_uiArrow];
   UIView *close = [self.summaryView viewWithTag:20];
-  _uiArrow.center = CGPointMake(CGRectGetMinX(close.frame)-_uiArrow.frame.size.width/2-2, close.center.y);
+  _uiArrow.center = CGPointMake(CGRectGetMinX(close.frame)-_uiArrow.frame.size.width/2+10, close.center.y);
   
   _uiArrow.alpha = 0.f;
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;

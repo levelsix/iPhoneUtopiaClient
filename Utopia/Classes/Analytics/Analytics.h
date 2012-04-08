@@ -21,6 +21,9 @@
 + (void) notEnoughSilverInArmory:(int)equipId;
 + (void) notEnoughGoldInArmory:(int)equipId;
 
++ (void) notEnoughSilverForUpgrade:(int)structId cost:(int)cost;
++ (void) notEnoughGoldForUpgrade:(int)structId cost:(int)cost;
+
 + (void) notEnoughGoldToRefillEnergyPopup;
 + (void) notEnoughGoldToRefillStaminaPopup;
 
@@ -73,6 +76,10 @@
 + (void) tutorialWaitBuild;
 + (void) tutorialEnterredReferral;
 + (void) tutorialSkippedReferral;
++ (void) tutorialUserCreated;
++ (void) tutorialInvalidReferral;
++ (void) tutorialTimeSync;
++ (void) tutorialOtherFail;
 + (void) tutorialComplete;
 
 @end

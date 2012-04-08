@@ -121,7 +121,7 @@
 
 - (IBAction)homeClicked:(id)sender {
   if (_travelHomePhase) {
-    [super homeClicked:sender];
+    [self fadeOut];
     [Analytics tutorialGoHome];
   }
 }
