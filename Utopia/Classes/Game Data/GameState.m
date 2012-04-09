@@ -52,7 +52,7 @@
 @synthesize lastShortLicensePurchaseTime = _lastShortLicensePurchaseTime;
 @synthesize lastLongLicensePurchaseTime = _lastLongLicensePurchaseTime;
 
-@synthesize maxCityAccessible = _maxCityAccessible;
+@synthesize maxCity = _maxCity;
 @synthesize expRequiredForCurrentLevel = _expRequiredForCurrentLevel;
 @synthesize expRequiredForNextLevel = _expRequiredForNextLevel;
 
@@ -150,6 +150,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.tasksCompleted = user.tasksCompleted;
   self.battlesWon = user.battlesWon;
   self.battlesLost = user.battlesLost;
+  self.flees = user.flees;
   self.referralCode = user.referralCode;
   self.numReferrals = user.numReferrals;
   self.marketplaceGoldEarnings = user.marketplaceDiamondsEarnings;
@@ -178,9 +179,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   while (!p) {
     numTimes++;
     if (numTimes == 1000) {
-      NSLog(@"Lotsa wait time for this");
+      LNLog(@"Lotsa wait time for this");
     }
-    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
+//    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     p = [dict objectForKey:num];
   }
@@ -311,8 +312,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToStaticCities:(NSArray *)arr {
   for (FullCityProto *p in arr) {
     [self.staticCities setObject:p forKey:[NSNumber numberWithInt:p.cityId]];
-    if (p.cityId > _maxCityAccessible && p.minLevel <= _level) {
-      _maxCityAccessible = p.cityId;
+    if (p.cityId > _maxCity) {
+      _maxCity = p.cityId;
     }
   }
 }

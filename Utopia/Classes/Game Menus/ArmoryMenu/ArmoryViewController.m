@@ -250,11 +250,10 @@
   if ([Globals canEquip:fep]) {
     bgdView.highlighted = NO;
     [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
-    maskedEquipIcon.hidden = YES;
+    maskedEquipIcon.image = nil;
   } else {
     bgdView.highlighted = YES;
     [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:maskedEquipIcon];
-    maskedEquipIcon.hidden = NO;
   }
 }
 
@@ -434,7 +433,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
       break;
       
     default:
-      NSLog(@"Undefined state in armory.");
       break;
   }
   return equipsList;
@@ -455,7 +453,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   ArmoryRow *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
-    NSLog(@"New Arm Row");
     [[NSBundle mainBundle] loadNibNamed:@"ArmoryRow" owner:self options:nil];
     cell = self.armoryRow;
   }

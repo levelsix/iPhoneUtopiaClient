@@ -121,7 +121,8 @@
 
 - (IBAction)homeClicked:(id)sender {
   if (_travelHomePhase) {
-    [self fadeOut];
+    [[TutorialHomeMap sharedHomeMap] setVisible:YES];
+    [super homeClicked:nil];
     [Analytics tutorialGoHome];
   }
 }

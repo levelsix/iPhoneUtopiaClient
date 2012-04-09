@@ -58,7 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (amount <= gs.silver) {
     [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
     gs.silver -= amount;
-    gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] depositPercentCut]));
+    gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver]];
   }
@@ -85,7 +85,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullTaskProto *ftp = [gs taskWithId:taskId];
   UserCity *fcp = [gs myCityWithId:ftp.cityId];
   
-  if (ftp.cityId > gs.maxCityAccessible) {
+  if (!fcp) {
     [Globals popupMessage:@"Attempting to do task in a locked city"];
     return NO;
   }
@@ -556,7 +556,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullStructureProto *fsp = [gs structWithId:structId];
   UserStruct *us = nil;
   
-  // Check that no other building is being upgraded
+  // Check that no other building is being built
   for (UserStruct *u in gs.myStructs) {
     if (u.state == kBuilding) {
       [Globals popupMessage:@"Already constructing a building"];
@@ -583,6 +583,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Update game state
     gs.silver -= fsp.coinPrice;
     gs.gold -= fsp.diamondPrice;
+    
+    [Analytics normStructPurchase:structId];
   } else {
     [Globals popupMessage:@"Not enough money to purchase this building"];
   }
@@ -619,6 +621,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Update game state
     gs.silver += [[Globals sharedGlobals] calculateStructSilverSellCost:userStruct];
     gs.gold += [[Globals sharedGlobals] calculateStructGoldSellCost:userStruct];
+    
+    [Analytics normStructSell:userStruct.structId level:userStruct.level];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is completing", userStruct.userStructId]];
   }
@@ -663,7 +667,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     // Update game state
     FullStructureProto *fsp = [gs structWithId:userStruct.structId];
-    gs.gold -= fsp.instaBuildDiamondCostBase;
+    gs.gold -= fsp.instaBuildDiamondCost;
+    
+    [Analytics normStructInstaBuild:userStruct.structId];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not constructing", userStruct.userStructId]];
   }
@@ -690,6 +696,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     // Update game state
     FullStructureProto *fsp = [gs structWithId:userStruct.structId];
     gs.gold -= fsp.instaUpgradeDiamondCostBase;
+    
+    [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading", userStruct.userStructId]];
   }
@@ -766,6 +774,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         
         // Update game state
         gs.gold -= cost;
+        
+        [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level+1];
       }
     } else {
       if (cost > gs.silver) {
@@ -778,6 +788,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         
         // Update game state
         gs.silver -= cost;
+        
+        [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level+1];
       }
     }
     
@@ -803,6 +815,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     ucs.orientation = StructOrientationPosition1;
     [gs.myCritStructs addObject:ucs];
     [ucs release];
+    
+    [Analytics placedCritStruct:ucs.name];
     return ucs;
   } else {
     [Globals popupMessage:@"Not high enough level to build this critical struct"];
@@ -842,10 +856,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
-  if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-    NSLog(@"Trying to retrieve equip id 0");
-  }
-  
   NSArray *structs = [gs myStructs];
   NSDictionary *sStructs = [gs staticStructs];
   NSMutableSet *rStructs = [NSMutableSet set];
@@ -871,10 +881,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [rEquips addObject:equipId];
         shouldSend = YES;
       }
-    }
-    
-    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-      NSLog(@"Trying to retrieve equip id 0");
     }
   }
   
@@ -924,10 +930,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [rEquips addObject:n];
       shouldSend = YES;
     }
-    
-    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-      NSLog(@"Trying to retrieve equip id 0");
-    }
   }
   for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
     for (NSNumber *num in fqp.taskReqsList) {
@@ -966,10 +968,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [rEquips addObject:n];
       shouldSend = YES;
     }
-    
-    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-      NSLog(@"Trying to retrieve equip id 0");
-    }
   }
   
   for (PossessEquipJobProto *p in [gs.staticPossessEquipJobs allValues]) {
@@ -977,10 +975,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (![sEquips objectForKey:n]) {
       [rEquips addObject:n];
       shouldSend = YES;
-    }
-    
-    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-      NSLog(@"Trying to retrieve equip id 0");
     }
   }
   
@@ -1007,28 +1001,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       shouldSend = YES;
     }
     
-    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-      NSLog(@"Trying to retrieve equip id 0");
-    }
-    
     NSNumber *ar = [NSNumber numberWithInt:fup.armorEquipped];
     if (fup.armorEquipped && ![sEquips objectForKey:ar]) {
       [rEquips addObject:ar];
       shouldSend = YES;
     }
     
-    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-      NSLog(@"Trying to retrieve equip id 0");
-    }
-    
     NSNumber *am = [NSNumber numberWithInt:fup.amuletEquipped];
     if (fup.amuletEquipped && ![sEquips objectForKey:am]) {
       [rEquips addObject:am];
       shouldSend = YES;
-    }
-    
-    if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-      NSLog(@"Trying to retrieve equip id 0");
     }
   }
   
@@ -1189,6 +1171,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs.inProgressQuests setObject:fqp forKey:questIdNum];
     
     [[[GameLayer sharedGameLayer] missionMap] questAccepted:fqp];
+    
+    [Analytics questAccept:questId];
   } else {
     [Globals popupMessage:@"Attempting to accept unavailable quest"];
   }
@@ -1209,6 +1193,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (fqp.equipIdGained > 0) {
       [gs changeQuantityForEquip:fqp.equipIdGained by:1];
     }
+    
+    [Analytics questRedeem:questId];
   } else {
     [Globals popupMessage:@"Attempting to redeem quest that is not in progress"];
   }

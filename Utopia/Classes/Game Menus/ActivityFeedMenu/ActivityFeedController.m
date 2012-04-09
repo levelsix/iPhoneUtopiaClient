@@ -73,6 +73,8 @@
   if (notification.type == kNotificationMarketplace) {
     [ActivityFeedController removeView];
     [MarketplaceViewController displayView];
+    
+    [Analytics clickedCollect];
   } else if (notification.type == kNotificationBattle) {
     NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
     
@@ -88,6 +90,8 @@
       [[BattleLayer sharedBattleLayer] beginBattleAgainst:user];
       [ActivityFeedController removeView];
     }
+    
+    [Analytics clickedRevenge];
   }
 }
 

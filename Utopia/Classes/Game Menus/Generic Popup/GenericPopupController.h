@@ -11,6 +11,7 @@
 @interface GenericPopupController : UIViewController
 
 @property (nonatomic, assign) BOOL toAppStore;
+@property (nonatomic, retain) NSString *link;
 
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 
@@ -18,7 +19,7 @@
 @property (nonatomic, retain) IBOutlet UIView *bgdColorView;
 
 + (void) displayViewWithText:(NSString *)string;
-+ (void) displayMajorUpdatePopup;
++ (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
 + (void) removeView;
 + (void) purgeSingleton;
 

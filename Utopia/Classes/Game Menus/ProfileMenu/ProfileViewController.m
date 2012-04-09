@@ -1081,14 +1081,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   if (sender == attackStatButton) {
     [oec addAttackSkillPoint];
+    [Analytics addedSkillPoint:@"Attack"];
   } else if (sender == defenseStatButton) {
     [oec addDefenseSkillPoint];
+    [Analytics addedSkillPoint:@"Defense"];
   } else if (sender == energyStatButton) {
     [oec addEnergySkillPoint];
+    [Analytics addedSkillPoint:@"Energy"];
   } else if (sender == staminaStatButton) {
     [oec addStaminaSkillPoint];
+    [Analytics addedSkillPoint:@"Stamina"];
   } else if (sender == hpStatButton) {
     [oec addHealthSkillPoint];
+    [Analytics addedSkillPoint:@"Hp"];
   }
   
   [self loadSkills];
@@ -1096,6 +1101,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (IBAction)closeClicked:(id)sender {
   [ProfileViewController removeView];
+}
+
+- (IBAction)visitClicked:(id)sender {
+  [Globals popupMessage:@"Sorry, visiting an enemy's city is coming soon!"];
+  [Analytics clickedVisitCity];
 }
 
 - (IBAction)attackClicked:(id)sender {

@@ -12,11 +12,12 @@
 #import "UIDevice+IdentifierAddition.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "Globals.h"
 
-#define HOST_NAME @"192.168.1.6"//@"50.18.173.214"
+#define HOST_NAME @"184.169.148.243"
 #define HOST_PORT 8888
 
-#define UDID @"m";//@"42d1cadaa64dbf3c3e8133e652a2df06" //[[UIDevice currentDevice] uniqueDeviceIdentifier]
+#define UDID [[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06" //
 //#define FORCE_TUTORIAL
 
 // Tags for keeping state
@@ -36,9 +37,9 @@ static NSString *udid = nil;
 - (id) init {
   if ((self = [super init])) {
 #ifdef FORCE_TUTORIAL
-    udid = [NSString stringWithFormat:@"%d", arc4random()];
+    udid = [[NSString stringWithFormat:@"%d", arc4random()] retain];
 #else
-    udid = UDID;
+    udid = [UDID retain];
 #endif
   }
   return self;
@@ -52,11 +53,11 @@ static NSString *udid = nil;
   // Make connection to host
 	if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error])
 	{
-		NSLog(@"Unable to connect to due to invalid configuration: %@", error);
+		LNLog(@"Unable to connect to due to invalid configuration: %@", error);
 	}
 	else
 	{
-		NSLog(@"Connecting to \"%@\" on port %hu...", host, port);
+		LNLog(@"Connecting to \"%@\" on port %hu...", host, port);
 	}
 }
 
@@ -83,7 +84,7 @@ static NSString *udid = nil;
 }
 
 - (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
-  NSLog(@"Connected to host");
+  LNLog(@"Connected to host");
   
   if (![[GameState sharedGameState] connected]) {
     [[OutgoingEventController sharedOutgoingEventController] startup];
@@ -106,10 +107,10 @@ static NSString *udid = nil;
 
 - (void) socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-	NSLog(@"socketDidDisconnect:withError: \"%@\"", err);
+	LNLog(@"socketDidDisconnect:withError: \"%@\"", err);
   
   if (_shouldReconnect) {
-    NSLog(@"Asking to reconnect..");
+    LNLog(@"Asking to reconnect..");
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
     [av show];
     [av release];
@@ -128,7 +129,7 @@ static NSString *udid = nil;
   // Get the proto class for this event type
   Class typeClass = [ec getClassForType:eventType];
   if (!typeClass) {
-    NSLog(@"Unable to find controller for event type: %d", eventType);
+    LNLog(@"Unable to find controller for event type: %d", eventType);
     return;
   }
   
@@ -138,7 +139,7 @@ static NSString *udid = nil;
   if ([ec respondsToSelector:handleMethod]) {
     [ec performSelectorOnMainThread:handleMethod withObject:[typeClass parseFromData: data] waitUntilDone:NO];
   } else {
-    NSLog(@"Unable to find %@ in IncomingEventController", selectorStr);
+    LNLog(@"Unable to find %@ in IncomingEventController", selectorStr);
   }
 }
 
@@ -146,7 +147,7 @@ static NSString *udid = nil;
   NSMutableData *messageWithHeader = [NSMutableData data];
   
   if (_sender.userId == 0) {
-    NSLog(@"User id is 0!!!");
+    LNLog(@"User id is 0!!!");
   }
   
   // Need to reverse bytes for size and type(to account for endianness??)
@@ -206,17 +207,17 @@ static NSString *udid = nil;
   UserCreateRequestProto *req = [bldr build];
   [self sendData:req.data withMessageType:EventProtocolRequestCUserCreateEvent];
 }
-      
-      - (void) sendStartupMessage:(uint64_t)clientTime {
-        StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
-                                           setUdid:udid]
-                                          setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
-                                         build];
-        
-        NSLog(@"Sent over udid: %@", udid);
-        
-        [self sendData:[startReq data] withMessageType:EventProtocolRequestCStartupEvent];
-      }
+
+- (void) sendStartupMessage:(uint64_t)clientTime {
+  StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
+                                     setUdid:udid]
+                                    setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
+                                   build];
+  
+  LNLog(@"Sent over udid: %@", udid);
+  
+  [self sendData:[startReq data] withMessageType:EventProtocolRequestCStartupEvent];
+}
 
 - (void) sendChatMessage:(NSString *)message recipient:(int)recipient {
   ChatRequestProto *c = [[[[[ChatRequestProto builder] 
@@ -237,7 +238,7 @@ static NSString *udid = nil;
 }
 
 - (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
-  NSLog(@"Sent Battle Message");
+  LNLog(@"Sent Battle Message");
   BattleRequestProto_Builder *builder = [[[[[[BattleRequestProto builder]
                                              setAttacker:_sender]
                                             setDefender:defender]
@@ -649,7 +650,7 @@ static NSString *udid = nil;
 
 - (void) closeDownConnection {
   if (_asyncSocket) {
-    NSLog(@"Disconnecting from socket..");
+    LNLog(@"Disconnecting from socket..");
     _shouldReconnect = NO;
     [_asyncSocket disconnect];
     [_asyncSocket release];
@@ -658,6 +659,8 @@ static NSString *udid = nil;
 }
 
 - (void) dealloc {
+  [udid release];
+  udid = nil;
   [_sender release];
   [self closeDownConnection];
   [super dealloc];

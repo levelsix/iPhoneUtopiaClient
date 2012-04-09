@@ -26,18 +26,20 @@
 - (id) initWithEquipId:(int)eq {
   if ((self = [super initWithImage:[Globals imageNamed:@"itemsquare.png"]])) {
     self.equipId = eq;
-    UIImageView *equipView = [[UIImageView alloc] initWithImage:[Globals imageForEquip:equipId]];
-    equipView.contentMode = UIViewContentModeScaleAspectFit;
     
     CGRect r = self.bounds;
     r.origin.x += REQUIRES_EQUIP_VIEW_OFFSET;
     r.origin.y += REQUIRES_EQUIP_VIEW_OFFSET;
     r.size.width -= 2*REQUIRES_EQUIP_VIEW_OFFSET;
     r.size.height -= 2*REQUIRES_EQUIP_VIEW_OFFSET;
-    equipView.frame = r;
+    
+    UIImageView *equipView = [[UIImageView alloc] initWithFrame:r];
+    equipView.contentMode = UIViewContentModeScaleAspectFit;
     
     [self addSubview:equipView];
     [equipView release];
+    
+    [Globals loadImageForEquip:eq toView:equipView maskedView:nil];
   }
   return self;
 }

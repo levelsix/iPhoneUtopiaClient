@@ -201,6 +201,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [eyes stopAllActions];
     _canOpenDoor = YES;
     
+    [loadingLabel removeFromParentAndCleanup:YES];
+    loadingLabel = nil;
+    
+    if (isTutorial) {
+      enterLabel = [CCSprite spriteWithFile:@"taptoenter.png"];
+      [eyes.parent addChild:enterLabel];
+      enterLabel.position = ccp(enterLabel.parent.contentSize.width/2, -20);
+      [enterLabel runAction:[CCRepeatForever actionWithAction:
+                             [CCSequence actions:
+                              [CCFadeTo actionWithDuration:2.f opacity:120],
+                              [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
+    }
+    
     float dur = (EYES_END_ALPHA-EYES_START_ALPHA)*EYES_PULSATE_DURATION/(255-eyes.opacity);
     [eyes runAction:[CCFadeTo actionWithDuration:dur opacity:255]];
     
@@ -214,13 +227,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 }
 
 - (void) doorClosed {
+  loadingLabel = [CCSprite spriteWithFile:@"loadingdoors.png"];
+  [doorleft addChild:loadingLabel];
+  loadingLabel.anchorPoint = ccp(0,0);
+  loadingLabel.position = ccp(10, 10);
+  [loadingLabel runAction:[CCRepeatForever actionWithAction:
+                          [CCSequence actions:
+                           [CCFadeTo actionWithDuration:2.f opacity:120],
+                           [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
+  
   [splash removeFromParentAndCleanup:YES];
+  splash = nil;
   self.canLoad = YES;
 }
 
 - (void) openDoor {
   if ([[GameState sharedGameState] connected] && !_isRunning) {
     // Open door
+    [enterLabel removeFromParentAndCleanup:YES];
+    enterLabel = nil;
+    
     [[SimpleAudioEngine sharedEngine] playEffect:@"DoorOpening.m4a" pitch:1.f pan:0.f gain:1.f];
     
     [doorleft runAction:[CCSequence actions:
@@ -294,7 +320,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [EAGLContext setCurrentContext:k_context];
   
   CCLayer *layer = isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
+  
+  if (layer.parent) {
+    // We are in the tutorial
+    return;
+  }
+  
   layer.tag = 5;
+  
   [[[CCDirector sharedDirector] runningScene] addChild:layer];
   
   if (isTutorial) {

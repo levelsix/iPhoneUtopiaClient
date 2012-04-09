@@ -2916,7 +2916,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property StartupResponseProto_UpdateStatus updateStatus;
 @property (retain) StartupResponseProto_StartupConstants* startupConstants;
 @property (retain) StartupResponseProto_TutorialConstants* tutorialConstants;
-@property (retain) NSMutableArray* mutableCitiesAvailableToUserList;
+@property (retain) NSMutableArray* mutableAllCitiesList;
 @property (retain) NSMutableArray* mutableUserCityInfosList;
 @property (retain) NSMutableArray* mutableInProgressQuestsList;
 @property (retain) NSMutableArray* mutableAvailableQuestsList;
@@ -2967,7 +2967,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasTutorialConstants_ = !!value;
 }
 @synthesize tutorialConstants;
-@synthesize mutableCitiesAvailableToUserList;
+@synthesize mutableAllCitiesList;
 @synthesize mutableUserCityInfosList;
 @synthesize mutableInProgressQuestsList;
 @synthesize mutableAvailableQuestsList;
@@ -3001,7 +3001,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.sender = nil;
   self.startupConstants = nil;
   self.tutorialConstants = nil;
-  self.mutableCitiesAvailableToUserList = nil;
+  self.mutableAllCitiesList = nil;
   self.mutableUserCityInfosList = nil;
   self.mutableInProgressQuestsList = nil;
   self.mutableAvailableQuestsList = nil;
@@ -3038,11 +3038,11 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (StartupResponseProto*) defaultInstance {
   return defaultStartupResponseProtoInstance;
 }
-- (NSArray*) citiesAvailableToUserList {
-  return mutableCitiesAvailableToUserList;
+- (NSArray*) allCitiesList {
+  return mutableAllCitiesList;
 }
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index {
-  id value = [mutableCitiesAvailableToUserList objectAtIndex:index];
+- (FullCityProto*) allCitiesAtIndex:(int32_t) index {
+  id value = [mutableAllCitiesList objectAtIndex:index];
   return value;
 }
 - (NSArray*) userCityInfosList {
@@ -3117,7 +3117,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasStartupConstants) {
     [output writeMessage:4 value:self.startupConstants];
   }
-  for (FullCityProto* element in self.citiesAvailableToUserList) {
+  for (FullCityProto* element in self.allCitiesList) {
     [output writeMessage:5 value:element];
   }
   for (FullQuestProto* element in self.inProgressQuestsList) {
@@ -3177,7 +3177,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasStartupConstants) {
     size += computeMessageSize(4, self.startupConstants);
   }
-  for (FullCityProto* element in self.citiesAvailableToUserList) {
+  for (FullCityProto* element in self.allCitiesList) {
     size += computeMessageSize(5, element);
   }
   for (FullQuestProto* element in self.inProgressQuestsList) {
@@ -4202,6 +4202,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t marketplaceImgVerticalPixelOffset;
 @property int32_t carpenterImgVerticalPixelOffset;
 @property int32_t aviaryImgVerticalPixelOffset;
+@property (retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4551,9 +4552,17 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasAviaryImgVerticalPixelOffset_ = !!value;
 }
 @synthesize aviaryImgVerticalPixelOffset;
+- (BOOL) hasFormulaConstants {
+  return !!hasFormulaConstants_;
+}
+- (void) setHasFormulaConstants:(BOOL) value {
+  hasFormulaConstants_ = !!value;
+}
+@synthesize formulaConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
+  self.formulaConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -4607,6 +4616,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.marketplaceImgVerticalPixelOffset = 0;
     self.carpenterImgVerticalPixelOffset = 0;
     self.aviaryImgVerticalPixelOffset = 0;
+    self.formulaConstants = [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance];
   }
   return self;
 }
@@ -4793,6 +4803,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasAviaryImgVerticalPixelOffset) {
     [output writeInt32:58 value:self.aviaryImgVerticalPixelOffset];
   }
+  if (self.hasFormulaConstants) {
+    [output writeMessage:59 value:self.formulaConstants];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4965,6 +4978,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasAviaryImgVerticalPixelOffset) {
     size += computeInt32Size(58, self.aviaryImgVerticalPixelOffset);
   }
+  if (self.hasFormulaConstants) {
+    size += computeMessageSize(59, self.formulaConstants);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -4995,6 +5011,487 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_FormulaConstants ()
+@property Float64 minutesToUpgradeForNormStructMultiplier;
+@property Float64 incomeFromNormStructMultiplier;
+@property Float64 upgradeStructCoinCostExponentBase;
+@property Float64 upgradeStructDiamondCostExponentBase;
+@property Float64 diamondCostForInstantUpgradeMultiplier;
+@property Float64 battleWeightGivenToAttackStat;
+@property Float64 battleWeightGivenToAttackEquipSum;
+@property Float64 battleWeightGivenToDefenseStat;
+@property Float64 battleWeightGivenToDefenseEquipSum;
+@end
+
+@implementation StartupResponseProto_StartupConstants_FormulaConstants
+
+- (BOOL) hasMinutesToUpgradeForNormStructMultiplier {
+  return !!hasMinutesToUpgradeForNormStructMultiplier_;
+}
+- (void) setHasMinutesToUpgradeForNormStructMultiplier:(BOOL) value {
+  hasMinutesToUpgradeForNormStructMultiplier_ = !!value;
+}
+@synthesize minutesToUpgradeForNormStructMultiplier;
+- (BOOL) hasIncomeFromNormStructMultiplier {
+  return !!hasIncomeFromNormStructMultiplier_;
+}
+- (void) setHasIncomeFromNormStructMultiplier:(BOOL) value {
+  hasIncomeFromNormStructMultiplier_ = !!value;
+}
+@synthesize incomeFromNormStructMultiplier;
+- (BOOL) hasUpgradeStructCoinCostExponentBase {
+  return !!hasUpgradeStructCoinCostExponentBase_;
+}
+- (void) setHasUpgradeStructCoinCostExponentBase:(BOOL) value {
+  hasUpgradeStructCoinCostExponentBase_ = !!value;
+}
+@synthesize upgradeStructCoinCostExponentBase;
+- (BOOL) hasUpgradeStructDiamondCostExponentBase {
+  return !!hasUpgradeStructDiamondCostExponentBase_;
+}
+- (void) setHasUpgradeStructDiamondCostExponentBase:(BOOL) value {
+  hasUpgradeStructDiamondCostExponentBase_ = !!value;
+}
+@synthesize upgradeStructDiamondCostExponentBase;
+- (BOOL) hasDiamondCostForInstantUpgradeMultiplier {
+  return !!hasDiamondCostForInstantUpgradeMultiplier_;
+}
+- (void) setHasDiamondCostForInstantUpgradeMultiplier:(BOOL) value {
+  hasDiamondCostForInstantUpgradeMultiplier_ = !!value;
+}
+@synthesize diamondCostForInstantUpgradeMultiplier;
+- (BOOL) hasBattleWeightGivenToAttackStat {
+  return !!hasBattleWeightGivenToAttackStat_;
+}
+- (void) setHasBattleWeightGivenToAttackStat:(BOOL) value {
+  hasBattleWeightGivenToAttackStat_ = !!value;
+}
+@synthesize battleWeightGivenToAttackStat;
+- (BOOL) hasBattleWeightGivenToAttackEquipSum {
+  return !!hasBattleWeightGivenToAttackEquipSum_;
+}
+- (void) setHasBattleWeightGivenToAttackEquipSum:(BOOL) value {
+  hasBattleWeightGivenToAttackEquipSum_ = !!value;
+}
+@synthesize battleWeightGivenToAttackEquipSum;
+- (BOOL) hasBattleWeightGivenToDefenseStat {
+  return !!hasBattleWeightGivenToDefenseStat_;
+}
+- (void) setHasBattleWeightGivenToDefenseStat:(BOOL) value {
+  hasBattleWeightGivenToDefenseStat_ = !!value;
+}
+@synthesize battleWeightGivenToDefenseStat;
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum {
+  return !!hasBattleWeightGivenToDefenseEquipSum_;
+}
+- (void) setHasBattleWeightGivenToDefenseEquipSum:(BOOL) value {
+  hasBattleWeightGivenToDefenseEquipSum_ = !!value;
+}
+@synthesize battleWeightGivenToDefenseEquipSum;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.minutesToUpgradeForNormStructMultiplier = 0;
+    self.incomeFromNormStructMultiplier = 0;
+    self.upgradeStructCoinCostExponentBase = 0;
+    self.upgradeStructDiamondCostExponentBase = 0;
+    self.diamondCostForInstantUpgradeMultiplier = 0;
+    self.battleWeightGivenToAttackStat = 0;
+    self.battleWeightGivenToAttackEquipSum = 0;
+    self.battleWeightGivenToDefenseStat = 0;
+    self.battleWeightGivenToDefenseEquipSum = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupResponseProto_StartupConstants_FormulaConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_FormulaConstants class]) {
+    defaultStartupResponseProto_StartupConstants_FormulaConstantsInstance = [[StartupResponseProto_StartupConstants_FormulaConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_FormulaConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_FormulaConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMinutesToUpgradeForNormStructMultiplier) {
+    [output writeDouble:1 value:self.minutesToUpgradeForNormStructMultiplier];
+  }
+  if (self.hasIncomeFromNormStructMultiplier) {
+    [output writeDouble:2 value:self.incomeFromNormStructMultiplier];
+  }
+  if (self.hasUpgradeStructCoinCostExponentBase) {
+    [output writeDouble:3 value:self.upgradeStructCoinCostExponentBase];
+  }
+  if (self.hasUpgradeStructDiamondCostExponentBase) {
+    [output writeDouble:4 value:self.upgradeStructDiamondCostExponentBase];
+  }
+  if (self.hasDiamondCostForInstantUpgradeMultiplier) {
+    [output writeDouble:5 value:self.diamondCostForInstantUpgradeMultiplier];
+  }
+  if (self.hasBattleWeightGivenToAttackStat) {
+    [output writeDouble:6 value:self.battleWeightGivenToAttackStat];
+  }
+  if (self.hasBattleWeightGivenToAttackEquipSum) {
+    [output writeDouble:7 value:self.battleWeightGivenToAttackEquipSum];
+  }
+  if (self.hasBattleWeightGivenToDefenseStat) {
+    [output writeDouble:8 value:self.battleWeightGivenToDefenseStat];
+  }
+  if (self.hasBattleWeightGivenToDefenseEquipSum) {
+    [output writeDouble:9 value:self.battleWeightGivenToDefenseEquipSum];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMinutesToUpgradeForNormStructMultiplier) {
+    size += computeDoubleSize(1, self.minutesToUpgradeForNormStructMultiplier);
+  }
+  if (self.hasIncomeFromNormStructMultiplier) {
+    size += computeDoubleSize(2, self.incomeFromNormStructMultiplier);
+  }
+  if (self.hasUpgradeStructCoinCostExponentBase) {
+    size += computeDoubleSize(3, self.upgradeStructCoinCostExponentBase);
+  }
+  if (self.hasUpgradeStructDiamondCostExponentBase) {
+    size += computeDoubleSize(4, self.upgradeStructDiamondCostExponentBase);
+  }
+  if (self.hasDiamondCostForInstantUpgradeMultiplier) {
+    size += computeDoubleSize(5, self.diamondCostForInstantUpgradeMultiplier);
+  }
+  if (self.hasBattleWeightGivenToAttackStat) {
+    size += computeDoubleSize(6, self.battleWeightGivenToAttackStat);
+  }
+  if (self.hasBattleWeightGivenToAttackEquipSum) {
+    size += computeDoubleSize(7, self.battleWeightGivenToAttackEquipSum);
+  }
+  if (self.hasBattleWeightGivenToDefenseStat) {
+    size += computeDoubleSize(8, self.battleWeightGivenToDefenseStat);
+  }
+  if (self.hasBattleWeightGivenToDefenseEquipSum) {
+    size += computeDoubleSize(9, self.battleWeightGivenToDefenseEquipSum);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_FormulaConstants*)[[[StartupResponseProto_StartupConstants_FormulaConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_FormulaConstants*)[[[StartupResponseProto_StartupConstants_FormulaConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_FormulaConstants*)[[[StartupResponseProto_StartupConstants_FormulaConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_FormulaConstants*)[[[StartupResponseProto_StartupConstants_FormulaConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_FormulaConstants*)[[[StartupResponseProto_StartupConstants_FormulaConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_FormulaConstants*)[[[StartupResponseProto_StartupConstants_FormulaConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_FormulaConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_FormulaConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_FormulaConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_FormulaConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_FormulaConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_FormulaConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_FormulaConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_FormulaConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_FormulaConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_FormulaConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_FormulaConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_FormulaConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasMinutesToUpgradeForNormStructMultiplier) {
+    [self setMinutesToUpgradeForNormStructMultiplier:other.minutesToUpgradeForNormStructMultiplier];
+  }
+  if (other.hasIncomeFromNormStructMultiplier) {
+    [self setIncomeFromNormStructMultiplier:other.incomeFromNormStructMultiplier];
+  }
+  if (other.hasUpgradeStructCoinCostExponentBase) {
+    [self setUpgradeStructCoinCostExponentBase:other.upgradeStructCoinCostExponentBase];
+  }
+  if (other.hasUpgradeStructDiamondCostExponentBase) {
+    [self setUpgradeStructDiamondCostExponentBase:other.upgradeStructDiamondCostExponentBase];
+  }
+  if (other.hasDiamondCostForInstantUpgradeMultiplier) {
+    [self setDiamondCostForInstantUpgradeMultiplier:other.diamondCostForInstantUpgradeMultiplier];
+  }
+  if (other.hasBattleWeightGivenToAttackStat) {
+    [self setBattleWeightGivenToAttackStat:other.battleWeightGivenToAttackStat];
+  }
+  if (other.hasBattleWeightGivenToAttackEquipSum) {
+    [self setBattleWeightGivenToAttackEquipSum:other.battleWeightGivenToAttackEquipSum];
+  }
+  if (other.hasBattleWeightGivenToDefenseStat) {
+    [self setBattleWeightGivenToDefenseStat:other.battleWeightGivenToDefenseStat];
+  }
+  if (other.hasBattleWeightGivenToDefenseEquipSum) {
+    [self setBattleWeightGivenToDefenseEquipSum:other.battleWeightGivenToDefenseEquipSum];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 9: {
+        [self setMinutesToUpgradeForNormStructMultiplier:[input readDouble]];
+        break;
+      }
+      case 17: {
+        [self setIncomeFromNormStructMultiplier:[input readDouble]];
+        break;
+      }
+      case 25: {
+        [self setUpgradeStructCoinCostExponentBase:[input readDouble]];
+        break;
+      }
+      case 33: {
+        [self setUpgradeStructDiamondCostExponentBase:[input readDouble]];
+        break;
+      }
+      case 41: {
+        [self setDiamondCostForInstantUpgradeMultiplier:[input readDouble]];
+        break;
+      }
+      case 49: {
+        [self setBattleWeightGivenToAttackStat:[input readDouble]];
+        break;
+      }
+      case 57: {
+        [self setBattleWeightGivenToAttackEquipSum:[input readDouble]];
+        break;
+      }
+      case 65: {
+        [self setBattleWeightGivenToDefenseStat:[input readDouble]];
+        break;
+      }
+      case 73: {
+        [self setBattleWeightGivenToDefenseEquipSum:[input readDouble]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMinutesToUpgradeForNormStructMultiplier {
+  return result.hasMinutesToUpgradeForNormStructMultiplier;
+}
+- (Float64) minutesToUpgradeForNormStructMultiplier {
+  return result.minutesToUpgradeForNormStructMultiplier;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setMinutesToUpgradeForNormStructMultiplier:(Float64) value {
+  result.hasMinutesToUpgradeForNormStructMultiplier = YES;
+  result.minutesToUpgradeForNormStructMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearMinutesToUpgradeForNormStructMultiplier {
+  result.hasMinutesToUpgradeForNormStructMultiplier = NO;
+  result.minutesToUpgradeForNormStructMultiplier = 0;
+  return self;
+}
+- (BOOL) hasIncomeFromNormStructMultiplier {
+  return result.hasIncomeFromNormStructMultiplier;
+}
+- (Float64) incomeFromNormStructMultiplier {
+  return result.incomeFromNormStructMultiplier;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setIncomeFromNormStructMultiplier:(Float64) value {
+  result.hasIncomeFromNormStructMultiplier = YES;
+  result.incomeFromNormStructMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearIncomeFromNormStructMultiplier {
+  result.hasIncomeFromNormStructMultiplier = NO;
+  result.incomeFromNormStructMultiplier = 0;
+  return self;
+}
+- (BOOL) hasUpgradeStructCoinCostExponentBase {
+  return result.hasUpgradeStructCoinCostExponentBase;
+}
+- (Float64) upgradeStructCoinCostExponentBase {
+  return result.upgradeStructCoinCostExponentBase;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setUpgradeStructCoinCostExponentBase:(Float64) value {
+  result.hasUpgradeStructCoinCostExponentBase = YES;
+  result.upgradeStructCoinCostExponentBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearUpgradeStructCoinCostExponentBase {
+  result.hasUpgradeStructCoinCostExponentBase = NO;
+  result.upgradeStructCoinCostExponentBase = 0;
+  return self;
+}
+- (BOOL) hasUpgradeStructDiamondCostExponentBase {
+  return result.hasUpgradeStructDiamondCostExponentBase;
+}
+- (Float64) upgradeStructDiamondCostExponentBase {
+  return result.upgradeStructDiamondCostExponentBase;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setUpgradeStructDiamondCostExponentBase:(Float64) value {
+  result.hasUpgradeStructDiamondCostExponentBase = YES;
+  result.upgradeStructDiamondCostExponentBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearUpgradeStructDiamondCostExponentBase {
+  result.hasUpgradeStructDiamondCostExponentBase = NO;
+  result.upgradeStructDiamondCostExponentBase = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostForInstantUpgradeMultiplier {
+  return result.hasDiamondCostForInstantUpgradeMultiplier;
+}
+- (Float64) diamondCostForInstantUpgradeMultiplier {
+  return result.diamondCostForInstantUpgradeMultiplier;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setDiamondCostForInstantUpgradeMultiplier:(Float64) value {
+  result.hasDiamondCostForInstantUpgradeMultiplier = YES;
+  result.diamondCostForInstantUpgradeMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearDiamondCostForInstantUpgradeMultiplier {
+  result.hasDiamondCostForInstantUpgradeMultiplier = NO;
+  result.diamondCostForInstantUpgradeMultiplier = 0;
+  return self;
+}
+- (BOOL) hasBattleWeightGivenToAttackStat {
+  return result.hasBattleWeightGivenToAttackStat;
+}
+- (Float64) battleWeightGivenToAttackStat {
+  return result.battleWeightGivenToAttackStat;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackStat:(Float64) value {
+  result.hasBattleWeightGivenToAttackStat = YES;
+  result.battleWeightGivenToAttackStat = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackStat {
+  result.hasBattleWeightGivenToAttackStat = NO;
+  result.battleWeightGivenToAttackStat = 0;
+  return self;
+}
+- (BOOL) hasBattleWeightGivenToAttackEquipSum {
+  return result.hasBattleWeightGivenToAttackEquipSum;
+}
+- (Float64) battleWeightGivenToAttackEquipSum {
+  return result.battleWeightGivenToAttackEquipSum;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackEquipSum:(Float64) value {
+  result.hasBattleWeightGivenToAttackEquipSum = YES;
+  result.battleWeightGivenToAttackEquipSum = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackEquipSum {
+  result.hasBattleWeightGivenToAttackEquipSum = NO;
+  result.battleWeightGivenToAttackEquipSum = 0;
+  return self;
+}
+- (BOOL) hasBattleWeightGivenToDefenseStat {
+  return result.hasBattleWeightGivenToDefenseStat;
+}
+- (Float64) battleWeightGivenToDefenseStat {
+  return result.battleWeightGivenToDefenseStat;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseStat:(Float64) value {
+  result.hasBattleWeightGivenToDefenseStat = YES;
+  result.battleWeightGivenToDefenseStat = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseStat {
+  result.hasBattleWeightGivenToDefenseStat = NO;
+  result.battleWeightGivenToDefenseStat = 0;
+  return self;
+}
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum {
+  return result.hasBattleWeightGivenToDefenseEquipSum;
+}
+- (Float64) battleWeightGivenToDefenseEquipSum {
+  return result.battleWeightGivenToDefenseEquipSum;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value {
+  result.hasBattleWeightGivenToDefenseEquipSum = YES;
+  result.battleWeightGivenToDefenseEquipSum = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum {
+  result.hasBattleWeightGivenToDefenseEquipSum = NO;
+  result.battleWeightGivenToDefenseEquipSum = 0;
+  return self;
 }
 @end
 
@@ -5198,6 +5695,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (other.hasAviaryImgVerticalPixelOffset) {
     [self setAviaryImgVerticalPixelOffset:other.aviaryImgVerticalPixelOffset];
+  }
+  if (other.hasFormulaConstants) {
+    [self mergeFormulaConstants:other.formulaConstants];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -5422,6 +5922,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
       }
       case 464: {
         [self setAviaryImgVerticalPixelOffset:[input readInt32]];
+        break;
+      }
+      case 474: {
+        StartupResponseProto_StartupConstants_FormulaConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_FormulaConstants builder];
+        if (self.hasFormulaConstants) {
+          [subBuilder mergeFrom:self.formulaConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFormulaConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -6271,6 +6780,36 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (StartupResponseProto_StartupConstants_Builder*) clearAviaryImgVerticalPixelOffset {
   result.hasAviaryImgVerticalPixelOffset = NO;
   result.aviaryImgVerticalPixelOffset = 0;
+  return self;
+}
+- (BOOL) hasFormulaConstants {
+  return result.hasFormulaConstants;
+}
+- (StartupResponseProto_StartupConstants_FormulaConstants*) formulaConstants {
+  return result.formulaConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setFormulaConstants:(StartupResponseProto_StartupConstants_FormulaConstants*) value {
+  result.hasFormulaConstants = YES;
+  result.formulaConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setFormulaConstantsBuilder:(StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builderForValue {
+  return [self setFormulaConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeFormulaConstants:(StartupResponseProto_StartupConstants_FormulaConstants*) value {
+  if (result.hasFormulaConstants &&
+      result.formulaConstants != [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance]) {
+    result.formulaConstants =
+      [[[StartupResponseProto_StartupConstants_FormulaConstants builderWithPrototype:result.formulaConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.formulaConstants = value;
+  }
+  result.hasFormulaConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearFormulaConstants {
+  result.hasFormulaConstants = NO;
+  result.formulaConstants = [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance];
   return self;
 }
 @end
@@ -8756,11 +9295,11 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasTutorialConstants) {
     [self mergeTutorialConstants:other.tutorialConstants];
   }
-  if (other.mutableCitiesAvailableToUserList.count > 0) {
-    if (result.mutableCitiesAvailableToUserList == nil) {
-      result.mutableCitiesAvailableToUserList = [NSMutableArray array];
+  if (other.mutableAllCitiesList.count > 0) {
+    if (result.mutableAllCitiesList == nil) {
+      result.mutableAllCitiesList = [NSMutableArray array];
     }
-    [result.mutableCitiesAvailableToUserList addObjectsFromArray:other.mutableCitiesAvailableToUserList];
+    [result.mutableAllCitiesList addObjectsFromArray:other.mutableAllCitiesList];
   }
   if (other.mutableUserCityInfosList.count > 0) {
     if (result.mutableUserCityInfosList == nil) {
@@ -8879,7 +9418,7 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       case 42: {
         FullCityProto_Builder* subBuilder = [FullCityProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addCitiesAvailableToUser:[subBuilder buildPartial]];
+        [self addAllCities:[subBuilder buildPartial]];
         break;
       }
       case 50: {
@@ -9076,33 +9615,33 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   result.tutorialConstants = [StartupResponseProto_TutorialConstants defaultInstance];
   return self;
 }
-- (NSArray*) citiesAvailableToUserList {
-  if (result.mutableCitiesAvailableToUserList == nil) { return [NSArray array]; }
-  return result.mutableCitiesAvailableToUserList;
+- (NSArray*) allCitiesList {
+  if (result.mutableAllCitiesList == nil) { return [NSArray array]; }
+  return result.mutableAllCitiesList;
 }
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index {
-  return [result citiesAvailableToUserAtIndex:index];
+- (FullCityProto*) allCitiesAtIndex:(int32_t) index {
+  return [result allCitiesAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceCitiesAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value {
-  [result.mutableCitiesAvailableToUserList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceAllCitiesAtIndex:(int32_t) index with:(FullCityProto*) value {
+  [result.mutableAllCitiesList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values {
-  if (result.mutableCitiesAvailableToUserList == nil) {
-    result.mutableCitiesAvailableToUserList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllAllCities:(NSArray*) values {
+  if (result.mutableAllCitiesList == nil) {
+    result.mutableAllCitiesList = [NSMutableArray array];
   }
-  [result.mutableCitiesAvailableToUserList addObjectsFromArray:values];
+  [result.mutableAllCitiesList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearCitiesAvailableToUserList {
-  result.mutableCitiesAvailableToUserList = nil;
+- (StartupResponseProto_Builder*) clearAllCitiesList {
+  result.mutableAllCitiesList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value {
-  if (result.mutableCitiesAvailableToUserList == nil) {
-    result.mutableCitiesAvailableToUserList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllCities:(FullCityProto*) value {
+  if (result.mutableAllCitiesList == nil) {
+    result.mutableAllCitiesList = [NSMutableArray array];
   }
-  [result.mutableCitiesAvailableToUserList addObject:value];
+  [result.mutableAllCitiesList addObject:value];
   return self;
 }
 - (NSArray*) userCityInfosList {

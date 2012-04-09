@@ -72,7 +72,7 @@
 
 @implementation VaultMenuController
 
-@synthesize depositButton, withdrawButton, transferField;
+@synthesize depositButton, withdrawButton, transferField, bottomLabel;
 
 @synthesize tickers, tickerHolderView, vaultBalance, timer;
 
@@ -96,6 +96,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
       [self updateBalance];
     }
     transferField.text = @"0";
+    
+    [Analytics vaultDeposit];
   }
 }
 
@@ -111,6 +113,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
       [self updateBalance];
     }
     transferField.text = @"0";
+    
+    [Analytics vaultWithdraw];
   }
 }
 
@@ -149,6 +153,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     [tv release];
   }
   self.tickers = m;
+  
+  self.bottomLabel.text = [NSString stringWithFormat:@"Bank Notice: There is a %d%% fee on deposits.", (int)([[Globals sharedGlobals] cutOfVaultDepositTaken]*100)];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -160,6 +166,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   [self updateBalance];
   //  self.timer = [NSTimer timerWithTimeInterval:TICK_DURATION target:self selector:@selector(updateBalance) userInfo:nil repeats:YES];
   //  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  
+  [Analytics vaultOpen];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

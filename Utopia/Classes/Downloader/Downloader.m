@@ -8,6 +8,7 @@
 
 #import "Downloader.h"
 #import "SynthesizeSingleton.h"
+#import "Globals.h"
 
 #define URL_BASE @"https://s3.amazonaws.com/lvl6utopia/Resources/";
 
@@ -24,7 +25,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 }
 
 - (void) downloadImage:(NSString *)imageName {
-  // NSLogs here are NOT thread safe, be careful
+  // LNLogs here are NOT thread safe, be careful
   NSString *urlBase = URL_BASE;
   NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
   NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
@@ -42,24 +43,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) downloadImage:(NSString *)imageName completion:(void (^)(void))completed {
   // Get an image from the URL below
-  NSLog(@"Beginning async download of %@", imageName);
+  LNLog(@"Beginning async download of %@", imageName);
   dispatch_async(_queue, ^{
     [self downloadImage:imageName];
     dispatch_async(dispatch_get_main_queue(), completed);
   });
-  NSLog(@"Download of %@ complete", imageName);
+  LNLog(@"Download of %@ complete", imageName);
 }
 
 - (void) syncDownloadImage:(NSString *)imageName {
-  NSLog(@"Beginning sync download of %@", imageName);
+  LNLog(@"Beginning sync download of %@", imageName);
   dispatch_sync(_queue, ^{
     [self downloadImage:imageName];
   });
-  NSLog(@"Download of %@ complete", imageName);
+  LNLog(@"Download of %@ complete", imageName);
 }
 
 - (void) syncDownloadMap:(NSString *)mapName {
-  NSLog(@"Beginning sync download of map %@", mapName);
+  LNLog(@"Beginning sync download of map %@", mapName);
   dispatch_sync(_queue, ^{
     NSString *urlBase = URL_BASE;
     NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:mapName]];
@@ -71,7 +72,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
       }
     }
   });
-  NSLog(@"Download of %@ complete", mapName);
+  LNLog(@"Download of %@ complete", mapName);
 }
 
 - (void) dealloc {

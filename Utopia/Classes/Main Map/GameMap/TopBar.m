@@ -213,6 +213,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   Globals *gl = [Globals sharedGlobals];
   
   if (_bigToolTipState == kEnergy) {
+    [Analytics clickedFillEnergy];
     if (gs.gold >= gl.energyRefillCost) {
       [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
     } else {
@@ -220,6 +221,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       [Analytics notEnoughGoldToRefillEnergyTopBar];
     }
   } else if (_bigToolTipState == kStamina) {
+    [Analytics clickedFillStamina];
     if (gs.gold >= gl.staminaRefillCost) {
       [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
     } else {
@@ -246,9 +248,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
-    NSLog(@"Firing up energy timer with time %f..", energyComplete);
+    LNLog(@"Firing up energy timer with time %f..", energyComplete);
   } else {
-    NSLog(@"Reached max energy..");
+    LNLog(@"Reached max energy..");
     _energyTimer = nil;
   }
   
@@ -274,9 +276,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes;
     _staminaTimer = [NSTimer timerWithTimeInterval:staminaComplete target:self selector:@selector(staminaRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
-    NSLog(@"Firing up stamina timer with time %f..", staminaComplete);
+    LNLog(@"Firing up stamina timer with time %f..", staminaComplete);
   } else {
-    NSLog(@"Reached max stamina..");
+    LNLog(@"Reached max stamina..");
     _staminaTimer = nil;
   }
   
@@ -344,7 +346,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } else if (sender == _littleToolTip) {
     _littleToolTipState = kNotShowing;
   } else {
-    NSLog(@"ERROR IN TOOL TIPS!!!");
+    LNLog(@"ERROR IN TOOL TIPS!!!");
   }
 }
 
@@ -500,7 +502,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (gs.currentEnergy != _curEnergy) {
     int diff = gs.currentEnergy - _curEnergy;
-    int change;
+    int change = 0;
     if (diff > 0) {
       change = MAX(MIN((int)(0.02*gs.maxEnergy), diff), 1);
     } else if (diff < 0) {
@@ -512,7 +514,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (gs.currentStamina != _curStamina) {
     int diff = gs.currentStamina - _curStamina;
-    int change = 0;;
+    int change = 0;
     if (diff > 0) {
       change = MAX(MIN((int)(0.02*gs.maxStamina), diff), 1);
     } else if (diff < 0) {

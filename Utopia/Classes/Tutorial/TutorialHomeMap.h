@@ -19,6 +19,8 @@
   UIImageView *_uiArrow;
   BOOL _arrowDir;
   BOOL _canUnclick;
+  
+  BOOL _refreshed;
 }
 
 @property (nonatomic, retain) CoordinateProto *tutCoords;

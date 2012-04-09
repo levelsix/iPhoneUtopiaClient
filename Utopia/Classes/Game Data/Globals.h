@@ -13,6 +13,12 @@
 
 #define BUTTON_CLICKED_LEEWAY 30
 
+#ifdef NDEBUG
+#define LNLog(f, ...) 
+#else
+#define LNLog(f, ...) NSLog(f, ## __VA_ARGS__)
+#endif
+
 @interface Globals : NSObject
 
 @property (nonatomic, assign) float depositPercentCut;
@@ -56,7 +62,7 @@
 
 @property (nonatomic, assign) int maxLevelDiffForBattle;
 @property (nonatomic, assign) int skillPointsGainedOnLevelup;
-@property (nonatomic, assign) int cutOfVaultDepositTaken;
+@property (nonatomic, assign) float cutOfVaultDepositTaken;
 
 @property (nonatomic, assign) int maxLevelForStruct;
 @property (nonatomic, assign) int maxRepeatedNormStructs;
@@ -73,6 +79,16 @@
 @property (nonatomic, assign) float percentReturnedToUserForSellingEquipInArmory;
 
 @property (nonatomic, assign) int diamondRewardForReferrer;
+
+@property (nonatomic, assign) float minutesToUpgradeForNormStructMultiplier;
+@property (nonatomic, assign) float incomeFromNormStructMultiplier;
+@property (nonatomic, assign) float upgradeStructCoinCostExponentBase;
+@property (nonatomic, assign) float upgradeStructDiamondCostExponentBase;
+@property (nonatomic, assign) float diamondCostForInstantUpgradeMultiplier;
+@property (nonatomic, assign) float battleWeightGivenToAttackStat;
+@property (nonatomic, assign) float battleWeightGivenToAttackEquipSum;
+@property (nonatomic, assign) float battleWeightGivenToDefenseStat;
+@property (nonatomic, assign) float battleWeightGivenToDefenseEquipSum;
 
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 

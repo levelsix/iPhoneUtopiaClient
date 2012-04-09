@@ -48,7 +48,7 @@
   NSDate *_lastShortLicensePurchaseTime;
   NSDate *_lastLongLicensePurchaseTime;
   
-  int _maxCityAccessible;
+  int _maxCity;
   int _expRequiredForCurrentLevel;
   int _expRequiredForNextLevel;
   
@@ -121,7 +121,7 @@
 @property (retain) NSDate *lastShortLicensePurchaseTime;
 @property (retain) NSDate *lastLongLicensePurchaseTime;
 
-@property (assign) int maxCityAccessible;
+@property (assign) int maxCity;
 @property (assign) int expRequiredForCurrentLevel;
 @property (assign) int expRequiredForNextLevel;
 

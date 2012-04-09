@@ -121,7 +121,7 @@ message StartupResponseProto {
     optional UpdateStatus updateStatus= 3;
     optional StartupConstants startupConstants = 4;
     optional TutorialConstants tutorialConstants = 18;
-    repeated FullCityProto citiesAvailableToUser = 5;
+    repeated FullCityProto allCities = 5;
     repeated FullUserCityProto userCityInfos = 16;
     
     repeated FullQuestProto inProgressQuests = 6;
@@ -219,6 +219,21 @@ message StartupResponseProto {
 		optional int32 marketplaceImgVerticalPixelOffset = 56;
 		optional int32 carpenterImgVerticalPixelOffset = 57;
 		optional int32 aviaryImgVerticalPixelOffset = 58;
+		
+		optional FormulaConstants formulaConstants = 59;
+		
+		message FormulaConstants {
+			optional double minutesToUpgradeForNormStructMultiplier = 1;
+			optional double incomeFromNormStructMultiplier = 2;
+			optional double upgradeStructCoinCostExponentBase = 3;
+			optional double upgradeStructDiamondCostExponentBase = 4;
+			optional double diamondCostForInstantUpgradeMultiplier = 5;
+			
+			optional double battleWeightGivenToAttackStat = 6;
+			optional double battleWeightGivenToAttackEquipSum = 7;
+			optional double battleWeightGivenToDefenseStat = 8;
+			optional double battleWeightGivenToDefenseEquipSum = 9;
+		}
 
 	}
 	

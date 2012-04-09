@@ -493,6 +493,8 @@
     Enemy *enemy = (Enemy *)_selected;
     [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:enemy.user buttonsEnabled:YES];
     [ProfileViewController displayView];
+    
+    [Analytics enemyProfileFromSprite];
   }
 }
 

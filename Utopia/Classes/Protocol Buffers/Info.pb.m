@@ -3620,7 +3620,7 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 @property int32_t minLevel;
 @property int32_t xLength;
 @property int32_t yLength;
-@property int32_t instaBuildDiamondCostBase;
+@property int32_t instaBuildDiamondCost;
 @property int32_t instaRetrieveDiamondCostBase;
 @property int32_t instaUpgradeDiamondCostBase;
 @property int32_t imgVerticalPixelOffset;
@@ -3705,13 +3705,13 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   hasYLength_ = !!value;
 }
 @synthesize yLength;
-- (BOOL) hasInstaBuildDiamondCostBase {
-  return !!hasInstaBuildDiamondCostBase_;
+- (BOOL) hasInstaBuildDiamondCost {
+  return !!hasInstaBuildDiamondCost_;
 }
-- (void) setHasInstaBuildDiamondCostBase:(BOOL) value {
-  hasInstaBuildDiamondCostBase_ = !!value;
+- (void) setHasInstaBuildDiamondCost:(BOOL) value {
+  hasInstaBuildDiamondCost_ = !!value;
 }
-@synthesize instaBuildDiamondCostBase;
+@synthesize instaBuildDiamondCost;
 - (BOOL) hasInstaRetrieveDiamondCostBase {
   return !!hasInstaRetrieveDiamondCostBase_;
 }
@@ -3750,7 +3750,7 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
     self.minLevel = 0;
     self.xLength = 0;
     self.yLength = 0;
-    self.instaBuildDiamondCostBase = 0;
+    self.instaBuildDiamondCost = 0;
     self.instaRetrieveDiamondCostBase = 0;
     self.instaUpgradeDiamondCostBase = 0;
     self.imgVerticalPixelOffset = 0;
@@ -3806,8 +3806,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasYLength) {
     [output writeInt32:11 value:self.yLength];
   }
-  if (self.hasInstaBuildDiamondCostBase) {
-    [output writeInt32:14 value:self.instaBuildDiamondCostBase];
+  if (self.hasInstaBuildDiamondCost) {
+    [output writeInt32:14 value:self.instaBuildDiamondCost];
   }
   if (self.hasInstaRetrieveDiamondCostBase) {
     [output writeInt32:15 value:self.instaRetrieveDiamondCostBase];
@@ -3860,8 +3860,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (self.hasYLength) {
     size += computeInt32Size(11, self.yLength);
   }
-  if (self.hasInstaBuildDiamondCostBase) {
-    size += computeInt32Size(14, self.instaBuildDiamondCostBase);
+  if (self.hasInstaBuildDiamondCost) {
+    size += computeInt32Size(14, self.instaBuildDiamondCost);
   }
   if (self.hasInstaRetrieveDiamondCostBase) {
     size += computeInt32Size(15, self.instaRetrieveDiamondCostBase);
@@ -3980,8 +3980,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   if (other.hasYLength) {
     [self setYLength:other.yLength];
   }
-  if (other.hasInstaBuildDiamondCostBase) {
-    [self setInstaBuildDiamondCostBase:other.instaBuildDiamondCostBase];
+  if (other.hasInstaBuildDiamondCost) {
+    [self setInstaBuildDiamondCost:other.instaBuildDiamondCost];
   }
   if (other.hasInstaRetrieveDiamondCostBase) {
     [self setInstaRetrieveDiamondCostBase:other.instaRetrieveDiamondCostBase];
@@ -4058,7 +4058,7 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
         break;
       }
       case 112: {
-        [self setInstaBuildDiamondCostBase:[input readInt32]];
+        [self setInstaBuildDiamondCost:[input readInt32]];
         break;
       }
       case 120: {
@@ -4252,20 +4252,20 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   result.yLength = 0;
   return self;
 }
-- (BOOL) hasInstaBuildDiamondCostBase {
-  return result.hasInstaBuildDiamondCostBase;
+- (BOOL) hasInstaBuildDiamondCost {
+  return result.hasInstaBuildDiamondCost;
 }
-- (int32_t) instaBuildDiamondCostBase {
-  return result.instaBuildDiamondCostBase;
+- (int32_t) instaBuildDiamondCost {
+  return result.instaBuildDiamondCost;
 }
-- (FullStructureProto_Builder*) setInstaBuildDiamondCostBase:(int32_t) value {
-  result.hasInstaBuildDiamondCostBase = YES;
-  result.instaBuildDiamondCostBase = value;
+- (FullStructureProto_Builder*) setInstaBuildDiamondCost:(int32_t) value {
+  result.hasInstaBuildDiamondCost = YES;
+  result.instaBuildDiamondCost = value;
   return self;
 }
-- (FullStructureProto_Builder*) clearInstaBuildDiamondCostBase {
-  result.hasInstaBuildDiamondCostBase = NO;
-  result.instaBuildDiamondCostBase = 0;
+- (FullStructureProto_Builder*) clearInstaBuildDiamondCost {
+  result.hasInstaBuildDiamondCost = NO;
+  result.instaBuildDiamondCost = 0;
   return self;
 }
 - (BOOL) hasInstaRetrieveDiamondCostBase {

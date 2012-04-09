@@ -10,7 +10,8 @@
 
 @interface TutorialBattleLayer : BattleLayer {
   CCSprite *_ccArrow;
-  CCLabelTTF *_pulsingLabel;
+  CCSprite *_tapToAttack;
+  CCSprite *_tryAgain;
   
   BOOL _firstTurn;
   BOOL _firstAttack;

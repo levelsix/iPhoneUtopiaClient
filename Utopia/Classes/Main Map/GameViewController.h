@@ -21,6 +21,8 @@
   CCSprite *doorleft;
   CCSprite *splash;
   CCSprite *eyes;
+  CCSprite *loadingLabel;
+  CCSprite *enterLabel;
   CCParticleSystemQuad *leftBurn;
   CCParticleSystemQuad *rightBurn;
 }

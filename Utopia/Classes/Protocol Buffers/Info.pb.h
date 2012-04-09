@@ -1008,7 +1008,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasMinLevel_:1;
   BOOL hasXLength_:1;
   BOOL hasYLength_:1;
-  BOOL hasInstaBuildDiamondCostBase_:1;
+  BOOL hasInstaBuildDiamondCost_:1;
   BOOL hasInstaRetrieveDiamondCostBase_:1;
   BOOL hasInstaUpgradeDiamondCostBase_:1;
   BOOL hasImgVerticalPixelOffset_:1;
@@ -1023,7 +1023,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   int32_t minLevel;
   int32_t xLength;
   int32_t yLength;
-  int32_t instaBuildDiamondCostBase;
+  int32_t instaBuildDiamondCost;
   int32_t instaRetrieveDiamondCostBase;
   int32_t instaUpgradeDiamondCostBase;
   int32_t imgVerticalPixelOffset;
@@ -1040,7 +1040,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasMinLevel;
 - (BOOL) hasXLength;
 - (BOOL) hasYLength;
-- (BOOL) hasInstaBuildDiamondCostBase;
+- (BOOL) hasInstaBuildDiamondCost;
 - (BOOL) hasInstaRetrieveDiamondCostBase;
 - (BOOL) hasInstaUpgradeDiamondCostBase;
 - (BOOL) hasImgVerticalPixelOffset;
@@ -1055,7 +1055,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t xLength;
 @property (readonly) int32_t yLength;
-@property (readonly) int32_t instaBuildDiamondCostBase;
+@property (readonly) int32_t instaBuildDiamondCost;
 @property (readonly) int32_t instaRetrieveDiamondCostBase;
 @property (readonly) int32_t instaUpgradeDiamondCostBase;
 @property (readonly) int32_t imgVerticalPixelOffset;
@@ -1149,10 +1149,10 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullStructureProto_Builder*) setYLength:(int32_t) value;
 - (FullStructureProto_Builder*) clearYLength;
 
-- (BOOL) hasInstaBuildDiamondCostBase;
-- (int32_t) instaBuildDiamondCostBase;
-- (FullStructureProto_Builder*) setInstaBuildDiamondCostBase:(int32_t) value;
-- (FullStructureProto_Builder*) clearInstaBuildDiamondCostBase;
+- (BOOL) hasInstaBuildDiamondCost;
+- (int32_t) instaBuildDiamondCost;
+- (FullStructureProto_Builder*) setInstaBuildDiamondCost:(int32_t) value;
+- (FullStructureProto_Builder*) clearInstaBuildDiamondCost;
 
 - (BOOL) hasInstaRetrieveDiamondCostBase;
 - (int32_t) instaRetrieveDiamondCostBase;

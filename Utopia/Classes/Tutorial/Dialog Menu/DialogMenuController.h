@@ -44,6 +44,7 @@
 + (void) displayViewForReferral;
 + (void) closeView;
 + (void) incrementProgress;
+- (void) stopLoading;
 
 + (DialogMenuController *) sharedDialogMenuController;
 - (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp;

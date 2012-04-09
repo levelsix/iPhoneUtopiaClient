@@ -55,12 +55,13 @@
 
 - (void) reloadCities {
   GameState *gs = [GameState sharedGameState];
-  for (int i = 1; i <= gs.maxCityAccessible; i++) {
+  for (int i = 1; i <= gs.maxCity; i++) {
     FullCityProto *fcp = [gs cityWithId:i];
+    UserCity *city = [gs myCityWithId:i];
     
     CityView *cv = (CityView *)[self viewWithTag:i];
     cv.fcp = fcp;
-    cv.isLocked = NO;
+    cv.isLocked = (city == nil);
   }
   cityPopup.hidden = YES;
 }
@@ -85,6 +86,8 @@
     [self updatePopupForCity:cv];
     cityPopup.hidden = NO;
   } else {
+    FullCityProto *fcp = cv.fcp;
+    [Globals popupMessage:[NSString stringWithFormat:@"%@ is unlocked at Level %d", fcp.name, fcp.minLevel]];
     [Globals shakeView:cv duration:SHAKE_DURATION offset:SHAKE_OFFSET];
   }
 }

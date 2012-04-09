@@ -279,7 +279,7 @@
           qg.name = ncep.name;
           [qg release];
         } else {
-          NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
+          LNLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
         }
       }
     }
@@ -305,12 +305,12 @@
           qg.name = ncep.name;
           [qg release];
         } else {
-          NSLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
+          LNLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
         }
       }
     }
     
-    NSLog(@"%d neutral elems left", peopleElems.count);
+    LNLog(@"%d neutral elems left", peopleElems.count);
     // Load the rest of the people in case quest becomes available later.
     // Set alpha to 0 to they can't be seen
     for (NeutralCityElementProto *ncep in peopleElems) {
@@ -319,6 +319,7 @@
       r.size = CGSizeMake(1, 1);
       QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO file:ncep.imgId map:self location:r];
       [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+      qg.visible = NO;
       qg.opacity = 0.f;
       [qg release];
     }
@@ -334,7 +335,7 @@
       if (asset) {
         asset.ftp = ftp;
       } else {
-        NSLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
+        LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
       }
     }
     
@@ -345,7 +346,7 @@
       if (asset) {
         asset.numTimesActed = mutp.numTimesActed;
       } else {
-        NSLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
+        LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
       }
     }
     
@@ -369,7 +370,7 @@
     //      }
     //      [str appendString:@"\n"];
     //    }
-    //    NSLog(@"%@", str);
+    //    LNLog(@"%@", str);
   }
   return self;
 }
@@ -609,6 +610,7 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.isInProgress = NO;
+      qg.visible = YES;
       if (qg.opacity == 0) {
         [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
       }
@@ -620,6 +622,7 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.isInProgress = YES;
+      qg.visible = YES;
       if (qg.opacity == 0) {
         [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
       }

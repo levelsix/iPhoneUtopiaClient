@@ -313,6 +313,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:post.equip.equipId];
   Globals *gl = [Globals sharedGlobals];
+  [Analytics attemptedPost];
   
   if (gs.numPostsInMarketplace >= gl.maxNumberOfMarketplacePosts) {
     [Globals popupMessage:@"You already have %d items in the marketplace. Remove a listing to post a new item."];
@@ -345,6 +346,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     [UIView animateWithDuration:0.3f animations:^{
       purchLicenseView.transform = CGAffineTransformMakeScale(1, 1);
     }];
+    
+    [Analytics licensePopup];
   }
 }
 
@@ -387,6 +390,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (post.equip.quantity == 0) {
       [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
     }
+    
+    [Analytics successfulPost:post.equip.equipId];
   }
   [coinBar updateLabels];
 }
@@ -434,6 +439,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       // Screen has scrolled too far up, need to move back down
       [self.postsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
     }
+    
+    [Analytics viewedRetract];
   }
 }
 
@@ -441,11 +448,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   FullMarketplacePostProto *fmpp = self.selectedCell.mktProto;
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  [Analytics attemptedRetract];
   
   if (fmpp.diamondCost > 0) {
     int amount = (int) ceilf(fmpp.diamondCost*gl.retractPercentCut);
     if (gs.gold >= amount) {
       [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
+      [Analytics successfulRetract];
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fmpp.diamondCost];
       [Analytics notEnoughGoldForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.diamondCost];
@@ -454,6 +463,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     int amount = (int) ceilf(fmpp.coinCost*gl.retractPercentCut);
     if (gs.silver >= amount) {
       [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
+      [Analytics successfulRetract];
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
       [Analytics notEnoughSilverForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.coinCost];
@@ -488,6 +498,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (self.state == kEquipBuyingState) {
       self.state = kEquipSellingState;
     }
+    [Analytics clickedListAnItem];
   }
 }
 
@@ -509,6 +520,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   ItemPostView *post = (ItemPostView *)[[sender superview] superview];
   FullMarketplacePostProto *proto = post.mktProto;
   GameState *gs = [GameState sharedGameState];
+  [Analytics attemptedPurchase];
   
   if (proto.coinCost > gs.silver) {
     [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
@@ -518,6 +530,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     [Analytics notEnoughGoldForMarketplaceBuy:proto.postedEquip.equipId cost:proto.diamondCost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:proto.marketplacePostId];
+    [Analytics successfulPurchase:proto.postedEquip.equipId];
     [self displayLoadingView];
     self.selectedCell = nil;
   }
@@ -544,6 +557,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if (gs.gold >= gl.diamondCostOfShortMarketplaceLicense) {
     [[OutgoingEventController sharedOutgoingEventController] purchaseShortMarketplaceLicense];
     [self licensePurchaseSuccessful];
+    [Analytics boughtLicense:@"Short"];
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfShortMarketplaceLicense];
     [Analytics notEnoughGoldForMarketplaceShortLicense];
@@ -559,6 +573,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if (gs.gold >= gl.diamondCostOfLongMarketplaceLicense) {
     [[OutgoingEventController sharedOutgoingEventController] purchaseLongMarketplaceLicense];
     [self licensePurchaseSuccessful];
+    [Analytics boughtLicense:@"Long"];
   } else {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.diamondCostOfLongMarketplaceLicense];
     [Analytics notEnoughGoldForMarketplaceLongLicense];

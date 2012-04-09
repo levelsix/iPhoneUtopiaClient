@@ -606,7 +606,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   
   CarpenterRow *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
   if (cell == nil) {
-    NSLog(@"New Carp Row");
     [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
     cell = self.carpRow;
   }

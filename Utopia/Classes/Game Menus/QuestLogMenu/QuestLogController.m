@@ -457,6 +457,8 @@
     [[HomeMap sharedHomeMap] moveToCritStruct:CritStructTypeCarpenter];
   }
   [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
+  
+  [Analytics clickedVisit];
 }
 
 - (void) dealloc {
@@ -661,7 +663,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
 - (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress {
   if (fqp == nil) {
-    NSLog(@"nil quest for displaying right page");
+    LNLog(@"nil quest for displaying right page");
     return;
   }
   // Need to do this in case 

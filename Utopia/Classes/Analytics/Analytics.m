@@ -41,9 +41,50 @@
 #define NOT_ENOUGH_ENERGY_TASKS @"Tasks: Not enough energy"
 #define NOT_ENOUGH_EQUIPS_TASKS @"Tasks: Not enough equips"
 
+#define LEVEL_UP @"Level up"
+#define PLACE_CRIT_STRUCT @"Placed crit struct"
+#define ATTACK_AGAIN @"Battle: Attack again"
+#define FLEE @"Battle: Flee"
+#define QUEST_ACCEPT @"Quest: Accept"
+#define QUEST_COMPLETE @"Quest: Complete"
+#define QUEST_REDEEM @"Quest: Redeem"
+#define SKILL_POINT @"Profile: Skill Point"
+#define MKT_ATTEMPTED_PURCHASE @"Mkt: Attempted Purchase"
+#define MKT_ATTEMPTED_POST @"Mkt: Attempted Post"
+#define MKT_SUCCESSFUL_PURCHASE @"Mkt: Successful Purchase"
+#define MKT_SUCCESSFUL_POST @"Mkt: Successful Post"
+#define MKT_VIEW_RETRACT @"Mkt: Viewed retract menu"
+#define MKT_ATTEMPTED_RETRACT @"Mkt: Attempted retract"
+#define MKT_SUCCESSFUL_RETRACT @"Mkt: Successful retract"
+#define MKT_LICENSE_POPUP @"Mkt: License popup"
+#define MKT_BOUGHT_LICENSE @"Mkt: Bought license"
+#define MKT_LIST_AN_ITEM @"Mkt: Clicked list an item"
+#define VAULT_OPEN @"Vault: Opened"
+#define VAULT_WITHDRAW @"Vault: Withdraw"
+#define VAULT_DEPOSIT @"Vault: Deposit"
+#define NORM_STRUCT_UPGRADE @"Norm struct: Upgrade"
+#define NORM_STRUCT_PURCHASE @"Norm struct: Purchase"
+#define NORM_STRUCT_SELL @"Norm struct: Sell"
+#define NORM_STRUCT_INSTA_BUILD @"Norm struct: Insta build"
+#define NORM_STRUCT_INSTA_UPGRADE @"Norm struct: Insta upgrade"
+#define OPENED_PATH_MENU @"Path Menu: Opened"
+#define OPENED_QUEST_LOG @"Path Menu: Clicked quest log"
+#define OPENED_NOTIFICATIONS @"Path Menu: Clicked notifications"
+#define OPENED_PROFILE @"Path Menu: Clicked profile"
+#define CLICKED_VISIT @"Quest Log: Clicked visit"
+#define RECEIVED_NOTIFICATION @"Notifications: Received"
+#define CLICKED_REVENGE @"Notifications: Clicked revenge"
+#define CLICKED_COLLECT @"Notifications: Clicked collect"
+#define CLICKED_FILL_ENERGY @"Top bar: Clicked fill energy"
+#define CLICKED_FILL_STAMINA @"Top bar: Clicked fill stamina"
+#define ENEMY_PROFILE_BATTLE @"Enemy Profile: Battle"
+#define ENEMY_PROFILE_ATTACK_MAP @"Enemy Profile: Location map"
+#define ENEMY_PROFILE_SPRITE @"Enemy Profile: Sprite"
+
 #define CLICKED_SEARCH @"Mkt: Clicked search"
 #define CLICKED_WALL @"Profile: Clicked wall"
 #define CLICKED_FREE_OFFERS @"Gold Shop: Clicked free offers"
+#define CLICKED_VISIT_CITY @"Profile: Clicked visit city"
 
 #define TUTORIAL_START @"Tutorial: Start"
 #define TUTORIAL_OPENED_DOOR @"Tutorial: Opened door"
@@ -213,7 +254,7 @@
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                         [NSNumber numberWithInt:structId], @"struct id",
                         [NSNumber numberWithInt:gs.gold], @"current gold",
-                        [NSNumber numberWithInt:fsp.instaBuildDiamondCostBase], @"gold needed",
+                        [NSNumber numberWithInt:fsp.instaBuildDiamondCost], @"gold needed",
                         nil];
   
   [Apsalar event:NOT_ENOUGH_GOLD_INSTA_BUILD withArgs:args];
@@ -343,6 +384,243 @@
   [Apsalar event:NOT_ENOUGH_EQUIPS_TASKS withArgs:args];
 }
 
+// Engagement events
+
++ (void) levelUp:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:gs.level], @"level",
+                        nil];
+  
+  [Apsalar event:LEVEL_UP withArgs:args];
+}
+
++ (void) placedCritStruct:(NSString *)name {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:gs.level], @"level",
+                        name, @"crit struct",
+                        nil];
+  
+  [Apsalar event:PLACE_CRIT_STRUCT withArgs:args];
+}
+
++ (void) attackAgain {
+  [Apsalar event:ATTACK_AGAIN];
+}
+
++ (void) fleeWithHealth:(int)curHealth enemyHealth:(int)enemyHealth {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:curHealth], @"current health",
+                        [NSNumber numberWithInt:enemyHealth], @"enemyHealth",
+                        nil];
+  
+  [Apsalar event:FLEE withArgs:args];
+}
+
++ (void) questAccept:(int)questId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:questId], @"quest id",
+                        nil];
+  
+  [Apsalar event:QUEST_ACCEPT withArgs:args];
+}
+
++ (void) questComplete:(int)questId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:questId], @"quest id",
+                        nil];
+  
+  [Apsalar event:QUEST_COMPLETE withArgs:args];
+}
+
++ (void) questRedeem:(int)questId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:questId], @"quest id",
+                        nil];
+  
+  [Apsalar event:QUEST_REDEEM withArgs:args];
+}
+
++ (void) addedSkillPoint:(NSString *)stat {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        stat, @"stat",
+                        nil];
+  
+  [Apsalar event:SKILL_POINT withArgs:args];
+}
+
++ (void) attemptedPurchase {
+  [Apsalar event:MKT_ATTEMPTED_PURCHASE];
+}
+
++ (void) successfulPurchase:(int)equipId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        nil];
+  
+  [Apsalar event:MKT_SUCCESSFUL_PURCHASE withArgs:args];
+}
+
++ (void) attemptedPost {
+  [Apsalar event:MKT_ATTEMPTED_POST];
+}
+
++ (void) successfulPost:(int)equipId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        nil];
+  
+  [Apsalar event:MKT_SUCCESSFUL_POST withArgs:args];
+}
+
++ (void) viewedRetract {
+  [Apsalar event:MKT_VIEW_RETRACT];
+}
+
++ (void) attemptedRetract {
+  [Apsalar event:MKT_ATTEMPTED_RETRACT];
+}
+
++ (void) successfulRetract {
+  [Apsalar event:MKT_SUCCESSFUL_RETRACT];
+}
+
++ (void) licensePopup {
+  [Apsalar event:MKT_LICENSE_POPUP];
+}
+
++ (void) boughtLicense:(NSString *)type {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        type, @"type",
+                        nil];
+  
+  [Apsalar event:MKT_BOUGHT_LICENSE withArgs:args];
+}
+
++ (void) clickedListAnItem {
+  [Apsalar event:MKT_LIST_AN_ITEM];
+}
+
++ (void) vaultOpen {
+  [Apsalar event:VAULT_OPEN];
+}
+
++ (void) vaultDeposit {
+  [Apsalar event:VAULT_DEPOSIT];
+}
+
++ (void) vaultWithdraw {
+  [Apsalar event:VAULT_WITHDRAW];
+}
+
++ (void) normStructUpgrade:(int)structId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:structId], @"struct id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Apsalar event:NORM_STRUCT_UPGRADE withArgs:args];
+}
+
++ (void) normStructPurchase:(int)structId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:structId], @"struct id",
+                        nil];
+  
+  [Apsalar event:NORM_STRUCT_PURCHASE withArgs:args];
+}
+
++ (void) normStructSell:(int)structId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:structId], @"struct id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Apsalar event:NORM_STRUCT_SELL withArgs:args];
+}
+
++ (void) normStructInstaUpgrade:(int)structId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:structId], @"struct id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Apsalar event:NORM_STRUCT_INSTA_UPGRADE withArgs:args];
+}
+
++ (void) normStructInstaBuild:(int)structId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:structId], @"struct id",
+                        nil];
+  
+  [Apsalar event:NORM_STRUCT_INSTA_BUILD withArgs:args];
+}
+
++ (void) openedPathMenu {
+  [Apsalar event:OPENED_PATH_MENU];
+}
+
++ (void) openedNotifications {
+  [Apsalar event:OPENED_NOTIFICATIONS];
+}
+
++ (void) openedQuestLog {
+  [Apsalar event:OPENED_QUEST_LOG];
+}
+
++ (void) openedMyProfile {
+  [Apsalar event:OPENED_PROFILE];
+}
+
++ (void) clickedVisit {
+  [Apsalar event:CLICKED_VISIT];
+}
+
++ (void) receivedNotification {
+  [Apsalar event:RECEIVED_NOTIFICATION];
+}
+
++ (void) clickedRevenge {
+  [Apsalar event:CLICKED_REVENGE];
+}
+
++ (void) clickedCollect {
+  [Apsalar event:CLICKED_COLLECT];
+}
+
++ (void) clickedFillEnergy {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:gs.currentEnergy], @"current energy",
+                        [NSNumber numberWithInt:gs.level], @"level",
+                        nil];
+  
+  [Apsalar event:CLICKED_FILL_ENERGY withArgs:args];
+}
+
++ (void) clickedFillStamina {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
+                        [NSNumber numberWithInt:gs.level], @"level",
+                        nil];
+  
+  [Apsalar event:CLICKED_FILL_STAMINA withArgs:args];
+}
+
++ (void) enemyProfileFromBattle {
+  [Apsalar event:ENEMY_PROFILE_BATTLE];
+}
+
++ (void) enemyProfileFromSprite {
+  [Apsalar event:ENEMY_PROFILE_SPRITE];
+}
+
++ (void) enemyProfileFromAttackMap {
+  [Apsalar event:ENEMY_PROFILE_ATTACK_MAP];
+}
+
 // Missing features
 
 + (void) clickedMarketplaceSearch {
@@ -355,6 +633,10 @@
 
 + (void) clickedFreeOffers {
   [Apsalar event:CLICKED_FREE_OFFERS];
+}
+
++ (void) clickedVisitCity {
+  [Apsalar event:CLICKED_VISIT_CITY];
 }
 
 // Tutorial

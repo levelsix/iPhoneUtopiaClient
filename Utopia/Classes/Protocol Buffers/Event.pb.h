@@ -216,6 +216,8 @@
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
 @class StartupResponseProto_StartupConstants_Builder;
+@class StartupResponseProto_StartupConstants_FormulaConstants;
+@class StartupResponseProto_StartupConstants_FormulaConstants_Builder;
 @class StartupResponseProto_TutorialConstants;
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
@@ -1385,7 +1387,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   FullUserProto* sender;
   StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
-  NSMutableArray* mutableCitiesAvailableToUserList;
+  NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableUserCityInfosList;
   NSMutableArray* mutableInProgressQuestsList;
   NSMutableArray* mutableAvailableQuestsList;
@@ -1411,8 +1413,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t experienceRequiredForNextLevel;
 @property (readonly) int32_t experienceRequiredForCurrentLevel;
 @property (readonly, retain) NSString* appStoreUrl;
-- (NSArray*) citiesAvailableToUserList;
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
+- (NSArray*) allCitiesList;
+- (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
 - (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index;
 - (NSArray*) inProgressQuestsList;
@@ -1667,8 +1669,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
@@ -1713,11 +1715,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
+  BOOL hasFormulaConstants_:1;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
@@ -1762,6 +1765,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
+  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
@@ -1814,6 +1818,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasMarketplaceImgVerticalPixelOffset;
 - (BOOL) hasCarpenterImgVerticalPixelOffset;
 - (BOOL) hasAviaryImgVerticalPixelOffset;
+- (BOOL) hasFormulaConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1863,6 +1868,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t marketplaceImgVerticalPixelOffset;
 @property (readonly) int32_t carpenterImgVerticalPixelOffset;
 @property (readonly) int32_t aviaryImgVerticalPixelOffset;
+@property (readonly, retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -1883,6 +1889,126 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_FormulaConstants : PBGeneratedMessage {
+@private
+  BOOL hasMinutesToUpgradeForNormStructMultiplier_:1;
+  BOOL hasIncomeFromNormStructMultiplier_:1;
+  BOOL hasUpgradeStructCoinCostExponentBase_:1;
+  BOOL hasUpgradeStructDiamondCostExponentBase_:1;
+  BOOL hasDiamondCostForInstantUpgradeMultiplier_:1;
+  BOOL hasBattleWeightGivenToAttackStat_:1;
+  BOOL hasBattleWeightGivenToAttackEquipSum_:1;
+  BOOL hasBattleWeightGivenToDefenseStat_:1;
+  BOOL hasBattleWeightGivenToDefenseEquipSum_:1;
+  Float64 minutesToUpgradeForNormStructMultiplier;
+  Float64 incomeFromNormStructMultiplier;
+  Float64 upgradeStructCoinCostExponentBase;
+  Float64 upgradeStructDiamondCostExponentBase;
+  Float64 diamondCostForInstantUpgradeMultiplier;
+  Float64 battleWeightGivenToAttackStat;
+  Float64 battleWeightGivenToAttackEquipSum;
+  Float64 battleWeightGivenToDefenseStat;
+  Float64 battleWeightGivenToDefenseEquipSum;
+}
+- (BOOL) hasMinutesToUpgradeForNormStructMultiplier;
+- (BOOL) hasIncomeFromNormStructMultiplier;
+- (BOOL) hasUpgradeStructCoinCostExponentBase;
+- (BOOL) hasUpgradeStructDiamondCostExponentBase;
+- (BOOL) hasDiamondCostForInstantUpgradeMultiplier;
+- (BOOL) hasBattleWeightGivenToAttackStat;
+- (BOOL) hasBattleWeightGivenToAttackEquipSum;
+- (BOOL) hasBattleWeightGivenToDefenseStat;
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum;
+@property (readonly) Float64 minutesToUpgradeForNormStructMultiplier;
+@property (readonly) Float64 incomeFromNormStructMultiplier;
+@property (readonly) Float64 upgradeStructCoinCostExponentBase;
+@property (readonly) Float64 upgradeStructDiamondCostExponentBase;
+@property (readonly) Float64 diamondCostForInstantUpgradeMultiplier;
+@property (readonly) Float64 battleWeightGivenToAttackStat;
+@property (readonly) Float64 battleWeightGivenToAttackEquipSum;
+@property (readonly) Float64 battleWeightGivenToDefenseStat;
+@property (readonly) Float64 battleWeightGivenToDefenseEquipSum;
+
++ (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_FormulaConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_FormulaConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_FormulaConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_FormulaConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_FormulaConstants*) build;
+- (StartupResponseProto_StartupConstants_FormulaConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_FormulaConstants*) other;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMinutesToUpgradeForNormStructMultiplier;
+- (Float64) minutesToUpgradeForNormStructMultiplier;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setMinutesToUpgradeForNormStructMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearMinutesToUpgradeForNormStructMultiplier;
+
+- (BOOL) hasIncomeFromNormStructMultiplier;
+- (Float64) incomeFromNormStructMultiplier;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setIncomeFromNormStructMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearIncomeFromNormStructMultiplier;
+
+- (BOOL) hasUpgradeStructCoinCostExponentBase;
+- (Float64) upgradeStructCoinCostExponentBase;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setUpgradeStructCoinCostExponentBase:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearUpgradeStructCoinCostExponentBase;
+
+- (BOOL) hasUpgradeStructDiamondCostExponentBase;
+- (Float64) upgradeStructDiamondCostExponentBase;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setUpgradeStructDiamondCostExponentBase:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearUpgradeStructDiamondCostExponentBase;
+
+- (BOOL) hasDiamondCostForInstantUpgradeMultiplier;
+- (Float64) diamondCostForInstantUpgradeMultiplier;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setDiamondCostForInstantUpgradeMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearDiamondCostForInstantUpgradeMultiplier;
+
+- (BOOL) hasBattleWeightGivenToAttackStat;
+- (Float64) battleWeightGivenToAttackStat;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackStat:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackStat;
+
+- (BOOL) hasBattleWeightGivenToAttackEquipSum;
+- (Float64) battleWeightGivenToAttackEquipSum;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackEquipSum:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackEquipSum;
+
+- (BOOL) hasBattleWeightGivenToDefenseStat;
+- (Float64) battleWeightGivenToDefenseStat;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseStat:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseStat;
+
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum;
+- (Float64) battleWeightGivenToDefenseEquipSum;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value;
+- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -2160,6 +2286,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int32_t) aviaryImgVerticalPixelOffset;
 - (StartupResponseProto_StartupConstants_Builder*) setAviaryImgVerticalPixelOffset:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearAviaryImgVerticalPixelOffset;
+
+- (BOOL) hasFormulaConstants;
+- (StartupResponseProto_StartupConstants_FormulaConstants*) formulaConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setFormulaConstants:(StartupResponseProto_StartupConstants_FormulaConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setFormulaConstantsBuilder:(StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeFormulaConstants:(StartupResponseProto_StartupConstants_FormulaConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearFormulaConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -2746,12 +2879,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_Builder*) mergeTutorialConstants:(StartupResponseProto_TutorialConstants*) value;
 - (StartupResponseProto_Builder*) clearTutorialConstants;
 
-- (NSArray*) citiesAvailableToUserList;
-- (FullCityProto*) citiesAvailableToUserAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceCitiesAvailableToUserAtIndex:(int32_t) index with:(FullCityProto*) value;
-- (StartupResponseProto_Builder*) addCitiesAvailableToUser:(FullCityProto*) value;
-- (StartupResponseProto_Builder*) addAllCitiesAvailableToUser:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearCitiesAvailableToUserList;
+- (NSArray*) allCitiesList;
+- (FullCityProto*) allCitiesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceAllCitiesAtIndex:(int32_t) index with:(FullCityProto*) value;
+- (StartupResponseProto_Builder*) addAllCities:(FullCityProto*) value;
+- (StartupResponseProto_Builder*) addAllAllCities:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearAllCitiesList;
 
 - (NSArray*) userCityInfosList;
 - (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index;

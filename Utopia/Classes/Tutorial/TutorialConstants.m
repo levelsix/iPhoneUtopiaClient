@@ -79,7 +79,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.questGiverName = @"Farmer Mitch";
   
   self.duringPanTexts = [NSArray arrayWithObjects:@"Legends spoke of two royal brothers destined for greatness...",
-                    @"Tristan,  assumed the throne leading the Alliance and all that is good.",
+                    @"Tristan, the elder son, assumed the throne leading the Alliance and all that is good.",
                     @"Enraged, Fenrir fled to the Legion, seeking unimaginable powers to destroy the Alliance.",
                     @"Today, he returns with a vengeance, spreading war and chaos across the lands.",
                     @"Just as the Alliance is about to fall, a white light consumes the skies...", nil];

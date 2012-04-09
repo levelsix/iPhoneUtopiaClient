@@ -250,7 +250,7 @@
     // Re-set location
     if (userStruct) {
       FullStructureProto *fsp = [[GameState sharedGameState] structWithId:userStruct.structId];
-      self.verticalOffset = fsp.imgVerticalPixelOffeset;
+      self.verticalOffset = fsp.imgVerticalPixelOffset;
     }
   }
 }

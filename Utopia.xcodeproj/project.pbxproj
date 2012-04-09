@@ -530,6 +530,34 @@
 		CF9BEA2A15318801006FB8EC /* levelupbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA2815318801006FB8EC /* levelupbg@2x.png */; };
 		CF9BEA2D15318844006FB8EC /* questcompletebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA2B15318844006FB8EC /* questcompletebg.png */; };
 		CF9BEA2E15318844006FB8EC /* questcompletebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA2C15318844006FB8EC /* questcompletebg@2x.png */; };
+		CF9BEA331531BE18006FB8EC /* loadingdoors.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA2F1531BE18006FB8EC /* loadingdoors.png */; };
+		CF9BEA341531BE18006FB8EC /* loadingdoors@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA301531BE18006FB8EC /* loadingdoors@2x.png */; };
+		CF9BEA351531BE18006FB8EC /* taptoenter.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA311531BE18006FB8EC /* taptoenter.png */; };
+		CF9BEA361531BE18006FB8EC /* taptoenter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA321531BE18006FB8EC /* taptoenter@2x.png */; };
+		CF9BEA391531C07D006FB8EC /* tryagain.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA371531C07D006FB8EC /* tryagain.png */; };
+		CF9BEA3A1531C07D006FB8EC /* tryagain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA381531C07D006FB8EC /* tryagain@2x.png */; };
+		CF9BEA3D1531C0A6006FB8EC /* tapanywheretoattack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA3B1531C0A6006FB8EC /* tapanywheretoattack@2x.png */; };
+		CF9BEA3E1531C0A6006FB8EC /* tapanywheretoattack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA3C1531C0A6006FB8EC /* tapanywheretoattack.png */; };
+		CF9BEA471531C88F006FB8EC /* CrackedPendant.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA3F1531C88E006FB8EC /* CrackedPendant.png */; };
+		CF9BEA481531C88F006FB8EC /* CrackedPendant@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA401531C88E006FB8EC /* CrackedPendant@2x.png */; };
+		CF9BEA491531C88F006FB8EC /* Refinery@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA411531C88E006FB8EC /* Refinery@2x.png */; };
+		CF9BEA4A1531C88F006FB8EC /* Refinery.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA421531C88E006FB8EC /* Refinery.png */; };
+		CF9BEA4B1531C88F006FB8EC /* ChocolateShop.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA431531C88E006FB8EC /* ChocolateShop.png */; };
+		CF9BEA4C1531C88F006FB8EC /* ChocolateShop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA441531C88E006FB8EC /* ChocolateShop@2x.png */; };
+		CF9BEA4D1531C88F006FB8EC /* Slaughterhouse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA451531C88E006FB8EC /* Slaughterhouse@2x.png */; };
+		CF9BEA4E1531C88F006FB8EC /* Slaughterhouse.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA461531C88F006FB8EC /* Slaughterhouse.png */; };
+		CF9BEA5B1531C9FB006FB8EC /* TreeBranch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA4F1531C9FB006FB8EC /* TreeBranch@2x.png */; };
+		CF9BEA5C1531C9FB006FB8EC /* TreeBranch.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA501531C9FB006FB8EC /* TreeBranch.png */; };
+		CF9BEA5D1531C9FB006FB8EC /* HandGuard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA511531C9FB006FB8EC /* HandGuard@2x.png */; };
+		CF9BEA5E1531C9FB006FB8EC /* HandGuard.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA521531C9FB006FB8EC /* HandGuard.png */; };
+		CF9BEA5F1531C9FB006FB8EC /* CrackedBow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA531531C9FB006FB8EC /* CrackedBow@2x.png */; };
+		CF9BEA601531C9FB006FB8EC /* CrackedBow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA541531C9FB006FB8EC /* CrackedBow.png */; };
+		CF9BEA611531C9FB006FB8EC /* ClothTunic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA551531C9FB006FB8EC /* ClothTunic@2x.png */; };
+		CF9BEA621531C9FB006FB8EC /* ClothTunic.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA561531C9FB006FB8EC /* ClothTunic.png */; };
+		CF9BEA631531C9FB006FB8EC /* BrokenShield@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA571531C9FB006FB8EC /* BrokenShield@2x.png */; };
+		CF9BEA641531C9FB006FB8EC /* BrokenShield.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA581531C9FB006FB8EC /* BrokenShield.png */; };
+		CF9BEA651531C9FB006FB8EC /* RustyDagger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA591531C9FB006FB8EC /* RustyDagger@2x.png */; };
+		CF9BEA661531C9FB006FB8EC /* RustyDagger.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9BEA5A1531C9FB006FB8EC /* RustyDagger.png */; };
 		CFA0FB04150F02B200C88583 /* retrievebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */; };
 		CFA0FB06150F02D600C88583 /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB05150F02D600C88583 /* retrievebubble.png */; };
 		CFA0FB09150F04FE00C88583 /* TutorialBattleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA0FB08150F04FE00C88583 /* TutorialBattleLayer.m */; };
@@ -1605,6 +1633,34 @@
 		CF9BEA2815318801006FB8EC /* levelupbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "levelupbg@2x.png"; sourceTree = "<group>"; };
 		CF9BEA2B15318844006FB8EC /* questcompletebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = questcompletebg.png; sourceTree = "<group>"; };
 		CF9BEA2C15318844006FB8EC /* questcompletebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "questcompletebg@2x.png"; sourceTree = "<group>"; };
+		CF9BEA2F1531BE18006FB8EC /* loadingdoors.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loadingdoors.png; sourceTree = "<group>"; };
+		CF9BEA301531BE18006FB8EC /* loadingdoors@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadingdoors@2x.png"; sourceTree = "<group>"; };
+		CF9BEA311531BE18006FB8EC /* taptoenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taptoenter.png; sourceTree = "<group>"; };
+		CF9BEA321531BE18006FB8EC /* taptoenter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taptoenter@2x.png"; sourceTree = "<group>"; };
+		CF9BEA371531C07D006FB8EC /* tryagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryagain.png; sourceTree = "<group>"; };
+		CF9BEA381531C07D006FB8EC /* tryagain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tryagain@2x.png"; sourceTree = "<group>"; };
+		CF9BEA3B1531C0A6006FB8EC /* tapanywheretoattack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tapanywheretoattack@2x.png"; sourceTree = "<group>"; };
+		CF9BEA3C1531C0A6006FB8EC /* tapanywheretoattack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tapanywheretoattack.png; sourceTree = "<group>"; };
+		CF9BEA3F1531C88E006FB8EC /* CrackedPendant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CrackedPendant.png; sourceTree = "<group>"; };
+		CF9BEA401531C88E006FB8EC /* CrackedPendant@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CrackedPendant@2x.png"; sourceTree = "<group>"; };
+		CF9BEA411531C88E006FB8EC /* Refinery@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Refinery@2x.png"; sourceTree = "<group>"; };
+		CF9BEA421531C88E006FB8EC /* Refinery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Refinery.png; sourceTree = "<group>"; };
+		CF9BEA431531C88E006FB8EC /* ChocolateShop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ChocolateShop.png; sourceTree = "<group>"; };
+		CF9BEA441531C88E006FB8EC /* ChocolateShop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ChocolateShop@2x.png"; sourceTree = "<group>"; };
+		CF9BEA451531C88E006FB8EC /* Slaughterhouse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Slaughterhouse@2x.png"; sourceTree = "<group>"; };
+		CF9BEA461531C88F006FB8EC /* Slaughterhouse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Slaughterhouse.png; sourceTree = "<group>"; };
+		CF9BEA4F1531C9FB006FB8EC /* TreeBranch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TreeBranch@2x.png"; sourceTree = "<group>"; };
+		CF9BEA501531C9FB006FB8EC /* TreeBranch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TreeBranch.png; sourceTree = "<group>"; };
+		CF9BEA511531C9FB006FB8EC /* HandGuard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HandGuard@2x.png"; sourceTree = "<group>"; };
+		CF9BEA521531C9FB006FB8EC /* HandGuard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HandGuard.png; sourceTree = "<group>"; };
+		CF9BEA531531C9FB006FB8EC /* CrackedBow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CrackedBow@2x.png"; sourceTree = "<group>"; };
+		CF9BEA541531C9FB006FB8EC /* CrackedBow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CrackedBow.png; sourceTree = "<group>"; };
+		CF9BEA551531C9FB006FB8EC /* ClothTunic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ClothTunic@2x.png"; sourceTree = "<group>"; };
+		CF9BEA561531C9FB006FB8EC /* ClothTunic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClothTunic.png; sourceTree = "<group>"; };
+		CF9BEA571531C9FB006FB8EC /* BrokenShield@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BrokenShield@2x.png"; sourceTree = "<group>"; };
+		CF9BEA581531C9FB006FB8EC /* BrokenShield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrokenShield.png; sourceTree = "<group>"; };
+		CF9BEA591531C9FB006FB8EC /* RustyDagger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RustyDagger@2x.png"; sourceTree = "<group>"; };
+		CF9BEA5A1531C9FB006FB8EC /* RustyDagger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RustyDagger.png; sourceTree = "<group>"; };
 		CFA0FB03150F02B200C88583 /* retrievebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retrievebubble@2x.png"; sourceTree = "<group>"; };
 		CFA0FB05150F02D600C88583 /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
 		CFA0FB07150F04FE00C88583 /* TutorialBattleLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialBattleLayer.h; path = Tutorial/TutorialBattleLayer.h; sourceTree = "<group>"; };
@@ -1878,7 +1934,7 @@
 		CFDFE0E71524340200C8A798 /* confirmremove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "confirmremove@2x.png"; sourceTree = "<group>"; };
 		CFDFE0E81524340300C8A798 /* removeitembg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = removeitembg.png; sourceTree = "<group>"; };
 		CFDFE0E91524340300C8A798 /* removeitembg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "removeitembg@2x.png"; sourceTree = "<group>"; };
-		CFE47BF6149240890084E71E /* Utopia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Utopia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFE47BF6149240890084E71E /* Lost Nations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lost Nations.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE47BFA149240890084E71E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CFE47BFC149240890084E71E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		CFE47BFE149240890084E71E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -3027,6 +3083,10 @@
 		CF2028101515F98A00F611F5 /* Door Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF9BEA2F1531BE18006FB8EC /* loadingdoors.png */,
+				CF9BEA301531BE18006FB8EC /* loadingdoors@2x.png */,
+				CF9BEA311531BE18006FB8EC /* taptoenter.png */,
+				CF9BEA321531BE18006FB8EC /* taptoenter@2x.png */,
 				CF0AC057152BD3630018059E /* doorleft.png */,
 				CF0AC058152BD3630018059E /* doorleft@2x.png */,
 				CF0AC059152BD3630018059E /* doorright.png */,
@@ -3110,6 +3170,30 @@
 		CF41C2B1150E2F17005A2919 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				CF9BEA4F1531C9FB006FB8EC /* TreeBranch@2x.png */,
+				CF9BEA501531C9FB006FB8EC /* TreeBranch.png */,
+				CF9BEA511531C9FB006FB8EC /* HandGuard@2x.png */,
+				CF9BEA521531C9FB006FB8EC /* HandGuard.png */,
+				CF9BEA531531C9FB006FB8EC /* CrackedBow@2x.png */,
+				CF9BEA541531C9FB006FB8EC /* CrackedBow.png */,
+				CF9BEA551531C9FB006FB8EC /* ClothTunic@2x.png */,
+				CF9BEA561531C9FB006FB8EC /* ClothTunic.png */,
+				CF9BEA571531C9FB006FB8EC /* BrokenShield@2x.png */,
+				CF9BEA581531C9FB006FB8EC /* BrokenShield.png */,
+				CF9BEA591531C9FB006FB8EC /* RustyDagger@2x.png */,
+				CF9BEA5A1531C9FB006FB8EC /* RustyDagger.png */,
+				CF9BEA3F1531C88E006FB8EC /* CrackedPendant.png */,
+				CF9BEA401531C88E006FB8EC /* CrackedPendant@2x.png */,
+				CF9BEA411531C88E006FB8EC /* Refinery@2x.png */,
+				CF9BEA421531C88E006FB8EC /* Refinery.png */,
+				CF9BEA431531C88E006FB8EC /* ChocolateShop.png */,
+				CF9BEA441531C88E006FB8EC /* ChocolateShop@2x.png */,
+				CF9BEA451531C88E006FB8EC /* Slaughterhouse@2x.png */,
+				CF9BEA461531C88F006FB8EC /* Slaughterhouse.png */,
+				CF9BEA3B1531C0A6006FB8EC /* tapanywheretoattack@2x.png */,
+				CF9BEA3C1531C0A6006FB8EC /* tapanywheretoattack.png */,
+				CF9BEA371531C07D006FB8EC /* tryagain.png */,
+				CF9BEA381531C07D006FB8EC /* tryagain@2x.png */,
 				CFAFE45115317B5E003C0067 /* maskedgirl@2x.png */,
 				CFAFE45215317B5E003C0067 /* maskedgirl.png */,
 				CFF53CA21531725A00C29023 /* badgirltall.png */,
@@ -3789,7 +3873,7 @@
 		CFE47BF7149240890084E71E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CFE47BF6149240890084E71E /* Utopia.app */,
+				CFE47BF6149240890084E71E /* Lost Nations.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4252,7 +4336,7 @@
 			);
 			name = Utopia;
 			productName = Utopia;
-			productReference = CFE47BF6149240890084E71E /* Utopia.app */;
+			productReference = CFE47BF6149240890084E71E /* Lost Nations.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -5127,6 +5211,34 @@
 				CF9BEA2A15318801006FB8EC /* levelupbg@2x.png in Resources */,
 				CF9BEA2D15318844006FB8EC /* questcompletebg.png in Resources */,
 				CF9BEA2E15318844006FB8EC /* questcompletebg@2x.png in Resources */,
+				CF9BEA331531BE18006FB8EC /* loadingdoors.png in Resources */,
+				CF9BEA341531BE18006FB8EC /* loadingdoors@2x.png in Resources */,
+				CF9BEA351531BE18006FB8EC /* taptoenter.png in Resources */,
+				CF9BEA361531BE18006FB8EC /* taptoenter@2x.png in Resources */,
+				CF9BEA391531C07D006FB8EC /* tryagain.png in Resources */,
+				CF9BEA3A1531C07D006FB8EC /* tryagain@2x.png in Resources */,
+				CF9BEA3D1531C0A6006FB8EC /* tapanywheretoattack@2x.png in Resources */,
+				CF9BEA3E1531C0A6006FB8EC /* tapanywheretoattack.png in Resources */,
+				CF9BEA471531C88F006FB8EC /* CrackedPendant.png in Resources */,
+				CF9BEA481531C88F006FB8EC /* CrackedPendant@2x.png in Resources */,
+				CF9BEA491531C88F006FB8EC /* Refinery@2x.png in Resources */,
+				CF9BEA4A1531C88F006FB8EC /* Refinery.png in Resources */,
+				CF9BEA4B1531C88F006FB8EC /* ChocolateShop.png in Resources */,
+				CF9BEA4C1531C88F006FB8EC /* ChocolateShop@2x.png in Resources */,
+				CF9BEA4D1531C88F006FB8EC /* Slaughterhouse@2x.png in Resources */,
+				CF9BEA4E1531C88F006FB8EC /* Slaughterhouse.png in Resources */,
+				CF9BEA5B1531C9FB006FB8EC /* TreeBranch@2x.png in Resources */,
+				CF9BEA5C1531C9FB006FB8EC /* TreeBranch.png in Resources */,
+				CF9BEA5D1531C9FB006FB8EC /* HandGuard@2x.png in Resources */,
+				CF9BEA5E1531C9FB006FB8EC /* HandGuard.png in Resources */,
+				CF9BEA5F1531C9FB006FB8EC /* CrackedBow@2x.png in Resources */,
+				CF9BEA601531C9FB006FB8EC /* CrackedBow.png in Resources */,
+				CF9BEA611531C9FB006FB8EC /* ClothTunic@2x.png in Resources */,
+				CF9BEA621531C9FB006FB8EC /* ClothTunic.png in Resources */,
+				CF9BEA631531C9FB006FB8EC /* BrokenShield@2x.png in Resources */,
+				CF9BEA641531C9FB006FB8EC /* BrokenShield.png in Resources */,
+				CF9BEA651531C9FB006FB8EC /* RustyDagger@2x.png in Resources */,
+				CF9BEA661531C9FB006FB8EC /* RustyDagger.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5369,14 +5481,15 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Utopia/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Utopia/iOS-SDK-4.0.1\"",
 				);
+				OTHER_CFLAGS = "-DNDEBUG";
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Lost Nations";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -5394,6 +5507,7 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_OBJCPP_ARC_ABI = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Utopia/Prefix.pch;
@@ -5402,14 +5516,15 @@
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Utopia/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Utopia/iOS-SDK-4.0.1\"",
 				);
 				OTHER_LDFLAGS = "-lz";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Lost Nations";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";

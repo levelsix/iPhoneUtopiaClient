@@ -44,6 +44,11 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize maxLevelForStruct, maxNumbersOfEnemiesToGenerateAtOnce, maxLevelDiffForBattle;
 @synthesize maxNumberOfMarketplacePosts, numDaysShortMarketplaceLicenseLastsFor;
 @synthesize diamondRewardForReferrer;
+@synthesize incomeFromNormStructMultiplier, minutesToUpgradeForNormStructMultiplier;
+@synthesize battleWeightGivenToAttackStat, battleWeightGivenToDefenseStat;
+@synthesize battleWeightGivenToAttackEquipSum, battleWeightGivenToDefenseEquipSum;
+@synthesize diamondCostForInstantUpgradeMultiplier, upgradeStructCoinCostExponentBase;
+@synthesize upgradeStructDiamondCostExponentBase;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -123,6 +128,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;
   self.staminaRefillWaitMinutes = constants.minutesToRefillAstamina;
   self.diamondRewardForReferrer = constants.diamondRewardForReferrer;
+  
+  self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
+  self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
+  self.upgradeStructCoinCostExponentBase = constants.formulaConstants.upgradeStructCoinCostExponentBase;
+  self.upgradeStructDiamondCostExponentBase = constants.formulaConstants.upgradeStructDiamondCostExponentBase;
+  self.diamondCostForInstantUpgradeMultiplier = constants.formulaConstants.diamondCostForInstantUpgradeMultiplier;
+  self.battleWeightGivenToAttackStat = constants.formulaConstants.battleWeightGivenToAttackStat;
+  self.battleWeightGivenToAttackEquipSum = constants.formulaConstants.battleWeightGivenToAttackEquipSum;
+  self.battleWeightGivenToDefenseStat = constants.formulaConstants.battleWeightGivenToDefenseStat;
+  self.battleWeightGivenToDefenseEquipSum = constants.formulaConstants.battleWeightGivenToDefenseEquipSum;
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {
@@ -176,10 +191,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
   [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite];
   
-  if (maskedView) {
-    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
-     maskedView.hidden = YES;
-  }
+//  if (maskedView) {
+//    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
+//     maskedView.hidden = YES;
+//  }
 }
 
 + (UIColor *) colorForUnequippable {
@@ -346,7 +361,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) commafyNumber:(int) n {
-  NSString *s = [NSString stringWithFormat:@"%03d", n%1000, s];
+  NSString *s = [NSString stringWithFormat:@"%03d", n%1000];
   n /= 1000;
   while (n > 0) {
     s = [NSString stringWithFormat:@"%03d,%@", n%1000, s];
@@ -842,20 +857,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 // Formulas
 
-// Buildings
-
-- (int) calculateIncome:(int)income level:(int)level {
-  return income*level;
-}
-
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue {
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
-  return fep.coinPrice/2;
+  return fep.coinPrice * self.percentReturnedToUserForSellingEquipInArmory;
 }
 
 - (int) calculateEquipGoldSellCost:(UserEquip *)ue {
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
-  return fep.diamondPrice/2;
+  return fep.diamondPrice * self.percentReturnedToUserForSellingEquipInArmory;
+}
+
+- (int) calculateIncome:(int)income level:(int)level {
+  return income * level * self.incomeFromNormStructMultiplier;
 }
 
 - (int) calculateIncomeForUserStruct:(UserStruct *)us {
@@ -870,32 +883,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 - (int) calculateStructSilverSellCost:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return fsp.coinPrice/2;
+  return fsp.coinPrice * self.percentReturnedToUserForSellingNormStructure;
 }
 
 - (int) calculateStructGoldSellCost:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return fsp.diamondPrice/2;
+  return fsp.diamondPrice * self.percentReturnedToUserForSellingNormStructure;
 }
 
 - (int) calculateUpgradeCost:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return us.level/2 * fsp.coinPrice;
+  if (fsp.coinPrice > 0) {
+    return MAX(0, (int)(fsp.coinPrice * powf(self.upgradeStructCoinCostExponentBase, us.level)));
+  } else {
+    return MAX(0, (int)(fsp.diamondPrice * powf(self.upgradeStructDiamondCostExponentBase, us.level)));
+  }
 }
 
 - (int) calculateDiamondCostForInstaBuild:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return MAX(1,fsp.instaUpgradeDiamondCostBase * us.level);
+  return fsp.instaBuildDiamondCost;
 }
 
 - (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return MAX(1,fsp.instaBuildDiamondCostBase * us.level);
+  return MAX(1,fsp.instaUpgradeDiamondCostBase * us.level * self.diamondCostForInstantUpgradeMultiplier);
 }
 
 - (int) calculateMinutesToUpgrade:(UserStruct *)us {
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  return fsp.minutesToUpgradeBase * us.level;
+  return MAX(1, (int)(fsp.minutesToUpgradeBase * us.level * self.minutesToUpgradeForNormStructMultiplier));
 }
 
 - (float) calculateAttackForStat:(int)attackStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
@@ -913,7 +930,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     amulet = [gs equipWithId:amuletId];
   }
   
-  return attackStat + weapon.attackBoost + armor.attackBoost + amulet.attackBoost;
+  return self.battleWeightGivenToAttackStat*(attackStat) + self.battleWeightGivenToAttackEquipSum*(weapon.attackBoost + armor.attackBoost + amulet.attackBoost);
 }
 
 - (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
@@ -922,7 +939,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
   FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
   
-  return defenseStat + weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost;
+  return self.battleWeightGivenToDefenseStat*defenseStat + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost);
 }
 
 + (void) popupMessage: (NSString *)msg {

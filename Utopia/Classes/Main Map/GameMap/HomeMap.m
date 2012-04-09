@@ -342,9 +342,8 @@
     self.incomeLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:[gl calculateIncomeForUserStruct:us]]];
     self.infoView.starView.level = us.level;
     
-    int silverSellCost = [gl calculateStructSilverSellCost:us];
-    if (silverSellCost != 0) {
-      [self.infoView setSellCostString:[Globals commafyNumber:silverSellCost]];
+    if (fsp.coinPrice > 0) {
+      [self.infoView setSellCostString:[Globals commafyNumber:[gl calculateStructSilverSellCost:us]]];
       self.infoView.coinIcon.highlighted = NO;
       self.upgradeView.upgradeCoinIcon.highlighted = NO;
     } else {
@@ -620,20 +619,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   
+  for (CCNode *node in arr) {
+    if ([node isKindOfClass:[HomeBuilding class]]) {
+      [(HomeBuilding *)node placeBlock];
+    }
+  }
+  
   [self doReorder];
   _loading = NO;
 }
 
 - (void) moveToStruct:(int)structId {
   int baseTag = [self baseTagForStructId:structId];
-  BOOL structExists = NO;
   MoneyBuilding *mb = nil;
   for (int tag = baseTag; tag < baseTag+[[Globals sharedGlobals] maxRepeatedNormStructs]; tag++) {
     MoneyBuilding *check;
     if ((check = (MoneyBuilding *)[self getChildByTag:tag])) {
       if (!mb || check.userStruct.level > mb.userStruct.level) {
         mb = check;
-        structExists = YES;
       }
     } else {
       break;
@@ -725,7 +728,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
   CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
-  _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffeset;
+  _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffset;
   
   int baseTag = [self baseTagForStructId:structId];
   int tag;

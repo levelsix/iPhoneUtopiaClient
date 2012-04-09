@@ -448,6 +448,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     return;
   }
   
+  if (ABS(gs.level-user.level) > gl.maxLevelDiffForBattle) {
+    [Globals popupMessage:@"The level difference is too much to start battle."];
+    return;
+  }
+  
   self.enemyEquips = nil;
   [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
   
@@ -1013,6 +1018,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _fleeButton.visible = NO;
     [self schedule:@selector(checkFleeBrp)];
   }
+  
+  [Analytics fleeWithHealth:_leftCurrentHealth enemyHealth:_rightCurrentHealth];
 }
 
 - (void) checkFleeBrp {
@@ -1093,6 +1100,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (IBAction)attackAgainClicked:(id)sender {
   [self beginBattleAgainst:_fup];
+  
+  [Analytics attackAgain];
 }
 
 - (IBAction)profileButtonClicked:(id)sender {
@@ -1106,6 +1115,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   [ProfileViewController displayView];
   [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup equips:self.enemyEquips];
+  
+  [Analytics enemyProfileFromBattle];
 }
 
 - (void) closeScene {

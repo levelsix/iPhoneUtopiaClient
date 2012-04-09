@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "TutorialMissionMap.h"
 #import "DialogMenuController.h"
+#import "SimpleAudioEngine.h"
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
@@ -54,10 +55,15 @@
   [self addChild:_ccArrow];
   _ccArrow.visible = NO;
   
-  _pulsingLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:18];
-  [self addChild:_pulsingLabel];
-  _pulsingLabel.opacity = 0.f;
-  _pulsingLabel.color = ccc3(255,200,0);
+  _tapToAttack = [CCSprite spriteWithFile:@"tapanywheretoattack.png"];
+  [self addChild:_tapToAttack];
+  _tapToAttack.opacity = 0.f;
+  _tapToAttack.position = ccp(self.contentSize.width/2, self.contentSize.height/2+100);
+  
+  _tryAgain = [CCSprite spriteWithFile:@"tryagain.png"];
+  [self addChild:_tryAgain z:1];
+  _tryAgain.opacity = 0.f;
+  _tryAgain.position = ccp(self.contentSize.width/2, self.contentSize.height/2+130);
   
   _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
   _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
@@ -77,6 +83,7 @@
   _firstTurn = YES;
   _firstAttack = YES;
   [self startBattle];
+  
   [Analytics tutorialBattleStart];
 }
 
@@ -104,8 +111,8 @@
   [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                          downAction, nil]]];
   
-  _pulsingLabel.opacity = 0.f;
-  [_pulsingLabel stopAllActions];
+  _tapToAttack.opacity = 0.f;
+  [_tapToAttack stopAllActions];
 }
 
 - (void) turnMissed {
@@ -114,10 +121,8 @@
   }
   [self startMyTurn];
   
-  _pulsingLabel.position = ccp(_ccArrow.position.x, _ccArrow.position.y+40);
-  _pulsingLabel.string = @"Try Again!";
-  _pulsingLabel.opacity = 255;
-  [_pulsingLabel runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f],
+  _tryAgain.opacity = 255;
+  [_tryAgain runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f],
                             [CCFadeOut actionWithDuration:1.f],nil]];
 }
 
@@ -140,12 +145,12 @@
   
   [super attackStart];
   [_ccArrow stopAllActions];
+  _tryAgain.opacity = 0;
+  [_tryAgain stopAllActions];
   
-  _pulsingLabel.string = @"Tap anywhere to attack";
-  _pulsingLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2+100);
-  _pulsingLabel.opacity = 255;
+  _tapToAttack.opacity = 255;
   CCScaleBy *bigger = [CCScaleBy actionWithDuration:1.f scale:1.1f];
-  [_pulsingLabel runAction:[CCRepeatForever actionWithAction:
+  [_tapToAttack runAction:[CCRepeatForever actionWithAction:
                             [CCSequence actions:bigger, [bigger reverse], nil]]];
 }
 
@@ -160,7 +165,7 @@
 }
 
 - (void) startEnemyTurn {
-  _pulsingLabel.opacity = 0;
+  _tapToAttack.opacity = 0;
   [super startEnemyTurn];
 }
 
@@ -286,12 +291,20 @@
 
 - (void) myWin {
   [_right runAction:[CCSpawn actions:
-                     [CCScaleBy actionWithDuration:0.1 scale:1.2],
-                     [CCFadeOut actionWithDuration:0.1],
+                     [CCScaleBy actionWithDuration:0.3 scale:1.2],
+                     [CCFadeOut actionWithDuration:0.3],
                      nil]];
   
-  [_pulsingLabel stopAllActions];
-  _pulsingLabel.visible = NO;
+  CCParticleSystemQuad *ps = [CCParticleSystemQuad particleWithFile:@"death.plist"];
+  [self addChild:ps z:3];
+  
+  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic]; 
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Success.m4a"];
+  
+  [_tapToAttack stopAllActions];
+  _tapToAttack.visible = NO;
+  [_tryAgain stopAllActions];
+  _tryAgain.visible = NO;
   _winLayer.visible = YES;
   _winButton.visible = YES;
   
@@ -322,7 +335,6 @@
 
 - (void) dealloc {
   [_uiArrow release];
-  [_pulsingLabel release];
   [_ccArrow release];
   [super dealloc];
 }

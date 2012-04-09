@@ -20,6 +20,7 @@
 @property (nonatomic, retain) IBOutlet LabelButton *withdrawButton;
 @property (nonatomic, retain) IBOutlet UITextField *transferField;
 @property (nonatomic, retain) IBOutlet UIView *tickerHolderView;
+@property (nonatomic, retain) IBOutlet UILabel *bottomLabel;
 
 @property (nonatomic, retain) NSArray *tickers;
 @property (nonatomic, retain) NSString *vaultBalance;

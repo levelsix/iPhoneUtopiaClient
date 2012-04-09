@@ -266,6 +266,8 @@
     [self popInButtons];
   } else {
     [self popOutButtons];
+    
+    [Analytics openedPathMenu];
   }
 }
 
@@ -393,14 +395,17 @@
 
 - (void) button1Clicked:(id)sender {
   [self buttonClicked:sender selector:@selector(openNotifications)];
+  [Analytics openedNotifications];
 }
 
 - (void) button2Clicked:(id)sender {
   [self buttonClicked:sender selector:@selector(openQuests)];
+  [Analytics openedQuestLog];
 }
 
 - (void) button3Clicked:(id)sender {
   [self buttonClicked:sender selector:@selector(openProfile)];
+  [Analytics openedMyProfile];
 }
 
 - (void) button4Clicked:(id)sender {

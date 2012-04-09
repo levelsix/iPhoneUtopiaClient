@@ -124,6 +124,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   masked.tag = 35;
   [dmc.view addSubview:masked];
   masked.center = CGPointMake(dmc.girlImageView.center.x, CGRectGetMaxY(dmc.girlImageView.frame)-masked.frame.size.height/2);
+  [masked release];
 }
 
 - (void) displayViewForReferral {

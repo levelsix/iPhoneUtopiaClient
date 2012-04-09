@@ -14,6 +14,8 @@
 #import "TutorialConstants.h"
 #import "DialogMenuController.h"
 #import "GameLayer.h"
+#import "OutgoingEventController.h"
+#import "GameViewController.h"
 
 @implementation TutorialHomeMap
 
@@ -22,6 +24,11 @@
 - (void) refresh {
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
+  
+  if (_refreshed) {
+    return;
+  }
+  _refreshed = YES;
   
   // Add aviary
   UserCritStruct *cs = [[UserCritStruct alloc] init];
@@ -239,7 +246,6 @@
   mb.isConstructing = NO;
   [self updateHomeBuildingMenu];
   _constrBuilding = nil;
-  self.selected = nil;
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   tc.structUsedDiamonds = NO;
@@ -260,7 +266,7 @@
   
   // Update game state
   FullStructureProto *fsp = [gs structWithId:userStruct.structId];
-  gs.gold -= fsp.instaBuildDiamondCostBase;
+  gs.gold -= fsp.instaBuildDiamondCost;
   
   _constrBuilding = nil;
   
@@ -278,17 +284,19 @@
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     [self updateHomeBuildingMenu];
     mb.isConstructing = NO;
-    self.selected = nil;
+    [self buildingComplete];
   }];
   [self updateTimersForBuilding:mb];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   tc.structUsedDiamonds = YES;
-  [self buildingComplete];
+  
   [Analytics tutorialFinishNow];
 }
 
 - (void) buildingComplete {
+  self.selected = nil;
+  
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:self action:@selector(showReferralDialog)];
@@ -335,6 +343,8 @@
   [[TopBar sharedTopBar] start];
   [[HomeMap sharedHomeMap] refresh];
   [[CCDirector sharedDirector] purgeCachedData];
+  
+  [[GameState sharedGameState] setIsTutorial:NO];
   
   [Analytics tutorialComplete];
 }

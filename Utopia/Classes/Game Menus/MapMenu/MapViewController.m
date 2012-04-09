@@ -18,7 +18,7 @@
 #import "ArmoryViewController.h"
 #import "MarketplaceViewController.h"
 
-#define THRESHOLD_ENEMIES_IN_BOUNDS 5
+#define THRESHOLD_ENEMIES_IN_BOUNDS 10
 
 @implementation MapBar
 
@@ -372,6 +372,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     // Left clicked
     [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:fup buttonsEnabled:YES];
     [ProfileViewController displayView];
+    
+    [Analytics enemyProfileFromAttackMap];
   } else if (tag == 2) {
     // Right clicked
     

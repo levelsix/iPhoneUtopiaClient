@@ -95,7 +95,7 @@
 #endif
 	
 	[director setAnimationInterval:1.0/60];
-	[director setDisplayFPS:YES];
+	[director setDisplayFPS:NO];
 	
 	/*
    // make the OpenGLView a child of the view controller
@@ -125,27 +125,27 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  NSLog(@"will raesign active");
+  LNLog(@"will raesign active");
 	[[CCDirector sharedDirector] pause];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  NSLog(@"did become active");
+  LNLog(@"did become active");
 	[[CCDirector sharedDirector] resume];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-  NSLog(@"did receive mem warning");
+  LNLog(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
   
-  if (![[GameViewController sharedGameViewController] isTutorial]) {
+  if (![[GameState sharedGameState] isTutorial]) {
     [[GameState sharedGameState] purgeStaticData];
   }
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {
-  NSLog(@"did enter background");
+  LNLog(@"did enter background");
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
@@ -161,7 +161,7 @@
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
-  NSLog(@"will enter foreground");
+  LNLog(@"will enter foreground");
   [self removeLocalNotifications];
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   if ([[CCDirector sharedDirector] runningScene]) {
@@ -175,7 +175,7 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  NSLog(@"will terminate");
+  LNLog(@"will terminate");
 	CCDirector *director = [CCDirector sharedDirector];
   [self registerLocalNotifications];
 	
@@ -189,18 +189,18 @@
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
-  NSLog(@"sig time change");
+  LNLog(@"sig time change");
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-	NSLog(@"My token is: %@", deviceToken);
+	LNLog(@"My token is: %@", deviceToken);
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-	NSLog(@"Failed to get token, error: %@", error);
+	LNLog(@"Failed to get token, error: %@", error);
 }
 
 - (void) scheduleNotificationWithText:(NSString *)text badge:(int)badge date:(NSDate *)date {

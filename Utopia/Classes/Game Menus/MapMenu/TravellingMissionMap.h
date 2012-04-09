@@ -19,7 +19,7 @@
 @interface CityView : UIButton
 
 @property (nonatomic, assign) BOOL isLocked;
-@property (nonatomic, assign) FullCityProto *fcp;
+@property (nonatomic, retain) FullCityProto *fcp;
 
 @end
 

@@ -226,13 +226,11 @@
   if (gestureRecognizer.state == UIGestureRecognizerStateChanged && !_flags.panning) {
     // Down
     if (self.allowedPanDirections & SBTickerViewAllowedPanDirectionDown && _initialPanPosition.y < _lastPanPosition.y) {
-      NSLog(@"Start down");
       _panningDirection = SBTickerViewTickDirectionDown;
       _flags.panning = YES;
     }
     // Up
     if (self.allowedPanDirections & SBTickerViewAllowedPanDirectionUp && _initialPanPosition.y > _lastPanPosition.y) {
-      NSLog(@"Start up");
       _panningDirection = SBTickerViewTickDirectionUp;
       _flags.panning = YES;
     }
@@ -246,14 +244,12 @@
     if (!(_panningDirection == SBTickerViewTickDirectionDown && _initialPanPosition.y >= _lastPanPosition.y) &&
         !(_panningDirection == SBTickerViewTickDirectionUp && _initialPanPosition.y <= _lastPanPosition.y)) {
       
-      NSLog(@"Pan!");
     }
   }
   
   // End
   if ((gestureRecognizer.state == UIGestureRecognizerStateCancelled || gestureRecognizer.state == UIGestureRecognizerStateEnded)
       && _flags.panning) {
-    NSLog(@"End");
     _flags.panning = NO;
   }
 }
