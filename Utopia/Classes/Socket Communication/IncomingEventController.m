@@ -335,6 +335,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticCities:proto.citiesNewlyAvailableToUserList];
     [gs addToStaticStructs:proto.newlyAvailableStructsList];
     
+    for (FullCityProto *fcp in proto.citiesNewlyAvailableToUserList) {
+      UserCity *uc = [[UserCity alloc] init];
+      uc.cityId = fcp.cityId;
+      uc.curRank = 1;
+      uc.numTasksComplete = 0;
+      [gs addToMyCities:[NSArray arrayWithObject:uc]];
+      [uc release];
+    }
+    
     // This will be released after the level up controller closes
     LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];

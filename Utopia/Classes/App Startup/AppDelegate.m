@@ -118,6 +118,8 @@
   //    // Inform of location services off
   //  }
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
+  [Analytics beganApp];
+  [Analytics openedApp];
   
   [self removeLocalNotifications];
   
@@ -157,6 +159,7 @@
   if (![[GameState sharedGameState] isTutorial]) {
     [GameViewController releaseAllViews];
   }
+  [Analytics suspendedApp];
   [Apsalar endSession];
 }
 
@@ -171,7 +174,9 @@
       [[GameViewController sharedGameViewController] startDoorAnimation];
     }
   }
-  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];
+  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];;
+  [Analytics beganApp];
+  [Analytics resumedApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -185,6 +190,7 @@
 	
 	[director end];
   
+  [Analytics terminatedApp];
   [Apsalar endSession];
 }
 

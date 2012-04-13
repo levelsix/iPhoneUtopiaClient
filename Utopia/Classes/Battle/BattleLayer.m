@@ -957,6 +957,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [[SimpleAudioEngine sharedEngine] stopBackgroundMusic]; 
   [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Success.m4a"];
   
+  // Set the city id to 0 if win, only want it to count as 1 win
+  _cityId = 0;
+  
   if (!brp) {
     _winButton.visible = NO;
     [self schedule:@selector(checkWinBrp)];
@@ -1099,7 +1102,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)attackAgainClicked:(id)sender {
-  [self beginBattleAgainst:_fup];
+  [self beginBattleAgainst:_fup inCity:_cityId];
   
   [Analytics attackAgain];
 }

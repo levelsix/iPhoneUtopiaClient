@@ -12,6 +12,12 @@
 #import "GameState.h"
 #import <StoreKit/StoreKit.h>
 
+#define OPENED_APP @"App: Opened"
+#define BEGAN_APP @"App: Began"
+#define RESUMED_APP @"App: Resumed"
+#define SUSPENDED_APP @"App: Suspended"
+#define TERMINATED_APP @"App: Terminated"
+
 #define PURCHASED_GOLD @"Purchased gold package"
 #define CANCELLED_IAP @"Cancelled gold purchase"
 #define TOP_BAR_SHOP @"Viewed gold shop from top bar"
@@ -116,6 +122,32 @@
 #define TUTORIAL_COMPLETE @"Tutorial: Complete"
 
 @implementation Analytics
+
+#define OPENED_APP @"App: Opened"
+#define BEGAN_APP @"App: Began"
+#define RESUMED_APP @"App: Resumed"
+#define SUSPENDED_APP @"App: Suspended"
+#define TERMINATED_APP @"App: Terminated"
+
++ (void) openedApp {
+  [Apsalar event:OPENED_APP];
+}
+
++ (void) beganApp {
+  [Apsalar event:BEGAN_APP];
+}
+
++ (void) resumedApp {
+  [Apsalar event:RESUMED_APP];
+}
+
++ (void) suspendedApp {
+  [Apsalar event:SUSPENDED_APP];
+}
+
++ (void) terminatedApp {
+  [Apsalar event:TERMINATED_APP];
+}
 
 + (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold {
   NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:

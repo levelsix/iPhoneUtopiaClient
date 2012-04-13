@@ -911,6 +911,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (void) dealloc {
+  [self removeLoadingView];
+  self.loadingView = nil;
   self.selectedCell = nil;
   self.curField = nil;
   self.itemView = nil;

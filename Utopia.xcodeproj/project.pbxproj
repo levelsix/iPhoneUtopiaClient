@@ -5487,7 +5487,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Utopia/iOS-SDK-4.0.1\"",
 				);
-				OTHER_CFLAGS = "-DNDEBUG";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "Lost Nations";
 				SDKROOT = iphoneos;
@@ -5511,6 +5511,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Utopia/Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "$(OTHER_CFLAGS)";
 				GCC_THUMB_SUPPORT = NO;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				GCC_VERSION = "";
@@ -5522,6 +5523,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Utopia/iOS-SDK-4.0.1\"",
 				);
+				OTHER_CPLUSPLUSFLAGS = "";
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "Lost Nations";
 				PROVISIONING_PROFILE = "";

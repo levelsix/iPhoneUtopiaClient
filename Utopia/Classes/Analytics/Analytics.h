@@ -10,6 +10,13 @@
 
 @interface Analytics : NSObject
 
+// App
++ (void) openedApp;
++ (void) beganApp;
++ (void) resumedApp;
++ (void) suspendedApp;
++ (void) terminatedApp;
+
 // Monetization
 + (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold;
 + (void) cancelledGoldPackage:(NSString *)package;

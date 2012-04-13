@@ -91,12 +91,14 @@
   [ArmoryViewController purgeSingleton];
   [GoldShoppeViewController removeView];
   [GoldShoppeViewController purgeSingleton];
+  [[MapViewController sharedMapViewController] closeClicked:nil];
   [MapViewController removeView];
   [MapViewController purgeSingleton];
   [MarketplaceViewController removeView];
   [MarketplaceViewController purgeSingleton];
   [ProfileViewController removeView];
   [ProfileViewController purgeSingleton];
+  [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
   [QuestLogController removeView];
   [QuestLogController purgeSingleton];
   [RefillMenuController removeView];
