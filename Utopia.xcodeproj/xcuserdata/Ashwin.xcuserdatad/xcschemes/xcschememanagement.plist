@@ -4,42 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Utopia-Release.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
-		</dict>
 		<key>Utopia.xcscheme</key>
 		<dict>
-			<key>isShown</key>
-			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>CF5EDDEE14CBF14E0063F1E0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CF5EDEF614CBF15F0063F1E0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CF85760B14A8134A006BF1F5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CFE47BF5149240890084E71E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CFE47D871492D6FE0084E71E</key>
+		<key>CF1256411538A94D00E0C1AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

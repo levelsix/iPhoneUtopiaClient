@@ -111,9 +111,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips {
-  MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:defender.name] setUserId:defender.userId] setUserType:defender.userType] build];
+  GameState *gs = [GameState sharedGameState];
   
-  [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips];
+  if (gs.currentStamina > 0) {
+    gs.currentStamina--;
+    
+    MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:defender.name] setUserId:defender.userId] setUserType:defender.userType] build];
+    
+    [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips];
+  } else {
+    NSLog(@"Trying to complete battle without any stamina.");
+  }
 }
 
 - (int) buyEquip:(int)equipId {

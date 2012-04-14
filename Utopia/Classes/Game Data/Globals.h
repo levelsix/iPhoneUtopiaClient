@@ -13,11 +13,7 @@
 
 #define BUTTON_CLICKED_LEEWAY 30
 
-#ifdef DEBUG
-#define LNLog(...) NSLog(__VA_ARGS__)
-#else
-#define LNLog(...)
-#endif
+#define LNLog(...) CCLOG(__VA_ARGS__)
 
 @interface Globals : NSObject
 

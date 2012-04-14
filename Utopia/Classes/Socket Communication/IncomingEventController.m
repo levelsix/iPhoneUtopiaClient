@@ -373,6 +373,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == TaskActionResponseProto_TaskActionStatusSuccess) {
     gs.silver +=  proto.coinsGained;
     
+    if (proto.hasLootEquipId && proto.lootEquipId > 0) {
+      [gs changeQuantityForEquip:proto.lootEquipId by:1];
+    }
+    
     if (proto.cityRankedUp) {
       int cityId = 1;
       UserCity *city = [gs myCityWithId:cityId];

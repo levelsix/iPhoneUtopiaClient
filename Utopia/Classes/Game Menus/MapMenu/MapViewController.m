@@ -430,4 +430,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   self.loadingView = nil;
 }
 
++ (void) cleanupAndPurgeSingleton {
+  if (sharedMapViewController) {
+    [sharedMapViewController closeClicked:nil];
+    [MapViewController removeView];
+    [MapViewController purgeSingleton];
+  }
+}
+
 @end

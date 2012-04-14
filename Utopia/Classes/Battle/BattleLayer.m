@@ -19,6 +19,7 @@
 #import "MissionMap.h"
 
 #define FAKE_PLAYER_RAND 6
+#define NAME_LABEL_FONT_SIZE 13.f
 
 @implementation BattleSummaryView
 
@@ -226,7 +227,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [leftHealthBarBg addChild:_leftNameBg];
     _leftNameBg.position = ccp(_leftNameBg.contentSize.width, 1);
     
-    _leftNameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:14];
+    _leftNameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:NAME_LABEL_FONT_SIZE];
     _leftNameLabel.anchorPoint = ccp(1, 0.5);
     _leftNameLabel.position = ccp(_leftNameBg.contentSize.width-30, _leftNameBg.contentSize.height/2-2);
     _leftNameLabel.color = ccc3(255, 200, 0);
@@ -263,7 +264,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     profButton.anchorPoint = ccp(0.2,0.5);
     [_rightNameBg addChild:profButton];
     
-    _rightNameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:14];
+    _rightNameLabel = [CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:NAME_LABEL_FONT_SIZE];
     _rightNameLabel.color = ccc3(255, 0, 0);
     _rightNameLabel.anchorPoint = ccp(0, 0.5);
     _rightNameLabel.position = ccp(profButton.position.x+profButton.contentSize.width, _rightNameBg.contentSize.height/2-2);

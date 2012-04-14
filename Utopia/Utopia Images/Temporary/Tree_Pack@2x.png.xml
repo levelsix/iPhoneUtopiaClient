@@ -1,6 +1,0 @@
-<sheet>
-	<sprite name="3trees@2x.png" x="0" y="0" width="128" height="144" />
-	<sprite name="tile_tree_oldoakA@2x.png" x="128" y="0" width="128" height="144" />
-	<sprite name="tile_city_flag@2x.png" x="256" y="0" width="128" height="144" />
-	<sprite name="tile_city_sign@2x.png" x="384" y="0" width="128" height="144" />
-</sheet>

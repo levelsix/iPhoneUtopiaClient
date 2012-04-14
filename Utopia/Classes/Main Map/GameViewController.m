@@ -91,9 +91,7 @@
   [ArmoryViewController purgeSingleton];
   [GoldShoppeViewController removeView];
   [GoldShoppeViewController purgeSingleton];
-  [[MapViewController sharedMapViewController] closeClicked:nil];
-  [MapViewController removeView];
-  [MapViewController purgeSingleton];
+  [MapViewController cleanupAndPurgeSingleton];
   [MarketplaceViewController removeView];
   [MarketplaceViewController purgeSingleton];
   [ProfileViewController removeView];
