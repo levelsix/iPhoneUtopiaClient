@@ -900,8 +900,6 @@
 		CF1270C91538ACCB00E0C1AD /* quantleftwithtimer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A211538ACC600E0C1AD /* quantleftwithtimer@2x.png */; };
 		CF1270CA1538ACCB00E0C1AD /* stambar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A221538ACC600E0C1AD /* stambar.png */; };
 		CF1270CB1538ACCC00E0C1AD /* stambar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A231538ACC600E0C1AD /* stambar@2x.png */; };
-		CF1270CC1538ACCC00E0C1AD /* Aviary.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A251538ACC600E0C1AD /* Aviary.png */; };
-		CF1270CD1538ACCC00E0C1AD /* Aviary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A261538ACC600E0C1AD /* Aviary@2x.png */; };
 		CF1270CE1538ACCC00E0C1AD /* badgirltall.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A271538ACC600E0C1AD /* badgirltall.png */; };
 		CF1270CF1538ACCC00E0C1AD /* badgirltall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A281538ACC600E0C1AD /* badgirltall@2x.png */; };
 		CF1270D01538ACCC00E0C1AD /* BrokenShield.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A291538ACC600E0C1AD /* BrokenShield.png */; };
@@ -1031,6 +1029,10 @@
 		CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273C91538B80000E0C1AD /* AudioToolbox.framework */; };
 		CF1273CC1538B80500E0C1AD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CB1538B80500E0C1AD /* AVFoundation.framework */; };
 		CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CF1538BC7C00E0C1AD /* libz.dylib */; };
+		CF52AA891539498900E91CEA /* worldmapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA871539498900E91CEA /* worldmapicon.png */; };
+		CF52AA8A1539498900E91CEA /* worldmapicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA881539498900E91CEA /* worldmapicon@2x.png */; };
+		CF52AA8D15394C7500E91CEA /* Aviary.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8B15394C7500E91CEA /* Aviary.png */; };
+		CF52AA8E15394C7500E91CEA /* Aviary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8C15394C7500E91CEA /* Aviary@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2166,8 +2168,6 @@
 		CF126A211538ACC600E0C1AD /* quantleftwithtimer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quantleftwithtimer@2x.png"; sourceTree = "<group>"; };
 		CF126A221538ACC600E0C1AD /* stambar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stambar.png; sourceTree = "<group>"; };
 		CF126A231538ACC600E0C1AD /* stambar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stambar@2x.png"; sourceTree = "<group>"; };
-		CF126A251538ACC600E0C1AD /* Aviary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Aviary.png; sourceTree = "<group>"; };
-		CF126A261538ACC600E0C1AD /* Aviary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Aviary@2x.png"; sourceTree = "<group>"; };
 		CF126A271538ACC600E0C1AD /* badgirltall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badgirltall.png; sourceTree = "<group>"; };
 		CF126A281538ACC600E0C1AD /* badgirltall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badgirltall@2x.png"; sourceTree = "<group>"; };
 		CF126A291538ACC600E0C1AD /* BrokenShield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrokenShield.png; sourceTree = "<group>"; };
@@ -2298,6 +2298,10 @@
 		CF1273C91538B80000E0C1AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CF1273CB1538B80500E0C1AD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CF1273CF1538BC7C00E0C1AD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CF52AA871539498900E91CEA /* worldmapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldmapicon.png; sourceTree = "<group>"; };
+		CF52AA881539498900E91CEA /* worldmapicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "worldmapicon@2x.png"; sourceTree = "<group>"; };
+		CF52AA8B15394C7500E91CEA /* Aviary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Aviary.png; sourceTree = "<group>"; };
+		CF52AA8C15394C7500E91CEA /* Aviary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Aviary@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4199,6 +4203,8 @@
 		CF1269FD1538ACC600E0C1AD /* Top Bar Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF52AA871539498900E91CEA /* worldmapicon.png */,
+				CF52AA881539498900E91CEA /* worldmapicon@2x.png */,
 				CF1269FE1538ACC600E0C1AD /* barmask.png */,
 				CF1269FF1538ACC600E0C1AD /* barmask@2x.png */,
 				CF126A001538ACC600E0C1AD /* coinbar.png */,
@@ -4226,13 +4232,13 @@
 				CF126A161538ACC600E0C1AD /* pathprofile.png */,
 				CF126A171538ACC600E0C1AD /* pathprofile@2x.png */,
 				CF126A181538ACC600E0C1AD /* pathquests.png */,
+				CF126A1F1538ACC600E0C1AD /* quantleftclick@2x.png */,
 				CF126A191538ACC600E0C1AD /* pathquests@2x.png */,
 				CF126A1A1538ACC600E0C1AD /* pathsettings.png */,
 				CF126A1B1538ACC600E0C1AD /* pathsettings@2x.png */,
 				CF126A1C1538ACC600E0C1AD /* plus.png */,
 				CF126A1D1538ACC600E0C1AD /* plus@2x.png */,
 				CF126A1E1538ACC600E0C1AD /* quantleftclick.png */,
-				CF126A1F1538ACC600E0C1AD /* quantleftclick@2x.png */,
 				CF126A201538ACC600E0C1AD /* quantleftwithtimer.png */,
 				CF126A211538ACC600E0C1AD /* quantleftwithtimer@2x.png */,
 				CF126A221538ACC600E0C1AD /* stambar.png */,
@@ -4244,8 +4250,8 @@
 		CF126A241538ACC600E0C1AD /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
-				CF126A251538ACC600E0C1AD /* Aviary.png */,
-				CF126A261538ACC600E0C1AD /* Aviary@2x.png */,
+				CF52AA8B15394C7500E91CEA /* Aviary.png */,
+				CF52AA8C15394C7500E91CEA /* Aviary@2x.png */,
 				CF126A271538ACC600E0C1AD /* badgirltall.png */,
 				CF126A281538ACC600E0C1AD /* badgirltall@2x.png */,
 				CF126A291538ACC600E0C1AD /* BrokenShield.png */,
@@ -5187,8 +5193,6 @@
 				CF1270C91538ACCB00E0C1AD /* quantleftwithtimer@2x.png in Resources */,
 				CF1270CA1538ACCB00E0C1AD /* stambar.png in Resources */,
 				CF1270CB1538ACCC00E0C1AD /* stambar@2x.png in Resources */,
-				CF1270CC1538ACCC00E0C1AD /* Aviary.png in Resources */,
-				CF1270CD1538ACCC00E0C1AD /* Aviary@2x.png in Resources */,
 				CF1270CE1538ACCC00E0C1AD /* badgirltall.png in Resources */,
 				CF1270CF1538ACCC00E0C1AD /* badgirltall@2x.png in Resources */,
 				CF1270D01538ACCC00E0C1AD /* BrokenShield.png in Resources */,
@@ -5303,6 +5307,10 @@
 				CF12713D1538ACCC00E0C1AD /* numbertickerbgbg@2x.png in Resources */,
 				CF12713E1538ACCC00E0C1AD /* withdraw.png in Resources */,
 				CF12713F1538ACCC00E0C1AD /* withdraw@2x.png in Resources */,
+				CF52AA891539498900E91CEA /* worldmapicon.png in Resources */,
+				CF52AA8A1539498900E91CEA /* worldmapicon@2x.png in Resources */,
+				CF52AA8D15394C7500E91CEA /* Aviary.png in Resources */,
+				CF52AA8E15394C7500E91CEA /* Aviary@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

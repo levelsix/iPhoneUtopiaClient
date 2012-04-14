@@ -16,6 +16,7 @@
 #import "GameLayer.h"
 #import "GameMap.h"
 #import "HomeMap.h"
+#import "MapViewController.h"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -172,6 +173,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bigToolTip.visible = NO;
     _littleToolTip.visible = NO;
     
+    s = [CCSprite spriteWithFile:@"worldmapicon.png"];
+    CCMenuItemSprite *worldImg = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(globeClicked)];
+    worldImg.position = ccp(self.contentSize.width/2-s.contentSize.width/2-3, -self.contentSize.height/2+s.contentSize.height/2+3);
+    
+    _bottomButtons = [CCMenu menuWithItems:worldImg, nil];
+    _bottomButtons.contentSize = CGSizeMake(0, 0);
+    [self addChild:_bottomButtons];
+    
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
     
@@ -187,6 +196,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     self.isTouchEnabled = YES;
   }
   return self;
+}
+
+- (void) globeClicked {
+  [MapViewController displayView];
 }
 
 - (void) start {

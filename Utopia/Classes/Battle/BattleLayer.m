@@ -19,7 +19,7 @@
 #import "MissionMap.h"
 
 #define FAKE_PLAYER_RAND 6
-#define NAME_LABEL_FONT_SIZE 13.f
+#define NAME_LABEL_FONT_SIZE 11.f
 
 @implementation BattleSummaryView
 

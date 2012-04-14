@@ -74,6 +74,10 @@
   [_profilePic setLevel:gs.level];
 }
 
+- (void) globeClicked {
+  return;
+}
+
 - (void) dealloc {
   [super dealloc];
 }

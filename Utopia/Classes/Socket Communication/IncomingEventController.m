@@ -340,7 +340,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       uc.cityId = fcp.cityId;
       uc.curRank = 1;
       uc.numTasksComplete = 0;
-      [gs addToMyCities:[NSArray arrayWithObject:uc]];
+      [gs.myCities setObject:uc forKey:[NSNumber numberWithInt:fcp.cityId]];
       [uc release];
     }
     

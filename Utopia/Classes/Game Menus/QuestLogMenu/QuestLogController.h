@@ -129,12 +129,11 @@ typedef enum {
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (void) cleanupAndPurgeSingleton;
 
 - (void) loadQuestData:(NSArray *)quests;
 - (void) resetToQuestDescView:(FullQuestProto *)fqp;
 - (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress;
-
-- (IBAction)closeButtonClicked:(id)sender;
 
 - (QuestCompleteView *) createQuestCompleteView;
 

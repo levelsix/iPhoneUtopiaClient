@@ -857,6 +857,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   return [q autorelease];
 }
 
++ (void) cleanupAndPurgeSingleton {
+  if (sharedQuestLogController) {
+    [sharedQuestLogController.rightPage removeFromSuperview];
+    [QuestLogController removeView];
+    [QuestLogController purgeSingleton];
+  }
+}
+
 - (void) didReceiveMemoryWarning {
   if (rightPage.superview) {
     return;

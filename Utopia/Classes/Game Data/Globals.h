@@ -15,6 +15,9 @@
 
 #define LNLog(...) CCLOG(__VA_ARGS__)
 
+#define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
+#define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
+
 @interface Globals : NSObject
 
 @property (nonatomic, assign) float depositPercentCut;

@@ -96,9 +96,7 @@
   [MarketplaceViewController purgeSingleton];
   [ProfileViewController removeView];
   [ProfileViewController purgeSingleton];
-  [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
-  [QuestLogController removeView];
-  [QuestLogController purgeSingleton];
+  [QuestLogController cleanupAndPurgeSingleton];
   [RefillMenuController removeView];
   [RefillMenuController purgeSingleton];
   [VaultMenuController removeView];
@@ -192,12 +190,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   touchLayer.contentSize = doorright.parent.contentSize;
   
   CCMenu *menu = [CCMenu menuWithItems:touchLayer, nil];
+  menu.tag = 199;
   [doorright.parent addChild:menu];
   
 }
 
 - (void) allowOpeningOfDoor {
   if (!_isRunning) {
+    [[CCTouchDispatcher sharedDispatcher] setPriority:-1000 forDelegate:[doorright.parent getChildByTag:199]];
     [eyes stopAllActions];
     _canOpenDoor = YES;
     

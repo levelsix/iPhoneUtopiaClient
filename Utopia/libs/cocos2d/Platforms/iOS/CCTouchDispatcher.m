@@ -258,8 +258,9 @@ NSComparisonResult sortByPriority(id first, id second, void *context)
           BOOL claimed = NO;
           if( idx == kCCTouchBegan ) {
             claimed = [handler.delegate ccTouchBegan:touch withEvent:event];
-            if( claimed )
+            if( claimed ) {
               [handler.claimedTouches addObject:touch];
+            }
           } 
           
           // else (moved, ended, cancelled)
