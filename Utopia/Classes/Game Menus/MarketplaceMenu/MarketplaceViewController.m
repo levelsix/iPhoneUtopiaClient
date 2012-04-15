@@ -34,6 +34,7 @@
 @synthesize state = _state;
 @synthesize mktProto, equip;
 @synthesize quantityLabel, quanityBackground;
+@synthesize leatherBackground;
 
 - (void) awakeFromNib {
   [super awakeFromNib];
@@ -138,6 +139,12 @@
   [Globals loadImageForEquip:proto.postedEquip.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = proto;
   self.equip = nil;
+  
+  if ([Globals canEquip:proto.postedEquip]) {
+    self.leatherBackground.highlighted = NO;
+  } else {
+    self.leatherBackground.highlighted = YES;
+  }
 }
 
 - (void) showEquipListing:(UserEquip *)eq {
@@ -154,6 +161,12 @@
   self.equip = eq;
   self.attStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.attackBoost];
   self.defStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.defenseBoost];
+  
+  if ([Globals canEquip:fullEq]) {
+    self.leatherBackground.highlighted = NO;
+  } else {
+    self.leatherBackground.highlighted = YES;
+  }
 }
 
 - (void) dealloc {
@@ -267,10 +280,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.removeView.hidden = YES;
   self.postsTableView.contentOffset = CGPointZero;
   
-  self.view.alpha = 0.f;
   self.redeemView.hidden = YES;
-  [UIView animateWithDuration:1.f animations:^{
-    self.view.alpha = 1.f;
+  CGRect f = self.view.frame;
+  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+  self.view.alpha = 1.f;
+  [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
+    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   } completion:^(BOOL finished) {
     [self displayRedeemView];
   }];
@@ -295,7 +310,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
-  [UIView animateWithDuration:1.f animations:^{
+  [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
     [MarketplaceViewController removeView];

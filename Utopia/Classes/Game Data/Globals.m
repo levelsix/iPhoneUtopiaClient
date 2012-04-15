@@ -49,6 +49,9 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize battleWeightGivenToAttackEquipSum, battleWeightGivenToDefenseEquipSum;
 @synthesize diamondCostForInstantUpgradeMultiplier, upgradeStructCoinCostExponentBase;
 @synthesize upgradeStructDiamondCostExponentBase;
+@synthesize locationBarMax, maxAttackMultiplier;
+@synthesize minPercentOfEnemyHealth, maxPercentOfEnemyHealth;
+@synthesize battleDifferenceTuner, battleDifferenceMultiplier;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -127,7 +130,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.staminaRefillCost = constants.diamondCostForFullStaminaRefill;
   self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;
   self.staminaRefillWaitMinutes = constants.minutesToRefillAstamina;
-  self.diamondRewardForReferrer = constants.diamondRewardForReferrer;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -138,6 +140,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.battleWeightGivenToAttackEquipSum = constants.formulaConstants.battleWeightGivenToAttackEquipSum;
   self.battleWeightGivenToDefenseStat = constants.formulaConstants.battleWeightGivenToDefenseStat;
   self.battleWeightGivenToDefenseEquipSum = constants.formulaConstants.battleWeightGivenToDefenseEquipSum;
+  
+  self.locationBarMax = constants.battleConstants.locationBarMax;
+  self.maxAttackMultiplier = constants.battleConstants.maxAttackMultiplier;
+  self.minPercentOfEnemyHealth = constants.battleConstants.minPercentOfEnemyHealth;
+  self.maxPercentOfEnemyHealth = constants.battleConstants.maxPercentOfEnemyHealth;
+  self.battleDifferenceMultiplier = constants.battleConstants.battleDifferenceMultiplier;
+  self.battleDifferenceTuner = constants.battleConstants.battleDifferenceTuner;
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {

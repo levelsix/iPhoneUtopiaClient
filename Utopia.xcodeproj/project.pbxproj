@@ -632,8 +632,6 @@
 		CF126FB51538ACCB00E0C1AD /* goldcoin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269001538ACC500E0C1AD /* goldcoin@2x.png */; };
 		CF126FB61538ACCB00E0C1AD /* marketcoinbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269011538ACC500E0C1AD /* marketcoinbg.png */; };
 		CF126FB71538ACCB00E0C1AD /* marketcoinbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269021538ACC500E0C1AD /* marketcoinbg@2x.png */; };
-		CF126FB81538ACCB00E0C1AD /* mycity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269031538ACC500E0C1AD /* mycity.png */; };
-		CF126FB91538ACCB00E0C1AD /* mycity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269041538ACC500E0C1AD /* mycity@2x.png */; };
 		CF126FBA1538ACCB00E0C1AD /* notificationbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269051538ACC500E0C1AD /* notificationbg.png */; };
 		CF126FBB1538ACCB00E0C1AD /* notificationbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269061538ACC500E0C1AD /* notificationbg@2x.png */; };
 		CF126FBC1538ACCB00E0C1AD /* rope.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269071538ACC500E0C1AD /* rope.png */; };
@@ -1029,10 +1027,14 @@
 		CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273C91538B80000E0C1AD /* AudioToolbox.framework */; };
 		CF1273CC1538B80500E0C1AD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CB1538B80500E0C1AD /* AVFoundation.framework */; };
 		CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CF1538BC7C00E0C1AD /* libz.dylib */; };
-		CF52AA891539498900E91CEA /* worldmapicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA871539498900E91CEA /* worldmapicon.png */; };
-		CF52AA8A1539498900E91CEA /* worldmapicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA881539498900E91CEA /* worldmapicon@2x.png */; };
 		CF52AA8D15394C7500E91CEA /* Aviary.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8B15394C7500E91CEA /* Aviary.png */; };
 		CF52AA8E15394C7500E91CEA /* Aviary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8C15394C7500E91CEA /* Aviary@2x.png */; };
+		CF5CD830153A576000D5D331 /* worldmap.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD82E153A576000D5D331 /* worldmap.png */; };
+		CF5CD831153A576000D5D331 /* worldmap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD82F153A576000D5D331 /* worldmap@2x.png */; };
+		CF5CD834153A593D00D5D331 /* leathertopred.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD832153A593D00D5D331 /* leathertopred.png */; };
+		CF5CD835153A593D00D5D331 /* leathertopred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD833153A593D00D5D331 /* leathertopred@2x.png */; };
+		CF5CD838153A616300D5D331 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD836153A616300D5D331 /* back.png */; };
+		CF5CD839153A616300D5D331 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD837153A616300D5D331 /* back@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1900,8 +1902,6 @@
 		CF1269001538ACC500E0C1AD /* goldcoin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goldcoin@2x.png"; sourceTree = "<group>"; };
 		CF1269011538ACC500E0C1AD /* marketcoinbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marketcoinbg.png; sourceTree = "<group>"; };
 		CF1269021538ACC500E0C1AD /* marketcoinbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marketcoinbg@2x.png"; sourceTree = "<group>"; };
-		CF1269031538ACC500E0C1AD /* mycity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mycity.png; sourceTree = "<group>"; };
-		CF1269041538ACC500E0C1AD /* mycity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mycity@2x.png"; sourceTree = "<group>"; };
 		CF1269051538ACC500E0C1AD /* notificationbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationbg.png; sourceTree = "<group>"; };
 		CF1269061538ACC500E0C1AD /* notificationbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationbg@2x.png"; sourceTree = "<group>"; };
 		CF1269071538ACC500E0C1AD /* rope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rope.png; sourceTree = "<group>"; };
@@ -2298,10 +2298,14 @@
 		CF1273C91538B80000E0C1AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CF1273CB1538B80500E0C1AD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CF1273CF1538BC7C00E0C1AD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		CF52AA871539498900E91CEA /* worldmapicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldmapicon.png; sourceTree = "<group>"; };
-		CF52AA881539498900E91CEA /* worldmapicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "worldmapicon@2x.png"; sourceTree = "<group>"; };
 		CF52AA8B15394C7500E91CEA /* Aviary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Aviary.png; sourceTree = "<group>"; };
 		CF52AA8C15394C7500E91CEA /* Aviary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Aviary@2x.png"; sourceTree = "<group>"; };
+		CF5CD82E153A576000D5D331 /* worldmap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldmap.png; sourceTree = "<group>"; };
+		CF5CD82F153A576000D5D331 /* worldmap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "worldmap@2x.png"; sourceTree = "<group>"; };
+		CF5CD832153A593D00D5D331 /* leathertopred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leathertopred.png; sourceTree = "<group>"; };
+		CF5CD833153A593D00D5D331 /* leathertopred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leathertopred@2x.png"; sourceTree = "<group>"; };
+		CF5CD836153A616300D5D331 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		CF5CD837153A616300D5D331 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3810,6 +3814,8 @@
 		CF1268C51538ACC500E0C1AD /* Marketplace Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF5CD832153A593D00D5D331 /* leathertopred.png */,
+				CF5CD833153A593D00D5D331 /* leathertopred@2x.png */,
 				CF1268C61538ACC500E0C1AD /* arrow.png */,
 				CF1268C71538ACC500E0C1AD /* arrow@2x.png */,
 				CF1268C81538ACC500E0C1AD /* cancelremove.png */,
@@ -3865,6 +3871,8 @@
 		CF1268F61538ACC500E0C1AD /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
+				CF5CD836153A616300D5D331 /* back.png */,
+				CF5CD837153A616300D5D331 /* back@2x.png */,
 				CF1268F71538ACC500E0C1AD /* attackswords.png */,
 				CF1268F81538ACC500E0C1AD /* attackswords@2x.png */,
 				CF1268F91538ACC500E0C1AD /* close1.png */,
@@ -3877,8 +3885,6 @@
 				CF1269001538ACC500E0C1AD /* goldcoin@2x.png */,
 				CF1269011538ACC500E0C1AD /* marketcoinbg.png */,
 				CF1269021538ACC500E0C1AD /* marketcoinbg@2x.png */,
-				CF1269031538ACC500E0C1AD /* mycity.png */,
-				CF1269041538ACC500E0C1AD /* mycity@2x.png */,
 				CF1269051538ACC500E0C1AD /* notificationbg.png */,
 				CF1269061538ACC500E0C1AD /* notificationbg@2x.png */,
 				CF1269071538ACC500E0C1AD /* rope.png */,
@@ -4203,8 +4209,8 @@
 		CF1269FD1538ACC600E0C1AD /* Top Bar Images */ = {
 			isa = PBXGroup;
 			children = (
-				CF52AA871539498900E91CEA /* worldmapicon.png */,
-				CF52AA881539498900E91CEA /* worldmapicon@2x.png */,
+				CF5CD82E153A576000D5D331 /* worldmap.png */,
+				CF5CD82F153A576000D5D331 /* worldmap@2x.png */,
 				CF1269FE1538ACC600E0C1AD /* barmask.png */,
 				CF1269FF1538ACC600E0C1AD /* barmask@2x.png */,
 				CF126A001538ACC600E0C1AD /* coinbar.png */,
@@ -4925,8 +4931,6 @@
 				CF126FB51538ACCB00E0C1AD /* goldcoin@2x.png in Resources */,
 				CF126FB61538ACCB00E0C1AD /* marketcoinbg.png in Resources */,
 				CF126FB71538ACCB00E0C1AD /* marketcoinbg@2x.png in Resources */,
-				CF126FB81538ACCB00E0C1AD /* mycity.png in Resources */,
-				CF126FB91538ACCB00E0C1AD /* mycity@2x.png in Resources */,
 				CF126FBA1538ACCB00E0C1AD /* notificationbg.png in Resources */,
 				CF126FBB1538ACCB00E0C1AD /* notificationbg@2x.png in Resources */,
 				CF126FBC1538ACCB00E0C1AD /* rope.png in Resources */,
@@ -5307,10 +5311,14 @@
 				CF12713D1538ACCC00E0C1AD /* numbertickerbgbg@2x.png in Resources */,
 				CF12713E1538ACCC00E0C1AD /* withdraw.png in Resources */,
 				CF12713F1538ACCC00E0C1AD /* withdraw@2x.png in Resources */,
-				CF52AA891539498900E91CEA /* worldmapicon.png in Resources */,
-				CF52AA8A1539498900E91CEA /* worldmapicon@2x.png in Resources */,
 				CF52AA8D15394C7500E91CEA /* Aviary.png in Resources */,
 				CF52AA8E15394C7500E91CEA /* Aviary@2x.png in Resources */,
+				CF5CD830153A576000D5D331 /* worldmap.png in Resources */,
+				CF5CD831153A576000D5D331 /* worldmap@2x.png in Resources */,
+				CF5CD834153A593D00D5D331 /* leathertopred.png in Resources */,
+				CF5CD835153A593D00D5D331 /* leathertopred@2x.png in Resources */,
+				CF5CD838153A616300D5D331 /* back.png in Resources */,
+				CF5CD839153A616300D5D331 /* back@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5555,6 +5563,7 @@
 					"COCOS2D_DEBUG=1",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -5580,6 +5589,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;

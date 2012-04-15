@@ -167,6 +167,11 @@
 
 - (void) setOpacity:(GLubyte)opacity {
   [super setOpacity:opacity];
+  
+  if (opacity == 0) {
+    [_aboveHeadMark stopAllActions];
+  }
+  
   _aboveHeadMark.opacity = opacity;
 }
 

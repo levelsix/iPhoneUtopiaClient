@@ -3918,6 +3918,7 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
 @interface StartupResponseProto_ReferralNotificationProto ()
 @property (retain) MinimumUserProto* referred;
 @property int64_t recruitTime;
+@property int32_t coinsGivenToReferrer;
 @end
 
 @implementation StartupResponseProto_ReferralNotificationProto
@@ -3936,6 +3937,13 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   hasRecruitTime_ = !!value;
 }
 @synthesize recruitTime;
+- (BOOL) hasCoinsGivenToReferrer {
+  return !!hasCoinsGivenToReferrer_;
+}
+- (void) setHasCoinsGivenToReferrer:(BOOL) value {
+  hasCoinsGivenToReferrer_ = !!value;
+}
+@synthesize coinsGivenToReferrer;
 - (void) dealloc {
   self.referred = nil;
   [super dealloc];
@@ -3944,6 +3952,7 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   if ((self = [super init])) {
     self.referred = [MinimumUserProto defaultInstance];
     self.recruitTime = 0L;
+    self.coinsGivenToReferrer = 0;
   }
   return self;
 }
@@ -3969,6 +3978,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   if (self.hasRecruitTime) {
     [output writeInt64:2 value:self.recruitTime];
   }
+  if (self.hasCoinsGivenToReferrer) {
+    [output writeInt32:3 value:self.coinsGivenToReferrer];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3983,6 +3995,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   }
   if (self.hasRecruitTime) {
     size += computeInt64Size(2, self.recruitTime);
+  }
+  if (self.hasCoinsGivenToReferrer) {
+    size += computeInt32Size(3, self.coinsGivenToReferrer);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4065,6 +4080,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   if (other.hasRecruitTime) {
     [self setRecruitTime:other.recruitTime];
   }
+  if (other.hasCoinsGivenToReferrer) {
+    [self setCoinsGivenToReferrer:other.coinsGivenToReferrer];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4097,6 +4115,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
       }
       case 16: {
         [self setRecruitTime:[input readInt64]];
+        break;
+      }
+      case 24: {
+        [self setCoinsGivenToReferrer:[input readInt32]];
         break;
       }
     }
@@ -4148,6 +4170,22 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   result.recruitTime = 0L;
   return self;
 }
+- (BOOL) hasCoinsGivenToReferrer {
+  return result.hasCoinsGivenToReferrer;
+}
+- (int32_t) coinsGivenToReferrer {
+  return result.coinsGivenToReferrer;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setCoinsGivenToReferrer:(int32_t) value {
+  result.hasCoinsGivenToReferrer = YES;
+  result.coinsGivenToReferrer = value;
+  return self;
+}
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearCoinsGivenToReferrer {
+  result.hasCoinsGivenToReferrer = NO;
+  result.coinsGivenToReferrer = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_StartupConstants ()
@@ -4192,7 +4230,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t diamondCostOfShortMarketplaceLicense;
 @property int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property Float64 percentReturnedToUserForSellingEquipInArmory;
-@property int32_t diamondRewardForReferrer;
 @property int32_t maxCityRank;
 @property int32_t minLevelForArmory;
 @property int32_t minLevelForVault;
@@ -4203,6 +4240,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t carpenterImgVerticalPixelOffset;
 @property int32_t aviaryImgVerticalPixelOffset;
 @property (retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+@property (retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4482,13 +4520,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasPercentReturnedToUserForSellingEquipInArmory_ = !!value;
 }
 @synthesize percentReturnedToUserForSellingEquipInArmory;
-- (BOOL) hasDiamondRewardForReferrer {
-  return !!hasDiamondRewardForReferrer_;
-}
-- (void) setHasDiamondRewardForReferrer:(BOOL) value {
-  hasDiamondRewardForReferrer_ = !!value;
-}
-@synthesize diamondRewardForReferrer;
 - (BOOL) hasMaxCityRank {
   return !!hasMaxCityRank_;
 }
@@ -4559,10 +4590,18 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasFormulaConstants_ = !!value;
 }
 @synthesize formulaConstants;
+- (BOOL) hasBattleConstants {
+  return !!hasBattleConstants_;
+}
+- (void) setHasBattleConstants:(BOOL) value {
+  hasBattleConstants_ = !!value;
+}
+@synthesize battleConstants;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
   self.formulaConstants = nil;
+  self.battleConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -4606,7 +4645,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.diamondCostOfShortMarketplaceLicense = 0;
     self.maxNumbersOfEnemiesToGenerateAtOnce = 0;
     self.percentReturnedToUserForSellingEquipInArmory = 0;
-    self.diamondRewardForReferrer = 0;
     self.maxCityRank = 0;
     self.minLevelForArmory = 0;
     self.minLevelForVault = 0;
@@ -4617,6 +4655,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.carpenterImgVerticalPixelOffset = 0;
     self.aviaryImgVerticalPixelOffset = 0;
     self.formulaConstants = [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance];
+    self.battleConstants = [StartupResponseProto_StartupConstants_BattleConstants defaultInstance];
   }
   return self;
 }
@@ -4767,9 +4806,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDiamondCostOfShortMarketplaceLicense) {
     [output writeInt32:46 value:self.diamondCostOfShortMarketplaceLicense];
   }
-  if (self.hasDiamondRewardForReferrer) {
-    [output writeInt32:47 value:self.diamondRewardForReferrer];
-  }
   if (self.hasDiamondCostForFullStaminaRefill) {
     [output writeInt32:48 value:self.diamondCostForFullStaminaRefill];
   }
@@ -4805,6 +4841,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasFormulaConstants) {
     [output writeMessage:59 value:self.formulaConstants];
+  }
+  if (self.hasBattleConstants) {
+    [output writeMessage:60 value:self.battleConstants];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -4942,9 +4981,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasDiamondCostOfShortMarketplaceLicense) {
     size += computeInt32Size(46, self.diamondCostOfShortMarketplaceLicense);
   }
-  if (self.hasDiamondRewardForReferrer) {
-    size += computeInt32Size(47, self.diamondRewardForReferrer);
-  }
   if (self.hasDiamondCostForFullStaminaRefill) {
     size += computeInt32Size(48, self.diamondCostForFullStaminaRefill);
   }
@@ -4980,6 +5016,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasFormulaConstants) {
     size += computeMessageSize(59, self.formulaConstants);
+  }
+  if (self.hasBattleConstants) {
+    size += computeMessageSize(60, self.battleConstants);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5495,6 +5534,449 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 }
 @end
 
+@interface StartupResponseProto_StartupConstants_BattleConstants ()
+@property Float32 attackSkillPointToEquipAttackRatio;
+@property Float32 defenseSkillPointToEquipDefenseRatio;
+@property Float32 locationBarMax;
+@property Float64 maxAttackMultiplier;
+@property Float64 minPercentOfEnemyHealth;
+@property Float64 maxPercentOfEnemyHealth;
+@property Float64 battleDifferenceMultiplier;
+@property Float64 battleDifferenceTuner;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BattleConstants
+
+- (BOOL) hasAttackSkillPointToEquipAttackRatio {
+  return !!hasAttackSkillPointToEquipAttackRatio_;
+}
+- (void) setHasAttackSkillPointToEquipAttackRatio:(BOOL) value {
+  hasAttackSkillPointToEquipAttackRatio_ = !!value;
+}
+@synthesize attackSkillPointToEquipAttackRatio;
+- (BOOL) hasDefenseSkillPointToEquipDefenseRatio {
+  return !!hasDefenseSkillPointToEquipDefenseRatio_;
+}
+- (void) setHasDefenseSkillPointToEquipDefenseRatio:(BOOL) value {
+  hasDefenseSkillPointToEquipDefenseRatio_ = !!value;
+}
+@synthesize defenseSkillPointToEquipDefenseRatio;
+- (BOOL) hasLocationBarMax {
+  return !!hasLocationBarMax_;
+}
+- (void) setHasLocationBarMax:(BOOL) value {
+  hasLocationBarMax_ = !!value;
+}
+@synthesize locationBarMax;
+- (BOOL) hasMaxAttackMultiplier {
+  return !!hasMaxAttackMultiplier_;
+}
+- (void) setHasMaxAttackMultiplier:(BOOL) value {
+  hasMaxAttackMultiplier_ = !!value;
+}
+@synthesize maxAttackMultiplier;
+- (BOOL) hasMinPercentOfEnemyHealth {
+  return !!hasMinPercentOfEnemyHealth_;
+}
+- (void) setHasMinPercentOfEnemyHealth:(BOOL) value {
+  hasMinPercentOfEnemyHealth_ = !!value;
+}
+@synthesize minPercentOfEnemyHealth;
+- (BOOL) hasMaxPercentOfEnemyHealth {
+  return !!hasMaxPercentOfEnemyHealth_;
+}
+- (void) setHasMaxPercentOfEnemyHealth:(BOOL) value {
+  hasMaxPercentOfEnemyHealth_ = !!value;
+}
+@synthesize maxPercentOfEnemyHealth;
+- (BOOL) hasBattleDifferenceMultiplier {
+  return !!hasBattleDifferenceMultiplier_;
+}
+- (void) setHasBattleDifferenceMultiplier:(BOOL) value {
+  hasBattleDifferenceMultiplier_ = !!value;
+}
+@synthesize battleDifferenceMultiplier;
+- (BOOL) hasBattleDifferenceTuner {
+  return !!hasBattleDifferenceTuner_;
+}
+- (void) setHasBattleDifferenceTuner:(BOOL) value {
+  hasBattleDifferenceTuner_ = !!value;
+}
+@synthesize battleDifferenceTuner;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.attackSkillPointToEquipAttackRatio = 0;
+    self.defenseSkillPointToEquipDefenseRatio = 0;
+    self.locationBarMax = 0;
+    self.maxAttackMultiplier = 0;
+    self.minPercentOfEnemyHealth = 0;
+    self.maxPercentOfEnemyHealth = 0;
+    self.battleDifferenceMultiplier = 0;
+    self.battleDifferenceTuner = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResponseProto_StartupConstants_BattleConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_BattleConstants class]) {
+    defaultStartupResponseProto_StartupConstants_BattleConstantsInstance = [[StartupResponseProto_StartupConstants_BattleConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BattleConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_BattleConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasAttackSkillPointToEquipAttackRatio) {
+    [output writeFloat:1 value:self.attackSkillPointToEquipAttackRatio];
+  }
+  if (self.hasDefenseSkillPointToEquipDefenseRatio) {
+    [output writeFloat:2 value:self.defenseSkillPointToEquipDefenseRatio];
+  }
+  if (self.hasLocationBarMax) {
+    [output writeFloat:3 value:self.locationBarMax];
+  }
+  if (self.hasMaxAttackMultiplier) {
+    [output writeDouble:4 value:self.maxAttackMultiplier];
+  }
+  if (self.hasMinPercentOfEnemyHealth) {
+    [output writeDouble:5 value:self.minPercentOfEnemyHealth];
+  }
+  if (self.hasMaxPercentOfEnemyHealth) {
+    [output writeDouble:6 value:self.maxPercentOfEnemyHealth];
+  }
+  if (self.hasBattleDifferenceMultiplier) {
+    [output writeDouble:7 value:self.battleDifferenceMultiplier];
+  }
+  if (self.hasBattleDifferenceTuner) {
+    [output writeDouble:8 value:self.battleDifferenceTuner];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasAttackSkillPointToEquipAttackRatio) {
+    size += computeFloatSize(1, self.attackSkillPointToEquipAttackRatio);
+  }
+  if (self.hasDefenseSkillPointToEquipDefenseRatio) {
+    size += computeFloatSize(2, self.defenseSkillPointToEquipDefenseRatio);
+  }
+  if (self.hasLocationBarMax) {
+    size += computeFloatSize(3, self.locationBarMax);
+  }
+  if (self.hasMaxAttackMultiplier) {
+    size += computeDoubleSize(4, self.maxAttackMultiplier);
+  }
+  if (self.hasMinPercentOfEnemyHealth) {
+    size += computeDoubleSize(5, self.minPercentOfEnemyHealth);
+  }
+  if (self.hasMaxPercentOfEnemyHealth) {
+    size += computeDoubleSize(6, self.maxPercentOfEnemyHealth);
+  }
+  if (self.hasBattleDifferenceMultiplier) {
+    size += computeDoubleSize(7, self.battleDifferenceMultiplier);
+  }
+  if (self.hasBattleDifferenceTuner) {
+    size += computeDoubleSize(8, self.battleDifferenceTuner);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_BattleConstants*)[[[StartupResponseProto_StartupConstants_BattleConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BattleConstants*)[[[StartupResponseProto_StartupConstants_BattleConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BattleConstants*)[[[StartupResponseProto_StartupConstants_BattleConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BattleConstants*)[[[StartupResponseProto_StartupConstants_BattleConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_BattleConstants*)[[[StartupResponseProto_StartupConstants_BattleConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_BattleConstants*)[[[StartupResponseProto_StartupConstants_BattleConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_BattleConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_BattleConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_BattleConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BattleConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_BattleConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_BattleConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_BattleConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_BattleConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_BattleConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_BattleConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_BattleConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_BattleConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_BattleConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_BattleConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_BattleConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_BattleConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BattleConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_BattleConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasAttackSkillPointToEquipAttackRatio) {
+    [self setAttackSkillPointToEquipAttackRatio:other.attackSkillPointToEquipAttackRatio];
+  }
+  if (other.hasDefenseSkillPointToEquipDefenseRatio) {
+    [self setDefenseSkillPointToEquipDefenseRatio:other.defenseSkillPointToEquipDefenseRatio];
+  }
+  if (other.hasLocationBarMax) {
+    [self setLocationBarMax:other.locationBarMax];
+  }
+  if (other.hasMaxAttackMultiplier) {
+    [self setMaxAttackMultiplier:other.maxAttackMultiplier];
+  }
+  if (other.hasMinPercentOfEnemyHealth) {
+    [self setMinPercentOfEnemyHealth:other.minPercentOfEnemyHealth];
+  }
+  if (other.hasMaxPercentOfEnemyHealth) {
+    [self setMaxPercentOfEnemyHealth:other.maxPercentOfEnemyHealth];
+  }
+  if (other.hasBattleDifferenceMultiplier) {
+    [self setBattleDifferenceMultiplier:other.battleDifferenceMultiplier];
+  }
+  if (other.hasBattleDifferenceTuner) {
+    [self setBattleDifferenceTuner:other.battleDifferenceTuner];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 13: {
+        [self setAttackSkillPointToEquipAttackRatio:[input readFloat]];
+        break;
+      }
+      case 21: {
+        [self setDefenseSkillPointToEquipDefenseRatio:[input readFloat]];
+        break;
+      }
+      case 29: {
+        [self setLocationBarMax:[input readFloat]];
+        break;
+      }
+      case 33: {
+        [self setMaxAttackMultiplier:[input readDouble]];
+        break;
+      }
+      case 41: {
+        [self setMinPercentOfEnemyHealth:[input readDouble]];
+        break;
+      }
+      case 49: {
+        [self setMaxPercentOfEnemyHealth:[input readDouble]];
+        break;
+      }
+      case 57: {
+        [self setBattleDifferenceMultiplier:[input readDouble]];
+        break;
+      }
+      case 65: {
+        [self setBattleDifferenceTuner:[input readDouble]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasAttackSkillPointToEquipAttackRatio {
+  return result.hasAttackSkillPointToEquipAttackRatio;
+}
+- (Float32) attackSkillPointToEquipAttackRatio {
+  return result.attackSkillPointToEquipAttackRatio;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setAttackSkillPointToEquipAttackRatio:(Float32) value {
+  result.hasAttackSkillPointToEquipAttackRatio = YES;
+  result.attackSkillPointToEquipAttackRatio = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearAttackSkillPointToEquipAttackRatio {
+  result.hasAttackSkillPointToEquipAttackRatio = NO;
+  result.attackSkillPointToEquipAttackRatio = 0;
+  return self;
+}
+- (BOOL) hasDefenseSkillPointToEquipDefenseRatio {
+  return result.hasDefenseSkillPointToEquipDefenseRatio;
+}
+- (Float32) defenseSkillPointToEquipDefenseRatio {
+  return result.defenseSkillPointToEquipDefenseRatio;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setDefenseSkillPointToEquipDefenseRatio:(Float32) value {
+  result.hasDefenseSkillPointToEquipDefenseRatio = YES;
+  result.defenseSkillPointToEquipDefenseRatio = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearDefenseSkillPointToEquipDefenseRatio {
+  result.hasDefenseSkillPointToEquipDefenseRatio = NO;
+  result.defenseSkillPointToEquipDefenseRatio = 0;
+  return self;
+}
+- (BOOL) hasLocationBarMax {
+  return result.hasLocationBarMax;
+}
+- (Float32) locationBarMax {
+  return result.locationBarMax;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setLocationBarMax:(Float32) value {
+  result.hasLocationBarMax = YES;
+  result.locationBarMax = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearLocationBarMax {
+  result.hasLocationBarMax = NO;
+  result.locationBarMax = 0;
+  return self;
+}
+- (BOOL) hasMaxAttackMultiplier {
+  return result.hasMaxAttackMultiplier;
+}
+- (Float64) maxAttackMultiplier {
+  return result.maxAttackMultiplier;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxAttackMultiplier:(Float64) value {
+  result.hasMaxAttackMultiplier = YES;
+  result.maxAttackMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxAttackMultiplier {
+  result.hasMaxAttackMultiplier = NO;
+  result.maxAttackMultiplier = 0;
+  return self;
+}
+- (BOOL) hasMinPercentOfEnemyHealth {
+  return result.hasMinPercentOfEnemyHealth;
+}
+- (Float64) minPercentOfEnemyHealth {
+  return result.minPercentOfEnemyHealth;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMinPercentOfEnemyHealth:(Float64) value {
+  result.hasMinPercentOfEnemyHealth = YES;
+  result.minPercentOfEnemyHealth = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMinPercentOfEnemyHealth {
+  result.hasMinPercentOfEnemyHealth = NO;
+  result.minPercentOfEnemyHealth = 0;
+  return self;
+}
+- (BOOL) hasMaxPercentOfEnemyHealth {
+  return result.hasMaxPercentOfEnemyHealth;
+}
+- (Float64) maxPercentOfEnemyHealth {
+  return result.maxPercentOfEnemyHealth;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxPercentOfEnemyHealth:(Float64) value {
+  result.hasMaxPercentOfEnemyHealth = YES;
+  result.maxPercentOfEnemyHealth = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxPercentOfEnemyHealth {
+  result.hasMaxPercentOfEnemyHealth = NO;
+  result.maxPercentOfEnemyHealth = 0;
+  return self;
+}
+- (BOOL) hasBattleDifferenceMultiplier {
+  return result.hasBattleDifferenceMultiplier;
+}
+- (Float64) battleDifferenceMultiplier {
+  return result.battleDifferenceMultiplier;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceMultiplier:(Float64) value {
+  result.hasBattleDifferenceMultiplier = YES;
+  result.battleDifferenceMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceMultiplier {
+  result.hasBattleDifferenceMultiplier = NO;
+  result.battleDifferenceMultiplier = 0;
+  return self;
+}
+- (BOOL) hasBattleDifferenceTuner {
+  return result.hasBattleDifferenceTuner;
+}
+- (Float64) battleDifferenceTuner {
+  return result.battleDifferenceTuner;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceTuner:(Float64) value {
+  result.hasBattleDifferenceTuner = YES;
+  result.battleDifferenceTuner = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceTuner {
+  result.hasBattleDifferenceTuner = NO;
+  result.battleDifferenceTuner = 0;
+  return self;
+}
+@end
+
 @interface StartupResponseProto_StartupConstants_Builder()
 @property (retain) StartupResponseProto_StartupConstants* result;
 @end
@@ -5666,9 +6148,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   if (other.hasPercentReturnedToUserForSellingEquipInArmory) {
     [self setPercentReturnedToUserForSellingEquipInArmory:other.percentReturnedToUserForSellingEquipInArmory];
   }
-  if (other.hasDiamondRewardForReferrer) {
-    [self setDiamondRewardForReferrer:other.diamondRewardForReferrer];
-  }
   if (other.hasMaxCityRank) {
     [self setMaxCityRank:other.maxCityRank];
   }
@@ -5698,6 +6177,9 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   }
   if (other.hasFormulaConstants) {
     [self mergeFormulaConstants:other.formulaConstants];
+  }
+  if (other.hasBattleConstants) {
+    [self mergeBattleConstants:other.battleConstants];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -5876,10 +6358,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
         [self setDiamondCostOfShortMarketplaceLicense:[input readInt32]];
         break;
       }
-      case 376: {
-        [self setDiamondRewardForReferrer:[input readInt32]];
-        break;
-      }
       case 384: {
         [self setDiamondCostForFullStaminaRefill:[input readInt32]];
         break;
@@ -5931,6 +6409,15 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setFormulaConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 482: {
+        StartupResponseProto_StartupConstants_BattleConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_BattleConstants builder];
+        if (self.hasBattleConstants) {
+          [subBuilder mergeFrom:self.battleConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBattleConstants:[subBuilder buildPartial]];
         break;
       }
     }
@@ -6622,22 +7109,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   result.percentReturnedToUserForSellingEquipInArmory = 0;
   return self;
 }
-- (BOOL) hasDiamondRewardForReferrer {
-  return result.hasDiamondRewardForReferrer;
-}
-- (int32_t) diamondRewardForReferrer {
-  return result.diamondRewardForReferrer;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value {
-  result.hasDiamondRewardForReferrer = YES;
-  result.diamondRewardForReferrer = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondRewardForReferrer {
-  result.hasDiamondRewardForReferrer = NO;
-  result.diamondRewardForReferrer = 0;
-  return self;
-}
 - (BOOL) hasMaxCityRank {
   return result.hasMaxCityRank;
 }
@@ -6812,6 +7283,36 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   result.formulaConstants = [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance];
   return self;
 }
+- (BOOL) hasBattleConstants {
+  return result.hasBattleConstants;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants*) battleConstants {
+  return result.battleConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBattleConstants:(StartupResponseProto_StartupConstants_BattleConstants*) value {
+  result.hasBattleConstants = YES;
+  result.battleConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setBattleConstantsBuilder:(StartupResponseProto_StartupConstants_BattleConstants_Builder*) builderForValue {
+  return [self setBattleConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeBattleConstants:(StartupResponseProto_StartupConstants_BattleConstants*) value {
+  if (result.hasBattleConstants &&
+      result.battleConstants != [StartupResponseProto_StartupConstants_BattleConstants defaultInstance]) {
+    result.battleConstants =
+      [[[StartupResponseProto_StartupConstants_BattleConstants builderWithPrototype:result.battleConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.battleConstants = value;
+  }
+  result.hasBattleConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearBattleConstants {
+  result.hasBattleConstants = NO;
+  result.battleConstants = [StartupResponseProto_StartupConstants_BattleConstants defaultInstance];
+  return self;
+}
 @end
 
 @interface StartupResponseProto_TutorialConstants ()
@@ -6835,7 +7336,7 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 @property (retain) FullEquipProto* warriorInitArmor;
 @property int32_t minNameLength;
 @property int32_t maxNameLength;
-@property int32_t diamondRewardForBeingReferred;
+@property int32_t coinRewardForBeingReferred;
 @property (retain) NSMutableArray* mutableFirstCityElementsForGoodList;
 @property (retain) NSMutableArray* mutableFirstCityElementsForBadList;
 @property int32_t initCoins;
@@ -6990,13 +7491,13 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   hasMaxNameLength_ = !!value;
 }
 @synthesize maxNameLength;
-- (BOOL) hasDiamondRewardForBeingReferred {
-  return !!hasDiamondRewardForBeingReferred_;
+- (BOOL) hasCoinRewardForBeingReferred {
+  return !!hasCoinRewardForBeingReferred_;
 }
-- (void) setHasDiamondRewardForBeingReferred:(BOOL) value {
-  hasDiamondRewardForBeingReferred_ = !!value;
+- (void) setHasCoinRewardForBeingReferred:(BOOL) value {
+  hasCoinRewardForBeingReferred_ = !!value;
 }
-@synthesize diamondRewardForBeingReferred;
+@synthesize coinRewardForBeingReferred;
 @synthesize mutableFirstCityElementsForGoodList;
 @synthesize mutableFirstCityElementsForBadList;
 - (BOOL) hasInitCoins {
@@ -7069,7 +7570,7 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
     self.warriorInitArmor = [FullEquipProto defaultInstance];
     self.minNameLength = 0;
     self.maxNameLength = 0;
-    self.diamondRewardForBeingReferred = 0;
+    self.coinRewardForBeingReferred = 0;
     self.initCoins = 0;
     self.initDiamonds = 0;
     self.expRequiredForLevelTwo = 0;
@@ -7195,8 +7696,8 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasMaxNameLength) {
     [output writeInt32:20 value:self.maxNameLength];
   }
-  if (self.hasDiamondRewardForBeingReferred) {
-    [output writeInt32:22 value:self.diamondRewardForBeingReferred];
+  if (self.hasCoinRewardForBeingReferred) {
+    [output writeInt32:22 value:self.coinRewardForBeingReferred];
   }
   for (NeutralCityElementProto* element in self.firstCityElementsForGoodList) {
     [output writeMessage:23 value:element];
@@ -7297,8 +7798,8 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   if (self.hasMaxNameLength) {
     size += computeInt32Size(20, self.maxNameLength);
   }
-  if (self.hasDiamondRewardForBeingReferred) {
-    size += computeInt32Size(22, self.diamondRewardForBeingReferred);
+  if (self.hasCoinRewardForBeingReferred) {
+    size += computeInt32Size(22, self.coinRewardForBeingReferred);
   }
   for (NeutralCityElementProto* element in self.firstCityElementsForGoodList) {
     size += computeMessageSize(23, element);
@@ -8318,8 +8819,8 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasMaxNameLength) {
     [self setMaxNameLength:other.maxNameLength];
   }
-  if (other.hasDiamondRewardForBeingReferred) {
-    [self setDiamondRewardForBeingReferred:other.diamondRewardForBeingReferred];
+  if (other.hasCoinRewardForBeingReferred) {
+    [self setCoinRewardForBeingReferred:other.coinRewardForBeingReferred];
   }
   if (other.mutableFirstCityElementsForGoodList.count > 0) {
     if (result.mutableFirstCityElementsForGoodList == nil) {
@@ -8506,7 +9007,7 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         break;
       }
       case 176: {
-        [self setDiamondRewardForBeingReferred:[input readInt32]];
+        [self setCoinRewardForBeingReferred:[input readInt32]];
         break;
       }
       case 186: {
@@ -8982,20 +9483,20 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   result.maxNameLength = 0;
   return self;
 }
-- (BOOL) hasDiamondRewardForBeingReferred {
-  return result.hasDiamondRewardForBeingReferred;
+- (BOOL) hasCoinRewardForBeingReferred {
+  return result.hasCoinRewardForBeingReferred;
 }
-- (int32_t) diamondRewardForBeingReferred {
-  return result.diamondRewardForBeingReferred;
+- (int32_t) coinRewardForBeingReferred {
+  return result.coinRewardForBeingReferred;
 }
-- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForBeingReferred:(int32_t) value {
-  result.hasDiamondRewardForBeingReferred = YES;
-  result.diamondRewardForBeingReferred = value;
+- (StartupResponseProto_TutorialConstants_Builder*) setCoinRewardForBeingReferred:(int32_t) value {
+  result.hasCoinRewardForBeingReferred = YES;
+  result.coinRewardForBeingReferred = value;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForBeingReferred {
-  result.hasDiamondRewardForBeingReferred = NO;
-  result.diamondRewardForBeingReferred = 0;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCoinRewardForBeingReferred {
+  result.hasCoinRewardForBeingReferred = NO;
+  result.coinRewardForBeingReferred = 0;
   return self;
 }
 - (NSArray*) firstCityElementsForGoodList {
@@ -30794,6 +31295,7 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
 @interface ReferralCodeUsedResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) MinimumUserProto* referredPlayer;
+@property int32_t coinsGivenToReferrer;
 @end
 
 @implementation ReferralCodeUsedResponseProto
@@ -30812,6 +31314,13 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
   hasReferredPlayer_ = !!value;
 }
 @synthesize referredPlayer;
+- (BOOL) hasCoinsGivenToReferrer {
+  return !!hasCoinsGivenToReferrer_;
+}
+- (void) setHasCoinsGivenToReferrer:(BOOL) value {
+  hasCoinsGivenToReferrer_ = !!value;
+}
+@synthesize coinsGivenToReferrer;
 - (void) dealloc {
   self.sender = nil;
   self.referredPlayer = nil;
@@ -30821,6 +31330,7 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.referredPlayer = [MinimumUserProto defaultInstance];
+    self.coinsGivenToReferrer = 0;
   }
   return self;
 }
@@ -30846,6 +31356,9 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   if (self.hasReferredPlayer) {
     [output writeMessage:2 value:self.referredPlayer];
   }
+  if (self.hasCoinsGivenToReferrer) {
+    [output writeInt32:3 value:self.coinsGivenToReferrer];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -30860,6 +31373,9 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   }
   if (self.hasReferredPlayer) {
     size += computeMessageSize(2, self.referredPlayer);
+  }
+  if (self.hasCoinsGivenToReferrer) {
+    size += computeInt32Size(3, self.coinsGivenToReferrer);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -30942,6 +31458,9 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   if (other.hasReferredPlayer) {
     [self mergeReferredPlayer:other.referredPlayer];
   }
+  if (other.hasCoinsGivenToReferrer) {
+    [self setCoinsGivenToReferrer:other.coinsGivenToReferrer];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -30979,6 +31498,10 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setReferredPlayer:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setCoinsGivenToReferrer:[input readInt32]];
         break;
       }
     }
@@ -31042,6 +31565,22 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
 - (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer {
   result.hasReferredPlayer = NO;
   result.referredPlayer = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasCoinsGivenToReferrer {
+  return result.hasCoinsGivenToReferrer;
+}
+- (int32_t) coinsGivenToReferrer {
+  return result.coinsGivenToReferrer;
+}
+- (ReferralCodeUsedResponseProto_Builder*) setCoinsGivenToReferrer:(int32_t) value {
+  result.hasCoinsGivenToReferrer = YES;
+  result.coinsGivenToReferrer = value;
+  return self;
+}
+- (ReferralCodeUsedResponseProto_Builder*) clearCoinsGivenToReferrer {
+  result.hasCoinsGivenToReferrer = NO;
+  result.coinsGivenToReferrer = 0;
   return self;
 }
 @end

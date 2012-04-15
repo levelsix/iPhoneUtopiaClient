@@ -119,6 +119,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:defender.name] setUserId:defender.userId] setUserType:defender.userType] build];
     
     [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips];
+    
+    switch (result) {
+      case BattleResultAttackerWin:
+        gs.battlesWon++;
+        break;
+        
+      case BattleResultAttackerFlee:
+        gs.flees++;
+        break;
+        
+      case BattleResultDefenderWin:
+        gs.battlesLost++;
+        break;
+        
+      default:
+        break;
+    }
   } else {
     NSLog(@"Trying to complete battle without any stamina.");
   }
@@ -127,7 +144,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (int) buyEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  UserEquip *ue = [gs myEquipWithId:equipId];
   
   if (!fep.isBuyableInArmory) {
     [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
@@ -143,26 +159,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Not enough money to buy this equipment"];
   }
   
+  UserEquip *ue = [gs myEquipWithId:equipId];
   return ue.quantity;
 }
 
 - (int) sellEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
-  UserEquip *ue = nil;
-  
-  for (UserEquip *u in gs.myEquips) {
-    if (u.equipId == equipId) {
-      ue = u;
-    }
-  }
+  UserEquip *ue = [gs myEquipWithId:equipId];
   
   if (ue) {
     [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
-    [gs changeQuantityForEquip:equipId by:-1];
     
     gs.silver += [gl calculateEquipSilverSellCost:ue];
     gs.gold += [gl calculateEquipGoldSellCost:ue];
+    
+    [gs changeQuantityForEquip:equipId by:-1];
   } else {
     [Globals popupMessage:@"You do not own this equipment"];
   }

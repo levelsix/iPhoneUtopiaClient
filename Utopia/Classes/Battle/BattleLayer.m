@@ -635,18 +635,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (int) calculateMyDamageForPercentage:(float)percent {
-  int multiplerWeightForSecondHalf = LOCATION_BAR_MAX / (100-LOCATION_BAR_MAX);
-  double amountWorseThanMax = (percent <= LOCATION_BAR_MAX) ? (LOCATION_BAR_MAX-percent)*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX : (percent-LOCATION_BAR_MAX)*multiplerWeightForSecondHalf*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX;
+  Globals *gl = [Globals sharedGlobals];
+  int multiplerWeightForSecondHalf = gl.locationBarMax / (100-gl.locationBarMax);
+  double amountWorseThanMax = (percent <= gl.locationBarMax) ? (gl.locationBarMax-percent)*gl.maxAttackMultiplier/gl.locationBarMax : (percent-gl.locationBarMax)*multiplerWeightForSecondHalf*gl.maxAttackMultiplier/gl.locationBarMax;
   
   
   //assumes linearity from 0-BAR_MAX and BAR_MAX-100 (diff slope magnitudes for each) to calculate attack value
-  double attackMultiplier = MAX_ATTACK_MULTIPLIER - amountWorseThanMax;
+  double attackMultiplier = gl.maxAttackMultiplier - amountWorseThanMax;
   
   double attackStat = _leftAttack * attackMultiplier;
   double defenseStat = _rightDefense;
   
-  int minDamage = (int) (_rightMaxHealth * MIN_PERCENT_OF_ENEMY_HEALTH);
-  int maxDamage = (int) (_rightMaxHealth * MAX_PERCENT_OF_ENEMY_HEALTH);
+  int minDamage = (int) (_rightMaxHealth * gl.minPercentOfEnemyHealth);
+  int maxDamage = (int) (_rightMaxHealth * gl.maxPercentOfEnemyHealth);
   
   return (int)MIN(maxDamage, MAX(minDamage, attackStat-defenseStat));
 }
@@ -892,20 +893,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (int) calculateEnemyDamageForPercentage:(float)percent {
-  int multiplerWeightForSecondHalf = LOCATION_BAR_MAX / (100-LOCATION_BAR_MAX);
-  double amountWorseThanMax = (percent <= LOCATION_BAR_MAX) ? (LOCATION_BAR_MAX-percent)*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX : (percent-LOCATION_BAR_MAX)*multiplerWeightForSecondHalf*MAX_ATTACK_MULTIPLIER/LOCATION_BAR_MAX;
+  Globals *gl = [Globals sharedGlobals];
+  int multiplerWeightForSecondHalf = gl.locationBarMax / (100-gl.locationBarMax);
+  double amountWorseThanMax = (percent <= gl.locationBarMax) ? (gl.locationBarMax-percent)*gl.maxAttackMultiplier/gl.locationBarMax : (percent-gl.locationBarMax)*multiplerWeightForSecondHalf*gl.maxAttackMultiplier/gl.locationBarMax;
   
   //assumes linearity from 0-BAR_MAX and BAR_MAX-100 (diff slope magnitudes for each) to calculate attack value
-  double attackMultiplier = MAX_ATTACK_MULTIPLIER - amountWorseThanMax;
+  double attackMultiplier = gl.maxAttackMultiplier - amountWorseThanMax;
   
   double attackStat = _rightAttack * attackMultiplier;
   double defenseStat = _leftDefense;
   
-  int minDamage = (int) (_leftMaxHealth * MIN_PERCENT_OF_ENEMY_HEALTH);
-  int maxDamage = (int) (_leftMaxHealth * MAX_PERCENT_OF_ENEMY_HEALTH);
+  int minDamage = (int) (_leftMaxHealth * gl.minPercentOfEnemyHealth);
+  int maxDamage = (int) (_leftMaxHealth * gl.maxPercentOfEnemyHealth);
   
   int statDamage = attackStat-defenseStat;
-  return (int)MIN(maxDamage, MAX(minDamage, BATTLE_DIFFERENCE_MULTIPLIER*statDamage+BATTLE_DIFFERENCE_TUNER));
+  return (int)MIN(maxDamage, MAX(minDamage, gl.battleDifferenceMultiplier*statDamage+gl.battleDifferenceTuner));
 }
 
 - (void) setLeftHealthBarPercentage:(float)percentage {
@@ -1117,8 +1119,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [self pauseClicked];
   }
   
+  // Send in attack and defense in case of fake players
+  [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup equips:self.enemyEquips attack:_rightAttack defense:_rightDefense];
   [ProfileViewController displayView];
-  [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup equips:self.enemyEquips];
   
   [Analytics enemyProfileFromBattle];
 }

@@ -178,7 +178,7 @@ typedef enum {
 
 - (void) loadMyProfile;
 - (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled;
-- (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips;
+- (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense;
 - (void) updateEquips:(NSArray *)equips;
 - (void) openSkillsMenu;
 - (void) equipViewSelected:(EquipView *)ev;

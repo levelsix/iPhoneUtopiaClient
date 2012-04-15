@@ -173,11 +173,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bigToolTip.visible = NO;
     _littleToolTip.visible = NO;
     
-    s = [CCSprite spriteWithFile:@"worldmapicon.png"];
-    CCMenuItemSprite *worldImg = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(globeClicked)];
-    worldImg.position = ccp(self.contentSize.width/2-s.contentSize.width/2-3, -self.contentSize.height/2+s.contentSize.height/2+3);
+    s = [CCSprite spriteWithFile:@"worldmap.png"];
+    _mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(globeClicked)];
+    _mapButton.position = ccp(self.contentSize.width/2-s.contentSize.width/2-3, -self.contentSize.height/2-s.contentSize.height/2);
     
-    _bottomButtons = [CCMenu menuWithItems:worldImg, nil];
+    _bottomButtons = [CCMenu menuWithItems:_mapButton, nil];
     _bottomButtons.contentSize = CGSizeMake(0, 0);
     [self addChild:_bottomButtons];
     
@@ -206,6 +206,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   // Drop the bars down
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
+  [_mapButton runAction:[CCMoveBy actionWithDuration:0.3 position:ccp(0, _mapButton.contentSize.height)]];
+//  _mapButton.isEnabled = YES;
 
   [[HomeMap sharedHomeMap] beginTimers];
   
@@ -447,7 +449,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) setEnergyBarPercentage:(float)perc {
-  if (perc != _energyBar.percentage) {
+  // Want to create it anyways if energy perc is nil
+  if (!_energyBar || perc != _energyBar.percentage) {
     [_enstBgd removeChild:_curEnergyBar cleanup:YES];
     _energyBar.percentage = perc;
     _curEnergyBar = [_energyBar updateSprite];
@@ -457,7 +460,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) setStaminaBarPercentage:(float)perc {
-  if (perc != _staminaBar.percentage) {
+  // Want to create it anyways if stamina perc is nil
+  if (!_staminaBar || perc != _staminaBar.percentage) {
     [_enstBgd removeChild:_curStaminaBar cleanup:YES];
     _staminaBar.percentage = perc;
     _curStaminaBar = [_staminaBar updateSprite];

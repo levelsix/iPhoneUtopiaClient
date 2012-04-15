@@ -136,7 +136,7 @@ message StartupResponseProto {
 	repeated ReferralNotificationProto referralNotifications = 14;
 	
 	optional string appStoreURL = 17;
-	
+
 	message MarketplacePostPurchasedNotificationProto {
 		optional FullMarketplacePostProto marketplacePost = 1;
 		optional MinimumUserProto buyer = 2;
@@ -154,6 +154,7 @@ message StartupResponseProto {
 	message ReferralNotificationProto {
 		optional MinimumUserProto referred = 1;
 		optional int64 recruitTime = 2;
+		optional int32 coinsGivenToReferrer = 3;
 	}
 	  
 	message StartupConstants {
@@ -207,7 +208,6 @@ message StartupResponseProto {
 		optional int32 maxNumbersOfEnemiesToGenerateAtOnce = 4;
 		optional double percentReturnedToUserForSellingEquipInArmory = 5;
 		
-		optional int32 diamondRewardForReferrer = 47;
 		optional int32 maxCityRank = 50;
 		
 		optional int32 minLevelForArmory = 51;
@@ -221,6 +221,7 @@ message StartupResponseProto {
 		optional int32 aviaryImgVerticalPixelOffset = 58;
 		
 		optional FormulaConstants formulaConstants = 59;
+		optional BattleConstants battleConstants = 60;
 		
 		message FormulaConstants {
 			optional double minutesToUpgradeForNormStructMultiplier = 1;
@@ -233,6 +234,17 @@ message StartupResponseProto {
 			optional double battleWeightGivenToAttackEquipSum = 7;
 			optional double battleWeightGivenToDefenseStat = 8;
 			optional double battleWeightGivenToDefenseEquipSum = 9;
+		}
+		
+		message BattleConstants {
+			optional float attackSkillPointToEquipAttackRatio = 1;
+			optional float defenseSkillPointToEquipDefenseRatio = 2;
+			optional float locationBarMax = 3;
+			optional double maxAttackMultiplier = 4;
+			optional double minPercentOfEnemyHealth = 5;
+			optional double maxPercentOfEnemyHealth = 6;
+			optional double battleDifferenceMultiplier = 7;
+			optional double battleDifferenceTuner = 8;			
 		}
 
 	}
@@ -263,7 +275,7 @@ message StartupResponseProto {
 		optional int32 minNameLength = 19;
 		optional int32 maxNameLength = 20;
 
-		optional int32 diamondRewardForBeingReferred = 22;		
+		optional int32 coinRewardForBeingReferred = 22;		
 
      	repeated NeutralCityElementProto firstCityElementsForGood = 23;
      	repeated NeutralCityElementProto firstCityElementsForBad = 24;
@@ -1176,6 +1188,7 @@ message PurchaseMarketplaceLicenseResponseProto {
 message ReferralCodeUsedResponseProto {
 	optional MinimumUserProto sender = 1;
 	optional MinimumUserProto referredPlayer = 2;
+	optional int32 coinsGivenToReferrer = 3;
 }
 
 //------------------------------------------------------------------------------------------

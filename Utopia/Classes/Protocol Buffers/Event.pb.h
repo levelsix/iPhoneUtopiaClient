@@ -215,6 +215,8 @@
 @class StartupResponseProto_ReferralNotificationProto;
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
+@class StartupResponseProto_StartupConstants_BattleConstants;
+@class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
 @class StartupResponseProto_StartupConstants_FormulaConstants_Builder;
@@ -1608,14 +1610,18 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @interface StartupResponseProto_ReferralNotificationProto : PBGeneratedMessage {
 @private
   BOOL hasRecruitTime_:1;
+  BOOL hasCoinsGivenToReferrer_:1;
   BOOL hasReferred_:1;
   int64_t recruitTime;
+  int32_t coinsGivenToReferrer;
   MinimumUserProto* referred;
 }
 - (BOOL) hasReferred;
 - (BOOL) hasRecruitTime;
+- (BOOL) hasCoinsGivenToReferrer;
 @property (readonly, retain) MinimumUserProto* referred;
 @property (readonly) int64_t recruitTime;
+@property (readonly) int32_t coinsGivenToReferrer;
 
 + (StartupResponseProto_ReferralNotificationProto*) defaultInstance;
 - (StartupResponseProto_ReferralNotificationProto*) defaultInstance;
@@ -1662,6 +1668,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (int64_t) recruitTime;
 - (StartupResponseProto_ReferralNotificationProto_Builder*) setRecruitTime:(int64_t) value;
 - (StartupResponseProto_ReferralNotificationProto_Builder*) clearRecruitTime;
+
+- (BOOL) hasCoinsGivenToReferrer;
+- (int32_t) coinsGivenToReferrer;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) setCoinsGivenToReferrer:(int32_t) value;
+- (StartupResponseProto_ReferralNotificationProto_Builder*) clearCoinsGivenToReferrer;
 @end
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
@@ -1682,7 +1693,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasDiamondRewardForReferrer_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasMinLevelForArmory_:1;
   BOOL hasMinLevelForVault_:1;
@@ -1716,6 +1726,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasFormulaConstants_:1;
+  BOOL hasBattleConstants_:1;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
@@ -1732,7 +1743,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  int32_t diamondRewardForReferrer;
   int32_t maxCityRank;
   int32_t minLevelForArmory;
   int32_t minLevelForVault;
@@ -1766,6 +1776,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
 }
@@ -1808,7 +1819,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasDiamondCostOfShortMarketplaceLicense;
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
-- (BOOL) hasDiamondRewardForReferrer;
 - (BOOL) hasMaxCityRank;
 - (BOOL) hasMinLevelForArmory;
 - (BOOL) hasMinLevelForVault;
@@ -1819,6 +1829,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasCarpenterImgVerticalPixelOffset;
 - (BOOL) hasAviaryImgVerticalPixelOffset;
 - (BOOL) hasFormulaConstants;
+- (BOOL) hasBattleConstants;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1858,7 +1869,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t diamondCostOfShortMarketplaceLicense;
 @property (readonly) int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
-@property (readonly) int32_t diamondRewardForReferrer;
 @property (readonly) int32_t maxCityRank;
 @property (readonly) int32_t minLevelForArmory;
 @property (readonly) int32_t minLevelForVault;
@@ -1869,6 +1879,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t carpenterImgVerticalPixelOffset;
 @property (readonly) int32_t aviaryImgVerticalPixelOffset;
 @property (readonly, retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+@property (readonly, retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2009,6 +2020,117 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (Float64) battleWeightGivenToDefenseEquipSum;
 - (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value;
 - (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum;
+@end
+
+@interface StartupResponseProto_StartupConstants_BattleConstants : PBGeneratedMessage {
+@private
+  BOOL hasMaxAttackMultiplier_:1;
+  BOOL hasMinPercentOfEnemyHealth_:1;
+  BOOL hasMaxPercentOfEnemyHealth_:1;
+  BOOL hasBattleDifferenceMultiplier_:1;
+  BOOL hasBattleDifferenceTuner_:1;
+  BOOL hasAttackSkillPointToEquipAttackRatio_:1;
+  BOOL hasDefenseSkillPointToEquipDefenseRatio_:1;
+  BOOL hasLocationBarMax_:1;
+  Float64 maxAttackMultiplier;
+  Float64 minPercentOfEnemyHealth;
+  Float64 maxPercentOfEnemyHealth;
+  Float64 battleDifferenceMultiplier;
+  Float64 battleDifferenceTuner;
+  Float32 attackSkillPointToEquipAttackRatio;
+  Float32 defenseSkillPointToEquipDefenseRatio;
+  Float32 locationBarMax;
+}
+- (BOOL) hasAttackSkillPointToEquipAttackRatio;
+- (BOOL) hasDefenseSkillPointToEquipDefenseRatio;
+- (BOOL) hasLocationBarMax;
+- (BOOL) hasMaxAttackMultiplier;
+- (BOOL) hasMinPercentOfEnemyHealth;
+- (BOOL) hasMaxPercentOfEnemyHealth;
+- (BOOL) hasBattleDifferenceMultiplier;
+- (BOOL) hasBattleDifferenceTuner;
+@property (readonly) Float32 attackSkillPointToEquipAttackRatio;
+@property (readonly) Float32 defenseSkillPointToEquipDefenseRatio;
+@property (readonly) Float32 locationBarMax;
+@property (readonly) Float64 maxAttackMultiplier;
+@property (readonly) Float64 minPercentOfEnemyHealth;
+@property (readonly) Float64 maxPercentOfEnemyHealth;
+@property (readonly) Float64 battleDifferenceMultiplier;
+@property (readonly) Float64 battleDifferenceTuner;
+
++ (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BattleConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_BattleConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_BattleConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_BattleConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_BattleConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_BattleConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_BattleConstants*) build;
+- (StartupResponseProto_StartupConstants_BattleConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BattleConstants*) other;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasAttackSkillPointToEquipAttackRatio;
+- (Float32) attackSkillPointToEquipAttackRatio;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setAttackSkillPointToEquipAttackRatio:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearAttackSkillPointToEquipAttackRatio;
+
+- (BOOL) hasDefenseSkillPointToEquipDefenseRatio;
+- (Float32) defenseSkillPointToEquipDefenseRatio;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setDefenseSkillPointToEquipDefenseRatio:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearDefenseSkillPointToEquipDefenseRatio;
+
+- (BOOL) hasLocationBarMax;
+- (Float32) locationBarMax;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setLocationBarMax:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearLocationBarMax;
+
+- (BOOL) hasMaxAttackMultiplier;
+- (Float64) maxAttackMultiplier;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxAttackMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxAttackMultiplier;
+
+- (BOOL) hasMinPercentOfEnemyHealth;
+- (Float64) minPercentOfEnemyHealth;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMinPercentOfEnemyHealth:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMinPercentOfEnemyHealth;
+
+- (BOOL) hasMaxPercentOfEnemyHealth;
+- (Float64) maxPercentOfEnemyHealth;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxPercentOfEnemyHealth:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxPercentOfEnemyHealth;
+
+- (BOOL) hasBattleDifferenceMultiplier;
+- (Float64) battleDifferenceMultiplier;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceMultiplier;
+
+- (BOOL) hasBattleDifferenceTuner;
+- (Float64) battleDifferenceTuner;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceTuner:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceTuner;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -2237,11 +2359,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_StartupConstants_Builder*) setPercentReturnedToUserForSellingEquipInArmory:(Float64) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearPercentReturnedToUserForSellingEquipInArmory;
 
-- (BOOL) hasDiamondRewardForReferrer;
-- (int32_t) diamondRewardForReferrer;
-- (StartupResponseProto_StartupConstants_Builder*) setDiamondRewardForReferrer:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearDiamondRewardForReferrer;
-
 - (BOOL) hasMaxCityRank;
 - (int32_t) maxCityRank;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxCityRank:(int32_t) value;
@@ -2293,6 +2410,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_StartupConstants_Builder*) setFormulaConstantsBuilder:(StartupResponseProto_StartupConstants_FormulaConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeFormulaConstants:(StartupResponseProto_StartupConstants_FormulaConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearFormulaConstants;
+
+- (BOOL) hasBattleConstants;
+- (StartupResponseProto_StartupConstants_BattleConstants*) battleConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setBattleConstants:(StartupResponseProto_StartupConstants_BattleConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setBattleConstantsBuilder:(StartupResponseProto_StartupConstants_BattleConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeBattleConstants:(StartupResponseProto_StartupConstants_BattleConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearBattleConstants;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -2301,7 +2425,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasExpRequiredForLevelTwo_:1;
   BOOL hasInitDiamonds_:1;
   BOOL hasInitCoins_:1;
-  BOOL hasDiamondRewardForBeingReferred_:1;
+  BOOL hasCoinRewardForBeingReferred_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
   BOOL hasWarriorInitDefense_:1;
@@ -2326,7 +2450,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t expRequiredForLevelTwo;
   int32_t initDiamonds;
   int32_t initCoins;
-  int32_t diamondRewardForBeingReferred;
+  int32_t coinRewardForBeingReferred;
   int32_t maxNameLength;
   int32_t minNameLength;
   int32_t warriorInitDefense;
@@ -2374,7 +2498,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasWarriorInitArmor;
 - (BOOL) hasMinNameLength;
 - (BOOL) hasMaxNameLength;
-- (BOOL) hasDiamondRewardForBeingReferred;
+- (BOOL) hasCoinRewardForBeingReferred;
 - (BOOL) hasInitCoins;
 - (BOOL) hasInitDiamonds;
 - (BOOL) hasExpRequiredForLevelTwo;
@@ -2399,7 +2523,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly, retain) FullEquipProto* warriorInitArmor;
 @property (readonly) int32_t minNameLength;
 @property (readonly) int32_t maxNameLength;
-@property (readonly) int32_t diamondRewardForBeingReferred;
+@property (readonly) int32_t coinRewardForBeingReferred;
 @property (readonly) int32_t initCoins;
 @property (readonly) int32_t initDiamonds;
 @property (readonly) int32_t expRequiredForLevelTwo;
@@ -2763,10 +2887,10 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_TutorialConstants_Builder*) setMaxNameLength:(int32_t) value;
 - (StartupResponseProto_TutorialConstants_Builder*) clearMaxNameLength;
 
-- (BOOL) hasDiamondRewardForBeingReferred;
-- (int32_t) diamondRewardForBeingReferred;
-- (StartupResponseProto_TutorialConstants_Builder*) setDiamondRewardForBeingReferred:(int32_t) value;
-- (StartupResponseProto_TutorialConstants_Builder*) clearDiamondRewardForBeingReferred;
+- (BOOL) hasCoinRewardForBeingReferred;
+- (int32_t) coinRewardForBeingReferred;
+- (StartupResponseProto_TutorialConstants_Builder*) setCoinRewardForBeingReferred:(int32_t) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearCoinRewardForBeingReferred;
 
 - (NSArray*) firstCityElementsForGoodList;
 - (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
@@ -7789,15 +7913,19 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 
 @interface ReferralCodeUsedResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasCoinsGivenToReferrer_:1;
   BOOL hasSender_:1;
   BOOL hasReferredPlayer_:1;
+  int32_t coinsGivenToReferrer;
   MinimumUserProto* sender;
   MinimumUserProto* referredPlayer;
 }
 - (BOOL) hasSender;
 - (BOOL) hasReferredPlayer;
+- (BOOL) hasCoinsGivenToReferrer;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly, retain) MinimumUserProto* referredPlayer;
+@property (readonly) int32_t coinsGivenToReferrer;
 
 + (ReferralCodeUsedResponseProto*) defaultInstance;
 - (ReferralCodeUsedResponseProto*) defaultInstance;
@@ -7846,6 +7974,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (ReferralCodeUsedResponseProto_Builder*) setReferredPlayerBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (ReferralCodeUsedResponseProto_Builder*) mergeReferredPlayer:(MinimumUserProto*) value;
 - (ReferralCodeUsedResponseProto_Builder*) clearReferredPlayer;
+
+- (BOOL) hasCoinsGivenToReferrer;
+- (int32_t) coinsGivenToReferrer;
+- (ReferralCodeUsedResponseProto_Builder*) setCoinsGivenToReferrer:(int32_t) value;
+- (ReferralCodeUsedResponseProto_Builder*) clearCoinsGivenToReferrer;
 @end
 
 @interface EquipEquipmentRequestProto : PBGeneratedMessage {

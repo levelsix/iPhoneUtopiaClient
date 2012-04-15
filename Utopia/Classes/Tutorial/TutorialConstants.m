@@ -73,7 +73,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.levelTwoCities = constants.citiesNewlyAvailableToUserAfterLevelupList;
   self.levelTwoEquips = constants.newlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
   self.levelTwoStructs = constants.newlyAvailableStructsAfterLevelupList;
-  self.diamondRewardForBeingReferred = constants.diamondRewardForBeingReferred;
   
   self.enemyName = @"Rizzy Wirk";
   self.questGiverName = @"Farmer Mitch";
@@ -112,9 +111,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.beforePurchaseText = @"Now, click on the Inn to purchase it.";
   self.beforePlacingText = @"You can only place buildings on certain tiles. Move the Inn off the road and click the green checkmark when you are ready.";
   self.afterPurchaseText = @"I don't have time to wait around for your inn to finish. Speed it up!";
-  self.afterSpeedUpText = @"Alright! Now take a short break. If someone referred you, enter his or her referral code to earn both of you some extra gold.";
+  self.afterSpeedUpText = @"Alright! It seems like you know what you're doing. Get back out there and bring glory to the %@!";
   self.createSuccessText = @"Congratulations %@! It seems like you know what you're doing. Get back out there and bring glory to the %@!";
-  self.timeSyncErrorText = @"Please change your device's time to \"Set Automatically\" to prevent crashes during gameplay.";
+  self.timeSyncErrorText = @"Please change your device's time to \"Set Automatically\" to prevent crashes during gameplay. Please restart the tutorial.";
   self.invalidReferCodeText = @"The referral code you entered is invalid.";
   self.otherFailText = @"There was an error in creating your player. Please contact support@lvl6.com to let us know how this happened.";
 }

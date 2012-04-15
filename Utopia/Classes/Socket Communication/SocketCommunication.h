@@ -17,6 +17,8 @@
   MinimumUserProto *_sender;
   int _currentTagNum;
   int _nextMsgType;
+  
+  int _numDisconnects;
 }
 
 @property (readonly) int currentTagNum;

@@ -298,8 +298,9 @@
   self.selected = nil;
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  GameState *gs = [GameState sharedGameState];
   [DialogMenuController incrementProgress];
-  [DialogMenuController displayViewForText:tc.afterSpeedUpText callbackTarget:self action:@selector(showReferralDialog)];
+  [DialogMenuController displayViewForText:[NSString stringWithFormat:tc.afterSpeedUpText, [Globals factionForUserType:gs.type]] callbackTarget:self action:@selector(showReferralDialog)];
   
   tc.structTimeOfBuildComplete = [NSDate date];
   
@@ -311,6 +312,7 @@
 }
 
 - (void) showReferralDialog {
+  [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForReferral];
 }
 

@@ -17,14 +17,15 @@
 #define HOST_NAME @"184.169.148.243"//@"10.1.10.30"
 #define HOST_PORT 8888
 
-#define UDID [[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06" //
+#define UDID @"42d1cadaa64dbf3c3e8133e652a2df06"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06" //
 //#define FORCE_TUTORIAL
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
 #define HEADER_SIZE 12
 
-#define RECONNECT_TIMEOUT 100
+#define RECONNECT_TIMEOUT 0.5f
+#define NUM_SILENT_RECONNECTS 3
 
 @implementation SocketCommunication
 
@@ -77,6 +78,7 @@ static NSString *udid = nil;
   _currentTagNum = 1;
   [self rebuildSender];
   _shouldReconnect = YES;
+  _numDisconnects = 0;
 }
 
 - (void) readHeader {
@@ -90,6 +92,7 @@ static NSString *udid = nil;
     [[OutgoingEventController sharedOutgoingEventController] startup];
   }
   [self readHeader];
+  _numDisconnects = 0;
 }
 
 - (void) socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
@@ -110,12 +113,17 @@ static NSString *udid = nil;
 	LNLog(@"socketDidDisconnect:withError: \"%@\"", err);
   
   if (_shouldReconnect) {
-    LNLog(@"Asking to reconnect..");
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
-    [av show];
-    [av release];
+    _numDisconnects++;
+    if (_numDisconnects > NUM_SILENT_RECONNECTS) {
+      LNLog(@"Asking to reconnect..");
+      UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
+      [av show];
+      [av release];
+    } else {
+      LNLog(@"Silently reconnecting..");
+      [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+    }
   }
-  //  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

@@ -19,7 +19,7 @@
 #import "TutorialMapViewController.h"
 #import "TutorialHomeMap.h"
 
-#define PAN_DURATION 25.f
+#define PAN_DURATION 1.f//25.f
 
 @implementation TutorialStartLayer
 

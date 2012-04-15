@@ -59,9 +59,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   [self.view addSubview:self.referralView];
   self.referralView.frame = self.textView.frame;
   
-  CGRect r = loadingView.frame;
-  r.origin.y = self.view.frame.size.height - r.size.height;
-  loadingView.frame = r;
+//  CGRect r = loadingView.frame;
+//  r.origin.y = self.view.frame.size.height - r.size.height;
+//  loadingView.frame = r;
 }
 
 - (void) registerCallback:(id)t action:(SEL)s {
@@ -133,26 +133,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   self.retryView.hidden = YES;
   self.girlImageView.hidden = NO;
   
-  GameState *gs = [GameState sharedGameState];
-  self.nameLabel.text = gs.type < 3 ? @"Ruby" : @"Adriana";
+//  GameState *gs = [GameState sharedGameState];
+//  self.nameLabel.text = gs.type < 3 ? @"Ruby" : @"Adriana";
+//  
+//  CGRect r = self.progressBar.frame;
+//  r.size.width = 10+43*self.progress;
+//  self.progressBar.frame = r;
+//  
+//  if (!self.view.superview) {
+//    r = self.view.frame;
+//    r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
+//    self.view.frame = r;
+//    
+//    [DialogMenuController displayView];
+//    
+//    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+//      CGRect r = self.view.frame;
+//      r.origin.y = WIN_HEIGHT-r.size.height;
+//      self.view.frame = r;
+//    }];
+//  }
   
-  CGRect r = self.progressBar.frame;
-  r.size.width = 10+43*self.progress;
-  self.progressBar.frame = r;
-  
-  if (!self.view.superview) {
-    r = self.view.frame;
-    r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
-    self.view.frame = r;
-    
-    [DialogMenuController displayView];
-    
-    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-      CGRect r = self.view.frame;
-      r.origin.y = WIN_HEIGHT-r.size.height;
-      self.view.frame = r;
-    }];
-  }
+  // Use skip because we can't use referral (Apple not allowing it)
+  [[DialogMenuController sharedDialogMenuController] skipClicked:nil];
 }
 
 + (void) displayViewForReferral {
@@ -181,7 +184,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 - (void) startLoading {
   [loadingView.actIndView startAnimating];
   
-  [self.view addSubview:loadingView];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:loadingView];
   _isDisplayingLoadingView = YES;
 }
 
@@ -265,11 +268,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 }
 
 - (void) displayUserCreateSuccessDialog {
-  self.progress++;
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  GameState *gs = [GameState sharedGameState];
-  NSString *string = [NSString stringWithFormat:tc.createSuccessText, gs.name, [Globals factionForUserType:gs.type]];
-  [DialogMenuController displayViewForText:string callbackTarget:nil action:nil];
+//  self.progress++;
+//  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+//  GameState *gs = [GameState sharedGameState];
+//  NSString *string = [NSString stringWithFormat:tc.createSuccessText, gs.name, [Globals factionForUserType:gs.type]];
+//  [DialogMenuController displayViewForText:string callbackTarget:nil action:nil];
   
   [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startGoToAviaryPhase];
   
@@ -278,7 +281,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 
 - (void) displayTimeSyncDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.otherFailText callbackTarget:nil action:nil];
+  [DialogMenuController displayViewForText:tc.timeSyncErrorText callbackTarget:self action:@selector(displayViewForReferral)];
   
 //  // Display retry button
 //  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
@@ -296,7 +299,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 
 - (void) displayOtherFailDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.otherFailText callbackTarget:nil action:nil];
+  [DialogMenuController displayViewForText:tc.otherFailText callbackTarget:self action:@selector(displayViewForReferral)];
   
   [Analytics tutorialOtherFail];
 }

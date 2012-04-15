@@ -89,6 +89,13 @@
 @property (nonatomic, assign) float battleWeightGivenToDefenseStat;
 @property (nonatomic, assign) float battleWeightGivenToDefenseEquipSum;
 
+@property (nonatomic, assign) float locationBarMax;
+@property (nonatomic, assign) float maxAttackMultiplier;
+@property (nonatomic, assign) float minPercentOfEnemyHealth;
+@property (nonatomic, assign) float maxPercentOfEnemyHealth;
+@property (nonatomic, assign) float battleDifferenceMultiplier;
+@property (nonatomic, assign) float battleDifferenceTuner;
+
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
 @property (nonatomic, retain) NSMutableDictionary *imageCache;

@@ -406,6 +406,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   self.armoryTableView.contentOffset = CGPointMake(0,0);
   self.state = kWeaponState;
   [coinBar updateLabels];
+  
+  CGRect f = self.view.frame;
+  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+  self.view.alpha = 1.f;
+  [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
+    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
+  }];
 }
 
 - (void) setState:(ArmoryState)state {
@@ -646,7 +653,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
-  [ArmoryViewController removeView];
+  [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
+    self.view.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [ArmoryViewController removeView];
+  }];
 }
 
 @end

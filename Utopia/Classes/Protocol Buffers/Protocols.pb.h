@@ -215,6 +215,8 @@
 @class StartupResponseProto_ReferralNotificationProto;
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
+@class StartupResponseProto_StartupConstants_BattleConstants;
+@class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
 @class StartupResponseProto_StartupConstants_FormulaConstants_Builder;

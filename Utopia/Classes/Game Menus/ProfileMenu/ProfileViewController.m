@@ -327,7 +327,7 @@
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:fuep.equipId];
   attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
-//  equipIcon.image = [Globals imageForEquip:fuep.equipId];
+  //  equipIcon.image = [Globals imageForEquip:fuep.equipId];
   [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
   rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
   rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
@@ -877,7 +877,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curWeaponView.label.text = fep.name;
       curWeaponView.label.textColor = [Globals colorForRarity:fep.rarity];
-//      curWeaponView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      //      curWeaponView.equipIcon.image = [Globals imageForEquip:fep.equipId];
       [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
       curWeaponView.equipIcon.hidden = NO;
       curWeaponView.chooseEquipButton.hidden = YES;
@@ -889,7 +889,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curArmorView.label.text = fep.name;
       curArmorView.label.textColor = [Globals colorForRarity:fep.rarity];
-//      curArmorView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      //      curArmorView.equipIcon.image = [Globals imageForEquip:fep.equipId];
       [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
       curArmorView.equipIcon.hidden = NO;
       curArmorView.chooseEquipButton.hidden = YES;
@@ -901,7 +901,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curAmuletView.label.text = fep.name;
       curAmuletView.label.textColor = [Globals colorForRarity:fep.rarity];
-//      curAmuletView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+      //      curAmuletView.equipIcon.image = [Globals imageForEquip:fep.equipId];
       [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
       curAmuletView.equipIcon.hidden = NO;
       curAmuletView.chooseEquipButton.hidden = YES;
@@ -998,11 +998,39 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   _fup = [fup retain];
 }
 
-- (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips {
+- (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense {
+  // This method is only used from battle
   [self loadProfileForPlayer:fup buttonsEnabled:YES];
   
   equipsScrollView.hidden = NO;
   enemyMiddleView.hidden = YES;
+  
+  attackLabel.text = [NSString stringWithFormat:@"%d", attack];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", defense];
+  
+  
+  if (fup.isFake) {
+    // Fake the equips for fake players
+    equips = [NSMutableArray arrayWithCapacity:3];
+    
+    FullUserEquipProto_Builder *bldr = [FullUserEquipProto builder];
+    bldr.userId = fup.userId;
+    bldr.quantity = 1;
+    if (fup.weaponEquipped > 0) {
+      bldr.equipId = fup.weaponEquipped;
+      [(NSMutableArray *)equips addObject:[[bldr clone] build]];
+    }
+    
+    if (fup.armorEquipped > 0) {
+      bldr.equipId = fup.armorEquipped;
+      [(NSMutableArray *)equips addObject:[[bldr clone] build]];
+    }
+    
+    if (fup.amuletEquipped > 0) {
+      bldr.equipId = fup.amuletEquipped;
+      [(NSMutableArray *)equips addObject:[[bldr clone] build]];
+    }
+  }
   
   if (equips) {
     [self loadEquips:equips curWeapon:fup.weaponEquipped curArmor:fup.armorEquipped curAmulet:fup.amuletEquipped touchEnabled:NO];

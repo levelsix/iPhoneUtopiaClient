@@ -271,9 +271,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   // Just in case the loading screen wasn't removed
   [self stopLoading];
   
-  self.view.alpha = 0.f;
-  [UIView animateWithDuration:1.f animations:^{
-    self.view.alpha = 1.f;
+  CGRect f = self.view.frame;
+  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+  self.view.alpha = 1.f;
+  [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
+    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   } completion:^(BOOL finished) {
     // In case we got here from the marketplace or armory
     [MarketplaceViewController removeView];
@@ -414,7 +416,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 - (void) fadeOut {
   [self stopLoading];
   if (self.view.superview) {
-    [UIView animateWithDuration:1.f animations:^{
+    [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
       self.view.alpha = 0.f;
     } completion:^(BOOL finished) {
       [MapViewController removeView];
