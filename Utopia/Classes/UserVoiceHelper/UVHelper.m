@@ -13,6 +13,9 @@
 #import "GameViewController.h"
 #import "UIDevice+IdentifierAddition.h"
 
+#define UV_KEY @"yn0sMSQNm7eP0FJwTZVNCw"
+#define UV_SECRET @"zSkMY4WSpWw8Ofh2URg9P8aBLdSbOy9yf3ZFpUvmk"
+
 @implementation UVHelper
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(UVHelper);
@@ -29,11 +32,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(UVHelper);
   GameState *gs = [GameState sharedGameState];
   [UserVoice presentUserVoiceModalViewControllerForParent:[GameViewController sharedGameViewController]
                                                   andSite:@"lvl6.uservoice.com"
-                                                   andKey:@"yn0sMSQNm7eP0FJwTZVNCw"
-                                                andSecret:@"zSkMY4WSpWw8Ofh2URg9P8aBLdSbOy9yf3ZFpUvmk"
-                                                 andEmail:[NSString stringWithFormat:@"%@@lostnations.com", gs.name] 
+                                                   andKey:UV_KEY
+                                                andSecret:UV_SECRET
+                                                 andEmail:[NSString stringWithFormat:@"%@%@@lostnations.com", gs.name, gs.referralCode] 
                                            andDisplayName:gs.name 
-                                                  andGUID:[[UIDevice currentDevice] uniqueDeviceIdentifier]];
+                                                  andGUID:[NSString stringWithFormat:@"%d", gs.userId]];
 }
 
 - (void) userVoiceWasDismissed {

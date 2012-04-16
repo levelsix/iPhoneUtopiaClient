@@ -46,9 +46,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   LNLog(@"Beginning async download of %@", imageName);
   dispatch_async(_queue, ^{
     [self downloadImage:imageName];
-    dispatch_async(dispatch_get_main_queue(), completed);
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+      completed();
+      LNLog(@"Download of %@ complete", imageName);
+    });
   });
-  LNLog(@"Download of %@ complete", imageName);
 }
 
 - (void) syncDownloadImage:(NSString *)imageName {

@@ -550,18 +550,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _curStamina += change;
   }
   
-  if (gs.experience != _curExp) {
-    int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
-    int diff = gs.experience - _curExp;
-    int change = 0;
-    if (diff > 0) {
-      change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
-    } else if (diff < 0) {
-      change = MIN(MAX((int)(0.01*levelDiff), diff), -1);
-    }
-    [_profilePic setExpPercentage:(_curExp+change-gs.expRequiredForCurrentLevel)/(float)(gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel)];
-    _curExp += change;
+  // Must do this outside if statement in case level up occurred
+  int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
+  int diff = gs.experience - _curExp;
+  int change = 0;
+  if (diff > 0) {
+    change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
+  } else if (diff < 0) {
+    change = MIN(MAX((int)(0.01*levelDiff), diff), -1);
   }
+  [_profilePic setExpPercentage:(_curExp+change-gs.expRequiredForCurrentLevel)/(float)(gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel)];
+  _curExp += change;
   
   [_profilePic setLevel:gs.level];
   
