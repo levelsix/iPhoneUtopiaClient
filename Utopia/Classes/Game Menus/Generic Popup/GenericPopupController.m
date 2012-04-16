@@ -9,8 +9,9 @@
 #import "GenericPopupController.h"
 #import "SynthesizeSingleton.h"
 #import "cocos2d.h"
+#import "Globals.h"
 
-#define POPUP_ANIMATION_DURATION 0.2f
+#define DISAPPEAR_ROTATION_ANGLE M_PI/3
 
 @implementation GenericPopupController
 
@@ -22,14 +23,8 @@
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 
 - (void) viewWillAppear:(BOOL)animated {
-  self.view.hidden = NO;
-  self.mainView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
-  self.bgdColorView.alpha = 0.f;
-  
-  [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
-    self.mainView.transform = CGAffineTransformMakeScale(1, 1);
-    self.bgdColorView.alpha = 1.f;
-  }];
+  self.mainView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdColorView];
 }
 
 + (void) displayViewWithText:(NSString *)string {
@@ -51,11 +46,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   if (toAppStore) {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
   } else {
-    [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
-      self.mainView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+    [UIView animateWithDuration:0.7f delay:0.f options:UIViewAnimationCurveEaseOut animations:^{
+      CGAffineTransform t = CGAffineTransformIdentity;
+      t = CGAffineTransformScale(t, 0.5f, 0.5f);
+      t = CGAffineTransformRotate(t, DISAPPEAR_ROTATION_ANGLE);
+      self.mainView.transform = t;
+      self.mainView.center = CGPointMake(self.mainView.center.x-70, self.mainView.center.y+250);
       self.bgdColorView.alpha = 0.f;
     } completion:^(BOOL finished) {
-      self.view.hidden = YES;
       [self.view removeFromSuperview];
     }];
   }

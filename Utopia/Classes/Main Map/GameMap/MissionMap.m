@@ -14,6 +14,7 @@
 #import "RefillMenuController.h"
 #import "AnimatedSprite.h"
 #import "CCLabelFX.h"
+#import "TopBar.h"
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
@@ -525,12 +526,16 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
+  if ([_selected isKindOfClass:[MissionBuilding class]] && selected == nil) {
+    [[TopBar sharedTopBar] fadeOutToolTip:NO];
+  }
   [super setSelected:selected];
   if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
     MissionBuilding *mb = (MissionBuilding *)_selected;
     [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
     [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
     [self doMenuAnimations];
+    [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
   } else {
     [self closeMenus];
   }

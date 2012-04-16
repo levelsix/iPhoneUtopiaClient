@@ -26,7 +26,10 @@
 @property (nonatomic, retain) IBOutlet UIImageView *star5;
 
 @property (nonatomic, retain) IBOutlet UIView *normStructView;
-@property (nonatomic, retain) IBOutlet UILabel *critStructLabel;  
+@property (nonatomic, retain) IBOutlet UILabel *critStructLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 - (id) initWithUserStruct:(UserStruct *)us;
 - (id) initWithCritStruct:(NSString *)cs;

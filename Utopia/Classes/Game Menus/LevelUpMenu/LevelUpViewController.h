@@ -17,6 +17,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *itemLabel;
 @property (nonatomic, retain) IBOutlet UILabel *congratsLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 - (id) initWithLevelUpResponse:(LevelUpResponseProto *)lurp;
 
 @end

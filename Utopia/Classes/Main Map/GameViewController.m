@@ -29,6 +29,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "ArmoryViewController.h"
+#import "GenericPopupController.h"
 #import "GoldShoppeViewController.h"
 #import "MapViewController.h"
 #import "MarketplaceViewController.h"
@@ -102,6 +103,8 @@
   [VaultMenuController removeView];
   [VaultMenuController purgeSingleton];
   [GameLayer purgeSingleton];
+  [GenericPopupController removeView];
+  [GenericPopupController purgeSingleton];
   [[HomeMap sharedHomeMap] invalidateAllTimers];
   [HomeMap purgeSingleton];
   [BattleLayer purgeSingleton];

@@ -110,6 +110,7 @@
 @implementation ActivityFeedController
 
 @synthesize activityTableView, actCell, users;
+@synthesize mainView, bgdView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 
@@ -131,6 +132,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   
   self.users = nil;
   
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:userIds];
 }
 
@@ -158,7 +160,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [ActivityFeedController removeView];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [ActivityFeedController removeView];
+  }];
 }
 
 - (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto {

@@ -236,6 +236,7 @@
 @synthesize pkgTableView, curGoldLabel;
 @synthesize state = _state;
 @synthesize topBar;
+@synthesize mainView, bgdView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
@@ -248,6 +249,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.pkgTableView.rowHeight = 62;
   
   self.state = kPackagesState;
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -304,7 +309,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
-  [GoldShoppeViewController removeView];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [GoldShoppeViewController removeView];
+  }];
 }
 
 - (void) startLoading {

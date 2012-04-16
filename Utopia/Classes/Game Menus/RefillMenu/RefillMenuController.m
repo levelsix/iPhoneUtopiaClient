@@ -53,6 +53,7 @@
 @synthesize enstTitleLabel, enstImageView, enstGoldCostLabel, fillEnstLabel, enstHintLabel;
 @synthesize itemsCostView, itemsSilverLabel;
 @synthesize itemsScrollView, itemsContainerView;
+@synthesize bgdView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
@@ -170,14 +171,24 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
 - (void) openView:(UIView *)view {
   [self.view bringSubviewToFront:view];
-  [RefillMenuController displayView];
-  
-  view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
   view.hidden = NO;
   
-  [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
-    view.transform = CGAffineTransformMakeScale(1, 1);
-  }];
+  if (!self.view.superview) {
+    [RefillMenuController displayView];
+    [Globals bounceView:view fadeInBgdView:self.bgdView];
+  } else {
+    [Globals bounceView:view];
+    
+    // bounceView does not fade in
+    view.alpha = 0.f;
+    [UIView animateWithDuration:0.3 animations:^{
+      view.alpha = 1.f;
+    }];
+  }
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
 }
 
 - (void) closeView:(UIView *)view {
@@ -186,6 +197,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   }
   [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
     view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+    view.alpha = 0.f;
+    // If this is the last view we must fade out bgd view as well
+    if ((view == goldView || goldView.hidden) && 
+        (view == enstView || enstView.hidden) && 
+        (view == itemsView || itemsView.hidden) && 
+        (view == silverView || silverView.hidden)) {
+      bgdView.alpha = 0.f;
+    }
   } completion:^(BOOL finished) {
     view.hidden = YES;
     if (goldView.hidden && enstView.hidden && itemsView.hidden && silverView.hidden) {

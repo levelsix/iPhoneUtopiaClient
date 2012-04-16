@@ -26,6 +26,9 @@
 @property (nonatomic, retain) IBOutlet UITableView *activityTableView;
 @property (nonatomic, retain) IBOutlet ActivityFeedCell *actCell;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 @property (retain) NSArray *users;
 
 + (ActivityFeedController *) sharedActivityFeedController;

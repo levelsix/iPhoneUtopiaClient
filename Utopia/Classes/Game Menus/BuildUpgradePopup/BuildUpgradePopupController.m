@@ -16,6 +16,7 @@
 @synthesize titleLabel, descriptionLabel, structIcon;
 @synthesize star1, star2, star3, star4, star5;
 @synthesize critStructLabel, normStructView;
+@synthesize mainView, bgdView;
 
 - (id) initWithUserStruct:(UserStruct *)us {
   if ((self = [super init])) {
@@ -69,10 +70,16 @@
   }
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
 - (IBAction)okayClicked:(id)sender {
-  [self.view removeFromSuperview];
-  [self didReceiveMemoryWarning];
-  [self release];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [self didReceiveMemoryWarning];
+    [self release];
+  }];
 }
 
 - (void)viewDidUnload

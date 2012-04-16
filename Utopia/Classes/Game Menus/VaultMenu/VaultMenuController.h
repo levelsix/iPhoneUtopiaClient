@@ -22,6 +22,9 @@
 @property (nonatomic, retain) IBOutlet UIView *tickerHolderView;
 @property (nonatomic, retain) IBOutlet UILabel *bottomLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 @property (nonatomic, retain) NSArray *tickers;
 @property (nonatomic, retain) NSString *vaultBalance;
 @property (nonatomic, retain) NSTimer *timer;

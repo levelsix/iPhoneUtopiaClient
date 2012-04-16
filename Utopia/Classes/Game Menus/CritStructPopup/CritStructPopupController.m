@@ -7,10 +7,12 @@
 //
 
 #import "CritStructPopupController.h"
+#import "Globals.h"
 
 @implementation CritStructPopupController
 
 @synthesize titleLabel, descLabel, buttonLabel;
+@synthesize mainView, bgdView;
 
 - (id) initWithCritStruct:(CritStruct *)cs {
   if ((self = [super init])) {
@@ -46,11 +48,17 @@
   descLabel.text = desc;
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
 - (IBAction)okayClicked:(id)sender {
-  [self.view removeFromSuperview];
-  [_critStruct openMenu]; 
-  [self didReceiveMemoryWarning];
-  [self release];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [_critStruct openMenu]; 
+    [self didReceiveMemoryWarning];
+    [self release];
+  }];
 }
 
 - (void)viewDidUnload

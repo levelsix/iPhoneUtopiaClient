@@ -122,6 +122,8 @@
   int _cityId;
   
   int _comboBarWindupSound;
+  
+  BOOL _cameFromAviary;
 }
 
 @property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;

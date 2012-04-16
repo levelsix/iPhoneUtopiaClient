@@ -713,21 +713,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
-  [UIView animateWithDuration:0.5f animations:^{
-    if (self.view.superview) {
-      self.view.alpha = 0.f;
-    } else {
-      self.rightPage.alpha = 0.f;
-    }
-  } completion:^(BOOL finished) {
-    if (self.view.superview) {
-      [self.view removeFromSuperview];
-    } else {
-      [self.rightPage removeFromSuperview];
-    }
-  }];
-  
-  [[GameLayer sharedGameLayer] closeMenus];
+  if (!_closing) {
+    _closing = YES;
+    [UIView animateWithDuration:0.5f animations:^{
+      if (self.view.superview) {
+        self.view.alpha = 0.f;
+      } else {
+        self.rightPage.alpha = 0.f;
+      }
+    } completion:^(BOOL finished) {
+      if (self.view.superview) {
+        [self.view removeFromSuperview];
+      } else {
+        [self.rightPage removeFromSuperview];
+      }
+      _closing = NO;
+    }];
+    
+    [[GameLayer sharedGameLayer] closeMenus];
+  }
 }
 
 - (IBAction)taskButtonTapped:(id)sender {

@@ -16,6 +16,7 @@
 #import "HomeMap.h"
 #import "GameLayer.h"
 #import "ArmoryViewController.h"
+#import "CarpenterMenuController.h"
 #import "MarketplaceViewController.h"
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 10
@@ -280,12 +281,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     // In case we got here from the marketplace or armory
     [MarketplaceViewController removeView];
     [ArmoryViewController removeView];
+    [CarpenterMenuController removeView];
   }];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [self removeAllPins];
   [[[GameState sharedGameState] attackList] removeAllObjects];
+  self.mapView.showsUserLocation = NO;
+}
+
+- (void) openEnemiesTab {
+  self.state = kEnemyButton;
+  
+  [self.mapBar clickButton:kEnemyButton];
+  [self.mapBar unclickButton:kMissionButton];
 }
 
 - (void) setState:(MapState)state {
@@ -306,6 +316,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     case kMissionMap:
       missionMap.hidden = NO;
       _mapView.hidden = YES;
+      _mapView.showsUserLocation = NO;
       break;
       
     default:

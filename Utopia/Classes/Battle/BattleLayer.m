@@ -457,9 +457,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   self.enemyEquips = nil;
   [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
   
-  // Remove mapviewcontroller in case we were called from there
-  [[MapViewController sharedMapViewController] fadeOut];
-  
   [self removeChild:_left cleanup:YES];
   [self removeChild:_right cleanup:YES];
   
@@ -512,7 +509,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   if (!_isRunning) {
     _isRunning = YES;
     CCScene *scene = [BattleLayer scene];
-    [dir pushScene:scene];//[CCTransitionFadeTR transitionWithDuration:1.f scene:scene]];
+    [dir pushScene:[CCTransitionFadeTR transitionWithDuration:1.f scene:scene]];
+    
+    // Remove mapviewcontroller in case we were called from there
+    // but record whether we came from there or not
+    MapViewController *mvc = [MapViewController sharedMapViewController];
+    if (mvc.view.superview) {
+      [[MapViewController sharedMapViewController] fadeOut];
+      _cameFromAviary = YES;
+    } else {
+      _cameFromAviary = NO;
+    }
   }
   
   self.brp = nil;
@@ -1130,8 +1137,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   self.enemyEquips = nil;
   [_fup release];
   _fup = nil;
-  [[CCDirector sharedDirector] popScene];//WithTransition:[CCTransitionFadeBL class] duration:1.f];
+  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFadeBL class] duration:1.f];
   _isRunning = NO;
+  
+  [[GameLayer sharedGameLayer] startHomeMapTimersIfOkay];
+  
+  if (_cameFromAviary) {
+    [MapViewController displayView];
+    [[MapViewController sharedMapViewController] openEnemiesTab];
+  }
 }
 
 - (void) receivedUserEquips:(RetrieveUserEquipForUserResponseProto *)proto {

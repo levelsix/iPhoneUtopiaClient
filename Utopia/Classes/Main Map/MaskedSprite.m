@@ -20,8 +20,10 @@
   [_textureSprite setBlendFunc:(ccBlendFunc){GL_DST_ALPHA, GL_ZERO}];
   
   [rt begin];
-  [_maskSprite visit];        
-  [_textureSprite visit];    
+  if (_percentage != 0.f) {
+    [_maskSprite visit];        
+    [_textureSprite visit]; 
+  }   
   [rt end];
   
   CCSprite *toRet = [CCSprite spriteWithTexture:rt.sprite.texture];

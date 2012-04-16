@@ -55,6 +55,7 @@ typedef enum {
 - (void) unloadTutorialMissionMap;
 - (void) loadTutorialMissionMap;
 - (GameMap *) currentMap;
+- (void) startHomeMapTimersIfOkay;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;

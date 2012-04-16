@@ -225,7 +225,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
-  NSLog(@"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
+  LNLog(@"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];
     return;

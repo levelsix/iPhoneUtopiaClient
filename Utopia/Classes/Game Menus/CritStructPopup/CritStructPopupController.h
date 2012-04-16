@@ -17,6 +17,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *descLabel;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 - (id) initWithCritStruct:(CritStruct *)cs;
 
 @end

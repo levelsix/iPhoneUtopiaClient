@@ -149,6 +149,9 @@
 + (NSString *) commafyNumber:(int) n;
 
 + (void) popupMessage: (NSString *)msg;
++ (void) bounceView: (UIView *) view;
++ (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
++ (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (UIImage *) imageNamed:(NSString *)path;

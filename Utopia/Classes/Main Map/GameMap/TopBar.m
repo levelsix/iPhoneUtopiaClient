@@ -20,6 +20,9 @@
 
 #define FADE_ANIMATION_DURATION 0.2f
 
+#define ENERGY_BAR_POSITION ccp(53,15)
+#define STAMINA_BAR_POSITION ccp(149,15)
+
 @implementation ToolTip
 
 - (void) setOpacity:(GLubyte)opacity {
@@ -193,6 +196,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _curStamina = 0;
     _curExp = gs.expRequiredForCurrentLevel;
     
+    [self setStaminaBarPercentage:0.f];
+    [self setEnergyBarPercentage:0.f];
+    
     self.isTouchEnabled = YES;
   }
   return self;
@@ -207,8 +213,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
   [_mapButton runAction:[CCMoveBy actionWithDuration:0.3 position:ccp(0, _mapButton.contentSize.height)]];
-//  _mapButton.isEnabled = YES;
-
+  //  _mapButton.isEnabled = YES;
+  
   [[HomeMap sharedHomeMap] beginTimers];
   
   [self schedule:@selector(update)];
@@ -315,6 +321,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) fadeInBigToolTip:(BOOL)isEnergy {
   if (_bigToolTipState == kNotShowing) {
+    [_bigToolTip stopAllActions];
     [_bigToolTip runAction:[CCFadeIn actionWithDuration:FADE_ANIMATION_DURATION]];
   }
   _bigToolTip.visible = YES;
@@ -336,19 +343,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) fadeInLittleToolTip:(BOOL)isEnergy {
-  if (_littleToolTipState == kNotShowing) {
-    [_littleToolTip runAction:[CCFadeIn actionWithDuration:FADE_ANIMATION_DURATION]];
-  }
+  [_littleToolTip stopAllActions];
+  [_littleToolTip runAction:[CCFadeTo actionWithDuration:FADE_ANIMATION_DURATION*(255-_littleToolTip.opacity)/255 opacity:255]];
   _littleToolTip.visible = YES;
   _littleToolTipState = isEnergy ? kEnergy : kStamina;
 }
 
 - (void) fadeOutToolTip:(BOOL)big {
-  CCNode *toolTip = big ? _bigToolTip : _littleToolTip;
+  CCSprite *toolTip = big ? _bigToolTip : _littleToolTip;
   
   if (toolTip.visible) {
+    [toolTip stopAllActions];
     [toolTip runAction:[CCSequence actions:
-                        [CCFadeOut actionWithDuration:FADE_ANIMATION_DURATION],
+                        [CCFadeTo actionWithDuration:FADE_ANIMATION_DURATION*toolTip.opacity/255 opacity:0],
                         [CCCallFuncN actionWithTarget:self selector:@selector(setInvisible:)], nil]];
   }
 }
@@ -416,8 +423,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     if (_bigToolTipState != kNotShowing) {
       [self fadeOutToolTip:YES];
     }
-    if (_littleToolTipState != kNotShowing) {
-      [self fadeOutToolTip:NO];
+    GameMap *gm = [[GameLayer sharedGameLayer] currentMap];
+    if (![gm.selected isKindOfClass:[MissionBuilding class]]) {
+      if (_littleToolTipState != kNotShowing) {
+        [self fadeOutToolTip:NO];
+      }
     }
   }
   return NO;
@@ -449,24 +459,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) setEnergyBarPercentage:(float)perc {
-  // Want to create it anyways if energy perc is nil
-  if (!_energyBar || perc != _energyBar.percentage) {
+  if (!_curEnergyBar || perc != _energyBar.percentage) {
     [_enstBgd removeChild:_curEnergyBar cleanup:YES];
     _energyBar.percentage = perc;
     _curEnergyBar = [_energyBar updateSprite];
     [_enstBgd addChild:_curEnergyBar z:1 tag:1];
-    _curEnergyBar.position = ccp(53,15);
+    _curEnergyBar.position = ENERGY_BAR_POSITION;
   }
 }
 
 - (void) setStaminaBarPercentage:(float)perc {
   // Want to create it anyways if stamina perc is nil
-  if (!_staminaBar || perc != _staminaBar.percentage) {
+  if (!_curStaminaBar || perc != _staminaBar.percentage) {
     [_enstBgd removeChild:_curStaminaBar cleanup:YES];
     _staminaBar.percentage = perc;
     _curStaminaBar = [_staminaBar updateSprite];
     [_enstBgd addChild:_curStaminaBar z:1 tag:2];
-    _curStaminaBar.position = ccp(149,15);
+    _curStaminaBar.position = STAMINA_BAR_POSITION;
   }
 }
 
@@ -569,7 +578,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];
       _bigTimerLabel.string = [NSString stringWithFormat:@"+1 in %01d:%02d", time/60, time%60];
     }
-  } else if (_bigToolTipState == kStamina) { 
+  } else if (_bigToolTipState == kStamina) {
     _bigToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
     _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
     if (gs.currentStamina >= gs.maxStamina) {

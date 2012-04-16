@@ -26,6 +26,7 @@
 @property (nonatomic, retain) IBOutlet UIView *silverView;
 @property (nonatomic, retain) IBOutlet UIView *enstView;
 @property (nonatomic, retain) IBOutlet UIView *itemsView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) IBOutlet UILabel *needGoldLabel;
 @property (nonatomic, retain) IBOutlet UILabel *curGoldLabel;

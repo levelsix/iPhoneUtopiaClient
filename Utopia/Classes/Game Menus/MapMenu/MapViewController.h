@@ -87,6 +87,7 @@ typedef enum {
 - (IBAction)closeClicked:(id)sender;
 - (IBAction)homeClicked:(id)sender;
 
+- (void) openEnemiesTab;
 - (void) fadeOut;
 - (void) startLoadingWithText:(NSString *)str;
 - (void) stopLoading;

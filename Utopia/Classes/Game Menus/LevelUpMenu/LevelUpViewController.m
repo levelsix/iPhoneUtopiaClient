@@ -17,6 +17,7 @@
 @synthesize congratsLabel;
 @synthesize levelUpResponse, itemView;
 @synthesize itemLabel, itemIcon;
+@synthesize mainView, bgdView;
 
 - (id) initWithLevelUpResponse:(LevelUpResponseProto *)lurp {
   if ((self = [super init])) {
@@ -31,6 +32,10 @@
   // Do any additional setup after loading the view from its nib.
   
   congratsLabel.text = [NSString stringWithFormat:@"You have reached level %d!", levelUpResponse.newLevel];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -75,7 +80,6 @@
     if (levelUpResponse.newlyEquippableEpicsAndLegendariesList.count != 0) {
       FullEquipProto *fep = [levelUpResponse.newlyEquippableEpicsAndLegendariesList objectAtIndex:indexPath.row];
       [[NSBundle mainBundle] loadNibNamed:@"LevelUpItemView" owner:self options:nil];
-//      self.itemIcon.image = [Globals imageForEquip:fep.equipId];
       [Globals loadImageForEquip:fep.equipId toView:self.itemIcon maskedView:nil];
       self.itemLabel.textColor = [Globals colorForRarity:fep.rarity];
       self.itemLabel.text = fep.name;
@@ -93,7 +97,6 @@
     if (levelUpResponse.newlyAvailableStructsList.count != 0) {
       FullStructureProto *fsp = [levelUpResponse.newlyAvailableStructsList objectAtIndex:indexPath.row];
       [[NSBundle mainBundle] loadNibNamed:@"LevelUpItemView" owner:self options:nil];
-//      self.itemIcon.image = [Globals imageForStruct:fsp.structId];
       [Globals loadImageForStruct:fsp.structId toView:self.itemIcon masked:NO];
       self.itemLabel.text = fsp.name;
       [cell.contentView addSubview:self.itemView];
@@ -130,7 +133,6 @@
 }
 
 - (IBAction)okayClicked:(id)sender {
-  [self.view removeFromSuperview];
   [[ProfileViewController sharedProfileViewController] loadMyProfile];
   
   // Load build struct first if something is unlocked
@@ -151,8 +153,12 @@
   
   [ProfileViewController displayView];
   [[ProfileViewController sharedProfileViewController] openSkillsMenu];
-  [self didReceiveMemoryWarning];
-  [self release];
+  
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [self didReceiveMemoryWarning];
+    [self release];
+  }];
 }
 
 - (void)viewDidUnload

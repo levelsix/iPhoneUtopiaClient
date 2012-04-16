@@ -7,6 +7,7 @@
 //
 
 #import "CityRankupViewController.h"
+#import "Globals.h"
 
 @interface CityRankupViewController ()
 
@@ -16,6 +17,7 @@
 
 @synthesize rankupLabel, expLabel, coinLabel;
 @synthesize rank, coins, exp;
+@synthesize mainView, bgdView;
 
 - (id) initWithRank:(int)r coins:(int)c exp:(int)e {
   if ((self = [super init])) {
@@ -36,10 +38,16 @@
   expLabel.text = [NSString stringWithFormat:@"Exp. +%d", exp];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
 - (IBAction)okayClicked:(id)sender {
-  [self.view removeFromSuperview];
-  [self didReceiveMemoryWarning];
-  [self release];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self.view removeFromSuperview];
+    [self didReceiveMemoryWarning];
+    [self release];
+  }];
 }
 
 - (void)viewDidUnload

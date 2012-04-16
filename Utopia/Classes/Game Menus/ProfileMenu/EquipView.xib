@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1280</int>
+		<int key="IBDocument.SystemTarget">1296</int>
 		<string key="IBDocument.SystemVersion">11D50b</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
 		<string key="IBDocument.AppKitVersion">1138.32</string>
@@ -234,6 +234,7 @@
 						<string key="NSFrame">{{67, 23}, {20, 16}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -689,10 +690,25 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProfileViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="closeClicked:">id</string>
+						<string key="skillButtonClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="closeClicked:">
+							<string key="name">closeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="skillButtonClicked:">
+							<string key="name">skillButtonClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="attackLabel">UILabel</string>
 						<string key="attackStatButton">UIButton</string>
 						<string key="attackStatLabel">UILabel</string>
+						<string key="bgdView">UIView</string>
 						<string key="bigAttackButton">UIButton</string>
 						<string key="codeLabel">UILabel</string>
 						<string key="curAmuletView">CurrentEquipView</string>
@@ -715,6 +731,7 @@
 						<string key="hpStatLabel">UILabel</string>
 						<string key="levelLabel">UILabel</string>
 						<string key="lossesLabel">UILabel</string>
+						<string key="mainView">UIView</string>
 						<string key="nibEquipView">EquipView</string>
 						<string key="profileBar">ProfileBar</string>
 						<string key="profilePicture">UIImageView</string>
@@ -722,6 +739,7 @@
 						<string key="skillPointsLabel">UILabel</string>
 						<string key="skillTabView">UIView</string>
 						<string key="smallAttackButton">UIButton</string>
+						<string key="spinner">UIActivityIndicatorView</string>
 						<string key="staminaCostLabel">UILabel</string>
 						<string key="staminaStatButton">UIButton</string>
 						<string key="staminaStatLabel">UILabel</string>
@@ -744,6 +762,10 @@
 						<object class="IBToOneOutletInfo" key="attackStatLabel">
 							<string key="name">attackStatLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="bigAttackButton">
 							<string key="name">bigAttackButton</string>
@@ -833,6 +855,10 @@
 							<string key="name">lossesLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="mainView">
+							<string key="name">mainView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="nibEquipView">
 							<string key="name">nibEquipView</string>
 							<string key="candidateClassName">EquipView</string>
@@ -860,6 +886,10 @@
 						<object class="IBToOneOutletInfo" key="smallAttackButton">
 							<string key="name">smallAttackButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="staminaCostLabel">
 							<string key="name">staminaCostLabel</string>
@@ -915,6 +945,10 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
+			<real value="1296" key="NS.object.0"/>
+		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">

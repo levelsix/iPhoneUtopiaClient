@@ -14,6 +14,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *coinLabel;
 @property (nonatomic, retain) IBOutlet UILabel *expLabel;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 @property (nonatomic, assign) int rank;
 @property (nonatomic, assign) int coins;
 @property (nonatomic, assign) int exp;

@@ -82,6 +82,9 @@ typedef enum {
 
 @property (nonatomic, assign) GoldShoppeState state;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 + (GoldShoppeViewController *)sharedGoldShoppeViewController;
 + (void) displayView;
 + (void) removeView;

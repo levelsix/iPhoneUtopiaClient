@@ -109,6 +109,7 @@ typedef enum {
 @interface QuestLogController : UIViewController {
   UIView *_curView;
   FullQuestProto *_fqp;
+  BOOL _closing;
 }
 
 @property (nonatomic, retain) IBOutlet QuestDescriptionView *questDescView;

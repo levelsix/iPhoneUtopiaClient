@@ -161,7 +161,7 @@
       [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     }
   } else {
-    [[[QuestLogController sharedQuestLogController] rightPage] removeFromSuperview];
+    [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
   }
 }
 

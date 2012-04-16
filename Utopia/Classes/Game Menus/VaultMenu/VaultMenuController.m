@@ -73,7 +73,7 @@
 @implementation VaultMenuController
 
 @synthesize depositButton, withdrawButton, transferField, bottomLabel;
-
+@synthesize mainView, bgdView;
 @synthesize tickers, tickerHolderView, vaultBalance, timer;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
@@ -81,7 +81,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 #pragma mark - View lifecycle
 
 - (IBAction)closeClicked:(id)sender {
-  [VaultMenuController removeView];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [VaultMenuController removeView];
+  }];
 }
 
 - (IBAction)depositClicked:(id)sender {
@@ -157,22 +159,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   self.bottomLabel.text = [NSString stringWithFormat:@"Bank Notice: There is a %d%% fee on deposits.", (int)([[Globals sharedGlobals] cutOfVaultDepositTaken]*100)];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   vaultBalance = @"000000000";
   [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     ((VaultTickView *)[(SBTickerView *)obj frontView]).num = 0;
   }];
   transferField.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] silver]];
-  [self updateBalance];
-  //  self.timer = [NSTimer timerWithTimeInterval:TICK_DURATION target:self selector:@selector(updateBalance) userInfo:nil repeats:YES];
-  //  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
   
+  [self performSelector:@selector(updateBalance) withObject:nil afterDelay:0.5];
+  
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   [Analytics vaultOpen];
-}
-
-- (void) viewDidDisappear:(BOOL)animated {
-  //  [self.timer invalidate];
-  [super viewDidDisappear:animated];
 }
 
 - (int) firstDifference: (NSString *)firstStr second:(NSString *)secondStr {

@@ -489,6 +489,7 @@
 @synthesize selfLeftView, enemyLeftView, friendLeftView;
 @synthesize visitButton, smallAttackButton, bigAttackButton;
 @synthesize spinner;
+@synthesize mainView, bgdView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -586,21 +587,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   equippingView.hidden = YES;
   
   skillTabView.frame = equipTabView.frame;
-  [self.view addSubview:skillTabView];
+  [self.mainView addSubview:skillTabView];
   
   enemyMiddleView.frame = equipsScrollView.frame;
   [equipTabView addSubview:enemyMiddleView];
   
   selfLeftView.frame = enemyLeftView.frame;
-  [self.view addSubview:selfLeftView];
+  [self.mainView addSubview:selfLeftView];
   
   friendLeftView.frame = enemyLeftView.frame;
-  [self.view addSubview:friendLeftView];
+  [self.mainView addSubview:friendLeftView];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   self.spinner.hidden = YES;
   [self.spinner stopAnimating];
+  
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) setCurScope:(EquipScope)curScope {
@@ -618,6 +621,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   equippingView.frame = [equipTabView convertRect:ev.equipIcon.frame fromView:ev];
   equippingView.image = ev.equipIcon.image;
   equippingView.hidden = NO;
+  [equippingView.layer removeAllAnimations];
   
   CurrentEquipView *cev;
   EquipView *curBorderView;
@@ -655,7 +659,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [UIView setAnimationDelegate:self];
   [UIView setAnimationDidStopSelector:@selector(finishedEquippingAnimation)];
   
-  equippingView.frame = [equipTabView convertRect:cev.equipIcon.frame fromView: equipTabView];
+  equippingView.frame = cev.equipIcon.frame;
   curBorderView.border.alpha = 0.f;
   ev.border.alpha = 1.f;
   
@@ -695,6 +699,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
         [self doEquippingAnimation:ev forType:fep.equipType];
       }
       unequippableView.hidden = YES;
+      [self displayMyCurrentStats];
     } else {
       [ev doShake];
       if (fep.classType != gs.type % 3) {
@@ -1049,6 +1054,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
+- (void) displayMyCurrentStats {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped]];
+}
+
 - (void) loadMyProfile {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -1060,9 +1072,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", gs.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]];
-  attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped]];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped]];
   codeLabel.text = gs.referralCode;
+  
+  [self displayMyCurrentStats];
   
   [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
   self.profileBar.state = kMyProfile;
@@ -1125,10 +1137,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   
   [self loadSkills];
+  [self displayMyCurrentStats];
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [ProfileViewController removeView];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [ProfileViewController removeView];
+  }];
 }
 
 - (IBAction)visitClicked:(id)sender {

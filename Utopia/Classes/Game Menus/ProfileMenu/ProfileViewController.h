@@ -174,6 +174,9 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 @property (nonatomic, retain) UIImageView *equippingView;
 
 - (void) loadMyProfile;

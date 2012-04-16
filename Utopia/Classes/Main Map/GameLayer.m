@@ -173,6 +173,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   }
 }
 
+- (void) startHomeMapTimersIfOkay {
+  if (currentCity == 0) {
+    [_homeMap beginTimers];
+  }
+}
+
 - (void) onEnter {
   [super onEnter];
   if (_homeMap.visible) {
