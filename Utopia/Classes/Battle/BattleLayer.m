@@ -520,6 +520,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     } else {
       _cameFromAviary = NO;
     }
+  } else {
+    [self startBattle];
   }
   
   self.brp = nil;
@@ -532,12 +534,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [summaryView removeFromSuperview];
   [stolenEquipView removeFromSuperview];
   
-  [self startBattle];
-  
   // Close the menus
   [[GameLayer sharedGameLayer] closeMenus];
   
   _cityId = 0;
+  
+  _attackButton.visible = NO;
+  _comboBar.visible = NO;
+  _flippedComboBar.visible = NO;
+  _bottomMenu.visible = NO;
+  _pausedLayer.visible = NO;
+  _fleeLayer.visible = NO;
+  _winLayer.visible = NO;
+  _loseLayer.visible = NO;
+  _isBattling = YES;
+}
+
+- (void) onEnterTransitionDidFinish {
+  [super onEnterTransitionDidFinish];
+  [self startBattle];
 }
 
 - (void) beginBattleAgainst:(FullUserProto *)user inCity:(int) cityId {

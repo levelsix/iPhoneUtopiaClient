@@ -305,6 +305,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
                                multiSampling:YES 
                              numberOfSamples:3];
   
+  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
   [[CCDirector sharedDirector] setOpenGLView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices

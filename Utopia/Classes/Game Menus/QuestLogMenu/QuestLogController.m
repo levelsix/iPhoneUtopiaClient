@@ -723,7 +723,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
       }
     } completion:^(BOOL finished) {
       if (self.view.superview) {
-        [self.view removeFromSuperview];
+        [QuestLogController removeView];
       } else {
         [self.rightPage removeFromSuperview];
       }

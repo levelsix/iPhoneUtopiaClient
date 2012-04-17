@@ -957,11 +957,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) bounceView: (UIView *) view {
-  view.layer.transform = CATransform3DMakeScale(0.5, 0.5, 1.0);
+  view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
   
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
   bounceAnimation.values = [NSArray arrayWithObjects:
-                            [NSNumber numberWithFloat:0.5],
+                            [NSNumber numberWithFloat:0.3],
                             [NSNumber numberWithFloat:1.15],
                             [NSNumber numberWithFloat:0.95],
                             [NSNumber numberWithFloat:1.0], nil];
@@ -970,7 +970,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], 
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], nil];
-  bounceAnimation.duration = 0.5;
+  
+  bounceAnimation.calculationMode = kCAAnimationCubic;
+  bounceAnimation.duration = 0.6;
   [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
   
   view.layer.transform = CATransform3DIdentity;
@@ -979,7 +981,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView {
   view.alpha = 0;
   bgdView.alpha = 0;
-  [UIView animateWithDuration:0.3 animations:^{
+  [UIView animateWithDuration:0.15 animations:^{
     view.alpha = 1.0;
     bgdView.alpha = 1.f;
   }];

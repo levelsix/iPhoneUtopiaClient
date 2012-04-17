@@ -24,9 +24,17 @@
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
-#define START_ANGLE -14.f//-17.f
-#define TOTAL_ANGLE -87.f//-81.f
-#define BUTTON_DISTANCE 60.f//40.f
+
+#define THREE_BUTTONS
+#ifdef THREE_BUTTONS
+#define START_ANGLE -17.f
+#define TOTAL_ANGLE -81.f
+#define BUTTON_DISTANCE 40.f
+#elif FOUR_BUTTONS
+#define START_ANGLE -14.f
+#define TOTAL_ANGLE -87.f
+#define BUTTON_DISTANCE 60.f
+#endif
 
 #define PULSATE_DURATION 1.587f
 
@@ -194,11 +202,11 @@
     button3.visible = NO;
     [_menuItems addObject:button3];
     
-    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
-    button4.visible = NO;
-    [_menuItems addObject:button4];
+//    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+//    button4.visible = NO;
+//    [_menuItems addObject:button4];
     
-    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, button4, nil];
+    CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, nil];
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
     [self addChild:menu z:-1];

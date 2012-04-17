@@ -17,11 +17,14 @@
 #import "GameMap.h"
 #import "HomeMap.h"
 #import "MapViewController.h"
+#import "UVHelper.h"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
 #define ENERGY_BAR_POSITION ccp(53,15)
 #define STAMINA_BAR_POSITION ccp(149,15)
+
+#define BOTTOM_BUTTON_OFFSET 5
 
 @implementation ToolTip
 
@@ -176,11 +179,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bigToolTip.visible = NO;
     _littleToolTip.visible = NO;
     
-    s = [CCSprite spriteWithFile:@"worldmap.png"];
-    _mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(globeClicked)];
-    _mapButton.position = ccp(self.contentSize.width/2-s.contentSize.width/2-3, -self.contentSize.height/2-s.contentSize.height/2);
+    s = [CCSprite spriteWithFile:@"map.png"];
+    CCMenuItemSprite *mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(globeClicked)];
+    mapButton.position = ccp(self.contentSize.width/2-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, -self.contentSize.height/2+s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems:_mapButton, nil];
+    s = [CCSprite spriteWithFile:@"forum.png"];
+    CCMenuItemSprite *forumButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(forumClicked)];
+    forumButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, -self.contentSize.height/2+s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    
+    _bottomButtons = [CCMenu menuWithItems:mapButton,forumButton, nil];
     _bottomButtons.contentSize = CGSizeMake(0, 0);
     [self addChild:_bottomButtons];
     
@@ -208,11 +215,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [MapViewController displayView];
 }
 
+- (void) forumClicked {
+  [[UVHelper sharedUVHelper] openUserVoice];
+}
+
 - (void) start {
   // Drop the bars down
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
-  [_mapButton runAction:[CCMoveBy actionWithDuration:0.3 position:ccp(0, _mapButton.contentSize.height)]];
+//  [_mapButton runAction:[CCMoveBy actionWithDuration:0.3 position:ccp(0, _mapButton.contentSize.height)]];
   //  _mapButton.isEnabled = YES;
   
   [[HomeMap sharedHomeMap] beginTimers];

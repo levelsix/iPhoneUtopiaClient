@@ -1029,8 +1029,6 @@
 		CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CF1538BC7C00E0C1AD /* libz.dylib */; };
 		CF52AA8D15394C7500E91CEA /* Aviary.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8B15394C7500E91CEA /* Aviary.png */; };
 		CF52AA8E15394C7500E91CEA /* Aviary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8C15394C7500E91CEA /* Aviary@2x.png */; };
-		CF5CD830153A576000D5D331 /* worldmap.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD82E153A576000D5D331 /* worldmap.png */; };
-		CF5CD831153A576000D5D331 /* worldmap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD82F153A576000D5D331 /* worldmap@2x.png */; };
 		CF5CD834153A593D00D5D331 /* leathertopred.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD832153A593D00D5D331 /* leathertopred.png */; };
 		CF5CD835153A593D00D5D331 /* leathertopred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD833153A593D00D5D331 /* leathertopred@2x.png */; };
 		CF5CD838153A616300D5D331 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD836153A616300D5D331 /* back.png */; };
@@ -1101,6 +1099,10 @@
 		CFEDA699153C04FB00015562 /* uv_vote_chicklet_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA65A153C04FB00015562 /* uv_vote_chicklet_empty.png */; };
 		CFEDA69A153C04FB00015562 /* uv_vote_chicklet_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA65B153C04FB00015562 /* uv_vote_chicklet_empty@2x.png */; };
 		CFEDA6A1153CD20100015562 /* UVHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEDA6A0153CD20100015562 /* UVHelper.m */; };
+		CFEDA6A6153D269200015562 /* forum.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA6A2153D269200015562 /* forum.png */; };
+		CFEDA6A7153D269200015562 /* forum@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA6A3153D269200015562 /* forum@2x.png */; };
+		CFEDA6A8153D269200015562 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA6A4153D269200015562 /* map.png */; };
+		CFEDA6A9153D269200015562 /* map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA6A5153D269200015562 /* map@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2366,8 +2368,6 @@
 		CF1273CF1538BC7C00E0C1AD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CF52AA8B15394C7500E91CEA /* Aviary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Aviary.png; sourceTree = "<group>"; };
 		CF52AA8C15394C7500E91CEA /* Aviary@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Aviary@2x.png"; sourceTree = "<group>"; };
-		CF5CD82E153A576000D5D331 /* worldmap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = worldmap.png; sourceTree = "<group>"; };
-		CF5CD82F153A576000D5D331 /* worldmap@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "worldmap@2x.png"; sourceTree = "<group>"; };
 		CF5CD832153A593D00D5D331 /* leathertopred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leathertopred.png; sourceTree = "<group>"; };
 		CF5CD833153A593D00D5D331 /* leathertopred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leathertopred@2x.png"; sourceTree = "<group>"; };
 		CF5CD836153A616300D5D331 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
@@ -2442,6 +2442,10 @@
 		CFEDA65B153C04FB00015562 /* uv_vote_chicklet_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uv_vote_chicklet_empty@2x.png"; sourceTree = "<group>"; };
 		CFEDA69F153CD20100015562 /* UVHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVHelper.h; sourceTree = "<group>"; };
 		CFEDA6A0153CD20100015562 /* UVHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UVHelper.m; sourceTree = "<group>"; };
+		CFEDA6A2153D269200015562 /* forum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forum.png; sourceTree = "<group>"; };
+		CFEDA6A3153D269200015562 /* forum@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forum@2x.png"; sourceTree = "<group>"; };
+		CFEDA6A4153D269200015562 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
+		CFEDA6A5153D269200015562 /* map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4351,8 +4355,10 @@
 		CF1269FD1538ACC600E0C1AD /* Top Bar Images */ = {
 			isa = PBXGroup;
 			children = (
-				CF5CD82E153A576000D5D331 /* worldmap.png */,
-				CF5CD82F153A576000D5D331 /* worldmap@2x.png */,
+				CFEDA6A2153D269200015562 /* forum.png */,
+				CFEDA6A3153D269200015562 /* forum@2x.png */,
+				CFEDA6A4153D269200015562 /* map.png */,
+				CFEDA6A5153D269200015562 /* map@2x.png */,
 				CF1269FE1538ACC600E0C1AD /* barmask.png */,
 				CF1269FF1538ACC600E0C1AD /* barmask@2x.png */,
 				CF126A001538ACC600E0C1AD /* coinbar.png */,
@@ -5553,8 +5559,6 @@
 				CF12713F1538ACCC00E0C1AD /* withdraw@2x.png in Resources */,
 				CF52AA8D15394C7500E91CEA /* Aviary.png in Resources */,
 				CF52AA8E15394C7500E91CEA /* Aviary@2x.png in Resources */,
-				CF5CD830153A576000D5D331 /* worldmap.png in Resources */,
-				CF5CD831153A576000D5D331 /* worldmap@2x.png in Resources */,
 				CF5CD834153A593D00D5D331 /* leathertopred.png in Resources */,
 				CF5CD835153A593D00D5D331 /* leathertopred@2x.png in Resources */,
 				CF5CD838153A616300D5D331 /* back.png in Resources */,
@@ -5623,6 +5627,10 @@
 				CFEDA698153C04FB00015562 /* uv_vote_chicklet@2x.png in Resources */,
 				CFEDA699153C04FB00015562 /* uv_vote_chicklet_empty.png in Resources */,
 				CFEDA69A153C04FB00015562 /* uv_vote_chicklet_empty@2x.png in Resources */,
+				CFEDA6A6153D269200015562 /* forum.png in Resources */,
+				CFEDA6A7153D269200015562 /* forum@2x.png in Resources */,
+				CFEDA6A8153D269200015562 /* map.png in Resources */,
+				CFEDA6A9153D269200015562 /* map@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

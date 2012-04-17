@@ -195,21 +195,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   if (!view) {
     return;
   }
-  [UIView animateWithDuration:POPUP_ANIMATION_DURATION animations:^{
-    view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
-    view.alpha = 0.f;
-    // If this is the last view we must fade out bgd view as well
-    if ((view == goldView || goldView.hidden) && 
-        (view == enstView || enstView.hidden) && 
-        (view == itemsView || itemsView.hidden) && 
-        (view == silverView || silverView.hidden)) {
-      bgdView.alpha = 0.f;
-    }
+  [UIView animateWithDuration:0.05 delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+    view.transform = CGAffineTransformMakeScale(1.15f, 1.15f);
   } completion:^(BOOL finished) {
-    view.hidden = YES;
-    if (goldView.hidden && enstView.hidden && itemsView.hidden && silverView.hidden) {
-      [RefillMenuController removeView];
-    }
+    [UIView animateWithDuration:POPUP_ANIMATION_DURATION delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+      view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+      view.alpha = 0.f;
+      // If this is the last view we must fade out bgd view as well
+      if ((view == goldView || goldView.hidden) && 
+          (view == enstView || enstView.hidden) && 
+          (view == itemsView || itemsView.hidden) && 
+          (view == silverView || silverView.hidden)) {
+        bgdView.alpha = 0.f;
+      }
+    } completion:^(BOOL finished) {
+      view.hidden = YES;
+      if (goldView.hidden && enstView.hidden && itemsView.hidden && silverView.hidden) {
+        [RefillMenuController removeView];
+      }
+    }];
   }];
 }
 

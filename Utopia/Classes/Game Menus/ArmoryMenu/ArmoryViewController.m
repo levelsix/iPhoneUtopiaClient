@@ -409,7 +409,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   CGRect f = self.view.frame;
   self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-  self.view.alpha = 1.f;
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
     self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   }];
@@ -653,8 +652,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
+  CGRect f = self.view.frame;
   [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
-    self.view.alpha = 0.f;
+    self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
   } completion:^(BOOL finished) {
     [ArmoryViewController removeView];
   }];

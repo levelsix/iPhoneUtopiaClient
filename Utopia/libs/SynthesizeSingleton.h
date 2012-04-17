@@ -82,11 +82,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
   controllername *c = [controllername shared##controllername];\
   if (!c.view.superview) {\
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:c.view];\
+    [[CCDirector sharedDirector] pause];\
   } else { \
     [[[[CCDirector sharedDirector] openGLView] superview] bringSubviewToFront:c.view]; \
   }\
 }\
 \
 + (void) removeView {\
+  [[CCDirector sharedDirector] resume];\
   [shared##controllername.view removeFromSuperview];\
 }

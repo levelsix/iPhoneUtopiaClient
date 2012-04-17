@@ -77,11 +77,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.enemyName = @"Rizzy Wirk";
   self.questGiverName = @"Farmer Mitch";
   
-  self.duringPanTexts = [NSArray arrayWithObjects:@"Legends spoke of two royal brothers destined for greatness...",
-                    @"Tristan, the elder son, assumed the throne leading the Alliance and all that is good.",
-                    @"Enraged, Fenrir fled to the Legion, seeking unimaginable powers to destroy the Alliance.",
-                    @"Today, he returns with a vengeance, spreading war and chaos across the lands.",
-                    @"Just as the Alliance is about to fall, a white light consumes the skies...", nil];
+  self.duringPanTexts = [NSArray arrayWithObjects:
+                         @"Legends spoke of Tristan and Fenrir, two royal brothers destined for greatness...",
+                         @"Tristan, the younger son, assumed the throne leading the Alliance because of his father's will.",
+                         @"Enraged, Fenrir fled to the Legion, seeking unimaginable powers to destroy the Alliance.",
+                         @"Today, he returns with a vengeance, spreading war and chaos across the lands.",
+                         @"Just as the Alliance is about to fall, a white light consumes the skies...", nil];
   
   self.beforeCharSelectionText = @"Somebody help me! Weary soldier! Who are you? What is your name?";
   self.beforeBlinkText = @"Please %@, open your eyes!";
