@@ -16,6 +16,8 @@
 #import "Globals.h"
 #import "TutorialHomeMap.h"
 
+#define MASKED_GIRL_TAG 35
+
 @implementation DialogMenuLoadingView
 
 @synthesize darkView, actIndView;
@@ -105,7 +107,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
     r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
     dmc.view.frame = r;
     
-    [DialogMenuController displayView];
+    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:dmc.view];
     
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
       CGRect r = dmc.view.frame;
@@ -121,7 +123,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   dmc.nameLabel.text = @"???";
   dmc.girlImageView.hidden = YES;
   UIImageView *masked = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"maskedgirl.png"]];
-  masked.tag = 35;
+  masked.tag = MASKED_GIRL_TAG;
   [dmc.view addSubview:masked];
   masked.center = CGPointMake(dmc.girlImageView.center.x, CGRectGetMaxY(dmc.girlImageView.frame)-masked.frame.size.height/2);
   [masked release];
@@ -171,7 +173,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
     r.origin.y = WIN_HEIGHT-r.size.height+ANIMATION_VERTICAL_MOVEMENT;
     dmc.view.frame = r;
   } completion:^(BOOL finished) {
-    [[dmc.view viewWithTag:35] removeFromSuperview];
+    [[dmc.view viewWithTag:MASKED_GIRL_TAG] removeFromSuperview];
     [dmc.view removeFromSuperview];
     [dmc performCallback];
   }];

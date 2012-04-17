@@ -86,6 +86,10 @@
   return;
 }
 
+- (void) forumClicked {
+  return;
+}
+
 - (void) dealloc {
   [super dealloc];
 }

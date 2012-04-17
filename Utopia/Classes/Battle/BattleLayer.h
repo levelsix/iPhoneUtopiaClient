@@ -50,6 +50,9 @@
 @property (nonatomic, retain) IBOutlet UIView *winLabelsView;
 @property (nonatomic, retain) IBOutlet UIView *defeatLabelsView;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 @end
 
 @interface StolenEquipView : UIView
@@ -58,6 +61,9 @@
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @end
 

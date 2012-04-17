@@ -31,6 +31,7 @@
 @synthesize rightEquipIcon1, rightEquipIcon2, rightEquipIcon3;
 @synthesize coinsGainedLabel, coinsLostLabel, expGainedLabel;
 @synthesize winLabelsView, defeatLabelsView;
+@synthesize mainView, bgdView;
 
 - (void) loadBattleSummaryForBattleResponse:(BattleResponseProto *)brp enemy:(FullUserProto *)fup {
   GameState *gs = [GameState sharedGameState];
@@ -167,6 +168,7 @@
 @implementation StolenEquipView
 
 @synthesize nameLabel, equipIcon, attackLabel, defenseLabel;
+@synthesize mainView, bgdView;
 
 - (void) loadForEquip:(FullEquipProto *)fep {
   nameLabel.text = fep.name;
@@ -561,6 +563,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) startBattle {
+  [[CCDirector sharedDirector] resume];
+  
   _attackButton.visible = NO;
   _comboBar.visible = NO;
   _flippedComboBar.visible = NO;
@@ -1095,9 +1099,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) displayStolenEquip {
+  [[CCDirector sharedDirector] pause];
   UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [stolenEquipView loadForEquip:brp.equipGained];
   [view addSubview:stolenEquipView];
+  [Globals bounceView:stolenEquipView.mainView fadeInBgdView:stolenEquipView.bgdView];
 }
 
 - (float) rand {
@@ -1111,18 +1117,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)stolenEquipOkayClicked:(id)sender {
-  [stolenEquipView removeFromSuperview];
+  [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
+    [stolenEquipView removeFromSuperview];
+  }];
   [self displaySummary];
 }
 
 - (void) displaySummary {
+  [[CCDirector sharedDirector] pause];
   UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [summaryView loadBattleSummaryForBattleResponse:brp enemy:_fup];
   [view addSubview:summaryView];
+  [Globals bounceView:summaryView.mainView fadeInBgdView:summaryView.bgdView];
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [summaryView removeFromSuperview];
+  [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
+    [summaryView removeFromSuperview];
+  }];
+  [[CCDirector sharedDirector] resume];
   [self closeScene];
 }
 
@@ -1152,7 +1165,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   self.enemyEquips = nil;
   [_fup release];
   _fup = nil;
-  [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFadeBL class] duration:1.f];
   _isRunning = NO;
   
   [[GameLayer sharedGameLayer] startHomeMapTimersIfOkay];
@@ -1160,6 +1172,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   if (_cameFromAviary) {
     [MapViewController displayView];
     [[MapViewController sharedMapViewController] openEnemiesTab];
+    [[CCDirector sharedDirector] popScene];
+  } else {
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFadeBL class] duration:1.f];
   }
 }
 

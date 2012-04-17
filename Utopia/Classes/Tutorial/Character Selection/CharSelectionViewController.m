@@ -125,6 +125,11 @@
   [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
     self.view.alpha = 1.f;
   } completion:nil];
+  [[CCDirector sharedDirector] pause];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [[CCDirector sharedDirector] resume];
 }
 
 - (int) currentPage {
