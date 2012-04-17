@@ -281,6 +281,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) questLogClosed {
+  [_ccArrow removeFromParentAndCleanup:YES];
   [_enemy addChild:_ccArrow];
   _ccArrow.position = ccp(_enemy.contentSize.width/2, _enemy.contentSize.height+_ccArrow.contentSize.height/2);
   
