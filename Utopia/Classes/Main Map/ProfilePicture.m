@@ -53,6 +53,7 @@
     _expBar.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     _expBar.type = kCCProgressTimerTypeRadialCW;
     _expBar.percentage = 1;
+    [_expBar.sprite.texture setAntiAliasTexParameters];
     [self addChild:_expBar];
     
     _levelCircle = [CCSprite spriteWithFile:@"levelnumberbg.png"];

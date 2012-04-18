@@ -28,7 +28,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(UVHelper);
 }
 
 - (void) openUserVoice {
-  [[CCDirector sharedDirector] pause];
+//  [[CCDirector sharedDirector] pause];
   GameState *gs = [GameState sharedGameState];
   [UserVoice presentUserVoiceModalViewControllerForParent:[GameViewController sharedGameViewController]
                                                   andSite:@"lvl6.uservoice.com"
@@ -40,7 +40,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(UVHelper);
 }
 
 - (void) userVoiceWasDismissed {
-  [[CCDirector sharedDirector] resume];
+//  [[CCDirector sharedDirector] resume];
 }
 
 @end

@@ -563,8 +563,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) startBattle {
-  [[CCDirector sharedDirector] resume];
-  
   _attackButton.visible = NO;
   _comboBar.visible = NO;
   _flippedComboBar.visible = NO;
@@ -1099,7 +1097,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) displayStolenEquip {
-  [[CCDirector sharedDirector] pause];
   UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [stolenEquipView loadForEquip:brp.equipGained];
   [view addSubview:stolenEquipView];
@@ -1124,7 +1121,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) displaySummary {
-  [[CCDirector sharedDirector] pause];
   UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [summaryView loadBattleSummaryForBattleResponse:brp enemy:_fup];
   [view addSubview:summaryView];
@@ -1135,7 +1131,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
     [summaryView removeFromSuperview];
   }];
-  [[CCDirector sharedDirector] resume];
   [self closeScene];
 }
 

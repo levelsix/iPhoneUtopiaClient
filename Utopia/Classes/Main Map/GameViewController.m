@@ -299,11 +299,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (void)setupCocos2D {
   EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
-                                 depthFormat:0                        // GL_DEPTH_COMPONENT16_OES
-                          preserveBackbuffer:NO
-                                  sharegroup:nil 
-                               multiSampling:YES 
-                             numberOfSamples:3];
+                                 depthFormat:0];                       // GL_DEPTH_COMPONENT16_OES
+//                          preserveBackbuffer:NO
+//                                  sharegroup:nil 
+//                               multiSampling:YES 
+//                             numberOfSamples:100];
   
   [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
   [[CCDirector sharedDirector] setOpenGLView:glView];
