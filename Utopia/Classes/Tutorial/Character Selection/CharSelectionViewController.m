@@ -125,6 +125,8 @@
   [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
     self.view.alpha = 1.f;
   } completion:nil];
+  
+  [[CCDirector sharedDirector] pause];
 }
 
 - (int) currentPage {
@@ -276,6 +278,10 @@
 }
 
 - (IBAction)submitClicked:(id)sender {
+  if (_submitted) {
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [nameTextField resignFirstResponder];
@@ -298,6 +304,9 @@
     }
   }
   
+  _submitted = YES;
+  
+  [[CCDirector sharedDirector] resume];
   [UIView animateWithDuration:4.f animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
@@ -413,6 +422,7 @@
   self.bottomBar = nil;
   self.chooseNameView = nil;
   self.nameTextField = nil;
+  self.submitButton = nil;
 }
 
 @end

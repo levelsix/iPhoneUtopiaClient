@@ -126,6 +126,7 @@
 
 - (void) dealloc {
   [_separators release];
+  self.progressBar = nil;
   [super dealloc];
 }
 
@@ -279,8 +280,6 @@
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
           qg.name = ncep.name;
           [qg release];
-        } else {
-          LNLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
         }
       }
     }
@@ -558,12 +557,16 @@
 - (void) closeMenus {
   int width = summaryMenu.frame.size.width;
   
-  [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-    summaryMenu.center = CGPointMake(-width/2, summaryMenu.center.y);
-    obMenu.alpha = 0.f;
-  } completion:^(BOOL finished) {
-    [self updateMissionBuildingMenu];
-  }];
+  if (!obMenu.hidden) {
+    [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
+      summaryMenu.center = CGPointMake(-width/2, summaryMenu.center.y);
+      obMenu.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      if (finished) {
+        [self updateMissionBuildingMenu];
+      }
+    }];
+  }
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {

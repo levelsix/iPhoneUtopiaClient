@@ -99,6 +99,8 @@
   self.star3 = nil;
   self.star4 = nil;
   self.star5 = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
 }
 
 @end

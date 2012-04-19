@@ -138,6 +138,14 @@
   _trackingEnemy = NO;
 }
 
+- (void) dealloc {
+  self.missionLabel = nil;
+  self.enemyLabel = nil;
+  self.missionButtonClicked = nil;
+  self.enemyButtonClicked = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation EnemyAnnotation

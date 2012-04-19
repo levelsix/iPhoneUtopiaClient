@@ -69,6 +69,8 @@
   self.titleLabel = nil;
   self.descLabel = nil;
   self.buttonLabel = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
   [_critStruct release];
 }
 @end

@@ -21,6 +21,11 @@
 
 @synthesize lock;
 
+- (void) dealloc {
+  self.lock = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation CityView
@@ -41,6 +46,11 @@
       [self setImage:[Globals imageNamed:@"lockedcity.png"] forState:UIControlStateNormal];
     }
   }
+}
+
+- (void) dealloc {
+  self.fcp = nil;
+  [super dealloc];
 }
 
 @end
@@ -105,6 +115,15 @@
   }
 }
 
+- (void) dealloc {
+  self.cityPopup = nil;
+  self.cityNameLabel = nil;
+  self.cityRankLabel = nil;
+  self.progressLabel = nil;
+  self.progressBar = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation TravellingMissionMap
@@ -136,6 +155,11 @@
   } completion:^(BOOL finished) {
     lumoriaView.hidden = YES;
   }];
+}
+
+- (void) dealloc {
+  self.lumoriaView = nil;
+  [super dealloc];
 }
 
 @end

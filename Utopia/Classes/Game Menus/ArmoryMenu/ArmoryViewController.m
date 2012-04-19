@@ -412,6 +412,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
     self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   }];
+  
+  [self.armoryBar clickButton:kWeaponButton];
+  [self.armoryBar unclickButton:kArmorButton];
+  [self.armoryBar unclickButton:kAmuletButton];
+  
+  [[CCDirector sharedDirector] pause];
 }
 
 - (void) setState:(ArmoryState)state {
@@ -532,9 +538,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   UIView *rowContentView = al.superview.superview;
   ArmoryRow *row = (ArmoryRow *)rowContentView.superview;
   
-  // Center this row
-  [armoryTableView setContentOffset:CGPointMake(0, CGRectGetMidY(row.frame)-armoryTableView.frame.size.height/2) animated:YES];
-  
   CGRect rect = al.superview.frame;
   rect.origin.y -= BUY_SELL_Y_OFFSET;
   rect.size.width -= 4;
@@ -567,6 +570,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   self.equipClicked = YES;
   
   [UIView commitAnimations];
+  
+  // Center this row
+  [armoryTableView setContentOffset:CGPointMake(0, CGRectGetMidY(row.frame)-armoryTableView.frame.size.height/2) animated:YES];
   
   armoryBar.userInteractionEnabled = NO;
 }
@@ -652,6 +658,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
+  [[CCDirector sharedDirector] resume];
   CGRect f = self.view.frame;
   [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
     self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);

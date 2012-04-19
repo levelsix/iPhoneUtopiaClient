@@ -98,6 +98,7 @@
 @property (nonatomic, assign) int diamondRewardForBeingReferred;
 
 + (TutorialConstants *) sharedTutorialConstants;
++ (void) purgeSingleton;
 - (void) loadTutorialConstants:(StartupResponseProto_TutorialConstants *)constants;
 
 @end

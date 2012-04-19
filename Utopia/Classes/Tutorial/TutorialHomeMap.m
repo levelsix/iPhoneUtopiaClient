@@ -339,6 +339,7 @@
   [self removeFromParentAndCleanup:YES];
   [[TopBar sharedTopBar] removeFromParentAndCleanup:YES];
   [TutorialHomeMap purgeSingleton];
+  [TutorialConstants purgeSingleton];
   [TopBar purgeSingleton];
   
   [[GameLayer sharedGameLayer] begin];

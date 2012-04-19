@@ -16,7 +16,7 @@
 #import "TopBar.h"
 #import "GameLayer.h"
 #import "SimpleAudioEngine.h"
-#import "TutorialMapViewController.h"
+#import "TutorialCarpenterMenuController.h"
 #import "TutorialHomeMap.h"
 
 #ifdef DEBUG
@@ -142,15 +142,6 @@
 - (void) beginCharSelection {
   CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
-//  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
-//  [[TutorialHomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
-//  [TutorialMapViewController sharedMapViewController];
-//  [TutorialMapViewController displayView];
-//  [[GameState sharedGameState] setSilver:150];
-}
-
-- (void) dealloc {
-  [super dealloc];
 }
 
 @end

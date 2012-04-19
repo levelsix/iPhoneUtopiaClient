@@ -130,6 +130,8 @@
   int _comboBarWindupSound;
   
   BOOL _cameFromAviary;
+  
+  BOOL _clickedDone;
 }
 
 @property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;

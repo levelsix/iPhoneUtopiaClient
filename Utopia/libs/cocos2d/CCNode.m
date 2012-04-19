@@ -343,8 +343,9 @@
 	
 	// children
 	CCNode *child;
-	CCARRAY_FOREACH(children_, child)
-  child.parent = nil;
+	CCARRAY_FOREACH(children_, child) {
+    child.parent = nil;
+  }
 	
 	[children_ release];
 	

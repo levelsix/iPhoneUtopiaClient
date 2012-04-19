@@ -889,6 +889,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.redeemButton = nil;
   self.qcView = nil;
   self.redeemLabel = nil;
+  self.toTaskButton = nil;
+  self.acceptButtons = nil;
 }
 
 @end

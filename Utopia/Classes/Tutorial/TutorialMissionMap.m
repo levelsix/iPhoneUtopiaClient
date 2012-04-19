@@ -524,7 +524,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 - (IBAction)attackClicked:(id)sender {
   _canUnclick = YES;
   self.selected = nil;
-  [[CCDirector sharedDirector] pushScene:[TutorialBattleLayer scene]];
+  [[CCDirector sharedDirector] pushScene:[CCTransitionFade transitionWithDuration:1.f scene:[TutorialBattleLayer scene]]];
   
   [_ccArrow removeFromParentAndCleanup:YES];
   

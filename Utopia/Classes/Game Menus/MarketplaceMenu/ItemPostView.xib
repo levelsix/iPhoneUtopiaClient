@@ -935,14 +935,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">quanityBackground</string>
-						<reference key="source" ref="400043074"/>
-						<reference key="destination" ref="190745162"/>
-					</object>
-					<int key="connectionID">218</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">quantityLabel</string>
 						<reference key="source" ref="400043074"/>
 						<reference key="destination" ref="127112326"/>
@@ -956,6 +948,14 @@
 						<reference key="destination" ref="532561403"/>
 					</object>
 					<int key="connectionID">220</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">quantityBackground</string>
+						<reference key="source" ref="400043074"/>
+						<reference key="destination" ref="190745162"/>
+					</object>
+					<int key="connectionID">221</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1324,7 +1324,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">220</int>
+			<int key="maxID">221</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1364,7 +1364,7 @@
 						<string key="priceField">NiceFontTextField</string>
 						<string key="priceIcon">UIImageView</string>
 						<string key="priceLabel">UILabel</string>
-						<string key="quanityBackground">UIImageView</string>
+						<string key="quantityBackground">UIImageView</string>
 						<string key="quantityLabel">UILabel</string>
 						<string key="removeButton">UIView</string>
 						<string key="statsView">UIView</string>
@@ -1413,8 +1413,8 @@
 							<string key="name">priceLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="quanityBackground">
-							<string key="name">quanityBackground</string>
+						<object class="IBToOneOutletInfo" key="quantityBackground">
+							<string key="name">quantityBackground</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="quantityLabel">

@@ -187,6 +187,11 @@
   }
 }
 
+- (void) dealloc {
+  self.name = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation UserCritStruct
@@ -205,11 +210,6 @@
     orientation = proto.orientation;
   }
   return self;
-}
-
-- (void) dealloc {
-  self.name = nil;
-  [super dealloc];
 }
 
 @end

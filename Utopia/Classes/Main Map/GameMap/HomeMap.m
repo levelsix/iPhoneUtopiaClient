@@ -126,6 +126,17 @@
 	CGContextStrokePath(context);
 }
 
+- (void) dealloc {
+  self.sellView = nil;
+  self.incomeView = nil;
+  self.starView = nil;
+  self.upgradeButton = nil;
+  self.coinIcon = nil;
+  self.sellCostLabel = nil;
+  self.sellCoinImageView = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation HomeBuildingUpgradeView
@@ -171,6 +182,13 @@
   CGContextAddLineToPoint(context, CGRectGetMaxX(self.frame)-x, y+offset);
   
 	CGContextStrokePath(context);
+}
+
+- (void) dealloc {
+  self.costView = nil;
+  self.costLabel = nil;
+  self.upgradeCoinIcon = nil;
+  [super dealloc];
 }
 
 @end
@@ -369,6 +387,25 @@
 - (void) dealloc {
   [self.timer invalidate];
   self.timer = nil;
+  self.titleLabel = nil;
+  self.blueButton = nil;
+  self.redButton = nil;
+  self.greenButton = nil;
+  self.infoView = nil;
+  self.upgradeView = nil;
+  self.progressView = nil;
+  self.mainView = nil;
+  self.moveView = nil;
+  self.retrievalTime = nil;
+  self.upgradeTime = nil;
+  self.incomeLabel = nil;
+  self.upgradeCurIncomeLabel = nil;
+  self.upgradeNewIncomeLabel = nil;
+  self.retrieveTimeLabel = nil;
+  self.instaFinishCostLabel = nil;
+  self.finishTimeLabel = nil;
+  self.finishNowButton = nil;
+  self.progressBar = nil;
   [super dealloc];
 }
 
@@ -1195,6 +1232,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) dealloc {
+  NSLog(@"dealloced");
   [self.csMenu removeFromSuperview];
   self.csMenu = nil;
   [self.hbMenu removeFromSuperview];

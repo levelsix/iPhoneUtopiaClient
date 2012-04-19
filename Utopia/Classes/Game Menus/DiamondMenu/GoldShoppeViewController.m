@@ -46,6 +46,13 @@
   }
 }
 
+- (void) dealloc {
+  self.price = nil;
+  self.bigLabel = nil;
+  self.littleLabel = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation GoldPackageView
@@ -90,6 +97,16 @@
 
 - (void) buyItem {
   [[IAPHelper sharedIAPHelper] buyProductIdentifier:self.product];
+}
+
+- (void) dealloc {
+  self.product = nil;
+  self.pkgIcon = nil;
+  self.pkgGoldLabel = nil;
+  self.pkgNameLabel = nil;
+  self.priceLabel = nil;
+  self.selectedView = nil;
+  [super dealloc];
 }
 
 @end
@@ -208,6 +225,14 @@
   [self unclickButton:kEarnFreeButton];
   _trackingGoldCoins = NO;
   _trackingEarnFree = NO;
+}
+
+- (void) dealloc {
+  self.goldCoinsLabel = nil;
+  self.goldCoinsClicked = nil;
+  self.earnFreeLabel = nil;
+  self.earnFreeClicked = nil;
+  [super dealloc];
 }
 
 @end
@@ -340,6 +365,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.itemView = nil;
   self.pkgTableView = nil;
   self.curGoldLabel = nil;
+  self.topBar = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
 }
 
 @end

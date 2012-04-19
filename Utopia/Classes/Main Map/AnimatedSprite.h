@@ -39,7 +39,7 @@
 
 @property (nonatomic, retain) FullQuestProto *quest;
 @property (nonatomic, assign) BOOL isInProgress;
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, copy) NSString *name;
 
 - (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg file:(NSString *)file map:(GameMap *)map location:(CGRect)location;
 

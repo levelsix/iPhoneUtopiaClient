@@ -16,7 +16,7 @@
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
-#define ENEMY_DEFENSE 15
+#define ENEMY_DEFENSE 10
 
 @implementation TutorialBattleLayer
 
@@ -30,6 +30,15 @@
 - (void) beginBattle {
   GameState *gs = [GameState sharedGameState];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  
+  _winLayer.visible = NO;
+  _loseLayer.visible = NO;
+  _pausedLayer.visible = NO;
+  _fleeLayer.visible = NO;
+  _comboBar.visible = NO;
+  _flippedComboBar.visible = NO;
+  _attackButton.visible = NO;
+  _bottomMenu.visible = NO;
   
   _leftCurrentHealth = gs.maxHealth;
   _leftMaxHealth = gs.maxHealth;
@@ -82,7 +91,8 @@
   
   _firstTurn = YES;
   _firstAttack = YES;
-  [self startBattle];
+  
+  // Battle will be started when transition completes..
   
   [Analytics tutorialBattleStart];
 }
@@ -159,14 +169,10 @@
     [_comboProgressTimer stopAllActions];
     _comboBarMoving = NO;
     _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
+    _tapToAttack.opacity = 0;
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
   }
-}
-
-- (void) startEnemyTurn {
-  _tapToAttack.opacity = 0;
-  [super startEnemyTurn];
 }
 
 - (void) pauseClicked {

@@ -28,7 +28,7 @@
 
 #define MAX_ZOOM 1.8f
 #define MIN_ZOOM 0.8f
-#define DEFAULT_ZOOM 1.3f
+#define DEFAULT_ZOOM 1.f
 
 //CCMoveByCustom
 @interface CCMoveByCustom : CCMoveBy
@@ -73,6 +73,13 @@
 @implementation EnemyPopupView
 
 @synthesize nameLabel, levelLabel, imageIcon;
+
+- (void) dealloc {
+  self.nameLabel = nil;
+  self.levelLabel = nil;
+  self.imageIcon = nil;
+  [super dealloc];
+}
 
 @end
 
@@ -354,19 +361,20 @@
 }
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
+  // Find sprite that has center closest to pt
   SelectableSprite *toRet = nil;
+  float distToCenter = 320.f;
   for(MapSprite *spr in _mapSprites) {
-    if (![spr isKindOfClass:[MapSprite class]]) {
+    if (![spr isKindOfClass:[SelectableSprite class]]) {
       continue;
     }
     SelectableSprite *child = (SelectableSprite *)spr;
     if ([child isPointInArea:pt] && child.visible && child.opacity > 0.f) {
-      if (_selected) {
-        if ([self mapSprite:child isInFrontOfMapSprite:_selected]) {
-          toRet = child;
-          break;
-        }
-      } else {
+      CGPoint center = ccp(child.contentSize.width/2, child.contentSize.height/2);
+      float thisDistToCenter = ccpDistance(center, [child convertToNodeSpace:pt]);
+      
+      if (thisDistToCenter < distToCenter) {
+        distToCenter = thisDistToCenter;
         toRet = child;
       }
     }
@@ -633,12 +641,18 @@
   [self moveToSprite:enemyWithType];
 }
 
+- (void) onExit {
+  [super onExit];
+  self.selected = nil;
+}
+
 - (void) dealloc {
   [self.enemyMenu removeFromSuperview];
   self.enemyMenu = nil;
   [self.aviaryMenu removeFromSuperview];
   self.aviaryMenu = nil;
-  [_mapSprites release];
+  self.walkableData = nil;
+  self.mapSprites = nil;
   [super dealloc];
 }
 

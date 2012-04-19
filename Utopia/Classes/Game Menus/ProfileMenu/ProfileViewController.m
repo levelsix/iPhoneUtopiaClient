@@ -39,22 +39,6 @@
   [self setState:kMyProfile];
 }
 
-- (void) dealloc {
-  self.equipIcon = nil;
-  self.skillsIcon = nil;
-  self.wallIcon = nil;
-  self.equipLabel = nil;
-  self.skillsLabel = nil;
-  self.wallLabel = nil;
-  self.equipSelectedLargeImage = nil;
-  self.equipSelectedSmallImage = nil;
-  self.skillsSelectedSmallImage = nil;
-  self.wallSelectedLargeImage = nil;
-  self.wallSelectedSmallImage = nil;
-  self.glowIcon = nil;
-  [super dealloc];
-}
-
 - (void) setState:(ProfileBarState)state {
   if (state != _state) {
     _state = state;
@@ -303,6 +287,22 @@
   _trackingWall = NO;
 }
 
+- (void) dealloc {
+  self.equipIcon = nil;
+  self.skillsIcon = nil;
+  self.wallIcon = nil;
+  self.equipLabel = nil;
+  self.skillsLabel = nil;
+  self.wallLabel = nil;
+  self.equipSelectedLargeImage = nil;
+  self.equipSelectedSmallImage = nil;
+  self.skillsSelectedSmallImage = nil;
+  self.wallSelectedLargeImage = nil;
+  self.wallSelectedSmallImage = nil;
+  self.glowIcon = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation EquipView
@@ -427,8 +427,6 @@
   unknownLabel.hidden = NO;
   chooseEquipButton.hidden = YES;
   equipIcon.hidden = YES;
-  
-  self.userInteractionEnabled = NO;
 }
 
 - (void) knownEquip {
@@ -498,7 +496,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [super viewDidUnload];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
-  self.equipViews = nil;
   [_fup release];
   self.userNameLabel = nil;
   self.typeLabel = nil;
@@ -514,6 +511,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.curWeaponView = nil;
   self.profilePicture = nil;
   self.profileBar = nil;
+  self.equipViews = nil;
   self.nibEquipView = nil;
   self.equipsScrollView = nil;
   self.unequippableView = nil;
@@ -542,6 +540,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.visitButton = nil;
   self.smallAttackButton = nil;
   self.bigAttackButton = nil;
+  self.spinner = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
 }
 
 - (void) setState:(ProfileState)state {
@@ -702,7 +703,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [self displayMyCurrentStats];
     } else {
       [ev doShake];
-      if (fep.classType != gs.type % 3) {
+      if (![Globals class:gs.type canEquip:fep.classType]) {
         unequippableLabel.text = [NSString stringWithFormat:@"Only %@s Can Equip This Item", [Globals stringForEquipClassType:fep.classType]];
       }
       else if (fep.minLevel > gs.level) {
@@ -858,6 +859,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [curArmorView knownEquip];
   [curAmuletView knownEquip];
   
+  curWeaponView.userInteractionEnabled = touchEnabled;
+  curArmorView.userInteractionEnabled = touchEnabled;
+  curAmuletView.userInteractionEnabled = touchEnabled;
+  
   equips = [self sortEquips:equips];
   EquipView *ev;
   int i;
@@ -919,11 +924,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     }
   }
   
+  // Now remove the rest of the equipViews..
   while (i < equipViews.count) {
     [[equipViews objectAtIndex:i] removeFromSuperview];
-    [equipViews removeObjectAtIndex:i];
     i++;
   }
+  [equipViews removeObjectsInRange:NSMakeRange(equips.count, equipViews.count-equips.count)];
   
   _curScope = kEquipScopeAll;
   curWeaponView.selected = NO;

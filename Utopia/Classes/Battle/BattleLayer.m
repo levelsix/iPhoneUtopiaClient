@@ -21,6 +21,8 @@
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
 
+#define TRANSITION_DURATION 1.5f
+
 @implementation BattleSummaryView
 
 @synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon;
@@ -160,6 +162,8 @@
   self.expGainedLabel = nil;
   self.winLabelsView = nil;
   self.defeatLabelsView = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
   [super dealloc];
 }
 
@@ -183,6 +187,8 @@
   self.equipIcon = nil;
   self.attackLabel = nil;
   self.defenseLabel = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
   [super dealloc];
 }
 
@@ -280,6 +286,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _attackProgressTimer.position = ccp(_attackButton.contentSize.width/2, _attackButton.contentSize.height/2);
     _attackProgressTimer.type = kCCProgressTimerTypeRadialCCW;
     _attackProgressTimer.percentage = 0;
+    [_attackProgressTimer.sprite.texture setAntiAliasTexParameters];
     [_attackButton addChild:_attackProgressTimer];
     
     CCSprite *attackImage = [CCSprite spriteWithFile:@"circleattackbutton.png"];
@@ -298,6 +305,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _comboProgressTimer.type = kCCProgressTimerTypeRadialCW;
     _comboProgressTimer.percentage = 75;
     _comboProgressTimer.rotation = 180;
+    [_comboProgressTimer.sprite.texture setAntiAliasTexParameters];
     [_comboBar addChild:_comboProgressTimer];
     
     CCSprite *max = [CCSprite spriteWithFile:@"max.png"];
@@ -511,7 +519,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   if (!_isRunning) {
     _isRunning = YES;
     CCScene *scene = [BattleLayer scene];
-    [dir pushScene:[CCTransitionFadeTR transitionWithDuration:1.f scene:scene]];
+    [dir pushScene:[CCTransitionFade transitionWithDuration:TRANSITION_DURATION scene:scene]];
     
     // Remove mapviewcontroller in case we were called from there
     // but record whether we came from there or not
@@ -550,6 +558,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _winLayer.visible = NO;
   _loseLayer.visible = NO;
   _isBattling = YES;
+  
+  _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
+  _rightHealthBar.position = ccp(_rightHealthBar.parent.contentSize.width, _rightHealthBar.parent.contentSize.height/2);
 }
 
 - (void) onEnterTransitionDidFinish {
@@ -1073,7 +1084,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [_attackProgressTimer resumeSchedulerAndActions];
 }
 
+- (void) setBrp:(BattleResponseProto *)b {
+  if (brp != b) {
+    _clickedDone = NO;
+    [brp release];
+    brp = [b retain];
+  }
+}
+
 - (void) doneClicked {
+  if (_clickedDone) {
+    return;
+  }
+  _clickedDone = YES;
+  
   _isBattling = NO;
   if (_left.opacity > 0) {
     SEL completeAction = nil;
@@ -1169,7 +1193,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [[MapViewController sharedMapViewController] openEnemiesTab];
     [[CCDirector sharedDirector] popScene];
   } else {
-    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFadeBL class] duration:1.f];
+    [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];
   }
 }
 
@@ -1186,6 +1210,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   self.enemyEquips = nil;
   [_fup release];
   self.brp = nil;
+  [self.stolenEquipView removeFromSuperview];
+  [self.summaryView removeFromSuperview];
   self.stolenEquipView = nil;
   self.summaryView = nil;
   [super dealloc];

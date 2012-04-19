@@ -65,6 +65,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.descriptionLabel = nil;
+  self.link = nil;
+  self.mainView = nil;
+  self.bgdColorView = nil;
 }
 
 @end

@@ -20,16 +20,6 @@
 #define TICK_DIVISOR 3
 #define TICK_MIN_JUMP 30
 
-@interface VaultTickView : UIView
-
-@property (nonatomic, assign) int num;
-@property (nonatomic, retain) UIFont *font;
-@property (nonatomic, retain) UIImage *bgImage;
-
-- (id) initWithImage:(UIImage *)image;
-
-@end
-
 @implementation VaultTickView
 
 @synthesize num, bgImage, font;
@@ -66,6 +56,12 @@
     num = n;
     [self setNeedsDisplay];
   }
+}
+
+- (void) dealloc {
+  self.bgImage = nil;
+  self.font = nil;
+  [super dealloc];
 }
 
 @end
@@ -157,6 +153,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   self.tickers = m;
   
   self.bottomLabel.text = [NSString stringWithFormat:@"Bank Notice: There is a %d%% fee on deposits.", (int)([[Globals sharedGlobals] cutOfVaultDepositTaken]*100)];
+}
+
+- (void) viewDidUnload {
+  [super viewDidUnload];
+  self.depositButton = nil;
+  self.withdrawButton = nil;
+  self.transferField = nil;
+  self.bottomLabel = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
+  self.tickers = nil;
+  self.tickerHolderView = nil;
+  self.vaultBalance = nil;
+  [timer invalidate];
+  self.timer = nil;
 }
 
 - (void) viewWillAppear:(BOOL)animated {

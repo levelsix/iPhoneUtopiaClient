@@ -177,6 +177,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   self.activityTableView = nil;
   self.actCell = nil;
   self.users = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
 }
 
 @end

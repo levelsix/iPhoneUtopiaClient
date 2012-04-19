@@ -132,6 +132,7 @@
 + (NSString *) spriteImageNameForUser:(UserType)type;
 + (NSString *) battleAnimationFileForUser:(UserType)type;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
++ (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
 + (NSString *) comboBarChargeupSound:(UserType)type;
@@ -155,6 +156,9 @@
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
 + (UIImage *) imageNamed:(NSString *)path;
+
++ (UIColor *)creamColor;
++ (UIColor *)goldColor;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

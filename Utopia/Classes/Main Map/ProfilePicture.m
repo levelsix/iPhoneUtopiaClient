@@ -20,17 +20,17 @@
 #import "ProfileViewController.h"
 #import "ActivityFeedController.h"
 #import "CCLabelFX.h"
-#import "UVHelper.h"
+#import "FAQMenuController.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
 
-#define THREE_BUTTONS
+#define FOUR_BUTTONS
 #ifdef THREE_BUTTONS
 #define START_ANGLE -17.f
 #define TOTAL_ANGLE -81.f
 #define BUTTON_DISTANCE 40.f
-#elif FOUR_BUTTONS
+#elif defined(FOUR_BUTTONS)
 #define START_ANGLE -14.f
 #define TOTAL_ANGLE -87.f
 #define BUTTON_DISTANCE 60.f
@@ -189,7 +189,7 @@
     [self addChild:_expCircle z:2];
     _expCircle.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
-    _menuItems = [[[NSMutableArray alloc] init] retain];
+    _menuItems = [[NSMutableArray alloc] init];
     
     ProfileButton *button1 = [ProfileButton itemFromNormalImage:@"pathnotifications.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
     button1.visible = NO;
@@ -203,16 +203,20 @@
     button3.visible = NO;
     [_menuItems addObject:button3];
     
-//    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathsettings.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
-//    button4.visible = NO;
-//    [_menuItems addObject:button4];
-    
     CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, nil];
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
+#ifdef FOUR_BUTTONS
+    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathhelp.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
+    button4.visible = NO;
+    [_menuItems addObject:button4];
+    
+    [menu addChild:button4];
+#endif
+    
     [self addChild:menu z:-1];
     
-    _expLabel = [CCLabelFX labelWithString:@"" 
+    self.expLabel = [CCLabelFX labelWithString:@"" 
                                   fontName:[Globals font]
                                   fontSize:12.f 
                               shadowOffset:CGSizeMake(0, -1) 
@@ -419,7 +423,7 @@
 }
 
 - (void) button4Clicked:(id)sender {
-  [self buttonClicked:sender selector:@selector(openSettings)];
+  [self buttonClicked:sender selector:@selector(openFAQ)];
 }
 
 - (void) openNotifications {
@@ -435,8 +439,8 @@
   [ProfileViewController displayView];
 }
 
-- (void) openSettings {
-  [[UVHelper sharedUVHelper] openUserVoice];
+- (void) openFAQ {
+  [FAQMenuController displayView];
 }
 
 - (void) enableButton {
@@ -476,6 +480,9 @@
 }
 
 - (void) dealloc {
+  // Must do this to make sure touch dispatcher removes me
+  self.isTouchEnabled = NO;
+  self.expLabel = nil;
   [_menuItems release];
   [super dealloc];
 }

@@ -22,13 +22,11 @@
 - (void) viewDidLoad {
   self.state = kIncomeCarp;
   
-  self.carpTable.scrollEnabled = NO;
-  NSMutableArray *structs = [[[TutorialConstants sharedTutorialConstants] carpenterStructs] mutableCopy];
-  self.structsList = structs;
-  [structs release];
+  self.structsList = (NSMutableArray *)[[TutorialConstants sharedTutorialConstants] carpenterStructs];
   [self.carpTable reloadData];
   
   self.carpBar.userInteractionEnabled = NO;
+  self.coinBar.userInteractionEnabled = NO;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -37,13 +35,19 @@
   
   [self.coinBar updateLabels];
   [Analytics tutorialEnterCarpenter];
+  
+  self.carpTable.scrollEnabled = NO;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [self.carpBar clickButton:kIncomeButton];
   [self.carpBar unclickButton:kFunctionalButton];
   
-  [self.coinBar updateLabels];
+  CGRect f = self.view.frame;
+  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+  [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
+    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
+  }];
 }
 
 - (void) insideCarpDialog {
@@ -60,7 +64,6 @@
   
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
   [cell addSubview:_arrow];
-  [_arrow release];
   _arrow.layer.transform = CATransform3DMakeRotation(M_PI/2, 0.0f, 0.0f, 1.0f);
   
   _arrow.center = CGPointMake(CGRectGetMaxX(cell.listing1.frame)+_arrow.frame.size.width/2-5, cell.listing1.center.y);
@@ -83,7 +86,12 @@
   }
 }
 
+- (void) viewDidUnload {
+  [super viewDidUnload];
+}
+
 - (void) dealloc {
+  [_arrow release];
   [super dealloc];
 }
 

@@ -58,6 +58,8 @@
   self.rankupLabel = nil;
   self.expLabel = nil;
   self.coinLabel = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
 }
 
 @end

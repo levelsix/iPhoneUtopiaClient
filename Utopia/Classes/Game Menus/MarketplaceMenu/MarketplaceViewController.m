@@ -33,7 +33,7 @@
 @synthesize attStatLabel, defStatLabel;
 @synthesize state = _state;
 @synthesize mktProto, equip;
-@synthesize quantityLabel, quanityBackground;
+@synthesize quantityLabel, quantityBackground;
 @synthesize leatherBackground;
 
 - (void) awakeFromNib {
@@ -66,7 +66,7 @@
         submitButton.hidden = YES;
         priceIcon.hidden = YES;
         priceLabel.hidden = YES;
-        quanityBackground.hidden = NO;
+        quantityBackground.hidden = NO;
         quantityLabel.hidden = NO;
         break;
         
@@ -80,7 +80,7 @@
         submitButton.hidden = YES;
         priceIcon.hidden = NO;
         priceLabel.hidden = NO;
-        quanityBackground.hidden = YES;
+        quantityBackground.hidden = YES;
         quantityLabel.hidden = YES;
         break;
         
@@ -94,7 +94,7 @@
         submitButton.hidden = YES;
         priceIcon.hidden = NO;
         priceLabel.hidden = NO;
-        quanityBackground.hidden = YES;
+        quantityBackground.hidden = YES;
         quantityLabel.hidden = YES;
         break;
         
@@ -106,7 +106,7 @@
         removeButton.hidden = YES;
         buyButton.hidden = YES;
         submitButton.hidden = NO;
-        quanityBackground.hidden = NO;
+        quantityBackground.hidden = NO;
         quantityLabel.hidden = NO;
         
         self.priceField.label.textColor = [UIColor whiteColor];
@@ -170,12 +170,13 @@
 }
 
 - (void) dealloc {
-  self.mktProto = nil;
-  self.equip = nil;
   self.postTitle = nil;
   self.itemImageView = nil;
   self.statsView = nil;
   self.submitView = nil;
+  self.submitPriceIcon = nil;
+  self.submitButton = nil;
+  self.buyButton = nil;
   self.listButton = nil;
   self.removeButton = nil;
   self.priceField = nil;
@@ -183,6 +184,11 @@
   self.priceIcon = nil;
   self.attStatLabel = nil;
   self.defStatLabel = nil;
+  self.mktProto = nil;
+  self.equip = nil;
+  self.quantityLabel = nil;
+  self.quantityBackground = nil;
+  self.leatherBackground = nil;
   [super dealloc];
 }
 
@@ -925,15 +931,36 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
 }
 
-- (void) dealloc {
+- (void) viewDidUnload {
+  [super viewDidUnload];
   [self removeLoadingView];
-  self.loadingView = nil;
-  self.selectedCell = nil;
-  self.curField = nil;
+  self.navBar = nil;
+  self.topBar = nil;
   self.itemView = nil;
+  self.postsTableView = nil;
+  self.selectedCell = nil;
+  self.removeView = nil;
+  self.curField = nil;
+  self.coinBar = nil;
+  self.removePriceLabel = nil;
+  self.retractPriceIcon = nil;
+  self.doneButton = nil;
+  self.listAnItemButton = nil;
+  self.redeemView = nil;
+  self.purchLicenseView = nil;
+  self.redeemGoldLabel = nil;
+  self.redeemSilverLabel = nil;
+  self.redeemTitleLabel = nil;
+  self.ropeView = nil;
+  self.leftRope = nil;
+  self.rightRope = nil;
   self.leftRopeFirstRow = nil;
   self.rightRopeFirstRow = nil;
-  [super dealloc];
+  self.shortLicenseCost = nil;
+  self.shortLicenseLength = nil;
+  self.longLicenseCost = nil;
+  self.longLicenseLength = nil;
+  self.loadingView = nil;
 }
 
 @end

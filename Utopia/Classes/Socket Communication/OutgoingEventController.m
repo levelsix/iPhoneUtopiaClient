@@ -137,7 +137,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         break;
     }
   } else {
-    NSLog(@"Trying to complete battle without any stamina.");
+    [Globals popupMessage:@"Trying to complete battle without any stamina."];
   }
 }
 
@@ -1041,10 +1041,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [rEquips addObject:n];
         shouldSend = YES;
       }
-      
-      if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-        NSLog(@"Trying to retrieve equip id 0");
-      }
     }
     
     if (un.marketPost.postedEquip.equipId) {
@@ -1052,10 +1048,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if (![sEquips objectForKey:n]) {
         [rEquips addObject:n];
         shouldSend = YES;
-      }
-      
-      if ([rEquips containsObject:[NSNumber numberWithInt:0]]) {
-        NSLog(@"Trying to retrieve equip id 0");
       }
     }
   }

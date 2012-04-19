@@ -74,6 +74,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   silverView.hidden = YES;
 }
 
+- (void) viewDidUnload {
+  [super viewDidUnload];
+  self.goldView = nil;
+  self.silverView = nil;
+  self.itemsView = nil;
+  self.enstView = nil;
+  self.curGoldLabel = nil;
+  self.needGoldLabel = nil;
+  self.enstTitleLabel = nil;
+  self.enstImageView = nil;
+  self.enstGoldCostLabel = nil;
+  self.fillEnstLabel = nil;
+  self.enstHintLabel = nil;
+  self.itemsCostView = nil;
+  self.itemsSilverLabel = nil;
+  self.itemsScrollView = nil;
+  self.itemsContainerView = nil;
+  self.bgdView = nil;
+}
+
 - (void) displayEnstView:(BOOL)isEnergy {
   Globals *gl = [Globals sharedGlobals];
   

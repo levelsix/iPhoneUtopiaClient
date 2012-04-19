@@ -200,10 +200,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
   [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite];
   
-//  if (maskedView) {
-//    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
-//     maskedView.hidden = YES;
-//  }
+  //  if (maskedView) {
+  //    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
+  //     maskedView.hidden = YES;
+  //  }
 }
 
 + (UIColor *) colorForUnequippable {
@@ -293,9 +293,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return nil;
 }
 
++ (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct {
+  return (ct == ut % 3 || ct == FullEquipProto_ClassTypeAllAmulet);
+}
+
 + (BOOL) canEquip:(FullEquipProto *)fep {
   GameState *gs = [GameState sharedGameState];
-  return fep.minLevel <= gs.level && (fep.classType == gs.type % 3 || fep.classType == FullEquipProto_ClassTypeAllAmulet); 
+  return fep.minLevel <= gs.level && [self class:gs.type canEquip:fep.classType]; 
 }
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText {
@@ -952,7 +956,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) popupMessage: (NSString *)msg {
-//  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+  //  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
   [GenericPopupController displayViewWithText:msg];
 }
 
@@ -962,7 +966,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
   bounceAnimation.values = [NSArray arrayWithObjects:
                             [NSNumber numberWithFloat:0.3],
-                            [NSNumber numberWithFloat:1.15],
+                            [NSNumber numberWithFloat:1.1],
                             [NSNumber numberWithFloat:0.95],
                             [NSNumber numberWithFloat:1.0], nil];
   
@@ -997,6 +1001,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     view.transform = CGAffineTransformIdentity;
     completed();
   }];
+}
+
++ (UIColor *)creamColor {
+  return [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
+}
+
++ (UIColor *)goldColor {
+  return [UIColor colorWithRed:255/255.f green:2030/255.f blue:0/255.f alpha:1.f];
 }
 
 - (void) dealloc {

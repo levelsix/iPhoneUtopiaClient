@@ -16,8 +16,12 @@
 
 - (void) updateIcon {
   GameState *gs = [GameState sharedGameState];
-  [self removeChild:_profilePic cleanup:YES];
-  _profilePic = [ProfilePicture profileWithType:gs.type];
+  
+  if (_profilePic) {
+    [self removeChild:_profilePic cleanup:YES];
+  }
+  
+  self.profilePic = [ProfilePicture profileWithType:gs.type];
   [self addChild:_profilePic z:2];
   _profilePic.position = ccp(50, self.contentSize.height-50);
   self.isTouchEnabled = NO;
@@ -88,10 +92,6 @@
 
 - (void) forumClicked {
   return;
-}
-
-- (void) dealloc {
-  [super dealloc];
 }
 
 @end

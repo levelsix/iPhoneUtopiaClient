@@ -138,6 +138,14 @@
   _trackingFunctional = NO;
 }
 
+- (void) dealloc {
+  self.incomeLabel = nil;
+  self.functionalLabel = nil;
+  self.incomeButtonClicked = nil;
+  self.functionalButtonClicked = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation CarpenterTicker
@@ -410,7 +418,6 @@
 }
 
 - (void) dealloc {
-  [_lockedBuildingColor release];
   self.titleLabel = nil;
   self.priceLabel = nil;
   self.priceView = nil;
@@ -418,6 +425,7 @@
   self.buildingIcon = nil;
   self.tickerView = nil;
   self.priceIcon = nil;
+  self.lockIcon = nil;
   self.darkOverlay = nil;
   self.backgroundImg = nil;
   self.fsp = nil;
@@ -669,9 +677,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 - (void) viewDidUnload {
   [super viewDidUnload];
   self.carpRow = nil;
+  self.carpBar = nil;
   self.coinBar = nil;
   self.carpTable = nil;
   self.structsList = nil;
+  self.critStructsList = nil;
 }
 
 @end

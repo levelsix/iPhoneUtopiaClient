@@ -14,6 +14,7 @@
   float _barWidth;
   int _curPage;
   BOOL _isScrolling;
+  BOOL _submitted;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *goodWarriorView;

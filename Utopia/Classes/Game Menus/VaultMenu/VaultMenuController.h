@@ -9,6 +9,16 @@
 #import "cocos2d.h"
 #import "NibUtils.h"
 
+@interface VaultTickView : UIView
+
+@property (nonatomic, assign) int num;
+@property (nonatomic, retain) UIFont *font;
+@property (nonatomic, retain) UIImage *bgImage;
+
+- (id) initWithImage:(UIImage *)image;
+
+@end
+
 @interface VaultMenuController : UIViewController  <UITextFieldDelegate> {
   BOOL _animating;
   int _index;

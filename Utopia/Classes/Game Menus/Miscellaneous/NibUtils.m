@@ -159,6 +159,12 @@
   }
 }
 
+- (void) dealloc {
+  self.path = nil;
+  self.highlightedPath = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation ServerButton
@@ -169,21 +175,17 @@
   [self setImage:[Globals imageNamed:path] forState:UIControlStateNormal] ;
 }
 
+- (void) dealloc {
+  self.path = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation RopeView
 
-static UIColor *ropeImage = nil;
-
-- (UIColor *)ropeImage {
-  if (!ropeImage) {
-    ropeImage = [[UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]] retain];
-  }
-  return ropeImage;
-}
-
 - (void) awakeFromNib {
-  self.backgroundColor = [self ropeImage];
+  self.backgroundColor = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
 }
 
 @end

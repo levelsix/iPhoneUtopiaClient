@@ -13,7 +13,6 @@
 #import "GameLayer.h"
 #import "GameViewController.h"
 #import "SocketCommunication.h"
-#import "LocationManager.h"
 #import "IAPHelper.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
@@ -194,6 +193,8 @@
 	[window release];
 	
 	[director end];
+  
+  [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   
   [Analytics terminatedApp];
   [Apsalar endSession];

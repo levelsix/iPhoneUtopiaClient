@@ -229,6 +229,12 @@ NSComparisonResult sortByPriority(id first, id second, void *context)
   [self rearrangeHandlers:standardHandlers];
 }
 
+- (void) printHandlers {
+  for (CCTargetedTouchHandler *t in targetedHandlers) {
+    NSLog(@"%@", t.delegate);
+  }
+}
+
 //
 // dispatch events
 //

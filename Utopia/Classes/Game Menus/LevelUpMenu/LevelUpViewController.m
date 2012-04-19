@@ -41,7 +41,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"unlockedheader.png"]] autorelease];
   UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 400, headerView.frame.size.height)];
-  label.textColor = [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
+  label.textColor = [Globals creamColor];
   label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
   label.backgroundColor = [UIColor clearColor];
   [headerView addSubview:label];
@@ -58,7 +58,7 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];;
+  UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
   if (indexPath.section == 0) {
     if (levelUpResponse.citiesNewlyAvailableToUserList.count != 0) {
       FullCityProto *fcp = [levelUpResponse.citiesNewlyAvailableToUserList objectAtIndex:indexPath.row];
@@ -110,7 +110,7 @@
     }
   }
   
-  return cell;
+  return [cell autorelease];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -171,6 +171,8 @@
   self.itemView = nil;
   self.itemLabel = nil;
   self.itemIcon = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
 }
 
 @end

@@ -318,6 +318,7 @@
 
 - (void) dealloc {
   self.userStruct = nil;
+  [self.timer invalidate];
   self.timer = nil;
   [_retrieveBubble release];
   [super dealloc];
@@ -331,6 +332,11 @@
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(HomeMap *)map {
   return [super initWithFile:file location:loc map:map];
+}
+
+- (void) dealloc {
+  self.critStruct = nil;
+  [super dealloc];
 }
 
 @end

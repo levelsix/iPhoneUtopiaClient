@@ -27,7 +27,6 @@
     [self addChild:_nameLabel];
     _nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     _nameLabel.color = ccc3(255,200,0);
-    [_nameLabel release];
     
     self.flipX = arc4random() % 2;
   }
@@ -42,6 +41,11 @@
 - (void) setLocation:(CGRect)location {
   [super setLocation:location];
   self.position = ccpAdd(self.position, ccp(0, VERTICAL_OFFSET));
+}
+
+- (void) dealloc {
+  self.nameLabel = nil;
+  [super dealloc];
 }
 
 @end
@@ -124,6 +128,8 @@
 
 - (void) dealloc {
   [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
+  self.sprite = nil;
+  self.walkAction = nil;
 	[super dealloc];
 }
 
@@ -144,7 +150,7 @@
 - (void) setName:(NSString *)n {
   if (name != n) {
     [name release];
-    name = [n retain];
+    name = [n copy];
     _nameLabel.string = name;
   }
 }
@@ -195,6 +201,12 @@
                               nil]]];
 }
 
+- (void) dealloc {
+  self.quest = nil;
+  self.name = nil;
+  [super dealloc];
+}
+
 @end
 
 @implementation Enemy
@@ -214,6 +226,11 @@
     user = [u retain];
     _nameLabel.string = u.name;
   }
+}
+
+- (void) dealloc {
+  self.user = nil;
+  [super dealloc];
 }
 
 @end

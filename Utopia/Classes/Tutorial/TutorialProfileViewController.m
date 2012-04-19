@@ -119,6 +119,7 @@
 
 - (IBAction)closeClicked:(id)sender {
   if (_closingPhase) {
+    [_arrow removeFromSuperview];
     [super closeClicked:sender];
     [[TutorialMissionMap sharedTutorialMissionMap] levelUpComplete];
   }

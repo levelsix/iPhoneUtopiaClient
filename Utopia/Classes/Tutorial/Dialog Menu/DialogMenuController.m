@@ -314,6 +314,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   self.selector = nil;
   self.label = nil;
   self.progressBar = nil;
+  self.nameLabel = nil;
+  self.girlImageView = nil;
+  self.loadingView = nil;
+  self.label = nil;
+  self.textView = nil;
+  self.referralView = nil;
+  self.referralTextField = nil;
+  self.retryView = nil;
 }
 
 @end

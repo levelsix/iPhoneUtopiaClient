@@ -59,7 +59,6 @@ typedef enum {
 
 @interface CarpenterListing : UIView {
   ListingState _state;
-  UIColor *_lockedBuildingColor;
   int _structId;
 }
 

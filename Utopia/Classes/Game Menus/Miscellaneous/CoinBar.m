@@ -26,4 +26,10 @@
   [GoldShoppeViewController displayView];
 }
 
+- (void) dealloc {
+  self.goldLabel = nil;
+  self.silverLabel = nil;
+  [super dealloc];
+}
+
 @end

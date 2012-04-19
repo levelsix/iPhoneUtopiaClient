@@ -34,7 +34,7 @@
 @property (nonatomic, retain) IBOutlet UIView *aviaryMenu;
 @property (nonatomic, retain) IBOutlet EnemyPopupView *enemyMenu;
 
-@property (nonatomic, retain) SelectableSprite *selected;
+@property (nonatomic, assign) SelectableSprite *selected;
 @property (nonatomic, retain) NSArray *mapSprites;
 
 @property (nonatomic, retain) NSMutableArray *walkableData;

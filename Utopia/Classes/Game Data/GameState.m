@@ -183,7 +183,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     }
 //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    p = [dict objectForKey:num];
+    // Need this in case game state gets deallocated while waiting for static data
+    @try {
+      p = [dict objectForKey:num];
+    }
+    @catch (NSException *exception) {
+      p = nil;
+      break;
+    }
   }
   // Retain and autorelease in case data gets purged
   [p retain];
@@ -404,8 +411,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) dealloc {
   self.name = nil;
+  self.referralCode = nil;
+  self.carpenterStructs = nil;
+  self.armoryWeapons = nil;
+  self.armoryArmor = nil;
+  self.armoryAmulets = nil;
+  self.lastEnergyRefill = nil;
+  self.lastStaminaRefill = nil;
   self.marketplaceEquipPosts = nil;
   self.marketplaceEquipPostsFromSender = nil;
+  self.lastShortLicensePurchaseTime = nil;
+  self.lastLongLicensePurchaseTime = nil;
   self.staticTasks = nil;
   self.staticCities = nil;
   self.staticEquips = nil;
@@ -415,18 +431,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticBuildStructJobs = nil;
   self.staticPossessEquipJobs = nil;
   self.staticUpgradeStructJobs = nil;
-  self.carpenterStructs = nil;
-  self.armoryWeapons = nil;
-  self.armoryArmor = nil;
-  self.armoryAmulets = nil;
-  self.attackList = nil;
-  self.lastEnergyRefill = nil;
-  self.lastStaminaRefill = nil;
   self.myCities = nil;
   self.myEquips = nil;
   self.myStructs = nil;
+  self.myCritStructs = nil;
   self.availableQuests = nil;
   self.inProgressQuests = nil;
+  self.attackList = nil;
   self.notifications = nil;
   [super dealloc];
 }

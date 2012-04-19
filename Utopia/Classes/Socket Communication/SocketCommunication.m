@@ -20,7 +20,6 @@
 #define HOST_PORT 8888
 
 #define UDID [[UIDevice currentDevice] uniqueDeviceIdentifier]
-
 #else
 
 #define HOST_NAME @"184.169.148.243"//@"10.1.10.30"
@@ -35,7 +34,7 @@
 #define HEADER_SIZE 12
 
 #define RECONNECT_TIMEOUT 0.5f
-#define NUM_SILENT_RECONNECTS 3
+#define NUM_SILENT_RECONNECTS 5
 
 @implementation SocketCommunication
 

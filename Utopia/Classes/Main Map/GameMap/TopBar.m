@@ -105,7 +105,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     
     GameState *gs = [GameState sharedGameState];
-    _profilePic = [ProfilePicture profileWithType:gs.type];
+    self.profilePic = [ProfilePicture profileWithType:gs.type];
     [self addChild:_profilePic z:2];
     _profilePic.position = ccp(50, self.contentSize.height-50);
     
@@ -160,7 +160,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     fillLabel.position = ccp(fillButton.contentSize.width-5.f, fillButton.contentSize.height/2+1);
     [fillButton addChild:fillLabel];
     CCLabelTTF *fillLabelShadow = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
-    fillLabelShadow.color = ccc3(100, 60, 0);
+    fillLabelShadow.color = ccc3(0, 0, 0);
     fillLabelShadow.opacity = 25;
     fillLabelShadow.position = ccp(fillLabel.contentSize.width/2+1, fillLabel.contentSize.height/2-1);
     [fillLabel addChild:fillLabelShadow z:-1];
@@ -614,6 +614,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_energyBar release];
   [_staminaBar release];
   [_toolTipTimerDate release];
+  NSLog(@"%d", self.profilePic.retainCount);
+  self.profilePic = nil;
   [super dealloc];
 }
 

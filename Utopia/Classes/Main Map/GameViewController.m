@@ -42,6 +42,7 @@
 #import "BattleLayer.h"
 #import "SimpleAudioEngine.h"
 #import "TopBar.h"
+#import "FAQMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -49,6 +50,8 @@
 #define EYES_START_ALPHA 80.f
 #define EYES_END_ALPHA 180.f
 #define EYES_PULSATE_DURATION 2.f
+
+#define DEFAULT_PNG_IMAGE_VIEW_TAG 103
 
 @implementation GameView
 
@@ -82,31 +85,37 @@
 @synthesize canLoad;
 
 + (void) releaseAllViews {
+  // Purge and then recreate so that game won't crash..
   [GameState purgeSingleton];
   [Globals purgeSingleton];
+  [GameState sharedGameState];
+  [Globals sharedGlobals];
+  
   [ActivityFeedController removeView];
   [ActivityFeedController purgeSingleton];
-  [CarpenterMenuController removeView];
+  [CarpenterMenuController removeView];//5
   [CarpenterMenuController purgeSingleton];
   [ArmoryViewController removeView];
   [ArmoryViewController purgeSingleton];
+  [FAQMenuController removeView];
+  [FAQMenuController purgeSingleton];
   [GoldShoppeViewController removeView];
-  [GoldShoppeViewController purgeSingleton];
+  [GoldShoppeViewController purgeSingleton];//10
   [MapViewController cleanupAndPurgeSingleton];
   [MarketplaceViewController removeView];
   [MarketplaceViewController purgeSingleton];
   [ProfileViewController removeView];
-  [ProfileViewController purgeSingleton];
+  [ProfileViewController purgeSingleton];//15
   [QuestLogController cleanupAndPurgeSingleton];
   [RefillMenuController removeView];
   [RefillMenuController purgeSingleton];
   [VaultMenuController removeView];
-  [VaultMenuController purgeSingleton];
+  [VaultMenuController purgeSingleton];//20
   [GameLayer purgeSingleton];
   [GenericPopupController removeView];
   [GenericPopupController purgeSingleton];
   [[HomeMap sharedHomeMap] invalidateAllTimers];
-  [HomeMap purgeSingleton];
+  [HomeMap purgeSingleton];//25
   [BattleLayer purgeSingleton];
   [[TopBar sharedTopBar] invalidateTimers];
   [TopBar purgeSingleton];
@@ -118,9 +127,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) startDoorAnimation {
   CCScene *scene = [[CCDirector sharedDirector] runningScene];
+  BOOL needsToRunScene = NO;
   if (!scene) {
     scene = [CCScene node];
-    [[CCDirector sharedDirector] runWithScene:scene];
+    needsToRunScene = YES;
   }
   
   [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -128,11 +138,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   CCLayer *layer = [CCLayer node];
   [scene addChild:layer z:1];
-  
-  splash= [CCSprite spriteWithFile:@"Default.png"];
-  [layer addChild:splash z:10];
-  splash.position = ccp(layer.contentSize.width/2, layer.contentSize.height/2);
-  splash.rotation = 90;
   
   doorleft = [CCSprite spriteWithFile:@"doorleft.png"];
   doorleft.anchorPoint = ccp(1, 0.5);
@@ -176,6 +181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   [eyes runAction:[CCRepeatForever actionWithAction:
                    [CCSequence actions:
+                    [CCCallFunc actionWithTarget:self selector:@selector(removeSplashImageView)],
                     [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_END_ALPHA],
                     [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_START_ALPHA],
                     nil]]];
@@ -196,6 +202,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   menu.tag = 199;
   [doorright.parent addChild:menu];
   
+  splash= [CCSprite spriteWithFile:@"Default.png"];
+  [layer addChild:splash z:10];
+  splash.position = ccp(layer.contentSize.width/2, layer.contentSize.height/2);
+  splash.rotation = 90;
+  
+  if (needsToRunScene) {
+    [[CCDirector sharedDirector] runWithScene:scene];
+  }
+}
+
+- (void) removeSplashImageView {
+  [[self.view viewWithTag:DEFAULT_PNG_IMAGE_VIEW_TAG] removeFromSuperview];
 }
 
 - (void) allowOpeningOfDoor {
@@ -288,7 +306,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 	CGSize size = [director winSize];
 	CCSprite *sprite = [CCSprite spriteWithFile:@"Default.png"];
 	sprite.position = ccp(size.width/2, size.height/2);
-	sprite.rotation = -90;
+	sprite.rotation = 90;
 	[sprite visit];
 	[[director openGLView] swapBuffers];
 	CC_ENABLE_DEFAULT_GL_STATES();
@@ -298,7 +316,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void)setupCocos2D {
   EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
-                                 pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
+                                 pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
                                  depthFormat:0];                       // GL_DEPTH_COMPONENT16_OES
 //                          preserveBackbuffer:NO
 //                                  sharegroup:nil 
@@ -363,6 +381,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   CGRect rect = [[UIScreen mainScreen] bounds];
   rect.size = CGSizeMake( rect.size.height, rect.size.width );
   GameView *v = [[GameView alloc] initWithFrame:rect];
+  
+  UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
+  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
+  imgView.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
+  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
+  [v addSubview:imgView];
+  [imgView release];
+  
   self.view = v;
   [v release];
   
