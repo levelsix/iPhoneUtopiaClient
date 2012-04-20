@@ -25,6 +25,7 @@
 
 #define SECTION_SUFFIX @"<s>"
 #define QUESTION_SUFFIX @"?"
+#define REPLACEMENT_DELIMITER @"`"
 #define LABEL_TAG 51
 
 #define SECTION_FONT_SIZE 20
@@ -69,7 +70,40 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   NSMutableArray *gameplay = [NSMutableArray array];
   NSMutableArray *faq = [NSMutableArray array];
   NSMutableArray *curArr = nil;
+  Globals *gl = [Globals sharedGlobals];
   for (NSString *line in lines) {
+    // Replace delimited strings with their proper constants..
+    while (true) {
+      NSRange delimStart = [line rangeOfString:REPLACEMENT_DELIMITER];
+      if (delimStart.location == NSNotFound) {
+        break;
+      }
+      
+      line = [line stringByReplacingCharactersInRange:delimStart withString:@""];
+      NSRange delimEnd = [line rangeOfString:REPLACEMENT_DELIMITER];
+      
+      if (delimEnd.location == NSNotFound) {
+        break;
+      }
+      
+      line = [line stringByReplacingCharactersInRange:delimEnd withString:@""];
+      NSString *val = [line substringWithRange:NSMakeRange(delimStart.location, delimEnd.location-delimStart.location)];
+      id glVal = [gl performSelector:NSSelectorFromString(val)];
+      // Get the letter right after the selector, it gives us the interpretation
+      NSString *interp = [line substringWithRange:delimEnd];
+      
+      if ([interp isEqualToString:@"f"]) {
+        float *x = (float *)&glVal;
+        line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", (int)*x]];
+      } else if ([interp isEqualToString:@"i"]) {
+        int *x = (int *)&glVal;
+        line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", *x]];
+      } else if ([interp isEqualToString:@"p"]) {
+        float *x = (float *)&glVal;
+        line = [line stringByReplacingOccurrencesOfString:[val stringByAppendingString:interp] withString:[NSString stringWithFormat:@"%d", (int)((*x)*100)]];
+      }
+    }
+    
     if ([line isEqualToString:HOW_TO_PLAY_HEADER]) {
       curArr = gameplay;
     } else if ([line isEqualToString:FAQ_HEADER]) {

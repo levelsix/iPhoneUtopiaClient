@@ -1005,8 +1005,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   smallAttackButton.enabled = enabled;
   bigAttackButton.enabled = enabled;
   
-  [_fup release];
-  _fup = [fup retain];
+  if (_fup != fup) {
+    [_fup release];
+    _fup = [fup retain];
+  }
 }
 
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense {

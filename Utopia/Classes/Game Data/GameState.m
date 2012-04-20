@@ -181,16 +181,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     if (numTimes == 1000) {
       LNLog(@"Lotsa wait time for this");
     }
-//    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
+    //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
     // Need this in case game state gets deallocated while waiting for static data
-    @try {
-      p = [dict objectForKey:num];
-    }
-    @catch (NSException *exception) {
-      p = nil;
-      break;
-    }
+    p = [dict objectForKey:num];
   }
   // Retain and autorelease in case data gets purged
   [p retain];
@@ -407,6 +401,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   // Reretrieve necessary data
   [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+}
+
+- (void) clearAllData {
+  _connected = NO;
+  self.marketplaceEquipPosts = [[NSMutableArray alloc] init];
+  self.marketplaceEquipPostsFromSender = [[NSMutableArray alloc] init];
+  self.staticTasks = [[NSMutableDictionary alloc] init];
+  self.staticCities = [[NSMutableDictionary alloc] init];
+  self.staticEquips = [[NSMutableDictionary alloc] init];
+  self.staticQuests = [[NSMutableDictionary alloc] init];
+  self.staticStructs = [[NSMutableDictionary alloc] init];
+  self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
+  self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
+  self.staticPossessEquipJobs = [[NSMutableDictionary alloc] init];
+  self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
+  self.attackList = [[NSMutableArray alloc] init];
+  self.notifications = [[NSMutableArray alloc] init];
+  self.myEquips = [[NSMutableArray alloc] init];
+  self.myStructs = [[NSMutableArray alloc] init];
+  self.myCritStructs = [[NSMutableArray alloc] init];
+  self.myCities = [[NSMutableDictionary alloc] init];
+  
+  self.availableQuests = [[NSMutableDictionary alloc] init];
+  self.inProgressQuests = [[NSMutableDictionary alloc] init];
 }
 
 - (void) dealloc {

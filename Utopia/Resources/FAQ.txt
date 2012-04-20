@@ -22,7 +22,7 @@ Each battle costs 1 stamina point. You can find enemies in both quest cities (i.
 
 Leveling Up – Skill Points:<s>
 
-Who doesn’t like getting stronger? For your hard work, you are rewarded 3 skill points to allocate into 5 different attributes: attack, defense, energy, stamina, and health.
+Who doesn’t like getting stronger? For your hard work, you are rewarded `skillPointsGainedOnLevelup`i skill points to allocate into 5 different attributes: attack, defense, energy, stamina, and health.
 
 1. Attack points will increase the damage you deal to your foes in battle.
 2. Defense points will decrease the damage you take in battle.
@@ -35,7 +35,7 @@ FAQ:
 General:<s>
 
 How long does it take to refill Energy and Stamina?
-A point of energy and stamina is refilled every 3 and 4 minutes respectively. 
+A point of energy and stamina is refilled every `energyRefillWaitMinutes`f and `staminaRefillWaitMinutes`f minutes respectively. 
 
 How do I know who attacked me?
 You can find out who attacked you by utilizing your Activity Feed. You can access this feed via your Face Dial in the top left hand corner of the screen. 
@@ -44,7 +44,7 @@ How do I find my referral code?
 You can access your referral code via the profile tab in your Face Dial. Currently, the referral code does not serve a purpose but in the future, it will serve to identify your character.
 
 How do I get more skill points? Where do I allocate them?
-Your character is rewarded 3 skill points at every level up, and they can be spent in your user profile located in the Face Dial. 
+Your character is rewarded `skillPointsGainedOnLevelup`i skill points at every level up, and they can be spent in your user profile located in the Face Dial. 
 
 Battles:<s>
 
@@ -66,16 +66,16 @@ Why should I use the marketplace?
 The marketplace is the most efficient way to sell your items. To maximize your return on investment on purchased weapons, the marketplace essentially allows you to “return” your weapon, selling them to other players at essentially the price you had bought it for.
 
 Why can’t I post my items on the marketplace?
-Selling in the marketplace requires a merchant’s license. You can buy a 3-day pass or a 1-month pass directly from the marketplace.
+Selling in the marketplace requires a merchant’s license. You can buy a `numDaysShortMarketplaceLicenseLastsFor`i-day pass or a `numDaysLongMarketplaceLicenseLastsFor`i-day pass directly from the marketplace.
 
 I just sold an item, but I haven’t received my payment yet! Where is it?
 Much in the same way real auction houses work, the marketplace safely holds the buyers payment for you to collect on your next arrival at the marketplace.
 
 Why can’t I retract my items?
-Withdrawing an item from the marketplace incurs a 10% fee of its desired asking price. If you cannot withdraw your item, it is highly likely you do not possess enough silver/gold to retract the weapon. The reason why we do this is to prevent users from polluting the marketplace with either 1) common weapons or 2) rare weapons they don’t want stolen in battle.
+Withdrawing an item from the marketplace incurs a `retractPercentCut`p% fee of its desired asking price. If you cannot withdraw your item, it is highly likely you do not possess enough silver/gold to retract the weapon. The reason why we do this is to prevent users from polluting the marketplace with either 1) common weapons or 2) rare weapons they don’t want stolen in battle.
 
 Is there a tax on every item sold in the marketplace? Why?
-Yes, there is a 30% sales tax on every item sold in the marketplace. By integrating the first P2P (Peer-to-Peer) marketplace, we’ve opened up an economy that requires us tax our users’ purchases to prevent inflation on the value of silver and gold.
+Yes, there is a `purchasePercentCut`p% sales tax on every item sold in the marketplace. By integrating the first P2P (Peer-to-Peer) marketplace, we’ve opened up an economy that requires us tax our users’ purchases to prevent inflation on the value of silver and gold.
 
 For example, the value of silver constantly decreases as more silver is in circulation through the completion of tasks, quests, and battles. To preserve the value of your gold and silver, such measurements have to be put in place.
 
@@ -96,7 +96,7 @@ Why can’t I buy epic items?
 Though rare weapons can be bought with gold to gain an advantage over other players, we believe that the best weapons should be rewarded only to the players who dedicate the most time to Lost Nations. For this reason, epic weapons can only be found through the completion of tasks and bosses.
 
 Can I sell my weapons back to the Armory?
-The armory prides itself as a retailer of high quality goods, and tries not to accept returns and second-hand goods. With this said, the armory will reluctantly accept back items for 15% of their original sale price. 
+The armory prides itself as a retailer of high quality goods, and tries not to accept returns and second-hand goods. With this said, the armory will reluctantly accept back items for `percentReturnedToUserForSellingEquipInArmory`p% of their original sale price. 
 
 Wait… I’m a warrior, but I can’t see any bows or wands in the Armory! Why?
 Though amulets are universal, each class (warrior, archer, mage) can only see and use their own respective weapons and armor in the armory. Because of this, you can only sell items that belong to another class in the marketplace.

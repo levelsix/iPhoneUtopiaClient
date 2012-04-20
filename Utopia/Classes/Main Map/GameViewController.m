@@ -86,10 +86,9 @@
 
 + (void) releaseAllViews {
   // Purge and then recreate so that game won't crash..
-  [GameState purgeSingleton];
-  [Globals purgeSingleton];
-  [GameState sharedGameState];
-  [Globals sharedGlobals];
+  [[GameState sharedGameState] clearAllData];
+  
+  [sharedGameViewController dismissModalViewControllerAnimated:NO];
   
   [ActivityFeedController removeView];
   [ActivityFeedController purgeSingleton];
