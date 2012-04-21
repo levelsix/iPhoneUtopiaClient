@@ -544,7 +544,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
   
-  [self refresh];
+  @synchronized(self) {
+    [self refresh];
+  }
 }
 
 - (void) beginTimers {
@@ -797,7 +799,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) preparePurchaseOfCritStruct:(CritStruct *)cs {
   CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, cs.size.width, cs.size.height);
   CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:loc map:self];
-
+  
   [self addChild:csb z:0];
   [csb release];
   
@@ -938,7 +940,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   mb.isConstructing = NO;
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
   if (mb == _selected && hbMenu.state != kMoveState) {
-//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+    //    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
     self.selected = nil;
   }
   [self updateHomeBuildingMenu];
@@ -951,7 +953,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self updateTimersForBuilding:mb];
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
   if (mb == _selected && hbMenu.state != kMoveState) {
-//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+    //    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
     self.selected = nil;
   }
   _upgrBuilding = nil;
@@ -1180,8 +1182,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [self.hbMenu startTimer];
       mb.isConstructing = NO;
       self.selected = nil;
-//      [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-//      [self updateHomeBuildingMenu];
+      //      [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+      //      [self updateHomeBuildingMenu];
     }];
     [self updateTimersForBuilding:mb];
   } else {

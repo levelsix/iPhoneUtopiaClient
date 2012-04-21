@@ -47,6 +47,7 @@ typedef enum {
   
   ProfilePicture *_profilePic;
   
+  CCMenuItem *_questButton;
   CCMenu *_bottomButtons;
   
   // For faster comparisons of touch

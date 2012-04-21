@@ -82,7 +82,6 @@
 		CF126D601538ACCA00E0C1AD /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12658F1538ACC400E0C1AD /* ProfileViewController.m */; };
 		CF126D611538ACCA00E0C1AD /* ProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1265901538ACC400E0C1AD /* ProfileViewController.xib */; };
 		CF126D621538ACCA00E0C1AD /* QuestCompleteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1265921538ACC400E0C1AD /* QuestCompleteView.xib */; };
-		CF126D631538ACCA00E0C1AD /* QuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265941538ACC400E0C1AD /* QuestLogController.m */; };
 		CF126D641538ACCA00E0C1AD /* QuestLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1265951538ACC400E0C1AD /* QuestLogController.xib */; };
 		CF126D651538ACCA00E0C1AD /* RefillMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265981538ACC400E0C1AD /* RefillMenuController.m */; };
 		CF126D661538ACCA00E0C1AD /* RefillMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1265991538ACC400E0C1AD /* RefillMenuController.xib */; };
@@ -128,7 +127,6 @@
 		CF126D8E1538ACCA00E0C1AD /* TutorialMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265E71538ACC400E0C1AD /* TutorialMapViewController.m */; };
 		CF126D8F1538ACCA00E0C1AD /* TutorialMissionMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265E91538ACC400E0C1AD /* TutorialMissionMap.m */; };
 		CF126D901538ACCA00E0C1AD /* TutorialProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265EB1538ACC400E0C1AD /* TutorialProfileViewController.m */; };
-		CF126D911538ACCA00E0C1AD /* TutorialQuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265ED1538ACC400E0C1AD /* TutorialQuestLogController.m */; };
 		CF126D921538ACCA00E0C1AD /* TutorialStartLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265EF1538ACC400E0C1AD /* TutorialStartLayer.m */; };
 		CF126D931538ACCA00E0C1AD /* TutorialTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265F11538ACC400E0C1AD /* TutorialTopBar.m */; };
 		CF126D951538ACCA00E0C1AD /* libApsalar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1265F61538ACC400E0C1AD /* libApsalar.a */; };
@@ -1032,6 +1030,9 @@
 		CF5CD835153A593D00D5D331 /* leathertopred@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD833153A593D00D5D331 /* leathertopred@2x.png */; };
 		CF5CD838153A616300D5D331 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD836153A616300D5D331 /* back.png */; };
 		CF5CD839153A616300D5D331 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5CD837153A616300D5D331 /* back@2x.png */; };
+		CF5D3D7B1541ED5F0086234E /* JobCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7A1541ED5F0086234E /* JobCell.xib */; };
+		CF5D3D7E15420D930086234E /* checkdone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7C15420D930086234E /* checkdone@2x.png */; };
+		CF5D3D7F15420D930086234E /* checkdone.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7D15420D930086234E /* checkdone.png */; };
 		CF7FEEDC154085F000716E37 /* FAQMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7FEEDA154085F000716E37 /* FAQMenuController.m */; };
 		CF7FEEDD154085F000716E37 /* FAQMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEDB154085F000716E37 /* FAQMenuController.xib */; };
 		CF7FEEE115408A1D00716E37 /* pathhelp.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEDF15408A1D00716E37 /* pathhelp.png */; };
@@ -1039,7 +1040,6 @@
 		CF7FEEE415408C9500716E37 /* FAQ.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE315408C9500716E37 /* FAQ.txt */; };
 		CF7FEEF81540BE2D00716E37 /* bigadriana@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE51540BE2D00716E37 /* bigadriana@2x.png */; };
 		CF7FEEF91540BE2D00716E37 /* bigruby@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE61540BE2D00716E37 /* bigruby@2x.png */; };
-		CF7FEEFA1540BE2D00716E37 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE71540BE2D00716E37 /* left.png */; };
 		CF7FEEFB1540BE2D00716E37 /* bigadriana.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE81540BE2D00716E37 /* bigadriana.png */; };
 		CF7FEEFC1540BE2D00716E37 /* bigruby.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE91540BE2D00716E37 /* bigruby.png */; };
 		CF7FEEFD1540BE2D00716E37 /* questheadertop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEEA1540BE2D00716E37 /* questheadertop@2x.png */; };
@@ -1057,8 +1057,11 @@
 		CF7FEF091540BE2D00716E37 /* fractionbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEF61540BE2D00716E37 /* fractionbg.png */; };
 		CF7FEF0A1540BE2D00716E37 /* questarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEF71540BE2D00716E37 /* questarrow.png */; };
 		CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7FEF0F1540C3D000716E37 /* MessageUI.framework */; };
+		CFA73EAB1541230A00900045 /* QuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA73EAA1541230A00900045 /* QuestLogController.m */; };
+		CFA73EAD1541291400900045 /* QuestLogControllerBkup.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265941538ACC400E0C1AD /* QuestLogControllerBkup.m */; };
 		CFDBFEB7153BCE6100DA9206 /* popupglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB5153BCE6100DA9206 /* popupglow.png */; };
 		CFDBFEB8153BCE6100DA9206 /* popupglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */; };
+		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
 		CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEDA618153C04FB00015562 /* libUserVoice.a */; };
 		CFEDA65D153C04FB00015562 /* dropshadow_bottom_10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA61E153C04FB00015562 /* dropshadow_bottom_10.png */; };
 		CFEDA65E153C04FB00015562 /* dropshadow_bottom_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEDA61F153C04FB00015562 /* dropshadow_bottom_10@2x.png */; };
@@ -1260,8 +1263,8 @@
 		CF12658F1538ACC400E0C1AD /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF1265901538ACC400E0C1AD /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		CF1265921538ACC400E0C1AD /* QuestCompleteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCompleteView.xib; sourceTree = "<group>"; };
-		CF1265931538ACC400E0C1AD /* QuestLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogController.h; sourceTree = "<group>"; };
-		CF1265941538ACC400E0C1AD /* QuestLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogController.m; sourceTree = "<group>"; };
+		CF1265931538ACC400E0C1AD /* QuestLogControllerBkup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogControllerBkup.h; sourceTree = "<group>"; };
+		CF1265941538ACC400E0C1AD /* QuestLogControllerBkup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogControllerBkup.m; sourceTree = "<group>"; };
 		CF1265951538ACC400E0C1AD /* QuestLogController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestLogController.xib; sourceTree = "<group>"; };
 		CF1265971538ACC400E0C1AD /* RefillMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefillMenuController.h; sourceTree = "<group>"; };
 		CF1265981538ACC400E0C1AD /* RefillMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefillMenuController.m; sourceTree = "<group>"; };
@@ -2394,6 +2397,9 @@
 		CF5CD833153A593D00D5D331 /* leathertopred@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leathertopred@2x.png"; sourceTree = "<group>"; };
 		CF5CD836153A616300D5D331 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		CF5CD837153A616300D5D331 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		CF5D3D7A1541ED5F0086234E /* JobCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JobCell.xib; sourceTree = "<group>"; };
+		CF5D3D7C15420D930086234E /* checkdone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkdone@2x.png"; sourceTree = "<group>"; };
+		CF5D3D7D15420D930086234E /* checkdone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkdone.png; sourceTree = "<group>"; };
 		CF7FEED9154085F000716E37 /* FAQMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAQMenuController.h; path = FAQMenu/FAQMenuController.h; sourceTree = "<group>"; };
 		CF7FEEDA154085F000716E37 /* FAQMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAQMenuController.m; path = FAQMenu/FAQMenuController.m; sourceTree = "<group>"; };
 		CF7FEEDB154085F000716E37 /* FAQMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FAQMenuController.xib; path = FAQMenu/FAQMenuController.xib; sourceTree = "<group>"; };
@@ -2402,7 +2408,6 @@
 		CF7FEEE315408C9500716E37 /* FAQ.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FAQ.txt; sourceTree = "<group>"; };
 		CF7FEEE51540BE2D00716E37 /* bigadriana@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigadriana@2x.png"; sourceTree = "<group>"; };
 		CF7FEEE61540BE2D00716E37 /* bigruby@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigruby@2x.png"; sourceTree = "<group>"; };
-		CF7FEEE71540BE2D00716E37 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
 		CF7FEEE81540BE2D00716E37 /* bigadriana.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigadriana.png; sourceTree = "<group>"; };
 		CF7FEEE91540BE2D00716E37 /* bigruby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigruby.png; sourceTree = "<group>"; };
 		CF7FEEEA1540BE2D00716E37 /* questheadertop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "questheadertop@2x.png"; sourceTree = "<group>"; };
@@ -2420,8 +2425,11 @@
 		CF7FEEF61540BE2D00716E37 /* fractionbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fractionbg.png; sourceTree = "<group>"; };
 		CF7FEEF71540BE2D00716E37 /* questarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = questarrow.png; sourceTree = "<group>"; };
 		CF7FEF0F1540C3D000716E37 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		CFA73EA91541230A00900045 /* QuestLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogController.h; sourceTree = "<group>"; };
+		CFA73EAA1541230A00900045 /* QuestLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogController.m; sourceTree = "<group>"; };
 		CFDBFEB5153BCE6100DA9206 /* popupglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popupglow.png; sourceTree = "<group>"; };
 		CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popupglow@2x.png"; sourceTree = "<group>"; };
+		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
 		CFEDA618153C04FB00015562 /* libUserVoice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUserVoice.a; sourceTree = "<group>"; };
 		CFEDA61A153C04FB00015562 /* UserVoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVoice.h; sourceTree = "<group>"; };
 		CFEDA61B153C04FB00015562 /* UVDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDelegate.h; sourceTree = "<group>"; };
@@ -2935,9 +2943,13 @@
 			isa = PBXGroup;
 			children = (
 				CF1265921538ACC400E0C1AD /* QuestCompleteView.xib */,
-				CF1265931538ACC400E0C1AD /* QuestLogController.h */,
-				CF1265941538ACC400E0C1AD /* QuestLogController.m */,
+				CF1265931538ACC400E0C1AD /* QuestLogControllerBkup.h */,
+				CF1265941538ACC400E0C1AD /* QuestLogControllerBkup.m */,
 				CF1265951538ACC400E0C1AD /* QuestLogController.xib */,
+				CFA73EA91541230A00900045 /* QuestLogController.h */,
+				CFA73EAA1541230A00900045 /* QuestLogController.m */,
+				CFE6769C15412C7B006FA813 /* QuestCell.xib */,
+				CF5D3D7A1541ED5F0086234E /* JobCell.xib */,
 			);
 			path = QuestLogMenu;
 			sourceTree = "<group>";
@@ -4227,9 +4239,10 @@
 		CF12697E1538ACC600E0C1AD /* Quest Log Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF5D3D7C15420D930086234E /* checkdone@2x.png */,
+				CF5D3D7D15420D930086234E /* checkdone.png */,
 				CF7FEEE51540BE2D00716E37 /* bigadriana@2x.png */,
 				CF7FEEE61540BE2D00716E37 /* bigruby@2x.png */,
-				CF7FEEE71540BE2D00716E37 /* left.png */,
 				CF7FEEE81540BE2D00716E37 /* bigadriana.png */,
 				CF7FEEE91540BE2D00716E37 /* bigruby.png */,
 				CF7FEEEA1540BE2D00716E37 /* questheadertop@2x.png */,
@@ -5718,7 +5731,6 @@
 				CF7FEEE415408C9500716E37 /* FAQ.txt in Resources */,
 				CF7FEEF81540BE2D00716E37 /* bigadriana@2x.png in Resources */,
 				CF7FEEF91540BE2D00716E37 /* bigruby@2x.png in Resources */,
-				CF7FEEFA1540BE2D00716E37 /* left.png in Resources */,
 				CF7FEEFB1540BE2D00716E37 /* bigadriana.png in Resources */,
 				CF7FEEFC1540BE2D00716E37 /* bigruby.png in Resources */,
 				CF7FEEFD1540BE2D00716E37 /* questheadertop@2x.png in Resources */,
@@ -5735,6 +5747,10 @@
 				CF7FEF081540BE2D00716E37 /* questbackbutton.png in Resources */,
 				CF7FEF091540BE2D00716E37 /* fractionbg.png in Resources */,
 				CF7FEF0A1540BE2D00716E37 /* questarrow.png in Resources */,
+				CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */,
+				CF5D3D7B1541ED5F0086234E /* JobCell.xib in Resources */,
+				CF5D3D7E15420D930086234E /* checkdone@2x.png in Resources */,
+				CF5D3D7F15420D930086234E /* checkdone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5767,7 +5783,6 @@
 				CF126D5D1538ACCA00E0C1AD /* CoinBar.m in Sources */,
 				CF126D5E1538ACCA00E0C1AD /* NibUtils.m in Sources */,
 				CF126D601538ACCA00E0C1AD /* ProfileViewController.m in Sources */,
-				CF126D631538ACCA00E0C1AD /* QuestLogController.m in Sources */,
 				CF126D651538ACCA00E0C1AD /* RefillMenuController.m in Sources */,
 				CF126D671538ACCA00E0C1AD /* VaultMenuController.m in Sources */,
 				CF126D691538ACCA00E0C1AD /* IAPHelper.m in Sources */,
@@ -5799,7 +5814,6 @@
 				CF126D8E1538ACCA00E0C1AD /* TutorialMapViewController.m in Sources */,
 				CF126D8F1538ACCA00E0C1AD /* TutorialMissionMap.m in Sources */,
 				CF126D901538ACCA00E0C1AD /* TutorialProfileViewController.m in Sources */,
-				CF126D911538ACCA00E0C1AD /* TutorialQuestLogController.m in Sources */,
 				CF126D921538ACCA00E0C1AD /* TutorialStartLayer.m in Sources */,
 				CF126D931538ACCA00E0C1AD /* TutorialTopBar.m in Sources */,
 				CF126D961538ACCA00E0C1AD /* CCLabelFX.m in Sources */,
@@ -5909,6 +5923,8 @@
 				CF1273BD1538AE1E00E0C1AD /* main.m in Sources */,
 				CFEDA6A1153CD20100015562 /* UVHelper.m in Sources */,
 				CF7FEEDC154085F000716E37 /* FAQMenuController.m in Sources */,
+				CFA73EAB1541230A00900045 /* QuestLogController.m in Sources */,
+				CFA73EAD1541291400900045 /* QuestLogControllerBkup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

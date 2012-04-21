@@ -2,20 +2,13 @@
 //  QuestLogController.h
 //  Utopia
 //
-//  Created by Ashwin Kamath on 1/17/12.
+//  Created by Ashwin Kamath on 4/19/12.
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "cocos2d.h"
+#import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
-
-typedef enum {
-  kTask = 1,
-  kDefeatTypeJob,
-  kBuildStructJob,
-  kUpgradeStructJob,
-  kPossessEquipJob
-} TaskItemType;
+#import "UserData.h"
 
 @interface QuestCompleteView : UIView
 
@@ -24,124 +17,74 @@ typedef enum {
 
 @end
 
-@interface GradientScrollView : UIScrollView <UIScrollViewDelegate>
+@interface QuestCell : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet UIImageView *topGradient;
-@property (nonatomic, retain) IBOutlet UIImageView *botGradient;
-@property (retain) NSTimer *timer;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *progressLabel;
+@property (nonatomic, retain) IBOutlet UIView *availableView;
+@property (nonatomic, retain) IBOutlet UIView *inProgressView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
-@end
-
-@interface QuestListScrollView : GradientScrollView
-
-@end
-
-@interface QuestItemView : UIView 
-
-@property (nonatomic, retain) UILabel *label;
-@property (nonatomic, retain) FullQuestProto *fqp;
+@property (nonatomic, retain) FullQuestProto *quest;
 
 @end
 
-@interface QuestListView : UIView {
-  UIView *_clickedView;
+@interface JobCell : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *progressLabel;
+@property (nonatomic, retain) IBOutlet UIView *completedView;
+@property (nonatomic, retain) IBOutlet UIView *inProgressView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+
+@property (nonatomic, retain) UserJob *job;
+
+@end
+
+@interface QuestListTableDelegate : NSObject <UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, retain) IBOutlet QuestCell *questCell;
+
+@end
+
+@interface TaskListTableDelegate : NSObject <UITableViewDelegate, UITableViewDataSource> {
+  BOOL _receivedData;
 }
 
-@property (nonatomic, retain) NSMutableArray *questItemViews;
-@property (nonatomic, retain) IBOutlet UILabel *curQuestsLabel;
-@property (nonatomic, retain) IBOutlet QuestListScrollView *scrollView;
-
-- (void) viewClicked:(id)sender;
+@property (nonatomic, retain) IBOutlet JobCell *jobCell;
+@property (nonatomic, retain) FullQuestProto *quest;
+@property (nonatomic, retain) NSArray *jobs;
 
 @end
 
-@interface RewardsView : UIView 
+@interface QuestLogController : UIViewController
 
-@property (nonatomic, retain) IBOutlet UILabel *rewardLabel;
-@property (nonatomic, retain) IBOutlet UILabel *coinRewardLabel;
-@property (nonatomic, retain) IBOutlet UILabel *expLabel;
-@property (nonatomic, retain) IBOutlet UILabel *expRewardLabel;
-@property (nonatomic, retain) IBOutlet UIView *equipView;
-@property (nonatomic, retain) IBOutlet UILabel *equipNameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *equipAttLabel;
-@property (nonatomic, retain) IBOutlet UILabel *equipDefLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
-@end
+@property (nonatomic, retain) IBOutlet UIView *questListView;
+@property (nonatomic, retain) IBOutlet UIView *taskListView;
+@property (nonatomic, retain) IBOutlet UITableView *questListTable;
+@property (nonatomic, retain) IBOutlet UITableView *taskListTable;
 
-@interface QuestDescriptionView : UIView
+@property (nonatomic, retain) IBOutlet UILabel *taskListTitleLabel;
 
-@property (nonatomic, retain) IBOutlet UILabel *questNameLabel;
-@property (nonatomic, retain) UILabel *questDescLabel;
-@property (nonatomic, retain) IBOutlet RewardsView *rewardView;
-@property (nonatomic, retain) IBOutlet GradientScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet QuestCompleteView *qcView;
 
-- (void) setQuestDescription:(NSString *)description;
+@property (nonatomic, retain) QuestListTableDelegate *questListDelegate;
+@property (nonatomic, retain) TaskListTableDelegate *taskListDelegate;
 
-@end
-
-@interface TaskItemView : UIView
-
-@property (nonatomic, retain) UILabel *label;
-@property (nonatomic, retain) UIImageView *bgdBar;
-@property (nonatomic, retain) UIImageView *taskBar;
-@property (nonatomic, retain) UIButton *visitButton;
-@property (nonatomic, assign) TaskItemType type;
-@property (nonatomic, assign) int jobId;
-
-- (id) initWithFrame:(CGRect)frame text: (NSString *)string taskFinished:(int)completed outOf:(int)total type:(TaskItemType)t jobId:(int)j;
-
-@end
-
-@interface TaskListScrollView : GradientScrollView 
-@end
-
-@interface TaskListView : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *questNameLabel;
-@property (nonatomic, retain) IBOutlet TaskListScrollView *scrollView;
-@property (nonatomic, retain) NSMutableArray *taskItemViews;
-
-- (void) unloadTasks;
-
-@end
-
-@interface QuestLogController : UIViewController {
-  UIView *_curView;
-  FullQuestProto *_fqp;
-  BOOL _closing;
-}
-
-@property (nonatomic, retain) IBOutlet QuestDescriptionView *questDescView;
-@property (nonatomic, retain) IBOutlet TaskListView *taskView;
-@property (nonatomic, retain) IBOutlet QuestListView *questListView;
-@property (nonatomic, retain) IBOutlet UIView *rightPage;
-@property (nonatomic, retain) IBOutlet UIView *toTaskButton;
-@property (nonatomic, retain) IBOutlet UIView *redeemButton;
-@property (nonatomic, retain) IBOutlet UIView *acceptButtons;
 @property (nonatomic, retain) NSArray *userLogData;
 
-@property (nonatomic, retain) IBOutlet UILabel *redeemLabel;
+- (void) questSelected:(FullQuestProto *)fqp;
+- (void) showQuestListViewAnimated:(BOOL)animated;
+- (void) showTaskListViewAnimated:(BOOL)animated;
 
-// This will be used to get the view from the nib and return it
-@property (nonatomic, retain) IBOutlet QuestCompleteView *qcView;
+- (IBAction)closeClicked:(id)sender;
 
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
-+ (void) cleanupAndPurgeSingleton;
-
-- (void) loadQuestData:(NSArray *)quests;
-- (void) resetToQuestDescView:(FullQuestProto *)fqp;
-- (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress;
-
-- (QuestCompleteView *) createQuestCompleteView;
-
-- (IBAction)closeButtonClicked:(id)sender;
-- (IBAction)taskButtonTapped:(id)sender;
-- (IBAction)questDescButtonTapped:(id)sender;
-- (IBAction)redeemTapped:(id)sender;
-- (IBAction)acceptTapped:(id)sender;
 
 @end

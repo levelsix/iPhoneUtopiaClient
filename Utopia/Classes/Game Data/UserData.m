@@ -294,3 +294,112 @@
 }
 
 @end
+
+@implementation UserJob
+
+@synthesize jobId, jobType;
+@synthesize title, subtitle;
+@synthesize numCompleted, total;
+
+- (id) initWithTask:(FullTaskProto *)p {
+  if ((self = [super init])) {
+    self.jobId = p.taskId;
+    self.jobType = kTask;
+    self.title = p.name;
+    self.total = p.numRequiredForCompletion;
+  }
+  return self;
+}
+
+- (id) initWithDefeatTypeJob:(DefeatTypeJobProto *)p {
+  if ((self = [super init])) {
+    GameState *gs = [GameState sharedGameState];
+    self.jobId = p.defeatTypeJobId;
+    self.jobType = kDefeatTypeJob;
+    self.title = [NSString stringWithFormat:@"Defeat %d %@ %@%@ in %@", p.numEnemiesToDefeat, [Globals factionForUserType:p.typeOfEnemy], [Globals classForUserType:p.typeOfEnemy], p.numEnemiesToDefeat == 1 ? @"" : @"s", [gs cityWithId:p.cityId].name];
+    self.total = p.numEnemiesToDefeat;
+  }
+  return self;
+}
+
+- (id) initWithPossessEquipJob:(PossessEquipJobProto *)p {
+  if ((self = [super init])) {
+    GameState *gs = [GameState sharedGameState];
+    FullEquipProto *e = [gs equipWithId:p.equipId];
+    self.jobId = p.possessEquipJobId;
+    self.jobType = kPossessEquipJob;
+    self.title = [NSString stringWithFormat:@"Attain %@%@", e.name, p.quantityReq == 1 ? @"" : [NSString stringWithFormat:@" (%d)", p.quantityReq]];
+    self.total = p.quantityReq;
+  }
+  return self;
+}
+
+- (id) initWithBuildStructJob:(BuildStructJobProto *)p {
+  if ((self = [super init])) {
+    GameState *gs = [GameState sharedGameState];
+    FullStructureProto *s = [gs structWithId:p.structId];
+    self.jobId = p.buildStructJobId;
+    self.jobType = kBuildStructJob;
+    self.title = [NSString stringWithFormat:@"Build %@%@", s.name, p.quantityRequired == 1 ? @"" : [NSString stringWithFormat:@" (%d)", p.quantityRequired]];
+    self.total = p.quantityRequired;
+  }
+  return self;
+}
+
+- (id) initWithUpgradeStructJob:(UpgradeStructJobProto *)p {
+  if ((self = [super init])) {
+    GameState *gs = [GameState sharedGameState];
+    FullStructureProto *s = [gs structWithId:p.structId];
+    self.jobId = p.upgradeStructJobId;
+    self.jobType = kUpgradeStructJob;
+    self.title = [NSString stringWithFormat:@"Upgrade %@ to Level %d", s.name, p.levelReq];
+    self.total = p.levelReq;
+  }
+  return self;
+}
+
++ (NSArray *)jobsForQuest:(FullQuestProto *)fqp {
+  GameState *gs = [GameState sharedGameState];
+  NSMutableArray *jobs = [NSMutableArray array];
+  UserJob *job = nil;
+  
+  for (NSNumber *n in fqp.taskReqsList) {
+    job = [[UserJob alloc] initWithTask:[gs taskWithId:n.intValue]];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  for (NSNumber *n in fqp.defeatTypeReqsList) {
+    job = [[UserJob alloc] initWithDefeatTypeJob:[gs.staticDefeatTypeJobs objectForKey:n]];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  for (NSNumber *n in fqp.possessEquipJobReqsList) {
+    job = [[UserJob alloc] initWithPossessEquipJob:[gs.staticPossessEquipJobs objectForKey:n]];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  for (NSNumber *n in fqp.buildStructJobsReqsList) {
+    job = [[UserJob alloc] initWithBuildStructJob:[gs.staticBuildStructJobs objectForKey:n]];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  for (NSNumber *n in fqp.upgradeStructJobsReqsList) {
+    job = [[UserJob alloc] initWithUpgradeStructJob:[gs.staticUpgradeStructJobs objectForKey:n]];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  return jobs;
+}
+
+- (void) dealloc {
+  self.title = nil;
+  self.subtitle = nil;
+  [super dealloc];
+}
+
+@end

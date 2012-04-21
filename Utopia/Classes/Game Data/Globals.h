@@ -159,6 +159,7 @@
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;
++ (UIColor *)greenColor;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

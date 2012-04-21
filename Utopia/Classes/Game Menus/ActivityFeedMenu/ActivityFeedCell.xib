@@ -443,6 +443,8 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="actCell">ActivityFeedCell</string>
 						<string key="activityTableView">UITableView</string>
+						<string key="bgdView">UIView</string>
+						<string key="mainView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="actCell">
@@ -452,6 +454,14 @@
 						<object class="IBToOneOutletInfo" key="activityTableView">
 							<string key="name">activityTableView</string>
 							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mainView">
+							<string key="name">mainView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

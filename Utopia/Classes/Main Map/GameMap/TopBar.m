@@ -18,6 +18,7 @@
 #import "HomeMap.h"
 #import "MapViewController.h"
 #import "UVHelper.h"
+#import "QuestLogController.h"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -187,7 +188,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     CCMenuItemSprite *forumButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(forumClicked)];
     forumButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, -self.contentSize.height/2+s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems:mapButton,forumButton, nil];
+    s = [CCSprite spriteWithFile:@"questbutton.png"];
+    _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
+    _questButton.position = ccp(-self.contentSize.width/2+s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, -self.contentSize.height/2+s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    
+    _bottomButtons = [CCMenu menuWithItems:mapButton,forumButton, _questButton, nil];
     _bottomButtons.contentSize = CGSizeMake(0, 0);
     [self addChild:_bottomButtons];
     
@@ -217,6 +222,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) forumClicked {
   [[UVHelper sharedUVHelper] openUserVoice];
+}
+
+- (void) questButtonClicked {
+  [QuestLogController displayView];
 }
 
 - (void) start {

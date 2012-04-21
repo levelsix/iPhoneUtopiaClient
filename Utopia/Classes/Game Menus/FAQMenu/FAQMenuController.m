@@ -228,7 +228,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 
 - (IBAction)emailButtonClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  NSString *messageBody = [NSString stringWithFormat:@"\n\nThis is user %@ with referral code %@.", gs.name, gs.referralCode];
+  NSString *messageBody = [NSString stringWithFormat:@"\n\nSent by user %@ with referral code %@.", gs.name, gs.referralCode];
   if ([MFMailComposeViewController canSendMail]) {
     MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
     controller.mailComposeDelegate = self;

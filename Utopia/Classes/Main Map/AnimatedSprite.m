@@ -167,7 +167,7 @@
       [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     }
   } else {
-    [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
+    [[QuestLogController sharedQuestLogController] closeClicked:nil];
   }
 }
 

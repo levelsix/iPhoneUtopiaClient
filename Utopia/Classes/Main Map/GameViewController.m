@@ -85,36 +85,36 @@
 @synthesize canLoad;
 
 + (void) releaseAllViews {
-  // Purge and then recreate so that game won't crash..
   [[GameState sharedGameState] clearAllData];
   
   [sharedGameViewController dismissModalViewControllerAnimated:NO];
   
   [ActivityFeedController removeView];
   [ActivityFeedController purgeSingleton];
-  [CarpenterMenuController removeView];//5
+  [CarpenterMenuController removeView];
   [CarpenterMenuController purgeSingleton];
   [ArmoryViewController removeView];
   [ArmoryViewController purgeSingleton];
   [FAQMenuController removeView];
   [FAQMenuController purgeSingleton];
   [GoldShoppeViewController removeView];
-  [GoldShoppeViewController purgeSingleton];//10
+  [GoldShoppeViewController purgeSingleton];
   [MapViewController cleanupAndPurgeSingleton];
   [MarketplaceViewController removeView];
   [MarketplaceViewController purgeSingleton];
   [ProfileViewController removeView];
-  [ProfileViewController purgeSingleton];//15
-  [QuestLogController cleanupAndPurgeSingleton];
+  [ProfileViewController purgeSingleton];
+  [QuestLogController removeView];
+  [QuestLogController purgeSingleton];
   [RefillMenuController removeView];
   [RefillMenuController purgeSingleton];
   [VaultMenuController removeView];
-  [VaultMenuController purgeSingleton];//20
+  [VaultMenuController purgeSingleton];
   [GameLayer purgeSingleton];
   [GenericPopupController removeView];
   [GenericPopupController purgeSingleton];
   [[HomeMap sharedHomeMap] invalidateAllTimers];
-  [HomeMap purgeSingleton];//25
+  [HomeMap purgeSingleton];
   [BattleLayer purgeSingleton];
   [[TopBar sharedTopBar] invalidateTimers];
   [TopBar purgeSingleton];

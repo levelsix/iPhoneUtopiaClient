@@ -246,9 +246,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [_ccArrow removeFromParentAndCleanup:YES];
     
     // Add right page here, QuestGiver will still do the job of removing it
-    TutorialQuestLogController *tglc = (TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController];
-    // If redeemQuestPhase is true, then this quest has been accepted already
-    [tglc displayRightPageForQuest:tc.tutorialQuest inProgress:_redeemQuestPhase];
+//    TutorialQuestLogController *tglc = (TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController];
+//    // If redeemQuestPhase is true, then this quest has been accepted already
+//    [tglc displayRightPageForQuest:tc.tutorialQuest inProgress:_redeemQuestPhase];
   } else if (_doBattlePhase && [selected isKindOfClass:[Enemy class]] && selected.tag == ENEMY_TAG) {
     [super setSelected:selected];
     [_ccArrow removeFromParentAndCleanup:YES];
@@ -432,10 +432,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       
       GameState *gs = [GameState sharedGameState];
       StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
-      QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
-      qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
-      qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in Kirin Village to redeem your reward.", tc.questGiverName];
-      [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
+//      QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
+//      qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
+//      qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in Kirin Village to redeem your reward.", tc.questGiverName];
+//      [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
       
       // Move arrow back to task quest giver
       [_ccArrow removeFromParentAndCleanup:YES];
@@ -481,8 +481,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) levelUp {
-  [[TutorialQuestLogController sharedQuestLogController] didReceiveMemoryWarning];
-  [TutorialQuestLogController purgeSingleton];
+//  [[TutorialQuestLogController sharedQuestLogController] didReceiveMemoryWarning];
+//  [TutorialQuestLogController purgeSingleton];
   
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];

@@ -1094,10 +1094,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
   
   if (city.minLevel <= gs.level) {
     [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
+    
+    [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
     
     // Load any tasks we don't have as well
     NSDictionary *sTasks = [gs staticTasks];

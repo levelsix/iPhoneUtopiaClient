@@ -100,3 +100,30 @@ typedef enum {
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
 
 @end
+
+
+typedef enum {
+  kTask = 1,
+  kDefeatTypeJob,
+  kBuildStructJob,
+  kUpgradeStructJob,
+  kPossessEquipJob
+} JobItemType;
+
+@interface UserJob : NSObject
+
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *subtitle;
+@property (nonatomic, assign) int numCompleted;
+@property (nonatomic, assign) int total;
+@property (nonatomic, assign) JobItemType jobType;
+@property (nonatomic, assign) int jobId;
+
+- (id) initWithTask:(FullTaskProto *)p;
+- (id) initWithDefeatTypeJob:(DefeatTypeJobProto *)p;
+- (id) initWithPossessEquipJob:(PossessEquipJobProto *)p;
+- (id) initWithBuildStructJob:(BuildStructJobProto *)p;
+- (id) initWithUpgradeStructJob:(UpgradeStructJobProto *)p;
++ (NSArray *)jobsForQuest:(FullQuestProto *)fqp;
+
+@end

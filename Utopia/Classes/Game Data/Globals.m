@@ -1008,7 +1008,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIColor *)goldColor {
-  return [UIColor colorWithRed:255/255.f green:2030/255.f blue:0/255.f alpha:1.f];
+  return [UIColor colorWithRed:255/255.f green:200/255.f blue:0/255.f alpha:1.f];
+}
+
++ (UIColor *)greenColor {
+  return [UIColor colorWithRed:156/255.f green:202/255.f blue:16/255.f alpha:1.f];
 }
 
 - (void) dealloc {
