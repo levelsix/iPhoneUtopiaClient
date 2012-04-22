@@ -1,12 +1,12 @@
 //
-//  QuestLogController.m
+//  QuestScrollController.m
 //  Utopia
 //
 //  Created by Ashwin Kamath on 1/17/12.
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "QuestLogControllerBkup.h"
+#import "QuestScrollController.h"
 #import "SynthesizeSingleton.h"
 #import "GameState.h"
 #import "Globals.h"
@@ -15,24 +15,6 @@
 #import "HomeMap.h"
 
 #define QUEST_ITEM_HEIGHT 31.f
-
-
-//@implementation QuestCompleteView
-//
-//@synthesize questNameLabel, visitDescLabel;
-//
-//- (IBAction)okayClicked:(id)sender {
-//  [self removeFromSuperview];
-//}
-//
-//- (void) dealloc {
-//  self.questNameLabel = nil;
-//  self.visitDescLabel = nil;
-//  [super dealloc];
-//}
-//
-//@end
-
 
 @implementation GradientScrollView
 
@@ -83,119 +65,6 @@
   self.botGradient = nil;
   [self.timer invalidate];
   self.timer = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation QuestListScrollView
-
-- (void) drawRect:(CGRect)rect {
-  [super drawRect:rect];
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 0.35);
-	
-  CGFloat dashPattern[] = {3.f, 2.f};
-	CGContextSetLineDash(context, 0, dashPattern, 2);
-	
-  int max = self.contentSize.height - self.botGradient.frame.size.height;
-  for (int x = self.topGradient.frame.size.height+QUEST_ITEM_HEIGHT; x < max; x += QUEST_ITEM_HEIGHT) {
-    CGContextMoveToPoint(context, 0.0, x);
-    CGContextAddLineToPoint(context, self.frame.size.width, x);
-  }
-	// And width 2.0 so they are a bit more visible
-  CGContextSetLineWidth(context, 0.5f);
-	CGContextStrokePath(context);
-}
-
-@end
-
-@implementation QuestItemView
-
-@synthesize label, fqp;
-
-- (id) initWithFrame:(CGRect)frame quest:(FullQuestProto *)f {
-  if ((self = [super initWithFrame:frame])) {
-    self.fqp = f;
-    self.backgroundColor = [UIColor clearColor];
-    [self addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewClicked:)] autorelease]];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(10, 4, self.frame.size.width-20, self.frame.size.height)];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:18];
-    label.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-    label.textColor = [UIColor colorWithRed:170/256.f green:42/256.f blue:13/256.f alpha:1.f];
-    [self addSubview:label];
-    label.text = f.name;
-  }
-  return self;
-}
-
-- (void) viewClicked:(id)sender {
-  [(QuestListView *)self.superview.superview viewClicked:self];
-}
-
-- (void) dealloc {
-  self.label = nil;
-  self.fqp = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation QuestListView
-
-@synthesize questItemViews;
-@synthesize curQuestsLabel;
-@synthesize scrollView;
-
-- (void) awakeFromNib {
-  [super awakeFromNib];
-  self.curQuestsLabel.font = [UIFont fontWithName:@"Adobe Jenson Pro" size:18];
-  
-  self.questItemViews = [NSMutableArray array];
-}
-
-- (void) refresh {
-  GameState *gs = [GameState sharedGameState];
-  
-  [questItemViews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [(UIView *)obj removeFromSuperview];
-  }];
-  [questItemViews removeAllObjects];
-  
-  [gs.inProgressQuests.allValues enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    UIView *view = [[QuestItemView alloc] initWithFrame:CGRectMake(0, QUEST_ITEM_HEIGHT*idx+self.scrollView.topGradient.frame.size.height, self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT) quest:obj];
-    [self.scrollView insertSubview:view atIndex:0];
-    [self.questItemViews addObject:view];
-    [view release];
-  }];
-  self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, QUEST_ITEM_HEIGHT*gs.inProgressQuests.allValues.count+self.scrollView.topGradient.frame.size.height+self.scrollView.botGradient.frame.size.height);
-  
-  [self.scrollView setNeedsDisplay];
-  
-  _clickedView = nil;
-}
-
-- (void) viewClicked:(QuestItemView *)sender {
-  if (_clickedView == sender) {
-    return;
-  }
-  
-  _clickedView.backgroundColor = [UIColor clearColor];
-  
-  _clickedView = sender;
-  
-  if (_clickedView) {
-    _clickedView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-    
-//    [[QuestLogController sharedQuestLogController] resetToQuestDescView:sender.fqp];
-  }
-}
-
-- (void) dealloc {
-  self.questItemViews = nil;
-  self.curQuestsLabel = nil;
-  self.scrollView = nil;
   [super dealloc];
 }
 
@@ -444,7 +313,6 @@
   if (type == kTask) {
     FullTaskProto *ftp = [gs taskWithId:jobId];
     [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:ftp.cityId asset:ftp.assetNumWithinCity];
-//    [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
   } else if (type == kDefeatTypeJob) {
     DefeatTypeJobProto *p = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:jobId]];
     [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId enemyType:p.typeOfEnemy];
@@ -456,7 +324,7 @@
     [[GameLayer sharedGameLayer] loadHomeMap];
     [[HomeMap sharedHomeMap] moveToCritStruct:CritStructTypeCarpenter];
   }
-//  [[QuestLogController sharedQuestLogController] closeButtonClicked:nil];
+  [[QuestScrollController sharedQuestScrollController] closeButtonClicked:nil];
   
   [Analytics clickedVisit];
 }
@@ -608,283 +476,275 @@
 @end
 
 
-//@implementation QuestLogController
-//
-//@synthesize taskView, questDescView, questListView, userLogData, rightPage;
-//@synthesize redeemButton, redeemLabel, toTaskButton, acceptButtons, qcView;
-//
-//SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
-//
-//#pragma mark - View lifecycle
-//
-//- (void)viewDidLoad
-//{
-//  [super viewDidLoad];
-//  // Do any additional setup after loading the view from its nib.
-//  taskView.alpha = 0.0;
-//  questDescView.alpha = 0.0;
-//  [questDescView addSubview:redeemButton];
-//  [questDescView addSubview:acceptButtons];
-//  // Other button has tag in 15
-//  redeemButton.center = toTaskButton.center;
-//  acceptButtons.center = toTaskButton.center;
-//}
-//
-//- (void) viewWillAppear:(BOOL)animated {
-//  taskView.alpha = 0.0;
-//  questDescView.alpha = 0.0;
-//  [questListView viewClicked:nil];
-//  [questListView refresh];
-//  
-//  [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
-//  _curView = nil;
-//  self.userLogData = nil;
-//  _fqp = nil;
-//  
-//  redeemButton.hidden = YES;
-//  acceptButtons.hidden = YES;
-//  toTaskButton.hidden = NO;
-//  
-//  [taskView unloadTasks];
-//  
-//  rightPage.alpha = 1.f;
-//  
-//  self.view.alpha = 0.f;
-//  [UIView animateWithDuration:0.5f animations:^{
-//    self.view.alpha = 1.f;
-//  }];
-//}
-//
-//- (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress {
-//  if (fqp == nil) {
-//    LNLog(@"nil quest for displaying right page");
-//    return;
-//  }
-//  // Need to do this in case 
-//  [self view];
-//  
-//  CGRect r = rightPage.frame;
-//  r.origin.x = 265;
-//  r.origin.y = 12;
-//  rightPage.frame = r;
-//  [questDescView refreshWithQuest:fqp];
-//  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:rightPage];
-//  questDescView.alpha = 1.f;
-//  taskView.alpha = 0.f;
-//  redeemButton.hidden = YES;
-//  acceptButtons.hidden = inProgress;
-//  toTaskButton.hidden = YES;
-//  _fqp = fqp;
-//  
-//  [taskView unloadTasks];
-//  
-//  rightPage.alpha = 0.f;
-//  [UIView animateWithDuration:0.5f animations:^{
-//    rightPage.alpha = 1.f;
-//  }];
-//}
-//
-//- (void) loadQuestData:(NSArray *)quests {
-//  self.userLogData = quests;
-//  [self reloadTaskView:_fqp];
-//  
-//  FullUserQuestDataLargeProto *quest = nil;
-//  for (FullUserQuestDataLargeProto *q in self.userLogData) {
-//    if (q.questId == _fqp.questId) {
-//      quest = q;
-//      break;
-//    }
-//  }
-//  
-//  if (quest && quest.isComplete) {
-//    redeemButton.hidden = NO;
-//    redeemLabel.text = @"Redeem";
-//    toTaskButton.hidden = YES;
-//  } else {
-//    redeemButton.hidden = YES;
-//    toTaskButton.hidden = NO;
-//  }
-//}
-//
-//- (IBAction)closeButtonClicked:(id)sender {
-//  if (!_closing) {
-//    _closing = YES;
-//    [UIView animateWithDuration:0.5f animations:^{
-//      if (self.view.superview) {
-//        self.view.alpha = 0.f;
-//      } else {
-//        self.rightPage.alpha = 0.f;
-//      }
-//    } completion:^(BOOL finished) {
-//      if (self.view.superview) {
-//        [QuestLogController removeView];
-//      } else {
-//        [self.rightPage removeFromSuperview];
-//      }
-//      _closing = NO;
-//    }];
-//    
-//    [[GameLayer sharedGameLayer] closeMenus];
-//  }
-//}
-//
-//- (IBAction)taskButtonTapped:(id)sender {
-//  [UIView animateWithDuration:0.5 animations:^{
-//    self.questDescView.alpha = 0.0;
-//    self.taskView.alpha = 1.0;
-//  }];
-//  _curView = self.taskView;
-//}
-//
-//- (IBAction)questDescButtonTapped:(id)sender {
-//  [UIView animateWithDuration:0.5 animations:^{
-//    self.questDescView.alpha = 1.0;
-//    self.taskView.alpha = 0.0;
-//  }];
-//  _curView = self.questDescView;
-//}
-//
-//- (IBAction)redeemTapped:(id)sender {
-//  if ([redeemLabel.text isEqualToString:@"Redeem"]) {
-//    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_fqp.questId];
-//    
-//    redeemLabel.text = @"Quest Complete";
-//    [self.questDescView setQuestDescription:_fqp.doneResponse];
-//  } else {
-//    [self closeButtonClicked:nil];
-//  }
-//}
-//
-//- (void) createFakeUserQuestData {
-//  
-//  // Lets create a fake FullUserQuestDataLarge for this quest
-//  GameState *gs = [GameState sharedGameState];
-//  FullUserQuestDataLargeProto_Builder *bldr = [FullUserQuestDataLargeProto builder];
-//  bldr.userId = gs.userId;
-//  bldr.questId = _fqp.questId;
-//  bldr.isRedeemed = NO;
-//  bldr.isComplete = NO;
-//  
-//  for (NSNumber *n in _fqp.defeatTypeReqsList) {
-//    MinimumUserDefeatTypeJobProto_Builder *b = [MinimumUserDefeatTypeJobProto builder];
-//    b.defeatTypeJobId = n.intValue;
-//    b.userId = gs.userId;
-//    b.questId = _fqp.questId;
-//    b.numDefeated = 0;
-//    [bldr addRequiredDefeatTypeJobProgress:[b build]];
-//  }
-//  for (NSNumber *n in _fqp.taskReqsList) {
-//    MinimumUserQuestTaskProto_Builder *b = [MinimumUserQuestTaskProto builder];
-//    b.taskId = n.intValue;
-//    b.userId = gs.userId;
-//    b.questId = _fqp.questId;
-//    b.numTimesActed = 0;
-//    [bldr addRequiredTasksProgress:[b build]];
-//  }
-//  for (NSNumber *n in _fqp.possessEquipJobReqsList) {
-//    MinimumUserPossessEquipJobProto_Builder *b = [MinimumUserPossessEquipJobProto builder];
-//    b.possessEquipJobId = n.intValue;
-//    b.userId = gs.userId;
-//    b.questId = _fqp.questId;
-//    b.numEquipUserHas = 0;
-//    [bldr addRequiredPossessEquipJobProgress:[b build]];
-//  }
-//  for (NSNumber *n in _fqp.buildStructJobsReqsList) {
-//    MinimumUserBuildStructJobProto_Builder *b = [MinimumUserBuildStructJobProto builder];
-//    b.buildStructJobId = n.intValue;
-//    b.userId = gs.userId;
-//    b.questId = _fqp.questId;
-//    b.numOfStructUserHas = 0;
-//    [bldr addRequiredBuildStructJobProgress:[b build]];
-//  }
-//  for (NSNumber *n in _fqp.upgradeStructJobsReqsList) {
-//    MinimumUserUpgradeStructJobProto_Builder *b = [MinimumUserUpgradeStructJobProto builder];
-//    b.upgradeStructJobId = n.intValue;
-//    b.userId = gs.userId;
-//    b.questId = _fqp.questId;
-//    b.currentLevel = 0;
-//    [bldr addRequiredUpgradeStructJobProgress:[b build]];
-//  }
-//  self.userLogData = [NSArray arrayWithObject:[bldr build]];
-//}
-//
-//- (IBAction)acceptTapped:(id)sender {
-//  [[OutgoingEventController sharedOutgoingEventController] acceptQuest:_fqp.questId];
-//  
-//  [self createFakeUserQuestData];
-//  
-//  [self reloadTaskView:_fqp];
-//  self.acceptButtons.hidden = YES;
-//  self.toTaskButton.hidden = NO;
-//  [self taskButtonTapped:nil];
-//}
-//
-//- (void) reloadTaskView:(FullQuestProto *)fqp {
-//  FullUserQuestDataLargeProto *quest = nil;
-//  for (FullUserQuestDataLargeProto *q in self.userLogData) {
-//    if (q.questId == fqp.questId) {
-//      quest = q;
-//      break;
-//    }
-//  }
-//  
-//  [self.taskView refreshWithQuestData:quest];
-//}
-//
-//- (void)resetToQuestDescView:(FullQuestProto *)fqp {
-//  [self.questDescView refreshWithQuest:fqp];
-//  
-//  if (_curView == self.questDescView) {
-//    [self reloadTaskView:fqp];
-//  } else {
-//    [UIView animateWithDuration:0.5 animations:^{
-//      self.questDescView.alpha = 1.0;
-//      self.taskView.alpha = 0.0;
-//    } completion:^(BOOL finished) {
-//      [self reloadTaskView:fqp];
-//    }];
-//  }
-//  _fqp = fqp;
-//  _curView = self.questDescView;
-//}
-//
-//- (QuestCompleteView *) createQuestCompleteView {
-//  [[NSBundle mainBundle] loadNibNamed:@"QuestCompleteView" owner:self options:nil];
-//  QuestCompleteView *q = [self.qcView retain];
-//  self.qcView = nil;
-//  return [q autorelease];
-//}
-//
-//+ (void) cleanupAndPurgeSingleton {
-//  if (sharedQuestLogController) {
-//    [sharedQuestLogController.rightPage removeFromSuperview];
-//    [QuestLogController removeView];
-//    [QuestLogController purgeSingleton];
-//  }
-//}
-//
-//- (void) didReceiveMemoryWarning {
-//  if (rightPage.superview) {
-//    return;
-//  }
-//  
-//  [super didReceiveMemoryWarning];
-//}
-//
-//- (void)viewDidUnload
-//{
-//  [super viewDidUnload];
-//  
-//  self.questDescView = nil;
-//  self.taskView = nil;
-//  self.userLogData = nil;
-//  self.rightPage = nil;
-//  self.questListView = nil;
-//  self.redeemButton = nil;
-//  self.qcView = nil;
-//  self.redeemLabel = nil;
-//  self.toTaskButton = nil;
-//  self.acceptButtons = nil;
-//}
-//
-//@end
+@implementation QuestScrollController
+
+@synthesize taskView, questDescView, questListView, userLogData, rightPage;
+@synthesize redeemButton, redeemLabel, toTaskButton, acceptButtons;
+
+SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestScrollController);
+
+#pragma mark - View lifecycle
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+  // Do any additional setup after loading the view from its nib.
+  taskView.alpha = 0.0;
+  questDescView.alpha = 0.0;
+  [questDescView addSubview:redeemButton];
+  [questDescView addSubview:acceptButtons];
+  // Other button has tag in 15
+  redeemButton.center = toTaskButton.center;
+  acceptButtons.center = toTaskButton.center;
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  taskView.alpha = 0.0;
+  questDescView.alpha = 0.0;
+  [questListView viewClicked:nil];
+  [questListView refresh];
+  
+  [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
+  _curView = nil;
+  self.userLogData = nil;
+  _fqp = nil;
+  
+  redeemButton.hidden = YES;
+  acceptButtons.hidden = YES;
+  toTaskButton.hidden = NO;
+  
+  [taskView unloadTasks];
+  
+  rightPage.alpha = 1.f;
+  
+  self.view.alpha = 0.f;
+  [UIView animateWithDuration:0.5f animations:^{
+    self.view.alpha = 1.f;
+  }];
+}
+
+- (void) displayRightPageForQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProgress {
+  if (fqp == nil) {
+    LNLog(@"nil quest for displaying right page");
+    return;
+  }
+  // Need to do this in case 
+  [self view];
+  
+  CGRect r = rightPage.frame;
+  r.origin.x = 265;
+  r.origin.y = 12;
+  rightPage.frame = r;
+  [questDescView refreshWithQuest:fqp];
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:rightPage];
+  questDescView.alpha = 1.f;
+  taskView.alpha = 0.f;
+  redeemButton.hidden = YES;
+  acceptButtons.hidden = inProgress;
+  toTaskButton.hidden = YES;
+  _fqp = fqp;
+  
+  [taskView unloadTasks];
+  
+  rightPage.alpha = 0.f;
+  [UIView animateWithDuration:0.5f animations:^{
+    rightPage.alpha = 1.f;
+  }];
+}
+
+- (void) loadQuestData:(NSArray *)quests {
+  self.userLogData = quests;
+  [self reloadTaskView:_fqp];
+  
+  FullUserQuestDataLargeProto *quest = nil;
+  for (FullUserQuestDataLargeProto *q in self.userLogData) {
+    if (q.questId == _fqp.questId) {
+      quest = q;
+      break;
+    }
+  }
+  
+  if (quest && quest.isComplete) {
+    redeemButton.hidden = NO;
+    redeemLabel.text = @"Redeem";
+    toTaskButton.hidden = YES;
+  } else {
+    redeemButton.hidden = YES;
+    toTaskButton.hidden = NO;
+  }
+}
+
+- (IBAction)closeButtonClicked:(id)sender {
+  if (!_closing) {
+    _closing = YES;
+    [UIView animateWithDuration:0.5f animations:^{
+      if (self.view.superview) {
+        self.view.alpha = 0.f;
+      } else {
+        self.rightPage.alpha = 0.f;
+      }
+    } completion:^(BOOL finished) {
+      if (self.view.superview) {
+        [QuestScrollController removeView];
+      } else {
+        [self.rightPage removeFromSuperview];
+      }
+      _closing = NO;
+    }];
+    
+    [[GameLayer sharedGameLayer] closeMenus];
+  }
+}
+
+- (IBAction)taskButtonTapped:(id)sender {
+  [UIView animateWithDuration:0.5 animations:^{
+    self.questDescView.alpha = 0.0;
+    self.taskView.alpha = 1.0;
+  }];
+  _curView = self.taskView;
+}
+
+- (IBAction)questDescButtonTapped:(id)sender {
+  [UIView animateWithDuration:0.5 animations:^{
+    self.questDescView.alpha = 1.0;
+    self.taskView.alpha = 0.0;
+  }];
+  _curView = self.questDescView;
+}
+
+- (IBAction)redeemTapped:(id)sender {
+  if ([redeemLabel.text isEqualToString:@"Redeem"]) {
+    [[OutgoingEventController sharedOutgoingEventController] redeemQuest:_fqp.questId];
+    
+    redeemLabel.text = @"Quest Complete";
+    [self.questDescView setQuestDescription:_fqp.doneResponse];
+  } else {
+    [self closeButtonClicked:nil];
+  }
+}
+
+- (void) createFakeUserQuestData {
+  
+  // Lets create a fake FullUserQuestDataLarge for this quest
+  GameState *gs = [GameState sharedGameState];
+  FullUserQuestDataLargeProto_Builder *bldr = [FullUserQuestDataLargeProto builder];
+  bldr.userId = gs.userId;
+  bldr.questId = _fqp.questId;
+  bldr.isRedeemed = NO;
+  bldr.isComplete = NO;
+  
+  for (NSNumber *n in _fqp.defeatTypeReqsList) {
+    MinimumUserDefeatTypeJobProto_Builder *b = [MinimumUserDefeatTypeJobProto builder];
+    b.defeatTypeJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numDefeated = 0;
+    [bldr addRequiredDefeatTypeJobProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.taskReqsList) {
+    MinimumUserQuestTaskProto_Builder *b = [MinimumUserQuestTaskProto builder];
+    b.taskId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numTimesActed = 0;
+    [bldr addRequiredTasksProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.possessEquipJobReqsList) {
+    MinimumUserPossessEquipJobProto_Builder *b = [MinimumUserPossessEquipJobProto builder];
+    b.possessEquipJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numEquipUserHas = 0;
+    [bldr addRequiredPossessEquipJobProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.buildStructJobsReqsList) {
+    MinimumUserBuildStructJobProto_Builder *b = [MinimumUserBuildStructJobProto builder];
+    b.buildStructJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.numOfStructUserHas = 0;
+    [bldr addRequiredBuildStructJobProgress:[b build]];
+  }
+  for (NSNumber *n in _fqp.upgradeStructJobsReqsList) {
+    MinimumUserUpgradeStructJobProto_Builder *b = [MinimumUserUpgradeStructJobProto builder];
+    b.upgradeStructJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = _fqp.questId;
+    b.currentLevel = 0;
+    [bldr addRequiredUpgradeStructJobProgress:[b build]];
+  }
+  self.userLogData = [NSArray arrayWithObject:[bldr build]];
+}
+
+- (IBAction)acceptTapped:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] acceptQuest:_fqp.questId];
+  
+  [self createFakeUserQuestData];
+  
+  [self reloadTaskView:_fqp];
+  self.acceptButtons.hidden = YES;
+  self.toTaskButton.hidden = NO;
+  [self taskButtonTapped:nil];
+}
+
+- (void) reloadTaskView:(FullQuestProto *)fqp {
+  FullUserQuestDataLargeProto *quest = nil;
+  for (FullUserQuestDataLargeProto *q in self.userLogData) {
+    if (q.questId == fqp.questId) {
+      quest = q;
+      break;
+    }
+  }
+  
+  [self.taskView refreshWithQuestData:quest];
+}
+
+- (void)resetToQuestDescView:(FullQuestProto *)fqp {
+  [self.questDescView refreshWithQuest:fqp];
+  
+  if (_curView == self.questDescView) {
+    [self reloadTaskView:fqp];
+  } else {
+    [UIView animateWithDuration:0.5 animations:^{
+      self.questDescView.alpha = 1.0;
+      self.taskView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+      [self reloadTaskView:fqp];
+    }];
+  }
+  _fqp = fqp;
+  _curView = self.questDescView;
+}
+
++ (void) cleanupAndPurgeSingleton {
+  if (sharedQuestScrollController) {
+    [sharedQuestScrollController.rightPage removeFromSuperview];
+    [QuestScrollController removeView];
+    [QuestScrollController purgeSingleton];
+  }
+}
+
+- (void) didReceiveMemoryWarning {
+  if (rightPage.superview) {
+    return;
+  }
+  
+  [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidUnload
+{
+  [super viewDidUnload];
+  
+  self.questDescView = nil;
+  self.taskView = nil;
+  self.userLogData = nil;
+  self.rightPage = nil;
+  self.questListView = nil;
+  self.redeemButton = nil;
+  self.redeemLabel = nil;
+  self.toTaskButton = nil;
+  self.acceptButtons = nil;
+}
+
+@end

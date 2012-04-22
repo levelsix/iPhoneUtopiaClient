@@ -50,6 +50,8 @@ typedef enum {
   CCMenuItem *_questButton;
   CCMenu *_bottomButtons;
   
+  CCSprite *_questNewArrow;
+  
   // For faster comparisons of touch
   CGRect _enstBarRect;
   CGRect _coinBarRect;

@@ -8,6 +8,10 @@
 @class CoordinateProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class DialogueProto;
+@class DialogueProto_Builder;
+@class DialogueProto_SpeechSegmentProto;
+@class DialogueProto_SpeechSegmentProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullEquipProto;
@@ -151,6 +155,24 @@ typedef enum {
 
 BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value);
 
+typedef enum {
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType = 1,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodWarrior = 2,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodArcher = 3,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodMage = 4,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerBadWarrior = 5,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerBadArcher = 6,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerBadMage = 7,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl = 8,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerBadTutorialGirl = 9,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1 = 10,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2 = 11,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3 = 12,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4 = 13,
+} DialogueProto_SpeechSegmentProto_DialogueSpeaker;
+
+BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_SpeechSegmentProto_DialogueSpeaker value);
+
 
 @interface InfoRoot : NSObject {
 }
@@ -227,25 +249,25 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @interface FullUserProto : PBGeneratedMessage {
 @private
   BOOL hasIsFake_:1;
-  BOOL hasLastLongLicensePurchaseTime_:1;
-  BOOL hasLastShortLicensePurchaseTime_:1;
-  BOOL hasLastTimeAttacked_:1;
-  BOOL hasLastBattleNotificationTime_:1;
-  BOOL hasLastLogoutTime_:1;
-  BOOL hasLastStaminaRefillTime_:1;
   BOOL hasLastLoginTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
-  BOOL hasTasksCompleted_:1;
-  BOOL hasBattlesWon_:1;
-  BOOL hasBattlesLost_:1;
-  BOOL hasFlees_:1;
-  BOOL hasNumReferrals_:1;
-  BOOL hasNumPostsInMarketplace_:1;
-  BOOL hasNumMarketplaceSalesUnredeemed_:1;
-  BOOL hasWeaponEquipped_:1;
-  BOOL hasArmorEquipped_:1;
-  BOOL hasAmuletEquipped_:1;
+  BOOL hasLastLogoutTime_:1;
+  BOOL hasLastStaminaRefillTime_:1;
+  BOOL hasLastBattleNotificationTime_:1;
+  BOOL hasLastTimeAttacked_:1;
+  BOOL hasCreateTime_:1;
+  BOOL hasLastShortLicensePurchaseTime_:1;
+  BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasNumBadges_:1;
+  BOOL hasAmuletEquipped_:1;
+  BOOL hasArmorEquipped_:1;
+  BOOL hasWeaponEquipped_:1;
+  BOOL hasNumMarketplaceSalesUnredeemed_:1;
+  BOOL hasNumPostsInMarketplace_:1;
+  BOOL hasNumReferrals_:1;
+  BOOL hasFlees_:1;
+  BOOL hasBattlesLost_:1;
+  BOOL hasBattlesWon_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
   BOOL hasAttack_:1;
@@ -262,32 +284,33 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasMarketplaceCoinsEarnings_:1;
   BOOL hasVaultBalance_:1;
   BOOL hasExperience_:1;
+  BOOL hasTasksCompleted_:1;
   BOOL hasUdid_:1;
-  BOOL hasReferralCode_:1;
   BOOL hasDeviceToken_:1;
+  BOOL hasReferralCode_:1;
   BOOL hasName_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
   BOOL isFake_:1;
-  int64_t lastLongLicensePurchaseTime;
-  int64_t lastShortLicensePurchaseTime;
-  int64_t lastTimeAttacked;
-  int64_t lastBattleNotificationTime;
-  int64_t lastLogoutTime;
-  int64_t lastStaminaRefillTime;
   int64_t lastLoginTime;
   int64_t lastEnergyRefillTime;
-  int32_t tasksCompleted;
-  int32_t battlesWon;
-  int32_t battlesLost;
-  int32_t flees;
-  int32_t numReferrals;
-  int32_t numPostsInMarketplace;
-  int32_t numMarketplaceSalesUnredeemed;
-  int32_t weaponEquipped;
-  int32_t armorEquipped;
-  int32_t amuletEquipped;
+  int64_t lastLogoutTime;
+  int64_t lastStaminaRefillTime;
+  int64_t lastBattleNotificationTime;
+  int64_t lastTimeAttacked;
+  int64_t createTime;
+  int64_t lastShortLicensePurchaseTime;
+  int64_t lastLongLicensePurchaseTime;
   int32_t numBadges;
+  int32_t amuletEquipped;
+  int32_t armorEquipped;
+  int32_t weaponEquipped;
+  int32_t numMarketplaceSalesUnredeemed;
+  int32_t numPostsInMarketplace;
+  int32_t numReferrals;
+  int32_t flees;
+  int32_t battlesLost;
+  int32_t battlesWon;
   int32_t userId;
   int32_t level;
   int32_t attack;
@@ -304,9 +327,10 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   int32_t marketplaceCoinsEarnings;
   int32_t vaultBalance;
   int32_t experience;
+  int32_t tasksCompleted;
   NSString* udid;
-  NSString* referralCode;
   NSString* deviceToken;
+  NSString* referralCode;
   NSString* name;
   LocationProto* userLocation;
   UserType userType;
@@ -350,6 +374,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasLastBattleNotificationTime;
 - (BOOL) hasLastTimeAttacked;
 - (BOOL) hasNumBadges;
+- (BOOL) hasCreateTime;
 - (BOOL) hasLastShortLicensePurchaseTime;
 - (BOOL) hasLastLongLicensePurchaseTime;
 - (BOOL) hasIsFake;
@@ -392,6 +417,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) int64_t lastBattleNotificationTime;
 @property (readonly) int64_t lastTimeAttacked;
 @property (readonly) int32_t numBadges;
+@property (readonly) int64_t createTime;
 @property (readonly) int64_t lastShortLicensePurchaseTime;
 @property (readonly) int64_t lastLongLicensePurchaseTime;
 - (BOOL) isFake;
@@ -626,6 +652,11 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (int32_t) numBadges;
 - (FullUserProto_Builder*) setNumBadges:(int32_t) value;
 - (FullUserProto_Builder*) clearNumBadges;
+
+- (BOOL) hasCreateTime;
+- (int64_t) createTime;
+- (FullUserProto_Builder*) setCreateTime:(int64_t) value;
+- (FullUserProto_Builder*) clearCreateTime;
 
 - (BOOL) hasLastShortLicensePurchaseTime;
 - (int64_t) lastShortLicensePurchaseTime;
@@ -2176,10 +2207,12 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasIsComplete_:1;
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
+  BOOL hasNumComponentsComplete_:1;
   BOOL isRedeemed_:1;
   BOOL isComplete_:1;
   int32_t userId;
   int32_t questId;
+  int32_t numComponentsComplete;
   NSMutableArray* mutableRequiredDefeatTypeJobProgressList;
   NSMutableArray* mutableRequiredBuildStructJobProgressList;
   NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
@@ -2190,10 +2223,12 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasQuestId;
 - (BOOL) hasIsRedeemed;
 - (BOOL) hasIsComplete;
+- (BOOL) hasNumComponentsComplete;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
 - (BOOL) isRedeemed;
 - (BOOL) isComplete;
+@property (readonly) int32_t numComponentsComplete;
 - (NSArray*) requiredDefeatTypeJobProgressList;
 - (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index;
 - (NSArray*) requiredBuildStructJobProgressList;
@@ -2293,6 +2328,11 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value;
 - (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values;
 - (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList;
+
+- (BOOL) hasNumComponentsComplete;
+- (int32_t) numComponentsComplete;
+- (FullUserQuestDataLargeProto_Builder*) setNumComponentsComplete:(int32_t) value;
+- (FullUserQuestDataLargeProto_Builder*) clearNumComponentsComplete;
 @end
 
 @interface MinimumUserQuestTaskProto : PBGeneratedMessage {
@@ -2945,6 +2985,8 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 
 @interface FullQuestProto : PBGeneratedMessage {
 @private
+  BOOL hasNumComponentsForBad_:1;
+  BOOL hasNumComponentsForGood_:1;
   BOOL hasEquipIdGained_:1;
   BOOL hasExpGained_:1;
   BOOL hasDiamondsGained_:1;
@@ -2956,6 +2998,9 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
+  BOOL hasAcceptDialogue_:1;
+  int32_t numComponentsForBad;
+  int32_t numComponentsForGood;
   int32_t equipIdGained;
   int32_t expGained;
   int32_t diamondsGained;
@@ -2967,6 +3012,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   NSString* doneResponse;
   NSString* description;
   NSString* name;
+  DialogueProto* acceptDialogue;
   NSMutableArray* mutableQuestsRequiredForThisList;
   NSMutableArray* mutableTaskReqsList;
   NSMutableArray* mutableUpgradeStructJobsReqsList;
@@ -2985,6 +3031,9 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (BOOL) hasDiamondsGained;
 - (BOOL) hasExpGained;
 - (BOOL) hasEquipIdGained;
+- (BOOL) hasNumComponentsForGood;
+- (BOOL) hasNumComponentsForBad;
+- (BOOL) hasAcceptDialogue;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
@@ -2996,6 +3045,9 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (readonly) int32_t diamondsGained;
 @property (readonly) int32_t expGained;
 @property (readonly) int32_t equipIdGained;
+@property (readonly) int32_t numComponentsForGood;
+@property (readonly) int32_t numComponentsForBad;
+@property (readonly, retain) DialogueProto* acceptDialogue;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 - (NSArray*) taskReqsList;
@@ -3139,5 +3191,128 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 - (FullQuestProto_Builder*) addPossessEquipJobReqs:(int32_t) value;
 - (FullQuestProto_Builder*) addAllPossessEquipJobReqs:(NSArray*) values;
 - (FullQuestProto_Builder*) clearPossessEquipJobReqsList;
+
+- (BOOL) hasNumComponentsForGood;
+- (int32_t) numComponentsForGood;
+- (FullQuestProto_Builder*) setNumComponentsForGood:(int32_t) value;
+- (FullQuestProto_Builder*) clearNumComponentsForGood;
+
+- (BOOL) hasNumComponentsForBad;
+- (int32_t) numComponentsForBad;
+- (FullQuestProto_Builder*) setNumComponentsForBad:(int32_t) value;
+- (FullQuestProto_Builder*) clearNumComponentsForBad;
+
+- (BOOL) hasAcceptDialogue;
+- (DialogueProto*) acceptDialogue;
+- (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value;
+- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
+- (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
+- (FullQuestProto_Builder*) clearAcceptDialogue;
+@end
+
+@interface DialogueProto : PBGeneratedMessage {
+@private
+  NSMutableArray* mutableSpeechSegmentList;
+}
+- (NSArray*) speechSegmentList;
+- (DialogueProto_SpeechSegmentProto*) speechSegmentAtIndex:(int32_t) index;
+
++ (DialogueProto*) defaultInstance;
+- (DialogueProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DialogueProto_Builder*) builder;
++ (DialogueProto_Builder*) builder;
++ (DialogueProto_Builder*) builderWithPrototype:(DialogueProto*) prototype;
+
++ (DialogueProto*) parseFromData:(NSData*) data;
++ (DialogueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DialogueProto*) parseFromInputStream:(NSInputStream*) input;
++ (DialogueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DialogueProto_SpeechSegmentProto : PBGeneratedMessage {
+@private
+  BOOL hasSpeakerText_:1;
+  BOOL hasSpeaker_:1;
+  NSString* speakerText;
+  DialogueProto_SpeechSegmentProto_DialogueSpeaker speaker;
+}
+- (BOOL) hasSpeaker;
+- (BOOL) hasSpeakerText;
+@property (readonly) DialogueProto_SpeechSegmentProto_DialogueSpeaker speaker;
+@property (readonly, retain) NSString* speakerText;
+
++ (DialogueProto_SpeechSegmentProto*) defaultInstance;
+- (DialogueProto_SpeechSegmentProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (DialogueProto_SpeechSegmentProto_Builder*) builder;
++ (DialogueProto_SpeechSegmentProto_Builder*) builder;
++ (DialogueProto_SpeechSegmentProto_Builder*) builderWithPrototype:(DialogueProto_SpeechSegmentProto*) prototype;
+
++ (DialogueProto_SpeechSegmentProto*) parseFromData:(NSData*) data;
++ (DialogueProto_SpeechSegmentProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DialogueProto_SpeechSegmentProto*) parseFromInputStream:(NSInputStream*) input;
++ (DialogueProto_SpeechSegmentProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (DialogueProto_SpeechSegmentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (DialogueProto_SpeechSegmentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface DialogueProto_SpeechSegmentProto_Builder : PBGeneratedMessage_Builder {
+@private
+  DialogueProto_SpeechSegmentProto* result;
+}
+
+- (DialogueProto_SpeechSegmentProto*) defaultInstance;
+
+- (DialogueProto_SpeechSegmentProto_Builder*) clear;
+- (DialogueProto_SpeechSegmentProto_Builder*) clone;
+
+- (DialogueProto_SpeechSegmentProto*) build;
+- (DialogueProto_SpeechSegmentProto*) buildPartial;
+
+- (DialogueProto_SpeechSegmentProto_Builder*) mergeFrom:(DialogueProto_SpeechSegmentProto*) other;
+- (DialogueProto_SpeechSegmentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DialogueProto_SpeechSegmentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSpeaker;
+- (DialogueProto_SpeechSegmentProto_DialogueSpeaker) speaker;
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker) value;
+- (DialogueProto_SpeechSegmentProto_Builder*) clearSpeaker;
+
+- (BOOL) hasSpeakerText;
+- (NSString*) speakerText;
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeakerText:(NSString*) value;
+- (DialogueProto_SpeechSegmentProto_Builder*) clearSpeakerText;
+@end
+
+@interface DialogueProto_Builder : PBGeneratedMessage_Builder {
+@private
+  DialogueProto* result;
+}
+
+- (DialogueProto*) defaultInstance;
+
+- (DialogueProto_Builder*) clear;
+- (DialogueProto_Builder*) clone;
+
+- (DialogueProto*) build;
+- (DialogueProto*) buildPartial;
+
+- (DialogueProto_Builder*) mergeFrom:(DialogueProto*) other;
+- (DialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (DialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (NSArray*) speechSegmentList;
+- (DialogueProto_SpeechSegmentProto*) speechSegmentAtIndex:(int32_t) index;
+- (DialogueProto_Builder*) replaceSpeechSegmentAtIndex:(int32_t) index with:(DialogueProto_SpeechSegmentProto*) value;
+- (DialogueProto_Builder*) addSpeechSegment:(DialogueProto_SpeechSegmentProto*) value;
+- (DialogueProto_Builder*) addAllSpeechSegment:(NSArray*) values;
+- (DialogueProto_Builder*) clearSpeechSegmentList;
 @end
 

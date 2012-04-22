@@ -161,6 +161,9 @@
 + (UIColor *)goldColor;
 + (UIColor *)greenColor;
 
++ (BOOL)userTypeIsGood:(UserType)type;
++ (BOOL)userTypeIsBad:(UserType)type;
+
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;
 - (int) calculateEquipGoldSellCost:(UserEquip *)ue;

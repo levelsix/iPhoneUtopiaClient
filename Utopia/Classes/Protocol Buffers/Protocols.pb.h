@@ -30,6 +30,10 @@
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class DialogueProto;
+@class DialogueProto_Builder;
+@class DialogueProto_SpeechSegmentProto;
+@class DialogueProto_SpeechSegmentProto_Builder;
 @class EnableAPNSRequestProto;
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;

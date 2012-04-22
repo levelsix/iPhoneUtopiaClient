@@ -594,7 +594,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     view.image = image;
     view.hidden = NO;
   }
-  
+}
+
++ (BOOL)userTypeIsGood:(UserType)type {
+  return type < 3;
+}
+
++ (BOOL)userTypeIsBad:(UserType)type {
+  return ![self userTypeIsGood:type];
 }
 
 + (UIImage *) squareImageForUser:(UserType)type {

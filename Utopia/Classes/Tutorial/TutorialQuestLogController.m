@@ -95,7 +95,7 @@
   // Not actually using _battleDone and _taskDone. Can add this later if right page is shown at some point
   // after quest accept
   GameState *gs = [GameState sharedGameState];
-  UserType typeOfEnemy = gs.type < 3 ? UserTypeBadWarrior : UserTypeGoodWarrior;
+  UserType typeOfEnemy = [Globals userTypeIsGood:gs.type] ? UserTypeBadWarrior : UserTypeGoodWarrior;
   TaskItemView *tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, 0, self.taskView.scrollView.frame.size.width, 0) 
                                                      text:[NSString stringWithFormat:@"Defeat 1 %@ %@", [Globals factionForUserType:typeOfEnemy], [Globals classForUserType:typeOfEnemy]]
                                              taskFinished:0
@@ -106,7 +106,7 @@
   [self.taskView.taskItemViews addObject:tiv];
   [tiv release];
   
-  FullTaskProto *q = gs.type < 3 ? quest.firstTaskGood : quest.firstTaskBad;
+  FullTaskProto *q = [Globals userTypeIsGood:gs.type] ? quest.firstTaskGood : quest.firstTaskBad;
   tiv = [[TaskItemView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tiv.frame), self.taskView.scrollView.frame.size.width, 0) 
                                        text:q.name 
                                taskFinished:0
@@ -123,7 +123,7 @@
   
   [self.questDescView.questDescLabel removeFromSuperview];
   
-  self.questDescView.questNameLabel.text = gs.type < 3 ? _tutQuest.goodName : _tutQuest.badName;
+  self.questDescView.questNameLabel.text = [Globals userTypeIsGood:gs.type] ? _tutQuest.goodName : _tutQuest.badName;
   
   // Update the quest description label
   // We will find out how many lines need to be used, so init to zero
@@ -134,7 +134,7 @@
   self.questDescView.questDescLabel.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:14];
   self.questDescView.questDescLabel.numberOfLines = 0;
   self.questDescView.questDescLabel.lineBreakMode = UILineBreakModeWordWrap;
-  self.questDescView.questDescLabel.text = gs.type < 3 ? _tutQuest.goodDescription : _tutQuest.badDescription;
+  self.questDescView.questDescLabel.text = [Globals userTypeIsGood:gs.type] ? _tutQuest.goodDescription : _tutQuest.badDescription;
   self.questDescView.questDescLabel.backgroundColor = [UIColor clearColor];
   
   //Calculate the expected size based on the font and linebreak mode of label

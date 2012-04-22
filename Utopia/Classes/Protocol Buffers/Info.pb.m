@@ -389,6 +389,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int64_t lastBattleNotificationTime;
 @property int64_t lastTimeAttacked;
 @property int32_t numBadges;
+@property int64_t createTime;
 @property int64_t lastShortLicensePurchaseTime;
 @property int64_t lastLongLicensePurchaseTime;
 @property BOOL isFake;
@@ -669,6 +670,13 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasNumBadges_ = !!value;
 }
 @synthesize numBadges;
+- (BOOL) hasCreateTime {
+  return !!hasCreateTime_;
+}
+- (void) setHasCreateTime:(BOOL) value {
+  hasCreateTime_ = !!value;
+}
+@synthesize createTime;
 - (BOOL) hasLastShortLicensePurchaseTime {
   return !!hasLastShortLicensePurchaseTime_;
 }
@@ -744,6 +752,7 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.lastBattleNotificationTime = 0L;
     self.lastTimeAttacked = 0L;
     self.numBadges = 0;
+    self.createTime = 0L;
     self.lastShortLicensePurchaseTime = 0L;
     self.lastLongLicensePurchaseTime = 0L;
     self.isFake = NO;
@@ -892,6 +901,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasIsFake) {
     [output writeBool:46 value:self.isFake];
   }
+  if (self.hasCreateTime) {
+    [output writeInt64:47 value:self.createTime];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1026,6 +1038,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasIsFake) {
     size += computeBoolSize(46, self.isFake);
+  }
+  if (self.hasCreateTime) {
+    size += computeInt64Size(47, self.createTime);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1218,6 +1233,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumBadges) {
     [self setNumBadges:other.numBadges];
+  }
+  if (other.hasCreateTime) {
+    [self setCreateTime:other.createTime];
   }
   if (other.hasLastShortLicensePurchaseTime) {
     [self setLastShortLicensePurchaseTime:other.lastShortLicensePurchaseTime];
@@ -1425,6 +1443,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 368: {
         [self setIsFake:[input readBool]];
+        break;
+      }
+      case 376: {
+        [self setCreateTime:[input readInt64]];
         break;
       }
     }
@@ -2066,6 +2088,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumBadges {
   result.hasNumBadges = NO;
   result.numBadges = 0;
+  return self;
+}
+- (BOOL) hasCreateTime {
+  return result.hasCreateTime;
+}
+- (int64_t) createTime {
+  return result.createTime;
+}
+- (FullUserProto_Builder*) setCreateTime:(int64_t) value {
+  result.hasCreateTime = YES;
+  result.createTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearCreateTime {
+  result.hasCreateTime = NO;
+  result.createTime = 0L;
   return self;
 }
 - (BOOL) hasLastShortLicensePurchaseTime {
@@ -8437,6 +8475,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property (retain) NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
 @property (retain) NSMutableArray* mutableRequiredPossessEquipJobProgressList;
 @property (retain) NSMutableArray* mutableRequiredTasksProgressList;
+@property int32_t numComponentsComplete;
 @end
 
 @implementation FullUserQuestDataLargeProto
@@ -8484,6 +8523,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @synthesize mutableRequiredUpgradeStructJobProgressList;
 @synthesize mutableRequiredPossessEquipJobProgressList;
 @synthesize mutableRequiredTasksProgressList;
+- (BOOL) hasNumComponentsComplete {
+  return !!hasNumComponentsComplete_;
+}
+- (void) setHasNumComponentsComplete:(BOOL) value {
+  hasNumComponentsComplete_ = !!value;
+}
+@synthesize numComponentsComplete;
 - (void) dealloc {
   self.mutableRequiredDefeatTypeJobProgressList = nil;
   self.mutableRequiredBuildStructJobProgressList = nil;
@@ -8498,6 +8544,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.questId = 0;
     self.isRedeemed = NO;
     self.isComplete = NO;
+    self.numComponentsComplete = 0;
   }
   return self;
 }
@@ -8579,6 +8626,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
     [output writeMessage:9 value:element];
   }
+  if (self.hasNumComponentsComplete) {
+    [output writeInt32:10 value:self.numComponentsComplete];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -8614,6 +8664,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   }
   for (MinimumUserQuestTaskProto* element in self.requiredTasksProgressList) {
     size += computeMessageSize(9, element);
+  }
+  if (self.hasNumComponentsComplete) {
+    size += computeInt32Size(10, self.numComponentsComplete);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8732,6 +8785,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
     }
     [result.mutableRequiredTasksProgressList addObjectsFromArray:other.mutableRequiredTasksProgressList];
   }
+  if (other.hasNumComponentsComplete) {
+    [self setNumComponentsComplete:other.numComponentsComplete];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8797,6 +8853,10 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
         MinimumUserQuestTaskProto_Builder* subBuilder = [MinimumUserQuestTaskProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addRequiredTasksProgress:[subBuilder buildPartial]];
+        break;
+      }
+      case 80: {
+        [self setNumComponentsComplete:[input readInt32]];
         break;
       }
     }
@@ -9009,6 +9069,22 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
     result.mutableRequiredTasksProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredTasksProgressList addObject:value];
+  return self;
+}
+- (BOOL) hasNumComponentsComplete {
+  return result.hasNumComponentsComplete;
+}
+- (int32_t) numComponentsComplete {
+  return result.numComponentsComplete;
+}
+- (FullUserQuestDataLargeProto_Builder*) setNumComponentsComplete:(int32_t) value {
+  result.hasNumComponentsComplete = YES;
+  result.numComponentsComplete = value;
+  return self;
+}
+- (FullUserQuestDataLargeProto_Builder*) clearNumComponentsComplete {
+  result.hasNumComponentsComplete = NO;
+  result.numComponentsComplete = 0;
   return self;
 }
 @end
@@ -11541,6 +11617,9 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @property (retain) NSMutableArray* mutableBuildStructJobsReqsList;
 @property (retain) NSMutableArray* mutableDefeatTypeReqsList;
 @property (retain) NSMutableArray* mutablePossessEquipJobReqsList;
+@property int32_t numComponentsForGood;
+@property int32_t numComponentsForBad;
+@property (retain) DialogueProto* acceptDialogue;
 @end
 
 @implementation FullQuestProto
@@ -11628,6 +11707,27 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @synthesize mutableBuildStructJobsReqsList;
 @synthesize mutableDefeatTypeReqsList;
 @synthesize mutablePossessEquipJobReqsList;
+- (BOOL) hasNumComponentsForGood {
+  return !!hasNumComponentsForGood_;
+}
+- (void) setHasNumComponentsForGood:(BOOL) value {
+  hasNumComponentsForGood_ = !!value;
+}
+@synthesize numComponentsForGood;
+- (BOOL) hasNumComponentsForBad {
+  return !!hasNumComponentsForBad_;
+}
+- (void) setHasNumComponentsForBad:(BOOL) value {
+  hasNumComponentsForBad_ = !!value;
+}
+@synthesize numComponentsForBad;
+- (BOOL) hasAcceptDialogue {
+  return !!hasAcceptDialogue_;
+}
+- (void) setHasAcceptDialogue:(BOOL) value {
+  hasAcceptDialogue_ = !!value;
+}
+@synthesize acceptDialogue;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -11639,6 +11739,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   self.mutableBuildStructJobsReqsList = nil;
   self.mutableDefeatTypeReqsList = nil;
   self.mutablePossessEquipJobReqsList = nil;
+  self.acceptDialogue = nil;
   [super dealloc];
 }
 - (id) init {
@@ -11654,6 +11755,9 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
     self.diamondsGained = 0;
     self.expGained = 0;
     self.equipIdGained = 0;
+    self.numComponentsForGood = 0;
+    self.numComponentsForBad = 0;
+    self.acceptDialogue = [DialogueProto defaultInstance];
   }
   return self;
 }
@@ -11766,6 +11870,15 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   for (NSNumber* value in self.mutablePossessEquipJobReqsList) {
     [output writeInt32:17 value:[value intValue]];
   }
+  if (self.hasNumComponentsForGood) {
+    [output writeInt32:18 value:self.numComponentsForGood];
+  }
+  if (self.hasNumComponentsForBad) {
+    [output writeInt32:19 value:self.numComponentsForBad];
+  }
+  if (self.hasAcceptDialogue) {
+    [output writeMessage:20 value:self.acceptDialogue];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -11855,6 +11968,15 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     }
     size += dataSize;
     size += 2 * self.mutablePossessEquipJobReqsList.count;
+  }
+  if (self.hasNumComponentsForGood) {
+    size += computeInt32Size(18, self.numComponentsForGood);
+  }
+  if (self.hasNumComponentsForBad) {
+    size += computeInt32Size(19, self.numComponentsForBad);
+  }
+  if (self.hasAcceptDialogue) {
+    size += computeMessageSize(20, self.acceptDialogue);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -12000,6 +12122,15 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     }
     [result.mutablePossessEquipJobReqsList addObjectsFromArray:other.mutablePossessEquipJobReqsList];
   }
+  if (other.hasNumComponentsForGood) {
+    [self setNumComponentsForGood:other.numComponentsForGood];
+  }
+  if (other.hasNumComponentsForBad) {
+    [self setNumComponentsForBad:other.numComponentsForBad];
+  }
+  if (other.hasAcceptDialogue) {
+    [self mergeAcceptDialogue:other.acceptDialogue];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12087,6 +12218,23 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
       }
       case 136: {
         [self addPossessEquipJobReqs:[input readInt32]];
+        break;
+      }
+      case 144: {
+        [self setNumComponentsForGood:[input readInt32]];
+        break;
+      }
+      case 152: {
+        [self setNumComponentsForBad:[input readInt32]];
+        break;
+      }
+      case 162: {
+        DialogueProto_Builder* subBuilder = [DialogueProto builder];
+        if (self.hasAcceptDialogue) {
+          [subBuilder mergeFrom:self.acceptDialogue];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAcceptDialogue:[subBuilder buildPartial]];
         break;
       }
     }
@@ -12452,6 +12600,505 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 }
 - (FullQuestProto_Builder*) clearPossessEquipJobReqsList {
   result.mutablePossessEquipJobReqsList = nil;
+  return self;
+}
+- (BOOL) hasNumComponentsForGood {
+  return result.hasNumComponentsForGood;
+}
+- (int32_t) numComponentsForGood {
+  return result.numComponentsForGood;
+}
+- (FullQuestProto_Builder*) setNumComponentsForGood:(int32_t) value {
+  result.hasNumComponentsForGood = YES;
+  result.numComponentsForGood = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearNumComponentsForGood {
+  result.hasNumComponentsForGood = NO;
+  result.numComponentsForGood = 0;
+  return self;
+}
+- (BOOL) hasNumComponentsForBad {
+  return result.hasNumComponentsForBad;
+}
+- (int32_t) numComponentsForBad {
+  return result.numComponentsForBad;
+}
+- (FullQuestProto_Builder*) setNumComponentsForBad:(int32_t) value {
+  result.hasNumComponentsForBad = YES;
+  result.numComponentsForBad = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearNumComponentsForBad {
+  result.hasNumComponentsForBad = NO;
+  result.numComponentsForBad = 0;
+  return self;
+}
+- (BOOL) hasAcceptDialogue {
+  return result.hasAcceptDialogue;
+}
+- (DialogueProto*) acceptDialogue {
+  return result.acceptDialogue;
+}
+- (FullQuestProto_Builder*) setAcceptDialogue:(DialogueProto*) value {
+  result.hasAcceptDialogue = YES;
+  result.acceptDialogue = value;
+  return self;
+}
+- (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue {
+  return [self setAcceptDialogue:[builderForValue build]];
+}
+- (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value {
+  if (result.hasAcceptDialogue &&
+      result.acceptDialogue != [DialogueProto defaultInstance]) {
+    result.acceptDialogue =
+      [[[DialogueProto builderWithPrototype:result.acceptDialogue] mergeFrom:value] buildPartial];
+  } else {
+    result.acceptDialogue = value;
+  }
+  result.hasAcceptDialogue = YES;
+  return self;
+}
+- (FullQuestProto_Builder*) clearAcceptDialogue {
+  result.hasAcceptDialogue = NO;
+  result.acceptDialogue = [DialogueProto defaultInstance];
+  return self;
+}
+@end
+
+@interface DialogueProto ()
+@property (retain) NSMutableArray* mutableSpeechSegmentList;
+@end
+
+@implementation DialogueProto
+
+@synthesize mutableSpeechSegmentList;
+- (void) dealloc {
+  self.mutableSpeechSegmentList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+  }
+  return self;
+}
+static DialogueProto* defaultDialogueProtoInstance = nil;
++ (void) initialize {
+  if (self == [DialogueProto class]) {
+    defaultDialogueProtoInstance = [[DialogueProto alloc] init];
+  }
+}
++ (DialogueProto*) defaultInstance {
+  return defaultDialogueProtoInstance;
+}
+- (DialogueProto*) defaultInstance {
+  return defaultDialogueProtoInstance;
+}
+- (NSArray*) speechSegmentList {
+  return mutableSpeechSegmentList;
+}
+- (DialogueProto_SpeechSegmentProto*) speechSegmentAtIndex:(int32_t) index {
+  id value = [mutableSpeechSegmentList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  for (DialogueProto_SpeechSegmentProto* element in self.speechSegmentList) {
+    [output writeMessage:1 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  for (DialogueProto_SpeechSegmentProto* element in self.speechSegmentList) {
+    size += computeMessageSize(1, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (DialogueProto*) parseFromData:(NSData*) data {
+  return (DialogueProto*)[[[DialogueProto builder] mergeFromData:data] build];
+}
++ (DialogueProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DialogueProto*)[[[DialogueProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DialogueProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DialogueProto*)[[[DialogueProto builder] mergeFromInputStream:input] build];
+}
++ (DialogueProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DialogueProto*)[[[DialogueProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DialogueProto*)[[[DialogueProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DialogueProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DialogueProto*)[[[DialogueProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DialogueProto_Builder*) builder {
+  return [[[DialogueProto_Builder alloc] init] autorelease];
+}
++ (DialogueProto_Builder*) builderWithPrototype:(DialogueProto*) prototype {
+  return [[DialogueProto builder] mergeFrom:prototype];
+}
+- (DialogueProto_Builder*) builder {
+  return [DialogueProto builder];
+}
+@end
+
+@interface DialogueProto_SpeechSegmentProto ()
+@property DialogueProto_SpeechSegmentProto_DialogueSpeaker speaker;
+@property (retain) NSString* speakerText;
+@end
+
+@implementation DialogueProto_SpeechSegmentProto
+
+- (BOOL) hasSpeaker {
+  return !!hasSpeaker_;
+}
+- (void) setHasSpeaker:(BOOL) value {
+  hasSpeaker_ = !!value;
+}
+@synthesize speaker;
+- (BOOL) hasSpeakerText {
+  return !!hasSpeakerText_;
+}
+- (void) setHasSpeakerText:(BOOL) value {
+  hasSpeakerText_ = !!value;
+}
+@synthesize speakerText;
+- (void) dealloc {
+  self.speakerText = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.speaker = DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType;
+    self.speakerText = @"";
+  }
+  return self;
+}
+static DialogueProto_SpeechSegmentProto* defaultDialogueProto_SpeechSegmentProtoInstance = nil;
++ (void) initialize {
+  if (self == [DialogueProto_SpeechSegmentProto class]) {
+    defaultDialogueProto_SpeechSegmentProtoInstance = [[DialogueProto_SpeechSegmentProto alloc] init];
+  }
+}
++ (DialogueProto_SpeechSegmentProto*) defaultInstance {
+  return defaultDialogueProto_SpeechSegmentProtoInstance;
+}
+- (DialogueProto_SpeechSegmentProto*) defaultInstance {
+  return defaultDialogueProto_SpeechSegmentProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSpeaker) {
+    [output writeEnum:1 value:self.speaker];
+  }
+  if (self.hasSpeakerText) {
+    [output writeString:2 value:self.speakerText];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSpeaker) {
+    size += computeEnumSize(1, self.speaker);
+  }
+  if (self.hasSpeakerText) {
+    size += computeStringSize(2, self.speakerText);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (DialogueProto_SpeechSegmentProto*) parseFromData:(NSData*) data {
+  return (DialogueProto_SpeechSegmentProto*)[[[DialogueProto_SpeechSegmentProto builder] mergeFromData:data] build];
+}
++ (DialogueProto_SpeechSegmentProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DialogueProto_SpeechSegmentProto*)[[[DialogueProto_SpeechSegmentProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (DialogueProto_SpeechSegmentProto*) parseFromInputStream:(NSInputStream*) input {
+  return (DialogueProto_SpeechSegmentProto*)[[[DialogueProto_SpeechSegmentProto builder] mergeFromInputStream:input] build];
+}
++ (DialogueProto_SpeechSegmentProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DialogueProto_SpeechSegmentProto*)[[[DialogueProto_SpeechSegmentProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DialogueProto_SpeechSegmentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (DialogueProto_SpeechSegmentProto*)[[[DialogueProto_SpeechSegmentProto builder] mergeFromCodedInputStream:input] build];
+}
++ (DialogueProto_SpeechSegmentProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (DialogueProto_SpeechSegmentProto*)[[[DialogueProto_SpeechSegmentProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (DialogueProto_SpeechSegmentProto_Builder*) builder {
+  return [[[DialogueProto_SpeechSegmentProto_Builder alloc] init] autorelease];
+}
++ (DialogueProto_SpeechSegmentProto_Builder*) builderWithPrototype:(DialogueProto_SpeechSegmentProto*) prototype {
+  return [[DialogueProto_SpeechSegmentProto builder] mergeFrom:prototype];
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) builder {
+  return [DialogueProto_SpeechSegmentProto builder];
+}
+@end
+
+BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_SpeechSegmentProto_DialogueSpeaker value) {
+  switch (value) {
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodWarrior:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodArcher:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodMage:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadWarrior:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadArcher:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadMage:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadTutorialGirl:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface DialogueProto_SpeechSegmentProto_Builder()
+@property (retain) DialogueProto_SpeechSegmentProto* result;
+@end
+
+@implementation DialogueProto_SpeechSegmentProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[DialogueProto_SpeechSegmentProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) clear {
+  self.result = [[[DialogueProto_SpeechSegmentProto alloc] init] autorelease];
+  return self;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) clone {
+  return [DialogueProto_SpeechSegmentProto builderWithPrototype:result];
+}
+- (DialogueProto_SpeechSegmentProto*) defaultInstance {
+  return [DialogueProto_SpeechSegmentProto defaultInstance];
+}
+- (DialogueProto_SpeechSegmentProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DialogueProto_SpeechSegmentProto*) buildPartial {
+  DialogueProto_SpeechSegmentProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) mergeFrom:(DialogueProto_SpeechSegmentProto*) other {
+  if (other == [DialogueProto_SpeechSegmentProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSpeaker) {
+    [self setSpeaker:other.speaker];
+  }
+  if (other.hasSpeakerText) {
+    [self setSpeakerText:other.speakerText];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        int32_t value = [input readEnum];
+        if (DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(value)) {
+          [self setSpeaker:value];
+        } else {
+          [unknownFields mergeVarintField:1 value:value];
+        }
+        break;
+      }
+      case 18: {
+        [self setSpeakerText:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSpeaker {
+  return result.hasSpeaker;
+}
+- (DialogueProto_SpeechSegmentProto_DialogueSpeaker) speaker {
+  return result.speaker;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker) value {
+  result.hasSpeaker = YES;
+  result.speaker = value;
+  return self;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) clearSpeaker {
+  result.hasSpeaker = NO;
+  result.speaker = DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType;
+  return self;
+}
+- (BOOL) hasSpeakerText {
+  return result.hasSpeakerText;
+}
+- (NSString*) speakerText {
+  return result.speakerText;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) setSpeakerText:(NSString*) value {
+  result.hasSpeakerText = YES;
+  result.speakerText = value;
+  return self;
+}
+- (DialogueProto_SpeechSegmentProto_Builder*) clearSpeakerText {
+  result.hasSpeakerText = NO;
+  result.speakerText = @"";
+  return self;
+}
+@end
+
+@interface DialogueProto_Builder()
+@property (retain) DialogueProto* result;
+@end
+
+@implementation DialogueProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[DialogueProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (DialogueProto_Builder*) clear {
+  self.result = [[[DialogueProto alloc] init] autorelease];
+  return self;
+}
+- (DialogueProto_Builder*) clone {
+  return [DialogueProto builderWithPrototype:result];
+}
+- (DialogueProto*) defaultInstance {
+  return [DialogueProto defaultInstance];
+}
+- (DialogueProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (DialogueProto*) buildPartial {
+  DialogueProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (DialogueProto_Builder*) mergeFrom:(DialogueProto*) other {
+  if (other == [DialogueProto defaultInstance]) {
+    return self;
+  }
+  if (other.mutableSpeechSegmentList.count > 0) {
+    if (result.mutableSpeechSegmentList == nil) {
+      result.mutableSpeechSegmentList = [NSMutableArray array];
+    }
+    [result.mutableSpeechSegmentList addObjectsFromArray:other.mutableSpeechSegmentList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (DialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (DialogueProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        DialogueProto_SpeechSegmentProto_Builder* subBuilder = [DialogueProto_SpeechSegmentProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addSpeechSegment:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (NSArray*) speechSegmentList {
+  if (result.mutableSpeechSegmentList == nil) { return [NSArray array]; }
+  return result.mutableSpeechSegmentList;
+}
+- (DialogueProto_SpeechSegmentProto*) speechSegmentAtIndex:(int32_t) index {
+  return [result speechSegmentAtIndex:index];
+}
+- (DialogueProto_Builder*) replaceSpeechSegmentAtIndex:(int32_t) index with:(DialogueProto_SpeechSegmentProto*) value {
+  [result.mutableSpeechSegmentList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (DialogueProto_Builder*) addAllSpeechSegment:(NSArray*) values {
+  if (result.mutableSpeechSegmentList == nil) {
+    result.mutableSpeechSegmentList = [NSMutableArray array];
+  }
+  [result.mutableSpeechSegmentList addObjectsFromArray:values];
+  return self;
+}
+- (DialogueProto_Builder*) clearSpeechSegmentList {
+  result.mutableSpeechSegmentList = nil;
+  return self;
+}
+- (DialogueProto_Builder*) addSpeechSegment:(DialogueProto_SpeechSegmentProto*) value {
+  if (result.mutableSpeechSegmentList == nil) {
+    result.mutableSpeechSegmentList = [NSMutableArray array];
+  }
+  [result.mutableSpeechSegmentList addObject:value];
   return self;
 }
 @end

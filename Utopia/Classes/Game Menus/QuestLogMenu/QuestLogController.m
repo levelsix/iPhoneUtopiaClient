@@ -183,6 +183,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   FullQuestProto *fqp = [self questForIndexPath:indexPath];
   QuestCell *qc = [tableView dequeueReusableCellWithIdentifier:@"QuestCell"];
+  GameState *gs = [GameState sharedGameState];
   
   if (!qc) {
     [[NSBundle mainBundle] loadNibNamed:@"QuestCell" owner:self options:nil];
@@ -217,7 +218,8 @@
         qc.spinner.hidden = YES;
         [qc.spinner stopAnimating];
         qc.progressLabel.hidden = NO;
-        qc.progressLabel.text = [NSString stringWithFormat:@"%d/%d", 1, 2];
+        int total = [Globals userTypeIsGood:gs.type];
+        qc.progressLabel.text = [NSString stringWithFormat:@"%d/%d", questData.numComponentsComplete, total];
       }
     }
     

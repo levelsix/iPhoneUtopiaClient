@@ -74,7 +74,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     // Add all the buildings, can't add people till after aviary placed
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    NSArray *elems = gs.type < 3 ? tc.firstCityElementsForGood : tc.firstCityElementsForBad;
+    NSArray *elems = [Globals userTypeIsGood:gs.type] ? tc.firstCityElementsForGood : tc.firstCityElementsForBad;
     NSMutableArray *peopleElems = [NSMutableArray array];
     for (NeutralCityElementProto *ncep in elems) {
       if (ncep.type == NeutralCityElementProto_NeutralCityElemTypeBuilding) {
@@ -130,7 +130,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     [self doReorder];
     
-    FullTaskProto *ftp = gs.type < 3 ? tutQuest.firstTaskGood : tutQuest.firstTaskBad;
+    FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.firstTaskGood : tutQuest.firstTaskBad;
     MissionBuilding *asset = (MissionBuilding *)[self getChildByTag:ftp.assetNumWithinCity+ASSET_TAG_BASE];
     asset.ftp = ftp;
     asset.numTimesActed = 0;
@@ -172,7 +172,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    type = tc.enemyType < 3 ? 1 : 4;
+    type = [Globals userTypeIsGood:tc.enemyType] ? 1 : 4;
     Enemy *randEnemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
     [self addChild:randEnemy z:1];
     [randEnemy release];
@@ -181,7 +181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    type = tc.enemyType < 3 ? 2 : 5;
+    type = [Globals userTypeIsGood:tc.enemyType] ? 2 : 5;
     randEnemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
     [self addChild:randEnemy z:1];
     [randEnemy release];
@@ -433,7 +433,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       GameState *gs = [GameState sharedGameState];
       StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
 //      QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
-//      qcv.questNameLabel.text = gs.type < 3 ? tutQuest.goodName : tutQuest.badName;
+//      qcv.questNameLabel.text = [Globals userTypeIsGood:gs.type] ? tutQuest.goodName : tutQuest.badName;
 //      qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in Kirin Village to redeem your reward.", tc.questGiverName];
 //      [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
       
@@ -545,7 +545,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   GameState *gs = [GameState sharedGameState];
   [self centerOnTask];
-  NSString *str = gs.type < 3 ? tc.beforeTaskTextGood : tc.beforeTaskTextBad;
+  NSString *str = [Globals userTypeIsGood:gs.type] ? tc.beforeTaskTextGood : tc.beforeTaskTextBad;
   [DialogMenuController incrementProgress];
   [DialogMenuController displayViewForText:str callbackTarget:nil action:nil];
   [Analytics tutorialBattleComplete];

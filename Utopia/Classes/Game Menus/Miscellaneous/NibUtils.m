@@ -195,7 +195,7 @@
 - (void) awakeFromNib {
   GameState *gs = [GameState sharedGameState];
   self.contentMode = UIViewContentModeScaleToFill;
-  NSString *imageName = gs.type < 3 ? @"goodgirltall.png" : @"badgirltall.png";
+  NSString *imageName = [Globals userTypeIsGood:gs.type] ? @"goodgirltall.png" : @"badgirltall.png";
   self.image = [Globals imageNamed:imageName];
 }
 

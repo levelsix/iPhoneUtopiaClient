@@ -30,6 +30,10 @@
 @class CriticalStructureActionResponseProto_Builder;
 @class DefeatTypeJobProto;
 @class DefeatTypeJobProto_Builder;
+@class DialogueProto;
+@class DialogueProto_Builder;
+@class DialogueProto_SpeechSegmentProto;
+@class DialogueProto_SpeechSegmentProto_Builder;
 @class EnableAPNSRequestProto;
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
@@ -2029,28 +2033,20 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasMaxPercentOfEnemyHealth_:1;
   BOOL hasBattleDifferenceMultiplier_:1;
   BOOL hasBattleDifferenceTuner_:1;
-  BOOL hasAttackSkillPointToEquipAttackRatio_:1;
-  BOOL hasDefenseSkillPointToEquipDefenseRatio_:1;
   BOOL hasLocationBarMax_:1;
   Float64 maxAttackMultiplier;
   Float64 minPercentOfEnemyHealth;
   Float64 maxPercentOfEnemyHealth;
   Float64 battleDifferenceMultiplier;
   Float64 battleDifferenceTuner;
-  Float32 attackSkillPointToEquipAttackRatio;
-  Float32 defenseSkillPointToEquipDefenseRatio;
   Float32 locationBarMax;
 }
-- (BOOL) hasAttackSkillPointToEquipAttackRatio;
-- (BOOL) hasDefenseSkillPointToEquipDefenseRatio;
 - (BOOL) hasLocationBarMax;
 - (BOOL) hasMaxAttackMultiplier;
 - (BOOL) hasMinPercentOfEnemyHealth;
 - (BOOL) hasMaxPercentOfEnemyHealth;
 - (BOOL) hasBattleDifferenceMultiplier;
 - (BOOL) hasBattleDifferenceTuner;
-@property (readonly) Float32 attackSkillPointToEquipAttackRatio;
-@property (readonly) Float32 defenseSkillPointToEquipDefenseRatio;
 @property (readonly) Float32 locationBarMax;
 @property (readonly) Float64 maxAttackMultiplier;
 @property (readonly) Float64 minPercentOfEnemyHealth;
@@ -2091,16 +2087,6 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_BattleConstants*) other;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-
-- (BOOL) hasAttackSkillPointToEquipAttackRatio;
-- (Float32) attackSkillPointToEquipAttackRatio;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setAttackSkillPointToEquipAttackRatio:(Float32) value;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearAttackSkillPointToEquipAttackRatio;
-
-- (BOOL) hasDefenseSkillPointToEquipDefenseRatio;
-- (Float32) defenseSkillPointToEquipDefenseRatio;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setDefenseSkillPointToEquipDefenseRatio:(Float32) value;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearDefenseSkillPointToEquipDefenseRatio;
 
 - (BOOL) hasLocationBarMax;
 - (Float32) locationBarMax;

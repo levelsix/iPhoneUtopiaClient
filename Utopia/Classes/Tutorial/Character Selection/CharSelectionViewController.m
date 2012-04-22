@@ -355,7 +355,7 @@
   gs.weaponEquipped = weapon.equipId;
   gs.armorEquipped = armor.equipId;
   gs.type = _curPage;
-  tc.enemyType = gs.type < 3 ? 3 : 0;
+  tc.enemyType = [Globals userTypeIsGood:gs.type] ? 3 : 0;
   
   [(TutorialTopBar *)[TutorialTopBar sharedTopBar] updateIcon];
   

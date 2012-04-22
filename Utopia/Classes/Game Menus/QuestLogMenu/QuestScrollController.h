@@ -99,42 +99,37 @@
 
 @end
 
-//@interface QuestLogController : UIViewController {
-//  UIView *_curView;
-//  FullQuestProto *_fqp;
-//  BOOL _closing;
-//}
-//
-//@property (nonatomic, retain) IBOutlet QuestDescriptionView *questDescView;
-//@property (nonatomic, retain) IBOutlet TaskListView *taskView;
-//@property (nonatomic, retain) IBOutlet QuestListView *questListView;
-//@property (nonatomic, retain) IBOutlet UIView *rightPage;
-//@property (nonatomic, retain) IBOutlet UIView *toTaskButton;
-//@property (nonatomic, retain) IBOutlet UIView *redeemButton;
-//@property (nonatomic, retain) IBOutlet UIView *acceptButtons;
-//@property (nonatomic, retain) NSArray *userLogData;
-//
-//@property (nonatomic, retain) IBOutlet UILabel *redeemLabel;
-//
-//// This will be used to get the view from the nib and return it
-//@property (nonatomic, retain) IBOutlet QuestCompleteView *qcView;
-//
-//+ (QuestLogController *) sharedQuestLogController;
-//+ (void) displayView;
-//+ (void) removeView;
-//+ (void) purgeSingleton;
-//+ (void) cleanupAndPurgeSingleton;
-//
-//- (void) loadQuestData:(NSArray *)quests;
-//- (void) resetToQuestDescView:(FullQuestProto *)fqp;
-//- (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress;
-//
-//- (QuestCompleteView *) createQuestCompleteView;
-//
-//- (IBAction)closeButtonClicked:(id)sender;
-//- (IBAction)taskButtonTapped:(id)sender;
-//- (IBAction)questDescButtonTapped:(id)sender;
-//- (IBAction)redeemTapped:(id)sender;
-//- (IBAction)acceptTapped:(id)sender;
-//
-//@end
+@interface QuestScrollController : UIViewController {
+  UIView *_curView;
+  FullQuestProto *_fqp;
+  BOOL _closing;
+}
+
+@property (nonatomic, retain) IBOutlet QuestDescriptionView *questDescView;
+@property (nonatomic, retain) IBOutlet TaskListView *taskView;
+@property (nonatomic, retain) IBOutlet QuestListView *questListView;
+@property (nonatomic, retain) IBOutlet UIView *rightPage;
+@property (nonatomic, retain) IBOutlet UIView *toTaskButton;
+@property (nonatomic, retain) IBOutlet UIView *redeemButton;
+@property (nonatomic, retain) IBOutlet UIView *acceptButtons;
+@property (nonatomic, retain) NSArray *userLogData;
+
+@property (nonatomic, retain) IBOutlet UILabel *redeemLabel;
+
++ (QuestScrollController *) sharedQuestScrollController;
++ (void) displayView;
++ (void) removeView;
++ (void) purgeSingleton;
++ (void) cleanupAndPurgeSingleton;
+
+- (void) loadQuestData:(NSArray *)quests;
+- (void) resetToQuestDescView:(FullQuestProto *)fqp;
+- (void) displayRightPageForQuest:(id)fqp inProgress:(BOOL)inProgress;
+
+- (IBAction)closeButtonClicked:(id)sender;
+- (IBAction)taskButtonTapped:(id)sender;
+- (IBAction)questDescButtonTapped:(id)sender;
+- (IBAction)redeemTapped:(id)sender;
+- (IBAction)acceptTapped:(id)sender;
+
+@end

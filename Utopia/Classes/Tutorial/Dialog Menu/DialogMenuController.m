@@ -94,7 +94,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   dmc.girlImageView.hidden = NO;
   
   GameState *gs = [GameState sharedGameState];
-  dmc.nameLabel.text = gs.type < 3 ? @"Ruby" : @"Adriana";
+  dmc.nameLabel.text = [Globals userTypeIsGood:gs.type] ? @"Ruby" : @"Adriana";
   
   [dmc registerCallback:t action:s];
   
@@ -136,7 +136,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   self.girlImageView.hidden = NO;
   
 //  GameState *gs = [GameState sharedGameState];
-//  self.nameLabel.text = gs.type < 3 ? @"Ruby" : @"Adriana";
+//  self.nameLabel.text = [Globals userTypeIsGood:gs.type] ? @"Ruby" : @"Adriana";
 //  
 //  CGRect r = self.progressBar.frame;
 //  r.size.width = 10+43*self.progress;

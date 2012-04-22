@@ -5535,8 +5535,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 @end
 
 @interface StartupResponseProto_StartupConstants_BattleConstants ()
-@property Float32 attackSkillPointToEquipAttackRatio;
-@property Float32 defenseSkillPointToEquipDefenseRatio;
 @property Float32 locationBarMax;
 @property Float64 maxAttackMultiplier;
 @property Float64 minPercentOfEnemyHealth;
@@ -5547,20 +5545,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 
 @implementation StartupResponseProto_StartupConstants_BattleConstants
 
-- (BOOL) hasAttackSkillPointToEquipAttackRatio {
-  return !!hasAttackSkillPointToEquipAttackRatio_;
-}
-- (void) setHasAttackSkillPointToEquipAttackRatio:(BOOL) value {
-  hasAttackSkillPointToEquipAttackRatio_ = !!value;
-}
-@synthesize attackSkillPointToEquipAttackRatio;
-- (BOOL) hasDefenseSkillPointToEquipDefenseRatio {
-  return !!hasDefenseSkillPointToEquipDefenseRatio_;
-}
-- (void) setHasDefenseSkillPointToEquipDefenseRatio:(BOOL) value {
-  hasDefenseSkillPointToEquipDefenseRatio_ = !!value;
-}
-@synthesize defenseSkillPointToEquipDefenseRatio;
 - (BOOL) hasLocationBarMax {
   return !!hasLocationBarMax_;
 }
@@ -5608,8 +5592,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 }
 - (id) init {
   if ((self = [super init])) {
-    self.attackSkillPointToEquipAttackRatio = 0;
-    self.defenseSkillPointToEquipDefenseRatio = 0;
     self.locationBarMax = 0;
     self.maxAttackMultiplier = 0;
     self.minPercentOfEnemyHealth = 0;
@@ -5635,12 +5617,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasAttackSkillPointToEquipAttackRatio) {
-    [output writeFloat:1 value:self.attackSkillPointToEquipAttackRatio];
-  }
-  if (self.hasDefenseSkillPointToEquipDefenseRatio) {
-    [output writeFloat:2 value:self.defenseSkillPointToEquipDefenseRatio];
-  }
   if (self.hasLocationBarMax) {
     [output writeFloat:3 value:self.locationBarMax];
   }
@@ -5668,12 +5644,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   }
 
   size = 0;
-  if (self.hasAttackSkillPointToEquipAttackRatio) {
-    size += computeFloatSize(1, self.attackSkillPointToEquipAttackRatio);
-  }
-  if (self.hasDefenseSkillPointToEquipDefenseRatio) {
-    size += computeFloatSize(2, self.defenseSkillPointToEquipDefenseRatio);
-  }
   if (self.hasLocationBarMax) {
     size += computeFloatSize(3, self.locationBarMax);
   }
@@ -5767,12 +5737,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other == [StartupResponseProto_StartupConstants_BattleConstants defaultInstance]) {
     return self;
   }
-  if (other.hasAttackSkillPointToEquipAttackRatio) {
-    [self setAttackSkillPointToEquipAttackRatio:other.attackSkillPointToEquipAttackRatio];
-  }
-  if (other.hasDefenseSkillPointToEquipDefenseRatio) {
-    [self setDefenseSkillPointToEquipDefenseRatio:other.defenseSkillPointToEquipDefenseRatio];
-  }
   if (other.hasLocationBarMax) {
     [self setLocationBarMax:other.locationBarMax];
   }
@@ -5812,14 +5776,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         }
         break;
       }
-      case 13: {
-        [self setAttackSkillPointToEquipAttackRatio:[input readFloat]];
-        break;
-      }
-      case 21: {
-        [self setDefenseSkillPointToEquipDefenseRatio:[input readFloat]];
-        break;
-      }
       case 29: {
         [self setLocationBarMax:[input readFloat]];
         break;
@@ -5846,38 +5802,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
       }
     }
   }
-}
-- (BOOL) hasAttackSkillPointToEquipAttackRatio {
-  return result.hasAttackSkillPointToEquipAttackRatio;
-}
-- (Float32) attackSkillPointToEquipAttackRatio {
-  return result.attackSkillPointToEquipAttackRatio;
-}
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setAttackSkillPointToEquipAttackRatio:(Float32) value {
-  result.hasAttackSkillPointToEquipAttackRatio = YES;
-  result.attackSkillPointToEquipAttackRatio = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearAttackSkillPointToEquipAttackRatio {
-  result.hasAttackSkillPointToEquipAttackRatio = NO;
-  result.attackSkillPointToEquipAttackRatio = 0;
-  return self;
-}
-- (BOOL) hasDefenseSkillPointToEquipDefenseRatio {
-  return result.hasDefenseSkillPointToEquipDefenseRatio;
-}
-- (Float32) defenseSkillPointToEquipDefenseRatio {
-  return result.defenseSkillPointToEquipDefenseRatio;
-}
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setDefenseSkillPointToEquipDefenseRatio:(Float32) value {
-  result.hasDefenseSkillPointToEquipDefenseRatio = YES;
-  result.defenseSkillPointToEquipDefenseRatio = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearDefenseSkillPointToEquipDefenseRatio {
-  result.hasDefenseSkillPointToEquipDefenseRatio = NO;
-  result.defenseSkillPointToEquipDefenseRatio = 0;
-  return self;
 }
 - (BOOL) hasLocationBarMax {
   return result.hasLocationBarMax;

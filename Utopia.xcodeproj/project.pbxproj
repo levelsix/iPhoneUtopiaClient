@@ -1058,7 +1058,7 @@
 		CF7FEF0A1540BE2D00716E37 /* questarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEF71540BE2D00716E37 /* questarrow.png */; };
 		CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7FEF0F1540C3D000716E37 /* MessageUI.framework */; };
 		CFA73EAB1541230A00900045 /* QuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA73EAA1541230A00900045 /* QuestLogController.m */; };
-		CFA73EAD1541291400900045 /* QuestLogControllerBkup.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265941538ACC400E0C1AD /* QuestLogControllerBkup.m */; };
+		CFA73EAD1541291400900045 /* QuestScrollController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265941538ACC400E0C1AD /* QuestScrollController.m */; };
 		CFDBFEB7153BCE6100DA9206 /* popupglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB5153BCE6100DA9206 /* popupglow.png */; };
 		CFDBFEB8153BCE6100DA9206 /* popupglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */; };
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
@@ -1263,8 +1263,8 @@
 		CF12658F1538ACC400E0C1AD /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		CF1265901538ACC400E0C1AD /* ProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileViewController.xib; sourceTree = "<group>"; };
 		CF1265921538ACC400E0C1AD /* QuestCompleteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCompleteView.xib; sourceTree = "<group>"; };
-		CF1265931538ACC400E0C1AD /* QuestLogControllerBkup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogControllerBkup.h; sourceTree = "<group>"; };
-		CF1265941538ACC400E0C1AD /* QuestLogControllerBkup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogControllerBkup.m; sourceTree = "<group>"; };
+		CF1265931538ACC400E0C1AD /* QuestScrollController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestScrollController.h; sourceTree = "<group>"; };
+		CF1265941538ACC400E0C1AD /* QuestScrollController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestScrollController.m; sourceTree = "<group>"; };
 		CF1265951538ACC400E0C1AD /* QuestLogController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestLogController.xib; sourceTree = "<group>"; };
 		CF1265971538ACC400E0C1AD /* RefillMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefillMenuController.h; sourceTree = "<group>"; };
 		CF1265981538ACC400E0C1AD /* RefillMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefillMenuController.m; sourceTree = "<group>"; };
@@ -2943,8 +2943,8 @@
 			isa = PBXGroup;
 			children = (
 				CF1265921538ACC400E0C1AD /* QuestCompleteView.xib */,
-				CF1265931538ACC400E0C1AD /* QuestLogControllerBkup.h */,
-				CF1265941538ACC400E0C1AD /* QuestLogControllerBkup.m */,
+				CF1265931538ACC400E0C1AD /* QuestScrollController.h */,
+				CF1265941538ACC400E0C1AD /* QuestScrollController.m */,
 				CF1265951538ACC400E0C1AD /* QuestLogController.xib */,
 				CFA73EA91541230A00900045 /* QuestLogController.h */,
 				CFA73EAA1541230A00900045 /* QuestLogController.m */,
@@ -5924,7 +5924,7 @@
 				CFEDA6A1153CD20100015562 /* UVHelper.m in Sources */,
 				CF7FEEDC154085F000716E37 /* FAQMenuController.m in Sources */,
 				CFA73EAB1541230A00900045 /* QuestLogController.m in Sources */,
-				CFA73EAD1541291400900045 /* QuestLogControllerBkup.m in Sources */,
+				CFA73EAD1541291400900045 /* QuestScrollController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

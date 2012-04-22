@@ -82,6 +82,10 @@
 
 - (IBAction)closeClicked:(id)sender;
 
+- (void) loadQuestData:(NSArray *)quests;
+
+- (QuestCompleteView *) createQuestCompleteView;
+
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;
 + (void) removeView;

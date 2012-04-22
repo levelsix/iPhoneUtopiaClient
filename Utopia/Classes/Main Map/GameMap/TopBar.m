@@ -182,19 +182,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     s = [CCSprite spriteWithFile:@"map.png"];
     CCMenuItemSprite *mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(globeClicked)];
-    mapButton.position = ccp(self.contentSize.width/2-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, -self.contentSize.height/2+s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"forum.png"];
     CCMenuItemSprite *forumButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(forumClicked)];
-    forumButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, -self.contentSize.height/2+s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    forumButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"questbutton.png"];
     _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
-    _questButton.position = ccp(-self.contentSize.width/2+s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, -self.contentSize.height/2+s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    _questButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     _bottomButtons = [CCMenu menuWithItems:mapButton,forumButton, _questButton, nil];
-    _bottomButtons.contentSize = CGSizeMake(0, 0);
+    _bottomButtons.contentSize = CGSizeZero;
+    _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons];
+    
+    _questNewArrow = [CCSprite spriteWithFile:@"new.png"];
+    [self addChild:_questNewArrow];
+    _questNewArrow.position = ccp(_questButton.position.x+_questButton.contentSize.width/2+_questNewArrow.contentSize.width/2+2, _questButton.position.y);
+    _questNewArrow.visible = NO;
+    
+    CCMoveBy *action = [CCMoveBy actionWithDuration:0.8f position:ccp(10, 0)];
+    [_questNewArrow runAction:[CCRepeatForever actionWithAction:
+                               [CCSequence actions:
+                                [CCEaseSineInOut actionWithAction:action], 
+                                [CCEaseSineInOut actionWithAction:action.reverse], 
+                                nil]]];
     
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
@@ -614,6 +627,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } else if (_littleToolTipState == kStamina) {
     _littleToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
     _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
+  }
+  
+  if (gs.availableQuests.count > 0) {
+    _questNewArrow.visible = YES;
+  } else {
+    _questNewArrow.visible = NO;
   }
 }
 
