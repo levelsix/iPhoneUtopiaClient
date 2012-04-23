@@ -42,6 +42,13 @@
 - (void) awakeFromNib {
   [self addSubview:availableView];
   availableView.frame = inProgressView.frame;
+  
+  CAGradientLayer *gradient = [CAGradientLayer layer];
+  gradient.frame = self.bounds;
+  UIColor *topColor = [UIColor colorWithRed:35/255.f green:35/255.f blue:35/255.f alpha:0.5f];
+  UIColor *botColor = [UIColor colorWithRed:12/255.f green:12/255.f blue:12/255.f alpha:0.5f];
+  gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[botColor CGColor], nil];
+  [self.contentView.layer insertSublayer:gradient atIndex:0];
 }
 
 - (IBAction)visitClicked:(id)sender {
