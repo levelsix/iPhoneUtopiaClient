@@ -416,8 +416,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [self.armoryBar clickButton:kWeaponButton];
   [self.armoryBar unclickButton:kArmorButton];
   [self.armoryBar unclickButton:kAmuletButton];
-  
-  [[CCDirector sharedDirector] pause];
 }
 
 - (void) setState:(ArmoryState)state {
@@ -658,7 +656,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
-  [[CCDirector sharedDirector] resume];
   CGRect f = self.view.frame;
   [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
     self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);

@@ -236,7 +236,7 @@
   if (isTouchEnabled != isTouchEnabled_) {
     [super setIsTouchEnabled:isTouchEnabled];
     if (isTouchEnabled) {
-      [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+      [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:-1 swallowsTouches:YES];
     } else {
       [[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
     }

@@ -77,6 +77,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 #pragma mark - View lifecycle
 
 - (IBAction)closeClicked:(id)sender {
+  [transferField resignFirstResponder];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [VaultMenuController removeView];
   }];
@@ -201,34 +202,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
     NSString *newStr = [NSString stringWithFormat:@"%09d", realBalance];
     _index = [self firstDifference:vaultBalance second:newStr];
     self.vaultBalance = newStr;
-    _firstTick = YES;
     [self animateNextNum];
   }
 }
 
 - (void) animateNextNum {
   _numTicksComplete = 0;
-  if (_index != vaultBalance.length) {
-    if ([[vaultBalance substringWithRange:NSMakeRange(_index, 1)] intValue] == 0 && !_firstTick) {
-      _index++;
-      _firstTick = NO;
-      [self animateNextNum];
-      return;
-    }
-    // Need to use first tick in the event that the left most num becomes 0 -> 12345 to 2345.
-    _firstTick = NO;
+  if (_index < vaultBalance.length) {
     [tickers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if (idx >= _index) {
         VaultTickView *back = (VaultTickView *)[(SBTickerView *)obj backView];
+        int realVal = -1;
         if (idx == _index) {
-          int x = [[vaultBalance substringWithRange:NSMakeRange(idx, 1)] intValue];
-          back.num = x;
+          // Put in real value
+          realVal = [[vaultBalance substringWithRange:NSMakeRange(idx, 1)] intValue];
+          back.num = realVal;
         } else if (idx == _index+1) {
-          int x = [[vaultBalance substringWithRange:NSMakeRange(idx, 1)] intValue];
-          if (x == 0) {
-            back.num = 0;
+          // If it is the next index, put in a random value less than the real one
+          realVal = [[vaultBalance substringWithRange:NSMakeRange(idx, 1)] intValue];
+          if (realVal == 0) {
+            // Anything but 0
+            back.num = 1+(arc4random() % 9);
           } else {
-            back.num = arc4random() % x;
+            back.num = arc4random() % realVal;
           }
         } else {
           back.num = arc4random() % 10;
@@ -254,12 +250,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.3 animations:^{
-    CGRect frame = self.view.frame;
+  [UIView animateWithDuration:0.25 delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+    CGRect frame = mainView.frame;
     frame.origin.y -= VIEW_JUMP_UPON_TEXT_FIELD;
     frame.size.height += VIEW_JUMP_UPON_TEXT_FIELD;
-    self.view.frame = frame;
-  }];
+    mainView.frame = frame;
+  } completion:nil];
   
   if ([textField.text isEqualToString:@"0"]) {
     textField.text = @"";
@@ -267,12 +263,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-  [UIView animateWithDuration:0.3 animations:^{
-    CGRect frame = self.view.frame;
+  [UIView animateWithDuration:0.25 delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+    CGRect frame = mainView.frame;
     frame.origin.y += VIEW_JUMP_UPON_TEXT_FIELD;
     frame.size.height -= VIEW_JUMP_UPON_TEXT_FIELD;
-    self.view.frame = frame;
-  }];
+    mainView.frame = frame;
+  } completion:nil];
   
   if ([textField.text isEqualToString:@""]) {
     textField.text = @"0";

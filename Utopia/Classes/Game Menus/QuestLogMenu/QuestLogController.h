@@ -83,6 +83,7 @@
 - (IBAction)closeClicked:(id)sender;
 
 - (void) loadQuestData:(NSArray *)quests;
+- (void) loadFakeQuest:(FullQuestProto *)fqp;
 
 - (QuestCompleteView *) createQuestCompleteView;
 

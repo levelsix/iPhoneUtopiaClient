@@ -72,7 +72,7 @@
 @synthesize spinner;
 
 - (void) awakeFromNib {
-  [self addSubview:completedView];
+  [self insertSubview:completedView atIndex:0];
   completedView.frame = inProgressView.frame;
 }
 
@@ -218,7 +218,7 @@
         qc.spinner.hidden = YES;
         [qc.spinner stopAnimating];
         qc.progressLabel.hidden = NO;
-        int total = [Globals userTypeIsGood:gs.type];
+        int total = [Globals userTypeIsGood:gs.type] ? fqp.numComponentsForGood : fqp.numComponentsForBad;
         qc.progressLabel.text = [NSString stringWithFormat:@"%d/%d", questData.numComponentsComplete, total];
       }
     }
@@ -334,54 +334,56 @@
   
   _receivedData = YES;
   
-  FullUserQuestDataLargeProto *questData;
-  for (questData in logData) {
-    if (questData.questId == quest.questId) {
-      break;
+  FullUserQuestDataLargeProto *questData = nil;
+  for (FullUserQuestDataLargeProto *q in logData) {
+    if (q.questId == quest.questId) {
+      questData = q;
     }
   }
   
-  for (UserJob *job in jobs) {
-    if (job.jobType == kTask) {
-      MinimumUserTaskProto *p;
-      for (p in questData.requiredTasksProgressList) {
-        if (p.taskId == job.jobId) {
-          break;
+  if (questData) {
+    for (UserJob *job in jobs) {
+      if (job.jobType == kTask) {
+        MinimumUserTaskProto *p;
+        for (p in questData.requiredTasksProgressList) {
+          if (p.taskId == job.jobId) {
+            break;
+          }
         }
-      }
-      job.numCompleted = p.numTimesActed;
-    } else if (job.jobType == kDefeatTypeJob) {
-      MinimumUserDefeatTypeJobProto *p;
-      for (p in questData.requiredDefeatTypeJobProgressList) {
-        if (p.defeatTypeJobId == job.jobId) {
-          break;
+        job.numCompleted = p.numTimesActed;
+      } else if (job.jobType == kDefeatTypeJob) {
+        MinimumUserDefeatTypeJobProto *p;
+        for (p in questData.requiredDefeatTypeJobProgressList) {
+          if (p.defeatTypeJobId == job.jobId) {
+            break;
+          }
         }
-      }
-      job.numCompleted = p.numDefeated;
-    } else if (job.jobType == kPossessEquipJob) {
-      MinimumUserPossessEquipJobProto *p;
-      for (p in questData.requiredPossessEquipJobProgressList) {
-        if (p.possessEquipJobId == job.jobId) {
-          break;
+        job.numCompleted = p.numDefeated;
+      } else if (job.jobType == kPossessEquipJob) {
+        MinimumUserPossessEquipJobProto *p;
+        for (p in questData.requiredPossessEquipJobProgressList) {
+          if (p.possessEquipJobId == job.jobId) {
+            break;
+          }
         }
-      }
-      job.numCompleted = p.numEquipUserHas;
-    } else if (job.jobType == kBuildStructJob) {
-      MinimumUserBuildStructJobProto *p;
-      for (p in questData.requiredBuildStructJobProgressList) {
-        if (p.buildStructJobId == job.jobId) {
-          break;
+        job.numCompleted = p.numEquipUserHas;
+      } else if (job.jobType == kBuildStructJob) {
+        MinimumUserBuildStructJobProto *p;
+        for (p in questData.requiredBuildStructJobProgressList) {
+          if (p.buildStructJobId == job.jobId) {
+            break;
+          }
         }
-      }
-      job.numCompleted = p.numOfStructUserHas;
-    } else if (job.jobType == kUpgradeStructJob) {
-      MinimumUserUpgradeStructJobProto *p;
-      for (p in questData.requiredUpgradeStructJobProgressList) {
-        if (p.upgradeStructJobId == job.jobId) {
-          break;
+        job.numCompleted = p.numOfStructUserHas;
+      } else if (job.jobType == kUpgradeStructJob) {
+        MinimumUserUpgradeStructJobProto *p;
+        for (p in questData.requiredUpgradeStructJobProgressList) {
+          if (p.upgradeStructJobId == job.jobId) {
+            break;
+          }
         }
+        job.numCompleted = p.currentLevel;
       }
-      job.numCompleted = p.currentLevel;
     }
   }
 }
@@ -444,6 +446,64 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 - (void) viewDidDisappear:(BOOL)animated {
   self.userLogData = nil;
   taskListDelegate.quest = nil;
+}
+
+- (void) loadFakeQuest:(FullQuestProto *)fqp {
+  // Lets create a fake FullUserQuestDataLarge for this quest
+  GameState *gs = [GameState sharedGameState];
+  FullUserQuestDataLargeProto_Builder *bldr = [FullUserQuestDataLargeProto builder];
+  bldr.userId = gs.userId;
+  bldr.questId = fqp.questId;
+  bldr.isRedeemed = NO;
+  bldr.isComplete = NO;
+  
+  for (NSNumber *n in fqp.defeatTypeReqsList) {
+    MinimumUserDefeatTypeJobProto_Builder *b = [MinimumUserDefeatTypeJobProto builder];
+    b.defeatTypeJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = fqp.questId;
+    b.numDefeated = 0;
+    [bldr addRequiredDefeatTypeJobProgress:[b build]];
+  }
+  for (NSNumber *n in fqp.taskReqsList) {
+    MinimumUserQuestTaskProto_Builder *b = [MinimumUserQuestTaskProto builder];
+    b.taskId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = fqp.questId;
+    b.numTimesActed = 0;
+    [bldr addRequiredTasksProgress:[b build]];
+  }
+  for (NSNumber *n in fqp.possessEquipJobReqsList) {
+    MinimumUserPossessEquipJobProto_Builder *b = [MinimumUserPossessEquipJobProto builder];
+    b.possessEquipJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = fqp.questId;
+    b.numEquipUserHas = 0;
+    [bldr addRequiredPossessEquipJobProgress:[b build]];
+  }
+  for (NSNumber *n in fqp.buildStructJobsReqsList) {
+    MinimumUserBuildStructJobProto_Builder *b = [MinimumUserBuildStructJobProto builder];
+    b.buildStructJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = fqp.questId;
+    b.numOfStructUserHas = 0;
+    [bldr addRequiredBuildStructJobProgress:[b build]];
+  }
+  for (NSNumber *n in fqp.upgradeStructJobsReqsList) {
+    MinimumUserUpgradeStructJobProto_Builder *b = [MinimumUserUpgradeStructJobProto builder];
+    b.upgradeStructJobId = n.intValue;
+    b.userId = gs.userId;
+    b.questId = fqp.questId;
+    b.currentLevel = 0;
+    [bldr addRequiredUpgradeStructJobProgress:[b build]];
+  }
+  
+  taskListDelegate.quest = fqp;
+  taskListTitleLabel.text = fqp.name;
+  [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:bldr.build]];
+  [taskListTable reloadData];
+  [QuestLogController displayView];
+  [self showTaskListViewAnimated:NO];
 }
 
 - (void) questSelected:(FullQuestProto *)fqp {

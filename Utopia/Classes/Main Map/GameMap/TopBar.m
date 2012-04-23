@@ -27,6 +27,8 @@
 
 #define BOTTOM_BUTTON_OFFSET 5
 
+#define TOOL_TIP_SHADOW_OPACITY 80
+
 @implementation ToolTip
 
 - (void) setOpacity:(GLubyte)opacity {
@@ -39,7 +41,7 @@
       for (CCSprite *spr3 in spr2.children) {
         spr3.opacity = opacity;
         for (CCSprite *spr4 in spr3.children) {
-          spr4.opacity = opacity;
+          spr4.opacity = opacity/255.f*TOOL_TIP_SHADOW_OPACITY;
         }
       }
     }
@@ -151,9 +153,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bigGoldCostLabel.position = ccp(16, fillButton.contentSize.height/2+1);
     [fillButton addChild:_bigGoldCostLabel];
     _bigGoldCostLabelShadow = [CCLabelTTF labelWithString:@"12" fontName:[Globals font] fontSize:fontSize];
-    _bigGoldCostLabelShadow.color = ccc3(100, 60, 0);
-    _bigGoldCostLabelShadow.opacity = 25;
-    _bigGoldCostLabelShadow.position = ccp(_bigGoldCostLabel.contentSize.width/2+1, _bigGoldCostLabel.contentSize.height/2-1);
+    _bigGoldCostLabelShadow.color = ccc3(0, 0, 0);
+    _bigGoldCostLabelShadow.opacity = TOOL_TIP_SHADOW_OPACITY;
+    _bigGoldCostLabelShadow.position = ccp(_bigGoldCostLabel.contentSize.width/2, _bigGoldCostLabel.contentSize.height/2-1);
     [_bigGoldCostLabel addChild:_bigGoldCostLabelShadow z:-1];
     
     CCLabelTTF *fillLabel = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
@@ -162,8 +164,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [fillButton addChild:fillLabel];
     CCLabelTTF *fillLabelShadow = [CCLabelTTF labelWithString:@"FILL" fontName:[Globals font] fontSize:fontSize];
     fillLabelShadow.color = ccc3(0, 0, 0);
-    fillLabelShadow.opacity = 25;
-    fillLabelShadow.position = ccp(fillLabel.contentSize.width/2+1, fillLabel.contentSize.height/2-1);
+    fillLabelShadow.opacity = TOOL_TIP_SHADOW_OPACITY;
+    fillLabelShadow.position = ccp(fillLabel.contentSize.width/2, fillLabel.contentSize.height/2-1);
     [fillLabel addChild:fillLabelShadow z:-1];
     
     [Globals adjustFontSizeForSize:fontSize CCLabelTTFs:_bigGoldCostLabel, fillLabel, nil];

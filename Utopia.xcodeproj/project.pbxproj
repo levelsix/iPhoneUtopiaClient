@@ -1057,6 +1057,14 @@
 		CF7FEF091540BE2D00716E37 /* fractionbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEF61540BE2D00716E37 /* fractionbg.png */; };
 		CF7FEF0A1540BE2D00716E37 /* questarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEF71540BE2D00716E37 /* questarrow.png */; };
 		CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7FEF0F1540C3D000716E37 /* MessageUI.framework */; };
+		CF8FC82C1543E5540082473E /* ConvoMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8FC82A1543E5540082473E /* ConvoMenuController.m */; };
+		CF8FC82D1543E5540082473E /* ConvoMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC82B1543E5540082473E /* ConvoMenuController.xib */; };
+		CF8FC8351543E5F50082473E /* dialoguebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC82F1543E5F40082473E /* dialoguebg.png */; };
+		CF8FC8361543E5F50082473E /* dialoguebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC8301543E5F40082473E /* dialoguebg@2x.png */; };
+		CF8FC8371543E5F50082473E /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC8311543E5F40082473E /* next.png */; };
+		CF8FC8381543E5F50082473E /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC8321543E5F40082473E /* next@2x.png */; };
+		CF8FC8391543E5F50082473E /* previous.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC8331543E5F40082473E /* previous.png */; };
+		CF8FC83A1543E5F50082473E /* previous@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC8341543E5F40082473E /* previous@2x.png */; };
 		CFA73EAB1541230A00900045 /* QuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA73EAA1541230A00900045 /* QuestLogController.m */; };
 		CFA73EAD1541291400900045 /* QuestScrollController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265941538ACC400E0C1AD /* QuestScrollController.m */; };
 		CFDBFEB7153BCE6100DA9206 /* popupglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB5153BCE6100DA9206 /* popupglow.png */; };
@@ -2425,6 +2433,15 @@
 		CF7FEEF61540BE2D00716E37 /* fractionbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fractionbg.png; sourceTree = "<group>"; };
 		CF7FEEF71540BE2D00716E37 /* questarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = questarrow.png; sourceTree = "<group>"; };
 		CF7FEF0F1540C3D000716E37 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		CF8FC8291543E5540082473E /* ConvoMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvoMenuController.h; sourceTree = "<group>"; };
+		CF8FC82A1543E5540082473E /* ConvoMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConvoMenuController.m; sourceTree = "<group>"; };
+		CF8FC82B1543E5540082473E /* ConvoMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConvoMenuController.xib; sourceTree = "<group>"; };
+		CF8FC82F1543E5F40082473E /* dialoguebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dialoguebg.png; sourceTree = "<group>"; };
+		CF8FC8301543E5F40082473E /* dialoguebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguebg@2x.png"; sourceTree = "<group>"; };
+		CF8FC8311543E5F40082473E /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
+		CF8FC8321543E5F40082473E /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
+		CF8FC8331543E5F40082473E /* previous.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = previous.png; sourceTree = "<group>"; };
+		CF8FC8341543E5F40082473E /* previous@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "previous@2x.png"; sourceTree = "<group>"; };
 		CFA73EA91541230A00900045 /* QuestLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogController.h; sourceTree = "<group>"; };
 		CFA73EAA1541230A00900045 /* QuestLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogController.m; sourceTree = "<group>"; };
 		CFDBFEB5153BCE6100DA9206 /* popupglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popupglow.png; sourceTree = "<group>"; };
@@ -2779,6 +2796,7 @@
 				CF1265591538ACC400E0C1AD /* CarpenterMenu */,
 				CF12655F1538ACC400E0C1AD /* CityRankupMenu */,
 				CF1265631538ACC400E0C1AD /* CritStructPopup */,
+				CF8FC8231543DF470082473E /* ConvoMenu */,
 				CF7FEEDE154085F400716E37 /* FAQMenu */,
 				CF1265671538ACC400E0C1AD /* GoldShoppeMenu */,
 				CF12656C1538ACC400E0C1AD /* Generic Popup */,
@@ -3071,7 +3089,7 @@
 			isa = PBXGroup;
 			children = (
 				CF1265D61538ACC400E0C1AD /* Character Selection */,
-				CF1265DA1538ACC400E0C1AD /* Dialog Menu */,
+				CF1265DA1538ACC400E0C1AD /* DialogMenu */,
 				CF1265DE1538ACC400E0C1AD /* TutorialBattleLayer.h */,
 				CF1265DF1538ACC400E0C1AD /* TutorialBattleLayer.m */,
 				CF1265E01538ACC400E0C1AD /* TutorialCarpenterMenuController.h */,
@@ -3106,13 +3124,14 @@
 			path = "Character Selection";
 			sourceTree = "<group>";
 		};
-		CF1265DA1538ACC400E0C1AD /* Dialog Menu */ = {
+		CF1265DA1538ACC400E0C1AD /* DialogMenu */ = {
 			isa = PBXGroup;
 			children = (
 				CF1265DB1538ACC400E0C1AD /* DialogMenuController.h */,
 				CF1265DC1538ACC400E0C1AD /* DialogMenuController.m */,
 				CF1265DD1538ACC400E0C1AD /* DialogMenuController.xib */,
 			);
+			name = DialogMenu;
 			path = "Dialog Menu";
 			sourceTree = "<group>";
 		};
@@ -3580,6 +3599,7 @@
 				CF1267D51538ACC500E0C1AD /* Carpenter Images */,
 				CF1267E61538ACC500E0C1AD /* Character Selection Images */,
 				CF1268191538ACC500E0C1AD /* City Rankup Images */,
+				CF8FC82E1543E5F40082473E /* Convo Images */,
 				CF12681C1538ACC500E0C1AD /* Door Images */,
 				CF12682B1538ACC500E0C1AD /* Fonts */,
 				CF1268311538ACC500E0C1AD /* Game Map Images */,
@@ -4630,6 +4650,29 @@
 				CF7FEEDB154085F000716E37 /* FAQMenuController.xib */,
 			);
 			name = FAQMenu;
+			sourceTree = "<group>";
+		};
+		CF8FC8231543DF470082473E /* ConvoMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CF8FC8291543E5540082473E /* ConvoMenuController.h */,
+				CF8FC82A1543E5540082473E /* ConvoMenuController.m */,
+				CF8FC82B1543E5540082473E /* ConvoMenuController.xib */,
+			);
+			path = ConvoMenu;
+			sourceTree = "<group>";
+		};
+		CF8FC82E1543E5F40082473E /* Convo Images */ = {
+			isa = PBXGroup;
+			children = (
+				CF8FC82F1543E5F40082473E /* dialoguebg.png */,
+				CF8FC8301543E5F40082473E /* dialoguebg@2x.png */,
+				CF8FC8311543E5F40082473E /* next.png */,
+				CF8FC8321543E5F40082473E /* next@2x.png */,
+				CF8FC8331543E5F40082473E /* previous.png */,
+				CF8FC8341543E5F40082473E /* previous@2x.png */,
+			);
+			path = "Convo Images";
 			sourceTree = "<group>";
 		};
 		CFEDA617153C04FB00015562 /* UserVoice */ = {
@@ -5751,6 +5794,13 @@
 				CF5D3D7B1541ED5F0086234E /* JobCell.xib in Resources */,
 				CF5D3D7E15420D930086234E /* checkdone@2x.png in Resources */,
 				CF5D3D7F15420D930086234E /* checkdone.png in Resources */,
+				CF8FC82D1543E5540082473E /* ConvoMenuController.xib in Resources */,
+				CF8FC8351543E5F50082473E /* dialoguebg.png in Resources */,
+				CF8FC8361543E5F50082473E /* dialoguebg@2x.png in Resources */,
+				CF8FC8371543E5F50082473E /* next.png in Resources */,
+				CF8FC8381543E5F50082473E /* next@2x.png in Resources */,
+				CF8FC8391543E5F50082473E /* previous.png in Resources */,
+				CF8FC83A1543E5F50082473E /* previous@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5925,6 +5975,7 @@
 				CF7FEEDC154085F000716E37 /* FAQMenuController.m in Sources */,
 				CFA73EAB1541230A00900045 /* QuestLogController.m in Sources */,
 				CFA73EAD1541291400900045 /* QuestScrollController.m in Sources */,
+				CF8FC82C1543E5540082473E /* ConvoMenuController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

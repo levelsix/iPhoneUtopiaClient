@@ -8,9 +8,9 @@
 
 #import "AnimatedSprite.h"
 #import "MissionMap.h"
-#import "QuestLogController.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
+#import "ConvoMenuController.h"
 
 #define ABOVE_HEAD_FADE_DURATION 1.5f
 #define ABOVE_HEAD_FADE_OPACITY 100
@@ -163,11 +163,11 @@
       if (self.isInProgress) {
         [[OutgoingEventController sharedOutgoingEventController] retrieveQuestDetails:quest.questId];
       }
-      [[QuestLogController sharedQuestLogController] displayRightPageForQuest:quest inProgress:isInProgress];
-      [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
+//      [[QuestLogController sharedQuestLogController] displayRightPageForQuest:quest inProgress:isInProgress];
+      if (!isInProgress) {
+        [[ConvoMenuController sharedConvoMenuController] displayQuestConversationForQuest:self.quest];
+      }
     }
-  } else {
-    [[QuestLogController sharedQuestLogController] closeClicked:nil];
   }
 }
 

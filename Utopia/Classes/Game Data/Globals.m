@@ -977,13 +977,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
                             [NSNumber numberWithFloat:0.95],
                             [NSNumber numberWithFloat:1.0], nil];
   
+  bounceAnimation.keyTimes = [NSArray arrayWithObjects:
+                              [NSNumber numberWithFloat:0],
+                              [NSNumber numberWithFloat:0.4],
+                              [NSNumber numberWithFloat:0.7],
+                              [NSNumber numberWithFloat:0.9],
+                              [NSNumber numberWithFloat:1.0], nil];
+  
   bounceAnimation.timingFunctions = [NSArray arrayWithObjects:
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], 
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], nil];
   
-  bounceAnimation.calculationMode = kCAAnimationCubic;
-  bounceAnimation.duration = 0.6;
+  bounceAnimation.duration = 0.5;
   [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
   
   view.layer.transform = CATransform3DIdentity;

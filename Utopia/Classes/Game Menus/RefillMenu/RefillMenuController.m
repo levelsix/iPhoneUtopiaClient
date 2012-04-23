@@ -14,8 +14,6 @@
 #import "GoldShoppeViewController.h"
 #import "MapViewController.h"
 
-#define POPUP_ANIMATION_DURATION 0.2f
-
 #define REQUIRES_EQUIP_VIEW_OFFSET 5.f
 #define EQUIPS_VIEW_SPACING 1.f
 
@@ -215,10 +213,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   if (!view) {
     return;
   }
-  [UIView animateWithDuration:0.05 delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+  [UIView animateWithDuration:0.1f delay:0.f options:UIViewAnimationCurveEaseIn animations:^{
     view.transform = CGAffineTransformMakeScale(1.15f, 1.15f);
   } completion:^(BOOL finished) {
-    [UIView animateWithDuration:POPUP_ANIMATION_DURATION delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+    [UIView animateWithDuration:0.2f delay:0.f options:UIViewAnimationCurveEaseOut animations:^{
       view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
       view.alpha = 0.f;
       // If this is the last view we must fade out bgd view as well

@@ -43,6 +43,7 @@
 #import "SimpleAudioEngine.h"
 #import "TopBar.h"
 #import "FAQMenuController.h"
+#import "ConvoMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -93,6 +94,8 @@
   [ActivityFeedController purgeSingleton];
   [CarpenterMenuController removeView];
   [CarpenterMenuController purgeSingleton];
+  [ConvoMenuController removeView];
+  [ConvoMenuController purgeSingleton];
   [ArmoryViewController removeView];
   [ArmoryViewController purgeSingleton];
   [FAQMenuController removeView];
@@ -322,7 +325,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 //                               multiSampling:YES 
 //                             numberOfSamples:100];
   
-  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
+  // Display link director is causing problems with uiscrollview and table view.
+//  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
   [[CCDirector sharedDirector] setOpenGLView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
