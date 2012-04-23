@@ -453,20 +453,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   if ((self = [super initWithTMXFile:tmxFile])) {
     self.buildableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
     
-    for (CCTMXLayer *child in [self children]) {
-      if ([[child layerName] isEqualToString: @"MetaLayer"]) {
-        // Put meta tile layer at front, 
-        // when something is selected, we will make it z = 1000
-        [self reorderChild:child z:1001];
-        CGPoint redGidPt = ccp(mapSize_.width-1, mapSize_.height-1);
-        CGPoint greenGidPt = ccp(mapSize_.width-1, mapSize_.height-2);
-        redGid = [child tileGIDAt:redGidPt];
-        greenGid = [child tileGIDAt:greenGidPt];
-        [child removeTileAt:redGidPt];
-        [child removeTileAt:greenGidPt];
-      }
-      else {
-        [self reorderChild:child z:-1];
+    for (CCNode *child in [self children]) {
+      if ([child isKindOfClass:[CCTMXLayer class]]) {
+        CCTMXLayer *layer = (CCTMXLayer *)child;
+        if ([[layer layerName] isEqualToString: @"MetaLayer"]) {
+          // Put meta tile layer at front, 
+          // when something is selected, we will make it z = 1000
+          [self reorderChild:layer z:1001];
+          CGPoint redGidPt = ccp(mapSize_.width-1, mapSize_.height-1);
+          CGPoint greenGidPt = ccp(mapSize_.width-1, mapSize_.height-2);
+          redGid = [layer tileGIDAt:redGidPt];
+          greenGid = [layer tileGIDAt:greenGidPt];
+          [layer removeTileAt:redGidPt];
+          [layer removeTileAt:greenGidPt];
+        }
+        else {
+          [self reorderChild:layer z:-1];
+        }
       }
     }
     

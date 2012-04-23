@@ -168,7 +168,7 @@
 							<object class="IBUILabel" id="252323383">
 								<reference key="NSNextResponder" ref="10487649"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{266, 13}, {31, 21}}</string>
+								<string key="NSFrame">{{266, 13}, {17, 21}}</string>
 								<reference key="NSSuperview" ref="10487649"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="22908642"/>
@@ -188,6 +188,7 @@
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription" id="22026181">
 									<int key="type">1</int>
 									<double key="pointSize">13</double>
@@ -225,7 +226,7 @@
 							<object class="IBUILabel" id="351116353">
 								<reference key="NSNextResponder" ref="10487649"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{372, 13}, {31, 21}}</string>
+								<string key="NSFrame">{{372, 13}, {18, 21}}</string>
 								<reference key="NSSuperview" ref="10487649"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="186213005"/>
@@ -242,6 +243,7 @@
 								<string key="IBUIShadowOffset">{0, 1}</string>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">1</int>
 								<reference key="IBUIFontDescription" ref="22026181"/>
 								<reference key="IBUIFont" ref="772189683"/>
 							</object>
@@ -471,6 +473,50 @@
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
+					<string key="className">CoinBar</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="goldLabel">UILabel</string>
+						<string key="silverLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="goldLabel">
+							<string key="name">goldLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="silverLabel">
+							<string key="name">silverLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CoinBar.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">MarketplaceLoadingView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="actIndView">UIActivityIndicatorView</string>
+						<string key="darkView">UIView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="actIndView">
+							<string key="name">actIndView</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="darkView">
+							<string key="name">darkView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/MarketplaceLoadingView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">MarketplaceViewController</string>
 					<string key="superclassName">PullRefreshTableViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
@@ -493,10 +539,12 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="coinBar">CoinBar</string>
 						<string key="doneButton">UIButton</string>
 						<string key="itemView">UITableViewCell</string>
 						<string key="leftRope">UIView</string>
 						<string key="listAnItemButton">UIButton</string>
+						<string key="loadingView">MarketplaceLoadingView</string>
 						<string key="longLicenseCost">UILabel</string>
 						<string key="longLicenseLength">UILabel</string>
 						<string key="navBar">UIView</string>
@@ -507,6 +555,7 @@
 						<string key="redeemView">UIView</string>
 						<string key="removePriceLabel">UILabel</string>
 						<string key="removeView">UIView</string>
+						<string key="retractPriceIcon">UIImageView</string>
 						<string key="rightRope">UIView</string>
 						<string key="ropeView">UIView</string>
 						<string key="shortLicenseCost">UILabel</string>
@@ -514,6 +563,10 @@
 						<string key="topBar">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="coinBar">
+							<string key="name">coinBar</string>
+							<string key="candidateClassName">CoinBar</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="doneButton">
 							<string key="name">doneButton</string>
 							<string key="candidateClassName">UIButton</string>
@@ -529,6 +582,10 @@
 						<object class="IBToOneOutletInfo" key="listAnItemButton">
 							<string key="name">listAnItemButton</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loadingView">
+							<string key="name">loadingView</string>
+							<string key="candidateClassName">MarketplaceLoadingView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="longLicenseCost">
 							<string key="name">longLicenseCost</string>
@@ -569,6 +626,10 @@
 						<object class="IBToOneOutletInfo" key="removeView">
 							<string key="name">removeView</string>
 							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="retractPriceIcon">
+							<string key="name">retractPriceIcon</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="rightRope">
 							<string key="name">rightRope</string>

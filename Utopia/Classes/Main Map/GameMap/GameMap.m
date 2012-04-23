@@ -26,10 +26,6 @@
 #define SILVER_STACK_BOUNCE_DURATION 1.f
 #define DROP_LABEL_DURATION 3.f
 
-#define MAX_ZOOM 1.8f
-#define MIN_ZOOM 0.8f
-#define DEFAULT_ZOOM 1.f
-
 //CCMoveByCustom
 @interface CCMoveByCustom : CCMoveBy
 
@@ -90,6 +86,7 @@
 @synthesize aviaryMenu, enemyMenu;
 @synthesize mapSprites = _mapSprites;
 @synthesize silverOnMap;
+@synthesize decLayer;
 @synthesize walkableData = _walkableData;
 
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile
@@ -136,6 +133,10 @@
     } else {
       tileSizeInPoints = tileSize_;
     }
+    
+    // Add the decoration layer for clouds
+    decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
+    [self addChild:self.decLayer z:2000];
     
     [[NSBundle mainBundle] loadNibNamed:@"AviaryMenu" owner:self options:nil];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.aviaryMenu];
@@ -453,6 +454,7 @@
   
   [self updateAviaryMenu];
   [self updateEnemyMenu];
+  [self.decLayer updateAllCloudOpacities];
 }
 
 -(void) setPosition:(CGPoint)position {
@@ -653,6 +655,7 @@
   self.aviaryMenu = nil;
   self.walkableData = nil;
   self.mapSprites = nil;
+  self.decLayer = nil;
   [super dealloc];
 }
 

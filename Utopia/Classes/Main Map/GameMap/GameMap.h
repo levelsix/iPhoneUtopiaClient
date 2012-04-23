@@ -11,8 +11,13 @@
 #import "Building.h"
 #import "AnimatedSprite.h"
 #import "Drops.h"
+#import "DecorationLayer.h"
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
+
+#define MAX_ZOOM 1.8f
+#define MIN_ZOOM 0.8f
+#define DEFAULT_ZOOM 1.f
 
 @class Building;
 @class SelectableSprite;
@@ -36,6 +41,8 @@
 
 @property (nonatomic, assign) SelectableSprite *selected;
 @property (nonatomic, retain) NSArray *mapSprites;
+
+@property (nonatomic, retain) DecorationLayer *decLayer;
 
 @property (nonatomic, retain) NSMutableArray *walkableData;
 
