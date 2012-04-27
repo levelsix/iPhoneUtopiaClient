@@ -87,4 +87,7 @@
 - (void) sendRetrieveUserEquipForUserMessage:(int)userId;
 - (void) sendRetrieveUsersForUserIds:(NSArray *)userIds;
 
+- (void) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId;
+- (void) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content;
+
 @end

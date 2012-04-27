@@ -20,14 +20,19 @@
 @implementation QuestCompleteView
 
 @synthesize questNameLabel, visitDescLabel;
+@synthesize mainView, bgdView;
 
 - (IBAction)okayClicked:(id)sender {
-  [self removeFromSuperview];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self removeFromSuperview];
+  }];
 }
 
 - (void) dealloc {
   self.questNameLabel = nil;
   self.visitDescLabel = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
   [super dealloc];
 }
 

@@ -124,8 +124,14 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class PlayerWallPostProto;
+@class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
+@class PostOnPlayerWallRequestProto;
+@class PostOnPlayerWallRequestProto_Builder;
+@class PostOnPlayerWallResponseProto;
+@class PostOnPlayerWallResponseProto_Builder;
 @class PostToMarketplaceRequestProto;
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
@@ -184,6 +190,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
+@class RetrievePlayerWallPostsRequestProto;
+@class RetrievePlayerWallPostsRequestProto_Builder;
+@class RetrievePlayerWallPostsResponseProto;
+@class RetrievePlayerWallPostsResponseProto_Builder;
 @class RetrieveStaticDataForShopRequestProto;
 @class RetrieveStaticDataForShopRequestProto_Builder;
 @class RetrieveStaticDataForShopResponseProto;
@@ -298,6 +308,8 @@ typedef enum {
   EventProtocolRequestCChangeUserLocationEvent = 40,
   EventProtocolRequestCLoadNeutralCityEvent = 41,
   EventProtocolRequestCRetrieveUsersForUserIdsEvent = 42,
+  EventProtocolRequestCPostOnPlayerWall = 43,
+  EventProtocolRequestCRetrievePlayerWallPosts = 44,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -345,6 +357,8 @@ typedef enum {
   EventProtocolResponseSChangeUserLocationEvent = 40,
   EventProtocolResponseSLoadNeutralCityEvent = 41,
   EventProtocolResponseSRetrieveUsersForUserIdsEvent = 42,
+  EventProtocolResponseSPostOnPlayerWall = 43,
+  EventProtocolResponseSRetrievePlayerWallPosts = 44,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
   EventProtocolResponseSReferralCodeUsedEvent = 53,

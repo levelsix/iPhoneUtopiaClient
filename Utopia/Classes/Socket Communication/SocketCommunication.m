@@ -22,7 +22,7 @@
 #define UDID [[UIDevice currentDevice] uniqueDeviceIdentifier]
 #else
 
-#define HOST_NAME @"192.168.1.10"//@"10.1.10.30"
+#define HOST_NAME @"192.168.1.5"//@"184.169.148.243"
 #define HOST_PORT 8888
 
 #define UDID @"42d1cadaa64dbf3c3e8133e652a2df06"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06"//
@@ -663,6 +663,30 @@ static NSString *udid = nil;
                                               build];
   
   [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveUsersForUserIdsEvent];
+}
+
+- (void) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId {
+  RetrievePlayerWallPostsRequestProto_Builder *bldr = [[[RetrievePlayerWallPostsRequestProto builder]
+                                                       setSender:_sender]
+                                                      setRelevantUserId:playerId];
+  
+  if (beforePostId > 0) {
+    [bldr setBeforeThisPostId:beforePostId];
+  }
+  
+  RetrievePlayerWallPostsRequestProto *req = [bldr build];
+  
+  [self sendData:req.data withMessageType:EventProtocolRequestCRetrievePlayerWallPosts];
+}
+
+- (void) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content {
+  PostOnPlayerWallRequestProto *req = [[[[[PostOnPlayerWallRequestProto builder]
+                                          setSender:_sender]
+                                         setWallOwnerId:playerId]
+                                        setContent:content]
+                                       build];
+  
+  [self sendData:req.data withMessageType:EventProtocolRequestCPostOnPlayerWall];
 }
 
 - (void) closeDownConnection {

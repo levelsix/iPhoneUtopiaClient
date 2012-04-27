@@ -84,6 +84,7 @@
 
 @synthesize attackList = _attackList;
 @synthesize notifications = _notifications;
+@synthesize wallPosts = _wallPosts;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
@@ -107,6 +108,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _myStructs = [[NSMutableArray alloc] init];
     _myCritStructs = [[NSMutableArray alloc] init];
     _myCities = [[NSMutableDictionary alloc] init];
+    _wallPosts = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressQuests = [[NSMutableDictionary alloc] init];
@@ -270,6 +272,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
 }
 
+- (void) addWallPost:(PlayerWallPostProto *)wallPost {
+  [self.wallPosts addObject:wallPost];
+  [self.notifications sortUsingComparator:^NSComparisonResult(PlayerWallPostProto *obj1, PlayerWallPostProto *obj2) {
+    if (obj1.timeOfPost > obj2.timeOfPost) {
+      return NSOrderedDescending;
+    } else if (obj1.timeOfPost == obj2.timeOfPost) {
+      return NSOrderedSame;
+    } else {
+      return NSOrderedAscending;
+    }
+  }];
+}
+
 - (UserEquip *) myEquipWithId:(int)equipId {
   for (UserEquip *ue in self.myEquips) {
     if (ue.equipId == equipId) {
@@ -422,6 +437,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myStructs = [[NSMutableArray alloc] init];
   self.myCritStructs = [[NSMutableArray alloc] init];
   self.myCities = [[NSMutableDictionary alloc] init];
+  self.wallPosts = [[NSMutableArray alloc] init];
   
   self.availableQuests = [[NSMutableDictionary alloc] init];
   self.inProgressQuests = [[NSMutableDictionary alloc] init];
@@ -457,6 +473,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.inProgressQuests = nil;
   self.attackList = nil;
   self.notifications = nil;
+  self.wallPosts = nil;
   [super dealloc];
 }
 

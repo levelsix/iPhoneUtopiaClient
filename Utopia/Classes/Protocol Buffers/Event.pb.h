@@ -124,8 +124,14 @@
 @class NormStructWaitCompleteRequestProto_Builder;
 @class NormStructWaitCompleteResponseProto;
 @class NormStructWaitCompleteResponseProto_Builder;
+@class PlayerWallPostProto;
+@class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
+@class PostOnPlayerWallRequestProto;
+@class PostOnPlayerWallRequestProto_Builder;
+@class PostOnPlayerWallResponseProto;
+@class PostOnPlayerWallResponseProto_Builder;
 @class PostToMarketplaceRequestProto;
 @class PostToMarketplaceRequestProto_Builder;
 @class PostToMarketplaceResponseProto;
@@ -184,6 +190,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
+@class RetrievePlayerWallPostsRequestProto;
+@class RetrievePlayerWallPostsRequestProto_Builder;
+@class RetrievePlayerWallPostsResponseProto;
+@class RetrievePlayerWallPostsResponseProto_Builder;
 @class RetrieveStaticDataForShopRequestProto;
 @class RetrieveStaticDataForShopRequestProto_Builder;
 @class RetrieveStaticDataForShopResponseProto;
@@ -686,6 +696,22 @@ typedef enum {
 } LoadNeutralCityResponseProto_LoadNeutralCityStatus;
 
 BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralCityResponseProto_LoadNeutralCityStatus value);
+
+typedef enum {
+  PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess = 0,
+  PostOnPlayerWallResponseProto_PostOnPlayerWallStatusNoContentSent = 1,
+  PostOnPlayerWallResponseProto_PostOnPlayerWallStatusPostTooLarge = 2,
+  PostOnPlayerWallResponseProto_PostOnPlayerWallStatusOtherFail = 3,
+} PostOnPlayerWallResponseProto_PostOnPlayerWallStatus;
+
+BOOL PostOnPlayerWallResponseProto_PostOnPlayerWallStatusIsValidValue(PostOnPlayerWallResponseProto_PostOnPlayerWallStatus value);
+
+typedef enum {
+  RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess = 0,
+  RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusOtherFail = 1,
+} RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus;
+
+BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidValue(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -1402,6 +1428,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   NSMutableArray* mutableMarketplacePurchaseNotificationsList;
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutablePlayerWallPostNotificationsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1437,6 +1464,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_AttackedNotificationProto*) attackNotificationsAtIndex:(int32_t) index;
 - (NSArray*) referralNotificationsList;
 - (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
+- (NSArray*) playerWallPostNotificationsList;
+- (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -1684,8 +1713,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
@@ -1706,6 +1735,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
@@ -1734,8 +1764,8 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
   int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
@@ -1756,6 +1786,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   int32_t marketplaceImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t aviaryImgVerticalPixelOffset;
+  int32_t maxCharLengthForWallPost;
   int32_t maxLevelDifferenceForBattle;
   int32_t armoryXlength;
   int32_t armoryYlength;
@@ -1834,6 +1865,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (BOOL) hasAviaryImgVerticalPixelOffset;
 - (BOOL) hasFormulaConstants;
 - (BOOL) hasBattleConstants;
+- (BOOL) hasMaxCharLengthForWallPost;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1884,6 +1916,7 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 @property (readonly) int32_t aviaryImgVerticalPixelOffset;
 @property (readonly, retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+@property (readonly) int32_t maxCharLengthForWallPost;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2403,6 +2436,11 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_StartupConstants_Builder*) setBattleConstantsBuilder:(StartupResponseProto_StartupConstants_BattleConstants_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeBattleConstants:(StartupResponseProto_StartupConstants_BattleConstants*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearBattleConstants;
+
+- (BOOL) hasMaxCharLengthForWallPost;
+- (int32_t) maxCharLengthForWallPost;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxCharLengthForWallPost:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxCharLengthForWallPost;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -3061,6 +3099,13 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (StartupResponseProto_Builder*) addReferralNotifications:(StartupResponseProto_ReferralNotificationProto*) value;
 - (StartupResponseProto_Builder*) addAllReferralNotifications:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearReferralNotificationsList;
+
+- (NSArray*) playerWallPostNotificationsList;
+- (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replacePlayerWallPostNotificationsAtIndex:(int32_t) index with:(PlayerWallPostProto*) value;
+- (StartupResponseProto_Builder*) addPlayerWallPostNotifications:(PlayerWallPostProto*) value;
+- (StartupResponseProto_Builder*) addAllPlayerWallPostNotifications:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearPlayerWallPostNotificationsList;
 
 - (BOOL) hasAppStoreUrl;
 - (NSString*) appStoreUrl;
@@ -8656,5 +8701,298 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (RetrieveUsersForUserIdsResponseProto_Builder*) addRequestedUsers:(FullUserProto*) value;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) addAllRequestedUsers:(NSArray*) values;
 - (RetrieveUsersForUserIdsResponseProto_Builder*) clearRequestedUsersList;
+@end
+
+@interface PostOnPlayerWallRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasWallOwnerId_:1;
+  BOOL hasContent_:1;
+  BOOL hasSender_:1;
+  int32_t wallOwnerId;
+  NSString* content;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasWallOwnerId;
+- (BOOL) hasContent;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t wallOwnerId;
+@property (readonly, retain) NSString* content;
+
++ (PostOnPlayerWallRequestProto*) defaultInstance;
+- (PostOnPlayerWallRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PostOnPlayerWallRequestProto_Builder*) builder;
++ (PostOnPlayerWallRequestProto_Builder*) builder;
++ (PostOnPlayerWallRequestProto_Builder*) builderWithPrototype:(PostOnPlayerWallRequestProto*) prototype;
+
++ (PostOnPlayerWallRequestProto*) parseFromData:(NSData*) data;
++ (PostOnPlayerWallRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnPlayerWallRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (PostOnPlayerWallRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnPlayerWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PostOnPlayerWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PostOnPlayerWallRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PostOnPlayerWallRequestProto* result;
+}
+
+- (PostOnPlayerWallRequestProto*) defaultInstance;
+
+- (PostOnPlayerWallRequestProto_Builder*) clear;
+- (PostOnPlayerWallRequestProto_Builder*) clone;
+
+- (PostOnPlayerWallRequestProto*) build;
+- (PostOnPlayerWallRequestProto*) buildPartial;
+
+- (PostOnPlayerWallRequestProto_Builder*) mergeFrom:(PostOnPlayerWallRequestProto*) other;
+- (PostOnPlayerWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PostOnPlayerWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PostOnPlayerWallRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PostOnPlayerWallRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PostOnPlayerWallRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PostOnPlayerWallRequestProto_Builder*) clearSender;
+
+- (BOOL) hasWallOwnerId;
+- (int32_t) wallOwnerId;
+- (PostOnPlayerWallRequestProto_Builder*) setWallOwnerId:(int32_t) value;
+- (PostOnPlayerWallRequestProto_Builder*) clearWallOwnerId;
+
+- (BOOL) hasContent;
+- (NSString*) content;
+- (PostOnPlayerWallRequestProto_Builder*) setContent:(NSString*) value;
+- (PostOnPlayerWallRequestProto_Builder*) clearContent;
+@end
+
+@interface PostOnPlayerWallResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasPost_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  PlayerWallPostProto* post;
+  PostOnPlayerWallResponseProto_PostOnPlayerWallStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasPost;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) PostOnPlayerWallResponseProto_PostOnPlayerWallStatus status;
+@property (readonly, retain) PlayerWallPostProto* post;
+
++ (PostOnPlayerWallResponseProto*) defaultInstance;
+- (PostOnPlayerWallResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PostOnPlayerWallResponseProto_Builder*) builder;
++ (PostOnPlayerWallResponseProto_Builder*) builder;
++ (PostOnPlayerWallResponseProto_Builder*) builderWithPrototype:(PostOnPlayerWallResponseProto*) prototype;
+
++ (PostOnPlayerWallResponseProto*) parseFromData:(NSData*) data;
++ (PostOnPlayerWallResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnPlayerWallResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (PostOnPlayerWallResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PostOnPlayerWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PostOnPlayerWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PostOnPlayerWallResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PostOnPlayerWallResponseProto* result;
+}
+
+- (PostOnPlayerWallResponseProto*) defaultInstance;
+
+- (PostOnPlayerWallResponseProto_Builder*) clear;
+- (PostOnPlayerWallResponseProto_Builder*) clone;
+
+- (PostOnPlayerWallResponseProto*) build;
+- (PostOnPlayerWallResponseProto*) buildPartial;
+
+- (PostOnPlayerWallResponseProto_Builder*) mergeFrom:(PostOnPlayerWallResponseProto*) other;
+- (PostOnPlayerWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PostOnPlayerWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (PostOnPlayerWallResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (PostOnPlayerWallResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PostOnPlayerWallResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (PostOnPlayerWallResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (PostOnPlayerWallResponseProto_PostOnPlayerWallStatus) status;
+- (PostOnPlayerWallResponseProto_Builder*) setStatus:(PostOnPlayerWallResponseProto_PostOnPlayerWallStatus) value;
+- (PostOnPlayerWallResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasPost;
+- (PlayerWallPostProto*) post;
+- (PostOnPlayerWallResponseProto_Builder*) setPost:(PlayerWallPostProto*) value;
+- (PostOnPlayerWallResponseProto_Builder*) setPostBuilder:(PlayerWallPostProto_Builder*) builderForValue;
+- (PostOnPlayerWallResponseProto_Builder*) mergePost:(PlayerWallPostProto*) value;
+- (PostOnPlayerWallResponseProto_Builder*) clearPost;
+@end
+
+@interface RetrievePlayerWallPostsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasRelevantUserId_:1;
+  BOOL hasBeforeThisPostId_:1;
+  BOOL hasSender_:1;
+  int32_t relevantUserId;
+  int32_t beforeThisPostId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasRelevantUserId;
+- (BOOL) hasBeforeThisPostId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t relevantUserId;
+@property (readonly) int32_t beforeThisPostId;
+
++ (RetrievePlayerWallPostsRequestProto*) defaultInstance;
+- (RetrievePlayerWallPostsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrievePlayerWallPostsRequestProto_Builder*) builder;
++ (RetrievePlayerWallPostsRequestProto_Builder*) builder;
++ (RetrievePlayerWallPostsRequestProto_Builder*) builderWithPrototype:(RetrievePlayerWallPostsRequestProto*) prototype;
+
++ (RetrievePlayerWallPostsRequestProto*) parseFromData:(NSData*) data;
++ (RetrievePlayerWallPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePlayerWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrievePlayerWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePlayerWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrievePlayerWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrievePlayerWallPostsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrievePlayerWallPostsRequestProto* result;
+}
+
+- (RetrievePlayerWallPostsRequestProto*) defaultInstance;
+
+- (RetrievePlayerWallPostsRequestProto_Builder*) clear;
+- (RetrievePlayerWallPostsRequestProto_Builder*) clone;
+
+- (RetrievePlayerWallPostsRequestProto*) build;
+- (RetrievePlayerWallPostsRequestProto*) buildPartial;
+
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeFrom:(RetrievePlayerWallPostsRequestProto*) other;
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrievePlayerWallPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrievePlayerWallPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrievePlayerWallPostsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasRelevantUserId;
+- (int32_t) relevantUserId;
+- (RetrievePlayerWallPostsRequestProto_Builder*) setRelevantUserId:(int32_t) value;
+- (RetrievePlayerWallPostsRequestProto_Builder*) clearRelevantUserId;
+
+- (BOOL) hasBeforeThisPostId;
+- (int32_t) beforeThisPostId;
+- (RetrievePlayerWallPostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value;
+- (RetrievePlayerWallPostsRequestProto_Builder*) clearBeforeThisPostId;
+@end
+
+@interface RetrievePlayerWallPostsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasRelevantUserId_:1;
+  BOOL hasBeforeThisPostId_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  int32_t relevantUserId;
+  int32_t beforeThisPostId;
+  MinimumUserProto* sender;
+  RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus status;
+  NSMutableArray* mutablePlayerWallPostsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasRelevantUserId;
+- (BOOL) hasBeforeThisPostId;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t relevantUserId;
+@property (readonly) int32_t beforeThisPostId;
+@property (readonly) RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus status;
+- (NSArray*) playerWallPostsList;
+- (PlayerWallPostProto*) playerWallPostsAtIndex:(int32_t) index;
+
++ (RetrievePlayerWallPostsResponseProto*) defaultInstance;
+- (RetrievePlayerWallPostsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrievePlayerWallPostsResponseProto_Builder*) builder;
++ (RetrievePlayerWallPostsResponseProto_Builder*) builder;
++ (RetrievePlayerWallPostsResponseProto_Builder*) builderWithPrototype:(RetrievePlayerWallPostsResponseProto*) prototype;
+
++ (RetrievePlayerWallPostsResponseProto*) parseFromData:(NSData*) data;
++ (RetrievePlayerWallPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePlayerWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrievePlayerWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrievePlayerWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrievePlayerWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrievePlayerWallPostsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrievePlayerWallPostsResponseProto* result;
+}
+
+- (RetrievePlayerWallPostsResponseProto*) defaultInstance;
+
+- (RetrievePlayerWallPostsResponseProto_Builder*) clear;
+- (RetrievePlayerWallPostsResponseProto_Builder*) clone;
+
+- (RetrievePlayerWallPostsResponseProto*) build;
+- (RetrievePlayerWallPostsResponseProto*) buildPartial;
+
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeFrom:(RetrievePlayerWallPostsResponseProto*) other;
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrievePlayerWallPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrievePlayerWallPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasRelevantUserId;
+- (int32_t) relevantUserId;
+- (RetrievePlayerWallPostsResponseProto_Builder*) setRelevantUserId:(int32_t) value;
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearRelevantUserId;
+
+- (BOOL) hasBeforeThisPostId;
+- (int32_t) beforeThisPostId;
+- (RetrievePlayerWallPostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value;
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearBeforeThisPostId;
+
+- (BOOL) hasStatus;
+- (RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus) status;
+- (RetrievePlayerWallPostsResponseProto_Builder*) setStatus:(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus) value;
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearStatus;
+
+- (NSArray*) playerWallPostsList;
+- (PlayerWallPostProto*) playerWallPostsAtIndex:(int32_t) index;
+- (RetrievePlayerWallPostsResponseProto_Builder*) replacePlayerWallPostsAtIndex:(int32_t) index with:(PlayerWallPostProto*) value;
+- (RetrievePlayerWallPostsResponseProto_Builder*) addPlayerWallPosts:(PlayerWallPostProto*) value;
+- (RetrievePlayerWallPostsResponseProto_Builder*) addAllPlayerWallPosts:(NSArray*) values;
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearPlayerWallPostsList;
 @end
 

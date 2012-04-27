@@ -2927,6 +2927,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableMarketplacePurchaseNotificationsList;
 @property (retain) NSMutableArray* mutableAttackNotificationsList;
 @property (retain) NSMutableArray* mutableReferralNotificationsList;
+@property (retain) NSMutableArray* mutablePlayerWallPostNotificationsList;
 @property (retain) NSString* appStoreUrl;
 @end
 
@@ -2990,6 +2991,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize mutableMarketplacePurchaseNotificationsList;
 @synthesize mutableAttackNotificationsList;
 @synthesize mutableReferralNotificationsList;
+@synthesize mutablePlayerWallPostNotificationsList;
 - (BOOL) hasAppStoreUrl {
   return !!hasAppStoreUrl_;
 }
@@ -3010,6 +3012,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableMarketplacePurchaseNotificationsList = nil;
   self.mutableAttackNotificationsList = nil;
   self.mutableReferralNotificationsList = nil;
+  self.mutablePlayerWallPostNotificationsList = nil;
   self.appStoreUrl = nil;
   [super dealloc];
 }
@@ -3101,6 +3104,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableReferralNotificationsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) playerWallPostNotificationsList {
+  return mutablePlayerWallPostNotificationsList;
+}
+- (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index {
+  id value = [mutablePlayerWallPostNotificationsList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3155,6 +3165,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasTutorialConstants) {
     [output writeMessage:18 value:self.tutorialConstants];
+  }
+  for (PlayerWallPostProto* element in self.playerWallPostNotificationsList) {
+    [output writeMessage:19 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3215,6 +3228,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasTutorialConstants) {
     size += computeMessageSize(18, self.tutorialConstants);
+  }
+  for (PlayerWallPostProto* element in self.playerWallPostNotificationsList) {
+    size += computeMessageSize(19, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4241,6 +4257,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t aviaryImgVerticalPixelOffset;
 @property (retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
 @property (retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+@property int32_t maxCharLengthForWallPost;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4597,6 +4614,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasBattleConstants_ = !!value;
 }
 @synthesize battleConstants;
+- (BOOL) hasMaxCharLengthForWallPost {
+  return !!hasMaxCharLengthForWallPost_;
+}
+- (void) setHasMaxCharLengthForWallPost:(BOOL) value {
+  hasMaxCharLengthForWallPost_ = !!value;
+}
+@synthesize maxCharLengthForWallPost;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -4656,6 +4680,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.aviaryImgVerticalPixelOffset = 0;
     self.formulaConstants = [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance];
     self.battleConstants = [StartupResponseProto_StartupConstants_BattleConstants defaultInstance];
+    self.maxCharLengthForWallPost = 0;
   }
   return self;
 }
@@ -4845,6 +4870,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasBattleConstants) {
     [output writeMessage:60 value:self.battleConstants];
   }
+  if (self.hasMaxCharLengthForWallPost) {
+    [output writeInt32:61 value:self.maxCharLengthForWallPost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5019,6 +5047,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasBattleConstants) {
     size += computeMessageSize(60, self.battleConstants);
+  }
+  if (self.hasMaxCharLengthForWallPost) {
+    size += computeInt32Size(61, self.maxCharLengthForWallPost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6105,6 +6136,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasBattleConstants) {
     [self mergeBattleConstants:other.battleConstants];
   }
+  if (other.hasMaxCharLengthForWallPost) {
+    [self setMaxCharLengthForWallPost:other.maxCharLengthForWallPost];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6342,6 +6376,10 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setBattleConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 488: {
+        [self setMaxCharLengthForWallPost:[input readInt32]];
         break;
       }
     }
@@ -7235,6 +7273,22 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_Builder*) clearBattleConstants {
   result.hasBattleConstants = NO;
   result.battleConstants = [StartupResponseProto_StartupConstants_BattleConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasMaxCharLengthForWallPost {
+  return result.hasMaxCharLengthForWallPost;
+}
+- (int32_t) maxCharLengthForWallPost {
+  return result.maxCharLengthForWallPost;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxCharLengthForWallPost:(int32_t) value {
+  result.hasMaxCharLengthForWallPost = YES;
+  result.maxCharLengthForWallPost = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxCharLengthForWallPost {
+  result.hasMaxCharLengthForWallPost = NO;
+  result.maxCharLengthForWallPost = 0;
   return self;
 }
 @end
@@ -9780,6 +9834,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableReferralNotificationsList addObjectsFromArray:other.mutableReferralNotificationsList];
   }
+  if (other.mutablePlayerWallPostNotificationsList.count > 0) {
+    if (result.mutablePlayerWallPostNotificationsList == nil) {
+      result.mutablePlayerWallPostNotificationsList = [NSMutableArray array];
+    }
+    [result.mutablePlayerWallPostNotificationsList addObjectsFromArray:other.mutablePlayerWallPostNotificationsList];
+  }
   if (other.hasAppStoreUrl) {
     [self setAppStoreUrl:other.appStoreUrl];
   }
@@ -9913,6 +9973,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setTutorialConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 154: {
+        PlayerWallPostProto_Builder* subBuilder = [PlayerWallPostProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPlayerWallPostNotifications:[subBuilder buildPartial]];
         break;
       }
     }
@@ -10331,6 +10397,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableReferralNotificationsList = [NSMutableArray array];
   }
   [result.mutableReferralNotificationsList addObject:value];
+  return self;
+}
+- (NSArray*) playerWallPostNotificationsList {
+  if (result.mutablePlayerWallPostNotificationsList == nil) { return [NSArray array]; }
+  return result.mutablePlayerWallPostNotificationsList;
+}
+- (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index {
+  return [result playerWallPostNotificationsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replacePlayerWallPostNotificationsAtIndex:(int32_t) index with:(PlayerWallPostProto*) value {
+  [result.mutablePlayerWallPostNotificationsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllPlayerWallPostNotifications:(NSArray*) values {
+  if (result.mutablePlayerWallPostNotificationsList == nil) {
+    result.mutablePlayerWallPostNotificationsList = [NSMutableArray array];
+  }
+  [result.mutablePlayerWallPostNotificationsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearPlayerWallPostNotificationsList {
+  result.mutablePlayerWallPostNotificationsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addPlayerWallPostNotifications:(PlayerWallPostProto*) value {
+  if (result.mutablePlayerWallPostNotificationsList == nil) {
+    result.mutablePlayerWallPostNotificationsList = [NSMutableArray array];
+  }
+  [result.mutablePlayerWallPostNotificationsList addObject:value];
   return self;
 }
 - (BOOL) hasAppStoreUrl {
@@ -34409,6 +34504,1244 @@ static RetrieveUsersForUserIdsResponseProto* defaultRetrieveUsersForUserIdsRespo
     result.mutableRequestedUsersList = [NSMutableArray array];
   }
   [result.mutableRequestedUsersList addObject:value];
+  return self;
+}
+@end
+
+@interface PostOnPlayerWallRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t wallOwnerId;
+@property (retain) NSString* content;
+@end
+
+@implementation PostOnPlayerWallRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasWallOwnerId {
+  return !!hasWallOwnerId_;
+}
+- (void) setHasWallOwnerId:(BOOL) value {
+  hasWallOwnerId_ = !!value;
+}
+@synthesize wallOwnerId;
+- (BOOL) hasContent {
+  return !!hasContent_;
+}
+- (void) setHasContent:(BOOL) value {
+  hasContent_ = !!value;
+}
+@synthesize content;
+- (void) dealloc {
+  self.sender = nil;
+  self.content = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.wallOwnerId = 0;
+    self.content = @"";
+  }
+  return self;
+}
+static PostOnPlayerWallRequestProto* defaultPostOnPlayerWallRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [PostOnPlayerWallRequestProto class]) {
+    defaultPostOnPlayerWallRequestProtoInstance = [[PostOnPlayerWallRequestProto alloc] init];
+  }
+}
++ (PostOnPlayerWallRequestProto*) defaultInstance {
+  return defaultPostOnPlayerWallRequestProtoInstance;
+}
+- (PostOnPlayerWallRequestProto*) defaultInstance {
+  return defaultPostOnPlayerWallRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasWallOwnerId) {
+    [output writeInt32:2 value:self.wallOwnerId];
+  }
+  if (self.hasContent) {
+    [output writeString:3 value:self.content];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasWallOwnerId) {
+    size += computeInt32Size(2, self.wallOwnerId);
+  }
+  if (self.hasContent) {
+    size += computeStringSize(3, self.content);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PostOnPlayerWallRequestProto*) parseFromData:(NSData*) data {
+  return (PostOnPlayerWallRequestProto*)[[[PostOnPlayerWallRequestProto builder] mergeFromData:data] build];
+}
++ (PostOnPlayerWallRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnPlayerWallRequestProto*)[[[PostOnPlayerWallRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PostOnPlayerWallRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PostOnPlayerWallRequestProto*)[[[PostOnPlayerWallRequestProto builder] mergeFromInputStream:input] build];
+}
++ (PostOnPlayerWallRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnPlayerWallRequestProto*)[[[PostOnPlayerWallRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PostOnPlayerWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PostOnPlayerWallRequestProto*)[[[PostOnPlayerWallRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PostOnPlayerWallRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnPlayerWallRequestProto*)[[[PostOnPlayerWallRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PostOnPlayerWallRequestProto_Builder*) builder {
+  return [[[PostOnPlayerWallRequestProto_Builder alloc] init] autorelease];
+}
++ (PostOnPlayerWallRequestProto_Builder*) builderWithPrototype:(PostOnPlayerWallRequestProto*) prototype {
+  return [[PostOnPlayerWallRequestProto builder] mergeFrom:prototype];
+}
+- (PostOnPlayerWallRequestProto_Builder*) builder {
+  return [PostOnPlayerWallRequestProto builder];
+}
+@end
+
+@interface PostOnPlayerWallRequestProto_Builder()
+@property (retain) PostOnPlayerWallRequestProto* result;
+@end
+
+@implementation PostOnPlayerWallRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PostOnPlayerWallRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PostOnPlayerWallRequestProto_Builder*) clear {
+  self.result = [[[PostOnPlayerWallRequestProto alloc] init] autorelease];
+  return self;
+}
+- (PostOnPlayerWallRequestProto_Builder*) clone {
+  return [PostOnPlayerWallRequestProto builderWithPrototype:result];
+}
+- (PostOnPlayerWallRequestProto*) defaultInstance {
+  return [PostOnPlayerWallRequestProto defaultInstance];
+}
+- (PostOnPlayerWallRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PostOnPlayerWallRequestProto*) buildPartial {
+  PostOnPlayerWallRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PostOnPlayerWallRequestProto_Builder*) mergeFrom:(PostOnPlayerWallRequestProto*) other {
+  if (other == [PostOnPlayerWallRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasWallOwnerId) {
+    [self setWallOwnerId:other.wallOwnerId];
+  }
+  if (other.hasContent) {
+    [self setContent:other.content];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PostOnPlayerWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PostOnPlayerWallRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setWallOwnerId:[input readInt32]];
+        break;
+      }
+      case 26: {
+        [self setContent:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PostOnPlayerWallRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PostOnPlayerWallRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PostOnPlayerWallRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PostOnPlayerWallRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasWallOwnerId {
+  return result.hasWallOwnerId;
+}
+- (int32_t) wallOwnerId {
+  return result.wallOwnerId;
+}
+- (PostOnPlayerWallRequestProto_Builder*) setWallOwnerId:(int32_t) value {
+  result.hasWallOwnerId = YES;
+  result.wallOwnerId = value;
+  return self;
+}
+- (PostOnPlayerWallRequestProto_Builder*) clearWallOwnerId {
+  result.hasWallOwnerId = NO;
+  result.wallOwnerId = 0;
+  return self;
+}
+- (BOOL) hasContent {
+  return result.hasContent;
+}
+- (NSString*) content {
+  return result.content;
+}
+- (PostOnPlayerWallRequestProto_Builder*) setContent:(NSString*) value {
+  result.hasContent = YES;
+  result.content = value;
+  return self;
+}
+- (PostOnPlayerWallRequestProto_Builder*) clearContent {
+  result.hasContent = NO;
+  result.content = @"";
+  return self;
+}
+@end
+
+@interface PostOnPlayerWallResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property PostOnPlayerWallResponseProto_PostOnPlayerWallStatus status;
+@property (retain) PlayerWallPostProto* post;
+@end
+
+@implementation PostOnPlayerWallResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasPost {
+  return !!hasPost_;
+}
+- (void) setHasPost:(BOOL) value {
+  hasPost_ = !!value;
+}
+@synthesize post;
+- (void) dealloc {
+  self.sender = nil;
+  self.post = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess;
+    self.post = [PlayerWallPostProto defaultInstance];
+  }
+  return self;
+}
+static PostOnPlayerWallResponseProto* defaultPostOnPlayerWallResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [PostOnPlayerWallResponseProto class]) {
+    defaultPostOnPlayerWallResponseProtoInstance = [[PostOnPlayerWallResponseProto alloc] init];
+  }
+}
++ (PostOnPlayerWallResponseProto*) defaultInstance {
+  return defaultPostOnPlayerWallResponseProtoInstance;
+}
+- (PostOnPlayerWallResponseProto*) defaultInstance {
+  return defaultPostOnPlayerWallResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasPost) {
+    [output writeMessage:3 value:self.post];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasPost) {
+    size += computeMessageSize(3, self.post);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PostOnPlayerWallResponseProto*) parseFromData:(NSData*) data {
+  return (PostOnPlayerWallResponseProto*)[[[PostOnPlayerWallResponseProto builder] mergeFromData:data] build];
+}
++ (PostOnPlayerWallResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnPlayerWallResponseProto*)[[[PostOnPlayerWallResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PostOnPlayerWallResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PostOnPlayerWallResponseProto*)[[[PostOnPlayerWallResponseProto builder] mergeFromInputStream:input] build];
+}
++ (PostOnPlayerWallResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnPlayerWallResponseProto*)[[[PostOnPlayerWallResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PostOnPlayerWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PostOnPlayerWallResponseProto*)[[[PostOnPlayerWallResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PostOnPlayerWallResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PostOnPlayerWallResponseProto*)[[[PostOnPlayerWallResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PostOnPlayerWallResponseProto_Builder*) builder {
+  return [[[PostOnPlayerWallResponseProto_Builder alloc] init] autorelease];
+}
++ (PostOnPlayerWallResponseProto_Builder*) builderWithPrototype:(PostOnPlayerWallResponseProto*) prototype {
+  return [[PostOnPlayerWallResponseProto builder] mergeFrom:prototype];
+}
+- (PostOnPlayerWallResponseProto_Builder*) builder {
+  return [PostOnPlayerWallResponseProto builder];
+}
+@end
+
+BOOL PostOnPlayerWallResponseProto_PostOnPlayerWallStatusIsValidValue(PostOnPlayerWallResponseProto_PostOnPlayerWallStatus value) {
+  switch (value) {
+    case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess:
+    case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusNoContentSent:
+    case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusPostTooLarge:
+    case PostOnPlayerWallResponseProto_PostOnPlayerWallStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface PostOnPlayerWallResponseProto_Builder()
+@property (retain) PostOnPlayerWallResponseProto* result;
+@end
+
+@implementation PostOnPlayerWallResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PostOnPlayerWallResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PostOnPlayerWallResponseProto_Builder*) clear {
+  self.result = [[[PostOnPlayerWallResponseProto alloc] init] autorelease];
+  return self;
+}
+- (PostOnPlayerWallResponseProto_Builder*) clone {
+  return [PostOnPlayerWallResponseProto builderWithPrototype:result];
+}
+- (PostOnPlayerWallResponseProto*) defaultInstance {
+  return [PostOnPlayerWallResponseProto defaultInstance];
+}
+- (PostOnPlayerWallResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PostOnPlayerWallResponseProto*) buildPartial {
+  PostOnPlayerWallResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PostOnPlayerWallResponseProto_Builder*) mergeFrom:(PostOnPlayerWallResponseProto*) other {
+  if (other == [PostOnPlayerWallResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasPost) {
+    [self mergePost:other.post];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PostOnPlayerWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PostOnPlayerWallResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (PostOnPlayerWallResponseProto_PostOnPlayerWallStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        PlayerWallPostProto_Builder* subBuilder = [PlayerWallPostProto builder];
+        if (self.hasPost) {
+          [subBuilder mergeFrom:self.post];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPost:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (PostOnPlayerWallResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (PostOnPlayerWallResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (PostOnPlayerWallResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (PostOnPlayerWallResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (PostOnPlayerWallResponseProto_PostOnPlayerWallStatus) status {
+  return result.status;
+}
+- (PostOnPlayerWallResponseProto_Builder*) setStatus:(PostOnPlayerWallResponseProto_PostOnPlayerWallStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (PostOnPlayerWallResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess;
+  return self;
+}
+- (BOOL) hasPost {
+  return result.hasPost;
+}
+- (PlayerWallPostProto*) post {
+  return result.post;
+}
+- (PostOnPlayerWallResponseProto_Builder*) setPost:(PlayerWallPostProto*) value {
+  result.hasPost = YES;
+  result.post = value;
+  return self;
+}
+- (PostOnPlayerWallResponseProto_Builder*) setPostBuilder:(PlayerWallPostProto_Builder*) builderForValue {
+  return [self setPost:[builderForValue build]];
+}
+- (PostOnPlayerWallResponseProto_Builder*) mergePost:(PlayerWallPostProto*) value {
+  if (result.hasPost &&
+      result.post != [PlayerWallPostProto defaultInstance]) {
+    result.post =
+      [[[PlayerWallPostProto builderWithPrototype:result.post] mergeFrom:value] buildPartial];
+  } else {
+    result.post = value;
+  }
+  result.hasPost = YES;
+  return self;
+}
+- (PostOnPlayerWallResponseProto_Builder*) clearPost {
+  result.hasPost = NO;
+  result.post = [PlayerWallPostProto defaultInstance];
+  return self;
+}
+@end
+
+@interface RetrievePlayerWallPostsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t relevantUserId;
+@property int32_t beforeThisPostId;
+@end
+
+@implementation RetrievePlayerWallPostsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasRelevantUserId {
+  return !!hasRelevantUserId_;
+}
+- (void) setHasRelevantUserId:(BOOL) value {
+  hasRelevantUserId_ = !!value;
+}
+@synthesize relevantUserId;
+- (BOOL) hasBeforeThisPostId {
+  return !!hasBeforeThisPostId_;
+}
+- (void) setHasBeforeThisPostId:(BOOL) value {
+  hasBeforeThisPostId_ = !!value;
+}
+@synthesize beforeThisPostId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.relevantUserId = 0;
+    self.beforeThisPostId = 0;
+  }
+  return self;
+}
+static RetrievePlayerWallPostsRequestProto* defaultRetrievePlayerWallPostsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrievePlayerWallPostsRequestProto class]) {
+    defaultRetrievePlayerWallPostsRequestProtoInstance = [[RetrievePlayerWallPostsRequestProto alloc] init];
+  }
+}
++ (RetrievePlayerWallPostsRequestProto*) defaultInstance {
+  return defaultRetrievePlayerWallPostsRequestProtoInstance;
+}
+- (RetrievePlayerWallPostsRequestProto*) defaultInstance {
+  return defaultRetrievePlayerWallPostsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasRelevantUserId) {
+    [output writeInt32:2 value:self.relevantUserId];
+  }
+  if (self.hasBeforeThisPostId) {
+    [output writeInt32:3 value:self.beforeThisPostId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasRelevantUserId) {
+    size += computeInt32Size(2, self.relevantUserId);
+  }
+  if (self.hasBeforeThisPostId) {
+    size += computeInt32Size(3, self.beforeThisPostId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrievePlayerWallPostsRequestProto*) parseFromData:(NSData*) data {
+  return (RetrievePlayerWallPostsRequestProto*)[[[RetrievePlayerWallPostsRequestProto builder] mergeFromData:data] build];
+}
++ (RetrievePlayerWallPostsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePlayerWallPostsRequestProto*)[[[RetrievePlayerWallPostsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePlayerWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrievePlayerWallPostsRequestProto*)[[[RetrievePlayerWallPostsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrievePlayerWallPostsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePlayerWallPostsRequestProto*)[[[RetrievePlayerWallPostsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePlayerWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrievePlayerWallPostsRequestProto*)[[[RetrievePlayerWallPostsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrievePlayerWallPostsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePlayerWallPostsRequestProto*)[[[RetrievePlayerWallPostsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePlayerWallPostsRequestProto_Builder*) builder {
+  return [[[RetrievePlayerWallPostsRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrievePlayerWallPostsRequestProto_Builder*) builderWithPrototype:(RetrievePlayerWallPostsRequestProto*) prototype {
+  return [[RetrievePlayerWallPostsRequestProto builder] mergeFrom:prototype];
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) builder {
+  return [RetrievePlayerWallPostsRequestProto builder];
+}
+@end
+
+@interface RetrievePlayerWallPostsRequestProto_Builder()
+@property (retain) RetrievePlayerWallPostsRequestProto* result;
+@end
+
+@implementation RetrievePlayerWallPostsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrievePlayerWallPostsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) clear {
+  self.result = [[[RetrievePlayerWallPostsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) clone {
+  return [RetrievePlayerWallPostsRequestProto builderWithPrototype:result];
+}
+- (RetrievePlayerWallPostsRequestProto*) defaultInstance {
+  return [RetrievePlayerWallPostsRequestProto defaultInstance];
+}
+- (RetrievePlayerWallPostsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrievePlayerWallPostsRequestProto*) buildPartial {
+  RetrievePlayerWallPostsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeFrom:(RetrievePlayerWallPostsRequestProto*) other {
+  if (other == [RetrievePlayerWallPostsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasRelevantUserId) {
+    [self setRelevantUserId:other.relevantUserId];
+  }
+  if (other.hasBeforeThisPostId) {
+    [self setBeforeThisPostId:other.beforeThisPostId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setRelevantUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setBeforeThisPostId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRelevantUserId {
+  return result.hasRelevantUserId;
+}
+- (int32_t) relevantUserId {
+  return result.relevantUserId;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) setRelevantUserId:(int32_t) value {
+  result.hasRelevantUserId = YES;
+  result.relevantUserId = value;
+  return self;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) clearRelevantUserId {
+  result.hasRelevantUserId = NO;
+  result.relevantUserId = 0;
+  return self;
+}
+- (BOOL) hasBeforeThisPostId {
+  return result.hasBeforeThisPostId;
+}
+- (int32_t) beforeThisPostId {
+  return result.beforeThisPostId;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) setBeforeThisPostId:(int32_t) value {
+  result.hasBeforeThisPostId = YES;
+  result.beforeThisPostId = value;
+  return self;
+}
+- (RetrievePlayerWallPostsRequestProto_Builder*) clearBeforeThisPostId {
+  result.hasBeforeThisPostId = NO;
+  result.beforeThisPostId = 0;
+  return self;
+}
+@end
+
+@interface RetrievePlayerWallPostsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t relevantUserId;
+@property int32_t beforeThisPostId;
+@property RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus status;
+@property (retain) NSMutableArray* mutablePlayerWallPostsList;
+@end
+
+@implementation RetrievePlayerWallPostsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasRelevantUserId {
+  return !!hasRelevantUserId_;
+}
+- (void) setHasRelevantUserId:(BOOL) value {
+  hasRelevantUserId_ = !!value;
+}
+@synthesize relevantUserId;
+- (BOOL) hasBeforeThisPostId {
+  return !!hasBeforeThisPostId_;
+}
+- (void) setHasBeforeThisPostId:(BOOL) value {
+  hasBeforeThisPostId_ = !!value;
+}
+@synthesize beforeThisPostId;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+@synthesize mutablePlayerWallPostsList;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutablePlayerWallPostsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.relevantUserId = 0;
+    self.beforeThisPostId = 0;
+    self.status = RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess;
+  }
+  return self;
+}
+static RetrievePlayerWallPostsResponseProto* defaultRetrievePlayerWallPostsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrievePlayerWallPostsResponseProto class]) {
+    defaultRetrievePlayerWallPostsResponseProtoInstance = [[RetrievePlayerWallPostsResponseProto alloc] init];
+  }
+}
++ (RetrievePlayerWallPostsResponseProto*) defaultInstance {
+  return defaultRetrievePlayerWallPostsResponseProtoInstance;
+}
+- (RetrievePlayerWallPostsResponseProto*) defaultInstance {
+  return defaultRetrievePlayerWallPostsResponseProtoInstance;
+}
+- (NSArray*) playerWallPostsList {
+  return mutablePlayerWallPostsList;
+}
+- (PlayerWallPostProto*) playerWallPostsAtIndex:(int32_t) index {
+  id value = [mutablePlayerWallPostsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasRelevantUserId) {
+    [output writeInt32:2 value:self.relevantUserId];
+  }
+  if (self.hasBeforeThisPostId) {
+    [output writeInt32:3 value:self.beforeThisPostId];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:4 value:self.status];
+  }
+  for (PlayerWallPostProto* element in self.playerWallPostsList) {
+    [output writeMessage:5 value:element];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasRelevantUserId) {
+    size += computeInt32Size(2, self.relevantUserId);
+  }
+  if (self.hasBeforeThisPostId) {
+    size += computeInt32Size(3, self.beforeThisPostId);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(4, self.status);
+  }
+  for (PlayerWallPostProto* element in self.playerWallPostsList) {
+    size += computeMessageSize(5, element);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrievePlayerWallPostsResponseProto*) parseFromData:(NSData*) data {
+  return (RetrievePlayerWallPostsResponseProto*)[[[RetrievePlayerWallPostsResponseProto builder] mergeFromData:data] build];
+}
++ (RetrievePlayerWallPostsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePlayerWallPostsResponseProto*)[[[RetrievePlayerWallPostsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePlayerWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrievePlayerWallPostsResponseProto*)[[[RetrievePlayerWallPostsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrievePlayerWallPostsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePlayerWallPostsResponseProto*)[[[RetrievePlayerWallPostsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePlayerWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrievePlayerWallPostsResponseProto*)[[[RetrievePlayerWallPostsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrievePlayerWallPostsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrievePlayerWallPostsResponseProto*)[[[RetrievePlayerWallPostsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrievePlayerWallPostsResponseProto_Builder*) builder {
+  return [[[RetrievePlayerWallPostsResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrievePlayerWallPostsResponseProto_Builder*) builderWithPrototype:(RetrievePlayerWallPostsResponseProto*) prototype {
+  return [[RetrievePlayerWallPostsResponseProto builder] mergeFrom:prototype];
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) builder {
+  return [RetrievePlayerWallPostsResponseProto builder];
+}
+@end
+
+BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidValue(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus value) {
+  switch (value) {
+    case RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess:
+    case RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrievePlayerWallPostsResponseProto_Builder()
+@property (retain) RetrievePlayerWallPostsResponseProto* result;
+@end
+
+@implementation RetrievePlayerWallPostsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrievePlayerWallPostsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) clear {
+  self.result = [[[RetrievePlayerWallPostsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) clone {
+  return [RetrievePlayerWallPostsResponseProto builderWithPrototype:result];
+}
+- (RetrievePlayerWallPostsResponseProto*) defaultInstance {
+  return [RetrievePlayerWallPostsResponseProto defaultInstance];
+}
+- (RetrievePlayerWallPostsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrievePlayerWallPostsResponseProto*) buildPartial {
+  RetrievePlayerWallPostsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeFrom:(RetrievePlayerWallPostsResponseProto*) other {
+  if (other == [RetrievePlayerWallPostsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasRelevantUserId) {
+    [self setRelevantUserId:other.relevantUserId];
+  }
+  if (other.hasBeforeThisPostId) {
+    [self setBeforeThisPostId:other.beforeThisPostId];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.mutablePlayerWallPostsList.count > 0) {
+    if (result.mutablePlayerWallPostsList == nil) {
+      result.mutablePlayerWallPostsList = [NSMutableArray array];
+    }
+    [result.mutablePlayerWallPostsList addObjectsFromArray:other.mutablePlayerWallPostsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setRelevantUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setBeforeThisPostId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        int32_t value = [input readEnum];
+        if (RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:4 value:value];
+        }
+        break;
+      }
+      case 42: {
+        PlayerWallPostProto_Builder* subBuilder = [PlayerWallPostProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addPlayerWallPosts:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasRelevantUserId {
+  return result.hasRelevantUserId;
+}
+- (int32_t) relevantUserId {
+  return result.relevantUserId;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) setRelevantUserId:(int32_t) value {
+  result.hasRelevantUserId = YES;
+  result.relevantUserId = value;
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearRelevantUserId {
+  result.hasRelevantUserId = NO;
+  result.relevantUserId = 0;
+  return self;
+}
+- (BOOL) hasBeforeThisPostId {
+  return result.hasBeforeThisPostId;
+}
+- (int32_t) beforeThisPostId {
+  return result.beforeThisPostId;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) setBeforeThisPostId:(int32_t) value {
+  result.hasBeforeThisPostId = YES;
+  result.beforeThisPostId = value;
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearBeforeThisPostId {
+  result.hasBeforeThisPostId = NO;
+  result.beforeThisPostId = 0;
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus) status {
+  return result.status;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) setStatus:(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess;
+  return self;
+}
+- (NSArray*) playerWallPostsList {
+  if (result.mutablePlayerWallPostsList == nil) { return [NSArray array]; }
+  return result.mutablePlayerWallPostsList;
+}
+- (PlayerWallPostProto*) playerWallPostsAtIndex:(int32_t) index {
+  return [result playerWallPostsAtIndex:index];
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) replacePlayerWallPostsAtIndex:(int32_t) index with:(PlayerWallPostProto*) value {
+  [result.mutablePlayerWallPostsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) addAllPlayerWallPosts:(NSArray*) values {
+  if (result.mutablePlayerWallPostsList == nil) {
+    result.mutablePlayerWallPostsList = [NSMutableArray array];
+  }
+  [result.mutablePlayerWallPostsList addObjectsFromArray:values];
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) clearPlayerWallPostsList {
+  result.mutablePlayerWallPostsList = nil;
+  return self;
+}
+- (RetrievePlayerWallPostsResponseProto_Builder*) addPlayerWallPosts:(PlayerWallPostProto*) value {
+  if (result.mutablePlayerWallPostsList == nil) {
+    result.mutablePlayerWallPostsList = [NSMutableArray array];
+  }
+  [result.mutablePlayerWallPostsList addObject:value];
   return self;
 }
 @end

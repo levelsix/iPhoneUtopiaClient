@@ -87,4 +87,8 @@
 - (void) retrieveEquipsForUser:(int)userId;
 - (void) retrieveUsersForUserIds:(NSArray *)userIds;
 
+- (void) retrieveMostRecentWallPostsForPlayer:(int)playerId;
+- (void) retrieveWallPostsForPlayer:(int)playerId beforePostId:(int)postId;
+- (void) postToPlayerWall:(int)playerId withContent:(NSString *)content;
+
 @end

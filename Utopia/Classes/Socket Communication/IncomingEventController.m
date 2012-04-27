@@ -161,6 +161,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSReferralCodeUsedEvent:
       responseClass = [ReferralCodeUsedResponseProto class];
       break;
+    case EventProtocolResponseSRetrievePlayerWallPosts:
+      responseClass = [RetrievePlayerWallPostsResponseProto class];
+      break;
+    case EventProtocolResponseSPostOnPlayerWall:
+      responseClass = [PostOnPlayerWallResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -302,6 +308,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       un = [[UserNotification alloc] initReferralNotificationAtStartup:p];
       [gs addNotification:un];
       [un release];
+    }
+    
+    for (PlayerWallPostProto *wallPost in proto.playerWallPostNotificationsList) {
+      [gs addWallPost:wallPost];
     }
     
     if (gs.isTutorial) {
@@ -845,6 +855,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward!", proto.neutralCityElement.name, fcp.name];
     
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
+    [Globals bounceView:qcv.mainView fadeInBgdView:qcv.bgdView];
     
     [Analytics questComplete:proto.questId];
   } else {
@@ -887,6 +898,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [un release];
   
   [Analytics receivedNotification];
+}
+
+- (void) handleRetrievePlayerWallPostsResponseProto:(RetrievePlayerWallPostsResponseProto *)proto {
+  LNLog(@"Retrieve player wall response received with status %d.", proto.status);
+  
+  if (proto.status == RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"Server failed to send back wall posts."];
+  }
+}
+
+- (void) handlePostOnPlayerWallResponseProto:(PostOnPlayerWallResponseProto *)proto {
+  LNLog(@"Post on player wall response received with status %d.", proto.status);
+  
+  if (proto.status == PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess) {
+    
+  } else {
+    [Globals popupMessage:@"Server failed to send post on wall."];
+  }
 }
 
 @end

@@ -123,6 +123,7 @@
 + (NSString *) shortenedStringForRarity:(FullEquipProto_Rarity)rarity;
 + (NSString *) factionForUserType:(UserType)type;
 + (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type;
++ (NSString *) stringForEquipType:(FullEquipProto_EquipType)type;
 + (NSString *) classForUserType:(UserType)type;
 + (UIImage *) squareImageForUser:(UserType)type;
 + (UIImage *) circleImageForUser:(UserType)type;
@@ -131,6 +132,7 @@
 + (NSString *) headshotImageNameForUser:(UserType)type;
 + (NSString *) spriteImageNameForUser:(UserType)type;
 + (NSString *) battleAnimationFileForUser:(UserType)type;
++ (NSString *) stringForTimeSinceNow:(NSDate *)date;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
 + (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct;
 + (BOOL) canEquip:(FullEquipProto *)fep;

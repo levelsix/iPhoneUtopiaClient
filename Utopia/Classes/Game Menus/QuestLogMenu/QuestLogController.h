@@ -12,6 +12,8 @@
 
 @interface QuestCompleteView : UIView
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UILabel *questNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *visitDescLabel;
 

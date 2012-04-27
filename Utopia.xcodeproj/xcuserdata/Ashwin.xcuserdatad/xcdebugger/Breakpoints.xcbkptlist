@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
-         timestampString = "356477027.302263"
+         timestampString = "357216807.44193"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "682"
-         endingLineNumber = "682"
+         startingLineNumber = "775"
+         endingLineNumber = "775"
          landmarkName = "-finishedEquippingAnimation"
          landmarkType = "5">
       </FileBreakpoint>
@@ -66,6 +66,19 @@
          startingLineNumber = "391"
          endingLineNumber = "391"
          landmarkName = "-fadeOutToolTip:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Game Menus/QuestLogMenu/QuestLogController.m"
+         timestampString = "356933051.153693"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "32"
+         endingLineNumber = "32"
+         landmarkName = "-dealloc"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

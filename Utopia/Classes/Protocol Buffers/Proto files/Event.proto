@@ -134,6 +134,7 @@ message StartupResponseProto {
 	repeated MarketplacePostPurchasedNotificationProto marketplacePurchaseNotifications = 12;
 	repeated AttackedNotificationProto attackNotifications = 13;
 	repeated ReferralNotificationProto referralNotifications = 14;
+	repeated PlayerWallPostProto playerWallPostNotifications = 19;
 	
 	optional string appStoreURL = 17;
 
@@ -156,7 +157,7 @@ message StartupResponseProto {
 		optional int64 recruitTime = 2;
 		optional int32 coinsGivenToReferrer = 3;
 	}
-	  
+		  
 	message StartupConstants {
 	  	repeated string productIds = 1;
 	  	repeated int32 productDiamondsGiven = 2;
@@ -222,6 +223,8 @@ message StartupResponseProto {
 		
 		optional FormulaConstants formulaConstants = 59;
 		optional BattleConstants battleConstants = 60;
+
+		optional int32 maxCharLengthForWallPost = 61;
 		
 		message FormulaConstants {
 			optional double minutesToUpgradeForNormStructMultiplier = 1;
@@ -1281,12 +1284,59 @@ message PurgeClientStaticDataResponseProto {
 
 //------------------------------------------------------------------------------------------
 
+																						//DONE
 message RetrieveUsersForUserIdsRequestProto {
     optional MinimumUserProto sender = 1;
 	repeated int32 requestedUserIds = 2;
 }
 
+																						//DONE
 message RetrieveUsersForUserIdsResponseProto {
     optional MinimumUserProto sender = 1;
 	repeated FullUserProto requestedUsers = 2;
+}
+
+//------------------------------------------------------------------------------------------
+
+																						//DONE
+message PostOnPlayerWallRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 wallOwnerId = 2;
+	optional string content = 3;
+}
+
+																						//DONE
+message PostOnPlayerWallResponseProto {
+	 optional MinimumUserProto sender = 1;
+     optional PostOnPlayerWallStatus status = 2;
+	 optional PlayerWallPostProto post = 3;
+	
+     enum PostOnPlayerWallStatus {
+     	SUCCESS = 0;
+     	NO_CONTENT_SENT = 1;
+     	POST_TOO_LARGE = 2;
+     	OTHER_FAIL = 3;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+
+message RetrievePlayerWallPostsRequestProto {
+	optional MinimumUserProto sender = 1;
+	optional int32 relevantUserId = 2;
+	optional int32 beforeThisPostId = 3;
+}
+
+message RetrievePlayerWallPostsResponseProto {
+     optional MinimumUserProto sender = 1;
+     optional int32 relevantUserId = 2;
+     optional int32 beforeThisPostId = 3;
+	 optional RetrievePlayerWallPostsStatus status = 4;
+     
+     repeated PlayerWallPostProto playerWallPosts = 5;
+     
+     enum RetrievePlayerWallPostsStatus {
+     	SUCCESS = 0;
+     	OTHER_FAIL = 1;
+     }
 }

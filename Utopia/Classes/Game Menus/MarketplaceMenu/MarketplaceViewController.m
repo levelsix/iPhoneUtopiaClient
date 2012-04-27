@@ -135,7 +135,7 @@
   self.defStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.defenseBoost];
   self.postTitle.text = proto.postedEquip.name;
   self.postTitle.textColor = [Globals colorForRarity:proto.postedEquip.rarity];
-//  self.itemImageView.image = [Globals imageForEquip:proto.postedEquip.equipId];
+  //  self.itemImageView.image = [Globals imageForEquip:proto.postedEquip.equipId];
   [Globals loadImageForEquip:proto.postedEquip.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = proto;
   self.equip = nil;
@@ -155,7 +155,7 @@
   self.postTitle.textColor = [Globals colorForRarity:fullEq.rarity];
   self.quantityLabel.text = [NSString stringWithFormat:@"x%d", eq.quantity];
   self.quantityLabel.textColor = [Globals colorForRarity:fullEq.rarity];
-//  self.itemImageView.image = [Globals imageForEquip:fullEq.equipId];
+  //  self.itemImageView.image = [Globals imageForEquip:fullEq.equipId];
   [Globals loadImageForEquip:fullEq.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = nil;
   self.equip = eq;
@@ -189,6 +189,84 @@
   self.quantityLabel = nil;
   self.quantityBackground = nil;
   self.leatherBackground = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation MarketPurchaseView
+
+@synthesize titleLabel, descriptionLabel, classLabel, attackLabel, defenseLabel;
+@synthesize typeLabel, levelLabel, priceIcon, playerNameLabel;
+@synthesize equipIcon, priceLabel, wrongClassView, tooLowLevelView;
+@synthesize mainView, bgdView;
+
+- (void) updateForMarketPost:(FullMarketplacePostProto *)mktPost {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = mktPost.postedEquip;
+  
+  titleLabel.text = fep.name;
+  titleLabel.textColor = [Globals colorForRarity:fep.rarity];
+  descriptionLabel.text = fep.description;
+  classLabel.text = [Globals stringForEquipClassType:fep.classType];
+  typeLabel.text = [Globals stringForEquipType:fep.equipType];
+  attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+  levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
+  
+  if ([Globals sellsForGoldInMarketplace:fep]) {
+    priceIcon.highlighted = YES;
+    priceLabel.text = [NSString stringWithFormat:@"%d", mktPost.diamondCost];
+  } else {
+    priceIcon.highlighted = NO;
+    priceLabel.text = [NSString stringWithFormat:@"%d", mktPost.coinCost];
+  }
+  
+  [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
+  
+  if ([Globals class:gs.type canEquip:fep.classType]) {
+    wrongClassView.hidden = YES;
+  } else {
+    wrongClassView.hidden = NO;
+  }
+  
+  if (gs.level >= fep.minLevel) {
+    tooLowLevelView.hidden = YES;
+  } else {
+    tooLowLevelView.hidden = NO;
+  }
+}
+
+- (IBAction)wrongClassClicked:(id)sender {
+  [Globals popupMessage:[NSString stringWithFormat:@"The %@ is only equippable by %@s.", titleLabel.text, classLabel.text]];
+}
+
+- (IBAction)tooLowLevelClicked:(id)sender {
+  [Globals popupMessage:[NSString stringWithFormat:@"The %@ is only equippable at Level %@.", titleLabel.text, levelLabel.text]];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
+    [self removeFromSuperview];
+  }];
+}
+
+- (void) dealloc {
+  self.titleLabel = nil;
+  self.descriptionLabel = nil;
+  self.classLabel = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.typeLabel = nil;
+  self.levelLabel = nil;
+  self.priceLabel = nil;
+  self.playerNameLabel = nil;
+  self.equipIcon = nil;
+  self.priceIcon = nil;
+  self.wrongClassView = nil;
+  self.tooLowLevelView = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
   [super dealloc];
 }
 
@@ -232,6 +310,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize ropeView, leftRope, rightRope, leftRopeFirstRow, rightRopeFirstRow;
 @synthesize shortLicenseCost, shortLicenseLength, longLicenseCost, longLicenseLength;
 @synthesize loadingView;
+@synthesize purchView;
+@synthesize licenseBgdView, licenseMainView;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -360,22 +440,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     [post.priceField becomeFirstResponder];
   } else {
     [self.view addSubview:self.purchLicenseView];
-    
-    purchLicenseView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
-    purchLicenseView.hidden = NO;
-    
-    [UIView animateWithDuration:0.3f animations:^{
-      purchLicenseView.transform = CGAffineTransformMakeScale(1, 1);
-    }];
+    [Globals bounceView:self.licenseMainView fadeInBgdView:self.licenseBgdView];
     
     [Analytics licensePopup];
   }
 }
 
 - (IBAction)closePurchLicenseView:(id)sender {
-  [UIView animateWithDuration:0.3f animations:^{
-    purchLicenseView.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
-  } completion:^(BOOL finished) {
+  [Globals popOutView:self.licenseMainView fadeOutBgdView:self.licenseBgdView completion:^(void) {
     [purchLicenseView removeFromSuperview];
   }];
 }
@@ -694,6 +766,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (self.state == kEquipBuyingState) {
+    ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
+    [self.purchView updateForMarketPost:cell.mktProto];
+    [self.view addSubview:self.purchView];
+    [Globals bounceView:self.purchView.mainView fadeInBgdView:self.purchView.bgdView];
+  }
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   // Refresh table when we get low enough
   if (scrollView.contentOffset.y > scrollView.contentSize.height-scrollView.frame.size.height-REFRESH_ROWS*self.postsTableView.rowHeight) {
@@ -754,7 +835,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if ([str length] > PRICE_DIGITS) {
     return NO;
   }
-  [[(NiceFontTextField *)textField label] setText:str];
   return YES;
 }
 
@@ -961,6 +1041,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.longLicenseCost = nil;
   self.longLicenseLength = nil;
   self.loadingView = nil;
+  self.purchView = nil;
+  self.licenseBgdView = nil;
+  self.licenseMainView = nil;
 }
 
 @end

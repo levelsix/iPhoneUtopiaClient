@@ -58,6 +58,8 @@
 @class MinimumUserUpgradeStructJobProto_Builder;
 @class NeutralCityElementProto;
 @class NeutralCityElementProto_Builder;
+@class PlayerWallPostProto;
+@class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
 @class UpgradeStructJobProto;
@@ -3314,5 +3316,91 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (DialogueProto_Builder*) addSpeechSegment:(DialogueProto_SpeechSegmentProto*) value;
 - (DialogueProto_Builder*) addAllSpeechSegment:(NSArray*) values;
 - (DialogueProto_Builder*) clearSpeechSegmentList;
+@end
+
+@interface PlayerWallPostProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfPost_:1;
+  BOOL hasId_:1;
+  BOOL hasWallOwnerId_:1;
+  BOOL hasContent_:1;
+  BOOL hasPoster_:1;
+  int64_t timeOfPost;
+  int32_t id;
+  int32_t wallOwnerId;
+  NSString* content;
+  MinimumUserProto* poster;
+}
+- (BOOL) hasId;
+- (BOOL) hasPoster;
+- (BOOL) hasWallOwnerId;
+- (BOOL) hasTimeOfPost;
+- (BOOL) hasContent;
+@property (readonly) int32_t id;
+@property (readonly, retain) MinimumUserProto* poster;
+@property (readonly) int32_t wallOwnerId;
+@property (readonly) int64_t timeOfPost;
+@property (readonly, retain) NSString* content;
+
++ (PlayerWallPostProto*) defaultInstance;
+- (PlayerWallPostProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (PlayerWallPostProto_Builder*) builder;
++ (PlayerWallPostProto_Builder*) builder;
++ (PlayerWallPostProto_Builder*) builderWithPrototype:(PlayerWallPostProto*) prototype;
+
++ (PlayerWallPostProto*) parseFromData:(NSData*) data;
++ (PlayerWallPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PlayerWallPostProto*) parseFromInputStream:(NSInputStream*) input;
++ (PlayerWallPostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (PlayerWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (PlayerWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface PlayerWallPostProto_Builder : PBGeneratedMessage_Builder {
+@private
+  PlayerWallPostProto* result;
+}
+
+- (PlayerWallPostProto*) defaultInstance;
+
+- (PlayerWallPostProto_Builder*) clear;
+- (PlayerWallPostProto_Builder*) clone;
+
+- (PlayerWallPostProto*) build;
+- (PlayerWallPostProto*) buildPartial;
+
+- (PlayerWallPostProto_Builder*) mergeFrom:(PlayerWallPostProto*) other;
+- (PlayerWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (PlayerWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasId;
+- (int32_t) id;
+- (PlayerWallPostProto_Builder*) setId:(int32_t) value;
+- (PlayerWallPostProto_Builder*) clearId;
+
+- (BOOL) hasPoster;
+- (MinimumUserProto*) poster;
+- (PlayerWallPostProto_Builder*) setPoster:(MinimumUserProto*) value;
+- (PlayerWallPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (PlayerWallPostProto_Builder*) mergePoster:(MinimumUserProto*) value;
+- (PlayerWallPostProto_Builder*) clearPoster;
+
+- (BOOL) hasWallOwnerId;
+- (int32_t) wallOwnerId;
+- (PlayerWallPostProto_Builder*) setWallOwnerId:(int32_t) value;
+- (PlayerWallPostProto_Builder*) clearWallOwnerId;
+
+- (BOOL) hasTimeOfPost;
+- (int64_t) timeOfPost;
+- (PlayerWallPostProto_Builder*) setTimeOfPost:(int64_t) value;
+- (PlayerWallPostProto_Builder*) clearTimeOfPost;
+
+- (BOOL) hasContent;
+- (NSString*) content;
+- (PlayerWallPostProto_Builder*) setContent:(NSString*) value;
+- (PlayerWallPostProto_Builder*) clearContent;
 @end
 

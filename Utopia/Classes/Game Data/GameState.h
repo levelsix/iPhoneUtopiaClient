@@ -79,8 +79,8 @@
   NSMutableDictionary *_availableQuests;
   
   NSMutableArray *_attackList;
-  
   NSMutableArray *_notifications;
+  NSMutableArray *_wallPosts;
 }
 
 @property (assign) BOOL isTutorial;
@@ -153,6 +153,7 @@
 
 @property (retain) NSMutableArray *attackList;
 @property (retain) NSMutableArray *notifications;
+@property (retain) NSMutableArray *wallPosts;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
@@ -172,6 +173,7 @@
 - (void) addToAvailableQuests:(NSArray *)quests;
 - (void) addToInProgressQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
+- (void) addWallPost:(PlayerWallPostProto *)wallPost;
 
 - (UserEquip *) myEquipWithId:(int)equipId;
 - (UserStruct *) myStructWithId:(int)structId;

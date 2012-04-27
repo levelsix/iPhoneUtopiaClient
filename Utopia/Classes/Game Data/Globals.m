@@ -283,14 +283,65 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type {
-  if (type % 3 == 0) {
+  if (type == FullEquipProto_ClassTypeWarrior) {
     return @"Warrior";
-  } else if (type % 3 == 1) {
+  } else if (type == FullEquipProto_ClassTypeArcher) {
     return @"Archer";
-  } else if (type % 3 == 2) {
+  } else if (type == FullEquipProto_ClassTypeMage) {
     return @"Mage";
+  } else if (type == FullEquipProto_ClassTypeAllAmulet) {
+    return @"All";
   }
   return nil;
+}
+
++ (NSString *) stringForEquipType:(FullEquipProto_EquipType)type {
+  if (type == FullEquipProto_EquipTypeWeapon) {
+    return @"Weapon";
+  } else if (type == FullEquipProto_EquipTypeArmor) {
+    return @"Armor";
+  } else if (type == FullEquipProto_EquipTypeAmulet) {
+    return @"Amulet";
+  }
+  return nil;
+}
+
++ (NSString *) stringForTimeSinceNow:(NSDate *)date {
+  int time = [date timeIntervalSinceNow];
+  
+  int interval = 1;
+  if (time < interval*60) {
+    return [NSString stringWithFormat:@"%d second%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  } 
+  
+  interval *= 60;
+  if (time < interval*60) {
+    return [NSString stringWithFormat:@"%d minute%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  }
+  
+  interval *= 60;
+  if (time < interval*24) {
+    return [NSString stringWithFormat:@"%d hour%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  }
+  
+  interval *= 24;
+  if (time < interval*7) {
+    return [NSString stringWithFormat:@"%d day%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  }
+  
+  interval *= 7;
+  if (time < interval*4) {
+    return [NSString stringWithFormat:@"%d week%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  }
+  
+  // Approximate the size of a month to 30 days
+  interval = interval/7*30;
+  if (time < interval*12) {
+    return [NSString stringWithFormat:@"%d month%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
+  }
+  
+  interval = interval/30*365;
+  return [NSString stringWithFormat:@"%d year%@ ago", time / interval, time / interval != 1 ? @"s" : @""];
 }
 
 + (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct {

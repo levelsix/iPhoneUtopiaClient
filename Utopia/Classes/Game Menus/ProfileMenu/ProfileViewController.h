@@ -106,6 +106,31 @@ typedef enum {
 
 @end
 
+@interface WallPostCell : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet UIButton *playerIcon;
+@property (nonatomic, retain) IBOutlet UIButton *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *postLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
+
+@property (nonatomic, retain) CAGradientLayer *gradientLayer;
+
+@end
+
+@interface WallTabView : UIView <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+
+@property (nonatomic, retain) IBOutlet NiceFontTextField *wallTextField;
+@property (nonatomic, retain) IBOutlet UITableView *wallTableView;
+@property (nonatomic, retain) IBOutlet WallPostCell *postCell;
+
+@property (nonatomic, retain) NSArray *wallPosts;
+
+- (void) endEditing;
+
+@end
+
 @interface ProfileViewController : UIViewController {
   ProfileState _state;
   EquipScope _curScope;
@@ -151,6 +176,7 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIView *equipTabView;
 @property (nonatomic, retain) IBOutlet UIView *skillTabView;
+@property (nonatomic, retain) IBOutlet WallTabView *wallTabView;
 
 @property (nonatomic, assign) ProfileState state;
 @property (nonatomic, assign) EquipScope curScope;

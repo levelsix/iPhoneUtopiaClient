@@ -13103,3 +13103,353 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 @end
 
+@interface PlayerWallPostProto ()
+@property int32_t id;
+@property (retain) MinimumUserProto* poster;
+@property int32_t wallOwnerId;
+@property int64_t timeOfPost;
+@property (retain) NSString* content;
+@end
+
+@implementation PlayerWallPostProto
+
+- (BOOL) hasId {
+  return !!hasId_;
+}
+- (void) setHasId:(BOOL) value {
+  hasId_ = !!value;
+}
+@synthesize id;
+- (BOOL) hasPoster {
+  return !!hasPoster_;
+}
+- (void) setHasPoster:(BOOL) value {
+  hasPoster_ = !!value;
+}
+@synthesize poster;
+- (BOOL) hasWallOwnerId {
+  return !!hasWallOwnerId_;
+}
+- (void) setHasWallOwnerId:(BOOL) value {
+  hasWallOwnerId_ = !!value;
+}
+@synthesize wallOwnerId;
+- (BOOL) hasTimeOfPost {
+  return !!hasTimeOfPost_;
+}
+- (void) setHasTimeOfPost:(BOOL) value {
+  hasTimeOfPost_ = !!value;
+}
+@synthesize timeOfPost;
+- (BOOL) hasContent {
+  return !!hasContent_;
+}
+- (void) setHasContent:(BOOL) value {
+  hasContent_ = !!value;
+}
+@synthesize content;
+- (void) dealloc {
+  self.poster = nil;
+  self.content = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.id = 0;
+    self.poster = [MinimumUserProto defaultInstance];
+    self.wallOwnerId = 0;
+    self.timeOfPost = 0L;
+    self.content = @"";
+  }
+  return self;
+}
+static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
++ (void) initialize {
+  if (self == [PlayerWallPostProto class]) {
+    defaultPlayerWallPostProtoInstance = [[PlayerWallPostProto alloc] init];
+  }
+}
++ (PlayerWallPostProto*) defaultInstance {
+  return defaultPlayerWallPostProtoInstance;
+}
+- (PlayerWallPostProto*) defaultInstance {
+  return defaultPlayerWallPostProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasId) {
+    [output writeInt32:1 value:self.id];
+  }
+  if (self.hasPoster) {
+    [output writeMessage:2 value:self.poster];
+  }
+  if (self.hasWallOwnerId) {
+    [output writeInt32:3 value:self.wallOwnerId];
+  }
+  if (self.hasTimeOfPost) {
+    [output writeInt64:4 value:self.timeOfPost];
+  }
+  if (self.hasContent) {
+    [output writeString:5 value:self.content];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasId) {
+    size += computeInt32Size(1, self.id);
+  }
+  if (self.hasPoster) {
+    size += computeMessageSize(2, self.poster);
+  }
+  if (self.hasWallOwnerId) {
+    size += computeInt32Size(3, self.wallOwnerId);
+  }
+  if (self.hasTimeOfPost) {
+    size += computeInt64Size(4, self.timeOfPost);
+  }
+  if (self.hasContent) {
+    size += computeStringSize(5, self.content);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (PlayerWallPostProto*) parseFromData:(NSData*) data {
+  return (PlayerWallPostProto*)[[[PlayerWallPostProto builder] mergeFromData:data] build];
+}
++ (PlayerWallPostProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PlayerWallPostProto*)[[[PlayerWallPostProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (PlayerWallPostProto*) parseFromInputStream:(NSInputStream*) input {
+  return (PlayerWallPostProto*)[[[PlayerWallPostProto builder] mergeFromInputStream:input] build];
+}
++ (PlayerWallPostProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PlayerWallPostProto*)[[[PlayerWallPostProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PlayerWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (PlayerWallPostProto*)[[[PlayerWallPostProto builder] mergeFromCodedInputStream:input] build];
+}
++ (PlayerWallPostProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (PlayerWallPostProto*)[[[PlayerWallPostProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (PlayerWallPostProto_Builder*) builder {
+  return [[[PlayerWallPostProto_Builder alloc] init] autorelease];
+}
++ (PlayerWallPostProto_Builder*) builderWithPrototype:(PlayerWallPostProto*) prototype {
+  return [[PlayerWallPostProto builder] mergeFrom:prototype];
+}
+- (PlayerWallPostProto_Builder*) builder {
+  return [PlayerWallPostProto builder];
+}
+@end
+
+@interface PlayerWallPostProto_Builder()
+@property (retain) PlayerWallPostProto* result;
+@end
+
+@implementation PlayerWallPostProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[PlayerWallPostProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (PlayerWallPostProto_Builder*) clear {
+  self.result = [[[PlayerWallPostProto alloc] init] autorelease];
+  return self;
+}
+- (PlayerWallPostProto_Builder*) clone {
+  return [PlayerWallPostProto builderWithPrototype:result];
+}
+- (PlayerWallPostProto*) defaultInstance {
+  return [PlayerWallPostProto defaultInstance];
+}
+- (PlayerWallPostProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (PlayerWallPostProto*) buildPartial {
+  PlayerWallPostProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (PlayerWallPostProto_Builder*) mergeFrom:(PlayerWallPostProto*) other {
+  if (other == [PlayerWallPostProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasId) {
+    [self setId:other.id];
+  }
+  if (other.hasPoster) {
+    [self mergePoster:other.poster];
+  }
+  if (other.hasWallOwnerId) {
+    [self setWallOwnerId:other.wallOwnerId];
+  }
+  if (other.hasTimeOfPost) {
+    [self setTimeOfPost:other.timeOfPost];
+  }
+  if (other.hasContent) {
+    [self setContent:other.content];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (PlayerWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (PlayerWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setId:[input readInt32]];
+        break;
+      }
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasPoster) {
+          [subBuilder mergeFrom:self.poster];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPoster:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        [self setWallOwnerId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setTimeOfPost:[input readInt64]];
+        break;
+      }
+      case 42: {
+        [self setContent:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasId {
+  return result.hasId;
+}
+- (int32_t) id {
+  return result.id;
+}
+- (PlayerWallPostProto_Builder*) setId:(int32_t) value {
+  result.hasId = YES;
+  result.id = value;
+  return self;
+}
+- (PlayerWallPostProto_Builder*) clearId {
+  result.hasId = NO;
+  result.id = 0;
+  return self;
+}
+- (BOOL) hasPoster {
+  return result.hasPoster;
+}
+- (MinimumUserProto*) poster {
+  return result.poster;
+}
+- (PlayerWallPostProto_Builder*) setPoster:(MinimumUserProto*) value {
+  result.hasPoster = YES;
+  result.poster = value;
+  return self;
+}
+- (PlayerWallPostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setPoster:[builderForValue build]];
+}
+- (PlayerWallPostProto_Builder*) mergePoster:(MinimumUserProto*) value {
+  if (result.hasPoster &&
+      result.poster != [MinimumUserProto defaultInstance]) {
+    result.poster =
+      [[[MinimumUserProto builderWithPrototype:result.poster] mergeFrom:value] buildPartial];
+  } else {
+    result.poster = value;
+  }
+  result.hasPoster = YES;
+  return self;
+}
+- (PlayerWallPostProto_Builder*) clearPoster {
+  result.hasPoster = NO;
+  result.poster = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasWallOwnerId {
+  return result.hasWallOwnerId;
+}
+- (int32_t) wallOwnerId {
+  return result.wallOwnerId;
+}
+- (PlayerWallPostProto_Builder*) setWallOwnerId:(int32_t) value {
+  result.hasWallOwnerId = YES;
+  result.wallOwnerId = value;
+  return self;
+}
+- (PlayerWallPostProto_Builder*) clearWallOwnerId {
+  result.hasWallOwnerId = NO;
+  result.wallOwnerId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfPost {
+  return result.hasTimeOfPost;
+}
+- (int64_t) timeOfPost {
+  return result.timeOfPost;
+}
+- (PlayerWallPostProto_Builder*) setTimeOfPost:(int64_t) value {
+  result.hasTimeOfPost = YES;
+  result.timeOfPost = value;
+  return self;
+}
+- (PlayerWallPostProto_Builder*) clearTimeOfPost {
+  result.hasTimeOfPost = NO;
+  result.timeOfPost = 0L;
+  return self;
+}
+- (BOOL) hasContent {
+  return result.hasContent;
+}
+- (NSString*) content {
+  return result.content;
+}
+- (PlayerWallPostProto_Builder*) setContent:(NSString*) value {
+  result.hasContent = YES;
+  result.content = value;
+  return self;
+}
+- (PlayerWallPostProto_Builder*) clearContent {
+  result.hasContent = NO;
+  result.content = @"";
+  return self;
+}
+@end
+

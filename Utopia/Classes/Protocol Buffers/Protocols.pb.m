@@ -63,6 +63,8 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCChangeUserLocationEvent:
     case EventProtocolRequestCLoadNeutralCityEvent:
     case EventProtocolRequestCRetrieveUsersForUserIdsEvent:
+    case EventProtocolRequestCPostOnPlayerWall:
+    case EventProtocolRequestCRetrievePlayerWallPosts:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -112,6 +114,8 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSChangeUserLocationEvent:
     case EventProtocolResponseSLoadNeutralCityEvent:
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
+    case EventProtocolResponseSPostOnPlayerWall:
+    case EventProtocolResponseSRetrievePlayerWallPosts:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

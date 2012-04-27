@@ -1242,4 +1242,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:userIds];
 }
 
+- (void) retrieveMostRecentWallPostsForPlayer:(int)playerId {
+  [[SocketCommunication sharedSocketCommunication] sendRetrievePlayerWallPostsMessage:playerId beforePostId:0];
+}
+
+- (void) retrieveWallPostsForPlayer:(int)playerId beforePostId:(int)postId {
+  [[SocketCommunication sharedSocketCommunication] sendRetrievePlayerWallPostsMessage:playerId beforePostId:postId];
+}
+
+- (void) postToPlayerWall:(int)playerId withContent:(NSString *)content {
+  if (content.length <= 0) {
+    [Globals popupMessage:@"Attempting to post on player wall with no content"];
+    return;
+  }
+  
+  [[SocketCommunication sharedSocketCommunication] sendPostOnPlayerWallMessage:playerId withContent:content];
+}
+
 @end

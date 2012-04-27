@@ -21,6 +21,11 @@
 
 #define EQUIPPING_DURATION 0.5f
 
+#define WALL_POST_LABEL_MIN_Y 28.75
+#define WALL_POST_CELL_OFFSET 5
+#define WALL_POST_FONT [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:15]
+#define WALL_POST_LABEL_WIDTH 217
+
 @implementation ProfileBar
 
 @synthesize state = _state;
@@ -470,6 +475,142 @@
 
 @end
 
+@implementation WallPostCell
+
+@synthesize postLabel, playerIcon, nameLabel, timeLabel;
+@synthesize gradientLayer;
+
+- (void) awakeFromNib {
+  self.gradientLayer = [CAGradientLayer layer];
+  gradientLayer.frame = self.bounds;
+  UIColor *topColor = [UIColor colorWithRed:35/255.f green:35/255.f blue:35/255.f alpha:0.3f];
+  UIColor *botColor = [UIColor colorWithRed:12/255.f green:12/255.f blue:12/255.f alpha:0.3f];
+  gradientLayer.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[botColor CGColor], nil];
+  [self.contentView.layer insertSublayer:gradientLayer atIndex:0];
+}
+
+- (void) updateForWallPost:(PlayerWallPostProto *)wallPost {
+  [playerIcon setImage:[Globals squareImageForUser:wallPost.poster.userType] forState:UIControlStateNormal];
+  [nameLabel setTitle:wallPost.poster.name forState:UIControlStateNormal];
+  timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000]];
+  postLabel.text = wallPost.content;
+  
+  CGSize size = postLabel.frame.size;
+  size.height = 9999;
+  size = [postLabel.text sizeWithFont:postLabel.font constrainedToSize:size];
+  
+  CGRect rect = postLabel.frame;
+  rect.size.height = size.height;
+  postLabel.frame = rect;
+  
+  
+  NSLog(@"%f", rect.origin.y);
+  gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, CGRectGetMaxY(postLabel.frame)+WALL_POST_CELL_OFFSET);
+}
+
+- (void) dealloc {
+  self.postLabel = nil;
+  self.playerIcon = nil;
+  self.nameLabel = nil;
+  self.timeLabel = nil;
+  self.gradientLayer = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation WallTabView
+
+@synthesize spinner;
+@synthesize wallTableView, wallTextField, postCell;
+@synthesize wallPosts;
+
+- (void) awakeFromNib {
+  wallTextField.label.textColor = [UIColor whiteColor];
+
+  // This will prevent empty cells from being made when the page is not full..
+  UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+  wallTableView.tableFooterView = view;
+  [view release];
+}
+
+- (void) setWallPosts:(NSArray *)w {
+  if (wallPosts != w) {
+    [wallPosts release];
+    wallPosts = [w retain];
+    
+    if (wallPosts == nil) {
+      spinner.hidden = NO;
+      [spinner startAnimating];
+    } else {
+      [spinner stopAnimating];
+      spinner.hidden = YES;
+    }
+    
+    [self.wallTableView reloadData];
+  }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  [[(NiceFontTextField *)textField label] setText:str];
+  return YES;
+}
+
+- (void) endEditing {
+  if ([wallTextField isFirstResponder]) {
+    [wallTextField resignFirstResponder];
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self endEditing];
+}
+
+- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+  return 1;
+}
+
+- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return self.wallPosts.count;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  WallPostCell *cell = [tableView dequeueReusableCellWithIdentifier:@"WallPostCell"];
+  
+  if (!cell) {
+    [[NSBundle mainBundle] loadNibNamed:@"WallPostCell" owner:self options:nil];
+    cell = self.postCell;
+  }
+  
+  [cell updateForWallPost:[self.wallPosts objectAtIndex:indexPath.row]];
+  
+  return cell;
+}
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+  [self endEditing];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  PlayerWallPostProto *wallPost = [self.wallPosts objectAtIndex:indexPath.row];
+  
+  CGSize size = CGSizeMake(WALL_POST_LABEL_WIDTH, 9999);
+  size = [wallPost.content sizeWithFont:WALL_POST_FONT constrainedToSize:size];
+  
+  return WALL_POST_LABEL_MIN_Y+size.height+WALL_POST_CELL_OFFSET;
+}
+
+- (void) dealloc {
+  self.wallPosts = nil;
+  self.wallTableView = nil;
+  self.wallTextField = nil;
+  self.postCell = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation ProfileViewController
 
 @synthesize state = _state, curScope = _curScope;
@@ -479,7 +620,7 @@
 @synthesize profilePicture, profileBar;
 @synthesize equipViews, nibEquipView, equipsScrollView;
 @synthesize unequippableView, unequippableLabel;
-@synthesize equippingView, equipTabView, skillTabView;
+@synthesize equippingView, equipTabView, skillTabView, wallTabView;
 @synthesize attackStatLabel, defenseStatLabel, staminaStatLabel, energyStatLabel, hpStatLabel;
 @synthesize attackStatButton, defenseStatButton, staminaStatButton, energyStatButton, hpStatButton;
 @synthesize enemyAttackLabel, enemyMiddleView;
@@ -490,90 +631,6 @@
 @synthesize mainView, bgdView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
-
-- (void) viewDidUnload
-{
-  [super viewDidUnload];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
-  [_fup release];
-  self.userNameLabel = nil;
-  self.typeLabel = nil;
-  self.levelLabel = nil;
-  self.attackLabel = nil;
-  self.defenseLabel = nil;
-  self.codeLabel = nil;
-  self.winsLabel = nil;
-  self.lossesLabel = nil;
-  self.fleesLabel = nil;
-  self.curArmorView = nil;
-  self.curAmuletView = nil;
-  self.curWeaponView = nil;
-  self.profilePicture = nil;
-  self.profileBar = nil;
-  self.equipViews = nil;
-  self.nibEquipView = nil;
-  self.equipsScrollView = nil;
-  self.unequippableView = nil;
-  self.unequippableLabel = nil;
-  self.equippingView = nil;
-  self.equipTabView = nil;
-  self.skillTabView = nil;
-  self.attackStatLabel = nil;
-  self.defenseStatLabel = nil;
-  self.staminaStatLabel = nil;
-  self.energyStatLabel = nil;
-  self.hpStatLabel = nil;
-  self.attackStatButton = nil;
-  self.defenseStatButton = nil;
-  self.staminaStatButton = nil;
-  self.energyStatButton = nil;
-  self.hpStatButton = nil;
-  self.enemyAttackLabel = nil;
-  self.enemyMiddleView = nil;
-  self.staminaCostLabel = nil;
-  self.hpCostLabel = nil;
-  self.skillPointsLabel = nil;
-  self.selfLeftView = nil;
-  self.enemyLeftView = nil;
-  self.friendLeftView = nil;
-  self.visitButton = nil;
-  self.smallAttackButton = nil;
-  self.bigAttackButton = nil;
-  self.spinner = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-}
-
-- (void) setState:(ProfileState)state {
-  if (state != _state) {
-    
-    switch (state) {
-      case kEquipState:
-        equipTabView.hidden = NO;
-        skillTabView.hidden = YES;
-        [self.profileBar setProfileState:state];
-        break;
-        
-      case kSkillsState:
-        equipTabView.hidden = YES;
-        skillTabView.hidden = NO;
-        [self.profileBar setProfileState:state];
-        break;
-        
-      case kWallState:
-        [Globals popupMessage:@"Sorry, wall isn't quite ready yet. It's coming soon though!"];
-        [Analytics clickedProfileWall];
-        state = _state;
-        [self.profileBar setProfileState:state];
-        break;
-        
-      default:
-        break;
-    }
-    _state = state;
-  }
-}
 
 - (void) viewDidLoad
 {
@@ -590,6 +647,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   skillTabView.frame = equipTabView.frame;
   [self.mainView addSubview:skillTabView];
   
+  wallTabView.frame = equipTabView.frame;
+  [self.mainView addSubview:wallTabView];
+  
   enemyMiddleView.frame = equipsScrollView.frame;
   [equipTabView addSubview:enemyMiddleView];
   
@@ -605,6 +665,39 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self.spinner stopAnimating];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) setState:(ProfileState)state {
+  if (state != _state) {
+    
+    switch (state) {
+      case kEquipState:
+        equipTabView.hidden = NO;
+        skillTabView.hidden = YES;
+        wallTabView.hidden = YES;
+        [self.profileBar setProfileState:state];
+        break;
+        
+      case kSkillsState:
+        equipTabView.hidden = YES;
+        skillTabView.hidden = NO;
+        wallTabView.hidden = YES;
+        [self.profileBar setProfileState:state];
+        break;
+        
+      case kWallState:
+        equipTabView.hidden = YES;
+        skillTabView.hidden = YES;
+        wallTabView.hidden = NO;
+        [self.profileBar setProfileState:state];
+        break;
+        
+      default:
+        break;
+    }
+    _state = state;
+    [wallTabView endEditing];
+  }
 }
 
 - (void) setCurScope:(EquipScope)curScope {
@@ -1005,6 +1098,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   smallAttackButton.enabled = enabled;
   bigAttackButton.enabled = enabled;
   
+  wallTabView.wallPosts = nil;
+  
   if (_fup != fup) {
     [_fup release];
     _fup = [fup retain];
@@ -1020,7 +1115,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   attackLabel.text = [NSString stringWithFormat:@"%d", attack];
   defenseLabel.text = [NSString stringWithFormat:@"%d", defense];
-  
   
   if (fup.isFake) {
     // Fake the equips for fake players
@@ -1096,6 +1190,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   friendLeftView.hidden = YES;
   selfLeftView.hidden = NO;
   
+  wallTabView.wallPosts = [[GameState sharedGameState] wallPosts];
+  
   // Update calculate labels
   staminaCostLabel.text = [NSString stringWithFormat:@"(%d skill %@ = %d)", gl.staminaBaseCost, gl.staminaBaseCost != 1 ? @"points" : @"point", gl.staminaBaseGain];
   hpCostLabel.text = [NSString stringWithFormat:@"(%d skill %@ = %d)", gl.healthBaseCost, gl.healthBaseCost != 1 ? @"points" : @"point", gl.healthBaseGain];
@@ -1149,6 +1245,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (IBAction)closeClicked:(id)sender {
+  [self.wallTabView endEditing];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [ProfileViewController removeView];
   }];
@@ -1169,6 +1266,62 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   curWeaponView.selected = NO;
   curArmorView.selected = NO;
   curAmuletView.selected = NO;
+  [wallTabView endEditing];
+}
+
+- (void) viewDidUnload
+{
+  [super viewDidUnload];
+  // Release any retained subviews of the main view.
+  // e.g. self.myOutlet = nil;
+  [_fup release];
+  self.userNameLabel = nil;
+  self.typeLabel = nil;
+  self.levelLabel = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.codeLabel = nil;
+  self.winsLabel = nil;
+  self.lossesLabel = nil;
+  self.fleesLabel = nil;
+  self.curArmorView = nil;
+  self.curAmuletView = nil;
+  self.curWeaponView = nil;
+  self.profilePicture = nil;
+  self.profileBar = nil;
+  self.equipViews = nil;
+  self.nibEquipView = nil;
+  self.equipsScrollView = nil;
+  self.unequippableView = nil;
+  self.unequippableLabel = nil;
+  self.equippingView = nil;
+  self.equipTabView = nil;
+  self.skillTabView = nil;
+  self.wallTabView = nil;
+  self.attackStatLabel = nil;
+  self.defenseStatLabel = nil;
+  self.staminaStatLabel = nil;
+  self.energyStatLabel = nil;
+  self.hpStatLabel = nil;
+  self.attackStatButton = nil;
+  self.defenseStatButton = nil;
+  self.staminaStatButton = nil;
+  self.energyStatButton = nil;
+  self.hpStatButton = nil;
+  self.enemyAttackLabel = nil;
+  self.enemyMiddleView = nil;
+  self.staminaCostLabel = nil;
+  self.hpCostLabel = nil;
+  self.skillPointsLabel = nil;
+  self.selfLeftView = nil;
+  self.enemyLeftView = nil;
+  self.friendLeftView = nil;
+  self.visitButton = nil;
+  self.smallAttackButton = nil;
+  self.bigAttackButton = nil;
+  self.spinner = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
 }
 
 @end

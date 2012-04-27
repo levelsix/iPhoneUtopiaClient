@@ -55,6 +55,26 @@ typedef enum {
 
 @end
 
+@interface MarketPurchaseView : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, retain) IBOutlet UILabel *classLabel;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *playerNameLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *priceIcon;
+@property (nonatomic, retain) IBOutlet UIView *wrongClassView;
+@property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
+
+@end
+
 @interface MarketplaceLoadingView : UIView
 
 @property (nonatomic, retain) IBOutlet UIView *darkView;
@@ -94,10 +114,14 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIImageView *retractPriceIcon;
 
+@property (nonatomic, retain) IBOutlet UIView *licenseMainView;
+@property (nonatomic, retain) IBOutlet UIView *licenseBgdView;
 @property (nonatomic, retain) IBOutlet UILabel *shortLicenseCost;
 @property (nonatomic, retain) IBOutlet UILabel *longLicenseCost;
 @property (nonatomic, retain) IBOutlet UILabel *shortLicenseLength;
 @property (nonatomic, retain) IBOutlet UILabel *longLicenseLength;
+
+@property (nonatomic, retain) IBOutlet MarketPurchaseView *purchView;
 
 @property (nonatomic, assign) BOOL listing;
 

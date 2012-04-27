@@ -53,6 +53,15 @@
 
 @end
 
+@implementation NiceFontButton
+
+- (void) awakeFromNib {
+  [Globals adjustFontSizeForSize:self.titleLabel.font.pointSize withUIView:self];
+  self.titleLabel.font = [UIFont fontWithName:[Globals font] size:self.titleLabel.font.pointSize];
+}
+
+@end
+
 @implementation LabelButton
 
 @synthesize label = _label;
@@ -97,25 +106,67 @@
 
 @end
 
+@implementation NiceFontTextFieldDelegate
+@synthesize otherDelegate;
+
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  NiceFontTextField *nftf = (NiceFontTextField *)textField;
+  [nftf.label setText:str];
+  [nftf.label sizeToFit];
+  
+  if ([otherDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
+    return [otherDelegate textField:textField shouldChangeCharactersInRange:range replacementString:string];
+  }
+  return YES;
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+  if ([otherDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
+    [otherDelegate textFieldDidEndEditing:textField];
+  }
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+  if ([otherDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
+    [otherDelegate textFieldDidBeginEditing:textField];
+  }
+}
+
+- (void) dealloc {
+  self.otherDelegate = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation NiceFontTextField
 
-@synthesize label;
+@synthesize label, nfDelegate;
 
 - (void) awakeFromNib {
-  label = [[UILabel alloc] initWithFrame:self.frame];
-  [self.superview insertSubview:label belowSubview:self];
+  UIView *clipView = [[UIView alloc] initWithFrame:self.frame];
+//  [self.superview insertSubview:clipView belowSubview:self];
+  [clipView release];
+  
+  label = [[UILabel alloc] initWithFrame:self.bounds];
+//  [clipView addSubview:label];
+  
   self.font =  [UIFont fontWithName:[Globals font] size:self.font.pointSize];
   label.font = self.font;
   label.backgroundColor = [UIColor clearColor];
   [Globals adjustFontSizeForUILabel:label];
-  self.textColor = [UIColor clearColor];
-  label.textColor = [UIColor colorWithRed:65/255.f green:65/255.f blue:65/255.f alpha:1.f];
-  label.lineBreakMode = UILineBreakModeHeadTruncation;
+  label.textColor = self.textColor;
+  self.textColor = [UIColor whiteColor];
   
   //Adjust frame a bit
   CGRect f = self.frame;
-  f.origin.y += 2;
+  f.origin.y += 3;
   self.frame = f;
+  
+  nfDelegate = [[NiceFontTextFieldDelegate alloc] init];
+  nfDelegate.otherDelegate = self.delegate;
+  self.delegate = nfDelegate;
 }
 
 - (void) setText:(NSString *)text {
@@ -125,6 +176,7 @@
 
 - (void) dealloc {
   self.label = nil;
+  self.nfDelegate = nil;
   [super dealloc];
 }
 

@@ -1964,10 +1964,20 @@
 					<string key="className">QuestCompleteView</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bgdView">UIView</string>
+						<string key="mainView">UIView</string>
 						<string key="questNameLabel">UILabel</string>
 						<string key="visitDescLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bgdView">
+							<string key="name">bgdView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="mainView">
+							<string key="name">mainView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="questNameLabel">
 							<string key="name">questNameLabel</string>
 							<string key="candidateClassName">UILabel</string>
