@@ -316,7 +316,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (void) viewDidLoad {
   [super viewDidLoad];
   
-  UITableView *t= [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+  UITableView *t= [[CancellableTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
   t.separatorStyle = UITableViewCellSeparatorStyleNone;
   t.delegate = self;
   t.dataSource = self;
@@ -324,6 +324,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   t.frame = CGRectMake(0, topBar.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-topBar.frame.origin.y);
   t.showsVerticalScrollIndicator = NO;
   t.rowHeight = 55;
+  t.delaysContentTouches = NO;
   self.postsTableView = t;
   [t release];
   [self.view insertSubview:t belowSubview:topBar];
@@ -358,7 +359,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
   self.postsTableView.scrollEnabled = YES;
   
   [self setState:kEquipBuyingState];
@@ -586,7 +587,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (IBAction)listAnItemClicked:(id)sender {
   if (!_refreshing) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
     
     if (self.state == kEquipBuyingState) {
       self.state = kEquipSellingState;
@@ -600,7 +601,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (self.listing) {
       [self disableEditing];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
+      [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
       
       if (self.state == kEquipSellingState) {
         self.state = kEquipBuyingState;
@@ -988,9 +989,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (void) refresh {
   if (self.state == kEquipBuyingState) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPosts];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
   }
   [self.postsTableView reloadData];
   self.shouldReload = YES;

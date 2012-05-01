@@ -13104,7 +13104,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @end
 
 @interface PlayerWallPostProto ()
-@property int32_t id;
+@property int32_t playerWallPostId;
 @property (retain) MinimumUserProto* poster;
 @property int32_t wallOwnerId;
 @property int64_t timeOfPost;
@@ -13113,13 +13113,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @implementation PlayerWallPostProto
 
-- (BOOL) hasId {
-  return !!hasId_;
+- (BOOL) hasPlayerWallPostId {
+  return !!hasPlayerWallPostId_;
 }
-- (void) setHasId:(BOOL) value {
-  hasId_ = !!value;
+- (void) setHasPlayerWallPostId:(BOOL) value {
+  hasPlayerWallPostId_ = !!value;
 }
-@synthesize id;
+@synthesize playerWallPostId;
 - (BOOL) hasPoster {
   return !!hasPoster_;
 }
@@ -13155,7 +13155,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 }
 - (id) init {
   if ((self = [super init])) {
-    self.id = 0;
+    self.playerWallPostId = 0;
     self.poster = [MinimumUserProto defaultInstance];
     self.wallOwnerId = 0;
     self.timeOfPost = 0L;
@@ -13179,8 +13179,8 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
-  if (self.hasId) {
-    [output writeInt32:1 value:self.id];
+  if (self.hasPlayerWallPostId) {
+    [output writeInt32:1 value:self.playerWallPostId];
   }
   if (self.hasPoster) {
     [output writeMessage:2 value:self.poster];
@@ -13203,8 +13203,8 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
   }
 
   size = 0;
-  if (self.hasId) {
-    size += computeInt32Size(1, self.id);
+  if (self.hasPlayerWallPostId) {
+    size += computeInt32Size(1, self.playerWallPostId);
   }
   if (self.hasPoster) {
     size += computeMessageSize(2, self.poster);
@@ -13293,8 +13293,8 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
   if (other == [PlayerWallPostProto defaultInstance]) {
     return self;
   }
-  if (other.hasId) {
-    [self setId:other.id];
+  if (other.hasPlayerWallPostId) {
+    [self setPlayerWallPostId:other.playerWallPostId];
   }
   if (other.hasPoster) {
     [self mergePoster:other.poster];
@@ -13330,7 +13330,7 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setId:[input readInt32]];
+        [self setPlayerWallPostId:[input readInt32]];
         break;
       }
       case 18: {
@@ -13357,20 +13357,20 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
     }
   }
 }
-- (BOOL) hasId {
-  return result.hasId;
+- (BOOL) hasPlayerWallPostId {
+  return result.hasPlayerWallPostId;
 }
-- (int32_t) id {
-  return result.id;
+- (int32_t) playerWallPostId {
+  return result.playerWallPostId;
 }
-- (PlayerWallPostProto_Builder*) setId:(int32_t) value {
-  result.hasId = YES;
-  result.id = value;
+- (PlayerWallPostProto_Builder*) setPlayerWallPostId:(int32_t) value {
+  result.hasPlayerWallPostId = YES;
+  result.playerWallPostId = value;
   return self;
 }
-- (PlayerWallPostProto_Builder*) clearId {
-  result.hasId = NO;
-  result.id = 0;
+- (PlayerWallPostProto_Builder*) clearPlayerWallPostId {
+  result.hasPlayerWallPostId = NO;
+  result.playerWallPostId = 0;
   return self;
 }
 - (BOOL) hasPoster {

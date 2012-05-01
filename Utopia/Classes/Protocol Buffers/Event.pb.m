@@ -4258,6 +4258,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
 @property (retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
 @property int32_t maxCharLengthForWallPost;
+@property int32_t playerWallPostsRetrieveCap;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4621,6 +4622,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxCharLengthForWallPost_ = !!value;
 }
 @synthesize maxCharLengthForWallPost;
+- (BOOL) hasPlayerWallPostsRetrieveCap {
+  return !!hasPlayerWallPostsRetrieveCap_;
+}
+- (void) setHasPlayerWallPostsRetrieveCap:(BOOL) value {
+  hasPlayerWallPostsRetrieveCap_ = !!value;
+}
+@synthesize playerWallPostsRetrieveCap;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -4681,6 +4689,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.formulaConstants = [StartupResponseProto_StartupConstants_FormulaConstants defaultInstance];
     self.battleConstants = [StartupResponseProto_StartupConstants_BattleConstants defaultInstance];
     self.maxCharLengthForWallPost = 0;
+    self.playerWallPostsRetrieveCap = 0;
   }
   return self;
 }
@@ -4873,6 +4882,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxCharLengthForWallPost) {
     [output writeInt32:61 value:self.maxCharLengthForWallPost];
   }
+  if (self.hasPlayerWallPostsRetrieveCap) {
+    [output writeInt32:62 value:self.playerWallPostsRetrieveCap];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5050,6 +5062,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMaxCharLengthForWallPost) {
     size += computeInt32Size(61, self.maxCharLengthForWallPost);
+  }
+  if (self.hasPlayerWallPostsRetrieveCap) {
+    size += computeInt32Size(62, self.playerWallPostsRetrieveCap);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6139,6 +6154,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasMaxCharLengthForWallPost) {
     [self setMaxCharLengthForWallPost:other.maxCharLengthForWallPost];
   }
+  if (other.hasPlayerWallPostsRetrieveCap) {
+    [self setPlayerWallPostsRetrieveCap:other.playerWallPostsRetrieveCap];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6380,6 +6398,10 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
       }
       case 488: {
         [self setMaxCharLengthForWallPost:[input readInt32]];
+        break;
+      }
+      case 496: {
+        [self setPlayerWallPostsRetrieveCap:[input readInt32]];
         break;
       }
     }
@@ -7289,6 +7311,22 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxCharLengthForWallPost {
   result.hasMaxCharLengthForWallPost = NO;
   result.maxCharLengthForWallPost = 0;
+  return self;
+}
+- (BOOL) hasPlayerWallPostsRetrieveCap {
+  return result.hasPlayerWallPostsRetrieveCap;
+}
+- (int32_t) playerWallPostsRetrieveCap {
+  return result.playerWallPostsRetrieveCap;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setPlayerWallPostsRetrieveCap:(int32_t) value {
+  result.hasPlayerWallPostsRetrieveCap = YES;
+  result.playerWallPostsRetrieveCap = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearPlayerWallPostsRetrieveCap {
+  result.hasPlayerWallPostsRetrieveCap = NO;
+  result.playerWallPostsRetrieveCap = 0;
   return self;
 }
 @end

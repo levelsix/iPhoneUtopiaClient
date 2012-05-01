@@ -118,6 +118,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
+  
+  self.users = [NSMutableArray array];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -130,7 +132,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
     }
   }
   
-  self.users = nil;
+  [self.users removeAllObjects];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:userIds];
@@ -166,7 +168,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 }
 
 - (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto {
-  self.users = proto.requestedUsersList;
+  GameState *gs = [GameState sharedGameState];
+  NSArray *notifications = gs.notifications;
+  for (FullUserProto *fup in proto.requestedUsersList) {
+    for (UserNotification *un in notifications) {
+      if (un.otherPlayer.userId == fup.userId) {
+        [self.users addObject:fup];
+      }
+    }
+  }
 }
 
 - (void)viewDidUnload

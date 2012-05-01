@@ -29,6 +29,7 @@
 #import "ActivityFeedController.h"
 #import "GenericPopupController.h"
 #import "DialogMenuController.h"
+#import "ProfileViewController.h"
 
 @implementation IncomingEventController
 
@@ -462,7 +463,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Post to mkt response received with status %d", [proto status]);
   
   if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentPostsFromSender];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
   } else {
     [Globals popupMessage:@"Server failed to post item."];
   }
@@ -885,6 +886,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];
+  [[ProfileViewController sharedProfileViewController] receivedFullUserProtos:proto.requestedUsersList];
 }
 
 - (void) handleReferralCodeUsedResponseProto:(ReferralCodeUsedResponseProto *)proto {
@@ -904,7 +906,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Retrieve player wall response received with status %d.", proto.status);
   
   if (proto.status == RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess) {
-    
+    [[ProfileViewController sharedProfileViewController] receivedWallPosts:proto];
   } else {
     [Globals popupMessage:@"Server failed to send back wall posts."];
   }

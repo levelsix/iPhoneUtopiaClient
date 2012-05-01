@@ -307,7 +307,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) stringForTimeSinceNow:(NSDate *)date {
-  int time = [date timeIntervalSinceNow];
+  int time = -1*[date timeIntervalSinceNow];
+  
+  
+  if (time < 0) {
+    return @"In the future!";
+  }
   
   int interval = 1;
   if (time < interval*60) {

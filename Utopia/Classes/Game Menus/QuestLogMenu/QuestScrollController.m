@@ -502,7 +502,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestScrollController);
   taskView.alpha = 0.0;
   questDescView.alpha = 0.0;
   [questListView viewClicked:nil];
-  [questListView refresh];
+//  [questListView refresh];
   
   [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
   _curView = nil;

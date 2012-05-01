@@ -201,6 +201,7 @@
 @synthesize fep;
 @synthesize darkOverlay;
 @synthesize priceView, naLabel;
+@synthesize equippedTag;
 
 - (void) awakeFromNib {
   int offset = 5;
@@ -245,7 +246,13 @@
     priceView.hidden = YES;
     naLabel.hidden = NO;
   }
-//  equipIcon.image = [Globals imageForEquip:fep.equipId];
+  
+  GameState *gs = [GameState sharedGameState];
+  if (gs.weaponEquipped == fep.equipId || gs.armorEquipped == fep.equipId || gs.amuletEquipped == fep.equipId) {
+    equippedTag.hidden = NO;
+  } else {
+    equippedTag.hidden = YES;
+  }
   
   if ([Globals canEquip:fep]) {
     bgdView.highlighted = NO;
@@ -401,10 +408,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   self.coinBar = nil;
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
   [self closeBuySellViewClicked:nil];
-  self.armoryTableView.contentOffset = CGPointMake(0,0);
-  self.state = kWeaponState;
   [coinBar updateLabels];
   
   CGRect f = self.view.frame;
@@ -412,10 +417,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
     self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   }];
-  
-  [self.armoryBar clickButton:kWeaponButton];
-  [self.armoryBar unclickButton:kArmorButton];
-  [self.armoryBar unclickButton:kAmuletButton];
 }
 
 - (void) setState:(ArmoryState)state {

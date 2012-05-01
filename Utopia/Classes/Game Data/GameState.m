@@ -274,8 +274,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addWallPost:(PlayerWallPostProto *)wallPost {
   [self.wallPosts addObject:wallPost];
-  [self.notifications sortUsingComparator:^NSComparisonResult(PlayerWallPostProto *obj1, PlayerWallPostProto *obj2) {
-    if (obj1.timeOfPost > obj2.timeOfPost) {
+  [self.wallPosts sortUsingComparator:^NSComparisonResult(PlayerWallPostProto *obj1, PlayerWallPostProto *obj2) {
+    if (obj1.timeOfPost < obj2.timeOfPost) {
       return NSOrderedDescending;
     } else if (obj1.timeOfPost == obj2.timeOfPost) {
       return NSOrderedSame;

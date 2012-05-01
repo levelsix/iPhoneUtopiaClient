@@ -430,8 +430,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     } else {
       _redeemQuestPhase = YES;
       
-      GameState *gs = [GameState sharedGameState];
-      StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
+//      GameState *gs = [GameState sharedGameState];
+//      StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
 //      QuestCompleteView *qcv = [[TutorialQuestLogController sharedQuestLogController] createQuestCompleteView];
 //      qcv.questNameLabel.text = [Globals userTypeIsGood:gs.type] ? tutQuest.goodName : tutQuest.badName;
 //      qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in Kirin Village to redeem your reward.", tc.questGiverName];

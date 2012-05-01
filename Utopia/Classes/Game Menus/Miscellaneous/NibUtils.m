@@ -133,6 +133,13 @@
   }
 }
 
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  if ([otherDelegate respondsToSelector:@selector(textFieldShouldReturn:)]) {
+    return [otherDelegate textFieldShouldReturn:textField];
+  }
+  return NO;
+}
+
 - (void) dealloc {
   self.otherDelegate = nil;
   [super dealloc];
@@ -249,6 +256,14 @@
   self.contentMode = UIViewContentModeScaleToFill;
   NSString *imageName = [Globals userTypeIsGood:gs.type] ? @"goodgirltall.png" : @"badgirltall.png";
   self.image = [Globals imageNamed:imageName];
+}
+
+@end
+
+@implementation CancellableTableView
+
+- (BOOL) touchesShouldCancelInContentView:(UIView *)view {
+  return YES;
 }
 
 @end

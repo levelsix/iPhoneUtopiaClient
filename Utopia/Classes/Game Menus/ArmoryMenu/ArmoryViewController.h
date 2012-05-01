@@ -48,6 +48,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *maskedEquipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *equippedTag;
 
 @property (nonatomic, retain) IBOutlet UIView *priceView;
 @property (nonatomic, retain) IBOutlet UILabel *naLabel;

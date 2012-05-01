@@ -2352,6 +2352,7 @@
 						<string key="NSFrame">{{220, 3}, {57, 34}}</string>
 						<reference key="NSSuperview" ref="180625529"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="498318348"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -2376,6 +2377,7 @@
 						<string key="NSFrame">{{11, 4}, {194, 31}}</string>
 						<reference key="NSSuperview" ref="180625529"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="749168472"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2432,9 +2434,10 @@
 					<object class="IBUITableView" id="423190846">
 						<reference key="NSNextResponder" ref="180625529"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{2, 43}, {278, 184}}</string>
+						<string key="NSFrame">{{2, 43}, {278, 179}}</string>
 						<reference key="NSSuperview" ref="180625529"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1066248972"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="504841318"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -2442,6 +2445,7 @@
 						<bool key="IBUIAlwaysBounceVertical">YES</bool>
 						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+						<bool key="IBUIDelaysContentTouches">NO</bool>
 						<int key="IBUISeparatorStyle">1</int>
 						<object class="NSColor" key="IBUISeparatorColor">
 							<int key="NSColorSpace">3</int>
@@ -3151,6 +3155,15 @@
 						<reference key="destination" ref="180625529"/>
 					</object>
 					<int key="connectionID">382</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">postToWall:</string>
+						<reference key="source" ref="749168472"/>
+						<reference key="destination" ref="180625529"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">387</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4049,6 +4062,7 @@
 				<string key="374.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="376.CustomClassName">NiceFontLabel</string>
 				<string key="376.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="379.CustomClassName">CancellableTableView</string>
 				<string key="379.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="384.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -4138,10 +4152,18 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">386</int>
+			<int key="maxID">387</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">CancellableTableView</string>
+					<string key="superclassName">UITableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CancellableTableView.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CurrentEquipView</string>
 					<string key="superclassName">ServerImageView</string>

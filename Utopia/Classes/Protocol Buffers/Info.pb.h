@@ -3321,22 +3321,22 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @interface PlayerWallPostProto : PBGeneratedMessage {
 @private
   BOOL hasTimeOfPost_:1;
-  BOOL hasId_:1;
+  BOOL hasPlayerWallPostId_:1;
   BOOL hasWallOwnerId_:1;
   BOOL hasContent_:1;
   BOOL hasPoster_:1;
   int64_t timeOfPost;
-  int32_t id;
+  int32_t playerWallPostId;
   int32_t wallOwnerId;
   NSString* content;
   MinimumUserProto* poster;
 }
-- (BOOL) hasId;
+- (BOOL) hasPlayerWallPostId;
 - (BOOL) hasPoster;
 - (BOOL) hasWallOwnerId;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasContent;
-@property (readonly) int32_t id;
+@property (readonly) int32_t playerWallPostId;
 @property (readonly, retain) MinimumUserProto* poster;
 @property (readonly) int32_t wallOwnerId;
 @property (readonly) int64_t timeOfPost;
@@ -3376,10 +3376,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (PlayerWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (PlayerWallPostProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
-- (BOOL) hasId;
-- (int32_t) id;
-- (PlayerWallPostProto_Builder*) setId:(int32_t) value;
-- (PlayerWallPostProto_Builder*) clearId;
+- (BOOL) hasPlayerWallPostId;
+- (int32_t) playerWallPostId;
+- (PlayerWallPostProto_Builder*) setPlayerWallPostId:(int32_t) value;
+- (PlayerWallPostProto_Builder*) clearPlayerWallPostId;
 
 - (BOOL) hasPoster;
 - (MinimumUserProto*) poster;

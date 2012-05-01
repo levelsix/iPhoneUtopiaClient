@@ -125,7 +125,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UITableView *wallTableView;
 @property (nonatomic, retain) IBOutlet WallPostCell *postCell;
 
-@property (nonatomic, retain) NSArray *wallPosts;
+@property (nonatomic, retain) NSMutableArray *wallPosts;
 
 - (void) endEditing;
 
@@ -205,15 +205,24 @@ typedef enum {
 
 @property (nonatomic, retain) UIImageView *equippingView;
 
+// UserId will usually be equal to fup.userId unless we are loading current
+// player's profile or we are waiting for the fup from server
+@property (nonatomic, retain) FullUserProto *fup;
+@property (nonatomic, assign) int userId;
+
 - (void) loadMyProfile;
 - (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled;
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense;
+- (void) loadProfileForMinimumUser:(MinimumUserProto *)user;
 - (void) updateEquips:(NSArray *)equips;
 - (void) openSkillsMenu;
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev;
 - (void) loadSkills;
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type;
+
+- (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto;
+- (void) receivedFullUserProtos:(NSArray *)protos;
 
 - (IBAction)skillButtonClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;

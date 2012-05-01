@@ -31,9 +31,9 @@
 - (void) startup;
 - (void) inAppPurchase: (NSString *) receipt;
 
-- (void) retrieveMostRecentPosts;
+- (void) retrieveMostRecentMarketplacePosts;
 - (void) retrieveMoreMarketplacePosts;
-- (void) retrieveMostRecentPostsFromSender;
+- (void) retrieveMostRecentMarketplacePostsFromSender;
 - (void) retrieveMoreMarketplacePostsFromSender;
 - (void) equipPostToMarketplace:(int)equipId price:(int)amount;
 - (void) retractMarketplacePost: (int)postId;
@@ -89,6 +89,6 @@
 
 - (void) retrieveMostRecentWallPostsForPlayer:(int)playerId;
 - (void) retrieveWallPostsForPlayer:(int)playerId beforePostId:(int)postId;
-- (void) postToPlayerWall:(int)playerId withContent:(NSString *)content;
+- (PlayerWallPostProto *) postToPlayerWall:(int)playerId withContent:(NSString *)content;
 
 @end

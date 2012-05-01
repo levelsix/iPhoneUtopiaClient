@@ -77,3 +77,6 @@
 @interface TutorialGirlImageView : UIImageView
 
 @end
+
+@interface CancellableTableView : UITableView
+@end

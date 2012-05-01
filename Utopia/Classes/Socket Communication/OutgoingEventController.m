@@ -251,7 +251,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt];
 }
 
-- (void) retrieveMostRecentPosts {
+- (void) retrieveMostRecentMarketplacePosts {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:NO];
@@ -268,7 +268,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:NO];
 }
 
-- (void) retrieveMostRecentPostsFromSender {
+- (void) retrieveMostRecentMarketplacePostsFromSender {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
   [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:YES];
@@ -1250,13 +1250,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[SocketCommunication sharedSocketCommunication] sendRetrievePlayerWallPostsMessage:playerId beforePostId:postId];
 }
 
-- (void) postToPlayerWall:(int)playerId withContent:(NSString *)content {
+- (PlayerWallPostProto *) postToPlayerWall:(int)playerId withContent:(NSString *)content {
   if (content.length <= 0) {
     [Globals popupMessage:@"Attempting to post on player wall with no content"];
-    return;
+    return nil;
+  }
+  if (playerId <= 0) {
+    [Globals popupMessage:@"Attempting to post on player 0's wall"];
+    return nil;
   }
   
   [[SocketCommunication sharedSocketCommunication] sendPostOnPlayerWallMessage:playerId withContent:content];
+  
+  GameState *gs = [GameState sharedGameState];
+  PlayerWallPostProto_Builder *bldr = [PlayerWallPostProto builder];
+  bldr.playerWallPostId = 0;
+  bldr.poster = [[[[[MinimumUserProto builder] setUserId:gs.userId] setUserType:gs.type] setName:gs.name] build];
+  bldr.wallOwnerId = playerId;
+  bldr.content = content;
+  bldr.timeOfPost = [[NSDate date] timeIntervalSince1970]*1000;
+  
+  return [bldr build];
 }
 
 @end

@@ -1710,12 +1710,11 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
@@ -1736,6 +1735,7 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
@@ -1759,14 +1759,14 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasFormulaConstants_:1;
   BOOL hasBattleConstants_:1;
-  Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 cutOfVaultDepositTaken;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
   int32_t diamondCostForFullStaminaRefill;
@@ -1787,6 +1787,7 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   int32_t carpenterImgVerticalPixelOffset;
   int32_t aviaryImgVerticalPixelOffset;
   int32_t maxCharLengthForWallPost;
+  int32_t playerWallPostsRetrieveCap;
   int32_t maxLevelDifferenceForBattle;
   int32_t armoryXlength;
   int32_t armoryYlength;
@@ -1810,6 +1811,7 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
+  int32_t maxNumOfSingleStruct;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
@@ -1866,6 +1868,7 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (BOOL) hasFormulaConstants;
 - (BOOL) hasBattleConstants;
 - (BOOL) hasMaxCharLengthForWallPost;
+- (BOOL) hasPlayerWallPostsRetrieveCap;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1917,6 +1920,7 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 @property (readonly, retain) StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
 @property (readonly, retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
 @property (readonly) int32_t maxCharLengthForWallPost;
+@property (readonly) int32_t playerWallPostsRetrieveCap;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2441,6 +2445,11 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (int32_t) maxCharLengthForWallPost;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxCharLengthForWallPost:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxCharLengthForWallPost;
+
+- (BOOL) hasPlayerWallPostsRetrieveCap;
+- (int32_t) playerWallPostsRetrieveCap;
+- (StartupResponseProto_StartupConstants_Builder*) setPlayerWallPostsRetrieveCap:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearPlayerWallPostsRetrieveCap;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

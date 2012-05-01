@@ -29,7 +29,7 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
-@property (retain) NSArray *users;
+@property (retain) NSMutableArray *users;
 
 + (ActivityFeedController *) sharedActivityFeedController;
 + (void) displayView;

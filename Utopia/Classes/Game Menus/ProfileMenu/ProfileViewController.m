@@ -503,8 +503,6 @@
   rect.size.height = size.height;
   postLabel.frame = rect;
   
-  
-  NSLog(@"%f", rect.origin.y);
   gradientLayer.frame = CGRectMake(0, 0, self.frame.size.width, CGRectGetMaxY(postLabel.frame)+WALL_POST_CELL_OFFSET);
 }
 
@@ -534,27 +532,22 @@
   [view release];
 }
 
-- (void) setWallPosts:(NSArray *)w {
+- (void) setWallPosts:(NSMutableArray *)w {
   if (wallPosts != w) {
     [wallPosts release];
     wallPosts = [w retain];
-    
-    if (wallPosts == nil) {
-      spinner.hidden = NO;
-      [spinner startAnimating];
-    } else {
-      [spinner stopAnimating];
-      spinner.hidden = YES;
-    }
-    
-    [self.wallTableView reloadData];
   }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-  [[(NiceFontTextField *)textField label] setText:str];
-  return YES;
+  
+  if (wallPosts == nil) {
+    spinner.hidden = NO;
+    [spinner startAnimating];
+  } else {
+    [spinner stopAnimating];
+    spinner.hidden = YES;
+  }
+  
+  [self.wallTableView reloadData];
+  [self.wallTableView setContentOffset:CGPointZero];
 }
 
 - (void) endEditing {
@@ -590,7 +583,7 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
   [self endEditing];
-}
+} 
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   PlayerWallPostProto *wallPost = [self.wallPosts objectAtIndex:indexPath.row];
@@ -599,6 +592,35 @@
   size = [wallPost.content sizeWithFont:WALL_POST_FONT constrainedToSize:size];
   
   return WALL_POST_LABEL_MIN_Y+size.height+WALL_POST_CELL_OFFSET;
+}
+
+- (IBAction)postToWall:(id)sender {
+  NSString *content = wallTextField.text;
+  if (content.length > 0) {
+    int userId = [[ProfileViewController sharedProfileViewController] userId];
+    PlayerWallPostProto *wallPost = [[OutgoingEventController sharedOutgoingEventController] postToPlayerWall:userId withContent:content];
+    
+    if (wallPost) {
+      [self.wallPosts insertObject:wallPost atIndex:0];
+      [self.wallTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+    }
+    
+    wallTextField.text = @"";
+  }
+  [self endEditing];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  [self postToWall:nil];
+  return YES;
+}
+
+- (IBAction)visitProfile:(id)sender {
+  UITableViewCell *cell = (UITableViewCell *)[[sender superview] superview];
+  NSIndexPath *path = [wallTableView indexPathForCell:cell];
+  PlayerWallPostProto *proto = [wallPosts objectAtIndex:path.row];
+  
+  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster];
 }
 
 - (void) dealloc {
@@ -629,6 +651,8 @@
 @synthesize visitButton, smallAttackButton, bigAttackButton;
 @synthesize spinner;
 @synthesize mainView, bgdView;
+@synthesize fup = _fup;
+@synthesize userId;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -665,6 +689,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self.spinner stopAnimating];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  self.fup = nil;
 }
 
 - (void) setState:(ProfileState)state {
@@ -1075,8 +1103,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   fleesLabel.text = [NSString stringWithFormat:@"%d", fup.flees];
   levelLabel.text = [NSString stringWithFormat:@"%d", fup.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:fup.userType], [Globals classForUserType:fup.userType]];
-  attackLabel.text = @"?";//[NSString stringWithFormat:@"%d", fup.attack];
-  defenseLabel.text = @"?";//[NSString stringWithFormat:@"%d", fup.defense];
+  attackLabel.text = @"?";
+  defenseLabel.text = @"?";
   
   equipsScrollView.hidden = YES;
   enemyMiddleView.hidden = NO;
@@ -1098,12 +1126,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   smallAttackButton.enabled = enabled;
   bigAttackButton.enabled = enabled;
   
-  wallTabView.wallPosts = nil;
+  [spinner stopAnimating];
+  self.spinner.hidden = YES;
   
-  if (_fup != fup) {
-    [_fup release];
-    _fup = [fup retain];
+  if (userId != fup.userId) {
+    wallTabView.wallPosts = nil;
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:userId];
   }
+  
+  self.fup = fup;
+  self.userId = fup.userId;
 }
 
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense {
@@ -1148,6 +1180,64 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
+- (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto {
+  if (proto.relevantUserId == userId) {
+    // Wall Tab View will take control of the wall posts
+    // Make sure to send empty list if there are no wall posts so that spinner stops..
+    wallTabView.wallPosts = proto.playerWallPostsList ? proto.playerWallPostsList.mutableCopy : [NSMutableArray array];
+  }
+}
+
+- (void) loadProfileForMinimumUser:(MinimumUserProto *)user {
+  if (userId == user.userId) {
+    return;
+  } else if (user.userId == [[GameState sharedGameState] userId]) {
+    [self loadMyProfile];
+    self.state = kWallState;
+    return;
+  }
+  
+  self.profileBar.state = kOtherPlayerProfile;
+  [self.profileBar setProfileState:kWallState];
+  self.userId = user.userId;
+  
+  [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:[NSArray arrayWithObject:[NSNumber numberWithInt:userId]]];
+  
+  [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:user.userId];
+  
+  userNameLabel.text = user.name;
+  profilePicture.image = [Globals profileImageForUser:user.userType];
+  winsLabel.text = @"";
+  lossesLabel.text = @"";
+  fleesLabel.text = @"";
+  levelLabel.text = @"";
+  typeLabel.text = @"";
+  attackLabel.text = @"";
+  defenseLabel.text = @"";
+  
+  selfLeftView.hidden = YES;
+  enemyLeftView.hidden = YES;
+  friendLeftView.hidden = YES;
+  
+  wallTabView.wallPosts = nil;
+  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
+  
+  // Make equip spinner spin
+  self.spinner.hidden = NO;
+  [self.spinner startAnimating];
+  
+  [ProfileViewController displayView];
+}
+
+- (void) receivedFullUserProtos:(NSArray *)protos {
+  for (FullUserProto *fup in protos) {
+    if (fup.userId == userId) {
+      [self loadProfileForPlayer:fup buttonsEnabled:YES];
+      self.state = kWallState;
+    }
+  }
+}
+
 - (void) updateEquips:(NSArray *)equips {
   if (_waitingForEquips) {
     self.spinner.hidden = YES;
@@ -1189,6 +1279,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   enemyLeftView.hidden = YES;
   friendLeftView.hidden = YES;
   selfLeftView.hidden = NO;
+  
+  self.fup = nil;
+  self.userId = gs.userId;
   
   wallTabView.wallPosts = [[GameState sharedGameState] wallPosts];
   
