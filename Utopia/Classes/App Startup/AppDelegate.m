@@ -18,6 +18,7 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 #import "Apsalar.h"
+#import "FlurryAnalytics.h"
 
 #define APSALAR_API_KEY @"lvl6"
 #define APSALAR_SECRET @"K7kbMwwF"
@@ -47,6 +48,14 @@
 	
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
 }
+
+- (void)setUpFlurryAnalytics 
+{
+  [FlurryAnalytics startSession:@"2VNGQV9NXJ5GMBRZ5MTX"];
+  [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
+                              [GameState sharedGameState].userId]];
+}
+
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// Let the device know we want to receive push notifications
@@ -124,6 +133,8 @@
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
   [Analytics beganApp];
   [Analytics openedApp];
+
+  [self setUpFlurryAnalytics];
   
   [self removeLocalNotifications];
   

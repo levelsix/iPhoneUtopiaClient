@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
@@ -1192,6 +1193,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		456F2C8D156442DD00850E1D /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
+		456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		CF1256421538A94D00E0C1AD /* Lost Nations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lost Nations.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -2587,12 +2590,22 @@
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
 				CF126D951538ACCA00E0C1AD /* libApsalar.a in Frameworks */,
 				CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */,
+				456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		456F2C8C156442DD00850E1D /* FlurryAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				456F2C8D156442DD00850E1D /* FlurryAnalytics.h */,
+				456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */,
+			);
+			path = FlurryAnalytics;
+			sourceTree = "<group>";
+		};
 		CF1256371538A94D00E0C1AD = {
 			isa = PBXGroup;
 			children = (
@@ -3182,6 +3195,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				456F2C8C156442DD00850E1D /* FlurryAnalytics */,
 				CFEDA617153C04FB00015562 /* UserVoice */,
 				CF1265F31538ACC400E0C1AD /* Apsalar */,
 				CF1265F71538ACC400E0C1AD /* CCLabelFX */,
@@ -6157,6 +6171,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Utopia/libs/Apsalar\"",
 					"\"$(SRCROOT)/Utopia/libs/UserVoice\"",
+					"\"$(SRCROOT)/Utopia/libs/FlurryAnalytics\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -6186,6 +6201,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Utopia/libs/Apsalar\"",
 					"\"$(SRCROOT)/Utopia/libs/UserVoice\"",
+					"\"$(SRCROOT)/Utopia/libs/FlurryAnalytics\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "Lost Nations";
