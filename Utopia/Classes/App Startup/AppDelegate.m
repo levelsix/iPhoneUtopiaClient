@@ -19,6 +19,7 @@
 #import "Globals.h"
 #import "Apsalar.h"
 #import "FlurryAnalytics.h"
+#include "AMConnect.h"
 
 #define APSALAR_API_KEY @"lvl6"
 #define APSALAR_SECRET @"K7kbMwwF"
@@ -49,7 +50,20 @@
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
 }
 
-- (void)setUpFlurryAnalytics 
+-(void) setUpAlauMeRefferalTracking
+{
+  AMConnect *alaume = [AMConnect sharedInstance];
+  
+  // Set to YES for debugging purposes. Trace info will be written to console.
+  alaume.isLoggingEnabled = NO;
+  
+  // Set to YES for Lite SKU.
+  alaume.isFreeSKU = NO;
+
+  [alaume initializeWithAppId:@"tk" apiKey:@"d184b5bf284a45c4aa7e19e0230e1c2f"];
+}
+
+-(void) setUpFlurryAnalytics 
 {
   [FlurryAnalytics startSession:@"2VNGQV9NXJ5GMBRZ5MTX"];
   [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
@@ -134,7 +148,11 @@
   [Analytics beganApp];
   [Analytics openedApp];
 
+  // FlurryAnalytics
   [self setUpFlurryAnalytics];
+  
+  // Alau.Me
+  [self setUpAlauMeRefferalTracking];
   
   [self removeLocalNotifications];
   
