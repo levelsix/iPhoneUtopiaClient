@@ -287,7 +287,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.availableQuests removeAllObjects];
     [gs addToAvailableQuests:proto.availableQuestsList];
     [gs.inProgressQuests removeAllObjects];
-    [gs addToInProgressQuests:proto.inProgressQuestsList];
+//    [gs addToInProgressQuests:proto.in];
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
     

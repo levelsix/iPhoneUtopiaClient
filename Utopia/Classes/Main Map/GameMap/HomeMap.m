@@ -630,26 +630,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [moneyBuilding placeBlock];
   }
   
-  for (UserCritStruct *cs in gs.myCritStructs) {
-    if (cs.type != CritStructTypeAviary) {
-      CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-      [self addChild:csb];
-      [csb release];
-      
-      csb.orientation = cs.orientation;
-      csb.critStruct = cs;
-      [arr addObject:csb];
-      [csb placeBlock];
-    } else {
-      Aviary *av = [[Aviary alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-      [self addChild:av];
-      [av release];
-      
-      av.orientation = cs.orientation;
-      [arr addObject:av];
-      [self changeTiles:av.location toBuildable:NO];
-    }
-  }
+//  for (UserCritStruct *cs in gs.myCritStructs) {
+//    if (cs.type != CritStructTypeAviary) {
+//      CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
+//      [self addChild:csb];
+//      [csb release];
+//      
+//      csb.orientation = cs.orientation;
+//      csb.critStruct = cs;
+//      [arr addObject:csb];
+//      [csb placeBlock];
+//    } else {
+//      Aviary *av = [[Aviary alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
+//      [self addChild:av];
+//      [av release];
+//      
+//      av.orientation = cs.orientation;
+//      [arr addObject:av];
+//      [self changeTiles:av.location toBuildable:NO];
+//    }
+//  }
   
   CCNode *c;
   CCARRAY_FOREACH(self.children, c) {
@@ -823,13 +823,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [super setSelected:nil];
       [self.hbMenu updateLabelsForUserStruct:((MoneyBuilding *) selected).userStruct];
     }
-    if ([selected isKindOfClass: [CritStructBuilding class]]) {
-      [super setSelected:nil];
-      [[self.csMenu titleLabel] setText:[(CritStructBuilding *)selected critStruct].name];
-    }
     [super setSelected:selected];
     [self updateHomeBuildingMenu];
-    [self updateCritStructMenu];
   }
 }
 

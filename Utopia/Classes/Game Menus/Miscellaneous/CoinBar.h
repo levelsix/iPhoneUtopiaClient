@@ -14,5 +14,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *goldLabel;
 
 - (void) updateLabels;
+- (IBAction)barClicked:(id)sender;
 
 @end

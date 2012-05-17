@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="38" height="38" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="NEW_Universal_Pack" tilewidth="64" tileheight="56">
+  <image source="NEW_Universal_Pack.png" width="1024" height="1024"/>
+  <tile id="15">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="150">
+   <properties>
+    <property name="Walkable " value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="156">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="178">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="64" tileheight="72">
+  <image source="NEW_Tree_Pack.png" width="512" height="256"/>
+ </tileset>
+ <layer name="Road" width="38" height="38">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3WYQqAIAwF4B2hTuRJPYUXrB8KMrK0uXjSEx7+GOWHDVoQkWDMdibl3fqumaGLLrpwQtc6rv0mteuqVuLlSoZ4u97cl6erdbaoWll04bv06q2N9nNvWn0fq4w893SWNVHtM4J6X6j9Rdd/XYj/R7R5op6jkOav3m/89dl00UXXGi7JLgGw0IXlOgAejUoQkBYAAA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="38" height="38">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3UoQ0AIAwAQRyW/XdgR3wVCEJT7pIGUfOioTUAMpmvAyinh9nd6XrbFf+CLF3UlPW+dNXoAuBPI7xZ6Dpzo2sBNl7Cg5AWAAA=
+  </data>
+ </layer>
+ <layer name="Trees" width="38" height="38">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2XUQrAIAxD3VHG/rb7329fgoypaGlItO9bxDRt1JSCWc5De38vnoFz35W1I3swUXrW0lDTbeUC1O2rS8krlpny8v/PCxbNK+Dl2y54ZsUKfV7WB5kRQcBC7k/EW6Z3BjRMGWbNH/Rd2fOMqbYtIp/3xcN71ByqzNcsFn2KtVH+60SGavICx3WkwpAWAAA=
+  </data>
+ </layer>
+ <layer name="Fencing" width="38" height="38">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2WUQqAIAxAPYYf3f8QlWU3iz6CYU5cbs1wDwYLYz4mrpxrIyTPR2M9LsyLhnnRMC8a5pVnR2JT9Ep7UmJBYlX2kqwhUfMLrxnk6flgayP3S6NGzSyIIK9dC0jtOwxeJPvMfY4cc+KC+xvFdcdH9Yogp8yQUfv1Fgmv2jteek/rH3tS2jcHdPFqFk96cvkbPfXOI7k2PbkYRi0nmM7nPZAWAAA=
+  </data>
+ </layer>
+ <layer name="Fencing 2" width="38" height="38">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3VywkAIQwFQPsvxNvWYGvecxCU+GGZgVzDI5CkFABe9t0OAKRroXYa3ZCTOf7olfmt5Mj6LX4UjNWEyu4Xe66Iu+8WADCjAyUwonqQFgAA
+  </data>
+ </layer>
+</map>

@@ -51,7 +51,7 @@ typedef enum {
 @property (nonatomic, retain) UserEquip *equip;
 
 - (void) showEquipPost: (FullMarketplacePostProto *)proto;
-- (void) showEquipListing: (FullUserEquipProto *)proto;
+- (void) showEquipListing: (UserEquip *)proto;
 
 @end
 
@@ -60,18 +60,24 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet UILabel *classLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
-@property (nonatomic, retain) IBOutlet UILabel *priceLabel;
-@property (nonatomic, retain) IBOutlet UILabel *playerNameLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *priceIcon;
+@property (nonatomic, retain) IBOutlet UILabel *armoryPriceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *postedPriceLabel;
+@property (nonatomic, retain) IBOutlet UILabel *savePriceLabel;
+@property (nonatomic, retain) IBOutlet UIButton *playerNameButton;
+@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *armoryPriceIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *postedPriceIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *savePriceIcon;
 @property (nonatomic, retain) IBOutlet UIView *wrongClassView;
 @property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
+@property (nonatomic, retain) IBOutlet UIView *crossOutView;
+
+@property (nonatomic, retain) FullMarketplacePostProto *mktPost;
 
 @end
 
@@ -123,6 +129,11 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet MarketPurchaseView *purchView;
 
+@property (nonatomic, retain) IBOutlet UIView *armoryPriceView;
+@property (nonatomic, retain) IBOutlet UIView *armoryPriceBottomSubview;
+@property (nonatomic, retain) IBOutlet UILabel *armoryPriceLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *armoryPriceIcon;
+
 @property (nonatomic, assign) BOOL listing;
 
 @property (nonatomic, retain) UITableView *postsTableView;
@@ -152,5 +163,6 @@ typedef enum {
 - (IBAction)closePurchLicenseView:(id)sender;
 - (IBAction)shortLicenseClicked:(id)sender;
 - (IBAction)longLicenseClicked:(id)sender;
+- (IBAction)backClicked:(id)sender;
 
 @end

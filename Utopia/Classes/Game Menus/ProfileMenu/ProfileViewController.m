@@ -620,7 +620,7 @@
   NSIndexPath *path = [wallTableView indexPathForCell:cell];
   PlayerWallPostProto *proto = [wallPosts objectAtIndex:path.row];
   
-  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster];
+  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster withState:kWallState];
 }
 
 - (void) dealloc {
@@ -1188,17 +1188,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
-- (void) loadProfileForMinimumUser:(MinimumUserProto *)user {
+- (void) loadProfileForMinimumUser:(MinimumUserProto *)user withState:(ProfileState)pState {
   if (userId == user.userId) {
+    [ProfileViewController displayView];
     return;
   } else if (user.userId == [[GameState sharedGameState] userId]) {
+    [ProfileViewController displayView];
     [self loadMyProfile];
-    self.state = kWallState;
+    self.state = pState;
     return;
   }
   
+  self.state = pState;
   self.profileBar.state = kOtherPlayerProfile;
-  [self.profileBar setProfileState:kWallState];
+  [self.profileBar setProfileState:pState];
   self.userId = user.userId;
   
   [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:[NSArray arrayWithObject:[NSNumber numberWithInt:userId]]];
@@ -1232,8 +1235,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) receivedFullUserProtos:(NSArray *)protos {
   for (FullUserProto *fup in protos) {
     if (fup.userId == userId) {
+      ProfileState st = self.state;
       [self loadProfileForPlayer:fup buttonsEnabled:YES];
-      self.state = kWallState;
+      self.state = st;
     }
   }
 }
@@ -1342,6 +1346,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [ProfileViewController removeView];
   }];
+  self.userId = 0;
 }
 
 - (IBAction)visitClicked:(id)sender {

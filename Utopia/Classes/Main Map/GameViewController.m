@@ -44,6 +44,7 @@
 #import "TopBar.h"
 #import "FAQMenuController.h"
 #import "ConvoMenuController.h"
+#import "EquipMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -116,6 +117,8 @@
   [GameLayer purgeSingleton];
   [GenericPopupController removeView];
   [GenericPopupController purgeSingleton];
+  [EquipMenuController removeView];
+  [EquipMenuController purgeSingleton];
   [[HomeMap sharedHomeMap] invalidateAllTimers];
   [HomeMap purgeSingleton];
   [BattleLayer purgeSingleton];

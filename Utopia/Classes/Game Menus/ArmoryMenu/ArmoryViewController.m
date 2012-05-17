@@ -409,6 +409,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+  [self.armoryTableView reloadData];
   [self closeBuySellViewClicked:nil];
   [coinBar updateLabels];
   
@@ -651,6 +652,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   if (updatedQuantity == 0) {
     sellButton.enabled = NO;
+    
+    // Can't possibly have this equipped anymore
+    _clickedAl.equippedTag.hidden = YES;
   }
   
   [coinBar updateLabels];

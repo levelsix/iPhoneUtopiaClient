@@ -390,9 +390,12 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int64_t lastTimeAttacked;
 @property int32_t numBadges;
 @property int64_t createTime;
+@property int32_t apsalarId;
 @property int64_t lastShortLicensePurchaseTime;
 @property int64_t lastLongLicensePurchaseTime;
 @property BOOL isFake;
+@property BOOL isAdmin;
+@property int32_t numCoinsRetrievedFromStructs;
 @end
 
 @implementation FullUserProto
@@ -677,6 +680,13 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasCreateTime_ = !!value;
 }
 @synthesize createTime;
+- (BOOL) hasApsalarId {
+  return !!hasApsalarId_;
+}
+- (void) setHasApsalarId:(BOOL) value {
+  hasApsalarId_ = !!value;
+}
+@synthesize apsalarId;
 - (BOOL) hasLastShortLicensePurchaseTime {
   return !!hasLastShortLicensePurchaseTime_;
 }
@@ -703,6 +713,25 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 - (void) setIsFake:(BOOL) value {
   isFake_ = !!value;
 }
+- (BOOL) hasIsAdmin {
+  return !!hasIsAdmin_;
+}
+- (void) setHasIsAdmin:(BOOL) value {
+  hasIsAdmin_ = !!value;
+}
+- (BOOL) isAdmin {
+  return !!isAdmin_;
+}
+- (void) setIsAdmin:(BOOL) value {
+  isAdmin_ = !!value;
+}
+- (BOOL) hasNumCoinsRetrievedFromStructs {
+  return !!hasNumCoinsRetrievedFromStructs_;
+}
+- (void) setHasNumCoinsRetrievedFromStructs:(BOOL) value {
+  hasNumCoinsRetrievedFromStructs_ = !!value;
+}
+@synthesize numCoinsRetrievedFromStructs;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
@@ -753,9 +782,12 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.lastTimeAttacked = 0L;
     self.numBadges = 0;
     self.createTime = 0L;
+    self.apsalarId = 0;
     self.lastShortLicensePurchaseTime = 0L;
     self.lastLongLicensePurchaseTime = 0L;
     self.isFake = NO;
+    self.isAdmin = NO;
+    self.numCoinsRetrievedFromStructs = 0;
   }
   return self;
 }
@@ -904,6 +936,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasCreateTime) {
     [output writeInt64:47 value:self.createTime];
   }
+  if (self.hasIsAdmin) {
+    [output writeBool:48 value:self.isAdmin];
+  }
+  if (self.hasApsalarId) {
+    [output writeInt32:49 value:self.apsalarId];
+  }
+  if (self.hasNumCoinsRetrievedFromStructs) {
+    [output writeInt32:50 value:self.numCoinsRetrievedFromStructs];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1041,6 +1082,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasCreateTime) {
     size += computeInt64Size(47, self.createTime);
+  }
+  if (self.hasIsAdmin) {
+    size += computeBoolSize(48, self.isAdmin);
+  }
+  if (self.hasApsalarId) {
+    size += computeInt32Size(49, self.apsalarId);
+  }
+  if (self.hasNumCoinsRetrievedFromStructs) {
+    size += computeInt32Size(50, self.numCoinsRetrievedFromStructs);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1237,6 +1287,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasCreateTime) {
     [self setCreateTime:other.createTime];
   }
+  if (other.hasApsalarId) {
+    [self setApsalarId:other.apsalarId];
+  }
   if (other.hasLastShortLicensePurchaseTime) {
     [self setLastShortLicensePurchaseTime:other.lastShortLicensePurchaseTime];
   }
@@ -1245,6 +1298,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasIsFake) {
     [self setIsFake:other.isFake];
+  }
+  if (other.hasIsAdmin) {
+    [self setIsAdmin:other.isAdmin];
+  }
+  if (other.hasNumCoinsRetrievedFromStructs) {
+    [self setNumCoinsRetrievedFromStructs:other.numCoinsRetrievedFromStructs];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1447,6 +1506,18 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 376: {
         [self setCreateTime:[input readInt64]];
+        break;
+      }
+      case 384: {
+        [self setIsAdmin:[input readBool]];
+        break;
+      }
+      case 392: {
+        [self setApsalarId:[input readInt32]];
+        break;
+      }
+      case 400: {
+        [self setNumCoinsRetrievedFromStructs:[input readInt32]];
         break;
       }
     }
@@ -2106,6 +2177,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.createTime = 0L;
   return self;
 }
+- (BOOL) hasApsalarId {
+  return result.hasApsalarId;
+}
+- (int32_t) apsalarId {
+  return result.apsalarId;
+}
+- (FullUserProto_Builder*) setApsalarId:(int32_t) value {
+  result.hasApsalarId = YES;
+  result.apsalarId = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearApsalarId {
+  result.hasApsalarId = NO;
+  result.apsalarId = 0;
+  return self;
+}
 - (BOOL) hasLastShortLicensePurchaseTime {
   return result.hasLastShortLicensePurchaseTime;
 }
@@ -2152,6 +2239,38 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearIsFake {
   result.hasIsFake = NO;
   result.isFake = NO;
+  return self;
+}
+- (BOOL) hasIsAdmin {
+  return result.hasIsAdmin;
+}
+- (BOOL) isAdmin {
+  return result.isAdmin;
+}
+- (FullUserProto_Builder*) setIsAdmin:(BOOL) value {
+  result.hasIsAdmin = YES;
+  result.isAdmin = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsAdmin {
+  result.hasIsAdmin = NO;
+  result.isAdmin = NO;
+  return self;
+}
+- (BOOL) hasNumCoinsRetrievedFromStructs {
+  return result.hasNumCoinsRetrievedFromStructs;
+}
+- (int32_t) numCoinsRetrievedFromStructs {
+  return result.numCoinsRetrievedFromStructs;
+}
+- (FullUserProto_Builder*) setNumCoinsRetrievedFromStructs:(int32_t) value {
+  result.hasNumCoinsRetrievedFromStructs = YES;
+  result.numCoinsRetrievedFromStructs = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumCoinsRetrievedFromStructs {
+  result.hasNumCoinsRetrievedFromStructs = NO;
+  result.numCoinsRetrievedFromStructs = 0;
   return self;
 }
 @end
@@ -7501,7 +7620,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 
 @interface FullMarketplacePostProto ()
 @property int32_t marketplacePostId;
-@property int32_t posterId;
+@property (retain) MinimumUserProto* poster;
 @property MarketplacePostType postType;
 @property int64_t timeOfPost;
 @property (retain) FullEquipProto* postedEquip;
@@ -7518,13 +7637,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   hasMarketplacePostId_ = !!value;
 }
 @synthesize marketplacePostId;
-- (BOOL) hasPosterId {
-  return !!hasPosterId_;
+- (BOOL) hasPoster {
+  return !!hasPoster_;
 }
-- (void) setHasPosterId:(BOOL) value {
-  hasPosterId_ = !!value;
+- (void) setHasPoster:(BOOL) value {
+  hasPoster_ = !!value;
 }
-@synthesize posterId;
+@synthesize poster;
 - (BOOL) hasPostType {
   return !!hasPostType_;
 }
@@ -7561,13 +7680,14 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 }
 @synthesize coinCost;
 - (void) dealloc {
+  self.poster = nil;
   self.postedEquip = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.marketplacePostId = 0;
-    self.posterId = 0;
+    self.poster = [MinimumUserProto defaultInstance];
     self.postType = MarketplacePostTypePremiumEquipPost;
     self.timeOfPost = 0L;
     self.postedEquip = [FullEquipProto defaultInstance];
@@ -7595,8 +7715,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasMarketplacePostId) {
     [output writeInt32:1 value:self.marketplacePostId];
   }
-  if (self.hasPosterId) {
-    [output writeInt32:2 value:self.posterId];
+  if (self.hasPoster) {
+    [output writeMessage:2 value:self.poster];
   }
   if (self.hasPostType) {
     [output writeEnum:3 value:self.postType];
@@ -7625,8 +7745,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasMarketplacePostId) {
     size += computeInt32Size(1, self.marketplacePostId);
   }
-  if (self.hasPosterId) {
-    size += computeInt32Size(2, self.posterId);
+  if (self.hasPoster) {
+    size += computeMessageSize(2, self.poster);
   }
   if (self.hasPostType) {
     size += computeEnumSize(3, self.postType);
@@ -7721,8 +7841,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (other.hasMarketplacePostId) {
     [self setMarketplacePostId:other.marketplacePostId];
   }
-  if (other.hasPosterId) {
-    [self setPosterId:other.posterId];
+  if (other.hasPoster) {
+    [self mergePoster:other.poster];
   }
   if (other.hasPostType) {
     [self setPostType:other.postType];
@@ -7764,8 +7884,13 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
         [self setMarketplacePostId:[input readInt32]];
         break;
       }
-      case 16: {
-        [self setPosterId:[input readInt32]];
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasPoster) {
+          [subBuilder mergeFrom:self.poster];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPoster:[subBuilder buildPartial]];
         break;
       }
       case 24: {
@@ -7817,20 +7942,34 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   result.marketplacePostId = 0;
   return self;
 }
-- (BOOL) hasPosterId {
-  return result.hasPosterId;
+- (BOOL) hasPoster {
+  return result.hasPoster;
 }
-- (int32_t) posterId {
-  return result.posterId;
+- (MinimumUserProto*) poster {
+  return result.poster;
 }
-- (FullMarketplacePostProto_Builder*) setPosterId:(int32_t) value {
-  result.hasPosterId = YES;
-  result.posterId = value;
+- (FullMarketplacePostProto_Builder*) setPoster:(MinimumUserProto*) value {
+  result.hasPoster = YES;
+  result.poster = value;
   return self;
 }
-- (FullMarketplacePostProto_Builder*) clearPosterId {
-  result.hasPosterId = NO;
-  result.posterId = 0;
+- (FullMarketplacePostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setPoster:[builderForValue build]];
+}
+- (FullMarketplacePostProto_Builder*) mergePoster:(MinimumUserProto*) value {
+  if (result.hasPoster &&
+      result.poster != [MinimumUserProto defaultInstance]) {
+    result.poster =
+      [[[MinimumUserProto builderWithPrototype:result.poster] mergeFrom:value] buildPartial];
+  } else {
+    result.poster = value;
+  }
+  result.hasPoster = YES;
+  return self;
+}
+- (FullMarketplacePostProto_Builder*) clearPoster {
+  result.hasPoster = NO;
+  result.poster = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasPostType {

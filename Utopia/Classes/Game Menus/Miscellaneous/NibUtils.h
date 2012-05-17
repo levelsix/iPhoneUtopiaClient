@@ -80,3 +80,12 @@
 
 @interface CancellableTableView : UITableView
 @end
+
+@interface EquipButton : UIImageView
+
+@property (nonatomic, assign) int equipId;
+@property (nonatomic, retain) UIImageView *darkOverlay;
+
+- (void) equipClicked;
+
+@end

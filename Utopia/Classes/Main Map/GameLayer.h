@@ -10,6 +10,7 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 #import "Protocols.pb.h"
+#import "BazaarMap.h"
 
 @class ShopLayer;
 @class MaskedBar;
@@ -33,6 +34,7 @@ typedef enum {
   NSTimeInterval _prevTouchTime;
   
   HomeMap *_homeMap;
+  BazaarMap *_bazaarMap;
   MissionMap *_missionMap;
   
   ProfilePicture *_profileBgd;
@@ -56,6 +58,10 @@ typedef enum {
 - (void) loadTutorialMissionMap;
 - (GameMap *) currentMap;
 - (void) startHomeMapTimersIfOkay;
+
+- (void) displayBazaarMap;
+- (void) closeBazaarMap;
+- (void) toggleBazaarMap;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 + (CCScene *) scene;

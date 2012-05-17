@@ -2659,6 +2659,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @property (retain) NSString* udid;
 @property Float32 versionNum;
 @property (retain) NSString* deviceToken;
+@property (retain) NSString* apsalarId;
 @end
 
 @implementation StartupRequestProto
@@ -2684,9 +2685,17 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasDeviceToken_ = !!value;
 }
 @synthesize deviceToken;
+- (BOOL) hasApsalarId {
+  return !!hasApsalarId_;
+}
+- (void) setHasApsalarId:(BOOL) value {
+  hasApsalarId_ = !!value;
+}
+@synthesize apsalarId;
 - (void) dealloc {
   self.udid = nil;
   self.deviceToken = nil;
+  self.apsalarId = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2694,6 +2703,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     self.udid = @"";
     self.versionNum = 0;
     self.deviceToken = @"";
+    self.apsalarId = @"";
   }
   return self;
 }
@@ -2722,6 +2732,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasDeviceToken) {
     [output writeString:4 value:self.deviceToken];
   }
+  if (self.hasApsalarId) {
+    [output writeString:5 value:self.apsalarId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2739,6 +2752,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasDeviceToken) {
     size += computeStringSize(4, self.deviceToken);
+  }
+  if (self.hasApsalarId) {
+    size += computeStringSize(5, self.apsalarId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2824,6 +2840,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
   }
+  if (other.hasApsalarId) {
+    [self setApsalarId:other.apsalarId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2855,6 +2874,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 34: {
         [self setDeviceToken:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setApsalarId:[input readString]];
         break;
       }
     }
@@ -2908,6 +2931,22 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   result.deviceToken = @"";
   return self;
 }
+- (BOOL) hasApsalarId {
+  return result.hasApsalarId;
+}
+- (NSString*) apsalarId {
+  return result.apsalarId;
+}
+- (StartupRequestProto_Builder*) setApsalarId:(NSString*) value {
+  result.hasApsalarId = YES;
+  result.apsalarId = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearApsalarId {
+  result.hasApsalarId = NO;
+  result.apsalarId = @"";
+  return self;
+}
 @end
 
 @interface StartupResponseProto ()
@@ -2918,7 +2957,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) StartupResponseProto_TutorialConstants* tutorialConstants;
 @property (retain) NSMutableArray* mutableAllCitiesList;
 @property (retain) NSMutableArray* mutableUserCityInfosList;
-@property (retain) NSMutableArray* mutableInProgressQuestsList;
+@property (retain) NSMutableArray* mutableInProgressIncompleteQuestsList;
+@property (retain) NSMutableArray* mutableInProgressCompleteQuestsList;
 @property (retain) NSMutableArray* mutableAvailableQuestsList;
 @property (retain) NSMutableArray* mutableUserEquipsList;
 @property (retain) NSMutableArray* mutableEquipsList;
@@ -2970,7 +3010,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize tutorialConstants;
 @synthesize mutableAllCitiesList;
 @synthesize mutableUserCityInfosList;
-@synthesize mutableInProgressQuestsList;
+@synthesize mutableInProgressIncompleteQuestsList;
+@synthesize mutableInProgressCompleteQuestsList;
 @synthesize mutableAvailableQuestsList;
 @synthesize mutableUserEquipsList;
 @synthesize mutableEquipsList;
@@ -3005,7 +3046,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.tutorialConstants = nil;
   self.mutableAllCitiesList = nil;
   self.mutableUserCityInfosList = nil;
-  self.mutableInProgressQuestsList = nil;
+  self.mutableInProgressIncompleteQuestsList = nil;
+  self.mutableInProgressCompleteQuestsList = nil;
   self.mutableAvailableQuestsList = nil;
   self.mutableUserEquipsList = nil;
   self.mutableEquipsList = nil;
@@ -3055,11 +3097,18 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableUserCityInfosList objectAtIndex:index];
   return value;
 }
-- (NSArray*) inProgressQuestsList {
-  return mutableInProgressQuestsList;
+- (NSArray*) inProgressIncompleteQuestsList {
+  return mutableInProgressIncompleteQuestsList;
 }
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
-  id value = [mutableInProgressQuestsList objectAtIndex:index];
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index {
+  id value = [mutableInProgressIncompleteQuestsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) inProgressCompleteQuestsList {
+  return mutableInProgressCompleteQuestsList;
+}
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index {
+  id value = [mutableInProgressCompleteQuestsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) availableQuestsList {
@@ -3130,7 +3179,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     [output writeMessage:5 value:element];
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (FullQuestProto* element in self.inProgressIncompleteQuestsList) {
     [output writeMessage:6 value:element];
   }
   for (FullQuestProto* element in self.availableQuestsList) {
@@ -3169,6 +3218,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (PlayerWallPostProto* element in self.playerWallPostNotificationsList) {
     [output writeMessage:19 value:element];
   }
+  for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
+    [output writeMessage:20 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3193,7 +3245,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     size += computeMessageSize(5, element);
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (FullQuestProto* element in self.inProgressIncompleteQuestsList) {
     size += computeMessageSize(6, element);
   }
   for (FullQuestProto* element in self.availableQuestsList) {
@@ -3231,6 +3283,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PlayerWallPostProto* element in self.playerWallPostNotificationsList) {
     size += computeMessageSize(19, element);
+  }
+  for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
+    size += computeMessageSize(20, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -9824,11 +9879,17 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableUserCityInfosList addObjectsFromArray:other.mutableUserCityInfosList];
   }
-  if (other.mutableInProgressQuestsList.count > 0) {
-    if (result.mutableInProgressQuestsList == nil) {
-      result.mutableInProgressQuestsList = [NSMutableArray array];
+  if (other.mutableInProgressIncompleteQuestsList.count > 0) {
+    if (result.mutableInProgressIncompleteQuestsList == nil) {
+      result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
     }
-    [result.mutableInProgressQuestsList addObjectsFromArray:other.mutableInProgressQuestsList];
+    [result.mutableInProgressIncompleteQuestsList addObjectsFromArray:other.mutableInProgressIncompleteQuestsList];
+  }
+  if (other.mutableInProgressCompleteQuestsList.count > 0) {
+    if (result.mutableInProgressCompleteQuestsList == nil) {
+      result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+    }
+    [result.mutableInProgressCompleteQuestsList addObjectsFromArray:other.mutableInProgressCompleteQuestsList];
   }
   if (other.mutableAvailableQuestsList.count > 0) {
     if (result.mutableAvailableQuestsList == nil) {
@@ -9947,7 +10008,7 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       case 50: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addInProgressQuests:[subBuilder buildPartial]];
+        [self addInProgressIncompleteQuests:[subBuilder buildPartial]];
         break;
       }
       case 58: {
@@ -10017,6 +10078,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         PlayerWallPostProto_Builder* subBuilder = [PlayerWallPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPlayerWallPostNotifications:[subBuilder buildPartial]];
+        break;
+      }
+      case 162: {
+        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInProgressCompleteQuests:[subBuilder buildPartial]];
         break;
       }
     }
@@ -10202,33 +10269,62 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   [result.mutableUserCityInfosList addObject:value];
   return self;
 }
-- (NSArray*) inProgressQuestsList {
-  if (result.mutableInProgressQuestsList == nil) { return [NSArray array]; }
-  return result.mutableInProgressQuestsList;
+- (NSArray*) inProgressIncompleteQuestsList {
+  if (result.mutableInProgressIncompleteQuestsList == nil) { return [NSArray array]; }
+  return result.mutableInProgressIncompleteQuestsList;
 }
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
-  return [result inProgressQuestsAtIndex:index];
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index {
+  return [result inProgressIncompleteQuestsAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
-  [result.mutableInProgressQuestsList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceInProgressIncompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableInProgressIncompleteQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values {
-  if (result.mutableInProgressQuestsList == nil) {
-    result.mutableInProgressQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllInProgressIncompleteQuests:(NSArray*) values {
+  if (result.mutableInProgressIncompleteQuestsList == nil) {
+    result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressQuestsList addObjectsFromArray:values];
+  [result.mutableInProgressIncompleteQuestsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearInProgressQuestsList {
-  result.mutableInProgressQuestsList = nil;
+- (StartupResponseProto_Builder*) clearInProgressIncompleteQuestsList {
+  result.mutableInProgressIncompleteQuestsList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value {
-  if (result.mutableInProgressQuestsList == nil) {
-    result.mutableInProgressQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addInProgressIncompleteQuests:(FullQuestProto*) value {
+  if (result.mutableInProgressIncompleteQuestsList == nil) {
+    result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressQuestsList addObject:value];
+  [result.mutableInProgressIncompleteQuestsList addObject:value];
+  return self;
+}
+- (NSArray*) inProgressCompleteQuestsList {
+  if (result.mutableInProgressCompleteQuestsList == nil) { return [NSArray array]; }
+  return result.mutableInProgressCompleteQuestsList;
+}
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index {
+  return [result inProgressCompleteQuestsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceInProgressCompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableInProgressCompleteQuestsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllInProgressCompleteQuests:(NSArray*) values {
+  if (result.mutableInProgressCompleteQuestsList == nil) {
+    result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+  }
+  [result.mutableInProgressCompleteQuestsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearInProgressCompleteQuestsList {
+  result.mutableInProgressCompleteQuestsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addInProgressCompleteQuests:(FullQuestProto*) value {
+  if (result.mutableInProgressCompleteQuestsList == nil) {
+    result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+  }
+  [result.mutableInProgressCompleteQuestsList addObject:value];
   return self;
 }
 - (NSArray*) availableQuestsList {

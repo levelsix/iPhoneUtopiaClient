@@ -358,9 +358,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (int i = 0; i < mktPosts.count; i++) {
     FullMarketplacePostProto *proto = [mktPosts objectAtIndex:i];
     if ([proto marketplacePostId] == postId) {
-      if (gs.userId != proto.posterId) {
+      if (gs.userId != proto.poster.userId) {
         if (gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
-          [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
+          [sc sendPurchaseFromMarketplaceMessage:postId poster:proto.poster.userId];
           gs.gold -= proto.diamondCost;
           gs.silver -= proto.coinCost;
         } else {

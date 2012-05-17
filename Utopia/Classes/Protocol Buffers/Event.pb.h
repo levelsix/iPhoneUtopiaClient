@@ -1340,16 +1340,20 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   BOOL hasVersionNum_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
+  BOOL hasApsalarId_:1;
   Float32 versionNum;
   NSString* udid;
   NSString* deviceToken;
+  NSString* apsalarId;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
 - (BOOL) hasDeviceToken;
+- (BOOL) hasApsalarId;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* deviceToken;
+@property (readonly, retain) NSString* apsalarId;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -1399,6 +1403,11 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (NSString*) deviceToken;
 - (StartupRequestProto_Builder*) setDeviceToken:(NSString*) value;
 - (StartupRequestProto_Builder*) clearDeviceToken;
+
+- (BOOL) hasApsalarId;
+- (NSString*) apsalarId;
+- (StartupRequestProto_Builder*) setApsalarId:(NSString*) value;
+- (StartupRequestProto_Builder*) clearApsalarId;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -1421,7 +1430,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableEquipsList;
@@ -1450,8 +1460,10 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
 - (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index;
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
+- (NSArray*) inProgressIncompleteQuestsList;
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index;
+- (NSArray*) inProgressCompleteQuestsList;
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index;
 - (NSArray*) availableQuestsList;
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
 - (NSArray*) userEquipsList;
@@ -3050,12 +3062,19 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (StartupResponseProto_Builder*) addAllUserCityInfos:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserCityInfosList;
 
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearInProgressQuestsList;
+- (NSArray*) inProgressIncompleteQuestsList;
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceInProgressIncompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addInProgressIncompleteQuests:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addAllInProgressIncompleteQuests:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearInProgressIncompleteQuestsList;
+
+- (NSArray*) inProgressCompleteQuestsList;
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceInProgressCompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addInProgressCompleteQuests:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addAllInProgressCompleteQuests:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearInProgressCompleteQuestsList;
 
 - (NSArray*) availableQuestsList;
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;

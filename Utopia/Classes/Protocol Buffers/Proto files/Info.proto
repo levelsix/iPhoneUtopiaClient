@@ -63,10 +63,13 @@ message FullUserProto {
 	optional int64 lastTimeAttacked = 40;
 	optional int32 numBadges = 42;
 	optional int64 createTime = 47;
+	optional int32 apsalarId = 49;
 	
 	optional int64 lastShortLicensePurchaseTime = 43;
 	optional int64 lastLongLicensePurchaseTime = 44;
 	optional bool isFake = 46;
+	optional bool isAdmin = 48;
+	optional int32 numCoinsRetrievedFromStructs = 50;
 }
 
 //------------------------------------------------------------------------------------------
@@ -264,7 +267,7 @@ enum MarketplacePostType {
 
 message FullMarketplacePostProto {
 	optional int32 marketplacePostId = 1;
-	optional int32 posterId = 2;
+	optional MinimumUserProto poster = 2;
 	optional MarketplacePostType postType = 3;
 	optional int64 timeOfPost = 4;
 	optional FullEquipProto postedEquip = 5;

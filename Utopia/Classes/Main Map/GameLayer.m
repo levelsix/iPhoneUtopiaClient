@@ -70,6 +70,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self addChild:_homeMap z:1 tag:2];
   [_homeMap moveToCenter];
   
+  _bazaarMap = [BazaarMap sharedBazaarMap];
+  
   _topBar = [TopBar sharedTopBar];
   [self addChild:_topBar z:2];
   
@@ -94,6 +96,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
   
+  [self closeBazaarMap];
   [self unloadCurrentMissionMap];
   _missionMap = [[MissionMap alloc] initWithProto:proto];
   
@@ -158,6 +161,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   _homeMap.visible = YES;
   [_homeMap moveToCenter];
   currentCity = 0;
+  [self closeBazaarMap];
   
   if (_curMusic != kHomeMusic) {
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
@@ -166,10 +170,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (GameMap *) currentMap {
-  if (_homeMap.visible) {
+  if (currentCity == 0) {
     return _homeMap;
   } else {
     return _missionMap;
+  }
+}
+
+- (void) displayBazaarMap {
+  if (!_bazaarMap.parent) {
+    [[self currentMap] setVisible:NO];
+    [self addChild:_bazaarMap z:1];
+    [_bazaarMap moveToCenter];
+  }
+}
+
+- (void) closeBazaarMap {
+  if (_bazaarMap.parent) {
+    [self removeChild:_bazaarMap cleanup:YES];
+    [[self currentMap] setVisible:YES];
+  }
+}
+
+- (void) toggleBazaarMap {
+  if (_bazaarMap.parent) {
+    [self closeBazaarMap];
+  } else {
+    [self displayBazaarMap];
   }
 }
 
@@ -181,7 +208,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) onEnter {
   [super onEnter];
-  if (_homeMap.visible) {
+  if (currentCity == 0) {
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
     _curMusic = kHomeMusic;
   } else {

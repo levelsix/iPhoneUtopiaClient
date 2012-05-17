@@ -162,6 +162,7 @@
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;
 + (UIColor *)greenColor;
++ (UIColor *)redColor;
 
 + (BOOL)userTypeIsGood:(UserType)type;
 + (BOOL)userTypeIsBad:(UserType)type;

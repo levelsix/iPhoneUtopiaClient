@@ -22,7 +22,7 @@
   silverLabel.text = [Globals commafyNumber:gs.silver];
 }
 
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+- (IBAction)barClicked:(id)sender {
   [GoldShoppeViewController displayView];
 }
 

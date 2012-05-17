@@ -186,11 +186,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (UIImage *) imageForStruct:(int)structId {
-  return [self imageNamed:[self imageNameForStruct:structId]];
+  return structId == 0 ? nil : [self imageNamed:[self imageNameForStruct:structId]];
 }
 
 + (UIImage *) imageForEquip:(int)eqId {
-  return [self imageNamed:[self imageNameForEquip:eqId]];
+  return eqId == 0 ? nil : [self imageNamed:[self imageNameForEquip:eqId]];
 }
 
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
@@ -430,6 +430,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (NSString *) commafyNumber:(int) n {
+  BOOL neg = n < 0;
+  n = abs(n);
   NSString *s = [NSString stringWithFormat:@"%03d", n%1000];
   n /= 1000;
   while (n > 0) {
@@ -442,7 +444,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     x++;
   }
   s = [s substringFromIndex:x];
-  return s.length > 0 ? s : @"0";
+  NSString *pre = neg ? @"-" : @"";
+  return s.length > 0 ? [pre stringByAppendingString:s] : @"0";
 }
 
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color {
@@ -1062,7 +1065,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed {
-  [UIView animateWithDuration:0.4 animations:^{
+  [UIView animateWithDuration:0.3 animations:^{
     view.alpha = 0.f;
     bgdView.alpha = 0.f;
     view.transform = CGAffineTransformMakeScale(2.0, 2.0);
@@ -1082,6 +1085,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (UIColor *)greenColor {
   return [UIColor colorWithRed:156/255.f green:202/255.f blue:16/255.f alpha:1.f];
+}
+
++ (UIColor *)orangeColor {
+  return [UIColor colorWithRed:255/255.f green:102/255.f blue:0/255.f alpha:1.f];
+}
+
++ (UIColor *)redColor {
+  return [UIColor colorWithRed:255/255.f green:0/255.f blue:0/255.f alpha:1.f];
 }
 
 - (void) dealloc {

@@ -61,7 +61,6 @@ message VaultRequestProto {
 		DEPOSIT = 0; 
 		WITHDRAW = 1;
 	} 
-	
 }
 
 																						//DONE
@@ -113,6 +112,7 @@ message StartupRequestProto {				//client will also send ChangeUserLocationReque
      optional string udid = 1;
      optional float versionNum = 2;			//1.0->2.0 critical, 1.0->1.1 minor. server checks db for latest vnum
      optional string deviceToken = 4;		//only set this if the client is registered/has a device token
+     optional string apsalarId = 5;
 }
 
 message StartupResponseProto {
@@ -124,7 +124,8 @@ message StartupResponseProto {
     repeated FullCityProto allCities = 5;
     repeated FullUserCityProto userCityInfos = 16;
     
-    repeated FullQuestProto inProgressQuests = 6;
+    repeated FullQuestProto inProgressIncompleteQuests = 6;
+    repeated FullQuestProto inProgressCompleteQuests = 20;
 	repeated FullQuestProto availableQuests = 7;   
 	repeated FullUserEquipProto userEquips = 8;
     repeated FullEquipProto equips = 9;
