@@ -22,8 +22,12 @@
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
 
-#define APSALAR_API_KEY @"lvl6"
-#define APSALAR_SECRET @"K7kbMwwF"
+#define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
+#define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
+#define ALAUME_API_KEY       @"d184b5bf284a45c4aa7e19e0230e1c2f"
+#define ALAUME_APP_ID        @"tk"
+#define APSALAR_API_KEY      @"lvl6"
+#define APSALAR_SECRET       @"K7kbMwwF"
 
 @implementation AppDelegate
 
@@ -61,12 +65,12 @@
   // Set to YES for Lite SKU.
   alaume.isFreeSKU = NO;
 
-  [alaume initializeWithAppId:@"tk" apiKey:@"d184b5bf284a45c4aa7e19e0230e1c2f"];
+  [alaume initializeWithAppId:ALAUME_APP_ID apiKey:ALAUME_API_KEY];
 }
 
 -(void) setUpFlurryAnalytics 
 {
-  [FlurryAnalytics startSession:@"2VNGQV9NXJ5GMBRZ5MTX"];
+  [FlurryAnalytics startSession:FLURRY_API_KEY];
   [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
                               [GameState sharedGameState].userId]];
 }
@@ -75,7 +79,7 @@
 {
   // Note: The setup for CrashAlytics insists that it must be the final program 
   //       in the didFinishLaunching Method
-  [Crashlytics startWithAPIKey:@"79eb314cfcf6a7b860185d2629d2c2791ee7f174"];
+  [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
