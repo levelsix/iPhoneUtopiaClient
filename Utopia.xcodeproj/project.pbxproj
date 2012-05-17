@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */; };
 		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; };
+		457EBD871565B213008C097F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD861565B213008C097F /* Crashlytics.framework */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
@@ -1198,6 +1199,7 @@
 		456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		457EBD8015647A38008C097F /* AMConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMConnect.h; sourceTree = "<group>"; };
 		457EBD8115647A38008C097F /* libAlaume-iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphoneos.a"; sourceTree = "<group>"; };
+		457EBD861565B213008C097F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		CF1256421538A94D00E0C1AD /* Lost Nations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lost Nations.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -2595,6 +2597,7 @@
 				CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */,
 				456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */,
 				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
+				457EBD871565B213008C097F /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3208,6 +3211,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				457EBD861565B213008C097F /* Crashlytics.framework */,
 				457EBD7F15647A38008C097F /* Alaume */,
 				456F2C8C156442DD00850E1D /* FlurryAnalytics */,
 				CFEDA617153C04FB00015562 /* UserVoice */,
@@ -4881,6 +4885,7 @@
 				CF12563E1538A94D00E0C1AD /* Sources */,
 				CF12563F1538A94D00E0C1AD /* Frameworks */,
 				CF1256401538A94D00E0C1AD /* Resources */,
+				457EBD851565AFCD008C097F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -5923,6 +5928,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		457EBD851565AFCD008C097F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 79eb314cfcf6a7b860185d2629d2c2791ee7f174";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CF12563E1538A94D00E0C1AD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -6170,6 +6191,10 @@
 					"$(ARCHS_STANDARD_32_BIT)",
 					armv6,
 				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Utopia/libs\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -6205,6 +6230,10 @@
 				);
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Utopia/libs\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";

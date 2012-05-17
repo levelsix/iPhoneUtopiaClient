@@ -19,7 +19,8 @@
 #import "Globals.h"
 #import "Apsalar.h"
 #import "FlurryAnalytics.h"
-#include "AMConnect.h"
+#import "AMConnect.h"
+#import <Crashlytics/Crashlytics.h>
 
 #define APSALAR_API_KEY @"lvl6"
 #define APSALAR_SECRET @"K7kbMwwF"
@@ -68,6 +69,13 @@
   [FlurryAnalytics startSession:@"2VNGQV9NXJ5GMBRZ5MTX"];
   [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
                               [GameState sharedGameState].userId]];
+}
+
+-(void) setUpCrashAlytics 
+{
+  // Note: The setup for CrashAlytics insists that it must be the final program 
+  //       in the didFinishLaunching Method
+  [Crashlytics startWithAPIKey:@"79eb314cfcf6a7b860185d2629d2c2791ee7f174"];
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -155,7 +163,13 @@
   [self setUpAlauMeRefferalTracking];
   
   [self removeLocalNotifications];
-  
+
+  // CrashAlytics
+  // ************
+  // Note: The setup for CrashAlytics insists that it must be the final program 
+  //       in the didFinishLaunching Method
+  [self setUpCrashAlytics];
+
   return YES;
 }
 
