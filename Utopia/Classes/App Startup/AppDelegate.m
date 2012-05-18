@@ -21,7 +21,6 @@
 #import "FlurryAnalytics.h"
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
-#import <Delight/Delight.h>
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -88,6 +87,7 @@
 -(void) setUpDelightio
 {
 #if SHOULD_VIDEO_USER
+#import <Delight/Delight.h>
   [Delight startWithAppToken:@"6a7116a21a57eacaeaafd07c133"];
 #endif
 }
