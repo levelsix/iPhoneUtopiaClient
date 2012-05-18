@@ -674,15 +674,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.myStructs removeAllObjects];
     [gs addToMyStructs:proto.ownerNormStructsList];
     
-    NSMutableArray *arr = [NSMutableArray array];
-    [gs.myCritStructs removeAllObjects];
-    if (proto.hasArmory) [arr addObject:proto.armory];
-    if (proto.hasMarketplace) [arr addObject:proto.marketplace];
-    if (proto.hasAviary) [arr addObject:proto.aviary];
-    if (proto.hasCarpenter) [arr addObject:proto.carpenter];
-    if (proto.hasVault) [arr addObject:proto.vault];
-    [gs addToMyCritStructs:arr];
-    
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     while (![[GameViewController sharedGameViewController] canLoad]) {

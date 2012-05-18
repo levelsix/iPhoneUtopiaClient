@@ -411,34 +411,10 @@
 
 @end
 
-@implementation CritStructMenu
-
-@synthesize titleLabel;
-
-- (void) awakeFromNib {
-  [super awakeFromNib];
-  self.hidden = YES;
-}
-
-- (void) setFrameForPoint:(CGPoint)pt {
-  // place it so that the bottom middle is at pt
-  // Remember, frame is relative to top left corner
-  float width = self.frame.size.width;
-  float height = self.frame.size.height;
-  self.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
-}
-
-- (void) dealloc {
-  self.titleLabel = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation HomeMap
 
 @synthesize buildableData = _buildableData;
-@synthesize hbMenu, csMenu;
+@synthesize hbMenu;
 @synthesize loading = _loading;
 @synthesize redGid, greenGid;
 
@@ -511,9 +487,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         }
       }
     }
-    
-    [[NSBundle mainBundle] loadNibNamed:@"CriticalStructureMenu" owner:self options:nil];
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.csMenu];
     
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.hbMenu];
@@ -687,24 +660,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (mb) {
     [self moveToSprite:mb];
-  } else {
-    // Find the carpenter
-    [self moveToCritStruct:CritStructTypeCarpenter];
   }
-}
-
-- (void) moveToCritStruct:(CritStructType)type {
-  CCSprite *csb = nil;
-  for (CCNode *c in children_) {
-    if ([c isKindOfClass:[CritStructBuilding class]]) {
-      CritStructBuilding *check = (CritStructBuilding *)c;
-      if (check.critStruct.type == type) {
-        csb = check;
-        break;
-      }
-    }
-  }
-  [self moveToSprite:csb];
 }
 
 - (void) doReorder {
@@ -725,13 +681,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     curRect.origin = ccpAdd(curRect.origin, diff);
     hbMenu.frame = curRect;
   }
-  if (!csMenu.hidden) {
-    CGPoint diff = ccpSub(oldPos, position_);
-    diff.x *= -1;
-    CGRect curRect = csMenu.frame;
-    curRect.origin = ccpAdd(curRect.origin, diff);
-    csMenu.frame = curRect;
-  }
 }
 
 - (void) updateHomeBuildingMenu {
@@ -741,23 +690,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     hbMenu.hidden = NO;
   } else {
     hbMenu.hidden = YES;
-  }
-}
-
-- (void) updateCritStructMenu {
-  if (_selected && [_selected isKindOfClass:[CritStructBuilding class]]) {
-    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
-    if (!_canMove) {
-      [csMenu setFrameForPoint:pt];
-      csMenu.hidden = NO;
-    } else {
-      csMenu.hidden = YES;
-      [hbMenu setFrameForPoint:pt];
-      hbMenu.state = kMoveState;
-      hbMenu.hidden = NO;
-    }
-  } else {
-    csMenu.hidden = YES;
   }
 }
 
@@ -799,24 +731,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self moveToSprite:_purchBuilding];
 }
 
-- (void) preparePurchaseOfCritStruct:(CritStruct *)cs {
-  CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, cs.size.width, cs.size.height);
-  CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:loc map:self];
-  
-  [self addChild:csb z:0];
-  [csb release];
-  
-  self.selected = csb;
-  self.hbMenu.state = kMoveState;
-  _canMove = YES;
-  _purchasing = YES;
-  _purchCritStructType = cs.type;
-  
-  [self doReorder];
-  
-  [self moveToSprite:csb];
-}
-
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
     if ([selected isKindOfClass: [MoneyBuilding class]]) {
@@ -838,10 +752,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // During drag, take out menus
   if([recognizer state] == UIGestureRecognizerStateBegan ) {
     self.hbMenu.hidden = YES;
-    self.csMenu.hidden = YES;
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
     [self updateHomeBuildingMenu];
-    [self updateCritStructMenu];
   }
   
   if (_canMove) {
@@ -903,7 +815,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
   [self updateHomeBuildingMenu];
-  [self updateCritStructMenu];
+  
 }
 
 - (void) scrollScreenForTouch:(CGPoint)pt {
@@ -1005,29 +917,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           [moneyBuilding liftBlock];
           [self removeChild:moneyBuilding cleanup:YES];
         }
-      } else if ([homeBuilding isKindOfClass:[CritStructBuilding class]]) {
-        CritStructBuilding *csb = (CritStructBuilding *)homeBuilding;
-        UserCritStruct *usc = [oec placeCritStruct:_purchCritStructType x:csb.location.origin.x y:csb.location.origin.y];
-        if (usc) {
-          csb.critStruct = usc;
-          
-          // This will be released after the level up controller closes
-          CritStructPopupController *vc = [[CritStructPopupController alloc] initWithCritStruct:usc];
-          [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
-        } else {
-          [csb liftBlock];
-          [self removeChild:csb cleanup:YES];
-        }
       }
     } else {
       if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
         MoneyBuilding *moneyBuilding = (MoneyBuilding *)homeBuilding;
         [oec moveNormStruct:moneyBuilding.userStruct atX:moneyBuilding.location.origin.x atY:moneyBuilding.location.origin.y];
         [oec rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
-      } else if ([homeBuilding isKindOfClass:[CritStructBuilding class]]) {
-        CritStructBuilding *csb = (CritStructBuilding *)homeBuilding;
-        [oec moveCritStruct:csb.critStruct x:csb.location.origin.x y:csb.location.origin.y];
-        [oec rotateCritStruct:csb.critStruct orientation:csb.orientation];
       }
     }
   }
@@ -1190,17 +1085,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (IBAction)criticalStructMoveClicked:(id)sender {
-  _canMove = YES;
-  [self updateCritStructMenu];
-}
-
-- (IBAction)criticalStructVisitClicked:(id)sender {
-  CritStructBuilding *csb = (CritStructBuilding *)_selected;
-  self.selected = nil;
-  [csb.critStruct openMenu];
-}
-
 -(void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
     for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
@@ -1232,9 +1116,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) dealloc {
-  NSLog(@"dealloced");
-  [self.csMenu removeFromSuperview];
-  self.csMenu = nil;
   [self.hbMenu removeFromSuperview];
   self.hbMenu = nil;
   self.buildableData = nil;

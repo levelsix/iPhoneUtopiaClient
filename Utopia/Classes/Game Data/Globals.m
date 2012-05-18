@@ -1071,7 +1071,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     view.transform = CGAffineTransformMakeScale(2.0, 2.0);
   } completion:^(BOOL finished) {
     view.transform = CGAffineTransformIdentity;
-    completed();
+    if (completed) {
+      completed();
+    }
   }];
 }
 

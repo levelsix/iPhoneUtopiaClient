@@ -47,7 +47,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   dispatch_async(_queue, ^{
     [self downloadImage:imageName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-      completed();
+      if (completed) {
+        completed();
+      }
       LNLog(@"Download of %@ complete", imageName);
     });
   });

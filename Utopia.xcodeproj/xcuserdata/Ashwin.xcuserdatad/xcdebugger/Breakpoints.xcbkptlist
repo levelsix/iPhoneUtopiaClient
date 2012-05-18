@@ -47,12 +47,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
-         timestampString = "357596510.214869"
+         timestampString = "359002487.79871"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "803"
-         endingLineNumber = "803"
-         landmarkName = "-finishedEquippingAnimation"
+         startingLineNumber = "822"
+         endingLineNumber = "822"
+         landmarkName = "-sellClicked:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint

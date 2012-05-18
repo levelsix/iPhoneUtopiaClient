@@ -13,13 +13,24 @@
 @property (nonatomic, assign) BOOL toAppStore;
 @property (nonatomic, retain) NSString *link;
 
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *greenButtonLabel;
+@property (nonatomic, retain) IBOutlet UILabel *blackButtonLabel;
+@property (nonatomic, retain) IBOutlet UILabel *redButtonLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *notificationView;
+@property (nonatomic, retain) IBOutlet UIView *confirmationView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdColorView;
 
+@property (nonatomic, retain) NSInvocation *invocation;
+
 + (void) displayViewWithText:(NSString *)string;
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
++ (void) displayConfirmationWithDescription:(NSString *)description okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
 + (void) removeView;
 + (void) purgeSingleton;
 

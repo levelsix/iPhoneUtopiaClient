@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 #import "NibUtils.h"
+#import "UserData.h"
 
 typedef enum {
   kMyProfile = 1,
@@ -50,7 +51,6 @@ typedef enum {
 @property (nonatomic, retain) FullUserEquipProto *equip;
 
 - (void) updateForEquip:(FullUserEquipProto *)fuep;
-- (void) doShake;
 
 @end
 
@@ -103,6 +103,31 @@ typedef enum {
 
 - (void) unknownEquip;
 - (void) knownEquip;
+
+@end
+
+@interface ProfileEquipPopup : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *classLabel;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet UIView *wrongClassView;
+@property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
+@property (nonatomic, retain) IBOutlet UIButton *equipButton;
+@property (nonatomic, retain) IBOutlet UILabel *equipLabel;
+@property (nonatomic, retain) IBOutlet UIButton *sellButton;
+@property (nonatomic, retain) IBOutlet UILabel *sellLabel;
+
+@property (nonatomic, retain) UserEquip *userEquip;
+
+- (void) updateForUserEquip:(UserEquip *)ue;
 
 @end
 
@@ -203,6 +228,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) IBOutlet ProfileEquipPopup *equipPopup;
+
 @property (nonatomic, retain) UIImageView *equippingView;
 
 // UserId will usually be equal to fup.userId unless we are loading current
@@ -219,6 +246,7 @@ typedef enum {
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev;
 - (void) loadSkills;
+- (void) doEquip:(UserEquip *)equip;
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type;
 
 - (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto;

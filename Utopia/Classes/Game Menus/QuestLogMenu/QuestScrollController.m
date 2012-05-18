@@ -321,8 +321,8 @@
     [[GameLayer sharedGameLayer] loadHomeMap];
     [[HomeMap sharedHomeMap] moveToStruct:p.structId];
   } else if (type == kBuildStructJob) {
-    [[GameLayer sharedGameLayer] loadHomeMap];
-    [[HomeMap sharedHomeMap] moveToCritStruct:CritStructTypeCarpenter];
+    [[GameLayer sharedGameLayer] displayBazaarMap];
+    [[BazaarMap sharedBazaarMap] moveToCritStruct:CritStructTypeCarpenter];
   }
   [[QuestScrollController sharedQuestScrollController] closeButtonClicked:nil];
   

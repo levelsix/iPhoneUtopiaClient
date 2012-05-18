@@ -670,6 +670,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     }
   }
   
+  // Looks choppy. change this by finding the correct table cell and updating that alone..
+  [self.postsTableView reloadData];
+  
   self.removeView.hidden = YES;
   self.selectedCell = nil;
   

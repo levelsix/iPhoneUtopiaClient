@@ -18,11 +18,14 @@
 #import "SimpleAudioEngine.h"
 #import "MissionMap.h"
 #import "MarketplaceViewController.h"
+#import "Downloader.h"
 
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
 
 #define TRANSITION_DURATION 1.5f
+
+#define NUM_BACKGROUND_IMAGES 8
 
 @implementation BattleSummaryView
 
@@ -201,12 +204,45 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
++ (NSString *) getAvailableBackground {
+  NSMutableArray *validImages = [NSMutableArray arrayWithCapacity:NUM_BACKGROUND_IMAGES];
+  for (int i = 1; i <= NUM_BACKGROUND_IMAGES; i++) {
+    BOOL imageExists = YES;
+    NSString *path = [NSString stringWithFormat:@"battle%d.png", i];
+    
+    NSString *resName = [CCFileUtils getDoubleResolutionImage:path validate:NO];
+    NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
+    
+    if (!fullpath) {
+      // Image not in NSBundle: look in documents
+      NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+      NSString *documentsPath = [paths objectAtIndex:0];
+      fullpath = [documentsPath stringByAppendingPathComponent:resName];
+      
+      if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+        // Image not in docs: download it
+        [[Downloader sharedDownloader] downloadImage:fullpath.lastPathComponent completion:nil];
+        imageExists = NO;
+      }
+    }
+    
+    if (imageExists) {
+      [validImages addObject:path];
+    }
+  }
+  
+  int i = arc4random() % validImages.count;
+  NSString *validImg = [validImages objectAtIndex:i];
+  return validImg;
+}
+
 +(CCScene *) scene
 {
   // 'scene' is an autorelease object.
   CCScene *scene = [CCScene node];
   
-  CCSprite *sprite = [CCSprite spriteWithFile:@"battlebackground1.png"];
+  // When this scene is removed, it will be deallocated so the background will change..
+  CCSprite *sprite = [CCSprite spriteWithFile:[self getAvailableBackground]];
   sprite.anchorPoint = ccp(0,0);
   [scene addChild:sprite];
   
@@ -1196,6 +1232,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [[MapViewController sharedMapViewController] openEnemiesTab];
     [[CCDirector sharedDirector] popScene];
   } else {
+    // This will cause the scene to be deallocated since there are no more references to it.
     [[CCDirector sharedDirector] popSceneWithTransition:[CCTransitionFade class] duration:TRANSITION_DURATION];
   }
 }

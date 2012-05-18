@@ -141,7 +141,5 @@ typedef enum {
 - (IBAction)bigUpgradeClicked:(id)sender;
 - (IBAction)littleUpgradeClicked:(id)sender;
 - (IBAction)finishNowClicked:(id)sender;
-- (IBAction)criticalStructMoveClicked:(id)sender;
-- (IBAction)criticalStructVisitClicked:(id)sender;
 
 @end

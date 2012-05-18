@@ -72,7 +72,6 @@
   
   NSMutableArray *_myEquips;
   NSMutableArray *_myStructs;
-  NSMutableArray *_myCritStructs;
   NSMutableDictionary *_myCities;
   
   NSMutableDictionary *_inProgressQuests;
@@ -145,7 +144,6 @@
 
 @property (retain) NSMutableArray *myEquips;
 @property (retain) NSMutableArray *myStructs;
-@property (retain) NSMutableArray *myCritStructs;
 @property (retain) NSMutableDictionary *myCities;
 
 @property (retain) NSMutableDictionary *inProgressQuests;
@@ -168,7 +166,6 @@
 
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
-- (void) addToMyCritStructs:(NSArray *)structs;
 - (void) addToMyCities:(NSArray *)cities;
 - (void) addToAvailableQuests:(NSArray *)quests;
 - (void) addToInProgressQuests:(NSArray *)quests;

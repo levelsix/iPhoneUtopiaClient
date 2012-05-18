@@ -342,6 +342,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       NSIndexPath *z = mktPostsFromSender.count+gs.myEquips.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
       NSArray *a = [NSArray arrayWithObjects:y, z, nil];
       [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+      
+      [gs changeQuantityForEquip:proto.postedEquip.equipId by:1];
+      
       return;
     }
   }
@@ -815,47 +818,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
   } else {
     [Globals popupMessage:@"This building is not upgradable"];
-  }
-}
-
-- (UserCritStruct *) placeCritStruct:(CritStructType)type x:(int)x y:(int)y {
-  GameState *gs = [GameState sharedGameState];
-  
-  for (UserCritStruct *ucs in gs.myCritStructs) {
-    if (ucs.type == type) {
-      [Globals popupMessage:@"Already have this critical structure"];
-      return ucs;
-    }
-  }
-  
-  UserCritStruct *ucs = [[UserCritStruct alloc] initWithType:type];
-  if (gs.level >= ucs.minLevel) {
-    [[SocketCommunication sharedSocketCommunication] sendCritStructPlace:type x:x y:y];
-    ucs.location = CGRectMake(x, y, ucs.size.width, ucs.size.height);
-    ucs.orientation = StructOrientationPosition1;
-    [gs.myCritStructs addObject:ucs];
-    [ucs release];
-    
-    [Analytics placedCritStruct:ucs.name];
-    return ucs;
-  } else {
-    [Globals popupMessage:@"Not high enough level to build this critical struct"];
-  }
-  [ucs release];
-  return nil;
-}
-
-- (void) moveCritStruct:(UserCritStruct *)cs x:(int)x y:(int)y {
-  if (!CGPointEqualToPoint(cs.location.origin, CGPointMake(x, y))) {
-    [[SocketCommunication sharedSocketCommunication] sendCritStructMove:cs.type x:x y:y];
-    cs.location = CGRectMake(x, y, cs.size.width, cs.size.height);
-  }
-}
-
-- (void) rotateCritStruct:(UserCritStruct *)cs orientation:(StructOrientation)orientation {
-  if (cs.orientation != orientation) {
-    [[SocketCommunication sharedSocketCommunication] sendCritStructRotate:cs.type orientation:orientation];
-    cs.orientation = orientation;
   }
 }
 

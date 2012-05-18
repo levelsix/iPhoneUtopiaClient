@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "BattleLayer.h"
+#import "GenericPopupController.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -350,10 +351,6 @@
   }
 }
 
-- (void) doShake {
-  [Globals shakeView:self duration:SHAKE_DURATION offset:SHAKE_OFFSET];
-}
-
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   darkOverlay.hidden = NO;
 }
@@ -470,6 +467,108 @@
   self.border = nil;
   self.unknownLabel = nil;
   
+  [super dealloc];
+}
+
+@end
+
+@implementation ProfileEquipPopup
+
+@synthesize titleLabel, classLabel, attackLabel, defenseLabel;
+@synthesize typeLabel, levelLabel;
+@synthesize equipIcon, wrongClassView, tooLowLevelView;
+@synthesize descriptionLabel;
+@synthesize mainView, bgdView;
+@synthesize equipButton, equipLabel;
+@synthesize sellButton, sellLabel;
+@synthesize userEquip;
+
+- (void) updateForUserEquip:(UserEquip *)ue {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:ue.equipId];
+  
+  titleLabel.text = fep.name;
+  titleLabel.textColor = [Globals colorForRarity:fep.rarity];
+  classLabel.text = [Globals stringForEquipClassType:fep.classType];
+  typeLabel.text = [Globals stringForEquipType:fep.equipType];
+  attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+  levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
+  descriptionLabel.text = fep.description;
+  
+  [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
+  
+  if ([Globals canEquip:fep]) {
+    equipButton.enabled = YES;
+    equipLabel.alpha = 1.f;
+  } else {
+    equipButton.enabled = NO;
+    equipLabel.alpha = 0.75f;
+  }
+  
+  if ([Globals class:gs.type canEquip:fep.classType]) {
+    wrongClassView.hidden = YES;
+  } else {
+    wrongClassView.hidden = NO;
+  }
+  
+  if (gs.level >= fep.minLevel) {
+    tooLowLevelView.hidden = YES;
+  } else {
+    tooLowLevelView.hidden = NO;
+  }
+  
+  self.userEquip = ue;
+}
+
+- (IBAction)wrongClassClicked:(id)sender {
+  [Globals popupMessage:[NSString stringWithFormat:@"The %@ is only equippable by %@s.", titleLabel.text, classLabel.text]];
+}
+
+- (IBAction)tooLowLevelClicked:(id)sender {
+  [Globals popupMessage:[NSString stringWithFormat:@"The %@ is only equippable at Level %@.", titleLabel.text, levelLabel.text]];
+}
+
+- (IBAction)equipItemClicked:(id)sender {
+  [self closeClicked:nil];
+  [[ProfileViewController sharedProfileViewController] doEquip:userEquip];
+}
+
+- (IBAction)sellClicked:(id)sender {
+  [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to sell this item?" okayButton:@"Sell" cancelButton:nil target:self selector:@selector(sellItem)];
+}
+
+- (void) sellItem {
+  NSLog(@"Meep");
+}
+
+- (IBAction)postClicked:(id)sender {
+  
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
+    [self removeFromSuperview];
+  }];
+}
+
+- (void) dealloc {
+  self.titleLabel = nil;
+  self.classLabel = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.typeLabel = nil;
+  self.levelLabel = nil;
+  self.equipIcon = nil;
+  self.descriptionLabel = nil;
+  self.wrongClassView = nil;
+  self.tooLowLevelView = nil;
+  self.mainView = nil;
+  self.bgdView = nil;
+  self.equipButton = nil;
+  self.equipLabel = nil;
+  self.sellButton = nil;
+  self.sellLabel = nil;
   [super dealloc];
 }
 
@@ -653,6 +752,7 @@
 @synthesize mainView, bgdView;
 @synthesize fup = _fup;
 @synthesize userId;
+@synthesize equipPopup;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -739,6 +839,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   return CGPointMake(x, y);
 }
 
+- (void) doEquip:(UserEquip *)equip {
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equip.equipId];
+  for (EquipView *ev in equipViews) {
+    if (ev.equip == (FullUserEquipProto *)equip) {
+      [[OutgoingEventController sharedOutgoingEventController] wearEquip:equip.equipId];
+      [self doEquippingAnimation:ev forType:fep.equipType];
+    }
+  }
+}
+
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type {
   equippingView.frame = [equipTabView convertRect:ev.equipIcon.frame fromView:ev];
   equippingView.image = ev.equipIcon.image;
@@ -813,32 +923,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) equipViewSelected:(EquipView *)ev {
   GameState *gs = [GameState sharedGameState];
   FullUserEquipProto *fuep = ev.equip;
-  FullEquipProto *fep = [gs equipWithId:fuep.equipId];
   if (profileBar.state == kMyProfile && fuep.userId == gs.userId) {
-    if ([Globals canEquip:fep]) {
-      BOOL shouldAnimate = [[OutgoingEventController sharedOutgoingEventController] wearEquip:fep.equipId];
-      if (shouldAnimate) {
-        [self doEquippingAnimation:ev forType:fep.equipType];
-      }
-      unequippableView.hidden = YES;
-      [self displayMyCurrentStats];
-    } else {
-      [ev doShake];
-      if (![Globals class:gs.type canEquip:fep.classType]) {
-        unequippableLabel.text = [NSString stringWithFormat:@"Only %@s Can Equip This Item", [Globals stringForEquipClassType:fep.classType]];
-      }
-      else if (fep.minLevel > gs.level) {
-        unequippableLabel.text = [NSString stringWithFormat:@"You Must Be Level %d To Equip This Item", fep.minLevel];
-      } else {
-        unequippableLabel.text = @"Unable to equip for unknown reason";
-      }
-      unequippableView.alpha = 1.f;
-      unequippableView.hidden = NO;
-      
-      [UIView animateWithDuration:1.f delay:2.f options:0 animations:^{
-        unequippableView.alpha = 0.f;
-      } completion:nil];
-    }
+    // The fuep is actually a UserEquip.. see @selector(loadMyProfile)
+    [equipPopup updateForUserEquip:(UserEquip *)fuep];
+    [self.view addSubview:equipPopup];
+    [Globals bounceView:equipPopup.mainView fadeInBgdView:equipPopup.bgdView];
   } else {
     [Globals popupMessage:@"Attempting to equip an item that is not yours"];
   }
@@ -1272,6 +1361,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [self displayMyCurrentStats];
   
+  // Hacky: Fake my equips as FullUserEquipProtos because they have the same methods..
   [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
   self.profileBar.state = kMyProfile;
   [self loadSkills];
@@ -1420,6 +1510,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.spinner = nil;
   self.mainView = nil;
   self.bgdView = nil;
+  self.equipPopup = nil;
 }
 
 @end
