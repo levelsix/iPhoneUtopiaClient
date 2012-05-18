@@ -21,6 +21,7 @@
 #import "FlurryAnalytics.h"
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
+#import <Delight/Delight.h>
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -29,6 +30,8 @@
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
 
+
+#define SHOULD_VIDEO_USER    0
 @implementation AppDelegate
 
 @synthesize window;
@@ -80,6 +83,13 @@
   // Note: The setup for CrashAlytics insists that it must be the final program 
   //       in the didFinishLaunching Method
   [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
+}
+
+-(void) setUpDelightio
+{
+#if SHOULD_VIDEO_USER
+  [Delight startWithAppToken:@"6a7116a21a57eacaeaafd07c133"];
+#endif
 }
 
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -165,6 +175,9 @@
   
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
+  
+  // Delight.io
+  [self setUpDelightio];
   
   [self removeLocalNotifications];
 

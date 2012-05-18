@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */; };
+		457239FB1565E0CA000380EE /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FA1565E0CA000380EE /* Crashlytics.framework */; };
+		457239FD1565E0DC000380EE /* Delight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FC1565E0DC000380EE /* Delight.framework */; };
+		457239FF1565E431000380EE /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FE1565E431000380EE /* CoreMedia.framework */; };
+		45723A011565E443000380EE /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; };
-		457EBD871565B213008C097F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD861565B213008C097F /* Crashlytics.framework */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
@@ -1197,9 +1200,12 @@
 /* Begin PBXFileReference section */
 		456F2C8D156442DD00850E1D /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
+		457239FA1565E0CA000380EE /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		457239FC1565E0DC000380EE /* Delight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Delight.framework; sourceTree = "<group>"; };
+		457239FE1565E431000380EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		45723A001565E443000380EE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		457EBD8015647A38008C097F /* AMConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMConnect.h; sourceTree = "<group>"; };
 		457EBD8115647A38008C097F /* libAlaume-iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphoneos.a"; sourceTree = "<group>"; };
-		457EBD861565B213008C097F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		CF1256421538A94D00E0C1AD /* Lost Nations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lost Nations.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -2575,6 +2581,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45723A011565E443000380EE /* CoreVideo.framework in Frameworks */,
+				457239FF1565E431000380EE /* CoreMedia.framework in Frameworks */,
 				CF1273AE1538AD4C00E0C1AD /* Security.framework in Frameworks */,
 				CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */,
 				CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */,
@@ -2597,7 +2605,8 @@
 				CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */,
 				456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */,
 				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
-				457EBD871565B213008C097F /* Crashlytics.framework in Frameworks */,
+				457239FB1565E0CA000380EE /* Crashlytics.framework in Frameworks */,
+				457239FD1565E0DC000380EE /* Delight.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2625,6 +2634,8 @@
 		CF1256371538A94D00E0C1AD = {
 			isa = PBXGroup;
 			children = (
+				45723A001565E443000380EE /* CoreVideo.framework */,
+				457239FE1565E431000380EE /* CoreMedia.framework */,
 				CF12650C1538ACC400E0C1AD /* Utopia */,
 				CF1256451538A94D00E0C1AD /* Frameworks */,
 				CF1256431538A94D00E0C1AD /* Products */,
@@ -3211,7 +3222,8 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				457EBD861565B213008C097F /* Crashlytics.framework */,
+				457239FC1565E0DC000380EE /* Delight.framework */,
+				457239FA1565E0CA000380EE /* Crashlytics.framework */,
 				457EBD7F15647A38008C097F /* Alaume */,
 				456F2C8C156442DD00850E1D /* FlurryAnalytics */,
 				CFEDA617153C04FB00015562 /* UserVoice */,
