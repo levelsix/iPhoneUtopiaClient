@@ -164,6 +164,9 @@
 + (UIColor *)greenColor;
 + (UIColor *)redColor;
 
++ (void) playCoinSound;
++ (void) playEnterBuildingSound;
+
 + (BOOL)userTypeIsGood:(UserType)type;
 + (BOOL)userTypeIsBad:(UserType)type;
 

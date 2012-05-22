@@ -316,7 +316,9 @@
   
   [Analytics attemptedPurchase];
   
-  if (mktPost.coinCost > gs.silver) {
+  if (gs.userId == mktPost.poster.userId) {
+    [Globals popupMessage:@"You can't purchase your own item!"];
+  } else if (mktPost.coinCost > gs.silver) {
     [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
     [Analytics notEnoughSilverForMarketplaceBuy:mktPost.postedEquip.equipId cost:mktPost.coinCost];
   } else if (mktPost.diamondCost > gs.gold) {
@@ -463,6 +465,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }];
   
   [coinBar updateLabels];
+  
+  [Globals playEnterBuildingSound];
 }
 
 - (void) displayRedeemView {
@@ -858,16 +862,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if (self.state == kEquipBuyingState) {
     ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
     
-    GameState *gs = [GameState sharedGameState];
-    if (cell.mktProto.poster.userId != gs.userId) {
-      self.selectedCell = cell;
-      self.removeView.hidden = YES;
-      [self.purchView updateForMarketPost:cell.mktProto];
-      [self.view addSubview:self.purchView];
-      [Globals bounceView:self.purchView.mainView fadeInBgdView:self.purchView.bgdView];
-    } else {
-      [Globals popupMessage:@"You can't purchase your own item!"];
-    }
+    self.selectedCell = cell;
+    self.removeView.hidden = YES;
+    [self.purchView updateForMarketPost:cell.mktProto];
+    [self.view addSubview:self.purchView];
+    [Globals bounceView:self.purchView.mainView fadeInBgdView:self.purchView.bgdView];
   }
 }
 
@@ -906,12 +905,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   [self.postsTableView setContentOffset:CGPointMake(0, post.frame.origin.y-self.postsTableView.rowHeight) animated:YES];
   
-//  [self updateArmoryPopupForEquipId:fep.equipId];
-//  [self.view addSubview:self.armoryPriceView];
-//  
-//  CGRect rect = armoryPriceView.frame;
-//  rect.origin = ccp(post.frame.origin.x+240, post.frame.origin.y-30);
-//  armoryPriceView.frame = rect;
+  //  [self updateArmoryPopupForEquipId:fep.equipId];
+  //  [self.view addSubview:self.armoryPriceView];
+  //  
+  //  CGRect rect = armoryPriceView.frame;
+  //  rect.origin = ccp(post.frame.origin.x+240, post.frame.origin.y-30);
+  //  armoryPriceView.frame = rect;
   
   if ([textField.text isEqualToString: @"0"]) {
     textField.text = @"";

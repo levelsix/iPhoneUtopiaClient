@@ -13,67 +13,18 @@
 
 #define DISAPPEAR_ROTATION_ANGLE M_PI/3
 
-@implementation GenericPopupController
+@implementation GenericPopup
 
 @synthesize titleLabel, descriptionLabel;
-@synthesize toAppStore;
 @synthesize notificationView, confirmationView;
 @synthesize mainView, bgdColorView;
 @synthesize greenButtonLabel, blackButtonLabel, redButtonLabel;
-@synthesize link;
 @synthesize invocation;
+@synthesize toAppStore;
 
-SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
-
-- (void)viewDidLoad {
+- (void) awakeFromNib {
   confirmationView.frame = notificationView.frame;
-  [self.mainView addSubview:confirmationView];
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-  self.mainView.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdColorView];
-}
-
-+ (void) displayViewWithText:(NSString *)string title:(NSString *)title {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  gpc.notificationView.hidden = NO;
-  gpc.confirmationView.hidden = YES;
-  gpc.descriptionLabel.text = string;
-  gpc.titleLabel.text = title ? title : @"Notification!";
-  [GenericPopupController displayView];
-  gpc.toAppStore = NO;
-}
-
-+ (void) displayMajorUpdatePopup:(NSString *)appStoreLink {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  gpc.notificationView.hidden = NO;
-  gpc.confirmationView.hidden = YES;
-  gpc.descriptionLabel.text = @"There is a major update available. Click Okay to be taken to the App store.";
-  [GenericPopupController displayView];
-  gpc.toAppStore = YES;
-  gpc.link = appStoreLink;
-}
-
-+ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  gpc.notificationView.hidden = YES;
-  gpc.confirmationView.hidden = NO;
-  
-  gpc.titleLabel.text = title ? title : @"Confirmation!";
-  gpc.descriptionLabel.text = description;
-  gpc.greenButtonLabel.text = okay ? okay : @"Okay";
-  gpc.redButtonLabel.text = cancel ? cancel : @"Cancel";
-  
-	NSMethodSignature* sig = [[target class]
-                            instanceMethodSignatureForSelector:selector];
-	NSInvocation* invocation = [NSInvocation
-                              invocationWithMethodSignature:sig];
-	[invocation setTarget:target];
-	[invocation setSelector:selector];
-  gpc.invocation = invocation;
-  
-  [GenericPopupController displayView];
+  [mainView addSubview:confirmationView];
 }
 
 - (void) close {
@@ -85,13 +36,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
     self.mainView.center = CGPointMake(self.mainView.center.x-70, self.mainView.center.y+350);
     self.bgdColorView.alpha = 0.f;
   } completion:^(BOOL finished) {
-    [self.view removeFromSuperview];
+    [self removeFromSuperview];
   }];
 }
 
 - (IBAction)redOkayClicked:(id)sender {
   if (toAppStore) {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+    [GenericPopupController openAppStoreLink];
   } else {
     [self close];
   }
@@ -106,22 +57,95 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   [self close];
 }
 
-- (void)viewDidUnload
-{
-  [super viewDidUnload];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
+- (void) dealloc {
   self.titleLabel = nil;
   self.descriptionLabel = nil;
   self.greenButtonLabel = nil;
   self.blackButtonLabel = nil;
   self.redButtonLabel = nil;
-  self.link = nil;
   self.mainView = nil;
   self.bgdColorView = nil;
   self.notificationView = nil;
   self.confirmationView = nil;
   self.invocation = nil;
+  
+  [super dealloc];
+}
+
+@end
+
+@implementation GenericPopupController
+@synthesize link;
+@synthesize genPopup;
+
+SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
+
+- (void) viewWillAppear:(BOOL)animated {
+  [Globals bounceView:self.genPopup.mainView fadeInBgdView:self.genPopup.bgdColorView];
+  
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  gpc.view = nil;
+  gpc.genPopup = nil;
+}
+
++ (void) displayViewWithText:(NSString *)string title:(NSString *)title {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  GenericPopup *gp = [gpc genPopup];
+  gp.notificationView.hidden = NO;
+  gp.confirmationView.hidden = YES;
+  gp.descriptionLabel.text = string;
+  gp.titleLabel.text = title ? title : @"Notification!";
+  [GenericPopupController displayView];
+  gp.toAppStore = NO;
+  
+  gpc.view = nil;
+  gpc.genPopup = nil;
+}
+
++ (void) displayMajorUpdatePopup:(NSString *)appStoreLink {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  GenericPopup *gp = [gpc genPopup];
+  gp.notificationView.hidden = NO;
+  gp.confirmationView.hidden = YES;
+  gp.descriptionLabel.text = @"There is a major update available. Click Okay to be taken to the App store.";
+  [GenericPopupController displayView];
+  gp.toAppStore = YES;
+  gpc.link = appStoreLink;
+  
+  gpc.view = nil;
+  gpc.genPopup = nil;
+}
+
++ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  GenericPopup *gp = [gpc genPopup];
+  gp.notificationView.hidden = YES;
+  gp.confirmationView.hidden = NO;
+  
+  gp.titleLabel.text = title ? title : @"Confirmation!";
+  gp.descriptionLabel.text = description;
+  gp.greenButtonLabel.text = okay ? okay : @"Okay";
+  gp.redButtonLabel.text = cancel ? cancel : @"Cancel";
+  
+	NSMethodSignature* sig = [[target class]
+                            instanceMethodSignatureForSelector:selector];
+	NSInvocation* invocation = [NSInvocation
+                              invocationWithMethodSignature:sig];
+	[invocation setTarget:target];
+	[invocation setSelector:selector];
+  gp.invocation = invocation;
+  
+  [GenericPopupController displayView];
+}
+
++ (void) openAppStoreLink {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:gpc.link]];
+}
+
+- (void) dealloc {
+  self.link = nil;
+  [super dealloc];
 }
 
 @end

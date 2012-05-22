@@ -429,28 +429,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   if (proto.status == RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess) {
     if ([proto.marketplacePostsList count] > 0) {
-      NSMutableArray *eq;
-      NSMutableArray *staticEquips = [NSMutableArray arrayWithCapacity:proto.marketplacePostsList.count];
-      
-      if (proto.fromSender) {
-        eq = [gs marketplaceEquipPostsFromSender];
-      } else {
-        eq = [gs marketplaceEquipPosts];
+      if (mvc.view.superview) {
+        NSMutableArray *eq;
+        NSMutableArray *staticEquips = [NSMutableArray arrayWithCapacity:proto.marketplacePostsList.count];
+        
+        if (proto.fromSender) {
+          eq = [gs marketplaceEquipPostsFromSender];
+        } else {
+          eq = [gs marketplaceEquipPosts];
+        }
+        
+        if (proto.beforeThisPostId == 0) {
+          [eq removeAllObjects];
+        }
+        
+        int oldCount = [eq count];
+        
+        for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
+          [eq addObject:fmpp];
+          [staticEquips addObject:fmpp.postedEquip];
+        }
+        [gs addToStaticEquips:staticEquips];
+        
+        [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
       }
-      
-      if (proto.beforeThisPostId == 0) {
-        [eq removeAllObjects];
-      }
-      
-      int oldCount = [eq count];
-      
-      for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
-        [eq addObject:fmpp];
-        [staticEquips addObject:fmpp.postedEquip];
-      }
-      [gs addToStaticEquips:staticEquips];
-      
-      [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
     }
   } else {
     [Globals popupMessage:@"Server failed to retrieve current marketplace posts."];
@@ -463,7 +465,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Post to mkt response received with status %d", [proto status]);
   
   if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess) {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
+    MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+    if (mvc.view.superview) {
+      [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
+    }
   } else {
     [Globals popupMessage:@"Server failed to post item."];
   }
@@ -488,11 +493,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       for (int i = 0; i < mktPosts.count; i++) {
         FullMarketplacePostProto *p = [mktPosts objectAtIndex:i];
         if (p.marketplacePostId == proto.marketplacePost.marketplacePostId) {
-          [mktPosts removeObject:p];
-          NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
-          NSIndexPath *z = mktPosts.count == 0? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
-          NSArray *a = [NSArray arrayWithObjects:y, z, nil];
-          [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+          if (mvc.view.superview) {
+            [mktPosts removeObject:p];
+            NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
+            NSIndexPath *z = mktPosts.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
+            NSArray *a = [NSArray arrayWithObjects:y, z, nil];
+            [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+          }
           
           [gs changeQuantityForEquip:p.postedEquip.equipId by:1];
           break;
@@ -501,8 +508,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
   } else {
     [Globals popupMessage:@"Server failed to purchase from marketplace."];
+    [mvc removeLoadingView];
   }
-  [mvc removeLoadingView];
 }
 
 - (void) handleRetractMarketplacePostResponseProto:(RetractMarketplacePostResponseProto *) proto {

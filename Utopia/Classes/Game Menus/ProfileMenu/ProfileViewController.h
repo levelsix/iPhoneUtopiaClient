@@ -56,7 +56,7 @@ typedef enum {
 
 @end
 
-@interface MarketplacePostView : UIView
+@interface MarketplacePostView : UIView <UITextFieldDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
@@ -130,13 +130,17 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
 @property (nonatomic, retain) IBOutlet UIView *wrongClassView;
 @property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
 @property (nonatomic, retain) IBOutlet UIButton *equipButton;
 @property (nonatomic, retain) IBOutlet UILabel *equipLabel;
 @property (nonatomic, retain) IBOutlet UIButton *sellButton;
 @property (nonatomic, retain) IBOutlet UILabel *sellLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *soldView;
+@property (nonatomic, retain) IBOutlet UILabel *soldItemLabel;
+@property (nonatomic, retain) IBOutlet UILabel *soldSilverLabel;
 
 @property (nonatomic, retain) IBOutlet MarketplacePostView *mktPostView;
 

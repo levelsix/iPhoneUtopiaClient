@@ -13,6 +13,7 @@
 #import "Protocols.pb.h"
 #import "Downloader.h"
 #import "GenericPopupController.h"
+#import "SimpleAudioEngine.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -1092,6 +1093,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (UIColor *)redColor {
   return [UIColor colorWithRed:255/255.f green:0/255.f blue:0/255.f alpha:1.f];
+}
+
++ (void) playCoinSound {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"coindeposit.m4a"];
+}
+
++ (void) playEnterBuildingSound {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Enter_Store_Bell.m4a"];
 }
 
 - (void) dealloc {

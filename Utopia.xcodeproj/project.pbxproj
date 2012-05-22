@@ -44,7 +44,7 @@
 		CF126D301538ACCA00E0C1AD /* notification_alert.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF1265371538ACC400E0C1AD /* notification_alert.m4a */; };
 		CF126D311538ACCA00E0C1AD /* Quest Scroll Open.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF1265391538ACC400E0C1AD /* Quest Scroll Open.m4a */; };
 		CF126D321538ACCA00E0C1AD /* Quest_Accept_Complete.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF12653A1538ACC400E0C1AD /* Quest_Accept_Complete.m4a */; };
-		CF126D331538ACCA00E0C1AD /* Coin_Deposit_Withdraw_Buy.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF12653C1538ACC400E0C1AD /* Coin_Deposit_Withdraw_Buy.m4a */; };
+		CF126D331538ACCA00E0C1AD /* coindeposit.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF12653C1538ACC400E0C1AD /* coindeposit.m4a */; };
 		CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12653F1538ACC400E0C1AD /* Downloader.m */; };
 		CF126D351538ACCA00E0C1AD /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265421538ACC400E0C1AD /* GameState.m */; };
 		CF126D361538ACCA00E0C1AD /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265441538ACC400E0C1AD /* Globals.m */; };
@@ -1286,7 +1286,7 @@
 		CF1265371538ACC400E0C1AD /* notification_alert.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_alert.m4a; sourceTree = "<group>"; };
 		CF1265391538ACC400E0C1AD /* Quest Scroll Open.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quest Scroll Open.m4a"; sourceTree = "<group>"; };
 		CF12653A1538ACC400E0C1AD /* Quest_Accept_Complete.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quest_Accept_Complete.m4a; sourceTree = "<group>"; };
-		CF12653C1538ACC400E0C1AD /* Coin_Deposit_Withdraw_Buy.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Coin_Deposit_Withdraw_Buy.m4a; sourceTree = "<group>"; };
+		CF12653C1538ACC400E0C1AD /* coindeposit.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = coindeposit.m4a; sourceTree = "<group>"; };
 		CF12653E1538ACC400E0C1AD /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		CF12653F1538ACC400E0C1AD /* Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
 		CF1265411538ACC400E0C1AD /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
@@ -2910,7 +2910,7 @@
 		CF12653B1538ACC400E0C1AD /* Vault */ = {
 			isa = PBXGroup;
 			children = (
-				CF12653C1538ACC400E0C1AD /* Coin_Deposit_Withdraw_Buy.m4a */,
+				CF12653C1538ACC400E0C1AD /* coindeposit.m4a */,
 			);
 			path = Vault;
 			sourceTree = "<group>";
@@ -5121,7 +5121,7 @@
 				CF126D301538ACCA00E0C1AD /* notification_alert.m4a in Resources */,
 				CF126D311538ACCA00E0C1AD /* Quest Scroll Open.m4a in Resources */,
 				CF126D321538ACCA00E0C1AD /* Quest_Accept_Complete.m4a in Resources */,
-				CF126D331538ACCA00E0C1AD /* Coin_Deposit_Withdraw_Buy.m4a in Resources */,
+				CF126D331538ACCA00E0C1AD /* coindeposit.m4a in Resources */,
 				CF126D391538ACCA00E0C1AD /* ActivityFeedCell.xib in Resources */,
 				CF126D3B1538ACCA00E0C1AD /* ActivityFeedController.xib in Resources */,
 				CF126D3C1538ACCA00E0C1AD /* ArmoryListing.xib in Resources */,

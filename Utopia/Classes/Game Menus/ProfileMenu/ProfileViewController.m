@@ -27,6 +27,8 @@
 #define WALL_POST_FONT [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:15]
 #define WALL_POST_LABEL_WIDTH 217
 
+#define PRICE_DIGITS 7
+
 @implementation ProfileBar
 
 @synthesize state = _state;
@@ -311,54 +313,6 @@
 
 @end
 
-@implementation MarketplacePostView
-
-@synthesize bgdView, mainView;
-@synthesize postedPriceIcon, postedPriceTextField;
-@synthesize armoryPriceIcon, armoryPriceLabel;
-
-- (void) updateForEquip:(int)equipId andAddToSuperView:(UIView *)view {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
-  
-  BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
-  
-  if (sellsForGold) {
-    postedPriceIcon.highlighted = YES;
-    armoryPriceIcon.highlighted = YES;
-    armoryPriceLabel.text = [Globals commafyNumber:fep.diamondPrice];
-  } else {
-    postedPriceIcon.highlighted = NO;
-    armoryPriceIcon.highlighted = NO;
-    armoryPriceLabel.text = [Globals commafyNumber:fep.coinPrice];
-  }
-  postedPriceTextField.text = @"";
-  
-  [view addSubview:self];
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  
-  [postedPriceTextField becomeFirstResponder];
-}
-
-- (IBAction)closeClicked:(id)sender {
-  [postedPriceTextField resignFirstResponder];
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self removeFromSuperview];
-  }];
-}
-
-- (void) dealloc {
-  self.bgdView = nil;
-  self.mainView = nil;
-  self.postedPriceIcon = nil;
-  self.postedPriceTextField = nil;
-  self.armoryPriceLabel = nil;
-  self.armoryPriceIcon = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation EquipView
 
 @synthesize bgd;
@@ -520,6 +474,62 @@
 
 @end
 
+@implementation MarketplacePostView
+
+@synthesize bgdView, mainView;
+@synthesize postedPriceIcon, postedPriceTextField;
+@synthesize armoryPriceIcon, armoryPriceLabel;
+
+- (void) updateForEquip:(int)equipId andAddToSuperView:(UIView *)view {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  
+  BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
+  
+  if (sellsForGold) {
+    postedPriceIcon.highlighted = YES;
+    armoryPriceIcon.highlighted = YES;
+    armoryPriceLabel.text = [Globals commafyNumber:fep.diamondPrice];
+  } else {
+    postedPriceIcon.highlighted = NO;
+    armoryPriceIcon.highlighted = NO;
+    armoryPriceLabel.text = [Globals commafyNumber:fep.coinPrice];
+  }
+  postedPriceTextField.text = @"";
+  
+  [view addSubview:self];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [postedPriceTextField becomeFirstResponder];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [postedPriceTextField resignFirstResponder];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self removeFromSuperview];
+  }];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+  NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+  if ([str length] > PRICE_DIGITS) {
+    return NO;
+  }
+  return YES;
+}
+
+- (void) dealloc {
+  self.bgdView = nil;
+  self.mainView = nil;
+  self.postedPriceIcon = nil;
+  self.postedPriceTextField = nil;
+  self.armoryPriceLabel = nil;
+  self.armoryPriceIcon = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation ProfileEquipPopup
 
 @synthesize titleLabel, classLabel, attackLabel, defenseLabel;
@@ -531,6 +541,7 @@
 @synthesize sellButton, sellLabel;
 @synthesize userEquip;
 @synthesize mktPostView;
+@synthesize soldSilverLabel, soldItemLabel, soldView;
 
 - (void) updateForUserEquip:(UserEquip *)ue {
   GameState *gs = [GameState sharedGameState];
@@ -545,7 +556,7 @@
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   descriptionLabel.text = fep.description;
   
-  [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
+  equipIcon.equipId = fep.equipId;
   
   if ([Globals canEquip:fep]) {
     equipButton.enabled = YES;
@@ -571,6 +582,7 @@
 }
 
 - (IBAction)closeClicked:(id)sender {
+  [[ProfileViewController sharedProfileViewController] loadMyProfile];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
     [self removeFromSuperview];
   }];
@@ -590,15 +602,32 @@
 }
 
 - (IBAction)sellClicked:(id)sender {
-  [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to sell this item?" title:nil okayButton:@"Sell" cancelButton:nil target:self selector:@selector(sellItem)];
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:userEquip.equipId];
+  int sellAmt = fep.coinPrice ? [[Globals sharedGlobals] calculateEquipSilverSellCost:userEquip] : [[Globals sharedGlobals] calculateEquipGoldSellCost:userEquip];
+  NSString *str = [NSString stringWithFormat:@"Sell for %d %@?", sellAmt, fep.coinPrice ? @"silver" : @"gold"]; 
+  [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Sell" cancelButton:nil target:self selector:@selector(sellItem)];
 }
 
 - (void) sellItem {
-  NSLog(@"Meep");
+  [[OutgoingEventController sharedOutgoingEventController] sellEquip:userEquip.equipId];
+  if (userEquip.quantity <= 0) {
+    [self closeClicked:nil];
+  }
 }
 
 - (IBAction)postClicked:(id)sender {
   [self.mktPostView updateForEquip:userEquip.equipId andAddToSuperView:self];
+}
+
+- (IBAction)postOkayClicked:(id)sender
+{
+  [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:userEquip.equipId price:[self.mktPostView.postedPriceTextField.text intValue]];
+  [self.mktPostView closeClicked:nil];
+  
+  if (userEquip.quantity <= 0) {
+    [self closeClicked:nil];
+  }
 }
 
 - (void) dealloc {

@@ -5905,17 +5905,17 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 
 @interface GenerateAttackListRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasNumEnemies_:1;
   BOOL hasLatLowerBound_:1;
   BOOL hasLatUpperBound_:1;
   BOOL hasLongLowerBound_:1;
   BOOL hasLongUpperBound_:1;
+  BOOL hasNumEnemies_:1;
   BOOL hasSender_:1;
+  Float64 latLowerBound;
+  Float64 latUpperBound;
+  Float64 longLowerBound;
+  Float64 longUpperBound;
   int32_t numEnemies;
-  int32_t latLowerBound;
-  int32_t latUpperBound;
-  int32_t longLowerBound;
-  int32_t longUpperBound;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
@@ -5926,10 +5926,10 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (BOOL) hasLongUpperBound;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t numEnemies;
-@property (readonly) int32_t latLowerBound;
-@property (readonly) int32_t latUpperBound;
-@property (readonly) int32_t longLowerBound;
-@property (readonly) int32_t longUpperBound;
+@property (readonly) Float64 latLowerBound;
+@property (readonly) Float64 latUpperBound;
+@property (readonly) Float64 longLowerBound;
+@property (readonly) Float64 longUpperBound;
 
 + (GenerateAttackListRequestProto*) defaultInstance;
 - (GenerateAttackListRequestProto*) defaultInstance;
@@ -5978,23 +5978,23 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (GenerateAttackListRequestProto_Builder*) clearNumEnemies;
 
 - (BOOL) hasLatLowerBound;
-- (int32_t) latLowerBound;
-- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(int32_t) value;
+- (Float64) latLowerBound;
+- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLatLowerBound;
 
 - (BOOL) hasLatUpperBound;
-- (int32_t) latUpperBound;
-- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(int32_t) value;
+- (Float64) latUpperBound;
+- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLatUpperBound;
 
 - (BOOL) hasLongLowerBound;
-- (int32_t) longLowerBound;
-- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(int32_t) value;
+- (Float64) longLowerBound;
+- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLongLowerBound;
 
 - (BOOL) hasLongUpperBound;
-- (int32_t) longUpperBound;
-- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(int32_t) value;
+- (Float64) longUpperBound;
+- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLongUpperBound;
 @end
 

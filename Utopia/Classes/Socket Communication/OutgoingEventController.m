@@ -17,6 +17,7 @@
 #import "MissionMap.h"
 #import "MapViewController.h"
 #import "TutorialConstants.h"
+#import "GenericPopupController.h"
 
 @implementation OutgoingEventController
 
@@ -59,6 +60,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
     gs.silver -= amount;
     gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver]];
   }
@@ -74,6 +77,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
     gs.silver += amount;
     gs.vaultBalance -= amount;
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to withdraw %d coins. Currently only have %d coins in vault.", amount, gs.vaultBalance]];
   }
@@ -155,6 +160,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     gs.silver -= fep.coinPrice;
     gs.gold -= fep.diamondPrice;
+    
+    [Globals popupMessage:[NSString stringWithFormat:@"You have bought 1 %@!", fep.name]];
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"Not enough money to buy this equipment"];
   }
@@ -167,6 +176,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserEquip *ue = [gs myEquipWithId:equipId];
+  FullEquipProto *fep = [gs equipWithId:equipId];
   
   if (ue) {
     [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
@@ -175,6 +185,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.gold += [gl calculateEquipGoldSellCost:ue];
     
     [gs changeQuantityForEquip:equipId by:-1];
+    
+    [Globals popupMessage:[NSString stringWithFormat:@"You have sold 1 %@!", fep.name]];
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"You do not own this equipment"];
   }
@@ -304,6 +318,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int gold = sellsForGold ? price : 0;
     [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
     [gs changeQuantityForEquip:equipId by:-1];
+    [GenericPopupController displayViewWithText:[NSString stringWithFormat:@"You have posted your %@ for %d %@!", fep.name, silver ? silver : gold, silver ? @"silver" : @"gold"] title:@"Congratulations!"];
   } else {
     [Globals popupMessage:@"Unable to find this equip!"];
   }
@@ -366,6 +381,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           [sc sendPurchaseFromMarketplaceMessage:postId poster:proto.poster.userId];
           gs.gold -= proto.diamondCost;
           gs.silver -= proto.coinCost;
+          
+          [Globals playCoinSound];
+          break;
         } else {
           [Globals popupMessage:@"Not enough coins to purchase"];
         }
@@ -387,6 +405,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.silver += gs.marketplaceSilverEarnings;
     gs.marketplaceGoldEarnings = 0;
     gs.marketplaceSilverEarnings = 0;
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"Nothing to earn!"];
   }

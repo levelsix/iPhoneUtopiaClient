@@ -418,6 +418,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
     self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   }];
+  
+  [Globals playEnterBuildingSound];
 }
 
 - (void) setState:(ArmoryState)state {
@@ -491,8 +493,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   if (![Globals canEquip:fep]) {
     if (fep.classType != gs.type % 3 && fep.classType != FullEquipProto_ClassTypeAllAmulet) {
       cantEquipLabel.text = [NSString stringWithFormat:@"This item can only be used by a %@", [Globals stringForEquipClassType:fep.classType]];
-    }
-    else if (fep.minLevel > gs.level) {
+    } else if (fep.minLevel > gs.level) {
       cantEquipLabel.text = [NSString stringWithFormat:@"Requires Level %d to Equip", fep.minLevel];
     } else {
       cantEquipLabel.text = @"Unable to equip for unknown reason";
@@ -637,7 +638,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
   numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
   
-  if (updatedQuantity > 0) {
+  if (updatedQuantity > 0 && fep.diamondPrice == 0) {
     sellButton.enabled = YES;
   }
   

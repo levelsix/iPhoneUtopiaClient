@@ -22344,10 +22344,10 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 @interface GenerateAttackListRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t numEnemies;
-@property int32_t latLowerBound;
-@property int32_t latUpperBound;
-@property int32_t longLowerBound;
-@property int32_t longUpperBound;
+@property Float64 latLowerBound;
+@property Float64 latUpperBound;
+@property Float64 longLowerBound;
+@property Float64 longUpperBound;
 @end
 
 @implementation GenerateAttackListRequestProto
@@ -22432,16 +22432,16 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
     [output writeInt32:2 value:self.numEnemies];
   }
   if (self.hasLatLowerBound) {
-    [output writeInt32:3 value:self.latLowerBound];
+    [output writeDouble:3 value:self.latLowerBound];
   }
   if (self.hasLatUpperBound) {
-    [output writeInt32:4 value:self.latUpperBound];
+    [output writeDouble:4 value:self.latUpperBound];
   }
   if (self.hasLongLowerBound) {
-    [output writeInt32:5 value:self.longLowerBound];
+    [output writeDouble:5 value:self.longLowerBound];
   }
   if (self.hasLongUpperBound) {
-    [output writeInt32:6 value:self.longUpperBound];
+    [output writeDouble:6 value:self.longUpperBound];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -22459,16 +22459,16 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
     size += computeInt32Size(2, self.numEnemies);
   }
   if (self.hasLatLowerBound) {
-    size += computeInt32Size(3, self.latLowerBound);
+    size += computeDoubleSize(3, self.latLowerBound);
   }
   if (self.hasLatUpperBound) {
-    size += computeInt32Size(4, self.latUpperBound);
+    size += computeDoubleSize(4, self.latUpperBound);
   }
   if (self.hasLongLowerBound) {
-    size += computeInt32Size(5, self.longLowerBound);
+    size += computeDoubleSize(5, self.longLowerBound);
   }
   if (self.hasLongUpperBound) {
-    size += computeInt32Size(6, self.longUpperBound);
+    size += computeDoubleSize(6, self.longUpperBound);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -22597,20 +22597,20 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
         [self setNumEnemies:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setLatLowerBound:[input readInt32]];
+      case 25: {
+        [self setLatLowerBound:[input readDouble]];
         break;
       }
-      case 32: {
-        [self setLatUpperBound:[input readInt32]];
+      case 33: {
+        [self setLatUpperBound:[input readDouble]];
         break;
       }
-      case 40: {
-        [self setLongLowerBound:[input readInt32]];
+      case 41: {
+        [self setLongLowerBound:[input readDouble]];
         break;
       }
-      case 48: {
-        [self setLongUpperBound:[input readInt32]];
+      case 49: {
+        [self setLongUpperBound:[input readDouble]];
         break;
       }
     }
@@ -22665,10 +22665,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLatLowerBound {
   return result.hasLatLowerBound;
 }
-- (int32_t) latLowerBound {
+- (Float64) latLowerBound {
   return result.latLowerBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(Float64) value {
   result.hasLatLowerBound = YES;
   result.latLowerBound = value;
   return self;
@@ -22681,10 +22681,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLatUpperBound {
   return result.hasLatUpperBound;
 }
-- (int32_t) latUpperBound {
+- (Float64) latUpperBound {
   return result.latUpperBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(Float64) value {
   result.hasLatUpperBound = YES;
   result.latUpperBound = value;
   return self;
@@ -22697,10 +22697,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLongLowerBound {
   return result.hasLongLowerBound;
 }
-- (int32_t) longLowerBound {
+- (Float64) longLowerBound {
   return result.longLowerBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(Float64) value {
   result.hasLongLowerBound = YES;
   result.longLowerBound = value;
   return self;
@@ -22713,10 +22713,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLongUpperBound {
   return result.hasLongUpperBound;
 }
-- (int32_t) longUpperBound {
+- (Float64) longUpperBound {
   return result.longUpperBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(Float64) value {
   result.hasLongUpperBound = YES;
   result.longUpperBound = value;
   return self;

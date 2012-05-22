@@ -8,10 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GenericPopupController : UIViewController
-
-@property (nonatomic, assign) BOOL toAppStore;
-@property (nonatomic, retain) NSString *link;
+@interface GenericPopup : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
@@ -28,10 +25,20 @@
 
 @property (nonatomic, retain) NSInvocation *invocation;
 
+@property (nonatomic, assign) BOOL toAppStore;
+
+@end
+
+@interface GenericPopupController : UIViewController
+
+@property (nonatomic, retain) NSString *link;
+@property (nonatomic, retain) IBOutlet GenericPopup *genPopup;
+
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
 + (void) displayViewWithText:(NSString *)string title:(NSString *)title;
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
 + (void) removeView;
 + (void) purgeSingleton;
++ (void) openAppStoreLink;
 
 @end
