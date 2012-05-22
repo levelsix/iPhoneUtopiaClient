@@ -18,10 +18,19 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 #import "Apsalar.h"
+#import "FlurryAnalytics.h"
+#import "AMConnect.h"
+#import <Crashlytics/Crashlytics.h>
 
-#define APSALAR_API_KEY @"lvl6"
-#define APSALAR_SECRET @"K7kbMwwF"
+#define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
+#define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
+#define ALAUME_API_KEY       @"d184b5bf284a45c4aa7e19e0230e1c2f"
+#define ALAUME_APP_ID        @"tk"
+#define APSALAR_API_KEY      @"lvl6"
+#define APSALAR_SECRET       @"K7kbMwwF"
 
+
+#define SHOULD_VIDEO_USER    0
 @implementation AppDelegate
 
 @synthesize window;
@@ -47,6 +56,42 @@
 	
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
 }
+
+-(void) setUpAlauMeRefferalTracking
+{
+  AMConnect *alaume = [AMConnect sharedInstance];
+  
+  // Set to YES for debugging purposes. Trace info will be written to console.
+  alaume.isLoggingEnabled = NO;
+  
+  // Set to YES for Lite SKU.
+  alaume.isFreeSKU = NO;
+
+  [alaume initializeWithAppId:ALAUME_APP_ID apiKey:ALAUME_API_KEY];
+}
+
+-(void) setUpFlurryAnalytics 
+{
+  [FlurryAnalytics startSession:FLURRY_API_KEY];
+  [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
+                              [GameState sharedGameState].userId]];
+}
+
+-(void) setUpCrashAlytics 
+{
+  // Note: The setup for CrashAlytics insists that it must be the final program 
+  //       in the didFinishLaunching Method
+  [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
+}
+
+-(void) setUpDelightio
+{
+#if SHOULD_VIDEO_USER
+#import <Delight/Delight.h>
+  [Delight startWithAppToken:@"6a7116a21a57eacaeaafd07c133"];
+#endif
+}
+
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// Let the device know we want to receive push notifications
@@ -124,9 +169,24 @@
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
   [Analytics beganApp];
   [Analytics openedApp];
+
+  // FlurryAnalytics
+  [self setUpFlurryAnalytics];
+  
+  // Alau.Me
+  [self setUpAlauMeRefferalTracking];
+  
+  // Delight.io
+  [self setUpDelightio];
   
   [self removeLocalNotifications];
-  
+
+  // CrashAlytics
+  // ************
+  // Note: The setup for CrashAlytics insists that it must be the final program 
+  //       in the didFinishLaunching Method
+  [self setUpCrashAlytics];
+
   return YES;
 }
 
