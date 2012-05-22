@@ -55,6 +55,56 @@
 
 @end
 
+@implementation RewardCell
+
+@synthesize withEquipView, withoutEquipView;
+@synthesize equipIcon, attackLabel, defenseLabel;
+@synthesize smallExpLabel, bigExpLabel;
+@synthesize smallCoinLabel, bigCoinLabel;
+
+- (void) awakeFromNib {
+  [withoutEquipView.superview addSubview:withEquipView];
+  withEquipView.frame = withoutEquipView.frame;
+}
+
+- (void) updateForQuest:(FullQuestProto *)fqp {
+  GameState *gs = [GameState sharedGameState];
+  if (fqp.equipIdGained > 0) {
+    withEquipView.hidden = NO;
+    withoutEquipView.hidden = YES;
+    
+    equipIcon.equipId = fqp.equipIdGained;
+    
+    FullEquipProto *fep = [gs equipWithId:fqp.equipIdGained];
+    attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
+    defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+    
+    smallExpLabel.text = [NSString stringWithFormat:@"%d", fqp.expGained];
+    smallCoinLabel.text = [NSString stringWithFormat:@"%d", fqp.coinsGained];
+  } else {
+    withEquipView.hidden = YES;
+    withoutEquipView.hidden = NO;
+    
+    bigExpLabel.text = [NSString stringWithFormat:@"%d Exp.", fqp.expGained];
+    bigCoinLabel.text = [NSString stringWithFormat:@"%d Silver", fqp.coinsGained];
+  }
+}
+
+- (void) dealloc {
+  self.withEquipView = nil;
+  self.withoutEquipView = nil;
+  self.equipIcon = nil;
+  self.attackLabel = nil;
+  self.defenseLabel = nil;
+  self.smallExpLabel = nil;
+  self.bigExpLabel = nil;
+  self.smallCoinLabel = nil;
+  self.bigCoinLabel = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation JobCell
 
 @synthesize job;
@@ -242,7 +292,7 @@
 
 @implementation TaskListTableDelegate
 
-@synthesize jobCell;
+@synthesize jobCell, rewardCell;
 @synthesize quest, jobs;
 
 - (void) setQuest:(FullQuestProto *)q {
@@ -383,6 +433,7 @@
 
 - (void) dealloc {
   self.jobCell = nil;
+  self.rewardCell = nil;
   self.quest = nil;
   self.jobs = nil;
   [super dealloc];

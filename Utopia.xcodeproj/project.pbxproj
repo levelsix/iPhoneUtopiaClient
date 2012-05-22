@@ -2536,6 +2536,7 @@
 		CF6BDC76156AFDAE0056B45B /* submittomarketbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = submittomarketbg.png; sourceTree = "<group>"; };
 		CF6BDC86156C1D800056B45B /* expstars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "expstars@2x.png"; sourceTree = "<group>"; };
 		CF6BDC88156C1D860056B45B /* expstars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expstars.png; sourceTree = "<group>"; };
+		CF6BDC93156C3CD30056B45B /* ClientProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientProperties.h; sourceTree = "<group>"; };
 		CF7FEED9154085F000716E37 /* FAQMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAQMenuController.h; path = FAQMenu/FAQMenuController.h; sourceTree = "<group>"; };
 		CF7FEEDA154085F000716E37 /* FAQMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAQMenuController.m; path = FAQMenu/FAQMenuController.m; sourceTree = "<group>"; };
 		CF7FEEDB154085F000716E37 /* FAQMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FAQMenuController.xib; path = FAQMenu/FAQMenuController.xib; sourceTree = "<group>"; };
@@ -3274,6 +3275,7 @@
 				CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */,
 				CF1265D31538ACC400E0C1AD /* SocketCommunication.h */,
 				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
+				CF6BDC93156C3CD30056B45B /* ClientProperties.h */,
 			);
 			path = "Socket Communication";
 			sourceTree = "<group>";

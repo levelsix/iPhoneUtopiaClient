@@ -9,6 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 #import "UserData.h"
+#import "NibUtils.h"
+
+@interface RewardCell : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet UIView *withEquipView;
+@property (nonatomic, retain) IBOutlet UIView *withoutEquipView;
+@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet UILabel *smallExpLabel;
+@property (nonatomic, retain) IBOutlet UILabel *bigExpLabel;
+@property (nonatomic, retain) IBOutlet UILabel *smallCoinLabel;
+@property (nonatomic, retain) IBOutlet UILabel *bigCoinLabel;
+
+@end
 
 @interface QuestCell : UITableViewCell
 
@@ -45,6 +60,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet JobCell *jobCell;
+@property (nonatomic, retain) IBOutlet RewardCell *rewardCell;
 @property (nonatomic, retain) FullQuestProto *quest;
 @property (nonatomic, retain) NSArray *jobs;
 
