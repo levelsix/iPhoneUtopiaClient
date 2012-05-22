@@ -13,6 +13,7 @@
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"
+#import "Apsalar.h"
 
 #ifndef DEBUG
 
@@ -22,7 +23,7 @@
 #define UDID [[UIDevice currentDevice] uniqueDeviceIdentifier]
 #else
 
-#define HOST_NAME @"192.168.1.8"//@"184.169.148.243"
+#define HOST_NAME @"10.1.10.17"//@"184.169.148.243"
 #define HOST_PORT 8888
 
 #define UDID @"42d1cadaa64dbf3c3e8133e652a2df06"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06"//
@@ -50,25 +51,26 @@ static NSString *udid = nil;
     udid = [[NSString stringWithFormat:@"%d%d%d", arc4random(), arc4random(), arc4random()] retain];
 #else
     udid = [UDID retain];
+    
 #endif
   }
   return self;
 }
 
 - (void) connectToSocket {
-	NSError *error = nil;
+  NSError *error = nil;
   NSString *host  = HOST_NAME;
   uint16_t port = HOST_PORT;
   
   // Make connection to host
-	if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error])
-	{
-		LNLog(@"Unable to connect to due to invalid configuration: %@", error);
-	}
-	else
-	{
-		LNLog(@"Connecting to \"%@\" on port %hu...", host, port);
-	}
+  if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error])
+  {
+    LNLog(@"Unable to connect to due to invalid configuration: %@", error);
+  }
+  else
+  {
+    LNLog(@"Connecting to \"%@\" on port %hu...", host, port);
+  }
 }
 
 - (void) rebuildSender {
@@ -226,8 +228,9 @@ static NSString *udid = nil;
 }
 
 - (void) sendStartupMessage:(uint64_t)clientTime {
-  StartupRequestProto *startReq = [[[[StartupRequestProto builder] 
-                                     setUdid:udid]
+  StartupRequestProto *startReq = [[[[[StartupRequestProto builder] 
+                                      setUdid:udid]
+                                     setApsalarId:[Apsalar shared].apsalarID]
                                     setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
                                    build];
   
@@ -667,8 +670,8 @@ static NSString *udid = nil;
 
 - (void) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId {
   RetrievePlayerWallPostsRequestProto_Builder *bldr = [[[RetrievePlayerWallPostsRequestProto builder]
-                                                       setSender:_sender]
-                                                      setRelevantUserId:playerId];
+                                                        setSender:_sender]
+                                                       setRelevantUserId:playerId];
   
   if (beforePostId > 0) {
     [bldr setBeforeThisPostId:beforePostId];

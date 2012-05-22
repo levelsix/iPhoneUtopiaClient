@@ -550,49 +550,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     }
   }
   
-  BOOL hasMarketplace = NO;
-  BOOL hasVault = NO;
-  BOOL hasArmory = NO;
-  
-  for (UserCritStruct *ucs in gs.myCritStructs) {
-    if (ucs.type == CritStructTypeMarketplace) {
-      hasMarketplace = YES;
-    } else if (ucs.type == CritStructTypeVault) {
-      hasVault = YES;
-    } else if (ucs.type == CritStructTypeArmory) {
-      hasArmory = YES;
-    }
-  }
-  
-  // This should be in the order of min levels
-  if (!hasArmory) {
-    CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeArmory];
-    [critStructsList addObject:cs];
-    [cs release];
-    
-    if (gs.level >= cs.minLevel) {
-      _critStructAvail = YES;
-    }
-  }
-  if (!hasVault) {
-    CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeVault];
-    [critStructsList addObject:cs];
-    [cs release];
-    
-    if (gs.level >= cs.minLevel) {
-      _critStructAvail = YES;
-    }
-  }
-  if (!hasMarketplace) {
-    CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeMarketplace];
-    [critStructsList addObject:cs];
-    [cs release];
-    
-    if (gs.level >= cs.minLevel) {
-      _critStructAvail = YES;
-    }
-  }
-  
   [self.carpTable reloadData];
 }
 
@@ -667,10 +624,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
       }
     }
     [coinBar updateLabels];
-  } else {
-    // Buy the Functional building
-    [[HomeMap sharedHomeMap] preparePurchaseOfCritStruct:carp.critStruct];
-    [CarpenterMenuController removeView];
   }
 }
 

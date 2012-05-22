@@ -14,6 +14,7 @@
 #import "Globals.h"
 #import "NibUtils.h"
 #import "RefillMenuController.h"
+#import "ProfileViewController.h"
 
 #define PRICE_DIGITS 7
 #define REFRESH_ROWS 20
@@ -64,8 +65,6 @@
         removeButton.hidden = YES;
         buyButton.hidden = YES;
         submitButton.hidden = YES;
-        priceIcon.hidden = YES;
-        priceLabel.hidden = YES;
         quantityBackground.hidden = NO;
         quantityLabel.hidden = NO;
         break;
@@ -78,8 +77,6 @@
         removeButton.hidden = YES;
         buyButton.hidden = NO;
         submitButton.hidden = YES;
-        priceIcon.hidden = NO;
-        priceLabel.hidden = NO;
         quantityBackground.hidden = YES;
         quantityLabel.hidden = YES;
         break;
@@ -92,8 +89,6 @@
         removeButton.hidden = NO;
         buyButton.hidden = YES;
         submitButton.hidden = YES;
-        priceIcon.hidden = NO;
-        priceLabel.hidden = NO;
         quantityBackground.hidden = YES;
         quantityLabel.hidden = YES;
         break;
@@ -119,7 +114,7 @@
 }
 
 - (void) showEquipPost: (FullMarketplacePostProto *)proto {
-  if ([proto posterId] == [[GameState sharedGameState] userId]) {
+  if (proto.poster.userId == [[GameState sharedGameState] userId]) {
     self.state = kMySellingState;
   } else {
     self.state = kSellingState;
@@ -135,7 +130,6 @@
   self.defStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.defenseBoost];
   self.postTitle.text = proto.postedEquip.name;
   self.postTitle.textColor = [Globals colorForRarity:proto.postedEquip.rarity];
-  //  self.itemImageView.image = [Globals imageForEquip:proto.postedEquip.equipId];
   [Globals loadImageForEquip:proto.postedEquip.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = proto;
   self.equip = nil;
@@ -196,33 +190,89 @@
 
 @implementation MarketPurchaseView
 
-@synthesize titleLabel, descriptionLabel, classLabel, attackLabel, defenseLabel;
-@synthesize typeLabel, levelLabel, priceIcon, playerNameLabel;
-@synthesize equipIcon, priceLabel, wrongClassView, tooLowLevelView;
+@synthesize titleLabel, crossOutView, classLabel, attackLabel, defenseLabel;
+@synthesize typeLabel, levelLabel, playerNameButton;
+@synthesize equipIcon, wrongClassView, tooLowLevelView;
+@synthesize armoryPriceIcon, armoryPriceLabel;
+@synthesize postedPriceIcon, postedPriceLabel;
+@synthesize savePriceIcon, savePriceLabel;
 @synthesize mainView, bgdView;
+@synthesize mktPost;
 
-- (void) updateForMarketPost:(FullMarketplacePostProto *)mktPost {
+- (void) updateForMarketPost:(FullMarketplacePostProto *)m {
   GameState *gs = [GameState sharedGameState];
+  
+  self.mktPost = m;
+  
   FullEquipProto *fep = mktPost.postedEquip;
   
   titleLabel.text = fep.name;
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
-  descriptionLabel.text = fep.description;
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
   attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
+  [playerNameButton setTitle:m.poster.name forState:UIControlStateNormal];
   
   if ([Globals sellsForGoldInMarketplace:fep]) {
-    priceIcon.highlighted = YES;
-    priceLabel.text = [NSString stringWithFormat:@"%d", mktPost.diamondCost];
+    armoryPriceIcon.highlighted = YES;
+    postedPriceIcon.highlighted = YES;
+    savePriceIcon.highlighted = YES;
+    postedPriceLabel.text = [Globals commafyNumber:mktPost.diamondCost];
+    
+    if (fep.diamondPrice > 0) {
+      crossOutView.hidden = NO;
+      armoryPriceLabel.text = [Globals commafyNumber:fep.diamondPrice];
+      savePriceLabel.text = [NSString stringWithFormat:@"%@ (%@%%)", 
+                             [Globals commafyNumber:fep.diamondPrice-mktPost.diamondCost], 
+                             [Globals commafyNumber:(int)roundf((fep.diamondPrice-mktPost.diamondCost)/((float)fep.diamondPrice)*100)]];
+      
+      if (mktPost.diamondCost < fep.diamondPrice) {
+        postedPriceLabel.textColor = [Globals greenColor];
+        savePriceLabel.textColor = [Globals greenColor];
+      } else {
+        postedPriceLabel.textColor = [Globals redColor];
+        savePriceLabel.textColor = [Globals redColor];
+      }
+      
+    } else {
+      armoryPriceLabel.text = @"N/A";
+      savePriceLabel.text = @"N/A";
+      postedPriceLabel.textColor = [Globals creamColor];
+      savePriceLabel.textColor = [Globals creamColor];
+      crossOutView.hidden = YES;
+    }
   } else {
-    priceIcon.highlighted = NO;
-    priceLabel.text = [NSString stringWithFormat:@"%d", mktPost.coinCost];
+    armoryPriceIcon.highlighted = NO;
+    postedPriceIcon.highlighted = NO;
+    savePriceIcon.highlighted = NO;
+    postedPriceLabel.text = [Globals commafyNumber:mktPost.coinCost];
+    
+    if (fep.coinPrice > 0) {
+      crossOutView.hidden = NO;
+      armoryPriceLabel.text = [Globals commafyNumber:fep.coinPrice];
+      savePriceLabel.text = [NSString stringWithFormat:@"%@ (%@%%)", 
+                             [Globals commafyNumber:fep.coinPrice-mktPost.coinCost], 
+                             [Globals commafyNumber:(int)roundf((fep.coinPrice-mktPost.coinCost)/((float)fep.coinPrice)*100)]];
+      
+      if (mktPost.coinCost < fep.coinPrice) {
+        postedPriceLabel.textColor = [Globals greenColor];
+        savePriceLabel.textColor = [Globals greenColor];
+      } else {
+        postedPriceLabel.textColor = [Globals redColor];
+        savePriceLabel.textColor = [Globals redColor];
+      }
+    } else {
+      armoryPriceLabel.text = @"N/A";
+      savePriceLabel.text = @"N/A";
+      postedPriceLabel.textColor = [Globals creamColor];
+      savePriceLabel.textColor = [Globals creamColor];
+      crossOutView.hidden = YES;
+    }
   }
   
-  [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
+  equipIcon.equipId = fep.equipId;
   
   if ([Globals class:gs.type canEquip:fep.classType]) {
     wrongClassView.hidden = YES;
@@ -235,10 +285,19 @@
   } else {
     tooLowLevelView.hidden = NO;
   }
+  
+  CGSize size = [armoryPriceLabel.text sizeWithFont:armoryPriceLabel.font];
+  CGRect r = crossOutView.frame;
+  r.size.width = size.width;
+  crossOutView.frame = r;
 }
 
 - (IBAction)wrongClassClicked:(id)sender {
   [Globals popupMessage:[NSString stringWithFormat:@"The %@ is only equippable by %@s.", titleLabel.text, classLabel.text]];
+}
+
+- (IBAction)profileButtonClicked:(id)sender {
+  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:mktPost.poster withState:kEquipState];
 }
 
 - (IBAction)tooLowLevelClicked:(id)sender {
@@ -251,18 +310,45 @@
   }];
 }
 
+- (IBAction)buyClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+  
+  [Analytics attemptedPurchase];
+  
+  if (gs.userId == mktPost.poster.userId) {
+    [Globals popupMessage:@"You can't purchase your own item!"];
+  } else if (mktPost.coinCost > gs.silver) {
+    [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+    [Analytics notEnoughSilverForMarketplaceBuy:mktPost.postedEquip.equipId cost:mktPost.coinCost];
+  } else if (mktPost.diamondCost > gs.gold) {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:mktPost.diamondCost];
+    [Analytics notEnoughGoldForMarketplaceBuy:mktPost.postedEquip.equipId cost:mktPost.diamondCost];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:mktPost.marketplacePostId];
+    [Analytics successfulPurchase:mktPost.postedEquip.equipId];
+    [mvc displayLoadingView];
+  }
+  
+  [mvc.coinBar updateLabels];
+}
+
 - (void) dealloc {
   self.titleLabel = nil;
-  self.descriptionLabel = nil;
+  self.crossOutView = nil;
   self.classLabel = nil;
   self.attackLabel = nil;
   self.defenseLabel = nil;
   self.typeLabel = nil;
   self.levelLabel = nil;
-  self.priceLabel = nil;
-  self.playerNameLabel = nil;
+  self.playerNameButton = nil;
   self.equipIcon = nil;
-  self.priceIcon = nil;
+  self.armoryPriceLabel = nil;
+  self.armoryPriceIcon = nil;
+  self.postedPriceLabel = nil;
+  self.postedPriceIcon = nil;
+  self.savePriceLabel = nil;
+  self.savePriceIcon = nil;
   self.wrongClassView = nil;
   self.tooLowLevelView = nil;
   self.mainView = nil;
@@ -312,6 +398,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize loadingView;
 @synthesize purchView;
 @synthesize licenseBgdView, licenseMainView;
+@synthesize armoryPriceIcon, armoryPriceView, armoryPriceLabel, armoryPriceBottomSubview;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -365,6 +452,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [self setState:kEquipBuyingState];
   
   self.removeView.hidden = YES;
+  [self.purchView removeFromSuperview];
   self.postsTableView.contentOffset = CGPointZero;
   
   self.redeemView.hidden = YES;
@@ -377,6 +465,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }];
   
   [coinBar updateLabels];
+  
+  [Globals playEnterBuildingSound];
 }
 
 - (void) displayRedeemView {
@@ -395,7 +485,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
 }
 
+- (void) updateArmoryPopupForEquipId:(int)equipId {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  
+  if (fep.diamondPrice > 0) {
+    armoryPriceIcon.highlighted = YES;
+    armoryPriceLabel.text = [Globals commafyNumber:fep.diamondPrice];
+  } else if (fep.coinPrice > 0) {
+    armoryPriceIcon.highlighted = NO;
+    armoryPriceLabel.text = [Globals commafyNumber:fep.coinPrice];
+  } else {
+    armoryPriceIcon.highlighted = [Globals sellsForGoldInMarketplace:fep];
+    armoryPriceLabel.text = @"N/A";
+  }
+}
+
 - (IBAction)backClicked:(id)sender {
+  [self.purchView removeFromSuperview];
+  
   CGRect f = self.view.frame;
   [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
     self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
@@ -483,6 +591,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     post.state = kListState;
     if (post.equip.quantity == 0) {
       [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
+    } else {
+      [post showEquipListing:post.equip];
     }
     
     [Analytics successfulPost:post.equip.equipId];
@@ -500,7 +610,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.selectedCell = post;
     
     CGRect tmp = self.removeView.frame;
-    tmp.origin = CGPointMake(post.frame.origin.x+100, post.frame.origin.y-5);
+    tmp.origin = CGPointMake(post.frame.origin.x+70, post.frame.origin.y-5);
     self.removeView.frame = tmp;
     
     self.removeView.hidden = NO;
@@ -564,6 +674,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     }
   }
   
+  // Looks choppy. change this by finding the correct table cell and updating that alone..
+  [self.postsTableView reloadData];
+  
   self.removeView.hidden = YES;
   self.selectedCell = nil;
   
@@ -608,28 +721,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       }
     }
   }
-}
-
-- (IBAction)buyClicked:(id)sender {
-  ItemPostView *post = (ItemPostView *)[[sender superview] superview];
-  FullMarketplacePostProto *proto = post.mktProto;
-  GameState *gs = [GameState sharedGameState];
-  [Analytics attemptedPurchase];
-  
-  if (proto.coinCost > gs.silver) {
-    [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
-    [Analytics notEnoughSilverForMarketplaceBuy:proto.postedEquip.equipId cost:proto.coinCost];
-  } else if (proto.diamondCost > gs.gold) {
-    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:proto.diamondCost];
-    [Analytics notEnoughGoldForMarketplaceBuy:proto.postedEquip.equipId cost:proto.diamondCost];
-  } else {
-    [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:proto.marketplacePostId];
-    [Analytics successfulPurchase:proto.postedEquip.equipId];
-    [self displayLoadingView];
-    self.selectedCell = nil;
-  }
-  
-  [coinBar updateLabels];
 }
 
 - (IBAction)collectClicked:(id)sender {
@@ -770,6 +861,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (self.state == kEquipBuyingState) {
     ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
+    
+    self.selectedCell = cell;
+    self.removeView.hidden = YES;
     [self.purchView updateForMarketPost:cell.mktProto];
     [self.view addSubview:self.purchView];
     [Globals bounceView:self.purchView.mainView fadeInBgdView:self.purchView.bgdView];
@@ -777,7 +871,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  // Refresh table when we get low enough
+  // Load more rows when we get low enough
   if (scrollView.contentOffset.y > scrollView.contentSize.height-scrollView.frame.size.height-REFRESH_ROWS*self.postsTableView.rowHeight) {
     if (shouldReload) {
       if (self.state == kEquipBuyingState) {
@@ -810,6 +904,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   ItemPostView *post = (ItemPostView *)[[textField superview] superview];
   
   [self.postsTableView setContentOffset:CGPointMake(0, post.frame.origin.y-self.postsTableView.rowHeight) animated:YES];
+  
+  //  [self updateArmoryPopupForEquipId:fep.equipId];
+  //  [self.view addSubview:self.armoryPriceView];
+  //  
+  //  CGRect rect = armoryPriceView.frame;
+  //  rect.origin = ccp(post.frame.origin.x+240, post.frame.origin.y-30);
+  //  armoryPriceView.frame = rect;
   
   if ([textField.text isEqualToString: @"0"]) {
     textField.text = @"";

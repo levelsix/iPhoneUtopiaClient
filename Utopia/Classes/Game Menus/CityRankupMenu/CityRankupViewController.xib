@@ -112,7 +112,7 @@
 								<string key="NSFrame">{{118, 112}, {245, 21}}</string>
 								<reference key="NSSuperview" ref="452245642"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="1047507718"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -138,27 +138,10 @@
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
-							<object class="IBUIImageView" id="1047507718">
-								<reference key="NSNextResponder" ref="452245642"/>
-								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{157, 150}, {16, 16}}</string>
-								<reference key="NSSuperview" ref="452245642"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="536183004"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
-								<bool key="IBUIMultipleTouchEnabled">YES</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">silvercoin.png</string>
-								</object>
-							</object>
 							<object class="IBUILabel" id="536183004">
 								<reference key="NSNextResponder" ref="452245642"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{178, 149}, {42, 19}}</string>
+								<string key="NSFrame">{{181, 150}, {42, 19}}</string>
 								<reference key="NSSuperview" ref="452245642"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="334711310"/>
@@ -302,6 +285,21 @@
 								<reference key="IBUIFontDescription" ref="955220126"/>
 								<reference key="IBUIFont" ref="914666325"/>
 							</object>
+							<object class="IBUIImageView" id="129033834">
+								<reference key="NSNextResponder" ref="452245642"/>
+								<int key="NSvFlags">256</int>
+								<string key="NSFrame">{{150, 146}, {26, 28}}</string>
+								<reference key="NSSuperview" ref="452245642"/>
+								<reference key="NSWindow"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">coinstack.png</string>
+								</object>
+							</object>
 						</array>
 						<string key="NSFrameSize">{480, 320}</string>
 						<reference key="NSSuperview" ref="191373211"/>
@@ -426,11 +424,11 @@
 							<reference ref="762255899"/>
 							<reference ref="4014197"/>
 							<reference ref="334711310"/>
-							<reference ref="536183004"/>
-							<reference ref="1047507718"/>
 							<reference ref="384959515"/>
 							<reference ref="424373662"/>
 							<reference ref="610204563"/>
+							<reference ref="129033834"/>
+							<reference ref="536183004"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -460,11 +458,6 @@
 						<reference key="parent" ref="452245642"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="1047507718"/>
-						<reference key="parent" ref="452245642"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
 						<reference key="object" ref="384959515"/>
 						<reference key="parent" ref="452245642"/>
@@ -484,6 +477,11 @@
 						<reference key="object" ref="481713573"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">25</int>
+						<reference key="object" ref="129033834"/>
+						<reference key="parent" ref="452245642"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -499,12 +497,12 @@
 				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.CustomClassName">NiceFontLabel5</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.CustomClassName">NiceFontLabel</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.CustomClassName">NiceFontLabel</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.CustomClassName">NiceFontLabel</string>
@@ -514,7 +512,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">24</int>
+			<int key="maxID">25</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -593,10 +591,10 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="coinstack.png">{35, 38}</string>
 			<string key="crubg.png">{277, 239}</string>
 			<string key="notificationokaybutton.png">{136, 32}</string>
 			<string key="popupglow.png">{480, 320}</string>
-			<string key="silvercoin.png">{16, 16}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1179</string>
 	</data>

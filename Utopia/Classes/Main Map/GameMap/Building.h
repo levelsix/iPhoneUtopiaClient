@@ -48,9 +48,9 @@
 
 @end
 
-@interface CritStructBuilding : HomeBuilding
+@interface CritStructBuilding : Building
 
-@property (nonatomic, retain) UserCritStruct *critStruct;
+@property (nonatomic, retain) CritStruct *critStruct;
 
 @end
 

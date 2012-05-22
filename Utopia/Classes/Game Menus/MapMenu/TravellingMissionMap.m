@@ -37,14 +37,12 @@
 }
 
 - (void) setIsLocked:(BOOL)i {
-  if (isLocked != i) {
-    isLocked = i;
-    
-    if (!isLocked) {
-      [self setImage:[Globals imageNamed:@"opencity.png"] forState:UIControlStateNormal] ;
-    } else {
-      [self setImage:[Globals imageNamed:@"lockedcity.png"] forState:UIControlStateNormal];
-    }
+  isLocked = i;
+  
+  if (!isLocked) {
+    [self setImage:[Globals imageNamed:@"opencity.png"] forState:UIControlStateNormal] ;
+  } else {
+    [self setImage:[Globals imageNamed:@"lockedcity.png"] forState:UIControlStateNormal];
   }
 }
 
@@ -132,7 +130,6 @@
 
 - (void) awakeFromNib {
   [self addSubview:lumoriaView];
-  lumoriaView.hidden = YES;
 }
 
 - (IBAction)continentClicked:(ContinentView *)cv {

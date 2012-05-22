@@ -376,7 +376,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t flees;
 @property (retain) NSString* referralCode;
 @property int32_t numReferrals;
-@property (retain) NSString* udid;
 @property (retain) LocationProto* userLocation;
 @property int32_t numPostsInMarketplace;
 @property int32_t numMarketplaceSalesUnredeemed;
@@ -385,14 +384,18 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t amuletEquipped;
 @property int64_t lastLoginTime;
 @property int64_t lastLogoutTime;
+@property int64_t lastShortLicensePurchaseTime;
+@property int64_t lastLongLicensePurchaseTime;
+@property BOOL isFake;
+@property BOOL isAdmin;
+@property int32_t numCoinsRetrievedFromStructs;
+@property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
 @property int64_t lastTimeAttacked;
 @property int32_t numBadges;
 @property int64_t createTime;
-@property int64_t lastShortLicensePurchaseTime;
-@property int64_t lastLongLicensePurchaseTime;
-@property BOOL isFake;
+@property int32_t apsalarId;
 @end
 
 @implementation FullUserProto
@@ -579,13 +582,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasNumReferrals_ = !!value;
 }
 @synthesize numReferrals;
-- (BOOL) hasUdid {
-  return !!hasUdid_;
-}
-- (void) setHasUdid:(BOOL) value {
-  hasUdid_ = !!value;
-}
-@synthesize udid;
 - (BOOL) hasUserLocation {
   return !!hasUserLocation_;
 }
@@ -642,6 +638,58 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasLastLogoutTime_ = !!value;
 }
 @synthesize lastLogoutTime;
+- (BOOL) hasLastShortLicensePurchaseTime {
+  return !!hasLastShortLicensePurchaseTime_;
+}
+- (void) setHasLastShortLicensePurchaseTime:(BOOL) value {
+  hasLastShortLicensePurchaseTime_ = !!value;
+}
+@synthesize lastShortLicensePurchaseTime;
+- (BOOL) hasLastLongLicensePurchaseTime {
+  return !!hasLastLongLicensePurchaseTime_;
+}
+- (void) setHasLastLongLicensePurchaseTime:(BOOL) value {
+  hasLastLongLicensePurchaseTime_ = !!value;
+}
+@synthesize lastLongLicensePurchaseTime;
+- (BOOL) hasIsFake {
+  return !!hasIsFake_;
+}
+- (void) setHasIsFake:(BOOL) value {
+  hasIsFake_ = !!value;
+}
+- (BOOL) isFake {
+  return !!isFake_;
+}
+- (void) setIsFake:(BOOL) value {
+  isFake_ = !!value;
+}
+- (BOOL) hasIsAdmin {
+  return !!hasIsAdmin_;
+}
+- (void) setHasIsAdmin:(BOOL) value {
+  hasIsAdmin_ = !!value;
+}
+- (BOOL) isAdmin {
+  return !!isAdmin_;
+}
+- (void) setIsAdmin:(BOOL) value {
+  isAdmin_ = !!value;
+}
+- (BOOL) hasNumCoinsRetrievedFromStructs {
+  return !!hasNumCoinsRetrievedFromStructs_;
+}
+- (void) setHasNumCoinsRetrievedFromStructs:(BOOL) value {
+  hasNumCoinsRetrievedFromStructs_ = !!value;
+}
+@synthesize numCoinsRetrievedFromStructs;
+- (BOOL) hasUdid {
+  return !!hasUdid_;
+}
+- (void) setHasUdid:(BOOL) value {
+  hasUdid_ = !!value;
+}
+@synthesize udid;
 - (BOOL) hasDeviceToken {
   return !!hasDeviceToken_;
 }
@@ -677,37 +725,18 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasCreateTime_ = !!value;
 }
 @synthesize createTime;
-- (BOOL) hasLastShortLicensePurchaseTime {
-  return !!hasLastShortLicensePurchaseTime_;
+- (BOOL) hasApsalarId {
+  return !!hasApsalarId_;
 }
-- (void) setHasLastShortLicensePurchaseTime:(BOOL) value {
-  hasLastShortLicensePurchaseTime_ = !!value;
+- (void) setHasApsalarId:(BOOL) value {
+  hasApsalarId_ = !!value;
 }
-@synthesize lastShortLicensePurchaseTime;
-- (BOOL) hasLastLongLicensePurchaseTime {
-  return !!hasLastLongLicensePurchaseTime_;
-}
-- (void) setHasLastLongLicensePurchaseTime:(BOOL) value {
-  hasLastLongLicensePurchaseTime_ = !!value;
-}
-@synthesize lastLongLicensePurchaseTime;
-- (BOOL) hasIsFake {
-  return !!hasIsFake_;
-}
-- (void) setHasIsFake:(BOOL) value {
-  hasIsFake_ = !!value;
-}
-- (BOOL) isFake {
-  return !!isFake_;
-}
-- (void) setIsFake:(BOOL) value {
-  isFake_ = !!value;
-}
+@synthesize apsalarId;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
-  self.udid = nil;
   self.userLocation = nil;
+  self.udid = nil;
   self.deviceToken = nil;
   [super dealloc];
 }
@@ -739,7 +768,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.flees = 0;
     self.referralCode = @"";
     self.numReferrals = 0;
-    self.udid = @"";
     self.userLocation = [LocationProto defaultInstance];
     self.numPostsInMarketplace = 0;
     self.numMarketplaceSalesUnredeemed = 0;
@@ -748,14 +776,18 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.amuletEquipped = 0;
     self.lastLoginTime = 0L;
     self.lastLogoutTime = 0L;
+    self.lastShortLicensePurchaseTime = 0L;
+    self.lastLongLicensePurchaseTime = 0L;
+    self.isFake = NO;
+    self.isAdmin = NO;
+    self.numCoinsRetrievedFromStructs = 0;
+    self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
     self.lastTimeAttacked = 0L;
     self.numBadges = 0;
     self.createTime = 0L;
-    self.lastShortLicensePurchaseTime = 0L;
-    self.lastLongLicensePurchaseTime = 0L;
-    self.isFake = NO;
+    self.apsalarId = 0;
   }
   return self;
 }
@@ -904,6 +936,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasCreateTime) {
     [output writeInt64:47 value:self.createTime];
   }
+  if (self.hasIsAdmin) {
+    [output writeBool:48 value:self.isAdmin];
+  }
+  if (self.hasApsalarId) {
+    [output writeInt32:49 value:self.apsalarId];
+  }
+  if (self.hasNumCoinsRetrievedFromStructs) {
+    [output writeInt32:50 value:self.numCoinsRetrievedFromStructs];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1041,6 +1082,15 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasCreateTime) {
     size += computeInt64Size(47, self.createTime);
+  }
+  if (self.hasIsAdmin) {
+    size += computeBoolSize(48, self.isAdmin);
+  }
+  if (self.hasApsalarId) {
+    size += computeInt32Size(49, self.apsalarId);
+  }
+  if (self.hasNumCoinsRetrievedFromStructs) {
+    size += computeInt32Size(50, self.numCoinsRetrievedFromStructs);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1195,9 +1245,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasNumReferrals) {
     [self setNumReferrals:other.numReferrals];
   }
-  if (other.hasUdid) {
-    [self setUdid:other.udid];
-  }
   if (other.hasUserLocation) {
     [self mergeUserLocation:other.userLocation];
   }
@@ -1222,6 +1269,24 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastLogoutTime) {
     [self setLastLogoutTime:other.lastLogoutTime];
   }
+  if (other.hasLastShortLicensePurchaseTime) {
+    [self setLastShortLicensePurchaseTime:other.lastShortLicensePurchaseTime];
+  }
+  if (other.hasLastLongLicensePurchaseTime) {
+    [self setLastLongLicensePurchaseTime:other.lastLongLicensePurchaseTime];
+  }
+  if (other.hasIsFake) {
+    [self setIsFake:other.isFake];
+  }
+  if (other.hasIsAdmin) {
+    [self setIsAdmin:other.isAdmin];
+  }
+  if (other.hasNumCoinsRetrievedFromStructs) {
+    [self setNumCoinsRetrievedFromStructs:other.numCoinsRetrievedFromStructs];
+  }
+  if (other.hasUdid) {
+    [self setUdid:other.udid];
+  }
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
   }
@@ -1237,14 +1302,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasCreateTime) {
     [self setCreateTime:other.createTime];
   }
-  if (other.hasLastShortLicensePurchaseTime) {
-    [self setLastShortLicensePurchaseTime:other.lastShortLicensePurchaseTime];
-  }
-  if (other.hasLastLongLicensePurchaseTime) {
-    [self setLastLongLicensePurchaseTime:other.lastLongLicensePurchaseTime];
-  }
-  if (other.hasIsFake) {
-    [self setIsFake:other.isFake];
+  if (other.hasApsalarId) {
+    [self setApsalarId:other.apsalarId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1447,6 +1506,18 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 376: {
         [self setCreateTime:[input readInt64]];
+        break;
+      }
+      case 384: {
+        [self setIsAdmin:[input readBool]];
+        break;
+      }
+      case 392: {
+        [self setApsalarId:[input readInt32]];
+        break;
+      }
+      case 400: {
+        [self setNumCoinsRetrievedFromStructs:[input readInt32]];
         break;
       }
     }
@@ -1868,22 +1939,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.numReferrals = 0;
   return self;
 }
-- (BOOL) hasUdid {
-  return result.hasUdid;
-}
-- (NSString*) udid {
-  return result.udid;
-}
-- (FullUserProto_Builder*) setUdid:(NSString*) value {
-  result.hasUdid = YES;
-  result.udid = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearUdid {
-  result.hasUdid = NO;
-  result.udid = @"";
-  return self;
-}
 - (BOOL) hasUserLocation {
   return result.hasUserLocation;
 }
@@ -2026,6 +2081,102 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastLogoutTime = 0L;
   return self;
 }
+- (BOOL) hasLastShortLicensePurchaseTime {
+  return result.hasLastShortLicensePurchaseTime;
+}
+- (int64_t) lastShortLicensePurchaseTime {
+  return result.lastShortLicensePurchaseTime;
+}
+- (FullUserProto_Builder*) setLastShortLicensePurchaseTime:(int64_t) value {
+  result.hasLastShortLicensePurchaseTime = YES;
+  result.lastShortLicensePurchaseTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastShortLicensePurchaseTime {
+  result.hasLastShortLicensePurchaseTime = NO;
+  result.lastShortLicensePurchaseTime = 0L;
+  return self;
+}
+- (BOOL) hasLastLongLicensePurchaseTime {
+  return result.hasLastLongLicensePurchaseTime;
+}
+- (int64_t) lastLongLicensePurchaseTime {
+  return result.lastLongLicensePurchaseTime;
+}
+- (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value {
+  result.hasLastLongLicensePurchaseTime = YES;
+  result.lastLongLicensePurchaseTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastLongLicensePurchaseTime {
+  result.hasLastLongLicensePurchaseTime = NO;
+  result.lastLongLicensePurchaseTime = 0L;
+  return self;
+}
+- (BOOL) hasIsFake {
+  return result.hasIsFake;
+}
+- (BOOL) isFake {
+  return result.isFake;
+}
+- (FullUserProto_Builder*) setIsFake:(BOOL) value {
+  result.hasIsFake = YES;
+  result.isFake = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsFake {
+  result.hasIsFake = NO;
+  result.isFake = NO;
+  return self;
+}
+- (BOOL) hasIsAdmin {
+  return result.hasIsAdmin;
+}
+- (BOOL) isAdmin {
+  return result.isAdmin;
+}
+- (FullUserProto_Builder*) setIsAdmin:(BOOL) value {
+  result.hasIsAdmin = YES;
+  result.isAdmin = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsAdmin {
+  result.hasIsAdmin = NO;
+  result.isAdmin = NO;
+  return self;
+}
+- (BOOL) hasNumCoinsRetrievedFromStructs {
+  return result.hasNumCoinsRetrievedFromStructs;
+}
+- (int32_t) numCoinsRetrievedFromStructs {
+  return result.numCoinsRetrievedFromStructs;
+}
+- (FullUserProto_Builder*) setNumCoinsRetrievedFromStructs:(int32_t) value {
+  result.hasNumCoinsRetrievedFromStructs = YES;
+  result.numCoinsRetrievedFromStructs = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumCoinsRetrievedFromStructs {
+  result.hasNumCoinsRetrievedFromStructs = NO;
+  result.numCoinsRetrievedFromStructs = 0;
+  return self;
+}
+- (BOOL) hasUdid {
+  return result.hasUdid;
+}
+- (NSString*) udid {
+  return result.udid;
+}
+- (FullUserProto_Builder*) setUdid:(NSString*) value {
+  result.hasUdid = YES;
+  result.udid = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearUdid {
+  result.hasUdid = NO;
+  result.udid = @"";
+  return self;
+}
 - (BOOL) hasDeviceToken {
   return result.hasDeviceToken;
 }
@@ -2106,52 +2257,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.createTime = 0L;
   return self;
 }
-- (BOOL) hasLastShortLicensePurchaseTime {
-  return result.hasLastShortLicensePurchaseTime;
+- (BOOL) hasApsalarId {
+  return result.hasApsalarId;
 }
-- (int64_t) lastShortLicensePurchaseTime {
-  return result.lastShortLicensePurchaseTime;
+- (int32_t) apsalarId {
+  return result.apsalarId;
 }
-- (FullUserProto_Builder*) setLastShortLicensePurchaseTime:(int64_t) value {
-  result.hasLastShortLicensePurchaseTime = YES;
-  result.lastShortLicensePurchaseTime = value;
+- (FullUserProto_Builder*) setApsalarId:(int32_t) value {
+  result.hasApsalarId = YES;
+  result.apsalarId = value;
   return self;
 }
-- (FullUserProto_Builder*) clearLastShortLicensePurchaseTime {
-  result.hasLastShortLicensePurchaseTime = NO;
-  result.lastShortLicensePurchaseTime = 0L;
-  return self;
-}
-- (BOOL) hasLastLongLicensePurchaseTime {
-  return result.hasLastLongLicensePurchaseTime;
-}
-- (int64_t) lastLongLicensePurchaseTime {
-  return result.lastLongLicensePurchaseTime;
-}
-- (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value {
-  result.hasLastLongLicensePurchaseTime = YES;
-  result.lastLongLicensePurchaseTime = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearLastLongLicensePurchaseTime {
-  result.hasLastLongLicensePurchaseTime = NO;
-  result.lastLongLicensePurchaseTime = 0L;
-  return self;
-}
-- (BOOL) hasIsFake {
-  return result.hasIsFake;
-}
-- (BOOL) isFake {
-  return result.isFake;
-}
-- (FullUserProto_Builder*) setIsFake:(BOOL) value {
-  result.hasIsFake = YES;
-  result.isFake = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearIsFake {
-  result.hasIsFake = NO;
-  result.isFake = NO;
+- (FullUserProto_Builder*) clearApsalarId {
+  result.hasApsalarId = NO;
+  result.apsalarId = 0;
   return self;
 }
 @end
@@ -7501,7 +7620,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 
 @interface FullMarketplacePostProto ()
 @property int32_t marketplacePostId;
-@property int32_t posterId;
+@property (retain) MinimumUserProto* poster;
 @property MarketplacePostType postType;
 @property int64_t timeOfPost;
 @property (retain) FullEquipProto* postedEquip;
@@ -7518,13 +7637,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   hasMarketplacePostId_ = !!value;
 }
 @synthesize marketplacePostId;
-- (BOOL) hasPosterId {
-  return !!hasPosterId_;
+- (BOOL) hasPoster {
+  return !!hasPoster_;
 }
-- (void) setHasPosterId:(BOOL) value {
-  hasPosterId_ = !!value;
+- (void) setHasPoster:(BOOL) value {
+  hasPoster_ = !!value;
 }
-@synthesize posterId;
+@synthesize poster;
 - (BOOL) hasPostType {
   return !!hasPostType_;
 }
@@ -7561,13 +7680,14 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 }
 @synthesize coinCost;
 - (void) dealloc {
+  self.poster = nil;
   self.postedEquip = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.marketplacePostId = 0;
-    self.posterId = 0;
+    self.poster = [MinimumUserProto defaultInstance];
     self.postType = MarketplacePostTypePremiumEquipPost;
     self.timeOfPost = 0L;
     self.postedEquip = [FullEquipProto defaultInstance];
@@ -7595,8 +7715,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasMarketplacePostId) {
     [output writeInt32:1 value:self.marketplacePostId];
   }
-  if (self.hasPosterId) {
-    [output writeInt32:2 value:self.posterId];
+  if (self.hasPoster) {
+    [output writeMessage:2 value:self.poster];
   }
   if (self.hasPostType) {
     [output writeEnum:3 value:self.postType];
@@ -7625,8 +7745,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasMarketplacePostId) {
     size += computeInt32Size(1, self.marketplacePostId);
   }
-  if (self.hasPosterId) {
-    size += computeInt32Size(2, self.posterId);
+  if (self.hasPoster) {
+    size += computeMessageSize(2, self.poster);
   }
   if (self.hasPostType) {
     size += computeEnumSize(3, self.postType);
@@ -7721,8 +7841,8 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (other.hasMarketplacePostId) {
     [self setMarketplacePostId:other.marketplacePostId];
   }
-  if (other.hasPosterId) {
-    [self setPosterId:other.posterId];
+  if (other.hasPoster) {
+    [self mergePoster:other.poster];
   }
   if (other.hasPostType) {
     [self setPostType:other.postType];
@@ -7764,8 +7884,13 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
         [self setMarketplacePostId:[input readInt32]];
         break;
       }
-      case 16: {
-        [self setPosterId:[input readInt32]];
+      case 18: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasPoster) {
+          [subBuilder mergeFrom:self.poster];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setPoster:[subBuilder buildPartial]];
         break;
       }
       case 24: {
@@ -7817,20 +7942,34 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   result.marketplacePostId = 0;
   return self;
 }
-- (BOOL) hasPosterId {
-  return result.hasPosterId;
+- (BOOL) hasPoster {
+  return result.hasPoster;
 }
-- (int32_t) posterId {
-  return result.posterId;
+- (MinimumUserProto*) poster {
+  return result.poster;
 }
-- (FullMarketplacePostProto_Builder*) setPosterId:(int32_t) value {
-  result.hasPosterId = YES;
-  result.posterId = value;
+- (FullMarketplacePostProto_Builder*) setPoster:(MinimumUserProto*) value {
+  result.hasPoster = YES;
+  result.poster = value;
   return self;
 }
-- (FullMarketplacePostProto_Builder*) clearPosterId {
-  result.hasPosterId = NO;
-  result.posterId = 0;
+- (FullMarketplacePostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setPoster:[builderForValue build]];
+}
+- (FullMarketplacePostProto_Builder*) mergePoster:(MinimumUserProto*) value {
+  if (result.hasPoster &&
+      result.poster != [MinimumUserProto defaultInstance]) {
+    result.poster =
+      [[[MinimumUserProto builderWithPrototype:result.poster] mergeFrom:value] buildPartial];
+  } else {
+    result.poster = value;
+  }
+  result.hasPoster = YES;
+  return self;
+}
+- (FullMarketplacePostProto_Builder*) clearPoster {
+  result.hasPoster = NO;
+  result.poster = [MinimumUserProto defaultInstance];
   return self;
 }
 - (BOOL) hasPostType {

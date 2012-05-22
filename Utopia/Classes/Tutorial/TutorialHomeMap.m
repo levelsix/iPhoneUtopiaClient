@@ -22,8 +22,8 @@
 @synthesize tutCoords;
 
 - (void) refresh {
-  Globals *gl = [Globals sharedGlobals];
-  GameState *gs = [GameState sharedGameState];
+//  Globals *gl = [Globals sharedGlobals];
+//  GameState *gs = [GameState sharedGameState];
   
   if (_refreshed) {
     return;
@@ -31,40 +31,40 @@
   _refreshed = YES;
   
   // Add aviary
-  UserCritStruct *cs = [[UserCritStruct alloc] init];
-  cs.type = CritStructTypeAviary;
-  cs.location = CGRectMake(10, 10, gl.aviaryXLength, gl.aviaryYLength);
-  cs.orientation = StructOrientationPosition1;
-  cs.name = @"Aviary";
-  cs.minLevel = 1;
-  cs.size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
-  [gs.myCritStructs addObject:cs];
-  
-  _av = [[Aviary alloc] initWithFile:@"Aviary.png" location:cs.location map:self];
-  [self addChild:_av];
-  [_av release];
-  
-  _av.orientation = cs.orientation;
-  [self changeTiles:_av.location toBuildable:NO];
-  [cs release];
-  
-  // Add carpenter
-  cs = [[UserCritStruct alloc] init];
-  cs.type = CritStructTypeCarpenter;
-  cs.location = CGRectMake(10, 6, gl.carpenterXLength, gl.carpenterYLength);
-  cs.orientation = StructOrientationPosition1;
-  cs.name = @"Carpenter";
-  cs.minLevel = 1;
-  cs.size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
-  [gs.myCritStructs addObject:cs];
-  
-  _csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-  [self addChild:_csb];
-  [_csb release];
-  
-  _csb.orientation = cs.orientation;
-  _csb.critStruct = cs;
-  [cs release];
+//  UserCritStruct *cs = [[UserCritStruct alloc] init];
+//  cs.type = CritStructTypeAviary;
+//  cs.location = CGRectMake(10, 10, gl.aviaryXLength, gl.aviaryYLength);
+//  cs.orientation = StructOrientationPosition1;
+//  cs.name = @"Aviary";
+//  cs.minLevel = 1;
+//  cs.size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
+//  [gs.myCritStructs addObject:cs];
+//  
+//  _av = [[Aviary alloc] initWithFile:@"Aviary.png" location:cs.location map:self];
+//  [self addChild:_av];
+//  [_av release];
+//  
+//  _av.orientation = cs.orientation;
+//  [self changeTiles:_av.location toBuildable:NO];
+//  [cs release];
+//  
+//  // Add carpenter
+//  cs = [[UserCritStruct alloc] init];
+//  cs.type = CritStructTypeCarpenter;
+//  cs.location = CGRectMake(10, 6, gl.carpenterXLength, gl.carpenterYLength);
+//  cs.orientation = StructOrientationPosition1;
+//  cs.name = @"Carpenter";
+//  cs.minLevel = 1;
+//  cs.size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
+//  [gs.myCritStructs addObject:cs];
+//  
+//  _csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
+//  [self addChild:_csb];
+//  [_csb release];
+//  
+//  _csb.orientation = cs.orientation;
+//  _csb.critStruct = cs;
+//  [cs release];
   
   _carpenterPhase = YES;
   
@@ -103,19 +103,19 @@
       [_ccArrow stopAllActions];
       _ccArrow.visible = NO;
       
-      _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
-      [self.csMenu addSubview:_uiArrow];
-      _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
-      
-      [TutorialCarpenterMenuController sharedCarpenterMenuController];
-      
-      UIView *enterButton = [self.csMenu viewWithTag:10];
-      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, enterButton.center.y);
-      
-      UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-        _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2, enterButton.center.y);
-      } completion:nil];
+//      _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+//      [self.csMenu addSubview:_uiArrow];
+//      _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
+//      
+//      [TutorialCarpenterMenuController sharedCarpenterMenuController];
+//      
+//      UIView *enterButton = [self.csMenu viewWithTag:10];
+//      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, enterButton.center.y);
+//      
+//      UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+//      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+//        _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2, enterButton.center.y);
+//      } completion:nil];
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
       [_ccArrow stopAllActions];
       _ccArrow.visible = NO;

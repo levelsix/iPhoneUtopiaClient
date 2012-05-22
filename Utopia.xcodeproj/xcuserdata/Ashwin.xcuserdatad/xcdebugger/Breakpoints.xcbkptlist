@@ -47,12 +47,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
-         timestampString = "357596510.214869"
+         timestampString = "359406967.205643"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "803"
-         endingLineNumber = "803"
-         landmarkName = "-finishedEquippingAnimation"
+         startingLineNumber = "901"
+         endingLineNumber = "901"
+         landmarkName = "-setState:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -60,64 +60,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Main Map/GameMap/TopBar.m"
-         timestampString = "356806463.091047"
+         timestampString = "359099235.552458"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "391"
-         endingLineNumber = "391"
+         startingLineNumber = "405"
+         endingLineNumber = "405"
          landmarkName = "-fadeOutToolTip:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Game Menus/QuestLogMenu/QuestLogController.m"
-         timestampString = "356933051.153693"
+         filePath = "Utopia/Classes/Game Data/Globals.m"
+         timestampString = "359347654.835524"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
-         landmarkName = "-dealloc"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Game Menus/MarketplaceMenu/MarketplaceViewController.m"
-         timestampString = "357268519.779689"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "233"
-         endingLineNumber = "233"
-         landmarkName = "-updateForMarketPost:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Socket Communication/IncomingEventController.m"
-         timestampString = "357601174.929348"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "916"
-         endingLineNumber = "916"
-         landmarkName = "-handlePostOnPlayerWallResponseProto:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Socket Communication/OutgoingEventController.m"
-         timestampString = "357601184.412196"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1254"
-         endingLineNumber = "1254"
-         landmarkName = "-postToPlayerWall:withContent:"
+         startingLineNumber = "431"
+         endingLineNumber = "431"
+         landmarkName = "+commafyNumber:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

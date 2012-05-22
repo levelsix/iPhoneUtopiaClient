@@ -250,26 +250,28 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullUserProto : PBGeneratedMessage {
 @private
+  BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
-  BOOL hasLastLoginTime_:1;
-  BOOL hasLastEnergyRefillTime_:1;
-  BOOL hasLastLogoutTime_:1;
-  BOOL hasLastStaminaRefillTime_:1;
-  BOOL hasLastBattleNotificationTime_:1;
-  BOOL hasLastTimeAttacked_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasLastShortLicensePurchaseTime_:1;
+  BOOL hasLastTimeAttacked_:1;
+  BOOL hasLastBattleNotificationTime_:1;
+  BOOL hasLastStaminaRefillTime_:1;
+  BOOL hasLastEnergyRefillTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
-  BOOL hasNumBadges_:1;
-  BOOL hasAmuletEquipped_:1;
-  BOOL hasArmorEquipped_:1;
-  BOOL hasWeaponEquipped_:1;
-  BOOL hasNumMarketplaceSalesUnredeemed_:1;
-  BOOL hasNumPostsInMarketplace_:1;
-  BOOL hasNumReferrals_:1;
-  BOOL hasFlees_:1;
+  BOOL hasLastShortLicensePurchaseTime_:1;
+  BOOL hasLastLogoutTime_:1;
+  BOOL hasLastLoginTime_:1;
   BOOL hasBattlesLost_:1;
-  BOOL hasBattlesWon_:1;
+  BOOL hasFlees_:1;
+  BOOL hasNumReferrals_:1;
+  BOOL hasNumPostsInMarketplace_:1;
+  BOOL hasNumMarketplaceSalesUnredeemed_:1;
+  BOOL hasWeaponEquipped_:1;
+  BOOL hasArmorEquipped_:1;
+  BOOL hasAmuletEquipped_:1;
+  BOOL hasNumCoinsRetrievedFromStructs_:1;
+  BOOL hasNumBadges_:1;
+  BOOL hasApsalarId_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
   BOOL hasAttack_:1;
@@ -287,32 +289,35 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasVaultBalance_:1;
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
+  BOOL hasBattlesWon_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasReferralCode_:1;
   BOOL hasName_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
+  BOOL isAdmin_:1;
   BOOL isFake_:1;
-  int64_t lastLoginTime;
-  int64_t lastEnergyRefillTime;
-  int64_t lastLogoutTime;
-  int64_t lastStaminaRefillTime;
-  int64_t lastBattleNotificationTime;
-  int64_t lastTimeAttacked;
   int64_t createTime;
-  int64_t lastShortLicensePurchaseTime;
+  int64_t lastTimeAttacked;
+  int64_t lastBattleNotificationTime;
+  int64_t lastStaminaRefillTime;
+  int64_t lastEnergyRefillTime;
   int64_t lastLongLicensePurchaseTime;
-  int32_t numBadges;
-  int32_t amuletEquipped;
-  int32_t armorEquipped;
-  int32_t weaponEquipped;
-  int32_t numMarketplaceSalesUnredeemed;
-  int32_t numPostsInMarketplace;
-  int32_t numReferrals;
-  int32_t flees;
+  int64_t lastShortLicensePurchaseTime;
+  int64_t lastLogoutTime;
+  int64_t lastLoginTime;
   int32_t battlesLost;
-  int32_t battlesWon;
+  int32_t flees;
+  int32_t numReferrals;
+  int32_t numPostsInMarketplace;
+  int32_t numMarketplaceSalesUnredeemed;
+  int32_t weaponEquipped;
+  int32_t armorEquipped;
+  int32_t amuletEquipped;
+  int32_t numCoinsRetrievedFromStructs;
+  int32_t numBadges;
+  int32_t apsalarId;
   int32_t userId;
   int32_t level;
   int32_t attack;
@@ -330,6 +335,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t vaultBalance;
   int32_t experience;
   int32_t tasksCompleted;
+  int32_t battlesWon;
   NSString* udid;
   NSString* deviceToken;
   NSString* referralCode;
@@ -363,7 +369,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasFlees;
 - (BOOL) hasReferralCode;
 - (BOOL) hasNumReferrals;
-- (BOOL) hasUdid;
 - (BOOL) hasUserLocation;
 - (BOOL) hasNumPostsInMarketplace;
 - (BOOL) hasNumMarketplaceSalesUnredeemed;
@@ -372,14 +377,18 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasAmuletEquipped;
 - (BOOL) hasLastLoginTime;
 - (BOOL) hasLastLogoutTime;
+- (BOOL) hasLastShortLicensePurchaseTime;
+- (BOOL) hasLastLongLicensePurchaseTime;
+- (BOOL) hasIsFake;
+- (BOOL) hasIsAdmin;
+- (BOOL) hasNumCoinsRetrievedFromStructs;
+- (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
 - (BOOL) hasLastTimeAttacked;
 - (BOOL) hasNumBadges;
 - (BOOL) hasCreateTime;
-- (BOOL) hasLastShortLicensePurchaseTime;
-- (BOOL) hasLastLongLicensePurchaseTime;
-- (BOOL) hasIsFake;
+- (BOOL) hasApsalarId;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -406,7 +415,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t flees;
 @property (readonly, retain) NSString* referralCode;
 @property (readonly) int32_t numReferrals;
-@property (readonly, retain) NSString* udid;
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly) int32_t numPostsInMarketplace;
 @property (readonly) int32_t numMarketplaceSalesUnredeemed;
@@ -415,14 +423,18 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t amuletEquipped;
 @property (readonly) int64_t lastLoginTime;
 @property (readonly) int64_t lastLogoutTime;
+@property (readonly) int64_t lastShortLicensePurchaseTime;
+@property (readonly) int64_t lastLongLicensePurchaseTime;
+- (BOOL) isFake;
+- (BOOL) isAdmin;
+@property (readonly) int32_t numCoinsRetrievedFromStructs;
+@property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
 @property (readonly) int64_t lastTimeAttacked;
 @property (readonly) int32_t numBadges;
 @property (readonly) int64_t createTime;
-@property (readonly) int64_t lastShortLicensePurchaseTime;
-@property (readonly) int64_t lastLongLicensePurchaseTime;
-- (BOOL) isFake;
+@property (readonly) int32_t apsalarId;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -588,11 +600,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setNumReferrals:(int32_t) value;
 - (FullUserProto_Builder*) clearNumReferrals;
 
-- (BOOL) hasUdid;
-- (NSString*) udid;
-- (FullUserProto_Builder*) setUdid:(NSString*) value;
-- (FullUserProto_Builder*) clearUdid;
-
 - (BOOL) hasUserLocation;
 - (LocationProto*) userLocation;
 - (FullUserProto_Builder*) setUserLocation:(LocationProto*) value;
@@ -635,6 +642,36 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setLastLogoutTime:(int64_t) value;
 - (FullUserProto_Builder*) clearLastLogoutTime;
 
+- (BOOL) hasLastShortLicensePurchaseTime;
+- (int64_t) lastShortLicensePurchaseTime;
+- (FullUserProto_Builder*) setLastShortLicensePurchaseTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastShortLicensePurchaseTime;
+
+- (BOOL) hasLastLongLicensePurchaseTime;
+- (int64_t) lastLongLicensePurchaseTime;
+- (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value;
+- (FullUserProto_Builder*) clearLastLongLicensePurchaseTime;
+
+- (BOOL) hasIsFake;
+- (BOOL) isFake;
+- (FullUserProto_Builder*) setIsFake:(BOOL) value;
+- (FullUserProto_Builder*) clearIsFake;
+
+- (BOOL) hasIsAdmin;
+- (BOOL) isAdmin;
+- (FullUserProto_Builder*) setIsAdmin:(BOOL) value;
+- (FullUserProto_Builder*) clearIsAdmin;
+
+- (BOOL) hasNumCoinsRetrievedFromStructs;
+- (int32_t) numCoinsRetrievedFromStructs;
+- (FullUserProto_Builder*) setNumCoinsRetrievedFromStructs:(int32_t) value;
+- (FullUserProto_Builder*) clearNumCoinsRetrievedFromStructs;
+
+- (BOOL) hasUdid;
+- (NSString*) udid;
+- (FullUserProto_Builder*) setUdid:(NSString*) value;
+- (FullUserProto_Builder*) clearUdid;
+
 - (BOOL) hasDeviceToken;
 - (NSString*) deviceToken;
 - (FullUserProto_Builder*) setDeviceToken:(NSString*) value;
@@ -660,20 +697,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setCreateTime:(int64_t) value;
 - (FullUserProto_Builder*) clearCreateTime;
 
-- (BOOL) hasLastShortLicensePurchaseTime;
-- (int64_t) lastShortLicensePurchaseTime;
-- (FullUserProto_Builder*) setLastShortLicensePurchaseTime:(int64_t) value;
-- (FullUserProto_Builder*) clearLastShortLicensePurchaseTime;
-
-- (BOOL) hasLastLongLicensePurchaseTime;
-- (int64_t) lastLongLicensePurchaseTime;
-- (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value;
-- (FullUserProto_Builder*) clearLastLongLicensePurchaseTime;
-
-- (BOOL) hasIsFake;
-- (BOOL) isFake;
-- (FullUserProto_Builder*) setIsFake:(BOOL) value;
-- (FullUserProto_Builder*) clearIsFake;
+- (BOOL) hasApsalarId;
+- (int32_t) apsalarId;
+- (FullUserProto_Builder*) setApsalarId:(int32_t) value;
+- (FullUserProto_Builder*) clearApsalarId;
 @end
 
 @interface FullEquipProto : PBGeneratedMessage {
@@ -1969,28 +1996,28 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasTimeOfPost_:1;
   BOOL hasMarketplacePostId_:1;
-  BOOL hasPosterId_:1;
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
+  BOOL hasPoster_:1;
   BOOL hasPostedEquip_:1;
   BOOL hasPostType_:1;
   int64_t timeOfPost;
   int32_t marketplacePostId;
-  int32_t posterId;
   int32_t diamondCost;
   int32_t coinCost;
+  MinimumUserProto* poster;
   FullEquipProto* postedEquip;
   MarketplacePostType postType;
 }
 - (BOOL) hasMarketplacePostId;
-- (BOOL) hasPosterId;
+- (BOOL) hasPoster;
 - (BOOL) hasPostType;
 - (BOOL) hasTimeOfPost;
 - (BOOL) hasPostedEquip;
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
 @property (readonly) int32_t marketplacePostId;
-@property (readonly) int32_t posterId;
+@property (readonly, retain) MinimumUserProto* poster;
 @property (readonly) MarketplacePostType postType;
 @property (readonly) int64_t timeOfPost;
 @property (readonly, retain) FullEquipProto* postedEquip;
@@ -2036,10 +2063,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullMarketplacePostProto_Builder*) setMarketplacePostId:(int32_t) value;
 - (FullMarketplacePostProto_Builder*) clearMarketplacePostId;
 
-- (BOOL) hasPosterId;
-- (int32_t) posterId;
-- (FullMarketplacePostProto_Builder*) setPosterId:(int32_t) value;
-- (FullMarketplacePostProto_Builder*) clearPosterId;
+- (BOOL) hasPoster;
+- (MinimumUserProto*) poster;
+- (FullMarketplacePostProto_Builder*) setPoster:(MinimumUserProto*) value;
+- (FullMarketplacePostProto_Builder*) setPosterBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (FullMarketplacePostProto_Builder*) mergePoster:(MinimumUserProto*) value;
+- (FullMarketplacePostProto_Builder*) clearPoster;
 
 - (BOOL) hasPostType;
 - (MarketplacePostType) postType;

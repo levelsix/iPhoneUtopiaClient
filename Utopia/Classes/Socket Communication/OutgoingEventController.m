@@ -17,6 +17,7 @@
 #import "MissionMap.h"
 #import "MapViewController.h"
 #import "TutorialConstants.h"
+#import "GenericPopupController.h"
 
 @implementation OutgoingEventController
 
@@ -59,6 +60,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
     gs.silver -= amount;
     gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver]];
   }
@@ -74,6 +77,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
     gs.silver += amount;
     gs.vaultBalance -= amount;
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to withdraw %d coins. Currently only have %d coins in vault.", amount, gs.vaultBalance]];
   }
@@ -155,6 +160,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     gs.silver -= fep.coinPrice;
     gs.gold -= fep.diamondPrice;
+    
+    [Globals popupMessage:[NSString stringWithFormat:@"You have bought 1 %@!", fep.name]];
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"Not enough money to buy this equipment"];
   }
@@ -167,6 +176,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserEquip *ue = [gs myEquipWithId:equipId];
+  FullEquipProto *fep = [gs equipWithId:equipId];
   
   if (ue) {
     [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
@@ -175,6 +185,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.gold += [gl calculateEquipGoldSellCost:ue];
     
     [gs changeQuantityForEquip:equipId by:-1];
+    
+    [Globals popupMessage:[NSString stringWithFormat:@"You have sold 1 %@!", fep.name]];
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"You do not own this equipment"];
   }
@@ -304,6 +318,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int gold = sellsForGold ? price : 0;
     [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
     [gs changeQuantityForEquip:equipId by:-1];
+    [GenericPopupController displayViewWithText:[NSString stringWithFormat:@"You have posted your %@ for %d %@!", fep.name, silver ? silver : gold, silver ? @"silver" : @"gold"] title:@"Congratulations!"];
   } else {
     [Globals popupMessage:@"Unable to find this equip!"];
   }
@@ -342,6 +357,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       NSIndexPath *z = mktPostsFromSender.count+gs.myEquips.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
       NSArray *a = [NSArray arrayWithObjects:y, z, nil];
       [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
+      
+      [gs changeQuantityForEquip:proto.postedEquip.equipId by:1];
+      
       return;
     }
   }
@@ -358,11 +376,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (int i = 0; i < mktPosts.count; i++) {
     FullMarketplacePostProto *proto = [mktPosts objectAtIndex:i];
     if ([proto marketplacePostId] == postId) {
-      if (gs.userId != proto.posterId) {
+      if (gs.userId != proto.poster.userId) {
         if (gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
-          [sc sendPurchaseFromMarketplaceMessage:postId poster:[proto posterId]];
+          [sc sendPurchaseFromMarketplaceMessage:postId poster:proto.poster.userId];
           gs.gold -= proto.diamondCost;
           gs.silver -= proto.coinCost;
+          
+          [Globals playCoinSound];
+          break;
         } else {
           [Globals popupMessage:@"Not enough coins to purchase"];
         }
@@ -384,6 +405,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.silver += gs.marketplaceSilverEarnings;
     gs.marketplaceGoldEarnings = 0;
     gs.marketplaceSilverEarnings = 0;
+    
+    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"Nothing to earn!"];
   }
@@ -815,47 +838,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
   } else {
     [Globals popupMessage:@"This building is not upgradable"];
-  }
-}
-
-- (UserCritStruct *) placeCritStruct:(CritStructType)type x:(int)x y:(int)y {
-  GameState *gs = [GameState sharedGameState];
-  
-  for (UserCritStruct *ucs in gs.myCritStructs) {
-    if (ucs.type == type) {
-      [Globals popupMessage:@"Already have this critical structure"];
-      return ucs;
-    }
-  }
-  
-  UserCritStruct *ucs = [[UserCritStruct alloc] initWithType:type];
-  if (gs.level >= ucs.minLevel) {
-    [[SocketCommunication sharedSocketCommunication] sendCritStructPlace:type x:x y:y];
-    ucs.location = CGRectMake(x, y, ucs.size.width, ucs.size.height);
-    ucs.orientation = StructOrientationPosition1;
-    [gs.myCritStructs addObject:ucs];
-    [ucs release];
-    
-    [Analytics placedCritStruct:ucs.name];
-    return ucs;
-  } else {
-    [Globals popupMessage:@"Not high enough level to build this critical struct"];
-  }
-  [ucs release];
-  return nil;
-}
-
-- (void) moveCritStruct:(UserCritStruct *)cs x:(int)x y:(int)y {
-  if (!CGPointEqualToPoint(cs.location.origin, CGPointMake(x, y))) {
-    [[SocketCommunication sharedSocketCommunication] sendCritStructMove:cs.type x:x y:y];
-    cs.location = CGRectMake(x, y, cs.size.width, cs.size.height);
-  }
-}
-
-- (void) rotateCritStruct:(UserCritStruct *)cs orientation:(StructOrientation)orientation {
-  if (cs.orientation != orientation) {
-    [[SocketCommunication sharedSocketCommunication] sendCritStructRotate:cs.type orientation:orientation];
-    cs.orientation = orientation;
   }
 }
 

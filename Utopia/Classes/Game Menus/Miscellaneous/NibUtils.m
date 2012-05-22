@@ -9,6 +9,7 @@
 #import "NibUtils.h"
 #import "Globals.h"
 #import "GameState.h"
+#import "EquipMenuController.h"
 
 @implementation NiceFontLabel
 
@@ -153,18 +154,18 @@
 
 - (void) awakeFromNib {
   UIView *clipView = [[UIView alloc] initWithFrame:self.frame];
-//  [self.superview insertSubview:clipView belowSubview:self];
+  //  [self.superview insertSubview:clipView belowSubview:self];
   [clipView release];
   
   label = [[UILabel alloc] initWithFrame:self.bounds];
-//  [clipView addSubview:label];
+  //  [clipView addSubview:label];
   
   self.font =  [UIFont fontWithName:[Globals font] size:self.font.pointSize];
   label.font = self.font;
   label.backgroundColor = [UIColor clearColor];
   [Globals adjustFontSizeForUILabel:label];
-  label.textColor = self.textColor;
-  self.textColor = [UIColor whiteColor];
+//  label.textColor = self.textColor;
+//  self.textColor = [UIColor whiteColor];
   
   //Adjust frame a bit
   CGRect f = self.frame;
@@ -264,6 +265,67 @@
 
 - (BOOL) touchesShouldCancelInContentView:(UIView *)view {
   return YES;
+}
+
+@end
+
+@implementation EquipButton
+
+@synthesize equipId, darkOverlay;
+
+- (void) awakeFromNib {
+  self.userInteractionEnabled = YES;
+  self.darkOverlay = [[UIImageView alloc] initWithFrame:self.bounds];
+  self.darkOverlay.contentMode = UIViewContentModeScaleAspectFit;
+  
+  [self addSubview:darkOverlay];
+}
+
+- (void) setEquipId:(int)eq {
+  equipId = eq;
+  
+  [Globals loadImageForEquip:equipId toView:self maskedView:nil];
+  darkOverlay.hidden = YES;
+  darkOverlay.image = nil;
+}
+
+- (void) equipClicked {
+  if (equipId != 0) {
+    [EquipMenuController displayViewForEquip:self.equipId];
+  }
+}
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (!darkOverlay.image && self.image) {
+    darkOverlay.image = [Globals maskImage:self.image withColor:[UIColor colorWithWhite:0.f alpha:0.5f]];
+  }
+  
+  self.darkOverlay.hidden = NO;
+}
+
+- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  
+  if (!darkOverlay.image && self.image) {
+    darkOverlay.image = [Globals maskImage:self.image withColor:[UIColor colorWithWhite:0.f alpha:0.3f]];
+  }
+  
+  UITouch *touch = [touches anyObject];
+  CGPoint loc = [touch locationInView:touch.view];
+  if ([self pointInside:loc withEvent:event]) {
+    self.darkOverlay.hidden = NO;
+  } else {
+    self.darkOverlay.hidden = YES;
+  }
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  self.darkOverlay.hidden = YES;
+  
+  [self equipClicked];
+}
+
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  self.darkOverlay.hidden = YES;
 }
 
 @end

@@ -275,24 +275,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   } else if (gs.level < gl.minLevelForArmory) {
     [Globals popupMessage:@"You are not high enough level to purchase equipment from the armory"];
   } else {
-    // Check that they actually have an armory
-    BOOL armory = NO;
-    for (CritStruct *cs in gs.myCritStructs) {
-      if (cs.type == CritStructTypeArmory) {
-        armory = YES;
-      }
+    // Buy items
+    for (RequiresEquipView *rev in itemsContainerView.subviews) {
+      int equipId = rev.equipId;
+      [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
     }
-    
-    if (!armory) {
-      [Globals popupMessage:@"It seems you have not yet built your armory. Please visit your carpenter to build one now!"];
-    } else {
-      // Buy items
-      for (RequiresEquipView *rev in itemsContainerView.subviews) {
-        int equipId = rev.equipId;
-        [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
-      }
-      [self closeView:itemsView];
-    }
+    [self closeView:itemsView];
   }
 }
 

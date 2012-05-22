@@ -183,28 +183,36 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _littleToolTip.visible = NO;
     
     s = [CCSprite spriteWithFile:@"map.png"];
-    CCMenuItemSprite *mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(globeClicked)];
+    CCMenuItemSprite *mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(mapClicked)];
     mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    
+    s = [CCSprite spriteWithFile:@"bazaar.png"];
+    CCMenuItemSprite *bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
+    bazaarButton.position = ccp(mapButton.position.x, mapButton.position.y+mapButton.contentSize.height/2+bazaarButton.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    
+    s = [CCSprite spriteWithFile:@"attack.png"];
+    CCMenuItemSprite *attackButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
+    attackButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-attackButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"forum.png"];
     CCMenuItemSprite *forumButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(forumClicked)];
-    forumButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    forumButton.position = ccp(attackButton.position.x-attackButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
-    s = [CCSprite spriteWithFile:@"questbutton.png"];
+    s = [CCSprite spriteWithFile:@"quests.png"];
     _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
-    _questButton.position = ccp(s.contentSize.width/2+BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    _questButton.position = ccp(mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems:mapButton,forumButton, _questButton, nil];
+    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, bazaarButton, forumButton, _questButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons];
     
     _questNewArrow = [CCSprite spriteWithFile:@"new.png"];
     [self addChild:_questNewArrow];
-    _questNewArrow.position = ccp(_questButton.position.x+_questButton.contentSize.width/2+_questNewArrow.contentSize.width/2+2, _questButton.position.y);
+    _questNewArrow.position = ccp(_questButton.position.x-_questButton.contentSize.width/2-_questNewArrow.contentSize.width/2-2, _questButton.position.y);
     _questNewArrow.visible = NO;
     
-    CCMoveBy *action = [CCMoveBy actionWithDuration:0.8f position:ccp(10, 0)];
+    CCMoveBy *action = [CCMoveBy actionWithDuration:0.8f position:ccp(-10, 0)];
     [_questNewArrow runAction:[CCRepeatForever actionWithAction:
                                [CCSequence actions:
                                 [CCEaseSineInOut actionWithAction:action], 
@@ -231,8 +239,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   return self;
 }
 
-- (void) globeClicked {
-  [MapViewController displayView];
+- (void) mapClicked {
+  [MapViewController displayMissionMap];
+}
+
+- (void) attackClicked {
+  [MapViewController displayAttackMap];
 }
 
 - (void) forumClicked {
@@ -243,12 +255,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [QuestLogController displayView];
 }
 
+- (void) bazaarClicked {
+  [[GameLayer sharedGameLayer] toggleBazaarMap];
+}
+
 - (void) start {
   // Drop the bars down
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
-//  [_mapButton runAction:[CCMoveBy actionWithDuration:0.3 position:ccp(0, _mapButton.contentSize.height)]];
-  //  _mapButton.isEnabled = YES;
   
   [[HomeMap sharedHomeMap] beginTimers];
   
@@ -644,7 +658,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_energyBar release];
   [_staminaBar release];
   [_toolTipTimerDate release];
-  NSLog(@"%d", self.profilePic.retainCount);
   self.profilePic = nil;
   [super dealloc];
 }

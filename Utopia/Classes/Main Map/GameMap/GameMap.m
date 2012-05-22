@@ -217,6 +217,8 @@
                   nil],
                  [CCCallBlock actionWithBlock:^{[ss removeFromParentAndCleanup:YES];}],
                  nil]];
+  
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Coin_Pickup.m4a"];
 }
 
 - (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite {

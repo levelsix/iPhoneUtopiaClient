@@ -6,7 +6,7 @@ Quests are the best way to earn silver, experience, and legendary weapons. There
 
 1. Any NPC (non-playing character) with a pulsing golden exclamation mark above their head has a quest to give you. 
 
-2. Quest Log: The quest log is an easy and convenient way for you to keep track of available and accepted quests.  Though you cannot accept a quest directly from the quest log, Ruby/Adriana will lead you to the proper NPC via the visit button.
+2. Quest Log: The quest log is an easy and convenient way for you to keep track of available and accepted quests.  Though you cannot accept a quest directly from the quest log, Ruby or Adriana will lead you to the proper NPC via the visit button.
 
 You can also utilize the Quest Log to keep track of which quests are still in progress. By clicking on the quest name, the Log will expand and display which tasks you have yet to complete for the Quest. For your convenience, we’ve added a “Visit” button next to each task name to bring you to each respective task. 
 

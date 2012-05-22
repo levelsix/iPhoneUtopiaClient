@@ -67,15 +67,6 @@ typedef enum {
 
 @end
 
-@interface UserCritStruct : CritStruct
-
-@property (nonatomic, assign) CGRect location;
-@property (nonatomic, assign) StructOrientation orientation;
-
-+ (id) critStructWithProto:(FullUserCritstructProto *)proto;
-
-@end
-
 typedef enum {
   kNotificationBattle = 1,
   kNotificationMarketplace,

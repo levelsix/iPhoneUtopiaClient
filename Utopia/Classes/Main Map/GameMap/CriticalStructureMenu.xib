@@ -256,7 +256,7 @@
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.CustomClassName">HomeMap</string>
+				<string key="-1.CustomClassName">BazaarMap</string>
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -276,6 +276,25 @@
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">BazaarMap</string>
+					<string key="superclassName">GameMap</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">csMenu</string>
+						<string key="NS.object.0">CritStructMenu</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">csMenu</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">csMenu</string>
+							<string key="candidateClassName">CritStructMenu</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/BazaarMap.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">CCNode</string>
 					<string key="superclassName">NSObject</string>
@@ -312,262 +331,71 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">EnemyPopupView</string>
+					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="imageIcon">UIImageView</string>
+						<string key="levelLabel">UILabel</string>
+						<string key="nameLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="imageIcon">
+							<string key="name">imageIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="levelLabel">
+							<string key="name">levelLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="nameLabel">
+							<string key="name">nameLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/EnemyPopupView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">GameMap</string>
 					<string key="superclassName">CCTMXTiledMap</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">aviaryMenu</string>
-						<string key="NS.object.0">UIView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">aviaryMenu</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="attackClicked:">id</string>
+						<string key="enterAviaryClicked:">id</string>
+						<string key="profileClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="attackClicked:">
+							<string key="name">attackClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="enterAviaryClicked:">
+							<string key="name">enterAviaryClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="profileClicked:">
+							<string key="name">profileClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="aviaryMenu">UIView</string>
+						<string key="enemyMenu">EnemyPopupView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="aviaryMenu">
 							<string key="name">aviaryMenu</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
-					</object>
+						<object class="IBToOneOutletInfo" key="enemyMenu">
+							<string key="name">enemyMenu</string>
+							<string key="candidateClassName">EnemyPopupView</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/GameMap.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HomeBuildingInfoView</string>
-					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="coinIcon">UIImageView</string>
-						<string key="incomeView">UIView</string>
-						<string key="sellCoinImageView">UIImageView</string>
-						<string key="sellCostLabel">UILabel</string>
-						<string key="sellView">UIView</string>
-						<string key="upgradeButton">UIButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="coinIcon">
-							<string key="name">coinIcon</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="incomeView">
-							<string key="name">incomeView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sellCoinImageView">
-							<string key="name">sellCoinImageView</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sellCostLabel">
-							<string key="name">sellCostLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sellView">
-							<string key="name">sellView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="upgradeButton">
-							<string key="name">upgradeButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/HomeBuildingInfoView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HomeBuildingMenu</string>
-					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="blueButton">LabelButton</string>
-						<string key="finishNowButton">UIButton</string>
-						<string key="finishTimeLabel">UILabel</string>
-						<string key="greenButton">LabelButton</string>
-						<string key="incomeLabel">UILabel</string>
-						<string key="infoView">HomeBuildingInfoView</string>
-						<string key="instaFinishCostLabel">UILabel</string>
-						<string key="mainView">UIView</string>
-						<string key="moveView">UIView</string>
-						<string key="progressBar">UIImageView</string>
-						<string key="progressView">UIView</string>
-						<string key="redButton">LabelButton</string>
-						<string key="retrieveTimeLabel">UILabel</string>
-						<string key="titleLabel">UILabel</string>
-						<string key="upgradeCurIncomeLabel">UILabel</string>
-						<string key="upgradeNewIncomeLabel">UILabel</string>
-						<string key="upgradeView">HomeBuildingUpgradeView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="blueButton">
-							<string key="name">blueButton</string>
-							<string key="candidateClassName">LabelButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="finishNowButton">
-							<string key="name">finishNowButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="finishTimeLabel">
-							<string key="name">finishTimeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="greenButton">
-							<string key="name">greenButton</string>
-							<string key="candidateClassName">LabelButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="incomeLabel">
-							<string key="name">incomeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="infoView">
-							<string key="name">infoView</string>
-							<string key="candidateClassName">HomeBuildingInfoView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="instaFinishCostLabel">
-							<string key="name">instaFinishCostLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="mainView">
-							<string key="name">mainView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="moveView">
-							<string key="name">moveView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="progressBar">
-							<string key="name">progressBar</string>
-							<string key="candidateClassName">UIImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="progressView">
-							<string key="name">progressView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="redButton">
-							<string key="name">redButton</string>
-							<string key="candidateClassName">LabelButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="retrieveTimeLabel">
-							<string key="name">retrieveTimeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="titleLabel">
-							<string key="name">titleLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="upgradeCurIncomeLabel">
-							<string key="name">upgradeCurIncomeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="upgradeNewIncomeLabel">
-							<string key="name">upgradeNewIncomeLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="upgradeView">
-							<string key="name">upgradeView</string>
-							<string key="candidateClassName">HomeBuildingUpgradeView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/HomeBuildingMenu.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HomeBuildingUpgradeView</string>
-					<string key="superclassName">UIView</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="costLabel">UILabel</string>
-						<string key="costView">UIView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="costLabel">
-							<string key="name">costLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="costView">
-							<string key="name">costView</string>
-							<string key="candidateClassName">UIView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/HomeBuildingUpgradeView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HomeMap</string>
-					<string key="superclassName">GameMap</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="bigUpgradeClicked:">id</string>
-						<string key="criticalStructMoveClicked:">id</string>
-						<string key="criticalStructVisitClicked:">id</string>
-						<string key="finishNowClicked:">id</string>
-						<string key="leftButtonClicked:">id</string>
-						<string key="littleUpgradeClicked:">id</string>
-						<string key="moveCheckClicked:">id</string>
-						<string key="redButtonClicked:">id</string>
-						<string key="rotateClicked:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="bigUpgradeClicked:">
-							<string key="name">bigUpgradeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="criticalStructMoveClicked:">
-							<string key="name">criticalStructMoveClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="criticalStructVisitClicked:">
-							<string key="name">criticalStructVisitClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="finishNowClicked:">
-							<string key="name">finishNowClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="leftButtonClicked:">
-							<string key="name">leftButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="littleUpgradeClicked:">
-							<string key="name">littleUpgradeClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="moveCheckClicked:">
-							<string key="name">moveCheckClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="redButtonClicked:">
-							<string key="name">redButtonClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="rotateClicked:">
-							<string key="name">rotateClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="csMenu">CritStructMenu</string>
-						<string key="hbMenu">HomeBuildingMenu</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="csMenu">
-							<string key="name">csMenu</string>
-							<string key="candidateClassName">CritStructMenu</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="hbMenu">
-							<string key="name">hbMenu</string>
-							<string key="candidateClassName">HomeBuildingMenu</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/HomeMap.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">LabelButton</string>
-					<string key="superclassName">UIButton</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/LabelButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

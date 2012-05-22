@@ -194,26 +194,6 @@
 
 @end
 
-@implementation UserCritStruct
-
-@synthesize location, orientation;
-
-+ (id) critStructWithProto:(FullUserCritstructProto *)proto {
-  return [[[self alloc] initWithCritStructProto:proto] autorelease];
-}
-
-- (id) initWithCritStructProto:(FullUserCritstructProto *)proto {
-  if ((self = [super initWithType:proto.type])) {
-    CGPoint coordinates = CGPointMake(proto.coords.x, proto.coords.y);
-    location.size = self.size;
-    location.origin = coordinates;
-    orientation = proto.orientation;
-  }
-  return self;
-}
-
-@end
-
 @implementation UserNotification
 
 @synthesize time, type, otherPlayer;

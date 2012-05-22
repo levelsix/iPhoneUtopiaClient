@@ -28,8 +28,6 @@
   self.missionMap.userInteractionEnabled = NO;
   
   _enemyTabPhase = YES;
-  
-  self.mapBar.userInteractionEnabled = NO;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -52,12 +50,10 @@
 - (void) beforeEnemiesDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.beforeEnemiesAviaryText callbackTarget:nil action:nil];
-  self.mapBar.userInteractionEnabled = YES;
   
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
   [self.view addSubview:_arrow];
   _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
-  _arrow.center = CGPointMake(self.mapBar.center.x-_arrow.frame.size.width/2, self.mapBar.center.y);
   _arrow.alpha = 0.f;
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
   // This is confusing, basically fade in, and then do repeated animation
@@ -92,8 +88,6 @@
   [super setState:state];
   
   if (state == kAttackMap && _enemyTabPhase) {
-    self.mapBar.userInteractionEnabled = NO;
-    
     _enemyTabPhase = NO;
     _travelHomePhase = YES;
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
@@ -117,14 +111,6 @@
 
 - (IBAction)closeClicked:(id)sender {
   return;
-}
-
-- (IBAction)homeClicked:(id)sender {
-  if (_travelHomePhase) {
-    [[TutorialHomeMap sharedHomeMap] setVisible:YES];
-    [super homeClicked:nil];
-    [Analytics tutorialGoHome];
-  }
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

@@ -8,19 +8,37 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GenericPopupController : UIViewController
+@interface GenericPopup : UIView
 
-@property (nonatomic, assign) BOOL toAppStore;
-@property (nonatomic, retain) NSString *link;
-
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+
+@property (nonatomic, retain) IBOutlet UILabel *greenButtonLabel;
+@property (nonatomic, retain) IBOutlet UILabel *blackButtonLabel;
+@property (nonatomic, retain) IBOutlet UILabel *redButtonLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *notificationView;
+@property (nonatomic, retain) IBOutlet UIView *confirmationView;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdColorView;
 
-+ (void) displayViewWithText:(NSString *)string;
+@property (nonatomic, retain) NSInvocation *invocation;
+
+@property (nonatomic, assign) BOOL toAppStore;
+
+@end
+
+@interface GenericPopupController : UIViewController
+
+@property (nonatomic, retain) NSString *link;
+@property (nonatomic, retain) IBOutlet GenericPopup *genPopup;
+
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
++ (void) displayViewWithText:(NSString *)string title:(NSString *)title;
++ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
 + (void) removeView;
 + (void) purgeSingleton;
++ (void) openAppStoreLink;
 
 @end

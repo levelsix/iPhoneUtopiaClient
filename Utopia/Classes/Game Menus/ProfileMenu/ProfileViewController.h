@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 #import "NibUtils.h"
+#import "UserData.h"
 
 typedef enum {
   kMyProfile = 1,
@@ -34,6 +35,8 @@ typedef enum {
   kEquipScopeAmulets
 } EquipScope;
 
+@class MarketplacePostView;
+
 @interface EquipView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
@@ -50,7 +53,17 @@ typedef enum {
 @property (nonatomic, retain) FullUserEquipProto *equip;
 
 - (void) updateForEquip:(FullUserEquipProto *)fuep;
-- (void) doShake;
+
+@end
+
+@interface MarketplacePostView : UIView <UITextFieldDelegate>
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *armoryPriceIcon;
+@property (nonatomic, retain) IBOutlet UILabel *armoryPriceLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *postedPriceIcon;
+@property (nonatomic, retain) IBOutlet NiceFontTextField *postedPriceTextField;
 
 @end
 
@@ -103,6 +116,37 @@ typedef enum {
 
 - (void) unknownEquip;
 - (void) knownEquip;
+
+@end
+
+@interface ProfileEquipPopup : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *classLabel;
+@property (nonatomic, retain) IBOutlet UILabel *attackLabel;
+@property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
+@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
+@property (nonatomic, retain) IBOutlet UIView *wrongClassView;
+@property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
+@property (nonatomic, retain) IBOutlet UIButton *equipButton;
+@property (nonatomic, retain) IBOutlet UILabel *equipLabel;
+@property (nonatomic, retain) IBOutlet UIButton *sellButton;
+@property (nonatomic, retain) IBOutlet UILabel *sellLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *soldView;
+@property (nonatomic, retain) IBOutlet UILabel *soldItemLabel;
+@property (nonatomic, retain) IBOutlet UILabel *soldSilverLabel;
+
+@property (nonatomic, retain) IBOutlet MarketplacePostView *mktPostView;
+
+@property (nonatomic, retain) UserEquip *userEquip;
+
+- (void) updateForUserEquip:(UserEquip *)ue;
 
 @end
 
@@ -203,7 +247,10 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
+@property (nonatomic, retain) IBOutlet ProfileEquipPopup *equipPopup;
+
 @property (nonatomic, retain) UIImageView *equippingView;
+
 
 // UserId will usually be equal to fup.userId unless we are loading current
 // player's profile or we are waiting for the fup from server
@@ -213,12 +260,13 @@ typedef enum {
 - (void) loadMyProfile;
 - (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled;
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense;
-- (void) loadProfileForMinimumUser:(MinimumUserProto *)user;
+- (void) loadProfileForMinimumUser:(MinimumUserProto *)user withState:(ProfileState)pState;
 - (void) updateEquips:(NSArray *)equips;
 - (void) openSkillsMenu;
 - (void) equipViewSelected:(EquipView *)ev;
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev;
 - (void) loadSkills;
+- (void) doEquip:(UserEquip *)equip;
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type;
 
 - (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto;

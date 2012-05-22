@@ -1886,7 +1886,6 @@ static VaultResponseProto* defaultVaultResponseProtoInstance = nil;
 BOOL VaultResponseProto_VaultStatusIsValidValue(VaultResponseProto_VaultStatus value) {
   switch (value) {
     case VaultResponseProto_VaultStatusSuccess:
-    case VaultResponseProto_VaultStatusLevelTooLow:
     case VaultResponseProto_VaultStatusOtherFail:
       return YES;
     default:
@@ -2510,7 +2509,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     case ArmoryResponseProto_ArmoryStatusNotEnoughEquipToSell:
     case ArmoryResponseProto_ArmoryStatusNotEnoughCurrencyToBuy:
     case ArmoryResponseProto_ArmoryStatusCannotSellDiamondEquip:
-    case ArmoryResponseProto_ArmoryStatusLevelTooLow:
     case ArmoryResponseProto_ArmoryStatusOtherFail:
       return YES;
     default:
@@ -2659,6 +2657,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @property (retain) NSString* udid;
 @property Float32 versionNum;
 @property (retain) NSString* deviceToken;
+@property (retain) NSString* apsalarId;
 @end
 
 @implementation StartupRequestProto
@@ -2684,9 +2683,17 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasDeviceToken_ = !!value;
 }
 @synthesize deviceToken;
+- (BOOL) hasApsalarId {
+  return !!hasApsalarId_;
+}
+- (void) setHasApsalarId:(BOOL) value {
+  hasApsalarId_ = !!value;
+}
+@synthesize apsalarId;
 - (void) dealloc {
   self.udid = nil;
   self.deviceToken = nil;
+  self.apsalarId = nil;
   [super dealloc];
 }
 - (id) init {
@@ -2694,6 +2701,7 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
     self.udid = @"";
     self.versionNum = 0;
     self.deviceToken = @"";
+    self.apsalarId = @"";
   }
   return self;
 }
@@ -2722,6 +2730,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasDeviceToken) {
     [output writeString:4 value:self.deviceToken];
   }
+  if (self.hasApsalarId) {
+    [output writeString:5 value:self.apsalarId];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2739,6 +2750,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   }
   if (self.hasDeviceToken) {
     size += computeStringSize(4, self.deviceToken);
+  }
+  if (self.hasApsalarId) {
+    size += computeStringSize(5, self.apsalarId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2824,6 +2838,9 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
   }
+  if (other.hasApsalarId) {
+    [self setApsalarId:other.apsalarId];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2855,6 +2872,10 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
       }
       case 34: {
         [self setDeviceToken:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setApsalarId:[input readString]];
         break;
       }
     }
@@ -2908,6 +2929,22 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   result.deviceToken = @"";
   return self;
 }
+- (BOOL) hasApsalarId {
+  return result.hasApsalarId;
+}
+- (NSString*) apsalarId {
+  return result.apsalarId;
+}
+- (StartupRequestProto_Builder*) setApsalarId:(NSString*) value {
+  result.hasApsalarId = YES;
+  result.apsalarId = value;
+  return self;
+}
+- (StartupRequestProto_Builder*) clearApsalarId {
+  result.hasApsalarId = NO;
+  result.apsalarId = @"";
+  return self;
+}
 @end
 
 @interface StartupResponseProto ()
@@ -2918,7 +2955,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) StartupResponseProto_TutorialConstants* tutorialConstants;
 @property (retain) NSMutableArray* mutableAllCitiesList;
 @property (retain) NSMutableArray* mutableUserCityInfosList;
-@property (retain) NSMutableArray* mutableInProgressQuestsList;
+@property (retain) NSMutableArray* mutableInProgressIncompleteQuestsList;
+@property (retain) NSMutableArray* mutableInProgressCompleteQuestsList;
 @property (retain) NSMutableArray* mutableAvailableQuestsList;
 @property (retain) NSMutableArray* mutableUserEquipsList;
 @property (retain) NSMutableArray* mutableEquipsList;
@@ -2970,7 +3008,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @synthesize tutorialConstants;
 @synthesize mutableAllCitiesList;
 @synthesize mutableUserCityInfosList;
-@synthesize mutableInProgressQuestsList;
+@synthesize mutableInProgressIncompleteQuestsList;
+@synthesize mutableInProgressCompleteQuestsList;
 @synthesize mutableAvailableQuestsList;
 @synthesize mutableUserEquipsList;
 @synthesize mutableEquipsList;
@@ -3005,7 +3044,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.tutorialConstants = nil;
   self.mutableAllCitiesList = nil;
   self.mutableUserCityInfosList = nil;
-  self.mutableInProgressQuestsList = nil;
+  self.mutableInProgressIncompleteQuestsList = nil;
+  self.mutableInProgressCompleteQuestsList = nil;
   self.mutableAvailableQuestsList = nil;
   self.mutableUserEquipsList = nil;
   self.mutableEquipsList = nil;
@@ -3055,11 +3095,18 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableUserCityInfosList objectAtIndex:index];
   return value;
 }
-- (NSArray*) inProgressQuestsList {
-  return mutableInProgressQuestsList;
+- (NSArray*) inProgressIncompleteQuestsList {
+  return mutableInProgressIncompleteQuestsList;
 }
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
-  id value = [mutableInProgressQuestsList objectAtIndex:index];
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index {
+  id value = [mutableInProgressIncompleteQuestsList objectAtIndex:index];
+  return value;
+}
+- (NSArray*) inProgressCompleteQuestsList {
+  return mutableInProgressCompleteQuestsList;
+}
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index {
+  id value = [mutableInProgressCompleteQuestsList objectAtIndex:index];
   return value;
 }
 - (NSArray*) availableQuestsList {
@@ -3130,7 +3177,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     [output writeMessage:5 value:element];
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (FullQuestProto* element in self.inProgressIncompleteQuestsList) {
     [output writeMessage:6 value:element];
   }
   for (FullQuestProto* element in self.availableQuestsList) {
@@ -3169,6 +3216,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (PlayerWallPostProto* element in self.playerWallPostNotificationsList) {
     [output writeMessage:19 value:element];
   }
+  for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
+    [output writeMessage:20 value:element];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3193,7 +3243,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullCityProto* element in self.allCitiesList) {
     size += computeMessageSize(5, element);
   }
-  for (FullQuestProto* element in self.inProgressQuestsList) {
+  for (FullQuestProto* element in self.inProgressIncompleteQuestsList) {
     size += computeMessageSize(6, element);
   }
   for (FullQuestProto* element in self.availableQuestsList) {
@@ -3231,6 +3281,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   for (PlayerWallPostProto* element in self.playerWallPostNotificationsList) {
     size += computeMessageSize(19, element);
+  }
+  for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
+    size += computeMessageSize(20, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4247,9 +4300,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property Float64 percentReturnedToUserForSellingEquipInArmory;
 @property int32_t maxCityRank;
-@property int32_t minLevelForArmory;
-@property int32_t minLevelForVault;
-@property int32_t minLevelForMarketplace;
 @property int32_t armoryImgVerticalPixelOffset;
 @property int32_t vaultImgVerticalPixelOffset;
 @property int32_t marketplaceImgVerticalPixelOffset;
@@ -4545,27 +4595,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxCityRank_ = !!value;
 }
 @synthesize maxCityRank;
-- (BOOL) hasMinLevelForArmory {
-  return !!hasMinLevelForArmory_;
-}
-- (void) setHasMinLevelForArmory:(BOOL) value {
-  hasMinLevelForArmory_ = !!value;
-}
-@synthesize minLevelForArmory;
-- (BOOL) hasMinLevelForVault {
-  return !!hasMinLevelForVault_;
-}
-- (void) setHasMinLevelForVault:(BOOL) value {
-  hasMinLevelForVault_ = !!value;
-}
-@synthesize minLevelForVault;
-- (BOOL) hasMinLevelForMarketplace {
-  return !!hasMinLevelForMarketplace_;
-}
-- (void) setHasMinLevelForMarketplace:(BOOL) value {
-  hasMinLevelForMarketplace_ = !!value;
-}
-@synthesize minLevelForMarketplace;
 - (BOOL) hasArmoryImgVerticalPixelOffset {
   return !!hasArmoryImgVerticalPixelOffset_;
 }
@@ -4678,9 +4707,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.maxNumbersOfEnemiesToGenerateAtOnce = 0;
     self.percentReturnedToUserForSellingEquipInArmory = 0;
     self.maxCityRank = 0;
-    self.minLevelForArmory = 0;
-    self.minLevelForVault = 0;
-    self.minLevelForMarketplace = 0;
     self.armoryImgVerticalPixelOffset = 0;
     self.vaultImgVerticalPixelOffset = 0;
     self.marketplaceImgVerticalPixelOffset = 0;
@@ -4849,14 +4875,14 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxCityRank) {
     [output writeInt32:50 value:self.maxCityRank];
   }
-  if (self.hasMinLevelForArmory) {
-    [output writeInt32:51 value:self.minLevelForArmory];
+  if (self.hasBattleConstants) {
+    [output writeMessage:51 value:self.battleConstants];
   }
-  if (self.hasMinLevelForVault) {
-    [output writeInt32:52 value:self.minLevelForVault];
+  if (self.hasMaxCharLengthForWallPost) {
+    [output writeInt32:52 value:self.maxCharLengthForWallPost];
   }
-  if (self.hasMinLevelForMarketplace) {
-    [output writeInt32:53 value:self.minLevelForMarketplace];
+  if (self.hasPlayerWallPostsRetrieveCap) {
+    [output writeInt32:53 value:self.playerWallPostsRetrieveCap];
   }
   if (self.hasArmoryImgVerticalPixelOffset) {
     [output writeInt32:54 value:self.armoryImgVerticalPixelOffset];
@@ -4875,15 +4901,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasFormulaConstants) {
     [output writeMessage:59 value:self.formulaConstants];
-  }
-  if (self.hasBattleConstants) {
-    [output writeMessage:60 value:self.battleConstants];
-  }
-  if (self.hasMaxCharLengthForWallPost) {
-    [output writeInt32:61 value:self.maxCharLengthForWallPost];
-  }
-  if (self.hasPlayerWallPostsRetrieveCap) {
-    [output writeInt32:62 value:self.playerWallPostsRetrieveCap];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5030,14 +5047,14 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxCityRank) {
     size += computeInt32Size(50, self.maxCityRank);
   }
-  if (self.hasMinLevelForArmory) {
-    size += computeInt32Size(51, self.minLevelForArmory);
+  if (self.hasBattleConstants) {
+    size += computeMessageSize(51, self.battleConstants);
   }
-  if (self.hasMinLevelForVault) {
-    size += computeInt32Size(52, self.minLevelForVault);
+  if (self.hasMaxCharLengthForWallPost) {
+    size += computeInt32Size(52, self.maxCharLengthForWallPost);
   }
-  if (self.hasMinLevelForMarketplace) {
-    size += computeInt32Size(53, self.minLevelForMarketplace);
+  if (self.hasPlayerWallPostsRetrieveCap) {
+    size += computeInt32Size(53, self.playerWallPostsRetrieveCap);
   }
   if (self.hasArmoryImgVerticalPixelOffset) {
     size += computeInt32Size(54, self.armoryImgVerticalPixelOffset);
@@ -5056,15 +5073,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasFormulaConstants) {
     size += computeMessageSize(59, self.formulaConstants);
-  }
-  if (self.hasBattleConstants) {
-    size += computeMessageSize(60, self.battleConstants);
-  }
-  if (self.hasMaxCharLengthForWallPost) {
-    size += computeInt32Size(61, self.maxCharLengthForWallPost);
-  }
-  if (self.hasPlayerWallPostsRetrieveCap) {
-    size += computeInt32Size(62, self.playerWallPostsRetrieveCap);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6121,15 +6129,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasMaxCityRank) {
     [self setMaxCityRank:other.maxCityRank];
   }
-  if (other.hasMinLevelForArmory) {
-    [self setMinLevelForArmory:other.minLevelForArmory];
-  }
-  if (other.hasMinLevelForVault) {
-    [self setMinLevelForVault:other.minLevelForVault];
-  }
-  if (other.hasMinLevelForMarketplace) {
-    [self setMinLevelForMarketplace:other.minLevelForMarketplace];
-  }
   if (other.hasArmoryImgVerticalPixelOffset) {
     [self setArmoryImgVerticalPixelOffset:other.armoryImgVerticalPixelOffset];
   }
@@ -6346,16 +6345,21 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         [self setMaxCityRank:[input readInt32]];
         break;
       }
-      case 408: {
-        [self setMinLevelForArmory:[input readInt32]];
+      case 410: {
+        StartupResponseProto_StartupConstants_BattleConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_BattleConstants builder];
+        if (self.hasBattleConstants) {
+          [subBuilder mergeFrom:self.battleConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBattleConstants:[subBuilder buildPartial]];
         break;
       }
       case 416: {
-        [self setMinLevelForVault:[input readInt32]];
+        [self setMaxCharLengthForWallPost:[input readInt32]];
         break;
       }
       case 424: {
-        [self setMinLevelForMarketplace:[input readInt32]];
+        [self setPlayerWallPostsRetrieveCap:[input readInt32]];
         break;
       }
       case 432: {
@@ -6385,23 +6389,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setFormulaConstants:[subBuilder buildPartial]];
-        break;
-      }
-      case 482: {
-        StartupResponseProto_StartupConstants_BattleConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_BattleConstants builder];
-        if (self.hasBattleConstants) {
-          [subBuilder mergeFrom:self.battleConstants];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setBattleConstants:[subBuilder buildPartial]];
-        break;
-      }
-      case 488: {
-        [self setMaxCharLengthForWallPost:[input readInt32]];
-        break;
-      }
-      case 496: {
-        [self setPlayerWallPostsRetrieveCap:[input readInt32]];
         break;
       }
     }
@@ -7107,54 +7094,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxCityRank {
   result.hasMaxCityRank = NO;
   result.maxCityRank = 0;
-  return self;
-}
-- (BOOL) hasMinLevelForArmory {
-  return result.hasMinLevelForArmory;
-}
-- (int32_t) minLevelForArmory {
-  return result.minLevelForArmory;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForArmory:(int32_t) value {
-  result.hasMinLevelForArmory = YES;
-  result.minLevelForArmory = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForArmory {
-  result.hasMinLevelForArmory = NO;
-  result.minLevelForArmory = 0;
-  return self;
-}
-- (BOOL) hasMinLevelForVault {
-  return result.hasMinLevelForVault;
-}
-- (int32_t) minLevelForVault {
-  return result.minLevelForVault;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForVault:(int32_t) value {
-  result.hasMinLevelForVault = YES;
-  result.minLevelForVault = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForVault {
-  result.hasMinLevelForVault = NO;
-  result.minLevelForVault = 0;
-  return self;
-}
-- (BOOL) hasMinLevelForMarketplace {
-  return result.hasMinLevelForMarketplace;
-}
-- (int32_t) minLevelForMarketplace {
-  return result.minLevelForMarketplace;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForMarketplace:(int32_t) value {
-  result.hasMinLevelForMarketplace = YES;
-  result.minLevelForMarketplace = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForMarketplace {
-  result.hasMinLevelForMarketplace = NO;
-  result.minLevelForMarketplace = 0;
   return self;
 }
 - (BOOL) hasArmoryImgVerticalPixelOffset {
@@ -9824,11 +9763,17 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableUserCityInfosList addObjectsFromArray:other.mutableUserCityInfosList];
   }
-  if (other.mutableInProgressQuestsList.count > 0) {
-    if (result.mutableInProgressQuestsList == nil) {
-      result.mutableInProgressQuestsList = [NSMutableArray array];
+  if (other.mutableInProgressIncompleteQuestsList.count > 0) {
+    if (result.mutableInProgressIncompleteQuestsList == nil) {
+      result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
     }
-    [result.mutableInProgressQuestsList addObjectsFromArray:other.mutableInProgressQuestsList];
+    [result.mutableInProgressIncompleteQuestsList addObjectsFromArray:other.mutableInProgressIncompleteQuestsList];
+  }
+  if (other.mutableInProgressCompleteQuestsList.count > 0) {
+    if (result.mutableInProgressCompleteQuestsList == nil) {
+      result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+    }
+    [result.mutableInProgressCompleteQuestsList addObjectsFromArray:other.mutableInProgressCompleteQuestsList];
   }
   if (other.mutableAvailableQuestsList.count > 0) {
     if (result.mutableAvailableQuestsList == nil) {
@@ -9947,7 +9892,7 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       case 50: {
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addInProgressQuests:[subBuilder buildPartial]];
+        [self addInProgressIncompleteQuests:[subBuilder buildPartial]];
         break;
       }
       case 58: {
@@ -10017,6 +9962,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         PlayerWallPostProto_Builder* subBuilder = [PlayerWallPostProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addPlayerWallPostNotifications:[subBuilder buildPartial]];
+        break;
+      }
+      case 162: {
+        FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInProgressCompleteQuests:[subBuilder buildPartial]];
         break;
       }
     }
@@ -10202,33 +10153,62 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   [result.mutableUserCityInfosList addObject:value];
   return self;
 }
-- (NSArray*) inProgressQuestsList {
-  if (result.mutableInProgressQuestsList == nil) { return [NSArray array]; }
-  return result.mutableInProgressQuestsList;
+- (NSArray*) inProgressIncompleteQuestsList {
+  if (result.mutableInProgressIncompleteQuestsList == nil) { return [NSArray array]; }
+  return result.mutableInProgressIncompleteQuestsList;
 }
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index {
-  return [result inProgressQuestsAtIndex:index];
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index {
+  return [result inProgressIncompleteQuestsAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
-  [result.mutableInProgressQuestsList replaceObjectAtIndex:index withObject:value];
+- (StartupResponseProto_Builder*) replaceInProgressIncompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableInProgressIncompleteQuestsList replaceObjectAtIndex:index withObject:value];
   return self;
 }
-- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values {
-  if (result.mutableInProgressQuestsList == nil) {
-    result.mutableInProgressQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addAllInProgressIncompleteQuests:(NSArray*) values {
+  if (result.mutableInProgressIncompleteQuestsList == nil) {
+    result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressQuestsList addObjectsFromArray:values];
+  [result.mutableInProgressIncompleteQuestsList addObjectsFromArray:values];
   return self;
 }
-- (StartupResponseProto_Builder*) clearInProgressQuestsList {
-  result.mutableInProgressQuestsList = nil;
+- (StartupResponseProto_Builder*) clearInProgressIncompleteQuestsList {
+  result.mutableInProgressIncompleteQuestsList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value {
-  if (result.mutableInProgressQuestsList == nil) {
-    result.mutableInProgressQuestsList = [NSMutableArray array];
+- (StartupResponseProto_Builder*) addInProgressIncompleteQuests:(FullQuestProto*) value {
+  if (result.mutableInProgressIncompleteQuestsList == nil) {
+    result.mutableInProgressIncompleteQuestsList = [NSMutableArray array];
   }
-  [result.mutableInProgressQuestsList addObject:value];
+  [result.mutableInProgressIncompleteQuestsList addObject:value];
+  return self;
+}
+- (NSArray*) inProgressCompleteQuestsList {
+  if (result.mutableInProgressCompleteQuestsList == nil) { return [NSArray array]; }
+  return result.mutableInProgressCompleteQuestsList;
+}
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index {
+  return [result inProgressCompleteQuestsAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceInProgressCompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value {
+  [result.mutableInProgressCompleteQuestsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllInProgressCompleteQuests:(NSArray*) values {
+  if (result.mutableInProgressCompleteQuestsList == nil) {
+    result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+  }
+  [result.mutableInProgressCompleteQuestsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearInProgressCompleteQuestsList {
+  result.mutableInProgressCompleteQuestsList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addInProgressCompleteQuests:(FullQuestProto*) value {
+  if (result.mutableInProgressCompleteQuestsList == nil) {
+    result.mutableInProgressCompleteQuestsList = [NSMutableArray array];
+  }
+  [result.mutableInProgressCompleteQuestsList addObject:value];
   return self;
 }
 - (NSArray*) availableQuestsList {
@@ -16701,7 +16681,6 @@ BOOL CriticalStructureActionResponseProto_CritStructActionStatusIsValidValue(Cri
   switch (value) {
     case CriticalStructureActionResponseProto_CritStructActionStatusSuccess:
     case CriticalStructureActionResponseProto_CritStructActionStatusCannotPlaceNonPlaceableCritStruct:
-    case CriticalStructureActionResponseProto_CritStructActionStatusNotAccessibleToUsersLevel:
     case CriticalStructureActionResponseProto_CritStructActionStatusCannotMoveAviary:
     case CriticalStructureActionResponseProto_CritStructActionStatusOtherFail:
       return YES;
@@ -18235,9 +18214,6 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableCitiesNewlyAvailableToUserList;
 @property (retain) NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesList;
 @property (retain) NSMutableArray* mutableNewlyAvailableStructsList;
-@property BOOL marketplaceUnlocked;
-@property BOOL vaultUnlocked;
-@property BOOL armoryUnlocked;
 @end
 
 @implementation LevelUpResponseProto
@@ -18280,42 +18256,6 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
 @synthesize mutableCitiesNewlyAvailableToUserList;
 @synthesize mutableNewlyEquippableEpicsAndLegendariesList;
 @synthesize mutableNewlyAvailableStructsList;
-- (BOOL) hasMarketplaceUnlocked {
-  return !!hasMarketplaceUnlocked_;
-}
-- (void) setHasMarketplaceUnlocked:(BOOL) value {
-  hasMarketplaceUnlocked_ = !!value;
-}
-- (BOOL) marketplaceUnlocked {
-  return !!marketplaceUnlocked_;
-}
-- (void) setMarketplaceUnlocked:(BOOL) value {
-  marketplaceUnlocked_ = !!value;
-}
-- (BOOL) hasVaultUnlocked {
-  return !!hasVaultUnlocked_;
-}
-- (void) setHasVaultUnlocked:(BOOL) value {
-  hasVaultUnlocked_ = !!value;
-}
-- (BOOL) vaultUnlocked {
-  return !!vaultUnlocked_;
-}
-- (void) setVaultUnlocked:(BOOL) value {
-  vaultUnlocked_ = !!value;
-}
-- (BOOL) hasArmoryUnlocked {
-  return !!hasArmoryUnlocked_;
-}
-- (void) setHasArmoryUnlocked:(BOOL) value {
-  hasArmoryUnlocked_ = !!value;
-}
-- (BOOL) armoryUnlocked {
-  return !!armoryUnlocked_;
-}
-- (void) setArmoryUnlocked:(BOOL) value {
-  armoryUnlocked_ = !!value;
-}
 - (void) dealloc {
   self.sender = nil;
   self.mutableCitiesNewlyAvailableToUserList = nil;
@@ -18330,9 +18270,6 @@ static LevelUpRequestProto* defaultLevelUpRequestProtoInstance = nil;
     self.newLevel = 0;
     self.newNextLevel = 0;
     self.experienceRequiredForNewNextLevel = 0;
-    self.marketplaceUnlocked = NO;
-    self.vaultUnlocked = NO;
-    self.armoryUnlocked = NO;
   }
   return self;
 }
@@ -18394,15 +18331,6 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   for (FullStructureProto* element in self.newlyAvailableStructsList) {
     [output writeMessage:7 value:element];
   }
-  if (self.hasMarketplaceUnlocked) {
-    [output writeBool:8 value:self.marketplaceUnlocked];
-  }
-  if (self.hasVaultUnlocked) {
-    [output writeBool:9 value:self.vaultUnlocked];
-  }
-  if (self.hasArmoryUnlocked) {
-    [output writeBool:10 value:self.armoryUnlocked];
-  }
   if (self.hasNewLevel) {
     [output writeInt32:11 value:self.newLevel];
   }
@@ -18435,15 +18363,6 @@ static LevelUpResponseProto* defaultLevelUpResponseProtoInstance = nil;
   }
   for (FullStructureProto* element in self.newlyAvailableStructsList) {
     size += computeMessageSize(7, element);
-  }
-  if (self.hasMarketplaceUnlocked) {
-    size += computeBoolSize(8, self.marketplaceUnlocked);
-  }
-  if (self.hasVaultUnlocked) {
-    size += computeBoolSize(9, self.vaultUnlocked);
-  }
-  if (self.hasArmoryUnlocked) {
-    size += computeBoolSize(10, self.armoryUnlocked);
   }
   if (self.hasNewLevel) {
     size += computeInt32Size(11, self.newLevel);
@@ -18567,15 +18486,6 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
     }
     [result.mutableNewlyAvailableStructsList addObjectsFromArray:other.mutableNewlyAvailableStructsList];
   }
-  if (other.hasMarketplaceUnlocked) {
-    [self setMarketplaceUnlocked:other.marketplaceUnlocked];
-  }
-  if (other.hasVaultUnlocked) {
-    [self setVaultUnlocked:other.vaultUnlocked];
-  }
-  if (other.hasArmoryUnlocked) {
-    [self setArmoryUnlocked:other.armoryUnlocked];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -18639,18 +18549,6 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
         FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addNewlyAvailableStructs:[subBuilder buildPartial]];
-        break;
-      }
-      case 64: {
-        [self setMarketplaceUnlocked:[input readBool]];
-        break;
-      }
-      case 72: {
-        [self setVaultUnlocked:[input readBool]];
-        break;
-      }
-      case 80: {
-        [self setArmoryUnlocked:[input readBool]];
         break;
       }
       case 88: {
@@ -18839,54 +18737,6 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
     result.mutableNewlyAvailableStructsList = [NSMutableArray array];
   }
   [result.mutableNewlyAvailableStructsList addObject:value];
-  return self;
-}
-- (BOOL) hasMarketplaceUnlocked {
-  return result.hasMarketplaceUnlocked;
-}
-- (BOOL) marketplaceUnlocked {
-  return result.marketplaceUnlocked;
-}
-- (LevelUpResponseProto_Builder*) setMarketplaceUnlocked:(BOOL) value {
-  result.hasMarketplaceUnlocked = YES;
-  result.marketplaceUnlocked = value;
-  return self;
-}
-- (LevelUpResponseProto_Builder*) clearMarketplaceUnlocked {
-  result.hasMarketplaceUnlocked = NO;
-  result.marketplaceUnlocked = NO;
-  return self;
-}
-- (BOOL) hasVaultUnlocked {
-  return result.hasVaultUnlocked;
-}
-- (BOOL) vaultUnlocked {
-  return result.vaultUnlocked;
-}
-- (LevelUpResponseProto_Builder*) setVaultUnlocked:(BOOL) value {
-  result.hasVaultUnlocked = YES;
-  result.vaultUnlocked = value;
-  return self;
-}
-- (LevelUpResponseProto_Builder*) clearVaultUnlocked {
-  result.hasVaultUnlocked = NO;
-  result.vaultUnlocked = NO;
-  return self;
-}
-- (BOOL) hasArmoryUnlocked {
-  return result.hasArmoryUnlocked;
-}
-- (BOOL) armoryUnlocked {
-  return result.armoryUnlocked;
-}
-- (LevelUpResponseProto_Builder*) setArmoryUnlocked:(BOOL) value {
-  result.hasArmoryUnlocked = YES;
-  result.armoryUnlocked = value;
-  return self;
-}
-- (LevelUpResponseProto_Builder*) clearArmoryUnlocked {
-  result.hasArmoryUnlocked = NO;
-  result.armoryUnlocked = NO;
   return self;
 }
 @end
@@ -20083,7 +19933,6 @@ static RetrieveCurrentMarketplacePostsResponseProto* defaultRetrieveCurrentMarke
 BOOL RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusIsValidValue(RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus value) {
   switch (value) {
     case RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess:
-    case RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusLevelTooLow:
     case RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusOtherFail:
       return YES;
     default:
@@ -20738,8 +20587,6 @@ BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMa
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost:
-    case PostToMarketplaceResponseProto_PostToMarketplaceStatusNoLicense:
-    case PostToMarketplaceResponseProto_PostToMarketplaceStatusLevelTooLow:
     case PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail:
       return YES;
     default:
@@ -21228,7 +21075,6 @@ BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValu
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins:
-    case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusLevelTooLow:
       return YES;
     default:
       return NO;
@@ -21784,7 +21630,6 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusNotEnoughMaterials:
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPostNoLongerExists:
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPurchaserIsSeller:
-    case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusLevelTooLow:
     case PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusOtherFail:
       return YES;
     default:
@@ -22499,10 +22344,10 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 @interface GenerateAttackListRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t numEnemies;
-@property int32_t latLowerBound;
-@property int32_t latUpperBound;
-@property int32_t longLowerBound;
-@property int32_t longUpperBound;
+@property Float64 latLowerBound;
+@property Float64 latUpperBound;
+@property Float64 longLowerBound;
+@property Float64 longUpperBound;
 @end
 
 @implementation GenerateAttackListRequestProto
@@ -22587,16 +22432,16 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
     [output writeInt32:2 value:self.numEnemies];
   }
   if (self.hasLatLowerBound) {
-    [output writeInt32:3 value:self.latLowerBound];
+    [output writeDouble:3 value:self.latLowerBound];
   }
   if (self.hasLatUpperBound) {
-    [output writeInt32:4 value:self.latUpperBound];
+    [output writeDouble:4 value:self.latUpperBound];
   }
   if (self.hasLongLowerBound) {
-    [output writeInt32:5 value:self.longLowerBound];
+    [output writeDouble:5 value:self.longLowerBound];
   }
   if (self.hasLongUpperBound) {
-    [output writeInt32:6 value:self.longUpperBound];
+    [output writeDouble:6 value:self.longUpperBound];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -22614,16 +22459,16 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
     size += computeInt32Size(2, self.numEnemies);
   }
   if (self.hasLatLowerBound) {
-    size += computeInt32Size(3, self.latLowerBound);
+    size += computeDoubleSize(3, self.latLowerBound);
   }
   if (self.hasLatUpperBound) {
-    size += computeInt32Size(4, self.latUpperBound);
+    size += computeDoubleSize(4, self.latUpperBound);
   }
   if (self.hasLongLowerBound) {
-    size += computeInt32Size(5, self.longLowerBound);
+    size += computeDoubleSize(5, self.longLowerBound);
   }
   if (self.hasLongUpperBound) {
-    size += computeInt32Size(6, self.longUpperBound);
+    size += computeDoubleSize(6, self.longUpperBound);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -22752,20 +22597,20 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
         [self setNumEnemies:[input readInt32]];
         break;
       }
-      case 24: {
-        [self setLatLowerBound:[input readInt32]];
+      case 25: {
+        [self setLatLowerBound:[input readDouble]];
         break;
       }
-      case 32: {
-        [self setLatUpperBound:[input readInt32]];
+      case 33: {
+        [self setLatUpperBound:[input readDouble]];
         break;
       }
-      case 40: {
-        [self setLongLowerBound:[input readInt32]];
+      case 41: {
+        [self setLongLowerBound:[input readDouble]];
         break;
       }
-      case 48: {
-        [self setLongUpperBound:[input readInt32]];
+      case 49: {
+        [self setLongUpperBound:[input readDouble]];
         break;
       }
     }
@@ -22820,10 +22665,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLatLowerBound {
   return result.hasLatLowerBound;
 }
-- (int32_t) latLowerBound {
+- (Float64) latLowerBound {
   return result.latLowerBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(Float64) value {
   result.hasLatLowerBound = YES;
   result.latLowerBound = value;
   return self;
@@ -22836,10 +22681,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLatUpperBound {
   return result.hasLatUpperBound;
 }
-- (int32_t) latUpperBound {
+- (Float64) latUpperBound {
   return result.latUpperBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(Float64) value {
   result.hasLatUpperBound = YES;
   result.latUpperBound = value;
   return self;
@@ -22852,10 +22697,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLongLowerBound {
   return result.hasLongLowerBound;
 }
-- (int32_t) longLowerBound {
+- (Float64) longLowerBound {
   return result.longLowerBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(Float64) value {
   result.hasLongLowerBound = YES;
   result.longLowerBound = value;
   return self;
@@ -22868,10 +22713,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
 - (BOOL) hasLongUpperBound {
   return result.hasLongUpperBound;
 }
-- (int32_t) longUpperBound {
+- (Float64) longUpperBound {
   return result.longUpperBound;
 }
-- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(int32_t) value {
+- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(Float64) value {
   result.hasLongUpperBound = YES;
   result.longUpperBound = value;
   return self;

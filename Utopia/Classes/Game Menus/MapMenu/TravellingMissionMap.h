@@ -10,7 +10,7 @@
 #import "Info.pb.h"
 #import "NibUtils.h"
 
-@interface ContinentView : ServerButton
+@interface ContinentView : UIButton
 
 @property (nonatomic, retain) IBOutlet UIImageView *lock;
 
@@ -32,6 +32,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *cityRankLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *progressBar;
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
+
+- (void) reloadCities;
 
 @end
 

@@ -282,7 +282,6 @@ BOOL VaultRequestProto_VaultRequestTypeIsValidValue(VaultRequestProto_VaultReque
 
 typedef enum {
   VaultResponseProto_VaultStatusSuccess = 0,
-  VaultResponseProto_VaultStatusLevelTooLow = 1,
   VaultResponseProto_VaultStatusOtherFail = 2,
 } VaultResponseProto_VaultStatus;
 
@@ -300,7 +299,6 @@ typedef enum {
   ArmoryResponseProto_ArmoryStatusNotEnoughEquipToSell = 1,
   ArmoryResponseProto_ArmoryStatusNotEnoughCurrencyToBuy = 2,
   ArmoryResponseProto_ArmoryStatusCannotSellDiamondEquip = 3,
-  ArmoryResponseProto_ArmoryStatusLevelTooLow = 4,
   ArmoryResponseProto_ArmoryStatusOtherFail = 5,
 } ArmoryResponseProto_ArmoryStatus;
 
@@ -425,7 +423,6 @@ BOOL CriticalStructureActionRequestProto_CritStructActionTypeIsValidValue(Critic
 typedef enum {
   CriticalStructureActionResponseProto_CritStructActionStatusSuccess = 0,
   CriticalStructureActionResponseProto_CritStructActionStatusCannotPlaceNonPlaceableCritStruct = 1,
-  CriticalStructureActionResponseProto_CritStructActionStatusNotAccessibleToUsersLevel = 2,
   CriticalStructureActionResponseProto_CritStructActionStatusCannotMoveAviary = 3,
   CriticalStructureActionResponseProto_CritStructActionStatusOtherFail = 4,
 } CriticalStructureActionResponseProto_CritStructActionStatus;
@@ -476,7 +473,6 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 
 typedef enum {
   RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusSuccess = 0,
-  RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusLevelTooLow = 1,
   RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatusOtherFail = 2,
 } RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePostsStatus;
 
@@ -491,9 +487,7 @@ typedef enum {
   PostToMarketplaceResponseProto_PostToMarketplaceStatusUserAlreadyMaxMarketplacePosts = 5,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusCantDemandBoth = 6,
   PostToMarketplaceResponseProto_PostToMarketplaceStatusInvalidCostTypeForPost = 7,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusNoLicense = 8,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusLevelTooLow = 9,
-  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 10,
+  PostToMarketplaceResponseProto_PostToMarketplaceStatusOtherFail = 8,
 } PostToMarketplaceResponseProto_PostToMarketplaceStatus;
 
 BOOL PostToMarketplaceResponseProto_PostToMarketplaceStatusIsValidValue(PostToMarketplaceResponseProto_PostToMarketplaceStatus value);
@@ -504,7 +498,6 @@ typedef enum {
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists = 2,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds = 3,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins = 4,
-  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusLevelTooLow = 5,
 } RetractMarketplacePostResponseProto_RetractMarketplacePostStatus;
 
 BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValue(RetractMarketplacePostResponseProto_RetractMarketplacePostStatus value);
@@ -514,7 +507,6 @@ typedef enum {
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusNotEnoughMaterials = 1,
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPostNoLongerExists = 2,
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusPurchaserIsSeller = 3,
-  PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusLevelTooLow = 4,
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusOtherFail = 5,
 } PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus;
 
@@ -1340,16 +1332,20 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   BOOL hasVersionNum_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
+  BOOL hasApsalarId_:1;
   Float32 versionNum;
   NSString* udid;
   NSString* deviceToken;
+  NSString* apsalarId;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
 - (BOOL) hasDeviceToken;
+- (BOOL) hasApsalarId;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
 @property (readonly, retain) NSString* deviceToken;
+@property (readonly, retain) NSString* apsalarId;
 
 + (StartupRequestProto*) defaultInstance;
 - (StartupRequestProto*) defaultInstance;
@@ -1399,6 +1395,11 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (NSString*) deviceToken;
 - (StartupRequestProto_Builder*) setDeviceToken:(NSString*) value;
 - (StartupRequestProto_Builder*) clearDeviceToken;
+
+- (BOOL) hasApsalarId;
+- (NSString*) apsalarId;
+- (StartupRequestProto_Builder*) setApsalarId:(NSString*) value;
+- (StartupRequestProto_Builder*) clearApsalarId;
 @end
 
 @interface StartupResponseProto : PBGeneratedMessage {
@@ -1421,7 +1422,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableAllCitiesList;
   NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableInProgressQuestsList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableEquipsList;
@@ -1450,8 +1452,10 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
 - (FullUserCityProto*) userCityInfosAtIndex:(int32_t) index;
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
+- (NSArray*) inProgressIncompleteQuestsList;
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index;
+- (NSArray*) inProgressCompleteQuestsList;
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index;
 - (NSArray*) availableQuestsList;
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
 - (NSArray*) userEquipsList;
@@ -1710,11 +1714,13 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
@@ -1726,9 +1732,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
   BOOL hasMaxCityRank_:1;
-  BOOL hasMinLevelForArmory_:1;
-  BOOL hasMinLevelForVault_:1;
-  BOOL hasMinLevelForMarketplace_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasVaultImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
@@ -1758,15 +1761,15 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   BOOL hasHealthBaseCost_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
   BOOL hasFormulaConstants_:1;
   BOOL hasBattleConstants_:1;
-  Float64 percentReturnedToUserForSellingNormStructure;
   Float64 cutOfVaultDepositTaken;
+  Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
+  int32_t maxLevelForStruct;
+  int32_t maxNumOfSingleStruct;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
   int32_t diamondCostForFullStaminaRefill;
@@ -1778,9 +1781,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
   int32_t maxCityRank;
-  int32_t minLevelForArmory;
-  int32_t minLevelForVault;
-  int32_t minLevelForMarketplace;
   int32_t armoryImgVerticalPixelOffset;
   int32_t vaultImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
@@ -1810,8 +1810,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   int32_t healthBaseCost;
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
-  int32_t maxLevelForStruct;
-  int32_t maxNumOfSingleStruct;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
@@ -1857,9 +1855,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (BOOL) hasMaxNumbersOfEnemiesToGenerateAtOnce;
 - (BOOL) hasPercentReturnedToUserForSellingEquipInArmory;
 - (BOOL) hasMaxCityRank;
-- (BOOL) hasMinLevelForArmory;
-- (BOOL) hasMinLevelForVault;
-- (BOOL) hasMinLevelForMarketplace;
 - (BOOL) hasArmoryImgVerticalPixelOffset;
 - (BOOL) hasVaultImgVerticalPixelOffset;
 - (BOOL) hasMarketplaceImgVerticalPixelOffset;
@@ -1909,9 +1904,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 @property (readonly) int32_t maxNumbersOfEnemiesToGenerateAtOnce;
 @property (readonly) Float64 percentReturnedToUserForSellingEquipInArmory;
 @property (readonly) int32_t maxCityRank;
-@property (readonly) int32_t minLevelForArmory;
-@property (readonly) int32_t minLevelForVault;
-@property (readonly) int32_t minLevelForMarketplace;
 @property (readonly) int32_t armoryImgVerticalPixelOffset;
 @property (readonly) int32_t vaultImgVerticalPixelOffset;
 @property (readonly) int32_t marketplaceImgVerticalPixelOffset;
@@ -2386,21 +2378,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (int32_t) maxCityRank;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxCityRank:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxCityRank;
-
-- (BOOL) hasMinLevelForArmory;
-- (int32_t) minLevelForArmory;
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForArmory:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForArmory;
-
-- (BOOL) hasMinLevelForVault;
-- (int32_t) minLevelForVault;
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForVault:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForVault;
-
-- (BOOL) hasMinLevelForMarketplace;
-- (int32_t) minLevelForMarketplace;
-- (StartupResponseProto_StartupConstants_Builder*) setMinLevelForMarketplace:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearMinLevelForMarketplace;
 
 - (BOOL) hasArmoryImgVerticalPixelOffset;
 - (int32_t) armoryImgVerticalPixelOffset;
@@ -3050,12 +3027,19 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (StartupResponseProto_Builder*) addAllUserCityInfos:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearUserCityInfosList;
 
-- (NSArray*) inProgressQuestsList;
-- (FullQuestProto*) inProgressQuestsAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceInProgressQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addInProgressQuests:(FullQuestProto*) value;
-- (StartupResponseProto_Builder*) addAllInProgressQuests:(NSArray*) values;
-- (StartupResponseProto_Builder*) clearInProgressQuestsList;
+- (NSArray*) inProgressIncompleteQuestsList;
+- (FullQuestProto*) inProgressIncompleteQuestsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceInProgressIncompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addInProgressIncompleteQuests:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addAllInProgressIncompleteQuests:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearInProgressIncompleteQuestsList;
+
+- (NSArray*) inProgressCompleteQuestsList;
+- (FullQuestProto*) inProgressCompleteQuestsAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceInProgressCompleteQuestsAtIndex:(int32_t) index with:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addInProgressCompleteQuests:(FullQuestProto*) value;
+- (StartupResponseProto_Builder*) addAllInProgressCompleteQuests:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearInProgressCompleteQuestsList;
 
 - (NSArray*) availableQuestsList;
 - (FullQuestProto*) availableQuestsAtIndex:(int32_t) index;
@@ -4945,17 +4929,11 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 
 @interface LevelUpResponseProto : PBGeneratedMessage {
 @private
-  BOOL hasMarketplaceUnlocked_:1;
-  BOOL hasVaultUnlocked_:1;
-  BOOL hasArmoryUnlocked_:1;
   BOOL hasNewLevel_:1;
   BOOL hasNewNextLevel_:1;
   BOOL hasExperienceRequiredForNewNextLevel_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
-  BOOL marketplaceUnlocked_:1;
-  BOOL vaultUnlocked_:1;
-  BOOL armoryUnlocked_:1;
   int32_t newLevel;
   int32_t newNextLevel;
   int32_t experienceRequiredForNewNextLevel;
@@ -4970,17 +4948,11 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (BOOL) hasNewLevel;
 - (BOOL) hasNewNextLevel;
 - (BOOL) hasExperienceRequiredForNewNextLevel;
-- (BOOL) hasMarketplaceUnlocked;
-- (BOOL) hasVaultUnlocked;
-- (BOOL) hasArmoryUnlocked;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) LevelUpResponseProto_LevelUpStatus status;
 @property (readonly) int32_t newLevel;
 @property (readonly) int32_t newNextLevel;
 @property (readonly) int32_t experienceRequiredForNewNextLevel;
-- (BOOL) marketplaceUnlocked;
-- (BOOL) vaultUnlocked;
-- (BOOL) armoryUnlocked;
 - (NSArray*) citiesNewlyAvailableToUserList;
 - (FullCityProto*) citiesNewlyAvailableToUserAtIndex:(int32_t) index;
 - (NSArray*) newlyEquippableEpicsAndLegendariesList;
@@ -5069,21 +5041,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (LevelUpResponseProto_Builder*) addNewlyAvailableStructs:(FullStructureProto*) value;
 - (LevelUpResponseProto_Builder*) addAllNewlyAvailableStructs:(NSArray*) values;
 - (LevelUpResponseProto_Builder*) clearNewlyAvailableStructsList;
-
-- (BOOL) hasMarketplaceUnlocked;
-- (BOOL) marketplaceUnlocked;
-- (LevelUpResponseProto_Builder*) setMarketplaceUnlocked:(BOOL) value;
-- (LevelUpResponseProto_Builder*) clearMarketplaceUnlocked;
-
-- (BOOL) hasVaultUnlocked;
-- (BOOL) vaultUnlocked;
-- (LevelUpResponseProto_Builder*) setVaultUnlocked:(BOOL) value;
-- (LevelUpResponseProto_Builder*) clearVaultUnlocked;
-
-- (BOOL) hasArmoryUnlocked;
-- (BOOL) armoryUnlocked;
-- (LevelUpResponseProto_Builder*) setArmoryUnlocked:(BOOL) value;
-- (LevelUpResponseProto_Builder*) clearArmoryUnlocked;
 @end
 
 @interface InAppPurchaseRequestProto : PBGeneratedMessage {
@@ -5948,17 +5905,17 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 
 @interface GenerateAttackListRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasNumEnemies_:1;
   BOOL hasLatLowerBound_:1;
   BOOL hasLatUpperBound_:1;
   BOOL hasLongLowerBound_:1;
   BOOL hasLongUpperBound_:1;
+  BOOL hasNumEnemies_:1;
   BOOL hasSender_:1;
+  Float64 latLowerBound;
+  Float64 latUpperBound;
+  Float64 longLowerBound;
+  Float64 longUpperBound;
   int32_t numEnemies;
-  int32_t latLowerBound;
-  int32_t latUpperBound;
-  int32_t longLowerBound;
-  int32_t longUpperBound;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
@@ -5969,10 +5926,10 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (BOOL) hasLongUpperBound;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t numEnemies;
-@property (readonly) int32_t latLowerBound;
-@property (readonly) int32_t latUpperBound;
-@property (readonly) int32_t longLowerBound;
-@property (readonly) int32_t longUpperBound;
+@property (readonly) Float64 latLowerBound;
+@property (readonly) Float64 latUpperBound;
+@property (readonly) Float64 longLowerBound;
+@property (readonly) Float64 longUpperBound;
 
 + (GenerateAttackListRequestProto*) defaultInstance;
 - (GenerateAttackListRequestProto*) defaultInstance;
@@ -6021,23 +5978,23 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (GenerateAttackListRequestProto_Builder*) clearNumEnemies;
 
 - (BOOL) hasLatLowerBound;
-- (int32_t) latLowerBound;
-- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(int32_t) value;
+- (Float64) latLowerBound;
+- (GenerateAttackListRequestProto_Builder*) setLatLowerBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLatLowerBound;
 
 - (BOOL) hasLatUpperBound;
-- (int32_t) latUpperBound;
-- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(int32_t) value;
+- (Float64) latUpperBound;
+- (GenerateAttackListRequestProto_Builder*) setLatUpperBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLatUpperBound;
 
 - (BOOL) hasLongLowerBound;
-- (int32_t) longLowerBound;
-- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(int32_t) value;
+- (Float64) longLowerBound;
+- (GenerateAttackListRequestProto_Builder*) setLongLowerBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLongLowerBound;
 
 - (BOOL) hasLongUpperBound;
-- (int32_t) longUpperBound;
-- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(int32_t) value;
+- (Float64) longUpperBound;
+- (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLongUpperBound;
 @end
 

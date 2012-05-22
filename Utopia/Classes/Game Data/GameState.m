@@ -76,7 +76,6 @@
 
 @synthesize myEquips = _myEquips;
 @synthesize myStructs = _myStructs;
-@synthesize myCritStructs = _myCritStructs;
 @synthesize myCities = _myCities;
 
 @synthesize availableQuests = _availableQuests;
@@ -106,7 +105,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _notifications = [[NSMutableArray alloc] init];
     _myEquips = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
-    _myCritStructs = [[NSMutableArray alloc] init];
     _myCities = [[NSMutableDictionary alloc] init];
     _wallPosts = [[NSMutableArray alloc] init];
     
@@ -234,12 +232,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 - (void) addToMyStructs:(NSArray *)structs {
   for (FullUserStructureProto *st in structs) {
     [self.myStructs addObject:[UserStruct userStructWithProto:st]];
-  }
-}
-
-- (void) addToMyCritStructs:(NSArray *)structs {
-  for (FullUserCritstructProto *st in structs) {
-    [self.myCritStructs addObject:[UserCritStruct critStructWithProto:st]];
   }
 }
 
@@ -435,7 +427,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.notifications = [[NSMutableArray alloc] init];
   self.myEquips = [[NSMutableArray alloc] init];
   self.myStructs = [[NSMutableArray alloc] init];
-  self.myCritStructs = [[NSMutableArray alloc] init];
   self.myCities = [[NSMutableDictionary alloc] init];
   self.wallPosts = [[NSMutableArray alloc] init];
   
@@ -468,7 +459,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myCities = nil;
   self.myEquips = nil;
   self.myStructs = nil;
-  self.myCritStructs = nil;
   self.availableQuests = nil;
   self.inProgressQuests = nil;
   self.attackList = nil;

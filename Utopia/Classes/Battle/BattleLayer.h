@@ -8,6 +8,7 @@
 
 #import "cocos2d.h"
 #import "Protocols.pb.h"
+#import "NibUtils.h"
 
 #define HEALTH_BAR_VELOCITY 120.f
 
@@ -32,17 +33,17 @@
 @property (nonatomic, retain) IBOutlet UIImageView *rightPlayerIcon;
 
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel1;
-@property (nonatomic, retain) IBOutlet UIImageView *leftEquipIcon1;
+@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon1;
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel2;
-@property (nonatomic, retain) IBOutlet UIImageView *leftEquipIcon2;
+@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon2;
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel3;
-@property (nonatomic, retain) IBOutlet UIImageView *leftEquipIcon3;
+@property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon3;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel1;
-@property (nonatomic, retain) IBOutlet UIImageView *rightEquipIcon1;
+@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon1;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel2;
-@property (nonatomic, retain) IBOutlet UIImageView *rightEquipIcon2;
+@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon2;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel3;
-@property (nonatomic, retain) IBOutlet UIImageView *rightEquipIcon3;
+@property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon3;
 
 @property (nonatomic, retain) IBOutlet UILabel *coinsGainedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *coinsLostLabel;
@@ -58,7 +59,7 @@
 @interface StolenEquipView : UIView
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
+@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 

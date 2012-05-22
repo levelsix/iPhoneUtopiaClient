@@ -91,12 +91,6 @@ typedef enum {
 
 @end
 
-@interface CritStructMenu : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-
-@end
-
 @interface HomeMap : GameMap {
   NSMutableArray *_buildableData;
   BOOL _isMoving;
@@ -104,7 +98,6 @@ typedef enum {
   BOOL _loading;
   BOOL _purchasing;
   int _purchStructId;
-  CritStructType _purchCritStructType;
   
   MoneyBuilding *_constrBuilding;
   MoneyBuilding *_upgrBuilding;
@@ -116,7 +109,6 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *buildableData;
 
 @property (nonatomic, retain) IBOutlet HomeBuildingMenu *hbMenu;
-@property (nonatomic, retain) IBOutlet CritStructMenu *csMenu;
 
 @property (nonatomic, assign, readonly) BOOL loading;
 @property (nonatomic, assign) int redGid;
@@ -132,14 +124,12 @@ typedef enum {
 - (void) refresh;
 - (int) baseTagForStructId:(int)structId;
 - (void) preparePurchaseOfStruct:(int)structId;
-- (void) preparePurchaseOfCritStruct:(CritStruct *)cs;
 - (void) scrollScreenForTouch:(CGPoint)pt;
 - (void) retrieveFromBuilding:(HomeBuilding *)hb;
 - (void) updateTimersForBuilding:(HomeBuilding *)hb;
 - (void) invalidateAllTimers;
 
 - (void) moveToStruct:(int)structId;
-- (void) moveToCritStruct:(CritStructType)type;
 
 - (void) beginTimers;
 
@@ -151,7 +141,5 @@ typedef enum {
 - (IBAction)bigUpgradeClicked:(id)sender;
 - (IBAction)littleUpgradeClicked:(id)sender;
 - (IBAction)finishNowClicked:(id)sender;
-- (IBAction)criticalStructMoveClicked:(id)sender;
-- (IBAction)criticalStructVisitClicked:(id)sender;
 
 @end
