@@ -21,22 +21,6 @@ typedef enum {
   kEnemyButton = 1 << 1
 } MapBarButton;
 
-
-@interface MapBar : UIView {
-  BOOL _trackingMission;
-  BOOL _trackingEnemy;
-  
-  int _clickedButtons;
-}
-
-@property (nonatomic, retain) IBOutlet UILabel *missionLabel;
-@property (nonatomic, retain) IBOutlet UILabel *enemyLabel;
-
-@property (nonatomic, retain) IBOutlet UIImageView *missionButtonClicked;
-@property (nonatomic, retain) IBOutlet UIImageView *enemyButtonClicked;
-
-@end
-
 @interface EnemyAnnotation : MKUserLocation
 
 @property (nonatomic, retain) FullUserProto *fup;
@@ -69,8 +53,11 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
-@property (nonatomic, retain) IBOutlet MapBar *mapBar;
 @property (nonatomic, retain) IBOutlet MapLoadingView *loadingView;
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, assign) MapState state;
 
@@ -84,10 +71,11 @@ typedef enum {
 + (void) purgeSingleton;
 + (void) cleanupAndPurgeSingleton;
 
-- (IBAction)closeClicked:(id)sender;
-- (IBAction)homeClicked:(id)sender;
++ (void) displayMissionMap;
++ (void) displayAttackMap;
 
-- (void) openEnemiesTab;
+- (IBAction)closeClicked:(id)sender;
+
 - (void) fadeOut;
 - (void) startLoadingWithText:(NSString *)str;
 - (void) stopLoading;

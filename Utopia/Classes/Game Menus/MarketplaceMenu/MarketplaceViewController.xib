@@ -339,7 +339,6 @@
 										<reference key="NSNextKeyView" ref="525703420"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">4</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<object class="NSCustomResource" key="IBUIImage" id="968387174">
@@ -356,7 +355,6 @@
 										<reference key="NSNextKeyView" ref="410023036"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">4</int>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<object class="NSCustomResource" key="IBUIImage" id="472895941">
@@ -542,13 +540,12 @@
 					<object class="IBUIImageView" id="529792289">
 						<reference key="NSNextResponder" ref="1027003871"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{174, -1}, {33, 33}}</string>
+						<string key="NSFrame">{{184, 9}, {14, 13}}</string>
 						<reference key="NSSuperview" ref="1027003871"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIImage" ref="968387174"/>
@@ -739,13 +736,12 @@
 					<object class="IBUIImageView" id="1038717192">
 						<reference key="NSNextResponder" ref="317408690"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{241, 37}, {33, 33}}</string>
+						<string key="NSFrame">{{241, 46}, {18, 16}}</string>
 						<reference key="NSSuperview" ref="317408690"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="70624902"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIImage" ref="472895941"/>
@@ -753,13 +749,12 @@
 					<object class="IBUIImageView" id="151766489">
 						<reference key="NSNextResponder" ref="317408690"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{158, 37}, {33, 33}}</string>
+						<string key="NSFrame">{{158, 47}, {18, 16}}</string>
 						<reference key="NSSuperview" ref="317408690"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="817032200"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIImage" ref="968387174"/>
@@ -2052,7 +2047,6 @@
 								<reference key="NSNextKeyView" ref="1037927094"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<reference key="IBUIImage" ref="968387174"/>
@@ -2091,7 +2085,6 @@
 								<reference key="NSNextKeyView" ref="1008634271"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<reference key="IBUIImage" ref="968387174"/>
@@ -2130,7 +2123,6 @@
 								<reference key="NSNextKeyView" ref="757600839"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<reference key="IBUIImage" ref="968387174"/>
@@ -2286,7 +2278,6 @@
 								<reference key="NSNextKeyView" ref="889901076"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<reference key="IBUIImage" ref="968387174"/>
@@ -2320,6 +2311,7 @@
 						<string key="NSFrame">{{20, 23}, {68, 25}}</string>
 						<reference key="NSSuperview" ref="551820399"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="844314010"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="281987876"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -2330,7 +2322,7 @@
 						<string key="NSFrame">{{11, 0}, {82, 25}}</string>
 						<reference key="NSSuperview" ref="551820399"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="844314010"/>
+						<reference key="NSNextKeyView" ref="58853888"/>
 						<string key="NSReuseIdentifierKey">_NS:328</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -3051,13 +3043,13 @@
 						<reference key="object" ref="1027003871"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="743655758"/>
-							<reference ref="529792289"/>
 							<reference ref="231820673"/>
 							<reference ref="22783172"/>
 							<reference ref="135864082"/>
 							<reference ref="651261188"/>
 							<reference ref="193001471"/>
 							<reference ref="518156745"/>
+							<reference ref="529792289"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -3101,10 +3093,10 @@
 							<reference ref="995882789"/>
 							<reference ref="608128181"/>
 							<reference ref="100875831"/>
-							<reference ref="1038717192"/>
 							<reference ref="70624902"/>
 							<reference ref="817032200"/>
 							<reference ref="151766489"/>
+							<reference ref="1038717192"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -4272,11 +4264,11 @@
 			<string key="coinscollect.png">{216, 23}</string>
 			<string key="collect.png">{86, 27}</string>
 			<string key="confirmremove.png">{116, 28}</string>
-			<string key="goldcoin.png">{17, 16}</string>
+			<string key="goldcoin.png">{28, 26}</string>
 			<string key="itemssoldbg.png">{480, 127}</string>
 			<string key="leathertop.png">{445, 46}</string>
 			<string key="listitembutton.png">{116, 25}</string>
-			<string key="markbuy.png">{94, 29}</string>
+			<string key="markbuy.png">{93, 29}</string>
 			<string key="marketattack.png">{13, 13}</string>
 			<string key="marketdefense.png">{12, 13}</string>
 			<string key="marketdonebutton.png">{100, 25}</string>
@@ -4287,7 +4279,7 @@
 			<string key="popupglow.png">{480, 320}</string>
 			<string key="profilebutton.png">{19, 19}</string>
 			<string key="removeitembg.png">{252, 60}</string>
-			<string key="silvercoin.png">{16, 16}</string>
+			<string key="silvercoin.png">{28, 26}</string>
 			<string key="topbarcoinbg.png">{142, 29}</string>
 			<string key="tophangbar.png">{445, 53}</string>
 			<string key="warningbg.png">{88, 39}</string>

@@ -434,13 +434,12 @@
 							<object class="IBUIImageView" id="251588000">
 								<reference key="NSNextResponder" ref="627299158"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{62, 3}, {16, 16}}</string>
+								<string key="NSFrame">{{63, 3}, {16, 16}}</string>
 								<reference key="NSSuperview" ref="627299158"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="422281285"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage" id="440408580">
@@ -471,7 +470,6 @@
 						<reference key="NSNextKeyView" ref="973141484"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIImage" ref="440408580"/>
@@ -1034,7 +1032,7 @@
 			<string key="carpenterlock.png">{19, 24}</string>
 			<string key="carpenterwatch.png">{15, 15}</string>
 			<string key="goldcoin.png">{17, 16}</string>
-			<string key="silvercoin.png">{16, 16}</string>
+			<string key="silvercoin.png">{28, 26}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1179</string>
 	</data>

@@ -309,7 +309,6 @@
 								<reference key="NSNextKeyView" ref="878627916"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -326,7 +325,6 @@
 								<reference key="NSNextKeyView" ref="971066148"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -1598,7 +1596,7 @@
 			<string key="numberowned.png">{15, 17}</string>
 			<string key="requirementbarbg.png">{262, 35}</string>
 			<string key="sideactive.png">{42, 29}</string>
-			<string key="silvercoin.png">{16, 16}</string>
+			<string key="silvercoin.png">{28, 26}</string>
 			<string key="topbarcoinbg.png">{142, 29}</string>
 			<string key="weap.png">{27, 27}</string>
 			<string key="weapactive.png">{27, 27}</string>

@@ -311,6 +311,54 @@
 
 @end
 
+@implementation MarketplacePostView
+
+@synthesize bgdView, mainView;
+@synthesize postedPriceIcon, postedPriceTextField;
+@synthesize armoryPriceIcon, armoryPriceLabel;
+
+- (void) updateForEquip:(int)equipId andAddToSuperView:(UIView *)view {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  
+  BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
+  
+  if (sellsForGold) {
+    postedPriceIcon.highlighted = YES;
+    armoryPriceIcon.highlighted = YES;
+    armoryPriceLabel.text = [Globals commafyNumber:fep.diamondPrice];
+  } else {
+    postedPriceIcon.highlighted = NO;
+    armoryPriceIcon.highlighted = NO;
+    armoryPriceLabel.text = [Globals commafyNumber:fep.coinPrice];
+  }
+  postedPriceTextField.text = @"";
+  
+  [view addSubview:self];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [postedPriceTextField becomeFirstResponder];
+}
+
+- (IBAction)closeClicked:(id)sender {
+  [postedPriceTextField resignFirstResponder];
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self removeFromSuperview];
+  }];
+}
+
+- (void) dealloc {
+  self.bgdView = nil;
+  self.mainView = nil;
+  self.postedPriceIcon = nil;
+  self.postedPriceTextField = nil;
+  self.armoryPriceLabel = nil;
+  self.armoryPriceIcon = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation EquipView
 
 @synthesize bgd;
@@ -482,6 +530,7 @@
 @synthesize equipButton, equipLabel;
 @synthesize sellButton, sellLabel;
 @synthesize userEquip;
+@synthesize mktPostView;
 
 - (void) updateForUserEquip:(UserEquip *)ue {
   GameState *gs = [GameState sharedGameState];
@@ -521,6 +570,12 @@
   self.userEquip = ue;
 }
 
+- (IBAction)closeClicked:(id)sender {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
+    [self removeFromSuperview];
+  }];
+}
+
 - (IBAction)wrongClassClicked:(id)sender {
   [Globals popupMessage:[NSString stringWithFormat:@"The %@ is only equippable by %@s.", titleLabel.text, classLabel.text]];
 }
@@ -535,7 +590,7 @@
 }
 
 - (IBAction)sellClicked:(id)sender {
-  [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to sell this item?" okayButton:@"Sell" cancelButton:nil target:self selector:@selector(sellItem)];
+  [GenericPopupController displayConfirmationWithDescription:@"Are you sure you would like to sell this item?" title:nil okayButton:@"Sell" cancelButton:nil target:self selector:@selector(sellItem)];
 }
 
 - (void) sellItem {
@@ -543,13 +598,7 @@
 }
 
 - (IBAction)postClicked:(id)sender {
-  
-}
-
-- (IBAction)closeClicked:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
-    [self removeFromSuperview];
-  }];
+  [self.mktPostView updateForEquip:userEquip.equipId andAddToSuperView:self];
 }
 
 - (void) dealloc {
@@ -569,6 +618,7 @@
   self.equipLabel = nil;
   self.sellButton = nil;
   self.sellLabel = nil;
+  self.mktPostView = nil;
   [super dealloc];
 }
 
@@ -1218,13 +1268,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [spinner stopAnimating];
   self.spinner.hidden = YES;
   
+  self.fup = fup;
+  self.userId = fup.userId;
+  
   if (userId != fup.userId) {
     wallTabView.wallPosts = nil;
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:userId];
   }
-  
-  self.fup = fup;
-  self.userId = fup.userId;
 }
 
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense {

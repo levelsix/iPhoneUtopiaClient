@@ -623,7 +623,6 @@
 						<reference key="NSNextKeyView" ref="997774747"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage" id="41991539">
@@ -722,7 +721,6 @@
 						<reference key="NSNextKeyView" ref="136863389"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIImage" ref="41991539"/>
@@ -1552,6 +1550,10 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="armoryPriceBottomSubview">UIView</string>
+						<string key="armoryPriceIcon">UIImageView</string>
+						<string key="armoryPriceLabel">UILabel</string>
+						<string key="armoryPriceView">UIView</string>
 						<string key="coinBar">CoinBar</string>
 						<string key="doneButton">UIButton</string>
 						<string key="itemView">UITableViewCell</string>
@@ -1579,6 +1581,22 @@
 						<string key="topBar">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="armoryPriceBottomSubview">
+							<string key="name">armoryPriceBottomSubview</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="armoryPriceIcon">
+							<string key="name">armoryPriceIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="armoryPriceLabel">
+							<string key="name">armoryPriceLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="armoryPriceView">
+							<string key="name">armoryPriceView</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="coinBar">
 							<string key="name">coinBar</string>
 							<string key="candidateClassName">CoinBar</string>
@@ -1739,7 +1757,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="goldcoin.png">{17, 16}</string>
+			<string key="goldcoin.png">{28, 26}</string>
 			<string key="inputpricebg.png">{82, 23}</string>
 			<string key="leathertop.png">{445, 46}</string>
 			<string key="leathertopred.png">{445, 46}</string>
@@ -1749,7 +1767,7 @@
 			<string key="mplistitem.png">{100, 30}</string>
 			<string key="mpremovelisting.png">{100, 30}</string>
 			<string key="mpsubmitbuy.png">{69, 30}</string>
-			<string key="silvercoin.png">{16, 16}</string>
+			<string key="silvercoin.png">{28, 26}</string>
 			<string key="weaponcornertag.png">{34, 13}</string>
 			<string key="woodenshelf.png">{467, 73}</string>
 		</dictionary>

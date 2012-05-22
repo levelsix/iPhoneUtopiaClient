@@ -35,11 +35,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdColorView];
 }
 
-+ (void) displayViewWithText:(NSString *)string {
++ (void) displayViewWithText:(NSString *)string title:(NSString *)title {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   gpc.notificationView.hidden = NO;
   gpc.confirmationView.hidden = YES;
   gpc.descriptionLabel.text = string;
+  gpc.titleLabel.text = title ? title : @"Notification!";
   [GenericPopupController displayView];
   gpc.toAppStore = NO;
 }
@@ -54,12 +55,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gpc.link = appStoreLink;
 }
 
-+ (void) displayConfirmationWithDescription:(NSString *)description okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
++ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   gpc.notificationView.hidden = YES;
   gpc.confirmationView.hidden = NO;
   
-  gpc.titleLabel.text = @"Confirmation!";
+  gpc.titleLabel.text = title ? title : @"Confirmation!";
   gpc.descriptionLabel.text = description;
   gpc.greenButtonLabel.text = okay ? okay : @"Okay";
   gpc.redButtonLabel.text = cancel ? cancel : @"Cancel";

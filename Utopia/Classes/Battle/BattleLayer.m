@@ -27,6 +27,12 @@
 
 #define NUM_BACKGROUND_IMAGES 8
 
+#define PERFECT_PERCENT_THRESHOLD 3
+#define GREAT_PERCENT_THRESHOLD 14
+#define GOOD_PERCENT_THRESHOLD 30
+
+#define FINAL_BATTLE_WORLD_SCALE 1.4f
+
 @implementation BattleSummaryView
 
 @synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon;
@@ -51,13 +57,13 @@
   rightPlayerIcon.image = [Globals squareImageForUser:fup.userType];
   
   UILabel *rarityLabel = leftRarityLabel1;
-  UIImageView *imgView = leftEquipIcon1;
+  EquipButton *imgView = leftEquipIcon1;
   int equipId = gs.weaponEquipped;
   if (equipId > 0) {
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.image = [Globals imageForEquip:fep.equipId];
+    imgView.equipId = fep.equipId;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -70,7 +76,7 @@
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.image = [Globals imageForEquip:fep.equipId];
+    imgView.equipId = fep.equipId;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -83,7 +89,7 @@
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.image = [Globals imageForEquip:fep.equipId];
+    imgView.equipId = fep.equipId;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -96,7 +102,7 @@
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.image = [Globals imageForEquip:fep.equipId];
+    imgView.equipId = fep.equipId;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -109,7 +115,7 @@
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.image = [Globals imageForEquip:fep.equipId];
+    imgView.equipId = fep.equipId;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -122,7 +128,7 @@
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-    imgView.image = [Globals imageForEquip:fep.equipId];
+    imgView.equipId = fep.equipId;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -181,7 +187,7 @@
 - (void) loadForEquip:(FullEquipProto *)fep {
   nameLabel.text = fep.name;
   nameLabel.textColor = [Globals colorForRarity:fep.rarity];
-  equipIcon.image = [Globals imageForEquip:fep.equipId];
+  equipIcon.equipId = fep.equipId;
   attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
 }
@@ -704,6 +710,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       }
     }
     
+    [self showBattleWordForPercentage:_comboProgressTimer.percentage];
+    
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
   }
 }
@@ -724,6 +732,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   int maxDamage = (int) (_rightMaxHealth * gl.maxPercentOfEnemyHealth);
   
   return (int)MIN(maxDamage, MAX(minDamage, attackStat-defenseStat));
+}
+
+- (CCSprite *)spriteForPercentage:(float)percent {
+  Globals *gl = [Globals sharedGlobals];
+  int multiplerWeightForSecondHalf = gl.locationBarMax / (100-gl.locationBarMax);
+  double amountWorseThanMax = (percent <= gl.locationBarMax) ? (gl.locationBarMax-percent) : (percent-gl.locationBarMax)*multiplerWeightForSecondHalf;
+  NSLog(@"Got percent: %f", percent);
+  
+  if (amountWorseThanMax < PERFECT_PERCENT_THRESHOLD) {
+    [[SimpleAudioEngine sharedEngine] playEffect:@"PERFECT.m4a"];
+    return [CCSprite spriteWithFile:@"perfect.png"];
+  } else if (amountWorseThanMax < GREAT_PERCENT_THRESHOLD) {
+    return [CCSprite spriteWithFile:@"great.png"];
+  } else if (amountWorseThanMax < GOOD_PERCENT_THRESHOLD) {
+    return [CCSprite spriteWithFile:@"good.png"];
+  } else {
+    [[SimpleAudioEngine sharedEngine] playEffect:@"WHOOPSIES.m4a"];
+    return [CCSprite spriteWithFile:@"miss.png"];
+  }
+}
+
+- (void) showBattleWordForPercentage:(float)percent {
+  CCSprite *battleWord = [self spriteForPercentage:percent];
+  [_comboBar.parent addChild:battleWord];
+  battleWord.position = _comboBar.position;
+  
+  battleWord.scale = 0.1f;
+  [battleWord runAction: [CCSequence actions:
+                          [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:1.f scale:FINAL_BATTLE_WORLD_SCALE]],
+                          [CCDelayTime actionWithDuration:0.2f],
+                          [CCFadeOut actionWithDuration:0.6f],
+                          [CCCallBlock actionWithBlock:^{[battleWord removeFromParentAndCleanup:YES];}],
+                          nil]];
 }
 
 - (void) doAttackAnimation {
@@ -808,7 +849,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _rightCurrentHealth = MAX(0, _rightCurrentHealth);
   [self setRightHealthBarPercentage:((float)_rightCurrentHealth)/_rightMaxHealth*100];
   
-  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", (int)_damageDone] fontName:@"DINCond-Black" fontSize:35];
+  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"-%d", (int)_damageDone] fontName:@"DINCond-Black" fontSize:35];
   [self addChild:damageLabel z:3];
   damageLabel.position = ccp(430, 180);
   damageLabel.color = ccc3(255, 0, 0);
@@ -817,6 +858,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                            [CCFadeOut actionWithDuration:1.f], 
                            [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
                           [CCCallBlock actionWithBlock:^{[damageLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  CCTintBy *tintAction = [CCTintBy actionWithDuration:0.25 red:0 green:-255 blue:-255];
+  [_right runAction:[CCSpawn actions:
+                    [CCRepeat actionWithAction:[CCSequence actions:tintAction, tintAction.reverse, nil] times:2],
+                     nil]];
+                    
 }
 
 - (void) setRightHealthBarPercentage:(float)percentage {
@@ -867,6 +914,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
   [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
+                                         [CCCallBlock actionWithBlock:^{[self showEnemyBattleWordForPercentage:perc];}],
                                          [CCDelayTime actionWithDuration:0.5],
                                          [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
                                          nil]];
@@ -876,6 +924,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                    [CCCallBlock actionWithBlock:^{
     _comboBarWindupSound = [[SimpleAudioEngine sharedEngine] playEffect:[Globals comboBarChargeupSound:_enemyType]];
   }], nil]];
+}
+
+- (void) showEnemyBattleWordForPercentage:(float)percent {
+  CCSprite *battleWord = [self spriteForPercentage:percent];
+  [_flippedComboBar.parent addChild:battleWord];
+  battleWord.position = _flippedComboBar.position;
+  
+  battleWord.scale = 0.1f;
+  [battleWord runAction: [CCSequence actions:
+                          [CCEaseElasticOut actionWithAction:[CCScaleTo actionWithDuration:1.f scale:FINAL_BATTLE_WORLD_SCALE]],
+                          [CCDelayTime actionWithDuration:0.2f],
+                          [CCFadeOut actionWithDuration:0.6f],
+                          [CCCallBlock actionWithBlock:^{[battleWord removeFromParentAndCleanup:YES];}],
+                          nil]];
 }
 
 - (void) doEnemyAttackAnimation {
@@ -941,7 +1003,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _leftCurrentHealth = MAX(0, _leftCurrentHealth);
   [self setLeftHealthBarPercentage:((float)_leftCurrentHealth)/_leftMaxHealth*100];
   
-  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", (int)_damageDone] fontName:@"DINCond-Black" fontSize:35];
+  CCLabelTTF *damageLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"-%d", (int)_damageDone] fontName:@"DINCond-Black" fontSize:35];
   [self addChild:damageLabel z:3];
   damageLabel.position = ccp(50, 180);
   damageLabel.color = ccc3(255, 0, 0);
@@ -950,6 +1012,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                            [CCFadeOut actionWithDuration:1.f], 
                            [CCMoveBy actionWithDuration:1.f position:ccp(0,40)],nil],
                           [CCCallBlock actionWithBlock:^{[damageLabel removeFromParentAndCleanup:YES];}], nil]];
+  
+  
+  CCTintBy *tintAction = [CCTintBy actionWithDuration:0.25 red:0 green:-255 blue:-255];
+  [_left runAction:[CCSpawn actions:
+                     [CCRepeat actionWithAction:[CCSequence actions:tintAction, tintAction.reverse, nil] times:2],
+                     nil]];
 }
 
 - (float) calculateEnemyPercentage {
@@ -1229,7 +1297,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   if (_cameFromAviary) {
     [MapViewController displayView];
-    [[MapViewController sharedMapViewController] openEnemiesTab];
+    [MapViewController displayAttackMap];
     [[CCDirector sharedDirector] popScene];
   } else {
     // This will cause the scene to be deallocated since there are no more references to it.

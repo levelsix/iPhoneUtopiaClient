@@ -28,9 +28,9 @@
 
 @property (nonatomic, retain) NSInvocation *invocation;
 
-+ (void) displayViewWithText:(NSString *)string;
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
-+ (void) displayConfirmationWithDescription:(NSString *)description okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
++ (void) displayViewWithText:(NSString *)string title:(NSString *)title;
++ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
 + (void) removeView;
 + (void) purgeSingleton;
 

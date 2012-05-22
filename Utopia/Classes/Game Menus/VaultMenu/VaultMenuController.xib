@@ -409,7 +409,7 @@
 							<object class="IBUITextField" id="54055591">
 								<reference key="NSNextResponder" ref="588316063"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{252, 155}, {138, 24}}</string>
+								<string key="NSFrame">{{252, 155}, {125, 24}}</string>
 								<reference key="NSSuperview" ref="588316063"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="639116742"/>
@@ -421,10 +421,7 @@
 								<string key="IBUIText"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MAA</bytes>
-									<object class="NSColorSpace" key="NSCustomColorSpace">
-										<int key="NSID">2</int>
-									</object>
+									<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">17</float>

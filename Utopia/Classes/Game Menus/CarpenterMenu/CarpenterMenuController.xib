@@ -61,7 +61,6 @@
 						<string key="NSFrame">{{0, 39}, {480, 281}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:418</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="606750262">
 							<int key="NSColorSpace">3</int>
@@ -306,7 +305,6 @@
 								<reference key="NSNextKeyView" ref="919532631"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -323,7 +321,6 @@
 								<reference key="NSNextKeyView" ref="357760535"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -1012,10 +1009,10 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="back.png">{69, 30}</string>
-			<string key="goldcoin.png">{17, 16}</string>
+			<string key="goldcoin.png">{28, 26}</string>
 			<string key="mapnavtop.png">{171, 29}</string>
 			<string key="mapnavtopactive.png">{85, 29}</string>
-			<string key="silvercoin.png">{16, 16}</string>
+			<string key="silvercoin.png">{28, 26}</string>
 			<string key="topbarcoinbg.png">{142, 29}</string>
 			<string key="woodenbg.png">{480, 320}</string>
 			<string key="woodentopbar.png">{480, 53}</string>

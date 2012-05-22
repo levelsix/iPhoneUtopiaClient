@@ -17,27 +17,6 @@
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
-@implementation QuestCompleteView
-
-@synthesize questNameLabel, visitDescLabel;
-@synthesize mainView, bgdView;
-
-- (IBAction)okayClicked:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self removeFromSuperview];
-  }];
-}
-
-- (void) dealloc {
-  self.questNameLabel = nil;
-  self.visitDescLabel = nil;
-  self.mainView = nil;
-  self.bgdView = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation QuestCell
 
 @synthesize nameLabel, progressLabel, spinner;
@@ -355,7 +334,9 @@
   
   if (questData) {
     for (UserJob *job in jobs) {
-      if (job.jobType == kTask) {
+      if (questData.isComplete) {
+        job.numCompleted = job.total;
+      } else if (job.jobType == kTask) {
         MinimumUserTaskProto *p;
         for (p in questData.requiredTasksProgressList) {
           if (p.taskId == job.jobId) {
@@ -413,7 +394,6 @@
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
-@synthesize qcView;
 @synthesize mainView, bgdView;
 @synthesize questListTable, taskListTable;
 @synthesize questListView, taskListView;
@@ -593,7 +573,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   // Release any retained subviews of the main view.
   self.mainView = nil;
   self.bgdView = nil;
-  self.qcView = nil;
   self.questListTable = nil;
   self.taskListTable = nil;
   self.questListView = nil;
@@ -602,13 +581,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.taskListDelegate = nil;
   self.userLogData = nil;
   self.taskListTitleLabel = nil;
-}
-
-- (QuestCompleteView *) createQuestCompleteView {
-  [[NSBundle mainBundle] loadNibNamed:@"QuestCompleteView" owner:self options:nil];
-  QuestCompleteView *q = [self.qcView retain];
-  self.qcView = nil;
-  return [q autorelease];
 }
 
 @end

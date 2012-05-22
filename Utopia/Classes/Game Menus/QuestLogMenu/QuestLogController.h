@@ -10,15 +10,6 @@
 #import "Protocols.pb.h"
 #import "UserData.h"
 
-@interface QuestCompleteView : UIView
-
-@property (nonatomic, retain) IBOutlet UIView *mainView;
-@property (nonatomic, retain) IBOutlet UIView *bgdView;
-@property (nonatomic, retain) IBOutlet UILabel *questNameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *visitDescLabel;
-
-@end
-
 @interface QuestCell : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
@@ -71,8 +62,6 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *taskListTitleLabel;
 
-@property (nonatomic, retain) IBOutlet QuestCompleteView *qcView;
-
 @property (nonatomic, retain) QuestListTableDelegate *questListDelegate;
 @property (nonatomic, retain) TaskListTableDelegate *taskListDelegate;
 
@@ -86,8 +75,6 @@
 
 - (void) loadQuestData:(NSArray *)quests;
 - (void) loadFakeQuest:(FullQuestProto *)fqp;
-
-- (QuestCompleteView *) createQuestCompleteView;
 
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;

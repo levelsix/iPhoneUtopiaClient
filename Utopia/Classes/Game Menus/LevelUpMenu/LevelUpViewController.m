@@ -11,6 +11,7 @@
 #import "ProfileViewController.h"
 #import "GameState.h"
 #import "BuildUpgradePopupController.h"
+#import "SimpleAudioEngine.h"
 
 @implementation LevelUpViewController
 
@@ -36,6 +37,8 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [[SimpleAudioEngine sharedEngine] playEffect:@"levelup.m4a"];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

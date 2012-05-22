@@ -840,14 +840,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   FullQuestProto *fqp = [[gs inProgressQuests] objectForKey:[NSNumber numberWithInt:proto.questId]];
   
   if (fqp) {
-    QuestCompleteView *qcv = [[QuestLogController sharedQuestLogController] createQuestCompleteView];
-    qcv.questNameLabel.text = fqp.name;
-    
-    FullCityProto *fcp = [gs cityWithId:fqp.cityId];
-    qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward!", proto.neutralCityElement.name, fcp.name];
-    
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
-    [Globals bounceView:qcv.mainView fadeInBgdView:qcv.bgdView];
+//    QuestCompleteView *qcv = [[QuestLogController sharedQuestLogController] createQuestCompleteView];
+//    qcv.questNameLabel.text = fqp.name;
+//    
+//    FullCityProto *fcp = [gs cityWithId:fqp.cityId];
+//    qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward!", proto.neutralCityElement.name, fcp.name];
+//    
+//    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
+//    [Globals bounceView:qcv.mainView fadeInBgdView:qcv.bgdView];
     
     [Analytics questComplete:proto.questId];
   } else {

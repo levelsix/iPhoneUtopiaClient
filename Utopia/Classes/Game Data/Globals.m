@@ -100,9 +100,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.marketplaceYLength = constants.marketplaceYlength;
   self.carpenterXLength = constants.carpenterXlength;
   self.carpenterYLength = constants.carpenterYlength;
-  self.minLevelForVault = constants.minLevelForVault;
-  self.minLevelForMarketplace = constants.minLevelForMarketplace;
-  self.minLevelForArmory = constants.minLevelForArmory;
   self.attackBaseGain = constants.attackBaseGain;
   self.attackBaseCost = constants.attackBaseCost;
   self.defenseBaseGain = constants.defenseBaseGain;
@@ -1023,7 +1020,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) popupMessage: (NSString *)msg {
   //  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
-  [GenericPopupController displayViewWithText:msg];
+  [GenericPopupController displayViewWithText:msg title:nil];
 }
 
 + (void) bounceView: (UIView *) view {

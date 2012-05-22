@@ -164,8 +164,8 @@
   label.font = self.font;
   label.backgroundColor = [UIColor clearColor];
   [Globals adjustFontSizeForUILabel:label];
-  label.textColor = self.textColor;
-  self.textColor = [UIColor whiteColor];
+//  label.textColor = self.textColor;
+//  self.textColor = [UIColor whiteColor];
   
   //Adjust frame a bit
   CGRect f = self.frame;

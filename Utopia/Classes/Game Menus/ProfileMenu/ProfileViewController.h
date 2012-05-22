@@ -35,6 +35,8 @@ typedef enum {
   kEquipScopeAmulets
 } EquipScope;
 
+@class MarketplacePostView;
+
 @interface EquipView : UIView
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
@@ -51,6 +53,17 @@ typedef enum {
 @property (nonatomic, retain) FullUserEquipProto *equip;
 
 - (void) updateForEquip:(FullUserEquipProto *)fuep;
+
+@end
+
+@interface MarketplacePostView : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UIImageView *armoryPriceIcon;
+@property (nonatomic, retain) IBOutlet UILabel *armoryPriceLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *postedPriceIcon;
+@property (nonatomic, retain) IBOutlet NiceFontTextField *postedPriceTextField;
 
 @end
 
@@ -124,6 +137,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *equipLabel;
 @property (nonatomic, retain) IBOutlet UIButton *sellButton;
 @property (nonatomic, retain) IBOutlet UILabel *sellLabel;
+
+@property (nonatomic, retain) IBOutlet MarketplacePostView *mktPostView;
 
 @property (nonatomic, retain) UserEquip *userEquip;
 
@@ -231,6 +246,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet ProfileEquipPopup *equipPopup;
 
 @property (nonatomic, retain) UIImageView *equippingView;
+
 
 // UserId will usually be equal to fup.userId unless we are loading current
 // player's profile or we are waiting for the fup from server

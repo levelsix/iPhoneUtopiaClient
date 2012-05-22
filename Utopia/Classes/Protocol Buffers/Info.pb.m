@@ -376,7 +376,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t flees;
 @property (retain) NSString* referralCode;
 @property int32_t numReferrals;
-@property (retain) NSString* udid;
 @property (retain) LocationProto* userLocation;
 @property int32_t numPostsInMarketplace;
 @property int32_t numMarketplaceSalesUnredeemed;
@@ -385,17 +384,18 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t amuletEquipped;
 @property int64_t lastLoginTime;
 @property int64_t lastLogoutTime;
+@property int64_t lastShortLicensePurchaseTime;
+@property int64_t lastLongLicensePurchaseTime;
+@property BOOL isFake;
+@property BOOL isAdmin;
+@property int32_t numCoinsRetrievedFromStructs;
+@property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
 @property int64_t lastTimeAttacked;
 @property int32_t numBadges;
 @property int64_t createTime;
 @property int32_t apsalarId;
-@property int64_t lastShortLicensePurchaseTime;
-@property int64_t lastLongLicensePurchaseTime;
-@property BOOL isFake;
-@property BOOL isAdmin;
-@property int32_t numCoinsRetrievedFromStructs;
 @end
 
 @implementation FullUserProto
@@ -582,13 +582,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasNumReferrals_ = !!value;
 }
 @synthesize numReferrals;
-- (BOOL) hasUdid {
-  return !!hasUdid_;
-}
-- (void) setHasUdid:(BOOL) value {
-  hasUdid_ = !!value;
-}
-@synthesize udid;
 - (BOOL) hasUserLocation {
   return !!hasUserLocation_;
 }
@@ -645,48 +638,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasLastLogoutTime_ = !!value;
 }
 @synthesize lastLogoutTime;
-- (BOOL) hasDeviceToken {
-  return !!hasDeviceToken_;
-}
-- (void) setHasDeviceToken:(BOOL) value {
-  hasDeviceToken_ = !!value;
-}
-@synthesize deviceToken;
-- (BOOL) hasLastBattleNotificationTime {
-  return !!hasLastBattleNotificationTime_;
-}
-- (void) setHasLastBattleNotificationTime:(BOOL) value {
-  hasLastBattleNotificationTime_ = !!value;
-}
-@synthesize lastBattleNotificationTime;
-- (BOOL) hasLastTimeAttacked {
-  return !!hasLastTimeAttacked_;
-}
-- (void) setHasLastTimeAttacked:(BOOL) value {
-  hasLastTimeAttacked_ = !!value;
-}
-@synthesize lastTimeAttacked;
-- (BOOL) hasNumBadges {
-  return !!hasNumBadges_;
-}
-- (void) setHasNumBadges:(BOOL) value {
-  hasNumBadges_ = !!value;
-}
-@synthesize numBadges;
-- (BOOL) hasCreateTime {
-  return !!hasCreateTime_;
-}
-- (void) setHasCreateTime:(BOOL) value {
-  hasCreateTime_ = !!value;
-}
-@synthesize createTime;
-- (BOOL) hasApsalarId {
-  return !!hasApsalarId_;
-}
-- (void) setHasApsalarId:(BOOL) value {
-  hasApsalarId_ = !!value;
-}
-@synthesize apsalarId;
 - (BOOL) hasLastShortLicensePurchaseTime {
   return !!hasLastShortLicensePurchaseTime_;
 }
@@ -732,11 +683,60 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasNumCoinsRetrievedFromStructs_ = !!value;
 }
 @synthesize numCoinsRetrievedFromStructs;
+- (BOOL) hasUdid {
+  return !!hasUdid_;
+}
+- (void) setHasUdid:(BOOL) value {
+  hasUdid_ = !!value;
+}
+@synthesize udid;
+- (BOOL) hasDeviceToken {
+  return !!hasDeviceToken_;
+}
+- (void) setHasDeviceToken:(BOOL) value {
+  hasDeviceToken_ = !!value;
+}
+@synthesize deviceToken;
+- (BOOL) hasLastBattleNotificationTime {
+  return !!hasLastBattleNotificationTime_;
+}
+- (void) setHasLastBattleNotificationTime:(BOOL) value {
+  hasLastBattleNotificationTime_ = !!value;
+}
+@synthesize lastBattleNotificationTime;
+- (BOOL) hasLastTimeAttacked {
+  return !!hasLastTimeAttacked_;
+}
+- (void) setHasLastTimeAttacked:(BOOL) value {
+  hasLastTimeAttacked_ = !!value;
+}
+@synthesize lastTimeAttacked;
+- (BOOL) hasNumBadges {
+  return !!hasNumBadges_;
+}
+- (void) setHasNumBadges:(BOOL) value {
+  hasNumBadges_ = !!value;
+}
+@synthesize numBadges;
+- (BOOL) hasCreateTime {
+  return !!hasCreateTime_;
+}
+- (void) setHasCreateTime:(BOOL) value {
+  hasCreateTime_ = !!value;
+}
+@synthesize createTime;
+- (BOOL) hasApsalarId {
+  return !!hasApsalarId_;
+}
+- (void) setHasApsalarId:(BOOL) value {
+  hasApsalarId_ = !!value;
+}
+@synthesize apsalarId;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
-  self.udid = nil;
   self.userLocation = nil;
+  self.udid = nil;
   self.deviceToken = nil;
   [super dealloc];
 }
@@ -768,7 +768,6 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.flees = 0;
     self.referralCode = @"";
     self.numReferrals = 0;
-    self.udid = @"";
     self.userLocation = [LocationProto defaultInstance];
     self.numPostsInMarketplace = 0;
     self.numMarketplaceSalesUnredeemed = 0;
@@ -777,17 +776,18 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.amuletEquipped = 0;
     self.lastLoginTime = 0L;
     self.lastLogoutTime = 0L;
+    self.lastShortLicensePurchaseTime = 0L;
+    self.lastLongLicensePurchaseTime = 0L;
+    self.isFake = NO;
+    self.isAdmin = NO;
+    self.numCoinsRetrievedFromStructs = 0;
+    self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
     self.lastTimeAttacked = 0L;
     self.numBadges = 0;
     self.createTime = 0L;
     self.apsalarId = 0;
-    self.lastShortLicensePurchaseTime = 0L;
-    self.lastLongLicensePurchaseTime = 0L;
-    self.isFake = NO;
-    self.isAdmin = NO;
-    self.numCoinsRetrievedFromStructs = 0;
   }
   return self;
 }
@@ -1245,9 +1245,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasNumReferrals) {
     [self setNumReferrals:other.numReferrals];
   }
-  if (other.hasUdid) {
-    [self setUdid:other.udid];
-  }
   if (other.hasUserLocation) {
     [self mergeUserLocation:other.userLocation];
   }
@@ -1272,6 +1269,24 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasLastLogoutTime) {
     [self setLastLogoutTime:other.lastLogoutTime];
   }
+  if (other.hasLastShortLicensePurchaseTime) {
+    [self setLastShortLicensePurchaseTime:other.lastShortLicensePurchaseTime];
+  }
+  if (other.hasLastLongLicensePurchaseTime) {
+    [self setLastLongLicensePurchaseTime:other.lastLongLicensePurchaseTime];
+  }
+  if (other.hasIsFake) {
+    [self setIsFake:other.isFake];
+  }
+  if (other.hasIsAdmin) {
+    [self setIsAdmin:other.isAdmin];
+  }
+  if (other.hasNumCoinsRetrievedFromStructs) {
+    [self setNumCoinsRetrievedFromStructs:other.numCoinsRetrievedFromStructs];
+  }
+  if (other.hasUdid) {
+    [self setUdid:other.udid];
+  }
   if (other.hasDeviceToken) {
     [self setDeviceToken:other.deviceToken];
   }
@@ -1289,21 +1304,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasApsalarId) {
     [self setApsalarId:other.apsalarId];
-  }
-  if (other.hasLastShortLicensePurchaseTime) {
-    [self setLastShortLicensePurchaseTime:other.lastShortLicensePurchaseTime];
-  }
-  if (other.hasLastLongLicensePurchaseTime) {
-    [self setLastLongLicensePurchaseTime:other.lastLongLicensePurchaseTime];
-  }
-  if (other.hasIsFake) {
-    [self setIsFake:other.isFake];
-  }
-  if (other.hasIsAdmin) {
-    [self setIsAdmin:other.isAdmin];
-  }
-  if (other.hasNumCoinsRetrievedFromStructs) {
-    [self setNumCoinsRetrievedFromStructs:other.numCoinsRetrievedFromStructs];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1939,22 +1939,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.numReferrals = 0;
   return self;
 }
-- (BOOL) hasUdid {
-  return result.hasUdid;
-}
-- (NSString*) udid {
-  return result.udid;
-}
-- (FullUserProto_Builder*) setUdid:(NSString*) value {
-  result.hasUdid = YES;
-  result.udid = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearUdid {
-  result.hasUdid = NO;
-  result.udid = @"";
-  return self;
-}
 - (BOOL) hasUserLocation {
   return result.hasUserLocation;
 }
@@ -2097,6 +2081,102 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.lastLogoutTime = 0L;
   return self;
 }
+- (BOOL) hasLastShortLicensePurchaseTime {
+  return result.hasLastShortLicensePurchaseTime;
+}
+- (int64_t) lastShortLicensePurchaseTime {
+  return result.lastShortLicensePurchaseTime;
+}
+- (FullUserProto_Builder*) setLastShortLicensePurchaseTime:(int64_t) value {
+  result.hasLastShortLicensePurchaseTime = YES;
+  result.lastShortLicensePurchaseTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastShortLicensePurchaseTime {
+  result.hasLastShortLicensePurchaseTime = NO;
+  result.lastShortLicensePurchaseTime = 0L;
+  return self;
+}
+- (BOOL) hasLastLongLicensePurchaseTime {
+  return result.hasLastLongLicensePurchaseTime;
+}
+- (int64_t) lastLongLicensePurchaseTime {
+  return result.lastLongLicensePurchaseTime;
+}
+- (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value {
+  result.hasLastLongLicensePurchaseTime = YES;
+  result.lastLongLicensePurchaseTime = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearLastLongLicensePurchaseTime {
+  result.hasLastLongLicensePurchaseTime = NO;
+  result.lastLongLicensePurchaseTime = 0L;
+  return self;
+}
+- (BOOL) hasIsFake {
+  return result.hasIsFake;
+}
+- (BOOL) isFake {
+  return result.isFake;
+}
+- (FullUserProto_Builder*) setIsFake:(BOOL) value {
+  result.hasIsFake = YES;
+  result.isFake = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsFake {
+  result.hasIsFake = NO;
+  result.isFake = NO;
+  return self;
+}
+- (BOOL) hasIsAdmin {
+  return result.hasIsAdmin;
+}
+- (BOOL) isAdmin {
+  return result.isAdmin;
+}
+- (FullUserProto_Builder*) setIsAdmin:(BOOL) value {
+  result.hasIsAdmin = YES;
+  result.isAdmin = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearIsAdmin {
+  result.hasIsAdmin = NO;
+  result.isAdmin = NO;
+  return self;
+}
+- (BOOL) hasNumCoinsRetrievedFromStructs {
+  return result.hasNumCoinsRetrievedFromStructs;
+}
+- (int32_t) numCoinsRetrievedFromStructs {
+  return result.numCoinsRetrievedFromStructs;
+}
+- (FullUserProto_Builder*) setNumCoinsRetrievedFromStructs:(int32_t) value {
+  result.hasNumCoinsRetrievedFromStructs = YES;
+  result.numCoinsRetrievedFromStructs = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumCoinsRetrievedFromStructs {
+  result.hasNumCoinsRetrievedFromStructs = NO;
+  result.numCoinsRetrievedFromStructs = 0;
+  return self;
+}
+- (BOOL) hasUdid {
+  return result.hasUdid;
+}
+- (NSString*) udid {
+  return result.udid;
+}
+- (FullUserProto_Builder*) setUdid:(NSString*) value {
+  result.hasUdid = YES;
+  result.udid = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearUdid {
+  result.hasUdid = NO;
+  result.udid = @"";
+  return self;
+}
 - (BOOL) hasDeviceToken {
   return result.hasDeviceToken;
 }
@@ -2191,86 +2271,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearApsalarId {
   result.hasApsalarId = NO;
   result.apsalarId = 0;
-  return self;
-}
-- (BOOL) hasLastShortLicensePurchaseTime {
-  return result.hasLastShortLicensePurchaseTime;
-}
-- (int64_t) lastShortLicensePurchaseTime {
-  return result.lastShortLicensePurchaseTime;
-}
-- (FullUserProto_Builder*) setLastShortLicensePurchaseTime:(int64_t) value {
-  result.hasLastShortLicensePurchaseTime = YES;
-  result.lastShortLicensePurchaseTime = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearLastShortLicensePurchaseTime {
-  result.hasLastShortLicensePurchaseTime = NO;
-  result.lastShortLicensePurchaseTime = 0L;
-  return self;
-}
-- (BOOL) hasLastLongLicensePurchaseTime {
-  return result.hasLastLongLicensePurchaseTime;
-}
-- (int64_t) lastLongLicensePurchaseTime {
-  return result.lastLongLicensePurchaseTime;
-}
-- (FullUserProto_Builder*) setLastLongLicensePurchaseTime:(int64_t) value {
-  result.hasLastLongLicensePurchaseTime = YES;
-  result.lastLongLicensePurchaseTime = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearLastLongLicensePurchaseTime {
-  result.hasLastLongLicensePurchaseTime = NO;
-  result.lastLongLicensePurchaseTime = 0L;
-  return self;
-}
-- (BOOL) hasIsFake {
-  return result.hasIsFake;
-}
-- (BOOL) isFake {
-  return result.isFake;
-}
-- (FullUserProto_Builder*) setIsFake:(BOOL) value {
-  result.hasIsFake = YES;
-  result.isFake = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearIsFake {
-  result.hasIsFake = NO;
-  result.isFake = NO;
-  return self;
-}
-- (BOOL) hasIsAdmin {
-  return result.hasIsAdmin;
-}
-- (BOOL) isAdmin {
-  return result.isAdmin;
-}
-- (FullUserProto_Builder*) setIsAdmin:(BOOL) value {
-  result.hasIsAdmin = YES;
-  result.isAdmin = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearIsAdmin {
-  result.hasIsAdmin = NO;
-  result.isAdmin = NO;
-  return self;
-}
-- (BOOL) hasNumCoinsRetrievedFromStructs {
-  return result.hasNumCoinsRetrievedFromStructs;
-}
-- (int32_t) numCoinsRetrievedFromStructs {
-  return result.numCoinsRetrievedFromStructs;
-}
-- (FullUserProto_Builder*) setNumCoinsRetrievedFromStructs:(int32_t) value {
-  result.hasNumCoinsRetrievedFromStructs = YES;
-  result.numCoinsRetrievedFromStructs = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearNumCoinsRetrievedFromStructs {
-  result.hasNumCoinsRetrievedFromStructs = NO;
-  result.numCoinsRetrievedFromStructs = 0;
   return self;
 }
 @end

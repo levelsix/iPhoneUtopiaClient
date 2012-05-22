@@ -47,12 +47,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
-         timestampString = "359002487.79871"
+         timestampString = "359339296.344481"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "822"
-         endingLineNumber = "822"
-         landmarkName = "-sellClicked:"
+         startingLineNumber = "872"
+         endingLineNumber = "872"
+         landmarkName = "-setState:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -60,25 +60,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Main Map/GameMap/TopBar.m"
-         timestampString = "357717480.006999"
+         timestampString = "359099235.552458"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "397"
-         endingLineNumber = "397"
+         startingLineNumber = "405"
+         endingLineNumber = "405"
          landmarkName = "-fadeOutToolTip:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Game Menus/QuestLogMenu/QuestLogController.m"
-         timestampString = "356933051.153693"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
-         landmarkName = "-dealloc"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -86,11 +73,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Data/Globals.m"
-         timestampString = "358834805.892398"
+         timestampString = "359101367.649035"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "433"
-         endingLineNumber = "433"
+         startingLineNumber = "430"
+         endingLineNumber = "430"
          landmarkName = "+commafyNumber:"
          landmarkType = "5">
       </FileBreakpoint>

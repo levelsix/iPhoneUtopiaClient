@@ -21,133 +21,6 @@
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 10
 
-@implementation MapBar
-
-@synthesize missionLabel, enemyLabel;
-@synthesize missionButtonClicked, enemyButtonClicked;
-
-- (void) awakeFromNib {
-  _clickedButtons = 0;
-}
-
-- (void) clickButton:(MapBarButton)button {
-  switch (button) {
-    case kMissionButton:
-      missionButtonClicked.hidden = NO;
-      _clickedButtons |= kMissionButton;
-      missionLabel.highlighted = NO;
-      break;
-      
-    case kEnemyButton:
-      enemyButtonClicked.hidden = NO;
-      _clickedButtons |= kEnemyButton;
-      enemyLabel.highlighted = NO;
-      break;
-      
-    default:
-      break;
-  }
-}
-
-- (void) unclickButton:(MapBarButton)button {
-  switch (button) {
-    case kMissionButton:
-      missionButtonClicked.hidden = YES;
-      _clickedButtons &= ~kMissionButton;
-      missionLabel.highlighted = YES;
-      break;
-      
-    case kEnemyButton:
-      enemyButtonClicked.hidden = YES;
-      _clickedButtons &= ~kEnemyButton;
-      enemyLabel.highlighted = YES;
-      break;
-      
-    default:
-      break;
-  }
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:missionButtonClicked];
-  if (!(_clickedButtons & kMissionButton) && [missionButtonClicked pointInside:pt withEvent:nil]) {
-    _trackingMission = YES;
-    [self clickButton:kMissionButton];
-  }
-  
-  pt = [touch locationInView:enemyButtonClicked];
-  if (!(_clickedButtons & kEnemyButton) && [enemyButtonClicked pointInside:pt withEvent:nil]) {
-    _trackingEnemy = YES;
-    [self clickButton:kEnemyButton];
-  }
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:missionButtonClicked];
-  if (_trackingMission) {
-    if (CGRectContainsPoint(CGRectInset(missionButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kMissionButton];
-    } else {
-      [self unclickButton:kMissionButton];
-    }
-  }
-  
-  pt = [touch locationInView:enemyButtonClicked];
-  if (_trackingEnemy) {
-    if (CGRectContainsPoint(CGRectInset(enemyButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kEnemyButton];
-    } else {
-      [self unclickButton:kEnemyButton];
-    }
-  }
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:missionButtonClicked];
-  if (_trackingMission) {
-    if (CGRectContainsPoint(CGRectInset(missionButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [[MapViewController sharedMapViewController] setState:kMissionMap];
-      [self clickButton:kMissionButton];
-      [self unclickButton:kEnemyButton];
-    } else {
-      [self unclickButton:kMissionButton];
-    }
-  }
-  
-  pt = [touch locationInView:enemyButtonClicked];
-  if (_trackingEnemy) {
-    if (CGRectContainsPoint(CGRectInset(enemyButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [[MapViewController sharedMapViewController] setState:kAttackMap];
-      [self clickButton:kEnemyButton];
-      [self unclickButton:kMissionButton];
-    } else {
-      [self unclickButton:kEnemyButton];
-    }
-  }
-  _trackingMission = NO;
-  _trackingEnemy = NO;
-}
-
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  [self unclickButton:kMissionButton];
-  [self unclickButton:kEnemyButton];
-  _trackingMission = NO;
-  _trackingEnemy = NO;
-}
-
-- (void) dealloc {
-  self.missionLabel = nil;
-  self.enemyLabel = nil;
-  self.missionButtonClicked = nil;
-  self.enemyButtonClicked = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation EnemyAnnotation
 
 @synthesize fup;
@@ -241,8 +114,10 @@
 @synthesize mapView = _mapView;
 @synthesize missionMap;
 @synthesize state = _state;
-@synthesize mapBar;
 @synthesize loadingView;
+@synthesize mainView;
+@synthesize bgdView;
+@synthesize titleLabel;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
@@ -253,56 +128,35 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  [_mapView addSubview:[[[UIImageView alloc] initWithImage:[Globals imageNamed:@"mapfilter.png"]] autorelease]];
-  
   // Insert right under the home button
-  [self.view insertSubview: missionMap atIndex:0];
+  [self.mainView addSubview: missionMap];
   missionMap.frame = _mapView.frame;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
   [super viewDidAppear:animated];
   
-  [self removeAllPins];
-  [[[GameState sharedGameState] attackList] removeAllObjects];
-  
-  if (_loaded) {
-    [self retrieveAttackListForCurrentBounds];
+  if (self.state == kAttackMap) {
+    [self removeAllPins];
+    [[[GameState sharedGameState] attackList] removeAllObjects];
+    
+    if (_loaded) {
+      [self retrieveAttackListForCurrentBounds];
+    }
+  } else {
+    [missionMap.lumoriaView reloadCities];
   }
-  
-  missionMap.lumoriaView.hidden = YES;
-  
-  self.state = kMissionMap;
-  
-  [self.mapBar clickButton:kMissionButton];
-  [self.mapBar unclickButton:kEnemyButton];
   
   // Just in case the loading screen wasn't removed
   [self stopLoading];
   
-  CGRect f = self.view.frame;
-  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-  [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
-  } completion:^(BOOL finished) {
-    // In case we got here from the marketplace or armory
-    [MarketplaceViewController removeView];
-    [ArmoryViewController removeView];
-    [CarpenterMenuController removeView];
-  }];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
   [self removeAllPins];
   [[[GameState sharedGameState] attackList] removeAllObjects];
   self.mapView.showsUserLocation = NO;
-}
-
-- (void) openEnemiesTab {
-  self.state = kEnemyButton;
-  
-  [self.mapBar clickButton:kEnemyButton];
-  [self.mapBar unclickButton:kMissionButton];
 }
 
 - (void) setState:(MapState)state {
@@ -318,17 +172,31 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
       } else {
         _mapView.showsUserLocation = NO;
       }
+      titleLabel.text = @"Rivals";
       break;
       
     case kMissionMap:
       missionMap.hidden = NO;
       _mapView.hidden = YES;
       _mapView.showsUserLocation = NO;
+      titleLabel.text = @"World Map";
       break;
       
     default:
       break;
   }
+}
+
++ (void) displayMissionMap {
+  MapViewController *mvc = [MapViewController sharedMapViewController];
+  mvc.state = kMissionMap;
+  [self displayView];
+}
+
++ (void) displayAttackMap {
+  MapViewController *mvc = [MapViewController sharedMapViewController];
+  mvc.state = kAttackMap;
+  [self displayView];
 }
 
 - (void) retrieveAttackListForCurrentBounds {
@@ -406,11 +274,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [self fadeOut];
 }
 
-- (IBAction)homeClicked:(id)sender {
-  [[GameLayer sharedGameLayer] loadHomeMap];
-  [self fadeOut];
-}
-
 - (void) startLoadingWithText:(NSString *)str {
   loadingView.label.text = str;
   [loadingView.actIndView startAnimating];
@@ -434,10 +297,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 - (void) fadeOut {
   [self stopLoading];
   if (self.view.superview) {
-    CGRect f = self.view.frame;
-    [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
-      self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-    } completion:^(BOOL finished) {
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
       [MapViewController removeView];
     }];
   }
@@ -447,7 +307,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [super viewDidUnload];
   self.mapView = nil;
   self.missionMap = nil;
-  self.mapBar = nil;
   self.loadingView = nil;
 }
 
