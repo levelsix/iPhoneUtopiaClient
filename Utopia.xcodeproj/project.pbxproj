@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		453920A3156B149C00C3944D /* SponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453920A2156B149C00C3944D /* SponsoredOffer.m */; };
 		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FC1565E0DC000380EE /* Delight.framework */; };
 		454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FE1565E431000380EE /* CoreMedia.framework */; };
+		454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E6246156709C9004EB7E9 /* libAdColony.a */; };
+		454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E6248156709F9004EB7E9 /* MediaPlayer.framework */; };
+		454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E624A15670A15004EB7E9 /* CoreTelephony.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */; };
 		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
@@ -1198,7 +1202,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		453920A1156B149C00C3944D /* SponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SponsoredOffer.h; sourceTree = "<group>"; };
+		453920A2156B149C00C3944D /* SponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SponsoredOffer.m; sourceTree = "<group>"; };
 		454E623E1566D478004EB7E9 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		454E6245156709C9004EB7E9 /* AdColonyPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonyPublic.h; sourceTree = "<group>"; };
+		454E6246156709C9004EB7E9 /* libAdColony.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdColony.a; sourceTree = "<group>"; };
+		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		454E624A15670A15004EB7E9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		456F2C8D156442DD00850E1D /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		457239FC1565E0DC000380EE /* Delight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Delight.framework; sourceTree = "<group>"; };
@@ -2581,6 +2591,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF1273C41538B7ED00E0C1AD /* QuartzCore.framework in Frameworks */,
+				454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */,
+				454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */,
 				454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */,
 				454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */,
 				454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */,
@@ -2594,7 +2607,6 @@
 				CF1273B41538AD7900E0C1AD /* MapKit.framework in Frameworks */,
 				CF1273B21538AD6A00E0C1AD /* SystemConfiguration.framework in Frameworks */,
 				CF1273B01538AD5100E0C1AD /* libsqlite3.0.dylib in Frameworks */,
-				CF1273C41538B7ED00E0C1AD /* QuartzCore.framework in Frameworks */,
 				CF1273C61538B7F200E0C1AD /* OpenGLES.framework in Frameworks */,
 				CF1273C81538B7F700E0C1AD /* OpenAL.framework in Frameworks */,
 				CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */,
@@ -2607,12 +2619,22 @@
 				CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */,
 				456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */,
 				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
+				454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		454E6244156709C9004EB7E9 /* AdColony */ = {
+			isa = PBXGroup;
+			children = (
+				454E6245156709C9004EB7E9 /* AdColonyPublic.h */,
+				454E6246156709C9004EB7E9 /* libAdColony.a */,
+			);
+			path = AdColony;
+			sourceTree = "<group>";
+		};
 		456F2C8C156442DD00850E1D /* FlurryAnalytics */ = {
 			isa = PBXGroup;
 			children = (
@@ -2965,6 +2987,8 @@
 				CF1265691538ACC400E0C1AD /* GoldShoppeViewController.h */,
 				CF12656A1538ACC400E0C1AD /* GoldShoppeViewController.m */,
 				CF12656B1538ACC400E0C1AD /* GoldShoppeViewController.xib */,
+				453920A1156B149C00C3944D /* SponsoredOffer.h */,
+				453920A2156B149C00C3944D /* SponsoredOffer.m */,
 			);
 			name = GoldShoppeMenu;
 			path = DiamondMenu;
@@ -3222,6 +3246,9 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				454E624A15670A15004EB7E9 /* CoreTelephony.framework */,
+				454E6248156709F9004EB7E9 /* MediaPlayer.framework */,
+				454E6244156709C9004EB7E9 /* AdColony */,
 				454E623E1566D478004EB7E9 /* Crashlytics.framework */,
 				457239FC1565E0DC000380EE /* Delight.framework */,
 				457EBD7F15647A38008C097F /* Alaume */,
@@ -6127,6 +6154,7 @@
 				CFA73EAD1541291400900045 /* QuestScrollController.m in Sources */,
 				CF8FC82C1543E5540082473E /* ConvoMenuController.m in Sources */,
 				CF8FC83D154541340082473E /* DecorationLayer.m in Sources */,
+				453920A3156B149C00C3944D /* SponsoredOffer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6224,9 +6252,13 @@
 					"\"$(SRCROOT)/Utopia/libs/UserVoice\"",
 					"\"$(SRCROOT)/Utopia/libs/FlurryAnalytics\"",
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
+					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "Lost Nations";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
 				WRAPPER_EXTENSION = app;
@@ -6259,8 +6291,12 @@
 					"\"$(SRCROOT)/Utopia/libs/UserVoice\"",
 					"\"$(SRCROOT)/Utopia/libs/FlurryAnalytics\"",
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
+					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "Lost Nations";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
