@@ -281,7 +281,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.state = kPackagesState;
   
   // Initialize the Ad Sponsored deals
-  _sponsoredOffers = [SponsoredOffer allSponsoredOffers];
+  _sponsoredOffers = [InAppPurchaseData allSponsoredOffers];
   [_sponsoredOffers retain];
 }
 
@@ -345,7 +345,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   id<InAppPurchaseData> cellData;
   switch (_state) {
     case kPackagesState:
-      cellData = [SponsoredOffer createWithSKProduct:[[[IAPHelper sharedIAPHelper] products] 
+      cellData = [InAppPurchaseData createWithSKProduct:[[[IAPHelper sharedIAPHelper] products] 
                                            objectAtIndex:indexPath.row]];
       break;
     case kEarnFreeState:
@@ -363,11 +363,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  GoldPackageView *gpv = (GoldPackageView *)[tableView cellForRowAtIndexPath:indexPath];
+  GoldPackageView *gpv = (GoldPackageView *)[tableView 
+                                             cellForRowAtIndexPath:indexPath];
   [gpv.productData makePurchase];
-  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.07]];
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
-  [self startLoading];
+
+  if (_state == kPackagesState) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate
+                                           dateWithTimeIntervalSinceNow:0.07]];
+    [self startLoading];
+  }
 }
 
 - (IBAction)closeButtonClicked:(id)sender {

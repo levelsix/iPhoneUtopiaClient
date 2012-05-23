@@ -16,6 +16,7 @@
 		454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E624A15670A15004EB7E9 /* CoreTelephony.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */; };
 		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; };
+		459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */; };
 		4595D861156C4C4000CF4468 /* SponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453920A2156B149C00C3944D /* SponsoredOffer.m */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
@@ -1248,6 +1249,8 @@
 		45723A001565E443000380EE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		457EBD8015647A38008C097F /* AMConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMConnect.h; sourceTree = "<group>"; };
 		457EBD8115647A38008C097F /* libAlaume-iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphoneos.a"; sourceTree = "<group>"; };
+		4592799E156C5E6900FEC3AF /* InAppPurchaseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseData.h; sourceTree = "<group>"; };
+		4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseData.m; sourceTree = "<group>"; };
 		CF08AF3E15672BFA00871798 /* good.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = good.png; sourceTree = "<group>"; };
 		CF08AF3F15672BFA00871798 /* good@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "good@2x.png"; sourceTree = "<group>"; };
 		CF08AF4015672BFA00871798 /* great.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = great.png; sourceTree = "<group>"; };
@@ -3075,6 +3078,8 @@
 				CF12656B1538ACC400E0C1AD /* GoldShoppeViewController.xib */,
 				453920A1156B149C00C3944D /* SponsoredOffer.h */,
 				453920A2156B149C00C3944D /* SponsoredOffer.m */,
+				4592799E156C5E6900FEC3AF /* InAppPurchaseData.h */,
+				4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */,
 			);
 			name = GoldShoppeMenu;
 			path = DiamondMenu;
@@ -6332,6 +6337,7 @@
 				CF8FC83D154541340082473E /* DecorationLayer.m in Sources */,
 				CF36B81D1552305C00B8FD61 /* BazaarMap.m in Sources */,
 				CF1AD20815635BD800DED5A6 /* EquipMenuController.m in Sources */,
+				459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

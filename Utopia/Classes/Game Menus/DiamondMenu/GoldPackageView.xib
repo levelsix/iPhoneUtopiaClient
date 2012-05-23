@@ -96,11 +96,12 @@
 									<double key="NSSize">15</double>
 									<int key="NSfFlags">16</int>
 								</object>
+								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUILabel" id="272460236">
 								<reference key="NSNextResponder" ref="747368931"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{84, 29}, {48, 21}}</string>
+								<string key="NSFrame">{{84, 29}, {185, 21}}</string>
 								<reference key="NSSuperview" ref="747368931"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="614473245"/>
@@ -120,6 +121,7 @@
 								<float key="IBUIMinimumFontSize">10</float>
 								<reference key="IBUIFontDescription" ref="197353450"/>
 								<reference key="IBUIFont" ref="765331494"/>
+								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 							<object class="IBUIImageView" id="798432557">
 								<reference key="NSNextResponder" ref="747368931"/>
@@ -692,7 +694,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="goldcoin.png">{17, 16}</string>
+			<string key="goldcoin.png">{28, 26}</string>
 			<string key="packagetag.png">{37, 50}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1181</string>

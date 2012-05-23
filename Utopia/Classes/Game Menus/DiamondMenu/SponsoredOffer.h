@@ -7,29 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <StoreKit/StoreKit.h>
+#import "AdColonyPublic.h"
+#import "InAppPurchaseData.h"
 
-@protocol InAppPurchaseData <NSObject>
-@property(nonatomic, readonly) NSString *primaryTitle;
-@property(nonatomic, readonly) NSString *secondaryTitle;
-@property(nonatomic, readonly) NSString *price;
-@property(nonatomic, readonly) NSLocale *priceLocale;
-- (void) makePurchase;
-@end
-
-@interface SponsoredOffer : NSObject <InAppPurchaseData> {
+@interface SponsoredOffer : NSObject <InAppPurchaseData, AdColonyTakeoverAdDelegate> {
   NSString *primaryTitle;
   NSString *secondaryTitle;
   NSString *price;
   NSLocale *priceLocale;
-  
-  SKProduct *_product;
 }
 
-
-#pragma Factory Methods
 +(id<InAppPurchaseData>) createForAdColony;
-+(id<InAppPurchaseData>) createWithSKProduct:(SKProduct *)product;
-+(NSArray *) allSponsoredOffers;
 
 @end

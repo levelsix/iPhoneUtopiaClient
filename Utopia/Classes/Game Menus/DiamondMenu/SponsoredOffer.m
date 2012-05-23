@@ -7,10 +7,18 @@
 //
 
 #import "SponsoredOffer.h"
-#import "Globals.h"
-#import "IAPHelper.h"
-#import "AdColonyPublic.h"
-#define ADZONE1   @"vzdf3190ec43a042ab83fa7d"
+
+#define TEST_ADZONE1        @"vzdf3190ec43a042ab83fa7d"
+#define PRODUCTION_ADZONE1  @"vze3ac5bd63ba3403db44644"
+
+#ifdef DEBUG
+#define ADZONE1   TEST_ADZONE1
+#else
+#define ADZONE1   PRODUCTION_ADZONE1
+#endif 
+
+#define NO_CLIPS  @"No Clips Available"
+//#define NO_OFFERS @"No Offers Available"
 
 @implementation SponsoredOffer
 @dynamic primaryTitle;
@@ -18,65 +26,41 @@
 @dynamic price;
 @synthesize priceLocale;
 
+#pragma InAppPurchaseData
+- (BOOL) purchaseAvailable
+{
+  return [AdColony virtualCurrencyAwardAvailableForZone:ADZONE1];
+}
+
 - (void) makePurchase 
 {
-  if (_product) {
-    [[IAPHelper sharedIAPHelper] buyProductIdentifier:_product];
+  if (![self purchaseAvailable]) {
   }
   else {
-      [AdColony playVideoAdForZone:ADZONE1];
+    [AdColony playVideoAdForZone:ADZONE1 withDelegate:self withV4VCPrePopup:YES andV4VCPostPopup:YES];    
   }
 }
 
 -(NSString *) primaryTitle
 {
-  if (_product) {
-    return _product.localizedTitle;
-  }
-
   return primaryTitle;
 }
 
 -(NSString *) price
-{
-  if (_product) {
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-    [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-    
-    [numberFormatter setLocale:_product.priceLocale];
-    NSString *formattedString = [numberFormatter stringFromNumber:_product.price];
-    [numberFormatter release];
-    
-    return formattedString;
-  }
-  
+{  
   return price;
 }
 
 -(NSString *) secondaryTitle
-{
-  if (_product) {
-    return [NSString stringWithFormat:@"%@", 
-            [[[Globals sharedGlobals] productIdentifiers] 
-             objectForKey:_product.productIdentifier]];
+{  
+  if (![self purchaseAvailable]) {
+    return NO_CLIPS;
   }
 
   return secondaryTitle;
 }
 
-
 #pragma mark  Create/Destroy
--(id) initWithSKProduct:(SKProduct *)product
-{
-  self = [super init];
-  if (self) {
-    _product  = product;
-    [_product retain];
-  }
-  return self;
-}
-
 -(id) initWithPrimaryTitle:(NSString *)primary 
          andSecondaryTitle:(NSString *)secondary
                   andPrice:(NSString *)curPrice
@@ -103,34 +87,24 @@
   [secondaryTitle release];
   [price          release];
   [priceLocale    release];
-  [_product       release];
   
   [super dealloc];
 }
 
-+(id<InAppPurchaseData>) createWithSKProduct:(SKProduct *)product
-{
-  SponsoredOffer *offer = [[SponsoredOffer alloc] initWithSKProduct:product];
-  [offer autorelease];
-  return offer;  
-}
-
 +(id<InAppPurchaseData>) createForAdColony
 {
+  NSString *secondary   = [NSString stringWithFormat:@"%d", 
+                           [AdColony 
+                            getVirtualCurrencyRewardAmountForZone:ADZONE1]];
   SponsoredOffer *offer = [[SponsoredOffer alloc] 
                            initWithPrimaryTitle:@"Watch Video Earn Gold"
-                           andSecondaryTitle:@"50" 
+                           andSecondaryTitle:secondary
                            andPrice:@"" 
                            andLocale:nil];
   [offer autorelease];
+  
   return offer;
 }
 
-+(NSArray *) allSponsoredOffers
-{
-  NSMutableArray *offers = [NSMutableArray array];
-  [offers addObject:[SponsoredOffer createForAdColony]];
-  return offers;
-}
 
 @end

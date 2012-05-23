@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <StoreKit/StoreKit.h>
-#import "SponsoredOffer.h"
+#import "InAppPurchaseData.h"
 
 typedef enum {
   kPackagesState = 1,
