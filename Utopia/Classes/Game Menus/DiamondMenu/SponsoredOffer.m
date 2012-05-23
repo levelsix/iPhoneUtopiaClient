@@ -7,6 +7,7 @@
 //
 
 #import "SponsoredOffer.h"
+#import "SimpleAudioEngine.h"
 
 #define TEST_ADZONE1        @"vzdf3190ec43a042ab83fa7d"
 #define PRODUCTION_ADZONE1  @"vze3ac5bd63ba3403db44644"
@@ -25,6 +26,51 @@
 @dynamic secondaryTitle;
 @dynamic price;
 @synthesize priceLocale;
+
+#pragma AdZone
+-(void) pauseAudio
+{
+  [[SimpleAudioEngine sharedEngine] setMute:YES];
+}
+
+-(void) resumeAudio
+{
+  [[SimpleAudioEngine sharedEngine] setMute:NO];
+}
+
+-(void) adColonyVirtualCurrencyAwardedByZone:(NSString *)zone
+                               currencyName:(NSString *)name
+                             currencyAmount:(int)amount 
+{
+#warning find out from ashwin how to message the server about gold increases
+#warning find out from ashwin how to post user notifications
+
+  //Update virtual currency balance by contacting the game server here
+  //NOTE: The currency award transaction will be complete at this point
+  //NOTE: This callback can be executed by AdColony at any time
+  //NOTE: This is the ideal place for an alert about the successful reward
+}
+
+-(void)adColonyVirtualCurrencyNotAwardedByZone:(NSString *)zone
+                                  currencyName:(NSString *)name
+                                currencyAmount:(int)amount 
+                                        reason:(NSString *)reason
+{
+  //Update the user interface after calling virtualCurrencyAwardAvailable here
+#warning find out from ashwin how to post user notifications
+}
+
+- (void) adColonyTakeoverBeganForZone:(NSString *)zone {
+//  NSLog(@"AdColony video ad launched for zone %@", zone);
+  
+  [self pauseAudio];
+}
+
+- (void) adColonyTakeoverEndedForZone:(NSString *)zone
+                               withVC:(BOOL)withVirtualCurrencyAward {
+//  NSLog(@"AdColony video ad finished for zone %@", zone);
+  [self resumeAudio];
+}
 
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
