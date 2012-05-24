@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <StoreKit/StoreKit.h>
+#import "InAppPurchaseData.h"
 
 typedef enum {
   kPackagesState = 1,
@@ -29,20 +30,18 @@ typedef enum {
 @end
 
 @interface GoldPackageView : UITableViewCell {
-  SKProduct *_product;
+    id<InAppPurchaseData> productData;
 }
 
-@property (nonatomic, retain) SKProduct *product;
+@property (nonatomic, retain) id<InAppPurchaseData> productData;
 
-@property (nonatomic, retain) IBOutlet UILabel *pkgNameLabel;
-@property (nonatomic, retain) IBOutlet UILabel *pkgGoldLabel;
+@property (nonatomic, retain) IBOutlet UILabel     *pkgNameLabel;
+@property (nonatomic, retain) IBOutlet UILabel     *pkgGoldLabel;
+@property (nonatomic, retain) IBOutlet PriceLabel  *priceLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *pkgIcon;
-@property (nonatomic, retain) IBOutlet PriceLabel *priceLabel;
-@property (nonatomic, retain) IBOutlet UIView *selectedView;
+@property (nonatomic, retain) IBOutlet UIView      *selectedView;
 
-- (void) updateForProduct: (SKProduct *) product;
-- (void) buyItem;
-
+- (void) updateForPurchaseData:(id<InAppPurchaseData>)product;
 @end
 
 @interface GoldShoppeBar : UIView {
@@ -68,10 +67,11 @@ typedef enum {
 @end
 
 @interface GoldShoppeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-  UIScrollView *_scrollView;
+  UIScrollView    *_scrollView;
   GoldPackageView *_itemView;
-  BOOL _isDisplayingLoadingView;
+  BOOL            _isDisplayingLoadingView;
   GoldShoppeState _state;
+  NSArray         *_sponsoredOffers;
 }
 
 @property (nonatomic, retain) IBOutlet GoldShoppeLoadingView *loadingView;

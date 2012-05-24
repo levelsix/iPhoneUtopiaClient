@@ -84,6 +84,23 @@
   [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
 }
 
+- (NSString *) adColonyApplicationID
+{
+  return @"app82f779c39f1c40c4a6dc82";
+}
+
+#define ADZONE1   @"vzdf3190ec43a042ab83fa7d"
+- (NSDictionary *) adColonyAdZoneNumberAssociation
+{
+  return [NSDictionary dictionaryWithObjectsAndKeys:ADZONE1, [NSNumber numberWithInt:1],
+          nil];
+}
+
+-(void) testAdColony 
+{
+  [AdColony initAdColonyWithDelegate:self];
+}
+
 -(void) setUpDelightio
 {
 #if SHOULD_VIDEO_USER
@@ -178,6 +195,9 @@
   
   // Delight.io
   [self setUpDelightio];
+  
+  // AdColony
+  [self testAdColony];
   
   [self removeLocalNotifications];
 

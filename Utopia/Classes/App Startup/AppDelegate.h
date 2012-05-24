@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "AdColonyPublic.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, AdColonyDelegate> {
 	UIWindow			*window;
 }
 

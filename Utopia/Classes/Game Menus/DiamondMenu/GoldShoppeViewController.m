@@ -17,32 +17,47 @@
 
 @synthesize price, bigLabel, littleLabel;
 
-- (void) setPrice:(NSString *)pr {
+- (void) setLeftText:(NSString *)leftText andRightText:(NSString *)rightText
+{
+  bigLabel.text    = leftText;
+  littleLabel.text = rightText;
+  
+  CGRect rect     = bigLabel.frame;
+  rect.origin.x   = 0;
+  rect.size.width = [leftText sizeWithFont:bigLabel.font].width;
+  bigLabel.frame  = rect;
+  
+  rect                 = littleLabel.frame;
+  rect.origin.x        = CGRectGetMaxX(bigLabel.frame);
+  rect.size.width      = [rightText sizeWithFont:littleLabel.font].width;
+  littleLabel.frame = rect;
+  
+  rect            = self.frame;
+  rect.size.width = bigLabel.frame.size.width 
+    + littleLabel.frame.size.width;
+  self.frame   = rect;
+  self.center  = CGPointMake(CGRectGetMidX(self.superview.bounds), 
+                             self.center.y);
+}
+
+- (void) setPrice:(NSString *)newPrice {
   // Expects the format "$x.yy" and will make x big and ys small
-  if (price != pr) {
+  if (price != newPrice) {
     [price release];
-    price = [pr retain];
-    
-    // Remember to remove $ sign in front
-    NSString *left = [price substringWithRange:NSMakeRange(1, price.length-4)];
-    NSString *right = [price substringFromIndex:price.length-3];
-    bigLabel.text = left;
-    littleLabel.text = right;
-    
-    CGRect r = bigLabel.frame;
-    r.origin.x = 0;
-    r.size.width = [left sizeWithFont:bigLabel.font].width;
-    bigLabel.frame = r;
-    
-    r = littleLabel.frame;
-    r.origin.x = CGRectGetMaxX(bigLabel.frame);
-    r.size.width = [right sizeWithFont:littleLabel.font].width;
-    littleLabel.frame = r;
-    
-    r = self.frame;
-    r.size.width = bigLabel.frame.size.width + littleLabel.frame.size.width;
-    self.frame = r;
-    self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), self.center.y);
+    price = [newPrice retain];
+
+    if ([newPrice length] > 0) {
+      // Remember to remove $ sign in front
+      NSString *left  = [price substringWithRange:NSMakeRange(1,
+                                                              price.length-4)];
+      NSString *right  = [price substringFromIndex:price.length-3];
+
+      [self setLeftText:left andRightText:right];
+    }
+    else {
+      newPrice = @"Free";
+      [self setLeftText:newPrice andRightText:@""];
+    }
   }
 }
 
@@ -56,25 +71,20 @@
 @end
 
 @implementation GoldPackageView
-
-@synthesize product = _product;
+@synthesize productData;
 @synthesize pkgIcon, pkgGoldLabel, pkgNameLabel, priceLabel;
 @synthesize selectedView;
 
-- (void) updateForProduct:(SKProduct *)product {
-  self.product = product;
+- (void) updateForPurchaseData:(id<InAppPurchaseData>)product 
+{
+  // Set Free offer title
+  self.pkgNameLabel.text = product.primaryTitle;
   
-  NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-  [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
-  [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+  // Set gold quantity text
+  self.pkgGoldLabel.text = product.secondaryTitle;
   
-  self.pkgNameLabel.text = product.localizedTitle;
-  self.pkgGoldLabel.text = [NSString stringWithFormat:@"%@", [[[Globals sharedGlobals] productIdentifiers] objectForKey:product.productIdentifier]];
-  [numberFormatter setLocale:product.priceLocale];
-  NSString *formattedString = [numberFormatter stringFromNumber:product.price];
-  self.priceLabel.price = formattedString;
-  
-  [numberFormatter release];
+  // Set the price
+  self.priceLabel.price  = product.price;
 }
 
 - (void) setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -95,12 +105,7 @@
   }
 }
 
-- (void) buyItem {
-  [[IAPHelper sharedIAPHelper] buyProductIdentifier:self.product];
-}
-
 - (void) dealloc {
-  self.product = nil;
   self.pkgIcon = nil;
   self.pkgGoldLabel = nil;
   self.pkgNameLabel = nil;
@@ -274,6 +279,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.pkgTableView.rowHeight = 62;
   
   self.state = kPackagesState;
+  
+  // Initialize the Ad Sponsored deals
+  _sponsoredOffers = [InAppPurchaseData allSponsoredOffers];
+  [_sponsoredOffers retain];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -290,17 +299,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   if (state != _state) {
     _state = state;
     switch (state) {
+        case kPackagesState:
+          [self.topBar unclickButton:kEarnFreeButton];
+          [self.topBar clickButton:kGoldCoinsButton];
+          break;
       case kEarnFreeState:
-        [Globals popupMessage:@"There are no free offers at this time. Please check back in a future version."];
+        [self.topBar unclickButton:kGoldCoinsButton];
+        [self.topBar clickButton:kEarnFreeButton];
+
         [Analytics clickedFreeOffers];
-        _state = kPackagesState;
         break;
         
       default:
         break;
     }
-    [self.topBar unclickButton:kEarnFreeButton];
-    [self.topBar clickButton:kGoldCoinsButton];
+
+    [[self pkgTableView] reloadData];
   }
 }
 
@@ -309,7 +323,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 };
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[[IAPHelper sharedIAPHelper] products] count];
+  switch (_state) {
+    case kPackagesState:
+      return [[[IAPHelper sharedIAPHelper] products] count];
+    case kEarnFreeState:
+      return [_sponsoredOffers count];
+    default:
+      break;
+  }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -320,17 +341,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     [[NSBundle mainBundle] loadNibNamed:@"GoldPackageView" owner:self options:nil];
     cell = self.itemView;
   }
-  [cell updateForProduct:[[[IAPHelper sharedIAPHelper] products] objectAtIndex:indexPath.row]];
+  
+  id<InAppPurchaseData> cellData;
+  switch (_state) {
+    case kPackagesState:
+      cellData = [InAppPurchaseData createWithSKProduct:[[[IAPHelper sharedIAPHelper] products] 
+                                           objectAtIndex:indexPath.row]];
+      break;
+    case kEarnFreeState:
+      cellData = [_sponsoredOffers objectAtIndex:indexPath.row];
+      break;
+    default:
+      break;
+  }
+  
+  cell.productData = cellData; 
+
+  [cell updateForPurchaseData:cellData];
   cell.pkgIcon.image = [Globals imageNamed:@"stack.png"];
   return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  GoldPackageView *gpv = (GoldPackageView *)[tableView cellForRowAtIndexPath:indexPath];
-  [gpv buyItem];
-  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.07]];
+  GoldPackageView *gpv = (GoldPackageView *)[tableView 
+                                             cellForRowAtIndexPath:indexPath];
+  [gpv.productData makePurchase];
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
-  [self startLoading];
+
+  if (_state == kPackagesState) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate
+                                           dateWithTimeIntervalSinceNow:0.07]];
+    [self startLoading];
+  }
 }
 
 - (IBAction)closeButtonClicked:(id)sender {
@@ -368,6 +410,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.topBar = nil;
   self.mainView = nil;
   self.bgdView = nil;
+
+  [_sponsoredOffers release];
 }
 
 @end
