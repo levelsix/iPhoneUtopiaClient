@@ -3029,6 +3029,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
+  BOOL hasQuestGiverName_:1;
   BOOL hasAcceptDialogue_:1;
   int32_t numComponentsForBad;
   int32_t numComponentsForGood;
@@ -3043,6 +3044,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   NSString* doneResponse;
   NSString* description;
   NSString* name;
+  NSString* questGiverName;
   DialogueProto* acceptDialogue;
   NSMutableArray* mutableQuestsRequiredForThisList;
   NSMutableArray* mutableTaskReqsList;
@@ -3065,6 +3067,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumComponentsForGood;
 - (BOOL) hasNumComponentsForBad;
 - (BOOL) hasAcceptDialogue;
+- (BOOL) hasQuestGiverName;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
@@ -3079,6 +3082,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numComponentsForGood;
 @property (readonly) int32_t numComponentsForBad;
 @property (readonly, retain) DialogueProto* acceptDialogue;
+@property (readonly, retain) NSString* questGiverName;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 - (NSArray*) taskReqsList;
@@ -3239,6 +3243,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullQuestProto_Builder*) setAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
 - (FullQuestProto_Builder*) mergeAcceptDialogue:(DialogueProto*) value;
 - (FullQuestProto_Builder*) clearAcceptDialogue;
+
+- (BOOL) hasQuestGiverName;
+- (NSString*) questGiverName;
+- (FullQuestProto_Builder*) setQuestGiverName:(NSString*) value;
+- (FullQuestProto_Builder*) clearQuestGiverName;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {

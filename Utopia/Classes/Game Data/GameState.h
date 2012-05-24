@@ -74,7 +74,8 @@
   NSMutableArray *_myStructs;
   NSMutableDictionary *_myCities;
   
-  NSMutableDictionary *_inProgressQuests;
+  NSMutableDictionary *_inProgressIncompleteQuests;
+  NSMutableDictionary *_inProgressCompleteQuests;
   NSMutableDictionary *_availableQuests;
   
   NSMutableArray *_attackList;
@@ -146,7 +147,8 @@
 @property (retain) NSMutableArray *myStructs;
 @property (retain) NSMutableDictionary *myCities;
 
-@property (retain) NSMutableDictionary *inProgressQuests;
+@property (retain) NSMutableDictionary *inProgressCompleteQuests;
+@property (retain) NSMutableDictionary *inProgressIncompleteQuests;
 @property (retain) NSMutableDictionary *availableQuests;
 
 @property (retain) NSMutableArray *attackList;
@@ -168,7 +170,8 @@
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyCities:(NSArray *)cities;
 - (void) addToAvailableQuests:(NSArray *)quests;
-- (void) addToInProgressQuests:(NSArray *)quests;
+- (void) addToInProgressCompleteQuests:(NSArray *)quests;
+- (void) addToInProgressIncompleteQuests:(NSArray *)quests;
 - (void) addNotification:(UserNotification *)un;
 - (void) addWallPost:(PlayerWallPostProto *)wallPost;
 

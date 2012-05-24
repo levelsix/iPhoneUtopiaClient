@@ -276,7 +276,7 @@
           CGRect r = CGRectZero;
           r.origin = [self randomWalkablePosition];
           r.size = CGSizeMake(1, 1);
-          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:NO file:ncep.imgId map:self location:r];
+          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp questGiverState:kAvailable file:ncep.imgId map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
           qg.name = ncep.name;
           [qg release];
@@ -285,7 +285,7 @@
     }
     
     // Now add the in progress quest givers, peopleElems will hold only the non-quest givers
-    for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
+    for (FullQuestProto *fqp in [gs.inProgressIncompleteQuests allValues]) {
       if (fqp.cityId == fcp.cityId) {
         NeutralCityElementProto *ncep = nil;
         for (NeutralCityElementProto *n in peopleElems) {
@@ -300,7 +300,33 @@
           CGRect r = CGRectZero;
           r.origin = [self randomWalkablePosition];
           r.size = CGSizeMake(1, 1);
-          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp inProgress:YES file:ncep.imgId map:self location:r];
+          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp questGiverState:kInProgress file:ncep.imgId map:self location:r];
+          [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+          qg.name = ncep.name;
+          [qg release];
+        } else {
+          LNLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
+        }
+      }
+    }
+    
+    // Finally add the completed quest givers
+    for (FullQuestProto *fqp in [gs.inProgressCompleteQuests allValues]) {
+      if (fqp.cityId == fcp.cityId) {
+        NeutralCityElementProto *ncep = nil;
+        for (NeutralCityElementProto *n in peopleElems) {
+          if (n.assetId == fqp.assetNumWithinCity) {
+            ncep = n;
+            break;
+          }
+        }
+        [peopleElems removeObject:ncep];
+        
+        if (ncep) {
+          CGRect r = CGRectZero;
+          r.origin = [self randomWalkablePosition];
+          r.size = CGSizeMake(1, 1);
+          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp questGiverState:kCompleted file:ncep.imgId map:self location:r];
           [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
           qg.name = ncep.name;
           [qg release];
@@ -317,7 +343,7 @@
       CGRect r = CGRectZero;
       r.origin = [self randomWalkablePosition];
       r.size = CGSizeMake(1, 1);
-      QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO file:ncep.imgId map:self location:r];
+      QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:ncep.imgId map:self location:r];
       [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
       qg.visible = NO;
       qg.opacity = 0.f;
@@ -362,15 +388,6 @@
     _taskProgBar = [TaskProgressBar node];
     [self addChild:_taskProgBar z:1002];
     _taskProgBar.visible = NO;
-    
-    //    NSMutableString *str = [NSMutableString stringWithString:@"\n"];
-    //    for (int i=0; i < width; i++) {
-    //      for (int j=0; j < height; j++) {
-    //        [str appendString:[[[_walkableData objectAtIndex:i] objectAtIndex:j] description]];
-    //      }
-    //      [str appendString:@"\n"];
-    //    }
-    //    LNLog(@"%@", str);
   }
   return self;
 }
@@ -600,7 +617,7 @@
 
 - (void) questAccepted:(FullQuestProto *)fqp {
   QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
-  qg.isInProgress = YES;
+  qg.questGiverState = kInProgress;
 }
 
 - (void) receivedQuestAcceptResponse:(QuestAcceptResponseProto *)qarp {
@@ -617,7 +634,7 @@
     if (fqp.cityId == _cityId) {
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
-      qg.isInProgress = NO;
+      qg.questGiverState = kAvailable;
       qg.visible = YES;
       if (qg.opacity == 0) {
         [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
@@ -625,11 +642,23 @@
       [arr addObject:qg];
     }
   }
-  for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
+  for (FullQuestProto *fqp in [gs.inProgressIncompleteQuests allValues]) {
     if (fqp.cityId == _cityId) {
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
-      qg.isInProgress = YES;
+      qg.questGiverState = kInProgress;
+      qg.visible = YES;
+      if (qg.opacity == 0) {
+        [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
+      }
+      [arr addObject:qg];
+    }
+  }
+  for (FullQuestProto *fqp in [gs.inProgressCompleteQuests allValues]) {
+    if (fqp.cityId == _cityId) {
+      QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
+      qg.quest = fqp;
+      qg.questGiverState = kCompleted;
       qg.visible = YES;
       if (qg.opacity == 0) {
         [qg runAction:[CCFadeIn actionWithDuration:0.1f]];

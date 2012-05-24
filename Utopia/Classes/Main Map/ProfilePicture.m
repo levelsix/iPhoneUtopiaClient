@@ -431,7 +431,7 @@
 }
 
 - (void) openQuests {
-  [QuestLogController displayView];
+  [[QuestLogController sharedQuestLogController] loadQuestLog];
 }
 
 - (void) openProfile {

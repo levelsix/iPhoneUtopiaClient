@@ -11,10 +11,7 @@
 #import "cocos2d.h"
 #import "Globals.h"
 #import "QuestLogController.h"
-
-@interface ConvoMenuController ()
-
-@end
+#import "OutgoingEventController.h"
 
 @implementation ConvoMenuController
 
@@ -62,7 +59,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
 
 - (void)dialogComplete {
   [ConvoMenuController removeView];
-  [[QuestLogController sharedQuestLogController] loadFakeQuest:self.quest];
+  [[OutgoingEventController sharedOutgoingEventController] acceptQuest:self.quest.questId];
+  [[QuestLogController sharedQuestLogController] loadQuestAcceptScreen:self.quest];
 }
 
 - (IBAction)nextClicked:(id)sender {

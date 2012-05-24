@@ -286,8 +286,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticEquips:proto.equipsList];
     [gs.availableQuests removeAllObjects];
     [gs addToAvailableQuests:proto.availableQuestsList];
-    [gs.inProgressQuests removeAllObjects];
-//    [gs addToInProgressQuests:proto.in];
+    [gs.inProgressCompleteQuests removeAllObjects];
+    [gs addToInProgressCompleteQuests:proto.inProgressCompleteQuestsList];
+    [gs.inProgressIncompleteQuests removeAllObjects];
+    [gs addToInProgressIncompleteQuests:proto.inProgressIncompleteQuestsList];
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
     
@@ -844,17 +846,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Received quest complete response for quest %d.", proto.questId);
   
   GameState *gs = [GameState sharedGameState];
-  FullQuestProto *fqp = [[gs inProgressQuests] objectForKey:[NSNumber numberWithInt:proto.questId]];
+  NSNumber *questNum = [NSNumber numberWithInt:proto.questId];
+  FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:questNum];
   
   if (fqp) {
-//    QuestCompleteView *qcv = [[QuestLogController sharedQuestLogController] createQuestCompleteView];
-//    qcv.questNameLabel.text = fqp.name;
-//    
-//    FullCityProto *fcp = [gs cityWithId:fqp.cityId];
-//    qcv.visitDescLabel.text = [NSString stringWithFormat:@"Visit %@ in %@ to receive your reward!", proto.neutralCityElement.name, fcp.name];
-//    
-//    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:qcv];
-//    [Globals bounceView:qcv.mainView fadeInBgdView:qcv.bgdView];
+    [[QuestLogController sharedQuestLogController] loadQuestCompleteScreen:fqp];
+    
+    [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
+    [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
+    
+    [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
     
     [Analytics questComplete:proto.questId];
   } else {

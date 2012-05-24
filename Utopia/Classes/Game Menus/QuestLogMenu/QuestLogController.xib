@@ -150,6 +150,7 @@
 												<bool key="IBUIAlwaysBounceVertical">YES</bool>
 												<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 												<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+												<bool key="IBUIDelaysContentTouches">NO</bool>
 												<int key="IBUISeparatorStyle">1</int>
 												<reference key="IBUISeparatorColor" ref="308228215"/>
 												<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
@@ -250,7 +251,7 @@
 					<object class="IBUILabel" id="1069093445">
 						<reference key="NSNextResponder" ref="657143024"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{73, 1}, {240, 36}}</string>
+						<string key="NSFrame">{{64, 1}, {219, 36}}</string>
 						<reference key="NSSuperview" ref="657143024"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="886555752"/>
@@ -288,6 +289,7 @@
 						<bool key="IBUIAlwaysBounceVertical">YES</bool>
 						<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+						<bool key="IBUIDelaysContentTouches">NO</bool>
 						<int key="IBUISeparatorStyle">1</int>
 						<reference key="IBUISeparatorColor" ref="537072102"/>
 						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
@@ -304,7 +306,7 @@
 							<object class="IBUIButton" id="156227393">
 								<reference key="NSNextResponder" ref="901683120"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{60, 30}</string>
+								<string key="NSFrameSize">{54, 26}</string>
 								<reference key="NSSuperview" ref="901683120"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="298499091"/>
@@ -329,7 +331,7 @@
 							<object class="IBUILabel" id="298499091">
 								<reference key="NSNextResponder" ref="901683120"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{6, 3}, {54, 20}}</string>
+								<string key="NSFrame">{{2, 2}, {54, 20}}</string>
 								<reference key="NSSuperview" ref="901683120"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1069093445"/>
@@ -359,7 +361,7 @@
 								</object>
 							</object>
 						</array>
-						<string key="NSFrame">{{8, 6}, {60, 30}}</string>
+						<string key="NSFrame">{{8, 6}, {54, 26}}</string>
 						<reference key="NSSuperview" ref="657143024"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -441,6 +443,14 @@
 						<reference key="destination" ref="1069093445"/>
 					</object>
 					<int key="connectionID">300</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">backButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="901683120"/>
+					</object>
+					<int key="connectionID">302</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -617,7 +627,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">301</int>
+			<int key="maxID">302</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -652,6 +662,7 @@
 						</object>
 					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="backButton">UIView</string>
 						<string key="bgdView">UIView</string>
 						<string key="mainView">UIView</string>
 						<string key="questListTable">UITableView</string>
@@ -661,6 +672,10 @@
 						<string key="taskListView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="backButton">
+							<string key="name">backButton</string>
+							<string key="candidateClassName">UIView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="bgdView">
 							<string key="name">bgdView</string>
 							<string key="candidateClassName">UIView</string>
