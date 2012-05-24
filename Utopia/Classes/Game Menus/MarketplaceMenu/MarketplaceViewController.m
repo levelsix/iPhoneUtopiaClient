@@ -7,7 +7,7 @@
 //
 
 #import "MarketplaceViewController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"

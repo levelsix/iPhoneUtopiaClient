@@ -7,7 +7,7 @@
 //
 
 #import "VaultMenuController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 #import "SBTickerView.h"
 #import "GameState.h"

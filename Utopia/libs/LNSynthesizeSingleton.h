@@ -1,5 +1,5 @@
 //
-//  SynthesizeSingleton.h
+//  LNSynthesizeSingleton.h
 //  CocoaWithLove
 //
 //  Created by Matt Gallagher on 20/10/08.

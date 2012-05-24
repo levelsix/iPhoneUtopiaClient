@@ -7,7 +7,7 @@
 //
 
 #import "Globals.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "IAPHelper.h"
 #import "GameState.h"
 #import "Protocols.pb.h"

@@ -7,7 +7,7 @@
 //
 
 #import "OutgoingEventController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "SocketCommunication.h"
 #import "Globals.h"

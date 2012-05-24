@@ -8,7 +8,7 @@
 
 #import "UVHelper.h"
 #import "cocos2d.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "GameViewController.h"
 #import "UIDevice+IdentifierAddition.h"

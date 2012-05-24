@@ -10,7 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "cocos2d.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameLayer.h"
 #import "OutgoingEventController.h"
 #import "HomeMap.h"

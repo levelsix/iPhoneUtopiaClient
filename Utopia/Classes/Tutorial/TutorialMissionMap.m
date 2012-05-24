@@ -13,7 +13,7 @@
 #import "AnimatedSprite.h"
 #import "TutorialQuestLogController.h"
 #import "TutorialBattleLayer.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "LevelUpViewController.h"
 #import "TutorialProfileViewController.h"
 #import "TutorialMapViewController.h"

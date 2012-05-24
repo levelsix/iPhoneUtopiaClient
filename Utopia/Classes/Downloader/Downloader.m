@@ -7,7 +7,7 @@
 //
 
 #import "Downloader.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 
 #define URL_BASE @"https://s3.amazonaws.com/lvl6utopia/Resources/";

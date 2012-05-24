@@ -21,6 +21,7 @@
 #import "FlurryAnalytics.h"
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
+#import "TapjoyConnect.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -28,7 +29,10 @@
 #define ALAUME_APP_ID        @"tk"
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
-
+#define TAPJOY_APPID         @"a5128a5f-1a9f-4a03-9a5d-1304489f08e1"
+#define TAPJOY_SECRET        @"sZH7jGPnzX1MhVyjmDyg"
+#define ADCOLONY_ADZONE1     @"vzdf3190ec43a042ab83fa7d"
+#define ADCOLONY_APPID       @"app82f779c39f1c40c4a6dc82"
 
 #define SHOULD_VIDEO_USER    0
 @implementation AppDelegate
@@ -86,13 +90,12 @@
 
 - (NSString *) adColonyApplicationID
 {
-  return @"app82f779c39f1c40c4a6dc82";
+  return ADCOLONY_APPID;
 }
 
-#define ADZONE1   @"vzdf3190ec43a042ab83fa7d"
 - (NSDictionary *) adColonyAdZoneNumberAssociation
 {
-  return [NSDictionary dictionaryWithObjectsAndKeys:ADZONE1, [NSNumber numberWithInt:1],
+  return [NSDictionary dictionaryWithObjectsAndKeys:ADCOLONY_ADZONE1, [NSNumber numberWithInt:1],
           nil];
 }
 
@@ -100,6 +103,23 @@
 {
   [AdColony initAdColonyWithDelegate:self];
 }
+
+-(void) setUpTapJoy
+{
+  [TapjoyConnect requestTapjoyConnect:TAPJOY_APPID secretKey:TAPJOY_SECRET];
+  [TapjoyConnect initVideoAdWithDelegate:self];
+}
+
+- (void)videoAdBegan
+{
+  
+}
+
+- (void)videoAdClosed
+{
+  
+}
+
 
 -(void) setUpDelightio
 {
@@ -199,6 +219,9 @@
   // AdColony
   [self testAdColony];
   
+  // TapJoy
+  [self setUpTapJoy];
+
   [self removeLocalNotifications];
 
   // CrashAlytics
@@ -211,7 +234,7 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  LNLog(@"will raesign active");
+  LNLog(@"will resign active");
 	[[CCDirector sharedDirector] pause];
 }
 

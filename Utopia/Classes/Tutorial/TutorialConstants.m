@@ -7,7 +7,7 @@
 //
 
 #import "TutorialConstants.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 
 @implementation TutorialConstants

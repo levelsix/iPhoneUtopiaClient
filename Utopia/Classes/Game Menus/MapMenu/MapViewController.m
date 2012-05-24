@@ -7,7 +7,7 @@
 //
 
 #import "MapViewController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "OutgoingEventController.h"
 #import "ProfileViewController.h"
 #import "Globals.h"

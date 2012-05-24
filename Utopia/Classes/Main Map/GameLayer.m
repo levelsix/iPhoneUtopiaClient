@@ -21,7 +21,7 @@
 #import "Globals.h"
 #import "QuestLogController.h"
 #import "TopBar.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "MissionMap.h"
 #import "OutgoingEventController.h"
 #import "SimpleAudioEngine.h"

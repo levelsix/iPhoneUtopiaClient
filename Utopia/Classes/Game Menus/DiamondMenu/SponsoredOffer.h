@@ -15,8 +15,11 @@
   NSString *secondaryTitle;
   NSString *price;
   NSLocale *priceLocale;
+  BOOL      isAdColony;
 }
 
+@property BOOL isAdColony;
 +(id<InAppPurchaseData>) createForAdColony;
++(id<InAppPurchaseData>) createForTapJoy;
 
 @end

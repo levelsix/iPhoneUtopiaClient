@@ -8,6 +8,8 @@
 
 #import "SponsoredOffer.h"
 #import "SimpleAudioEngine.h"
+#import "TapjoyConnect.h"
+#import "GameViewController.h"
 
 #define TEST_ADZONE1        @"vzdf3190ec43a042ab83fa7d"
 #define PRODUCTION_ADZONE1  @"vze3ac5bd63ba3403db44644"
@@ -26,6 +28,10 @@
 @dynamic secondaryTitle;
 @dynamic price;
 @synthesize priceLocale;
+@synthesize isAdColony;
+
+#pragma TapJoy
+
 
 #pragma AdZone
 -(void) pauseAudio
@@ -80,10 +86,19 @@
 
 - (void) makePurchase 
 {
-  if (![self purchaseAvailable]) {
+  if (isAdColony) {
+    if (![self purchaseAvailable]) {
+    }
+    else {
+      [AdColony playVideoAdForZone:ADZONE1 
+                      withDelegate:self
+                  withV4VCPrePopup:YES
+                  andV4VCPostPopup:YES];    
+    }
   }
   else {
-    [AdColony playVideoAdForZone:ADZONE1 withDelegate:self withV4VCPrePopup:YES andV4VCPostPopup:YES];    
+    [TapjoyConnect showOffersWithViewController:[GameViewController
+                                                 sharedGameViewController]];
   }
 }
 
@@ -99,7 +114,7 @@
 
 -(NSString *) secondaryTitle
 {  
-  if (![self purchaseAvailable]) {
+  if (![self purchaseAvailable] && isAdColony) {
     return NO_CLIPS;
   }
 
@@ -147,10 +162,22 @@
                            andSecondaryTitle:secondary
                            andPrice:@"" 
                            andLocale:nil];
+  offer.isAdColony = YES;
   [offer autorelease];
   
   return offer;
 }
 
++(id<InAppPurchaseData>) createForTapJoy
+{
+  SponsoredOffer *offer = [[SponsoredOffer alloc] 
+                           initWithPrimaryTitle:@"TapJoy"
+                           andSecondaryTitle:@""
+                           andPrice:@"" 
+                           andLocale:nil];
+  [offer autorelease];
+  
+  return offer;
+}
 
 @end

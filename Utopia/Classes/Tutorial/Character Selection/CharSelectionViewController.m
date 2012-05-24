@@ -7,7 +7,7 @@
 //
 
 #import "CharSelectionViewController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "Globals.h"
 #import "TutorialConstants.h"
 #import "TutorialBattleLayer.h"
