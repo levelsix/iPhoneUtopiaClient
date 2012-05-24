@@ -122,7 +122,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil inProgress:NO file:@"Farmer.png" map:self location:r];
+    QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kAvailable file:@"Farmer.png" map:self location:r];
     [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
     _questGiver = qg;
     [qg release];
@@ -277,7 +277,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   // For Tut Quest Log
   _acceptQuestPhase = NO;
   _doBattlePhase = YES;
-  _questGiver.isInProgress = YES;
+  _questGiver.questGiverState = kInProgress;
 }
 
 - (void) questLogClosed {

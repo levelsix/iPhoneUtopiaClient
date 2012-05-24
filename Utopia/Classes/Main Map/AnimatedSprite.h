@@ -33,15 +33,22 @@
 
 @end
 
+typedef enum {
+  kNoQuest = 1,
+  kAvailable,
+  kInProgress,
+  kCompleted
+} QuestGiverState;
+
 @interface QuestGiver : CharacterSprite {
   CCSprite *_aboveHeadMark;
 }
 
 @property (nonatomic, retain) FullQuestProto *quest;
-@property (nonatomic, assign) BOOL isInProgress;
+@property (nonatomic, assign) QuestGiverState questGiverState;
 @property (nonatomic, copy) NSString *name;
 
-- (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg file:(NSString *)file map:(GameMap *)map location:(CGRect)location;
+- (id) initWithQuest:(FullQuestProto *)fqp questGiverState:(QuestGiverState)qgs file:(NSString *)file map:(GameMap *)map location:(CGRect)location;
 
 @end
 

@@ -183,13 +183,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
     if (!isNewline) {
       if (isSectionTitle) {
         label.font = [UIFont fontWithName:@"AJensonPro-BoldCapt" size:SECTION_FONT_SIZE];
+        label.textColor = [Globals creamColor];
       } else if (isQuestion) {
         label.font = [UIFont fontWithName:@"AJensonPro-BoldCapt" size:QUESTION_FONT_SIZE];
+        label.textColor = [Globals goldColor];
       } else {
         label.font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:TEXT_FONT_SIZE];
+        label.textColor = [Globals creamColor];
       }
     }
-    label.textColor = [Globals creamColor];
   }
   
   UILabel *label = (UILabel *)[cell.contentView viewWithTag:LABEL_TAG];

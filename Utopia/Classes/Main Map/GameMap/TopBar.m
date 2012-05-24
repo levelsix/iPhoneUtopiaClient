@@ -252,7 +252,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) questButtonClicked {
-  [QuestLogController displayView];
+  [[QuestLogController sharedQuestLogController] loadQuestLog];
 }
 
 - (void) bazaarClicked {

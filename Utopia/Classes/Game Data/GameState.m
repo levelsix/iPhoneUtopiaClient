@@ -79,7 +79,8 @@
 @synthesize myCities = _myCities;
 
 @synthesize availableQuests = _availableQuests;
-@synthesize inProgressQuests = _inProgressQuests;
+@synthesize inProgressCompleteQuests = _inProgressCompleteQuests;
+@synthesize inProgressIncompleteQuests = _inProgressIncompleteQuests;
 
 @synthesize attackList = _attackList;
 @synthesize notifications = _notifications;
@@ -109,7 +110,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _wallPosts = [[NSMutableArray alloc] init];
     
     _availableQuests = [[NSMutableDictionary alloc] init];
-    _inProgressQuests = [[NSMutableDictionary alloc] init];
+    _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
+    _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
     
     _silver = 10000;
     _gold = 50;
@@ -247,9 +249,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (void) addToInProgressQuests:(NSArray *)quests {
+- (void) addToInProgressCompleteQuests:(NSArray *)quests {
   for (FullQuestProto *fqp in quests) {
-    [self.inProgressQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+    [self.inProgressCompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+  }
+}
+
+- (void) addToInProgressIncompleteQuests:(NSArray *)quests {
+  for (FullQuestProto *fqp in quests) {
+    [self.inProgressIncompleteQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
   }
 }
 
@@ -431,7 +439,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.wallPosts = [[NSMutableArray alloc] init];
   
   self.availableQuests = [[NSMutableDictionary alloc] init];
-  self.inProgressQuests = [[NSMutableDictionary alloc] init];
+  self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
+  self.inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
 }
 
 - (void) dealloc {
@@ -460,7 +469,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.myEquips = nil;
   self.myStructs = nil;
   self.availableQuests = nil;
-  self.inProgressQuests = nil;
+  self.inProgressCompleteQuests = nil;
+  self.inProgressIncompleteQuests = nil;
   self.attackList = nil;
   self.notifications = nil;
   self.wallPosts = nil;

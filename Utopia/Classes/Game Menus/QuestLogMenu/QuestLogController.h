@@ -22,6 +22,19 @@
 @property (nonatomic, retain) IBOutlet UILabel *bigExpLabel;
 @property (nonatomic, retain) IBOutlet UILabel *smallCoinLabel;
 @property (nonatomic, retain) IBOutlet UILabel *bigCoinLabel;
+@property (nonatomic, retain) IBOutlet UIView *claimView;
+
+@end
+
+@interface DescriptionCell : UITableViewCell {
+  int _cityId;
+  int _assetNum;
+}
+
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, retain) IBOutlet UIView *visitView;
+
+- (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated;
 
 @end
 
@@ -57,12 +70,15 @@
 
 @interface TaskListTableDelegate : NSObject <UITableViewDelegate, UITableViewDataSource> {
   BOOL _receivedData;
+  BOOL _questRedeem;
 }
 
 @property (nonatomic, retain) IBOutlet JobCell *jobCell;
 @property (nonatomic, retain) IBOutlet RewardCell *rewardCell;
+@property (nonatomic, retain) IBOutlet DescriptionCell *descriptionCell;
 @property (nonatomic, retain) FullQuestProto *quest;
 @property (nonatomic, retain) NSArray *jobs;
+@property (nonatomic, assign) BOOL questRedeem;
 
 @end
 
@@ -77,6 +93,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *taskListTable;
 
 @property (nonatomic, retain) IBOutlet UILabel *taskListTitleLabel;
+@property (nonatomic, retain) IBOutlet UIView *backButton;
 
 @property (nonatomic, retain) QuestListTableDelegate *questListDelegate;
 @property (nonatomic, retain) TaskListTableDelegate *taskListDelegate;
@@ -89,8 +106,13 @@
 
 - (IBAction)closeClicked:(id)sender;
 
+- (void) loadQuestLog;
+- (void) loadQuest:(FullQuestProto *)fqp;
+- (void) loadQuestAcceptScreen:(FullQuestProto *)fqp;
+- (void) loadQuestCompleteScreen:(FullQuestProto *)fqp;
+- (void) loadQuestRedeemScreen:(FullQuestProto *)fqp;
 - (void) loadQuestData:(NSArray *)quests;
-- (void) loadFakeQuest:(FullQuestProto *)fqp;
+- (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp;
 
 + (QuestLogController *) sharedQuestLogController;
 + (void) displayView;

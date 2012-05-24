@@ -18,6 +18,7 @@
 #import "MapViewController.h"
 #import "TutorialConstants.h"
 #import "GenericPopupController.h"
+#import "SimpleAudioEngine.h"
 
 @implementation OutgoingEventController
 
@@ -896,79 +897,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSDictionary *sPossessEquipJobs = [gs staticPossessEquipJobs];
   NSMutableSet *rUpgradeStructJobs = [NSMutableSet set];
   NSDictionary *sUpgradeStructJobs = [gs staticUpgradeStructJobs];
-  for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
-    for (NSNumber *num in fqp.taskReqsList) {
-      if (![sTasks objectForKey:num]) {
-        [rTasks addObject:num];
+  
+  NSArray *questDictionaries = [NSArray arrayWithObjects:gs.availableQuests, gs.inProgressCompleteQuests, gs.inProgressIncompleteQuests, nil];
+  for (NSDictionary *dict in questDictionaries) {
+    for (FullQuestProto *fqp in [dict allValues]) {
+      for (NSNumber *num in fqp.taskReqsList) {
+        if (![sTasks objectForKey:num]) {
+          [rTasks addObject:num];
+        }
       }
-    }
-    for (NSNumber *num in fqp.buildStructJobsReqsList) {
-      if (![sBuildStructJobs objectForKey:num]) {
-        [rBuildStructJobs addObject:num];
+      for (NSNumber *num in fqp.buildStructJobsReqsList) {
+        if (![sBuildStructJobs objectForKey:num]) {
+          [rBuildStructJobs addObject:num];
+          shouldSend = YES;
+        }
+      }
+      for (NSNumber *num in fqp.upgradeStructJobsReqsList) {
+        if (![sUpgradeStructJobs objectForKey:num]) {
+          [rUpgradeStructJobs addObject:num];
+          shouldSend = YES;
+        }
+      }
+      for (NSNumber *num in fqp.defeatTypeReqsList) {
+        if (![sDefeatTypeJobs objectForKey:num]) {
+          [rDefeatTypeJobs addObject:num];
+          shouldSend = YES;
+        }
+      }
+      for (NSNumber *num in fqp.possessEquipJobReqsList) {
+        if (![sPossessEquipJobs objectForKey:num]) {
+          [rPossessEquipJobs addObject:num];
+          shouldSend = YES;
+        }
+      }
+      
+      NSNumber *n = [NSNumber numberWithInt:fqp.equipIdGained];
+      if (fqp.equipIdGained && ![sEquips objectForKey:n]) {
+        [rEquips addObject:n];
         shouldSend = YES;
       }
-    }
-    for (NSNumber *num in fqp.upgradeStructJobsReqsList) {
-      if (![sUpgradeStructJobs objectForKey:num]) {
-        [rUpgradeStructJobs addObject:num];
-        shouldSend = YES;
-      }
-    }
-    for (NSNumber *num in fqp.defeatTypeReqsList) {
-      if (![sDefeatTypeJobs objectForKey:num]) {
-        [rDefeatTypeJobs addObject:num];
-        shouldSend = YES;
-      }
-    }
-    for (NSNumber *num in fqp.possessEquipJobReqsList) {
-      if (![sPossessEquipJobs objectForKey:num]) {
-        [rPossessEquipJobs addObject:num];
-        shouldSend = YES;
-      }
-    }
-    
-    NSNumber *n = [NSNumber numberWithInt:fqp.equipIdGained];
-    if (fqp.equipIdGained && ![sEquips objectForKey:n]) {
-      [rEquips addObject:n];
-      shouldSend = YES;
-    }
-  }
-  for (FullQuestProto *fqp in [gs.inProgressQuests allValues]) {
-    for (NSNumber *num in fqp.taskReqsList) {
-      if (![sTasks objectForKey:num]) {
-        [rTasks addObject:num];
-        shouldSend = YES;
-      }
-    }
-    for (NSNumber *num in fqp.buildStructJobsReqsList) {
-      if (![sBuildStructJobs objectForKey:num]) {
-        [rBuildStructJobs addObject:num];
-        shouldSend = YES;
-      }
-    }
-    for (NSNumber *num in fqp.upgradeStructJobsReqsList) {
-      if (![sUpgradeStructJobs objectForKey:num]) {
-        [rUpgradeStructJobs addObject:num];
-        shouldSend = YES;
-      }
-    }
-    for (NSNumber *num in fqp.defeatTypeReqsList) {
-      if (![sDefeatTypeJobs objectForKey:num]) {
-        [rDefeatTypeJobs addObject:num];
-        shouldSend = YES;
-      }
-    }
-    for (NSNumber *num in fqp.possessEquipJobReqsList) {
-      if (![sPossessEquipJobs objectForKey:num]) {
-        [rPossessEquipJobs addObject:num];
-        shouldSend = YES;
-      }
-    }
-    
-    NSNumber *n = [NSNumber numberWithInt:fqp.equipIdGained];
-    if (fqp.equipIdGained && ![sEquips objectForKey:n]) {
-      [rEquips addObject:n];
-      shouldSend = YES;
     }
   }
   
@@ -1163,9 +1130,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendQuestAcceptMessage:questId];
     
     [gs.availableQuests removeObjectForKey:questIdNum];
-    [gs.inProgressQuests setObject:fqp forKey:questIdNum];
+    [gs.inProgressIncompleteQuests setObject:fqp forKey:questIdNum];
     
     [[[GameLayer sharedGameLayer] missionMap] questAccepted:fqp];
+    
+    [[SimpleAudioEngine sharedEngine] playEffect:@"QuestNew.m4a"];
     
     [Analytics questAccept:questId];
   } else {
@@ -1176,12 +1145,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) redeemQuest:(int)questId {
   GameState *gs = [GameState sharedGameState];
   NSNumber *questIdNum = [NSNumber numberWithInt:questId];
-  FullQuestProto *fqp = [gs.inProgressQuests objectForKey:questIdNum];
+  FullQuestProto *fqp = [gs.inProgressCompleteQuests objectForKey:questIdNum];
   
   if (fqp) {
     [[SocketCommunication sharedSocketCommunication] sendQuestRedeemMessage:questId];
     
-    [gs.inProgressQuests removeObjectForKey:questIdNum];
+    [gs.inProgressCompleteQuests removeObjectForKey:questIdNum];
     gs.silver += fqp.coinsGained;
     gs.experience += fqp.expGained;
     
@@ -1205,7 +1174,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   NSNumber *num = [NSNumber numberWithInt:questId];
-  if ([[[[GameState sharedGameState] inProgressQuests] allKeys] containsObject:num]) {
+  GameState *gs = [GameState sharedGameState];
+  if ([gs.inProgressCompleteQuests.allKeys containsObject:num] || [gs.inProgressIncompleteQuests.allKeys containsObject:num]) {
     [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:questId];
   } else {
     [Globals popupMessage:@"Attempting to retrieve information about un-accepted quest"];

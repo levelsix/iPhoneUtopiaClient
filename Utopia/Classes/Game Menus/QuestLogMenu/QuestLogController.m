@@ -14,8 +14,12 @@
 #import "GameLayer.h"
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
+#import "SimpleAudioEngine.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
+
+#define REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON 107
+#define REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON 140
 
 @implementation QuestCell
 
@@ -61,13 +65,14 @@
 @synthesize equipIcon, attackLabel, defenseLabel;
 @synthesize smallExpLabel, bigExpLabel;
 @synthesize smallCoinLabel, bigCoinLabel;
+@synthesize claimView;
 
 - (void) awakeFromNib {
   [withoutEquipView.superview addSubview:withEquipView];
   withEquipView.frame = withoutEquipView.frame;
 }
 
-- (void) updateForQuest:(FullQuestProto *)fqp {
+- (void) updateForQuest:(FullQuestProto *)fqp withClaimButton:(BOOL)claimItActivated {
   GameState *gs = [GameState sharedGameState];
   if (fqp.equipIdGained > 0) {
     withEquipView.hidden = NO;
@@ -88,6 +93,8 @@
     bigExpLabel.text = [NSString stringWithFormat:@"%d Exp.", fqp.expGained];
     bigCoinLabel.text = [NSString stringWithFormat:@"%d Silver", fqp.coinsGained];
   }
+  
+  self.claimView.hidden = !claimItActivated;
 }
 
 - (void) dealloc {
@@ -100,6 +107,31 @@
   self.bigExpLabel = nil;
   self.smallCoinLabel = nil;
   self.bigCoinLabel = nil;
+  self.claimView = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation DescriptionCell
+
+@synthesize descriptionLabel, visitView;
+
+- (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated {
+  self.descriptionLabel.text = fqp.inProgress;
+  self.visitView.hidden = !visitActivated;
+  _cityId = fqp.cityId;
+  _assetNum = fqp.assetNumWithinCity;
+}
+
+- (IBAction)visitClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_cityId asset:_assetNum];
+  [[QuestLogController sharedQuestLogController] closeClicked:nil];
+}
+
+- (void) dealloc {
+  self.descriptionLabel = nil;
+  self.visitView = nil;
   [super dealloc];
 }
 
@@ -176,6 +208,20 @@
 @synthesize questCell;
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  GameState *gs = [GameState sharedGameState];
+  if (section == 0) {
+    if (gs.inProgressCompleteQuests.count <= 0) {
+      return 0;
+    }
+  } else if (section == 1) {
+    if (gs.availableQuests.count <= 0) {
+      return 0;
+    }
+  } else if (section == 2) {
+    if (gs.inProgressIncompleteQuests.count <= 0) {
+      return 0;
+    }
+  }
   return 19.f;
 }
 
@@ -186,10 +232,23 @@
   label.backgroundColor = [UIColor clearColor];
   [headerView addSubview:label];
   
+  GameState *gs = [GameState sharedGameState];
   if (section == 0) {
+    if (gs.inProgressCompleteQuests.count <= 0) {
+      return nil;
+    }
+    label.text = @"Completed Quests";
+    label.textColor = [Globals orangeColor];
+  } else if (section == 1) {
+    if (gs.availableQuests.count <= 0) {
+      return nil;
+    }
     label.text = @"New Quests";
     label.textColor = [Globals greenColor];
-  } else if (section == 1) {
+  } else if (section == 2) {
+    if (gs.inProgressIncompleteQuests.count <= 0) {
+      return nil;
+    }
     label.text = @"Ongoing Quests";
     label.textColor = [Globals creamColor];
   }
@@ -198,25 +257,30 @@
 }
 
 - (int)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 2;
+  return 3;
 }
 
 - (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   GameState *gs = [GameState sharedGameState];
   if (section == 0) {
+    return gs.inProgressCompleteQuests.count;
+  } else if (section == 1) {
     return gs.availableQuests.count;
-  } else {
-    return gs.inProgressQuests.count;
+  } else if (section == 2) {
+    return gs.inProgressIncompleteQuests.count;
   }
+  return 0;
 }
 
 - (FullQuestProto *)questForIndexPath:(NSIndexPath *)path {
   GameState *gs = [GameState sharedGameState];
   NSArray *arr = nil;
   if (path.section == 0) {
+    arr = gs.inProgressCompleteQuests.allValues;
+  } else if (path.section == 1) {
     arr = gs.availableQuests.allValues;
-  } else {
-    arr = gs.inProgressQuests.allValues;
+  } else if (path.section == 2) {
+    arr = gs.inProgressIncompleteQuests.allValues;
   }
   return arr.count > path.row ? [arr objectAtIndex:path.row] : nil;
 }
@@ -237,9 +301,18 @@
   qc.quest = fqp;
   
   if (indexPath.section == 0) {
+    qc.availableView.hidden = YES;
+    qc.inProgressView.hidden = NO;
+    
+    qc.spinner.hidden = YES;
+    [qc.spinner stopAnimating];
+    qc.progressLabel.hidden = NO;
+    int total = [Globals userTypeIsGood:gs.type] ? fqp.numComponentsForGood : fqp.numComponentsForBad;
+    qc.progressLabel.text = [NSString stringWithFormat:@"%d/%d", total, total];
+  } else if (indexPath.section == 1) {
     qc.availableView.hidden = NO;
     qc.inProgressView.hidden = YES;
-  } else {
+  } else if (indexPath.section == 2) {
     qc.availableView.hidden = YES;
     qc.inProgressView.hidden = NO;
     
@@ -276,9 +349,11 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 0) {
+    [[QuestLogController sharedQuestLogController] questSelected:[self questForIndexPath:indexPath]];
+  } else if (indexPath.section == 1) {
     QuestCell *qc = (QuestCell *)[tableView cellForRowAtIndexPath:indexPath];
     [qc visitClicked:nil];
-  } else {
+  } else if (indexPath.section == 2) {
     [[QuestLogController sharedQuestLogController] questSelected:[self questForIndexPath:indexPath]];
   }
 }
@@ -292,8 +367,9 @@
 
 @implementation TaskListTableDelegate
 
-@synthesize jobCell, rewardCell;
+@synthesize jobCell, rewardCell, descriptionCell;
 @synthesize quest, jobs;
+@synthesize questRedeem = _questRedeem;
 
 - (void) setQuest:(FullQuestProto *)q {
   if (quest != q) {
@@ -308,42 +384,67 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+  if (section == 1 && _questRedeem) {
+    return 0.f;
+  }
   return 19.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"questheadertop.png"]] autorelease];
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 400, headerView.frame.size.height)];
+  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 400, headerView.frame.size.height)];
   label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
   label.backgroundColor = [UIColor clearColor];
   label.textColor = [Globals creamColor];
   [headerView addSubview:label];
   
   if (section == 0) {
-    label.text = @"Ashwin Says";
+    label.text = [NSString stringWithFormat:@"%@ says", self.quest.questGiverName];
   } else if (section == 1) {
+    if (_questRedeem) {
+      return nil;
+    }
     label.text = @"Tasks";
+  } else if (section == 2) {
+    label.text = @"For your reward";
   }
   
   return headerView;
 }
 
 - (int)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 2;
+  return 3;
 }
 
 - (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (section == 0) {
     return 1;
-  } else {
+  } else if (section == 1) {
+    if (_questRedeem) {
+      return 0;
+    }
     return jobs.count;
+  } else if (section == 2) {
+    return 1;
   }
+  return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 0) {
-    return [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
-  } else {
+    DescriptionCell *dc = [tableView dequeueReusableCellWithIdentifier:@"DescriptionCell"];
+    
+    if (!dc) {
+      [[NSBundle mainBundle] loadNibNamed:@"DescriptionCell" owner:self options:nil];
+      dc = self.descriptionCell;
+    }
+    
+    GameState *gs = [GameState sharedGameState];
+    BOOL questIsComplete = [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:quest.questId]] != nil;
+    [dc updateForQuest:quest visitActivated:questIsComplete && !_questRedeem];
+    return dc;
+  } else if (indexPath.section == 1) {
+    // The tasks required for this quest
     JobCell *jc = [tableView dequeueReusableCellWithIdentifier:@"JobCell"];
     UserJob *job = [jobs objectAtIndex:indexPath.row];
     
@@ -365,7 +466,21 @@
     }
     
     return jc;
+  } else {
+    // The rewards from this quest
+    RewardCell *rc = [tableView dequeueReusableCellWithIdentifier:@"RewardCell"];
+    
+    if (!rc) {
+      [[NSBundle mainBundle] loadNibNamed:@"RewardCell" owner:self options:nil];
+      rc = self.rewardCell;
+    }
+    
+    [rc updateForQuest:self.quest withClaimButton:_questRedeem];
+    
+    return rc;
   }
+  
+  return nil;
 }
 
 - (void) updateTasksForUserData:(NSArray *)logData {
@@ -379,6 +494,7 @@
   for (FullUserQuestDataLargeProto *q in logData) {
     if (q.questId == quest.questId) {
       questData = q;
+      break;
     }
   }
   
@@ -431,9 +547,26 @@
   }
 }
 
+- (IBAction)claimRewardClicked:(id)sender {
+  [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
+  [QuestLogController removeView];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.section == 2) {
+    if (_questRedeem) {
+      return REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON;
+    } else {
+      return REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON;
+    }
+  }
+  return tableView.rowHeight;
+}
+
 - (void) dealloc {
   self.jobCell = nil;
   self.rewardCell = nil;
+  self.descriptionCell = nil;
   self.quest = nil;
   self.jobs = nil;
   [super dealloc];
@@ -451,6 +584,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 @synthesize questListDelegate, taskListDelegate;
 @synthesize userLogData;
 @synthesize taskListTitleLabel;
+@synthesize backButton;
 
 - (void)viewDidLoad
 {
@@ -481,9 +615,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 
 - (void)viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  [self showQuestListViewAnimated:NO];
-  [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
-  [questListTable reloadData];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -491,7 +622,44 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   taskListDelegate.quest = nil;
 }
 
-- (void) loadFakeQuest:(FullQuestProto *)fqp {
+- (void) loadQuestLog {
+  [self showQuestListViewAnimated:NO];
+  [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
+  [questListTable reloadData];
+  [QuestLogController displayView];
+  
+  self.backButton.hidden = NO;
+  
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Quest Scroll Open.m4a"];
+}
+
+- (void) loadQuest:(FullQuestProto *)fqp {
+  [[OutgoingEventController sharedOutgoingEventController] retrieveQuestDetails:fqp.questId];
+  
+  taskListDelegate.quest = fqp;
+  taskListTitleLabel.text = fqp.name;
+  taskListDelegate.questRedeem = NO;
+  [taskListTable reloadData];
+  [QuestLogController displayView];
+  [self showTaskListViewAnimated:NO];
+  self.backButton.hidden = YES;
+}
+
+- (void) loadQuestAcceptScreen:(FullQuestProto *)fqp {
+  FullUserQuestDataLargeProto *questData = [self loadFakeQuest:fqp];
+  
+  taskListDelegate.quest = fqp;
+  taskListTitleLabel.text = fqp.name;
+  taskListDelegate.questRedeem = NO;
+  [taskListTable reloadData];
+  [QuestLogController displayView];
+  [self showTaskListViewAnimated:NO];
+  self.backButton.hidden = YES;
+  
+  [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
+}
+
+- (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp {
   // Lets create a fake FullUserQuestDataLarge for this quest
   GameState *gs = [GameState sharedGameState];
   FullUserQuestDataLargeProto_Builder *bldr = [FullUserQuestDataLargeProto builder];
@@ -540,10 +708,33 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     b.currentLevel = 0;
     [bldr addRequiredUpgradeStructJobProgress:[b build]];
   }
+  return bldr.build;
+}
+
+- (void) loadQuestCompleteScreen:(FullQuestProto *)fqp {
+  self.taskListTitleLabel.text = @"Quest Complete!";
+  self.backButton.hidden = YES;
   
   taskListDelegate.quest = fqp;
-  taskListTitleLabel.text = fqp.name;
-  [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:bldr.build]];
+  taskListDelegate.questRedeem = NO;
+  [taskListTable reloadData];
+  [QuestLogController displayView];
+  [self showTaskListViewAnimated:NO];
+  
+  FullUserQuestDataLargeProto *questData = [[[[FullUserQuestDataLargeProto builder] 
+                                              setIsComplete:YES]
+                                             setQuestId:fqp.questId]
+                                            build];
+  
+  [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
+}
+
+- (void) loadQuestRedeemScreen:(FullQuestProto *)fqp {
+  self.taskListTitleLabel.text = @"Collect Your Reward!";
+  self.backButton.hidden = YES;
+  
+  taskListDelegate.quest = fqp;
+  taskListDelegate.questRedeem = YES;
   [taskListTable reloadData];
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
@@ -632,6 +823,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.taskListDelegate = nil;
   self.userLogData = nil;
   self.taskListTitleLabel = nil;
+  self.backButton = nil;
 }
 
 @end

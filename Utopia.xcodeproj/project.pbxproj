@@ -86,7 +86,6 @@
 		CF126D2F1538ACCA00E0C1AD /* DoorOpening.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF1265351538ACC400E0C1AD /* DoorOpening.m4a */; };
 		CF126D301538ACCA00E0C1AD /* notification_alert.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF1265371538ACC400E0C1AD /* notification_alert.m4a */; };
 		CF126D311538ACCA00E0C1AD /* Quest Scroll Open.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF1265391538ACC400E0C1AD /* Quest Scroll Open.m4a */; };
-		CF126D321538ACCA00E0C1AD /* Quest_Accept_Complete.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF12653A1538ACC400E0C1AD /* Quest_Accept_Complete.m4a */; };
 		CF126D331538ACCA00E0C1AD /* coindeposit.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF12653C1538ACC400E0C1AD /* coindeposit.m4a */; };
 		CF126D341538ACCA00E0C1AD /* Downloader.m in Sources */ = {isa = PBXBuildFile; fileRef = CF12653F1538ACC400E0C1AD /* Downloader.m */; };
 		CF126D351538ACCA00E0C1AD /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265421538ACC400E0C1AD /* GameState.m */; };
@@ -1120,6 +1119,9 @@
 		CF6BDC90156C323E0056B45B /* great@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4115672BFA00871798 /* great@2x.png */; };
 		CF6BDC91156C323E0056B45B /* miss.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4215672BFA00871798 /* miss.png */; };
 		CF6BDC92156C323E0056B45B /* miss@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF4315672BFA00871798 /* miss@2x.png */; };
+		CF6BDC98156C737D0056B45B /* QuestCompleted.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC96156C737D0056B45B /* QuestCompleted.m4a */; };
+		CF6BDC99156C737D0056B45B /* QuestNew.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC97156C737D0056B45B /* QuestNew.m4a */; };
+		CF6BDC9B156DCDC70056B45B /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC9A156DCDC70056B45B /* DescriptionCell.xib */; };
 		CF7FEEDC154085F000716E37 /* FAQMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7FEEDA154085F000716E37 /* FAQMenuController.m */; };
 		CF7FEEDD154085F000716E37 /* FAQMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEDB154085F000716E37 /* FAQMenuController.xib */; };
 		CF7FEEE115408A1D00716E37 /* pathhelp.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEDF15408A1D00716E37 /* pathhelp.png */; };
@@ -1429,7 +1431,6 @@
 		CF1265351538ACC400E0C1AD /* DoorOpening.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DoorOpening.m4a; sourceTree = "<group>"; };
 		CF1265371538ACC400E0C1AD /* notification_alert.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = notification_alert.m4a; sourceTree = "<group>"; };
 		CF1265391538ACC400E0C1AD /* Quest Scroll Open.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quest Scroll Open.m4a"; sourceTree = "<group>"; };
-		CF12653A1538ACC400E0C1AD /* Quest_Accept_Complete.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Quest_Accept_Complete.m4a; sourceTree = "<group>"; };
 		CF12653C1538ACC400E0C1AD /* coindeposit.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = coindeposit.m4a; sourceTree = "<group>"; };
 		CF12653E1538ACC400E0C1AD /* Downloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Downloader.h; sourceTree = "<group>"; };
 		CF12653F1538ACC400E0C1AD /* Downloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Downloader.m; sourceTree = "<group>"; };
@@ -2658,6 +2659,9 @@
 		CF6BDC86156C1D800056B45B /* expstars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "expstars@2x.png"; sourceTree = "<group>"; };
 		CF6BDC88156C1D860056B45B /* expstars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expstars.png; sourceTree = "<group>"; };
 		CF6BDC93156C3CD30056B45B /* ClientProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientProperties.h; sourceTree = "<group>"; };
+		CF6BDC96156C737D0056B45B /* QuestCompleted.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = QuestCompleted.m4a; sourceTree = "<group>"; };
+		CF6BDC97156C737D0056B45B /* QuestNew.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = QuestNew.m4a; sourceTree = "<group>"; };
+		CF6BDC9A156DCDC70056B45B /* DescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DescriptionCell.xib; sourceTree = "<group>"; };
 		CF7FEED9154085F000716E37 /* FAQMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAQMenuController.h; path = FAQMenu/FAQMenuController.h; sourceTree = "<group>"; };
 		CF7FEEDA154085F000716E37 /* FAQMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAQMenuController.m; path = FAQMenu/FAQMenuController.m; sourceTree = "<group>"; };
 		CF7FEEDB154085F000716E37 /* FAQMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FAQMenuController.xib; path = FAQMenu/FAQMenuController.xib; sourceTree = "<group>"; };
@@ -3231,8 +3235,9 @@
 		CF1265381538ACC400E0C1AD /* Quests */ = {
 			isa = PBXGroup;
 			children = (
+				CF6BDC96156C737D0056B45B /* QuestCompleted.m4a */,
+				CF6BDC97156C737D0056B45B /* QuestNew.m4a */,
 				CF1265391538ACC400E0C1AD /* Quest Scroll Open.m4a */,
-				CF12653A1538ACC400E0C1AD /* Quest_Accept_Complete.m4a */,
 			);
 			path = Quests;
 			sourceTree = "<group>";
@@ -3446,12 +3451,13 @@
 		CF1265911538ACC400E0C1AD /* QuestLogMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CF6BDC9A156DCDC70056B45B /* DescriptionCell.xib */,
+				CF5D3D7A1541ED5F0086234E /* JobCell.xib */,
+				CF08AF621569F57600871798 /* RewardCell.xib */,
 				CF1265951538ACC400E0C1AD /* QuestLogController.xib */,
 				CFA73EA91541230A00900045 /* QuestLogController.h */,
 				CFA73EAA1541230A00900045 /* QuestLogController.m */,
 				CFE6769C15412C7B006FA813 /* QuestCell.xib */,
-				CF5D3D7A1541ED5F0086234E /* JobCell.xib */,
-				CF08AF621569F57600871798 /* RewardCell.xib */,
 			);
 			path = QuestLogMenu;
 			sourceTree = "<group>";
@@ -5465,7 +5471,6 @@
 				CF126D2F1538ACCA00E0C1AD /* DoorOpening.m4a in Resources */,
 				CF126D301538ACCA00E0C1AD /* notification_alert.m4a in Resources */,
 				CF126D311538ACCA00E0C1AD /* Quest Scroll Open.m4a in Resources */,
-				CF126D321538ACCA00E0C1AD /* Quest_Accept_Complete.m4a in Resources */,
 				CF126D331538ACCA00E0C1AD /* coindeposit.m4a in Resources */,
 				CF126D391538ACCA00E0C1AD /* ActivityFeedCell.xib in Resources */,
 				CF126D3B1538ACCA00E0C1AD /* ActivityFeedController.xib in Resources */,
@@ -6437,6 +6442,9 @@
 				CF6BDC90156C323E0056B45B /* great@2x.png in Resources */,
 				CF6BDC91156C323E0056B45B /* miss.png in Resources */,
 				CF6BDC92156C323E0056B45B /* miss@2x.png in Resources */,
+				CF6BDC98156C737D0056B45B /* QuestCompleted.m4a in Resources */,
+				CF6BDC99156C737D0056B45B /* QuestNew.m4a in Resources */,
+				CF6BDC9B156DCDC70056B45B /* DescriptionCell.xib in Resources */,
 				45856A8D156DB3670005907E /* close_button.png in Resources */,
 				45856A90156DB3670005907E /* TJCLoadingView.xib in Resources */,
 				45856AA7156DB3670005907E /* TJCVideoView.xib in Resources */,

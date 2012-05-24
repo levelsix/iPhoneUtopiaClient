@@ -75,7 +75,7 @@ Why can’t I retract my items?
 Withdrawing an item from the marketplace incurs a `retractPercentCut`p% fee of its desired asking price. If you cannot withdraw your item, it is highly likely you do not possess enough silver/gold to retract the weapon. The reason why we do this is to prevent users from polluting the marketplace with either 1) common weapons or 2) rare weapons they don’t want stolen in battle.
 
 Is there a tax on every item sold in the marketplace? Why?
-Yes, there is a `purchasePercentCut`p% sales tax on every item sold in the marketplace. By integrating the first P2P (Peer-to-Peer) marketplace, we’ve opened up an economy that requires us tax our users’ purchases to prevent inflation on the value of silver and gold.
+Yes, there is a `purchasePercentCut`p% sales tax on every item sold in the marketplace. By integrating the first P2P (Peer-to-Peer) marketplace, we’ve opened up an economy that requires us to tax our users’ purchases to prevent inflation on the value of silver and gold.
 
 For example, the value of silver constantly decreases as more silver is in circulation through the completion of tasks, quests, and battles. To preserve the value of your gold and silver, such measurements have to be put in place.
 

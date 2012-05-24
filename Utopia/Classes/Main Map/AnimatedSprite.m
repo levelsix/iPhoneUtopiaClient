@@ -11,6 +11,7 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 #import "ConvoMenuController.h"
+#import "QuestLogController.h"
 
 #define ABOVE_HEAD_FADE_DURATION 1.5f
 #define ABOVE_HEAD_FADE_OPACITY 100
@@ -137,12 +138,12 @@
 
 @implementation QuestGiver
 
-@synthesize quest, isInProgress, name;
+@synthesize quest, questGiverState, name;
 
-- (id) initWithQuest:(FullQuestProto *)fqp inProgress:(BOOL)inProg file:(NSString *)file map:(GameMap *)map location:(CGRect)location {
+- (id) initWithQuest:(FullQuestProto *)fqp questGiverState:(QuestGiverState)qgs file:(NSString *)file map:(GameMap *)map location:(CGRect)location {
   if ((self = [super initWithFile:file location:location map:map])) {
     self.quest = fqp;
-    self.isInProgress = inProg;
+    self.questGiverState = qgs;
   }
   return self;
 }
@@ -156,18 +157,17 @@
 }
 
 - (void) setIsSelected:(BOOL)isSelected {
-  [super setIsSelected:isSelected];
-  
   if (isSelected) {
     if (quest) {
-      if (self.isInProgress) {
-        [[OutgoingEventController sharedOutgoingEventController] retrieveQuestDetails:quest.questId];
-      }
-//      [[QuestLogController sharedQuestLogController] displayRightPageForQuest:quest inProgress:isInProgress];
-      if (!isInProgress) {
+      if (questGiverState == kInProgress) {
+        [[QuestLogController sharedQuestLogController] loadQuest:quest];
+      } else if (questGiverState == kAvailable) {
         [[ConvoMenuController sharedConvoMenuController] displayQuestConversationForQuest:self.quest];
+      } else if (questGiverState == kCompleted) {
+        [[QuestLogController sharedQuestLogController] loadQuestRedeemScreen:quest];
       }
     }
+    [_map setSelected:nil];
   }
 }
 
@@ -181,17 +181,20 @@
   _aboveHeadMark.opacity = opacity;
 }
 
-- (void) setIsInProgress:(BOOL)i {
-  isInProgress = i;
+- (void) setQuestGiverState:(QuestGiverState)i {
+  questGiverState = i;
   
   [self removeChild:_aboveHeadMark cleanup:YES];
   _aboveHeadMark = nil;
-  if (isInProgress) {
+  if (questGiverState == kInProgress) {
     _aboveHeadMark = [CCSprite spriteWithFile:@"question.png"];
-  } else {
+  } else if (questGiverState == kAvailable) {
     _aboveHeadMark = [CCSprite spriteWithFile:@"exclamation.png"];
   }
-  [self addChild:_aboveHeadMark];
+  
+  if (_aboveHeadMark) {
+    [self addChild:_aboveHeadMark];
+  }
   _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+_aboveHeadMark.contentSize.height/2+10);
   
   [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:

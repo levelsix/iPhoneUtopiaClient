@@ -162,6 +162,7 @@
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;
 + (UIColor *)greenColor;
++ (UIColor *)orangeColor;
 + (UIColor *)redColor;
 
 + (void) playCoinSound;

@@ -11759,6 +11759,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @property int32_t numComponentsForGood;
 @property int32_t numComponentsForBad;
 @property (retain) DialogueProto* acceptDialogue;
+@property (retain) NSString* questGiverName;
 @end
 
 @implementation FullQuestProto
@@ -11867,6 +11868,13 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   hasAcceptDialogue_ = !!value;
 }
 @synthesize acceptDialogue;
+- (BOOL) hasQuestGiverName {
+  return !!hasQuestGiverName_;
+}
+- (void) setHasQuestGiverName:(BOOL) value {
+  hasQuestGiverName_ = !!value;
+}
+@synthesize questGiverName;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -11879,6 +11887,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   self.mutableDefeatTypeReqsList = nil;
   self.mutablePossessEquipJobReqsList = nil;
   self.acceptDialogue = nil;
+  self.questGiverName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -11897,6 +11906,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
     self.numComponentsForGood = 0;
     self.numComponentsForBad = 0;
     self.acceptDialogue = [DialogueProto defaultInstance];
+    self.questGiverName = @"";
   }
   return self;
 }
@@ -12018,6 +12028,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasAcceptDialogue) {
     [output writeMessage:20 value:self.acceptDialogue];
   }
+  if (self.hasQuestGiverName) {
+    [output writeString:21 value:self.questGiverName];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -12116,6 +12129,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (self.hasAcceptDialogue) {
     size += computeMessageSize(20, self.acceptDialogue);
+  }
+  if (self.hasQuestGiverName) {
+    size += computeStringSize(21, self.questGiverName);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -12270,6 +12286,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (other.hasAcceptDialogue) {
     [self mergeAcceptDialogue:other.acceptDialogue];
   }
+  if (other.hasQuestGiverName) {
+    [self setQuestGiverName:other.questGiverName];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12374,6 +12393,10 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setAcceptDialogue:[subBuilder buildPartial]];
+        break;
+      }
+      case 170: {
+        [self setQuestGiverName:[input readString]];
         break;
       }
     }
@@ -12801,6 +12824,22 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearAcceptDialogue {
   result.hasAcceptDialogue = NO;
   result.acceptDialogue = [DialogueProto defaultInstance];
+  return self;
+}
+- (BOOL) hasQuestGiverName {
+  return result.hasQuestGiverName;
+}
+- (NSString*) questGiverName {
+  return result.questGiverName;
+}
+- (FullQuestProto_Builder*) setQuestGiverName:(NSString*) value {
+  result.hasQuestGiverName = YES;
+  result.questGiverName = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearQuestGiverName {
+  result.hasQuestGiverName = NO;
+  result.questGiverName = @"";
   return self;
 }
 @end
