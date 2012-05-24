@@ -19,6 +19,7 @@
 #import "TutorialConstants.h"
 #import "GenericPopupController.h"
 #import "SimpleAudioEngine.h"
+#import "BattleLayer.h"
 
 @implementation OutgoingEventController
 
@@ -1047,7 +1048,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (city.minLevel <= gs.level) {
     [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
-    [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
+    if (![[BattleLayer sharedBattleLayer] isRunning]) {
+      [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
+    }
     
     // Load any tasks we don't have as well
     NSDictionary *sTasks = [gs staticTasks];

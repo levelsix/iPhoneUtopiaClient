@@ -170,6 +170,7 @@
 
 + (BOOL)userTypeIsGood:(UserType)type;
 + (BOOL)userTypeIsBad:(UserType)type;
++ (BOOL)userType:(UserType)t1 isAlliesWith:(UserType)t2;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

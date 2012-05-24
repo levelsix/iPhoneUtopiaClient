@@ -13,6 +13,7 @@
 #import "OutgoingEventController.h"
 #import "BattleLayer.h"
 #import "GenericPopupController.h"
+#import "EquipMenuController.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -861,6 +862,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   friendLeftView.frame = enemyLeftView.frame;
   [self.mainView addSubview:friendLeftView];
+  
+  self.state = kEquipState; 
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -1008,7 +1011,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [self.view addSubview:equipPopup];
     [Globals bounceView:equipPopup.mainView fadeInBgdView:equipPopup.bgdView];
   } else {
-    [Globals popupMessage:@"Attempting to equip an item that is not yours"];
+    [EquipMenuController displayViewForEquip:fuep.equipId];
   }
 }
 
@@ -1169,14 +1172,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     }
     
     [ev updateForEquip:fuep];
-    ev.userInteractionEnabled = touchEnabled;
     
     // check if this item is equipped
     if (fuep.equipId == weapon) {
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curWeaponView.label.text = fep.name;
       curWeaponView.label.textColor = [Globals colorForRarity:fep.rarity];
-      //      curWeaponView.equipIcon.image = [Globals imageForEquip:fep.equipId];
       [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
       curWeaponView.equipIcon.hidden = NO;
       curWeaponView.chooseEquipButton.hidden = YES;
@@ -1188,7 +1189,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curArmorView.label.text = fep.name;
       curArmorView.label.textColor = [Globals colorForRarity:fep.rarity];
-      //      curArmorView.equipIcon.image = [Globals imageForEquip:fep.equipId];
       [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
       curArmorView.equipIcon.hidden = NO;
       curArmorView.chooseEquipButton.hidden = YES;
@@ -1200,7 +1200,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       FullEquipProto *fep = [gs equipWithId:fuep.equipId];
       curAmuletView.label.text = fep.name;
       curAmuletView.label.textColor = [Globals colorForRarity:fep.rarity];
-      //      curAmuletView.equipIcon.image = [Globals imageForEquip:fep.equipId];
       [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
       curAmuletView.equipIcon.hidden = NO;
       curAmuletView.chooseEquipButton.hidden = YES;
@@ -1264,6 +1263,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     return;
   }
   
+  GameState *gs = [GameState sharedGameState];
+  BOOL isEnemy = ![Globals userType:gs.type isAlliesWith:fup.userType];
+  
   userNameLabel.text = fup.name;
   profilePicture.image = [Globals profileImageForUser:fup.userType];
   winsLabel.text = [NSString stringWithFormat:@"%d", fup.battlesWon];
@@ -1274,11 +1276,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   attackLabel.text = @"?";
   defenseLabel.text = @"?";
   
-  equipsScrollView.hidden = YES;
-  enemyMiddleView.hidden = NO;
+  equipsScrollView.hidden = isEnemy;
+  enemyMiddleView.hidden = !isEnemy;
   
-  enemyLeftView.hidden = NO;
-  friendLeftView.hidden = YES;
+  enemyLeftView.hidden = !isEnemy;
+  friendLeftView.hidden = isEnemy;
   selfLeftView.hidden = YES;
   
   [curWeaponView unknownEquip];
@@ -1288,7 +1290,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   enemyAttackLabel.text = [NSString stringWithFormat:@"Attack %@ to see Equipment", fup.name];
   
   self.profileBar.state = kOtherPlayerProfile;
-  self.state = kEquipState;
+  [self.profileBar setProfileState:self.state];
   
   visitButton.enabled = enabled;
   smallAttackButton.enabled = enabled;
@@ -1297,17 +1299,43 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [spinner stopAnimating];
   self.spinner.hidden = YES;
   
-  self.fup = fup;
-  self.userId = fup.userId;
-  
   if (userId != fup.userId) {
     wallTabView.wallPosts = nil;
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:userId];
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:fup.userId];
   }
+  
+  self.fup = fup;
+  self.userId = fup.userId;
+}
+
+- (NSArray *) createFakeEquipsForFakePlayer:(FullUserProto *)fup {
+  
+  // Fake the equips for fake players
+  NSMutableArray *equips = [NSMutableArray arrayWithCapacity:3];
+  
+  FullUserEquipProto_Builder *bldr = [FullUserEquipProto builder];
+  bldr.userId = fup.userId;
+  bldr.quantity = 1;
+  if (fup.weaponEquipped > 0) {
+    bldr.equipId = fup.weaponEquipped;
+    [(NSMutableArray *)equips addObject:[[bldr clone] build]];
+  }
+  
+  if (fup.armorEquipped > 0) {
+    bldr.equipId = fup.armorEquipped;
+    [(NSMutableArray *)equips addObject:[[bldr clone] build]];
+  }
+  
+  if (fup.amuletEquipped > 0) {
+    bldr.equipId = fup.amuletEquipped;
+    [(NSMutableArray *)equips addObject:[[bldr clone] build]];
+  }
+  return equips;
 }
 
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense {
   // This method is only used from battle
+  
   [self loadProfileForPlayer:fup buttonsEnabled:YES];
   
   equipsScrollView.hidden = NO;
@@ -1317,26 +1345,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   defenseLabel.text = [NSString stringWithFormat:@"%d", defense];
   
   if (fup.isFake) {
-    // Fake the equips for fake players
-    equips = [NSMutableArray arrayWithCapacity:3];
-    
-    FullUserEquipProto_Builder *bldr = [FullUserEquipProto builder];
-    bldr.userId = fup.userId;
-    bldr.quantity = 1;
-    if (fup.weaponEquipped > 0) {
-      bldr.equipId = fup.weaponEquipped;
-      [(NSMutableArray *)equips addObject:[[bldr clone] build]];
-    }
-    
-    if (fup.armorEquipped > 0) {
-      bldr.equipId = fup.armorEquipped;
-      [(NSMutableArray *)equips addObject:[[bldr clone] build]];
-    }
-    
-    if (fup.amuletEquipped > 0) {
-      bldr.equipId = fup.amuletEquipped;
-      [(NSMutableArray *)equips addObject:[[bldr clone] build]];
-    }
+    equips = [self createFakeEquipsForFakePlayer:fup];
   }
   
   if (equips) {
@@ -1348,11 +1357,57 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
 }
 
+- (void) receivedFullUserProtos:(NSArray *)protos {
+  for (FullUserProto *fup in protos) {
+    if (fup.userId == userId) {
+      ProfileState st = self.state;
+      [self loadProfileForPlayer:fup buttonsEnabled:YES];
+      self.state = st;
+      
+      if (_queuedEquips) {
+        // Just set this so that updateEquips runs
+        _waitingForEquips = YES;
+        
+        NSArray *equips = _fup.isFake ? [self createFakeEquipsForFakePlayer:_fup] : _queuedEquips;
+        [self updateEquips:equips];
+        [_queuedEquips release];
+        _queuedEquips = nil;
+      } else {
+        _waitingForEquips = YES;
+      }
+    }
+  }
+}
+
 - (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto {
   if (proto.relevantUserId == userId) {
-    // Wall Tab View will take control of the wall posts
+    // Wall Tab View will take control of updating the wall posts
     // Make sure to send empty list if there are no wall posts so that spinner stops..
     wallTabView.wallPosts = proto.playerWallPostsList ? proto.playerWallPostsList.mutableCopy : [NSMutableArray array];
+  }
+}
+
+- (void) receivedEquips:(RetrieveUserEquipForUserResponseProto *)proto {
+  if (proto.relevantUserId == userId) {
+    if (_fup) {
+      NSArray *equips = _fup.isFake ? [self createFakeEquipsForFakePlayer:_fup] : proto.userEquipsList;
+      [self updateEquips:equips];
+    } else {
+      _queuedEquips = [proto.userEquipsList retain];
+    }
+  }
+}
+
+- (void) updateEquips:(NSArray *)equips {
+  if (_waitingForEquips) {
+    self.spinner.hidden = YES;
+    [self.spinner stopAnimating];
+    [self loadEquips:equips curWeapon:_fup.weaponEquipped curArmor:_fup.armorEquipped curAmulet:_fup.amuletEquipped touchEnabled:NO];
+    _waitingForEquips = NO;
+    
+    Globals *gl = [Globals sharedGlobals];
+    attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForStat:_fup.attack weapon:_fup.weaponEquipped armor:_fup.armorEquipped amulet:_fup.amuletEquipped]];
+    defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForStat:_fup.defense weapon:_fup.weaponEquipped armor:_fup.armorEquipped amulet:_fup.amuletEquipped]];
   }
 }
 
@@ -1371,10 +1426,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.profileBar.state = kOtherPlayerProfile;
   [self.profileBar setProfileState:pState];
   self.userId = user.userId;
+  self.fup = nil;
+  [_queuedEquips release];
+  _queuedEquips = nil;
   
   [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:[NSArray arrayWithObject:[NSNumber numberWithInt:userId]]];
   
   [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:user.userId];
+  
+  GameState *gs = [GameState sharedGameState];
+  if ([Globals userType:gs.type isAlliesWith:user.userType]) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
+  }
   
   userNameLabel.text = user.name;
   profilePicture.image = [Globals profileImageForUser:user.userType];
@@ -1398,24 +1461,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self.spinner startAnimating];
   
   [ProfileViewController displayView];
-}
-
-- (void) receivedFullUserProtos:(NSArray *)protos {
-  for (FullUserProto *fup in protos) {
-    if (fup.userId == userId) {
-      ProfileState st = self.state;
-      [self loadProfileForPlayer:fup buttonsEnabled:YES];
-      self.state = st;
-    }
-  }
-}
-
-- (void) updateEquips:(NSArray *)equips {
-  if (_waitingForEquips) {
-    self.spinner.hidden = YES;
-    [self.spinner stopAnimating];
-    [self loadEquips:equips curWeapon:_fup.weaponEquipped curArmor:_fup.armorEquipped curAmulet:_fup.amuletEquipped touchEnabled:NO];
-  }
 }
 
 - (void) displayMyCurrentStats {
@@ -1519,7 +1564,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (IBAction)visitClicked:(id)sender {
-  [Globals popupMessage:@"Sorry, visiting an enemy's city is coming soon!"];
+  [Globals popupMessage:@"Sorry, visiting another player's city is coming soon!"];
   [Analytics clickedVisitCity];
 }
 
@@ -1541,7 +1586,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [super viewDidUnload];
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
-  [_fup release];
+  self.fup = nil;
   self.userNameLabel = nil;
   self.typeLabel = nil;
   self.levelLabel = nil;
@@ -1590,6 +1635,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.mainView = nil;
   self.bgdView = nil;
   self.equipPopup = nil;
+  [_queuedEquips release];
+  _queuedEquips = nil;
 }
 
 @end

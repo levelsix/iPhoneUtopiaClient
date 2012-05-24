@@ -19,8 +19,6 @@
 #import "GameState.h"
 #import "CCLabelFX.h"
 
-#define MAP_OFFSET 100
-
 #define REORDER_START_Z 150
 
 #define SILVER_STACK_BOUNCE_DURATION 1.f
@@ -111,6 +109,27 @@
 -(id) initWithTMXFile:(NSString *)tmxFile {
   if ((self = [super initWithTMXFile:tmxFile])) {
     _mapSprites = [[NSMutableArray array] retain];
+    
+    int width = self.mapSize.width;
+    int height = self.mapSize.height;
+    bottomLeftCorner = ccp(width, height);
+    CCTMXLayer * layer = [self layerNamed:@"Border of Doom"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          if (tileCoord.x < bottomLeftCorner.x) {
+            bottomLeftCorner = tileCoord;
+          }
+          if (tileCoord.x > topRightCorner.x) {
+            topRightCorner = tileCoord;
+          }
+        }
+      }
+    }
+    [self removeChild:layer cleanup:YES];
     
     // add UIPanGestureRecognizer
     UIPanGestureRecognizer *uig = [[[UIPanGestureRecognizer alloc ]init] autorelease];
@@ -460,8 +479,17 @@
 }
 
 -(void) setPosition:(CGPoint)position {
-  float x = MAX(MIN(MAP_OFFSET, position.x), -self.contentSize.width*self.scaleX + [[CCDirector sharedDirector] winSize].width-MAP_OFFSET);
-  float y = MAX(MIN(MAP_OFFSET, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height-2*MAP_OFFSET);
+  CGSize ms = self.mapSize;
+  CGSize ts = self.tileSizeInPoints;
+  // For y, make sure to account for anchor point being at bottom middle.
+  float minX = ms.width * ts.width/2.f + ts.width * (bottomLeftCorner.x-bottomLeftCorner.y)/2.f;
+  float minY = ts.height * (bottomLeftCorner.y+bottomLeftCorner.x)/2.f+ts.height/2;
+  float maxX = ms.width * ts.width/2.f + ts.width * (topRightCorner.x-topRightCorner.y)/2.f;
+  float maxY = ts.height * (topRightCorner.y+topRightCorner.x)/2.f+ts.height/2;
+  
+  float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] winSize].width);
+  float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] winSize].height);
+  
   CGPoint oldPos = position_;
   [super setPosition:ccp(x,y)];
   if (!aviaryMenu.hidden) {

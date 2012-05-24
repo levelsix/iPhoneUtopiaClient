@@ -198,33 +198,20 @@
     
     int width = self.mapSize.width;
     int height = self.mapSize.height;
-    for (CCNode *node in self.children) {
-      if (![node isKindOfClass:[CCTMXLayer class]]) {
-        continue;
-      }
-      CCTMXLayer *layer = (CCTMXLayer *)node;
-      
-      for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-          NSMutableArray *row = [self.walkableData objectAtIndex:i];
-          NSNumber *curVal = [row objectAtIndex:j];
-          if (curVal.boolValue == NO) {
-            // Convert their coordinates to our coordinate system
-            CGPoint tileCoord = ccp(height-j-1, width-i-1);
-            int tileGid = [layer tileGIDAt:tileCoord];
-            if (tileGid) {
-              NSDictionary *properties = [self propertiesForGID:tileGid];
-              if (properties) {
-                NSString *collision = [properties valueForKey:@"Walkable"];
-                if (collision && [collision isEqualToString:@"Yes"]) {
-                  [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
-                }
-              }
-            }
-          }
+    // Get the walkable data
+    CCTMXLayer *layer = [self layerNamed:@"Walkable"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        NSMutableArray *row = [self.walkableData objectAtIndex:i];
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
         }
       }
     }
+    [self removeChild:layer cleanup:YES];
     
     // Add all the buildings, can't add people till after aviary placed
     NSMutableArray *peopleElems = [NSMutableArray array];

@@ -1,199 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" width="14" height="14" tilewidth="64" tileheight="32">
- <tileset firstgid="1" name="Universal_Tiles" tilewidth="64" tileheight="56">
-  <image source="Universal_Tiles.png" width="1024" height="1024"/>
-  <tile id="14">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
+<map version="1.0" orientation="isometric" width="50" height="50" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="NEW_Universal_Pack" tilewidth="64" tileheight="56">
+  <image source="NEW_Universal_Pack.png" width="1024" height="1024"/>
   <tile id="15">
    <properties>
     <property name="Walkable" value="Yes"/>
    </properties>
   </tile>
-  <tile id="18">
+  <tile id="16">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="150">
    <properties>
     <property name="Walkable " value="Yes"/>
    </properties>
   </tile>
-  <tile id="19">
+  <tile id="156">
    <properties>
     <property name="Walkable" value="Yes"/>
    </properties>
   </tile>
-  <tile id="20">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="21">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="22">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="23">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="24">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="25">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="26">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="27">
-   <properties>
-    <property name="Walkable " value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="28">
-   <properties>
-    <property name="Walkable " value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="29">
-   <properties>
-    <property name="Walkable " value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="84">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="85">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="86">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="87">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="88">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="89">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="90">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="91">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="92">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="93">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="94">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="95">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="96">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="132">
-   <properties>
-    <property name="Walkable" value="Yes"/>
-   </properties>
-  </tile>
-  <tile id="173">
-   <properties>
-    <property name="Walkable" value=""/>
-   </properties>
-  </tile>
-  <tile id="179">
+  <tile id="178">
    <properties>
     <property name="Walkable" value="Yes"/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="289" name="TREEZ" tilewidth="64" tileheight="72">
-  <image source="TREEZ.png" width="512" height="256"/>
+ <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="64" tileheight="72">
+  <image source="NEW_Tree_Pack.png" width="512" height="256"/>
  </tileset>
- <layer name="Tile Layer 1" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA52S3QmAMAyEM4TiDn22nUFUFH+WcQD39goRQptUauCjIeW4cK0nIs+s4AQjcAqXQM4XsIOpQteD8OFp+WmeVsW7DjTcD+Awdk11kZbPuOcG5h86KxdZXswsnebjWPvWzWg5WDtYmVChJ8oz8ZTvqXmXMkm9XmrfTf5p692CMnsAqLCSzBADAAA=
+ <layer name="Ground" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzd19tqwzAMBmC/Ra/XMdh5N7nPk4xl7Px8fcE5UFEhZMeyJUfJD6I0pHa+OraTEGwyGrXbMyOqrWZkamvhDFuz5AxbsZQYvFskBq+WGoM3yxTaHB4sX0HHsablM+g61rDMfVo4elqgP3D8xXpTdPSw4L7AYTEmlhbaz0esH0OHhSXVj9UcsbDk+ujh0LDgtm5i3ZLCDnz8zpGFtnPPHEuNB3fuGhaujRLHYOyQWFK/l4zHU6xHpuh9N2T6a7HkfptzSPdCjfFKhc5hWg8ZR27NukJ1JA44PpDzWi3S/2RpL0xdG3XQ0hgXqSW3h0gcB1Ra95iGA67v+vx5Ohd2HJjSni9SB53r9F45hsu4PJM2TgqOVgueI9jC3U/wna5X2OHFMhWcv9Z+L7m/ShzzPknX9dZnstJoOrTHSBqPjtpwbb3G+m100DXM0pCylDyfLD0TSsdDK5zjO9a78HpqHNrRmhsSh1V6Oqyz5Jjf7bn3Klzce0FPAyTnqFmL1jBApsR1vBRcqxcDpHUt8mCAaDi8pMXhLTUOr5E4vMfDHqeVPRggezBA9mCAWBr+AQwfNLQ=
   </data>
  </layer>
- <layer name="Fences" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA52SSQqAMAxFiy5cOOCA08kU9IwupAuPZwoJfEq01Q+P0jaPEFprjLEMpvDwcylnKVGBU754p3JXgB/rpbwuQE2MjAl4mF7pF5M+cO96JQqzUotnmVcvcw2KNxEtcTAN0TFavR/x/sTNl8Ne3mENOPJPcEaXLcIroV767R/6PeUGc5LC/hADAAA=
+ <layer name="Fences" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt1DkKgDAQheFcwc6lyf2PoeBSeCctUsTBDVSSGf8PHhjGYh6EOAcAAAAA+FoRxbI65OgMYKtJvQDU8Tf+ubpXVu5drj2qKH/wt754X7umC+kT7/LEfDLL9b3aY7HHIGbaekwho5hp6gE9fOoFLpTiXB1850720MpKDwCATQu2twwn
   </data>
  </layer>
- <layer name="asdd" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAXYAM9AO2AUDAgAAI/mgKoQAwAA
+ <layer name="hay" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztz7EJwDAMRUFNYYirZJIs7QHdqgiYQEAx3MFrVH1FAAAA/FdPUe9IAWujegAAr5zVA4BPXKldtIfbHXv+AgAA1SZlawKJ
   </data>
  </layer>
- <layer name="asd" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAXYwBYoJgYwU2CPFhAbUqB/MIL4gXYABQAAIEGjbxADAAA=
+ <layer name="Fence 2" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzqENADAIAEH2XwvDWPW1hIC4S95/BAAAAAAAAHBVbQ805BcAAEx761AD1Q==
   </data>
  </layer>
- <layer name="Fence 2" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgIB4sBeJlUExrYAbEq8nQF06hvYuhmBr6zMh0AzceORYyzcQFIpHY7Gh2JOJQBwrjGCLMjkVTR0p4kBt2lAIAwn0FShADAAA=
+ <layer name="Trees" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt10EOQDAQBVCOgh33v59I2GtSOtO+l1h3hj8jnSYAAGA0+9y6AoildCaOxjNU6/zNLghp8V24fZWFXjIWtY9rRz8P+f2Vszd5iZr5mjLcUzLUWGrUfZWh717nfg3cV6/vnJh6/KcAQBQnufEDjw==
   </data>
  </layer>
- <layer name="Another Layer" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgIB2sAGIeIOaF0jsIqF+Dpo8Hyl9MpH0r0fjE6GOFYpjbNpFgHzIgV98oGJoAAFlBdz8QAwAA
+ <layer name="Walkable" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztllsKhTAMRF2l+1/KxQ/hImmTTrWZlDkgorY4x/ThcQghhBBC7MEJHmygHmwuMx5MLlamii5veDC4zI4rFhckJ6vLhZWjl4vV5c2aZLmgc4DNJfLuSLZsl/NxbrVBPFa6fFmPlS4jGSNtsmviPd/Jo+Ke8k/Uw2rP4DG6N7b6ZoPs8VbfbHo50P+ADCIez2tGj4veuPeeMXm0aGVk80D3Rpb8N14eb34wMLrWVnRgX2NvIuNp5P5qvG9bpRazHmwgHoxUndcWOzgIIcQX/AAiC4m9
   </data>
  </layer>
- <layer name="asd" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjYPAA7gG2HwCfKkrrEAMAAA==
-  </data>
- </layer>
- <layer name="TREEZ" width="14" height="14">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA1NkZGDQBGJFIEYH6GIwPja1hIAmFj0aBMyhxD56AXQ/KDJi9ys+ANNDKDyw2a1Bhn20Aook+oFW7tZgxB0P+NISSB8AFAKB7RADAAA=
+ <layer name="Border of Doom" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmjkOgDAMBOH/n0YU2yBxx/Z6lGno8A5COZwsSwxr0HszWQ/Pjhyzd3Q5y9zJ5S5rB5enGZ1d3mZzdPmaycnlbxYHl1EZKl1G165wiaqZ6RJdK8Ml63tF1sn+fyPqVY0nI+tWj+8j6lc7iD85XBzElzxuDuJNLlcH8SSfu4O4ytnFQUwXT6aLJ9PFC8K8QpjnCesuwjqYsC8h7BMJ+3ZCH4XQ1yL0GQl9X0Ifvnps3yGc7QjCWZsgnH0Kwlm0INwNEIS7GoJwd0YQ7jKJSIcNok0AYw==
   </data>
  </layer>
 </map>

@@ -16,7 +16,7 @@
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
 #define MAX_ZOOM 1.8f
-#define MIN_ZOOM 0.8f
+#define MIN_ZOOM 0.7f
 #define DEFAULT_ZOOM 1.f
 
 @class Building;
@@ -34,6 +34,10 @@
   SelectableSprite *_selected;
   NSMutableArray *_mapSprites;
   NSMutableArray *_walkableData;
+  
+  // These points are used to make the map rectangular
+  CGPoint bottomLeftCorner;
+  CGPoint topRightCorner;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *aviaryMenu;

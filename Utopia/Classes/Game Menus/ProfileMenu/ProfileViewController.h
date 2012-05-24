@@ -183,6 +183,7 @@ typedef enum {
   EquipView *_amuletEquipView;
   FullUserProto *_fup;
   
+  NSArray *_queuedEquips;
   BOOL _waitingForEquips;
 }
 
@@ -269,6 +270,7 @@ typedef enum {
 - (void) doEquip:(UserEquip *)equip;
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type;
 
+- (void) receivedEquips:(RetrieveUserEquipForUserResponseProto *)proto;
 - (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto;
 - (void) receivedFullUserProtos:(NSArray *)protos;
 

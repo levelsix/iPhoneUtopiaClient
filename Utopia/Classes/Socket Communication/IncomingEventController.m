@@ -872,6 +872,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
+  [[ProfileViewController sharedProfileViewController] receivedEquips:proto];
 }
 
 - (void) handleRetrieveUsersForUserIdsResponseProto:(RetrieveUsersForUserIdsResponseProto *)proto {

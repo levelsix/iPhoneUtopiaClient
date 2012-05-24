@@ -661,6 +661,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return ![self userTypeIsGood:type];
 }
 
++ (BOOL)userType:(UserType)t1 isAlliesWith:(UserType)t2 {
+  BOOL b1 = [self userTypeIsGood:t1];
+  BOOL b2 = [self userTypeIsGood:t2];
+  return !(b1 ^ b2);
+}
+
 + (UIImage *) squareImageForUser:(UserType)type {
   switch (type) {
     case UserTypeGoodWarrior:

@@ -15,6 +15,7 @@
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
 #import "SimpleAudioEngine.h"
+#import "BattleLayer.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
@@ -127,6 +128,10 @@
 - (IBAction)visitClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_cityId asset:_assetNum];
   [[QuestLogController sharedQuestLogController] closeClicked:nil];
+  
+  if ([[BattleLayer sharedBattleLayer] isRunning]) {
+    [Globals popupMessage:@"You will be taken there after the battle!"];
+  }
 }
 
 - (void) dealloc {

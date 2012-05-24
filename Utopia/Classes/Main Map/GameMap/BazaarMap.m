@@ -41,17 +41,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 
 - (id) init {
   if ((self = [super initWithTMXFile:@"Bazaar.tmx"])) {
-    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:@"Marketplace.png" location:CGRectMake(15, 15, 2, 2) map:self];
+    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:@"Marketplace.png" location:CGRectMake(36, 36, 2, 2) map:self];
     CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeMarketplace];
     csb.critStruct = cs;
     [self addChild:csb z:100];
     
-    csb = [[CritStructBuilding alloc] initWithFile:@"Armory.png" location:CGRectMake(22, 15, 2, 2) map:self];
+    csb = [[CritStructBuilding alloc] initWithFile:@"Armory.png" location:CGRectMake(43, 36, 2, 2) map:self];
     cs = [[CritStruct alloc] initWithType:CritStructTypeArmory];
     csb.critStruct = cs;
     [self addChild:csb z:100];
     
-    csb = [[CritStructBuilding alloc] initWithFile:@"Vault.png" location:CGRectMake(15, 22, 2, 2) map:self];
+    csb = [[CritStructBuilding alloc] initWithFile:@"Vault.png" location:CGRectMake(36, 43, 2, 2) map:self];
     cs = [[CritStruct alloc] initWithType:CritStructTypeVault];
     csb.critStruct = cs;
     [self addChild:csb z:100];

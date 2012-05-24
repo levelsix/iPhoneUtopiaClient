@@ -126,6 +126,14 @@
   [TopBar purgeSingleton];
   
   [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
+  
+  UIView *v = sharedGameViewController.view;
+  UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
+  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
+  imgView.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
+  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
+  [v addSubview:imgView];
+  [imgView release];
 }
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
@@ -164,6 +172,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   eyes.position = ccp(crest.contentSize.width/2, crest.contentSize.height/2);
   
   [doorleft runAction:[CCEaseBounceOut actionWithAction:[CCSequence actions:
+                                                         [CCCallFunc actionWithTarget:self selector:@selector(removeSplashImageView)],
                                                          [CCMoveBy actionWithDuration:DOOR_CLOSE_DURATION position:ccp(doorleft.contentSize.width, 0)],
                                                          [CCCallFunc actionWithTarget:self selector:@selector(doorClosed)],
                                                          nil]]];
@@ -186,7 +195,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   [eyes runAction:[CCRepeatForever actionWithAction:
                    [CCSequence actions:
-                    [CCCallFunc actionWithTarget:self selector:@selector(removeSplashImageView)],
                     [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_END_ALPHA],
                     [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_START_ALPHA],
                     nil]]];
@@ -323,10 +331,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
                                  pixelFormat:kEAGLColorFormatRGBA8	// kEAGLColorFormatRGBA8
                                  depthFormat:0];                       // GL_DEPTH_COMPONENT16_OES
-//                          preserveBackbuffer:NO
-//                                  sharegroup:nil 
-//                               multiSampling:YES 
-//                             numberOfSamples:100];
   
   // Display link director is causing problems with uiscrollview and table view.
 //  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
@@ -335,8 +339,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
 	if( ! [[CCDirector sharedDirector] enableRetinaDisplay:YES] )
 		CCLOG(@"Retina Display Not supported");
-  
-  [self removeStartupFlicker];
   
   [self.view insertSubview:glView atIndex:0];
   
@@ -387,13 +389,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   CGRect rect = [[UIScreen mainScreen] bounds];
   rect.size = CGSizeMake( rect.size.height, rect.size.width );
   GameView *v = [[GameView alloc] initWithFrame:rect];
-  
-  UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
-  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
-  imgView.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
-  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
-  [v addSubview:imgView];
-  [imgView release];
   
   self.view = v;
   [v release];
