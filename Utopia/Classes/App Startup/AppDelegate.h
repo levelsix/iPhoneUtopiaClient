@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "AdColonyPublic.h"
-#import "TJCVideoAdProtocol.h"
+#import "TapjoyDelegate.h"
+#import "AdColonyDelegate.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, AdColonyDelegate, TJCVideoAdDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
+  id<TJCVideoAdDelegate> tapJoyDelegate;
+  id<AdColonyDelegate>   adColonyDelegate;
 	UIWindow			*window;
 }
 

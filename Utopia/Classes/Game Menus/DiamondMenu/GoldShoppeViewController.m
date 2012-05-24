@@ -8,7 +8,7 @@
 
 #import "GoldShoppeViewController.h"
 #import "IAPHelper.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "Globals.h"
 #import "GameState.h"

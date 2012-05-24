@@ -10,15 +10,7 @@
 #import "SimpleAudioEngine.h"
 #import "TapjoyConnect.h"
 #import "GameViewController.h"
-
-#define TEST_ADZONE1        @"vzdf3190ec43a042ab83fa7d"
-#define PRODUCTION_ADZONE1  @"vze3ac5bd63ba3403db44644"
-
-#ifdef DEBUG
-#define ADZONE1   TEST_ADZONE1
-#else
-#define ADZONE1   PRODUCTION_ADZONE1
-#endif 
+#import "AdColonyDelegate.h"
 
 #define NO_CLIPS  @"No Clips Available"
 //#define NO_OFFERS @"No Offers Available"
