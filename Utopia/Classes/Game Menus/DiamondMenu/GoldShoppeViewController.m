@@ -363,7 +363,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   cell.productData = cellData; 
 
   [cell updateForPurchaseData:cellData];
-  cell.pkgIcon.image = [Globals imageNamed:@"stack.png"];
+  cell.pkgIcon.image = cellData.rewardPic;
   return cell;
 }
 

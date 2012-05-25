@@ -13,19 +13,24 @@
 #import "AdColonyDelegate.h"
 #import "FlurryClips.h"
 
-#define NO_CLIPS  @"No Clips Available"
+#define NO_CLIPS    @"No Clips Available"
 //#define NO_OFFERS @"No Offers Available"
+#define FLURRY_HOOK @"SPONSORED_OFFER_HOOK"
 
 @implementation SponsoredOffer
 @dynamic primaryTitle;
 @dynamic secondaryTitle;
 @dynamic price;
+@dynamic rewardPic;
+
 @synthesize priceLocale;
 @synthesize isAdColony;
 @synthesize isTapJoy;
 
-#pragma TapJoy
-
+-(UIImage *) rewardPic
+{
+  return [Globals imageNamed:@"stack.png"];
+}
 
 #pragma AdZone
 -(void) pauseAudio
@@ -43,8 +48,11 @@
                              currencyAmount:(int)amount 
 {
 #warning find out from ashwin how to message the server about gold increases
-#warning find out from ashwin how to post user notifications
+  [Globals popupMessage:[NSString stringWithFormat:@"You just received %d %@", 
+                         amount,
+                         name]];
 
+  
   //Update virtual currency balance by contacting the game server here
   //NOTE: The currency award transaction will be complete at this point
   //NOTE: This callback can be executed by AdColony at any time
@@ -57,7 +65,9 @@
                                         reason:(NSString *)reason
 {
   //Update the user interface after calling virtualCurrencyAwardAvailable here
-#warning find out from ashwin how to post user notifications
+  [Globals popupMessage:[NSString stringWithFormat:@"Sorry, we couldn't award you %@! Error:%@", 
+                         name,
+                         reason]];
 }
 
 - (void) adColonyTakeoverBeganForZone:(NSString *)zone {
@@ -95,9 +105,9 @@
                                                  sharedGameViewController]];
   }
   else {
-    [FlurryClips openVideoTakeover:@"VIDEO_SPLASH_HOOK" 
+    [FlurryClips openVideoTakeover:FLURRY_HOOK
                        orientation:nil
-                       rewardImage:nil
+                       rewardImage:self.rewardPic
                      rewardMessage:@"you got it" 
                        userCookies:nil];
   }

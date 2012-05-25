@@ -14,6 +14,8 @@
 @property(nonatomic, readonly) NSString *secondaryTitle;
 @property(nonatomic, readonly) NSString *price;
 @property(nonatomic, readonly) NSLocale *priceLocale;
+@property(nonatomic, readonly) UIImage  *rewardPic;
+
 - (void) makePurchase;
 - (BOOL) purchaseAvailable;
 @end

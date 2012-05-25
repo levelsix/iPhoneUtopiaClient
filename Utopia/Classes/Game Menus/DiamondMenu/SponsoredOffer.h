@@ -17,6 +17,7 @@
   NSString *secondaryTitle;
   NSString *price;
   NSLocale *priceLocale;
+  
   BOOL      isAdColony;
   BOOL      isTapJoy;
 }

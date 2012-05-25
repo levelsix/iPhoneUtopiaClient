@@ -16,6 +16,12 @@
 @dynamic secondaryTitle;
 @dynamic price;
 @synthesize priceLocale;
+@dynamic rewardPic;
+
+-(UIImage *) rewardPic
+{
+  return [Globals imageNamed:@"stack.png"];
+}
 
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
