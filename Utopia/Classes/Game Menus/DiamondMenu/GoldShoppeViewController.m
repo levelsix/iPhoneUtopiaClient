@@ -47,15 +47,20 @@
     price = [newPrice retain];
 
     if ([newPrice length] > 0) {
-      // Remember to remove $ sign in front
-      NSString *left  = [price substringWithRange:NSMakeRange(1,
-                                                              price.length-4)];
-      NSString *right  = [price substringFromIndex:price.length-3];
-
-      [self setLeftText:left andRightText:right];
+      if ([newPrice isEqualToString:[InAppPurchaseData unknownPrice]]) {
+        [self setLeftText:newPrice andRightText:@""];
+      }
+      else {
+        // Remember to remove $ sign in front
+        NSString *left  = [price substringWithRange:NSMakeRange(1,
+                                                                price.length-4)];
+        NSString *right  = [price substringFromIndex:price.length-3];
+        
+        [self setLeftText:left andRightText:right];        
+      }
     }
     else {
-      newPrice = @"Free";
+      newPrice = [InAppPurchaseData freePrice];
       [self setLeftText:newPrice andRightText:@""];
     }
   }

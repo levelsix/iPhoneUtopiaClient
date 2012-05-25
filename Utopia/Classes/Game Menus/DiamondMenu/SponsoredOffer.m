@@ -172,9 +172,9 @@
 +(id<InAppPurchaseData>) createForTapJoy
 {
   SponsoredOffer *offer = [[SponsoredOffer alloc] 
-                           initWithPrimaryTitle:@"TapJoy"
+                           initWithPrimaryTitle:@"Free offers from TapJoy"
                            andSecondaryTitle:@""
-                           andPrice:@"" 
+                           andPrice:UNKNOWN_PRICE_STR 
                            andLocale:nil];
   offer.isTapJoy = YES;
   [offer autorelease];

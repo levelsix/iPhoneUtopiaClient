@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AdColonyPublic.h"
 #import "InAppPurchaseData.h"
+#define UNKNOWN_PRICE_STR   @"$$$"
+#define FREE_PRICE_STR      @"Free"
 
 @interface SponsoredOffer : NSObject <InAppPurchaseData, AdColonyTakeoverAdDelegate> {
   NSString *primaryTitle;

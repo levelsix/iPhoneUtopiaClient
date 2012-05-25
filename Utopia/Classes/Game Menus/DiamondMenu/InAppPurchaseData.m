@@ -54,6 +54,17 @@
 }
 
 
+#pragma Constant Strings
++(NSString *) unknownPrice
+{
+  return UNKNOWN_PRICE_STR;
+}
+
++(NSString *) freePrice
+{
+  return FREE_PRICE_STR;
+}
+
 #pragma mark  Create/Destroy
 -(id) initWithSKProduct:(SKProduct *)product
 {

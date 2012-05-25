@@ -22,6 +22,8 @@
   SKProduct *_product;
 }
 
++(NSString *) unknownPrice;
++(NSString *) freePrice;
 #pragma Factory Methods
 +(id<InAppPurchaseData>) createWithSKProduct:(SKProduct *)product;
 +(NSArray *) allSponsoredOffers;
