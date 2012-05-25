@@ -16,10 +16,12 @@
   NSString *price;
   NSLocale *priceLocale;
   BOOL      isAdColony;
+  BOOL      isTapJoy;
 }
-
 @property BOOL isAdColony;
+@property BOOL isTapJoy;
 +(id<InAppPurchaseData>) createForAdColony;
 +(id<InAppPurchaseData>) createForTapJoy;
++(id<InAppPurchaseData>) createForFlurry;
 
 @end

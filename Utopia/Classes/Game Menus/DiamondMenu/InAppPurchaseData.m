@@ -84,6 +84,8 @@
   NSMutableArray *offers = [NSMutableArray array];
   [offers addObject:[SponsoredOffer createForAdColony]];
   [offers addObject:[SponsoredOffer createForTapJoy]];
+  [offers addObject:[SponsoredOffer createForFlurry]];
+
   return offers;
 }
 @end

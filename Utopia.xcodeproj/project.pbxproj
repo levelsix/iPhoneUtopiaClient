@@ -14,7 +14,6 @@
 		454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E6246156709C9004EB7E9 /* libAdColony.a */; };
 		454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E6248156709F9004EB7E9 /* MediaPlayer.framework */; };
 		454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E624A15670A15004EB7E9 /* CoreTelephony.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */; };
 		45790205156DD15F0001785B /* AdColonyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45790204156DD15E0001785B /* AdColonyDelegate.m */; };
 		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; };
 		45856A86156DB3670005907E /* TJCAdRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A33156DB3670005907E /* TJCAdRequestHandler.m */; };
@@ -56,6 +55,8 @@
 		45856AC4156DCA660005907E /* TapJoyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856AC3156DCA660005907E /* TapJoyDelegate.m */; };
 		459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */; };
 		4595D861156C4C4000CF4468 /* SponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453920A2156B149C00C3944D /* SponsoredOffer.m */; };
+		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
+		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
@@ -1282,8 +1283,6 @@
 		454E6246156709C9004EB7E9 /* libAdColony.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdColony.a; sourceTree = "<group>"; };
 		454E6248156709F9004EB7E9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		454E624A15670A15004EB7E9 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		456F2C8D156442DD00850E1D /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
-		456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		457239FC1565E0DC000380EE /* Delight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Delight.framework; sourceTree = "<group>"; };
 		457239FE1565E431000380EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		45723A001565E443000380EE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -1371,6 +1370,16 @@
 		45856AC3156DCA660005907E /* TapJoyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoyDelegate.m; sourceTree = "<group>"; };
 		4592799E156C5E6900FEC3AF /* InAppPurchaseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseData.h; sourceTree = "<group>"; };
 		4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseData.m; sourceTree = "<group>"; };
+		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
+		45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlurryClipsDelegate.m; sourceTree = "<group>"; };
+		45C9A3F3156F0BE000493FDC /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
+		45C9A3F4156F0BE000493FDC /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
+		45C9A3F5156F0BE000493FDC /* FlurryAppCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAppCircle.h; sourceTree = "<group>"; };
+		45C9A3F6156F0BE000493FDC /* FlurryClips.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClips.h; sourceTree = "<group>"; };
+		45C9A3F7156F0BE000493FDC /* FlurryOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryOffer.h; sourceTree = "<group>"; };
+		45C9A3F8156F0BE000493FDC /* FlurryReEngage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryReEngage.h; sourceTree = "<group>"; };
+		45C9A3F9156F0BE000493FDC /* FlurryVideoOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryVideoOffer.h; sourceTree = "<group>"; };
+		45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryUniversal.a; sourceTree = "<group>"; };
 		CF08AF3E15672BFA00871798 /* good.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = good.png; sourceTree = "<group>"; };
 		CF08AF3F15672BFA00871798 /* good@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "good@2x.png"; sourceTree = "<group>"; };
 		CF08AF4015672BFA00871798 /* great.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = great.png; sourceTree = "<group>"; };
@@ -2822,9 +2831,9 @@
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
 				CF126D951538ACCA00E0C1AD /* libApsalar.a in Frameworks */,
 				CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */,
-				456F2C8F156442DD00850E1D /* libFlurryAnalytics.a in Frameworks */,
 				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
 				454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */,
+				45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2838,15 +2847,6 @@
 				454E6246156709C9004EB7E9 /* libAdColony.a */,
 			);
 			path = AdColony;
-			sourceTree = "<group>";
-		};
-		456F2C8C156442DD00850E1D /* FlurryAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				456F2C8D156442DD00850E1D /* FlurryAnalytics.h */,
-				456F2C8E156442DD00850E1D /* libFlurryAnalytics.a */,
-			);
-			path = FlurryAnalytics;
 			sourceTree = "<group>";
 		};
 		457EBD7F15647A38008C097F /* Alaume */ = {
@@ -3027,6 +3027,21 @@
 				45856A81156DB3670005907E /* TJCVideoViewHandler.m */,
 			);
 			path = TJCVideoAds;
+			sourceTree = "<group>";
+		};
+		45C9A3F2156F0BE000493FDC /* FlurryUniversal */ = {
+			isa = PBXGroup;
+			children = (
+				45C9A3F3156F0BE000493FDC /* FlurryAdDelegate.h */,
+				45C9A3F4156F0BE000493FDC /* FlurryAnalytics.h */,
+				45C9A3F5156F0BE000493FDC /* FlurryAppCircle.h */,
+				45C9A3F6156F0BE000493FDC /* FlurryClips.h */,
+				45C9A3F7156F0BE000493FDC /* FlurryOffer.h */,
+				45C9A3F8156F0BE000493FDC /* FlurryReEngage.h */,
+				45C9A3F9156F0BE000493FDC /* FlurryVideoOffer.h */,
+				45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */,
+			);
+			path = FlurryUniversal;
 			sourceTree = "<group>";
 		};
 		CF1256371538A94D00E0C1AD = {
@@ -3491,6 +3506,8 @@
 				45856AC3156DCA660005907E /* TapJoyDelegate.m */,
 				45790203156DD15E0001785B /* AdColonyDelegate.h */,
 				45790204156DD15E0001785B /* AdColonyDelegate.m */,
+				45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */,
+				45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */,
 			);
 			path = "In App Purchases";
 			sourceTree = "<group>";
@@ -3637,6 +3654,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				45C9A3F2156F0BE000493FDC /* FlurryUniversal */,
 				45856A2E156DB3660005907E /* TapjoyConnect */,
 				454E624A15670A15004EB7E9 /* CoreTelephony.framework */,
 				454E6248156709F9004EB7E9 /* MediaPlayer.framework */,
@@ -3644,7 +3662,6 @@
 				454E623E1566D478004EB7E9 /* Crashlytics.framework */,
 				457239FC1565E0DC000380EE /* Delight.framework */,
 				457EBD7F15647A38008C097F /* Alaume */,
-				456F2C8C156442DD00850E1D /* FlurryAnalytics */,
 				CFEDA617153C04FB00015562 /* UserVoice */,
 				CF1265F31538ACC400E0C1AD /* Apsalar */,
 				CF1265F71538ACC400E0C1AD /* CCLabelFX */,
@@ -6678,6 +6695,7 @@
 				45856AA9156DB3670005907E /* TapjoyConnect.m in Sources */,
 				45856AC4156DCA660005907E /* TapJoyDelegate.m in Sources */,
 				45790205156DD15F0001785B /* AdColonyDelegate.m in Sources */,
+				45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6773,9 +6791,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Utopia/libs/Apsalar\"",
 					"\"$(SRCROOT)/Utopia/libs/UserVoice\"",
-					"\"$(SRCROOT)/Utopia/libs/FlurryAnalytics\"",
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
+					"\"$(SRCROOT)/Utopia/libs/FlurryUniversal\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -6784,6 +6802,10 @@
 				);
 				PRODUCT_NAME = "Lost Nations";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
+				WARNING_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -6812,9 +6834,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Utopia/libs/Apsalar\"",
 					"\"$(SRCROOT)/Utopia/libs/UserVoice\"",
-					"\"$(SRCROOT)/Utopia/libs/FlurryAnalytics\"",
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
+					"\"$(SRCROOT)/Utopia/libs/FlurryUniversal\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -6825,6 +6847,10 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
+				WARNING_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

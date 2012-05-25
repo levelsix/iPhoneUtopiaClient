@@ -11,6 +11,7 @@
 #import "TapjoyConnect.h"
 #import "GameViewController.h"
 #import "AdColonyDelegate.h"
+#import "FlurryClips.h"
 
 #define NO_CLIPS  @"No Clips Available"
 //#define NO_OFFERS @"No Offers Available"
@@ -21,6 +22,7 @@
 @dynamic price;
 @synthesize priceLocale;
 @synthesize isAdColony;
+@synthesize isTapJoy;
 
 #pragma TapJoy
 
@@ -88,9 +90,16 @@
                   andV4VCPostPopup:YES];    
     }
   }
-  else {
+  else if (isTapJoy) {
     [TapjoyConnect showOffersWithViewController:[GameViewController
                                                  sharedGameViewController]];
+  }
+  else {
+    [FlurryClips openVideoTakeover:@"VIDEO_SPLASH_HOOK" 
+                       orientation:nil
+                       rewardImage:nil
+                     rewardMessage:@"you got it" 
+                       userCookies:nil];
   }
 }
 
@@ -164,6 +173,19 @@
 {
   SponsoredOffer *offer = [[SponsoredOffer alloc] 
                            initWithPrimaryTitle:@"TapJoy"
+                           andSecondaryTitle:@""
+                           andPrice:@"" 
+                           andLocale:nil];
+  offer.isTapJoy = YES;
+  [offer autorelease];
+  
+  return offer;
+}
+
++(id<InAppPurchaseData>) createForFlurry
+{
+  SponsoredOffer *offer = [[SponsoredOffer alloc] 
+                           initWithPrimaryTitle:@"Flurry"
                            andSecondaryTitle:@""
                            andPrice:@"" 
                            andLocale:nil];

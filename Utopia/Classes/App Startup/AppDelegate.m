@@ -168,9 +168,6 @@
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
   [Analytics beganApp];
   [Analytics openedApp];
-
-  // FlurryAnalytics
-  [self setUpFlurryAnalytics];
   
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
@@ -184,6 +181,12 @@
   // TapJoy
   tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
 
+  // FlurryClips
+  flurryClipsDelegate = [[FlurryClipsDelegate createFlurryClipsDelegate] retain];
+  
+  // FlurryAnalytics
+  [self setUpFlurryAnalytics];
+  
   [self removeLocalNotifications];
 
   // CrashAlytics
