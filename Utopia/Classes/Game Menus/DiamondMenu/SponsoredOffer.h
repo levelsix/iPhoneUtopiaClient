@@ -11,6 +11,7 @@
 #import "InAppPurchaseData.h"
 #define UNKNOWN_PRICE_STR   @"$$$"
 #define FREE_PRICE_STR      @"Free"
+#define NO_CLIPS            @"No Clips Available"
 
 @interface SponsoredOffer : NSObject <InAppPurchaseData, AdColonyTakeoverAdDelegate> {
   NSString *primaryTitle;
@@ -25,6 +26,4 @@
 @property BOOL isTapJoy;
 +(id<InAppPurchaseData>) createForAdColony;
 +(id<InAppPurchaseData>) createForTapJoy;
-+(id<InAppPurchaseData>) createForFlurry;
-
 @end

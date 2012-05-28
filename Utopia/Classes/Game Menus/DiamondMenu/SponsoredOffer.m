@@ -13,8 +13,6 @@
 #import "AdColonyDelegate.h"
 #import "FlurryClips.h"
 
-#define NO_CLIPS    @"No Clips Available"
-//#define NO_OFFERS @"No Offers Available"
 #define FLURRY_HOOK @"SPONSORED_OFFER_HOOK"
 
 @implementation SponsoredOffer
@@ -23,7 +21,6 @@
 @dynamic price;
 @dynamic rewardPic;
 
-@synthesize priceLocale;
 @synthesize isAdColony;
 @synthesize isTapJoy;
 
@@ -32,7 +29,7 @@
   return [Globals imageNamed:@"stack.png"];
 }
 
-#pragma AdZone
+#pragma AdColony
 -(void) pauseAudio
 {
   [[SimpleAudioEngine sharedEngine] setMute:YES];
@@ -47,16 +44,13 @@
                                currencyName:(NSString *)name
                              currencyAmount:(int)amount 
 {
+  //NOTE: The currency award transaction will be complete at this point
+  //NOTE: This callback can be executed by AdColony at any time
+  //NOTE: This is the ideal place for an alert about the successful reward
 #warning find out from ashwin how to message the server about gold increases
   [Globals popupMessage:[NSString stringWithFormat:@"You just received %d %@", 
                          amount,
                          name]];
-
-  
-  //Update virtual currency balance by contacting the game server here
-  //NOTE: The currency award transaction will be complete at this point
-  //NOTE: This callback can be executed by AdColony at any time
-  //NOTE: This is the ideal place for an alert about the successful reward
 }
 
 -(void)adColonyVirtualCurrencyNotAwardedByZone:(NSString *)zone
@@ -70,46 +64,41 @@
                          reason]];
 }
 
-- (void) adColonyTakeoverBeganForZone:(NSString *)zone {
-//  NSLog(@"AdColony video ad launched for zone %@", zone);
-  
+- (void) adColonyTakeoverBeganForZone:(NSString *)zone 
+{
   [self pauseAudio];
 }
 
 - (void) adColonyTakeoverEndedForZone:(NSString *)zone
-                               withVC:(BOOL)withVirtualCurrencyAward {
-//  NSLog(@"AdColony video ad finished for zone %@", zone);
+                               withVC:(BOOL)withVirtualCurrencyAward 
+{
   [self resumeAudio];
+  [InAppPurchaseData postAdTakeoverResignedNotificationForSender:self];
 }
+//Is called when the video zone is ready to serve ads
+//-(void)adColonyVideoAdsReadyInZone:(NSString *)zone;
 
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
 {
-  return [AdColony virtualCurrencyAwardAvailableForZone:ADZONE1];
+  if (isAdColony) {
+    return [AdColony virtualCurrencyAwardAvailableForZone:ADZONE1];    
+  }
+  else 
+    return YES;
 }
 
 - (void) makePurchase 
 {
-  if (isAdColony) {
-    if (![self purchaseAvailable]) {
-    }
-    else {
-      [AdColony playVideoAdForZone:ADZONE1 
+  if (isAdColony && [self purchaseAvailable]) {
+    [AdColony playVideoAdForZone:ADZONE1 
                       withDelegate:self
                   withV4VCPrePopup:YES
-                  andV4VCPostPopup:YES];    
-    }
+                  andV4VCPostPopup:YES];
   }
-  else if (isTapJoy) {
+  else if (isTapJoy && [self purchaseAvailable]) {
     [TapjoyConnect showOffersWithViewController:[GameViewController
                                                  sharedGameViewController]];
-  }
-  else {
-    [FlurryClips openVideoTakeover:FLURRY_HOOK
-                       orientation:nil
-                       rewardImage:self.rewardPic
-                     rewardMessage:@"you got it" 
-                       userCookies:nil];
   }
 }
 
@@ -169,7 +158,7 @@
                            [AdColony 
                             getVirtualCurrencyRewardAmountForZone:ADZONE1]];
   SponsoredOffer *offer = [[SponsoredOffer alloc] 
-                           initWithPrimaryTitle:@"Watch Video Earn Gold"
+                           initWithPrimaryTitle:@"Watch Video"
                            andSecondaryTitle:secondary
                            andPrice:@"" 
                            andLocale:nil];
@@ -182,23 +171,11 @@
 +(id<InAppPurchaseData>) createForTapJoy
 {
   SponsoredOffer *offer = [[SponsoredOffer alloc] 
-                           initWithPrimaryTitle:@"Free offers from TapJoy"
-                           andSecondaryTitle:@""
-                           andPrice:UNKNOWN_PRICE_STR 
-                           andLocale:nil];
-  offer.isTapJoy = YES;
-  [offer autorelease];
-  
-  return offer;
-}
-
-+(id<InAppPurchaseData>) createForFlurry
-{
-  SponsoredOffer *offer = [[SponsoredOffer alloc] 
-                           initWithPrimaryTitle:@"Flurry"
-                           andSecondaryTitle:@""
+                           initWithPrimaryTitle:@"Complete Free offers"
+                           andSecondaryTitle:@"??"
                            andPrice:@"" 
                            andLocale:nil];
+  offer.isTapJoy = YES;
   [offer autorelease];
   
   return offer;

@@ -9,6 +9,7 @@
 #import "TapjoyDelegate.h"
 #import "TapjoyConnect.h"
 #import "SimpleAudioEngine.h"
+#import "InAppPurchaseData.h"
 
 #define TAPJOY_APPID         @"a5128a5f-1a9f-4a03-9a5d-1304489f08e1"
 #define TAPJOY_SECRET        @"sZH7jGPnzX1MhVyjmDyg"
@@ -23,6 +24,7 @@
 - (void)videoAdClosed
 {
   [[SimpleAudioEngine sharedEngine] setMute:NO];
+  [InAppPurchaseData postAdTakeoverResignedNotificationForSender:self];
 }
 
 +(id<TJCVideoAdDelegate>) createTapJoyDelegate
