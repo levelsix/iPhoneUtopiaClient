@@ -6487,7 +6487,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Utopia/libs/Crashlytics.framework/run 79eb314cfcf6a7b860185d2629d2c2791ee7f174";
+			shellScript = "$SRCROOT/Utopia/libs/Crashlytics.framework/run 79eb314cfcf6a7b860185d2629d2c2791ee7f174";
 		};
 /* End PBXShellScriptBuildPhase section */
 
