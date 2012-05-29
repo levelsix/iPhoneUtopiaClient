@@ -17,7 +17,7 @@
 #import "GameConfig.h"
 #import "GameLayer.h" 
 #import "BattleLayer.h" 
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "QuestLogController.h"
 #import "TutorialStartLayer.h"
 #import "TutorialHomeMap.h"

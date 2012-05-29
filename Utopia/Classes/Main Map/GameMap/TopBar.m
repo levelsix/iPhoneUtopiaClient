@@ -12,7 +12,7 @@
 #import "GameState.h"
 #import "RefillMenuController.h"
 #import "OutgoingEventController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameLayer.h"
 #import "GameMap.h"
 #import "HomeMap.h"

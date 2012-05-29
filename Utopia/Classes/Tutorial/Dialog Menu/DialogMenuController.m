@@ -7,7 +7,7 @@
 //
 
 #import "DialogMenuController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "NibUtils.h"
 #import "OutgoingEventController.h"

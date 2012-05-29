@@ -8,7 +8,7 @@
 
 #import "FAQMenuController.h"
 #import "Globals.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "UVHelper.h"
 #import "GameState.h"

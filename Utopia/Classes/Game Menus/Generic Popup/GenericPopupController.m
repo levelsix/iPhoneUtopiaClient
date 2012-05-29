@@ -7,7 +7,7 @@
 //
 
 #import "GenericPopupController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "Globals.h"
 

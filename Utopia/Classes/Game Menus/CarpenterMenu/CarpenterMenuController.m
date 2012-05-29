@@ -7,7 +7,7 @@
 //
 
 #import "CarpenterMenuController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 #import "GameState.h"

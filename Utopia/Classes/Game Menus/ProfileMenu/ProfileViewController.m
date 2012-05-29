@@ -7,7 +7,7 @@
 //
 
 #import "ProfileViewController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "Globals.h"
 #import "OutgoingEventController.h"

@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "AdColonyPublic.h"
+#import "TapjoyDelegate.h"
+#import "AdColonyDelegate.h"
+#import "FlurryClipsDelegate.h"
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate, AdColonyDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
+  id<TJCVideoAdDelegate> tapJoyDelegate;
+  id<AdColonyDelegate>   adColonyDelegate;
+  id<FlurryAdDelegate>   flurryClipsDelegate;
 	UIWindow			*window;
 }
 

@@ -8,7 +8,7 @@
 
 #import "GoldShoppeViewController.h"
 #import "IAPHelper.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
 #import "Globals.h"
 #import "GameState.h"
@@ -47,15 +47,20 @@
     price = [newPrice retain];
 
     if ([newPrice length] > 0) {
-      // Remember to remove $ sign in front
-      NSString *left  = [price substringWithRange:NSMakeRange(1,
-                                                              price.length-4)];
-      NSString *right  = [price substringFromIndex:price.length-3];
-
-      [self setLeftText:left andRightText:right];
+      if ([newPrice isEqualToString:[InAppPurchaseData unknownPrice]]) {
+        [self setLeftText:newPrice andRightText:@""];
+      }
+      else {
+        // Remember to remove $ sign in front
+        NSString *left  = [price substringWithRange:NSMakeRange(1,
+                                                                price.length-4)];
+        NSString *right  = [price substringFromIndex:price.length-3];
+        
+        [self setLeftText:left andRightText:right];        
+      }
     }
     else {
-      newPrice = @"Free";
+      newPrice = [InAppPurchaseData freePrice];
       [self setLeftText:newPrice andRightText:@""];
     }
   }
@@ -272,6 +277,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
 #pragma mark - View lifecycle
 
+-(void) resetSponsoredOffers
+{
+  // Initialize the Ad Sponsored deals
+  [_sponsoredOffers release];
+  _sponsoredOffers = [InAppPurchaseData allSponsoredOffers];
+  [_sponsoredOffers retain];  
+}
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
@@ -279,10 +292,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.pkgTableView.rowHeight = 62;
   
   self.state = kPackagesState;
-  
+
   // Initialize the Ad Sponsored deals
-  _sponsoredOffers = [InAppPurchaseData allSponsoredOffers];
-  [_sponsoredOffers retain];
+  [self resetSponsoredOffers];
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(refreshTableView) 
+                                               name:[InAppPurchaseData
+                                                     adTakeoverResignedNotification]
+                                             object:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -358,7 +376,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   cell.productData = cellData; 
 
   [cell updateForPurchaseData:cellData];
-  cell.pkgIcon.image = [Globals imageNamed:@"stack.png"];
+  cell.pkgIcon.image = cellData.rewardPic;
   return cell;
 }
 
@@ -379,6 +397,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [GoldShoppeViewController removeView];
   }];
+}
+
+-(void) refreshTableView
+{
+  [self resetSponsoredOffers];
+  [self.pkgTableView reloadData];
 }
 
 - (void) startLoading {
@@ -410,6 +434,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.topBar = nil;
   self.mainView = nil;
   self.bgdView = nil;
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 
   [_sponsoredOffers release];
 }

@@ -7,7 +7,7 @@
 //
 
 #import "BazaarMap.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 
 @implementation CritStructMenu
 

@@ -11,7 +11,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "ProfileViewController.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "RefillMenuController.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"

@@ -10,7 +10,7 @@
 #import "Protocols.pb.h"
 #import "SocketCommunication.h"
 #import "Globals.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "GoldShoppeViewController.h"
 

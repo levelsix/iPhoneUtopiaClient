@@ -13,7 +13,8 @@
 @property(nonatomic, readonly) NSString *primaryTitle;
 @property(nonatomic, readonly) NSString *secondaryTitle;
 @property(nonatomic, readonly) NSString *price;
-@property(nonatomic, readonly) NSLocale *priceLocale;
+@property(nonatomic, readonly) UIImage  *rewardPic;
+
 - (void) makePurchase;
 - (BOOL) purchaseAvailable;
 @end
@@ -21,6 +22,11 @@
 @interface InAppPurchaseData : NSObject<InAppPurchaseData> {
   SKProduct *_product;
 }
+
++(NSString *) unknownPrice;
++(NSString *) freePrice;
++(NSString *) adTakeoverResignedNotification;
++(void) postAdTakeoverResignedNotificationForSender:(id)sender;
 
 #pragma Factory Methods
 +(id<InAppPurchaseData>) createWithSKProduct:(SKProduct *)product;

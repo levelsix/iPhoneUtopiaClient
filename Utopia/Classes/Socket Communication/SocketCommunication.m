@@ -7,7 +7,7 @@
 //
 
 #import "SocketCommunication.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "IncomingEventController.h"
 #import "UIDevice+IdentifierAddition.h"
 #import "GameState.h"

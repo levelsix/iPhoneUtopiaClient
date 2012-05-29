@@ -10,12 +10,30 @@
 #import "SponsoredOffer.h"
 #import "Globals.h"
 #import "IAPHelper.h"
+#import "FlurryClipsSponsoredOffer.h"
 
 @implementation InAppPurchaseData
 @dynamic primaryTitle;
 @dynamic secondaryTitle;
 @dynamic price;
-@synthesize priceLocale;
+@dynamic rewardPic;
+
+-(UIImage *) rewardPic
+{
+  return [Globals imageNamed:@"stack.png"];
+}
+
++(void) postAdTakeoverResignedNotificationForSender:(id)sender
+{
+  [[NSNotificationCenter defaultCenter] 
+   postNotificationName:[InAppPurchaseData adTakeoverResignedNotification] 
+   object:sender];
+}
+
++(NSString *) adTakeoverResignedNotification
+{
+  return @"adTakeoverResignedNotification";
+}
 
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
@@ -54,6 +72,17 @@
 }
 
 
+#pragma Constant Strings
++(NSString *) unknownPrice
+{
+  return UNKNOWN_PRICE_STR;
+}
+
++(NSString *) freePrice
+{
+  return FREE_PRICE_STR;
+}
+
 #pragma mark  Create/Destroy
 -(id) initWithSKProduct:(SKProduct *)product
 {
@@ -83,6 +112,9 @@
 {
   NSMutableArray *offers = [NSMutableArray array];
   [offers addObject:[SponsoredOffer createForAdColony]];
+  [offers addObject:[FlurryClipsSponsoredOffer create]];
+  [offers addObject:[SponsoredOffer createForTapJoy]];
+
   return offers;
 }
 @end

@@ -11,7 +11,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "UserData.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "OutgoingEventController.h"
 #import "GameLayer.h"
 #import "RefillMenuController.h"

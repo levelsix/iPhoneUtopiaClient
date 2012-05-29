@@ -29,7 +29,6 @@
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
 
-
 #define SHOULD_VIDEO_USER    0
 @implementation AppDelegate
 
@@ -82,23 +81,6 @@
   // Note: The setup for CrashAlytics insists that it must be the final program 
   //       in the didFinishLaunching Method
   [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
-}
-
-- (NSString *) adColonyApplicationID
-{
-  return @"app82f779c39f1c40c4a6dc82";
-}
-
-#define ADZONE1   @"vzdf3190ec43a042ab83fa7d"
-- (NSDictionary *) adColonyAdZoneNumberAssociation
-{
-  return [NSDictionary dictionaryWithObjectsAndKeys:ADZONE1, [NSNumber numberWithInt:1],
-          nil];
-}
-
--(void) testAdColony 
-{
-  [AdColony initAdColonyWithDelegate:self];
 }
 
 -(void) setUpDelightio
@@ -186,9 +168,6 @@
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
   [Analytics beganApp];
   [Analytics openedApp];
-
-  // FlurryAnalytics
-  [self setUpFlurryAnalytics];
   
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
@@ -197,7 +176,16 @@
   [self setUpDelightio];
   
   // AdColony
-  [self testAdColony];
+  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
+  
+  // TapJoy
+  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
+
+  // FlurryClips
+  flurryClipsDelegate = [[FlurryClipsDelegate createFlurryClipsDelegate] retain];
+  
+  // FlurryAnalytics
+  [self setUpFlurryAnalytics];
   
   [self removeLocalNotifications];
 
@@ -211,7 +199,7 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  LNLog(@"will raesign active");
+  LNLog(@"will resign active");
 	[[CCDirector sharedDirector] pause];
 }
 
@@ -367,6 +355,8 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
+  [tapJoyDelegate   release];
+  [adColonyDelegate release];
 	[window release];
 	[super dealloc];
 }

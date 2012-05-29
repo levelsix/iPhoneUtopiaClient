@@ -9,7 +9,7 @@
 #import "BattleLayer.h"
 #import "GameState.h"
 #import "Globals.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameLayer.h"
 #import "OutgoingEventController.h"
 #import "ProfileViewController.h"

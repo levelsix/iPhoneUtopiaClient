@@ -8,7 +8,7 @@
 
 #import "IncomingEventController.h"
 #import "Protocols.pb.h"
-#import "SynthesizeSingleton.h"
+#import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "Globals.h"
 #import "MarketplaceViewController.h"
