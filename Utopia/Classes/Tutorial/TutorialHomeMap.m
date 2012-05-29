@@ -240,9 +240,9 @@
   userStruct.isComplete = YES;
   
   [self updateTimersForBuilding:mb];
-  if (mb == _selected && self.hbMenu.state != kMoveState) {
-    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-  }
+//  if (mb == _selected && self.hbMenu.state != kMoveState) {
+//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+//  }
   mb.isConstructing = NO;
   [self updateHomeBuildingMenu];
   _constrBuilding = nil;
@@ -257,8 +257,8 @@
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
   UserStruct *userStruct = mb.userStruct;
   GameState *gs = [GameState sharedGameState];
-  self.hbMenu.finishNowButton.enabled = NO;
-  self.hbMenu.blueButton.enabled = NO;
+//  self.hbMenu.finishNowButton.enabled = NO;
+//  self.hbMenu.blueButton.enabled = NO;
   
   int64_t ms = (uint64_t)([[NSDate date] timeIntervalSince1970]*1000);
   userStruct.isComplete = YES;
@@ -272,20 +272,20 @@
   
   [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:NO];
   // animate bar to top
-  [self.hbMenu.timer invalidate];
-  float secs = PROGRESS_BAR_SPEED*(1-[self.hbMenu progressBarProgress]);
-  [UIView animateWithDuration:secs animations:^{
-    [self.hbMenu setProgressBarProgress:1.f];
-  } completion:^(BOOL finished) {
-    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-    [self.hbMenu startTimer];
-    self.hbMenu.finishNowButton.enabled = YES;
-    self.hbMenu.blueButton.enabled = YES;
-    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
-    [self updateHomeBuildingMenu];
-    mb.isConstructing = NO;
-    [self buildingComplete];
-  }];
+//  [self.hbMenu.timer invalidate];
+//  float secs = PROGRESS_BAR_SPEED*(1-[self.hbMenu progressBarProgress]);
+//  [UIView animateWithDuration:secs animations:^{
+//    [self.hbMenu setProgressBarProgress:1.f];
+//  } completion:^(BOOL finished) {
+//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+//    [self.hbMenu startTimer];
+//    self.hbMenu.finishNowButton.enabled = YES;
+//    self.hbMenu.blueButton.enabled = YES;
+//    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
+//    [self updateHomeBuildingMenu];
+//    mb.isConstructing = NO;
+//    [self buildingComplete];
+//  }];
   [self updateTimersForBuilding:mb];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];

@@ -112,8 +112,8 @@
 - (BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// Let the device know we want to receive push notifications
-//	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-//   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+   (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
   
 	// Init the window
   //	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

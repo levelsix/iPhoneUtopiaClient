@@ -90,6 +90,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
     [self updateCritStructMenu];
   }
+  self.selected = nil;
   
   [super drag:recognizer node:node];
 }
@@ -97,18 +98,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
   [self updateCritStructMenu];
-}
-
-- (void) setPosition:(CGPoint)position {
-  CGPoint oldPos = position_;
-  [super setPosition:position];
-  if (!csMenu.hidden) {
-    CGPoint diff = ccpSub(oldPos, position_);
-    diff.x *= -1;
-    CGRect curRect = csMenu.frame;
-    curRect.origin = ccpAdd(curRect.origin, diff);
-    csMenu.frame = curRect;
-  }
 }
 
 - (void) moveToCritStruct:(CritStructType)type {

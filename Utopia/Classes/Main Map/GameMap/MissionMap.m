@@ -23,115 +23,6 @@
 #define TASK_BAR_DURATION 2.f
 #define EXP_LABEL_DURATION 3.f
 
-@implementation MissionBuildingSummaryMenu
-
-@synthesize titleLabel, descriptionLabel, energyLabel, rewardLabel, experienceLabel, itemChanceLabel;
-
-- (void) updateLabelsForTask:(FullTaskProto *)ftp name:(NSString *)name {
-  titleLabel.text = name;
-  descriptionLabel.text = ftp.name;
-  energyLabel.text = [NSString stringWithFormat:@"%d", ftp.energyCost];
-  rewardLabel.text = [NSString stringWithFormat:@"%d-%d", ftp.minCoinsGained, ftp.maxCoinsGained];
-  experienceLabel.text = [NSString stringWithFormat:@"%d Exp.", ftp.expGained];
-  
-  if (ftp.potentialLootEquipIdsList.count > 0) {
-    FullEquipProto_Rarity rarity = 0;
-    GameState *gs = [GameState sharedGameState];
-    for (NSNumber *n in ftp.potentialLootEquipIdsList) {
-      FullEquipProto *fep = [gs equipWithId:n.intValue];
-      if (fep.rarity > rarity) {
-        rarity = fep.rarity;
-      }
-    }
-    itemChanceLabel.text = [Globals shortenedStringForRarity:rarity];
-    itemChanceLabel.textColor = [Globals colorForRarity:rarity];
-  } else {
-    itemChanceLabel.text = @"";
-  }
-}
-
-- (void) dealloc {
-  self.titleLabel = nil;
-  self.descriptionLabel = nil;
-  self.energyLabel = nil;
-  self.rewardLabel = nil;
-  self.experienceLabel = nil;
-  self.itemChanceLabel = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation MissionOverBuildingMenu
-
-@synthesize progressBar;
-
-- (void) awakeFromNib {
-  _separators = [[NSMutableArray array] retain];
-  
-  if ([[UIScreen mainScreen] scale] == 2.00) {
-    CGRect r = progressBar.frame;
-    r.origin.y += 0.5;
-    progressBar.frame = r;
-  }
-}
-
-- (void) removeAllSeperators {
-  [_separators enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [obj removeFromSuperview];
-  }];
-  [_separators removeAllObjects];
-}
-
-- (void) updateMenuForTotal:(int)total numTimesActed:(int)numTimesActed {
-  [self removeAllSeperators];
-  if (total == 0) {
-    CGRect r = progressBar.frame;
-    r.size.width = 0;
-    progressBar.frame = r;
-    return;
-  }
-  
-  // Add the segmentors for each total-1 spot
-  UIImage *taskSeg = [Globals imageNamed: @"inbetweenbar.png"];
-  float width = progressBar.image.size.width;
-  
-  CGRect r = progressBar.frame;
-  r.size.width = width * numTimesActed / total;
-  progressBar.frame = r;
-  for (float i = 1; i < total; i+=1) {
-    UIImageView *tmpView = [[UIImageView alloc] initWithImage:taskSeg];
-    tmpView.center = CGPointMake(progressBar.frame.origin.x+i/total*width, progressBar.center.y+0.5);
-    [self addSubview:tmpView];
-    [_separators addObject:tmpView];
-    [tmpView release];
-  }
-}
-
-- (void) setMissionMap:(MissionMap *)m {
-  missionMap = m;
-}
-
-- (void) setFrameForPoint:(CGPoint)pt {
-  // place it so that the bottom middle is at pt
-  // Remember, frame is relative to top left corner
-  float width = self.frame.size.width;
-  float height = self.frame.size.height;
-  self.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  [missionMap performCurrentTask];
-}
-
-- (void) dealloc {
-  [_separators release];
-  self.progressBar = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation TaskProgressBar
 
 @synthesize isAnimating;
@@ -364,13 +255,14 @@
     }
     
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:obMenu];
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:summaryMenu];
+    [Globals displayUIView:obMenu];
+    [Globals displayUIView:summaryMenu];
     [obMenu setMissionMap:self];
     obMenu.hidden = YES;
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
-    summaryMenu.center = CGPointMake(-summaryMenu.frame.size.width, 290);
+    summaryMenu.center = CGPointMake(summaryMenu.frame.size.width/2+5.f, summaryMenu.superview.frame.size.height-summaryMenu.frame.size.height/2-2.f);
+    summaryMenu.alpha = 0.f;
     
     _taskProgBar = [TaskProgressBar node];
     [self addChild:_taskProgBar z:1002];
@@ -545,25 +437,21 @@
 }
 
 - (void) doMenuAnimations {
-  int width = summaryMenu.frame.size.width;
-  
-  summaryMenu.center = CGPointMake(-width/2, summaryMenu.center.y);
+  summaryMenu.alpha = 0.f;
   
   [self updateMissionBuildingMenu];
   obMenu.alpha = 0.f;
   
   [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-    summaryMenu.center = CGPointMake(width/2, summaryMenu.center.y);
+    summaryMenu.alpha = 1.f;
     obMenu.alpha = 1.f;
   }];
 }
 
 - (void) closeMenus {
-  int width = summaryMenu.frame.size.width;
-  
   if (!obMenu.hidden) {
     [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-      summaryMenu.center = CGPointMake(-width/2, summaryMenu.center.y);
+      summaryMenu.alpha = 0.f;
       obMenu.alpha = 0.f;
     } completion:^(BOOL finished) {
       if (finished) {
@@ -594,6 +482,7 @@
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
     [self updateMissionBuildingMenu];
   }
+  self.selected = nil;
   [super drag:recognizer node:node];
 }
 

@@ -52,13 +52,11 @@
   float xPos = [self rand]*self.contentSize.width;
   float yPos = [self rand]*self.contentSize.height;
   BOOL flipX = [self rand] < 0.5;
-  BOOL flipY = [self rand] < 0.5;
   
   CCSprite *cloud = [CCSprite spriteWithFile:@"cloud1.png"];
   cloud.scale = scale;
   cloud.position = ccp(xPos, yPos);
   cloud.flipX = flipX;
-  cloud.flipY = flipY;
   
   CGPoint endPos;
   if (isMovingRight) {
@@ -76,7 +74,6 @@
   shadow.opacity = CLOUD_SHADOW_OPACITY;
   shadow.color = ccc3(0,0,0);
   shadow.flipX = flipX;
-  shadow.flipY = flipY;
   [shadow runAction:[CCFadeIn actionWithDuration:1.2f]];
   
   cloud.opacity = 0.f;

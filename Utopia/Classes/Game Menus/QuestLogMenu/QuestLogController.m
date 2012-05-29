@@ -119,7 +119,7 @@
 @synthesize descriptionLabel, visitView;
 
 - (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated {
-  self.descriptionLabel.text = fqp.inProgress;
+  self.descriptionLabel.text = fqp.description;
   self.visitView.hidden = !visitActivated;
   _cityId = fqp.cityId;
   _assetNum = fqp.assetNumWithinCity;

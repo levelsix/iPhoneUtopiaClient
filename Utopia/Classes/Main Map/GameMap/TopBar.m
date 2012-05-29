@@ -25,7 +25,7 @@
 #define ENERGY_BAR_POSITION ccp(53,15)
 #define STAMINA_BAR_POSITION ccp(149,15)
 
-#define BOTTOM_BUTTON_OFFSET 5
+#define BOTTOM_BUTTON_OFFSET 2
 
 #define TOOL_TIP_SHADOW_OPACITY 80
 
@@ -188,21 +188,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     s = [CCSprite spriteWithFile:@"bazaar.png"];
     CCMenuItemSprite *bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
-    bazaarButton.position = ccp(mapButton.position.x, mapButton.position.y+mapButton.contentSize.height/2+bazaarButton.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    bazaarButton.position = ccp(mapButton.position.x, mapButton.position.y+mapButton.contentSize.height/2+bazaarButton.contentSize.height/2);
     
     s = [CCSprite spriteWithFile:@"attack.png"];
     CCMenuItemSprite *attackButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
-    attackButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-attackButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
-    
-    s = [CCSprite spriteWithFile:@"forum.png"];
-    CCMenuItemSprite *forumButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(forumClicked)];
-    forumButton.position = ccp(attackButton.position.x-attackButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    attackButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-attackButton.contentSize.width/2, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"quests.png"];
     _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
     _questButton.position = ccp(mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, bazaarButton, forumButton, _questButton, nil];
+    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, bazaarButton, _questButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons];

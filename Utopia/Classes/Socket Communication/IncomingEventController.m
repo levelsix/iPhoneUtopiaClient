@@ -320,6 +320,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (gs.isTutorial) {
       [[DialogMenuController sharedDialogMenuController] stopLoading];
     }
+    
+//    [oec retrieveStructStore];
+//    [oec purchaseNormStruct:1 atX:50 atY:39];
   } else {
     // Need to create new player
     StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;

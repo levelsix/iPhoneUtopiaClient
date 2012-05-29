@@ -103,9 +103,15 @@
 
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
+
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants;
+
 + (NSString *) font;
 + (int) fontSize;
+
++ (NSString *)convertTimeToString:(int)secs;
+
++ (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
 + (UIImage *) imageForStruct:(int)structId;
 + (UIImage *) imageForEquip:(int)eqId;
@@ -157,7 +163,7 @@
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
 + (void) shakeView:(UIView *)view duration:(float)duration offset:(int)offset;
-+ (UIImage *) imageNamed:(NSString *)path;
++ (void) displayUIView:(UIView *)view;
 
 + (UIColor *)creamColor;
 + (UIColor *)goldColor;

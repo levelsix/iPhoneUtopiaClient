@@ -161,6 +161,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fontSize;
 }
 
++ (NSString *)convertTimeToString:(int)secs {
+  int days = secs / 86400;
+  secs %= 86400;
+  int hrs = secs / 3600;
+  secs %= 3600;
+  int mins = secs / 60;
+  secs %= 60;
+  
+  NSString *daysString = days ? [NSString stringWithFormat:@"%d:", days] : @"";
+  return [NSString stringWithFormat:@"%@%02d:%02d:%02d", daysString, hrs, mins, secs];
+}
+
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size {
   return [NSString stringWithFormat:@"ConstructionSite%dx%d.png", (int)size.width, (int)size.height];
 }
@@ -492,6 +504,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [animation setToValue:[NSValue valueWithCGPoint:
                          CGPointMake(view.center.x + offset, view.center.y)]];
   [view.layer addAnimation:animation forKey:@"position"];
+}
+
++ (void) displayUIView:(UIView *)view {
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:view];
 }
 
 + (NSString *) pathToMap:(NSString *)mapName {

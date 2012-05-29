@@ -23,6 +23,9 @@
 @interface NiceFontLabel5 : UILabel 
 @end
 
+@interface NiceFontLabel6 : UILabel 
+@end
+
 @interface NiceFontButton : UIButton
 @end
 
@@ -87,5 +90,11 @@
 @property (nonatomic, retain) UIImageView *darkOverlay;
 
 - (void) equipClicked;
+
+@end
+
+@interface ProgressBar : UIImageView
+
+@property (nonatomic, assign) float percentage;
 
 @end
