@@ -15,7 +15,6 @@
   BOOL _goToAviary;
   CCSprite *_ccArrow;
   CritStructBuilding *_csb;
-  Aviary *_av;
   UIImageView *_uiArrow;
   BOOL _arrowDir;
   BOOL _canUnclick;

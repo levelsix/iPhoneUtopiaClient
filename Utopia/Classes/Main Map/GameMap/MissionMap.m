@@ -15,6 +15,7 @@
 #import "AnimatedSprite.h"
 #import "CCLabelFX.h"
 #import "TopBar.h"
+#import "QuestLogController.h"
 
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
@@ -129,15 +130,6 @@
       }
     }
     
-    // Add aviary
-    Globals *gl = [Globals sharedGlobals];
-    CGRect avCoords = CGRectMake(fcp.aviaryCoords.x, fcp.aviaryCoords.y, gl.aviaryXLength, gl.aviaryYLength);
-    Aviary *av = [[Aviary alloc] initWithFile:@"Aviary.png" location:avCoords map:self];
-    av.orientation = fcp.aviaryOrientation;
-    [self addChild:av];
-    [av release];
-    [self changeTiles:av.location canWalk:NO];
-    
     // Now add people, first add quest givers
     for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
       if (fqp.cityId == fcp.cityId) {
@@ -248,9 +240,47 @@
       FullTaskProto *ftp = [gs taskWithId:mutp.taskId];
       MissionBuilding *asset = [self assetWithId:ftp.assetNumWithinCity];
       if (asset) {
-        asset.numTimesActed = mutp.numTimesActed;
+        asset.numTimesActedForTask = mutp.numTimesActed;
       } else {
         LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
+      }
+    }
+    
+    // Just use jobs for defeat type jobs, tasks are tracked on their own
+    _jobs = [[NSMutableArray alloc] init];
+    
+    for (FullUserQuestDataLargeProto *questData in proto.inProgressUserQuestDataInCityList) {
+      FullQuestProto *fqp = [gs.inProgressIncompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
+      fqp = fqp ? fqp : [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:questData.questId]];
+      if (fqp.cityId != proto.cityId) {
+        continue;
+      }
+      
+      for (MinimumUserQuestTaskProto *taskData in questData.requiredTasksProgressList) {
+        FullTaskProto *ftp = [gs taskWithId:taskData.taskId];
+        MissionBuilding *mb = (MissionBuilding *)[self assetWithId:ftp.assetNumWithinCity];
+        
+        mb.partOfQuest = YES;
+        if (questData.isComplete) {
+          mb.numTimesActedForQuest = ftp.numRequiredForCompletion;
+        } else {
+          mb.numTimesActedForQuest = taskData.numTimesActed;
+          if (mb.numTimesActedForQuest < ftp.numRequiredForCompletion) {
+            [mb displayArrow];
+          }
+        }
+      }
+      
+      for (MinimumUserDefeatTypeJobProto *dtData in questData.requiredDefeatTypeJobProgressList) {
+        DefeatTypeJobProto *job = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:dtData.defeatTypeJobId]];
+        
+        if (dtData.numDefeated  < job.numEnemiesToDefeat) {
+          [self displayArrowsOnEnemies:job.typeOfEnemy];
+          
+          UserJob *userJob = [[UserJob alloc] initWithDefeatTypeJob:job];
+          userJob.numCompleted = job.numEnemiesToDefeat;
+          [_jobs addObject:userJob];
+        }
       }
     }
     
@@ -291,17 +321,60 @@
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userId == userId) {
+        // Need to delay time so check has time to display
         [enemy runAction:[CCSequence actions:
-                          [CCFadeOut actionWithDuration:0.5f],
+                          [CCFadeOut actionWithDuration:1.5f],
+                          [CCDelayTime actionWithDuration:1.5f],
                           [CCCallBlock actionWithBlock:
                            ^{
                              [enemy removeFromParentAndCleanup:YES];
                            }], nil]];
+        
+        // This will only actually display check if the arrow is there..
+        for (UserJob *job in _jobs) {
+          if (job.jobType == kDefeatTypeJob && job.numCompleted < job.total) {
+            DefeatTypeJobProto *dtj = [[[GameState sharedGameState] staticDefeatTypeJobs] objectForKey:[NSNumber numberWithInt:job.jobId]];
+            
+            if (dtj.typeOfEnemy == enemy.user.userType || dtj.typeOfEnemy == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+              [enemy displayCheck];
+              job.numCompleted++;
+            }
+          }
+        }
+        [self updateEnemyQuestArrows];
+        
+        return;
       }
     }
   }
 }
 
+- (void) displayArrowsOnEnemies:(DefeatTypeJobProto_DefeatTypeJobEnemyType)enemyType {
+  for (CCNode *child in children_) {
+    if ([child isKindOfClass:[Enemy class]]) {
+      Enemy *enemy = (Enemy *)child;
+      if (enemy.user.userType == enemyType || enemyType == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+        [enemy displayArrow];
+      }
+    }
+  }
+}
+
+- (void) updateEnemyQuestArrows {
+  for (CCNode *node in children_) {
+    if ([node isKindOfClass:[Enemy class]]) {
+      Enemy *enemy = (Enemy *)node;
+      [enemy removeArrowAnimated:YES];
+    }
+  }
+  
+  for (UserJob *job in _jobs) {
+    if (job.jobType == kDefeatTypeJob && job.numCompleted < job.total) {
+      DefeatTypeJobProto *dtj = [[[GameState sharedGameState] staticDefeatTypeJobs] objectForKey:[NSNumber numberWithInt:job.jobId]];
+      [self displayArrowsOnEnemies:dtj.typeOfEnemy];
+    }
+  }
+}
 
 -(void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk {
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
@@ -334,7 +407,7 @@
 - (void) updateMissionBuildingMenu {
   if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
     CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
-    [obMenu setFrameForPoint:pt];
+    [Globals setFrameForView:obMenu forPoint:pt];
     obMenu.hidden = NO;
   } else {
     obMenu.hidden = YES;
@@ -367,13 +440,15 @@
         [Analytics notEnoughEquipsForTasks:ftp.taskId equipReqs:arr];
         self.selected = nil;
       } else {
-        BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:mb.numTimesActed];
+        int numTimesActed = mb.partOfQuest ? mb.numTimesActedForQuest : mb.numTimesActedForTask;
+        BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:numTimesActed];
         
         if (success) {
           _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
           [_taskProgBar animateBarWithText:ftp.processingText];
           _taskProgBar.visible = YES;
-          mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
+          mb.numTimesActedForTask = MIN(mb.numTimesActedForTask+1, ftp.numRequiredForCompletion);
+          mb.numTimesActedForQuest = MIN(mb.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
           _receivedTaskActionResponse = NO;
           _performingTask = YES;
         }
@@ -415,7 +490,14 @@
 - (void) taskBarAnimDone {
   if (_receivedTaskActionResponse) {
     _taskProgBar.visible = NO;
+    
+    MissionBuilding *mb = (MissionBuilding *)_selected;
+    FullTaskProto *ftp = mb.ftp;
+    if (mb.partOfQuest && mb.numTimesActedForQuest >= ftp.numRequiredForCompletion) {
+      [mb displayCheck];
+    }
     self.selected = nil;
+    
     _performingTask = NO;
   }
 }
@@ -428,7 +510,10 @@
   if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
     MissionBuilding *mb = (MissionBuilding *)_selected;
     [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
-    [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:mb.numTimesActed];
+    
+    int numTimesActed = mb.partOfQuest ? mb.numTimesActedForQuest : mb.numTimesActedForTask;
+    [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:numTimesActed isForQuest:mb.partOfQuest];
+    
     [self doMenuAnimations];
     [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
   } else {
@@ -449,16 +534,14 @@
 }
 
 - (void) closeMenus {
-  if (!obMenu.hidden) {
-    [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
-      summaryMenu.alpha = 0.f;
-      obMenu.alpha = 0.f;
-    } completion:^(BOOL finished) {
-      if (finished) {
-        [self updateMissionBuildingMenu];
-      }
-    }];
-  }
+  [UIView animateWithDuration:SUMMARY_MENU_ANIMATION_DURATION animations:^{
+    summaryMenu.alpha = 0.f;
+    obMenu.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    if (finished) {
+      [self updateMissionBuildingMenu];
+    }
+  }];
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
@@ -494,11 +577,45 @@
 - (void) questAccepted:(FullQuestProto *)fqp {
   QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
   qg.questGiverState = kInProgress;
+  
+  GameState *gs = [GameState sharedGameState];
+  for (NSNumber *num in fqp.taskReqsList) {
+    FullTaskProto *task = [gs taskWithId:num.intValue];
+    MissionBuilding *mb = (MissionBuilding *)[self assetWithId:task.assetNumWithinCity];
+    mb.numTimesActedForQuest = 0;
+    mb.partOfQuest = YES;
+    [mb displayArrow];
+  }
+  
+  for (NSNumber *num in fqp.defeatTypeReqsList) {
+    DefeatTypeJobProto *dtj = [gs.staticDefeatTypeJobs objectForKey:num];
+    UserJob *job = [[UserJob alloc] initWithDefeatTypeJob:dtj];
+    job.numCompleted = 0;
+    
+    [_jobs addObject:job];
+  }
+  [self updateEnemyQuestArrows];
+  [self reloadQuestGivers];
 }
 
-- (void) receivedQuestAcceptResponse:(QuestAcceptResponseProto *)qarp {
+- (void) questRedeemed:(FullQuestProto *)fqp {
+  GameState *gs = [GameState sharedGameState];
+  for (NSNumber *num in fqp.taskReqsList) {
+    FullTaskProto *task = [gs taskWithId:num.intValue];
+    MissionBuilding *mb = (MissionBuilding *)[self assetWithId:task.assetNumWithinCity];
+    mb.partOfQuest = NO;
+  }
+  
+  for (NSNumber *num in fqp.defeatTypeReqsList) {
+    for (UserJob *job in _jobs) {
+      if (job.jobType == kDefeatTypeJob && job.jobId == num.intValue) {
+        [_jobs removeObject:job];
+      }
+    }
+  }
+  
+  [self updateEnemyQuestArrows];
   [self reloadQuestGivers];
-  [self addEnemiesFromArray:qarp.enemiesIfQuestsHaveDefeatTypeJobList];
 }
 
 - (void) reloadQuestGivers {
@@ -559,6 +676,7 @@
 }
 
 - (void) dealloc {
+  [_jobs release];
   [summaryMenu removeFromSuperview];
   self.summaryMenu = nil;
   [obMenu removeFromSuperview];

@@ -7,6 +7,8 @@
 //
 
 #import "cocos2d.h"
+#import "Protocols.pb.h"
+#import "NibUtils.h"
 
 @class MissionMap;
 
@@ -19,15 +21,17 @@
 @property (nonatomic, retain) IBOutlet UILabel *experienceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *itemChanceLabel;
 
+- (void) updateLabelsForTask:(FullTaskProto *)ftp name:(NSString *)name;
+
 @end
 
 @interface MissionOverBuildingMenu : UIView {
-  NSMutableArray *_separators;
   MissionMap *missionMap;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *progressBar;
+@property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
 
+- (void) updateMenuForTotal:(int)total numTimesActed:(int)numTimesActed isForQuest:(BOOL)highlighted;
 - (void) setMissionMap:(MissionMap *)m;
 
 @end

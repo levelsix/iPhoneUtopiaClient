@@ -40,6 +40,10 @@
 + (HomeMap *)sharedHomeMap;
 + (void) purgeSingleton;
 
+- (void) doMenuAnimations;
+- (void) closeMenus;
+- (void) upgradeMenuClosed;
+
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
 - (void) backgroundRefresh;

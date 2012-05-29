@@ -36,7 +36,7 @@
     itemChanceLabel.textColor = [Globals colorForRarity:rarity];
   } else {
     itemChanceLabel.text = @"None";
-    itemChanceLabel.textColor = [UIColor whiteColor];
+    itemChanceLabel.textColor = [UIColor whiteColor]; 
   }
 }
 
@@ -56,58 +56,17 @@
 
 @synthesize progressBar;
 
-- (void) awakeFromNib {
-  _separators = [[NSMutableArray array] retain];
-  
-  if ([[UIScreen mainScreen] scale] == 2.00) {
-    CGRect r = progressBar.frame;
-    r.origin.y += 0.5;
-    progressBar.frame = r;
-  }
-}
-
-- (void) removeAllSeperators {
-  [_separators enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [obj removeFromSuperview];
-  }];
-  [_separators removeAllObjects];
-}
-
-- (void) updateMenuForTotal:(int)total numTimesActed:(int)numTimesActed {
-  [self removeAllSeperators];
+- (void) updateMenuForTotal:(int)total numTimesActed:(int)numTimesActed isForQuest:(BOOL)highlighted {
   if (total == 0) {
-    CGRect r = progressBar.frame;
-    r.size.width = 0;
-    progressBar.frame = r;
+    progressBar.percentage = 0.f;
     return;
   }
-  
-  // Add the segmentors for each total-1 spot
-  UIImage *taskSeg = [Globals imageNamed: @"inbetweenbar.png"];
-  float width = progressBar.image.size.width;
-  
-  CGRect r = progressBar.frame;
-  r.size.width = width * numTimesActed / total;
-  progressBar.frame = r;
-  for (float i = 1; i < total; i+=1) {
-    UIImageView *tmpView = [[UIImageView alloc] initWithImage:taskSeg];
-    tmpView.center = CGPointMake(progressBar.frame.origin.x+i/total*width, progressBar.center.y+0.5);
-    [self addSubview:tmpView];
-    [_separators addObject:tmpView];
-    [tmpView release];
-  }
+  progressBar.percentage = ((float)numTimesActed)/total;
+  progressBar.highlighted = highlighted;
 }
 
 - (void) setMissionMap:(MissionMap *)m {
   missionMap = m;
-}
-
-- (void) setFrameForPoint:(CGPoint)pt {
-  // place it so that the bottom middle is at pt
-  // Remember, frame is relative to top left corner
-  float width = self.frame.size.width;
-  float height = self.frame.size.height;
-  self.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -115,7 +74,6 @@
 }
 
 - (void) dealloc {
-  [_separators release];
   self.progressBar = nil;
   [super dealloc];
 }

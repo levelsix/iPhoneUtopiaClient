@@ -48,6 +48,8 @@ typedef enum {
   ProfilePicture *_profilePic;
   
   CCMenuItem *_questButton;
+  CCMenuItem *_bazaarButton;
+  CCMenuItem *_homeButton;
   CCMenu *_bottomButtons;
   
   CCSprite *_questNewArrow;
@@ -81,6 +83,10 @@ typedef enum {
 - (void) fadeInBigToolTip:(BOOL)isEnergy;
 - (void) fadeInLittleToolTip:(BOOL)isEnergy;
 - (void) fadeOutToolTip:(BOOL)big;
+
+- (void) loadHomeConfiguration;
+- (void) loadBazaarConfiguration;
+- (void) loadNormalConfiguration;
 
 - (void) invalidateTimers;
 

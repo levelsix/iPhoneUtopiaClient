@@ -40,7 +40,6 @@
   CGPoint topRightCorner;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *aviaryMenu;
 @property (nonatomic, retain) IBOutlet EnemyPopupView *enemyMenu;
 
 @property (nonatomic, assign) SelectableSprite *selected;
@@ -73,7 +72,6 @@
 - (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite;
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
 
-- (IBAction)enterAviaryClicked:(id)sender;
 - (IBAction)attackClicked:(id)sender;
 - (IBAction)profileClicked:(id)sender;
 

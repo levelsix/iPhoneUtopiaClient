@@ -157,6 +157,8 @@
 
 + (NSString *) commafyNumber:(int) n;
 
++ (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
+
 + (void) popupMessage: (NSString *)msg;
 + (void) bounceView: (UIView *) view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;

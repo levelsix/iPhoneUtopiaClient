@@ -31,6 +31,8 @@
   
   BOOL _receivedTaskActionResponse;
   BOOL _performingTask;
+  
+  NSMutableArray *_jobs;
 }
 
 @property (nonatomic, retain) IBOutlet MissionBuildingSummaryMenu *summaryMenu;
@@ -43,11 +45,12 @@
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
 
+- (void) questRedeemed:(FullQuestProto *)fqp;
+
 - (void) killEnemy:(int)userId;
 
 - (void) closeMenus;
 - (void) questAccepted:(FullQuestProto *)fqp;
 - (void) reloadQuestGivers;
-- (void) receivedQuestAcceptResponse:(QuestAcceptResponseProto *)qarp;
 
 @end

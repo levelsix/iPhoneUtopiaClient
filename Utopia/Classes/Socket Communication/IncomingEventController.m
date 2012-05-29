@@ -394,7 +394,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     if (proto.cityRankedUp) {
-      int cityId = 1;
+      int cityId = proto.cityId;
       UserCity *city = [gs myCityWithId:cityId];
       city.curRank++;
       city.numTasksComplete = 0;
@@ -411,7 +411,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         for (MapSprite *spr in sprites) {
           if ([spr isKindOfClass:[MissionBuilding class]]) {
             MissionBuilding *mb = (MissionBuilding *)spr;
-            mb.numTimesActed = 0;
+            mb.numTimesActedForTask = 0;
           }
         }
       }
@@ -815,10 +815,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
     [Globals popupMessage:@"Server failed to accept quest"];
-  } else {
-    if ([[GameLayer sharedGameLayer] currentCity] == proto.cityIdOfAcceptedQuest) {
-      [[[GameLayer sharedGameLayer] missionMap] receivedQuestAcceptResponse:proto];
-    }
   }
 }
 

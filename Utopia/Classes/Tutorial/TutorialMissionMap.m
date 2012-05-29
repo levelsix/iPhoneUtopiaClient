@@ -99,15 +99,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
       }
     }
     
-    // Add aviary
-    Globals *gl = [Globals sharedGlobals];
-    CGRect avCoords = CGRectMake(3, 13, gl.aviaryXLength, gl.aviaryYLength);
-    _aviary = [[Aviary alloc] initWithFile:@"Aviary.png" location:avCoords map:self];
-    _aviary.orientation = 1;
-    [self addChild:_aviary];
-    [_aviary release];
-    [self changeTiles:_aviary.location canWalk:NO];
-    
     // Now add people, first add quest givers
     StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = tc.tutorialQuest;
     NeutralCityElementProto *ncep = nil;
@@ -133,7 +124,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     FullTaskProto *ftp = [Globals userTypeIsGood:gs.type] ? tutQuest.firstTaskGood : tutQuest.firstTaskBad;
     MissionBuilding *asset = (MissionBuilding *)[self getChildByTag:ftp.assetNumWithinCity+ASSET_TAG_BASE];
     asset.ftp = ftp;
-    asset.numTimesActed = 0;
+    asset.numTimesActedForTask = 0;
     
     [[NSBundle mainBundle] loadNibNamed:@"MissionBuildingMenu" owner:self options:nil];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.obMenu];
@@ -261,13 +252,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
              [[(MissionBuilding *)selected ftp] assetNumWithinCity] == tc.tutorialQuest.assetNumWithinCity) {
     [super setSelected:selected];
     _canUnclick = NO;
-  } else if (_aviaryPhase && [selected isKindOfClass:[Aviary class]]) {
-    [super setSelected:selected];
-    _canUnclick = NO;
-    [_ccArrow removeFromParentAndCleanup:YES];
-    
-    // release profile from previous step
-    [TutorialProfileViewController purgeSingleton];
   } else if (_canUnclick) {
     [super setSelected:nil];
   }
@@ -354,10 +338,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
     [_taskProgBar animateBarWithText:ftp.processingText];
     _taskProgBar.visible = YES;
-    mb.numTimesActed = MIN(mb.numTimesActed+1, ftp.numRequiredForCompletion);
+    mb.numTimesActedForQuest = MIN(mb.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
     _receivedTaskActionResponse = YES;
     
-    if (mb.numTimesActed == ftp.numRequiredForCompletion) {
+    if (mb.numTimesActedForQuest == ftp.numRequiredForCompletion) {
       _doTaskPhase = NO;
       
       [self performSelectorInBackground:@selector(preloadLevelUp) withObject:nil];
@@ -509,16 +493,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].beforeAviaryText2 callbackTarget:nil   action:nil];
   // Move arrow to aviary
   [_ccArrow removeFromParentAndCleanup:YES];
-  [_aviary addChild:_ccArrow];
-  _ccArrow.position = ccp(_aviary.contentSize.width/2, _aviary.contentSize.height+_ccArrow.contentSize.height/2);
   
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
   [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                          [upAction reverse], nil]]];
   
   _aviaryPhase = YES;
-  
-  [self moveToSprite:_aviary];
 }
 
 - (IBAction)attackClicked:(id)sender {
@@ -530,10 +510,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   
   // Move to the aviary now
   [_uiArrow removeFromSuperview];
-  [self.aviaryMenu addSubview:_uiArrow];
-  
-  UIView *visitButton = [self.aviaryMenu viewWithTag:30];
-  _uiArrow.center = CGPointMake(visitButton.frame.origin.x-_uiArrow.frame.size.width/2, visitButton.center.y);
   
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
   [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
@@ -553,13 +529,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 
 - (IBAction)profileClicked:(id)sender {
   return;
-}
-
-- (IBAction)enterAviaryClicked:(id)sender {
-  // Preload map so that it becomes the singleton
-  [TutorialMapViewController sharedMapViewController];
-  [super enterAviaryClicked:sender];
-  [_uiArrow removeFromSuperview];
 }
 
 - (void) dealloc {

@@ -158,6 +158,18 @@ typedef enum {
 BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value);
 
 typedef enum {
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodWarrior = 0,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodArcher = 1,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodMage = 2,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadWarrior = 3,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadArcher = 4,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadMage = 5,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide = 6,
+} DefeatTypeJobProto_DefeatTypeJobEnemyType;
+
+BOOL DefeatTypeJobProto_DefeatTypeJobEnemyTypeIsValidValue(DefeatTypeJobProto_DefeatTypeJobEnemyType value);
+
+typedef enum {
   DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType = 1,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodWarrior = 2,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodArcher = 3,
@@ -2525,14 +2537,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t defeatTypeJobId;
   int32_t numEnemiesToDefeat;
   int32_t cityId;
-  UserType typeOfEnemy;
+  DefeatTypeJobProto_DefeatTypeJobEnemyType typeOfEnemy;
 }
 - (BOOL) hasDefeatTypeJobId;
 - (BOOL) hasTypeOfEnemy;
 - (BOOL) hasNumEnemiesToDefeat;
 - (BOOL) hasCityId;
 @property (readonly) int32_t defeatTypeJobId;
-@property (readonly) UserType typeOfEnemy;
+@property (readonly) DefeatTypeJobProto_DefeatTypeJobEnemyType typeOfEnemy;
 @property (readonly) int32_t numEnemiesToDefeat;
 @property (readonly) int32_t cityId;
 
@@ -2576,8 +2588,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (DefeatTypeJobProto_Builder*) clearDefeatTypeJobId;
 
 - (BOOL) hasTypeOfEnemy;
-- (UserType) typeOfEnemy;
-- (DefeatTypeJobProto_Builder*) setTypeOfEnemy:(UserType) value;
+- (DefeatTypeJobProto_DefeatTypeJobEnemyType) typeOfEnemy;
+- (DefeatTypeJobProto_Builder*) setTypeOfEnemy:(DefeatTypeJobProto_DefeatTypeJobEnemyType) value;
 - (DefeatTypeJobProto_Builder*) clearTypeOfEnemy;
 
 - (BOOL) hasNumEnemiesToDefeat;

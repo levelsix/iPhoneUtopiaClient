@@ -17,6 +17,7 @@
 #import "RefillMenuController.h"
 #import "CritStructPopupController.h"
 #import "BuildUpgradePopupController.h"
+#import "GenericPopupController.h"
 
 #define HOME_BUILDING_TAG_OFFSET 123456
 
@@ -94,6 +95,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     
     hbMenu.center = CGPointMake(hbMenu.frame.size.width/2+5.f, hbMenu.superview.frame.size.height-hbMenu.frame.size.height/2-2.f);
     hbMenu.alpha = 0.f;
+    collectMenu.alpha = 0.f;
+    moveMenu.hidden = YES;
     
     _loading = YES;
     
@@ -278,7 +281,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [_purchBuilding release];
   
   self.selected = _purchBuilding;
-#warning self.hbMenu.state = kMoveState;
+  [self openMoveMenuOnSelected];
   _canMove = YES;
   _purchasing = YES;
   _purchStructId = structId;
@@ -288,21 +291,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self moveToSprite:_purchBuilding];
 }
 
+- (void) setViewForSelected:(UIView *)view {
+  // Used to set collect menu and move menu
+  
+  CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
+  [Globals setFrameForView:view forPoint:pt];
+}
+
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
     [super setSelected:selected];
     if ([selected isKindOfClass: [MoneyBuilding class]]) {
-      [self.hbMenu updateForUserStruct:((MoneyBuilding *) selected).userStruct];
-      [self doMenuAnimations];
+      UserStruct *us = ((MoneyBuilding *) selected).userStruct;
+      if (us.state == kUpgrading || us.state == kBuilding) {
+        [self.upgradeMenu displayForUserStruct:us];
+      } else {
+        [self.hbMenu updateForUserStruct:us];
+        [self.collectMenu updateForUserStruct:us];
+        
+        [self setViewForSelected:self.collectMenu];
+        
+        [self doMenuAnimations];
+      }
     } else {
       [self closeMenus];
+      [self.upgradeMenu closeClicked:nil];
     }
   }
 }
 
 - (void) doMenuAnimations {
   hbMenu.alpha = 0.f;
-  collectMenu.alpha = 0.f;
+  
+  // Do 0.01f because timer gets deallocated when alpha is 0.f
+  collectMenu.alpha = 0.01f;
   
   [UIView animateWithDuration:0.3f animations:^{
     hbMenu.alpha = 1.f;
@@ -310,13 +332,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }];
 }
 
+- (void) openMoveMenuOnSelected {
+  NSLog(@"%@", _selected);
+  [self closeMenus];
+  
+  [self setViewForSelected:self.moveMenu];
+  
+  self.moveMenu.hidden = NO;
+}
+
 - (void) closeMenus {
-  if (hbMenu.alpha > 0.f) {
-    [UIView animateWithDuration:0.3f animations:^{
-      hbMenu.alpha = 0.f;
-      collectMenu.alpha = 0.f;
-    }];
-  }
+  collectMenu.alpha = 0.f;
+  moveMenu.hidden = YES;
+  [UIView animateWithDuration:0.3f animations:^{
+    hbMenu.alpha = 0.f;
+  }];
 }
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
@@ -338,6 +368,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           
           [homeBuilding updateMeta];
           _isMoving = YES;
+          [self openMoveMenuOnSelected];
           return;
         }
       } else if (_isMoving && [recognizer state] == UIGestureRecognizerStateChanged) {
@@ -345,15 +376,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [homeBuilding clearMeta];
         [homeBuilding locationAfterTouch:pt];
         [homeBuilding updateMeta];
+        [self openMoveMenuOnSelected];
         return;
       } else if (_isMoving && [recognizer state] == UIGestureRecognizerStateEnded) {
         [homeBuilding clearMeta];
         [homeBuilding placeBlock];
         _isMoving = NO;
         [self doReorder];
+        [self openMoveMenuOnSelected];
         return;
       }
     }
+    [self openMoveMenuOnSelected];
   } else {
     self.selected = nil;
   }
@@ -382,6 +416,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       }
     }
     self.selected = sel;
+  }
+}
+
+- (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  [super scale:recognizer node:node];
+  
+  if (self.collectMenu.alpha > 0.f) {
+    [self setViewForSelected:self.collectMenu];
+  } else if (self.moveMenu.alpha > 0.f) {
+    [self setViewForSelected:self.moveMenu];
   }
 }
 
@@ -416,10 +460,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self updateTimersForBuilding:mb];
   mb.isConstructing = NO;
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-  #warning if (mb == _selected && hbMenu.state != kMoveState) {
-    //    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+  if (mb == _selected && _canMove) {
+    [mb cancelMove];
     self.selected = nil;
-//  }
+  }
   _constrBuilding = nil;
 }
 
@@ -428,10 +472,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-  #warning if (mb == _selected && hbMenu.state != kMoveState) {
-    //    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-    self.selected = nil;
-//  }
   _upgrBuilding = nil;
 }
 
@@ -440,12 +480,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   mb.retrievable = YES;
   
   if (mb == _selected) {
-    #warning if (self.hbMenu.state == kMoveState) {
+    if (_canMove) {
       [mb cancelMove];
       _canMove = NO;
-//    }
+    }
     self.selected = nil;
   }
+}
+
+- (void) upgradeMenuClosed {
+  if (!_canMove) {
+    self.selected = nil;
+  }
+}
+
+- (IBAction)beginMoveClicked:(id)sender {
+  [self openMoveMenuOnSelected];
+  _canMove = YES;
+  
+  // Make sure canMove is set to YES so selected isnt set to nil
+  [self.upgradeMenu closeClicked:nil];
 }
 
 - (IBAction)moveCheckClicked:(id)sender {
@@ -506,33 +560,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (IBAction)redButtonClicked:(id)sender {
-//  if (hbMenu.state == kNormalState) {
-//    hbMenu.state = kSellState;
-//  } else if (hbMenu.state == kSellState) {
-    // Do real sell
-    UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
-    int structId = us.structId;
-    [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
-    if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
-      MoneyBuilding *spr = (MoneyBuilding *)self.selected;
-      self.selected = nil;
-      [spr liftBlock];
-      [_timers removeObject:spr.timer];
-      spr.timer = nil;
-      [self removeChild:spr cleanup:YES];
-      
-      // Fix tag fragmentation
-      int tag = [self baseTagForStructId:structId];
-      int renameTag = tag;
-      for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
-        CCNode *c = [self getChildByTag:i];
-        if (c) {
-          [c setTag:renameTag];
-          renameTag++;
-        }
+- (IBAction)sellClicked:(id)sender {
+  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  int structId = us.structId;
+  [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
+  [self closeMenus];
+  if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
+    MoneyBuilding *spr = (MoneyBuilding *)self.selected;
+    self.selected = nil;
+    [spr liftBlock];
+    [_timers removeObject:spr.timer];
+    spr.timer = nil;
+    [self removeChild:spr cleanup:YES];
+    
+    // Fix tag fragmentation
+    int tag = [self baseTagForStructId:structId];
+    int renameTag = tag;
+    for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
+      CCNode *c = [self getChildByTag:i];
+      if (c) {
+        [c setTag:renameTag];
+        renameTag++;
       }
-//    }
+    }
   }
 }
 
@@ -541,6 +591,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   Globals *gl = [Globals sharedGlobals];
   if (us.level < gl.maxLevelForStruct) {
     [self.upgradeMenu displayForUserStruct:us];
+    [self closeMenus];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for buildings is level %d.", gl.maxLevelForStruct]];
   }
@@ -564,6 +615,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         _upgrBuilding = (MoneyBuilding *)_selected;
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu displayForUserStruct:us];
+        [self closeMenus];
       }
     } else {
       if (cost > gs.gold) {
@@ -575,12 +627,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         _upgrBuilding = (MoneyBuilding *)_selected;
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu displayForUserStruct:us];
+        [self closeMenus];
       }
     }
   }
 }
 
-- (IBAction)finishNowClicked:(id)sender {
+- (IBAction)finishNowClicked:(id)sender {MoneyBuilding *mb = (MoneyBuilding *)_selected;
+  UserStructState state = mb.userStruct.state;
+  Globals *gl = [Globals sharedGlobals];
+  int goldCost = 0;
+  
+  if (state == kUpgrading) {
+    UserStruct *us = _upgrBuilding.userStruct;
+    goldCost = [gl calculateDiamondCostForInstaUpgrade:us];
+  } else if (state == kBuilding) {
+    goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];
+  }
+  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %d gold?", goldCost];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
+}
+
+- (void) speedUpBuilding {
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
   UserStructState state = mb.userStruct.state;
   Globals *gl = [Globals sharedGlobals];
@@ -605,9 +673,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   
-//  self.hbMenu.finishNowButton.enabled = NO;
-//  self.hbMenu.blueButton.enabled = NO;
-  
   if (mb.userStruct.state == kWaitingForIncome) {
     if (_selected == _constrBuilding) {
       _constrBuilding = nil;
@@ -617,26 +682,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [Globals popupMessage:@"This should never come up.. Inconsistent state in HomeMap->finishNowClicked"];
     }
     
-    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:NO];
-    // animate bar to top
-//    [self.hbMenu.timer invalidate];
-//    float secs = PROGRESS_BAR_SPEED*(1-[self.hbMenu progressBarProgress]);
-//    [UIView animateWithDuration:secs animations:^{
-//      [self.hbMenu setProgressBarProgress:1.f];
-//    } completion:^(BOOL finished) {
-//      [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-//      [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
-//      self.hbMenu.finishNowButton.enabled = YES;
-//      self.hbMenu.blueButton.enabled = YES;
-//      [self.hbMenu startTimer];
-//      mb.isConstructing = NO;
-//      self.selected = nil;
-//      //      [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-//    }];
-//    [self updateTimersForBuilding:mb];
-  } else {
-//    self.hbMenu.finishNowButton.enabled = YES;
-//    self.hbMenu.blueButton.enabled = YES;
+    [self updateTimersForBuilding:mb];
+    
+    [self.upgradeMenu finishNow:^{
+      mb.isConstructing = NO;
+    }];
   }
 }
 

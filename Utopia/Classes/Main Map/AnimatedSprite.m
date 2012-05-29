@@ -34,6 +34,11 @@
   return self;
 }
 
+- (void) displayArrow {
+  [super displayArrow];
+  _arrow.position = ccpAdd(_arrow.position, ccp(0, 10.f));
+}
+
 - (void) setOpacity:(GLubyte)opacity {
   [super setOpacity:opacity];
   _nameLabel.opacity = opacity;
@@ -187,21 +192,29 @@
   [self removeChild:_aboveHeadMark cleanup:YES];
   _aboveHeadMark = nil;
   if (questGiverState == kInProgress) {
-    _aboveHeadMark = [CCSprite spriteWithFile:@"question.png"];
+    _aboveHeadMark = [CCSprite spriteWithFile:@"questinprogress.png"];
   } else if (questGiverState == kAvailable) {
-    _aboveHeadMark = [CCSprite spriteWithFile:@"exclamation.png"];
+    _aboveHeadMark = [CCSprite spriteWithFile:@"questnew.png"];
+  } else if (questGiverState == kCompleted) {
+    _aboveHeadMark = [CCSprite spriteWithFile:@"questcomplete.png"];
   }
   
   if (_aboveHeadMark) {
     [self addChild:_aboveHeadMark];
   }
-  _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+_aboveHeadMark.contentSize.height/2+10);
+  _aboveHeadMark.anchorPoint = ccp(0.5, 0.2f);
+  _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+10+_aboveHeadMark.contentSize.height*_aboveHeadMark.anchorPoint.y);
   
-  [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:
-                             [CCSequence actions:
-                              [CCFadeTo actionWithDuration:ABOVE_HEAD_FADE_DURATION opacity:ABOVE_HEAD_FADE_OPACITY],
-                              [CCFadeTo actionWithDuration:ABOVE_HEAD_FADE_DURATION opacity:255],
-                              nil]]];
+  if (questGiverState == kAvailable || questGiverState == kCompleted) {
+    CCRotateBy *right = [CCRotateBy actionWithDuration:0.03f angle:3];
+    CCActionInterval *left = right.reverse;
+    CCRepeat *ring = [CCRepeat actionWithAction:[CCSequence actions:right, left, left, right, nil] times:5];
+    [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:
+                               [CCSequence actions:
+                                ring,
+                                [CCDelayTime actionWithDuration:1.f],
+                                nil]]];
+  }
 }
 
 - (void) dealloc {

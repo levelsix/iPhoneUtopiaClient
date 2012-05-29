@@ -50,14 +50,6 @@
 
 @end
 
-@implementation Aviary
-
-- (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
-  return [super initWithFile:file location:loc map:map];
-}
-
-@end
-
 @implementation HomeBuilding
 
 @synthesize startTouchLocation = _startTouchLocation;
@@ -330,6 +322,18 @@
 
 @synthesize critStruct;
 
+- (id) initWithCritStruct:(CritStruct *)cs location:(CGRect)loc map:(GameMap *)map {
+  NSString *fileName = [cs.name stringByAppendingString:@".png"];
+  if ((self = [super initWithFile:fileName location:loc map:map])) {
+    self.critStruct = cs;
+    
+    CCSprite *label = [CCSprite spriteWithFile:[@"The" stringByAppendingString:fileName]];
+    [self addChild:label];
+    label.position = ccp(self.contentSize.width/2, self.contentSize.height/4);
+  }
+  return self;
+}
+
 - (void) dealloc {
   self.critStruct = nil;
   [super dealloc];
@@ -339,7 +343,7 @@
 
 @implementation MissionBuilding
 
-@synthesize ftp, numTimesActed, name;
+@synthesize ftp, numTimesActedForTask, numTimesActedForQuest, name, partOfQuest;
 
 - (void) dealloc {
   self.ftp = nil;

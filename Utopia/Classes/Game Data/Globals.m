@@ -669,6 +669,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {
+  // place it so that the bottom middle is at pt
+  // Remember, frame is relative to top left corner
+  float width = view.frame.size.width;
+  float height = view.frame.size.height;
+  view.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
+}
+
 + (BOOL)userTypeIsGood:(UserType)type {
   return type < 3;
 }
@@ -967,7 +975,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateIncome:(int)income level:(int)level {
-  return income * level * self.incomeFromNormStructMultiplier;
+  return MAX(1, income * level * self.incomeFromNormStructMultiplier);
 }
 
 - (int) calculateIncomeForUserStruct:(UserStruct *)us {

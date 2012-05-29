@@ -433,7 +433,7 @@ static NSString *udid = nil;
   [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
        setSender:_sender]
       setUserStructId:userStructId]
-     setTimeOfPurchase:milliseconds]
+     setTimeOfSpeedup:milliseconds]
     setWaitTimeType:type]
    build];
   

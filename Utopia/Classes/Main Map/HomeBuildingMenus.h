@@ -28,6 +28,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
 
+@property (nonatomic, retain) UserStruct *userStruct;
+@property (nonatomic, retain) NSTimer *timer;
+
 - (void) updateForUserStruct:(UserStruct *)us;
 
 @end
@@ -57,5 +60,8 @@
 @property (nonatomic, retain) NSTimer *timer;
 
 - (void) displayForUserStruct:(UserStruct *)us;
+- (void) finishNow:(void(^)(void))completed;
+
+- (IBAction)closeClicked:(id)sender;
 
 @end

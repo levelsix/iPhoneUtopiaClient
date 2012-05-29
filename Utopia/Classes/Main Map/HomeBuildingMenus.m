@@ -9,12 +9,17 @@
 #import "HomeBuildingMenus.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "HomeMap.h"
 
 @implementation HomeBuildingMenu
 
 @synthesize titleLabel, incomeLabel, rankLabel;
 
 - (void) updateForUserStruct:(UserStruct *)us {
+  if (us == nil) {
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   FullStructureProto *fsp = [gs structWithId:us.structId];
@@ -37,20 +42,61 @@
 @implementation HomeBuildingCollectMenu
 
 @synthesize coinsLabel, timeLabel, progressBar;
+@synthesize timer, userStruct;
 
 - (void) updateForUserStruct:(UserStruct *)us {
-  Globals *gl = [Globals sharedGlobals];
+  if (us == nil) {
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   FullStructureProto *fsp = [gs structWithId:us.structId];
   coinsLabel = [NSString stringWithFormat:@"%d", [gl calculateIncomeForUserStruct:us]];
   
+  self.userStruct = us;
+  
+  [self updateMenu];
+  
+  NSDate *retrieveDate = [us.lastRetrieved dateByAddingTimeInterval:fsp.minutesToGain*60];
+  progressBar.percentage = 1.f - retrieveDate.timeIntervalSinceNow/(fsp.minutesToGain*60);
+  [UIView animateWithDuration:retrieveDate.timeIntervalSinceNow animations:^{
+    progressBar.percentage = 1.f;
+  }];
+  
+  self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
+  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void) updateMenu {
+  GameState *gs = [GameState sharedGameState];
+  UserStruct *us = self.userStruct;
+  FullStructureProto *fsp = [gs structWithId:us.structId];
+  
   NSDate *retrieveDate = [us.lastRetrieved dateByAddingTimeInterval:fsp.minutesToGain*60];
   timeLabel.text = [Globals convertTimeToString:retrieveDate.timeIntervalSinceNow];
-  
-  progressBar.percentage = retrieveDate.timeIntervalSinceNow / (fsp.minutesToGain*60);
+}
+
+- (void) setTimer:(NSTimer *)t {
+  if (timer != t) {
+    [timer invalidate];
+    [timer release];
+    timer = [t retain];
+  }
+}
+
+- (void) setAlpha:(CGFloat)alpha {
+  [super setAlpha:alpha];
+  if (alpha == 0.f) {
+    [self.progressBar.layer removeAllAnimations];
+    self.timer = nil;
+    self.userStruct = nil;
+  }
 }
 
 - (void) dealloc {
+  self.userStruct = nil;
+  self.timer = nil;
   self.coinsLabel = nil;
   self.timeLabel = nil;
   self.progressBar = nil;
@@ -88,6 +134,10 @@
 }
 
 - (void) displayForUserStruct:(UserStruct *)us {
+  if (us == nil) {
+    return;
+  }
+  
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   FullStructureProto *fsp = [gs structWithId:us.structId];
@@ -96,7 +146,11 @@
   currentIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
   upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStructAfterLevelUp:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
   
+  self.userStruct = us;
+  
   if (us.state == kWaitingForIncome) {
+    self.timer = nil;
+    
     upgradeTimeLabel.text = [Globals convertTimeToString:[gl calculateMinutesToUpgrade:us]*60];
     upgradePriceLabel.text = [Globals commafyNumber:[gl calculateUpgradeCost:us]];
     
@@ -106,10 +160,8 @@
     notUpgradingBottomView.hidden = NO;
     notUpgradingMiddleView.hidden = NO;
   } else if (us.state == kUpgrading || us.state == kBuilding) {
-    NSDate *date = us.state == kUpgrading ? [us.lastUpgradeTime dateByAddingTimeInterval:[gl calculateMinutesToUpgrade:us]*60] : [us.purchaseTime dateByAddingTimeInterval:fsp.minutesToBuild*60];
-    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow];
+    [self updateMenu];
     
-#warning schedule timers
     self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     
@@ -128,23 +180,63 @@
   }
 }
 
-- (IBAction)closeClicked:(id)sender {
+- (void) updateMenu {
+  UserStruct *us = self.userStruct;
+  if (us.state == kWaitingForIncome) {
+    self.timer = nil;
+    [self displayForUserStruct:us];
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    Globals *gl = [Globals sharedGlobals];
+    FullStructureProto *fsp = [gs structWithId:us.structId];
+    
+    NSDate *startTime = nil;
+    int secsToUpgrade = 0;
+    
+    if (us.state == kUpgrading) {
+      startTime = us.lastUpgradeTime;
+      secsToUpgrade = [gl calculateMinutesToUpgrade:us]*60;
+    } else {
+      startTime = us.purchaseTime;
+      secsToUpgrade = fsp.minutesToBuild*60;
+    }
+    NSDate *date = [startTime dateByAddingTimeInterval:secsToUpgrade];;
+    timeLeftLabel.text = [Globals convertTimeToString:date.timeIntervalSinceNow];
+    progressBar.percentage = 1.f - date.timeIntervalSinceNow/secsToUpgrade;
+  }
+}
+
+- (void) finishNow:(void(^)(void))completed {
+  // Called from home map to move bar to end
   self.timer = nil;
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self removeFromSuperview];
+  float secs = PROGRESS_BAR_SPEED*(1.f-progressBar.percentage);
+  self.userInteractionEnabled = NO;
+  [UIView animateWithDuration:secs animations:^{
+    progressBar.percentage = 1.f;
+  } completion:^(BOOL finished) {
+    self.userInteractionEnabled = YES;
+    
+    Globals *gl = [Globals sharedGlobals];
+    if (userStruct.level < gl.maxLevelForStruct) {
+      [self displayForUserStruct:self.userStruct];
+    } else {
+      [self closeClicked:nil];
+    }
+    
+    if (completed) {
+      completed();
+    }
   }];
 }
 
-- (IBAction)upgradeClicked:(id)sender {
+- (IBAction)closeClicked:(id)sender {
+  self.timer = nil;
+  self.userStruct = nil;
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+    [self removeFromSuperview];
+  }];
   
-}
-
-- (IBAction)finishNowClicked:(id)sender {
-  
-}
-
-- (IBAction)moveClicked:(id)sender {
-  
+  [[HomeMap sharedHomeMap] upgradeMenuClosed];
 }
 
 - (void) dealloc {

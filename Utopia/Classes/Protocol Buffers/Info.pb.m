@@ -9812,7 +9812,7 @@ static MinimumUserDefeatTypeJobProto* defaultMinimumUserDefeatTypeJobProtoInstan
 
 @interface DefeatTypeJobProto ()
 @property int32_t defeatTypeJobId;
-@property UserType typeOfEnemy;
+@property DefeatTypeJobProto_DefeatTypeJobEnemyType typeOfEnemy;
 @property int32_t numEnemiesToDefeat;
 @property int32_t cityId;
 @end
@@ -9853,7 +9853,7 @@ static MinimumUserDefeatTypeJobProto* defaultMinimumUserDefeatTypeJobProtoInstan
 - (id) init {
   if ((self = [super init])) {
     self.defeatTypeJobId = 0;
-    self.typeOfEnemy = UserTypeGoodWarrior;
+    self.typeOfEnemy = DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodWarrior;
     self.numEnemiesToDefeat = 0;
     self.cityId = 0;
   }
@@ -9941,6 +9941,20 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
 }
 @end
 
+BOOL DefeatTypeJobProto_DefeatTypeJobEnemyTypeIsValidValue(DefeatTypeJobProto_DefeatTypeJobEnemyType value) {
+  switch (value) {
+    case DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodWarrior:
+    case DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodArcher:
+    case DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodMage:
+    case DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadWarrior:
+    case DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadArcher:
+    case DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadMage:
+    case DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface DefeatTypeJobProto_Builder()
 @property (retain) DefeatTypeJobProto* result;
 @end
@@ -10022,7 +10036,7 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (UserTypeIsValidValue(value)) {
+        if (DefeatTypeJobProto_DefeatTypeJobEnemyTypeIsValidValue(value)) {
           [self setTypeOfEnemy:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -10059,17 +10073,17 @@ static DefeatTypeJobProto* defaultDefeatTypeJobProtoInstance = nil;
 - (BOOL) hasTypeOfEnemy {
   return result.hasTypeOfEnemy;
 }
-- (UserType) typeOfEnemy {
+- (DefeatTypeJobProto_DefeatTypeJobEnemyType) typeOfEnemy {
   return result.typeOfEnemy;
 }
-- (DefeatTypeJobProto_Builder*) setTypeOfEnemy:(UserType) value {
+- (DefeatTypeJobProto_Builder*) setTypeOfEnemy:(DefeatTypeJobProto_DefeatTypeJobEnemyType) value {
   result.hasTypeOfEnemy = YES;
   result.typeOfEnemy = value;
   return self;
 }
 - (DefeatTypeJobProto_Builder*) clearTypeOfEnemy {
   result.hasTypeOfEnemy = NO;
-  result.typeOfEnemy = UserTypeGoodWarrior;
+  result.typeOfEnemy = DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodWarrior;
   return self;
 }
 - (BOOL) hasNumEnemiesToDefeat {

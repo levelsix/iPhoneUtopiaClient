@@ -43,6 +43,8 @@ typedef enum {
   MusicState _curMusic;
   
   BOOL _shouldCenterOnEnemy;
+  
+  BOOL _loading;
 }
 
 @property (nonatomic, assign) int assetId;
@@ -51,6 +53,8 @@ typedef enum {
 @property (nonatomic, retain) MissionMap *missionMap;
 
 - (void) begin;
+- (void) loadHomeMap;
+- (void) loadBazaarMap;
 - (void) loadHomeMap;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;
 - (void) closeMenus;

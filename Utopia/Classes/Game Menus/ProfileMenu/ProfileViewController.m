@@ -1299,6 +1299,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [spinner stopAnimating];
   self.spinner.hidden = YES;
   
+  if (self.state == kSkillsState) {
+    self.state = kEquipState;
+  }
+  
   if (userId != fup.userId) {
     wallTabView.wallPosts = nil;
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:fup.userId];

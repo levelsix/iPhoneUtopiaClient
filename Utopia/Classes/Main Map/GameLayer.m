@@ -68,14 +68,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   // Used by tutorial too
   _homeMap = [HomeMap sharedHomeMap];
   [self addChild:_homeMap z:1 tag:2];
-  [_homeMap moveToCenter];
   
   _bazaarMap = [BazaarMap sharedBazaarMap];
   
   _topBar = [TopBar sharedTopBar];
   [self addChild:_topBar z:2];
   
-  assetId = 0;
+  [self displayHomeMap];
 }
 
 - (void) setEnemyType:(UserType)type {
@@ -111,6 +110,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [self addChild:_missionMap z:1];
   currentCity = proto.cityId;
+  
+  [_topBar loadNormalConfiguration];
   
   if (_homeMap.visible) {
     _homeMap.selected = nil;
@@ -155,6 +156,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) loadHomeMap {
+  [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling Home"];
+  _loading = YES;
+  [self performSelector:@selector(displayHomeMap) withObject:nil afterDelay:0.5f];
+}
+
+- (void) displayHomeMap {
   [self unloadCurrentMissionMap];
   [_homeMap refresh];
   [_homeMap beginTimers];
@@ -162,10 +169,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [_homeMap moveToCenter];
   currentCity = 0;
   [self closeBazaarMap];
+  [_topBar loadHomeConfiguration];
   
   if (_curMusic != kHomeMusic) {
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
     _curMusic = kHomeMusic;
+  }
+  
+  if (_loading) {
+    [[MapViewController sharedMapViewController] fadeOut];
+    _loading = NO;
   }
 }
 
@@ -177,11 +190,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   }
 }
 
+- (void) loadBazaarMap {
+  [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling to Bazaar"];
+  _loading = YES;
+  [self performSelector:@selector(displayBazaarMap) withObject:nil afterDelay:0.5f];
+}
+
 - (void) displayBazaarMap {
   if (!_bazaarMap.parent) {
-    [[self currentMap] setVisible:NO];
+    [self unloadCurrentMissionMap];
+    currentCity = 0;
     [self addChild:_bazaarMap z:1];
     [_bazaarMap moveToCenter];
+    [_topBar loadBazaarConfiguration];
+    
+    if (_loading) {
+      [[MapViewController sharedMapViewController] fadeOut];
+      _loading = NO;
+    }
   }
 }
 

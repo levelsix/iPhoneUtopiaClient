@@ -128,18 +128,6 @@
       [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
         _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
       } completion:nil];
-    } else if (_goToAviary && [_selected isKindOfClass:[Aviary class]]) {
-      [_ccArrow stopAllActions];
-      _ccArrow.visible = NO;
-      [_uiArrow removeFromSuperview];
-      [self.aviaryMenu addSubview:_uiArrow];
-      UIView *enterButton = [self.aviaryMenu viewWithTag:30];
-      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, enterButton.center.y);
-      
-      UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-        _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
-      } completion:nil];
     } else {
       self.selected = nil;
     }
@@ -244,7 +232,7 @@
 //    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
 //  }
   mb.isConstructing = NO;
-  [self updateHomeBuildingMenu];
+//  [self updateHomeBuildingMenu];
   _constrBuilding = nil;
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
@@ -318,21 +306,6 @@
 
 - (void) startGoToAviaryPhase {
   _goToAviary = YES;
-  
-  _ccArrow.visible = YES;
-  _ccArrow.position = ccp(_av.position.x, _av.position.y+_av.contentSize.height+_ccArrow.contentSize.height/2);
-  
-  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
-  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                         [upAction reverse], nil]]];
-  
-  [self moveToSprite:_av];
-}
-
-- (void) enterAviaryClicked:(id)sender {
-  [super enterAviaryClicked:sender];
-  
-  [self performSelector:@selector(endTutorial) withObject:nil afterDelay:1.f];
 }
 
 - (void) endTutorial {
