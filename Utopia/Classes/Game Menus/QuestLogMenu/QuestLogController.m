@@ -16,6 +16,7 @@
 #import "HomeMap.h"
 #import "SimpleAudioEngine.h"
 #import "BattleLayer.h"
+#import "MapViewController.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
@@ -160,7 +161,12 @@
     job = [j retain];
   }
   self.nameLabel.text = job.title;
-  self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", job.numCompleted, job.total];
+  
+  if (job.jobType == kCoinRetrievalJob) {
+    self.progressLabel.text = [NSString stringWithFormat:@"%d", job.numCompleted];
+  } else {
+    self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", job.numCompleted, job.total];
+  }
   
   inProgressView.alpha = 1.f;
   if (job.numCompleted >= job.total) {
@@ -181,7 +187,12 @@
     [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:ftp.cityId asset:ftp.assetNumWithinCity];
   } else if (type == kDefeatTypeJob) {
     DefeatTypeJobProto *p = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:jobId]];
-    [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId enemyType:p.typeOfEnemy];
+    
+    if (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+      [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId enemyType:p.typeOfEnemy];
+    } else {
+      [MapViewController displayAttackMap];
+    }
   } else if (type == kUpgradeStructJob) {
     UpgradeStructJobProto *p = [gs.staticUpgradeStructJobs objectForKey:[NSNumber numberWithInt:jobId]];
     [[GameLayer sharedGameLayer] loadHomeMap];
@@ -189,6 +200,8 @@
   } else if (type == kBuildStructJob) {
     [[GameLayer sharedGameLayer] displayBazaarMap];
     [[BazaarMap sharedBazaarMap] moveToCritStruct:CritStructTypeCarpenter];
+  } else if (type == kCoinRetrievalJob) {
+    [[GameLayer sharedGameLayer] loadHomeMap];
   }
   [[QuestLogController sharedQuestLogController] closeClicked:nil];
   
@@ -547,6 +560,8 @@
           }
         }
         job.numCompleted = p.currentLevel;
+      } else if (job.jobType == kCoinRetrievalJob) {
+        job.numCompleted = questData.coinsRetrievedForReq;
       }
     }
   }
@@ -555,6 +570,8 @@
 - (IBAction)claimRewardClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
   [QuestLogController removeView];
+  
+  [[SimpleAudioEngine sharedEngine] playEffect:@"QuestCompleted.m4a"];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -662,6 +679,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.backButton.hidden = YES;
   
   [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
+  
+  [[SimpleAudioEngine sharedEngine] playEffect:@"QuestNew.m4a"];
 }
 
 - (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp {
@@ -672,6 +691,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   bldr.questId = fqp.questId;
   bldr.isRedeemed = NO;
   bldr.isComplete = NO;
+  bldr.coinsRetrievedForReq = 0;
   
   for (NSNumber *n in fqp.defeatTypeReqsList) {
     MinimumUserDefeatTypeJobProto_Builder *b = [MinimumUserDefeatTypeJobProto builder];

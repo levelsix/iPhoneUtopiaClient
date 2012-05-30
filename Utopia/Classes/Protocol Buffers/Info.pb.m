@@ -8614,6 +8614,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @property (retain) NSMutableArray* mutableRequiredUpgradeStructJobProgressList;
 @property (retain) NSMutableArray* mutableRequiredPossessEquipJobProgressList;
 @property (retain) NSMutableArray* mutableRequiredTasksProgressList;
+@property int32_t coinsRetrievedForReq;
 @property int32_t numComponentsComplete;
 @end
 
@@ -8662,6 +8663,13 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
 @synthesize mutableRequiredUpgradeStructJobProgressList;
 @synthesize mutableRequiredPossessEquipJobProgressList;
 @synthesize mutableRequiredTasksProgressList;
+- (BOOL) hasCoinsRetrievedForReq {
+  return !!hasCoinsRetrievedForReq_;
+}
+- (void) setHasCoinsRetrievedForReq:(BOOL) value {
+  hasCoinsRetrievedForReq_ = !!value;
+}
+@synthesize coinsRetrievedForReq;
 - (BOOL) hasNumComponentsComplete {
   return !!hasNumComponentsComplete_;
 }
@@ -8683,6 +8691,7 @@ static MinimumUserTaskProto* defaultMinimumUserTaskProtoInstance = nil;
     self.questId = 0;
     self.isRedeemed = NO;
     self.isComplete = NO;
+    self.coinsRetrievedForReq = 0;
     self.numComponentsComplete = 0;
   }
   return self;
@@ -8768,6 +8777,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   if (self.hasNumComponentsComplete) {
     [output writeInt32:10 value:self.numComponentsComplete];
   }
+  if (self.hasCoinsRetrievedForReq) {
+    [output writeInt32:11 value:self.coinsRetrievedForReq];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -8806,6 +8818,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
   }
   if (self.hasNumComponentsComplete) {
     size += computeInt32Size(10, self.numComponentsComplete);
+  }
+  if (self.hasCoinsRetrievedForReq) {
+    size += computeInt32Size(11, self.coinsRetrievedForReq);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8924,6 +8939,9 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
     }
     [result.mutableRequiredTasksProgressList addObjectsFromArray:other.mutableRequiredTasksProgressList];
   }
+  if (other.hasCoinsRetrievedForReq) {
+    [self setCoinsRetrievedForReq:other.coinsRetrievedForReq];
+  }
   if (other.hasNumComponentsComplete) {
     [self setNumComponentsComplete:other.numComponentsComplete];
   }
@@ -8996,6 +9014,10 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
       }
       case 80: {
         [self setNumComponentsComplete:[input readInt32]];
+        break;
+      }
+      case 88: {
+        [self setCoinsRetrievedForReq:[input readInt32]];
         break;
       }
     }
@@ -9208,6 +9230,22 @@ static FullUserQuestDataLargeProto* defaultFullUserQuestDataLargeProtoInstance =
     result.mutableRequiredTasksProgressList = [NSMutableArray array];
   }
   [result.mutableRequiredTasksProgressList addObject:value];
+  return self;
+}
+- (BOOL) hasCoinsRetrievedForReq {
+  return result.hasCoinsRetrievedForReq;
+}
+- (int32_t) coinsRetrievedForReq {
+  return result.coinsRetrievedForReq;
+}
+- (FullUserQuestDataLargeProto_Builder*) setCoinsRetrievedForReq:(int32_t) value {
+  result.hasCoinsRetrievedForReq = YES;
+  result.coinsRetrievedForReq = value;
+  return self;
+}
+- (FullUserQuestDataLargeProto_Builder*) clearCoinsRetrievedForReq {
+  result.hasCoinsRetrievedForReq = NO;
+  result.coinsRetrievedForReq = 0;
   return self;
 }
 - (BOOL) hasNumComponentsComplete {
@@ -11774,6 +11812,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @property int32_t numComponentsForBad;
 @property (retain) DialogueProto* acceptDialogue;
 @property (retain) NSString* questGiverName;
+@property int32_t coinRetrievalReq;
 @end
 
 @implementation FullQuestProto
@@ -11889,6 +11928,13 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   hasQuestGiverName_ = !!value;
 }
 @synthesize questGiverName;
+- (BOOL) hasCoinRetrievalReq {
+  return !!hasCoinRetrievalReq_;
+}
+- (void) setHasCoinRetrievalReq:(BOOL) value {
+  hasCoinRetrievalReq_ = !!value;
+}
+@synthesize coinRetrievalReq;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -11921,6 +11967,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
     self.numComponentsForBad = 0;
     self.acceptDialogue = [DialogueProto defaultInstance];
     self.questGiverName = @"";
+    self.coinRetrievalReq = 0;
   }
   return self;
 }
@@ -12045,6 +12092,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasQuestGiverName) {
     [output writeString:21 value:self.questGiverName];
   }
+  if (self.hasCoinRetrievalReq) {
+    [output writeInt32:22 value:self.coinRetrievalReq];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -12146,6 +12196,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (self.hasQuestGiverName) {
     size += computeStringSize(21, self.questGiverName);
+  }
+  if (self.hasCoinRetrievalReq) {
+    size += computeInt32Size(22, self.coinRetrievalReq);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -12303,6 +12356,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (other.hasQuestGiverName) {
     [self setQuestGiverName:other.questGiverName];
   }
+  if (other.hasCoinRetrievalReq) {
+    [self setCoinRetrievalReq:other.coinRetrievalReq];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12411,6 +12467,10 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
       }
       case 170: {
         [self setQuestGiverName:[input readString]];
+        break;
+      }
+      case 176: {
+        [self setCoinRetrievalReq:[input readInt32]];
         break;
       }
     }
@@ -12854,6 +12914,22 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearQuestGiverName {
   result.hasQuestGiverName = NO;
   result.questGiverName = @"";
+  return self;
+}
+- (BOOL) hasCoinRetrievalReq {
+  return result.hasCoinRetrievalReq;
+}
+- (int32_t) coinRetrievalReq {
+  return result.coinRetrievalReq;
+}
+- (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value {
+  result.hasCoinRetrievalReq = YES;
+  result.coinRetrievalReq = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearCoinRetrievalReq {
+  result.hasCoinRetrievalReq = NO;
+  result.coinRetrievalReq = 0;
   return self;
 }
 @end

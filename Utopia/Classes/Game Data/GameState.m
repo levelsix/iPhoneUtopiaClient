@@ -372,21 +372,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (BOOL) hasValidLicense {
-  Globals *gl = [Globals sharedGlobals];
-  
-  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
-  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
-  if (shortLic > time) {
-    return YES;
-  }
-  
-  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
-  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
-  if (longLic > time) {
-    return YES;
-  }
-  
-  return NO;
+  return YES;
+//  Globals *gl = [Globals sharedGlobals];
+//  
+//  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
+//  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
+//  if (shortLic > time) {
+//    return YES;
+//  }
+//  
+//  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
+//  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
+//  if (longLic > time) {
+//    return YES;
+//  }
+//  
+//  return NO;
 }
 
 - (void) changeQuantityForEquip:(int)equipId by:(int)qDelta {

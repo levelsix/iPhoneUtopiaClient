@@ -54,7 +54,7 @@
 
 @implementation MissionOverBuildingMenu
 
-@synthesize progressBar;
+@synthesize progressBar, progressLabel;
 
 - (void) updateMenuForTotal:(int)total numTimesActed:(int)numTimesActed isForQuest:(BOOL)highlighted {
   if (total == 0) {
@@ -63,6 +63,8 @@
   }
   progressBar.percentage = ((float)numTimesActed)/total;
   progressBar.highlighted = highlighted;
+  
+  progressLabel.text = [NSString stringWithFormat:@"%d / %d", numTimesActed, total];
 }
 
 - (void) setMissionMap:(MissionMap *)m {
@@ -75,6 +77,7 @@
 
 - (void) dealloc {
   self.progressBar = nil;
+  self.progressLabel = nil;
   [super dealloc];
 }
 

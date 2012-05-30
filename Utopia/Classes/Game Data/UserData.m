@@ -338,6 +338,16 @@
   return self;
 }
 
+- (id) initWithCoinRetrieval:(int)amount questId:(int)questId {
+  if ((self = [super init])) {
+    self.jobId = questId;
+    self.jobType = kCoinRetrievalJob;
+    self.title = [NSString stringWithFormat:@"Collect %d silver from your income buildings", amount];
+    self.total = amount;
+  }
+  return self;
+}
+
 + (NSArray *)jobsForQuest:(FullQuestProto *)fqp {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *jobs = [NSMutableArray array];
@@ -369,6 +379,12 @@
   
   for (NSNumber *n in fqp.upgradeStructJobsReqsList) {
     job = [[UserJob alloc] initWithUpgradeStructJob:[gs.staticUpgradeStructJobs objectForKey:n]];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  if (fqp.coinRetrievalReq > 0) {
+    job = [[UserJob alloc] initWithCoinRetrieval:fqp.coinRetrievalReq questId:fqp.questId];
     [jobs addObject:job];
     [job release];
   }

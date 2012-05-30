@@ -242,6 +242,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (mb) {
     [self moveToSprite:mb];
+  } else {
+    // TODO: move to carpenter
   }
 }
 

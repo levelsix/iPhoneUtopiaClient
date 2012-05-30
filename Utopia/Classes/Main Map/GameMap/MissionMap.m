@@ -595,10 +595,13 @@
     [_jobs addObject:job];
   }
   [self updateEnemyQuestArrows];
-  [self reloadQuestGivers];
+//  [self reloadQuestGivers];
 }
 
 - (void) questRedeemed:(FullQuestProto *)fqp {
+  QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
+  qg.questGiverState = kNoQuest;
+  
   GameState *gs = [GameState sharedGameState];
   for (NSNumber *num in fqp.taskReqsList) {
     FullTaskProto *task = [gs taskWithId:num.intValue];
@@ -615,7 +618,7 @@
   }
   
   [self updateEnemyQuestArrows];
-  [self reloadQuestGivers];
+//  [self reloadQuestGivers];
 }
 
 - (void) reloadQuestGivers {

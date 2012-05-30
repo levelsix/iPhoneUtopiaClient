@@ -176,23 +176,14 @@
   }
 }
 
-- (void) setOpacity:(GLubyte)opacity {
-  [super setOpacity:opacity];
-  
-  if (opacity == 0) {
-    [_aboveHeadMark stopAllActions];
-  }
-  
-  _aboveHeadMark.opacity = opacity;
-}
-
 - (void) setQuestGiverState:(QuestGiverState)i {
   questGiverState = i;
   
   [self removeChild:_aboveHeadMark cleanup:YES];
   _aboveHeadMark = nil;
   if (questGiverState == kInProgress) {
-    _aboveHeadMark = [CCSprite spriteWithFile:@"questinprogress.png"];
+    _aboveHeadMark = [CCProgressTimer progressWithFile:@"questinprogress.png"];
+    ((CCProgressTimer *) _aboveHeadMark).type = kCCProgressTimerTypeHorizontalBarLR;
   } else if (questGiverState == kAvailable) {
     _aboveHeadMark = [CCSprite spriteWithFile:@"questnew.png"];
   } else if (questGiverState == kCompleted) {
@@ -214,6 +205,22 @@
                                 ring,
                                 [CCDelayTime actionWithDuration:1.f],
                                 nil]]];
+  } else {
+    CCProgressTimer *pt = (CCProgressTimer *)_aboveHeadMark;
+    pt.percentage = 0;
+    [_aboveHeadMark runAction:
+     [CCRepeatForever actionWithAction:
+      [CCSequence actions:
+       [CCCallBlock actionWithBlock:
+        ^{
+          if (pt.percentage > 99.f) {
+            pt.percentage = 0.f;
+          } else {
+            pt.percentage += 100.f/3;
+          }
+        }],
+       [CCDelayTime actionWithDuration:1.f],
+       nil]]];
   }
 }
 
@@ -260,23 +267,23 @@
 
 -(id) initWithDuration: (ccTime) t location: (CGRect) p
 {
-	if( (self=[super initWithDuration: t]) )
-		endLocation_ = p;
-	
-	return self;
+  if( (self=[super initWithDuration: t]) )
+    endLocation_ = p;
+  
+  return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration: [self duration] location:endLocation_];
-	return copy;
+  CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration: [self duration] location:endLocation_];
+  return copy;
 }
 
 -(void) startWithTarget:(CCNode *)aTarget
 {
-	[super startWithTarget:aTarget];
-	startLocation_ = [(MapSprite*)target_ location];
-	delta_ = ccpSub( endLocation_.origin, startLocation_.origin );
+  [super startWithTarget:aTarget];
+  startLocation_ = [(MapSprite*)target_ location];
+  delta_ = ccpSub( endLocation_.origin, startLocation_.origin );
 }
 
 -(void) update: (ccTime) t
@@ -284,7 +291,7 @@
   CGRect r = startLocation_;
   r.origin.x = (startLocation_.origin.x + delta_.x * t );
   r.origin.y = (startLocation_.origin.y + delta_.y * t );
-	[target_ setLocation: r];
+  [target_ setLocation: r];
 }
 
 @end

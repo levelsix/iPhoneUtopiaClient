@@ -1040,6 +1040,8 @@
 		CF3CF2951574B39F00CD04D7 /* 3darrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3CF2931574B39F00CD04D7 /* 3darrow@2x.png */; };
 		CF3CF2981574D5B900CD04D7 /* 3dcheckmark.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3CF2961574D5B900CD04D7 /* 3dcheckmark.png */; };
 		CF3CF2991574D5B900CD04D7 /* 3dcheckmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3CF2971574D5B900CD04D7 /* 3dcheckmark@2x.png */; };
+		CF48CA671575961D00802A39 /* claimit.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF681569F9C100871798 /* claimit.png */; };
+		CF48CA681575961D00802A39 /* claimit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF691569F9C100871798 /* claimit@2x.png */; };
 		CF52AA8D15394C7500E91CEA /* Aviary.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8B15394C7500E91CEA /* Aviary.png */; };
 		CF52AA8E15394C7500E91CEA /* Aviary@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52AA8C15394C7500E91CEA /* Aviary@2x.png */; };
 		CF52D34F156E1085005BE612 /* NEW_Universal_Pack.png in Resources */ = {isa = PBXBuildFile; fileRef = CF52D34B156E1085005BE612 /* NEW_Universal_Pack.png */; };
@@ -6530,6 +6532,8 @@
 				45856A8D156DB3670005907E /* close_button.png in Resources */,
 				45856A90156DB3670005907E /* TJCLoadingView.xib in Resources */,
 				45856AA7156DB3670005907E /* TJCVideoView.xib in Resources */,
+				CF48CA671575961D00802A39 /* claimit.png in Resources */,
+				CF48CA681575961D00802A39 /* claimit@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

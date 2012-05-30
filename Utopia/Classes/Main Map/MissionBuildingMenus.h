@@ -30,6 +30,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet ProgressBar *progressBar;
+@property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 
 - (void) updateMenuForTotal:(int)total numTimesActed:(int)numTimesActed isForQuest:(BOOL)highlighted;
 - (void) setMissionMap:(MissionMap *)m;
