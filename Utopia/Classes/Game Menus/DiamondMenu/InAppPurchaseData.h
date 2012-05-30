@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
+#define UNKNOWN_PRICE_STR   @"$$$"
+#define FREE_PRICE_STR      @"Free"
+#define NO_CLIPS            @"No Clips Available"
 
 @protocol InAppPurchaseData <NSObject>
 @property(nonatomic, readonly) NSString *primaryTitle;
