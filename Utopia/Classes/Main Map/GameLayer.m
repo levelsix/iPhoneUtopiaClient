@@ -156,9 +156,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) loadHomeMap {
-  [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling Home"];
-  _loading = YES;
-  [self performSelector:@selector(displayHomeMap) withObject:nil afterDelay:0.5f];
+  if (!_homeMap.visible) {
+    [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling Home"];
+    _loading = YES;
+    [self performSelector:@selector(displayHomeMap) withObject:nil afterDelay:0.5f];
+  }
 }
 
 - (void) displayHomeMap {
@@ -198,6 +200,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) displayBazaarMap {
   if (!_bazaarMap.parent) {
+    [_homeMap setSelected:nil];
     [self unloadCurrentMissionMap];
     currentCity = 0;
     [self addChild:_bazaarMap z:1];

@@ -385,7 +385,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           gs.silver -= proto.coinCost;
           
           [Globals playCoinSound];
-          break;
         } else {
           [Globals popupMessage:@"Not enough coins to purchase"];
         }

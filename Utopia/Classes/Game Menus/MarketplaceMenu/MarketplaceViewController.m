@@ -956,9 +956,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   if (self.listing) {
     [self disableEditing];
-  } else if ([self.topBar pointInside:[[touches anyObject] locationInView:self.topBar] withEvent:event]) {
-    [self.postsTableView setContentOffset: CGPointZero animated:YES];
-    self.removeView.hidden = YES;
   }
 }
 
