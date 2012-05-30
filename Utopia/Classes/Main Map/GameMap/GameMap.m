@@ -490,7 +490,13 @@
     Enemy *enemy = (Enemy *)_selected;
     FullUserProto *fup = enemy.user;
     if (fup) {
-      [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:[[GameLayer sharedGameLayer] currentCity]];
+      int city = [[GameLayer sharedGameLayer] currentCity];
+      
+      if (city > 0) {
+        [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:city];
+      } else {
+        [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+      }
     }
   }
 }

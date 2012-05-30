@@ -246,7 +246,7 @@ static NSString *udid = nil;
                                            setBattleResult:result]
                                           setClientTime:curTime]
                                          addAllDefenderUserEquips:equips];
-  if (city != 0) {
+  if (city != -1) {
     [builder setNeutralCityId:city];
   }
   

@@ -296,7 +296,12 @@
     GameState *gs = [GameState sharedGameState];
     self.jobId = p.defeatTypeJobId;
     self.jobType = kDefeatTypeJob;
-    self.title = [NSString stringWithFormat:@"Defeat %d %@ %@%@ in %@", p.numEnemiesToDefeat, [Globals factionForUserType:p.typeOfEnemy], [Globals classForUserType:p.typeOfEnemy], p.numEnemiesToDefeat == 1 ? @"" : @"s", [gs cityWithId:p.cityId].name];
+    
+    if (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+      self.title = [NSString stringWithFormat:@"Defeat %d %@ %@%@ in %@", p.numEnemiesToDefeat, [Globals factionForUserType:p.typeOfEnemy], [Globals classForUserType:p.typeOfEnemy], p.numEnemiesToDefeat == 1 ? @"" : @"s", [gs cityWithId:p.cityId].name];
+    } else {
+      self.title = [NSString stringWithFormat:@"Defeat %d %@ player from the Attack Map", p.numEnemiesToDefeat, [Globals factionForUserType:(gs.type+3)%6]];
+    }
     self.total = p.numEnemiesToDefeat;
   }
   return self;

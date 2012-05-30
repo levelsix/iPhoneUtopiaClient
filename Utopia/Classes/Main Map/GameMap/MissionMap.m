@@ -335,7 +335,7 @@
           if (job.jobType == kDefeatTypeJob && job.numCompleted < job.total) {
             DefeatTypeJobProto *dtj = [[[GameState sharedGameState] staticDefeatTypeJobs] objectForKey:[NSNumber numberWithInt:job.jobId]];
             
-            if (dtj.typeOfEnemy == enemy.user.userType || dtj.typeOfEnemy == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+            if (dtj.typeOfEnemy == enemy.user.userType) {
               [enemy displayCheck];
               job.numCompleted++;
             }
@@ -353,7 +353,7 @@
   for (CCNode *child in children_) {
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
-      if (enemy.user.userType == enemyType || enemyType == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+      if (enemy.user.userType == enemyType) {
         [enemy displayArrow];
       }
     }

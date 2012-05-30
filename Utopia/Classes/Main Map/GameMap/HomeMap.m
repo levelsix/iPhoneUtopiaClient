@@ -50,7 +50,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           CGPoint greenGidPt = ccp(mapSize_.width-1, mapSize_.height-2);
           redGid = [layer tileGIDAt:redGidPt];
           greenGid = [layer tileGIDAt:greenGidPt];
-//          NSLog(@"%@, %@, %@, %d, %d", )
           [layer removeTileAt:redGidPt];
           [layer removeTileAt:greenGidPt];
         }
@@ -85,7 +84,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
     [self removeChild:layer cleanup:YES];
     
-    layer = [self layerNamed:@"ExpansionLayer"];
+    layer = [self layerNamed:@"Expansion"];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
         NSMutableArray *row = [self.buildableData objectAtIndex:i];
