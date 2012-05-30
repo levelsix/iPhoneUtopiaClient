@@ -203,6 +203,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [_homeMap setSelected:nil];
     [self unloadCurrentMissionMap];
     currentCity = 0;
+    _homeMap.visible = NO;
     [self addChild:_bazaarMap z:1];
     [_bazaarMap moveToCenter];
     [_topBar loadBazaarConfiguration];

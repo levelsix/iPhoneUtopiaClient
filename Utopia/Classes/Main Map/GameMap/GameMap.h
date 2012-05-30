@@ -16,8 +16,8 @@
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
 #define MAX_ZOOM 1.8f
-#define MIN_ZOOM 0.7f
-#define DEFAULT_ZOOM 1.f
+#define MIN_ZOOM 0.5f
+#define DEFAULT_ZOOM 0.8f
 
 @class Building;
 @class SelectableSprite;

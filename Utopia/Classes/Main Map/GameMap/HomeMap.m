@@ -50,6 +50,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           CGPoint greenGidPt = ccp(mapSize_.width-1, mapSize_.height-2);
           redGid = [layer tileGIDAt:redGidPt];
           greenGid = [layer tileGIDAt:greenGidPt];
+//          NSLog(@"%@, %@, %@, %d, %d", )
           [layer removeTileAt:redGidPt];
           [layer removeTileAt:greenGidPt];
         }
@@ -83,6 +84,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       }
     }
     [self removeChild:layer cleanup:YES];
+    
+    layer = [self layerNamed:@"ExpansionLayer"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        NSMutableArray *row = [self.buildableData objectAtIndex:i];
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+        }
+      }
+    }
     
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [Globals displayUIView:self.hbMenu];
@@ -335,7 +349,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) openMoveMenuOnSelected {
-  NSLog(@"%@", _selected);
   [self closeMenus];
   
   [self setViewForSelected:self.moveMenu];
