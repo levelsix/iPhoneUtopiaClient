@@ -513,8 +513,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
   } else {
     [Globals popupMessage:@"Server failed to purchase from marketplace."];
-    [mvc removeLoadingView];
   }
+  [mvc removeLoadingView];
 }
 
 - (void) handleRetractMarketplacePostResponseProto:(RetractMarketplacePostResponseProto *) proto {

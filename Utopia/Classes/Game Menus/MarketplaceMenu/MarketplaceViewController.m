@@ -330,6 +330,8 @@
     [mvc displayLoadingView];
   }
   
+  [self closeClicked:nil];
+  
   [mvc.coinBar updateLabels];
 }
 
