@@ -1058,7 +1058,6 @@
 		CF48CA7E1576FE8900802A39 /* mbarclosewhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA761576FE8900802A39 /* mbarclosewhite@2x.png */; };
 		CF48CA7F1576FE8900802A39 /* mbarsep.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA771576FE8900802A39 /* mbarsep.png */; };
 		CF48CA801576FE8900802A39 /* mbarsep@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA781576FE8900802A39 /* mbarsep@2x.png */; };
-		CF48CA831576FF3300802A39 /* MarketplaceMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF48CA821576FF3200802A39 /* MarketplaceMenus.m */; };
 		CF48CA8A1577624200802A39 /* Armory.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA841577624200802A39 /* Armory.png */; };
 		CF48CA8B1577624200802A39 /* Armory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA851577624200802A39 /* Armory@2x.png */; };
 		CF48CA8C1577624200802A39 /* Vault.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA861577624200802A39 /* Vault.png */; };
@@ -1219,6 +1218,7 @@
 		CFCB4D2B154A3F0800470054 /* wallpost.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCB4D27154A3F0800470054 /* wallpost.png */; };
 		CFCB4D2C154A3F0800470054 /* wallpost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCB4D28154A3F0800470054 /* wallpost@2x.png */; };
 		CFCB4D2E154A7FCF00470054 /* WallPostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFCB4D2D154A7FCF00470054 /* WallPostCell.xib */; };
+		CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF48CA821576FF3200802A39 /* MarketplaceMenus.m */; };
 		CFDBFEB7153BCE6100DA9206 /* popupglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB5153BCE6100DA9206 /* popupglow.png */; };
 		CFDBFEB8153BCE6100DA9206 /* popupglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */; };
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
@@ -6915,6 +6915,7 @@
 				455BCF19157560C200DDE405 /* SBJSON.m in Sources */,
 				455BCF1A157560C200DDE405 /* SBJsonBase.m in Sources */,
 				455BCF1F157562B300DDE405 /* FacebookDelegate.m in Sources */,
+				CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
