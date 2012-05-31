@@ -161,6 +161,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fontSize;
 }
 
++ (NSString *)convertTimeToString:(int)secs {
+  int days = secs / 86400;
+  secs %= 86400;
+  int hrs = secs / 3600;
+  secs %= 3600;
+  int mins = secs / 60;
+  secs %= 60;
+  
+  NSString *daysString = days ? [NSString stringWithFormat:@"%d:", days] : @"";
+  return [NSString stringWithFormat:@"%@%02d:%02d:%02d", daysString, hrs, mins, secs];
+}
+
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size {
   return [NSString stringWithFormat:@"ConstructionSite%dx%d.png", (int)size.width, (int)size.height];
 }
@@ -494,6 +506,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [view.layer addAnimation:animation forKey:@"position"];
 }
 
++ (void) displayUIView:(UIView *)view {
+  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:view];
+}
+
 + (NSString *) pathToMap:(NSString *)mapName {
   if (!mapName) {
     return nil;
@@ -653,12 +669,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt {
+  // place it so that the bottom middle is at pt
+  // Remember, frame is relative to top left corner
+  float width = view.frame.size.width;
+  float height = view.frame.size.height;
+  view.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
+}
+
 + (BOOL)userTypeIsGood:(UserType)type {
   return type < 3;
 }
 
 + (BOOL)userTypeIsBad:(UserType)type {
   return ![self userTypeIsGood:type];
+}
+
++ (BOOL)userType:(UserType)t1 isAlliesWith:(UserType)t2 {
+  BOOL b1 = [self userTypeIsGood:t1];
+  BOOL b2 = [self userTypeIsGood:t2];
+  return !(b1 ^ b2);
 }
 
 + (UIImage *) squareImageForUser:(UserType)type {
@@ -945,7 +975,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 - (int) calculateIncome:(int)income level:(int)level {
-  return income * level * self.incomeFromNormStructMultiplier;
+  return MAX(1, income * level * self.incomeFromNormStructMultiplier);
 }
 
 - (int) calculateIncomeForUserStruct:(UserStruct *)us {

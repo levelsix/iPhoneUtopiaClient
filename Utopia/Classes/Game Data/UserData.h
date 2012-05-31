@@ -98,7 +98,9 @@ typedef enum {
   kDefeatTypeJob,
   kBuildStructJob,
   kUpgradeStructJob,
-  kPossessEquipJob
+  kPossessEquipJob,
+  kCoinRetrievalJob,
+  kSpecialJob
 } JobItemType;
 
 @interface UserJob : NSObject
@@ -115,6 +117,7 @@ typedef enum {
 - (id) initWithPossessEquipJob:(PossessEquipJobProto *)p;
 - (id) initWithBuildStructJob:(BuildStructJobProto *)p;
 - (id) initWithUpgradeStructJob:(UpgradeStructJobProto *)p;
+- (id) initWithCoinRetrieval:(int)amount questId:(int)questId;
 + (NSArray *)jobsForQuest:(FullQuestProto *)fqp;
 
 @end

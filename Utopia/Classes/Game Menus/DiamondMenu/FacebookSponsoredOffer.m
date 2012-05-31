@@ -12,7 +12,7 @@
 
 #define MAXED_INVITES_SEC  @"0 (Reached Weekly Max)"
 
-//1 week
+// 1 week
 #define MIN_REQ_WAIT -1*60*60*24*7 
 
 @implementation FacebookSponsoredOffer
@@ -23,11 +23,10 @@
 #pragma mark InAppPurchaseData
 -(NSString *) secondaryTitle
 {
-  if ([self purchaseAvailable]) {
-    return secondaryTitle;
+  if (![self purchaseAvailable]) {
+    return MAXED_INVITES_SEC;
   }
-  
-  return MAXED_INVITES_SEC;
+  return secondaryTitle;  
 }
 
 -(UIImage *) rewardPic

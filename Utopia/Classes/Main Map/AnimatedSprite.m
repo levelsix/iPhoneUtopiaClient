@@ -34,6 +34,11 @@
   return self;
 }
 
+- (void) displayArrow {
+  [super displayArrow];
+  _arrow.position = ccpAdd(_arrow.position, ccp(0, 10.f));
+}
+
 - (void) setOpacity:(GLubyte)opacity {
   [super setOpacity:opacity];
   _nameLabel.opacity = opacity;
@@ -171,37 +176,52 @@
   }
 }
 
-- (void) setOpacity:(GLubyte)opacity {
-  [super setOpacity:opacity];
-  
-  if (opacity == 0) {
-    [_aboveHeadMark stopAllActions];
-  }
-  
-  _aboveHeadMark.opacity = opacity;
-}
-
 - (void) setQuestGiverState:(QuestGiverState)i {
   questGiverState = i;
   
   [self removeChild:_aboveHeadMark cleanup:YES];
   _aboveHeadMark = nil;
   if (questGiverState == kInProgress) {
-    _aboveHeadMark = [CCSprite spriteWithFile:@"question.png"];
+    _aboveHeadMark = [CCProgressTimer progressWithFile:@"questinprogress.png"];
+    ((CCProgressTimer *) _aboveHeadMark).type = kCCProgressTimerTypeHorizontalBarLR;
   } else if (questGiverState == kAvailable) {
-    _aboveHeadMark = [CCSprite spriteWithFile:@"exclamation.png"];
+    _aboveHeadMark = [CCSprite spriteWithFile:@"questnew.png"];
+  } else if (questGiverState == kCompleted) {
+    _aboveHeadMark = [CCSprite spriteWithFile:@"questcomplete.png"];
   }
   
   if (_aboveHeadMark) {
     [self addChild:_aboveHeadMark];
   }
-  _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+_aboveHeadMark.contentSize.height/2+10);
+  _aboveHeadMark.anchorPoint = ccp(0.5, 0.2f);
+  _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+10+_aboveHeadMark.contentSize.height*_aboveHeadMark.anchorPoint.y);
   
-  [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:
-                             [CCSequence actions:
-                              [CCFadeTo actionWithDuration:ABOVE_HEAD_FADE_DURATION opacity:ABOVE_HEAD_FADE_OPACITY],
-                              [CCFadeTo actionWithDuration:ABOVE_HEAD_FADE_DURATION opacity:255],
-                              nil]]];
+  if (questGiverState == kAvailable || questGiverState == kCompleted) {
+    CCRotateBy *right = [CCRotateBy actionWithDuration:0.03f angle:3];
+    CCActionInterval *left = right.reverse;
+    CCRepeat *ring = [CCRepeat actionWithAction:[CCSequence actions:right, left, left, right, nil] times:5];
+    [_aboveHeadMark runAction:[CCRepeatForever actionWithAction:
+                               [CCSequence actions:
+                                ring,
+                                [CCDelayTime actionWithDuration:1.f],
+                                nil]]];
+  } else {
+    CCProgressTimer *pt = (CCProgressTimer *)_aboveHeadMark;
+    pt.percentage = 0;
+    [_aboveHeadMark runAction:
+     [CCRepeatForever actionWithAction:
+      [CCSequence actions:
+       [CCCallBlock actionWithBlock:
+        ^{
+          if (pt.percentage > 99.f) {
+            pt.percentage = 0.f;
+          } else {
+            pt.percentage += 100.f/3;
+          }
+        }],
+       [CCDelayTime actionWithDuration:1.f],
+       nil]]];
+  }
 }
 
 - (void) dealloc {
@@ -247,23 +267,23 @@
 
 -(id) initWithDuration: (ccTime) t location: (CGRect) p
 {
-	if( (self=[super initWithDuration: t]) )
-		endLocation_ = p;
-	
-	return self;
+  if( (self=[super initWithDuration: t]) )
+    endLocation_ = p;
+  
+  return self;
 }
 
 -(id) copyWithZone: (NSZone*) zone
 {
-	CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration: [self duration] location:endLocation_];
-	return copy;
+  CCAction *copy = [[[self class] allocWithZone: zone] initWithDuration: [self duration] location:endLocation_];
+  return copy;
 }
 
 -(void) startWithTarget:(CCNode *)aTarget
 {
-	[super startWithTarget:aTarget];
-	startLocation_ = [(MapSprite*)target_ location];
-	delta_ = ccpSub( endLocation_.origin, startLocation_.origin );
+  [super startWithTarget:aTarget];
+  startLocation_ = [(MapSprite*)target_ location];
+  delta_ = ccpSub( endLocation_.origin, startLocation_.origin );
 }
 
 -(void) update: (ccTime) t
@@ -271,7 +291,7 @@
   CGRect r = startLocation_;
   r.origin.x = (startLocation_.origin.x + delta_.x * t );
   r.origin.y = (startLocation_.origin.y + delta_.y * t );
-	[target_ setLocation: r];
+  [target_ setLocation: r];
 }
 
 @end

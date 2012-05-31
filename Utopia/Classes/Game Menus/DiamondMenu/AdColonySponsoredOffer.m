@@ -41,7 +41,6 @@
   //NOTE: The currency award transaction will be complete at this point
   //NOTE: This callback can be executed by AdColony at any time
   //NOTE: This is the ideal place for an alert about the successful reward
-#warning find out from ashwin how to message the server about gold increases
   [Globals popupMessage:[NSString stringWithFormat:@"You just received %d %@", 
                          amount,
                          name]];

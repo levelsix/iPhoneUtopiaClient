@@ -296,7 +296,12 @@
     GameState *gs = [GameState sharedGameState];
     self.jobId = p.defeatTypeJobId;
     self.jobType = kDefeatTypeJob;
-    self.title = [NSString stringWithFormat:@"Defeat %d %@ %@%@ in %@", p.numEnemiesToDefeat, [Globals factionForUserType:p.typeOfEnemy], [Globals classForUserType:p.typeOfEnemy], p.numEnemiesToDefeat == 1 ? @"" : @"s", [gs cityWithId:p.cityId].name];
+    
+    if (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+      self.title = [NSString stringWithFormat:@"Defeat %d %@ %@%@ in %@", p.numEnemiesToDefeat, [Globals factionForUserType:p.typeOfEnemy], [Globals classForUserType:p.typeOfEnemy], p.numEnemiesToDefeat == 1 ? @"" : @"s", [gs cityWithId:p.cityId].name];
+    } else {
+      self.title = [NSString stringWithFormat:@"Defeat %d %@ player from the Attack Map", p.numEnemiesToDefeat, [Globals factionForUserType:(gs.type+3)%6]];
+    }
     self.total = p.numEnemiesToDefeat;
   }
   return self;
@@ -338,6 +343,16 @@
   return self;
 }
 
+- (id) initWithCoinRetrieval:(int)amount questId:(int)questId {
+  if ((self = [super init])) {
+    self.jobId = questId;
+    self.jobType = kCoinRetrievalJob;
+    self.title = [NSString stringWithFormat:@"Collect %d silver from your income buildings", amount];
+    self.total = amount;
+  }
+  return self;
+}
+
 + (NSArray *)jobsForQuest:(FullQuestProto *)fqp {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *jobs = [NSMutableArray array];
@@ -369,6 +384,12 @@
   
   for (NSNumber *n in fqp.upgradeStructJobsReqsList) {
     job = [[UserJob alloc] initWithUpgradeStructJob:[gs.staticUpgradeStructJobs objectForKey:n]];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  if (fqp.coinRetrievalReq > 0) {
+    job = [[UserJob alloc] initWithCoinRetrieval:fqp.coinRetrievalReq questId:fqp.questId];
     [jobs addObject:job];
     [job release];
   }

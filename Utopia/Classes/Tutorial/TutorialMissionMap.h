@@ -28,7 +28,6 @@
   
   QuestGiver *_questGiver;
   Enemy *_enemy;
-  Aviary *_aviary;
   
   // For preloading
   LevelUpViewController *luvc;

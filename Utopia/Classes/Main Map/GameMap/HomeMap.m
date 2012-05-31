@@ -17,404 +17,14 @@
 #import "RefillMenuController.h"
 #import "CritStructPopupController.h"
 #import "BuildUpgradePopupController.h"
-
-#define LEFT_STAR_OFFSET 8
-#define MAX_STARS 5
-
-#define UPGRADE_VIEW_LINE_YOFFSET 28.f
-#define UPGRADE_VIEW_LINE_XOFFSET 14.f
+#import "GenericPopupController.h"
 
 #define HOME_BUILDING_TAG_OFFSET 123456
-
-@implementation UpgradeButtonOverlay
-
-@synthesize fullStar, emptyStar;
-@synthesize level;
-
-- (id) initWithFrame:(CGRect)frame {
-  if ((self = [super initWithFrame:frame])) {
-    fullStar = [[Globals imageNamed:@"fullstar.png"] retain];
-    emptyStar = [[Globals imageNamed:@"emptystar.png"] retain];
-    self.level = 1;
-    self.userInteractionEnabled = NO;
-  }
-  return self;
-}
-
-- (void) setLevel:(int)lev {
-  if (level != lev) {
-    level = lev;
-    [self setNeedsDisplay];
-  }
-}
-
-- (void) drawRect:(CGRect)rect {
-  [super drawRect:rect];
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  
-  int y = CGRectGetMidY(self.bounds)-fullStar.size.height/2;
-  int width = fullStar.size.width;
-  
-  int i;
-  CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 10, [UIColor yellowColor].CGColor);
-  for (i = 0; i < level  && i < MAX_STARS; i++) {
-    [fullStar drawAtPoint:CGPointMake(LEFT_STAR_OFFSET+i*width, y)];
-  }
-  //  CGContextSetShadow(context, CGSizeMake(0, 0), 0);
-  for (; i < MAX_STARS; i++) {
-    [emptyStar drawAtPoint:CGPointMake(LEFT_STAR_OFFSET+i*width, y)];
-  }
-}
-
-- (void) dealloc {
-  self.fullStar = nil;
-  self.emptyStar = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation HomeBuildingInfoView
-
-@synthesize sellView, incomeView, starView;
-@synthesize upgradeButton, coinIcon;
-@synthesize sellCostLabel, sellCoinImageView;
-
-- (void) awakeFromNib {
-  self.backgroundColor = [UIColor clearColor];
-  self.incomeView.frame = self.sellView.frame;
-  starView = [[UpgradeButtonOverlay alloc] initWithFrame:upgradeButton.bounds];
-  [starView setBackgroundColor:[UIColor clearColor]];
-  [self.upgradeButton addSubview:starView];
-}
-
-- (void) setSellCostString:(NSString *)s {
-  self.sellCostLabel.text = s;
-  CGSize size = [s sizeWithFont:self.sellCostLabel.font];
-  CGRect rect = sellCostLabel.frame;
-  rect.origin.x = CGRectGetMaxX(rect)-size.width;
-  rect.size.width = size.width;
-  sellCostLabel.frame = rect;
-  
-  rect = sellCoinImageView.frame;
-  rect.origin.x = sellCostLabel.frame.origin.x - rect.size.width-5;
-  sellCoinImageView.frame = rect;
-}
-
-- (void) drawRect:(CGRect)rect {
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSetLineWidth(context, 1.f);
-  CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-  
-  CGRect f = sellView.frame;
-  // Draw black lines
-  CGContextMoveToPoint(context, CGRectGetMinX(f), CGRectGetMinY(f));
-  CGContextAddLineToPoint(context, CGRectGetMaxX(f), CGRectGetMinY(f));
-  CGContextMoveToPoint(context, CGRectGetMinX(f), CGRectGetMaxY(f));
-  CGContextAddLineToPoint(context, CGRectGetMaxX(f), CGRectGetMaxY(f));
-  
-	CGContextStrokePath(context);
-  
-  CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 0.15);
-  // Draw white lines
-  float offset = 0.5;
-  CGContextMoveToPoint(context, CGRectGetMinX(f), CGRectGetMinY(f)+offset);
-  CGContextAddLineToPoint(context, CGRectGetMaxX(f), CGRectGetMinY(f)+offset);
-  CGContextMoveToPoint(context, CGRectGetMinX(f), CGRectGetMaxY(f)+offset);
-  CGContextAddLineToPoint(context, CGRectGetMaxX(f), CGRectGetMaxY(f)+offset);
-  
-	CGContextStrokePath(context);
-}
-
-- (void) dealloc {
-  self.sellView = nil;
-  self.incomeView = nil;
-  self.starView = nil;
-  self.upgradeButton = nil;
-  self.coinIcon = nil;
-  self.sellCostLabel = nil;
-  self.sellCoinImageView = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation HomeBuildingUpgradeView
-
-@synthesize costView, costLabel, upgradeCoinIcon;
-
-- (void) awakeFromNib {
-  self.backgroundColor = [UIColor clearColor];
-}
-
-- (void) setUpgradeCostString:(NSString *)s {
-  self.costLabel.text = s;
-  CGSize size = [s sizeWithFont:self.costLabel.font];
-  CGRect labelRect = costLabel.frame;
-  
-  CGRect viewRect = costView.frame;
-  viewRect.size.width -= labelRect.size.width - size.width;
-  costView.frame = viewRect;
-  
-  labelRect.size.width = size.width;
-  costLabel.frame = labelRect;
-  
-  costView.center = CGPointMake(CGRectGetMidX(self.frame), costView.center.y);
-}
-
-- (void) drawRect:(CGRect)rect {
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  CGContextSetLineWidth(context, 1.f);
-  CGContextSetRGBStrokeColor(context, 0.0, 0.0, 0.0, 1.0);
-  
-  // Draw black lines
-  float y = UPGRADE_VIEW_LINE_YOFFSET;
-  float x = UPGRADE_VIEW_LINE_XOFFSET;
-  CGContextMoveToPoint(context, x, y);
-  CGContextAddLineToPoint(context, CGRectGetMaxX(self.frame)-x, y);
-  
-	CGContextStrokePath(context);
-  
-  CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 0.15);
-  // Draw white lines
-  float offset = 0.5;
-  CGContextMoveToPoint(context, x, y+offset);
-  CGContextAddLineToPoint(context, CGRectGetMaxX(self.frame)-x, y+offset);
-  
-	CGContextStrokePath(context);
-}
-
-- (void) dealloc {
-  self.costView = nil;
-  self.costLabel = nil;
-  self.upgradeCoinIcon = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation HomeBuildingMenu
-
-@synthesize titleLabel;
-@synthesize blueButton, redButton, greenButton;
-@synthesize infoView, upgradeView, progressView;
-@synthesize state  = _state;
-@synthesize mainView, moveView;
-@synthesize timer, retrievalTime;
-@synthesize upgradeTime, totalUpgradeTime;
-@synthesize incomeLabel, upgradeCurIncomeLabel, upgradeNewIncomeLabel, retrieveTimeLabel;
-@synthesize instaFinishCostLabel, finishTimeLabel, progressBar;
-@synthesize finishNowButton;
-
-- (void) awakeFromNib {
-  [super awakeFromNib];
-  [self.mainView insertSubview:infoView aboveSubview:titleLabel];
-  [self.mainView insertSubview:upgradeView aboveSubview:titleLabel];
-  [self.mainView insertSubview:progressView aboveSubview:titleLabel];
-  self.state = kNormalState;
-  greenButton.text = @"Upgrade";
-  [Globals adjustFontSizeForUILabel:titleLabel];
-  
-  [self addSubview:moveView];
-  int width = moveView.frame.size.width;
-  int height = moveView.frame.size.height;
-  moveView.frame = CGRectMake(CGRectGetMidX(self.frame)-width/2, CGRectGetMaxY(self.frame)-height, width, height);
-  
-  self.hidden = YES;
-}
-
-- (void) setState:(HomeBuildingState)state {
-  if (_state != state) {
-    _state = state;
-    switch (state) {
-      case kNormalState:
-        blueButton.text = @"Move";
-        blueButton.enabled = YES;
-        redButton.hidden = NO;
-        redButton.text = @"Sell";
-        redButton.enabled = YES;
-        infoView.hidden = NO;
-        infoView.sellView.hidden = YES;
-        infoView.incomeView.hidden = NO;
-        upgradeView.hidden = YES;
-        progressView.hidden = YES;
-        mainView.hidden = NO;
-        moveView.hidden = YES;
-        break;
-        
-      case kSellState:
-        blueButton.text = @"Cancel";
-        redButton.text = @"Ok, Sell";
-        infoView.sellView.hidden = NO;
-        infoView.incomeView.hidden = YES;
-        break;
-        
-      case kUpgradeState:
-        blueButton.text = @"Cancel";
-        upgradeView.hidden = NO;
-        redButton.hidden = YES;
-        infoView.hidden = YES;
-        break;
-        
-      case kProgressState:
-        mainView.hidden = NO;
-        moveView.hidden = YES;
-        blueButton.text = @"Move";
-        upgradeView.hidden = YES;
-        redButton.hidden = NO;
-        progressView.hidden = NO;
-        redButton.enabled = NO;
-        infoView.hidden = YES;
-        finishNowButton.enabled = YES;
-        break;
-        
-      case kMoveState:
-        mainView.hidden = YES;
-        moveView.hidden = NO;
-        
-      default:
-        break;
-    }
-  }
-}
-
-- (void) updateTimes {
-  if (_state == kProgressState) {
-    int t = MAX([upgradeTime timeIntervalSinceNow], 0);
-    self.finishTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d", t/3600, t/60%60, t%60];
-    
-    // Adjust the progress bar appropriately
-    [self setProgressBarProgress:(1-t/totalUpgradeTime)];
-  } else {
-    int t = MAX([retrievalTime timeIntervalSinceNow], 0);
-    self.retrieveTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d:%02d", t/3600, t/60%60, t%60];
-  }
-}
-
-- (void) setTimer:(NSTimer *)t {
-  [timer invalidate];
-  [timer release];
-  timer = [t retain];
-}
-
-- (void) startTimer {
-  [self updateTimes];
-  self.timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(updateTimes) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-}
-
-- (void) setHidden:(BOOL)hidden {
-  [super setHidden:hidden];
-  [self.timer invalidate];
-  if (!hidden) {
-    [self updateTimes];
-    [self startTimer];
-  }
-}
-
-- (void) setProgressBarProgress:(float)val {
-  // Float from 0 to 1
-  int width = progressBar.image.size.width;
-  CGRect r = progressBar.frame;
-  r.size.width = clampf(width * val, 0, width);
-  progressBar.frame = r;
-}
-
-- (float) progressBarProgress {
-  int width = progressBar.image.size.width;
-  return progressBar.frame.size.width/width;
-}
-
-- (void) updateLabelsForUserStruct:(UserStruct *)us {
-  if (!us) {
-    return;
-  }
-  
-  FullStructureProto *fsp = [[GameState sharedGameState] structWithId:us.structId];
-  Globals *gl = [Globals sharedGlobals];
-  
-  self.titleLabel.text = fsp.name;
-  
-  UserStructState s = us.state;
-  // Convert to normal state first to ensure normal transition
-  if (s == kBuilding) {
-    // First build phase
-    self.state = kProgressState;
-    int secs = fsp.minutesToBuild*60;
-    self.upgradeTime = [NSDate dateWithTimeInterval:secs sinceDate:us.purchaseTime];
-    self.totalUpgradeTime = secs;
-    [self updateTimes];
-    self.instaFinishCostLabel.text = [Globals commafyNumber:[gl calculateDiamondCostForInstaBuild:us]];
-  } else if (s == kUpgrading) {
-    // Upgrading..
-    self.state = kProgressState;
-    int secs = [gl calculateMinutesToUpgrade:us]*60;
-    self.upgradeTime = [NSDate dateWithTimeInterval:secs sinceDate:us.lastUpgradeTime];
-    self.totalUpgradeTime = secs;
-    [self updateTimes];
-    self.instaFinishCostLabel.text = [Globals commafyNumber:[gl calculateDiamondCostForInstaUpgrade:us]];
-  } else {
-    self.state = kNormalState;
-    self.retrievalTime = [NSDate dateWithTimeInterval:fsp.minutesToGain*60 sinceDate:us.lastRetrieved];
-    [self updateTimes];
-    self.incomeLabel.text = [NSString stringWithFormat:@"+%@", [Globals commafyNumber:[gl calculateIncomeForUserStruct:us]]];
-    self.infoView.starView.level = us.level;
-    
-    if (fsp.coinPrice > 0) {
-      [self.infoView setSellCostString:[Globals commafyNumber:[gl calculateStructSilverSellCost:us]]];
-      self.infoView.coinIcon.highlighted = NO;
-      self.upgradeView.upgradeCoinIcon.highlighted = NO;
-    } else {
-      [self.infoView setSellCostString:[Globals commafyNumber:[gl calculateStructGoldSellCost:us]]];
-      self.infoView.coinIcon.highlighted = YES;
-      self.upgradeView.upgradeCoinIcon.highlighted = YES;
-    }
-    
-    self.upgradeCurIncomeLabel.text = [Globals commafyNumber:[gl calculateIncomeForUserStruct:us]];
-    self.upgradeNewIncomeLabel.text = [Globals commafyNumber:[gl calculateIncomeForUserStructAfterLevelUp:us]];
-    [self.upgradeView setUpgradeCostString:[Globals commafyNumber:[gl calculateUpgradeCost:us]]];
-  }
-}
-
-- (void) setFrameForPoint:(CGPoint)pt {
-  // place it so that the bottom middle is at pt
-  // Remember, frame is relative to top left corner
-  float width = self.frame.size.width;
-  float height = self.frame.size.height;
-  self.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
-}
-
-- (void) dealloc {
-  [self.timer invalidate];
-  self.timer = nil;
-  self.titleLabel = nil;
-  self.blueButton = nil;
-  self.redButton = nil;
-  self.greenButton = nil;
-  self.infoView = nil;
-  self.upgradeView = nil;
-  self.progressView = nil;
-  self.mainView = nil;
-  self.moveView = nil;
-  self.retrievalTime = nil;
-  self.upgradeTime = nil;
-  self.incomeLabel = nil;
-  self.upgradeCurIncomeLabel = nil;
-  self.upgradeNewIncomeLabel = nil;
-  self.retrieveTimeLabel = nil;
-  self.instaFinishCostLabel = nil;
-  self.finishTimeLabel = nil;
-  self.finishNowButton = nil;
-  self.progressBar = nil;
-  [super dealloc];
-}
-
-@end
 
 @implementation HomeMap
 
 @synthesize buildableData = _buildableData;
-@synthesize hbMenu;
+@synthesize hbMenu, collectMenu, moveMenu, upgradeMenu;
 @synthesize loading = _loading;
 @synthesize redGid, greenGid;
 
@@ -460,40 +70,46 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     
     int width = self.mapSize.width;
     int height = self.mapSize.height;
-    for (CCNode *node in self.children) {
-      if (![node isKindOfClass:[CCTMXLayer class]]) {
-        continue;
+    CCTMXLayer *layer = [self layerNamed:@"Buildable"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        NSMutableArray *row = [self.buildableData objectAtIndex:i];
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
+        }
       }
-      CCTMXLayer *layer = (CCTMXLayer *)node;
-      
-      for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-          NSMutableArray *row = [self.buildableData objectAtIndex:i];
-          NSNumber *curVal = [row objectAtIndex:j];
-          if (curVal.boolValue == NO) {
-            // Convert their coordinates to our coordinate system
-            CGPoint tileCoord = ccp(height-j-1, width-i-1);
-            int tileGid = [layer tileGIDAt:tileCoord];
-            if (tileGid) {
-              NSDictionary *properties = [self propertiesForGID:tileGid];
-              if (properties) {
-                NSString *collision = [properties valueForKey:@"Buildable"];
-                if (collision && [collision isEqualToString:@"Yes"]) {
-                  [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
-                }
-              }
-            }
-          }
+    }
+    [self removeChild:layer cleanup:YES];
+    
+    layer = [self layerNamed:@"Expansion"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        NSMutableArray *row = [self.buildableData objectAtIndex:i];
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
         }
       }
     }
     
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.hbMenu];
+    [Globals displayUIView:self.hbMenu];
+    [Globals displayUIView:self.collectMenu];
+    [Globals displayUIView:self.moveMenu];
+    
+    [[NSBundle mainBundle] loadNibNamed:@"UpgradeBuildingMenu" owner:self options:nil];
+    
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
-    self.hbMenu.greenButton.label.shadowColor = [UIColor colorWithWhite:0.f alpha:0.3f];
-    self.hbMenu.greenButton.label.shadowOffset = CGSizeMake(1, 1);
+    hbMenu.center = CGPointMake(hbMenu.frame.size.width/2+5.f, hbMenu.superview.frame.size.height-hbMenu.frame.size.height/2-2.f);
+    hbMenu.alpha = 0.f;
+    collectMenu.alpha = 0.f;
+    moveMenu.hidden = YES;
     
     _loading = YES;
     
@@ -603,27 +219,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [moneyBuilding placeBlock];
   }
   
-//  for (UserCritStruct *cs in gs.myCritStructs) {
-//    if (cs.type != CritStructTypeAviary) {
-//      CritStructBuilding *csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-//      [self addChild:csb];
-//      [csb release];
-//      
-//      csb.orientation = cs.orientation;
-//      csb.critStruct = cs;
-//      [arr addObject:csb];
-//      [csb placeBlock];
-//    } else {
-//      Aviary *av = [[Aviary alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-//      [self addChild:av];
-//      [av release];
-//      
-//      av.orientation = cs.orientation;
-//      [arr addObject:av];
-//      [self changeTiles:av.location toBuildable:NO];
-//    }
-//  }
-  
   CCNode *c;
   CCARRAY_FOREACH(self.children, c) {
     if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
@@ -660,6 +255,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (mb) {
     [self moveToSprite:mb];
+  } else {
+    // TODO: move to carpenter
   }
 }
 
@@ -668,28 +265,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (_isMoving || ([_selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)_selected).isSetDown)) {
     [self reorderChild:_selected z:1000];
-  }
-}
-
-- (void) setPosition:(CGPoint)position {
-  CGPoint oldPos = position_;
-  [super setPosition:position];
-  if (!hbMenu.hidden) {
-    CGPoint diff = ccpSub(oldPos, position_);
-    diff.x *= -1;
-    CGRect curRect = hbMenu.frame;
-    curRect.origin = ccpAdd(curRect.origin, diff);
-    hbMenu.frame = curRect;
-  }
-}
-
-- (void) updateHomeBuildingMenu {
-  if (_selected && [_selected isKindOfClass:[MoneyBuilding class]]) {
-    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
-    [hbMenu setFrameForPoint:pt];
-    hbMenu.hidden = NO;
-  } else {
-    hbMenu.hidden = YES;
   }
 }
 
@@ -721,7 +296,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [_purchBuilding release];
   
   self.selected = _purchBuilding;
-  self.hbMenu.state = kMoveState;
+  [self openMoveMenuOnSelected];
   _canMove = YES;
   _purchasing = YES;
   _purchStructId = structId;
@@ -731,15 +306,61 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self moveToSprite:_purchBuilding];
 }
 
+- (void) setViewForSelected:(UIView *)view {
+  // Used to set collect menu and move menu
+  
+  CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
+  [Globals setFrameForView:view forPoint:pt];
+}
+
 - (void) setSelected:(SelectableSprite *)selected {
   if (_selected != selected) {
-    if ([selected isKindOfClass: [MoneyBuilding class]]) {
-      [super setSelected:nil];
-      [self.hbMenu updateLabelsForUserStruct:((MoneyBuilding *) selected).userStruct];
-    }
     [super setSelected:selected];
-    [self updateHomeBuildingMenu];
+    if ([selected isKindOfClass: [MoneyBuilding class]]) {
+      UserStruct *us = ((MoneyBuilding *) selected).userStruct;
+      if (us.state == kUpgrading || us.state == kBuilding) {
+        [self.upgradeMenu displayForUserStruct:us];
+      } else {
+        [self.hbMenu updateForUserStruct:us];
+        [self.collectMenu updateForUserStruct:us];
+        
+        [self setViewForSelected:self.collectMenu];
+        
+        [self doMenuAnimations];
+      }
+    } else {
+      [self closeMenus];
+      [self.upgradeMenu closeClicked:nil];
+    }
   }
+}
+
+- (void) doMenuAnimations {
+  hbMenu.alpha = 0.f;
+  
+  // Do 0.01f because timer gets deallocated when alpha is 0.f
+  collectMenu.alpha = 0.01f;
+  
+  [UIView animateWithDuration:0.3f animations:^{
+    hbMenu.alpha = 1.f;
+    collectMenu.alpha = 1.f;
+  }];
+}
+
+- (void) openMoveMenuOnSelected {
+  [self closeMenus];
+  
+  [self setViewForSelected:self.moveMenu];
+  
+  self.moveMenu.hidden = NO;
+}
+
+- (void) closeMenus {
+  collectMenu.alpha = 0.f;
+  moveMenu.hidden = YES;
+  [UIView animateWithDuration:0.3f animations:^{
+    hbMenu.alpha = 0.f;
+  }];
 }
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node
@@ -750,12 +371,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   pt = [self convertToNodeSpace:pt];
   
   // During drag, take out menus
-  if([recognizer state] == UIGestureRecognizerStateBegan ) {
-    self.hbMenu.hidden = YES;
-  } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
-    [self updateHomeBuildingMenu];
-  }
-  
   if (_canMove) {
     if ([_selected isKindOfClass:[HomeBuilding class]]) {
       HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
@@ -767,6 +382,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           
           [homeBuilding updateMeta];
           _isMoving = YES;
+          [self openMoveMenuOnSelected];
           return;
         }
       } else if (_isMoving && [recognizer state] == UIGestureRecognizerStateChanged) {
@@ -774,15 +390,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [homeBuilding clearMeta];
         [homeBuilding locationAfterTouch:pt];
         [homeBuilding updateMeta];
+        [self openMoveMenuOnSelected];
         return;
       } else if (_isMoving && [recognizer state] == UIGestureRecognizerStateEnded) {
         [homeBuilding clearMeta];
         [homeBuilding placeBlock];
         _isMoving = NO;
         [self doReorder];
+        [self openMoveMenuOnSelected];
         return;
       }
     }
+    [self openMoveMenuOnSelected];
+  } else {
+    self.selected = nil;
   }
   
   [super drag:recognizer node:node];
@@ -814,8 +435,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) scale:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   [super scale:recognizer node:node];
-  [self updateHomeBuildingMenu];
   
+  if (self.collectMenu.alpha > 0.f) {
+    [self setViewForSelected:self.collectMenu];
+  } else if (self.moveMenu.alpha > 0.f) {
+    [self setViewForSelected:self.moveMenu];
+  }
 }
 
 - (void) scrollScreenForTouch:(CGPoint)pt {
@@ -849,11 +474,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self updateTimersForBuilding:mb];
   mb.isConstructing = NO;
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-  if (mb == _selected && hbMenu.state != kMoveState) {
-    //    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
+  if (mb == _selected && _canMove) {
+    [mb cancelMove];
     self.selected = nil;
   }
-  [self updateHomeBuildingMenu];
   _constrBuilding = nil;
 }
 
@@ -862,10 +486,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-  if (mb == _selected && hbMenu.state != kMoveState) {
-    //    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-    self.selected = nil;
-  }
   _upgrBuilding = nil;
 }
 
@@ -874,7 +494,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   mb.retrievable = YES;
   
   if (mb == _selected) {
-    if (self.hbMenu.state == kMoveState) {
+    if (_canMove) {
       [mb cancelMove];
       _canMove = NO;
     }
@@ -882,15 +502,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (IBAction)leftButtonClicked:(id)sender {
-  if (hbMenu.state == kSellState || hbMenu.state == kUpgradeState) {
-    // Cancel Clicked
-    hbMenu.state = kNormalState;
-  } else {
-    // Move Clicked
-    _canMove = YES;
-    hbMenu.state = kMoveState;
+- (void) upgradeMenuClosed {
+  if (!_canMove) {
+    self.selected = nil;
   }
+}
+
+- (IBAction)beginMoveClicked:(id)sender {
+  [self openMoveMenuOnSelected];
+  _canMove = YES;
+  
+  // Make sure canMove is set to YES so selected isnt set to nil
+  [self.upgradeMenu closeClicked:nil];
 }
 
 - (IBAction)moveCheckClicked:(id)sender {
@@ -951,46 +574,44 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
-- (IBAction)redButtonClicked:(id)sender {
-  if (hbMenu.state == kNormalState) {
-    hbMenu.state = kSellState;
-  } else if (hbMenu.state == kSellState) {
-    // Do real sell
-    UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
-    int structId = us.structId;
-    [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
-    if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
-      MoneyBuilding *spr = (MoneyBuilding *)self.selected;
-      self.selected = nil;
-      [spr liftBlock];
-      [_timers removeObject:spr.timer];
-      spr.timer = nil;
-      [self removeChild:spr cleanup:YES];
-      
-      // Fix tag fragmentation
-      int tag = [self baseTagForStructId:structId];
-      int renameTag = tag;
-      for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
-        CCNode *c = [self getChildByTag:i];
-        if (c) {
-          [c setTag:renameTag];
-          renameTag++;
-        }
+- (IBAction)sellClicked:(id)sender {
+  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  int structId = us.structId;
+  [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
+  [self closeMenus];
+  if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
+    MoneyBuilding *spr = (MoneyBuilding *)self.selected;
+    self.selected = nil;
+    [spr liftBlock];
+    [_timers removeObject:spr.timer];
+    spr.timer = nil;
+    [self removeChild:spr cleanup:YES];
+    
+    // Fix tag fragmentation
+    int tag = [self baseTagForStructId:structId];
+    int renameTag = tag;
+    for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
+      CCNode *c = [self getChildByTag:i];
+      if (c) {
+        [c setTag:renameTag];
+        renameTag++;
       }
     }
   }
 }
 
-- (IBAction)bigUpgradeClicked:(id)sender {
+- (IBAction)littleUpgradeClicked:(id)sender {
   UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
   Globals *gl = [Globals sharedGlobals];
-  
   if (us.level < gl.maxLevelForStruct) {
-    hbMenu.state = kUpgradeState;
+    [self.upgradeMenu displayForUserStruct:us];
+    [self closeMenus];
+  } else {
+    [Globals popupMessage:[NSString stringWithFormat:@"The maximum level for buildings is level %d.", gl.maxLevelForStruct]];
   }
 }
 
-- (IBAction)littleUpgradeClicked:(id)sender {
+- (IBAction)bigUpgradeClicked:(id)sender {
   UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
@@ -1007,7 +628,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
         _upgrBuilding = (MoneyBuilding *)_selected;
         [self updateTimersForBuilding:_upgrBuilding];
-        [self.hbMenu updateLabelsForUserStruct:us];
+        [self.upgradeMenu displayForUserStruct:us];
+        [self closeMenus];
       }
     } else {
       if (cost > gs.gold) {
@@ -1018,13 +640,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [[OutgoingEventController sharedOutgoingEventController] upgradeNormStruct:us];
         _upgrBuilding = (MoneyBuilding *)_selected;
         [self updateTimersForBuilding:_upgrBuilding];
-        [self.hbMenu updateLabelsForUserStruct:us];
+        [self.upgradeMenu displayForUserStruct:us];
+        [self closeMenus];
       }
     }
   }
 }
 
-- (IBAction)finishNowClicked:(id)sender {
+- (IBAction)finishNowClicked:(id)sender {MoneyBuilding *mb = (MoneyBuilding *)_selected;
+  UserStructState state = mb.userStruct.state;
+  Globals *gl = [Globals sharedGlobals];
+  int goldCost = 0;
+  
+  if (state == kUpgrading) {
+    UserStruct *us = _upgrBuilding.userStruct;
+    goldCost = [gl calculateDiamondCostForInstaUpgrade:us];
+  } else if (state == kBuilding) {
+    goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];
+  }
+  NSString *desc = [NSString stringWithFormat:@"Finish instantly for %d gold?", goldCost];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Speed Up!" okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(speedUpBuilding)];
+}
+
+- (void) speedUpBuilding {
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
   UserStructState state = mb.userStruct.state;
   Globals *gl = [Globals sharedGlobals];
@@ -1049,9 +687,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
   }
   
-  self.hbMenu.finishNowButton.enabled = NO;
-  self.hbMenu.blueButton.enabled = NO;
-  
   if (mb.userStruct.state == kWaitingForIncome) {
     if (_selected == _constrBuilding) {
       _constrBuilding = nil;
@@ -1061,27 +696,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [Globals popupMessage:@"This should never come up.. Inconsistent state in HomeMap->finishNowClicked"];
     }
     
-    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:NO];
-    // animate bar to top
-    [self.hbMenu.timer invalidate];
-    float secs = PROGRESS_BAR_SPEED*(1-[self.hbMenu progressBarProgress]);
-    [UIView animateWithDuration:secs animations:^{
-      [self.hbMenu setProgressBarProgress:1.f];
-    } completion:^(BOOL finished) {
-      [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
-      [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
-      self.hbMenu.finishNowButton.enabled = YES;
-      self.hbMenu.blueButton.enabled = YES;
-      [self.hbMenu startTimer];
-      mb.isConstructing = NO;
-      self.selected = nil;
-      //      [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-      //      [self updateHomeBuildingMenu];
-    }];
     [self updateTimersForBuilding:mb];
-  } else {
-    self.hbMenu.finishNowButton.enabled = YES;
-    self.hbMenu.blueButton.enabled = YES;
+    
+    [self.upgradeMenu finishNow:^{
+      mb.isConstructing = NO;
+    }];
   }
 }
 
@@ -1118,6 +737,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) dealloc {
   [self.hbMenu removeFromSuperview];
   self.hbMenu = nil;
+  [self.collectMenu removeFromSuperview];
+  self.collectMenu = nil;
+  [self.moveMenu removeFromSuperview];
+  self.collectMenu = nil;
+  [self.upgradeMenu removeFromSuperview];
+  self.upgradeMenu = nil;
   self.buildableData = nil;
   
   [self invalidateAllTimers];

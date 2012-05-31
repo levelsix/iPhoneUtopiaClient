@@ -329,6 +329,7 @@ message FullUserQuestDataLargeProto {
      repeated MinimumUserUpgradeStructJobProto requiredUpgradeStructJobProgress = 7;
      repeated MinimumUserPossessEquipJobProto requiredPossessEquipJobProgress = 8;
      repeated MinimumUserQuestTaskProto requiredTasksProgress = 9;
+     optional int32 coinsRetrievedForReq = 11;
      optional int32 numComponentsComplete = 10;
 }
 
@@ -348,9 +349,19 @@ message MinimumUserDefeatTypeJobProto {
 
 message DefeatTypeJobProto {
      optional int32 defeatTypeJobId = 1;
-     optional UserType typeOfEnemy = 2;
+     optional DefeatTypeJobEnemyType typeOfEnemy = 2;
      optional int32 numEnemiesToDefeat = 3;
      optional int32 cityId = 4;
+     
+     enum DefeatTypeJobEnemyType {
+     	GOOD_WARRIOR = 0;
+		GOOD_ARCHER = 1;
+		GOOD_MAGE = 2;
+		BAD_WARRIOR = 3;
+		BAD_ARCHER = 4;
+		BAD_MAGE = 5;
+		ALL_TYPES_FROM_OPPOSING_SIDE = 6;
+     }
 }
 
 message MinimumUserBuildStructJobProto {
@@ -417,6 +428,7 @@ message FullQuestProto {
      optional DialogueProto acceptDialogue = 20;
      
      optional string questGiverName = 21;
+     optional int32 coinRetrievalReq = 22;
 }
 
 //------------------------------------------------------------------------------------------

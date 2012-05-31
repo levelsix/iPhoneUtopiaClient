@@ -19,6 +19,7 @@
 #import "TutorialConstants.h"
 #import "GenericPopupController.h"
 #import "SimpleAudioEngine.h"
+#import "BattleLayer.h"
 
 @implementation OutgoingEventController
 
@@ -384,7 +385,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           gs.silver -= proto.coinCost;
           
           [Globals playCoinSound];
-          break;
         } else {
           [Globals popupMessage:@"Not enough coins to purchase"];
         }
@@ -658,7 +658,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
-  } else if (userStruct.isComplete) {
+  } else {
     [sc sendSellNormStructureMessage:userStruct.userStructId];
     [[gs myStructs] removeObject:userStruct];
     
@@ -667,8 +667,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.gold += [[Globals sharedGlobals] calculateStructGoldSellCost:userStruct];
     
     [Analytics normStructSell:userStruct.structId level:userStruct.level];
-  } else {
-    [Globals popupMessage:[NSString stringWithFormat:@"Building %d is completing", userStruct.userStructId]];
   }
 }
 
@@ -1047,7 +1045,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (city.minLevel <= gs.level) {
     [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
-    [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
+    if (![[BattleLayer sharedBattleLayer] isRunning]) {
+      [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
+    }
     
     // Load any tasks we don't have as well
     NSDictionary *sTasks = [gs staticTasks];
@@ -1156,6 +1156,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     if (fqp.equipIdGained > 0) {
       [gs changeQuantityForEquip:fqp.equipIdGained by:1];
+    }
+    
+    GameLayer *glay = [GameLayer sharedGameLayer];
+    if (glay.currentCity = fqp.cityId) {
+      [[[GameLayer sharedGameLayer] missionMap] questRedeemed:fqp];
     }
     
     [Analytics questRedeem:questId];

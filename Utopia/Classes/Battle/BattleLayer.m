@@ -592,7 +592,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   // Close the menus
   [[GameLayer sharedGameLayer] closeMenus];
   
-  _cityId = 0;
+  _cityId = -1;
   
   _attackButton.visible = NO;
   _comboBar.visible = NO;
@@ -905,7 +905,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _damageDone = [self calculateEnemyDamageForPercentage:perc];
   
   if (_leftCurrentHealth - _damageDone <= 0) {
-    [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultDefenderWin city:0 equips:nil];
+    [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultDefenderWin city:-1 equips:nil];
   }
   
   _bottomMenu.visible = NO;
@@ -1153,7 +1153,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) fleeClicked {
-  [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:0 equips:nil];
+  [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerFlee city:-1 equips:nil];
   [_attackProgressTimer stopAllActions];
   _attackButton.visible = NO;
   _pausedLayer.visible = NO;

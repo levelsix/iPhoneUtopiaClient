@@ -267,7 +267,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     // Right clicked
     
     // BattleLayer will fade out view
-    [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+    [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:0];
   }
 }
 

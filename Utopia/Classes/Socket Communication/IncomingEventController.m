@@ -320,6 +320,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (gs.isTutorial) {
       [[DialogMenuController sharedDialogMenuController] stopLoading];
     }
+    
+//    [oec retrieveStructStore];
+//    [oec purchaseNormStruct:1 atX:50 atY:39];
   } else {
     // Need to create new player
     StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
@@ -391,7 +394,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     
     if (proto.cityRankedUp) {
-      int cityId = 1;
+      int cityId = proto.cityId;
       UserCity *city = [gs myCityWithId:cityId];
       city.curRank++;
       city.numTasksComplete = 0;
@@ -408,7 +411,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         for (MapSprite *spr in sprites) {
           if ([spr isKindOfClass:[MissionBuilding class]]) {
             MissionBuilding *mb = (MissionBuilding *)spr;
-            mb.numTimesActed = 0;
+            mb.numTimesActedForTask = 0;
           }
         }
       }
@@ -510,8 +513,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
   } else {
     [Globals popupMessage:@"Server failed to purchase from marketplace."];
-    [mvc removeLoadingView];
   }
+  [mvc removeLoadingView];
 }
 
 - (void) handleRetractMarketplacePostResponseProto:(RetractMarketplacePostResponseProto *) proto {
@@ -812,10 +815,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
     [Globals popupMessage:@"Server failed to accept quest"];
-  } else {
-    if ([[GameLayer sharedGameLayer] currentCity] == proto.cityIdOfAcceptedQuest) {
-      [[[GameLayer sharedGameLayer] missionMap] receivedQuestAcceptResponse:proto];
-    }
   }
 }
 
@@ -872,6 +871,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
+  [[ProfileViewController sharedProfileViewController] receivedEquips:proto];
 }
 
 - (void) handleRetrieveUsersForUserIdsResponseProto:(RetrieveUsersForUserIdsResponseProto *)proto {

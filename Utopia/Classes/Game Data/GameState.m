@@ -86,6 +86,8 @@
 @synthesize notifications = _notifications;
 @synthesize wallPosts = _wallPosts;
 
+@synthesize lastLogoutTime = _lastLogoutTime;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
@@ -168,6 +170,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000];
   self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000];
   self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000];
+  
+  self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000];
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
@@ -269,7 +273,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
   
-  [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+  GameState *gs = [GameState sharedGameState];
+  if ([un.time compare:gs.lastLogoutTime] == NSOrderedDescending) {
+    [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+  }
 }
 
 - (void) addWallPost:(PlayerWallPostProto *)wallPost {
@@ -365,21 +372,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (BOOL) hasValidLicense {
-  Globals *gl = [Globals sharedGlobals];
-  
-  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
-  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
-  if (shortLic > time) {
-    return YES;
-  }
-  
-  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
-  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
-  if (longLic > time) {
-    return YES;
-  }
-  
-  return NO;
+  return YES;
+//  Globals *gl = [Globals sharedGlobals];
+//  
+//  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
+//  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
+//  if (shortLic > time) {
+//    return YES;
+//  }
+//  
+//  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
+//  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
+//  if (longLic > time) {
+//    return YES;
+//  }
+//  
+//  return NO;
 }
 
 - (void) changeQuantityForEquip:(int)equipId by:(int)qDelta {
@@ -474,6 +482,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.attackList = nil;
   self.notifications = nil;
   self.wallPosts = nil;
+  self.lastLogoutTime = nil;
   [super dealloc];
 }
 

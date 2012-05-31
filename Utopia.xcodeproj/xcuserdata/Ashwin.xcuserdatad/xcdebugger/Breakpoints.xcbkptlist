@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
-         timestampString = "359406967.205643"
+         timestampString = "359531812.665189"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "901"
-         endingLineNumber = "901"
+         startingLineNumber = "904"
+         endingLineNumber = "904"
          landmarkName = "-setState:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -59,25 +59,12 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "Utopia/Classes/Main Map/GameMap/TopBar.m"
-         timestampString = "359099235.552458"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "405"
-         endingLineNumber = "405"
-         landmarkName = "-fadeOutToolTip:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Data/Globals.m"
-         timestampString = "359347654.835524"
+         timestampString = "359696180.869232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "431"
-         endingLineNumber = "431"
+         startingLineNumber = "443"
+         endingLineNumber = "443"
          landmarkName = "+commafyNumber:"
          landmarkType = "5">
       </FileBreakpoint>

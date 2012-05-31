@@ -16,8 +16,8 @@
 #define OVER_HOME_BUILDING_MENU_OFFSET 5.f
 
 #define MAX_ZOOM 1.8f
-#define MIN_ZOOM 0.8f
-#define DEFAULT_ZOOM 1.f
+#define MIN_ZOOM 0.5f
+#define DEFAULT_ZOOM 0.8f
 
 @class Building;
 @class SelectableSprite;
@@ -34,9 +34,12 @@
   SelectableSprite *_selected;
   NSMutableArray *_mapSprites;
   NSMutableArray *_walkableData;
+  
+  // These points are used to make the map rectangular
+  CGPoint bottomLeftCorner;
+  CGPoint topRightCorner;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *aviaryMenu;
 @property (nonatomic, retain) IBOutlet EnemyPopupView *enemyMenu;
 
 @property (nonatomic, assign) SelectableSprite *selected;
@@ -69,7 +72,6 @@
 - (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite;
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
 
-- (IBAction)enterAviaryClicked:(id)sender;
 - (IBAction)attackClicked:(id)sender;
 - (IBAction)profileClicked:(id)sender;
 

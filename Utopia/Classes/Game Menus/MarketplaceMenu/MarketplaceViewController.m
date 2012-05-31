@@ -330,6 +330,8 @@
     [mvc displayLoadingView];
   }
   
+  [self closeClicked:nil];
+  
   [mvc.coinBar updateLabels];
 }
 
@@ -467,6 +469,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [coinBar updateLabels];
   
   [Globals playEnterBuildingSound];
+  
+  self.armoryPriceView.alpha = 0.f;
 }
 
 - (void) displayRedeemView {
@@ -499,6 +503,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     armoryPriceIcon.highlighted = [Globals sellsForGoldInMarketplace:fep];
     armoryPriceLabel.text = @"N/A";
   }
+  
+  // Center the bottom subview
+  CGSize size = [armoryPriceLabel.text sizeWithFont:armoryPriceLabel.font];
+  CGRect rect = armoryPriceBottomSubview.frame;
+  rect.size.width = armoryPriceLabel.frame.origin.x + size.width;
+  armoryPriceBottomSubview.frame = rect;
+  armoryPriceBottomSubview.center = CGPointMake(armoryPriceBottomSubview.superview.frame.size.width/2, armoryPriceBottomSubview.center.y);
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -547,6 +558,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.removeView.hidden = YES;
     
     [post.priceField becomeFirstResponder];
+    
+    [self updateArmoryPopupForEquipId:fep.equipId];
+    self.armoryPriceView.alpha = 0.f;
+    [UIView animateWithDuration:0.3f animations:^{
+      self.armoryPriceView.alpha = 1.f;
+    }];
   } else {
     [self.view addSubview:self.purchLicenseView];
     [Globals bounceView:self.licenseMainView fadeInBgdView:self.licenseBgdView];
@@ -905,13 +922,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   [self.postsTableView setContentOffset:CGPointMake(0, post.frame.origin.y-self.postsTableView.rowHeight) animated:YES];
   
-  //  [self updateArmoryPopupForEquipId:fep.equipId];
-  //  [self.view addSubview:self.armoryPriceView];
-  //  
-  //  CGRect rect = armoryPriceView.frame;
-  //  rect.origin = ccp(post.frame.origin.x+240, post.frame.origin.y-30);
-  //  armoryPriceView.frame = rect;
-  
   if ([textField.text isEqualToString: @"0"]) {
     textField.text = @"";
   } else {
@@ -930,6 +940,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     textField.text = [Globals commafyNumber:textField.text.intValue];
   }
   self.curField = nil;
+  
+  // Close the armory popup
+  [UIView animateWithDuration:0.3f animations:^{
+    self.armoryPriceView.alpha = 0.f;
+  }];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -943,9 +958,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   if (self.listing) {
     [self disableEditing];
-  } else if ([self.topBar pointInside:[[touches anyObject] locationInView:self.topBar] withEvent:event]) {
-    [self.postsTableView setContentOffset: CGPointZero animated:YES];
-    self.removeView.hidden = YES;
   }
 }
 

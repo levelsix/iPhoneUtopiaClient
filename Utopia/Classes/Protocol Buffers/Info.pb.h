@@ -158,6 +158,18 @@ typedef enum {
 BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementProto_NeutralCityElemType value);
 
 typedef enum {
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodWarrior = 0,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodArcher = 1,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeGoodMage = 2,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadWarrior = 3,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadArcher = 4,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeBadMage = 5,
+  DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide = 6,
+} DefeatTypeJobProto_DefeatTypeJobEnemyType;
+
+BOOL DefeatTypeJobProto_DefeatTypeJobEnemyTypeIsValidValue(DefeatTypeJobProto_DefeatTypeJobEnemyType value);
+
+typedef enum {
   DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType = 1,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodWarrior = 2,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodArcher = 3,
@@ -2238,11 +2250,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasIsComplete_:1;
   BOOL hasUserId_:1;
   BOOL hasQuestId_:1;
+  BOOL hasCoinsRetrievedForReq_:1;
   BOOL hasNumComponentsComplete_:1;
   BOOL isRedeemed_:1;
   BOOL isComplete_:1;
   int32_t userId;
   int32_t questId;
+  int32_t coinsRetrievedForReq;
   int32_t numComponentsComplete;
   NSMutableArray* mutableRequiredDefeatTypeJobProgressList;
   NSMutableArray* mutableRequiredBuildStructJobProgressList;
@@ -2254,11 +2268,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasQuestId;
 - (BOOL) hasIsRedeemed;
 - (BOOL) hasIsComplete;
+- (BOOL) hasCoinsRetrievedForReq;
 - (BOOL) hasNumComponentsComplete;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t questId;
 - (BOOL) isRedeemed;
 - (BOOL) isComplete;
+@property (readonly) int32_t coinsRetrievedForReq;
 @property (readonly) int32_t numComponentsComplete;
 - (NSArray*) requiredDefeatTypeJobProgressList;
 - (MinimumUserDefeatTypeJobProto*) requiredDefeatTypeJobProgressAtIndex:(int32_t) index;
@@ -2359,6 +2375,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserQuestDataLargeProto_Builder*) addRequiredTasksProgress:(MinimumUserQuestTaskProto*) value;
 - (FullUserQuestDataLargeProto_Builder*) addAllRequiredTasksProgress:(NSArray*) values;
 - (FullUserQuestDataLargeProto_Builder*) clearRequiredTasksProgressList;
+
+- (BOOL) hasCoinsRetrievedForReq;
+- (int32_t) coinsRetrievedForReq;
+- (FullUserQuestDataLargeProto_Builder*) setCoinsRetrievedForReq:(int32_t) value;
+- (FullUserQuestDataLargeProto_Builder*) clearCoinsRetrievedForReq;
 
 - (BOOL) hasNumComponentsComplete;
 - (int32_t) numComponentsComplete;
@@ -2525,14 +2546,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t defeatTypeJobId;
   int32_t numEnemiesToDefeat;
   int32_t cityId;
-  UserType typeOfEnemy;
+  DefeatTypeJobProto_DefeatTypeJobEnemyType typeOfEnemy;
 }
 - (BOOL) hasDefeatTypeJobId;
 - (BOOL) hasTypeOfEnemy;
 - (BOOL) hasNumEnemiesToDefeat;
 - (BOOL) hasCityId;
 @property (readonly) int32_t defeatTypeJobId;
-@property (readonly) UserType typeOfEnemy;
+@property (readonly) DefeatTypeJobProto_DefeatTypeJobEnemyType typeOfEnemy;
 @property (readonly) int32_t numEnemiesToDefeat;
 @property (readonly) int32_t cityId;
 
@@ -2576,8 +2597,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (DefeatTypeJobProto_Builder*) clearDefeatTypeJobId;
 
 - (BOOL) hasTypeOfEnemy;
-- (UserType) typeOfEnemy;
-- (DefeatTypeJobProto_Builder*) setTypeOfEnemy:(UserType) value;
+- (DefeatTypeJobProto_DefeatTypeJobEnemyType) typeOfEnemy;
+- (DefeatTypeJobProto_Builder*) setTypeOfEnemy:(DefeatTypeJobProto_DefeatTypeJobEnemyType) value;
 - (DefeatTypeJobProto_Builder*) clearTypeOfEnemy;
 
 - (BOOL) hasNumEnemiesToDefeat;
@@ -3016,6 +3037,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullQuestProto : PBGeneratedMessage {
 @private
+  BOOL hasCoinRetrievalReq_:1;
   BOOL hasNumComponentsForBad_:1;
   BOOL hasNumComponentsForGood_:1;
   BOOL hasEquipIdGained_:1;
@@ -3031,6 +3053,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasName_:1;
   BOOL hasQuestGiverName_:1;
   BOOL hasAcceptDialogue_:1;
+  int32_t coinRetrievalReq;
   int32_t numComponentsForBad;
   int32_t numComponentsForGood;
   int32_t equipIdGained;
@@ -3068,6 +3091,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumComponentsForBad;
 - (BOOL) hasAcceptDialogue;
 - (BOOL) hasQuestGiverName;
+- (BOOL) hasCoinRetrievalReq;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
@@ -3083,6 +3107,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numComponentsForBad;
 @property (readonly, retain) DialogueProto* acceptDialogue;
 @property (readonly, retain) NSString* questGiverName;
+@property (readonly) int32_t coinRetrievalReq;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 - (NSArray*) taskReqsList;
@@ -3248,6 +3273,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) questGiverName;
 - (FullQuestProto_Builder*) setQuestGiverName:(NSString*) value;
 - (FullQuestProto_Builder*) clearQuestGiverName;
+
+- (BOOL) hasCoinRetrievalReq;
+- (int32_t) coinRetrievalReq;
+- (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value;
+- (FullQuestProto_Builder*) clearCoinRetrievalReq;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {

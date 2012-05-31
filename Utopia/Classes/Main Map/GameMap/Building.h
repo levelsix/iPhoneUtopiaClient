@@ -20,10 +20,6 @@
 
 @end
 
-@interface Aviary : Building
-
-@end
-
 @interface HomeBuilding : Building {
   CGPoint _startTouchLocation;
   BOOL _isSetDown;
@@ -52,6 +48,8 @@
 
 @property (nonatomic, retain) CritStruct *critStruct;
 
+- (id) initWithCritStruct:(CritStruct *)cs location:(CGRect)loc map:(GameMap *)map;
+
 @end
 
 @interface MoneyBuilding : HomeBuilding {
@@ -74,7 +72,9 @@
 @interface MissionBuilding : Building
 
 @property (nonatomic, retain) FullTaskProto *ftp;
-@property (nonatomic, assign) int numTimesActed;
+@property (nonatomic, assign) int numTimesActedForTask;
+@property (nonatomic, assign) int numTimesActedForQuest;
 @property (nonatomic, copy) NSString *name;
+@property (nonatomic, assign) BOOL partOfQuest;
 
 @end

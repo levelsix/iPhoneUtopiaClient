@@ -19,8 +19,6 @@
 #import "GameState.h"
 #import "CCLabelFX.h"
 
-#define MAP_OFFSET 100
-
 #define REORDER_START_Z 150
 
 #define SILVER_STACK_BOUNCE_DURATION 1.f
@@ -83,7 +81,7 @@
 
 @synthesize selected = _selected;
 @synthesize tileSizeInPoints;
-@synthesize aviaryMenu, enemyMenu;
+@synthesize enemyMenu;
 @synthesize mapSprites = _mapSprites;
 @synthesize silverOnMap;
 @synthesize decLayer;
@@ -112,6 +110,27 @@
   if ((self = [super initWithTMXFile:tmxFile])) {
     _mapSprites = [[NSMutableArray array] retain];
     
+    int width = self.mapSize.width;
+    int height = self.mapSize.height;
+    bottomLeftCorner = ccp(width, height);
+    CCTMXLayer * layer = [self layerNamed:@"Border of Doom"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          if (tileCoord.x < bottomLeftCorner.x) {
+            bottomLeftCorner = tileCoord;
+          }
+          if (tileCoord.x > topRightCorner.x) {
+            topRightCorner = tileCoord;
+          }
+        }
+      }
+    }
+    [self removeChild:layer cleanup:YES];
+    
     // add UIPanGestureRecognizer
     UIPanGestureRecognizer *uig = [[[UIPanGestureRecognizer alloc ]init] autorelease];
     uig.maximumNumberOfTouches = 1;
@@ -138,13 +157,10 @@
     decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
     [self addChild:self.decLayer z:2000];
     
-    [[NSBundle mainBundle] loadNibNamed:@"AviaryMenu" owner:self options:nil];
-    [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.aviaryMenu];
     [[NSBundle mainBundle] loadNibNamed:@"EnemyPopupView" owner:self options:nil];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.enemyMenu];
     [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
     
-    aviaryMenu.hidden = YES;
     enemyMenu.hidden = YES;
     
     self.scale = DEFAULT_ZOOM;
@@ -189,7 +205,7 @@
   
   [ss stopAllActions];
   
-  CCLabelTTF *coinLabel = [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d", ss.amount] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
+  CCLabelTTF *coinLabel = [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Silver", ss.amount] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:coinLabel z:1005];
   coinLabel.position = ss.position;
   coinLabel.color = ccc3(174, 237, 0);
@@ -295,20 +311,6 @@
   return frontLoc.origin.y <= backLoc.origin.y;
 }
 
-- (void) updateAviaryMenu {
-  if (_selected && [_selected isKindOfClass:[Aviary class]]) {
-    CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
-    
-    float width = aviaryMenu.frame.size.width;
-    float height = aviaryMenu.frame.size.height;
-    aviaryMenu.frame = CGRectMake(pt.x-width/2, ([[CCDirector sharedDirector] winSize].height - pt.y)-height, width, height);
-    
-    aviaryMenu.hidden = NO;
-  } else {
-    aviaryMenu.hidden = YES;
-  }
-}
-
 - (void) updateEnemyMenu {
   if (_selected && [_selected isKindOfClass:[Enemy class]]) {
     CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET+5)];
@@ -334,7 +336,6 @@
       [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:fup.userType]];
     }
     _selected.isSelected = YES;
-    [self updateAviaryMenu];
     [self updateEnemyMenu];
   }
 }
@@ -410,10 +411,8 @@
     CGPoint delta = [self convertVectorToGL: translation];
     [node setPosition:ccpAdd(node.position, delta)];
     [pan setTranslation:CGPointZero inView:pan.view.superview];
-    self.aviaryMenu.hidden = YES;
     self.enemyMenu.hidden = YES;
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
-    [self updateAviaryMenu];
     [self updateEnemyMenu];
     CGPoint vel = [pan velocityInView:pan.view.superview];
     vel = [self convertVectorToGL: vel];
@@ -454,23 +453,24 @@
   
   node.position = ccpAdd(node.position, ccpMult(diff, node.scale));
   
-  [self updateAviaryMenu];
   [self updateEnemyMenu];
   [self.decLayer updateAllCloudOpacities];
 }
 
 -(void) setPosition:(CGPoint)position {
-  float x = MAX(MIN(MAP_OFFSET, position.x), -self.contentSize.width*self.scaleX + [[CCDirector sharedDirector] winSize].width-MAP_OFFSET);
-  float y = MAX(MIN(MAP_OFFSET, position.y), -self.contentSize.height*self.scaleY + [[CCDirector sharedDirector] winSize].height-2*MAP_OFFSET);
+  CGSize ms = self.mapSize;
+  CGSize ts = self.tileSizeInPoints;
+  // For y, make sure to account for anchor point being at bottom middle.
+  float minX = ms.width * ts.width/2.f + ts.width * (bottomLeftCorner.x-bottomLeftCorner.y)/2.f;
+  float minY = ts.height * (bottomLeftCorner.y+bottomLeftCorner.x)/2.f+ts.height/2;
+  float maxX = ms.width * ts.width/2.f + ts.width * (topRightCorner.x-topRightCorner.y)/2.f;
+  float maxY = ts.height * (topRightCorner.y+topRightCorner.x)/2.f+ts.height/2;
+  
+  float x = MAX(MIN(-minX*self.scaleX, position.x), -maxX*self.scaleX + [[CCDirector sharedDirector] winSize].width);
+  float y = MAX(MIN(-minY*self.scaleY, position.y), -maxY*self.scaleY + [[CCDirector sharedDirector] winSize].height);
+  
   CGPoint oldPos = position_;
   [super setPosition:ccp(x,y)];
-  if (!aviaryMenu.hidden) {
-    CGPoint diff = ccpSub(oldPos, position_);
-    diff.x *= -1;
-    CGRect curRect = aviaryMenu.frame;
-    curRect.origin = ccpAdd(curRect.origin, diff);
-    aviaryMenu.frame = curRect;
-  }
   if (!enemyMenu.hidden) {
     CGPoint diff = ccpSub(oldPos, position_);
     diff.x *= -1;
@@ -485,17 +485,18 @@
   return YES;
 }
 
-- (IBAction)enterAviaryClicked:(id)sender {
-  self.selected = nil;
-  [MapViewController displayView];
-}
-
 - (IBAction)attackClicked:(id)sender {
   if ([_selected isKindOfClass:[Enemy class]]) {
     Enemy *enemy = (Enemy *)_selected;
     FullUserProto *fup = enemy.user;
     if (fup) {
-      [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:[[GameLayer sharedGameLayer] currentCity]];
+      int city = [[GameLayer sharedGameLayer] currentCity];
+      
+      if (city > 0) {
+        [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup inCity:city];
+      } else {
+        [[BattleLayer sharedBattleLayer] beginBattleAgainst:fup];
+      }
     }
   }
 }
@@ -639,6 +640,7 @@
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userType == type) {
         enemyWithType = enemy;
+        break;
       }
     }
   }
@@ -653,8 +655,6 @@
 - (void) dealloc {
   [self.enemyMenu removeFromSuperview];
   self.enemyMenu = nil;
-  [self.aviaryMenu removeFromSuperview];
-  self.aviaryMenu = nil;
   self.walkableData = nil;
   self.mapSprites = nil;
   self.decLayer = nil;

@@ -13079,7 +13079,7 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
     case TaskActionResponseProto_TaskActionStatusUserNotEnoughEnergy:
     case TaskActionResponseProto_TaskActionStatusUserNotAllRequiredItems:
     case TaskActionResponseProto_TaskActionStatusOtherFail:
-    case TaskActionResponseProto_TaskActionStatusClientTooAheadOfServerTime:
+    case TaskActionResponseProto_TaskActionStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -13840,7 +13840,7 @@ BOOL PurchaseNormStructureResponseProto_PurchaseNormStructureStatusIsValidValue(
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAnotherStructStillBuilding:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusAlreadyHaveMaxOfThisStruct:
     case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusOtherFail:
-    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooAheadOfServerTime:
+    case PurchaseNormStructureResponseProto_PurchaseNormStructureStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -15511,7 +15511,7 @@ BOOL UpgradeNormStructureResponseProto_UpgradeNormStructureStatusIsValidValue(Up
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusNotUsersStruct:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAnotherStructStillUpgrading:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusOtherFail:
-    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooAheadOfServerTime:
+    case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusClientTooApartFromServerTime:
     case UpgradeNormStructureResponseProto_UpgradeNormStructureStatusAtMaxLevelAlready:
       return YES;
     default:
@@ -16036,7 +16036,7 @@ BOOL RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStru
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusNotLongEnough:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusOtherFail:
-    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooAheadOfServerTime:
+    case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusClientTooApartFromServerTime:
     case RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusLevelTooLow:
       return YES;
     default:
@@ -16829,7 +16829,7 @@ BOOL CriticalStructureActionResponseProto_CritStructActionStatusIsValidValue(Cri
 @interface FinishNormStructWaittimeWithDiamondsRequestProto ()
 @property (retain) MinimumUserProto* sender;
 @property int32_t userStructId;
-@property int64_t timeOfPurchase;
+@property int64_t timeOfSpeedup;
 @property FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType waitTimeType;
 @end
 
@@ -16849,13 +16849,13 @@ BOOL CriticalStructureActionResponseProto_CritStructActionStatusIsValidValue(Cri
   hasUserStructId_ = !!value;
 }
 @synthesize userStructId;
-- (BOOL) hasTimeOfPurchase {
-  return !!hasTimeOfPurchase_;
+- (BOOL) hasTimeOfSpeedup {
+  return !!hasTimeOfSpeedup_;
 }
-- (void) setHasTimeOfPurchase:(BOOL) value {
-  hasTimeOfPurchase_ = !!value;
+- (void) setHasTimeOfSpeedup:(BOOL) value {
+  hasTimeOfSpeedup_ = !!value;
 }
-@synthesize timeOfPurchase;
+@synthesize timeOfSpeedup;
 - (BOOL) hasWaitTimeType {
   return !!hasWaitTimeType_;
 }
@@ -16871,7 +16871,7 @@ BOOL CriticalStructureActionResponseProto_CritStructActionStatusIsValidValue(Cri
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.userStructId = 0;
-    self.timeOfPurchase = 0L;
+    self.timeOfSpeedup = 0L;
     self.waitTimeType = FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction;
   }
   return self;
@@ -16898,8 +16898,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (self.hasUserStructId) {
     [output writeInt32:2 value:self.userStructId];
   }
-  if (self.hasTimeOfPurchase) {
-    [output writeInt64:3 value:self.timeOfPurchase];
+  if (self.hasTimeOfSpeedup) {
+    [output writeInt64:3 value:self.timeOfSpeedup];
   }
   if (self.hasWaitTimeType) {
     [output writeEnum:4 value:self.waitTimeType];
@@ -16919,8 +16919,8 @@ static FinishNormStructWaittimeWithDiamondsRequestProto* defaultFinishNormStruct
   if (self.hasUserStructId) {
     size += computeInt32Size(2, self.userStructId);
   }
-  if (self.hasTimeOfPurchase) {
-    size += computeInt64Size(3, self.timeOfPurchase);
+  if (self.hasTimeOfSpeedup) {
+    size += computeInt64Size(3, self.timeOfSpeedup);
   }
   if (self.hasWaitTimeType) {
     size += computeEnumSize(4, self.waitTimeType);
@@ -17016,8 +17016,8 @@ BOOL FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeIsVa
   if (other.hasUserStructId) {
     [self setUserStructId:other.userStructId];
   }
-  if (other.hasTimeOfPurchase) {
-    [self setTimeOfPurchase:other.timeOfPurchase];
+  if (other.hasTimeOfSpeedup) {
+    [self setTimeOfSpeedup:other.timeOfSpeedup];
   }
   if (other.hasWaitTimeType) {
     [self setWaitTimeType:other.waitTimeType];
@@ -17057,7 +17057,7 @@ BOOL FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeIsVa
         break;
       }
       case 24: {
-        [self setTimeOfPurchase:[input readInt64]];
+        [self setTimeOfSpeedup:[input readInt64]];
         break;
       }
       case 32: {
@@ -17118,20 +17118,20 @@ BOOL FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeIsVa
   result.userStructId = 0;
   return self;
 }
-- (BOOL) hasTimeOfPurchase {
-  return result.hasTimeOfPurchase;
+- (BOOL) hasTimeOfSpeedup {
+  return result.hasTimeOfSpeedup;
 }
-- (int64_t) timeOfPurchase {
-  return result.timeOfPurchase;
+- (int64_t) timeOfSpeedup {
+  return result.timeOfSpeedup;
 }
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setTimeOfPurchase:(int64_t) value {
-  result.hasTimeOfPurchase = YES;
-  result.timeOfPurchase = value;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) setTimeOfSpeedup:(int64_t) value {
+  result.hasTimeOfSpeedup = YES;
+  result.timeOfSpeedup = value;
   return self;
 }
-- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfPurchase {
-  result.hasTimeOfPurchase = NO;
-  result.timeOfPurchase = 0L;
+- (FinishNormStructWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfSpeedup {
+  result.hasTimeOfSpeedup = NO;
+  result.timeOfSpeedup = 0L;
   return self;
 }
 - (BOOL) hasWaitTimeType {
@@ -17259,7 +17259,7 @@ BOOL FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeS
     case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess:
     case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusNotEnoughDiamonds:
     case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusOtherFail:
-    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooAheadOfServerTime:
+    case FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -17823,7 +17823,7 @@ BOOL NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusIsValidValu
     case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess:
     case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusNotDoneYet:
     case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusOtherFail:
-    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooAheadOfServerTime:
+    case NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -25302,7 +25302,6 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
 @interface QuestAcceptResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property QuestAcceptResponseProto_QuestAcceptStatus status;
-@property (retain) NSMutableArray* mutableEnemiesIfQuestsHaveDefeatTypeJobList;
 @property int32_t cityIdOfAcceptedQuest;
 @end
 
@@ -25322,7 +25321,6 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
-@synthesize mutableEnemiesIfQuestsHaveDefeatTypeJobList;
 - (BOOL) hasCityIdOfAcceptedQuest {
   return !!hasCityIdOfAcceptedQuest_;
 }
@@ -25332,7 +25330,6 @@ static QuestAcceptRequestProto* defaultQuestAcceptRequestProtoInstance = nil;
 @synthesize cityIdOfAcceptedQuest;
 - (void) dealloc {
   self.sender = nil;
-  self.mutableEnemiesIfQuestsHaveDefeatTypeJobList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -25355,13 +25352,6 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
 - (QuestAcceptResponseProto*) defaultInstance {
   return defaultQuestAcceptResponseProtoInstance;
 }
-- (NSArray*) enemiesIfQuestsHaveDefeatTypeJobList {
-  return mutableEnemiesIfQuestsHaveDefeatTypeJobList;
-}
-- (FullUserProto*) enemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index {
-  id value = [mutableEnemiesIfQuestsHaveDefeatTypeJobList objectAtIndex:index];
-  return value;
-}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -25371,9 +25361,6 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
-  }
-  for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
-    [output writeMessage:3 value:element];
   }
   if (self.hasCityIdOfAcceptedQuest) {
     [output writeInt32:4 value:self.cityIdOfAcceptedQuest];
@@ -25392,9 +25379,6 @@ static QuestAcceptResponseProto* defaultQuestAcceptResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
-  }
-  for (FullUserProto* element in self.enemiesIfQuestsHaveDefeatTypeJobList) {
-    size += computeMessageSize(3, element);
   }
   if (self.hasCityIdOfAcceptedQuest) {
     size += computeInt32Size(4, self.cityIdOfAcceptedQuest);
@@ -25490,12 +25474,6 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
-  if (other.mutableEnemiesIfQuestsHaveDefeatTypeJobList.count > 0) {
-    if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) {
-      result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = [NSMutableArray array];
-    }
-    [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObjectsFromArray:other.mutableEnemiesIfQuestsHaveDefeatTypeJobList];
-  }
   if (other.hasCityIdOfAcceptedQuest) {
     [self setCityIdOfAcceptedQuest:other.cityIdOfAcceptedQuest];
   }
@@ -25536,12 +25514,6 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
-        break;
-      }
-      case 26: {
-        FullUserProto_Builder* subBuilder = [FullUserProto builder];
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self addEnemiesIfQuestsHaveDefeatTypeJob:[subBuilder buildPartial]];
         break;
       }
       case 32: {
@@ -25595,35 +25567,6 @@ BOOL QuestAcceptResponseProto_QuestAcceptStatusIsValidValue(QuestAcceptResponseP
 - (QuestAcceptResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = QuestAcceptResponseProto_QuestAcceptStatusSuccess;
-  return self;
-}
-- (NSArray*) enemiesIfQuestsHaveDefeatTypeJobList {
-  if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) { return [NSArray array]; }
-  return result.mutableEnemiesIfQuestsHaveDefeatTypeJobList;
-}
-- (FullUserProto*) enemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index {
-  return [result enemiesIfQuestsHaveDefeatTypeJobAtIndex:index];
-}
-- (QuestAcceptResponseProto_Builder*) replaceEnemiesIfQuestsHaveDefeatTypeJobAtIndex:(int32_t) index with:(FullUserProto*) value {
-  [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList replaceObjectAtIndex:index withObject:value];
-  return self;
-}
-- (QuestAcceptResponseProto_Builder*) addAllEnemiesIfQuestsHaveDefeatTypeJob:(NSArray*) values {
-  if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) {
-    result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = [NSMutableArray array];
-  }
-  [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObjectsFromArray:values];
-  return self;
-}
-- (QuestAcceptResponseProto_Builder*) clearEnemiesIfQuestsHaveDefeatTypeJobList {
-  result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = nil;
-  return self;
-}
-- (QuestAcceptResponseProto_Builder*) addEnemiesIfQuestsHaveDefeatTypeJob:(FullUserProto*) value {
-  if (result.mutableEnemiesIfQuestsHaveDefeatTypeJobList == nil) {
-    result.mutableEnemiesIfQuestsHaveDefeatTypeJobList = [NSMutableArray array];
-  }
-  [result.mutableEnemiesIfQuestsHaveDefeatTypeJobList addObject:value];
   return self;
 }
 - (BOOL) hasCityIdOfAcceptedQuest {
@@ -29000,7 +28943,7 @@ BOOL PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusIsValidValue(
     case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusNotEnoughCoins:
     case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusAlreadyExpanding:
     case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusOtherFail:
-    case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusClientTooAheadOfServerTime:
+    case PurchaseCityExpansionResponseProto_PurchaseCityExpansionStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -29487,7 +29430,7 @@ BOOL ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusIsValidValue(
     case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusWasNotExpanding:
     case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusNotDoneYet:
     case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusOtherFail:
-    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooAheadOfServerTime:
+    case ExpansionWaitCompleteResponseProto_ExpansionWaitCompleteStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -30026,7 +29969,7 @@ BOOL RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusIsValidValu
     case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusNotReadyYet:
     case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusAlreadyMax:
     case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusOtherFail:
-    case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusClientTooAheadOfServerTime:
+    case RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -31050,7 +30993,7 @@ BOOL PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusIsV
     case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusNotEnoughDiamonds:
     case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusAlreadyHaveLicenseNow:
     case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusOtherFail:
-    case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusClientTooAheadOfServerTime:
+    case PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusClientTooApartFromServerTime:
       return YES;
     default:
       return NO;
@@ -32722,6 +32665,7 @@ static LoadNeutralCityRequestProto* defaultLoadNeutralCityRequestProtoInstance =
 @property (retain) NSMutableArray* mutableDefeatTypeJobEnemiesList;
 @property (retain) NSMutableArray* mutableCityElementsList;
 @property int32_t cityId;
+@property (retain) NSMutableArray* mutableInProgressUserQuestDataInCityList;
 @end
 
 @implementation LoadNeutralCityResponseProto
@@ -32750,11 +32694,13 @@ static LoadNeutralCityRequestProto* defaultLoadNeutralCityRequestProtoInstance =
   hasCityId_ = !!value;
 }
 @synthesize cityId;
+@synthesize mutableInProgressUserQuestDataInCityList;
 - (void) dealloc {
   self.sender = nil;
   self.mutableUserTasksInfoList = nil;
   self.mutableDefeatTypeJobEnemiesList = nil;
   self.mutableCityElementsList = nil;
+  self.mutableInProgressUserQuestDataInCityList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -32798,6 +32744,13 @@ static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance
   id value = [mutableCityElementsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) inProgressUserQuestDataInCityList {
+  return mutableInProgressUserQuestDataInCityList;
+}
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
+  id value = [mutableInProgressUserQuestDataInCityList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -32819,6 +32772,9 @@ static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance
   }
   if (self.hasCityId) {
     [output writeInt32:6 value:self.cityId];
+  }
+  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataInCityList) {
+    [output writeMessage:7 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -32846,6 +32802,9 @@ static LoadNeutralCityResponseProto* defaultLoadNeutralCityResponseProtoInstance
   }
   if (self.hasCityId) {
     size += computeInt32Size(6, self.cityId);
+  }
+  for (FullUserQuestDataLargeProto* element in self.inProgressUserQuestDataInCityList) {
+    size += computeMessageSize(7, element);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -32959,6 +32918,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
   if (other.hasCityId) {
     [self setCityId:other.cityId];
   }
+  if (other.mutableInProgressUserQuestDataInCityList.count > 0) {
+    if (result.mutableInProgressUserQuestDataInCityList == nil) {
+      result.mutableInProgressUserQuestDataInCityList = [NSMutableArray array];
+    }
+    [result.mutableInProgressUserQuestDataInCityList addObjectsFromArray:other.mutableInProgressUserQuestDataInCityList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -33018,6 +32983,12 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
       }
       case 48: {
         [self setCityId:[input readInt32]];
+        break;
+      }
+      case 58: {
+        FullUserQuestDataLargeProto_Builder* subBuilder = [FullUserQuestDataLargeProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addInProgressUserQuestDataInCity:[subBuilder buildPartial]];
         break;
       }
     }
@@ -33170,6 +33141,35 @@ BOOL LoadNeutralCityResponseProto_LoadNeutralCityStatusIsValidValue(LoadNeutralC
 - (LoadNeutralCityResponseProto_Builder*) clearCityId {
   result.hasCityId = NO;
   result.cityId = 0;
+  return self;
+}
+- (NSArray*) inProgressUserQuestDataInCityList {
+  if (result.mutableInProgressUserQuestDataInCityList == nil) { return [NSArray array]; }
+  return result.mutableInProgressUserQuestDataInCityList;
+}
+- (FullUserQuestDataLargeProto*) inProgressUserQuestDataInCityAtIndex:(int32_t) index {
+  return [result inProgressUserQuestDataInCityAtIndex:index];
+}
+- (LoadNeutralCityResponseProto_Builder*) replaceInProgressUserQuestDataInCityAtIndex:(int32_t) index with:(FullUserQuestDataLargeProto*) value {
+  [result.mutableInProgressUserQuestDataInCityList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addAllInProgressUserQuestDataInCity:(NSArray*) values {
+  if (result.mutableInProgressUserQuestDataInCityList == nil) {
+    result.mutableInProgressUserQuestDataInCityList = [NSMutableArray array];
+  }
+  [result.mutableInProgressUserQuestDataInCityList addObjectsFromArray:values];
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) clearInProgressUserQuestDataInCityList {
+  result.mutableInProgressUserQuestDataInCityList = nil;
+  return self;
+}
+- (LoadNeutralCityResponseProto_Builder*) addInProgressUserQuestDataInCity:(FullUserQuestDataLargeProto*) value {
+  if (result.mutableInProgressUserQuestDataInCityList == nil) {
+    result.mutableInProgressUserQuestDataInCityList = [NSMutableArray array];
+  }
+  [result.mutableInProgressUserQuestDataInCityList addObject:value];
   return self;
 }
 @end

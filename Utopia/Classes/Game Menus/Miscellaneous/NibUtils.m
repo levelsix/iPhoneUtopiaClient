@@ -54,6 +54,14 @@
 
 @end
 
+@implementation NiceFontLabel6
+
+- (void) awakeFromNib {
+  self.font = [UIFont fontWithName:@"DINCond-Black" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {
@@ -326,6 +334,30 @@
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   self.darkOverlay.hidden = YES;
+}
+
+- (void) dealloc {
+  self.darkOverlay = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation ProgressBar
+
+@synthesize percentage;
+
+- (void) awakeFromNib {
+  self.contentMode = UIViewContentModeLeft;
+}
+
+- (void) setPercentage:(float)p {
+  percentage = clampf(p, 0.f, 1.f);
+  CGSize imgSize = self.image.size;
+  
+  CGRect rect = self.frame;
+  rect.size.width = imgSize.width * percentage;
+  self.frame = rect;
 }
 
 @end

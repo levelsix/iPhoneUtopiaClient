@@ -41,7 +41,7 @@ typedef enum {
 } QuestGiverState;
 
 @interface QuestGiver : CharacterSprite {
-  CCSprite *_aboveHeadMark;
+  CCNode *_aboveHeadMark;
 }
 
 @property (nonatomic, retain) FullQuestProto *quest;

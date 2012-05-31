@@ -25,7 +25,7 @@
 #define ENERGY_BAR_POSITION ccp(53,15)
 #define STAMINA_BAR_POSITION ccp(149,15)
 
-#define BOTTOM_BUTTON_OFFSET 5
+#define BOTTOM_BUTTON_OFFSET 2
 
 #define TOOL_TIP_SHADOW_OPACITY 80
 
@@ -143,7 +143,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     menu.position = ccp(_bigToolTip.contentSize.width/2, 15.f);
     
     CCSprite *coin = [CCSprite spriteWithFile:@"goldcoin.png"];
-    coin.scale = 0.8;
+    coin.scale = 0.4;
     coin.position = ccp(9, fillButton.contentSize.height/2+1);
     [fillButton addChild:coin];
     
@@ -187,22 +187,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"bazaar.png"];
-    CCMenuItemSprite *bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
-    bazaarButton.position = ccp(mapButton.position.x, mapButton.position.y+mapButton.contentSize.height/2+bazaarButton.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    _bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
+    _bazaarButton.position = ccp(mapButton.position.x, mapButton.position.y+mapButton.contentSize.height/2+_bazaarButton.contentSize.height/2);
+    
+    s = [CCSprite spriteWithFile:@"mycity.png"];
+    _homeButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(homeClicked)];
+    _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
     
     s = [CCSprite spriteWithFile:@"attack.png"];
     CCMenuItemSprite *attackButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(attackClicked)];
-    attackButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-attackButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
-    
-    s = [CCSprite spriteWithFile:@"forum.png"];
-    CCMenuItemSprite *forumButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(forumClicked)];
-    forumButton.position = ccp(attackButton.position.x-attackButton.contentSize.width/2-forumButton.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
+    attackButton.position = ccp(mapButton.position.x-mapButton.contentSize.width/2-attackButton.contentSize.width/2, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
     s = [CCSprite spriteWithFile:@"quests.png"];
     _questButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(questButtonClicked)];
     _questButton.position = ccp(mapButton.position.x, self.contentSize.height-_coinBar.contentSize.height-_questButton.contentSize.height/2-BOTTOM_BUTTON_OFFSET);
     
-    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, bazaarButton, forumButton, _questButton, nil];
+    _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
     [self addChild:_bottomButtons];
@@ -256,7 +256,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) bazaarClicked {
-  [[GameLayer sharedGameLayer] toggleBazaarMap];
+  [[GameLayer sharedGameLayer] loadBazaarMap];
+}
+
+- (void) homeClicked {
+  [[GameLayer sharedGameLayer] loadHomeMap];
+}
+
+- (void) loadHomeConfiguration {
+  _homeButton.visible = NO;
+  _bazaarButton.visible = YES;
+}
+
+- (void) loadBazaarConfiguration {
+  _bazaarButton.visible = NO;
+  _homeButton.visible = YES;
+  _homeButton.position = _bazaarButton.position;
+}
+
+- (void) loadNormalConfiguration {
+  _homeButton.visible = YES;
+  _bazaarButton.visible = YES;
+  _homeButton.position = ccp(_bazaarButton.position.x, _bazaarButton.position.y+_bazaarButton.contentSize.height/2+_homeButton.contentSize.height/2);
 }
 
 - (void) start {
@@ -401,8 +422,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) fadeOutToolTip:(BOOL)big {
   CCSprite *toolTip = big ? _bigToolTip : _littleToolTip;
   
-  if (toolTip.visible) {
-    [toolTip stopAllActions];
+  if (toolTip.opacity >= 255) {
     [toolTip runAction:[CCSequence actions:
                         [CCFadeTo actionWithDuration:FADE_ANIMATION_DURATION*toolTip.opacity/255 opacity:0],
                         [CCCallFuncN actionWithTarget:self selector:@selector(setInvisible:)], nil]];
@@ -620,7 +640,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (_bigToolTipState == kEnergy) {
     _bigToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
     _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curEnergy, gs.maxEnergy];
-    if (gs.currentEnergy >= gs.maxEnergy) {
+    if (_curEnergy >= gs.maxEnergy) {
       [self fadeOutToolTip:YES];
     } else {
       int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];
@@ -629,7 +649,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } else if (_bigToolTipState == kStamina) {
     _bigToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
     _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
-    if (gs.currentStamina >= gs.maxStamina) {
+    if (_curStamina >= gs.maxStamina) {
       [self fadeOutToolTip:YES];
     } else {
       int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];

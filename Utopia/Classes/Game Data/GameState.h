@@ -81,6 +81,8 @@
   NSMutableArray *_attackList;
   NSMutableArray *_notifications;
   NSMutableArray *_wallPosts;
+  
+  NSDate *_lastLogoutTime;
 }
 
 @property (assign) BOOL isTutorial;
@@ -154,6 +156,8 @@
 @property (retain) NSMutableArray *attackList;
 @property (retain) NSMutableArray *notifications;
 @property (retain) NSMutableArray *wallPosts;
+
+@property (retain) NSDate *lastLogoutTime;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;

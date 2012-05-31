@@ -19,8 +19,6 @@
 
 + (BazaarMap *) sharedBazaarMap;
 
-@property (nonatomic, retain) IBOutlet CritStructMenu *csMenu;
-
 - (void) moveToCritStruct:(CritStructType)type;
 
 @end

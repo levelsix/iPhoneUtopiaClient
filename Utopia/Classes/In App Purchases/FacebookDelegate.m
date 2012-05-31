@@ -65,8 +65,9 @@
 }
 
 #pragma mark FBDialogDelegate
-- (void) dialogCompleteWithUrl:(NSURL*) url
+- (void) dialogCompleteWithUrl:(NSURL*)url
 {
+  // If we successfully made the friend request.
   if ([url.absoluteString rangeOfString:@"post_id="].location != NSNotFound) {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
