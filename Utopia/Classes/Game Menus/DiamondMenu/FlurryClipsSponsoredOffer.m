@@ -10,7 +10,6 @@
 #import "Globals.h"
 #import "FlurryClips.h"
 #import "FlurryVideoOffer.h"
-#import "SponsoredOffer.h"
 
 #define FLURRY_REWARD 1
 #define FLURRY_HOOK @"SPONSORED_OFFER_HOOK"

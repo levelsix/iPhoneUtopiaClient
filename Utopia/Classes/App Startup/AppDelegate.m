@@ -33,6 +33,15 @@
 @implementation AppDelegate
 
 @synthesize window;
+@synthesize facebookDelegate;
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [facebookDelegate application:application 
+                               openURL:url
+                     sourceApplication:sourceApplication
+                            annotation:annotation];
+}
 
 - (void) removeStartupFlicker
 {
@@ -180,6 +189,9 @@
   
   // TapJoy
   tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
+  
+  // Facebook
+  facebookDelegate = [[FacebookDelegate createFacebookDelegate] retain];
 
   // FlurryClips
   flurryClipsDelegate = [[FlurryClipsDelegate createFlurryClipsDelegate] retain];
@@ -355,8 +367,10 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
-  [tapJoyDelegate   release];
-  [adColonyDelegate release];
+  [tapJoyDelegate      release];
+  [adColonyDelegate    release];
+  [flurryClipsDelegate release];
+  [facebookDelegate    release];
 	[window release];
 	[super dealloc];
 }

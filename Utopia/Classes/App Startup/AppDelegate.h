@@ -11,14 +11,16 @@
 #import "TapjoyDelegate.h"
 #import "AdColonyDelegate.h"
 #import "FlurryClipsDelegate.h"
+#import "FacebookDelegate.h"
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
-  id<TJCVideoAdDelegate> tapJoyDelegate;
-  id<AdColonyDelegate>   adColonyDelegate;
-  id<FlurryAdDelegate>   flurryClipsDelegate;
+  id<TJCVideoAdDelegate>     tapJoyDelegate;
+  id<AdColonyDelegate>       adColonyDelegate;
+  id<FlurryAdDelegate>       flurryClipsDelegate;
+  id<FacebookGlobalDelegate> facebookDelegate;
 	UIWindow			*window;
 }
 
 @property (nonatomic, retain) UIWindow *window;
-
+@property (nonatomic, readonly) id<FacebookGlobalDelegate> facebookDelegate;
 @end

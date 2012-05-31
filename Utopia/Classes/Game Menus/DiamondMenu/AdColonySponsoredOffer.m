@@ -1,28 +1,22 @@
 //
-//  SponsoredOffer.m
+//  AdColonySponsoredOffer.m
 //  Utopia
 //
-//  Created by Kevin Calloway on 5/21/12.
+//  Created by Kevin Calloway on 5/28/12.
 //  Copyright (c) 2012 LVL6. All rights reserved.
 //
 
-#import "SponsoredOffer.h"
-#import "SimpleAudioEngine.h"
-#import "TapjoyConnect.h"
-#import "GameViewController.h"
+#import "AdColonySponsoredOffer.h"
 #import "AdColonyDelegate.h"
-#import "FlurryClips.h"
+#import "SimpleAudioEngine.h"
 
-#define FLURRY_HOOK @"SPONSORED_OFFER_HOOK"
+#import "Globals.h"
 
-@implementation SponsoredOffer
+@implementation AdColonySponsoredOffer
 @dynamic primaryTitle;
 @dynamic secondaryTitle;
 @dynamic price;
 @dynamic rewardPic;
-
-@synthesize isAdColony;
-@synthesize isTapJoy;
 
 -(UIImage *) rewardPic
 {
@@ -41,8 +35,8 @@
 }
 
 -(void) adColonyVirtualCurrencyAwardedByZone:(NSString *)zone
-                               currencyName:(NSString *)name
-                             currencyAmount:(int)amount 
+                                currencyName:(NSString *)name
+                              currencyAmount:(int)amount 
 {
   //NOTE: The currency award transaction will be complete at this point
   //NOTE: This callback can be executed by AdColony at any time
@@ -80,24 +74,16 @@
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
 {
-  if (isAdColony) {
     return [AdColony virtualCurrencyAwardAvailableForZone:ADZONE1];    
-  }
-  else 
-    return YES;
 }
 
 - (void) makePurchase 
 {
-  if (isAdColony && [self purchaseAvailable]) {
+  if ([self purchaseAvailable]) {
     [AdColony playVideoAdForZone:ADZONE1 
-                      withDelegate:self
-                  withV4VCPrePopup:YES
-                  andV4VCPostPopup:YES];
-  }
-  else if (isTapJoy && [self purchaseAvailable]) {
-    [TapjoyConnect showOffersWithViewController:[GameViewController
-                                                 sharedGameViewController]];
+                    withDelegate:self
+                withV4VCPrePopup:YES
+                andV4VCPostPopup:YES];
   }
 }
 
@@ -113,14 +99,13 @@
 
 -(NSString *) secondaryTitle
 {  
-  if (![self purchaseAvailable] && isAdColony) {
+  if (![self purchaseAvailable]) {
     return NO_CLIPS;
   }
-
+  
   return secondaryTitle;
 }
 
-#pragma mark  Create/Destroy
 -(id) initWithPrimaryTitle:(NSString *)primary 
          andSecondaryTitle:(NSString *)secondary
                   andPrice:(NSString *)curPrice
@@ -141,40 +126,17 @@
   return self;
 }
 
--(void)dealloc
-{
-  [primaryTitle   release];
-  [secondaryTitle release];
-  [price          release];
-  [priceLocale    release];
-  
-  [super dealloc];
-}
-
-+(id<InAppPurchaseData>) createForAdColony
++(id<InAppPurchaseData>) create
 {
   NSString *secondary   = [NSString stringWithFormat:@"%d", 
                            [AdColony 
                             getVirtualCurrencyRewardAmountForZone:ADZONE1]];
-  SponsoredOffer *offer = [[SponsoredOffer alloc] 
+  AdColonySponsoredOffer *offer = [[AdColonySponsoredOffer alloc] 
                            initWithPrimaryTitle:@"Watch Video"
                            andSecondaryTitle:secondary
                            andPrice:@"" 
                            andLocale:nil];
-  offer.isAdColony = YES;
-  [offer autorelease];
-  
-  return offer;
-}
 
-+(id<InAppPurchaseData>) createForTapJoy
-{
-  SponsoredOffer *offer = [[SponsoredOffer alloc] 
-                           initWithPrimaryTitle:@"Complete Free offers"
-                           andSecondaryTitle:@"??"
-                           andPrice:@"" 
-                           andLocale:nil];
-  offer.isTapJoy = YES;
   [offer autorelease];
   
   return offer;

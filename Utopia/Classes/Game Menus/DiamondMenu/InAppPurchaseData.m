@@ -7,10 +7,12 @@
 //
 
 #import "InAppPurchaseData.h"
-#import "SponsoredOffer.h"
+#import "TapJoySponsoredOffer.h"
 #import "Globals.h"
 #import "IAPHelper.h"
 #import "FlurryClipsSponsoredOffer.h"
+#import "AdColonySponsoredOffer.h"
+#import "FacebookSponsoredOffer.h"
 
 @implementation InAppPurchaseData
 @dynamic primaryTitle;
@@ -111,9 +113,10 @@
 +(NSArray *) allSponsoredOffers
 {
   NSMutableArray *offers = [NSMutableArray array];
-  [offers addObject:[SponsoredOffer createForAdColony]];
+  [offers addObject:[AdColonySponsoredOffer create]];
   [offers addObject:[FlurryClipsSponsoredOffer create]];
-  [offers addObject:[SponsoredOffer createForTapJoy]];
+  [offers addObject:[TapJoySponsoredOffer create]];
+  [offers addObject:[FacebookSponsoredOffer create]];
 
   return offers;
 }
