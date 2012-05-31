@@ -208,15 +208,12 @@
     
     LNLog(@"%d neutral elems left", peopleElems.count);
     // Load the rest of the people in case quest becomes available later.
-    // Set alpha to 0 to they can't be seen
     for (NeutralCityElementProto *ncep in peopleElems) {
       CGRect r = CGRectZero;
       r.origin = [self randomWalkablePosition];
       r.size = CGSizeMake(1, 1);
       QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:ncep.imgId map:self location:r];
       [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-      qg.visible = NO;
-      qg.opacity = 0.f;
       [qg release];
     }
     
@@ -274,7 +271,7 @@
       for (MinimumUserDefeatTypeJobProto *dtData in questData.requiredDefeatTypeJobProgressList) {
         DefeatTypeJobProto *job = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:dtData.defeatTypeJobId]];
         
-        if (dtData.numDefeated  < job.numEnemiesToDefeat) {
+        if (job.cityId == _cityId && dtData.numDefeated  < job.numEnemiesToDefeat) {
           [self displayArrowsOnEnemies:job.typeOfEnemy];
           
           UserJob *userJob = [[UserJob alloc] initWithDefeatTypeJob:job];
@@ -335,7 +332,7 @@
           if (job.jobType == kDefeatTypeJob && job.numCompleted < job.total) {
             DefeatTypeJobProto *dtj = [[[GameState sharedGameState] staticDefeatTypeJobs] objectForKey:[NSNumber numberWithInt:job.jobId]];
             
-            if (dtj.typeOfEnemy == enemy.user.userType) {
+            if (dtj.cityId == _cityId && (dtj.typeOfEnemy == enemy.user.userType || dtj.typeOfEnemy == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide)) {
               [enemy displayCheck];
               job.numCompleted++;
             }
@@ -353,7 +350,7 @@
   for (CCNode *child in children_) {
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
-      if (enemy.user.userType == enemyType) {
+      if (enemy.user.userType == enemyType || enemyType == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
         [enemy displayArrow];
       }
     }
@@ -371,7 +368,10 @@
   for (UserJob *job in _jobs) {
     if (job.jobType == kDefeatTypeJob && job.numCompleted < job.total) {
       DefeatTypeJobProto *dtj = [[[GameState sharedGameState] staticDefeatTypeJobs] objectForKey:[NSNumber numberWithInt:job.jobId]];
-      [self displayArrowsOnEnemies:dtj.typeOfEnemy];
+      
+      if (dtj.cityId == _cityId) {
+        [self displayArrowsOnEnemies:dtj.typeOfEnemy];
+      }
     }
   }
 }
@@ -576,6 +576,7 @@
 
 - (void) questAccepted:(FullQuestProto *)fqp {
   QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
+  qg.quest = fqp;
   qg.questGiverState = kInProgress;
   
   GameState *gs = [GameState sharedGameState];
@@ -595,11 +596,11 @@
     [_jobs addObject:job];
   }
   [self updateEnemyQuestArrows];
-//  [self reloadQuestGivers];
 }
 
 - (void) questRedeemed:(FullQuestProto *)fqp {
   QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
+  qg.quest = nil;
   qg.questGiverState = kNoQuest;
   
   GameState *gs = [GameState sharedGameState];
@@ -618,7 +619,6 @@
   }
   
   [self updateEnemyQuestArrows];
-//  [self reloadQuestGivers];
 }
 
 - (void) reloadQuestGivers {
@@ -631,11 +631,6 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.questGiverState = kAvailable;
-      qg.visible = YES;
-      if (qg.opacity == 0) {
-        [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
-      }
-      [arr addObject:qg];
     }
   }
   for (FullQuestProto *fqp in [gs.inProgressIncompleteQuests allValues]) {
@@ -643,11 +638,6 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.questGiverState = kInProgress;
-      qg.visible = YES;
-      if (qg.opacity == 0) {
-        [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
-      }
-      [arr addObject:qg];
     }
   }
   for (FullQuestProto *fqp in [gs.inProgressCompleteQuests allValues]) {
@@ -655,11 +645,6 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.questGiverState = kCompleted;
-      qg.visible = YES;
-      if (qg.opacity == 0) {
-        [qg runAction:[CCFadeIn actionWithDuration:0.1f]];
-      }
-      [arr addObject:qg];
     }
   }
   
@@ -668,9 +653,7 @@
       QuestGiver *qg = (QuestGiver *)node;
       if (![arr containsObject:qg]) {
         qg.quest = nil;
-        if (qg.opacity != 0) {
-          [qg runAction:[CCFadeOut actionWithDuration:0.1f]];
-        }
+        qg.questGiverState = kNoQuest;
       }
     }
   }

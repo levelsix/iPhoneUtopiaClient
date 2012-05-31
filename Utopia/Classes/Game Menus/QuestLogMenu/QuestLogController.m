@@ -17,6 +17,7 @@
 #import "SimpleAudioEngine.h"
 #import "BattleLayer.h"
 #import "MapViewController.h"
+#import "ProfileViewController.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
@@ -188,7 +189,7 @@
   } else if (type == kDefeatTypeJob) {
     DefeatTypeJobProto *p = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:jobId]];
     
-    if (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+    if (p.cityId > 0) {
       [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId enemyType:p.typeOfEnemy];
     } else {
       [MapViewController displayAttackMap];
@@ -202,6 +203,50 @@
     [[BazaarMap sharedBazaarMap] moveToCritStruct:CritStructTypeCarpenter];
   } else if (type == kCoinRetrievalJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
+  } else if (type == kSpecialJob) {
+    FullQuestProto *fqp = [gs questForQuestId:jobId];
+    GameLayer *glay = [GameLayer sharedGameLayer];
+    BazaarMap *bm = [BazaarMap sharedBazaarMap];
+    switch (fqp.specialQuestActionReq) {
+      case SpecialQuestActionSellToArmory:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeArmory];
+        break;
+        
+      case SpecialQuestActionDepositInVault:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeVault];
+        break;
+        
+      case SpecialQuestActionWithdrawFromVault:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeVault];
+        break;
+        
+      case SpecialQuestActionPostToMarketplace:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeMarketplace];
+        break;
+        
+      case SpecialQuestActionPurchaseFromMarketplace:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeMarketplace];
+        break;
+        
+      case SpecialQuestActionPurchaseFromArmory:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeArmory];
+        break;
+        
+      case SpecialQuestActionWriteOnOtherWall:
+        [[ProfileViewController sharedProfileViewController] loadMyProfile];
+        [ProfileViewController displayView];
+        [[ProfileViewController sharedProfileViewController] setState:kWallState];
+        break;
+        
+      default:
+        break;
+    }
   }
   [[QuestLogController sharedQuestLogController] closeClicked:nil];
   
@@ -417,7 +462,15 @@
   [headerView addSubview:label];
   
   if (section == 0) {
-    label.text = [NSString stringWithFormat:@"%@ says", self.quest.questGiverName];
+    NSString *name = self.quest.questGiverName;
+    if (quest.cityId == 0) {
+      if (quest.assetNumWithinCity == 1) {
+        name = [Globals homeQuestGiverName];
+      } else if (quest.assetNumWithinCity == 2) {
+        name = [Globals bazaarQuestGiverName];
+      }
+    }
+    label.text = [NSString stringWithFormat:@"%@ says", name];
   } else if (section == 1) {
     if (_questRedeem) {
       return nil;

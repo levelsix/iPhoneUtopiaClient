@@ -19,6 +19,20 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
+  switch (value) {
+    case SpecialQuestActionPurchaseFromArmory:
+    case SpecialQuestActionPurchaseFromMarketplace:
+    case SpecialQuestActionSellToArmory:
+    case SpecialQuestActionPostToMarketplace:
+    case SpecialQuestActionDepositInVault:
+    case SpecialQuestActionWithdrawFromVault:
+    case SpecialQuestActionWriteOnOtherWall:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL UserTypeIsValidValue(UserType value) {
   switch (value) {
     case UserTypeGoodWarrior:
@@ -5413,9 +5427,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 @property int32_t expGainedBaseOnRankup;
 @property int32_t coinsGainedBaseOnRankup;
 @property (retain) NSString* mapImgName;
-@property (retain) CoordinateProto* aviaryCoords;
-@property (retain) CoordinateProto* spriteAviaryLandingCoords;
-@property StructOrientation aviaryOrientation;
+@property (retain) CoordinateProto* center;
 @property (retain) NSMutableArray* mutableTaskIdsList;
 @end
 
@@ -5463,33 +5475,18 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
   hasMapImgName_ = !!value;
 }
 @synthesize mapImgName;
-- (BOOL) hasAviaryCoords {
-  return !!hasAviaryCoords_;
+- (BOOL) hasCenter {
+  return !!hasCenter_;
 }
-- (void) setHasAviaryCoords:(BOOL) value {
-  hasAviaryCoords_ = !!value;
+- (void) setHasCenter:(BOOL) value {
+  hasCenter_ = !!value;
 }
-@synthesize aviaryCoords;
-- (BOOL) hasSpriteAviaryLandingCoords {
-  return !!hasSpriteAviaryLandingCoords_;
-}
-- (void) setHasSpriteAviaryLandingCoords:(BOOL) value {
-  hasSpriteAviaryLandingCoords_ = !!value;
-}
-@synthesize spriteAviaryLandingCoords;
-- (BOOL) hasAviaryOrientation {
-  return !!hasAviaryOrientation_;
-}
-- (void) setHasAviaryOrientation:(BOOL) value {
-  hasAviaryOrientation_ = !!value;
-}
-@synthesize aviaryOrientation;
+@synthesize center;
 @synthesize mutableTaskIdsList;
 - (void) dealloc {
   self.name = nil;
   self.mapImgName = nil;
-  self.aviaryCoords = nil;
-  self.spriteAviaryLandingCoords = nil;
+  self.center = nil;
   self.mutableTaskIdsList = nil;
   [super dealloc];
 }
@@ -5501,9 +5498,7 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
     self.expGainedBaseOnRankup = 0;
     self.coinsGainedBaseOnRankup = 0;
     self.mapImgName = @"";
-    self.aviaryCoords = [CoordinateProto defaultInstance];
-    self.spriteAviaryLandingCoords = [CoordinateProto defaultInstance];
-    self.aviaryOrientation = StructOrientationPosition1;
+    self.center = [CoordinateProto defaultInstance];
   }
   return self;
 }
@@ -5548,14 +5543,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (self.hasMapImgName) {
     [output writeString:6 value:self.mapImgName];
   }
-  if (self.hasAviaryCoords) {
-    [output writeMessage:7 value:self.aviaryCoords];
-  }
-  if (self.hasSpriteAviaryLandingCoords) {
-    [output writeMessage:8 value:self.spriteAviaryLandingCoords];
-  }
-  if (self.hasAviaryOrientation) {
-    [output writeEnum:9 value:self.aviaryOrientation];
+  if (self.hasCenter) {
+    [output writeMessage:7 value:self.center];
   }
   for (NSNumber* value in self.mutableTaskIdsList) {
     [output writeInt32:10 value:[value intValue]];
@@ -5587,14 +5576,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (self.hasMapImgName) {
     size += computeStringSize(6, self.mapImgName);
   }
-  if (self.hasAviaryCoords) {
-    size += computeMessageSize(7, self.aviaryCoords);
-  }
-  if (self.hasSpriteAviaryLandingCoords) {
-    size += computeMessageSize(8, self.spriteAviaryLandingCoords);
-  }
-  if (self.hasAviaryOrientation) {
-    size += computeEnumSize(9, self.aviaryOrientation);
+  if (self.hasCenter) {
+    size += computeMessageSize(7, self.center);
   }
   {
     int32_t dataSize = 0;
@@ -5697,14 +5680,8 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   if (other.hasMapImgName) {
     [self setMapImgName:other.mapImgName];
   }
-  if (other.hasAviaryCoords) {
-    [self mergeAviaryCoords:other.aviaryCoords];
-  }
-  if (other.hasSpriteAviaryLandingCoords) {
-    [self mergeSpriteAviaryLandingCoords:other.spriteAviaryLandingCoords];
-  }
-  if (other.hasAviaryOrientation) {
-    [self setAviaryOrientation:other.aviaryOrientation];
+  if (other.hasCenter) {
+    [self mergeCenter:other.center];
   }
   if (other.mutableTaskIdsList.count > 0) {
     if (result.mutableTaskIdsList == nil) {
@@ -5759,29 +5736,11 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
       }
       case 58: {
         CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasAviaryCoords) {
-          [subBuilder mergeFrom:self.aviaryCoords];
+        if (self.hasCenter) {
+          [subBuilder mergeFrom:self.center];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setAviaryCoords:[subBuilder buildPartial]];
-        break;
-      }
-      case 66: {
-        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
-        if (self.hasSpriteAviaryLandingCoords) {
-          [subBuilder mergeFrom:self.spriteAviaryLandingCoords];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setSpriteAviaryLandingCoords:[subBuilder buildPartial]];
-        break;
-      }
-      case 72: {
-        int32_t value = [input readEnum];
-        if (StructOrientationIsValidValue(value)) {
-          [self setAviaryOrientation:value];
-        } else {
-          [unknownFields mergeVarintField:9 value:value];
-        }
+        [self setCenter:[subBuilder buildPartial]];
         break;
       }
       case 80: {
@@ -5887,80 +5846,34 @@ static FullCityProto* defaultFullCityProtoInstance = nil;
   result.mapImgName = @"";
   return self;
 }
-- (BOOL) hasAviaryCoords {
-  return result.hasAviaryCoords;
+- (BOOL) hasCenter {
+  return result.hasCenter;
 }
-- (CoordinateProto*) aviaryCoords {
-  return result.aviaryCoords;
+- (CoordinateProto*) center {
+  return result.center;
 }
-- (FullCityProto_Builder*) setAviaryCoords:(CoordinateProto*) value {
-  result.hasAviaryCoords = YES;
-  result.aviaryCoords = value;
+- (FullCityProto_Builder*) setCenter:(CoordinateProto*) value {
+  result.hasCenter = YES;
+  result.center = value;
   return self;
 }
-- (FullCityProto_Builder*) setAviaryCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setAviaryCoords:[builderForValue build]];
+- (FullCityProto_Builder*) setCenterBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setCenter:[builderForValue build]];
 }
-- (FullCityProto_Builder*) mergeAviaryCoords:(CoordinateProto*) value {
-  if (result.hasAviaryCoords &&
-      result.aviaryCoords != [CoordinateProto defaultInstance]) {
-    result.aviaryCoords =
-      [[[CoordinateProto builderWithPrototype:result.aviaryCoords] mergeFrom:value] buildPartial];
+- (FullCityProto_Builder*) mergeCenter:(CoordinateProto*) value {
+  if (result.hasCenter &&
+      result.center != [CoordinateProto defaultInstance]) {
+    result.center =
+      [[[CoordinateProto builderWithPrototype:result.center] mergeFrom:value] buildPartial];
   } else {
-    result.aviaryCoords = value;
+    result.center = value;
   }
-  result.hasAviaryCoords = YES;
+  result.hasCenter = YES;
   return self;
 }
-- (FullCityProto_Builder*) clearAviaryCoords {
-  result.hasAviaryCoords = NO;
-  result.aviaryCoords = [CoordinateProto defaultInstance];
-  return self;
-}
-- (BOOL) hasSpriteAviaryLandingCoords {
-  return result.hasSpriteAviaryLandingCoords;
-}
-- (CoordinateProto*) spriteAviaryLandingCoords {
-  return result.spriteAviaryLandingCoords;
-}
-- (FullCityProto_Builder*) setSpriteAviaryLandingCoords:(CoordinateProto*) value {
-  result.hasSpriteAviaryLandingCoords = YES;
-  result.spriteAviaryLandingCoords = value;
-  return self;
-}
-- (FullCityProto_Builder*) setSpriteAviaryLandingCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
-  return [self setSpriteAviaryLandingCoords:[builderForValue build]];
-}
-- (FullCityProto_Builder*) mergeSpriteAviaryLandingCoords:(CoordinateProto*) value {
-  if (result.hasSpriteAviaryLandingCoords &&
-      result.spriteAviaryLandingCoords != [CoordinateProto defaultInstance]) {
-    result.spriteAviaryLandingCoords =
-      [[[CoordinateProto builderWithPrototype:result.spriteAviaryLandingCoords] mergeFrom:value] buildPartial];
-  } else {
-    result.spriteAviaryLandingCoords = value;
-  }
-  result.hasSpriteAviaryLandingCoords = YES;
-  return self;
-}
-- (FullCityProto_Builder*) clearSpriteAviaryLandingCoords {
-  result.hasSpriteAviaryLandingCoords = NO;
-  result.spriteAviaryLandingCoords = [CoordinateProto defaultInstance];
-  return self;
-}
-- (BOOL) hasAviaryOrientation {
-  return result.hasAviaryOrientation;
-}
-- (StructOrientation) aviaryOrientation {
-  return result.aviaryOrientation;
-}
-- (FullCityProto_Builder*) setAviaryOrientation:(StructOrientation) value {
-  result.hasAviaryOrientation = YES;
-  result.aviaryOrientation = value;
-  return self;
-}
-- (FullCityProto_Builder*) clearAviaryOrientation {
-  result.hasAviaryOrientation = NO;
-  result.aviaryOrientation = StructOrientationPosition1;
+- (FullCityProto_Builder*) clearCenter {
+  result.hasCenter = NO;
+  result.center = [CoordinateProto defaultInstance];
   return self;
 }
 - (NSArray*) taskIdsList {
@@ -11796,7 +11709,6 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @property (retain) NSString* name;
 @property (retain) NSString* description;
 @property (retain) NSString* doneResponse;
-@property (retain) NSString* inProgress;
 @property int32_t assetNumWithinCity;
 @property int32_t coinsGained;
 @property int32_t diamondsGained;
@@ -11808,11 +11720,12 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @property (retain) NSMutableArray* mutableBuildStructJobsReqsList;
 @property (retain) NSMutableArray* mutableDefeatTypeReqsList;
 @property (retain) NSMutableArray* mutablePossessEquipJobReqsList;
+@property int32_t coinRetrievalReq;
+@property SpecialQuestAction specialQuestActionReq;
 @property int32_t numComponentsForGood;
 @property int32_t numComponentsForBad;
 @property (retain) DialogueProto* acceptDialogue;
 @property (retain) NSString* questGiverName;
-@property int32_t coinRetrievalReq;
 @end
 
 @implementation FullQuestProto
@@ -11852,13 +11765,6 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   hasDoneResponse_ = !!value;
 }
 @synthesize doneResponse;
-- (BOOL) hasInProgress {
-  return !!hasInProgress_;
-}
-- (void) setHasInProgress:(BOOL) value {
-  hasInProgress_ = !!value;
-}
-@synthesize inProgress;
 - (BOOL) hasAssetNumWithinCity {
   return !!hasAssetNumWithinCity_;
 }
@@ -11900,6 +11806,20 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @synthesize mutableBuildStructJobsReqsList;
 @synthesize mutableDefeatTypeReqsList;
 @synthesize mutablePossessEquipJobReqsList;
+- (BOOL) hasCoinRetrievalReq {
+  return !!hasCoinRetrievalReq_;
+}
+- (void) setHasCoinRetrievalReq:(BOOL) value {
+  hasCoinRetrievalReq_ = !!value;
+}
+@synthesize coinRetrievalReq;
+- (BOOL) hasSpecialQuestActionReq {
+  return !!hasSpecialQuestActionReq_;
+}
+- (void) setHasSpecialQuestActionReq:(BOOL) value {
+  hasSpecialQuestActionReq_ = !!value;
+}
+@synthesize specialQuestActionReq;
 - (BOOL) hasNumComponentsForGood {
   return !!hasNumComponentsForGood_;
 }
@@ -11928,18 +11848,10 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   hasQuestGiverName_ = !!value;
 }
 @synthesize questGiverName;
-- (BOOL) hasCoinRetrievalReq {
-  return !!hasCoinRetrievalReq_;
-}
-- (void) setHasCoinRetrievalReq:(BOOL) value {
-  hasCoinRetrievalReq_ = !!value;
-}
-@synthesize coinRetrievalReq;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
   self.doneResponse = nil;
-  self.inProgress = nil;
   self.mutableQuestsRequiredForThisList = nil;
   self.mutableTaskReqsList = nil;
   self.mutableUpgradeStructJobsReqsList = nil;
@@ -11957,17 +11869,17 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
     self.name = @"";
     self.description = @"";
     self.doneResponse = @"";
-    self.inProgress = @"";
     self.assetNumWithinCity = 0;
     self.coinsGained = 0;
     self.diamondsGained = 0;
     self.expGained = 0;
     self.equipIdGained = 0;
+    self.coinRetrievalReq = 0;
+    self.specialQuestActionReq = SpecialQuestActionPurchaseFromArmory;
     self.numComponentsForGood = 0;
     self.numComponentsForBad = 0;
     self.acceptDialogue = [DialogueProto defaultInstance];
     self.questGiverName = @"";
-    self.coinRetrievalReq = 0;
   }
   return self;
 }
@@ -12044,8 +11956,8 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasDoneResponse) {
     [output writeString:5 value:self.doneResponse];
   }
-  if (self.hasInProgress) {
-    [output writeString:6 value:self.inProgress];
+  if (self.hasSpecialQuestActionReq) {
+    [output writeEnum:6 value:self.specialQuestActionReq];
   }
   if (self.hasAssetNumWithinCity) {
     [output writeInt32:7 value:self.assetNumWithinCity];
@@ -12119,8 +12031,8 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasDoneResponse) {
     size += computeStringSize(5, self.doneResponse);
   }
-  if (self.hasInProgress) {
-    size += computeStringSize(6, self.inProgress);
+  if (self.hasSpecialQuestActionReq) {
+    size += computeEnumSize(6, self.specialQuestActionReq);
   }
   if (self.hasAssetNumWithinCity) {
     size += computeInt32Size(7, self.assetNumWithinCity);
@@ -12290,9 +12202,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (other.hasDoneResponse) {
     [self setDoneResponse:other.doneResponse];
   }
-  if (other.hasInProgress) {
-    [self setInProgress:other.inProgress];
-  }
   if (other.hasAssetNumWithinCity) {
     [self setAssetNumWithinCity:other.assetNumWithinCity];
   }
@@ -12344,6 +12253,12 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
     }
     [result.mutablePossessEquipJobReqsList addObjectsFromArray:other.mutablePossessEquipJobReqsList];
   }
+  if (other.hasCoinRetrievalReq) {
+    [self setCoinRetrievalReq:other.coinRetrievalReq];
+  }
+  if (other.hasSpecialQuestActionReq) {
+    [self setSpecialQuestActionReq:other.specialQuestActionReq];
+  }
   if (other.hasNumComponentsForGood) {
     [self setNumComponentsForGood:other.numComponentsForGood];
   }
@@ -12355,9 +12270,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (other.hasQuestGiverName) {
     [self setQuestGiverName:other.questGiverName];
-  }
-  if (other.hasCoinRetrievalReq) {
-    [self setCoinRetrievalReq:other.coinRetrievalReq];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -12400,8 +12312,13 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
         [self setDoneResponse:[input readString]];
         break;
       }
-      case 50: {
-        [self setInProgress:[input readString]];
+      case 48: {
+        int32_t value = [input readEnum];
+        if (SpecialQuestActionIsValidValue(value)) {
+          [self setSpecialQuestActionReq:value];
+        } else {
+          [unknownFields mergeVarintField:6 value:value];
+        }
         break;
       }
       case 56: {
@@ -12554,22 +12471,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearDoneResponse {
   result.hasDoneResponse = NO;
   result.doneResponse = @"";
-  return self;
-}
-- (BOOL) hasInProgress {
-  return result.hasInProgress;
-}
-- (NSString*) inProgress {
-  return result.inProgress;
-}
-- (FullQuestProto_Builder*) setInProgress:(NSString*) value {
-  result.hasInProgress = YES;
-  result.inProgress = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearInProgress {
-  result.hasInProgress = NO;
-  result.inProgress = @"";
   return self;
 }
 - (BOOL) hasAssetNumWithinCity {
@@ -12838,6 +12739,38 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   result.mutablePossessEquipJobReqsList = nil;
   return self;
 }
+- (BOOL) hasCoinRetrievalReq {
+  return result.hasCoinRetrievalReq;
+}
+- (int32_t) coinRetrievalReq {
+  return result.coinRetrievalReq;
+}
+- (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value {
+  result.hasCoinRetrievalReq = YES;
+  result.coinRetrievalReq = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearCoinRetrievalReq {
+  result.hasCoinRetrievalReq = NO;
+  result.coinRetrievalReq = 0;
+  return self;
+}
+- (BOOL) hasSpecialQuestActionReq {
+  return result.hasSpecialQuestActionReq;
+}
+- (SpecialQuestAction) specialQuestActionReq {
+  return result.specialQuestActionReq;
+}
+- (FullQuestProto_Builder*) setSpecialQuestActionReq:(SpecialQuestAction) value {
+  result.hasSpecialQuestActionReq = YES;
+  result.specialQuestActionReq = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearSpecialQuestActionReq {
+  result.hasSpecialQuestActionReq = NO;
+  result.specialQuestActionReq = SpecialQuestActionPurchaseFromArmory;
+  return self;
+}
 - (BOOL) hasNumComponentsForGood {
   return result.hasNumComponentsForGood;
 }
@@ -12914,22 +12847,6 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearQuestGiverName {
   result.hasQuestGiverName = NO;
   result.questGiverName = @"";
-  return self;
-}
-- (BOOL) hasCoinRetrievalReq {
-  return result.hasCoinRetrievalReq;
-}
-- (int32_t) coinRetrievalReq {
-  return result.coinRetrievalReq;
-}
-- (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value {
-  result.hasCoinRetrievalReq = YES;
-  result.coinRetrievalReq = value;
-  return self;
-}
-- (FullQuestProto_Builder*) clearCoinRetrievalReq {
-  result.hasCoinRetrievalReq = NO;
-  result.coinRetrievalReq = 0;
   return self;
 }
 @end

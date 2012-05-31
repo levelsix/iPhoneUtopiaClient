@@ -14,6 +14,8 @@
 #import "Downloader.h"
 #import "GenericPopupController.h"
 #import "SimpleAudioEngine.h"
+#import "GameLayer.h"
+#import "HomeMap.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -1131,6 +1133,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) playEnterBuildingSound {
   [[SimpleAudioEngine sharedEngine] playEffect:@"Enter_Store_Bell.m4a"];
+}
+
++ (GameMap *)mapForQuest:(FullQuestProto *)fqp {
+  if (fqp.cityId > 0) {
+    GameLayer *gLay = [GameLayer sharedGameLayer];
+    if (gLay.currentCity == fqp.cityId) {
+      return (GameMap *)[gLay missionMap];
+    } else {
+      return nil;
+    }
+  } else {
+    if (fqp.assetNumWithinCity == 1) {
+      return [HomeMap sharedHomeMap];
+    } else if (fqp.assetNumWithinCity == 2) {
+      return [BazaarMap sharedBazaarMap];
+    }
+  }
+  return nil;
+}
+
++ (NSString *) bazaarQuestGiverName {
+  return @"Bizzaro Byrone";
+}
+
++ (NSString *) homeQuestGiverName {
+  GameState *gs = [GameState sharedGameState];
+  
+  if ([self userTypeIsGood:gs.type]) {
+    return @"Ruby";
+  } else {
+    return @"Adriana";
+  }
 }
 
 - (void) dealloc {

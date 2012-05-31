@@ -10,6 +10,7 @@
 #import "Protocols.pb.h"
 #import "UserData.h"
 #import "Analytics.h"
+#import "GameMap.h"
 
 #define BUTTON_CLICKED_LEEWAY 30
 
@@ -175,6 +176,10 @@
 
 + (void) playCoinSound;
 + (void) playEnterBuildingSound;
+
++ (GameMap *)mapForQuest:(FullQuestProto *)fqp;
++ (NSString *) bazaarQuestGiverName;
++ (NSString *) homeQuestGiverName;
 
 + (BOOL)userTypeIsGood:(UserType)type;
 + (BOOL)userTypeIsBad:(UserType)type;

@@ -693,10 +693,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     dispatch_queue_t queue = dispatch_queue_create(nil, nil);
     dispatch_async(queue, ^{
-      [[HomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
+      [[HomeMap sharedHomeMap] backgroundRefresh];
       gs.connected = YES;
       [[GameViewController sharedGameViewController] allowOpeningOfDoor];
     });
+    dispatch_release(queue);
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
   } else {
@@ -854,7 +855,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
     [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
     
-    [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
+    GameMap *map = [Globals mapForQuest:fqp];
+    [map reloadQuestGivers];
     
     [Analytics questComplete:proto.questId];
   } else {

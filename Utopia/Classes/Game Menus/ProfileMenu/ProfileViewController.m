@@ -1574,7 +1574,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (IBAction)attackClicked:(id)sender {
   [[BattleLayer sharedBattleLayer] beginBattleAgainst:_fup];
-  [ProfileViewController removeView];
+  [self closeClicked:nil];
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

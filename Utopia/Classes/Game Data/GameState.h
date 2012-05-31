@@ -169,6 +169,7 @@
 - (FullStructureProto *) structWithId:(int)structId;
 - (FullCityProto *)cityWithId:(int)cityId;
 - (FullTaskProto *) taskWithId:(int)taskId;
+- (FullQuestProto *) questForQuestId:(int)questId;
 
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;

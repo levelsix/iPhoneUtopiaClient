@@ -239,7 +239,6 @@ static NSString *udid = nil;
 }
 
 - (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
-  LNLog(@"Sent Battle Message");
   BattleRequestProto_Builder *builder = [[[[[[BattleRequestProto builder]
                                              setAttacker:_sender]
                                             setDefender:defender]

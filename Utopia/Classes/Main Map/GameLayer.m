@@ -68,6 +68,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   // Used by tutorial too
   _homeMap = [HomeMap sharedHomeMap];
   [self addChild:_homeMap z:1 tag:2];
+  [_homeMap moveToCenter];
   
   _bazaarMap = [BazaarMap sharedBazaarMap];
   
@@ -77,7 +78,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self displayHomeMap];
 }
 
-- (void) setEnemyType:(UserType)type {
+- (void) setEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
   enemyType = type;
   _shouldCenterOnEnemy = YES;
 }
@@ -159,6 +160,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   if (!_homeMap.visible) {
     [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling Home"];
     _loading = YES;
+    [_homeMap moveToCenter];
     [self performSelector:@selector(displayHomeMap) withObject:nil afterDelay:0.5f];
   }
 }
@@ -168,7 +170,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [_homeMap refresh];
   [_homeMap beginTimers];
   _homeMap.visible = YES;
-  [_homeMap moveToCenter];
   currentCity = 0;
   [self closeBazaarMap];
   [_topBar loadHomeConfiguration];
@@ -193,9 +194,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) loadBazaarMap {
-  [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling to Bazaar"];
-  _loading = YES;
-  [self performSelector:@selector(displayBazaarMap) withObject:nil afterDelay:0.5f];
+  if (!_bazaarMap.parent) {
+    [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling to Bazaar"];
+    _loading = YES;
+    // Do move in load so that other classes can move it elsewhere
+    [_bazaarMap moveToCenter];
+    [self performSelector:@selector(displayBazaarMap) withObject:nil afterDelay:0.5f];
+  }
 }
 
 - (void) displayBazaarMap {
@@ -205,13 +210,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     currentCity = 0;
     _homeMap.visible = NO;
     [self addChild:_bazaarMap z:1];
-    [_bazaarMap moveToCenter];
     [_topBar loadBazaarConfiguration];
-    
-    if (_loading) {
-      [[MapViewController sharedMapViewController] fadeOut];
-      _loading = NO;
-    }
+  }
+  
+  if (_loading) {
+    [[MapViewController sharedMapViewController] fadeOut];
+    _loading = NO;
   }
 }
 

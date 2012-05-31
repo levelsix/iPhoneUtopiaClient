@@ -25,7 +25,7 @@
   if (self) {
     _map = map;
     self.location = loc;
-    self.anchorPoint = ccp(0.5,0);
+    self.anchorPoint = ccp(loc.size.height/(loc.size.width+loc.size.height), 0);
   }
   return self;
 }

@@ -97,6 +97,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       }
     }
     
+    // Create the attack gate
+    MapSprite *mid = [[MapSprite alloc] initWithFile:@"centergate.png" location:CGRectMake(47, 23, 3, 1) map:self];
+    [self addChild:mid];
+    [mid release];
+    
+    for (int i = 1; i < 9; i++) {
+      MapSprite *left = [[MapSprite alloc] initWithFile:@"leftgate.png" location:CGRectMake(47-3*i, 23, 3, 1) map:self];
+      [self addChild:left];
+      [left release];
+    }
+    for (int i = 1; i < 9; i++) {
+      MapSprite *right = [[MapSprite alloc] initWithFile:@"rightgate.png" location:CGRectMake(47+3*i, 23, 3, 1) map:self];
+      [self addChild:right];
+      [right release];
+    }
+    
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [Globals displayUIView:self.hbMenu];
     [Globals displayUIView:self.collectMenu];
@@ -263,7 +279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) doReorder {
   [super doReorder];
   
-  if (_isMoving || ([_selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)_selected).isSetDown)) {
+  if ((_isMoving && _selected) || ([_selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)_selected).isSetDown)) {
     [self reorderChild:_selected z:1000];
   }
 }
@@ -331,6 +347,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     } else {
       [self closeMenus];
       [self.upgradeMenu closeClicked:nil];
+      self.moveMenu.hidden = YES;
+      _canMove = NO;
     }
   }
 }
@@ -476,6 +494,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
   if (mb == _selected && _canMove) {
     [mb cancelMove];
+    _canMove = NO;
     self.selected = nil;
   }
   _constrBuilding = nil;
@@ -727,6 +746,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // This will be released after the level up controller closes
   BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithUserStruct:us];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+}
+
+- (void) reloadQuestGivers {
+  
 }
 
 - (void) onExit {

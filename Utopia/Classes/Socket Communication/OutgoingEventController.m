@@ -15,6 +15,7 @@
 #import "TopBar.h"
 #import "GameLayer.h"
 #import "MissionMap.h"
+#import "HomeMap.h"
 #import "MapViewController.h"
 #import "TutorialConstants.h"
 #import "GenericPopupController.h"
@@ -1067,25 +1068,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) loadNeutralCity:(int)cityId asset:(int)assetId {
-  GameState *gs = [GameState sharedGameState];
-  FullCityProto *city = [gs cityWithId:cityId];
-  
-  if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
-    if (assetId != 0) {
-      [[[GameLayer sharedGameLayer] missionMap] moveToAssetId:assetId];
+  if (cityId == 0) {
+    if (assetId == 1) {
+      [[GameLayer sharedGameLayer] loadHomeMap];
+    } else if (assetId == 2) {
+      [[GameLayer sharedGameLayer] loadBazaarMap];
     }
+  } else {
+    if ([[GameLayer sharedGameLayer] currentCity] == cityId) {
+      if (assetId != 0) {
+        [[[GameLayer sharedGameLayer] missionMap] moveToAssetId:assetId];
+      }
+    }
+    
+    [[GameLayer sharedGameLayer] setAssetId: assetId];
+    [self loadNeutralCity:cityId];
   }
-  
-  [[GameLayer sharedGameLayer] setAssetId: assetId];
-  [self loadNeutralCity:cityId];
 }
 
-- (void) loadNeutralCity:(int)cityId enemyType:(UserType)type {
+- (void) loadNeutralCity:(int)cityId enemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
   GameState *gs = [GameState sharedGameState];
   FullCityProto *city = [gs cityWithId:cityId];
   
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
-      [[[GameLayer sharedGameLayer] missionMap] moveToEnemyType:type];
+    [[[GameLayer sharedGameLayer] missionMap] moveToEnemyType:type];
   }
   
   [[GameLayer sharedGameLayer] setEnemyType:type];
@@ -1132,7 +1138,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs.availableQuests removeObjectForKey:questIdNum];
     [gs.inProgressIncompleteQuests setObject:fqp forKey:questIdNum];
     
-    [[[GameLayer sharedGameLayer] missionMap] questAccepted:fqp];
+    GameMap *map = [Globals mapForQuest:fqp];
+    [map questAccepted:fqp];
     
     [[SimpleAudioEngine sharedEngine] playEffect:@"QuestNew.m4a"];
     
@@ -1158,10 +1165,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [gs changeQuantityForEquip:fqp.equipIdGained by:1];
     }
     
-    GameLayer *glay = [GameLayer sharedGameLayer];
-    if (glay.currentCity = fqp.cityId) {
-      [[[GameLayer sharedGameLayer] missionMap] questRedeemed:fqp];
-    }
+    GameMap *map = [Globals mapForQuest:fqp];
+    [map questRedeemed:fqp];
     
     [Analytics questRedeem:questId];
   } else {

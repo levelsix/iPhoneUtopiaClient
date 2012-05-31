@@ -48,7 +48,7 @@ typedef enum {
 }
 
 @property (nonatomic, assign) int assetId;
-@property (nonatomic, assign) UserType enemyType;
+@property (nonatomic, assign) DefeatTypeJobProto_DefeatTypeJobEnemyType enemyType;
 @property (nonatomic, assign) int currentCity;
 @property (nonatomic, retain) MissionMap *missionMap;
 
