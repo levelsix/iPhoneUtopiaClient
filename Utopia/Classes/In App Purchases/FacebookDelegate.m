@@ -68,7 +68,8 @@
 - (void) dialogCompleteWithUrl:(NSURL*)url
 {
   // If we successfully made the friend request.
-  if ([url.absoluteString rangeOfString:@"post_id="].location != NSNotFound) {
+  if ([url.absoluteString rangeOfString:@"success?request="].location != NSNotFound) {
+
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     [defaults setObject:[NSDate date] forKey:PREV_FACEBOOK_FRIEND_REQ];
