@@ -1100,9 +1100,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     bgdView.alpha = 0.f;
     view.transform = CGAffineTransformMakeScale(2.0, 2.0);
   } completion:^(BOOL finished) {
-    view.transform = CGAffineTransformIdentity;
-    if (completed) {
-      completed();
+    if (finished) {
+      view.transform = CGAffineTransformIdentity;
+      if (completed) {
+        completed();
+      }
     }
   }];
 }
@@ -1165,6 +1167,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   } else {
     return @"Adriana";
   }
+}
+
++ (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
+  float rotation = -M_PI_2-angle;
+  arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+    arrow.layer.transform = CATransform3DScale(arrow.layer.transform, 1.f, 0.9f, 1.f);
+    arrow.center = CGPointMake(arrow.center.x-10*cosf(angle), arrow.center.y+10*sinf(angle));
+  } completion:nil];
+}
+
++ (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle {
+  arrow.rotation = -M_PI_2-angle;
+  
+  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
+                                                          [CCMoveBy actionWithDuration:1.f position:ccp(10*cosf(angle), 10*sinf(angle))],
+                                                          [CCScaleBy actionWithDuration:1.f scaleX:1.f scaleY:0.9f],
+                                                          nil]];
+  [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                         [upAction reverse], nil]]];
 }
 
 - (void) dealloc {

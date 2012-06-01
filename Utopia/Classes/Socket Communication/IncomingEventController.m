@@ -689,7 +689,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     while (![[GameViewController sharedGameViewController] canLoad]) {
-      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
     }
     dispatch_queue_t queue = dispatch_queue_create(nil, nil);
     dispatch_async(queue, ^{
@@ -826,6 +826,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
+    // Reload quest givers for all maps cuz we have new quests
     [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
     [[BazaarMap sharedBazaarMap] reloadQuestGivers];
     [[HomeMap sharedHomeMap] reloadQuestGivers];

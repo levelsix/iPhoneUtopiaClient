@@ -60,7 +60,7 @@
   _rightAttack = ENEMY_ATTACK;
   _rightDefense = ENEMY_DEFENSE;
   
-  _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
+  _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   [self addChild:_ccArrow];
   _ccArrow.visible = NO;
   
@@ -74,7 +74,7 @@
   _tryAgain.opacity = 0.f;
   _tryAgain.position = ccp(self.contentSize.width/2, self.contentSize.height/2+130);
   
-  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
   
   _left = [CCSprite spriteWithFile:[Globals battleImageNameForUser:gs.type]];

@@ -2576,14 +2576,14 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   BOOL hasExpGained_:1;
   BOOL hasCoinsGained_:1;
   BOOL hasAssetNumWithinCity_:1;
-  BOOL hasBadInProgress_:1;
-  BOOL hasGoodInProgress_:1;
   BOOL hasBadDoneResponse_:1;
   BOOL hasGoodDoneResponse_:1;
   BOOL hasBadDescription_:1;
   BOOL hasGoodDescription_:1;
   BOOL hasBadName_:1;
   BOOL hasGoodName_:1;
+  BOOL hasGoodAcceptDialogue_:1;
+  BOOL hasBadAcceptDialogue_:1;
   BOOL hasFirstTaskGood_:1;
   BOOL hasFirstTaskBad_:1;
   BOOL hasFirstDefeatTypeJobBattleLootAmulet_:1;
@@ -2593,14 +2593,14 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   int32_t expGained;
   int32_t coinsGained;
   int32_t assetNumWithinCity;
-  NSString* badInProgress;
-  NSString* goodInProgress;
   NSString* badDoneResponse;
   NSString* goodDoneResponse;
   NSString* badDescription;
   NSString* goodDescription;
   NSString* badName;
   NSString* goodName;
+  DialogueProto* goodAcceptDialogue;
+  DialogueProto* badAcceptDialogue;
   FullTaskProto* firstTaskGood;
   FullTaskProto* firstTaskBad;
   FullEquipProto* firstDefeatTypeJobBattleLootAmulet;
@@ -2611,8 +2611,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (BOOL) hasBadDescription;
 - (BOOL) hasGoodDoneResponse;
 - (BOOL) hasBadDoneResponse;
-- (BOOL) hasGoodInProgress;
-- (BOOL) hasBadInProgress;
+- (BOOL) hasGoodAcceptDialogue;
+- (BOOL) hasBadAcceptDialogue;
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasCoinsGained;
 - (BOOL) hasExpGained;
@@ -2628,8 +2628,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 @property (readonly, retain) NSString* badDescription;
 @property (readonly, retain) NSString* goodDoneResponse;
 @property (readonly, retain) NSString* badDoneResponse;
-@property (readonly, retain) NSString* goodInProgress;
-@property (readonly, retain) NSString* badInProgress;
+@property (readonly, retain) DialogueProto* goodAcceptDialogue;
+@property (readonly, retain) DialogueProto* badAcceptDialogue;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t coinsGained;
 @property (readonly) int32_t expGained;
@@ -2704,15 +2704,19 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadDoneResponse:(NSString*) value;
 - (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadDoneResponse;
 
-- (BOOL) hasGoodInProgress;
-- (NSString*) goodInProgress;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodInProgress:(NSString*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodInProgress;
+- (BOOL) hasGoodAcceptDialogue;
+- (DialogueProto*) goodAcceptDialogue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodAcceptDialogue:(DialogueProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeGoodAcceptDialogue:(DialogueProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodAcceptDialogue;
 
-- (BOOL) hasBadInProgress;
-- (NSString*) badInProgress;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadInProgress:(NSString*) value;
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadInProgress;
+- (BOOL) hasBadAcceptDialogue;
+- (DialogueProto*) badAcceptDialogue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadAcceptDialogue:(DialogueProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeBadAcceptDialogue:(DialogueProto*) value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadAcceptDialogue;
 
 - (BOOL) hasAssetNumWithinCity;
 - (int32_t) assetNumWithinCity;

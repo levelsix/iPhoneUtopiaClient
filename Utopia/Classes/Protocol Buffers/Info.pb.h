@@ -195,6 +195,7 @@ typedef enum {
   DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2 = 11,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3 = 12,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4 = 13,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar = 25,
 } DialogueProto_SpeechSegmentProto_DialogueSpeaker;
 
 BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_SpeechSegmentProto_DialogueSpeaker value);

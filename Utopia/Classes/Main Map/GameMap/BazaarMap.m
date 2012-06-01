@@ -89,6 +89,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   [super scale:recognizer node:node];
 }
 
+- (void) moveToQuestGiver {
+  [self moveToSprite:_questGiver];
+}
+
 - (void) moveToCritStruct:(CritStructType)type {
   CCSprite *csb = nil;
   for (CCNode *c in children_) {
@@ -137,15 +141,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 }
 
 - (void) questAccepted:(FullQuestProto *)fqp {
+  if (fqp.cityId == 0 && fqp.assetNumWithinCity == 2) {
   QuestGiver *qg = _questGiver;
   qg.quest = fqp;
   qg.questGiverState = kInProgress;
+  }
 }
 
 - (void) questRedeemed:(FullQuestProto *)fqp {
+  if (fqp.cityId == 0 && fqp.assetNumWithinCity == 2) {
   QuestGiver *qg = _questGiver;
   qg.quest = nil;
   qg.questGiverState = kNoQuest;
+  }
 }
 
 @end

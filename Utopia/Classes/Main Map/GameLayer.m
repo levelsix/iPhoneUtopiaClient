@@ -75,7 +75,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   _topBar = [TopBar sharedTopBar];
   [self addChild:_topBar z:2];
   
-  [self displayHomeMap];
+//  [self displayHomeMap];
 }
 
 - (void) setEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
@@ -140,15 +140,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [self unloadCurrentMissionMap];
   TutorialMissionMap *map = [TutorialMissionMap sharedTutorialMissionMap];
+  currentCity = 1;
   _missionMap = map;
   
   [_missionMap moveToCenter];
   
   [self addChild:_missionMap z:1];
   [map doBlink];
-  
-  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
-  _curMusic = kMissionMusic;
   
   if (_homeMap.visible) {
     _homeMap.selected = nil;
@@ -158,7 +156,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadHomeMap {
   if (!_homeMap.visible) {
-    [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling Home"];
+    [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling Home"];
     _loading = YES;
     [_homeMap moveToCenter];
     [self performSelector:@selector(displayHomeMap) withObject:nil afterDelay:0.5f];
@@ -195,7 +193,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadBazaarMap {
   if (!_bazaarMap.parent) {
-    [[MapViewController sharedMapViewController] startLoadingWithText:@"Travelling to Bazaar"];
+    [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling to Bazaar"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
     [_bazaarMap moveToCenter];
@@ -221,7 +219,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) closeBazaarMap {
   if (_bazaarMap.parent) {
-    [self removeChild:_bazaarMap cleanup:YES];
+    [self removeChild:_bazaarMap cleanup:NO];
     [[self currentMap] setVisible:YES];
   }
 }

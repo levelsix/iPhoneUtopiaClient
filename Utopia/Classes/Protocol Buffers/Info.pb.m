@@ -13055,6 +13055,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
       return YES;
     default:
       return NO;

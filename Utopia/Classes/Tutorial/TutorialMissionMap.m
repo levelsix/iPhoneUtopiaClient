@@ -44,33 +44,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     int width = self.mapSize.width;
     int height = self.mapSize.height;
-    for (CCNode *node in self.children) {
-      if (![node isKindOfClass:[CCTMXLayer class]]) {
-        continue;
-      }
-      CCTMXLayer *layer = (CCTMXLayer *)node;
-      
-      for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
-          NSMutableArray *row = [self.walkableData objectAtIndex:i];
-          NSNumber *curVal = [row objectAtIndex:j];
-          if (curVal.boolValue == NO) {
-            // Convert their coordinates to our coordinate system
-            CGPoint tileCoord = ccp(height-j-1, width-i-1);
-            int tileGid = [layer tileGIDAt:tileCoord];
-            if (tileGid) {
-              NSDictionary *properties = [self propertiesForGID:tileGid];
-              if (properties) {
-                NSString *collision = [properties valueForKey:@"Walkable"];
-                if (collision && [collision isEqualToString:@"Yes"]) {
-                  [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
-                }
-              }
-            }
-          }
+    // Get the walkable data
+    CCTMXLayer *layer = [self layerNamed:@"Walkable"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        NSMutableArray *row = [self.walkableData objectAtIndex:i];
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
         }
       }
     }
+    [self removeChild:layer cleanup:YES];
     
     // Add all the buildings, can't add people till after aviary placed
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
@@ -142,13 +129,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _doTaskPhase = NO;
     _canUnclick = YES;
     
-    _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
+    _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
     [_questGiver addChild:_ccArrow];
     _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+10);
     
-    CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
-    [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                           [upAction reverse], nil]]];
+    [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
     
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
@@ -237,9 +222,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [_ccArrow removeFromParentAndCleanup:YES];
     
     // Add right page here, QuestGiver will still do the job of removing it
-//    TutorialQuestLogController *tglc = (TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController];
-//    // If redeemQuestPhase is true, then this quest has been accepted already
-//    [tglc displayRightPageForQuest:tc.tutorialQuest inProgress:_redeemQuestPhase];
+    TutorialQuestLogController *tglc = (TutorialQuestLogController *)[TutorialQuestLogController sharedQuestLogController];
+    [tglc loadQuestAcceptScreen];
+    [self questGiverInProgress];  
   } else if (_doBattlePhase && [selected isKindOfClass:[Enemy class]] && selected.tag == ENEMY_TAG) {
     [super setSelected:selected];
     [_ccArrow removeFromParentAndCleanup:YES];
@@ -264,25 +249,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   _questGiver.questGiverState = kInProgress;
 }
 
-- (void) questLogClosed {
+- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
+  [super moveToEnemyType:type];
   [_ccArrow removeFromParentAndCleanup:YES];
   [_enemy addChild:_ccArrow];
   _ccArrow.position = ccp(_enemy.contentSize.width/2, _enemy.contentSize.height+_ccArrow.contentSize.height/2);
   
-  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
-  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                         [upAction reverse], nil]]];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   self.enemyMenu.nameLabel.text = tc.enemyName;
   self.enemyMenu.levelLabel.text = @"Lvl 1";
   
   NSString *str = [NSString stringWithFormat:tc.afterQuestAcceptClosedText, tc.enemyName];
-  [self centerOnEnemy];
   [DialogMenuController displayViewForText:str callbackTarget:nil action:nil];
   
   // Create and add uiArrow to attack screen
-  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [self.enemyMenu addSubview:_uiArrow];
   _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
   
@@ -293,10 +275,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
     _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
   } completion:nil];
-}
-
-- (void) centerOnEnemy {
-  [self moveToSprite:_enemy];
 }
 
 - (void) battleDone {

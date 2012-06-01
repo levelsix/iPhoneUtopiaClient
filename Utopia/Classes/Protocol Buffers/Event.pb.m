@@ -7826,8 +7826,8 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
 @property (retain) NSString* badDescription;
 @property (retain) NSString* goodDoneResponse;
 @property (retain) NSString* badDoneResponse;
-@property (retain) NSString* goodInProgress;
-@property (retain) NSString* badInProgress;
+@property (retain) DialogueProto* goodAcceptDialogue;
+@property (retain) DialogueProto* badAcceptDialogue;
 @property int32_t assetNumWithinCity;
 @property int32_t coinsGained;
 @property int32_t expGained;
@@ -7883,20 +7883,20 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   hasBadDoneResponse_ = !!value;
 }
 @synthesize badDoneResponse;
-- (BOOL) hasGoodInProgress {
-  return !!hasGoodInProgress_;
+- (BOOL) hasGoodAcceptDialogue {
+  return !!hasGoodAcceptDialogue_;
 }
-- (void) setHasGoodInProgress:(BOOL) value {
-  hasGoodInProgress_ = !!value;
+- (void) setHasGoodAcceptDialogue:(BOOL) value {
+  hasGoodAcceptDialogue_ = !!value;
 }
-@synthesize goodInProgress;
-- (BOOL) hasBadInProgress {
-  return !!hasBadInProgress_;
+@synthesize goodAcceptDialogue;
+- (BOOL) hasBadAcceptDialogue {
+  return !!hasBadAcceptDialogue_;
 }
-- (void) setHasBadInProgress:(BOOL) value {
-  hasBadInProgress_ = !!value;
+- (void) setHasBadAcceptDialogue:(BOOL) value {
+  hasBadAcceptDialogue_ = !!value;
 }
-@synthesize badInProgress;
+@synthesize badAcceptDialogue;
 - (BOOL) hasAssetNumWithinCity {
   return !!hasAssetNumWithinCity_;
 }
@@ -7967,8 +7967,8 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   self.badDescription = nil;
   self.goodDoneResponse = nil;
   self.badDoneResponse = nil;
-  self.goodInProgress = nil;
-  self.badInProgress = nil;
+  self.goodAcceptDialogue = nil;
+  self.badAcceptDialogue = nil;
   self.firstTaskGood = nil;
   self.firstTaskBad = nil;
   self.firstDefeatTypeJobBattleLootAmulet = nil;
@@ -7982,8 +7982,8 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
     self.badDescription = @"";
     self.goodDoneResponse = @"";
     self.badDoneResponse = @"";
-    self.goodInProgress = @"";
-    self.badInProgress = @"";
+    self.goodAcceptDialogue = [DialogueProto defaultInstance];
+    self.badAcceptDialogue = [DialogueProto defaultInstance];
     self.assetNumWithinCity = 0;
     self.coinsGained = 0;
     self.expGained = 0;
@@ -8030,11 +8030,11 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (self.hasBadDoneResponse) {
     [output writeString:6 value:self.badDoneResponse];
   }
-  if (self.hasGoodInProgress) {
-    [output writeString:7 value:self.goodInProgress];
+  if (self.hasGoodAcceptDialogue) {
+    [output writeMessage:7 value:self.goodAcceptDialogue];
   }
-  if (self.hasBadInProgress) {
-    [output writeString:8 value:self.badInProgress];
+  if (self.hasBadAcceptDialogue) {
+    [output writeMessage:8 value:self.badAcceptDialogue];
   }
   if (self.hasAssetNumWithinCity) {
     [output writeInt32:9 value:self.assetNumWithinCity];
@@ -8090,11 +8090,11 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (self.hasBadDoneResponse) {
     size += computeStringSize(6, self.badDoneResponse);
   }
-  if (self.hasGoodInProgress) {
-    size += computeStringSize(7, self.goodInProgress);
+  if (self.hasGoodAcceptDialogue) {
+    size += computeMessageSize(7, self.goodAcceptDialogue);
   }
-  if (self.hasBadInProgress) {
-    size += computeStringSize(8, self.badInProgress);
+  if (self.hasBadAcceptDialogue) {
+    size += computeMessageSize(8, self.badAcceptDialogue);
   }
   if (self.hasAssetNumWithinCity) {
     size += computeInt32Size(9, self.assetNumWithinCity);
@@ -8216,11 +8216,11 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasBadDoneResponse) {
     [self setBadDoneResponse:other.badDoneResponse];
   }
-  if (other.hasGoodInProgress) {
-    [self setGoodInProgress:other.goodInProgress];
+  if (other.hasGoodAcceptDialogue) {
+    [self mergeGoodAcceptDialogue:other.goodAcceptDialogue];
   }
-  if (other.hasBadInProgress) {
-    [self setBadInProgress:other.badInProgress];
+  if (other.hasBadAcceptDialogue) {
+    [self mergeBadAcceptDialogue:other.badAcceptDialogue];
   }
   if (other.hasAssetNumWithinCity) {
     [self setAssetNumWithinCity:other.assetNumWithinCity];
@@ -8295,11 +8295,21 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         break;
       }
       case 58: {
-        [self setGoodInProgress:[input readString]];
+        DialogueProto_Builder* subBuilder = [DialogueProto builder];
+        if (self.hasGoodAcceptDialogue) {
+          [subBuilder mergeFrom:self.goodAcceptDialogue];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setGoodAcceptDialogue:[subBuilder buildPartial]];
         break;
       }
       case 66: {
-        [self setBadInProgress:[input readString]];
+        DialogueProto_Builder* subBuilder = [DialogueProto builder];
+        if (self.hasBadAcceptDialogue) {
+          [subBuilder mergeFrom:self.badAcceptDialogue];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setBadAcceptDialogue:[subBuilder buildPartial]];
         break;
       }
       case 72: {
@@ -8452,36 +8462,64 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   result.badDoneResponse = @"";
   return self;
 }
-- (BOOL) hasGoodInProgress {
-  return result.hasGoodInProgress;
+- (BOOL) hasGoodAcceptDialogue {
+  return result.hasGoodAcceptDialogue;
 }
-- (NSString*) goodInProgress {
-  return result.goodInProgress;
+- (DialogueProto*) goodAcceptDialogue {
+  return result.goodAcceptDialogue;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodInProgress:(NSString*) value {
-  result.hasGoodInProgress = YES;
-  result.goodInProgress = value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodAcceptDialogue:(DialogueProto*) value {
+  result.hasGoodAcceptDialogue = YES;
+  result.goodAcceptDialogue = value;
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodInProgress {
-  result.hasGoodInProgress = NO;
-  result.goodInProgress = @"";
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setGoodAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue {
+  return [self setGoodAcceptDialogue:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeGoodAcceptDialogue:(DialogueProto*) value {
+  if (result.hasGoodAcceptDialogue &&
+      result.goodAcceptDialogue != [DialogueProto defaultInstance]) {
+    result.goodAcceptDialogue =
+      [[[DialogueProto builderWithPrototype:result.goodAcceptDialogue] mergeFrom:value] buildPartial];
+  } else {
+    result.goodAcceptDialogue = value;
+  }
+  result.hasGoodAcceptDialogue = YES;
   return self;
 }
-- (BOOL) hasBadInProgress {
-  return result.hasBadInProgress;
-}
-- (NSString*) badInProgress {
-  return result.badInProgress;
-}
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadInProgress:(NSString*) value {
-  result.hasBadInProgress = YES;
-  result.badInProgress = value;
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearGoodAcceptDialogue {
+  result.hasGoodAcceptDialogue = NO;
+  result.goodAcceptDialogue = [DialogueProto defaultInstance];
   return self;
 }
-- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadInProgress {
-  result.hasBadInProgress = NO;
-  result.badInProgress = @"";
+- (BOOL) hasBadAcceptDialogue {
+  return result.hasBadAcceptDialogue;
+}
+- (DialogueProto*) badAcceptDialogue {
+  return result.badAcceptDialogue;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadAcceptDialogue:(DialogueProto*) value {
+  result.hasBadAcceptDialogue = YES;
+  result.badAcceptDialogue = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) setBadAcceptDialogueBuilder:(DialogueProto_Builder*) builderForValue {
+  return [self setBadAcceptDialogue:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) mergeBadAcceptDialogue:(DialogueProto*) value {
+  if (result.hasBadAcceptDialogue &&
+      result.badAcceptDialogue != [DialogueProto defaultInstance]) {
+    result.badAcceptDialogue =
+      [[[DialogueProto builderWithPrototype:result.badAcceptDialogue] mergeFrom:value] buildPartial];
+  } else {
+    result.badAcceptDialogue = value;
+  }
+  result.hasBadAcceptDialogue = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder*) clearBadAcceptDialogue {
+  result.hasBadAcceptDialogue = NO;
+  result.badAcceptDialogue = [DialogueProto defaultInstance];
   return self;
 }
 - (BOOL) hasAssetNumWithinCity {

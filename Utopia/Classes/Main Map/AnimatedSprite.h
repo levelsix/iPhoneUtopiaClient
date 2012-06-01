@@ -60,6 +60,18 @@ typedef enum {
 
 @end
 
+@interface TutorialGirl : QuestGiver
+
+- (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
+
+@end
+
+@interface Carpenter : CharacterSprite
+
+- (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
+
+@end
+
 @interface MoveToLocation : CCActionInterval <NSCopying> {
   CGRect startLocation_;
   CGRect endLocation_;

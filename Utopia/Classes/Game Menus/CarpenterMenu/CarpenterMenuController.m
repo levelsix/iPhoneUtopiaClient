@@ -405,7 +405,7 @@
     if ([self pointInside:loc withEvent:event]) {
       [[CarpenterMenuController sharedCarpenterMenuController] carpListingClicked:self];
       self.darkOverlay.hidden = NO;
-      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     self.darkOverlay.hidden = YES;
   }

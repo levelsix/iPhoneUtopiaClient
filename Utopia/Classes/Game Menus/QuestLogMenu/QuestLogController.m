@@ -21,8 +21,8 @@
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
-#define REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON 107
-#define REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON 140
+#define REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON 86
+#define REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON 119
 
 @implementation QuestCell
 
@@ -44,7 +44,7 @@
 
 - (IBAction)visitClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:quest.cityId asset:quest.assetNumWithinCity];
-  [[QuestLogController sharedQuestLogController] closeClicked:nil];
+  [[QuestLogController sharedQuestLogController] close];
   
   [Analytics clickedVisit];
 }
@@ -129,7 +129,7 @@
 
 - (IBAction)visitClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_cityId asset:_assetNum];
-  [[QuestLogController sharedQuestLogController] closeClicked:nil];
+  [[QuestLogController sharedQuestLogController] close];
   
   if ([[BattleLayer sharedBattleLayer] isRunning]) {
     [Globals popupMessage:@"You will be taken there after the battle!"];
@@ -199,8 +199,8 @@
     [[GameLayer sharedGameLayer] loadHomeMap];
     [[HomeMap sharedHomeMap] moveToStruct:p.structId];
   } else if (type == kBuildStructJob) {
-    [[GameLayer sharedGameLayer] displayBazaarMap];
-    [[BazaarMap sharedBazaarMap] moveToCritStruct:CritStructTypeCarpenter];
+    [[GameLayer sharedGameLayer] loadHomeMap];
+    [[HomeMap sharedHomeMap] moveToCarpenter];
   } else if (type == kCoinRetrievalJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
   } else if (type == kSpecialJob) {
@@ -238,6 +238,7 @@
         [bm moveToCritStruct:CritStructTypeArmory];
         break;
         
+        
       case SpecialQuestActionWriteOnOtherWall:
         [[ProfileViewController sharedProfileViewController] loadMyProfile];
         [ProfileViewController displayView];
@@ -248,7 +249,7 @@
         break;
     }
   }
-  [[QuestLogController sharedQuestLogController] closeClicked:nil];
+  [[QuestLogController sharedQuestLogController] close];
   
   [Analytics clickedVisit];
 }
@@ -660,6 +661,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 @synthesize userLogData;
 @synthesize taskListTitleLabel;
 @synthesize backButton;
+@synthesize questGiverImageView;
 
 - (void)viewDidLoad
 {
@@ -686,6 +688,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
   taskListTable.tableFooterView = view;
   [view release];
+  
+  GameState *gs = [GameState sharedGameState];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -878,6 +883,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)closeClicked:(id)sender {
+  // Must replace for tutorial since closeClicked will be overwritten and task visit button uses this
+  [self close];
+}
+
+- (void) close {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [QuestLogController removeView];
   }];
@@ -902,6 +912,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.userLogData = nil;
   self.taskListTitleLabel = nil;
   self.backButton = nil;
+  self.questGiverImageView = nil;
 }
 
 @end

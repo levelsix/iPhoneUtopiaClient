@@ -631,6 +631,7 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.questGiverState = kAvailable;
+      [arr addObject:qg];
     }
   }
   for (FullQuestProto *fqp in [gs.inProgressIncompleteQuests allValues]) {
@@ -638,6 +639,7 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.questGiverState = kInProgress;
+      [arr addObject:qg];
     }
   }
   for (FullQuestProto *fqp in [gs.inProgressCompleteQuests allValues]) {
@@ -645,6 +647,7 @@
       QuestGiver *qg = [self assetWithId:fqp.assetNumWithinCity];
       qg.quest = fqp;
       qg.questGiverState = kCompleted;
+      [arr addObject:qg];
     }
   }
   

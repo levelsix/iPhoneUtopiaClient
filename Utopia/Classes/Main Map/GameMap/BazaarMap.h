@@ -14,7 +14,9 @@
 }
 
 + (BazaarMap *) sharedBazaarMap;
++ (void) purgeSingleton;
 
 - (void) moveToCritStruct:(CritStructType)type;
+- (void) moveToQuestGiver;
 
 @end

@@ -12,6 +12,8 @@
 #import "Globals.h"
 #import "ConvoMenuController.h"
 #import "QuestLogController.h"
+#import "GameState.h"
+#import "CarpenterMenuController.h"
 
 #define ABOVE_HEAD_FADE_DURATION 1.5f
 #define ABOVE_HEAD_FADE_OPACITY 100
@@ -258,6 +260,37 @@
 
 @end
 
+@implementation TutorialGirl
+
+- (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
+  GameState *gs = [GameState sharedGameState];
+  NSString *file = [Globals userTypeIsGood:gs.type] ? @"AllianceTutorialGuide.png" : @"AllianceTutorialGuide.png";
+  if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:file map:map location:loc])) {
+    
+  }
+  return self;
+}
+
+@end
+
+@implementation Carpenter
+
+- (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:@"Syndicate.png" location:loc map:map])) {
+    
+  }
+  return self;
+}
+
+- (void) setIsSelected:(BOOL)isSelected {
+  if (isSelected) {
+    [CarpenterMenuController displayView];
+    [_map setSelected:nil];
+  }
+}
+
+@end
+
 @implementation MoveToLocation
 
 +(id) actionWithDuration: (ccTime) t location: (CGRect) p
@@ -291,7 +324,7 @@
   CGRect r = startLocation_;
   r.origin.x = (startLocation_.origin.x + delta_.x * t );
   r.origin.y = (startLocation_.origin.y + delta_.y * t );
-  [target_ setLocation: r];
+  [(MapSprite *)target_ setLocation: r];
 }
 
 @end

@@ -1121,6 +1121,7 @@
 		CF6BDC98156C737D0056B45B /* QuestCompleted.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC96156C737D0056B45B /* QuestCompleted.m4a */; };
 		CF6BDC99156C737D0056B45B /* QuestNew.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC97156C737D0056B45B /* QuestNew.m4a */; };
 		CF6BDC9B156DCDC70056B45B /* DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC9A156DCDC70056B45B /* DescriptionCell.xib */; };
+		CF74FB211578A96500E52B81 /* TutorialQuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265ED1538ACC400E0C1AD /* TutorialQuestLogController.m */; };
 		CF7FEEDC154085F000716E37 /* FAQMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7FEEDA154085F000716E37 /* FAQMenuController.m */; };
 		CF7FEEDD154085F000716E37 /* FAQMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEDB154085F000716E37 /* FAQMenuController.xib */; };
 		CF7FEEE415408C9500716E37 /* FAQ.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE315408C9500716E37 /* FAQ.txt */; };
@@ -6916,6 +6917,7 @@
 				455BCF1A157560C200DDE405 /* SBJsonBase.m in Sources */,
 				455BCF1F157562B300DDE405 /* FacebookDelegate.m in Sources */,
 				CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */,
+				CF74FB211578A96500E52B81 /* TutorialQuestLogController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

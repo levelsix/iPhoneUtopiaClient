@@ -95,6 +95,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *taskListTitleLabel;
 @property (nonatomic, retain) IBOutlet UIView *backButton;
 
+@property (nonatomic, retain) IBOutlet UIImageView *questGiverImageView;
+
 @property (nonatomic, retain) QuestListTableDelegate *questListDelegate;
 @property (nonatomic, retain) TaskListTableDelegate *taskListDelegate;
 
@@ -104,7 +106,7 @@
 - (void) showQuestListViewAnimated:(BOOL)animated;
 - (void) showTaskListViewAnimated:(BOOL)animated;
 
-- (IBAction)closeClicked:(id)sender;
+- (void) close;
 
 - (void) loadQuestLog;
 - (void) loadQuest:(FullQuestProto *)fqp;

@@ -1047,7 +1047,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
     if (![[BattleLayer sharedBattleLayer] isRunning]) {
-      [mvc startLoadingWithText:[NSString stringWithFormat:@"Travelling to %@", city.name]];
+      [mvc startLoadingWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
     }
     
     // Load any tasks we don't have as well
@@ -1071,8 +1071,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (cityId == 0) {
     if (assetId == 1) {
       [[GameLayer sharedGameLayer] loadHomeMap];
+      [[HomeMap sharedHomeMap] moveToTutorialGirl];
     } else if (assetId == 2) {
       [[GameLayer sharedGameLayer] loadBazaarMap];
+      [[BazaarMap sharedBazaarMap] moveToQuestGiver];
     }
   } else {
     if ([[GameLayer sharedGameLayer] currentCity] == cityId) {

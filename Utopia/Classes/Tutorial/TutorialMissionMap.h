@@ -35,7 +35,6 @@
 
 - (void) doBlink;
 - (void) questGiverInProgress;
-- (void) questLogClosed;
 - (void) battleDone;
 - (void) battleClosed;
 - (void) redeemComplete;

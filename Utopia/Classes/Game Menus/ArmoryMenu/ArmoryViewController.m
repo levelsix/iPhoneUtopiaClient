@@ -289,7 +289,7 @@
     if ([self pointInside:loc withEvent:event]) {
       [[ArmoryViewController sharedArmoryViewController] armoryListingClicked:self];
       darkOverlay.hidden = NO;
-      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     darkOverlay.hidden = YES;
   }
