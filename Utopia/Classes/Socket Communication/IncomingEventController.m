@@ -827,6 +827,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
+    [[BazaarMap sharedBazaarMap] reloadQuestGivers];
+    [[HomeMap sharedHomeMap] reloadQuestGivers];
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
   }
