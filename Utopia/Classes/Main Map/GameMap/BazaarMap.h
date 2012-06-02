@@ -9,16 +9,14 @@
 #import "cocos2d.h"
 #import "GameMap.h"
 
-@interface CritStructMenu : UIView
-
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-
-@end
-
-@interface BazaarMap : GameMap
+@interface BazaarMap : GameMap {
+  QuestGiver *_questGiver;
+}
 
 + (BazaarMap *) sharedBazaarMap;
++ (void) purgeSingleton;
 
 - (void) moveToCritStruct:(CritStructType)type;
+- (void) moveToQuestGiver;
 
 @end

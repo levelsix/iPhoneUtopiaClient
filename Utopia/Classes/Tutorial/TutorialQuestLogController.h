@@ -10,13 +10,15 @@
 
 @class TutorialMissionMap;
 
-@interface TutorialQuestLogController : QuestLogController <UIScrollViewDelegate> {
+@interface TutorialQuestLogController : QuestLogController {
   StartupResponseProto_TutorialConstants_FullTutorialQuestProto *_tutQuest;
-  BOOL _canClose;
-  BOOL _acceptingPhase;
+  BOOL _redeemingPhase;
   
-//  id<UIScrollViewDelegate> oldDelegate;
+  FullQuestProto *_fqp;
+  
   UIImageView *_arrow;
 }
+
+- (void) loadQuestAcceptScreen;
 
 @end

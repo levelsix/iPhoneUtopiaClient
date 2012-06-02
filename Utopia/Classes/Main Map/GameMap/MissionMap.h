@@ -45,12 +45,9 @@
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp;
 - (void) changeTiles: (CGRect) buildBlock canWalk:(BOOL)canWalk;
 
-- (void) questRedeemed:(FullQuestProto *)fqp;
 
 - (void) killEnemy:(int)userId;
 
 - (void) closeMenus;
-- (void) questAccepted:(FullQuestProto *)fqp;
-- (void) reloadQuestGivers;
 
 @end

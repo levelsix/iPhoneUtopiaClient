@@ -94,4 +94,24 @@
   return;
 }
 
+- (void) mapClicked {
+  return;
+}
+
+- (void) attackClicked {
+  return;
+}
+
+- (void) questButtonClicked {
+  return;
+}
+
+- (void) bazaarClicked {
+  return;
+}
+
+- (void) homeClicked {
+  return;
+}
+
 @end

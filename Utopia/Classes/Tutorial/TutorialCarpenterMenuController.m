@@ -62,7 +62,7 @@
   CarpenterRow *cell = (CarpenterRow *)[self.carpTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
   [_arrow removeFromSuperview];
   
-  _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [cell addSubview:_arrow];
   _arrow.layer.transform = CATransform3DMakeRotation(M_PI/2, 0.0f, 0.0f, 1.0f);
   

@@ -25,7 +25,7 @@
   _addingStatsPhase = YES;
   _equippingPhase = NO;
   _closingPhase = NO;
-  _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
   [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{

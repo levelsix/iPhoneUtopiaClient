@@ -121,6 +121,7 @@
   [EquipMenuController purgeSingleton];
   [[HomeMap sharedHomeMap] invalidateAllTimers];
   [HomeMap purgeSingleton];
+  [BazaarMap purgeSingleton];
   [BattleLayer purgeSingleton];
   [[TopBar sharedTopBar] invalidateTimers];
   [TopBar purgeSingleton];
@@ -371,7 +372,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [[GameState sharedGameState] setIsTutorial:i];
   
   while (!self.canLoad) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
   }
   
   if (isTutorial) {

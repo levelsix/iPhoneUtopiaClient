@@ -14,6 +14,8 @@
 #import "Downloader.h"
 #import "GenericPopupController.h"
 #import "SimpleAudioEngine.h"
+#import "GameLayer.h"
+#import "HomeMap.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -1098,9 +1100,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     bgdView.alpha = 0.f;
     view.transform = CGAffineTransformMakeScale(2.0, 2.0);
   } completion:^(BOOL finished) {
-    view.transform = CGAffineTransformIdentity;
-    if (completed) {
-      completed();
+    if (finished) {
+      view.transform = CGAffineTransformIdentity;
+      if (completed) {
+        completed();
+      }
     }
   }];
 }
@@ -1131,6 +1135,59 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
 + (void) playEnterBuildingSound {
   [[SimpleAudioEngine sharedEngine] playEffect:@"Enter_Store_Bell.m4a"];
+}
+
++ (GameMap *)mapForQuest:(FullQuestProto *)fqp {
+  if (fqp.cityId > 0) {
+    GameLayer *gLay = [GameLayer sharedGameLayer];
+    if (gLay.currentCity == fqp.cityId) {
+      return (GameMap *)[gLay missionMap];
+    } else {
+      return nil;
+    }
+  } else {
+    if (fqp.assetNumWithinCity == 1) {
+      return [HomeMap sharedHomeMap];
+    } else if (fqp.assetNumWithinCity == 2) {
+      return [BazaarMap sharedBazaarMap];
+    }
+  }
+  return nil;
+}
+
++ (NSString *) bazaarQuestGiverName {
+  return @"Bizzaro Byrone";
+}
+
++ (NSString *) homeQuestGiverName {
+  GameState *gs = [GameState sharedGameState];
+  
+  if ([self userTypeIsGood:gs.type]) {
+    return @"Ruby";
+  } else {
+    return @"Adriana";
+  }
+}
+
++ (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
+  float rotation = -M_PI_2-angle;
+  arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
+  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
+  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+    arrow.layer.transform = CATransform3DScale(arrow.layer.transform, 1.f, 0.9f, 1.f);
+    arrow.center = CGPointMake(arrow.center.x-10*cosf(angle), arrow.center.y+10*sinf(angle));
+  } completion:nil];
+}
+
++ (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle {
+  arrow.rotation = -M_PI_2-angle;
+  
+  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
+                                                          [CCMoveBy actionWithDuration:1.f position:ccp(10*cosf(angle), 10*sinf(angle))],
+                                                          [CCScaleBy actionWithDuration:1.f scaleX:1.f scaleY:0.9f],
+                                                          nil]];
+  [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
+                                                         [upAction reverse], nil]]];
 }
 
 - (void) dealloc {

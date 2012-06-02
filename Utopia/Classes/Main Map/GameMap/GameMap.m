@@ -633,12 +633,24 @@
   }
 }
 
-- (void) moveToEnemyType:(UserType)type {
+- (void) reloadQuestGivers {
+  NSAssert(NO, @"Implement reloadQuestGivers in map");
+}
+
+- (void) questAccepted:(FullQuestProto *)fqp {
+  NSAssert(NO, @"Implement questAccepted: in map");
+}
+
+- (void) questRedeemed:(FullQuestProto *)fqp {
+  NSAssert(NO, @"Implement questAccepted: in map");
+}
+
+- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
   Enemy *enemyWithType = nil;
   for (CCNode *child in children_) {
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
-      if (enemy.user.userType == type) {
+      if (enemy.user.userType == type || type == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
         enemyWithType = enemy;
         break;
       }

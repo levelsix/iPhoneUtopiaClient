@@ -88,7 +88,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.beforeBlinkText = @"Please %@, open your eyes!";
   self.afterBlinkTextGood = [NSString stringWithFormat:@"Thank goodness you're awake! The Legion has invaded our town. Talk to %@. He'll know what to do.", self.questGiverName];;
   self.afterBlinkTextBad = [NSString stringWithFormat:@"Welcome back comrade. I do not know how we got here, but talk to %@. He's a Legion informant.", self.questGiverName];
-  self.afterQuestAcceptText = @"Here are the tasks you need to complete for this quest. Close the scroll to begin.";
+  self.afterQuestAcceptText = @"Here are the tasks you need to complete for this quest. Close the quest log to begin.";
   self.afterQuestAcceptClosedText = @"Now that you have accepted your quest, let's start by attacking that soldier.";
   self.beginBattleText = @"Tap the attack dial to begin. Take him out!";
   self.beginAttackText = @"Aim for the max for a more powerful attack!";

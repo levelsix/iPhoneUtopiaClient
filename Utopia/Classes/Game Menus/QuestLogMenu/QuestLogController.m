@@ -17,11 +17,12 @@
 #import "SimpleAudioEngine.h"
 #import "BattleLayer.h"
 #import "MapViewController.h"
+#import "ProfileViewController.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
-#define REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON 107
-#define REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON 140
+#define REWARD_CELL_HEIGHT_WITHOUT_CLAIM_BUTTON 86
+#define REWARD_CELL_HEIGHT_WITH_CLAIM_BUTTON 119
 
 @implementation QuestCell
 
@@ -43,7 +44,7 @@
 
 - (IBAction)visitClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:quest.cityId asset:quest.assetNumWithinCity];
-  [[QuestLogController sharedQuestLogController] closeClicked:nil];
+  [[QuestLogController sharedQuestLogController] close];
   
   [Analytics clickedVisit];
 }
@@ -128,7 +129,7 @@
 
 - (IBAction)visitClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_cityId asset:_assetNum];
-  [[QuestLogController sharedQuestLogController] closeClicked:nil];
+  [[QuestLogController sharedQuestLogController] close];
   
   if ([[BattleLayer sharedBattleLayer] isRunning]) {
     [Globals popupMessage:@"You will be taken there after the battle!"];
@@ -188,7 +189,7 @@
   } else if (type == kDefeatTypeJob) {
     DefeatTypeJobProto *p = [gs.staticDefeatTypeJobs objectForKey:[NSNumber numberWithInt:jobId]];
     
-    if (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
+    if (p.cityId > 0) {
       [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId enemyType:p.typeOfEnemy];
     } else {
       [MapViewController displayAttackMap];
@@ -198,12 +199,57 @@
     [[GameLayer sharedGameLayer] loadHomeMap];
     [[HomeMap sharedHomeMap] moveToStruct:p.structId];
   } else if (type == kBuildStructJob) {
-    [[GameLayer sharedGameLayer] displayBazaarMap];
-    [[BazaarMap sharedBazaarMap] moveToCritStruct:CritStructTypeCarpenter];
+    [[GameLayer sharedGameLayer] loadHomeMap];
+    [[HomeMap sharedHomeMap] moveToCarpenter];
   } else if (type == kCoinRetrievalJob) {
     [[GameLayer sharedGameLayer] loadHomeMap];
+  } else if (type == kSpecialJob) {
+    FullQuestProto *fqp = [gs questForQuestId:jobId];
+    GameLayer *glay = [GameLayer sharedGameLayer];
+    BazaarMap *bm = [BazaarMap sharedBazaarMap];
+    switch (fqp.specialQuestActionReq) {
+      case SpecialQuestActionSellToArmory:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeArmory];
+        break;
+        
+      case SpecialQuestActionDepositInVault:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeVault];
+        break;
+        
+      case SpecialQuestActionWithdrawFromVault:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeVault];
+        break;
+        
+      case SpecialQuestActionPostToMarketplace:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeMarketplace];
+        break;
+        
+      case SpecialQuestActionPurchaseFromMarketplace:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeMarketplace];
+        break;
+        
+      case SpecialQuestActionPurchaseFromArmory:
+        [glay loadBazaarMap];
+        [bm moveToCritStruct:CritStructTypeArmory];
+        break;
+        
+        
+      case SpecialQuestActionWriteOnOtherWall:
+        [[ProfileViewController sharedProfileViewController] loadMyProfile];
+        [ProfileViewController displayView];
+        [[ProfileViewController sharedProfileViewController] setState:kWallState];
+        break;
+        
+      default:
+        break;
+    }
   }
-  [[QuestLogController sharedQuestLogController] closeClicked:nil];
+  [[QuestLogController sharedQuestLogController] close];
   
   [Analytics clickedVisit];
 }
@@ -417,7 +463,15 @@
   [headerView addSubview:label];
   
   if (section == 0) {
-    label.text = [NSString stringWithFormat:@"%@ says", self.quest.questGiverName];
+    NSString *name = self.quest.questGiverName;
+    if (quest.cityId == 0) {
+      if (quest.assetNumWithinCity == 1) {
+        name = [Globals homeQuestGiverName];
+      } else if (quest.assetNumWithinCity == 2) {
+        name = [Globals bazaarQuestGiverName];
+      }
+    }
+    label.text = [NSString stringWithFormat:@"%@ says", name];
   } else if (section == 1) {
     if (_questRedeem) {
       return nil;
@@ -607,6 +661,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 @synthesize userLogData;
 @synthesize taskListTitleLabel;
 @synthesize backButton;
+@synthesize questGiverImageView;
 
 - (void)viewDidLoad
 {
@@ -633,6 +688,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
   taskListTable.tableFooterView = view;
   [view release];
+  
+  GameState *gs = [GameState sharedGameState];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -825,6 +883,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
 }
 
 - (IBAction)closeClicked:(id)sender {
+  // Must replace for tutorial since closeClicked will be overwritten and task visit button uses this
+  [self close];
+}
+
+- (void) close {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [QuestLogController removeView];
   }];
@@ -849,6 +912,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.userLogData = nil;
   self.taskListTitleLabel = nil;
   self.backButton = nil;
+  self.questGiverImageView = nil;
 }
 
 @end

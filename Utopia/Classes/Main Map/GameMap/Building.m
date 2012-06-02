@@ -108,6 +108,7 @@
 }
 
 - (void) cancelMove {
+  [self clearMeta];
   [self liftBlock];
   self.orientation = _startOrientation;
   CGRect x = self.location;

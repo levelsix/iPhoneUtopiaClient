@@ -389,7 +389,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
   if (_state == kPackagesState) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate
                                            dateWithTimeIntervalSinceNow:0.07]];
     [self startLoading];
   }

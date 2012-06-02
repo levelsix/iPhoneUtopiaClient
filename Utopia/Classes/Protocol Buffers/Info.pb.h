@@ -65,6 +65,18 @@
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 typedef enum {
+  SpecialQuestActionPurchaseFromArmory = 1,
+  SpecialQuestActionPurchaseFromMarketplace = 2,
+  SpecialQuestActionSellToArmory = 3,
+  SpecialQuestActionPostToMarketplace = 4,
+  SpecialQuestActionDepositInVault = 5,
+  SpecialQuestActionWithdrawFromVault = 6,
+  SpecialQuestActionWriteOnOtherWall = 7,
+} SpecialQuestAction;
+
+BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value);
+
+typedef enum {
   UserTypeGoodWarrior = 0,
   UserTypeGoodArcher = 1,
   UserTypeGoodMage = 2,
@@ -183,6 +195,7 @@ typedef enum {
   DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2 = 11,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3 = 12,
   DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4 = 13,
+  DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar = 25,
 } DialogueProto_SpeechSegmentProto_DialogueSpeaker;
 
 BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_SpeechSegmentProto_DialogueSpeaker value);
@@ -1474,18 +1487,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasCoinsGainedBaseOnRankup_:1;
   BOOL hasName_:1;
   BOOL hasMapImgName_:1;
-  BOOL hasAviaryCoords_:1;
-  BOOL hasSpriteAviaryLandingCoords_:1;
-  BOOL hasAviaryOrientation_:1;
+  BOOL hasCenter_:1;
   int32_t cityId;
   int32_t minLevel;
   int32_t expGainedBaseOnRankup;
   int32_t coinsGainedBaseOnRankup;
   NSString* name;
   NSString* mapImgName;
-  CoordinateProto* aviaryCoords;
-  CoordinateProto* spriteAviaryLandingCoords;
-  StructOrientation aviaryOrientation;
+  CoordinateProto* center;
   NSMutableArray* mutableTaskIdsList;
 }
 - (BOOL) hasCityId;
@@ -1494,18 +1503,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasExpGainedBaseOnRankup;
 - (BOOL) hasCoinsGainedBaseOnRankup;
 - (BOOL) hasMapImgName;
-- (BOOL) hasAviaryCoords;
-- (BOOL) hasSpriteAviaryLandingCoords;
-- (BOOL) hasAviaryOrientation;
+- (BOOL) hasCenter;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t minLevel;
 @property (readonly) int32_t expGainedBaseOnRankup;
 @property (readonly) int32_t coinsGainedBaseOnRankup;
 @property (readonly, retain) NSString* mapImgName;
-@property (readonly, retain) CoordinateProto* aviaryCoords;
-@property (readonly, retain) CoordinateProto* spriteAviaryLandingCoords;
-@property (readonly) StructOrientation aviaryOrientation;
+@property (readonly, retain) CoordinateProto* center;
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
 
@@ -1573,24 +1578,12 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullCityProto_Builder*) setMapImgName:(NSString*) value;
 - (FullCityProto_Builder*) clearMapImgName;
 
-- (BOOL) hasAviaryCoords;
-- (CoordinateProto*) aviaryCoords;
-- (FullCityProto_Builder*) setAviaryCoords:(CoordinateProto*) value;
-- (FullCityProto_Builder*) setAviaryCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (FullCityProto_Builder*) mergeAviaryCoords:(CoordinateProto*) value;
-- (FullCityProto_Builder*) clearAviaryCoords;
-
-- (BOOL) hasSpriteAviaryLandingCoords;
-- (CoordinateProto*) spriteAviaryLandingCoords;
-- (FullCityProto_Builder*) setSpriteAviaryLandingCoords:(CoordinateProto*) value;
-- (FullCityProto_Builder*) setSpriteAviaryLandingCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
-- (FullCityProto_Builder*) mergeSpriteAviaryLandingCoords:(CoordinateProto*) value;
-- (FullCityProto_Builder*) clearSpriteAviaryLandingCoords;
-
-- (BOOL) hasAviaryOrientation;
-- (StructOrientation) aviaryOrientation;
-- (FullCityProto_Builder*) setAviaryOrientation:(StructOrientation) value;
-- (FullCityProto_Builder*) clearAviaryOrientation;
+- (BOOL) hasCenter;
+- (CoordinateProto*) center;
+- (FullCityProto_Builder*) setCenter:(CoordinateProto*) value;
+- (FullCityProto_Builder*) setCenterBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullCityProto_Builder*) mergeCenter:(CoordinateProto*) value;
+- (FullCityProto_Builder*) clearCenter;
 
 - (NSArray*) taskIdsList;
 - (int32_t) taskIdsAtIndex:(int32_t) index;
@@ -3037,77 +3030,77 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullQuestProto : PBGeneratedMessage {
 @private
-  BOOL hasCoinRetrievalReq_:1;
+  BOOL hasQuestId_:1;
+  BOOL hasCityId_:1;
   BOOL hasNumComponentsForBad_:1;
   BOOL hasNumComponentsForGood_:1;
-  BOOL hasEquipIdGained_:1;
-  BOOL hasExpGained_:1;
-  BOOL hasDiamondsGained_:1;
-  BOOL hasCoinsGained_:1;
   BOOL hasAssetNumWithinCity_:1;
-  BOOL hasCityId_:1;
-  BOOL hasQuestId_:1;
-  BOOL hasInProgress_:1;
+  BOOL hasCoinsGained_:1;
+  BOOL hasDiamondsGained_:1;
+  BOOL hasExpGained_:1;
+  BOOL hasEquipIdGained_:1;
+  BOOL hasCoinRetrievalReq_:1;
+  BOOL hasQuestGiverName_:1;
   BOOL hasDoneResponse_:1;
   BOOL hasDescription_:1;
   BOOL hasName_:1;
-  BOOL hasQuestGiverName_:1;
   BOOL hasAcceptDialogue_:1;
-  int32_t coinRetrievalReq;
+  BOOL hasSpecialQuestActionReq_:1;
+  int32_t questId;
+  int32_t cityId;
   int32_t numComponentsForBad;
   int32_t numComponentsForGood;
-  int32_t equipIdGained;
-  int32_t expGained;
-  int32_t diamondsGained;
-  int32_t coinsGained;
   int32_t assetNumWithinCity;
-  int32_t cityId;
-  int32_t questId;
-  NSString* inProgress;
+  int32_t coinsGained;
+  int32_t diamondsGained;
+  int32_t expGained;
+  int32_t equipIdGained;
+  int32_t coinRetrievalReq;
+  NSString* questGiverName;
   NSString* doneResponse;
   NSString* description;
   NSString* name;
-  NSString* questGiverName;
   DialogueProto* acceptDialogue;
-  NSMutableArray* mutableQuestsRequiredForThisList;
+  SpecialQuestAction specialQuestActionReq;
   NSMutableArray* mutableTaskReqsList;
   NSMutableArray* mutableUpgradeStructJobsReqsList;
   NSMutableArray* mutableBuildStructJobsReqsList;
   NSMutableArray* mutableDefeatTypeReqsList;
   NSMutableArray* mutablePossessEquipJobReqsList;
+  NSMutableArray* mutableQuestsRequiredForThisList;
 }
 - (BOOL) hasQuestId;
 - (BOOL) hasCityId;
 - (BOOL) hasName;
 - (BOOL) hasDescription;
 - (BOOL) hasDoneResponse;
-- (BOOL) hasInProgress;
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasCoinsGained;
 - (BOOL) hasDiamondsGained;
 - (BOOL) hasExpGained;
 - (BOOL) hasEquipIdGained;
+- (BOOL) hasCoinRetrievalReq;
+- (BOOL) hasSpecialQuestActionReq;
 - (BOOL) hasNumComponentsForGood;
 - (BOOL) hasNumComponentsForBad;
 - (BOOL) hasAcceptDialogue;
 - (BOOL) hasQuestGiverName;
-- (BOOL) hasCoinRetrievalReq;
 @property (readonly) int32_t questId;
 @property (readonly) int32_t cityId;
 @property (readonly, retain) NSString* name;
 @property (readonly, retain) NSString* description;
 @property (readonly, retain) NSString* doneResponse;
-@property (readonly, retain) NSString* inProgress;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly) int32_t coinsGained;
 @property (readonly) int32_t diamondsGained;
 @property (readonly) int32_t expGained;
 @property (readonly) int32_t equipIdGained;
+@property (readonly) int32_t coinRetrievalReq;
+@property (readonly) SpecialQuestAction specialQuestActionReq;
 @property (readonly) int32_t numComponentsForGood;
 @property (readonly) int32_t numComponentsForBad;
 @property (readonly, retain) DialogueProto* acceptDialogue;
 @property (readonly, retain) NSString* questGiverName;
-@property (readonly) int32_t coinRetrievalReq;
 - (NSArray*) questsRequiredForThisList;
 - (int32_t) questsRequiredForThisAtIndex:(int32_t) index;
 - (NSArray*) taskReqsList;
@@ -3180,11 +3173,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullQuestProto_Builder*) setDoneResponse:(NSString*) value;
 - (FullQuestProto_Builder*) clearDoneResponse;
 
-- (BOOL) hasInProgress;
-- (NSString*) inProgress;
-- (FullQuestProto_Builder*) setInProgress:(NSString*) value;
-- (FullQuestProto_Builder*) clearInProgress;
-
 - (BOOL) hasAssetNumWithinCity;
 - (int32_t) assetNumWithinCity;
 - (FullQuestProto_Builder*) setAssetNumWithinCity:(int32_t) value;
@@ -3252,6 +3240,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullQuestProto_Builder*) addAllPossessEquipJobReqs:(NSArray*) values;
 - (FullQuestProto_Builder*) clearPossessEquipJobReqsList;
 
+- (BOOL) hasCoinRetrievalReq;
+- (int32_t) coinRetrievalReq;
+- (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value;
+- (FullQuestProto_Builder*) clearCoinRetrievalReq;
+
+- (BOOL) hasSpecialQuestActionReq;
+- (SpecialQuestAction) specialQuestActionReq;
+- (FullQuestProto_Builder*) setSpecialQuestActionReq:(SpecialQuestAction) value;
+- (FullQuestProto_Builder*) clearSpecialQuestActionReq;
+
 - (BOOL) hasNumComponentsForGood;
 - (int32_t) numComponentsForGood;
 - (FullQuestProto_Builder*) setNumComponentsForGood:(int32_t) value;
@@ -3273,11 +3271,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) questGiverName;
 - (FullQuestProto_Builder*) setQuestGiverName:(NSString*) value;
 - (FullQuestProto_Builder*) clearQuestGiverName;
-
-- (BOOL) hasCoinRetrievalReq;
-- (int32_t) coinRetrievalReq;
-- (FullQuestProto_Builder*) setCoinRetrievalReq:(int32_t) value;
-- (FullQuestProto_Builder*) clearCoinRetrievalReq;
 @end
 
 @interface DialogueProto : PBGeneratedMessage {

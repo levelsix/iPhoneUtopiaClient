@@ -8,6 +8,7 @@
 
 #import "GameMap.h"
 #import "HomeBuildingMenus.h"
+#import "AnimatedSprite.h"
 
 @class HomeBuildingMenu;
 
@@ -24,6 +25,9 @@
   HomeBuilding *_purchBuilding;
   
   NSMutableArray *_timers;
+  
+  TutorialGirl *_tutGirl;
+  Carpenter *_carpenter;
 }
 
 @property (nonatomic, retain) NSMutableArray *buildableData;
@@ -56,6 +60,8 @@
 - (void) invalidateAllTimers;
 
 - (void) moveToStruct:(int)structId;
+- (void) moveToTutorialGirl;
+- (void) moveToCarpenter;
 
 - (void) beginTimers;
 

@@ -113,7 +113,7 @@ static NSString *udid = nil;
       [av release];
     } else {
       LNLog(@"Silently reconnecting..");
-      [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+      [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
     }
   }
 }
@@ -239,7 +239,6 @@ static NSString *udid = nil;
 }
 
 - (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
-  LNLog(@"Sent Battle Message");
   BattleRequestProto_Builder *builder = [[[[[[BattleRequestProto builder]
                                              setAttacker:_sender]
                                             setDefender:defender]

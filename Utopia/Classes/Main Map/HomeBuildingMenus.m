@@ -65,7 +65,7 @@
   }];
   
   self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
-  [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+  [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 - (void) updateMenu {
@@ -143,8 +143,14 @@
   FullStructureProto *fsp = [gs structWithId:us.structId];
   
   titleLabel.text = fsp.name;
-  currentIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
-  upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStructAfterLevelUp:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
+  
+  if (us.state == kBuilding) {
+    currentIncomeLabel.text = @"No Current Income";
+    upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
+  } else {
+    currentIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStruct:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
+    upgradedIncomeLabel.text = [NSString stringWithFormat:@"%d in %@", [gl calculateIncomeForUserStructAfterLevelUp:us], [Globals convertTimeToString:fsp.minutesToGain*60]];
+  }
   
   self.userStruct = us;
   
@@ -163,7 +169,7 @@
     [self updateMenu];
     
     self.timer = [NSTimer timerWithTimeInterval:1.f target:self selector:@selector(updateMenu) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     
     hazardSign.hidden = NO;
     upgradingBottomView.hidden = NO;
@@ -230,13 +236,15 @@
 }
 
 - (IBAction)closeClicked:(id)sender {
-  self.timer = nil;
-  self.userStruct = nil;
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self removeFromSuperview];
-  }];
-  
-  [[HomeMap sharedHomeMap] upgradeMenuClosed];
+  if (self.superview) {
+    self.timer = nil;
+    self.userStruct = nil;
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self removeFromSuperview];
+    }];
+    
+    [[HomeMap sharedHomeMap] upgradeMenuClosed];
+  }
 }
 
 - (void) dealloc {

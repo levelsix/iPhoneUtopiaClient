@@ -62,7 +62,7 @@
 
 - (void) moveToCenter;
 - (void) moveToSprite:(CCSprite *)spr;
-- (void) moveToEnemyType:(UserType)type;
+- (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type;
 
 - (CGPoint) randomWalkablePosition;
 - (CGPoint) nextWalkablePositionFromPoint:(CGPoint)point prevPoint:(CGPoint)prevPt;
@@ -74,6 +74,10 @@
 
 - (IBAction)attackClicked:(id)sender;
 - (IBAction)profileClicked:(id)sender;
+
+- (void) reloadQuestGivers;
+- (void) questRedeemed:(FullQuestProto *)fqp;
+- (void) questAccepted:(FullQuestProto *)fqp;
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
 - (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node;

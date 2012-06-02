@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="80" height="80" tilewidth="64" tileheight="32">
+ <tileset firstgid="1" name="NEW_Universal_Pack" tilewidth="64" tileheight="56">
+  <image source="NEW_Universal_Pack.png" width="1024" height="1024"/>
+  <tile id="15">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="150">
+   <properties>
+    <property name="Walkable " value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="156">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+  <tile id="178">
+   <properties>
+    <property name="Walkable" value="Yes"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="64" tileheight="72">
+  <image source="NEW_Tree_Pack.png" width="512" height="256"/>
+ </tileset>
+ <layer name="Walkable" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt1kEKwjAARUFP6f2P4kJBKDTWPkvVzEBAyMoHn/RyAQAAAPhN18dhH/0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/V67xjM7/Zplh+XvrXez0q9Z2+Noq/b7NOqw924m9tvf0G84Zzr7v/96v8J+G/2atR2NNvYPu/uUUYe9dzOx32bWd/NT9DuORo1+71nuUr/36Ne86ufdGNvbz5t8p992W77rfBeuq9/N+ulX6Nfo1+jX6Nfo1xzd798b6tfo1mh3PO0aXRr9Gv0a/Rr9Gv0a/Rr9Gv06/YAj3QCq39iv
+  </data>
+ </layer>
+ <layer name="Road" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt2tttwzAMhWGNkEzkSTNFF+xDItRRZVkX8vAi/oDQB6OA+FVxXaMp6e1HegOGe6S330N6IwY70rffIbsdUx2p7heG9x2p7ReG1x2pzy8M/1f63PmF4V81mx6/MLx26fXb2bBlMuK3o+Gdx6jfToY9FjN+Oxj2Osz6eTYcMVjx82g4Ov+qnyfDmdkp/DwYzs5N5WfZcGVmSj+LhqvzUvtZMqSYlcPPgiHVnFx+mg0pZ+T002hIPR+3nyZDjtkQfhoMueZC+Ukacs6E9JMw5J4H7Yc0RMwi4YcwRM0h5cdpiJxB0o/DEL1/aT9KQ849Phvr7Fe7lpdmQ+6f8fNjNLs0P9sgPiPZb+b8aX62QezpaBil4lpOym/EELUfa349hsi9WPRrGaL3UfqV9V6T2HdZ6zmCe139/nid1sj3oVZu5fmBc72KrxpXLs7f+jmM+9/6fTD85u0kDK363RV+83Y5tF95X9b09++oHcowO2h+/zJrhzA8v8cbPX+I93+rdjnkZ6Q8m9qeUWbb0Y+6nfy42sGPO89+qDz6ofPkJ5UHP+ks+2nJop+2LPlpzYKf9jT7WUmjn7U0+VlNg5/1JP28JOHnLaSf1xB+3uP02yUOv92i9Ns1Cr/dW/GL3s34Rd+N+EX1evyidi2/qK+aXzTW2S+aq/b/u5r6BcjlH7U=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt1iEKACAMQFGb9z+IdzTYVlQGCvoeLFnGD8NSAAAAAAAAAAAAeEW7vQDAQTXM6huDfjn67Yl/FP2AX7l/Ofrl6JejHwAAAAAAAAAAAAAw0wHm3gMb
+  </data>
+ </layer>
+ <layer name="Trees" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt2F0OgyAMAGA9itnbvP/9fFpCzPwhCnPt9x2ApNDSwjAAAAAAAAAA5DCN/71+dnPA/X1vxBQx1icpa3Vvr7fOJ4tX8vhL6zxRo/fTQ+u0up++5bazgWuyzxM8S8sZRr9grcy3nrMLAHF87nl/VMd+1RPNgPWyvBF7xxllLlRT94qSF8A5mWu+V9/Vp6hxJV/kWjtZ3iMcy9w3AQAAAAAAAHpZAHUfBdY=
+  </data>
+ </layer>
+ <layer name="Fencing" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt19FqwjAAhlEfw4s9vw8xp3NvNsSbkBFt/Ftr1nMgEGnR9KPBdrcDSqfq888qqxiXfhn9Mvpl9Mvol9Evo19Gv4x+Gf0y+mX0y+iX0S+jX0a/jH4Z/TL6ZfTL6JfRL6NfRr+Mfhn9MvpN890Y5+o8/f6q77F7jo3xtcC6RtHTb8nvGJV+mfraP4t5vS9bx/Rb/ztG9d/6tZ4llhr1M8qlmE89dnrwG7AFr967c+6vre7fOZ5frrb6bjfXf6d+Gf1uLsW859lGv4x+mRH6HZ4Yj/S8O9w7b0q/Z9bfcy3v7GPtBQyobLZfbRXj0ox34V7st2/MmUYzAAAAAAAAABjLL7FVqHw=
+  </data>
+ </layer>
+ <layer name="Fencing 2" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt17EJACAMBED3H8TOGVzNwkoLqwRF7uDbkCbwKQUAAAAAAAAAAIBftdsLAAAEOnWbnhQgX9b9vnDLUT+Z3w4AphqQ6Hn7zJ/tnURHAQAAAAAAAAAAgNUArys90g==
+  </data>
+ </layer>
+ <layer name="Border of Doom" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztnEt2wjAQBPH9L81joQcYf0Y9stVIVRuyo7oWSbCNHg9flt4Cf8yyeoU462Y0jLPXiobnnDWi4T7RNjT8pbYJDd+oLWiYbzBzw1bbZ2zYevNMDa/aOkPDqzeO3PCubSM2vHvTSA17bRmhYe8Nvd8/g4u7i0cNbs5uPke4urp6feLu6Ozn7PaJo6ej0xFOvk4uNTh4Ozhk6On/7+0KPXaM0q5w557R2hXu2DVqu8KV+0ZvV7hi5yztCi33ztau0GL3rO0Kmf2ztysoHWj3TU0P2m0T6UK7Y4760C7GVifa1bHs/AxxaJiHhjr8HtTh77AO/wfq8DlEh8/BOlyH0eE6oA7XoXW4D6LDfTgd7gPr8ByCDs/B6PAclo6Dv4ODgpO3k0sER19Hpy2cPZ3dXrj7vXB1dPXaws3VzSeCi7OLh0Jv997v3wK+Q52H7/Dn4QyJPJxhkoczdPJwhlMezhDLwxl2edQGtHtT24J2v0Sb0G6fsza0O2evEe3irFvRrp5l9Qr1uLd7AkMNAJ8=
+  </data>
+ </layer>
+</map>

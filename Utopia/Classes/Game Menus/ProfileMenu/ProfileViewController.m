@@ -370,7 +370,7 @@
   if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
     [[ProfileViewController sharedProfileViewController] equipViewSelected:self];
     darkOverlay.hidden = NO;
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
   }
   darkOverlay.hidden = YES;
 }
@@ -1574,7 +1574,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (IBAction)attackClicked:(id)sender {
   [[BattleLayer sharedBattleLayer] beginBattleAgainst:_fup];
-  [ProfileViewController removeView];
+  [self closeClicked:nil];
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

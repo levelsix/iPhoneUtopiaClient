@@ -83,7 +83,7 @@
   [DialogMenuController displayViewForText:tc.beforeCarpenterText callbackTarget:nil action:nil];
   
   [self moveToSprite:_csb];
-  _ccArrow = [[CCSprite spriteWithFile:@"green.png"] retain];
+  _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   [self addChild:_ccArrow z:2000];
   _ccArrow.position = ccp(_csb.position.x, _csb.position.y+_csb.contentSize.height+_ccArrow.contentSize.height/2);
   
@@ -103,7 +103,7 @@
       [_ccArrow stopAllActions];
       _ccArrow.visible = NO;
       
-//      _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+//      _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
 //      [self.csMenu addSubview:_uiArrow];
 //      _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
 //      

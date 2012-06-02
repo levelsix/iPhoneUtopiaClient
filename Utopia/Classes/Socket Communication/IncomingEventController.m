@@ -689,14 +689,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
     while (![[GameViewController sharedGameViewController] canLoad]) {
-      [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
     }
     dispatch_queue_t queue = dispatch_queue_create(nil, nil);
     dispatch_async(queue, ^{
-      [[HomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
+      [[HomeMap sharedHomeMap] backgroundRefresh];
       gs.connected = YES;
       [[GameViewController sharedGameViewController] allowOpeningOfDoor];
     });
+    dispatch_release(queue);
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
   } else {
@@ -825,7 +826,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
+    // Reload quest givers for all maps cuz we have new quests
     [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
+    [[BazaarMap sharedBazaarMap] reloadQuestGivers];
+    [[HomeMap sharedHomeMap] reloadQuestGivers];
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
   }
@@ -854,7 +858,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs.inProgressIncompleteQuests removeObjectForKey:questNum];
     [gs.inProgressCompleteQuests setObject:fqp forKey:questNum];
     
-    [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
+    GameMap *map = [Globals mapForQuest:fqp];
+    [map reloadQuestGivers];
     
     [Analytics questComplete:proto.questId];
   } else {

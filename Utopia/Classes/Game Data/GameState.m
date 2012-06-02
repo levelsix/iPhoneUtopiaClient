@@ -371,6 +371,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (FullQuestProto *) questForQuestId:(int)questId {
+  NSNumber *num = [NSNumber numberWithInt:questId];
+  FullQuestProto *fqp = [_availableQuests objectForKey:num];
+  fqp = fqp ? fqp : [_inProgressCompleteQuests objectForKey:num];
+  fqp = fqp ? fqp : [_inProgressIncompleteQuests objectForKey:num];
+  return fqp;
+}
+
 - (BOOL) hasValidLicense {
   return YES;
 //  Globals *gl = [Globals sharedGlobals];

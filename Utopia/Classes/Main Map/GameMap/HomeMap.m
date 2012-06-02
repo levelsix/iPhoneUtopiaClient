@@ -84,18 +84,75 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
     [self removeChild:layer cleanup:YES];
     
-    layer = [self layerNamed:@"Expansion"];
+    self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];
+    for (int i = 0; i < self.mapSize.width; i++) {
+      NSMutableArray *row = [NSMutableArray arrayWithCapacity:self.mapSize.height];
+      for (int j = 0; j < self.mapSize.height; j++) {
+        [row addObject:[NSNumber numberWithBool:NO]];
+      }
+      [self.walkableData addObject:row];
+    }
+    
+    layer = [self layerNamed:@"Walkable"];
     for (int i = 0; i < width; i++) {
       for (int j = 0; j < height; j++) {
-        NSMutableArray *row = [self.buildableData objectAtIndex:i];
+        NSMutableArray *row = [self.walkableData objectAtIndex:i];
         // Convert their coordinates to our coordinate system
         CGPoint tileCoord = ccp(height-j-1, width-i-1);
         int tileGid = [layer tileGIDAt:tileCoord];
         if (tileGid) {
-          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+          [row replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:YES]];
         }
       }
     }
+    [self removeChild:layer cleanup:YES];
+    
+    layer = [self layerNamed:@"Expansion"];
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        NSMutableArray *brow = [self.buildableData objectAtIndex:i];
+        NSMutableArray *wrow = [self.walkableData objectAtIndex:i];
+        // Convert their coordinates to our coordinate system
+        CGPoint tileCoord = ccp(height-j-1, width-i-1);
+        int tileGid = [layer tileGIDAt:tileCoord];
+        if (tileGid) {
+          [brow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+          [wrow replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:NO]];
+        }
+      }
+    }
+    
+    // Create the attack gate
+    MapSprite *mid = [[MapSprite alloc] initWithFile:@"centergate.png" location:CGRectMake(47, 23, 3, 1) map:self];
+    [self addChild:mid];
+    [mid release];
+    
+    for (int i = 1; i < 9; i++) {
+      MapSprite *left = [[MapSprite alloc] initWithFile:@"leftgate.png" location:CGRectMake(47-3*i, 23, 3, 1) map:self];
+      [self addChild:left];
+      [left release];
+    }
+    for (int i = 1; i < 9; i++) {
+      MapSprite *right = [[MapSprite alloc] initWithFile:@"rightgate.png" location:CGRectMake(47+3*i, 23, 3, 1) map:self];
+      [self addChild:right];
+      [right release];
+    }
+    
+    CGRect r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    _carpenter = [[Carpenter alloc] initWithLocation:r map:self];
+    [self addChild:_carpenter];
+    [_carpenter release];
+    
+    r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    _tutGirl = [[TutorialGirl alloc] initWithLocation:r map:self];
+    [self addChild:_tutGirl];
+    [_tutGirl release];
+    
+    [self reloadQuestGivers];
     
     [[NSBundle mainBundle] loadNibNamed:@"HomeBuildingMenu" owner:self options:nil];
     [Globals displayUIView:self.hbMenu];
@@ -219,6 +276,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [moneyBuilding placeBlock];
   }
   
+  [arr addObject:_tutGirl];
+  [arr addObject:_carpenter];
+  
   CCNode *c;
   CCARRAY_FOREACH(self.children, c) {
     if ([c isKindOfClass:[SelectableSprite class]] && ![arr containsObject:c]) {
@@ -256,14 +316,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   if (mb) {
     [self moveToSprite:mb];
   } else {
-    // TODO: move to carpenter
+    [self moveToCarpenter];
   }
+}
+
+- (void) moveToTutorialGirl {
+  [self moveToSprite:_tutGirl];
+}
+
+- (void) moveToCarpenter {
+  [self moveToSprite:_carpenter];
 }
 
 - (void) doReorder {
   [super doReorder];
   
-  if (_isMoving || ([_selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)_selected).isSetDown)) {
+  if ((_isMoving && _selected) || ([_selected isKindOfClass:[HomeBuilding class]] && !((HomeBuilding *)_selected).isSetDown)) {
     [self reorderChild:_selected z:1000];
   }
 }
@@ -331,6 +399,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     } else {
       [self closeMenus];
       [self.upgradeMenu closeClicked:nil];
+      self.moveMenu.hidden = YES;
+      _canMove = NO;
     }
   }
 }
@@ -455,7 +525,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (mb.timer) {
     [_timers addObject:mb.timer];
-    [[NSRunLoop mainRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop currentRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
   }
 }
 
@@ -476,6 +546,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
   if (mb == _selected && _canMove) {
     [mb cancelMove];
+    _canMove = NO;
     self.selected = nil;
   }
   _constrBuilding = nil;
@@ -727,6 +798,55 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // This will be released after the level up controller closes
   BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithUserStruct:us];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+}
+
+- (void) reloadQuestGivers {
+  GameState *gs = [GameState sharedGameState];
+  for (FullQuestProto *fqp in [gs.inProgressCompleteQuests allValues]) {
+    if (fqp.cityId == 0 && fqp.assetNumWithinCity == 1) {
+      QuestGiver *qg = _tutGirl;
+      qg.quest = fqp;
+      qg.questGiverState = kCompleted;
+      qg.visible = YES;
+      return;
+    }
+  }
+  for (FullQuestProto *fqp in [gs.inProgressIncompleteQuests allValues]) {
+    if (fqp.cityId == 0 && fqp.assetNumWithinCity == 1) {
+      QuestGiver *qg = _tutGirl;
+      qg.quest = fqp;
+      qg.questGiverState = kInProgress;
+      return;
+    }
+  }
+  for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
+    if (fqp.cityId == 0 && fqp.assetNumWithinCity == 1) {
+      QuestGiver *qg = _tutGirl;
+      qg.quest = fqp;
+      qg.questGiverState = kAvailable;
+      return;
+    }
+  }
+  
+  // No quest was found for this guy
+  _tutGirl.quest = nil;
+  _tutGirl.questGiverState = kNoQuest;
+}
+
+- (void) questAccepted:(FullQuestProto *)fqp {
+  if (fqp.cityId == 0 && fqp.assetNumWithinCity == 1) {
+    QuestGiver *qg = _tutGirl;
+    qg.quest = fqp;
+    qg.questGiverState = kInProgress;
+  }
+}
+
+- (void) questRedeemed:(FullQuestProto *)fqp {
+  if (fqp.cityId == 0 && fqp.assetNumWithinCity == 1) {
+    QuestGiver *qg = _tutGirl;
+    qg.quest = nil;
+    qg.questGiverState = kNoQuest;
+  }
 }
 
 - (void) onExit {

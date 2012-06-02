@@ -51,7 +51,7 @@
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [DialogMenuController displayViewForText:tc.beforeEnemiesAviaryText callbackTarget:nil action:nil];
   
-  _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"green.png"]];
+  _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [self.view addSubview:_arrow];
   _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
   _arrow.alpha = 0.f;

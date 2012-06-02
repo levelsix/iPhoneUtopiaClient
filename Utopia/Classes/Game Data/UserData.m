@@ -297,11 +297,11 @@
     self.jobId = p.defeatTypeJobId;
     self.jobType = kDefeatTypeJob;
     
-    if (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
-      self.title = [NSString stringWithFormat:@"Defeat %d %@ %@%@ in %@", p.numEnemiesToDefeat, [Globals factionForUserType:p.typeOfEnemy], [Globals classForUserType:p.typeOfEnemy], p.numEnemiesToDefeat == 1 ? @"" : @"s", [gs cityWithId:p.cityId].name];
-    } else {
-      self.title = [NSString stringWithFormat:@"Defeat %d %@ player from the Attack Map", p.numEnemiesToDefeat, [Globals factionForUserType:(gs.type+3)%6]];
-    }
+    BOOL specificEnemy = (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide);
+    UserType type = specificEnemy ? p.typeOfEnemy : (gs.type+3)%6;
+    NSString *character = [NSString stringWithFormat:@"%@%@", specificEnemy ? [Globals classForUserType:p.typeOfEnemy] : @"Player", p.numEnemiesToDefeat == 1 ? @"" : @"s"];
+    NSString *end = p.cityId > 0 ? [NSString stringWithFormat:@"in %@", [gs cityWithId:p.cityId].name] : [NSString stringWithFormat:@"from the Attack Map"];
+    self.title = [NSString stringWithFormat:@"Defeat %d %@ %@ %@", p.numEnemiesToDefeat, [Globals factionForUserType:type], character, end];
     self.total = p.numEnemiesToDefeat;
   }
   return self;
@@ -353,6 +353,51 @@
   return self;
 }
 
+- (id) initWithSpecialQuestAction:(SpecialQuestAction)sqa questId:(int)questId {
+  if ((self = [super init])) {
+    self.jobId = questId;
+    self.jobType = kSpecialJob;
+    
+    NSString *desc = nil;
+    switch (sqa) {
+      case SpecialQuestActionSellToArmory:
+        desc = @"Sell 1 Item to the Armory";
+        break;
+        
+      case SpecialQuestActionDepositInVault:
+        desc = @"Make 1 Deposit to the Vault";
+        break;
+        
+      case SpecialQuestActionWriteOnOtherWall:
+        desc = @"Write on Another Player's Wall";
+        break;
+        
+      case SpecialQuestActionPostToMarketplace:
+        desc = @"Post an Item to the Marketplace";
+        break;
+        
+      case SpecialQuestActionWithdrawFromVault:
+        desc = @"Make 1 Withdrawal from the Vault";
+        break;
+        
+      case SpecialQuestActionPurchaseFromArmory:
+        desc = @"Purchase 1 Item from the Armory";
+        break;
+        
+      case SpecialQuestActionPurchaseFromMarketplace:
+        desc = @"Purchase 1 Item from the Marketplace";
+        break;
+        
+      default:
+        break;
+    }
+    self.title = desc;
+    
+    self.total = 1;
+  }
+  return self;
+}
+
 + (NSArray *)jobsForQuest:(FullQuestProto *)fqp {
   GameState *gs = [GameState sharedGameState];
   NSMutableArray *jobs = [NSMutableArray array];
@@ -390,6 +435,12 @@
   
   if (fqp.coinRetrievalReq > 0) {
     job = [[UserJob alloc] initWithCoinRetrieval:fqp.coinRetrievalReq questId:fqp.questId];
+    [jobs addObject:job];
+    [job release];
+  }
+  
+  if (fqp.hasSpecialQuestActionReq) {
+    job = [[UserJob alloc] initWithSpecialQuestAction:fqp.specialQuestActionReq questId:fqp.questId];
     [jobs addObject:job];
     [job release];
   }
