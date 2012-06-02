@@ -7,21 +7,39 @@
 //
 
 #import "OperationWaitCounter.h"
-
+#define PLIST_DICT_KEY  @"OperationWaitCounter-PLIST_DICT_KEY"
 @implementation OperationWaitCounter
 @synthesize operationKey;
 
+-(void)ensureStoreExists
+{
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSMutableDictionary *dict = [defaults objectForKey:PLIST_DICT_KEY];
+  
+  if (dict == nil) {
+    [defaults setObject:[NSMutableDictionary dictionary] forKey:PLIST_DICT_KEY];
+    [defaults synchronize];
+  }
+}
+
 -(void)serialize
 {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];  
-  [defaults setObject:_prevTimeUsed forKey:operationKey];
+  NSUserDefaults *defaults  = [NSUserDefaults standardUserDefaults];
+  NSMutableDictionary *dict = [NSMutableDictionary 
+                               dictionaryWithDictionary:[defaults 
+                                                         objectForKey:PLIST_DICT_KEY]];
+  [dict setObject:_prevTimeUsed forKey:operationKey];
+  [defaults setObject:dict forKey:PLIST_DICT_KEY];
+
   [defaults synchronize];  
 }
 
 -(BOOL)deserialize
 {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDate *tempTime = [defaults objectForKey:operationKey];
+  NSUserDefaults *defaults  = [NSUserDefaults standardUserDefaults];
+  NSMutableDictionary *dict = [defaults objectForKey:PLIST_DICT_KEY];
+  NSDate *tempTime          = [dict objectForKey:operationKey];
+
   if (tempTime) {
     _prevTimeUsed = tempTime;
     return YES;
@@ -82,6 +100,7 @@
                                    initWithKey:key
                                    andTimeInterval:timeInterval
                                    andDefaultPrev:[NSDate distantPast]];
+  [counter ensureStoreExists];
   [counter autorelease];
   return counter;
 }
