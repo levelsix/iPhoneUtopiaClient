@@ -77,7 +77,7 @@
     return [AdColony virtualCurrencyAwardAvailableForZone:ADZONE1];    
 }
 
-- (void) makePurchase 
+-(void) makePurchaseWithViewController:(UIViewController *)controller
 {
   if ([self purchaseAvailable]) {
     [AdColony playVideoAdForZone:ADZONE1 
@@ -124,6 +124,15 @@
     [priceLocale    retain];
   }
   return self;
+}
+
+-(void)dealloc
+{
+  [primaryTitle   release];
+  [secondaryTitle release];
+  [price          release];
+  [priceLocale    release];  
+  [super dealloc];
 }
 
 +(id<InAppPurchaseData>) create

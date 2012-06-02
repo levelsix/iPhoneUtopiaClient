@@ -31,7 +31,7 @@
   return [FlurryClips videoAdIsAvailable:FLURRY_HOOK];
 }
 
-- (void) makePurchase 
+-(void) makePurchaseWithViewController:(UIViewController *)controller
 {
   if ([self purchaseAvailable]) {
     [FlurryClips openVideoTakeover:FLURRY_HOOK
