@@ -16,7 +16,6 @@
   BOOL _redeemQuestPhase;
   BOOL _doBattlePhase;
   BOOL _doTaskPhase;
-  BOOL _aviaryPhase;
   BOOL _canUnclick;
   
   BOOL _pickupSilver;

@@ -240,9 +240,7 @@
         
         
       case SpecialQuestActionWriteOnOtherWall:
-        [[ProfileViewController sharedProfileViewController] loadMyProfile];
-        [ProfileViewController displayView];
-        [[ProfileViewController sharedProfileViewController] setState:kWallState];
+        [MapViewController displayAttackMap];
         break;
         
       default:

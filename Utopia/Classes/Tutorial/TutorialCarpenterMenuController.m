@@ -20,12 +20,8 @@
 }
 
 - (void) viewDidLoad {
-  self.state = kIncomeCarp;
-  
   self.structsList = (NSMutableArray *)[[TutorialConstants sharedTutorialConstants] carpenterStructs];
   [self.carpTable reloadData];
-  
-  self.carpBar.userInteractionEnabled = NO;
   self.coinBar.userInteractionEnabled = NO;
 }
 
@@ -40,9 +36,6 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  [self.carpBar clickButton:kIncomeButton];
-  [self.carpBar unclickButton:kFunctionalButton];
-  
   CGRect f = self.view.frame;
   self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{

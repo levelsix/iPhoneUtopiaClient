@@ -20,34 +20,6 @@ typedef enum {
   kDisappear
 } ListingState;
 
-typedef enum {
-  kIncomeButton = 1,
-  kFunctionalButton = 1 << 1
-} CarpBarButton;
-
-typedef enum {
-  kIncomeCarp = 1,
-  kFunctionalCarp
-} CarpState;
-
-@interface CarpBar : UIView {
-  BOOL _trackingIncome;
-  BOOL _trackingFunctional;
-  
-  int _clickedButtons;
-}
-
-@property (nonatomic, retain) IBOutlet UILabel *incomeLabel;
-@property (nonatomic, retain) IBOutlet UILabel *functionalLabel;
-
-@property (nonatomic, retain) IBOutlet UIImageView *incomeButtonClicked;
-@property (nonatomic, retain) IBOutlet UIImageView *functionalButtonClicked;
-
-- (void) clickButton:(CarpBarButton)button;
-- (void) unclickButton:(CarpBarButton)button;
-
-@end
-
 @interface CarpenterTicker : UIView {
   UIImage *_tickerImage;
   UIFont *_font;
@@ -84,7 +56,6 @@ typedef enum {
 @property (nonatomic, assign) ListingState state;
 
 @property (nonatomic, retain) FullStructureProto *fsp;
-@property (nonatomic, retain) CritStruct *critStruct;
 
 @end
 
@@ -98,24 +69,20 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet CarpenterListingContainer *listing1;
 @property (nonatomic, retain) IBOutlet CarpenterListingContainer *listing2;
-@property (nonatomic, retain) IBOutlet CarpenterListingContainer *listing3;
 
 @end
 
-@interface CarpenterMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-  BOOL _critStructAvail;
-}
+@interface CarpenterMenuController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) IBOutlet CarpenterRow *carpRow;
 @property (nonatomic, retain) IBOutlet UITableView *carpTable;
 
 @property (nonatomic, retain) NSMutableArray *structsList;
-@property (nonatomic, retain) NSMutableArray *critStructsList;
 
-@property (nonatomic, assign) CarpState state;
-
-@property (nonatomic, retain) IBOutlet CarpBar *carpBar;
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
+
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+@property (nonatomic, retain) IBOutlet UIView *mainView;
 
 - (void) reloadCarpenterStructs;
 

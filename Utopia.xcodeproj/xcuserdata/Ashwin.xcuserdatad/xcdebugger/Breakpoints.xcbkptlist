@@ -47,11 +47,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Menus/ProfileMenu/ProfileViewController.m"
-         timestampString = "359531812.665189"
+         timestampString = "360448494.120104"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "904"
-         endingLineNumber = "904"
+         startingLineNumber = "910"
+         endingLineNumber = "910"
          landmarkName = "-setState:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,11 +60,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Utopia/Classes/Game Data/Globals.m"
-         timestampString = "360148588.984303"
+         timestampString = "360365537.23131"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "445"
-         endingLineNumber = "445"
+         startingLineNumber = "444"
+         endingLineNumber = "444"
          landmarkName = "+commafyNumber:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -79,6 +79,32 @@
          startingLineNumber = "28"
          endingLineNumber = "28"
          landmarkName = "-refresh"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/Classes/Tutorial/TutorialMissionMap.m"
+         timestampString = "360287838.671535"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "247"
+         endingLineNumber = "247"
+         landmarkName = "-selectableForPt:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "Utopia/libs/cocos2d/CCScheduler.m"
+         timestampString = "360302479.742774"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "179"
+         endingLineNumber = "179"
+         landmarkName = "+purgeSharedScheduler"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

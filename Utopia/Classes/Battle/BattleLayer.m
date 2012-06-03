@@ -1259,7 +1259,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
+  [Globals popOutView:summaryView.mainView fadeOutBgdView:summaryView.bgdView completion:^{
     [summaryView removeFromSuperview];
   }];
   [self closeScene];

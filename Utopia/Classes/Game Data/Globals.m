@@ -40,7 +40,6 @@ static NSString *equipImageString = @"equip%d.png";
 @synthesize imageCache, imageViewsWaitingForDownloading;
 @synthesize armoryXLength, armoryYLength, carpenterXLength, carpenterYLength, aviaryXLength;
 @synthesize aviaryYLength, marketplaceXLength, marketplaceYLength, vaultXLength, vaultYLength;
-@synthesize minLevelForVault, minLevelForArmory, minLevelForMarketplace;
 @synthesize diamondCostOfShortMarketplaceLicense, diamondCostOfLongMarketplaceLicense;
 @synthesize cutOfVaultDepositTaken, skillPointsGainedOnLevelup, percentReturnedToUserForSellingEquipInArmory;
 @synthesize percentReturnedToUserForSellingNormStructure, numDaysLongMarketplaceLicenseLastsFor;
@@ -1172,22 +1171,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
   float rotation = -M_PI_2-angle;
   arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
+  arrow.layer.transform = CATransform3DScale(arrow.layer.transform, 1.f, 0.9f, 1.f);
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
   [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    arrow.layer.transform = CATransform3DScale(arrow.layer.transform, 1.f, 0.9f, 1.f);
+    arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
     arrow.center = CGPointMake(arrow.center.x-10*cosf(angle), arrow.center.y+10*sinf(angle));
   } completion:nil];
 }
 
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle {
+  [arrow stopAllActions];
   arrow.rotation = -M_PI_2-angle;
   
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
-                                                          [CCMoveBy actionWithDuration:1.f position:ccp(10*cosf(angle), 10*sinf(angle))],
-                                                          [CCScaleBy actionWithDuration:1.f scaleX:1.f scaleY:0.9f],
+                                                          [CCMoveTo actionWithDuration:1.f position:ccpAdd(arrow.position, ccp(-10*cosf(angle), -10*sinf(angle)))],
+                                                          [CCScaleTo actionWithDuration:1.f scaleX:1.f scaleY:1.f],
                                                           nil]];
-  [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                         [upAction reverse], nil]]];
+  CCMoveBy *downAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
+                                                          [CCMoveTo actionWithDuration:1.f position:arrow.position],
+                                                          [CCScaleTo actionWithDuration:1.f scaleX:1.f scaleY:0.9f],
+                                                          nil]];
+  [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
 }
 
 - (void) dealloc {

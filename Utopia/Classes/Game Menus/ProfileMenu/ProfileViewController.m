@@ -567,6 +567,12 @@
     equipLabel.alpha = 0.75f;
   }
   
+  if (!fep.isBuyableInArmory || fep.diamondPrice > 0) {
+    sellButton.enabled = NO;
+  } else {
+    sellButton.enabled = YES;
+  }
+  
   if ([Globals class:gs.type canEquip:fep.classType]) {
     wrongClassView.hidden = YES;
   } else {

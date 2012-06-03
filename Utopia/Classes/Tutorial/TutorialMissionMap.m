@@ -131,7 +131,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     
     _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
     [_questGiver addChild:_ccArrow];
-    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+10);
+    _ccArrow.position = ccp(_questGiver.contentSize.width/2, _questGiver.contentSize.height+_ccArrow.contentSize.height+20);
     
     [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
     
@@ -242,6 +242,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   }
 }
 
+- (SelectableSprite *) selectableForPt:(CGPoint)pt {
+  // Find sprite that has center closest to pt
+  SelectableSprite *node = nil;
+  if (_acceptQuestPhase || _redeemQuestPhase) {
+    node = _questGiver;
+  } else if (_doBattlePhase) {
+    node = _enemy;
+  }
+  CGRect r = CGRectZero;
+  r.origin = CGPointMake(-20, -5);
+  pt = [node convertToNodeSpace:pt];
+  r.size = CGSizeMake(node.contentSize.width+40, node.contentSize.height+150);
+  if (CGRectContainsPoint(r, pt)) {
+    return node;
+  }
+  return nil;
+}
+
 - (void) questGiverInProgress {
   // For Tut Quest Log
   _acceptQuestPhase = NO;
@@ -250,31 +268,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) moveToEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
-  [super moveToEnemyType:type];
+  [self moveToSprite:_enemy];
   [_ccArrow removeFromParentAndCleanup:YES];
   [_enemy addChild:_ccArrow];
-  _ccArrow.position = ccp(_enemy.contentSize.width/2, _enemy.contentSize.height+_ccArrow.contentSize.height/2);
-  
+  _ccArrow.position = ccp(_enemy.contentSize.width/2, _enemy.contentSize.height+_ccArrow.contentSize.height/2+10.f);
+  [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   self.enemyMenu.nameLabel.text = tc.enemyName;
   self.enemyMenu.levelLabel.text = @"Lvl 1";
   
-  NSString *str = [NSString stringWithFormat:tc.afterQuestAcceptClosedText, tc.enemyName];
-  [DialogMenuController displayViewForText:str callbackTarget:nil action:nil];
-  
   // Create and add uiArrow to attack screen
   _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [self.enemyMenu addSubview:_uiArrow];
-  _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
   
   UIView *attackButton = [self.enemyMenu viewWithTag:30];
   _uiArrow.center = CGPointMake(CGRectGetMinX(attackButton.frame)-_uiArrow.frame.size.width/2-2, attackButton.center.y);
-  
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
-  } completion:nil];
+  [Globals animateUIArrow:_uiArrow atAngle:0];
 }
 
 - (void) battleDone {
@@ -475,8 +485,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
   [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
                                                          [upAction reverse], nil]]];
-  
-  _aviaryPhase = YES;
 }
 
 - (IBAction)attackClicked:(id)sender {

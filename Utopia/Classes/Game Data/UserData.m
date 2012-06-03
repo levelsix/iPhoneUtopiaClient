@@ -113,7 +113,7 @@
 
 @implementation CritStruct
 
-@synthesize name, type, minLevel, size;
+@synthesize name, type, size;
 
 - (id) initWithType:(CritStructType)t {
   if ((self = [super init])) {
@@ -128,31 +128,26 @@
   switch (type) {
     case CritStructTypeVault:
       name = @"Vault";
-      minLevel = gl.minLevelForVault;
       size = CGSizeMake(gl.vaultXLength, gl.vaultYLength);
       break;
       
     case CritStructTypeArmory:
       name = @"Armory";
-      minLevel = gl.minLevelForArmory;
       size = CGSizeMake(gl.armoryXLength, gl.armoryYLength);
       break;
       
     case CritStructTypeAviary:
       name = @"Aviary";
-      minLevel = 1;
       size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
       break;
       
     case CritStructTypeCarpenter:
       name = @"Carpenter";
-      minLevel = 1;
       size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
       break;
       
     case CritStructTypeMarketplace:
       name = @"Marketplace";
-      minLevel = gl.minLevelForMarketplace;
       size = CGSizeMake(gl.marketplaceXLength, gl.marketplaceYLength);
       break;
       
@@ -369,7 +364,7 @@
         break;
         
       case SpecialQuestActionWriteOnOtherWall:
-        desc = @"Write on Another Player's Wall";
+        desc = @"Write on an Enemy's Wall";
         break;
         
       case SpecialQuestActionPostToMarketplace:

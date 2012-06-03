@@ -14,11 +14,11 @@
 #define UDID [[UIDevice currentDevice] uniqueDeviceIdentifier]
 #else
 
-#define HOST_NAME @"10.1.10.17"//@"184.169.148.243"
+#define HOST_NAME @"192.168.1.10"//@"184.169.148.243"
 #define HOST_PORT 8888
 
 #define UDID @"42d1cadaa64dbf3c3e8133e652a2df06"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06"//
-#define FORCE_TUTORIAL
+//#define FORCE_TUTORIAL
 #endif
 
 // Tags for keeping state

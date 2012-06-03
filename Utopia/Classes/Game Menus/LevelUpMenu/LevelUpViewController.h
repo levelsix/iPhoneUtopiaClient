@@ -9,13 +9,26 @@
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
 
-@interface LevelUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface LevelUpViewController : UIViewController {
+  NSMutableArray *_itemViews;
+  int _currentIndex;
+}
 
 @property (nonatomic, retain) LevelUpResponseProto *levelUpResponse;
+
 @property (nonatomic, retain) IBOutlet UIView *itemView;
 @property (nonatomic, retain) IBOutlet UIImageView *itemIcon;
 @property (nonatomic, retain) IBOutlet UILabel *itemLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *itemBackground;
+@property (nonatomic, retain) IBOutlet UIImageView *cityUnlocked;
+
+@property (nonatomic, retain) IBOutlet UIView *staminaView;
+@property (nonatomic, retain) IBOutlet UIView *energyView;
+@property (nonatomic, retain) IBOutlet UIView *statsView;
 @property (nonatomic, retain) IBOutlet UILabel *congratsLabel;
+
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet UIImageView *glowingStars;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;

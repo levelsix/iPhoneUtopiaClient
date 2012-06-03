@@ -56,10 +56,6 @@
 @property (nonatomic, assign) int vaultXLength;
 @property (nonatomic, assign) int vaultYLength;
 
-@property (nonatomic, assign) int minLevelForArmory;
-@property (nonatomic, assign) int minLevelForMarketplace;
-@property (nonatomic, assign) int minLevelForVault;
-
 @property (nonatomic, assign) int maxLevelDiffForBattle;
 @property (nonatomic, assign) int skillPointsGainedOnLevelup;
 @property (nonatomic, assign) float cutOfVaultDepositTaken;
