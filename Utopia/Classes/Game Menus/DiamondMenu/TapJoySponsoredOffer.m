@@ -28,7 +28,7 @@
     return YES;
 }
 
-- (void) makePurchase 
+-(void) makePurchaseWithViewController:(UIViewController *)controller
 {
   if ([self purchaseAvailable]) {
     [TapjoyConnect showOffersWithViewController:[GameViewController

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
+		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
+		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
 		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
@@ -1350,6 +1353,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
+		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
+		4509ABB4157830E500EC9B44 /* OperationWaitCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationWaitCounter.h; sourceTree = "<group>"; };
+		4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationWaitCounter.m; sourceTree = "<group>"; };
 		452E24BD15744ADC0048AA57 /* AdColonySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonySponsoredOffer.h; sourceTree = "<group>"; };
 		452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdColonySponsoredOffer.m; sourceTree = "<group>"; };
 		453920A1156B149C00C3944D /* TapJoySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoySponsoredOffer.h; sourceTree = "<group>"; };
@@ -2959,6 +2967,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
 				CF1273C41538B7ED00E0C1AD /* QuartzCore.framework in Frameworks */,
 				454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */,
 				454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */,
@@ -3254,6 +3263,7 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4509ABAF1577EE1900EC9B44 /* Twitter.framework */,
 				45723A001565E443000380EE /* CoreVideo.framework */,
 				457239FE1565E431000380EE /* CoreMedia.framework */,
 				CF7FEF0F1540C3D000716E37 /* MessageUI.framework */,
@@ -3575,6 +3585,10 @@
 				452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */,
 				455BCEA4157454E700DDE405 /* FacebookSponsoredOffer.h */,
 				455BCEA5157454E700DDE405 /* FacebookSponsoredOffer.m */,
+				4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */,
+				4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */,
+				4509ABB4157830E500EC9B44 /* OperationWaitCounter.h */,
+				4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */,
 			);
 			name = GoldShoppeMenu;
 			path = DiamondMenu;
@@ -7004,6 +7018,8 @@
 				455BCF19157560C200DDE405 /* SBJSON.m in Sources */,
 				455BCF1A157560C200DDE405 /* SBJsonBase.m in Sources */,
 				455BCF1F157562B300DDE405 /* FacebookDelegate.m in Sources */,
+				4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */,
+				4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */,
 				CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */,
 				CF74FB211578A96500E52B81 /* TutorialQuestLogController.m in Sources */,
 			);

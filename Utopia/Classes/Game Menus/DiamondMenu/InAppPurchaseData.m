@@ -13,6 +13,7 @@
 #import "FlurryClipsSponsoredOffer.h"
 #import "AdColonySponsoredOffer.h"
 #import "FacebookSponsoredOffer.h"
+#import "TwitterSponsoredOffer.h"
 
 @implementation InAppPurchaseData
 @dynamic primaryTitle;
@@ -43,7 +44,7 @@
     return YES;
 }
 
-- (void) makePurchase 
+-(void) makePurchaseWithViewController:(UIViewController *)controller
 {
   [[IAPHelper sharedIAPHelper] buyProductIdentifier:_product];
 }
@@ -113,10 +114,11 @@
 +(NSArray *) allSponsoredOffers
 {
   NSMutableArray *offers = [NSMutableArray array];
-  [offers addObject:[AdColonySponsoredOffer create]];
+  [offers addObject:[AdColonySponsoredOffer    create]];
   [offers addObject:[FlurryClipsSponsoredOffer create]];
-  [offers addObject:[TapJoySponsoredOffer create]];
-  [offers addObject:[FacebookSponsoredOffer create]];
+  [offers addObject:[TapJoySponsoredOffer      create]];
+  [offers addObject:[FacebookSponsoredOffer    create]];
+  [offers addObject:[TwitterSponsoredOffer     create]];
 
   return offers;
 }

@@ -12,9 +12,6 @@
 
 #define MAXED_INVITES_SEC  @"0 (Reached Weekly Max)"
 
-// 1 week
-#define MIN_REQ_WAIT -1*60*60*24*7 
-
 @implementation FacebookSponsoredOffer
 @synthesize primaryTitle;
 @synthesize price;
@@ -37,15 +34,10 @@
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
 {
-  NSTimeInterval timeInterval = [_prevTimeUsed timeIntervalSinceNow];
-  if (timeInterval < MIN_REQ_WAIT) {
-    return YES;
-  }
-
-  return NO;
+  return [_waitCounter canPerfomOperation];
 }
 
-- (void) makePurchase 
+-(void) makePurchaseWithViewController:(UIViewController *)controller
 {
     [fbDelegate attemptSignOn];
     [fbDelegate requestFriendToJoin];
@@ -56,7 +48,7 @@
          andSecondaryTitle:(NSString *)secondary
                   andPrice:(NSString *)curPrice 
                andDelegate:(id<FacebookGlobalDelegate>)delegate 
-               andPrevDate:(NSDate *)prevReqDate
+            andWaitCounter:(id<OperationWaitCounter>)waitCounter
 {
   self = [super init];
   if (self) {
@@ -64,12 +56,12 @@
     secondaryTitle = secondary;
     price          = curPrice;
     fbDelegate     = delegate;
-    _prevTimeUsed   = prevReqDate;
+    _waitCounter   = waitCounter;
     
     [primaryTitle   retain];
     [secondaryTitle retain];
     [price          retain];
-    [_prevTimeUsed   retain];
+    [_waitCounter   retain];
   }
   return self;
 }
@@ -79,22 +71,17 @@
   [primaryTitle   release];
   [secondaryTitle release];
   [price          release];
-  [_prevTimeUsed   release];
+  [_waitCounter   release];
 
   [super dealloc];
 }
 
 +(id<InAppPurchaseData>) create
 {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDate *prevReqDate = [defaults objectForKey:PREV_FACEBOOK_FRIEND_REQ];
-  
-  if (!prevReqDate) {
-    // Guarantee that the user will be able to perform
-    // this action the first time.
-    prevReqDate = [NSDate distantPast];
-  }
-  
+  id<OperationWaitCounter> waitCounter = [OperationWaitCounter 
+                                          createForKey:PREV_FACEBOOK_FRIEND_REQ 
+                                          andTimeInterval:SECONDS_PER_WEEK];
+  [waitCounter deserialize];
   AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
   id<FacebookGlobalDelegate> sessionDelegate = appDelegate.facebookDelegate;
   FacebookSponsoredOffer *offer = [[FacebookSponsoredOffer alloc] 
@@ -102,7 +89,7 @@
                                    andSecondaryTitle:@"50"
                                       andPrice:@"" 
                                    andDelegate:sessionDelegate 
-                                   andPrevDate:prevReqDate];
+                                   andWaitCounter:waitCounter];
   [offer autorelease];
   
   return offer;

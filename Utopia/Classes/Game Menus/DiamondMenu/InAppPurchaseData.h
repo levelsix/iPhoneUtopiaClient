@@ -18,8 +18,8 @@
 @property(nonatomic, readonly) NSString *price;
 @property(nonatomic, readonly) UIImage  *rewardPic;
 
-- (void) makePurchase;
-- (BOOL) purchaseAvailable;
+-(void) makePurchaseWithViewController:(UIViewController *)controller;
+-(BOOL) purchaseAvailable;
 @end
 
 @interface InAppPurchaseData : NSObject<InAppPurchaseData> {

@@ -383,7 +383,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   GoldPackageView *gpv = (GoldPackageView *)[tableView 
                                              cellForRowAtIndexPath:indexPath];
-  [gpv.productData makePurchase];
+
+  [gpv.productData makePurchaseWithViewController:self];
+
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
   if (_state == kPackagesState) {

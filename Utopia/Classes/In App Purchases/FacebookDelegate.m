@@ -44,7 +44,7 @@
   return ([defaults objectForKey:@"FBAccessTokenKey"] 
           && [defaults objectForKey:@"FBExpirationDateKey"]);
 }
-
+#import "OperationWaitCounter.h"
 -(void) setupAuthentication
 {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -69,12 +69,15 @@
 {
   // If we successfully made the friend request.
   if ([url.absoluteString rangeOfString:@"success?request="].location != NSNotFound) {
-
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults setObject:[NSDate date] forKey:PREV_FACEBOOK_FRIEND_REQ];
+    id<OperationWaitCounter> waitCounter = [OperationWaitCounter 
+                                            createForKey:PREV_FACEBOOK_FRIEND_REQ
+                                            andTimeInterval:SECONDS_PER_WEEK];
+    // We only want to increase the user's waitCounter if they recieved gold
+    if ([waitCounter canPerfomOperation]) {
+      [waitCounter performedOperation];
+      [waitCounter serialize];      
+    }
     [InAppPurchaseData postAdTakeoverResignedNotificationForSender:self];
-    [defaults synchronize];    
   } else {
 
   }
