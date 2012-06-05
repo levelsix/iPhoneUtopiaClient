@@ -199,6 +199,9 @@
   // FlurryAnalytics
   [self setUpFlurryAnalytics];
   
+  // Kiip.me
+  kiipDelegate = [[KiipDelegate create] retain];
+  
   [self removeLocalNotifications];
 
   // CrashAlytics
@@ -371,6 +374,7 @@
   [adColonyDelegate    release];
   [flurryClipsDelegate release];
   [facebookDelegate    release];
+  [kiipDelegate        release];
 	[window release];
 	[super dealloc];
 }

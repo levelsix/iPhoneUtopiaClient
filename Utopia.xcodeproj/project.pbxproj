@@ -68,8 +68,22 @@
 		45856AA8156DB3670005907E /* TJCVideoViewHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A81156DB3670005907E /* TJCVideoViewHandler.m */; };
 		45856AA9156DB3670005907E /* TapjoyConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A83156DB3670005907E /* TapjoyConnect.m */; };
 		45856AC4156DCA660005907E /* TapJoyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856AC3156DCA660005907E /* TapJoyDelegate.m */; };
+		45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857340157D3B6A0086F70C /* MobileCoreServices.framework */; };
+		45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857342157D3BB80086F70C /* libxml2.dylib */; };
 		459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */; };
 		4595D861156C4C4000CF4468 /* TapJoySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453920A2156B149C00C3944D /* TapJoySponsoredOffer.m */; };
+		459A9125157D3E62004B7014 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A90FC157D3E62004B7014 /* CHANGELOG.md */; };
+		459A912F157D3E62004B7014 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A9118157D3E62004B7014 /* close.png */; };
+		459A9130157D3E62004B7014 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A9119157D3E62004B7014 /* close@2x.png */; };
+		459A9131157D3E62004B7014 /* notification-portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911A157D3E62004B7014 /* notification-portrait.png */; };
+		459A9132157D3E62004B7014 /* notification-portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911B157D3E62004B7014 /* notification-portrait@2x.png */; };
+		459A9133157D3E62004B7014 /* spinner-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911C157D3E62004B7014 /* spinner-bg.png */; };
+		459A9134157D3E62004B7014 /* spinner-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 459A911D157D3E62004B7014 /* spinner-bg@2x.png */; };
+		459A9135157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A911F157D3E62004B7014 /* libKiip.a */; };
+		459A9136157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9121157D3E62004B7014 /* libKiip.a */; };
+		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
+		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
+		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
 		45FD77AC1570541100A2C717 /* FlurryClipsSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD77AB1570541100A2C717 /* FlurryClipsSponsoredOffer.m */; };
@@ -1455,8 +1469,28 @@
 		45856A85156DB3670005907E /* TJCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCConfig.h; sourceTree = "<group>"; };
 		45856AC2156DCA660005907E /* TapJoyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoyDelegate.h; sourceTree = "<group>"; };
 		45856AC3156DCA660005907E /* TapJoyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoyDelegate.m; sourceTree = "<group>"; };
+		45857340157D3B6A0086F70C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		45857342157D3BB80086F70C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		4592799E156C5E6900FEC3AF /* InAppPurchaseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseData.h; sourceTree = "<group>"; };
 		4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseData.m; sourceTree = "<group>"; };
+		459A90FC157D3E62004B7014 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
+		459A9112157D3E62004B7014 /* Kiip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kiip.h; sourceTree = "<group>"; };
+		459A9113157D3E62004B7014 /* KPErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPErrors.h; sourceTree = "<group>"; };
+		459A9114157D3E62004B7014 /* KPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPManager.h; sourceTree = "<group>"; };
+		459A9115157D3E62004B7014 /* KPManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPManagerDelegate.h; sourceTree = "<group>"; };
+		459A9116157D3E62004B7014 /* KPUIConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPUIConstants.h; sourceTree = "<group>"; };
+		459A9118157D3E62004B7014 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
+		459A9119157D3E62004B7014 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
+		459A911A157D3E62004B7014 /* notification-portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-portrait.png"; sourceTree = "<group>"; };
+		459A911B157D3E62004B7014 /* notification-portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification-portrait@2x.png"; sourceTree = "<group>"; };
+		459A911C157D3E62004B7014 /* spinner-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner-bg.png"; sourceTree = "<group>"; };
+		459A911D157D3E62004B7014 /* spinner-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner-bg@2x.png"; sourceTree = "<group>"; };
+		459A911F157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
+		459A9121157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
+		459A9122157D3E62004B7014 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		459A9124157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
+		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
+		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
 		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
 		45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlurryClipsDelegate.m; sourceTree = "<group>"; };
 		45C9A3F3156F0BE000493FDC /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
@@ -2923,6 +2957,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
+				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
 				CF1273C41538B7ED00E0C1AD /* QuartzCore.framework in Frameworks */,
 				454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */,
@@ -2953,6 +2989,9 @@
 				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
 				454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */,
 				45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */,
+				459A9135157D3E62004B7014 /* libKiip.a in Frameworks */,
+				459A9136157D3E62004B7014 /* libKiip.a in Frameworks */,
+				459A9138157D3E62004B7014 /* libKiip.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3184,6 +3223,69 @@
 			path = TJCVideoAds;
 			sourceTree = "<group>";
 		};
+		459A90FB157D3E62004B7014 /* Kiip */ = {
+			isa = PBXGroup;
+			children = (
+				459A90FC157D3E62004B7014 /* CHANGELOG.md */,
+				459A9111157D3E62004B7014 /* Headers */,
+				459A9117157D3E62004B7014 /* Images */,
+				459A911E157D3E62004B7014 /* iphoneos */,
+				459A9120157D3E62004B7014 /* iphonesimulator */,
+				459A9122157D3E62004B7014 /* README.md */,
+				459A9123157D3E62004B7014 /* universal */,
+			);
+			path = Kiip;
+			sourceTree = "<group>";
+		};
+		459A9111157D3E62004B7014 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				459A9112157D3E62004B7014 /* Kiip.h */,
+				459A9113157D3E62004B7014 /* KPErrors.h */,
+				459A9114157D3E62004B7014 /* KPManager.h */,
+				459A9115157D3E62004B7014 /* KPManagerDelegate.h */,
+				459A9116157D3E62004B7014 /* KPUIConstants.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		459A9117157D3E62004B7014 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				459A9118157D3E62004B7014 /* close.png */,
+				459A9119157D3E62004B7014 /* close@2x.png */,
+				459A911A157D3E62004B7014 /* notification-portrait.png */,
+				459A911B157D3E62004B7014 /* notification-portrait@2x.png */,
+				459A911C157D3E62004B7014 /* spinner-bg.png */,
+				459A911D157D3E62004B7014 /* spinner-bg@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		459A911E157D3E62004B7014 /* iphoneos */ = {
+			isa = PBXGroup;
+			children = (
+				459A911F157D3E62004B7014 /* libKiip.a */,
+			);
+			path = iphoneos;
+			sourceTree = "<group>";
+		};
+		459A9120157D3E62004B7014 /* iphonesimulator */ = {
+			isa = PBXGroup;
+			children = (
+				459A9121157D3E62004B7014 /* libKiip.a */,
+			);
+			path = iphonesimulator;
+			sourceTree = "<group>";
+		};
+		459A9123157D3E62004B7014 /* universal */ = {
+			isa = PBXGroup;
+			children = (
+				459A9124157D3E62004B7014 /* libKiip.a */,
+			);
+			path = universal;
+			sourceTree = "<group>";
+		};
 		45C9A3F2156F0BE000493FDC /* FlurryUniversal */ = {
 			isa = PBXGroup;
 			children = (
@@ -3219,6 +3321,10 @@
 		CF1256451538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				454E624A15670A15004EB7E9 /* CoreTelephony.framework */,
+				454E6248156709F9004EB7E9 /* MediaPlayer.framework */,
+				45857342157D3BB80086F70C /* libxml2.dylib */,
+				45857340157D3B6A0086F70C /* MobileCoreServices.framework */,
 				4509ABAF1577EE1900EC9B44 /* Twitter.framework */,
 				45723A001565E443000380EE /* CoreVideo.framework */,
 				457239FE1565E431000380EE /* CoreMedia.framework */,
@@ -3668,6 +3774,8 @@
 				45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */,
 				455BCF1D157562B200DDE405 /* FacebookDelegate.h */,
 				455BCF1E157562B200DDE405 /* FacebookDelegate.m */,
+				459A9139157D52A6004B7014 /* KiipDelegate.h */,
+				459A913A157D52A6004B7014 /* KiipDelegate.m */,
 			);
 			path = "In App Purchases";
 			sourceTree = "<group>";
@@ -3808,11 +3916,10 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				459A90FB157D3E62004B7014 /* Kiip */,
 				455BCED81575604300DDE405 /* facebook-ios-sdk */,
 				45C9A3F2156F0BE000493FDC /* FlurryUniversal */,
 				45856A2E156DB3660005907E /* TapjoyConnect */,
-				454E624A15670A15004EB7E9 /* CoreTelephony.framework */,
-				454E6248156709F9004EB7E9 /* MediaPlayer.framework */,
 				454E6244156709C9004EB7E9 /* AdColony */,
 				454E623E1566D478004EB7E9 /* Crashlytics.framework */,
 				457239FC1565E0DC000380EE /* Delight.framework */,
@@ -6684,6 +6791,14 @@
 				CF48CAB1157784F300802A39 /* leftgate@2x.png in Resources */,
 				CF48CAB2157784F300802A39 /* rightgate.png in Resources */,
 				CF48CAB3157784F300802A39 /* rightgate@2x.png in Resources */,
+				459A9125157D3E62004B7014 /* CHANGELOG.md in Resources */,
+				459A912F157D3E62004B7014 /* close.png in Resources */,
+				459A9130157D3E62004B7014 /* close@2x.png in Resources */,
+				459A9131157D3E62004B7014 /* notification-portrait.png in Resources */,
+				459A9132157D3E62004B7014 /* notification-portrait@2x.png in Resources */,
+				459A9133157D3E62004B7014 /* spinner-bg.png in Resources */,
+				459A9134157D3E62004B7014 /* spinner-bg@2x.png in Resources */,
+				459A9137157D3E62004B7014 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6934,6 +7049,7 @@
 				4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */,
 				CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */,
 				CF74FB211578A96500E52B81 /* TutorialQuestLogController.m in Sources */,
+				459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7023,6 +7139,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -7032,11 +7149,15 @@
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 					"\"$(SRCROOT)/Utopia/libs/FlurryUniversal\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/iphonesimulator\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/universal\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-lKiip",
 				);
 				PRODUCT_NAME = "Lost Nations";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
@@ -7066,6 +7187,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";
 				INFOPLIST_FILE = "Utopia/Utopia-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -7075,10 +7197,14 @@
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
 					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 					"\"$(SRCROOT)/Utopia/libs/FlurryUniversal\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/$(PLATFORM_NAME)\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/iphonesimulator\"",
+					"\"$(SRCROOT)/Utopia/libs/Kiip/universal\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-lKiip",
 				);
 				PRODUCT_NAME = "Lost Nations";
 				PROVISIONING_PROFILE = "";

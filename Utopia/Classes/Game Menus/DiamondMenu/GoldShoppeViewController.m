@@ -277,6 +277,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 
 #pragma mark - View lifecycle
 
+
 -(void) resetSponsoredOffers
 {
   // Initialize the Ad Sponsored deals
@@ -296,11 +297,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   // Initialize the Ad Sponsored deals
   [self resetSponsoredOffers];
   
+  NSString *name = [InAppPurchaseData
+                    adTakeoverResignedNotification];
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(refreshTableView) 
-                                               name:[InAppPurchaseData
-                                                     adTakeoverResignedNotification]
-                                             object:nil];
+                                               name:name
+                                             object:self];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
