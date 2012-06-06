@@ -8,7 +8,7 @@
 
 #import "IAPHelper.h"
 #import "Protocols.pb.h"
-#import "SocketCommunication.h"
+#import "OutgoingEventController.h"
 #import "Globals.h"
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
@@ -96,12 +96,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   LNLog(@"completeTransaction...");
   
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
-  [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:encodedReceipt];
+  NSNumber *goldAmt = [[[Globals sharedGlobals] productIdentifiers] objectForKey:transaction.payment.productIdentifier];
+  [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt.intValue];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
   
-  NSNumber *goldAmt = [[[Globals sharedGlobals] productIdentifiers] objectForKey:transaction.payment.productIdentifier];
-  GameState *gs = [GameState sharedGameState];
-  gs.gold += goldAmt.intValue;
   
   // Find the SKProduct so we can send it in to analytics
   SKProduct *product = nil;

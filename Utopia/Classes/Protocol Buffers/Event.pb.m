@@ -23983,7 +23983,7 @@ BOOL RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusIsVal
 
 @interface LoadPlayerCityRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property (retain) MinimumUserProto* cityOwner;
+@property int32_t cityOwnerId;
 @end
 
 @implementation LoadPlayerCityRequestProto
@@ -23995,22 +23995,21 @@ BOOL RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusIsVal
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasCityOwner {
-  return !!hasCityOwner_;
+- (BOOL) hasCityOwnerId {
+  return !!hasCityOwnerId_;
 }
-- (void) setHasCityOwner:(BOOL) value {
-  hasCityOwner_ = !!value;
+- (void) setHasCityOwnerId:(BOOL) value {
+  hasCityOwnerId_ = !!value;
 }
-@synthesize cityOwner;
+@synthesize cityOwnerId;
 - (void) dealloc {
   self.sender = nil;
-  self.cityOwner = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.cityOwner = [MinimumUserProto defaultInstance];
+    self.cityOwnerId = 0;
   }
   return self;
 }
@@ -24033,8 +24032,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasCityOwner) {
-    [output writeMessage:2 value:self.cityOwner];
+  if (self.hasCityOwnerId) {
+    [output writeInt32:2 value:self.cityOwnerId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -24048,8 +24047,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasCityOwner) {
-    size += computeMessageSize(2, self.cityOwner);
+  if (self.hasCityOwnerId) {
+    size += computeInt32Size(2, self.cityOwnerId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -24129,8 +24128,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasCityOwner) {
-    [self mergeCityOwner:other.cityOwner];
+  if (other.hasCityOwnerId) {
+    [self setCityOwnerId:other.cityOwnerId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -24162,13 +24161,8 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
         [self setSender:[subBuilder buildPartial]];
         break;
       }
-      case 18: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
-        if (self.hasCityOwner) {
-          [subBuilder mergeFrom:self.cityOwner];
-        }
-        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setCityOwner:[subBuilder buildPartial]];
+      case 16: {
+        [self setCityOwnerId:[input readInt32]];
         break;
       }
     }
@@ -24204,34 +24198,20 @@ static LoadPlayerCityRequestProto* defaultLoadPlayerCityRequestProtoInstance = n
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasCityOwner {
-  return result.hasCityOwner;
+- (BOOL) hasCityOwnerId {
+  return result.hasCityOwnerId;
 }
-- (MinimumUserProto*) cityOwner {
-  return result.cityOwner;
+- (int32_t) cityOwnerId {
+  return result.cityOwnerId;
 }
-- (LoadPlayerCityRequestProto_Builder*) setCityOwner:(MinimumUserProto*) value {
-  result.hasCityOwner = YES;
-  result.cityOwner = value;
+- (LoadPlayerCityRequestProto_Builder*) setCityOwnerId:(int32_t) value {
+  result.hasCityOwnerId = YES;
+  result.cityOwnerId = value;
   return self;
 }
-- (LoadPlayerCityRequestProto_Builder*) setCityOwnerBuilder:(MinimumUserProto_Builder*) builderForValue {
-  return [self setCityOwner:[builderForValue build]];
-}
-- (LoadPlayerCityRequestProto_Builder*) mergeCityOwner:(MinimumUserProto*) value {
-  if (result.hasCityOwner &&
-      result.cityOwner != [MinimumUserProto defaultInstance]) {
-    result.cityOwner =
-      [[[MinimumUserProto builderWithPrototype:result.cityOwner] mergeFrom:value] buildPartial];
-  } else {
-    result.cityOwner = value;
-  }
-  result.hasCityOwner = YES;
-  return self;
-}
-- (LoadPlayerCityRequestProto_Builder*) clearCityOwner {
-  result.hasCityOwner = NO;
-  result.cityOwner = [MinimumUserProto defaultInstance];
+- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerId {
+  result.hasCityOwnerId = NO;
+  result.cityOwnerId = 0;
   return self;
 }
 @end

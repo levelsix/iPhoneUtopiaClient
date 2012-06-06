@@ -54,3 +54,26 @@
 
 @interface VaultUpdate : FullUserUpdate
 @end
+
+@interface ExperienceUpdate : FullUserUpdate
+@end
+
+@interface LastEnergyRefillUpdate : FullUserUpdate
+
+@property (nonatomic, retain) NSDate *previousDate;
+@property (nonatomic, retain) NSDate *nextDate;
+
++ (id) updateWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd;
+- (id) initWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd;
+
+@end
+
+@interface LastStaminaRefillUpdate : FullUserUpdate
+
+@property (nonatomic, retain) NSDate *previousDate;
+@property (nonatomic, retain) NSDate *nextDate;
+
++ (id) updateWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd;
+- (id) initWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd;
+
+@end

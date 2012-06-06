@@ -29,7 +29,7 @@
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
 - (void) startup;
-- (void) inAppPurchase: (NSString *) receipt;
+- (void) inAppPurchase: (NSString *) receipt goldAmt:(int)gold;
 
 - (void) retrieveMostRecentMarketplacePosts;
 - (void) retrieveMoreMarketplacePosts;

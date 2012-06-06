@@ -11,7 +11,7 @@
 
 @interface ActivityFeedCell : UITableViewCell
 
-@property (nonatomic, retain) IBOutlet UIImageView *userIcon;
+@property (nonatomic, retain) IBOutlet UIButton *userIcon;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *subtitleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;

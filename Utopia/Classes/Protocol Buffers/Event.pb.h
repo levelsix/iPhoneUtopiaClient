@@ -6315,15 +6315,15 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 
 @interface LoadPlayerCityRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCityOwnerId_:1;
   BOOL hasSender_:1;
-  BOOL hasCityOwner_:1;
+  int32_t cityOwnerId;
   MinimumUserProto* sender;
-  MinimumUserProto* cityOwner;
 }
 - (BOOL) hasSender;
-- (BOOL) hasCityOwner;
+- (BOOL) hasCityOwnerId;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) MinimumUserProto* cityOwner;
+@property (readonly) int32_t cityOwnerId;
 
 + (LoadPlayerCityRequestProto*) defaultInstance;
 - (LoadPlayerCityRequestProto*) defaultInstance;
@@ -6366,12 +6366,10 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 - (LoadPlayerCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadPlayerCityRequestProto_Builder*) clearSender;
 
-- (BOOL) hasCityOwner;
-- (MinimumUserProto*) cityOwner;
-- (LoadPlayerCityRequestProto_Builder*) setCityOwner:(MinimumUserProto*) value;
-- (LoadPlayerCityRequestProto_Builder*) setCityOwnerBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (LoadPlayerCityRequestProto_Builder*) mergeCityOwner:(MinimumUserProto*) value;
-- (LoadPlayerCityRequestProto_Builder*) clearCityOwner;
+- (BOOL) hasCityOwnerId;
+- (int32_t) cityOwnerId;
+- (LoadPlayerCityRequestProto_Builder*) setCityOwnerId:(int32_t) value;
+- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerId;
 @end
 
 @interface LoadPlayerCityResponseProto : PBGeneratedMessage {

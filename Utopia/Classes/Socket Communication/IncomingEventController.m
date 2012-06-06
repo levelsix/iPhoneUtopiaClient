@@ -172,6 +172,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSEnableApnsEvent:
       responseClass = [EnableAPNSResponseProto class];
       break;
+    case EventProtocolResponseSEarnFreeGold:
+      responseClass = [EarnFreeGoldResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -187,9 +190,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Received user create with status %d", proto.status);
   
   [[DialogMenuController sharedDialogMenuController] receivedUserCreateResponse:proto];
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
-    [[GameState sharedGameState] updateUser:proto.sender];
+    [gs updateUser:proto.sender];
     [[OutgoingEventController sharedOutgoingEventController] startup];
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -215,9 +222,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleBattleResponseProto:(BattleResponseProto *)proto tag:(int)tag {
   LNLog(@"Battle response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == BattleResponseProto_BattleStatusSuccess) {
-    GameState *gs = [GameState sharedGameState];
-    
     if (proto.attacker.userId == gs.userId) {
       gs.experience += proto.expGained;
       
@@ -250,8 +256,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       
       [Analytics receivedNotification];
     }
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to record battle"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -332,9 +340,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (gs.isTutorial) {
       [[DialogMenuController sharedDialogMenuController] stopLoading];
     }
-    
-//    [oec retrieveStructStore];
-//    [oec purchaseNormStruct:1 atX:50 atY:39];
   } else {
     // Need to create new player
     StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
@@ -345,12 +350,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [[GameViewController sharedGameViewController] setIsTutorial:YES];
     
-    GameState *gs = [GameState sharedGameState];
     [gs setConnected:YES];
     gs.connected = YES;
     gs.expRequiredForCurrentLevel = 0;
     gs.expRequiredForNextLevel = tc.expRequiredForLevelTwo;
   }
+  
+  [gs removeNonFullUserUpdatesForTag:tag];
 }
 
 - (void) handleLevelUpResponseProto:(LevelUpResponseProto *)proto tag:(int)tag {
@@ -377,8 +383,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
     
     [Analytics levelUp:proto.newLevel];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle level up"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -386,8 +394,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"In App Purchase response received with status %d.", proto.status);
   
   [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
     [Globals popupMessage:@"Sorry! Server failed to process in app purchase! Please send us an email at support@lvl6.com"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -428,8 +440,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         }
       }
     }
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to complete task"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -942,6 +956,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 
 - (void) handleEnableAPNSResponseProto:(EnableAPNSResponseProto *)proto tag:(int)tag {
   LNLog(@"Enable apns response received with status %d.", proto.status);
+}
+
+- (void) handleEarnFreeGoldResponseProto:(EarnFreeGoldResponseProto *)proto tag:(int)tag {
+  LNLog(@"Earn free gold response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess) {
+    
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to validate free gold."];
+    [gs removeFullUserUpdatesForTag:tag];
+  }
 }
 
 @end

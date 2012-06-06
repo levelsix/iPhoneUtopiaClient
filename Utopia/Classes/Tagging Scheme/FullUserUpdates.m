@@ -193,3 +193,87 @@
 }
 
 @end
+
+@implementation ExperienceUpdate
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.experience += _change;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.experience -= _change;
+}
+
+@end
+
+@implementation LastEnergyRefillUpdate
+
+@synthesize previousDate, nextDate;
+
++ (id) updateWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd {
+  return [[[self alloc] initWithTag:t prevDate:pd nextDate:nd] autorelease];
+}
+
+- (id) initWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd {
+  if ((self = [super init])) {
+    self.tag = t;
+    self.previousDate = pd;
+    self.nextDate = nd;
+  }
+  return self;
+}
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastEnergyRefill = nextDate;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastEnergyRefill = previousDate;
+}
+
+- (void) dealloc {
+  self.previousDate = nil;
+  self.nextDate = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation LastStaminaRefillUpdate
+
+@synthesize previousDate, nextDate;
+
++ (id) updateWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd {
+  return [[[self alloc] initWithTag:t prevDate:pd nextDate:nd] autorelease];
+}
+
+- (id) initWithTag:(int)t prevDate:(NSDate *)pd nextDate:(NSDate *)nd {
+  if ((self = [super init])) {
+    self.tag = t;
+    self.previousDate = pd;
+    self.nextDate = nd;
+  }
+  return self;
+}
+
+- (void) update {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastStaminaRefill = nextDate;
+}
+
+- (void) undo {
+  GameState *gs = [GameState sharedGameState];
+  gs.lastStaminaRefill = previousDate;
+}
+
+- (void) dealloc {
+  self.previousDate = nil;
+  self.nextDate = nil;
+  [super dealloc];
+}
+
+@end

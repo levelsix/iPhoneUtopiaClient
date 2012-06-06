@@ -67,7 +67,7 @@
 - (int) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds;
 - (int) sendSellNormStructureMessage:(int)userStructId;
 
-- (int) sendLoadPlayerCityMessage:(MinimumUserProto *)mup;
+- (int) sendLoadPlayerCityMessage:(int)userId;
 - (int) sendLoadNeutralCityMessage:(int)cityId;
 
 - (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds;
@@ -89,5 +89,7 @@
 - (int) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content;
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;
+
+- (int) sendEarnFreeGoldMessage:(EarnFreeGoldRequestProto_EarnFreeGoldType)goldType clientTime:(uint64_t)time kiipReceipt:(NSString *)receipt;
 
 @end

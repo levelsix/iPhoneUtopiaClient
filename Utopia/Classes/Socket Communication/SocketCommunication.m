@@ -499,10 +499,10 @@ static NSString *udid = nil;
   return [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
 }
 
-- (int) sendLoadPlayerCityMessage:(MinimumUserProto *)mup {
+- (int) sendLoadPlayerCityMessage:(int)userId {
   LoadPlayerCityRequestProto *req = [[[[LoadPlayerCityRequestProto builder]
                                        setSender:_sender]
-                                      setCityOwner:mup]
+                                      setCityOwnerId:userId]
                                      build];
   
   return [self sendData:req.data withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
@@ -681,6 +681,19 @@ static NSString *udid = nil;
                                  build];
   
   return [self sendData:req.data withMessageType:EventProtocolRequestCEnableApnsEvent];
+}
+
+- (int) sendEarnFreeGoldMessage:(EarnFreeGoldRequestProto_EarnFreeGoldType)goldType clientTime:(uint64_t)time kiipReceipt:(NSString *)receipt {
+  EarnFreeGoldRequestProto_Builder *bldr = [[[EarnFreeGoldRequestProto builder]
+                                             setFreeGoldType:goldType]
+                                            setClientTime:time];
+  
+  if (receipt) {
+    [bldr setKiipReceipt:receipt];
+  }
+  
+  EarnFreeGoldRequestProto *req = bldr.build;
+  return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeGold];
 }
 
 - (void) closeDownConnection {
