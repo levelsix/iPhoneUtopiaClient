@@ -17,7 +17,7 @@
 
 #define MAX_ZOOM 1.8f
 #define MIN_ZOOM 0.5f
-#define DEFAULT_ZOOM 0.8f
+#define DEFAULT_ZOOM 1.f
 
 @class Building;
 @class SelectableSprite;

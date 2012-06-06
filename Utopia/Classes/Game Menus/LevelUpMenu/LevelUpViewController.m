@@ -104,15 +104,15 @@
 }
 
 - (void) popView:(UIView *)view {
-  view.transform = CGAffineTransformMakeScale(1.3f, 1.3f);
-  [UIView animateWithDuration:0.3f animations:^{
+  view.transform = CGAffineTransformMakeScale(.5f, .5f);
+  [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
     view.transform = CGAffineTransformIdentity;
   } completion:^(BOOL finished) {
     [self popCurrentView];
   }];
   
   view.alpha = 0.f;
-  [UIView animateWithDuration:0.05f animations:^{
+  [UIView animateWithDuration:0.2f animations:^{
     view.alpha = 1.f;
   }];
 }

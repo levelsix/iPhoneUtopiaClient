@@ -22,8 +22,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);
 
 static NSString *udid = nil;
 
-@synthesize currentTagNum = _currentTagNum;
-
 - (id) init {
   if ((self = [super init])) {
 #ifdef FORCE_TUTORIAL
@@ -134,16 +132,16 @@ static NSString *udid = nil;
   }
   
   // Call handle<Proto Class> method in event controller
-  NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
+  NSString *selectorStr = [NSString stringWithFormat:@"handle%@:tag:", [typeClass description]];
   SEL handleMethod = NSSelectorFromString(selectorStr);
   if ([ec respondsToSelector:handleMethod]) {
-    [ec performSelectorOnMainThread:handleMethod withObject:[typeClass parseFromData: data] waitUntilDone:NO];
+    [ec performSelector:handleMethod withObject:[typeClass parseFromData: data] withObject:(id)tag];
   } else {
     LNLog(@"Unable to find %@ in IncomingEventController", selectorStr);
   }
 }
 
--(void) sendData:(NSData *)data withMessageType: (int) type {
+- (int) sendData:(NSData *)data withMessageType: (int) type {
   NSMutableData *messageWithHeader = [NSMutableData data];
   
   if (_sender.userId == 0) {
@@ -172,10 +170,12 @@ static NSString *udid = nil;
   [messageWithHeader appendData:data];
   [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:0];
   
+  int tag = _currentTagNum;
   _currentTagNum++;
+  return tag;
 }
 
-- (void) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
+- (int) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
   bldr.udid = udid;
@@ -205,42 +205,41 @@ static NSString *udid = nil;
   bldr.usedDiamondsToBuilt = usedDiamondsToBuild;
   
   UserCreateRequestProto *req = [bldr build];
-  [self sendData:req.data withMessageType:EventProtocolRequestCUserCreateEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCUserCreateEvent];
 }
 
-- (void) sendStartupMessage:(uint64_t)clientTime {
-  Apsalar *ap = [Apsalar shared];
-  NSLog(@"%@ %@", ap, ap.apsalarID);
-  StartupRequestProto *startReq = [[[[[StartupRequestProto builder] 
-                                      setUdid:udid]
-                                     setApsalarId:[Apsalar shared].apsalarID]
-                                    setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
-                                   build];
+- (int) sendStartupMessage:(uint64_t)clientTime {
+  StartupRequestProto *req = [[[[[StartupRequestProto builder] 
+                                 setUdid:udid]
+                                setApsalarId:[Apsalar apsalarID]]
+                               setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
+                              build];
   
   LNLog(@"Sent over udid: %@", udid);
   
-  [self sendData:[startReq data] withMessageType:EventProtocolRequestCStartupEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCStartupEvent];
 }
 
-- (void) sendChatMessage:(NSString *)message recipient:(int)recipient {
-  ChatRequestProto *c = [[[[[ChatRequestProto builder] 
-                            setMessage:message] 
-                           setSender:_sender] 
-                          addRecipients:[[[MinimumUserProto builder] setUserId:recipient] build]]
-                         build];
-  [self sendData:[c data] withMessageType:EventProtocolRequestCChatEvent];
+- (int) sendChatMessage:(NSString *)message recipient:(int)recipient {
+  ChatRequestProto *req = [[[[[ChatRequestProto builder] 
+                              setMessage:message] 
+                             setSender:_sender] 
+                            addRecipients:[[[MinimumUserProto builder] setUserId:recipient] build]]
+                           build];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCChatEvent];
 }
 
-- (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type {
-  VaultRequestProto *vaultReq = [[[[[VaultRequestProto builder] 
-                                    setAmount:amount] 
-                                   setSender:_sender] 
-                                  setRequestType:type] 
-                                 build];
-  [self sendData:[vaultReq data] withMessageType:EventProtocolRequestCVaultEvent];
+- (int) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type {
+  VaultRequestProto *req = [[[[[VaultRequestProto builder] 
+                               setAmount:amount] 
+                              setSender:_sender] 
+                             setRequestType:type] 
+                            build];
+  
+  return [self sendData:req.data withMessageType:EventProtocolRequestCVaultEvent];
 }
 
-- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
+- (int) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips {
   BattleRequestProto_Builder *builder = [[[[[[BattleRequestProto builder]
                                              setAttacker:_sender]
                                             setDefender:defender]
@@ -253,139 +252,140 @@ static NSString *udid = nil;
   
   BattleRequestProto *req = [builder build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCBattleEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCBattleEvent];
 }
 
-- (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId {
-  ArmoryRequestProto *arpReq = [[[[[[ArmoryRequestProto builder]
-                                    setSender:_sender]
-                                   setRequestType:requestType]
-                                  setQuantity:quantity]
-                                 setEquipId:equipId]
-                                build];
+- (int) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId {
+  ArmoryRequestProto *req = [[[[[[ArmoryRequestProto builder]
+                                 setSender:_sender]
+                                setRequestType:requestType]
+                               setQuantity:quantity]
+                              setEquipId:equipId]
+                             build];
   
-  [self sendData:[arpReq data] withMessageType:EventProtocolRequestCArmoryEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCArmoryEvent];
 }
 
-- (void) sendTaskActionMessage:(int)taskId curTime:(uint64_t)clientTime {
-  TaskActionRequestProto *taskReq = [[[[[TaskActionRequestProto builder]
-                                        setTaskId:taskId]
-                                       setSender:_sender]
-                                      setCurTime:clientTime]
-                                     build];
+- (int) sendTaskActionMessage:(int)taskId curTime:(uint64_t)clientTime {
+  TaskActionRequestProto *req = [[[[[TaskActionRequestProto builder]
+                                    setTaskId:taskId]
+                                   setSender:_sender]
+                                  setCurTime:clientTime]
+                                 build];
   
-  [self sendData:[taskReq data] withMessageType:EventProtocolRequestCTaskActionEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCTaskActionEvent];
 }
 
-- (void) sendInAppPurchaseMessage:(NSString *)receipt {
-  InAppPurchaseRequestProto *iapReq = [[[[InAppPurchaseRequestProto builder]
-                                         setReceipt:receipt]
-                                        setSender:_sender]
-                                       build];
-  [self sendData:[iapReq data] withMessageType:EventProtocolRequestCInAppPurchaseEvent];
+- (int) sendInAppPurchaseMessage:(NSString *)receipt {
+  InAppPurchaseRequestProto *req = [[[[InAppPurchaseRequestProto builder]
+                                      setReceipt:receipt]
+                                     setSender:_sender]
+                                    build];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCInAppPurchaseEvent];
 }
 
-- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId fromSender:(BOOL)fromSender{
-  RetrieveCurrentMarketplacePostsRequestProto_Builder *mktReq = [[[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender] setFromSender:fromSender];
+- (int) sendRetrieveCurrentMarketplacePostsMessageBeforePostId: (int)postId fromSender:(BOOL)fromSender{
+  RetrieveCurrentMarketplacePostsRequestProto_Builder *bldr = [[[RetrieveCurrentMarketplacePostsRequestProto builder] setSender:_sender] setFromSender:fromSender];
   
   if (postId) {
-    [mktReq setBeforeThisPostId:postId];
+    [bldr setBeforeThisPostId:postId];
   }
   
-  [self sendData:[[mktReq build] data] withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
+  RetrieveCurrentMarketplacePostsRequestProto *req = bldr.build;
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveCurrentMarketplacePostsEvent];
 }
 
-- (void) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds {
-  PostToMarketplaceRequestProto *mktReq = [[[[[[PostToMarketplaceRequestProto builder]
-                                               setPostedEquipId:equipId]
-                                              setCoinCost:coins]
-                                             setDiamondCost:diamonds]
-                                            setSender:_sender]
-                                           build];
+- (int) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds {
+  PostToMarketplaceRequestProto *req = [[[[[[PostToMarketplaceRequestProto builder]
+                                            setPostedEquipId:equipId]
+                                           setCoinCost:coins]
+                                          setDiamondCost:diamonds]
+                                         setSender:_sender]
+                                        build];
   
-  [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPostToMarketplaceEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCPostToMarketplaceEvent];
 }
 
-- (void) sendRetractMarketplacePostMessage: (int)postId {
-  RetractMarketplacePostRequestProto *mktReq = [[[[RetractMarketplacePostRequestProto builder]
-                                                  setSender:_sender]
-                                                 setMarketplacePostId:postId]
+- (int) sendRetractMarketplacePostMessage: (int)postId {
+  RetractMarketplacePostRequestProto *req = [[[[RetractMarketplacePostRequestProto builder]
+                                               setSender:_sender]
+                                              setMarketplacePostId:postId]
+                                             build];
+  
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetractPostFromMarketplaceEvent];
+}
+
+- (int) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId {
+  PurchaseFromMarketplaceRequestProto *req = [[[[[PurchaseFromMarketplaceRequestProto builder]
+                                                 setSender:_sender]
+                                                setMarketplacePostId:postId]
+                                               setPosterId:posterId]
+                                              build];
+  
+  return [self sendData:req.data withMessageType:EventProtocolRequestCPurchaseFromMarketplaceEvent];
+}
+
+- (int) sendRedeemMarketplaceEarningsMessage {
+  RedeemMarketplaceEarningsRequestProto *req = [[[RedeemMarketplaceEarningsRequestProto builder]
+                                                 setSender:_sender]
                                                 build];
   
-  [self sendData:[mktReq data] withMessageType:EventProtocolRequestCRetractPostFromMarketplaceEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRedeemMarketplaceEarningsEvent];
 }
 
-- (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId {
-  PurchaseFromMarketplaceRequestProto *mktReq = [[[[[PurchaseFromMarketplaceRequestProto builder]
-                                                    setSender:_sender]
-                                                   setMarketplacePostId:postId]
-                                                  setPosterId:posterId]
-                                                 build];
-  
-  [self sendData:[mktReq data] withMessageType:EventProtocolRequestCPurchaseFromMarketplaceEvent];
-}
-
-- (void) sendRedeemMarketplaceEarningsMessage {
-  RedeemMarketplaceEarningsRequestProto *redReq = [[[RedeemMarketplaceEarningsRequestProto builder]
-                                                    setSender:_sender]
-                                                   build];
-  
-  [self sendData:[redReq data] withMessageType:EventProtocolRequestCRedeemMarketplaceEarningsEvent];
-}
-
-- (void) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type {
+- (int) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type {
   PurchaseMarketplaceLicenseRequestProto *req = [[[[[PurchaseMarketplaceLicenseRequestProto builder]
                                                     setSender:_sender]
                                                    setClientTime:clientTime]
                                                   setLicenseType:type]
                                                  build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCPurchaseMarketplaceLicenseEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCPurchaseMarketplaceLicenseEvent];
 }
 
-- (void) sendUseSkillPointMessage:(UseSkillPointRequestProto_BoostType) boostType {
-  UseSkillPointRequestProto *skillReq = [[[[UseSkillPointRequestProto builder]
-                                           setSender:_sender]
-                                          setBoostType:boostType]
+- (int) sendUseSkillPointMessage:(UseSkillPointRequestProto_BoostType) boostType {
+  UseSkillPointRequestProto *req = [[[[UseSkillPointRequestProto builder]
+                                      setSender:_sender]
+                                     setBoostType:boostType]
+                                    build];
+  
+  return [self sendData:req.data withMessageType:EventProtocolRequestCUseSkillPointEvent];
+}
+
+- (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound {
+  GenerateAttackListRequestProto *req = [[[[[[[[GenerateAttackListRequestProto builder]
+                                               setSender:_sender]
+                                              setNumEnemies:numEnemies]
+                                             setLatLowerBound:latLowerBound]
+                                            setLatUpperBound:latUpperBound]
+                                           setLongLowerBound:lonLowerBound]
+                                          setLongUpperBound:lonUpperBound]
                                          build];
   
-  [self sendData:[skillReq data] withMessageType:EventProtocolRequestCUseSkillPointEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCGenerateAttackListEvent];
 }
 
-- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound {
-  GenerateAttackListRequestProto *attReq = [[[[[[[[GenerateAttackListRequestProto builder]
-                                                  setSender:_sender]
-                                                 setNumEnemies:numEnemies]
-                                                setLatLowerBound:latLowerBound]
-                                               setLatUpperBound:latUpperBound]
-                                              setLongLowerBound:lonLowerBound]
-                                             setLongUpperBound:lonUpperBound]
+- (int) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType {
+  RefillStatWithDiamondsRequestProto *req = [[[[RefillStatWithDiamondsRequestProto builder]
+                                               setSender:_sender]
+                                              setStatType:statType]
+                                             build];
+  
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRefillStatWithDiamondsEvent];
+}
+
+- (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time{
+  PurchaseNormStructureRequestProto *req = [[[[[[PurchaseNormStructureRequestProto builder]
+                                                setSender:_sender]
+                                               setStructId:structId]
+                                              setStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
+                                             setTimeOfPurchase:time]
                                             build];
   
-  [self sendData:[attReq data] withMessageType:EventProtocolRequestCGenerateAttackListEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCPurchaseNormStructureEvent];
 }
 
-- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType) statType {
-  RefillStatWithDiamondsRequestProto *refReq = [[[[RefillStatWithDiamondsRequestProto builder]
-                                                  setSender:_sender]
-                                                 setStatType:statType]
-                                                build];
-  
-  [self sendData:[refReq data] withMessageType:EventProtocolRequestCRefillStatWithDiamondsEvent];
-}
-
-- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time{
-  PurchaseNormStructureRequestProto *purReq = [[[[[[PurchaseNormStructureRequestProto builder]
-                                                   setSender:_sender]
-                                                  setStructId:structId]
-                                                 setStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
-                                                setTimeOfPurchase:time]
-                                               build];
-  
-  [self sendData:[purReq data] withMessageType:EventProtocolRequestCPurchaseNormStructureEvent];
-}
-
-- (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
+- (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y {
   MoveOrRotateNormStructureRequestProto *req = 
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
@@ -394,10 +394,10 @@ static NSString *udid = nil;
     setCurStructCoordinates:[[[[CoordinateProto builder] setX:x] setY:y] build]]
    build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
-- (void) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation {
+- (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation {
   MoveOrRotateNormStructureRequestProto *req = 
   [[[[[[MoveOrRotateNormStructureRequestProto builder]
        setSender:_sender]
@@ -406,31 +406,31 @@ static NSString *udid = nil;
     setNewOrientation:orientation]
    build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCMoveOrRotateNormStructureEvent];
 }
 
-- (void) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime {
-  UpgradeNormStructureRequestProto *upReq = [[[[[UpgradeNormStructureRequestProto builder]
+- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime {
+  UpgradeNormStructureRequestProto *req = [[[[[UpgradeNormStructureRequestProto builder]
+                                              setSender:_sender]
+                                             setUserStructId:userStructId]
+                                            setTimeOfUpgrade:curTime]
+                                           build];
+  
+  return [self sendData:req.data withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
+}
+
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime {
+  NormStructWaitCompleteRequestProto *req = [[[[[NormStructWaitCompleteRequestProto builder]
                                                 setSender:_sender]
-                                               setUserStructId:userStructId]
-                                              setTimeOfUpgrade:curTime]
+                                               addAllUserStructId:userStructIds]
+                                              setCurTime:curTime]
                                              build];
   
-  [self sendData:[upReq data] withMessageType:EventProtocolRequestCUpgradeNormStructureEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];
 }
 
-- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime {
-  NormStructWaitCompleteRequestProto *buildReq = [[[[[NormStructWaitCompleteRequestProto builder]
-                                                     setSender:_sender]
-                                                    addAllUserStructId:userStructIds]
-                                                   setCurTime:curTime]
-                                                  build];
-  
-  [self sendData:[buildReq data] withMessageType:EventProtocolRequestCNormStructWaitCompleteEvent];
-}
-
-- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type {
-  FinishNormStructWaittimeWithDiamondsRequestProto *finReq = 
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type {
+  FinishNormStructWaittimeWithDiamondsRequestProto *req = 
   [[[[[[FinishNormStructWaittimeWithDiamondsRequestProto builder]
        setSender:_sender]
       setUserStructId:userStructId]
@@ -438,29 +438,29 @@ static NSString *udid = nil;
     setWaitTimeType:type]
    build];
   
-  [self sendData:[finReq data] withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCFinishNormStructWaittimeWithDiamondsEvent];
 }
 
-- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds {
-  RetrieveCurrencyFromNormStructureRequestProto *retReq = [[[[[RetrieveCurrencyFromNormStructureRequestProto builder]
-                                                              setSender:_sender]
-                                                             setUserStructId:userStructId]
-                                                            setTimeOfRetrieval:milliseconds]
-                                                           build];
+- (int) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds {
+  RetrieveCurrencyFromNormStructureRequestProto *req = [[[[[RetrieveCurrencyFromNormStructureRequestProto builder]
+                                                           setSender:_sender]
+                                                          setUserStructId:userStructId]
+                                                         setTimeOfRetrieval:milliseconds]
+                                                        build];
   
-  [self sendData:[retReq data] withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveCurrencyFromNormStructureEvent];
 }
 
-- (void) sendSellNormStructureMessage:(int)userStructId {
-  SellNormStructureRequestProto *sellReq = [[[[SellNormStructureRequestProto builder]
-                                              setSender:_sender]
-                                             setUserStructId:userStructId]
-                                            build];
+- (int) sendSellNormStructureMessage:(int)userStructId {
+  SellNormStructureRequestProto *req = [[[[SellNormStructureRequestProto builder]
+                                          setSender:_sender]
+                                         setUserStructId:userStructId]
+                                        build];
   
-  [self sendData:[sellReq data] withMessageType:EventProtocolRequestCSellNormStructureEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCSellNormStructureEvent];
 }
 
-- (void) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y {
+- (int) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y {
   CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
                                                   setSender:_sender]
                                                  setActionType:CriticalStructureActionRequestProto_CritStructActionTypePlace]
@@ -471,10 +471,10 @@ static NSString *udid = nil;
                                                                          build]]
                                               build];
   
-  [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
 }
 
-- (void) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y {
+- (int) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y {
   CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
                                                   setSender:_sender]
                                                  setActionType:CriticalStructureActionRequestProto_CritStructActionTypeMove]
@@ -485,10 +485,10 @@ static NSString *udid = nil;
                                                                          build]]
                                               build];
   
-  [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
 }
 
-- (void) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation {
+- (int) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation {
   CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
                                                   setSender:_sender]
                                                  setActionType:CriticalStructureActionRequestProto_CritStructActionTypeRotate]
@@ -496,19 +496,19 @@ static NSString *udid = nil;
                                                setOrientation:orientation] 
                                               build];
   
-  [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCCritStructureActionEvent];
 }
 
-- (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup {
-  LoadPlayerCityRequestProto *loadReq = [[[[LoadPlayerCityRequestProto builder]
-                                           setSender:_sender]
-                                          setCityOwner:mup]
-                                         build];
+- (int) sendLoadPlayerCityMessage:(int)userId {
+  LoadPlayerCityRequestProto *req = [[[[LoadPlayerCityRequestProto builder]
+                                       setSender:_sender]
+                                      setCityOwnerId:userId]
+                                     build];
   
-  [self sendData:[loadReq data] withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCLoadPlayerCityEvent];
 }
 
-- (void) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds {
+- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds {
   RetrieveStaticDataRequestProto_Builder *blder = [RetrieveStaticDataRequestProto builder];
   
   if (structIds) {
@@ -540,29 +540,29 @@ static NSString *udid = nil;
   }
   
   [blder setSender:_sender];
-  RetrieveStaticDataRequestProto *retReq = [blder build];
-  [self sendData:[retReq data] withMessageType:EventProtocolRequestCRetrieveStaticDataEvent];
+  RetrieveStaticDataRequestProto *req = [blder build];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveStaticDataEvent];
 }
 
-- (void) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType) type {
-  RetrieveStaticDataForShopRequestProto *retReq = [[[[RetrieveStaticDataForShopRequestProto builder]
-                                                     setSender:_sender]
-                                                    setType:type]
-                                                   build];
+- (int) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType) type {
+  RetrieveStaticDataForShopRequestProto *req = [[[[RetrieveStaticDataForShopRequestProto builder]
+                                                  setSender:_sender]
+                                                 setType:type]
+                                                build];
   
-  [self sendData:[retReq data] withMessageType:EventProtocolRequestCRetrieveStaticDataForShopEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveStaticDataForShopEvent];
 }
 
-- (void) sendEquipEquipmentMessage:(int) equipId {
+- (int) sendEquipEquipmentMessage:(int) equipId {
   EquipEquipmentRequestProto *req = [[[[EquipEquipmentRequestProto builder]
                                        setSender:_sender]
                                       setEquipId:equipId]
                                      build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCEquipEquipmentEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCEquipEquipmentEvent];
 }
 
-- (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon {
+- (int) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon {
   ChangeUserLocationRequestProto *req = [[[[ChangeUserLocationRequestProto builder]
                                            setSender:_sender]
                                           setUserLocation:
@@ -572,55 +572,55 @@ static NSString *udid = nil;
                                            build]]
                                          build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCChangeUserLocationEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCChangeUserLocationEvent];
 }
 
-- (void) sendLoadNeutralCityMessage:(int)cityId {
+- (int) sendLoadNeutralCityMessage:(int)cityId {
   LoadNeutralCityRequestProto *req = [[[[LoadNeutralCityRequestProto builder]
                                         setSender:_sender]
                                        setCityId:cityId]
                                       build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCLoadNeutralCityEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCLoadNeutralCityEvent];
 }
 
-- (void) sendLevelUpMessage {
+- (int) sendLevelUpMessage {
   LevelUpRequestProto *req = [[[LevelUpRequestProto builder]
                                setSender:_sender]
                               build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCLevelUpEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCLevelUpEvent];
 }
 
-- (void) sendRefillStatWaitTimeComplete:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType)type curTime:(uint64_t)curTime {
+- (int) sendRefillStatWaitTimeComplete:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType)type curTime:(uint64_t)curTime {
   RefillStatWaitCompleteRequestProto *req = [[[[[RefillStatWaitCompleteRequestProto builder]
                                                 setSender:_sender]
                                                setType:type]
                                               setCurTime:curTime]
                                              build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCRefillStatWaitCompleteEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRefillStatWaitCompleteEvent];
 }
 
-- (void) sendQuestAcceptMessage:(int)questId {
+- (int) sendQuestAcceptMessage:(int)questId {
   QuestAcceptRequestProto *req = [[[[QuestAcceptRequestProto builder]
                                     setSender:_sender]
                                    setQuestId:questId]
                                   build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCQuestAcceptEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCQuestAcceptEvent];
 }
 
-- (void) sendQuestRedeemMessage:(int)questId {
+- (int) sendQuestRedeemMessage:(int)questId {
   QuestRedeemRequestProto *req = [[[[QuestRedeemRequestProto builder]
                                     setSender:_sender]
                                    setQuestId:questId]
                                   build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCQuestRedeemEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCQuestRedeemEvent];
 }
 
-- (void) sendUserQuestDetailsMessage:(int)questId {
+- (int) sendUserQuestDetailsMessage:(int)questId {
   UserQuestDetailsRequestProto_Builder *builder = [[UserQuestDetailsRequestProto builder]
                                                    setSender:_sender];
   
@@ -629,28 +629,28 @@ static NSString *udid = nil;
   }
   UserQuestDetailsRequestProto *req = [builder build];
   
-  [self sendData:[req data] withMessageType:EventProtocolRequestCUserQuestDetailsEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCUserQuestDetailsEvent];
 }
 
-- (void) sendRetrieveUserEquipForUserMessage:(int)userId {
+- (int) sendRetrieveUserEquipForUserMessage:(int)userId {
   RetrieveUserEquipForUserRequestProto *req = [[[[RetrieveUserEquipForUserRequestProto builder]
                                                  setSender:_sender]
                                                 setRelevantUserId:userId]
                                                build];
   
-  [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveUserEquipForUser];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveUserEquipForUser];
 }
 
-- (void) sendRetrieveUsersForUserIds:(NSArray *)userIds {
+- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds {
   RetrieveUsersForUserIdsRequestProto *req = [[[[RetrieveUsersForUserIdsRequestProto builder]
                                                 setSender:_sender]
                                                addAllRequestedUserIds:userIds]
                                               build];
   
-  [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveUsersForUserIdsEvent];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetrieveUsersForUserIdsEvent];
 }
 
-- (void) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId {
+- (int) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId {
   RetrievePlayerWallPostsRequestProto_Builder *bldr = [[[RetrievePlayerWallPostsRequestProto builder]
                                                         setSender:_sender]
                                                        setRelevantUserId:playerId];
@@ -661,17 +661,39 @@ static NSString *udid = nil;
   
   RetrievePlayerWallPostsRequestProto *req = [bldr build];
   
-  [self sendData:req.data withMessageType:EventProtocolRequestCRetrievePlayerWallPosts];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCRetrievePlayerWallPosts];
 }
 
-- (void) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content {
+- (int) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content {
   PostOnPlayerWallRequestProto *req = [[[[[PostOnPlayerWallRequestProto builder]
                                           setSender:_sender]
                                          setWallOwnerId:playerId]
                                         setContent:content]
                                        build];
   
-  [self sendData:req.data withMessageType:EventProtocolRequestCPostOnPlayerWall];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCPostOnPlayerWall];
+}
+
+- (int) sendAPNSMessage:(NSString *)deviceToken {
+  EnableAPNSRequestProto *req = [[[[EnableAPNSRequestProto builder]
+                                   setSender:_sender]
+                                  setDeviceToken:deviceToken]
+                                 build];
+  
+  return [self sendData:req.data withMessageType:EventProtocolRequestCEnableApnsEvent];
+}
+
+- (int) sendEarnFreeGoldMessage:(EarnFreeGoldRequestProto_EarnFreeGoldType)goldType clientTime:(uint64_t)time kiipReceipt:(NSString *)receipt {
+  EarnFreeGoldRequestProto_Builder *bldr = [[[EarnFreeGoldRequestProto builder]
+                                             setFreeGoldType:goldType]
+                                            setClientTime:time];
+  
+  if (receipt) {
+    [bldr setKiipReceipt:receipt];
+  }
+  
+  EarnFreeGoldRequestProto *req = bldr.build;
+  return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeGold];
 }
 
 - (void) closeDownConnection {

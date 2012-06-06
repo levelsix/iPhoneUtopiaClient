@@ -21,6 +21,7 @@
 #import "GenericPopupController.h"
 #import "SimpleAudioEngine.h"
 #import "BattleLayer.h"
+#import "OtherUpdates.h"
 
 @implementation OutgoingEventController
 
@@ -35,22 +36,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
-  [sc sendUserCreateMessageWithName:gs.name 
-                               type:gs.type
-                                lat:gs.location.latitude 
-                                lon:gs.location.longitude
-                       referralCode:tc.referralCode
-                        deviceToken:nil
-                             attack:gs.attack
-                            defense:gs.defense 
-                             health:gs.maxHealth
-                             energy:gs.maxEnergy
-                            stamina:gs.maxStamina
-               timeOfStructPurchase:tc.structTimeOfPurchase.timeIntervalSince1970*1000
-                  timeOfStructBuild:tc.structTimeOfBuildComplete.timeIntervalSince1970*1000
-                            structX:tc.structCoords.x
-                            structY:tc.structCoords.y
-                       usedDiamonds:tc.structUsedDiamonds];
+  int tag = [sc sendUserCreateMessageWithName:gs.name 
+                                         type:gs.type
+                                          lat:gs.location.latitude 
+                                          lon:gs.location.longitude
+                                 referralCode:tc.referralCode
+                                  deviceToken:nil
+                                       attack:gs.attack
+                                      defense:gs.defense 
+                                       health:gs.maxHealth
+                                       energy:gs.maxEnergy
+                                      stamina:gs.maxStamina
+                         timeOfStructPurchase:tc.structTimeOfPurchase.timeIntervalSince1970*1000
+                            timeOfStructBuild:tc.structTimeOfBuildComplete.timeIntervalSince1970*1000
+                                      structX:tc.structCoords.x
+                                      structY:tc.structCoords.y
+                                 usedDiamonds:tc.structUsedDiamonds];
+  
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) vaultDeposit:(int)amount {
@@ -59,10 +62,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   if (amount <= gs.silver) {
-    [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
-    gs.silver -= amount;
-    gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
+    int tag = [sc sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
+    int vaultChange = (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-amount];
+    VaultUpdate *vu = [VaultUpdate updateWithTag:tag change:vaultChange];
+    [gs addUnrespondedUpdates:su, vu, nil];
     
     [Globals playCoinSound];
   } else {
@@ -76,10 +82,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   if (amount <= gs.vaultBalance) {
-    [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
-    gs.silver += amount;
-    gs.vaultBalance -= amount;
+    int tag = [sc sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:amount];
+    VaultUpdate *vu = [VaultUpdate updateWithTag:tag change:-amount];
+    [gs addUnrespondedUpdates:su, vu, nil];
     
     [Globals playCoinSound];
   } else {
@@ -114,7 +122,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     fcp.numTasksComplete++;
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId curTime:[self getCurrentMilliseconds]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId curTime:[self getCurrentMilliseconds]];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   return YES;
 }
 
@@ -122,11 +131,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (gs.currentStamina > 0) {
-    gs.currentStamina--;
-    
     MinimumUserProto *mup = [[[[[MinimumUserProto builder] setName:defender.name] setUserId:defender.userId] setUserType:defender.userType] build];
     
-    [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendBattleMessage:mup result:result curTime:[self getCurrentMilliseconds] city:city equips:equips];
+    [gs addUnrespondedUpdate:[StaminaUpdate updateWithTag:tag change:-1]];
     
     switch (result) {
       case BattleResultAttackerWin:
@@ -157,12 +165,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
   }
   
-  if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
-    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
-    [gs changeQuantityForEquip:equipId by:1];
+  if (true) {//gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
     
-    gs.silver -= fep.coinPrice;
-    gs.gold -= fep.diamondPrice;
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:1];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fep.coinPrice];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fep.diamondPrice];
+    
+    [gs addUnrespondedUpdates:ceu, su, gu, nil];
     
     [Globals popupMessage:[NSString stringWithFormat:@"You have bought 1 %@!", fep.name]];
     
@@ -182,12 +192,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullEquipProto *fep = [gs equipWithId:equipId];
   
   if (ue) {
-    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
     
-    gs.silver += [gl calculateEquipSilverSellCost:ue];
-    gs.gold += [gl calculateEquipGoldSellCost:ue];
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateEquipSilverSellCost:ue]];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateEquipGoldSellCost:ue]];
     
-    [gs changeQuantityForEquip:equipId by:-1];
+    [gs addUnrespondedUpdates:ceu, su, gu, nil];
     
     [Globals popupMessage:[NSString stringWithFormat:@"You have sold 1 %@!", fep.name]];
     
@@ -232,7 +243,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       gs.amuletEquipped = equipId;
     }
     
-    [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:equipId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:equipId];
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
     [Globals popupMessage:@"You do not own this equip"];
     return NO;
@@ -253,26 +265,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies 
+  int tag = [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies 
                                                                    latUpperBound:MIN(CGRectGetMaxY(bounds), 90)
                                                                    latLowerBound:MAX(CGRectGetMinY(bounds), -90) 
                                                                    lonUpperBound:MIN(CGRectGetMaxX(bounds), 180) 
                                                                    lonLowerBound:MAX(CGRectGetMinX(bounds), -180)];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) startup {
-  [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) inAppPurchase:(NSString *)receipt {
-  [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt];
+- (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt];
+  [[GameState sharedGameState] addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 
 - (void) retrieveMostRecentMarketplacePosts {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPosts] removeAllObjects];
-  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:NO];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:NO];
   [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveMoreMarketplacePosts {
@@ -282,14 +298,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!x) {
     return;
   }
-  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:NO];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:NO];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveMostRecentMarketplacePostsFromSender {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   [[[GameState sharedGameState] marketplaceEquipPostsFromSender] removeAllObjects];
-  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:YES];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:0 fromSender:YES];
   [[MarketplaceViewController sharedMarketplaceViewController] deleteRows:1];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveMoreMarketplacePostsFromSender {
@@ -299,7 +317,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (!x) {
     return;
   }
-  [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:YES];
+  int tag = [sc sendRetrieveCurrentMarketplacePostsMessageBeforePostId:[x marketplacePostId] fromSender:YES];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) equipPostToMarketplace:(int)equipId price:(int)price {
@@ -319,8 +338,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
     int silver = sellsForGold ? 0 : price;
     int gold = sellsForGold ? price : 0;
-    [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
-    [gs changeQuantityForEquip:equipId by:-1];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
+    
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
+    [gs addUnrespondedUpdate:ceu];
     [GenericPopupController displayViewWithText:[NSString stringWithFormat:@"You have posted your %@ for %d %@!", fep.name, silver ? silver : gold, silver ? @"silver" : @"gold"] title:@"Congratulations!"];
   } else {
     [Globals popupMessage:@"Unable to find this equip!"];
@@ -337,31 +358,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   for (int i = 0; i < mktPostsFromSender.count; i++) {
     FullMarketplacePostProto *proto = [mktPostsFromSender objectAtIndex:i];
     if ([proto marketplacePostId] == postId) {
+      BOOL isGold = NO;
+      int amount = 0;
       if (proto.diamondCost > 0) {
-        int amount = (int) ceilf(proto.diamondCost*gl.retractPercentCut);
-        if (gs.gold >= amount) {
-          gs.gold -= amount;
-        } else {
+        isGold = YES;
+        amount = (int) ceilf(proto.diamondCost*gl.retractPercentCut);
+        if (gs.gold < amount)  {
           [Globals popupMessage:@"Not enough gold to retract"];
           return;
         }
       } else {
-        int amount = (int) ceilf(proto.coinCost*gl.retractPercentCut);
-        if (gs.silver >= amount) {
-          gs.silver -= amount;
-        } else {
+        isGold = NO;
+        amount = (int) ceilf(proto.coinCost*gl.retractPercentCut);
+        if (gs.silver < amount) {
           [Globals popupMessage:@"Not enough silver to retract"];
           return;
         }
       }
-      [sc sendRetractMarketplacePostMessage:postId];
+      int tag = [sc sendRetractMarketplacePostMessage:postId];
       [mktPostsFromSender removeObject:proto];
       NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![[GameState sharedGameState] hasValidLicense] inSection:0];
       NSIndexPath *z = mktPostsFromSender.count+gs.myEquips.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
       NSArray *a = [NSArray arrayWithObjects:y, z, nil];
       [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
       
-      [gs changeQuantityForEquip:proto.postedEquip.equipId by:1];
+      FullUserUpdate *fuu = isGold ? [GoldUpdate updateWithTag:tag change:-amount] : [SilverUpdate updateWithTag:tag change:-amount];
+      ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:proto.postedEquip.equipId change:1];
+      [gs addUnrespondedUpdates:fuu, ceu, nil];
       
       return;
     }
@@ -381,9 +404,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if ([proto marketplacePostId] == postId) {
       if (gs.userId != proto.poster.userId) {
         if (gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
-          [sc sendPurchaseFromMarketplaceMessage:postId poster:proto.poster.userId];
-          gs.gold -= proto.diamondCost;
-          gs.silver -= proto.coinCost;
+          int tag = [sc sendPurchaseFromMarketplaceMessage:postId poster:proto.poster.userId];
+          GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-proto.diamondCost];
+          SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-proto.coinCost];
+          [gs addUnrespondedUpdates:gu, su, nil];
           
           [Globals playCoinSound];
         } else {
@@ -402,9 +426,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (gs.marketplaceGoldEarnings || gs.marketplaceSilverEarnings) {
-    [sc sendRedeemMarketplaceEarningsMessage];
-    gs.gold += gs.marketplaceGoldEarnings;
-    gs.silver += gs.marketplaceSilverEarnings;
+    int tag = [sc sendRedeemMarketplaceEarningsMessage];
+    
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:gs.marketplaceGoldEarnings];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:gs.marketplaceSilverEarnings];
+    [gs addUnrespondedUpdates:gu, su, nil];
+    
     gs.marketplaceGoldEarnings = 0;
     gs.marketplaceSilverEarnings = 0;
     
@@ -452,9 +479,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints > 0) {
-    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeAttack];
-    gs.attack += gl.attackBaseGain;
-    gs.skillPoints -= gl.attackBaseCost;
+    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeAttack];
+    AttackUpdate *au = [AttackUpdate updateWithTag:tag change:gl.attackBaseGain];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.attackBaseCost];
+    [gs addUnrespondedUpdates:au, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
   }
@@ -466,9 +494,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints > 0) {
-    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeDefense];
-    gs.defense += gl.defenseBaseGain;
-    gs.skillPoints -= gl.defenseBaseCost;
+    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeDefense];
+    DefenseUpdate *au = [DefenseUpdate updateWithTag:tag change:gl.defenseBaseGain];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.defenseBaseCost];
+    [gs addUnrespondedUpdates:au, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
   }
@@ -480,10 +509,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints > 0) {
-    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
-    gs.maxEnergy += gl.energyBaseGain;
-    gs.currentEnergy += gl.energyBaseGain;
-    gs.skillPoints -= gl.energyBaseCost;
+    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
+    EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
+    MaxEnergyUpdate *meu = [MaxEnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:gl.energyBaseCost];
+    [gs addUnrespondedUpdates:eu, meu, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
   }
@@ -495,10 +525,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints > 0) {
-    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
+    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
     gs.maxStamina += gl.staminaBaseGain;
     gs.currentStamina += gl.staminaBaseGain;
     gs.skillPoints -= gl.staminaBaseCost;
+    StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
+    MaxStaminaUpdate *msu = [MaxStaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:gl.staminaBaseCost];
+    [gs addUnrespondedUpdates:su, msu, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
   }
@@ -510,9 +544,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
   if (gs.skillPoints > 0) {
-    [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
-    gs.maxHealth += gl.healthBaseGain;
-    gs.skillPoints -= gl.healthBaseCost;
+    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
+    HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:gl.healthBaseCost];
+    [gs addUnrespondedUpdates:hu, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
   }
@@ -527,13 +562,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.currentEnergy >= gs.maxEnergy) {
     [Globals popupMessage:@"Trying to increase energy when at max.."];
   } else if (tInt >= 0.f) {
-    [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeEnergy curTime:now.timeIntervalSince1970*1000];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeEnergy curTime:now.timeIntervalSince1970*1000];
     
     int maxChange = gs.maxEnergy-gs.currentEnergy;
     int change = tInt/(gl.energyRefillWaitMinutes*60);
     int realChange = MIN(maxChange, change);
-    gs.currentEnergy += realChange;
-    gs.lastEnergyRefill = [gs.lastEnergyRefill dateByAddingTimeInterval:realChange*gl.energyRefillWaitMinutes*60];
+    NSDate *nextDate = [gs.lastEnergyRefill dateByAddingTimeInterval:realChange*gl.energyRefillWaitMinutes*60];
+    EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:realChange];
+    LastEnergyRefillUpdate *leru = [LastEnergyRefillUpdate updateWithTag:tag prevDate:gs.lastEnergyRefill nextDate:nextDate];
+    [gs addUnrespondedUpdates:eu, leru, nil];
   } else {
     [Globals popupMessage:@"Trying to refill energy before time.."];
   }
@@ -548,13 +585,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.currentStamina >= gs.maxStamina) {
     [Globals popupMessage:@"Trying to increase stamina when at max.."];
   } else if (tInt >= 0.f) {
-    [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeStamina curTime:now.timeIntervalSince1970*1000];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeStamina curTime:now.timeIntervalSince1970*1000];
     
     int maxChange = gs.maxStamina-gs.currentStamina;
     int change = tInt/(gl.staminaRefillWaitMinutes*60);
     int realChange = MIN(maxChange, change);
-    gs.currentStamina += realChange;
-    gs.lastStaminaRefill = [gs.lastStaminaRefill dateByAddingTimeInterval:realChange*gl.staminaRefillWaitMinutes*60];
+    NSDate *nextDate = [gs.lastStaminaRefill dateByAddingTimeInterval:realChange*gl.staminaRefillWaitMinutes*60];
+    StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:realChange];
+    LastStaminaRefillUpdate *lsru = [LastStaminaRefillUpdate updateWithTag:tag prevDate:gs.lastStaminaRefill nextDate:nextDate];
+    [gs addUnrespondedUpdates:su, lsru, nil];
   } else {
     [Globals popupMessage:@"Trying to refill stamina before time.."];
   }
@@ -568,9 +607,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.currentEnergy >= gs.maxEnergy) {
     [Globals popupMessage:@"Attempting to refill energy with already full energy"];
   } else if (gs.gold >= gl.energyRefillCost) {
-    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeEnergy];
-    gs.currentEnergy = gs.maxEnergy;
-    gs.gold -= gl.energyRefillCost;
+    int tag = [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeEnergy];
+    EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gs.maxEnergy-gs.currentEnergy];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gl.energyRefillCost];
+    [gs addUnrespondedUpdates:eu, gu, nil];
     
     [[TopBar sharedTopBar] setUpEnergyTimer];
   } else {
@@ -586,9 +626,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.currentStamina >= gs.maxStamina) {
     [Globals popupMessage:@"Attempting to refill stamina with already full stamina"];
   } else if (gs.gold >= gl.staminaRefillCost) {
-    [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeStamina];
-    gs.currentStamina = gs.maxStamina;
-    gs.gold -= gl.staminaRefillCost;
+    int tag = [sc sendRefillStatWithDiamondsMessage:RefillStatWithDiamondsRequestProto_StatTypeStamina];
+    StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gs.maxStamina-gs.currentStamina];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-gl.staminaRefillCost];
+    [gs addUnrespondedUpdates:su, gu, nil];
     
     [[TopBar sharedTopBar] setUpStaminaTimer];
   } else {
@@ -610,7 +651,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (gs.silver >= fsp.coinPrice && gs.gold >= fsp.diamondPrice) {
-    [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendPurchaseNormStructureMessage:structId x:x y:y time:[self getCurrentMilliseconds]];
     us = [[UserStruct alloc] init];
     
     // UserStructId will come in the response
@@ -622,12 +663,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     us.orientation = 0;
     us.purchaseTime = [NSDate date];
     us.lastRetrieved = nil;
-    [[[GameState sharedGameState] myStructs] addObject:us];
-    [us release];
     
-    // Update game state
-    gs.silver -= fsp.coinPrice;
-    gs.gold -= fsp.diamondPrice;
+    AddStructUpdate *asu = [AddStructUpdate updateWithTag:tag userStruct:us];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fsp.coinPrice];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fsp.diamondPrice];
+    [gs addUnrespondedUpdates:asu, su, gu, nil];
+    
+    [us release];
     
     [Analytics normStructPurchase:structId];
   } else {
@@ -639,8 +681,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) moveNormStruct:(UserStruct *)userStruct atX:(int)x atY:(int)y {
   CGPoint newCoord = CGPointMake(x, y);
   if (!CGPointEqualToPoint(userStruct.coordinates, newCoord)) {
-    [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructId x:x y:y];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendMoveNormStructureMessage:userStruct.userStructId x:x y:y];
     userStruct.coordinates = CGPointMake(x, y);
+    
+    [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
 
@@ -654,18 +698,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) sellNormStruct:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  Globals *gl = [Globals sharedGlobals];
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
   } else if (userStruct.userId != gs.userId) {
     [Globals popupMessage:@"This is not your building!"];
   } else {
-    [sc sendSellNormStructureMessage:userStruct.userStructId];
-    [[gs myStructs] removeObject:userStruct];
+    int tag = [sc sendSellNormStructureMessage:userStruct.userStructId];
     
-    // Update game state
-    gs.silver += [[Globals sharedGlobals] calculateStructSilverSellCost:userStruct];
-    gs.gold += [[Globals sharedGlobals] calculateStructGoldSellCost:userStruct];
+    SellStructUpdate *ssu = [SellStructUpdate updateWithTag:tag userStruct:userStruct];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateStructSilverSellCost:userStruct]];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateStructGoldSellCost:userStruct]];
+    
+    [gs addUnrespondedUpdates:ssu, su, gu, nil];
     
     [Analytics normStructSell:userStruct.structId level:userStruct.level];
   }
@@ -674,6 +720,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) retrieveFromNormStructure:(UserStruct *)userStruct {
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  Globals *gl = [Globals sharedGlobals];
   
   if (userStruct.userStructId == 0) {
     [Globals popupMessage:@"Waiting for confirmation of purchase!"];
@@ -681,11 +728,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"This is not your building!"];
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
-    [sc sendRetrieveCurrencyFromNormStructureMessage:userStruct.userStructId time:ms];
+    int tag = [sc sendRetrieveCurrencyFromNormStructureMessage:userStruct.userStructId time:ms];
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
     
     // Update game state
-    gs.silver += [[Globals sharedGlobals] calculateIncomeForUserStruct:userStruct];
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:[gl calculateIncomeForUserStruct:userStruct]]];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not ready to be retrieved", userStruct.userStructId]];
   }
@@ -704,13 +751,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Not enough diamonds to speed up build"];
   } else if (!userStruct.isComplete && !userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
-    [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
+    int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
     
     // Update game state
     FullStructureProto *fsp = [gs structWithId:userStruct.structId];
-    gs.gold -= fsp.instaBuildDiamondCost;
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-fsp.instaBuildDiamondCost]];
     
     [Analytics normStructInstaBuild:userStruct.structId];
   } else {
@@ -731,14 +778,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Not enough diamonds to speed up upgrade"];
   } else if (!userStruct.isComplete && userStruct.lastUpgradeTime) {
     int64_t ms = [self getCurrentMilliseconds];
-    [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
+    int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
     userStruct.isComplete = YES;
     userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
     userStruct.level++;
     
     // Update game state
-    FullStructureProto *fsp = [gs structWithId:userStruct.structId];
-    gs.gold -= fsp.instaUpgradeDiamondCostBase;
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-[gl calculateDiamondCostForInstaUpgrade:userStruct]]];
     
     [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level];
   } else {
@@ -775,12 +821,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     userStruct.isComplete = YES;
     
     int64_t ms = [self getCurrentMilliseconds];
-    [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
+    int tag = [sc sendNormStructBuildsCompleteMessage:[NSArray arrayWithObject:[NSNumber numberWithInt:userStruct.userStructId]] time:ms];
     
     if (userStruct.lastUpgradeTime) {
       // Building was upgraded, not constructed
       userStruct.level++;
     }
+    
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Building %d is not upgrading or constructing", userStruct.userStructId]];
   }
@@ -811,12 +859,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [Globals popupMessage:@"Trying to upgrade without enough gold"];
       } else {
         int64_t ms = [self getCurrentMilliseconds];
-        [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
+        int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
         userStruct.isComplete = NO;
         userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];\
         
         // Update game state
-        gs.gold -= cost;
+        [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-cost]];
         
         [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level+1];
       }
@@ -825,12 +873,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         [Globals popupMessage:@"Trying to upgrade without enough silver"];
       } else {
         int64_t ms = [self getCurrentMilliseconds];
-        [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
+        int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
         userStruct.isComplete = NO;
         userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];\
         
         // Update game state
-        gs.silver -= cost;
+        [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-cost]];
         
         [Analytics normStructInstaUpgrade:userStruct.structId level:userStruct.level+1];
       }
@@ -1001,7 +1049,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (shouldSend) {
-    [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects]];
+    int tag = [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects]];
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
 
@@ -1009,23 +1058,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
-    [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+     int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
 
 - (void) retrieveStructStore {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeAllStructures];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeAllStructures];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveEquipStore {
   // Used primarily for profile and battle
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataFromShopMessage:RetrieveStaticDataForShopRequestProto_RetrieveForShopTypeEquipmentForArmory];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) loadPlayerCity:(int)userId {
-  MinimumUserProto *mup = [[[MinimumUserProto builder] setUserId:userId] build];
+  GameState *gs = [GameState sharedGameState];
   
-  [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:mup];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendLoadPlayerCityMessage:userId];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) loadNeutralCity:(int)cityId {
@@ -1044,7 +1099,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   
   if (city.minLevel <= gs.level) {
-    [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
     if (![[BattleLayer sharedBattleLayer] isRunning]) {
       [mvc startLoadingWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
@@ -1062,6 +1117,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if (rTasks.count > 0) {
       [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
     }
+    
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
     [Globals popupMessage:@"Trying to visit city above your level."];
   }
@@ -1103,9 +1160,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 - (void) changeUserLocationWithCoordinate:(CLLocationCoordinate2D)coord {
   CGFloat lat = coord.latitude;
   CGFloat lon = coord.longitude;
+  GameState *gs = [GameState sharedGameState];
   if (!(lat > 90 || lat < -90 || lon > 180 || lon < -180)) {
-    [[SocketCommunication sharedSocketCommunication] sendChangeUserLocationMessageWithLatitude:lat longitude:lon];
-    [[GameState sharedGameState] setLocation:coord];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendChangeUserLocationMessageWithLatitude:lat longitude:lon];
+    [gs setLocation:coord];
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
     [Globals popupMessage:@"Trying to change user location with coordinates out of bounds."];
   }
@@ -1115,12 +1174,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (gs.experience >= gs.expRequiredForNextLevel) {
-    [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage];
-    gs.level++;
-    gs.currentEnergy = gs.maxEnergy;
-    gs.currentStamina = gs.maxStamina;
-    gs.expRequiredForCurrentLevel = gs.expRequiredForNextLevel;
-    gs.expRequiredForNextLevel = 100000000;
+    int tag = [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage];
+    
+    LevelUpdate *lu = [LevelUpdate updateWithTag:tag change:1];
+    EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gs.maxEnergy-gs.currentEnergy];
+    StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gs.maxStamina-gs.currentStamina];
+    ExpForNextLevelUpdate *efnlu = [ExpForNextLevelUpdate updateWithTag:tag prevLevel:gs.expRequiredForCurrentLevel curLevel:gs.expRequiredForNextLevel nextLevel:10000000];
+    [gs addUnrespondedUpdates:lu, eu, su, efnlu, nil];
     
     [[TopBar sharedTopBar] setUpEnergyTimer];
     [[TopBar sharedTopBar] setUpStaminaTimer];
@@ -1135,7 +1195,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullQuestProto *fqp = [gs.availableQuests objectForKey:questIdNum];
   
   if (fqp) {
-    [[SocketCommunication sharedSocketCommunication] sendQuestAcceptMessage:questId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendQuestAcceptMessage:questId];
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     
     [gs.availableQuests removeObjectForKey:questIdNum];
     [gs.inProgressIncompleteQuests setObject:fqp forKey:questIdNum];
@@ -1157,15 +1218,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullQuestProto *fqp = [gs.inProgressCompleteQuests objectForKey:questIdNum];
   
   if (fqp) {
-    [[SocketCommunication sharedSocketCommunication] sendQuestRedeemMessage:questId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendQuestRedeemMessage:questId];
     
     [gs.inProgressCompleteQuests removeObjectForKey:questIdNum];
-    gs.silver += fqp.coinsGained;
-    gs.experience += fqp.expGained;
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fqp.coinsGained];
+    ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:fqp.expGained];
     
+    ChangeEquipUpdate *ceu = nil;
     if (fqp.equipIdGained > 0) {
-      [gs changeQuantityForEquip:fqp.equipIdGained by:1];
+      ceu = [ChangeEquipUpdate updateWithTag:tag equipId:fqp.equipIdGained change:1];
     }
+    
+    [gs addUnrespondedUpdates:su, eu, ceu, nil];
     
     GameMap *map = [Globals mapForQuest:fqp];
     [map questRedeemed:fqp];
@@ -1177,7 +1241,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrieveQuestLog {
-  [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:0];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:0];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveQuestDetails:(int)questId {
@@ -1188,7 +1254,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   NSNumber *num = [NSNumber numberWithInt:questId];
   GameState *gs = [GameState sharedGameState];
   if ([gs.inProgressCompleteQuests.allKeys containsObject:num] || [gs.inProgressIncompleteQuests.allKeys containsObject:num]) {
-    [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:questId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:questId];
+    [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   } else {
     [Globals popupMessage:@"Attempting to retrieve information about un-accepted quest"];
   }
@@ -1199,19 +1266,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to retrieve equips for user 0"];
     return;
   }
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveUserEquipForUserMessage:userId];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUserEquipForUserMessage:userId];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveUsersForUserIds:(NSArray *)userIds {
-  [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:userIds];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:userIds];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveMostRecentWallPostsForPlayer:(int)playerId {
-  [[SocketCommunication sharedSocketCommunication] sendRetrievePlayerWallPostsMessage:playerId beforePostId:0];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePlayerWallPostsMessage:playerId beforePostId:0];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (void) retrieveWallPostsForPlayer:(int)playerId beforePostId:(int)postId {
-  [[SocketCommunication sharedSocketCommunication] sendRetrievePlayerWallPostsMessage:playerId beforePostId:postId];
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrievePlayerWallPostsMessage:playerId beforePostId:postId];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 - (PlayerWallPostProto *) postToPlayerWall:(int)playerId withContent:(NSString *)content {
@@ -1224,7 +1299,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return nil;
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendPostOnPlayerWallMessage:playerId withContent:content];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendPostOnPlayerWallMessage:playerId withContent:content];
   
   GameState *gs = [GameState sharedGameState];
   PlayerWallPostProto_Builder *bldr = [PlayerWallPostProto builder];
@@ -1234,7 +1309,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   bldr.content = content;
   bldr.timeOfPost = [[NSDate date] timeIntervalSince1970]*1000;
   
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+  
   return [bldr build];
+}
+
+- (void) enableApns:(NSData *)deviceToken {
+  GameState *gs = [GameState sharedGameState];
+  while (gs.userId == 0) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+    
+  }
+  
+  NSString *str = nil;
+  if (deviceToken) {
+    str = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+  }
+  int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:str];
+  
+  gs.deviceToken = str;
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) kiipReward:(int)gold receipt:(NSString *)string {
+  GameState *gs = [GameState sharedGameState];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEarnFreeGoldMessage:EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip clientTime:[self getCurrentMilliseconds] kiipReceipt:string];
+  [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "MarketplaceViewController.h"
 #import "OutgoingEventController.h"
 #import "BattleLayer.h"
+#import "ProfileViewController.h"
 
 @implementation ActivityFeedCell
 
@@ -27,7 +28,7 @@
   self.notification = n;
   
   NSString *name = notification.otherPlayer.name;
-  userIcon.image = [Globals squareImageForUser:notification.otherPlayer.userType];
+  [userIcon setImage:[Globals squareImageForUser:notification.otherPlayer.userType] forState:UIControlStateNormal];
   
   if (notification.type == kNotificationBattle) {
     FullEquipProto *fep = nil;
@@ -54,7 +55,7 @@
     titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];
     
     NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*(1-gl.purchasePercentCut))] : [NSString stringWithFormat:@"%d gold", (int)ceilf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
-        
+    
     subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you.", coinStr];
     titleLabel.textColor = [UIColor colorWithRed:255/256.f green:200/256.f blue:0/256.f alpha:1.f];
     [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
@@ -66,6 +67,20 @@
     titleLabel.textColor = [UIColor colorWithRed:100/256.f green:200/256.f blue:200/256.f alpha:1.f];
     [button setImage:nil forState:UIControlStateNormal];
     buttonLabel.text = @"";
+  }
+  
+  NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
+  if (users) {
+    button.hidden = NO;
+    buttonLabel.hidden = NO;
+  } else {
+    button.hidden = YES;
+    buttonLabel.hidden = YES;
+  }
+  
+  if (gs.marketplaceGoldEarnings == 0 && gs.marketplaceSilverEarnings == 0 && notification.type == kNotificationMarketplace) {
+    button.hidden = YES;
+    buttonLabel.hidden = YES;
   }
 }
 
@@ -93,6 +108,25 @@
     
     [Analytics clickedRevenge];
   }
+}
+
+- (IBAction)profilePicClicked:(id)sender {
+  NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
+  
+  FullUserProto *user = nil;
+  for (FullUserProto *fup in users) {
+    if (fup.userId == notification.otherPlayer.userId) {
+      user = fup;
+      break;
+    }
+  }
+  
+  if (user) {
+    [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:user buttonsEnabled:YES];
+  } else {
+    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kEquipState];
+  }
+  [ProfileViewController displayView];
 }
 
 - (void) dealloc {
@@ -127,9 +161,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   NSMutableArray *userIds = [NSMutableArray arrayWithCapacity:notifications.count];
   
   for (UserNotification *un in notifications) {
-    if (un.type == kNotificationBattle) {
-      [userIds addObject:[NSNumber numberWithInt:un.otherPlayer.userId]];
-    }
+    [userIds addObject:[NSNumber numberWithInt:un.otherPlayer.userId]];
   }
   
   [self.users removeAllObjects];
@@ -177,6 +209,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
       }
     }
   }
+  [self.activityTableView reloadData];
 }
 
 - (void)viewDidUnload

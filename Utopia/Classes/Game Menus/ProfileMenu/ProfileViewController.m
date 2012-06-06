@@ -1314,6 +1314,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:fup.userId];
   }
   
+  if (!isEnemy) {
+    [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:fup.userId];
+  }
+  
   self.fup = fup;
   self.userId = fup.userId;
 }

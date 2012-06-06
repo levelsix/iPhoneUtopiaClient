@@ -52,6 +52,8 @@
 @synthesize lastShortLicensePurchaseTime = _lastShortLicensePurchaseTime;
 @synthesize lastLongLicensePurchaseTime = _lastLongLicensePurchaseTime;
 
+@synthesize deviceToken = _deviceToken;
+
 @synthesize maxCity = _maxCity;
 @synthesize expRequiredForCurrentLevel = _expRequiredForCurrentLevel;
 @synthesize expRequiredForNextLevel = _expRequiredForNextLevel;
@@ -88,6 +90,8 @@
 
 @synthesize lastLogoutTime = _lastLogoutTime;
 
+@synthesize unrespondedUpdates = _unrespondedUpdates;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
@@ -114,6 +118,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _availableQuests = [[NSMutableDictionary alloc] init];
     _inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
     _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
+    
+    _unrespondedUpdates = [[NSMutableArray alloc] init];
     
     _silver = 10000;
     _gold = 50;
@@ -172,6 +178,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000];
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000];
+  
+  for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
+    if ([gsu respondsToSelector:@selector(update)]) {
+      [gsu update];
+    }
+  }
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
@@ -423,6 +435,73 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) addUnrespondedUpdate:(id<GameStateUpdate>)up {
+  [_unrespondedUpdates addObject:up];
+  
+  if ([up respondsToSelector:@selector(update)]) {
+    [up update];
+  }
+  
+  NSLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
+}
+
+- (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ...
+{
+	va_list params;
+	va_start(params,field1);
+	
+  for (id<GameStateUpdate> arg = field1; arg != nil; arg = va_arg(params, id<GameStateUpdate>))
+  {
+    [self addUnrespondedUpdate:arg];
+  }
+  va_end(params);
+}
+
+- (void) removeAndUndoAllUpdatesForTag:(int)tag {
+  NSMutableArray *updates = [NSMutableArray array];
+  for (id<GameStateUpdate> update in _unrespondedUpdates) {
+    if (update.tag == tag) {
+      if ([update respondsToSelector:@selector(undo)]) {
+        [update undo];
+      }
+      [updates addObject:update];
+    }
+  }
+  
+  for (id<GameStateUpdate> update in updates) {
+    [_unrespondedUpdates removeObject:update];
+    NSLog(@"Removed and undid %@ for tag %d", NSStringFromClass([update class]), update.tag);
+  }
+}
+
+- (void) removeFullUserUpdatesForTag:(int)tag {
+  NSMutableArray *updates = [NSMutableArray array];
+  for (id<GameStateUpdate> update in _unrespondedUpdates) {
+    if (update.tag == tag && [update isKindOfClass:[FullUserUpdate class]]) {
+      [updates addObject:update];
+    }
+  }
+  
+  for (id<GameStateUpdate> update in updates) {
+    [_unrespondedUpdates removeObject:update];
+    NSLog(@"Removed full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
+  }
+}
+
+- (void) removeNonFullUserUpdatesForTag:(int)tag {
+  NSMutableArray *updates = [NSMutableArray array];
+  for (id<GameStateUpdate> update in _unrespondedUpdates) {
+    if (update.tag == tag && ![update isKindOfClass:[FullUserUpdate class]]) {
+      [updates addObject:update];
+    }
+  }
+  
+  for (id<GameStateUpdate> update in updates) {
+    [_unrespondedUpdates removeObject:update];
+    NSLog(@"Removed non full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
+  }
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -491,6 +570,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.notifications = nil;
   self.wallPosts = nil;
   self.lastLogoutTime = nil;
+  self.unrespondedUpdates = nil;
+  self.deviceToken = nil;
   [super dealloc];
 }
 

@@ -238,8 +238,7 @@
         [bm moveToCritStruct:CritStructTypeArmory];
         break;
         
-        
-      case SpecialQuestActionWriteOnOtherWall:
+      case SpecialQuestActionWriteOnEnemyWall:
         [MapViewController displayAttackMap];
         break;
         

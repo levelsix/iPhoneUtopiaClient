@@ -71,7 +71,7 @@ typedef enum {
   SpecialQuestActionPostToMarketplace = 4,
   SpecialQuestActionDepositInVault = 5,
   SpecialQuestActionWithdrawFromVault = 6,
-  SpecialQuestActionWriteOnOtherWall = 7,
+  SpecialQuestActionWriteOnEnemyWall = 7,
 } SpecialQuestAction;
 
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value);

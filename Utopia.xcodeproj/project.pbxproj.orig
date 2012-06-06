@@ -29,13 +29,8 @@
 		455BCF19157560C200DDE405 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 455BCF10157560C200DDE405 /* SBJSON.m */; };
 		455BCF1A157560C200DDE405 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 455BCF12157560C200DDE405 /* SBJsonBase.m */; };
 		455BCF1F157562B300DDE405 /* FacebookDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 455BCF1E157562B200DDE405 /* FacebookDelegate.m */; };
-		455FC6B3157EE4E2008DB9E4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
-		455FC6B4157EE4E2008DB9E4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
-		455FC6C9157EE683008DB9E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455FC6C3157EE683008DB9E4 /* InfoPlist.strings */; };
-		455FC6CB157EE683008DB9E4 /* UtopiaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FC6C8157EE683008DB9E4 /* UtopiaTests.m */; };
-		455FC6CD157EEAC7008DB9E4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */; };
 		45790205156DD15F0001785B /* AdColonyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45790204156DD15E0001785B /* AdColonyDelegate.m */; };
-		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; settings = {ATTRIBUTES = (Weak, ); }; };
+		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; };
 		45856A86156DB3670005907E /* TJCAdRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A33156DB3670005907E /* TJCAdRequestHandler.m */; };
 		45856A87156DB3670005907E /* TJCAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A35156DB3670005907E /* TJCAdView.m */; };
 		45856A88156DB3670005907E /* TJCHardwareUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A3B156DB3670005907E /* TJCHardwareUtil.m */; };
@@ -89,7 +84,6 @@
 		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
-		45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
 		45FD77AC1570541100A2C717 /* FlurryClipsSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD77AB1570541100A2C717 /* FlurryClipsSponsoredOffer.m */; };
@@ -1344,13 +1338,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		45B4CED415801B7600B4D43D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CF1256391538A94D00E0C1AD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CF1256411538A94D00E0C1AD;
-			remoteInfo = Utopia;
-		};
 		CF1273A41538ACCF00E0C1AD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CF12671C1538ACC500E0C1AD /* ProtocolBuffers.xcodeproj */;
@@ -1421,14 +1408,6 @@
 		455BCF12157560C200DDE405 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
 		455BCF1D157562B200DDE405 /* FacebookDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookDelegate.h; sourceTree = "<group>"; };
 		455BCF1E157562B200DDE405 /* FacebookDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookDelegate.m; sourceTree = "<group>"; };
-		455FC685157EE065008DB9E4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		455FC6B1157EE4E2008DB9E4 /* UtopiaTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UtopiaTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		455FC6C4157EE683008DB9E4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		455FC6C5157EE683008DB9E4 /* UtopiaTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UtopiaTests-Info.plist"; sourceTree = "<group>"; };
-		455FC6C6157EE683008DB9E4 /* UtopiaTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UtopiaTests-Prefix.pch"; sourceTree = "<group>"; };
-		455FC6C7157EE683008DB9E4 /* UtopiaTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtopiaTests.h; sourceTree = "<group>"; };
-		455FC6C8157EE683008DB9E4 /* UtopiaTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtopiaTests.m; sourceTree = "<group>"; };
-		455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		457239FC1565E0DC000380EE /* Delight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Delight.framework; sourceTree = "<group>"; };
 		457239FE1565E431000380EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		45723A001565E443000380EE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -1536,7 +1515,6 @@
 		459A9124157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
 		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
 		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
-		45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libAlaume-iphonesimulator.a"; path = "Utopia/libs/Alaume/libAlaume-iphonesimulator.a"; sourceTree = "<group>"; };
 		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
 		45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlurryClipsDelegate.m; sourceTree = "<group>"; };
 		45C9A3F3156F0BE000493FDC /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
@@ -3026,17 +3004,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		455FC6AD157EE4E2008DB9E4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */,
-				455FC6CD157EEAC7008DB9E4 /* SenTestingKit.framework in Frameworks */,
-				455FC6B3157EE4E2008DB9E4 /* UIKit.framework in Frameworks */,
-				455FC6B4157EE4E2008DB9E4 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CF12563F1538A94D00E0C1AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3072,10 +3039,13 @@
 				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
 				454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */,
 				45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */,
+<<<<<<< HEAD
 				CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */,
+=======
 				459A9135157D3E62004B7014 /* libKiip.a in Frameworks */,
 				459A9136157D3E62004B7014 /* libKiip.a in Frameworks */,
 				459A9138157D3E62004B7014 /* libKiip.a in Frameworks */,
+>>>>>>> 4d9555ffb5f3ef18397d9dacf3fdeb31fbcf6dc4
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3125,35 +3095,6 @@
 				455BCF12157560C200DDE405 /* SBJsonBase.m */,
 			);
 			path = JSON;
-			sourceTree = "<group>";
-		};
-		455FC6C2157EE683008DB9E4 /* UtopiaTests */ = {
-			isa = PBXGroup;
-			children = (
-				455FC6CF157EEB7C008DB9E4 /* Frameworks */,
-				455FC6CE157EEB6A008DB9E4 /* libs */,
-				455FC6C3157EE683008DB9E4 /* InfoPlist.strings */,
-				455FC6C5157EE683008DB9E4 /* UtopiaTests-Info.plist */,
-				455FC6C6157EE683008DB9E4 /* UtopiaTests-Prefix.pch */,
-				455FC6C7157EE683008DB9E4 /* UtopiaTests.h */,
-				455FC6C8157EE683008DB9E4 /* UtopiaTests.m */,
-			);
-			path = UtopiaTests;
-			sourceTree = "<group>";
-		};
-		455FC6CE157EEB6A008DB9E4 /* libs */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = libs;
-			sourceTree = "<group>";
-		};
-		455FC6CF157EEB7C008DB9E4 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		457EBD7F15647A38008C097F /* Alaume */ = {
@@ -3417,9 +3358,7 @@
 		CF1256371538A94D00E0C1AD = {
 			isa = PBXGroup;
 			children = (
-				45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */,
 				CF12650C1538ACC400E0C1AD /* Utopia */,
-				455FC6C2157EE683008DB9E4 /* UtopiaTests */,
 				CF1256451538A94D00E0C1AD /* Frameworks */,
 				CF1256431538A94D00E0C1AD /* Products */,
 			);
@@ -3429,7 +3368,6 @@
 			isa = PBXGroup;
 			children = (
 				CF1256421538A94D00E0C1AD /* Lost Nations.app */,
-				455FC6B1157EE4E2008DB9E4 /* UtopiaTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3461,7 +3399,6 @@
 				CF1256461538A94D00E0C1AD /* UIKit.framework */,
 				CF1256481538A94D00E0C1AD /* Foundation.framework */,
 				CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */,
-				455FC685157EE065008DB9E4 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -5827,25 +5764,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		455FC6B0157EE4E2008DB9E4 /* UtopiaTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 455FC6BF157EE4E2008DB9E4 /* Build configuration list for PBXNativeTarget "UtopiaTests" */;
-			buildPhases = (
-				455FC6AC157EE4E2008DB9E4 /* Sources */,
-				455FC6AD157EE4E2008DB9E4 /* Frameworks */,
-				455FC6AE157EE4E2008DB9E4 /* Resources */,
-				455FC6AF157EE4E2008DB9E4 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				45B4CED515801B7600B4D43D /* PBXTargetDependency */,
-			);
-			name = UtopiaTests;
-			productName = UtopiaTests;
-			productReference = 455FC6B1157EE4E2008DB9E4 /* UtopiaTests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 		CF1256411538A94D00E0C1AD /* Utopia */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CF12565A1538A94D00E0C1AD /* Build configuration list for PBXNativeTarget "Utopia" */;
@@ -5893,7 +5811,6 @@
 			projectRoot = "";
 			targets = (
 				CF1256411538A94D00E0C1AD /* Utopia */,
-				455FC6B0157EE4E2008DB9E4 /* UtopiaTests */,
 			);
 		};
 /* End PBXProject section */
@@ -5923,14 +5840,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		455FC6AE157EE4E2008DB9E4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				455FC6C9157EE683008DB9E4 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CF1256401538A94D00E0C1AD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7007,19 +6916,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		455FC6AF157EE4E2008DB9E4 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 		457EBD851565AFCD008C097F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -7036,14 +6932,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		455FC6AC157EE4E2008DB9E4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				455FC6CB157EE683008DB9E4 /* UtopiaTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CF12563E1538A94D00E0C1AD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -7272,20 +7160,18 @@
 				4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */,
 				CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */,
 				CF74FB211578A96500E52B81 /* TutorialQuestLogController.m in Sources */,
+<<<<<<< HEAD
 				CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */,
 				CF192978157D9FF100D51C70 /* OtherUpdates.m in Sources */,
+=======
 				459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */,
+>>>>>>> 4d9555ffb5f3ef18397d9dacf3fdeb31fbcf6dc4
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		45B4CED515801B7600B4D43D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CF1256411538A94D00E0C1AD /* Utopia */;
-			targetProxy = 45B4CED415801B7600B4D43D /* PBXContainerItemProxy */;
-		};
 		CF1273C01538B6C700E0C1AD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ProtocolBuffers;
@@ -7293,60 +7179,7 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		455FC6C3157EE683008DB9E4 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				455FC6C4157EE683008DB9E4 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		455FC6C0157EE4E2008DB9E4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UtopiaTests/UtopiaTests-Prefix.pch";
-				INFOPLIST_FILE = "UtopiaTests/UtopiaTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		455FC6C1157EE4E2008DB9E4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UtopiaTests/UtopiaTests-Prefix.pch";
-				INFOPLIST_FILE = "UtopiaTests/UtopiaTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 		CF1256581538A94D00E0C1AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -7505,15 +7338,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		455FC6BF157EE4E2008DB9E4 /* Build configuration list for PBXNativeTarget "UtopiaTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				455FC6C0157EE4E2008DB9E4 /* Debug */,
-				455FC6C1157EE4E2008DB9E4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		CF12563C1538A94D00E0C1AD /* Build configuration list for PBXProject "Utopia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

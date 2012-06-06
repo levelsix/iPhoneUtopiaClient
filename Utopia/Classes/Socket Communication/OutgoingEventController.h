@@ -29,7 +29,7 @@
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
 - (void) startup;
-- (void) inAppPurchase: (NSString *) receipt;
+- (void) inAppPurchase: (NSString *) receipt goldAmt:(int)gold;
 
 - (void) retrieveMostRecentMarketplacePosts;
 - (void) retrieveMoreMarketplacePosts;
@@ -87,5 +87,7 @@
 - (void) retrieveMostRecentWallPostsForPlayer:(int)playerId;
 - (void) retrieveWallPostsForPlayer:(int)playerId beforePostId:(int)postId;
 - (PlayerWallPostProto *) postToPlayerWall:(int)playerId withContent:(NSString *)content;
+
+- (void) enableApns:(NSData *)deviceToken;
 
 @end

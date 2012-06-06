@@ -34,6 +34,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class EarnFreeGoldRequestProto;
+@class EarnFreeGoldRequestProto_Builder;
+@class EarnFreeGoldResponseProto;
+@class EarnFreeGoldResponseProto_Builder;
 @class EnableAPNSRequestProto;
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
@@ -705,6 +709,26 @@ typedef enum {
 
 BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidValue(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus value);
 
+typedef enum {
+  EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip = 1,
+  EarnFreeGoldRequestProto_EarnFreeGoldTypeAdcolony = 2,
+  EarnFreeGoldRequestProto_EarnFreeGoldTypeFbInvite = 3,
+  EarnFreeGoldRequestProto_EarnFreeGoldTypeTapjoy = 4,
+  EarnFreeGoldRequestProto_EarnFreeGoldTypeFlurryVideo = 5,
+  EarnFreeGoldRequestProto_EarnFreeGoldTypeTwitter = 6,
+} EarnFreeGoldRequestProto_EarnFreeGoldType;
+
+BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestProto_EarnFreeGoldType value);
+
+typedef enum {
+  EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess = 0,
+  EarnFreeGoldResponseProto_EarnFreeGoldStatusClientTooApartFromServerTime = 1,
+  EarnFreeGoldResponseProto_EarnFreeGoldStatusMethodNotSupported = 2,
+  EarnFreeGoldResponseProto_EarnFreeGoldStatusOtherFail = 3,
+} EarnFreeGoldResponseProto_EarnFreeGoldStatus;
+
+BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldResponseProto_EarnFreeGoldStatus value);
+
 
 @interface EventRoot : NSObject {
 }
@@ -1331,20 +1355,16 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 @private
   BOOL hasVersionNum_:1;
   BOOL hasUdid_:1;
-  BOOL hasDeviceToken_:1;
   BOOL hasApsalarId_:1;
   Float32 versionNum;
   NSString* udid;
-  NSString* deviceToken;
   NSString* apsalarId;
 }
 - (BOOL) hasUdid;
 - (BOOL) hasVersionNum;
-- (BOOL) hasDeviceToken;
 - (BOOL) hasApsalarId;
 @property (readonly, retain) NSString* udid;
 @property (readonly) Float32 versionNum;
-@property (readonly, retain) NSString* deviceToken;
 @property (readonly, retain) NSString* apsalarId;
 
 + (StartupRequestProto*) defaultInstance;
@@ -1390,11 +1410,6 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (Float32) versionNum;
 - (StartupRequestProto_Builder*) setVersionNum:(Float32) value;
 - (StartupRequestProto_Builder*) clearVersionNum;
-
-- (BOOL) hasDeviceToken;
-- (NSString*) deviceToken;
-- (StartupRequestProto_Builder*) setDeviceToken:(NSString*) value;
-- (StartupRequestProto_Builder*) clearDeviceToken;
 
 - (BOOL) hasApsalarId;
 - (NSString*) apsalarId;
@@ -6300,15 +6315,15 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 
 @interface LoadPlayerCityRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasCityOwnerId_:1;
   BOOL hasSender_:1;
-  BOOL hasCityOwner_:1;
+  int32_t cityOwnerId;
   MinimumUserProto* sender;
-  MinimumUserProto* cityOwner;
 }
 - (BOOL) hasSender;
-- (BOOL) hasCityOwner;
+- (BOOL) hasCityOwnerId;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly, retain) MinimumUserProto* cityOwner;
+@property (readonly) int32_t cityOwnerId;
 
 + (LoadPlayerCityRequestProto*) defaultInstance;
 - (LoadPlayerCityRequestProto*) defaultInstance;
@@ -6351,12 +6366,10 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (LoadPlayerCityRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LoadPlayerCityRequestProto_Builder*) clearSender;
 
-- (BOOL) hasCityOwner;
-- (MinimumUserProto*) cityOwner;
-- (LoadPlayerCityRequestProto_Builder*) setCityOwner:(MinimumUserProto*) value;
-- (LoadPlayerCityRequestProto_Builder*) setCityOwnerBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (LoadPlayerCityRequestProto_Builder*) mergeCityOwner:(MinimumUserProto*) value;
-- (LoadPlayerCityRequestProto_Builder*) clearCityOwner;
+- (BOOL) hasCityOwnerId;
+- (int32_t) cityOwnerId;
+- (LoadPlayerCityRequestProto_Builder*) setCityOwnerId:(int32_t) value;
+- (LoadPlayerCityRequestProto_Builder*) clearCityOwnerId;
 @end
 
 @interface LoadPlayerCityResponseProto : PBGeneratedMessage {
@@ -8964,5 +8977,141 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (RetrievePlayerWallPostsResponseProto_Builder*) addPlayerWallPosts:(PlayerWallPostProto*) value;
 - (RetrievePlayerWallPostsResponseProto_Builder*) addAllPlayerWallPosts:(NSArray*) values;
 - (RetrievePlayerWallPostsResponseProto_Builder*) clearPlayerWallPostsList;
+@end
+
+@interface EarnFreeGoldRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasClientTime_:1;
+  BOOL hasKiipReceipt_:1;
+  BOOL hasSender_:1;
+  BOOL hasFreeGoldType_:1;
+  int64_t clientTime;
+  NSString* kiipReceipt;
+  MinimumUserProto* sender;
+  EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
+}
+- (BOOL) hasSender;
+- (BOOL) hasFreeGoldType;
+- (BOOL) hasClientTime;
+- (BOOL) hasKiipReceipt;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
+@property (readonly) int64_t clientTime;
+@property (readonly, retain) NSString* kiipReceipt;
+
++ (EarnFreeGoldRequestProto*) defaultInstance;
+- (EarnFreeGoldRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EarnFreeGoldRequestProto_Builder*) builder;
++ (EarnFreeGoldRequestProto_Builder*) builder;
++ (EarnFreeGoldRequestProto_Builder*) builderWithPrototype:(EarnFreeGoldRequestProto*) prototype;
+
++ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data;
++ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EarnFreeGoldRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EarnFreeGoldRequestProto* result;
+}
+
+- (EarnFreeGoldRequestProto*) defaultInstance;
+
+- (EarnFreeGoldRequestProto_Builder*) clear;
+- (EarnFreeGoldRequestProto_Builder*) clone;
+
+- (EarnFreeGoldRequestProto*) build;
+- (EarnFreeGoldRequestProto*) buildPartial;
+
+- (EarnFreeGoldRequestProto_Builder*) mergeFrom:(EarnFreeGoldRequestProto*) other;
+- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EarnFreeGoldRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EarnFreeGoldRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeGoldRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EarnFreeGoldRequestProto_Builder*) clearSender;
+
+- (BOOL) hasFreeGoldType;
+- (EarnFreeGoldRequestProto_EarnFreeGoldType) freeGoldType;
+- (EarnFreeGoldRequestProto_Builder*) setFreeGoldType:(EarnFreeGoldRequestProto_EarnFreeGoldType) value;
+- (EarnFreeGoldRequestProto_Builder*) clearFreeGoldType;
+
+- (BOOL) hasClientTime;
+- (int64_t) clientTime;
+- (EarnFreeGoldRequestProto_Builder*) setClientTime:(int64_t) value;
+- (EarnFreeGoldRequestProto_Builder*) clearClientTime;
+
+- (BOOL) hasKiipReceipt;
+- (NSString*) kiipReceipt;
+- (EarnFreeGoldRequestProto_Builder*) setKiipReceipt:(NSString*) value;
+- (EarnFreeGoldRequestProto_Builder*) clearKiipReceipt;
+@end
+
+@interface EarnFreeGoldResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  EarnFreeGoldResponseProto_EarnFreeGoldStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) EarnFreeGoldResponseProto_EarnFreeGoldStatus status;
+
++ (EarnFreeGoldResponseProto*) defaultInstance;
+- (EarnFreeGoldResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (EarnFreeGoldResponseProto_Builder*) builder;
++ (EarnFreeGoldResponseProto_Builder*) builder;
++ (EarnFreeGoldResponseProto_Builder*) builderWithPrototype:(EarnFreeGoldResponseProto*) prototype;
+
++ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data;
++ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface EarnFreeGoldResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  EarnFreeGoldResponseProto* result;
+}
+
+- (EarnFreeGoldResponseProto*) defaultInstance;
+
+- (EarnFreeGoldResponseProto_Builder*) clear;
+- (EarnFreeGoldResponseProto_Builder*) clone;
+
+- (EarnFreeGoldResponseProto*) build;
+- (EarnFreeGoldResponseProto*) buildPartial;
+
+- (EarnFreeGoldResponseProto_Builder*) mergeFrom:(EarnFreeGoldResponseProto*) other;
+- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (EarnFreeGoldResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EarnFreeGoldResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeGoldResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EarnFreeGoldResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (EarnFreeGoldResponseProto_EarnFreeGoldStatus) status;
+- (EarnFreeGoldResponseProto_Builder*) setStatus:(EarnFreeGoldResponseProto_EarnFreeGoldStatus) value;
+- (EarnFreeGoldResponseProto_Builder*) clearStatus;
 @end
 
