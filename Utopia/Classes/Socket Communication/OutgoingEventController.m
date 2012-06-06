@@ -61,7 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   GameState *gs = [GameState sharedGameState];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  if (amount <= gs.silver+1000) {
+  if (amount <= gs.silver) {
     int tag = [sc sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
     int vaultChange = (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-amount];
@@ -166,11 +166,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
-    [gs changeQuantityForEquip:equipId by:1];
     
-    gs.silver -= fep.coinPrice;
-    gs.gold -= fep.diamondPrice;
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:1];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fep.coinPrice];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fep.diamondPrice];
     
+    [gs addUnrespondedUpdates:ceu, su, gu, nil];
     
     [Globals popupMessage:[NSString stringWithFormat:@"You have bought 1 %@!", fep.name]];
     
@@ -190,12 +191,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   FullEquipProto *fep = [gs equipWithId:equipId];
   
   if (ue) {
-    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
     
-    gs.silver += [gl calculateEquipSilverSellCost:ue];
-    gs.gold += [gl calculateEquipGoldSellCost:ue];
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateEquipSilverSellCost:ue]];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateEquipGoldSellCost:ue]];
     
-    [gs changeQuantityForEquip:equipId by:-1];
+    [gs addUnrespondedUpdates:ceu, su, gu, nil];
     
     [Globals popupMessage:[NSString stringWithFormat:@"You have sold 1 %@!", fep.name]];
     

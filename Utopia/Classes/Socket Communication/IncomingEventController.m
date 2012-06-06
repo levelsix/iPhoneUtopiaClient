@@ -207,7 +207,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to perform vault action."];
-    [gs removeAndUndoNonFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
     [[VaultMenuController sharedVaultMenuController] updateBalance];
   }
 }
@@ -258,8 +258,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleArmoryResponseProto:(ArmoryResponseProto *)proto tag:(int)tag {
   LNLog(@"Armory response received with status %d", proto.status);
   
+  GameState *gs =[GameState sharedGameState];
   if (proto.status != ArmoryResponseProto_ArmoryStatusSuccess) {
     [Globals popupMessage:@"Server failed to perform armory action."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -432,7 +436,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleUpdateClientUserResponseProto:(UpdateClientUserResponseProto *)proto tag:(int)tag {
   LNLog(@"Update client user response received.");
   
-  [[GameState sharedGameState] updateUser:proto.sender];
+  GameState *gs = [GameState sharedGameState];
+  [gs updateUser:proto.sender];
+  [gs removeFullUserUpdatesForTag:tag];
 }
 
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto tag:(int)tag {

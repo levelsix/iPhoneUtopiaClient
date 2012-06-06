@@ -206,7 +206,7 @@
 
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up;
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ... NS_REQUIRES_NIL_TERMINATION;
-- (void) removeAndUndoNonFullUserUpdatesForTag:(int)tag;
+- (void) removeAndUndoAllUpdatesForTag:(int)tag;
 - (void) removeFullUserUpdatesForTag:(int)tag;
 - (void) removeNonFullUserUpdatesForTag:(int)tag;
 

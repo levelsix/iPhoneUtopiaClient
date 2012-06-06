@@ -87,7 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   [transferField resignFirstResponder];
   GameState *gs = [GameState sharedGameState];
   int amount = transferField.text.intValue;
-  if (amount > gs.silver+1000) {
+  if (amount > gs.silver) {
     [Globals popupMessage:[NSString stringWithFormat: @"You don't have %d silver on hand! Please try again.", amount]];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:amount];

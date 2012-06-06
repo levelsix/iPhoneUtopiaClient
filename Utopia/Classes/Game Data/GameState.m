@@ -441,6 +441,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if ([up respondsToSelector:@selector(update)]) {
     [up update];
   }
+  
+  NSLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
 }
 
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ...
@@ -455,10 +457,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   va_end(params);
 }
 
-- (void) removeAndUndoNonFullUserUpdatesForTag:(int)tag {
+- (void) removeAndUndoAllUpdatesForTag:(int)tag {
   NSMutableArray *updates = [NSMutableArray array];
   for (id<GameStateUpdate> update in _unrespondedUpdates) {
-    if (update.tag == tag && ![update isKindOfClass:[FullUserUpdate class]]) {
+    if (update.tag == tag) {
       if ([update respondsToSelector:@selector(undo)]) {
         [update undo];
       }
@@ -468,6 +470,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (id<GameStateUpdate> update in updates) {
     [_unrespondedUpdates removeObject:update];
+    NSLog(@"Removed and undid %@ for tag %d", NSStringFromClass([update class]), update.tag);
   }
 }
 
@@ -481,6 +484,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (id<GameStateUpdate> update in updates) {
     [_unrespondedUpdates removeObject:update];
+    NSLog(@"Removed full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
   }
 }
 
@@ -494,6 +498,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (id<GameStateUpdate> update in updates) {
     [_unrespondedUpdates removeObject:update];
+    NSLog(@"Removed non full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
   }
 }
 
