@@ -363,7 +363,7 @@
         desc = @"Make 1 Deposit to the Vault";
         break;
         
-      case SpecialQuestActionWriteOnOtherWall:
+      case SpecialQuestActionWriteOnEnemyWall:
         desc = @"Write on an Enemy's Wall";
         break;
         

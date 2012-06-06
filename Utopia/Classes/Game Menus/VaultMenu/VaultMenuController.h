@@ -36,7 +36,6 @@
 
 @property (nonatomic, retain) NSArray *tickers;
 @property (nonatomic, retain) NSString *vaultBalance;
-@property (nonatomic, retain) NSTimer *timer;
 
 + (VaultMenuController *) sharedVaultMenuController;
 + (void) displayView;

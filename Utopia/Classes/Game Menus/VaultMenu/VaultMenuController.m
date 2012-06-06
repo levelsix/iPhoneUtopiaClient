@@ -70,7 +70,7 @@
 
 @synthesize depositButton, withdrawButton, transferField, bottomLabel;
 @synthesize mainView, bgdView;
-@synthesize tickers, tickerHolderView, vaultBalance, timer;
+@synthesize tickers, tickerHolderView, vaultBalance;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 
@@ -79,42 +79,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 - (IBAction)closeClicked:(id)sender {
   [transferField resignFirstResponder];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [VaultMenuController removeView];
+    [VaultMenuController removeView];       
   }];
 }
 
 - (IBAction)depositClicked:(id)sender {
   [transferField resignFirstResponder];
-  if (!_animating) {
-    GameState *gs = [GameState sharedGameState];
-    int amount = transferField.text.intValue;
-    if (amount > gs.silver) {
-      [Globals popupMessage:[NSString stringWithFormat: @"You don't have %d silver on hand! Please try again.", amount]];
-    } else {
-      [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:amount];
-      [self updateBalance];
-    }
-    transferField.text = @"0";
-    
-    [Analytics vaultDeposit];
+  GameState *gs = [GameState sharedGameState];
+  int amount = transferField.text.intValue;
+  if (amount > gs.silver+1000) {
+    [Globals popupMessage:[NSString stringWithFormat: @"You don't have %d silver on hand! Please try again.", amount]];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:amount];
+    [self updateBalance];
   }
+  transferField.text = @"0";
+  
+  [Analytics vaultDeposit];
 }
 
 - (IBAction)withdrawClicked:(id)sender {
   [transferField resignFirstResponder];
-  if (!_animating) {
-    GameState *gs = [GameState sharedGameState];
-    int amount = transferField.text.intValue;
-    if (amount > gs.vaultBalance) {
-      [Globals popupMessage:[NSString stringWithFormat: @"You don't have %d silver in the vault! Please try again.", amount]];
-    } else {
-      [[OutgoingEventController sharedOutgoingEventController] vaultWithdrawal:amount];
-      [self updateBalance];
-    }
-    transferField.text = @"0";
-    
-    [Analytics vaultWithdraw];
+  GameState *gs = [GameState sharedGameState];
+  int amount = transferField.text.intValue;
+  if (amount > gs.vaultBalance) {
+    [Globals popupMessage:[NSString stringWithFormat: @"You don't have %d silver in the vault! Please try again.", amount]];
+  } else {
+    [[OutgoingEventController sharedOutgoingEventController] vaultWithdrawal:amount];
+    [self updateBalance];
   }
+  transferField.text = @"0";
+  
+  [Analytics vaultWithdraw];
 }
 
 - (IBAction)clearClicked:(id)sender {
@@ -167,8 +163,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   self.tickers = nil;
   self.tickerHolderView = nil;
   self.vaultBalance = nil;
-  [timer invalidate];
-  self.timer = nil;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -197,11 +191,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   int num = [vaultBalance intValue];
   int realBalance = [[GameState sharedGameState] vaultBalance];
   
+  NSString *newStr = [NSString stringWithFormat:@"%09d", realBalance];
+  _index = [self firstDifference:vaultBalance second:newStr];
+  self.vaultBalance = newStr;
   if (!_animating && realBalance != num) {
     _animating = YES;
-    NSString *newStr = [NSString stringWithFormat:@"%09d", realBalance];
-    _index = [self firstDifference:vaultBalance second:newStr];
-    self.vaultBalance = newStr;
     [self animateNextNum];
   }
 }

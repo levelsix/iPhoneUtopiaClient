@@ -88,4 +88,6 @@
 - (void) retrieveWallPostsForPlayer:(int)playerId beforePostId:(int)postId;
 - (PlayerWallPostProto *) postToPlayerWall:(int)playerId withContent:(NSString *)content;
 
+- (void) enableApns:(NSData *)deviceToken;
+
 @end

@@ -21,6 +21,7 @@
 #import "GenericPopupController.h"
 #import "SimpleAudioEngine.h"
 #import "BattleLayer.h"
+#import "OtherUpdates.h"
 
 @implementation OutgoingEventController
 
@@ -59,10 +60,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
-  if (amount <= gs.silver) {
-    [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
-    gs.silver -= amount;
-    gs.vaultBalance += (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  if (amount <= gs.silver+1000) {
+    int tag = [sc sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeDeposit];
+    int vaultChange = (int)floorf(amount * (1.f-[[Globals sharedGlobals] cutOfVaultDepositTaken]));
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-amount];
+    VaultUpdate *vu = [VaultUpdate updateWithTag:tag change:vaultChange];
+    [gs addUnrespondedUpdates:su, vu, nil];
     
     [Globals playCoinSound];
   } else {
@@ -76,10 +80,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   GameState *gs = [GameState sharedGameState];
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   if (amount <= gs.vaultBalance) {
-    [[SocketCommunication sharedSocketCommunication] sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
-    gs.silver += amount;
-    gs.vaultBalance -= amount;
+    int tag = [sc sendVaultMessage:amount requestType:VaultRequestProto_VaultRequestTypeWithdraw];
+    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:amount];
+    VaultUpdate *vu = [VaultUpdate updateWithTag:tag change:-amount];
+    [gs addUnrespondedUpdates:su, vu, nil];
     
     [Globals playCoinSound];
   } else {
@@ -114,7 +120,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     fcp.numTasksComplete++;
   }
   
-  [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId curTime:[self getCurrentMilliseconds]];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendTaskActionMessage:taskId curTime:[self getCurrentMilliseconds]];
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   return YES;
 }
 
@@ -158,11 +165,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
-    [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
     [gs changeQuantityForEquip:equipId by:1];
     
     gs.silver -= fep.coinPrice;
     gs.gold -= fep.diamondPrice;
+    
     
     [Globals popupMessage:[NSString stringWithFormat:@"You have bought 1 %@!", fep.name]];
     
@@ -1235,6 +1243,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   bldr.timeOfPost = [[NSDate date] timeIntervalSince1970]*1000;
   
   return [bldr build];
+}
+
+- (void) enableApns:(NSData *)deviceToken {
+  GameState *gs = [GameState sharedGameState];
+  while (gs.userId == 0) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+    
+  }
+  
+  NSString *str = nil;
+  if (deviceToken) {
+    str = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+  }
+  int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:str];
+  
+  gs.deviceToken = str;
+  [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
 @end

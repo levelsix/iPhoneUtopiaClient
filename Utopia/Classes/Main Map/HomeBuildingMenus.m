@@ -52,7 +52,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   FullStructureProto *fsp = [gs structWithId:us.structId];
-  coinsLabel = [NSString stringWithFormat:@"%d", [gl calculateIncomeForUserStruct:us]];
+  coinsLabel.text = [NSString stringWithFormat:@"%d", [gl calculateIncomeForUserStruct:us]];
   
   self.userStruct = us;
   

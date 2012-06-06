@@ -9,6 +9,7 @@
 #import "Info.pb.h"
 #import "UserData.h"
 #import <CoreLocation/CoreLocation.h>
+#import "FullUserUpdates.h"
 
 @interface GameState : NSObject {
   BOOL _isTutorial;
@@ -48,6 +49,8 @@
   NSDate *_lastShortLicensePurchaseTime;
   NSDate *_lastLongLicensePurchaseTime;
   
+  NSString *_deviceToken;
+  
   int _maxCity;
   int _expRequiredForCurrentLevel;
   int _expRequiredForNextLevel;
@@ -83,6 +86,9 @@
   NSMutableArray *_wallPosts;
   
   NSDate *_lastLogoutTime;
+  
+  // For the tagging scheme
+  NSMutableArray *_unrespondedUpdates;
 }
 
 @property (assign) BOOL isTutorial;
@@ -119,6 +125,8 @@
 @property (assign) int amuletEquipped;
 @property (retain) NSDate *lastEnergyRefill;
 @property (retain) NSDate *lastStaminaRefill;
+
+@property (retain) NSString *deviceToken;
 
 @property (retain) NSDate *lastShortLicensePurchaseTime;
 @property (retain) NSDate *lastLongLicensePurchaseTime;
@@ -157,6 +165,8 @@
 @property (retain) NSMutableArray *notifications;
 @property (retain) NSMutableArray *wallPosts;
 
+@property (retain) NSMutableArray *unrespondedUpdates;
+
 @property (retain) NSDate *lastLogoutTime;
 
 + (GameState *) sharedGameState;
@@ -193,6 +203,12 @@
 - (void) addToStaticDefeatTypeJobs:(NSArray *)arr;
 - (void) addToStaticPossessEquipJobs:(NSArray *)arr;
 - (void) addToStaticUpgradeStructJobs:(NSArray *)arr;
+
+- (void) addUnrespondedUpdate:(id<GameStateUpdate>)up;
+- (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ... NS_REQUIRES_NIL_TERMINATION;
+- (void) removeAndUndoNonFullUserUpdatesForTag:(int)tag;
+- (void) removeFullUserUpdatesForTag:(int)tag;
+- (void) removeNonFullUserUpdatesForTag:(int)tag;
 
 - (BOOL) hasValidLicense;
 - (void) changeQuantityForEquip:(int)equipId by:(int)qDelta;

@@ -27,7 +27,7 @@ BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
     case SpecialQuestActionPostToMarketplace:
     case SpecialQuestActionDepositInVault:
     case SpecialQuestActionWithdrawFromVault:
-    case SpecialQuestActionWriteOnOtherWall:
+    case SpecialQuestActionWriteOnEnemyWall:
       return YES;
     default:
       return NO;

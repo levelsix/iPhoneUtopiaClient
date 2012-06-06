@@ -184,7 +184,6 @@
 		CF126D901538ACCA00E0C1AD /* TutorialProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265EB1538ACC400E0C1AD /* TutorialProfileViewController.m */; };
 		CF126D921538ACCA00E0C1AD /* TutorialStartLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265EF1538ACC400E0C1AD /* TutorialStartLayer.m */; };
 		CF126D931538ACCA00E0C1AD /* TutorialTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265F11538ACC400E0C1AD /* TutorialTopBar.m */; };
-		CF126D951538ACCA00E0C1AD /* libApsalar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1265F61538ACC400E0C1AD /* libApsalar.a */; };
 		CF126D961538ACCA00E0C1AD /* CCLabelFX.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265F91538ACC400E0C1AD /* CCLabelFX.m */; };
 		CF126D971538ACCA00E0C1AD /* CCTexture2D+TextShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265FB1538ACC400E0C1AD /* CCTexture2D+TextShadow.m */; };
 		CF126D981538ACCA00E0C1AD /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1265FE1538ACC400E0C1AD /* CCAction.m */; };
@@ -951,6 +950,10 @@
 		CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273C91538B80000E0C1AD /* AudioToolbox.framework */; };
 		CF1273CC1538B80500E0C1AD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CB1538B80500E0C1AD /* AVFoundation.framework */; };
 		CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CF1538BC7C00E0C1AD /* libz.dylib */; };
+		CF192978157D9FF100D51C70 /* OtherUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = CF192977157D9FF100D51C70 /* OtherUpdates.m */; };
+		CF19297B157ECE9200D51C70 /* Ellsworth@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF192979157ECE9200D51C70 /* Ellsworth@2x.tmx */; };
+		CF19297C157ECE9200D51C70 /* Ellsworth.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF19297A157ECE9200D51C70 /* Ellsworth.tmx */; };
+		CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF19297E157EEC4C00D51C70 /* libApsalar.a */; };
 		CF1AD20815635BD800DED5A6 /* EquipMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1AD20615635BD800DED5A6 /* EquipMenuController.m */; };
 		CF1AD20915635BD800DED5A6 /* EquipMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF1AD20715635BD800DED5A6 /* EquipMenuController.xib */; };
 		CF29408115647BB7002D9E45 /* armorypricebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29408015647BB7002D9E45 /* armorypricebg.png */; };
@@ -1063,8 +1066,6 @@
 		CF48CA8F1577624200802A39 /* Marketplace@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA891577624200802A39 /* Marketplace@2x.png */; };
 		CF48CA9C1577669D00802A39 /* Bazaar.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA901577669D00802A39 /* Bazaar.tmx */; };
 		CF48CA9D1577669D00802A39 /* Bazaar@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA911577669D00802A39 /* Bazaar@2x.tmx */; };
-		CF48CA9E1577669D00802A39 /* Ellsworth.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA921577669D00802A39 /* Ellsworth.tmx */; };
-		CF48CA9F1577669D00802A39 /* Ellsworth@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA931577669D00802A39 /* Ellsworth@2x.tmx */; };
 		CF48CAA01577669D00802A39 /* Home.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA941577669D00802A39 /* Home.tmx */; };
 		CF48CAA11577669D00802A39 /* Home@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA951577669D00802A39 /* Home@2x.tmx */; };
 		CF48CAA21577669D00802A39 /* KirinVillage.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA961577669D00802A39 /* KirinVillage.tmx */; };
@@ -1167,6 +1168,7 @@
 		CF8C7ACD1579DAAA003A6AFE /* skillpointicons.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AB51579DAAA003A6AFE /* skillpointicons.png */; };
 		CF8C7ACE1579DAAA003A6AFE /* skillpointicons@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7AB61579DAAA003A6AFE /* skillpointicons@2x.png */; };
 		CF8C7AD01579DCC5003A6AFE /* refill.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8C7ACF1579DCC5003A6AFE /* refill.png */; };
+		CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8C7AE0157C1F0E003A6AFE /* FullUserUpdates.m */; };
 		CF8FC82C1543E5540082473E /* ConvoMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8FC82A1543E5540082473E /* ConvoMenuController.m */; };
 		CF8FC82D1543E5540082473E /* ConvoMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC82B1543E5540082473E /* ConvoMenuController.xib */; };
 		CF8FC8351543E5F50082473E /* dialoguebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC82F1543E5F40082473E /* dialoguebg.png */; };
@@ -1690,8 +1692,6 @@
 		CF1265EF1538ACC400E0C1AD /* TutorialStartLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialStartLayer.m; sourceTree = "<group>"; };
 		CF1265F01538ACC400E0C1AD /* TutorialTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialTopBar.h; sourceTree = "<group>"; };
 		CF1265F11538ACC400E0C1AD /* TutorialTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialTopBar.m; sourceTree = "<group>"; };
-		CF1265F41538ACC400E0C1AD /* Apsalar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Apsalar.h; sourceTree = "<group>"; };
-		CF1265F61538ACC400E0C1AD /* libApsalar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libApsalar.a; sourceTree = "<group>"; };
 		CF1265F81538ACC400E0C1AD /* CCLabelFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelFX.h; sourceTree = "<group>"; };
 		CF1265F91538ACC400E0C1AD /* CCLabelFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLabelFX.m; sourceTree = "<group>"; };
 		CF1265FA1538ACC400E0C1AD /* CCTexture2D+TextShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCTexture2D+TextShadow.h"; sourceTree = "<group>"; };
@@ -2644,6 +2644,12 @@
 		CF1273C91538B80000E0C1AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CF1273CB1538B80500E0C1AD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CF1273CF1538BC7C00E0C1AD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CF192976157D9FF100D51C70 /* OtherUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherUpdates.h; sourceTree = "<group>"; };
+		CF192977157D9FF100D51C70 /* OtherUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherUpdates.m; sourceTree = "<group>"; };
+		CF192979157ECE9200D51C70 /* Ellsworth@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Ellsworth@2x.tmx"; sourceTree = "<group>"; };
+		CF19297A157ECE9200D51C70 /* Ellsworth.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ellsworth.tmx; sourceTree = "<group>"; };
+		CF19297D157EEC4C00D51C70 /* Apsalar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Apsalar.h; sourceTree = "<group>"; };
+		CF19297E157EEC4C00D51C70 /* libApsalar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libApsalar.a; sourceTree = "<group>"; };
 		CF1AD20515635BD800DED5A6 /* EquipMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipMenuController.h; sourceTree = "<group>"; };
 		CF1AD20615635BD800DED5A6 /* EquipMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipMenuController.m; sourceTree = "<group>"; };
 		CF1AD20715635BD800DED5A6 /* EquipMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipMenuController.xib; sourceTree = "<group>"; };
@@ -2710,8 +2716,6 @@
 		CF48CA891577624200802A39 /* Marketplace@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Marketplace@2x.png"; sourceTree = "<group>"; };
 		CF48CA901577669D00802A39 /* Bazaar.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Bazaar.tmx; sourceTree = "<group>"; };
 		CF48CA911577669D00802A39 /* Bazaar@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Bazaar@2x.tmx"; sourceTree = "<group>"; };
-		CF48CA921577669D00802A39 /* Ellsworth.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ellsworth.tmx; sourceTree = "<group>"; };
-		CF48CA931577669D00802A39 /* Ellsworth@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Ellsworth@2x.tmx"; sourceTree = "<group>"; };
 		CF48CA941577669D00802A39 /* Home.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Home.tmx; sourceTree = "<group>"; };
 		CF48CA951577669D00802A39 /* Home@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Home@2x.tmx"; sourceTree = "<group>"; };
 		CF48CA961577669D00802A39 /* KirinVillage.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = KirinVillage.tmx; sourceTree = "<group>"; };
@@ -2800,6 +2804,9 @@
 		CF8C7AB51579DAAA003A6AFE /* skillpointicons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skillpointicons.png; sourceTree = "<group>"; };
 		CF8C7AB61579DAAA003A6AFE /* skillpointicons@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skillpointicons@2x.png"; sourceTree = "<group>"; };
 		CF8C7ACF1579DCC5003A6AFE /* refill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refill.png; sourceTree = "<group>"; };
+		CF8C7ADE157C1E65003A6AFE /* GameStateUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameStateUpdate.h; sourceTree = "<group>"; };
+		CF8C7ADF157C1F0E003A6AFE /* FullUserUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullUserUpdates.h; sourceTree = "<group>"; };
+		CF8C7AE0157C1F0E003A6AFE /* FullUserUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullUserUpdates.m; sourceTree = "<group>"; };
 		CF8FC8291543E5540082473E /* ConvoMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvoMenuController.h; sourceTree = "<group>"; };
 		CF8FC82A1543E5540082473E /* ConvoMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConvoMenuController.m; sourceTree = "<group>"; };
 		CF8FC82B1543E5540082473E /* ConvoMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConvoMenuController.xib; sourceTree = "<group>"; };
@@ -2992,11 +2999,11 @@
 				CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */,
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
-				CF126D951538ACCA00E0C1AD /* libApsalar.a in Frameworks */,
 				CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */,
 				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
 				454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */,
 				45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */,
+				CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3312,6 +3319,7 @@
 				CF1265A11538ACC400E0C1AD /* Main Map */,
 				CF1265C01538ACC400E0C1AD /* Protocol Buffers */,
 				CF1265CE1538ACC400E0C1AD /* Socket Communication */,
+				CF8C7ADD157C1C36003A6AFE /* Tagging Scheme */,
 				CF1265D51538ACC400E0C1AD /* Tutorial */,
 				CFEDA69E153CD1D100015562 /* UserVoiceHelper */,
 			);
@@ -3887,8 +3895,8 @@
 		CF1265F31538ACC400E0C1AD /* Apsalar */ = {
 			isa = PBXGroup;
 			children = (
-				CF1265F41538ACC400E0C1AD /* Apsalar.h */,
-				CF1265F61538ACC400E0C1AD /* libApsalar.a */,
+				CF19297D157EEC4C00D51C70 /* Apsalar.h */,
+				CF19297E157EEC4C00D51C70 /* libApsalar.a */,
 			);
 			path = Apsalar;
 			sourceTree = "<group>";
@@ -5163,8 +5171,8 @@
 				CF52D34E156E1085005BE612 /* NEW_Universal_Pack@2x.png */,
 				CF48CA901577669D00802A39 /* Bazaar.tmx */,
 				CF48CA911577669D00802A39 /* Bazaar@2x.tmx */,
-				CF48CA921577669D00802A39 /* Ellsworth.tmx */,
-				CF48CA931577669D00802A39 /* Ellsworth@2x.tmx */,
+				CF19297A157ECE9200D51C70 /* Ellsworth.tmx */,
+				CF192979157ECE9200D51C70 /* Ellsworth@2x.tmx */,
 				CF48CA941577669D00802A39 /* Home.tmx */,
 				CF48CA951577669D00802A39 /* Home@2x.tmx */,
 				CF48CA961577669D00802A39 /* KirinVillage.tmx */,
@@ -5399,6 +5407,18 @@
 				CF7FEEDB154085F000716E37 /* FAQMenuController.xib */,
 			);
 			name = FAQMenu;
+			sourceTree = "<group>";
+		};
+		CF8C7ADD157C1C36003A6AFE /* Tagging Scheme */ = {
+			isa = PBXGroup;
+			children = (
+				CF8C7ADE157C1E65003A6AFE /* GameStateUpdate.h */,
+				CF8C7ADF157C1F0E003A6AFE /* FullUserUpdates.h */,
+				CF8C7AE0157C1F0E003A6AFE /* FullUserUpdates.m */,
+				CF192976157D9FF100D51C70 /* OtherUpdates.h */,
+				CF192977157D9FF100D51C70 /* OtherUpdates.m */,
+			);
+			path = "Tagging Scheme";
 			sourceTree = "<group>";
 		};
 		CF8FC8231543DF470082473E /* ConvoMenu */ = {
@@ -6728,8 +6748,6 @@
 				CF48CA8F1577624200802A39 /* Marketplace@2x.png in Resources */,
 				CF48CA9C1577669D00802A39 /* Bazaar.tmx in Resources */,
 				CF48CA9D1577669D00802A39 /* Bazaar@2x.tmx in Resources */,
-				CF48CA9E1577669D00802A39 /* Ellsworth.tmx in Resources */,
-				CF48CA9F1577669D00802A39 /* Ellsworth@2x.tmx in Resources */,
 				CF48CAA01577669D00802A39 /* Home.tmx in Resources */,
 				CF48CAA11577669D00802A39 /* Home@2x.tmx in Resources */,
 				CF48CAA21577669D00802A39 /* KirinVillage.tmx in Resources */,
@@ -6772,6 +6790,8 @@
 				CF8C7ACD1579DAAA003A6AFE /* skillpointicons.png in Resources */,
 				CF8C7ACE1579DAAA003A6AFE /* skillpointicons@2x.png in Resources */,
 				CF8C7AD01579DCC5003A6AFE /* refill.png in Resources */,
+				CF19297B157ECE9200D51C70 /* Ellsworth@2x.tmx in Resources */,
+				CF19297C157ECE9200D51C70 /* Ellsworth.tmx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7022,6 +7042,8 @@
 				4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */,
 				CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */,
 				CF74FB211578A96500E52B81 /* TutorialQuestLogController.m in Sources */,
+				CF8C7AE1157C1F0E003A6AFE /* FullUserUpdates.m in Sources */,
+				CF192978157D9FF100D51C70 /* OtherUpdates.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

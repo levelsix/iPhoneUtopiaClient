@@ -169,14 +169,14 @@
 	// You can change anytime.
 	[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
   
-  [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
-  
   //  if (![[LocationManager alloc] initWithDelegate:self]) {
   //    // Inform of location services off
   //  }
   [Apsalar startSession:APSALAR_API_KEY withKey:APSALAR_SECRET andLaunchOptions:launchOptions];
   [Analytics beganApp];
   [Analytics openedApp];
+  
+  [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
@@ -250,6 +250,11 @@
 -(void) applicationWillEnterForeground:(UIApplication*)application {
   LNLog(@"will enter foreground");
   [self removeLocalNotifications];
+  
+  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];;
+  [Analytics beganApp];
+  [Analytics resumedApp];
+  
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   if ([[CCDirector sharedDirector] runningScene]) {
     [[CCDirector sharedDirector] startAnimation];
@@ -258,9 +263,6 @@
       [[GameViewController sharedGameViewController] startDoorAnimation];
     }
   }
-  [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];;
-  [Analytics beganApp];
-  [Analytics resumedApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -288,11 +290,13 @@
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
 	LNLog(@"My token is: %@", deviceToken);
+  [[OutgoingEventController sharedOutgoingEventController] enableApns:deviceToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
 	LNLog(@"Failed to get token, error: %@", error);
+  [[OutgoingEventController sharedOutgoingEventController] enableApns:nil];
 }
 
 - (void) scheduleNotificationWithText:(NSString *)text badge:(int)badge date:(NSDate *)date {

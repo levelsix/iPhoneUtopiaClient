@@ -34,6 +34,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
+@class EarnFreeGoldRequestProto;
+@class EarnFreeGoldRequestProto_Builder;
+@class EarnFreeGoldResponseProto;
+@class EarnFreeGoldResponseProto_Builder;
 @class EnableAPNSRequestProto;
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
@@ -310,6 +314,7 @@ typedef enum {
   EventProtocolRequestCRetrieveUsersForUserIdsEvent = 42,
   EventProtocolRequestCPostOnPlayerWall = 43,
   EventProtocolRequestCRetrievePlayerWallPosts = 44,
+  EventProtocolRequestCEarnFreeGold = 45,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -359,6 +364,7 @@ typedef enum {
   EventProtocolResponseSRetrieveUsersForUserIdsEvent = 42,
   EventProtocolResponseSPostOnPlayerWall = 43,
   EventProtocolResponseSRetrievePlayerWallPosts = 44,
+  EventProtocolResponseSEarnFreeGold = 45,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
   EventProtocolResponseSReferralCodeUsedEvent = 53,

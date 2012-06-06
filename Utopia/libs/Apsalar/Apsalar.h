@@ -44,6 +44,8 @@ typedef enum {
 + (NSDate *) sessionStartDate;
 + (NSString *) sessionID;
 + (NSString *) version;
++ (NSString *)apsalarID;
++ (NSString *)apsalarKeyspace;
 + (void) setBufferLimit:(int)size;
 @property(nonatomic, readonly) NSString *applicationName;
 @property(nonatomic, readonly) NSString *applicationIdentifier;
@@ -54,7 +56,6 @@ typedef enum {
 + (BOOL) processJSRequest:(UIWebView *)webView withURL:(NSURLRequest *)url;
 @property(nonatomic) int minSessionDuration;  // Default: 5
 + (void) setMinSessionDuration:(int)seconds;
-@property(nonatomic, readonly) NSString *apsalarID;
 @end
 
 @interface ApButton: UIButton {

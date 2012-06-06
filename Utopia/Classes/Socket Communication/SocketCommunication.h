@@ -21,8 +21,6 @@
   int _numDisconnects;
 }
 
-@property (readonly) int currentTagNum;
-
 - (void) rebuildSender;
 
 + (SocketCommunication *)sharedSocketCommunication;
@@ -32,62 +30,64 @@
 - (void) messageReceived:(NSData *)buffer withType:(EventProtocolResponse)eventType tag:(int)tag;
 
 // Send different event messages
-- (void) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild;
+- (int) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild;
 
-- (void) sendChatMessage:(NSString *)message recipient:(int)recipient;
-- (void) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
-- (void) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips;
-- (void) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
-- (void) sendStartupMessage:(uint64_t)clientTime;
-- (void) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;
-- (void) sendInAppPurchaseMessage: (NSString *) receipt;
+- (int) sendChatMessage:(NSString *)message recipient:(int)recipient;
+- (int) sendVaultMessage:(int)amount requestType: (VaultRequestProto_VaultRequestType) type;
+- (int) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips;
+- (int) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
+- (int) sendStartupMessage:(uint64_t)clientTime;
+- (int) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;
+- (int) sendInAppPurchaseMessage: (NSString *) receipt;
 
 // Marketplace messages
-- (void) sendRetrieveCurrentMarketplacePostsMessageBeforePostId:(int)postId fromSender:(BOOL)fromSender;
-- (void) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds;
-- (void) sendRetractMarketplacePostMessage: (int)postId;
-- (void) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
-- (void) sendRedeemMarketplaceEarningsMessage;
-- (void) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type;
+- (int) sendRetrieveCurrentMarketplacePostsMessageBeforePostId:(int)postId fromSender:(BOOL)fromSender;
+- (int) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds;
+- (int) sendRetractMarketplacePostMessage: (int)postId;
+- (int) sendPurchaseFromMarketplaceMessage: (int)postId poster:(int)posterId;
+- (int) sendRedeemMarketplaceEarningsMessage;
+- (int) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type;
 
-- (void) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
-- (void) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
+- (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
+- (int) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
-- (void) sendRefillStatWaitTimeComplete:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType)type curTime:(uint64_t)curTime;
-- (void) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType)statType;
+- (int) sendRefillStatWaitTimeComplete:(RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteType)type curTime:(uint64_t)curTime;
+- (int) sendRefillStatWithDiamondsMessage:(RefillStatWithDiamondsRequestProto_StatType)statType;
 
 // Norm Struct messages
-- (void) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
-- (void) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
-- (void) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
-- (void) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y;
-- (void) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y;
-- (void) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation;
-- (void) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
-- (void) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
-- (void) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
-- (void) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds;
-- (void) sendSellNormStructureMessage:(int)userStructId;
+- (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
+- (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
+- (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
+- (int) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y;
+- (int) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y;
+- (int) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation;
+- (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
+- (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
+- (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
+- (int) sendRetrieveCurrencyFromNormStructureMessage:(int)userStructId time:(uint64_t)milliseconds;
+- (int) sendSellNormStructureMessage:(int)userStructId;
 
-- (void) sendLoadPlayerCityMessage:(MinimumUserProto *)mup;
-- (void) sendLoadNeutralCityMessage:(int)cityId;
+- (int) sendLoadPlayerCityMessage:(MinimumUserProto *)mup;
+- (int) sendLoadNeutralCityMessage:(int)cityId;
 
-- (void) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds;
-- (void) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType)type;
+- (int) sendRetrieveStaticDataMessageWithStructIds:(NSArray *)structIds taskIds:(NSArray *)taskIds questIds:(NSArray *)questIds cityIds:(NSArray *)cityIds equipIds:(NSArray *)equipIds buildStructJobIds:(NSArray *)buildStructJobIds defeatTypeJobIds:(NSArray *)defeatTypeJobIds possessEquipJobIds:(NSArray *)possessEquipJobIds upgradeStructJobIds:(NSArray *)upgradeStructJobIds;
+- (int) sendRetrieveStaticDataFromShopMessage:(RetrieveStaticDataForShopRequestProto_RetrieveForShopType)type;
 
-- (void) sendEquipEquipmentMessage:(int) equipId;
-- (void) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
+- (int) sendEquipEquipmentMessage:(int) equipId;
+- (int) sendChangeUserLocationMessageWithLatitude:(CGFloat)lat longitude:(CGFloat)lon;
 
-- (void) sendLevelUpMessage;
+- (int) sendLevelUpMessage;
 
-- (void) sendQuestAcceptMessage:(int)questId;
-- (void) sendQuestRedeemMessage:(int)questId;
-- (void) sendUserQuestDetailsMessage:(int)questId;
+- (int) sendQuestAcceptMessage:(int)questId;
+- (int) sendQuestRedeemMessage:(int)questId;
+- (int) sendUserQuestDetailsMessage:(int)questId;
 
-- (void) sendRetrieveUserEquipForUserMessage:(int)userId;
-- (void) sendRetrieveUsersForUserIds:(NSArray *)userIds;
+- (int) sendRetrieveUserEquipForUserMessage:(int)userId;
+- (int) sendRetrieveUsersForUserIds:(NSArray *)userIds;
 
-- (void) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId;
-- (void) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content;
+- (int) sendRetrievePlayerWallPostsMessage:(int)playerId beforePostId:(int)beforePostId;
+- (int) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content;
+
+- (int) sendAPNSMessage:(NSString *)deviceToken;
 
 @end

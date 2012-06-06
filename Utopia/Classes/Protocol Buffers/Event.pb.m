@@ -2656,7 +2656,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @interface StartupRequestProto ()
 @property (retain) NSString* udid;
 @property Float32 versionNum;
-@property (retain) NSString* deviceToken;
 @property (retain) NSString* apsalarId;
 @end
 
@@ -2676,13 +2675,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   hasVersionNum_ = !!value;
 }
 @synthesize versionNum;
-- (BOOL) hasDeviceToken {
-  return !!hasDeviceToken_;
-}
-- (void) setHasDeviceToken:(BOOL) value {
-  hasDeviceToken_ = !!value;
-}
-@synthesize deviceToken;
 - (BOOL) hasApsalarId {
   return !!hasApsalarId_;
 }
@@ -2692,7 +2684,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 @synthesize apsalarId;
 - (void) dealloc {
   self.udid = nil;
-  self.deviceToken = nil;
   self.apsalarId = nil;
   [super dealloc];
 }
@@ -2700,7 +2691,6 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   if ((self = [super init])) {
     self.udid = @"";
     self.versionNum = 0;
-    self.deviceToken = @"";
     self.apsalarId = @"";
   }
   return self;
@@ -2727,11 +2717,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasVersionNum) {
     [output writeFloat:2 value:self.versionNum];
   }
-  if (self.hasDeviceToken) {
-    [output writeString:4 value:self.deviceToken];
-  }
   if (self.hasApsalarId) {
-    [output writeString:5 value:self.apsalarId];
+    [output writeString:3 value:self.apsalarId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -2748,11 +2735,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (self.hasVersionNum) {
     size += computeFloatSize(2, self.versionNum);
   }
-  if (self.hasDeviceToken) {
-    size += computeStringSize(4, self.deviceToken);
-  }
   if (self.hasApsalarId) {
-    size += computeStringSize(5, self.apsalarId);
+    size += computeStringSize(3, self.apsalarId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2835,9 +2819,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   if (other.hasVersionNum) {
     [self setVersionNum:other.versionNum];
   }
-  if (other.hasDeviceToken) {
-    [self setDeviceToken:other.deviceToken];
-  }
   if (other.hasApsalarId) {
     [self setApsalarId:other.apsalarId];
   }
@@ -2870,11 +2851,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
         [self setVersionNum:[input readFloat]];
         break;
       }
-      case 34: {
-        [self setDeviceToken:[input readString]];
-        break;
-      }
-      case 42: {
+      case 26: {
         [self setApsalarId:[input readString]];
         break;
       }
@@ -2911,22 +2888,6 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 - (StartupRequestProto_Builder*) clearVersionNum {
   result.hasVersionNum = NO;
   result.versionNum = 0;
-  return self;
-}
-- (BOOL) hasDeviceToken {
-  return result.hasDeviceToken;
-}
-- (NSString*) deviceToken {
-  return result.deviceToken;
-}
-- (StartupRequestProto_Builder*) setDeviceToken:(NSString*) value {
-  result.hasDeviceToken = YES;
-  result.deviceToken = value;
-  return self;
-}
-- (StartupRequestProto_Builder*) clearDeviceToken {
-  result.hasDeviceToken = NO;
-  result.deviceToken = @"";
   return self;
 }
 - (BOOL) hasApsalarId {
@@ -35663,6 +35624,587 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
     result.mutablePlayerWallPostsList = [NSMutableArray array];
   }
   [result.mutablePlayerWallPostsList addObject:value];
+  return self;
+}
+@end
+
+@interface EarnFreeGoldRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
+@property int64_t clientTime;
+@property (retain) NSString* kiipReceipt;
+@end
+
+@implementation EarnFreeGoldRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasFreeGoldType {
+  return !!hasFreeGoldType_;
+}
+- (void) setHasFreeGoldType:(BOOL) value {
+  hasFreeGoldType_ = !!value;
+}
+@synthesize freeGoldType;
+- (BOOL) hasClientTime {
+  return !!hasClientTime_;
+}
+- (void) setHasClientTime:(BOOL) value {
+  hasClientTime_ = !!value;
+}
+@synthesize clientTime;
+- (BOOL) hasKiipReceipt {
+  return !!hasKiipReceipt_;
+}
+- (void) setHasKiipReceipt:(BOOL) value {
+  hasKiipReceipt_ = !!value;
+}
+@synthesize kiipReceipt;
+- (void) dealloc {
+  self.sender = nil;
+  self.kiipReceipt = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.freeGoldType = EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip;
+    self.clientTime = 0L;
+    self.kiipReceipt = @"";
+  }
+  return self;
+}
+static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [EarnFreeGoldRequestProto class]) {
+    defaultEarnFreeGoldRequestProtoInstance = [[EarnFreeGoldRequestProto alloc] init];
+  }
+}
++ (EarnFreeGoldRequestProto*) defaultInstance {
+  return defaultEarnFreeGoldRequestProtoInstance;
+}
+- (EarnFreeGoldRequestProto*) defaultInstance {
+  return defaultEarnFreeGoldRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasFreeGoldType) {
+    [output writeEnum:2 value:self.freeGoldType];
+  }
+  if (self.hasClientTime) {
+    [output writeInt64:3 value:self.clientTime];
+  }
+  if (self.hasKiipReceipt) {
+    [output writeString:4 value:self.kiipReceipt];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasFreeGoldType) {
+    size += computeEnumSize(2, self.freeGoldType);
+  }
+  if (self.hasClientTime) {
+    size += computeInt64Size(3, self.clientTime);
+  }
+  if (self.hasKiipReceipt) {
+    size += computeStringSize(4, self.kiipReceipt);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data {
+  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromData:data] build];
+}
++ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromInputStream:input] build];
+}
++ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EarnFreeGoldRequestProto_Builder*) builder {
+  return [[[EarnFreeGoldRequestProto_Builder alloc] init] autorelease];
+}
++ (EarnFreeGoldRequestProto_Builder*) builderWithPrototype:(EarnFreeGoldRequestProto*) prototype {
+  return [[EarnFreeGoldRequestProto builder] mergeFrom:prototype];
+}
+- (EarnFreeGoldRequestProto_Builder*) builder {
+  return [EarnFreeGoldRequestProto builder];
+}
+@end
+
+BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestProto_EarnFreeGoldType value) {
+  switch (value) {
+    case EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip:
+    case EarnFreeGoldRequestProto_EarnFreeGoldTypeAdcolony:
+    case EarnFreeGoldRequestProto_EarnFreeGoldTypeFbInvite:
+    case EarnFreeGoldRequestProto_EarnFreeGoldTypeTapjoy:
+    case EarnFreeGoldRequestProto_EarnFreeGoldTypeFlurryVideo:
+    case EarnFreeGoldRequestProto_EarnFreeGoldTypeTwitter:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface EarnFreeGoldRequestProto_Builder()
+@property (retain) EarnFreeGoldRequestProto* result;
+@end
+
+@implementation EarnFreeGoldRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EarnFreeGoldRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EarnFreeGoldRequestProto_Builder*) clear {
+  self.result = [[[EarnFreeGoldRequestProto alloc] init] autorelease];
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) clone {
+  return [EarnFreeGoldRequestProto builderWithPrototype:result];
+}
+- (EarnFreeGoldRequestProto*) defaultInstance {
+  return [EarnFreeGoldRequestProto defaultInstance];
+}
+- (EarnFreeGoldRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EarnFreeGoldRequestProto*) buildPartial {
+  EarnFreeGoldRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EarnFreeGoldRequestProto_Builder*) mergeFrom:(EarnFreeGoldRequestProto*) other {
+  if (other == [EarnFreeGoldRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasFreeGoldType) {
+    [self setFreeGoldType:other.freeGoldType];
+  }
+  if (other.hasClientTime) {
+    [self setClientTime:other.clientTime];
+  }
+  if (other.hasKiipReceipt) {
+    [self setKiipReceipt:other.kiipReceipt];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(value)) {
+          [self setFreeGoldType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setClientTime:[input readInt64]];
+        break;
+      }
+      case 34: {
+        [self setKiipReceipt:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EarnFreeGoldRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EarnFreeGoldRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFreeGoldType {
+  return result.hasFreeGoldType;
+}
+- (EarnFreeGoldRequestProto_EarnFreeGoldType) freeGoldType {
+  return result.freeGoldType;
+}
+- (EarnFreeGoldRequestProto_Builder*) setFreeGoldType:(EarnFreeGoldRequestProto_EarnFreeGoldType) value {
+  result.hasFreeGoldType = YES;
+  result.freeGoldType = value;
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) clearFreeGoldType {
+  result.hasFreeGoldType = NO;
+  result.freeGoldType = EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip;
+  return self;
+}
+- (BOOL) hasClientTime {
+  return result.hasClientTime;
+}
+- (int64_t) clientTime {
+  return result.clientTime;
+}
+- (EarnFreeGoldRequestProto_Builder*) setClientTime:(int64_t) value {
+  result.hasClientTime = YES;
+  result.clientTime = value;
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) clearClientTime {
+  result.hasClientTime = NO;
+  result.clientTime = 0L;
+  return self;
+}
+- (BOOL) hasKiipReceipt {
+  return result.hasKiipReceipt;
+}
+- (NSString*) kiipReceipt {
+  return result.kiipReceipt;
+}
+- (EarnFreeGoldRequestProto_Builder*) setKiipReceipt:(NSString*) value {
+  result.hasKiipReceipt = YES;
+  result.kiipReceipt = value;
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) clearKiipReceipt {
+  result.hasKiipReceipt = NO;
+  result.kiipReceipt = @"";
+  return self;
+}
+@end
+
+@interface EarnFreeGoldResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property EarnFreeGoldResponseProto_EarnFreeGoldStatus status;
+@end
+
+@implementation EarnFreeGoldResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess;
+  }
+  return self;
+}
+static EarnFreeGoldResponseProto* defaultEarnFreeGoldResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [EarnFreeGoldResponseProto class]) {
+    defaultEarnFreeGoldResponseProtoInstance = [[EarnFreeGoldResponseProto alloc] init];
+  }
+}
++ (EarnFreeGoldResponseProto*) defaultInstance {
+  return defaultEarnFreeGoldResponseProtoInstance;
+}
+- (EarnFreeGoldResponseProto*) defaultInstance {
+  return defaultEarnFreeGoldResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data {
+  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromData:data] build];
+}
++ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromInputStream:input] build];
+}
++ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (EarnFreeGoldResponseProto_Builder*) builder {
+  return [[[EarnFreeGoldResponseProto_Builder alloc] init] autorelease];
+}
++ (EarnFreeGoldResponseProto_Builder*) builderWithPrototype:(EarnFreeGoldResponseProto*) prototype {
+  return [[EarnFreeGoldResponseProto builder] mergeFrom:prototype];
+}
+- (EarnFreeGoldResponseProto_Builder*) builder {
+  return [EarnFreeGoldResponseProto builder];
+}
+@end
+
+BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldResponseProto_EarnFreeGoldStatus value) {
+  switch (value) {
+    case EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess:
+    case EarnFreeGoldResponseProto_EarnFreeGoldStatusClientTooApartFromServerTime:
+    case EarnFreeGoldResponseProto_EarnFreeGoldStatusMethodNotSupported:
+    case EarnFreeGoldResponseProto_EarnFreeGoldStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface EarnFreeGoldResponseProto_Builder()
+@property (retain) EarnFreeGoldResponseProto* result;
+@end
+
+@implementation EarnFreeGoldResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[EarnFreeGoldResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (EarnFreeGoldResponseProto_Builder*) clear {
+  self.result = [[[EarnFreeGoldResponseProto alloc] init] autorelease];
+  return self;
+}
+- (EarnFreeGoldResponseProto_Builder*) clone {
+  return [EarnFreeGoldResponseProto builderWithPrototype:result];
+}
+- (EarnFreeGoldResponseProto*) defaultInstance {
+  return [EarnFreeGoldResponseProto defaultInstance];
+}
+- (EarnFreeGoldResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (EarnFreeGoldResponseProto*) buildPartial {
+  EarnFreeGoldResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (EarnFreeGoldResponseProto_Builder*) mergeFrom:(EarnFreeGoldResponseProto*) other {
+  if (other == [EarnFreeGoldResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (EarnFreeGoldResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (EarnFreeGoldResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (EarnFreeGoldResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (EarnFreeGoldResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (EarnFreeGoldResponseProto_EarnFreeGoldStatus) status {
+  return result.status;
+}
+- (EarnFreeGoldResponseProto_Builder*) setStatus:(EarnFreeGoldResponseProto_EarnFreeGoldStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (EarnFreeGoldResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess;
   return self;
 }
 @end
