@@ -338,7 +338,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (gs.currentEnergy < gs.maxEnergy) {
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
-    [[NSRunLoop currentRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
     LNLog(@"Firing up energy timer with time %f..", energyComplete);
   } else {
     LNLog(@"Reached max energy..");
@@ -366,7 +366,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (gs.currentStamina < gs.maxStamina) {
     NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes;
     _staminaTimer = [NSTimer timerWithTimeInterval:staminaComplete target:self selector:@selector(staminaRefillWaitComplete) userInfo:nil repeats:NO];
-    [[NSRunLoop currentRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
     LNLog(@"Firing up stamina timer with time %f..", staminaComplete);
   } else {
     LNLog(@"Reached max stamina..");

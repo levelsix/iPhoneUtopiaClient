@@ -59,7 +59,6 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) CritStructType type;
-@property (nonatomic, assign) int minLevel;
 @property (nonatomic, assign) CGSize size;
 
 - (id) initWithType:(CritStructType)t;

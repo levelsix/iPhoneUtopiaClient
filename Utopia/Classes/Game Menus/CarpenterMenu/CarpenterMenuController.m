@@ -21,133 +21,6 @@
 #define TICKER_SEPERATION 1
 #define TICKER_MIDDLE_SEPARATION 5
 
-@implementation CarpBar
-
-@synthesize incomeLabel, functionalLabel;
-@synthesize incomeButtonClicked, functionalButtonClicked;
-
-- (void) awakeFromNib {
-  _clickedButtons = 0;
-}
-
-- (void) clickButton:(CarpBarButton)button {
-  switch (button) {
-    case kIncomeButton:
-      incomeButtonClicked.hidden = NO;
-      _clickedButtons |= kIncomeButton;
-      incomeLabel.highlighted = NO;
-      break;
-      
-    case kFunctionalButton:
-      functionalButtonClicked.hidden = NO;
-      _clickedButtons |= kFunctionalButton;
-      functionalLabel.highlighted = NO;
-      break;
-      
-    default:
-      break;
-  }
-}
-
-- (void) unclickButton:(CarpBarButton)button {
-  switch (button) {
-    case kIncomeButton:
-      incomeButtonClicked.hidden = YES;
-      _clickedButtons &= ~kIncomeButton;
-      incomeLabel.highlighted = YES;
-      break;
-      
-    case kFunctionalButton:
-      functionalButtonClicked.hidden = YES;
-      _clickedButtons &= ~kFunctionalButton;
-      functionalLabel.highlighted = YES;
-      break;
-      
-    default:
-      break;
-  }
-}
-
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:incomeButtonClicked];
-  if (!(_clickedButtons & kIncomeButton) && [incomeButtonClicked pointInside:pt withEvent:nil]) {
-    _trackingIncome = YES;
-    [self clickButton:kIncomeButton];
-  }
-  
-  pt = [touch locationInView:functionalButtonClicked];
-  if (!(_clickedButtons & kFunctionalButton) && [functionalButtonClicked pointInside:pt withEvent:nil]) {
-    _trackingFunctional = YES;
-    [self clickButton:kFunctionalButton];
-  }
-}
-
-- (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:incomeButtonClicked];
-  if (_trackingIncome) {
-    if (CGRectContainsPoint(CGRectInset(incomeButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kIncomeButton];
-    } else {
-      [self unclickButton:kIncomeButton];
-    }
-  }
-  
-  pt = [touch locationInView:functionalButtonClicked];
-  if (_trackingFunctional) {
-    if (CGRectContainsPoint(CGRectInset(functionalButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kFunctionalButton];
-    } else {
-      [self unclickButton:kFunctionalButton];
-    }
-  }
-}
-
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:incomeButtonClicked];
-  if (_trackingIncome) {
-    if (CGRectContainsPoint(CGRectInset(incomeButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [[CarpenterMenuController sharedCarpenterMenuController] setState:kIncomeCarp];
-      [self clickButton:kIncomeButton];
-      [self unclickButton:kFunctionalButton];
-    } else {
-      [self unclickButton:kIncomeButton];
-    }
-  }
-  
-  pt = [touch locationInView:functionalButtonClicked];
-  if (_trackingFunctional) {
-    if (CGRectContainsPoint(CGRectInset(functionalButtonClicked.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [[CarpenterMenuController sharedCarpenterMenuController] setState:kFunctionalCarp];
-      [self clickButton:kFunctionalButton];
-      [self unclickButton:kIncomeButton];
-    } else {
-      [self unclickButton:kFunctionalButton];
-    }
-  }
-  _trackingIncome = NO;
-  _trackingFunctional = NO;
-}
-
-- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  [self unclickButton:kIncomeButton];
-  [self unclickButton:kFunctionalButton];
-  _trackingIncome = NO;
-  _trackingFunctional = NO;
-}
-
-- (void) dealloc {
-  self.incomeLabel = nil;
-  self.functionalLabel = nil;
-  self.incomeButtonClicked = nil;
-  self.functionalButtonClicked = nil;
-  [super dealloc];
-}
-
-@end
-
 @implementation CarpenterTicker
 
 @synthesize string;
@@ -233,7 +106,7 @@
 @synthesize availableLabel;
 @synthesize darkOverlay, backgroundImg;
 @synthesize state = _state;
-@synthesize fsp, critStruct;
+@synthesize fsp;
 
 - (void) awakeFromNib { 
   self.state = kDisappear;
@@ -357,29 +230,6 @@
   }
 }
 
-- (void) setCritStruct:(CritStruct *)cs {
-  if (cs != critStruct) {
-    [critStruct release];
-    critStruct = [cs retain];
-  }
-  
-  if (!critStruct) {
-    self.state = kDisappear;
-    return;
-  }
-  
-  titleLabel.text = critStruct.name;
-  
-  if ([GameState sharedGameState].level >= critStruct.minLevel) {
-    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleGray];
-    self.state = kFunctionalAvailable;
-  } else {
-    [Globals imageNamed:[cs.name stringByAppendingString:@".png"] withImageView:buildingIcon maskedColor:[UIColor colorWithWhite:0.f alpha:0.7f] indicator:UIActivityIndicatorViewStyleGray];
-    lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", critStruct.minLevel];
-    self.state = kFunctionalLocked;
-  }
-}
-
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   if (self.state == kIncomeAvailable || self.state == kFunctionalAvailable) {
     self.darkOverlay.hidden = NO;
@@ -429,7 +279,6 @@
   self.darkOverlay = nil;
   self.backgroundImg = nil;
   self.fsp = nil;
-  self.critStruct = nil;
   self.lockedIncomeLabel = nil;
   self.lockedPriceLabel = nil;
   self.lockedCollectsLabel = nil;
@@ -459,12 +308,11 @@
 
 @implementation CarpenterRow
 
-@synthesize listing1, listing2, listing3;
+@synthesize listing1, listing2;
 
 - (void) dealloc {
   self.listing1 = nil;
   self.listing2 = nil;
-  self.listing3 = nil;
   [super dealloc];
 }
 
@@ -473,20 +321,19 @@
 @implementation CarpenterMenuController
 
 @synthesize carpRow, carpTable;
-@synthesize structsList, critStructsList;
-@synthesize state;
-@synthesize carpBar, coinBar;
+@synthesize structsList;
+@synthesize coinBar;
+@synthesize mainView, bgdView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (void) viewDidLoad {
   self.structsList = [NSMutableArray array];
-  self.critStructsList = [NSMutableArray array];
   
   // Add rope to the very top
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
-  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(15, -150, 3, 150)];
-  UIView *rightRope = [[UIView alloc] initWithFrame:CGRectMake(463, -150, 3, 150)];
+  UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(12, -150, 3, 150)];
+  UIView *rightRope = [[UIView alloc] initWithFrame:CGRectMake(306, -150, 3, 150)];
   leftRope.backgroundColor = c;
   rightRope.backgroundColor = c;
   [self.carpTable addSubview:leftRope];
@@ -502,35 +349,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   
   [self reloadCarpenterStructs];
   
-  if (_critStructAvail) {
-    self.state = kFunctionalCarp;
-    
-    [self.carpBar clickButton:kFunctionalButton];
-    [self.carpBar unclickButton:kIncomeButton];
-  } else {
-    self.state = kIncomeCarp;
-    
-    [self.carpBar clickButton:kIncomeButton];
-    [self.carpBar unclickButton:kFunctionalButton];
-  }
-  
   [coinBar updateLabels];
   
-  CGRect f = self.view.frame;
-  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-  [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
-  }];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) reloadCarpenterStructs {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  _critStructAvail = NO;
-  
   [structsList removeAllObjects];
-  [critStructsList removeAllObjects];
   
   NSArray *structs = [gs carpenterStructs];
   
@@ -553,20 +381,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   [self.carpTable reloadData];
 }
 
-- (void) setState:(CarpState)s {
-  if (state != s) {
-    state = s;
-    
-    [self.carpTable reloadData];
-  }
-}
-
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
 }
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSArray *list = self.state == kIncomeCarp ? structsList : critStructsList;
+  NSArray *list = structsList;
   int rows = (int)ceilf(list.count/3.f);
   tableView.scrollEnabled = rows != 0;
   return rows;
@@ -581,39 +401,25 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
     cell = self.carpRow;
   }
   
-  if (self.state == kIncomeCarp) {
-    int baseIndex = 3*indexPath.row;
+    int baseIndex = 2*indexPath.row;
     int count = structsList.count;
     cell.listing1.carpListing.fsp = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
     cell.listing2.carpListing.fsp = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
-    cell.listing3.carpListing.fsp = baseIndex+2<count ? [structsList objectAtIndex:baseIndex+2] : nil;
-  } else {
-    int baseIndex = 3*indexPath.row;
-    int count = critStructsList.count;
-    cell.listing1.carpListing.critStruct = baseIndex<count ? [critStructsList objectAtIndex:baseIndex] : nil;
-    cell.listing2.carpListing.critStruct = baseIndex+1<count ? [critStructsList objectAtIndex:baseIndex+1] : nil;
-    cell.listing3.carpListing.critStruct = baseIndex+2<count ? [critStructsList objectAtIndex:baseIndex+2] : nil;
-  }
   
   return cell;
 }
 
 - (IBAction)closeClicked:(id)sender {
-  CGRect f = self.view.frame;
-  [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-  } completion:^(BOOL finished) {
+  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [CarpenterMenuController removeView];
   }];
 }
 
 - (void) carpListingClicked:(CarpenterListing *)carp {
-  if (self.state == kIncomeCarp) {
-    // Buy the Income building
     GameState *gs = [GameState sharedGameState];
     if (gs.silver >= carp.fsp.coinPrice && gs.gold >= carp.fsp.diamondPrice) {
       [[HomeMap sharedHomeMap] preparePurchaseOfStruct:carp.fsp.structId];
-      [CarpenterMenuController removeView];
+      [self closeClicked:nil];
     } else {
       if (carp.fsp.coinPrice) {
         [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
@@ -624,17 +430,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
       }
     }
     [coinBar updateLabels];
-  }
 }
 
 - (void) viewDidUnload {
   [super viewDidUnload];
   self.carpRow = nil;
-  self.carpBar = nil;
   self.coinBar = nil;
   self.carpTable = nil;
   self.structsList = nil;
-  self.critStructsList = nil;
 }
 
 @end

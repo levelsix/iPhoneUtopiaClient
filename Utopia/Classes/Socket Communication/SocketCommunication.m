@@ -113,7 +113,7 @@ static NSString *udid = nil;
       [av release];
     } else {
       LNLog(@"Silently reconnecting..");
-      [[NSRunLoop currentRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+      [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
     }
   }
 }
@@ -209,6 +209,8 @@ static NSString *udid = nil;
 }
 
 - (void) sendStartupMessage:(uint64_t)clientTime {
+  Apsalar *ap = [Apsalar shared];
+  NSLog(@"%@ %@", ap, ap.apsalarID);
   StartupRequestProto *startReq = [[[[[StartupRequestProto builder] 
                                       setUdid:udid]
                                      setApsalarId:[Apsalar shared].apsalarID]

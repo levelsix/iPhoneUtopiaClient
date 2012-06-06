@@ -336,6 +336,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
 }
 
+- (void) moveToCenter {
+  // Hacky solution.. but w/e
+  // Create new mapsprite at specific location, then move to it
+  MapSprite *ms = [[MapSprite alloc] initWithFile:@"Inn.png" location:CGRectMake(46, 27, 3, 3) map:self];
+  [self moveToSprite:ms];
+  [ms release];
+}
+
 - (void) preparePurchaseOfStruct:(int)structId {
   if (_purchasing || _constrBuilding) {
     [Globals popupMessage:[NSString stringWithFormat:@"Already %@ a building.", _purchasing ? @"purchasing" : @"constructing"]];
@@ -343,7 +351,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   }
   
   FullStructureProto *fsp = [[GameState sharedGameState] structWithId:structId];
-  CGRect loc = CGRectMake((int)mapSize_.width/2, (int)mapSize_.height/2, fsp.xLength, fsp.yLength);
+  CGRect loc = CGRectMake(47, 28, fsp.xLength, fsp.yLength);
   _purchBuilding = [[MoneyBuilding alloc] initWithFile:[Globals imageNameForStruct:structId] location:loc map:self];
   _purchBuilding.verticalOffset = fsp.imgVerticalPixelOffset;
   
@@ -372,6 +380,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [self doReorder];
   
   [self moveToSprite:_purchBuilding];
+  [self openMoveMenuOnSelected];
 }
 
 - (void) setViewForSelected:(UIView *)view {
@@ -401,6 +410,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [self.upgradeMenu closeClicked:nil];
       self.moveMenu.hidden = YES;
       _canMove = NO;
+      if (_purchasing) {
+        _purchasing = NO;
+        [self removeChild:_purchBuilding cleanup:YES];
+      }
     }
   }
 }
@@ -525,7 +538,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   if (mb.timer) {
     [_timers addObject:mb.timer];
-    [[NSRunLoop currentRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
+    [[NSRunLoop mainRunLoop] addTimer:mb.timer forMode:NSRunLoopCommonModes];
   }
 }
 
@@ -592,9 +605,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   HomeBuilding *homeBuilding = (HomeBuilding *)_selected;
   
   if (homeBuilding.isSetDown) {
-    _canMove = NO;
-    self.selected = nil;
-    [self doReorder];
     if (_purchasing) {
       _purchasing = NO;
       if ([homeBuilding isKindOfClass:[MoneyBuilding class]]) {
@@ -619,6 +629,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [oec rotateNormStruct:moneyBuilding.userStruct to:moneyBuilding.orientation];
       }
     }
+    _canMove = NO;
+    self.selected = nil;
+    [self doReorder];
   }
 }
 

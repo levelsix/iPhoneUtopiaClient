@@ -75,7 +75,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   _topBar = [TopBar sharedTopBar];
   [self addChild:_topBar z:2];
   
-//  [self displayHomeMap];
+  [self displayHomeMap];
 }
 
 - (void) setEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {

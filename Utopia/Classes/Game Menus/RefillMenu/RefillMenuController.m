@@ -267,13 +267,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
 - (IBAction) buyItemsClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   int amount = [itemsSilverLabel.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
   
   if (amount > gs.silver) {
     [self displayBuySilverView];
-  } else if (gs.level < gl.minLevelForArmory) {
-    [Globals popupMessage:@"You are not high enough level to purchase equipment from the armory"];
   } else {
     // Buy items
     for (RequiresEquipView *rev in itemsContainerView.subviews) {
