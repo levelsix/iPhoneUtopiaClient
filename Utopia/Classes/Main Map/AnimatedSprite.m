@@ -277,7 +277,11 @@
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:@"Syndicate.png" location:loc map:map])) {
+    CCSprite *carpIcon = [CCSprite spriteWithFile:@"carpentericon.png"];
+    [self addChild:carpIcon];
+    carpIcon.position = ccp(self.contentSize.width/2, self.contentSize.height+carpIcon.contentSize.height/2);
     
+    self.touchableArea = CGSizeMake(self.contentSize.width, self.contentSize.height+carpIcon.contentSize.height);
   }
   return self;
 }
@@ -287,6 +291,20 @@
     [CarpenterMenuController displayView];
     [_map setSelected:nil];
   }
+}
+
+@end
+
+@implementation MyPlayer
+
+- (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:@"Syndicate.png" location:loc map:map])) {
+  }
+  return self;
+}
+
+- (void) moveToLocation:(CGRect)loc {
+  self.location = loc;
 }
 
 @end

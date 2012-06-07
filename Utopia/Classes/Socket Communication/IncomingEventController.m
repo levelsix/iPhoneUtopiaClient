@@ -487,8 +487,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
       }
     }
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to retrieve current marketplace posts."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
   [mvc doneRefreshing];
   [mvc performSelector:@selector(stopLoading) withObject:nil afterDelay:0.6];
@@ -497,13 +499,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handlePostToMarketplaceResponseProto:(PostToMarketplaceResponseProto *)proto tag:(int)tag {
   LNLog(@"Post to mkt response received with status %d", [proto status]);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == PostToMarketplaceResponseProto_PostToMarketplaceStatusSuccess) {
     MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
     if (mvc.view.superview) {
       [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePostsFromSender];
     }
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to post item."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -511,8 +516,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Purchase from mkt response received with status %d", proto.status);
   
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess) {
-    GameState *gs = [GameState sharedGameState];
     if (proto.posterId == gs.userId) {
       // This is a notification
       UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
@@ -539,8 +544,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         }
       }
     }
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to purchase from marketplace."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
   [mvc removeLoadingView];
 }
@@ -548,32 +555,44 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetractMarketplacePostResponseProto:(RetractMarketplacePostResponseProto *)proto tag:(int)tag {
   LNLog(@"Retract marketplace response received with status %d", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess) {
     [Globals popupMessage:@"Server failed to retract marketplace post."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleRedeemMarketplaceEarningsRequestProto:(RedeemMarketplaceEarningsResponseProto *)proto tag:(int)tag {
   LNLog(@"Redeem response received with status %d", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != RedeemMarketplaceEarningsResponseProto_RedeemMarketplaceEarningsStatusSuccess) {
     [Globals popupMessage:@"Server failed to redeem marketplace earnings."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handlePurchaseMarketplaceLicenseResponseProto:(PurchaseMarketplaceLicenseResponseProto *)proto tag:(int)tag {
   LNLog(@"Purchase marketplace license received with status %d", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != PurchaseMarketplaceLicenseResponseProto_PurchaseMarketplaceLicenseStatusSuccess) {
     [Globals popupMessage:@"Server failed to purchase marketplace license"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleGenerateAttackListResponseProto:(GenerateAttackListResponseProto *)proto tag:(int)tag {
   LNLog(@"Generate attack list response received with status %d and %d enemies.", proto.status, proto.enemiesList.count);
   
-  if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
     GameState *gs = [GameState sharedGameState];
+  if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
     for (FullUserProto *fup in proto.enemiesList) {
       BOOL shouldBeAdded = YES;
       // Make sure this is not a repeat
@@ -589,8 +608,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     }
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [[MapViewController sharedMapViewController] addNewPins];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"An error occurred while generating the attack list"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -605,23 +626,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRefillStatWaitCompleteResponseProto:(RefillStatWaitCompleteResponseProto *)proto tag:(int)tag {
   LNLog(@"Refill stat wait complete response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
-    // Silence this
     [Globals popupMessage:@"Server failed to refill stat."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleRefillStatWithDiamondsResponseProto:(RefillStatWithDiamondsResponseProto *)proto tag:(int)tag {
   LNLog(@"Refill stat with diamonds response with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess) {
     [Globals popupMessage:@"Server failed to refill stat with diamonds."];
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handlePurchaseNormStructureResponseProto:(PurchaseNormStructureResponseProto *)proto tag:(int)tag {
   LNLog(@"Purchase norm struct response received with status: %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == PurchaseNormStructureResponseProto_PurchaseNormStructureStatusSuccess) {
     // Get the userstruct without a userStructId
     UserStruct *us = nil;
@@ -644,64 +673,94 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[[GameState sharedGameState] myStructs] removeObject:us];
       [[HomeMap sharedHomeMap] refresh];
     }
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to purchase building."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleMoveOrRotateNormStructureResponseProto:(MoveOrRotateNormStructureResponseProto *)proto tag:(int)tag {
   LNLog(@"Move norm struct response received with status: %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != MoveOrRotateNormStructureResponseProto_MoveOrRotateNormStructureStatusSuccess) {
     [Globals popupMessage:@"Server failed to change building location or orientation."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleUpgradeNormStructureResponseProto:(UpgradeNormStructureResponseProto *)proto tag:(int)tag {
   LNLog(@"Upgrade norm structure response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != UpgradeNormStructureResponseProto_UpgradeNormStructureStatusSuccess) {
     [Globals popupMessage:@"Server failed to upgrade building."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleNormStructWaitCompleteResponseProto:(NormStructWaitCompleteResponseProto *)proto tag:(int)tag {
   LNLog(@"Norm struct builds complete response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != NormStructWaitCompleteResponseProto_NormStructWaitCompleteStatusSuccess) {
     [Globals popupMessage:@"Server failed to complete normal structure wait time."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleFinishNormStructWaittimeWithDiamondsResponseProto:(FinishNormStructWaittimeWithDiamondsResponseProto *)proto tag:(int)tag {
   LNLog(@"Finish norm struct with diamonds response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != FinishNormStructWaittimeWithDiamondsResponseProto_FinishNormStructWaittimeStatusSuccess) {
     [Globals popupMessage:@"Server failed to speed up normal structure wait time."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleRetrieveCurrencyFromNormStructureResponseProto:(RetrieveCurrencyFromNormStructureResponseProto *)proto tag:(int)tag {
   LNLog(@"Retrieve currency response received with status: %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != RetrieveCurrencyFromNormStructureResponseProto_RetrieveCurrencyFromNormStructureStatusSuccess) {
     [Globals popupMessage:@"Server failed to retrieve from normal structure."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleSellNormStructureResponseProto:(SellNormStructureResponseProto *)proto tag:(int)tag {
   LNLog(@"Sell norm struct response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != SellNormStructureResponseProto_SellNormStructureStatusSuccess) {
     [Globals popupMessage:@"Server failed to sell normal structure."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleCriticalStructureActionResponseProto:(CriticalStructureActionResponseProto *)proto tag:(int)tag {
   LNLog(@"Crit struct action response received with status %d", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != CriticalStructureActionResponseProto_CritStructActionStatusSuccess) {
     [Globals popupMessage:@"Server failed to perform critical struct action"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
@@ -726,23 +785,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[GameViewController sharedGameViewController] allowOpeningOfDoor];
     });
     dispatch_release(queue);
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to load player city."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleLoadNeutralCityResponseProto:(LoadNeutralCityResponseProto *)proto tag:(int)tag {
   LNLog(@"Load neutral city response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
     [[GameLayer sharedGameLayer] performSelectorInBackground:@selector(loadMissionMapWithProto:) withObject:proto];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {
     [Globals popupMessage:@"Trying to reach inaccessible city.."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back static data."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -762,8 +828,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs addToStaticUpgradeStructJobs:proto.upgradeStructJobsList];
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back static data."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -818,38 +886,53 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       ArmoryViewController *avc = [ArmoryViewController sharedArmoryViewController];
       [avc refresh];
     }
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back store data.."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleEquipEquipmentResponseProto:(EquipEquipmentResponseProto *)proto tag:(int)tag {
   LNLog(@"Equip equipment response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != EquipEquipmentResponseProto_EquipEquipmentStatusSuccess) {
     [Globals popupMessage:@"Server failed to equip equipment."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleChangeUserLocationResponseProto:(ChangeUserLocationResponseProto *)proto tag:(int)tag {
   LNLog(@"Change user location response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != ChangeUserLocationResponseProto_ChangeUserLocationStatusSuccess) {
     [Globals popupMessage:@"Server failed to update user location."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleQuestAcceptResponseProto:(QuestAcceptResponseProto *)proto tag:(int)tag {
   LNLog(@"Quest accept response received with status %d", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status != QuestAcceptResponseProto_QuestAcceptStatusSuccess) {
     [Globals popupMessage:@"Server failed to accept quest"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 
 - (void) handleQuestRedeemResponseProto:(QuestRedeemResponseProto *)proto tag:(int)tag {
   LNLog(@"Quest redeem response received with status %d", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == QuestRedeemResponseProto_QuestRedeemStatusSuccess) {
     [[GameState sharedGameState] addToAvailableQuests:proto.newlyAvailableQuestsList];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
@@ -858,18 +941,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[[GameLayer sharedGameLayer] missionMap] reloadQuestGivers];
     [[BazaarMap sharedBazaarMap] reloadQuestGivers];
     [[HomeMap sharedHomeMap] reloadQuestGivers];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to redeem quest"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleUserQuestDetailsResponseProto:(UserQuestDetailsResponseProto *)proto tag:(int)tag {
   LNLog(@"Quest log details response received with status %d", proto.status);
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == UserQuestDetailsResponseProto_UserQuestDetailsStatusSuccess) {
     [[QuestLogController sharedQuestLogController] loadQuestData:proto.inProgressUserQuestDataList];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send quest log details"];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
@@ -905,6 +993,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   [[BattleLayer sharedBattleLayer] receivedUserEquips:proto];
   [[ProfileViewController sharedProfileViewController] receivedEquips:proto];
+  
+  GameState *gs = [GameState sharedGameState];
+  [gs removeNonFullUserUpdatesForTag:tag];
 }
 
 - (void) handleRetrieveUsersForUserIdsResponseProto:(RetrieveUsersForUserIdsResponseProto *)proto tag:(int)tag {
@@ -919,6 +1010,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];
   [[ProfileViewController sharedProfileViewController] receivedFullUserProtos:proto.requestedUsersList];
+  
+  GameState *gs = [GameState sharedGameState];
+  [gs removeNonFullUserUpdatesForTag:tag];
 }
 
 - (void) handleReferralCodeUsedResponseProto:(ReferralCodeUsedResponseProto *)proto tag:(int)tag {
@@ -937,25 +1031,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleRetrievePlayerWallPostsResponseProto:(RetrievePlayerWallPostsResponseProto *)proto tag:(int)tag {
   LNLog(@"Retrieve player wall response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusSuccess) {
     [[ProfileViewController sharedProfileViewController] receivedWallPosts:proto];
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send back wall posts."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handlePostOnPlayerWallResponseProto:(PostOnPlayerWallResponseProto *)proto tag:(int)tag {
   LNLog(@"Post on player wall response received with status %d.", proto.status);
   
+  GameState *gs = [GameState sharedGameState];
   if (proto.status == PostOnPlayerWallResponseProto_PostOnPlayerWallStatusSuccess) {
     
+    [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to send post on wall."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 
 - (void) handleEnableAPNSResponseProto:(EnableAPNSResponseProto *)proto tag:(int)tag {
   LNLog(@"Enable apns response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == EnableAPNSResponseProto_EnableAPNSStatusSuccess) {
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
 }
 
 - (void) handleEarnFreeGoldResponseProto:(EarnFreeGoldResponseProto *)proto tag:(int)tag {
@@ -963,7 +1071,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess) {
-    
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

@@ -704,6 +704,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [[OutgoingEventController sharedOutgoingEventController] retrieveQuestLog];
   [questListTable reloadData];
   [QuestLogController displayView];
+  taskListDelegate.questRedeem = NO;
+  taskListDelegate.quest = nil;
   
   self.backButton.hidden = NO;
   

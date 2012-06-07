@@ -277,26 +277,27 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
+  BOOL hasLastLoginTime_:1;
+  BOOL hasLastLogoutTime_:1;
   BOOL hasCreateTime_:1;
+  BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastTimeAttacked_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
-  BOOL hasLastEnergyRefillTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
-  BOOL hasLastShortLicensePurchaseTime_:1;
-  BOOL hasLastLogoutTime_:1;
-  BOOL hasLastLoginTime_:1;
-  BOOL hasBattlesLost_:1;
-  BOOL hasFlees_:1;
-  BOOL hasNumReferrals_:1;
-  BOOL hasNumPostsInMarketplace_:1;
-  BOOL hasNumMarketplaceSalesUnredeemed_:1;
-  BOOL hasWeaponEquipped_:1;
+  BOOL hasLastEnergyRefillTime_:1;
   BOOL hasArmorEquipped_:1;
+  BOOL hasWeaponEquipped_:1;
+  BOOL hasNumMarketplaceSalesUnredeemed_:1;
+  BOOL hasNumPostsInMarketplace_:1;
+  BOOL hasNumReferrals_:1;
+  BOOL hasFlees_:1;
   BOOL hasAmuletEquipped_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
+  BOOL hasNumAdColonyVideosWatched_:1;
+  BOOL hasNumTimesKiipRewarded_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
   BOOL hasAttack_:1;
@@ -315,6 +316,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasBattlesWon_:1;
+  BOOL hasBattlesLost_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasReferralCode_:1;
@@ -323,26 +325,27 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasUserType_:1;
   BOOL isAdmin_:1;
   BOOL isFake_:1;
+  int64_t lastLoginTime;
+  int64_t lastLogoutTime;
   int64_t createTime;
+  int64_t lastShortLicensePurchaseTime;
   int64_t lastTimeAttacked;
   int64_t lastBattleNotificationTime;
   int64_t lastStaminaRefillTime;
-  int64_t lastEnergyRefillTime;
   int64_t lastLongLicensePurchaseTime;
-  int64_t lastShortLicensePurchaseTime;
-  int64_t lastLogoutTime;
-  int64_t lastLoginTime;
-  int32_t battlesLost;
-  int32_t flees;
-  int32_t numReferrals;
-  int32_t numPostsInMarketplace;
-  int32_t numMarketplaceSalesUnredeemed;
-  int32_t weaponEquipped;
+  int64_t lastEnergyRefillTime;
   int32_t armorEquipped;
+  int32_t weaponEquipped;
+  int32_t numMarketplaceSalesUnredeemed;
+  int32_t numPostsInMarketplace;
+  int32_t numReferrals;
+  int32_t flees;
   int32_t amuletEquipped;
   int32_t numCoinsRetrievedFromStructs;
   int32_t numBadges;
   int32_t apsalarId;
+  int32_t numAdColonyVideosWatched;
+  int32_t numTimesKiipRewarded;
   int32_t userId;
   int32_t level;
   int32_t attack;
@@ -361,6 +364,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t experience;
   int32_t tasksCompleted;
   int32_t battlesWon;
+  int32_t battlesLost;
   NSString* udid;
   NSString* deviceToken;
   NSString* referralCode;
@@ -414,6 +418,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumBadges;
 - (BOOL) hasCreateTime;
 - (BOOL) hasApsalarId;
+- (BOOL) hasNumAdColonyVideosWatched;
+- (BOOL) hasNumTimesKiipRewarded;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -460,6 +466,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numBadges;
 @property (readonly) int64_t createTime;
 @property (readonly) int32_t apsalarId;
+@property (readonly) int32_t numAdColonyVideosWatched;
+@property (readonly) int32_t numTimesKiipRewarded;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -726,6 +734,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) apsalarId;
 - (FullUserProto_Builder*) setApsalarId:(int32_t) value;
 - (FullUserProto_Builder*) clearApsalarId;
+
+- (BOOL) hasNumAdColonyVideosWatched;
+- (int32_t) numAdColonyVideosWatched;
+- (FullUserProto_Builder*) setNumAdColonyVideosWatched:(int32_t) value;
+- (FullUserProto_Builder*) clearNumAdColonyVideosWatched;
+
+- (BOOL) hasNumTimesKiipRewarded;
+- (int32_t) numTimesKiipRewarded;
+- (FullUserProto_Builder*) setNumTimesKiipRewarded:(int32_t) value;
+- (FullUserProto_Builder*) clearNumTimesKiipRewarded;
 @end
 
 @interface FullEquipProto : PBGeneratedMessage {

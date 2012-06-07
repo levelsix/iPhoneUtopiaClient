@@ -683,16 +683,23 @@ static NSString *udid = nil;
   return [self sendData:req.data withMessageType:EventProtocolRequestCEnableApnsEvent];
 }
 
-- (int) sendEarnFreeGoldMessage:(EarnFreeGoldRequestProto_EarnFreeGoldType)goldType clientTime:(uint64_t)time kiipReceipt:(NSString *)receipt {
-  EarnFreeGoldRequestProto_Builder *bldr = [[[EarnFreeGoldRequestProto builder]
-                                             setFreeGoldType:goldType]
-                                            setClientTime:time];
+- (int) sendEarnFreeGoldKiipMessageClientTime:(uint64_t)time receipt:(NSString *)receipt {
+  EarnFreeGoldRequestProto *req = [[[[[EarnFreeGoldRequestProto builder]
+                                      setFreeGoldType:EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip]
+                                     setClientTime:time]
+                                    setKiipReceipt:receipt]
+                                   build];
   
-  if (receipt) {
-    [bldr setKiipReceipt:receipt];
-  }
-  
-  EarnFreeGoldRequestProto *req = bldr.build;
+  return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeGold];
+}
+
+- (int) sendEarnFreeGoldAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold {
+  EarnFreeGoldRequestProto *req = [[[[[[EarnFreeGoldRequestProto builder]
+                                       setFreeGoldType:EarnFreeGoldRequestProto_EarnFreeGoldTypeAdcolony]
+                                      setClientTime:time]
+                                     setAdColonyDigest:digest]
+                                    setAdColonyGoldEarned:gold]
+                                   build];
   return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeGold];
 }
 

@@ -410,6 +410,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 @property int32_t numBadges;
 @property int64_t createTime;
 @property int32_t apsalarId;
+@property int32_t numAdColonyVideosWatched;
+@property int32_t numTimesKiipRewarded;
 @end
 
 @implementation FullUserProto
@@ -746,6 +748,20 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
   hasApsalarId_ = !!value;
 }
 @synthesize apsalarId;
+- (BOOL) hasNumAdColonyVideosWatched {
+  return !!hasNumAdColonyVideosWatched_;
+}
+- (void) setHasNumAdColonyVideosWatched:(BOOL) value {
+  hasNumAdColonyVideosWatched_ = !!value;
+}
+@synthesize numAdColonyVideosWatched;
+- (BOOL) hasNumTimesKiipRewarded {
+  return !!hasNumTimesKiipRewarded_;
+}
+- (void) setHasNumTimesKiipRewarded:(BOOL) value {
+  hasNumTimesKiipRewarded_ = !!value;
+}
+@synthesize numTimesKiipRewarded;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
@@ -802,6 +818,8 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
     self.numBadges = 0;
     self.createTime = 0L;
     self.apsalarId = 0;
+    self.numAdColonyVideosWatched = 0;
+    self.numTimesKiipRewarded = 0;
   }
   return self;
 }
@@ -959,6 +977,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumCoinsRetrievedFromStructs) {
     [output writeInt32:50 value:self.numCoinsRetrievedFromStructs];
   }
+  if (self.hasNumAdColonyVideosWatched) {
+    [output writeInt32:51 value:self.numAdColonyVideosWatched];
+  }
+  if (self.hasNumTimesKiipRewarded) {
+    [output writeInt32:52 value:self.numTimesKiipRewarded];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1105,6 +1129,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumCoinsRetrievedFromStructs) {
     size += computeInt32Size(50, self.numCoinsRetrievedFromStructs);
+  }
+  if (self.hasNumAdColonyVideosWatched) {
+    size += computeInt32Size(51, self.numAdColonyVideosWatched);
+  }
+  if (self.hasNumTimesKiipRewarded) {
+    size += computeInt32Size(52, self.numTimesKiipRewarded);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1319,6 +1349,12 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasApsalarId) {
     [self setApsalarId:other.apsalarId];
   }
+  if (other.hasNumAdColonyVideosWatched) {
+    [self setNumAdColonyVideosWatched:other.numAdColonyVideosWatched];
+  }
+  if (other.hasNumTimesKiipRewarded) {
+    [self setNumTimesKiipRewarded:other.numTimesKiipRewarded];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -1532,6 +1568,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 400: {
         [self setNumCoinsRetrievedFromStructs:[input readInt32]];
+        break;
+      }
+      case 408: {
+        [self setNumAdColonyVideosWatched:[input readInt32]];
+        break;
+      }
+      case 416: {
+        [self setNumTimesKiipRewarded:[input readInt32]];
         break;
       }
     }
@@ -2285,6 +2329,38 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearApsalarId {
   result.hasApsalarId = NO;
   result.apsalarId = 0;
+  return self;
+}
+- (BOOL) hasNumAdColonyVideosWatched {
+  return result.hasNumAdColonyVideosWatched;
+}
+- (int32_t) numAdColonyVideosWatched {
+  return result.numAdColonyVideosWatched;
+}
+- (FullUserProto_Builder*) setNumAdColonyVideosWatched:(int32_t) value {
+  result.hasNumAdColonyVideosWatched = YES;
+  result.numAdColonyVideosWatched = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumAdColonyVideosWatched {
+  result.hasNumAdColonyVideosWatched = NO;
+  result.numAdColonyVideosWatched = 0;
+  return self;
+}
+- (BOOL) hasNumTimesKiipRewarded {
+  return result.hasNumTimesKiipRewarded;
+}
+- (int32_t) numTimesKiipRewarded {
+  return result.numTimesKiipRewarded;
+}
+- (FullUserProto_Builder*) setNumTimesKiipRewarded:(int32_t) value {
+  result.hasNumTimesKiipRewarded = YES;
+  result.numTimesKiipRewarded = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumTimesKiipRewarded {
+  result.hasNumTimesKiipRewarded = NO;
+  result.numTimesKiipRewarded = 0;
   return self;
 }
 @end

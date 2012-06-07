@@ -72,6 +72,13 @@ typedef enum {
 
 @end
 
+@interface MyPlayer : CharacterSprite
+
+- (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
+- (void) moveToLocation:(CGRect)loc;
+
+@end
+
 @interface MoveToLocation : CCActionInterval <NSCopying> {
   CGRect startLocation_;
   CGRect endLocation_;

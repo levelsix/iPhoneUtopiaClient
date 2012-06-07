@@ -153,6 +153,9 @@
       tileSizeInPoints = tileSize_;
     }
     
+    _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
+    [self addChild:_myPlayer];
+    
     // Add the decoration layer for clouds
     decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
     [self addChild:self.decLayer z:2000];
@@ -395,6 +398,14 @@
     self.selected = nil;
   }
   self.selected = [self selectableForPt:pt];
+  
+  if (_selected == nil) {
+    CGSize ms = mapSize_;
+    CGSize ts = tileSize_;
+//    float x = 
+//    CGPoint loc = ccp( pt.x / (ms.width * ts.width/2.f + ts.width * (location.origin.x-location.origin.y)/2.f), 
+//                        pt.y / (ts.height * (location.origin.y+location.origin.x)/2.f));
+  }
 }
 
 - (void) drag:(UIGestureRecognizer*)recognizer node:(CCNode*)node

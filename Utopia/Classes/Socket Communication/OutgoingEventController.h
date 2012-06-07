@@ -90,4 +90,7 @@
 
 - (void) enableApns:(NSData *)deviceToken;
 
+- (void) kiipReward:(int)gold receipt:(NSString *)string;
+- (void) adColonyReward:(int)gold digest:(NSString *)digest;
+
 @end

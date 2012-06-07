@@ -8982,11 +8982,15 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 @interface EarnFreeGoldRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
+  BOOL hasAdColonyGoldEarned_:1;
   BOOL hasKiipReceipt_:1;
+  BOOL hasAdColonyDigest_:1;
   BOOL hasSender_:1;
   BOOL hasFreeGoldType_:1;
   int64_t clientTime;
+  int32_t adColonyGoldEarned;
   NSString* kiipReceipt;
+  NSString* adColonyDigest;
   MinimumUserProto* sender;
   EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
 }
@@ -8994,10 +8998,14 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 - (BOOL) hasFreeGoldType;
 - (BOOL) hasClientTime;
 - (BOOL) hasKiipReceipt;
+- (BOOL) hasAdColonyDigest;
+- (BOOL) hasAdColonyGoldEarned;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
 @property (readonly) int64_t clientTime;
 @property (readonly, retain) NSString* kiipReceipt;
+@property (readonly, retain) NSString* adColonyDigest;
+@property (readonly) int32_t adColonyGoldEarned;
 
 + (EarnFreeGoldRequestProto*) defaultInstance;
 - (EarnFreeGoldRequestProto*) defaultInstance;
@@ -9054,6 +9062,16 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 - (NSString*) kiipReceipt;
 - (EarnFreeGoldRequestProto_Builder*) setKiipReceipt:(NSString*) value;
 - (EarnFreeGoldRequestProto_Builder*) clearKiipReceipt;
+
+- (BOOL) hasAdColonyDigest;
+- (NSString*) adColonyDigest;
+- (EarnFreeGoldRequestProto_Builder*) setAdColonyDigest:(NSString*) value;
+- (EarnFreeGoldRequestProto_Builder*) clearAdColonyDigest;
+
+- (BOOL) hasAdColonyGoldEarned;
+- (int32_t) adColonyGoldEarned;
+- (EarnFreeGoldRequestProto_Builder*) setAdColonyGoldEarned:(int32_t) value;
+- (EarnFreeGoldRequestProto_Builder*) clearAdColonyGoldEarned;
 @end
 
 @interface EarnFreeGoldResponseProto : PBGeneratedMessage {
