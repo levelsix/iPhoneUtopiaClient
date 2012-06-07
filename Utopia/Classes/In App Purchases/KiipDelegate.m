@@ -7,6 +7,8 @@
 //
 
 #import "KiipDelegate.h"
+#import "OutgoingEventController.h"
+#import "SBJSON.h"
 
 @implementation KiipDelegate
 
@@ -14,18 +16,17 @@
                  quantity:(int)quantity
               withReceipt:(NSDictionary*)receipt
 {
-  NSLog(@"-(void)didReceiveContent:(NSString*)content\n");
-  NSLog(@"receipt = %d, %@\n", quantity, receipt);
+  SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
+  NSString *receiptStr = [jsonWriter stringWithObject:receipt];
+  [jsonWriter release];
+  [[OutgoingEventController sharedOutgoingEventController] 
+   kiipReward:quantity
+   receipt:receiptStr];
 }
 
 - (void) manager:(KPManager*)manager didReceiveError:(NSError*)error
 {
   NSLog(@"KIIPERROR\n"); 
-}
-
-- (void) manager:(KPManager*)manager didUnlockAchievement:(NSDictionary*)resource
-{
-  NSLog(@"KIIPDIDUNLOCK\n"); 
 }
 
 -(void)receivedAchievement:(NSNotification *)notification
