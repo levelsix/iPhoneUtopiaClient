@@ -10,6 +10,24 @@
 
 @implementation KiipDelegate
 
+-(void)didReceiveContent:(NSString*)content 
+                 quantity:(int)quantity
+              withReceipt:(NSDictionary*)receipt
+{
+  NSLog(@"-(void)didReceiveContent:(NSString*)content\n");
+  NSLog(@"receipt = %d, %@\n", quantity, receipt);
+}
+
+- (void) manager:(KPManager*)manager didReceiveError:(NSError*)error
+{
+  NSLog(@"KIIPERROR\n"); 
+}
+
+- (void) manager:(KPManager*)manager didUnlockAchievement:(NSDictionary*)resource
+{
+  NSLog(@"KIIPDIDUNLOCK\n"); 
+}
+
 -(void)receivedAchievement:(NSNotification *)notification
 {
   NSString *achievement = [notification.userInfo 
