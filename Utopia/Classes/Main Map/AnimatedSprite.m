@@ -70,7 +70,6 @@
     // plist to add definitions of each frame to the cache.
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"legionwarrior.plist"];        
     
-    // Create a sprite sheet with the Happy Bear images
     CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"legionwarrior.png"];
     [self addChild:spriteSheet];
     
