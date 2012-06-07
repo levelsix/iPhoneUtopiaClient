@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		
+		<key>DrowWalkFL0.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{164, 151}, {160, 262}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1808, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkFL1.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{182, 151}, {140, 264}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{904, 602}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkFL2.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{190, 145}, {136, 272}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{3616, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkFL3.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{172, 144}, {156, 270}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 602}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkFL4.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{156, 149}, {172, 268}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{452, 602}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkFL5.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{160, 151}, {168, 262}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1808, 602}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkFL6.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{171, 146}, {158, 262}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{3164, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkFL7.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{167, 145}, {160, 266}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{2260, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL0.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{153, 152}, {176, 272}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1356, 602}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL1.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{156, 154}, {176, 262}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{2260, 602}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL2.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{168, 148}, {172, 258}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{452, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL3.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{168, 147}, {168, 266}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{2712, 602}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL4.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{164, 152}, {162, 266}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{0, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL5.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{182, 153}, {140, 256}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{904, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL6.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{183, 148}, {144, 256}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{2712, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>DrowWalkNL7.png</key>
+		<dict>
+			<key>aliases</key>
+			<array>
+			
+			</array>
+			<key>spriteColorRect</key>
+			<string>{{169, 147}, {160, 274}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{450, 600}</string>
+			<key>spriteSourceSize</key>
+			<string>{450, 600}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{1356, 0}, {450, 600}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>version</key>
+		<string>1.5.5</string>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{4096, 2048}</string>
+		<key>name</key>
+		<string>DrowAnimation.zwd</string>
+		<key>premultipliedAlpha</key>
+		<false/>
+		<key>target</key>
+		<dict>
+			<key>name</key>
+			<string>default</string>
+			<key>textureFileName</key>
+			<string>DrowAnimations</string>
+			<key>textureFileExtension</key>
+			<string>.png</string>
+			<key>coordinatesFileName</key>
+			<string>DrowAnimations</string>
+			<key>coordinatesFileExtension</key>
+			<string>.plist</string>
+			<key>premultipliedAlpha</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>
