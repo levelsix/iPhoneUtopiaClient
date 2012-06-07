@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		064D5197157F208A00AF402C /* DrowAnimations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 064D5195157F208A00AF402C /* DrowAnimations@2x.png */; };
+		064D5198157F208A00AF402C /* DrowAnimations@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 064D5196157F208A00AF402C /* DrowAnimations@2x.plist */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
@@ -1371,6 +1373,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		064D5195157F208A00AF402C /* DrowAnimations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowAnimations@2x.png"; sourceTree = "<group>"; };
+		064D5196157F208A00AF402C /* DrowAnimations@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DrowAnimations@2x.plist"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
 		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
@@ -4436,6 +4440,8 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
+				064D5195157F208A00AF402C /* DrowAnimations@2x.png */,
+				064D5196157F208A00AF402C /* DrowAnimations@2x.plist */,
 				CF1267751538ACC500E0C1AD /* Armory Images */,
 				CF1267981538ACC500E0C1AD /* Battle Images */,
 				CF1267D51538ACC500E0C1AD /* Carpenter Images */,
@@ -5774,7 +5780,6 @@
 				CF12563E1538A94D00E0C1AD /* Sources */,
 				CF12563F1538A94D00E0C1AD /* Frameworks */,
 				CF1256401538A94D00E0C1AD /* Resources */,
-				457EBD851565AFCD008C097F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -6915,26 +6920,12 @@
 				CF19297C157ECE9200D51C70 /* Ellsworth.tmx in Resources */,
 				CF66D5BC158028DD005EBAF1 /* carpentericon.png in Resources */,
 				CF66D5BD158028DD005EBAF1 /* carpentericon@2x.png in Resources */,
+				064D5197157F208A00AF402C /* DrowAnimations@2x.png in Resources */,
+				064D5198157F208A00AF402C /* DrowAnimations@2x.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		457EBD851565AFCD008C097F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/Utopia/libs/Crashlytics.framework/run 79eb314cfcf6a7b860185d2629d2c2791ee7f174";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CF12563E1538A94D00E0C1AD /* Sources */ = {
