@@ -35613,6 +35613,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 @property EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
 @property int64_t clientTime;
 @property (retain) NSString* kiipReceipt;
+@property (retain) NSString* adColonyDigest;
+@property int32_t adColonyGoldEarned;
 @end
 
 @implementation EarnFreeGoldRequestProto
@@ -35645,9 +35647,24 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   hasKiipReceipt_ = !!value;
 }
 @synthesize kiipReceipt;
+- (BOOL) hasAdColonyDigest {
+  return !!hasAdColonyDigest_;
+}
+- (void) setHasAdColonyDigest:(BOOL) value {
+  hasAdColonyDigest_ = !!value;
+}
+@synthesize adColonyDigest;
+- (BOOL) hasAdColonyGoldEarned {
+  return !!hasAdColonyGoldEarned_;
+}
+- (void) setHasAdColonyGoldEarned:(BOOL) value {
+  hasAdColonyGoldEarned_ = !!value;
+}
+@synthesize adColonyGoldEarned;
 - (void) dealloc {
   self.sender = nil;
   self.kiipReceipt = nil;
+  self.adColonyDigest = nil;
   [super dealloc];
 }
 - (id) init {
@@ -35656,6 +35673,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
     self.freeGoldType = EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip;
     self.clientTime = 0L;
     self.kiipReceipt = @"";
+    self.adColonyDigest = @"";
+    self.adColonyGoldEarned = 0;
   }
   return self;
 }
@@ -35687,6 +35706,12 @@ static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
   if (self.hasKiipReceipt) {
     [output writeString:4 value:self.kiipReceipt];
   }
+  if (self.hasAdColonyDigest) {
+    [output writeString:5 value:self.adColonyDigest];
+  }
+  if (self.hasAdColonyGoldEarned) {
+    [output writeInt32:6 value:self.adColonyGoldEarned];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -35707,6 +35732,12 @@ static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
   }
   if (self.hasKiipReceipt) {
     size += computeStringSize(4, self.kiipReceipt);
+  }
+  if (self.hasAdColonyDigest) {
+    size += computeStringSize(5, self.adColonyDigest);
+  }
+  if (self.hasAdColonyGoldEarned) {
+    size += computeInt32Size(6, self.adColonyGoldEarned);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -35808,6 +35839,12 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
   if (other.hasKiipReceipt) {
     [self setKiipReceipt:other.kiipReceipt];
   }
+  if (other.hasAdColonyDigest) {
+    [self setAdColonyDigest:other.adColonyDigest];
+  }
+  if (other.hasAdColonyGoldEarned) {
+    [self setAdColonyGoldEarned:other.adColonyGoldEarned];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -35853,6 +35890,14 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
       }
       case 34: {
         [self setKiipReceipt:[input readString]];
+        break;
+      }
+      case 42: {
+        [self setAdColonyDigest:[input readString]];
+        break;
+      }
+      case 48: {
+        [self setAdColonyGoldEarned:[input readInt32]];
         break;
       }
     }
@@ -35934,6 +35979,38 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
 - (EarnFreeGoldRequestProto_Builder*) clearKiipReceipt {
   result.hasKiipReceipt = NO;
   result.kiipReceipt = @"";
+  return self;
+}
+- (BOOL) hasAdColonyDigest {
+  return result.hasAdColonyDigest;
+}
+- (NSString*) adColonyDigest {
+  return result.adColonyDigest;
+}
+- (EarnFreeGoldRequestProto_Builder*) setAdColonyDigest:(NSString*) value {
+  result.hasAdColonyDigest = YES;
+  result.adColonyDigest = value;
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) clearAdColonyDigest {
+  result.hasAdColonyDigest = NO;
+  result.adColonyDigest = @"";
+  return self;
+}
+- (BOOL) hasAdColonyGoldEarned {
+  return result.hasAdColonyGoldEarned;
+}
+- (int32_t) adColonyGoldEarned {
+  return result.adColonyGoldEarned;
+}
+- (EarnFreeGoldRequestProto_Builder*) setAdColonyGoldEarned:(int32_t) value {
+  result.hasAdColonyGoldEarned = YES;
+  result.adColonyGoldEarned = value;
+  return self;
+}
+- (EarnFreeGoldRequestProto_Builder*) clearAdColonyGoldEarned {
+  result.hasAdColonyGoldEarned = NO;
+  result.adColonyGoldEarned = 0;
   return self;
 }
 @end

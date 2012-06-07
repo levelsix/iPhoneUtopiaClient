@@ -38,6 +38,8 @@
   // These points are used to make the map rectangular
   CGPoint bottomLeftCorner;
   CGPoint topRightCorner;
+  
+  MyPlayer *_myPlayer;
 }
 
 @property (nonatomic, retain) IBOutlet EnemyPopupView *enemyMenu;
