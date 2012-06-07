@@ -1333,13 +1333,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) kiipReward:(int)gold receipt:(NSString *)string {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEarnFreeGoldKiipMessageClientTime:[self getCurrentMilliseconds] receipt:string];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEarnFreeDiamondsKiipMessageClientTime:[self getCurrentMilliseconds] receipt:string];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 
 - (void) adColonyReward:(int)gold digest:(NSString *)digest {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEarnFreeGoldAdColonyMessageClientTime:[self getCurrentMilliseconds] digest:digest gold:gold];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendEarnFreeDiamondsAdColonyMessageClientTime:[self getCurrentMilliseconds] digest:digest gold:gold];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 

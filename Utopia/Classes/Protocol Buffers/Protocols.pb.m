@@ -65,7 +65,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetrieveUsersForUserIdsEvent:
     case EventProtocolRequestCPostOnPlayerWall:
     case EventProtocolRequestCRetrievePlayerWallPosts:
-    case EventProtocolRequestCEarnFreeGold:
+    case EventProtocolRequestCEarnFreeDiamonds:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -117,7 +117,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
     case EventProtocolResponseSPostOnPlayerWall:
     case EventProtocolResponseSRetrievePlayerWallPosts:
-    case EventProtocolResponseSEarnFreeGold:
+    case EventProtocolResponseSEarnFreeDiamonds:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

@@ -964,6 +964,16 @@
 		CF1273CA1538B80000E0C1AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273C91538B80000E0C1AD /* AudioToolbox.framework */; };
 		CF1273CC1538B80500E0C1AD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CB1538B80500E0C1AD /* AVFoundation.framework */; };
 		CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1273CF1538BC7C00E0C1AD /* libz.dylib */; };
+		CF15EDE61580541C00A8AAC1 /* tutorialbad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE01580541C00A8AAC1 /* tutorialbad.png */; };
+		CF15EDE71580541C00A8AAC1 /* tutorialbad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE11580541C00A8AAC1 /* tutorialbad@2x.png */; };
+		CF15EDE81580541C00A8AAC1 /* tutorialbubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */; };
+		CF15EDE91580541C00A8AAC1 /* tutorialbubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */; };
+		CF15EDEA1580541C00A8AAC1 /* tutorialgood.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE41580541C00A8AAC1 /* tutorialgood.png */; };
+		CF15EDEB1580541C00A8AAC1 /* tutorialgood@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDE51580541C00A8AAC1 /* tutorialgood@2x.png */; };
+		CF15EDF0158064D900A8AAC1 /* attackbuttonlight.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */; };
+		CF15EDF1158064D900A8AAC1 /* attackbuttonlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDED158064D900A8AAC1 /* attackbuttonlight@2x.png */; };
+		CF15EDF2158064D900A8AAC1 /* combowheellight.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDEE158064D900A8AAC1 /* combowheellight.png */; };
+		CF15EDF3158064D900A8AAC1 /* combowheellight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF15EDEF158064D900A8AAC1 /* combowheellight@2x.png */; };
 		CF192978157D9FF100D51C70 /* OtherUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = CF192977157D9FF100D51C70 /* OtherUpdates.m */; };
 		CF19297B157ECE9200D51C70 /* Ellsworth@2x.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF192979157ECE9200D51C70 /* Ellsworth@2x.tmx */; };
 		CF19297C157ECE9200D51C70 /* Ellsworth.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF19297A157ECE9200D51C70 /* Ellsworth.tmx */; };
@@ -2680,6 +2690,16 @@
 		CF1273C91538B80000E0C1AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CF1273CB1538B80500E0C1AD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CF1273CF1538BC7C00E0C1AD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CF15EDE01580541C00A8AAC1 /* tutorialbad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialbad.png; sourceTree = "<group>"; };
+		CF15EDE11580541C00A8AAC1 /* tutorialbad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbad@2x.png"; sourceTree = "<group>"; };
+		CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialbubble.png; sourceTree = "<group>"; };
+		CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialbubble@2x.png"; sourceTree = "<group>"; };
+		CF15EDE41580541C00A8AAC1 /* tutorialgood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tutorialgood.png; sourceTree = "<group>"; };
+		CF15EDE51580541C00A8AAC1 /* tutorialgood@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialgood@2x.png"; sourceTree = "<group>"; };
+		CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackbuttonlight.png; sourceTree = "<group>"; };
+		CF15EDED158064D900A8AAC1 /* attackbuttonlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attackbuttonlight@2x.png"; sourceTree = "<group>"; };
+		CF15EDEE158064D900A8AAC1 /* combowheellight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = combowheellight.png; sourceTree = "<group>"; };
+		CF15EDEF158064D900A8AAC1 /* combowheellight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "combowheellight@2x.png"; sourceTree = "<group>"; };
 		CF192976157D9FF100D51C70 /* OtherUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherUpdates.h; sourceTree = "<group>"; };
 		CF192977157D9FF100D51C70 /* OtherUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherUpdates.m; sourceTree = "<group>"; };
 		CF192979157ECE9200D51C70 /* Ellsworth@2x.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Ellsworth@2x.tmx"; sourceTree = "<group>"; };
@@ -5362,6 +5382,16 @@
 		CF126A241538ACC600E0C1AD /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				CF15EDEC158064D900A8AAC1 /* attackbuttonlight.png */,
+				CF15EDED158064D900A8AAC1 /* attackbuttonlight@2x.png */,
+				CF15EDEE158064D900A8AAC1 /* combowheellight.png */,
+				CF15EDEF158064D900A8AAC1 /* combowheellight@2x.png */,
+				CF15EDE01580541C00A8AAC1 /* tutorialbad.png */,
+				CF15EDE11580541C00A8AAC1 /* tutorialbad@2x.png */,
+				CF15EDE21580541C00A8AAC1 /* tutorialbubble.png */,
+				CF15EDE31580541C00A8AAC1 /* tutorialbubble@2x.png */,
+				CF15EDE41580541C00A8AAC1 /* tutorialgood.png */,
+				CF15EDE51580541C00A8AAC1 /* tutorialgood@2x.png */,
 				CF48CA841577624200802A39 /* Armory.png */,
 				CF48CA851577624200802A39 /* Armory@2x.png */,
 				CF48CA861577624200802A39 /* Vault.png */,
@@ -6915,6 +6945,16 @@
 				CF19297C157ECE9200D51C70 /* Ellsworth.tmx in Resources */,
 				CF66D5BC158028DD005EBAF1 /* carpentericon.png in Resources */,
 				CF66D5BD158028DD005EBAF1 /* carpentericon@2x.png in Resources */,
+				CF15EDE61580541C00A8AAC1 /* tutorialbad.png in Resources */,
+				CF15EDE71580541C00A8AAC1 /* tutorialbad@2x.png in Resources */,
+				CF15EDE81580541C00A8AAC1 /* tutorialbubble.png in Resources */,
+				CF15EDE91580541C00A8AAC1 /* tutorialbubble@2x.png in Resources */,
+				CF15EDEA1580541C00A8AAC1 /* tutorialgood.png in Resources */,
+				CF15EDEB1580541C00A8AAC1 /* tutorialgood@2x.png in Resources */,
+				CF15EDF0158064D900A8AAC1 /* attackbuttonlight.png in Resources */,
+				CF15EDF1158064D900A8AAC1 /* attackbuttonlight@2x.png in Resources */,
+				CF15EDF2158064D900A8AAC1 /* combowheellight.png in Resources */,
+				CF15EDF3158064D900A8AAC1 /* combowheellight@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

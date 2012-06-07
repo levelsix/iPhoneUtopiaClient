@@ -683,24 +683,24 @@ static NSString *udid = nil;
   return [self sendData:req.data withMessageType:EventProtocolRequestCEnableApnsEvent];
 }
 
-- (int) sendEarnFreeGoldKiipMessageClientTime:(uint64_t)time receipt:(NSString *)receipt {
-  EarnFreeGoldRequestProto *req = [[[[[EarnFreeGoldRequestProto builder]
-                                      setFreeGoldType:EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip]
-                                     setClientTime:time]
-                                    setKiipReceipt:receipt]
-                                   build];
+- (int) sendEarnFreeDiamondsKiipMessageClientTime:(uint64_t)time receipt:(NSString *)receipt {
+  EarnFreeDiamondsRequestProto *req = [[[[[EarnFreeDiamondsRequestProto builder]
+                                          setFreeDiamondsType:EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip]
+                                         setClientTime:time]
+                                        setKiipReceipt:receipt]
+                                       build];
   
-  return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeGold];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeDiamonds];
 }
 
-- (int) sendEarnFreeGoldAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold {
-  EarnFreeGoldRequestProto *req = [[[[[[EarnFreeGoldRequestProto builder]
-                                       setFreeGoldType:EarnFreeGoldRequestProto_EarnFreeGoldTypeAdcolony]
-                                      setClientTime:time]
-                                     setAdColonyDigest:digest]
-                                    setAdColonyGoldEarned:gold]
-                                   build];
-  return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeGold];
+- (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold {
+  EarnFreeDiamondsRequestProto *req = [[[[[[EarnFreeDiamondsRequestProto builder]
+                                           setFreeDiamondsType:EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeAdcolony]
+                                          setClientTime:time]
+                                         setAdColonyDigest:digest]
+                                        setAdColonyDiamondsEarned:gold]
+                                       build];
+  return [self sendData:req.data withMessageType:EventProtocolRequestCEarnFreeDiamonds];
 }
 
 - (void) closeDownConnection {

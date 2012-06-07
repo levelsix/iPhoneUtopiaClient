@@ -90,7 +90,7 @@
 
 - (int) sendAPNSMessage:(NSString *)deviceToken;
 
-- (int) sendEarnFreeGoldKiipMessageClientTime:(uint64_t)time receipt:(NSString *)receipt;
-- (int) sendEarnFreeGoldAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold;
+- (int) sendEarnFreeDiamondsKiipMessageClientTime:(uint64_t)time receipt:(NSString *)receipt;
+- (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold;
 
 @end

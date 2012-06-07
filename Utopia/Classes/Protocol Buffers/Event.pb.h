@@ -34,10 +34,10 @@
 @class DialogueProto_Builder;
 @class DialogueProto_SpeechSegmentProto;
 @class DialogueProto_SpeechSegmentProto_Builder;
-@class EarnFreeGoldRequestProto;
-@class EarnFreeGoldRequestProto_Builder;
-@class EarnFreeGoldResponseProto;
-@class EarnFreeGoldResponseProto_Builder;
+@class EarnFreeDiamondsRequestProto;
+@class EarnFreeDiamondsRequestProto_Builder;
+@class EarnFreeDiamondsResponseProto;
+@class EarnFreeDiamondsResponseProto_Builder;
 @class EnableAPNSRequestProto;
 @class EnableAPNSRequestProto_Builder;
 @class EnableAPNSResponseProto;
@@ -710,24 +710,24 @@ typedef enum {
 BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidValue(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus value);
 
 typedef enum {
-  EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip = 1,
-  EarnFreeGoldRequestProto_EarnFreeGoldTypeAdcolony = 2,
-  EarnFreeGoldRequestProto_EarnFreeGoldTypeFbInvite = 3,
-  EarnFreeGoldRequestProto_EarnFreeGoldTypeTapjoy = 4,
-  EarnFreeGoldRequestProto_EarnFreeGoldTypeFlurryVideo = 5,
-  EarnFreeGoldRequestProto_EarnFreeGoldTypeTwitter = 6,
-} EarnFreeGoldRequestProto_EarnFreeGoldType;
+  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip = 1,
+  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeAdcolony = 2,
+  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFbInvite = 3,
+  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTapjoy = 4,
+  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFlurryVideo = 5,
+  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTwitter = 6,
+} EarnFreeDiamondsRequestProto_EarnFreeDiamondsType;
 
-BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestProto_EarnFreeGoldType value);
+BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType value);
 
 typedef enum {
-  EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess = 0,
-  EarnFreeGoldResponseProto_EarnFreeGoldStatusClientTooApartFromServerTime = 1,
-  EarnFreeGoldResponseProto_EarnFreeGoldStatusMethodNotSupported = 2,
-  EarnFreeGoldResponseProto_EarnFreeGoldStatusOtherFail = 3,
-} EarnFreeGoldResponseProto_EarnFreeGoldStatus;
+  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess = 0,
+  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime = 1,
+  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported = 2,
+  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusOtherFail = 3,
+} EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus;
 
-BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldResponseProto_EarnFreeGoldStatus value);
+BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -8979,157 +8979,157 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 - (RetrievePlayerWallPostsResponseProto_Builder*) clearPlayerWallPostsList;
 @end
 
-@interface EarnFreeGoldRequestProto : PBGeneratedMessage {
+@interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasAdColonyGoldEarned_:1;
+  BOOL hasAdColonyDiamondsEarned_:1;
   BOOL hasKiipReceipt_:1;
   BOOL hasAdColonyDigest_:1;
   BOOL hasSender_:1;
-  BOOL hasFreeGoldType_:1;
+  BOOL hasFreeDiamondsType_:1;
   int64_t clientTime;
-  int32_t adColonyGoldEarned;
+  int32_t adColonyDiamondsEarned;
   NSString* kiipReceipt;
   NSString* adColonyDigest;
   MinimumUserProto* sender;
-  EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
+  EarnFreeDiamondsRequestProto_EarnFreeDiamondsType freeDiamondsType;
 }
 - (BOOL) hasSender;
-- (BOOL) hasFreeGoldType;
+- (BOOL) hasFreeDiamondsType;
 - (BOOL) hasClientTime;
 - (BOOL) hasKiipReceipt;
 - (BOOL) hasAdColonyDigest;
-- (BOOL) hasAdColonyGoldEarned;
+- (BOOL) hasAdColonyDiamondsEarned;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
+@property (readonly) EarnFreeDiamondsRequestProto_EarnFreeDiamondsType freeDiamondsType;
 @property (readonly) int64_t clientTime;
 @property (readonly, retain) NSString* kiipReceipt;
 @property (readonly, retain) NSString* adColonyDigest;
-@property (readonly) int32_t adColonyGoldEarned;
+@property (readonly) int32_t adColonyDiamondsEarned;
 
-+ (EarnFreeGoldRequestProto*) defaultInstance;
-- (EarnFreeGoldRequestProto*) defaultInstance;
++ (EarnFreeDiamondsRequestProto*) defaultInstance;
+- (EarnFreeDiamondsRequestProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (EarnFreeGoldRequestProto_Builder*) builder;
-+ (EarnFreeGoldRequestProto_Builder*) builder;
-+ (EarnFreeGoldRequestProto_Builder*) builderWithPrototype:(EarnFreeGoldRequestProto*) prototype;
+- (EarnFreeDiamondsRequestProto_Builder*) builder;
++ (EarnFreeDiamondsRequestProto_Builder*) builder;
++ (EarnFreeDiamondsRequestProto_Builder*) builderWithPrototype:(EarnFreeDiamondsRequestProto*) prototype;
 
-+ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data;
-+ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input;
-+ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data;
++ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EarnFreeGoldRequestProto_Builder : PBGeneratedMessage_Builder {
+@interface EarnFreeDiamondsRequestProto_Builder : PBGeneratedMessage_Builder {
 @private
-  EarnFreeGoldRequestProto* result;
+  EarnFreeDiamondsRequestProto* result;
 }
 
-- (EarnFreeGoldRequestProto*) defaultInstance;
+- (EarnFreeDiamondsRequestProto*) defaultInstance;
 
-- (EarnFreeGoldRequestProto_Builder*) clear;
-- (EarnFreeGoldRequestProto_Builder*) clone;
+- (EarnFreeDiamondsRequestProto_Builder*) clear;
+- (EarnFreeDiamondsRequestProto_Builder*) clone;
 
-- (EarnFreeGoldRequestProto*) build;
-- (EarnFreeGoldRequestProto*) buildPartial;
+- (EarnFreeDiamondsRequestProto*) build;
+- (EarnFreeDiamondsRequestProto*) buildPartial;
 
-- (EarnFreeGoldRequestProto_Builder*) mergeFrom:(EarnFreeGoldRequestProto*) other;
-- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (EarnFreeDiamondsRequestProto_Builder*) mergeFrom:(EarnFreeDiamondsRequestProto*) other;
+- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (EarnFreeGoldRequestProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EarnFreeGoldRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (EarnFreeGoldRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (EarnFreeGoldRequestProto_Builder*) clearSender;
+- (EarnFreeDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EarnFreeDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearSender;
 
-- (BOOL) hasFreeGoldType;
-- (EarnFreeGoldRequestProto_EarnFreeGoldType) freeGoldType;
-- (EarnFreeGoldRequestProto_Builder*) setFreeGoldType:(EarnFreeGoldRequestProto_EarnFreeGoldType) value;
-- (EarnFreeGoldRequestProto_Builder*) clearFreeGoldType;
+- (BOOL) hasFreeDiamondsType;
+- (EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) freeDiamondsType;
+- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType;
 
 - (BOOL) hasClientTime;
 - (int64_t) clientTime;
-- (EarnFreeGoldRequestProto_Builder*) setClientTime:(int64_t) value;
-- (EarnFreeGoldRequestProto_Builder*) clearClientTime;
+- (EarnFreeDiamondsRequestProto_Builder*) setClientTime:(int64_t) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearClientTime;
 
 - (BOOL) hasKiipReceipt;
 - (NSString*) kiipReceipt;
-- (EarnFreeGoldRequestProto_Builder*) setKiipReceipt:(NSString*) value;
-- (EarnFreeGoldRequestProto_Builder*) clearKiipReceipt;
+- (EarnFreeDiamondsRequestProto_Builder*) setKiipReceipt:(NSString*) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearKiipReceipt;
 
 - (BOOL) hasAdColonyDigest;
 - (NSString*) adColonyDigest;
-- (EarnFreeGoldRequestProto_Builder*) setAdColonyDigest:(NSString*) value;
-- (EarnFreeGoldRequestProto_Builder*) clearAdColonyDigest;
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyDigest:(NSString*) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyDigest;
 
-- (BOOL) hasAdColonyGoldEarned;
-- (int32_t) adColonyGoldEarned;
-- (EarnFreeGoldRequestProto_Builder*) setAdColonyGoldEarned:(int32_t) value;
-- (EarnFreeGoldRequestProto_Builder*) clearAdColonyGoldEarned;
+- (BOOL) hasAdColonyDiamondsEarned;
+- (int32_t) adColonyDiamondsEarned;
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyDiamondsEarned:(int32_t) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyDiamondsEarned;
 @end
 
-@interface EarnFreeGoldResponseProto : PBGeneratedMessage {
+@interface EarnFreeDiamondsResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
-  EarnFreeGoldResponseProto_EarnFreeGoldStatus status;
+  EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) EarnFreeGoldResponseProto_EarnFreeGoldStatus status;
+@property (readonly) EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
 
-+ (EarnFreeGoldResponseProto*) defaultInstance;
-- (EarnFreeGoldResponseProto*) defaultInstance;
++ (EarnFreeDiamondsResponseProto*) defaultInstance;
+- (EarnFreeDiamondsResponseProto*) defaultInstance;
 
 - (BOOL) isInitialized;
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
-- (EarnFreeGoldResponseProto_Builder*) builder;
-+ (EarnFreeGoldResponseProto_Builder*) builder;
-+ (EarnFreeGoldResponseProto_Builder*) builderWithPrototype:(EarnFreeGoldResponseProto*) prototype;
+- (EarnFreeDiamondsResponseProto_Builder*) builder;
++ (EarnFreeDiamondsResponseProto_Builder*) builder;
++ (EarnFreeDiamondsResponseProto_Builder*) builderWithPrototype:(EarnFreeDiamondsResponseProto*) prototype;
 
-+ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data;
-+ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input;
-+ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
-+ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
-+ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data;
++ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 @end
 
-@interface EarnFreeGoldResponseProto_Builder : PBGeneratedMessage_Builder {
+@interface EarnFreeDiamondsResponseProto_Builder : PBGeneratedMessage_Builder {
 @private
-  EarnFreeGoldResponseProto* result;
+  EarnFreeDiamondsResponseProto* result;
 }
 
-- (EarnFreeGoldResponseProto*) defaultInstance;
+- (EarnFreeDiamondsResponseProto*) defaultInstance;
 
-- (EarnFreeGoldResponseProto_Builder*) clear;
-- (EarnFreeGoldResponseProto_Builder*) clone;
+- (EarnFreeDiamondsResponseProto_Builder*) clear;
+- (EarnFreeDiamondsResponseProto_Builder*) clone;
 
-- (EarnFreeGoldResponseProto*) build;
-- (EarnFreeGoldResponseProto*) buildPartial;
+- (EarnFreeDiamondsResponseProto*) build;
+- (EarnFreeDiamondsResponseProto*) buildPartial;
 
-- (EarnFreeGoldResponseProto_Builder*) mergeFrom:(EarnFreeGoldResponseProto*) other;
-- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
-- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+- (EarnFreeDiamondsResponseProto_Builder*) mergeFrom:(EarnFreeDiamondsResponseProto*) other;
+- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
 - (BOOL) hasSender;
 - (MinimumUserProto*) sender;
-- (EarnFreeGoldResponseProto_Builder*) setSender:(MinimumUserProto*) value;
-- (EarnFreeGoldResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
-- (EarnFreeGoldResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
-- (EarnFreeGoldResponseProto_Builder*) clearSender;
+- (EarnFreeDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (EarnFreeDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (EarnFreeDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (EarnFreeDiamondsResponseProto_Builder*) clearSender;
 
 - (BOOL) hasStatus;
-- (EarnFreeGoldResponseProto_EarnFreeGoldStatus) status;
-- (EarnFreeGoldResponseProto_Builder*) setStatus:(EarnFreeGoldResponseProto_EarnFreeGoldStatus) value;
-- (EarnFreeGoldResponseProto_Builder*) clearStatus;
+- (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status;
+- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value;
+- (EarnFreeDiamondsResponseProto_Builder*) clearStatus;
 @end
 

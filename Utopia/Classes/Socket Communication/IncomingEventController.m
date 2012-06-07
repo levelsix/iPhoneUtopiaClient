@@ -172,8 +172,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSEnableApnsEvent:
       responseClass = [EnableAPNSResponseProto class];
       break;
-    case EventProtocolResponseSEarnFreeGold:
-      responseClass = [EarnFreeGoldResponseProto class];
+    case EventProtocolResponseSEarnFreeDiamonds:
+      responseClass = [EarnFreeDiamondsResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -451,8 +451,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Update client user response received.");
   
   GameState *gs = [GameState sharedGameState];
-  [gs updateUser:proto.sender];
   [gs removeFullUserUpdatesForTag:tag];
+  [gs updateUser:proto.sender];
 }
 
 - (void)handleRetrieveCurrentMarketplacePostsResponseProto:(RetrieveCurrentMarketplacePostsResponseProto *)proto tag:(int)tag {
@@ -1066,11 +1066,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
 }
 
-- (void) handleEarnFreeGoldResponseProto:(EarnFreeGoldResponseProto *)proto tag:(int)tag {
-  LNLog(@"Earn free gold response received with status %d.", proto.status);
+- (void) handleEarnFreeDiamondsResponseProto:(EarnFreeDiamondsResponseProto *)proto tag:(int)tag {
+  LNLog(@"Earn free diamonds response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status == EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess) {
+  if (proto.status == EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess) {
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

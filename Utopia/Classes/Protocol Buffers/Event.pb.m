@@ -35608,16 +35608,16 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 }
 @end
 
-@interface EarnFreeGoldRequestProto ()
+@interface EarnFreeDiamondsRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property EarnFreeGoldRequestProto_EarnFreeGoldType freeGoldType;
+@property EarnFreeDiamondsRequestProto_EarnFreeDiamondsType freeDiamondsType;
 @property int64_t clientTime;
 @property (retain) NSString* kiipReceipt;
 @property (retain) NSString* adColonyDigest;
-@property int32_t adColonyGoldEarned;
+@property int32_t adColonyDiamondsEarned;
 @end
 
-@implementation EarnFreeGoldRequestProto
+@implementation EarnFreeDiamondsRequestProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -35626,13 +35626,13 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasFreeGoldType {
-  return !!hasFreeGoldType_;
+- (BOOL) hasFreeDiamondsType {
+  return !!hasFreeDiamondsType_;
 }
-- (void) setHasFreeGoldType:(BOOL) value {
-  hasFreeGoldType_ = !!value;
+- (void) setHasFreeDiamondsType:(BOOL) value {
+  hasFreeDiamondsType_ = !!value;
 }
-@synthesize freeGoldType;
+@synthesize freeDiamondsType;
 - (BOOL) hasClientTime {
   return !!hasClientTime_;
 }
@@ -35654,13 +35654,13 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   hasAdColonyDigest_ = !!value;
 }
 @synthesize adColonyDigest;
-- (BOOL) hasAdColonyGoldEarned {
-  return !!hasAdColonyGoldEarned_;
+- (BOOL) hasAdColonyDiamondsEarned {
+  return !!hasAdColonyDiamondsEarned_;
 }
-- (void) setHasAdColonyGoldEarned:(BOOL) value {
-  hasAdColonyGoldEarned_ = !!value;
+- (void) setHasAdColonyDiamondsEarned:(BOOL) value {
+  hasAdColonyDiamondsEarned_ = !!value;
 }
-@synthesize adColonyGoldEarned;
+@synthesize adColonyDiamondsEarned;
 - (void) dealloc {
   self.sender = nil;
   self.kiipReceipt = nil;
@@ -35670,25 +35670,25 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.freeGoldType = EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip;
+    self.freeDiamondsType = EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip;
     self.clientTime = 0L;
     self.kiipReceipt = @"";
     self.adColonyDigest = @"";
-    self.adColonyGoldEarned = 0;
+    self.adColonyDiamondsEarned = 0;
   }
   return self;
 }
-static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
+static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance = nil;
 + (void) initialize {
-  if (self == [EarnFreeGoldRequestProto class]) {
-    defaultEarnFreeGoldRequestProtoInstance = [[EarnFreeGoldRequestProto alloc] init];
+  if (self == [EarnFreeDiamondsRequestProto class]) {
+    defaultEarnFreeDiamondsRequestProtoInstance = [[EarnFreeDiamondsRequestProto alloc] init];
   }
 }
-+ (EarnFreeGoldRequestProto*) defaultInstance {
-  return defaultEarnFreeGoldRequestProtoInstance;
++ (EarnFreeDiamondsRequestProto*) defaultInstance {
+  return defaultEarnFreeDiamondsRequestProtoInstance;
 }
-- (EarnFreeGoldRequestProto*) defaultInstance {
-  return defaultEarnFreeGoldRequestProtoInstance;
+- (EarnFreeDiamondsRequestProto*) defaultInstance {
+  return defaultEarnFreeDiamondsRequestProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -35697,8 +35697,8 @@ static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasFreeGoldType) {
-    [output writeEnum:2 value:self.freeGoldType];
+  if (self.hasFreeDiamondsType) {
+    [output writeEnum:2 value:self.freeDiamondsType];
   }
   if (self.hasClientTime) {
     [output writeInt64:3 value:self.clientTime];
@@ -35709,8 +35709,8 @@ static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
   if (self.hasAdColonyDigest) {
     [output writeString:5 value:self.adColonyDigest];
   }
-  if (self.hasAdColonyGoldEarned) {
-    [output writeInt32:6 value:self.adColonyGoldEarned];
+  if (self.hasAdColonyDiamondsEarned) {
+    [output writeInt32:6 value:self.adColonyDiamondsEarned];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -35724,8 +35724,8 @@ static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasFreeGoldType) {
-    size += computeEnumSize(2, self.freeGoldType);
+  if (self.hasFreeDiamondsType) {
+    size += computeEnumSize(2, self.freeDiamondsType);
   }
   if (self.hasClientTime) {
     size += computeInt64Size(3, self.clientTime);
@@ -35736,60 +35736,60 @@ static EarnFreeGoldRequestProto* defaultEarnFreeGoldRequestProtoInstance = nil;
   if (self.hasAdColonyDigest) {
     size += computeStringSize(5, self.adColonyDigest);
   }
-  if (self.hasAdColonyGoldEarned) {
-    size += computeInt32Size(6, self.adColonyGoldEarned);
+  if (self.hasAdColonyDiamondsEarned) {
+    size += computeInt32Size(6, self.adColonyDiamondsEarned);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
 }
-+ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data {
-  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromData:data] build];
++ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data {
+  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromData:data] build];
 }
-+ (EarnFreeGoldRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (EarnFreeDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input {
-  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromInputStream:input] build];
++ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromInputStream:input] build];
 }
-+ (EarnFreeGoldRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromCodedInputStream:input] build];
++ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (EarnFreeGoldRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeGoldRequestProto*)[[[EarnFreeGoldRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeDiamondsRequestProto*)[[[EarnFreeDiamondsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeGoldRequestProto_Builder*) builder {
-  return [[[EarnFreeGoldRequestProto_Builder alloc] init] autorelease];
++ (EarnFreeDiamondsRequestProto_Builder*) builder {
+  return [[[EarnFreeDiamondsRequestProto_Builder alloc] init] autorelease];
 }
-+ (EarnFreeGoldRequestProto_Builder*) builderWithPrototype:(EarnFreeGoldRequestProto*) prototype {
-  return [[EarnFreeGoldRequestProto builder] mergeFrom:prototype];
++ (EarnFreeDiamondsRequestProto_Builder*) builderWithPrototype:(EarnFreeDiamondsRequestProto*) prototype {
+  return [[EarnFreeDiamondsRequestProto builder] mergeFrom:prototype];
 }
-- (EarnFreeGoldRequestProto_Builder*) builder {
-  return [EarnFreeGoldRequestProto builder];
+- (EarnFreeDiamondsRequestProto_Builder*) builder {
+  return [EarnFreeDiamondsRequestProto builder];
 }
 @end
 
-BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestProto_EarnFreeGoldType value) {
+BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType value) {
   switch (value) {
-    case EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip:
-    case EarnFreeGoldRequestProto_EarnFreeGoldTypeAdcolony:
-    case EarnFreeGoldRequestProto_EarnFreeGoldTypeFbInvite:
-    case EarnFreeGoldRequestProto_EarnFreeGoldTypeTapjoy:
-    case EarnFreeGoldRequestProto_EarnFreeGoldTypeFlurryVideo:
-    case EarnFreeGoldRequestProto_EarnFreeGoldTypeTwitter:
+    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip:
+    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeAdcolony:
+    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFbInvite:
+    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTapjoy:
+    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFlurryVideo:
+    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTwitter:
       return YES;
     default:
       return NO;
   }
 }
-@interface EarnFreeGoldRequestProto_Builder()
-@property (retain) EarnFreeGoldRequestProto* result;
+@interface EarnFreeDiamondsRequestProto_Builder()
+@property (retain) EarnFreeDiamondsRequestProto* result;
 @end
 
-@implementation EarnFreeGoldRequestProto_Builder
+@implementation EarnFreeDiamondsRequestProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -35797,41 +35797,41 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[EarnFreeGoldRequestProto alloc] init] autorelease];
+    self.result = [[[EarnFreeDiamondsRequestProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (EarnFreeGoldRequestProto_Builder*) clear {
-  self.result = [[[EarnFreeGoldRequestProto alloc] init] autorelease];
+- (EarnFreeDiamondsRequestProto_Builder*) clear {
+  self.result = [[[EarnFreeDiamondsRequestProto alloc] init] autorelease];
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) clone {
-  return [EarnFreeGoldRequestProto builderWithPrototype:result];
+- (EarnFreeDiamondsRequestProto_Builder*) clone {
+  return [EarnFreeDiamondsRequestProto builderWithPrototype:result];
 }
-- (EarnFreeGoldRequestProto*) defaultInstance {
-  return [EarnFreeGoldRequestProto defaultInstance];
+- (EarnFreeDiamondsRequestProto*) defaultInstance {
+  return [EarnFreeDiamondsRequestProto defaultInstance];
 }
-- (EarnFreeGoldRequestProto*) build {
+- (EarnFreeDiamondsRequestProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (EarnFreeGoldRequestProto*) buildPartial {
-  EarnFreeGoldRequestProto* returnMe = [[result retain] autorelease];
+- (EarnFreeDiamondsRequestProto*) buildPartial {
+  EarnFreeDiamondsRequestProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (EarnFreeGoldRequestProto_Builder*) mergeFrom:(EarnFreeGoldRequestProto*) other {
-  if (other == [EarnFreeGoldRequestProto defaultInstance]) {
+- (EarnFreeDiamondsRequestProto_Builder*) mergeFrom:(EarnFreeDiamondsRequestProto*) other {
+  if (other == [EarnFreeDiamondsRequestProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasFreeGoldType) {
-    [self setFreeGoldType:other.freeGoldType];
+  if (other.hasFreeDiamondsType) {
+    [self setFreeDiamondsType:other.freeDiamondsType];
   }
   if (other.hasClientTime) {
     [self setClientTime:other.clientTime];
@@ -35842,16 +35842,16 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
   if (other.hasAdColonyDigest) {
     [self setAdColonyDigest:other.adColonyDigest];
   }
-  if (other.hasAdColonyGoldEarned) {
-    [self setAdColonyGoldEarned:other.adColonyGoldEarned];
+  if (other.hasAdColonyDiamondsEarned) {
+    [self setAdColonyDiamondsEarned:other.adColonyDiamondsEarned];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (EarnFreeGoldRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (EarnFreeDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -35877,8 +35877,8 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(value)) {
-          [self setFreeGoldType:value];
+        if (EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(value)) {
+          [self setFreeDiamondsType:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
@@ -35897,7 +35897,7 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
         break;
       }
       case 48: {
-        [self setAdColonyGoldEarned:[input readInt32]];
+        [self setAdColonyDiamondsEarned:[input readInt32]];
         break;
       }
     }
@@ -35909,15 +35909,15 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (EarnFreeGoldRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+- (EarnFreeDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (EarnFreeDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (EarnFreeGoldRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (EarnFreeDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -35928,25 +35928,25 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
   result.hasSender = YES;
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) clearSender {
+- (EarnFreeDiamondsRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasFreeGoldType {
-  return result.hasFreeGoldType;
+- (BOOL) hasFreeDiamondsType {
+  return result.hasFreeDiamondsType;
 }
-- (EarnFreeGoldRequestProto_EarnFreeGoldType) freeGoldType {
-  return result.freeGoldType;
+- (EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) freeDiamondsType {
+  return result.freeDiamondsType;
 }
-- (EarnFreeGoldRequestProto_Builder*) setFreeGoldType:(EarnFreeGoldRequestProto_EarnFreeGoldType) value {
-  result.hasFreeGoldType = YES;
-  result.freeGoldType = value;
+- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) value {
+  result.hasFreeDiamondsType = YES;
+  result.freeDiamondsType = value;
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) clearFreeGoldType {
-  result.hasFreeGoldType = NO;
-  result.freeGoldType = EarnFreeGoldRequestProto_EarnFreeGoldTypeKiip;
+- (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType {
+  result.hasFreeDiamondsType = NO;
+  result.freeDiamondsType = EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip;
   return self;
 }
 - (BOOL) hasClientTime {
@@ -35955,12 +35955,12 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
 - (int64_t) clientTime {
   return result.clientTime;
 }
-- (EarnFreeGoldRequestProto_Builder*) setClientTime:(int64_t) value {
+- (EarnFreeDiamondsRequestProto_Builder*) setClientTime:(int64_t) value {
   result.hasClientTime = YES;
   result.clientTime = value;
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) clearClientTime {
+- (EarnFreeDiamondsRequestProto_Builder*) clearClientTime {
   result.hasClientTime = NO;
   result.clientTime = 0L;
   return self;
@@ -35971,12 +35971,12 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
 - (NSString*) kiipReceipt {
   return result.kiipReceipt;
 }
-- (EarnFreeGoldRequestProto_Builder*) setKiipReceipt:(NSString*) value {
+- (EarnFreeDiamondsRequestProto_Builder*) setKiipReceipt:(NSString*) value {
   result.hasKiipReceipt = YES;
   result.kiipReceipt = value;
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) clearKiipReceipt {
+- (EarnFreeDiamondsRequestProto_Builder*) clearKiipReceipt {
   result.hasKiipReceipt = NO;
   result.kiipReceipt = @"";
   return self;
@@ -35987,40 +35987,40 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
 - (NSString*) adColonyDigest {
   return result.adColonyDigest;
 }
-- (EarnFreeGoldRequestProto_Builder*) setAdColonyDigest:(NSString*) value {
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyDigest:(NSString*) value {
   result.hasAdColonyDigest = YES;
   result.adColonyDigest = value;
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) clearAdColonyDigest {
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyDigest {
   result.hasAdColonyDigest = NO;
   result.adColonyDigest = @"";
   return self;
 }
-- (BOOL) hasAdColonyGoldEarned {
-  return result.hasAdColonyGoldEarned;
+- (BOOL) hasAdColonyDiamondsEarned {
+  return result.hasAdColonyDiamondsEarned;
 }
-- (int32_t) adColonyGoldEarned {
-  return result.adColonyGoldEarned;
+- (int32_t) adColonyDiamondsEarned {
+  return result.adColonyDiamondsEarned;
 }
-- (EarnFreeGoldRequestProto_Builder*) setAdColonyGoldEarned:(int32_t) value {
-  result.hasAdColonyGoldEarned = YES;
-  result.adColonyGoldEarned = value;
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyDiamondsEarned:(int32_t) value {
+  result.hasAdColonyDiamondsEarned = YES;
+  result.adColonyDiamondsEarned = value;
   return self;
 }
-- (EarnFreeGoldRequestProto_Builder*) clearAdColonyGoldEarned {
-  result.hasAdColonyGoldEarned = NO;
-  result.adColonyGoldEarned = 0;
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyDiamondsEarned {
+  result.hasAdColonyDiamondsEarned = NO;
+  result.adColonyDiamondsEarned = 0;
   return self;
 }
 @end
 
-@interface EarnFreeGoldResponseProto ()
+@interface EarnFreeDiamondsResponseProto ()
 @property (retain) MinimumUserProto* sender;
-@property EarnFreeGoldResponseProto_EarnFreeGoldStatus status;
+@property EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
 @end
 
-@implementation EarnFreeGoldResponseProto
+@implementation EarnFreeDiamondsResponseProto
 
 - (BOOL) hasSender {
   return !!hasSender_;
@@ -36043,21 +36043,21 @@ BOOL EarnFreeGoldRequestProto_EarnFreeGoldTypeIsValidValue(EarnFreeGoldRequestPr
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.status = EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess;
+    self.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
   }
   return self;
 }
-static EarnFreeGoldResponseProto* defaultEarnFreeGoldResponseProtoInstance = nil;
+static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstance = nil;
 + (void) initialize {
-  if (self == [EarnFreeGoldResponseProto class]) {
-    defaultEarnFreeGoldResponseProtoInstance = [[EarnFreeGoldResponseProto alloc] init];
+  if (self == [EarnFreeDiamondsResponseProto class]) {
+    defaultEarnFreeDiamondsResponseProtoInstance = [[EarnFreeDiamondsResponseProto alloc] init];
   }
 }
-+ (EarnFreeGoldResponseProto*) defaultInstance {
-  return defaultEarnFreeGoldResponseProtoInstance;
++ (EarnFreeDiamondsResponseProto*) defaultInstance {
+  return defaultEarnFreeDiamondsResponseProtoInstance;
 }
-- (EarnFreeGoldResponseProto*) defaultInstance {
-  return defaultEarnFreeGoldResponseProtoInstance;
+- (EarnFreeDiamondsResponseProto*) defaultInstance {
+  return defaultEarnFreeDiamondsResponseProtoInstance;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -36088,51 +36088,51 @@ static EarnFreeGoldResponseProto* defaultEarnFreeGoldResponseProtoInstance = nil
   memoizedSerializedSize = size;
   return size;
 }
-+ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data {
-  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromData:data] build];
++ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data {
+  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromData:data] build];
 }
-+ (EarnFreeGoldResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
++ (EarnFreeDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input {
-  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromInputStream:input] build];
++ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromInputStream:input] build];
 }
-+ (EarnFreeGoldResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
-  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromCodedInputStream:input] build];
++ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromCodedInputStream:input] build];
 }
-+ (EarnFreeGoldResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
-  return (EarnFreeGoldResponseProto*)[[[EarnFreeGoldResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
++ (EarnFreeDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (EarnFreeDiamondsResponseProto*)[[[EarnFreeDiamondsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
 }
-+ (EarnFreeGoldResponseProto_Builder*) builder {
-  return [[[EarnFreeGoldResponseProto_Builder alloc] init] autorelease];
++ (EarnFreeDiamondsResponseProto_Builder*) builder {
+  return [[[EarnFreeDiamondsResponseProto_Builder alloc] init] autorelease];
 }
-+ (EarnFreeGoldResponseProto_Builder*) builderWithPrototype:(EarnFreeGoldResponseProto*) prototype {
-  return [[EarnFreeGoldResponseProto builder] mergeFrom:prototype];
++ (EarnFreeDiamondsResponseProto_Builder*) builderWithPrototype:(EarnFreeDiamondsResponseProto*) prototype {
+  return [[EarnFreeDiamondsResponseProto builder] mergeFrom:prototype];
 }
-- (EarnFreeGoldResponseProto_Builder*) builder {
-  return [EarnFreeGoldResponseProto builder];
+- (EarnFreeDiamondsResponseProto_Builder*) builder {
+  return [EarnFreeDiamondsResponseProto builder];
 }
 @end
 
-BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldResponseProto_EarnFreeGoldStatus value) {
+BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value) {
   switch (value) {
-    case EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess:
-    case EarnFreeGoldResponseProto_EarnFreeGoldStatusClientTooApartFromServerTime:
-    case EarnFreeGoldResponseProto_EarnFreeGoldStatusMethodNotSupported:
-    case EarnFreeGoldResponseProto_EarnFreeGoldStatusOtherFail:
+    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess:
+    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime:
+    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported:
+    case EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusOtherFail:
       return YES;
     default:
       return NO;
   }
 }
-@interface EarnFreeGoldResponseProto_Builder()
-@property (retain) EarnFreeGoldResponseProto* result;
+@interface EarnFreeDiamondsResponseProto_Builder()
+@property (retain) EarnFreeDiamondsResponseProto* result;
 @end
 
-@implementation EarnFreeGoldResponseProto_Builder
+@implementation EarnFreeDiamondsResponseProto_Builder
 @synthesize result;
 - (void) dealloc {
   self.result = nil;
@@ -36140,34 +36140,34 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 }
 - (id) init {
   if ((self = [super init])) {
-    self.result = [[[EarnFreeGoldResponseProto alloc] init] autorelease];
+    self.result = [[[EarnFreeDiamondsResponseProto alloc] init] autorelease];
   }
   return self;
 }
 - (PBGeneratedMessage*) internalGetResult {
   return result;
 }
-- (EarnFreeGoldResponseProto_Builder*) clear {
-  self.result = [[[EarnFreeGoldResponseProto alloc] init] autorelease];
+- (EarnFreeDiamondsResponseProto_Builder*) clear {
+  self.result = [[[EarnFreeDiamondsResponseProto alloc] init] autorelease];
   return self;
 }
-- (EarnFreeGoldResponseProto_Builder*) clone {
-  return [EarnFreeGoldResponseProto builderWithPrototype:result];
+- (EarnFreeDiamondsResponseProto_Builder*) clone {
+  return [EarnFreeDiamondsResponseProto builderWithPrototype:result];
 }
-- (EarnFreeGoldResponseProto*) defaultInstance {
-  return [EarnFreeGoldResponseProto defaultInstance];
+- (EarnFreeDiamondsResponseProto*) defaultInstance {
+  return [EarnFreeDiamondsResponseProto defaultInstance];
 }
-- (EarnFreeGoldResponseProto*) build {
+- (EarnFreeDiamondsResponseProto*) build {
   [self checkInitialized];
   return [self buildPartial];
 }
-- (EarnFreeGoldResponseProto*) buildPartial {
-  EarnFreeGoldResponseProto* returnMe = [[result retain] autorelease];
+- (EarnFreeDiamondsResponseProto*) buildPartial {
+  EarnFreeDiamondsResponseProto* returnMe = [[result retain] autorelease];
   self.result = nil;
   return returnMe;
 }
-- (EarnFreeGoldResponseProto_Builder*) mergeFrom:(EarnFreeGoldResponseProto*) other {
-  if (other == [EarnFreeGoldResponseProto defaultInstance]) {
+- (EarnFreeDiamondsResponseProto_Builder*) mergeFrom:(EarnFreeDiamondsResponseProto*) other {
+  if (other == [EarnFreeDiamondsResponseProto defaultInstance]) {
     return self;
   }
   if (other.hasSender) {
@@ -36179,10 +36179,10 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
-- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
   return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
 }
-- (EarnFreeGoldResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+- (EarnFreeDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
   PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
   while (YES) {
     int32_t tag = [input readTag];
@@ -36208,7 +36208,7 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(value)) {
+        if (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(value)) {
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -36224,15 +36224,15 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 - (MinimumUserProto*) sender {
   return result.sender;
 }
-- (EarnFreeGoldResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+- (EarnFreeDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
   result.hasSender = YES;
   result.sender = value;
   return self;
 }
-- (EarnFreeGoldResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+- (EarnFreeDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
   return [self setSender:[builderForValue build]];
 }
-- (EarnFreeGoldResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+- (EarnFreeDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
   if (result.hasSender &&
       result.sender != [MinimumUserProto defaultInstance]) {
     result.sender =
@@ -36243,7 +36243,7 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
   result.hasSender = YES;
   return self;
 }
-- (EarnFreeGoldResponseProto_Builder*) clearSender {
+- (EarnFreeDiamondsResponseProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
   return self;
@@ -36251,17 +36251,17 @@ BOOL EarnFreeGoldResponseProto_EarnFreeGoldStatusIsValidValue(EarnFreeGoldRespon
 - (BOOL) hasStatus {
   return result.hasStatus;
 }
-- (EarnFreeGoldResponseProto_EarnFreeGoldStatus) status {
+- (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status {
   return result.status;
 }
-- (EarnFreeGoldResponseProto_Builder*) setStatus:(EarnFreeGoldResponseProto_EarnFreeGoldStatus) value {
+- (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value {
   result.hasStatus = YES;
   result.status = value;
   return self;
 }
-- (EarnFreeGoldResponseProto_Builder*) clearStatus {
+- (EarnFreeDiamondsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
-  result.status = EarnFreeGoldResponseProto_EarnFreeGoldStatusSuccess;
+  result.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
   return self;
 }
 @end
