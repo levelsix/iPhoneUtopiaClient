@@ -1357,6 +1357,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
              sendEarnFreeGoldAdColonyMessageClientTime:time
              digest:digest
              gold:gold];
+  [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You just earned %d Gold", 
+                         gold]];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 

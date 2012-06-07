@@ -30,7 +30,7 @@
                                         reason:(NSString *)reason
 {
   //Update the user interface after calling virtualCurrencyAwardAvailable here
-  [Globals popupMessage:[NSString stringWithFormat:@"Sorry, we couldn't award you %@! Error:%@", 
+  [Globals popupMessage:[NSString stringWithFormat:@"Sorry, AdColony couldn't award you %@! Error:%@", 
                          name,
                          reason]];
 }
