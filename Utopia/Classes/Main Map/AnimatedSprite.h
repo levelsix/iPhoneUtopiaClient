@@ -22,14 +22,23 @@
 
 @interface AnimatedSprite : CharacterSprite
 {
-  CCSprite *_sprite;
-  CCAction *_walkAction;
-  CGPoint _oldMapPos;
-  BOOL _moving;
+    CCSprite *_sprite;
+    CCAction *_walkAction;
+    CCAction *_walkActionNL;
+    CCAction *_walkActionNR;
+    CCAction *_walkActionFL;
+    CCAction *_walkActionFR;
+    
+    CGPoint _oldMapPos;
+    BOOL _moving;
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkAction;
+@property (nonatomic, retain) CCAction *walkActionNL;
+@property (nonatomic, retain) CCAction *walkActionNR;
+@property (nonatomic, retain) CCAction *walkActionFL;
+@property (nonatomic, retain) CCAction *walkActionFR;
 
 @end
 
@@ -60,7 +69,7 @@ typedef enum {
 
 @end
 
-@interface TutorialGirl : QuestGiver
+@interface TutorialGirl :QuestGiver
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 

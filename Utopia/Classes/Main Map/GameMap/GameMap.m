@@ -155,10 +155,12 @@
     
     _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
     [self addChild:_myPlayer];
+    [_myPlayer release];
     
     // Add the decoration layer for clouds
     decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
     [self addChild:self.decLayer z:2000];
+    [decLayer release];
     
     [[NSBundle mainBundle] loadNibNamed:@"EnemyPopupView" owner:self options:nil];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:self.enemyMenu];
@@ -400,11 +402,16 @@
   self.selected = [self selectableForPt:pt];
   
   if (_selected == nil) {
+    pt = [self convertToNodeSpace:pt];
     CGSize ms = mapSize_;
-    CGSize ts = tileSize_;
-//    float x = 
-//    CGPoint loc = ccp( pt.x / (ms.width * ts.width/2.f + ts.width * (location.origin.x-location.origin.y)/2.f), 
-//                        pt.y / (ts.height * (location.origin.y+location.origin.x)/2.f));
+    CGSize ts = tileSizeInPoints;
+    float a = (pt.x - ms.width*ts.width/2.f)/ts.width;
+    float b = pt.y/ts.height;
+    float x = a+b;
+    float y = b-a;
+    CGRect loc = CGRectMake(x, y, 1, 1);
+    
+    [_myPlayer moveToLocation:loc];
   }
 }
 
@@ -680,7 +687,6 @@
   self.enemyMenu = nil;
   self.walkableData = nil;
   self.mapSprites = nil;
-  self.decLayer = nil;
   [super dealloc];
 }
 

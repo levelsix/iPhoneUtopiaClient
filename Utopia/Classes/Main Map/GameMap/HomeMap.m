@@ -278,6 +278,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   [arr addObject:_tutGirl];
   [arr addObject:_carpenter];
+  [arr addObject:_myPlayer];
   
   CCNode *c;
   CCARRAY_FOREACH(self.children, c) {
@@ -397,6 +398,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       UserStruct *us = ((MoneyBuilding *) selected).userStruct;
       if (us.state == kUpgrading || us.state == kBuilding) {
         [self.upgradeMenu displayForUserStruct:us];
+      } else if (us.state == kRetrieving) {
+        // Retrieve the cash!
+        [self retrieveFromBuilding:((MoneyBuilding *) selected)];
+        self.selected = nil;
       } else {
         [self.hbMenu updateForUserStruct:us];
         [self.collectMenu updateForUserStruct:us];
@@ -495,24 +500,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
   // Reimplement for retrievals and moving buildings
   if (!_canMove) {
-    CGPoint pt = [recognizer locationInView:recognizer.view];
-    pt = [[CCDirector sharedDirector] convertToGL:pt];
-    
-    if (_selected && ![_selected isPointInArea:pt]) {
-      self.selected = nil;
-      [self doReorder];
-    }
-    SelectableSprite *sel = [self selectableForPt:pt];
-    
-    if ([sel isKindOfClass:[MoneyBuilding class]]) {
-      MoneyBuilding *mb = (MoneyBuilding *)sel;
-      if (mb.retrievable) {
-        // Retrieve the cash!
-        [self retrieveFromBuilding:mb];
-        return;
-      }
-    }
-    self.selected = sel;
+    [super tap:recognizer node:node];
+    [self doReorder];
   }
 }
 

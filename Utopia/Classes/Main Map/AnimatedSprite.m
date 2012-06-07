@@ -62,32 +62,63 @@
 
 @synthesize sprite = _sprite;
 @synthesize walkAction = _walkAction;
+@synthesize walkActionFL = _walkActionFL;
+@synthesize walkActionFR = _walkActionFR;
+@synthesize walkActionNL = _walkActionNL;
+@synthesize walkActionNR = _walkActionNR;
 
 -(id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if((self = [super initWithFile:file location:loc map:map])) {
     
     // This loads an image of the same name (but ending in png), and goes through the
     // plist to add definitions of each frame to the cache.
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"legionwarrior.plist"];        
+    
+    
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"DrowAnimations.plist"]; 
     
     // Create a sprite sheet with the Happy Bear images
-    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"legionwarrior.png"];
+    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"DrowAnimations.png"];
     [self addChild:spriteSheet];
     
-    // Load up the frames of our animation
-    NSMutableArray *walkAnimFrames = [NSMutableArray array];
-    for(int i = 0; i <= 8; ++i) {
-      [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"skeletonking-walking-nearleft_%02d.png", i]]];
+    //Creating animation for Near Left
+    NSMutableArray *walkAnimNL= [NSMutableArray array];
+    for(int i = 0; i <= 7; ++i) {
+      [walkAnimNL addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkNL%d.png", i]]];
     }
-    CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.05f];
+    CCAnimation *walkAnimationNL = [CCAnimation animationWithFrames:walkAnimNL delay:0.14f];
+    self.walkActionNL = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationNL restoreOriginalFrame:NO]];
+    
+    //Creating animation for Near Right
+    NSMutableArray *walkAnimNR= [NSMutableArray array];
+    for(int i = 0; i <= 7; ++i) {
+      [walkAnimNR addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkNL%d.png", i]]];
+    }
+    CCAnimation *walkAnimationNR = [CCAnimation animationWithFrames:walkAnimNR delay:0.14f];
+    self.walkActionNR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationNR]];
+    
+    //Creating animation for far left
+    NSMutableArray *walkAnimFL= [NSMutableArray array];
+    for(int i = 0; i <= 7; ++i) {
+      [walkAnimFL addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkFL%d.png", i]]];
+    }
+    CCAnimation *walkAnimationFL = [CCAnimation animationWithFrames:walkAnimFL delay:0.14f];
+    self.walkActionFL = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationFL]];
+    
+    //Creating animation for Far Right
+    NSMutableArray *walkAnimFR= [NSMutableArray array];
+    for(int i = 0; i <= 7; ++i) {
+      [walkAnimFR addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkFL%d.png", i]]];
+    }
+    CCAnimation *walkAnimationFR = [CCAnimation animationWithFrames:walkAnimFR delay:0.14f];
+    self.walkActionFR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationFR]];    
     
     // Create sprite
-    self.sprite = [CCSprite spriteWithSpriteFrameName:@"skeletonking-walking-nearleft_00.png"];
+    self.sprite = [CCSprite spriteWithSpriteFrameName:@"DrowWalkNL0.png"];
     _sprite.anchorPoint = ccp(0, 0);
     
+    
     // Move sprite a bit up
-    self.walkAction = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnim restoreOriginalFrame:NO]];
-    [_sprite runAction:_walkAction];
+    //[_sprite runAction:_walkActionNL];
     [spriteSheet addChild:_sprite];
     
     // So that it registers touches
@@ -124,9 +155,32 @@
   MissionMap *missionMap = (MissionMap *)_map;
   CGPoint pt = [missionMap nextWalkablePositionFromPoint:self.location.origin prevPoint:_oldMapPos];
   _oldMapPos = self.location.origin;
+  
   CGRect r = self.location;
   r.origin = pt;
   float diff = ccpDistance(_oldMapPos, pt);
+  
+  CGPoint difference = ccpSub(pt, _oldMapPos);
+  CGPoint fr = CGPointMake(1, 0);
+  CGPoint fl = CGPointMake(0, 1);
+  CGPoint nl = CGPointMake(-1, 0);
+  CGPoint nr = CGPointMake(0, -1);
+  
+   [_sprite stopAllActions];
+  if(CGPointEqualToPoint(difference, fr)){
+    _sprite.flipX = YES;
+    [_sprite runAction:_walkActionFR];
+  }else if(CGPointEqualToPoint(difference, fl)){
+    _sprite.flipX = NO;
+    [_sprite runAction:_walkActionFL];
+  }else if(CGPointEqualToPoint(difference, nl)) {
+    _sprite.flipX = NO;
+    [_sprite runAction:_walkActionNL];
+  }else if(CGPointEqualToPoint(difference, nr)){
+    _sprite.flipX = YES;
+    [_sprite runAction:_walkActionNR];
+  }
+  
   [self runAction:[CCSequence actions:                          
                    [MoveToLocation actionWithDuration:2*diff location:r],
                    [CCCallFunc actionWithTarget:self selector:@selector(walk)],
@@ -138,6 +192,10 @@
   [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
   self.sprite = nil;
   self.walkAction = nil;
+  self.walkActionFR = nil;
+  self.walkActionFL = nil;
+  self.walkActionNR = nil;
+  self.walkActionNL = nil;
 	[super dealloc];
 }
 
@@ -265,7 +323,7 @@
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   GameState *gs = [GameState sharedGameState];
   NSString *file = [Globals userTypeIsGood:gs.type] ? @"AllianceTutorialGuide.png" : @"AllianceTutorialGuide.png";
-  if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:file map:map location:loc])) {
+  if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:nil map:map location:loc])) {
     
   }
   return self;
