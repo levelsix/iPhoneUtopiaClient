@@ -22,6 +22,9 @@
 #import "SimpleAudioEngine.h"
 #import "BattleLayer.h"
 #import "OtherUpdates.h"
+#import "OAHMAC_SHA1SignatureProvider.h"
+
+#define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
 @implementation OutgoingEventController
 
@@ -1337,9 +1340,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 
-- (void) adColonyReward:(int)gold digest:(NSString *)digest {
+- (void) adColonyReward:(int)gold {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendEarnFreeGoldAdColonyMessageClientTime:[self getCurrentMilliseconds] digest:digest gold:gold];
+
+  uint64_t time = [self getCurrentMilliseconds];
+  NSString *preparedText = [NSString stringWithFormat:@"%d%@%d%llu",
+                            gs.userId,
+                            gs.referralCode, 
+                            gold,
+                            time];
+  id<OASignatureProviding> signer = [[OAHMAC_SHA1SignatureProvider alloc] init];
+  NSString *digest = [signer signClearText:preparedText
+                                withSecret:LVL6_SHARED_SECRET];
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] 
+             sendEarnFreeGoldAdColonyMessageClientTime:time
+             digest:digest
+             gold:gold];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 

@@ -7,10 +7,33 @@
 //
 
 #import "AdColonyDelegate.h"
+#import "OutgoingEventController.h"
+#import "Globals.h"
 
 #define ADCOLONY_APPID       @"app82f779c39f1c40c4a6dc82"
 
 @implementation AdColonyDelegate
+
+-(void) adColonyVirtualCurrencyAwardedByZone:(NSString *)zone
+                                currencyName:(NSString *)name
+                              currencyAmount:(int)amount 
+{  
+  //NOTE: The currency award transaction will be complete at this point
+  //NOTE: This callback can be executed by AdColony at any time
+  //NOTE: This is the ideal place for an alert about the successful reward
+  [[OutgoingEventController sharedOutgoingEventController] adColonyReward:amount];
+}
+
+-(void)adColonyVirtualCurrencyNotAwardedByZone:(NSString *)zone
+                                  currencyName:(NSString *)name
+                                currencyAmount:(int)amount 
+                                        reason:(NSString *)reason
+{
+  //Update the user interface after calling virtualCurrencyAwardAvailable here
+  [Globals popupMessage:[NSString stringWithFormat:@"Sorry, we couldn't award you %@! Error:%@", 
+                         name,
+                         reason]];
+}
 
 - (NSString *) adColonyApplicationID
 {

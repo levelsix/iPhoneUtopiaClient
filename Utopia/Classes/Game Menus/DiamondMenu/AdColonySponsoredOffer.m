@@ -9,6 +9,7 @@
 #import "AdColonySponsoredOffer.h"
 #import "AdColonyDelegate.h"
 #import "SimpleAudioEngine.h"
+#import "OutgoingEventController.h"
 
 #import "Globals.h"
 
@@ -34,29 +35,6 @@
   [[SimpleAudioEngine sharedEngine] setMute:NO];
 }
 
--(void) adColonyVirtualCurrencyAwardedByZone:(NSString *)zone
-                                currencyName:(NSString *)name
-                              currencyAmount:(int)amount 
-{
-  //NOTE: The currency award transaction will be complete at this point
-  //NOTE: This callback can be executed by AdColony at any time
-  //NOTE: This is the ideal place for an alert about the successful reward
-  [Globals popupMessage:[NSString stringWithFormat:@"You just received %d %@", 
-                         amount,
-                         name]];
-}
-
--(void)adColonyVirtualCurrencyNotAwardedByZone:(NSString *)zone
-                                  currencyName:(NSString *)name
-                                currencyAmount:(int)amount 
-                                        reason:(NSString *)reason
-{
-  //Update the user interface after calling virtualCurrencyAwardAvailable here
-  [Globals popupMessage:[NSString stringWithFormat:@"Sorry, we couldn't award you %@! Error:%@", 
-                         name,
-                         reason]];
-}
-
 - (void) adColonyTakeoverBeganForZone:(NSString *)zone 
 {
   [self pauseAudio];
@@ -68,8 +46,6 @@
   [self resumeAudio];
   [InAppPurchaseData postAdTakeoverResignedNotificationForSender:self];
 }
-//Is called when the video zone is ready to serve ads
-//-(void)adColonyVideoAdsReadyInZone:(NSString *)zone;
 
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
@@ -79,11 +55,13 @@
 
 -(void) makePurchaseWithViewController:(UIViewController *)controller
 {
+  
+  
   if ([self purchaseAvailable]) {
     [AdColony playVideoAdForZone:ADZONE1 
                     withDelegate:self
                 withV4VCPrePopup:YES
-                andV4VCPostPopup:YES];
+                andV4VCPostPopup:NO];
   }
 }
 
