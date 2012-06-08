@@ -12,6 +12,7 @@
   CCSprite *_ccArrow;
   CCSprite *_tapToAttack;
   CCSprite *_tryAgain;
+  CCSprite *_overLayer;
   
   BOOL _firstTurn;
   BOOL _firstAttack;

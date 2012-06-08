@@ -13,7 +13,6 @@
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
-		453ADD6315801D7300AF42AD /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FC1565E0DC000380EE /* Delight.framework */; };
@@ -1388,6 +1387,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7461B52D0F94FAF800A0C422;
 			remoteInfo = ProtocolBuffers;
+		};
+		CFC5818B158165DA002011B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CF1256391538A94D00E0C1AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CF1256411538A94D00E0C1AD;
+			remoteInfo = Utopia;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -3070,7 +3076,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				453ADD6315801D7300AF42AD /* libAlaume-iphonesimulator.a in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
@@ -5897,6 +5902,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CFC5818C158165DA002011B6 /* PBXTargetDependency */,
 			);
 			name = UtopiaTests;
 			productName = UtopiaTests;
@@ -7344,6 +7350,11 @@
 			isa = PBXTargetDependency;
 			name = ProtocolBuffers;
 			targetProxy = CF1273BF1538B6C700E0C1AD /* PBXContainerItemProxy */;
+		};
+		CFC5818C158165DA002011B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CF1256411538A94D00E0C1AD /* Utopia */;
+			targetProxy = CFC5818B158165DA002011B6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

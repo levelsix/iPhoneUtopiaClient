@@ -403,13 +403,8 @@
   
   if (_selected == nil) {
     pt = [self convertToNodeSpace:pt];
-    CGSize ms = mapSize_;
-    CGSize ts = tileSizeInPoints;
-    float a = (pt.x - ms.width*ts.width/2.f)/ts.width;
-    float b = pt.y/ts.height;
-    float x = a+b;
-    float y = b-a;
-    CGRect loc = CGRectMake(x, y, 1, 1);
+    pt = [self convertCCPointToTilePoint:pt];
+    CGRect loc = CGRectMake(pt.x, pt.y, 1, 1);
     
     [_myPlayer moveToLocation:loc];
   }
@@ -649,6 +644,23 @@
     float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
     self.position = ccp(x,y);
   }
+}
+
+- (CGPoint) convertTilePointToCCPoint:(CGPoint)pt {
+  CGSize ms = mapSize_;
+  CGSize ts = tileSizeInPoints;
+  return ccp( ms.width * ts.width/2.f + ts.width * (pt.x-pt.y)/2.f, 
+      ts.height * (pt.y+pt.x)/2.f);
+}
+
+- (CGPoint) convertCCPointToTilePoint:(CGPoint)pt {
+  CGSize ms = mapSize_;
+  CGSize ts = tileSizeInPoints;
+  float a = (pt.x - ms.width*ts.width/2.f)/ts.width;
+  float b = pt.y/ts.height;
+  float x = a+b;
+  float y = b-a;
+  return ccp(x,y);
 }
 
 - (void) reloadQuestGivers {

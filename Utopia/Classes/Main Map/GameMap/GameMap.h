@@ -85,4 +85,7 @@
 - (void) tap:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
 - (void) scale:(UIGestureRecognizer*)recognizer node:(CCNode*)node;
 
+- (CGPoint) convertTilePointToCCPoint:(CGPoint)pt;
+- (CGPoint) convertCCPointToTilePoint:(CGPoint)pt;
+
 @end

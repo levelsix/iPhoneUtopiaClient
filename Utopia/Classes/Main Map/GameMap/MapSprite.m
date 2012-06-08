@@ -32,13 +32,10 @@
 
 - (void) setLocation:(CGRect)location {
   CGSize ms = _map.mapSize;
-  CGSize ts = _map.tileSizeInPoints;
-  
   location.origin.x = MIN(ms.width-location.size.width, MAX(0, location.origin.x));
   location.origin.y = MIN(ms.height-location.size.height, MAX(0, location.origin.y));
   _location = location;
-  self.position = ccp( ms.width * ts.width/2.f + ts.width * (location.origin.x-location.origin.y)/2.f, 
-                      ts.height * (location.origin.y+location.origin.x)/2.f);
+  self.position = [_map convertTilePointToCCPoint:location.origin];
   
   [_map doReorder];
 }

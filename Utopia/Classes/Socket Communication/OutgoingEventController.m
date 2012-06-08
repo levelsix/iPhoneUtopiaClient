@@ -23,6 +23,7 @@
 #import "BattleLayer.h"
 #import "OtherUpdates.h"
 #import "OAHMAC_SHA1SignatureProvider.h"
+#import "GameViewController.h"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -44,7 +45,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                           lat:gs.location.latitude 
                                           lon:gs.location.longitude
                                  referralCode:tc.referralCode
-                                  deviceToken:nil
+                                  deviceToken:gs.deviceToken
                                        attack:gs.attack
                                       defense:gs.defense 
                                        health:gs.maxHealth
@@ -168,7 +169,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Attempting to buy equip that is not in the armory.."];
   }
   
-  if (true) {//gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
+  if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
     
     ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:1];
@@ -1319,18 +1320,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) enableApns:(NSData *)deviceToken {
   GameState *gs = [GameState sharedGameState];
-  while (gs.userId == 0) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
-  }
   
   NSString *str = nil;
   if (deviceToken) {
     str = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     str = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
   }
-  int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:str];
   
   gs.deviceToken = str;
+  
+  while (gs.userId == 0) {
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+    
+    if ([[GameViewController sharedGameViewController] isTutorial]) {
+      return;
+    }
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendAPNSMessage:str];
+  
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -1354,7 +1362,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                 withSecret:LVL6_SHARED_SECRET];
   
   int tag = [[SocketCommunication sharedSocketCommunication] 
-             sendEarnFreeGoldAdColonyMessageClientTime:time
+             sendEarnFreeDiamondsAdColonyMessageClientTime:time
              digest:digest
              gold:gold];
   [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You just earned %d Gold", 
