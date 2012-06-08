@@ -24,10 +24,8 @@
 {
     CCSprite *_sprite;
     CCAction *_walkAction;
-    CCAction *_walkActionNL;
-    CCAction *_walkActionNR;
-    CCAction *_walkActionFL;
-    CCAction *_walkActionFR;
+    CCAction *_walkActionN;
+    CCAction *_walkActionF;
     
     CGPoint _oldMapPos;
     BOOL _moving;
@@ -35,10 +33,8 @@
 
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkAction;
-@property (nonatomic, retain) CCAction *walkActionNL;
-@property (nonatomic, retain) CCAction *walkActionNR;
-@property (nonatomic, retain) CCAction *walkActionFL;
-@property (nonatomic, retain) CCAction *walkActionFR;
+@property (nonatomic, retain) CCAction *walkActionN;
+@property (nonatomic, retain) CCAction *walkActionF;
 
 @end
 
@@ -81,7 +77,25 @@ typedef enum {
 
 @end
 
-@interface MyPlayer : CharacterSprite
+@interface MyPlayer : CharacterSprite {
+  CCAction *_walkActionN;
+  CCAction *_walkActionF;
+  CCAction *_walkActionLR;
+  CCAction *_walkActionU;
+  CCAction *_walkActionD;
+  CCAction *_currentAction;
+  
+  CCSprite *_sprite;
+  CGPoint _oldMapPosition;
+}
+@property (nonatomic, retain) CCAction *walkActionN;
+@property (nonatomic, retain) CCAction *walkActionF;
+@property (nonatomic, retain) CCAction *walkActionLR;
+@property (nonatomic, retain) CCAction *walkActionU;
+@property (nonatomic, retain) CCAction *walkActionD;
+@property (nonatomic, retain) CCAction *currentAction;
+
+@property (nonatomic, retain) CCSprite *sprite;
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 - (void) moveToLocation:(CGRect)loc;
