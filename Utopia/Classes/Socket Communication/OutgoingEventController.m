@@ -159,7 +159,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to complete battle without any stamina."];
   }
 }
-
+-(void)test
+{
+  
+}
 - (int) buyEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
@@ -177,7 +180,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     [gs addUnrespondedUpdates:ceu, su, gu, nil];
     
-    [Globals popupMessage:[NSString stringWithFormat:@"You have bought 1 %@!", fep.name]];
+    [GenericPopupController displayConfirmationWithDescription:@"Confirm" 
+                                                         title:[NSString stringWithFormat:@"Equip %@?", 
+                                                                fep.name]
+                                                    okayButton:@"Equip"
+                                                  cancelButton:@"Store"
+                                                        target:self
+                                                      selector:@selector(test)];
     
     [Globals playCoinSound];
   } else {
