@@ -24,11 +24,6 @@
    receipt:receiptStr];
 }
 
-- (void) manager:(KPManager*)manager didReceiveError:(NSError*)error
-{
-  NSLog(@"KIIPERROR\n"); 
-}
-
 -(void)receivedAchievement:(NSNotification *)notification
 {
   NSString *achievement = [notification.userInfo 

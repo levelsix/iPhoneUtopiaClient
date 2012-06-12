@@ -103,8 +103,14 @@
     _comboBar.visible = NO;
     _bottomMenu.visible = YES;
     
-    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    [DialogMenuController displayViewForText:tc.beginBattleText callbackTarget:self action:@selector(startMyTurn)];
+    _overLayer = [CCSprite spriteWithFile:@"attackbuttonlight.png"];
+    [self addChild:_overLayer z:5];
+    _overLayer.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    
+    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hit attack before the timer runs out!" dimensions:CGSizeMake(100, 100) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:15.f];
+    [_overLayer addChild:label];
+    label.position = ccp(250, 160);
+    
     _firstTurn = NO;
     return;
   }

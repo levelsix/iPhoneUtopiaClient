@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		064D5197157F208A00AF402C /* DrowAnimations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 064D5195157F208A00AF402C /* DrowAnimations@2x.png */; };
-		064D5198157F208A00AF402C /* DrowAnimations@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 064D5196157F208A00AF402C /* DrowAnimations@2x.plist */; };
+		0691ED4A158072F1004451F0 /* DrowWalkingNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED48158072F1004451F0 /* DrowWalkingNF@2x.png */; };
+		0691ED4B158072F1004451F0 /* DrowWalkingNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED49158072F1004451F0 /* DrowWalkingNF@2x.plist */; };
+		0691ED4E15807952004451F0 /* DrowWalkingLRUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED4C15807952004451F0 /* DrowWalkingLRUD@2x.plist */; };
+		0691ED4F15807952004451F0 /* DrowWalkingLRUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED4D15807952004451F0 /* DrowWalkingLRUD@2x.png */; };
+		0691ED541580896C004451F0 /* DrowWalkingLRUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED501580896C004451F0 /* DrowWalkingLRUD.plist */; };
+		0691ED551580896C004451F0 /* DrowWalkingLRUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED511580896C004451F0 /* DrowWalkingLRUD.png */; };
+		0691ED561580896C004451F0 /* DrowWalkingNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED521580896C004451F0 /* DrowWalkingNF.plist */; };
+		0691ED571580896C004451F0 /* DrowWalkingNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED531580896C004451F0 /* DrowWalkingNF.png */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
-		453ADD6315801D7300AF42AD /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4541016915818E3D00F813F4 /* EquipDeltaView.xib */; };
 		4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4541016C158197C600F813F4 /* EquipDeltaView.m */; };
 		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
@@ -1391,11 +1396,24 @@
 			remoteGlobalIDString = 7461B52D0F94FAF800A0C422;
 			remoteInfo = ProtocolBuffers;
 		};
+		CFC5818B158165DA002011B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CF1256391538A94D00E0C1AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CF1256411538A94D00E0C1AD;
+			remoteInfo = Utopia;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		064D5195157F208A00AF402C /* DrowAnimations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowAnimations@2x.png"; sourceTree = "<group>"; };
-		064D5196157F208A00AF402C /* DrowAnimations@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DrowAnimations@2x.plist"; sourceTree = "<group>"; };
+		0691ED48158072F1004451F0 /* DrowWalkingNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowWalkingNF@2x.png"; sourceTree = "<group>"; };
+		0691ED49158072F1004451F0 /* DrowWalkingNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DrowWalkingNF@2x.plist"; sourceTree = "<group>"; };
+		0691ED4C15807952004451F0 /* DrowWalkingLRUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DrowWalkingLRUD@2x.plist"; sourceTree = "<group>"; };
+		0691ED4D15807952004451F0 /* DrowWalkingLRUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowWalkingLRUD@2x.png"; sourceTree = "<group>"; };
+		0691ED501580896C004451F0 /* DrowWalkingLRUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrowWalkingLRUD.plist; sourceTree = "<group>"; };
+		0691ED511580896C004451F0 /* DrowWalkingLRUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrowWalkingLRUD.png; sourceTree = "<group>"; };
+		0691ED521580896C004451F0 /* DrowWalkingNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrowWalkingNF.plist; sourceTree = "<group>"; };
+		0691ED531580896C004451F0 /* DrowWalkingNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrowWalkingNF.png; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
 		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
@@ -3075,7 +3093,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				453ADD6315801D7300AF42AD /* libAlaume-iphonesimulator.a in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
@@ -4550,8 +4567,14 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
-				064D5195157F208A00AF402C /* DrowAnimations@2x.png */,
-				064D5196157F208A00AF402C /* DrowAnimations@2x.plist */,
+				0691ED4C15807952004451F0 /* DrowWalkingLRUD@2x.plist */,
+				0691ED4D15807952004451F0 /* DrowWalkingLRUD@2x.png */,
+				0691ED48158072F1004451F0 /* DrowWalkingNF@2x.png */,
+				0691ED49158072F1004451F0 /* DrowWalkingNF@2x.plist */,
+				0691ED501580896C004451F0 /* DrowWalkingLRUD.plist */,
+				0691ED511580896C004451F0 /* DrowWalkingLRUD.png */,
+				0691ED521580896C004451F0 /* DrowWalkingNF.plist */,
+				0691ED531580896C004451F0 /* DrowWalkingNF.png */,
 				CF1267751538ACC500E0C1AD /* Armory Images */,
 				CF1267981538ACC500E0C1AD /* Battle Images */,
 				CF1267D51538ACC500E0C1AD /* Carpenter Images */,
@@ -5905,6 +5928,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CFC5818C158165DA002011B6 /* PBXTargetDependency */,
 			);
 			name = UtopiaTests;
 			productName = UtopiaTests;
@@ -7077,9 +7101,15 @@
 				CF15EDF1158064D900A8AAC1 /* attackbuttonlight@2x.png in Resources */,
 				CF15EDF2158064D900A8AAC1 /* combowheellight.png in Resources */,
 				CF15EDF3158064D900A8AAC1 /* combowheellight@2x.png in Resources */,
-				064D5197157F208A00AF402C /* DrowAnimations@2x.png in Resources */,
-				064D5198157F208A00AF402C /* DrowAnimations@2x.plist in Resources */,
 				4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */,
+				0691ED4A158072F1004451F0 /* DrowWalkingNF@2x.png in Resources */,
+				0691ED4B158072F1004451F0 /* DrowWalkingNF@2x.plist in Resources */,
+				0691ED4E15807952004451F0 /* DrowWalkingLRUD@2x.plist in Resources */,
+				0691ED4F15807952004451F0 /* DrowWalkingLRUD@2x.png in Resources */,
+				0691ED541580896C004451F0 /* DrowWalkingLRUD.plist in Resources */,
+				0691ED551580896C004451F0 /* DrowWalkingLRUD.png in Resources */,
+				0691ED561580896C004451F0 /* DrowWalkingNF.plist in Resources */,
+				0691ED571580896C004451F0 /* DrowWalkingNF.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7354,6 +7384,11 @@
 			isa = PBXTargetDependency;
 			name = ProtocolBuffers;
 			targetProxy = CF1273BF1538B6C700E0C1AD /* PBXContainerItemProxy */;
+		};
+		CFC5818C158165DA002011B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CF1256411538A94D00E0C1AD /* Utopia */;
+			targetProxy = CFC5818B158165DA002011B6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "RefillMenuController.h"
+#import "EquipDeltaView.h"
 
 #define BUY_SELL_Y_OFFSET 1.f
 #define BUY_SELL_ANIMATION_DURATION 0.4f
@@ -620,7 +621,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   _clickedAl.userInteractionEnabled = YES;
   self.equipClicked = NO;
 }
-#import "EquipDeltaView.h"
+
 - (IBAction)buyClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = _clickedAl.fep;

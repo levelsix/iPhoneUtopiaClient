@@ -168,9 +168,10 @@ static NSString *udid = nil;
   
   [messageWithHeader appendBytes:header length:sizeof(header)];
   [messageWithHeader appendData:data];
-  [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:0];
   
   int tag = _currentTagNum;
+  [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:_currentTagNum];
+  
   _currentTagNum++;
   return tag;
 }

@@ -17,6 +17,10 @@
 
 #define ABOVE_HEAD_FADE_DURATION 1.5f
 #define ABOVE_HEAD_FADE_OPACITY 100
+#define ANIMATATION_DELAY 0.05f
+#define MOVE_DISTANCE 4.0f
+
+#define WALKING_SPEED 50.f
 
 #define VERTICAL_OFFSET 10.f
 
@@ -62,10 +66,8 @@
 
 @synthesize sprite = _sprite;
 @synthesize walkAction = _walkAction;
-@synthesize walkActionFL = _walkActionFL;
-@synthesize walkActionFR = _walkActionFR;
-@synthesize walkActionNL = _walkActionNL;
-@synthesize walkActionNR = _walkActionNR;
+@synthesize walkActionF = _walkActionF;
+@synthesize walkActionN = _walkActionN;
 
 -(id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if((self = [super initWithFile:file location:loc map:map])) {
@@ -74,51 +76,34 @@
     // plist to add definitions of each frame to the cache.
     
     
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"DrowAnimations.plist"]; 
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"DrowWalkingNF.plist"]; 
     
     // Create a sprite sheet with the Happy Bear images
-    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"DrowAnimations.png"];
+    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"DrowWalkingNF.png"];
     [self addChild:spriteSheet];
     
     //Creating animation for Near Left
-    NSMutableArray *walkAnimNL= [NSMutableArray array];
-    for(int i = 0; i <= 7; ++i) {
-      [walkAnimNL addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkNL%d.png", i]]];
+    NSMutableArray *walkAnimN= [NSMutableArray array];
+    for(int i = 0; i <= 20; ++i) {
+      [walkAnimN addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkingN%d.png", i]]];
     }
-    CCAnimation *walkAnimationNL = [CCAnimation animationWithFrames:walkAnimNL delay:0.14f];
-    self.walkActionNL = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationNL restoreOriginalFrame:NO]];
-    
-    //Creating animation for Near Right
-    NSMutableArray *walkAnimNR= [NSMutableArray array];
-    for(int i = 0; i <= 7; ++i) {
-      [walkAnimNR addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkNL%d.png", i]]];
-    }
-    CCAnimation *walkAnimationNR = [CCAnimation animationWithFrames:walkAnimNR delay:0.14f];
-    self.walkActionNR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationNR]];
+    CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
+    self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
     
     //Creating animation for far left
-    NSMutableArray *walkAnimFL= [NSMutableArray array];
-    for(int i = 0; i <= 7; ++i) {
-      [walkAnimFL addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkFL%d.png", i]]];
+    NSMutableArray *walkAnimF= [NSMutableArray array];
+    for(int i = 0; i <= 20; ++i) {
+      [walkAnimF addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkingF%d.png", i]]];
     }
-    CCAnimation *walkAnimationFL = [CCAnimation animationWithFrames:walkAnimFL delay:0.14f];
-    self.walkActionFL = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationFL]];
+    CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
+    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF]];
     
-    //Creating animation for Far Right
-    NSMutableArray *walkAnimFR= [NSMutableArray array];
-    for(int i = 0; i <= 7; ++i) {
-      [walkAnimFR addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkFL%d.png", i]]];
-    }
-    CCAnimation *walkAnimationFR = [CCAnimation animationWithFrames:walkAnimFR delay:0.14f];
-    self.walkActionFR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationFR]];    
     
     // Create sprite
-    self.sprite = [CCSprite spriteWithSpriteFrameName:@"DrowWalkNL0.png"];
+    self.sprite = [CCSprite spriteWithSpriteFrameName:@"DrowWalkingN0.png"];
     _sprite.anchorPoint = ccp(0, 0);
     
     
-    // Move sprite a bit up
-    //[_sprite runAction:_walkActionNL];
     [spriteSheet addChild:_sprite];
     
     // So that it registers touches
@@ -169,20 +154,20 @@
    [_sprite stopAllActions];
   if(CGPointEqualToPoint(difference, fr)){
     _sprite.flipX = YES;
-    [_sprite runAction:_walkActionFR];
-  }else if(CGPointEqualToPoint(difference, fl)){
+    [_sprite runAction:_walkActionF];
+  } else if(CGPointEqualToPoint(difference, fl)){
     _sprite.flipX = NO;
-    [_sprite runAction:_walkActionFL];
-  }else if(CGPointEqualToPoint(difference, nl)) {
+    [_sprite runAction:_walkActionF];
+  } else if(CGPointEqualToPoint(difference, nl)) {
     _sprite.flipX = NO;
-    [_sprite runAction:_walkActionNL];
-  }else if(CGPointEqualToPoint(difference, nr)){
+    [_sprite runAction:_walkActionN];
+  } else if(CGPointEqualToPoint(difference, nr)){
     _sprite.flipX = YES;
-    [_sprite runAction:_walkActionNR];
+    [_sprite runAction:_walkActionN];
   }
   
   [self runAction:[CCSequence actions:                          
-                   [MoveToLocation actionWithDuration:2*diff location:r],
+                   [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
                    [CCCallFunc actionWithTarget:self selector:@selector(walk)],
                    nil
                    ]];
@@ -192,10 +177,8 @@
   [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
   self.sprite = nil;
   self.walkAction = nil;
-  self.walkActionFR = nil;
-  self.walkActionFL = nil;
-  self.walkActionNR = nil;
-  self.walkActionNL = nil;
+  self.walkActionF = nil;
+  self.walkActionN = nil;
 	[super dealloc];
 }
 
@@ -321,8 +304,6 @@
 @implementation TutorialGirl
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  GameState *gs = [GameState sharedGameState];
-  NSString *file = [Globals userTypeIsGood:gs.type] ? @"AllianceTutorialGuide.png" : @"AllianceTutorialGuide.png";
   if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:nil map:map location:loc])) {
     
   }
@@ -355,14 +336,162 @@
 
 @implementation MyPlayer
 
+@synthesize walkActionD = _walkActionD;
+@synthesize walkActionF = _walkActionF;
+@synthesize walkActionLR = _walkActionLR;
+@synthesize walkActionN = _walkActionN;
+@synthesize walkActionU = _walkActionU;
+@synthesize sprite = _sprite;
+@synthesize currentAction = _currentAction;
+
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:@"Syndicate.png" location:loc map:map])) {
+  if ((self = [super initWithFile:nil location:loc map:map])) {
+    
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"DrowWalkingNF.plist"];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"DrowWalkingLRUD.plist"];
+    
+    //Creating animation for Near Left
+    NSMutableArray *walkAnimN= [NSMutableArray array];
+    for(int i = 0; i <= 20; ++i) {
+      [walkAnimN addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkingN%d.png", i]]];
+    }
+    CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
+    self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
+    
+    //Creating animation for far left
+    NSMutableArray *walkAnimF= [NSMutableArray array];
+    for(int i = 0; i <= 20; ++i) {
+      [walkAnimF addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkingF%d.png", i]]];
+    }
+    CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
+    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF]];
+    
+    //creating animation for walking up
+    NSMutableArray *walkAnimU = [NSMutableArray array];
+    for(int i = 0 ; i<=20; ++i){
+      [walkAnimU addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkingU%d.png", i]]];
+    }
+    CCAnimation *walkAnimationU = [CCAnimation animationWithFrames:walkAnimU delay:ANIMATATION_DELAY];
+    self.walkActionU = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationU]];
+    
+    //create animation for walking down
+    NSMutableArray *walkAnimD = [NSMutableArray array];
+    for(int i = 0 ; i<=20; ++i){
+      [walkAnimD addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkingD%d.png", i]]];
+    }
+    CCAnimation *walkAnimationD = [CCAnimation animationWithFrames:walkAnimD delay:ANIMATATION_DELAY];
+    self.walkActionD = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationD]];
+    
+    //create animation for left and right
+    NSMutableArray *walkAnimLR = [NSMutableArray array];
+    for(int i = 0 ; i<=20; ++i){
+      [walkAnimLR addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"DrowWalkLR%d.png", i]]];
+    }
+    CCAnimation *walkAnimationLR = [CCAnimation animationWithFrames:walkAnimLR delay:ANIMATATION_DELAY];
+    self.walkActionLR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationLR]];
+    
+    // Create sprite
+    self.sprite = [CCSprite spriteWithSpriteFrameName:@"DrowWalkingD0.png"];
+     _sprite.anchorPoint = ccp(0.5, 0.5);
+    
+    [self addChild:_sprite];
+    
   }
   return self;
 }
 
+
 - (void) moveToLocation:(CGRect)loc {
-  self.location = loc;
+  CGPoint startPt = [_map convertTilePointToCCPoint:self.location.origin];
+  CGPoint endPt = [_map convertTilePointToCCPoint:loc.origin];
+  CGFloat distance = ccpDistance(endPt, startPt);
+  float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(endPt, startPt)));
+  
+  int boolValue = [[[_map.walkableData objectAtIndex:loc.origin.x] objectAtIndex:loc.origin.y] boolValue];
+  
+  if(boolValue == 0){
+    return;
+  }
+  
+  if(distance <=100){
+    CCAction *newAction = nil;
+    
+    if (angle >= 165 || angle <= -165) {
+      self.sprite.flipX = NO;
+      newAction = self.walkActionLR;
+    } else if (angle >= 120) {
+      self.sprite.flipX = NO;
+      newAction = self.walkActionF;
+    } else if (angle >= 60) {
+      self.sprite.flipX = NO; 
+      newAction = self.walkActionU;
+    } else if (angle >= 15) {
+      self.sprite.flipX = YES;
+      newAction = self.walkActionF;
+    } else if (angle >= -15) {
+      self.sprite.flipX = YES;
+      newAction = self.walkActionLR;
+    } else if (angle >= -60) {
+      self.sprite.flipX = YES;
+      newAction = self.walkActionN;
+    } else if (angle >= -120) {
+      self.sprite.flipX = NO;
+      newAction = self.walkActionD;
+    } else if (angle >= -165) {
+      self.sprite.flipX = NO;
+      newAction = self.walkActionN;
+    }
+    
+    if (self.currentAction != newAction) {
+      // Only restart animation if it is different from the current one
+      self.currentAction = newAction;
+      [self.sprite stopAllActions];
+      [self.sprite runAction:self.currentAction];
+    }
+    
+    [self stopAllActions];
+    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:distance/WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
+      [self.sprite stopAllActions];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"DrowWalkingD0.png"];
+      [self.sprite setDisplayFrame:frame];
+      self.currentAction = nil;
+    }], nil]];
+
+  } else {
+    CGRect startingLocation = CGRectMake(loc.origin.x-2, loc.origin.y-2,loc.size.width,loc.size.height);
+    int num = [[[_map.walkableData objectAtIndex:startingLocation.origin.x]objectAtIndex:startingLocation.origin.y]boolValue];
+    if(num == 0){
+      startingLocation= CGRectMake(loc.origin.x-1, loc.origin.y-1,loc.size.width,loc.size.height);
+      int temp = [[[_map.walkableData objectAtIndex:startingLocation.origin.x]objectAtIndex:startingLocation.origin.y]boolValue];
+      if(temp == 0){
+        startingLocation = CGRectMake(loc.origin.x, loc.origin.y,loc.size.width,loc.size.height);
+      }
+    }
+    CGRect startingPosition = startingLocation;
+    
+    [self setLocation:startingPosition];
+    [self.sprite stopAllActions];
+    [self stopAllActions];
+    [self.sprite runAction:self.walkActionU];
+    
+    float dist = ccpDistance([_map convertTilePointToCCPoint:startingPosition.origin], [_map convertTilePointToCCPoint:loc.origin]);
+    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:dist/WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
+      [self.sprite stopAllActions];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"DrowWalkingD0.png"];
+      [self.sprite setDisplayFrame:frame];
+    }], nil]];
+  }
+}
+
+- (void) dealloc {
+  self.walkActionN = nil;
+  self.walkActionF = nil;
+  self.walkActionLR = nil;
+  self.walkActionU = nil;
+  self.walkActionD = nil;
+  self.currentAction = nil;
+  self.sprite = nil;
+  [super dealloc];
 }
 
 @end
