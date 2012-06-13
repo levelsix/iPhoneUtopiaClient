@@ -99,6 +99,7 @@
 		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
+		45AAF86015880F9000D1843B /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AAF85E15880F9000D1843B /* OpenUDID.m */; };
 		45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
@@ -1571,6 +1572,8 @@
 		459A9124157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
 		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
 		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
+		45AAF85D15880F9000D1843B /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
+		45AAF85E15880F9000D1843B /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphonesimulator.a"; sourceTree = "<group>"; };
 		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
 		45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlurryClipsDelegate.m; sourceTree = "<group>"; };
@@ -3452,6 +3455,15 @@
 			path = universal;
 			sourceTree = "<group>";
 		};
+		45AAF85C15880F9000D1843B /* open_UDID */ = {
+			isa = PBXGroup;
+			children = (
+				45AAF85D15880F9000D1843B /* OpenUDID.h */,
+				45AAF85E15880F9000D1843B /* OpenUDID.m */,
+			);
+			path = open_UDID;
+			sourceTree = "<group>";
+		};
 		45C9A3F2156F0BE000493FDC /* FlurryUniversal */ = {
 			isa = PBXGroup;
 			children = (
@@ -4102,6 +4114,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				45AAF85C15880F9000D1843B /* open_UDID */,
 				45D21E3F158037F500BB4D53 /* oauth */,
 				459A90FB157D3E62004B7014 /* Kiip */,
 				455BCED81575604300DDE405 /* facebook-ios-sdk */,
@@ -7374,6 +7387,7 @@
 				45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */,
 				45D21E4615803A6000BB4D53 /* Base64Transcoder.c in Sources */,
 				4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */,
+				45AAF86015880F9000D1843B /* OpenUDID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
