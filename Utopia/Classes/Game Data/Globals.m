@@ -19,6 +19,7 @@
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
+#define PULSE_TIME 0.8f
 
 @implementation Globals
 
@@ -27,6 +28,8 @@ static int fontSize = 12;
 
 static NSString *structureImageString = @"struct%d.png";
 static NSString *equipImageString = @"equip%d.png";
+static NSMutableSet *_donePulsingViews;
+static NSMutableSet *_pulsingViews;
 
 @synthesize depositPercentCut;
 @synthesize clericLevelFactor, clericHealthFactor;
@@ -1080,6 +1083,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [GenericPopupController displayViewWithText:msg title:nil];
 }
 
+#pragma mark Bounce View
 + (void) bounceView: (UIView *) view
 withCompletionBlock:(void(^)(BOOL))completionBlock 
 {
@@ -1117,6 +1121,63 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [Globals bounceView:view withCompletionBlock:nil];
 }
 
+#pragma mark View Pulsing
++ (void) pulse:(BOOL)shouldBrighten onView:(UIView *) view 
+{
+  if ([_donePulsingViews containsObject:view]) {
+    [_donePulsingViews removeObject:view];
+    return;
+  }
+
+  void (^pulseBlock)() = ^(void) {
+    view.alpha = shouldBrighten;
+  };
+
+  void(^completionBlock)(BOOL) = ^(BOOL finished) {
+    [self pulse:!shouldBrighten onView:view];
+  };
+  
+  [UIView animateWithDuration:PULSE_TIME 
+                        delay:0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:pulseBlock
+                   completion:completionBlock];
+}
+
++(void)clearPulsingViews
+{
+  for (NSObject *curView in _pulsingViews) {
+    if([curView retainCount] == 1) {
+      [_pulsingViews removeObject:curView];
+    }
+  }
+}
+
++(void)setupPulseAnimation {
+  if(!_pulsingViews) {
+    _donePulsingViews = [[NSMutableSet set] retain];
+    _pulsingViews     = [[NSMutableSet set] retain];
+  }
+}
+
++(void)beginPulseForView:(UIView *)view {
+  [Globals setupPulseAnimation];
+  [Globals clearPulsingViews];
+
+  [_pulsingViews addObject:view];
+  [self pulse:0 onView:view];
+}
+
++(void)endPulseForView:(UIView *)view {
+  [Globals setupPulseAnimation];
+  [Globals clearPulsingViews];
+
+  if ([_pulsingViews    containsObject:view]) {
+    [_donePulsingViews  addObject:view];
+    [_pulsingViews      removeObject:view];
+  }
+}
+
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView {
   view.alpha = 0;
   bgdView.alpha = 0;
@@ -1142,6 +1203,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }];
 }
 
+#pragma mark Colors
 + (UIColor *)creamColor {
   return [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
 }

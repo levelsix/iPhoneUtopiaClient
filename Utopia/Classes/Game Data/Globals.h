@@ -19,7 +19,10 @@
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
 
-@interface Globals : NSObject
+@interface Globals : NSObject {
+//  NSMutableDictionary *_pulsingViews;
+//  NSMutableDictionary *_donePulsingViews;
+}
 
 @property (nonatomic, assign) float depositPercentCut;
 
@@ -160,7 +163,9 @@
            atPoint:(CGPoint)point
 withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) popupMessage: (NSString *)msg;
-+ (void) bounceView: (UIView *) view;
++ (void) beginPulseForView:(UIView *)view;
++ (void) endPulseForView:(UIView *)view;
++ (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;
