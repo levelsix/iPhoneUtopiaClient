@@ -1122,21 +1122,37 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 }
 
 #pragma mark View Pulsing
-+ (void) pulse:(BOOL)shouldBrighten onView:(UIView *) view 
++(UIImage *)roundGlowForColor:(UIColor *)glowColor
 {
-  if ([_donePulsingViews containsObject:view]) {
-    [_donePulsingViews removeObject:view];
+  UIImage *coloredImage = [Globals imageNamed:@"round_glow.png"];
+  if (glowColor) {
+     coloredImage = [Globals maskImage:coloredImage withColor:glowColor];
+  }
+  return coloredImage;
+}
+
++ (void) pulse:(BOOL)shouldBrighten onView:(UIView *)view 
+{
+  // We must check if this view was signaled to stop glowing
+  if ([_donePulsingViews containsObject:view.superview]) {
+    [_donePulsingViews removeObject:view.superview];
+    [view removeFromSuperview];
+
     return;
   }
 
+  // One block either glows or fades
   void (^pulseBlock)() = ^(void) {
     view.alpha = shouldBrighten;
   };
 
+  // The other block repeats the animation in 
+  // the opposite direction
   void(^completionBlock)(BOOL) = ^(BOOL finished) {
     [self pulse:!shouldBrighten onView:view];
   };
   
+  // Run the animation
   [UIView animateWithDuration:PULSE_TIME 
                         delay:0
                       options:UIViewAnimationOptionCurveEaseInOut
@@ -1160,17 +1176,26 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }
 }
 
-+(void)beginPulseForView:(UIView *)view {
++(void)beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor {
+
   [Globals setupPulseAnimation];
   [Globals clearPulsingViews];
 
+  UIImageView *glow = [[UIImageView alloc] 
+                       initWithImage:[Globals roundGlowForColor:glowColor]];
+  CGRect frame = view.frame;
+  frame.origin.x = 0;
+  frame.origin.y = 0;
+  [glow setFrame:frame];
+  [view addSubview:glow];
+  [view bringSubviewToFront:glow];
+
   [_pulsingViews addObject:view];
-  [self pulse:0 onView:view];
+  [self pulse:0 onView:glow];
 }
 
 +(void)endPulseForView:(UIView *)view {
   [Globals setupPulseAnimation];
-  [Globals clearPulsingViews];
 
   if ([_pulsingViews    containsObject:view]) {
     [_donePulsingViews  addObject:view];

@@ -44,6 +44,8 @@
 		455FC6C9157EE683008DB9E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455FC6C3157EE683008DB9E4 /* InfoPlist.strings */; };
 		455FC6CB157EE683008DB9E4 /* UtopiaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FC6C8157EE683008DB9E4 /* UtopiaTests.m */; };
 		455FC6CD157EEAC7008DB9E4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */; };
+		4562FCDF158A8BC2005206E5 /* round_glow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4562FCDD158A8BC2005206E5 /* round_glow.png */; };
+		4562FCE0158A8BC2005206E5 /* round_glow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4562FCDE158A8BC2005206E5 /* round_glow@2x.png */; };
 		45790205156DD15F0001785B /* AdColonyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45790204156DD15E0001785B /* AdColonyDelegate.m */; };
 		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		45856A86156DB3670005907E /* TJCAdRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A33156DB3670005907E /* TJCAdRequestHandler.m */; };
@@ -1465,6 +1467,8 @@
 		455FC6C7157EE683008DB9E4 /* UtopiaTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtopiaTests.h; sourceTree = "<group>"; };
 		455FC6C8157EE683008DB9E4 /* UtopiaTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtopiaTests.m; sourceTree = "<group>"; };
 		455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		4562FCDD158A8BC2005206E5 /* round_glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = round_glow.png; sourceTree = "<group>"; };
+		4562FCDE158A8BC2005206E5 /* round_glow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "round_glow@2x.png"; sourceTree = "<group>"; };
 		457239FC1565E0DC000380EE /* Delight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Delight.framework; sourceTree = "<group>"; };
 		457239FE1565E431000380EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		45723A001565E443000380EE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -3211,6 +3215,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4562FCDC158A8BC2005206E5 /* Pulsing Images */ = {
+			isa = PBXGroup;
+			children = (
+				4562FCDD158A8BC2005206E5 /* round_glow.png */,
+				4562FCDE158A8BC2005206E5 /* round_glow@2x.png */,
+			);
+			path = "Pulsing Images";
+			sourceTree = "<group>";
+		};
 		457EBD7F15647A38008C097F /* Alaume */ = {
 			isa = PBXGroup;
 			children = (
@@ -4588,6 +4601,7 @@
 				0691ED511580896C004451F0 /* DrowWalkingLRUD.png */,
 				0691ED521580896C004451F0 /* DrowWalkingNF.plist */,
 				0691ED531580896C004451F0 /* DrowWalkingNF.png */,
+				4562FCDC158A8BC2005206E5 /* Pulsing Images */,
 				CF1267751538ACC500E0C1AD /* Armory Images */,
 				CF1267981538ACC500E0C1AD /* Battle Images */,
 				CF1267D51538ACC500E0C1AD /* Carpenter Images */,
@@ -7123,6 +7137,8 @@
 				0691ED551580896C004451F0 /* DrowWalkingLRUD.png in Resources */,
 				0691ED561580896C004451F0 /* DrowWalkingNF.plist in Resources */,
 				0691ED571580896C004451F0 /* DrowWalkingNF.png in Resources */,
+				4562FCDF158A8BC2005206E5 /* round_glow.png in Resources */,
+				4562FCE0158A8BC2005206E5 /* round_glow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
