@@ -19,6 +19,8 @@
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
+		4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4541016915818E3D00F813F4 /* EquipDeltaView.xib */; };
+		4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4541016C158197C600F813F4 /* EquipDeltaView.m */; };
 		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FC1565E0DC000380EE /* Delight.framework */; };
@@ -1421,6 +1423,9 @@
 		452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdColonySponsoredOffer.m; sourceTree = "<group>"; };
 		453920A1156B149C00C3944D /* TapJoySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoySponsoredOffer.h; sourceTree = "<group>"; };
 		453920A2156B149C00C3944D /* TapJoySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoySponsoredOffer.m; sourceTree = "<group>"; };
+		4541016915818E3D00F813F4 /* EquipDeltaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipDeltaView.xib; sourceTree = "<group>"; };
+		4541016B158197C600F813F4 /* EquipDeltaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipDeltaView.h; sourceTree = "<group>"; };
+		4541016C158197C600F813F4 /* EquipDeltaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipDeltaView.m; sourceTree = "<group>"; };
 		454E623E1566D478004EB7E9 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		454E6245156709C9004EB7E9 /* AdColonyPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonyPublic.h; sourceTree = "<group>"; };
 		454E6246156709C9004EB7E9 /* libAdColony.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdColony.a; sourceTree = "<group>"; };
@@ -3916,6 +3921,9 @@
 				CF12658F1538ACC400E0C1AD /* ProfileViewController.m */,
 				CF1265901538ACC400E0C1AD /* ProfileViewController.xib */,
 				CFCB4D2D154A7FCF00470054 /* WallPostCell.xib */,
+				4541016915818E3D00F813F4 /* EquipDeltaView.xib */,
+				4541016B158197C600F813F4 /* EquipDeltaView.h */,
+				4541016C158197C600F813F4 /* EquipDeltaView.m */,
 			);
 			path = ProfileMenu;
 			sourceTree = "<group>";
@@ -7109,6 +7117,15 @@
 				06679CE11589602B00CC47DF /* LegionArcherWalk.plist in Resources */,
 				06679CE21589602B00CC47DF /* LegionArcherAttack@2x.plist in Resources */,
 				06679CE31589602B00CC47DF /* LegionArcherAttack.plist in Resources */,
+				4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */,
+				0691ED4A158072F1004451F0 /* DrowWalkingNF@2x.png in Resources */,
+				0691ED4B158072F1004451F0 /* DrowWalkingNF@2x.plist in Resources */,
+				0691ED4E15807952004451F0 /* DrowWalkingLRUD@2x.plist in Resources */,
+				0691ED4F15807952004451F0 /* DrowWalkingLRUD@2x.png in Resources */,
+				0691ED541580896C004451F0 /* DrowWalkingLRUD.plist in Resources */,
+				0691ED551580896C004451F0 /* DrowWalkingLRUD.png in Resources */,
+				0691ED561580896C004451F0 /* DrowWalkingNF.plist in Resources */,
+				0691ED571580896C004451F0 /* DrowWalkingNF.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7372,6 +7389,7 @@
 				459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */,
 				45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */,
 				45D21E4615803A6000BB4D53 /* Base64Transcoder.c in Sources */,
+				4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

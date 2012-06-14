@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "RefillMenuController.h"
+#import "EquipDeltaView.h"
 
 #define BUY_SELL_Y_OFFSET 1.f
 #define BUY_SELL_ANIMATION_DURATION 0.4f
@@ -634,14 +635,31 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     [Analytics notEnoughSilverInArmory:fep.equipId];
     return;
   }
-  
-  int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
-  numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
-  
-  if (updatedQuantity > 0 && fep.diamondPrice == 0) {
-    sellButton.enabled = YES;
-  }
-  
+
+  int price = ([Globals sellsForGoldInMarketplace:fep]) 
+    ? fep.diamondPrice : fep.coinPrice;
+  CGPoint startLoc = buySellView.center;
+  UIView *testView = [EquipDeltaView 
+                      createForUpperString:[NSString stringWithFormat:@"- %d", 
+                                            price] 
+                      andLowerString:fep.name 
+                      andCenter:startLoc];
+  void(^completionBlock)(BOOL) = ^(BOOL finished){
+    if (finished) {
+      int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController]
+                             buyEquip:fep.equipId];
+      numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+      
+      if (updatedQuantity > 0 && fep.diamondPrice == 0) {
+        sellButton.enabled = YES;
+      }
+    }
+  };
+  [Globals popupView:testView 
+         onSuperView:buySellView
+             atPoint:startLoc
+ withCompletionBlock:completionBlock];
+
   [coinBar updateLabels];
 }
 

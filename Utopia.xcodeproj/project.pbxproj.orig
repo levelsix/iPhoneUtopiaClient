@@ -7,18 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0691ED4A158072F1004451F0 /* DrowWalkingNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED48158072F1004451F0 /* DrowWalkingNF@2x.png */; };
-		0691ED4B158072F1004451F0 /* DrowWalkingNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED49158072F1004451F0 /* DrowWalkingNF@2x.plist */; };
-		0691ED4E15807952004451F0 /* DrowWalkingLRUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED4C15807952004451F0 /* DrowWalkingLRUD@2x.plist */; };
-		0691ED4F15807952004451F0 /* DrowWalkingLRUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED4D15807952004451F0 /* DrowWalkingLRUD@2x.png */; };
-		0691ED541580896C004451F0 /* DrowWalkingLRUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED501580896C004451F0 /* DrowWalkingLRUD.plist */; };
-		0691ED551580896C004451F0 /* DrowWalkingLRUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED511580896C004451F0 /* DrowWalkingLRUD.png */; };
-		0691ED561580896C004451F0 /* DrowWalkingNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED521580896C004451F0 /* DrowWalkingNF.plist */; };
-		0691ED571580896C004451F0 /* DrowWalkingNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 0691ED531580896C004451F0 /* DrowWalkingNF.png */; };
+		06679CDC1589602B00CC47DF /* LegionArcherWalk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD41589602B00CC47DF /* LegionArcherWalk@2x.png */; };
+		06679CDD1589602B00CC47DF /* LegionArcherWalk.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD51589602B00CC47DF /* LegionArcherWalk.png */; };
+		06679CDE1589602B00CC47DF /* LegionArcherAttack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD61589602B00CC47DF /* LegionArcherAttack@2x.png */; };
+		06679CDF1589602B00CC47DF /* LegionArcherAttack.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD71589602B00CC47DF /* LegionArcherAttack.png */; };
+		06679CE01589602B00CC47DF /* LegionArcherWalk@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD81589602B00CC47DF /* LegionArcherWalk@2x.plist */; };
+		06679CE11589602B00CC47DF /* LegionArcherWalk.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD91589602B00CC47DF /* LegionArcherWalk.plist */; };
+		06679CE21589602B00CC47DF /* LegionArcherAttack@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CDA1589602B00CC47DF /* LegionArcherAttack@2x.plist */; };
+		06679CE31589602B00CC47DF /* LegionArcherAttack.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CDB1589602B00CC47DF /* LegionArcherAttack.plist */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
+		4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4541016915818E3D00F813F4 /* EquipDeltaView.xib */; };
+		4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4541016C158197C600F813F4 /* EquipDeltaView.m */; };
 		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FC1565E0DC000380EE /* Delight.framework */; };
@@ -1404,14 +1406,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0691ED48158072F1004451F0 /* DrowWalkingNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowWalkingNF@2x.png"; sourceTree = "<group>"; };
-		0691ED49158072F1004451F0 /* DrowWalkingNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DrowWalkingNF@2x.plist"; sourceTree = "<group>"; };
-		0691ED4C15807952004451F0 /* DrowWalkingLRUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DrowWalkingLRUD@2x.plist"; sourceTree = "<group>"; };
-		0691ED4D15807952004451F0 /* DrowWalkingLRUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowWalkingLRUD@2x.png"; sourceTree = "<group>"; };
-		0691ED501580896C004451F0 /* DrowWalkingLRUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrowWalkingLRUD.plist; sourceTree = "<group>"; };
-		0691ED511580896C004451F0 /* DrowWalkingLRUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrowWalkingLRUD.png; sourceTree = "<group>"; };
-		0691ED521580896C004451F0 /* DrowWalkingNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrowWalkingNF.plist; sourceTree = "<group>"; };
-		0691ED531580896C004451F0 /* DrowWalkingNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrowWalkingNF.png; sourceTree = "<group>"; };
+		06679CD41589602B00CC47DF /* LegionArcherWalk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherWalk@2x.png"; sourceTree = "<group>"; };
+		06679CD51589602B00CC47DF /* LegionArcherWalk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherWalk.png; sourceTree = "<group>"; };
+		06679CD61589602B00CC47DF /* LegionArcherAttack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherAttack@2x.png"; sourceTree = "<group>"; };
+		06679CD71589602B00CC47DF /* LegionArcherAttack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherAttack.png; sourceTree = "<group>"; };
+		06679CD81589602B00CC47DF /* LegionArcherWalk@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherWalk@2x.plist"; sourceTree = "<group>"; };
+		06679CD91589602B00CC47DF /* LegionArcherWalk.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherWalk.plist; sourceTree = "<group>"; };
+		06679CDA1589602B00CC47DF /* LegionArcherAttack@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherAttack@2x.plist"; sourceTree = "<group>"; };
+		06679CDB1589602B00CC47DF /* LegionArcherAttack.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherAttack.plist; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
 		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
@@ -1421,6 +1423,9 @@
 		452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdColonySponsoredOffer.m; sourceTree = "<group>"; };
 		453920A1156B149C00C3944D /* TapJoySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoySponsoredOffer.h; sourceTree = "<group>"; };
 		453920A2156B149C00C3944D /* TapJoySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoySponsoredOffer.m; sourceTree = "<group>"; };
+		4541016915818E3D00F813F4 /* EquipDeltaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipDeltaView.xib; sourceTree = "<group>"; };
+		4541016B158197C600F813F4 /* EquipDeltaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipDeltaView.h; sourceTree = "<group>"; };
+		4541016C158197C600F813F4 /* EquipDeltaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipDeltaView.m; sourceTree = "<group>"; };
 		454E623E1566D478004EB7E9 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		454E6245156709C9004EB7E9 /* AdColonyPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonyPublic.h; sourceTree = "<group>"; };
 		454E6246156709C9004EB7E9 /* libAdColony.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdColony.a; sourceTree = "<group>"; };
@@ -3129,6 +3134,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06679CD31589600B00CC47DF /* SpriteSheet */ = {
+			isa = PBXGroup;
+			children = (
+				06679CD41589602B00CC47DF /* LegionArcherWalk@2x.png */,
+				06679CD51589602B00CC47DF /* LegionArcherWalk.png */,
+				06679CD61589602B00CC47DF /* LegionArcherAttack@2x.png */,
+				06679CD71589602B00CC47DF /* LegionArcherAttack.png */,
+				06679CD81589602B00CC47DF /* LegionArcherWalk@2x.plist */,
+				06679CD91589602B00CC47DF /* LegionArcherWalk.plist */,
+				06679CDA1589602B00CC47DF /* LegionArcherAttack@2x.plist */,
+				06679CDB1589602B00CC47DF /* LegionArcherAttack.plist */,
+			);
+			name = SpriteSheet;
+			sourceTree = "<group>";
+		};
 		454E6244156709C9004EB7E9 /* AdColony */ = {
 			isa = PBXGroup;
 			children = (
@@ -3901,6 +3921,9 @@
 				CF12658F1538ACC400E0C1AD /* ProfileViewController.m */,
 				CF1265901538ACC400E0C1AD /* ProfileViewController.xib */,
 				CFCB4D2D154A7FCF00470054 /* WallPostCell.xib */,
+				4541016915818E3D00F813F4 /* EquipDeltaView.xib */,
+				4541016B158197C600F813F4 /* EquipDeltaView.h */,
+				4541016C158197C600F813F4 /* EquipDeltaView.m */,
 			);
 			path = ProfileMenu;
 			sourceTree = "<group>";
@@ -4559,14 +4582,6 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
-				0691ED4C15807952004451F0 /* DrowWalkingLRUD@2x.plist */,
-				0691ED4D15807952004451F0 /* DrowWalkingLRUD@2x.png */,
-				0691ED48158072F1004451F0 /* DrowWalkingNF@2x.png */,
-				0691ED49158072F1004451F0 /* DrowWalkingNF@2x.plist */,
-				0691ED501580896C004451F0 /* DrowWalkingLRUD.plist */,
-				0691ED511580896C004451F0 /* DrowWalkingLRUD.png */,
-				0691ED521580896C004451F0 /* DrowWalkingNF.plist */,
-				0691ED531580896C004451F0 /* DrowWalkingNF.png */,
 				CF1267751538ACC500E0C1AD /* Armory Images */,
 				CF1267981538ACC500E0C1AD /* Battle Images */,
 				CF1267D51538ACC500E0C1AD /* Carpenter Images */,
@@ -5374,6 +5389,7 @@
 		CF1269BE1538ACC600E0C1AD /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				06679CD31589600B00CC47DF /* SpriteSheet */,
 				CF1269BF1538ACC600E0C1AD /* AllianceArcher.png */,
 				CF1269C01538ACC600E0C1AD /* AllianceArcher@2x.png */,
 				CF1269C11538ACC600E0C1AD /* AllianceTutorialGuide.png */,
@@ -7083,7 +7099,6 @@
 				CF19297C157ECE9200D51C70 /* Ellsworth.tmx in Resources */,
 				CF66D5BC158028DD005EBAF1 /* carpentericon.png in Resources */,
 				CF66D5BD158028DD005EBAF1 /* carpentericon@2x.png in Resources */,
-<<<<<<< Updated upstream
 				CF15EDE61580541C00A8AAC1 /* tutorialbad.png in Resources */,
 				CF15EDE71580541C00A8AAC1 /* tutorialbad@2x.png in Resources */,
 				CF15EDE81580541C00A8AAC1 /* tutorialbubble.png in Resources */,
@@ -7094,9 +7109,17 @@
 				CF15EDF1158064D900A8AAC1 /* attackbuttonlight@2x.png in Resources */,
 				CF15EDF2158064D900A8AAC1 /* combowheellight.png in Resources */,
 				CF15EDF3158064D900A8AAC1 /* combowheellight@2x.png in Resources */,
-				064D5197157F208A00AF402C /* DrowAnimations@2x.png in Resources */,
-				064D5198157F208A00AF402C /* DrowAnimations@2x.plist in Resources */,
+<<<<<<< HEAD
+				06679CDC1589602B00CC47DF /* LegionArcherWalk@2x.png in Resources */,
+				06679CDD1589602B00CC47DF /* LegionArcherWalk.png in Resources */,
+				06679CDE1589602B00CC47DF /* LegionArcherAttack@2x.png in Resources */,
+				06679CDF1589602B00CC47DF /* LegionArcherAttack.png in Resources */,
+				06679CE01589602B00CC47DF /* LegionArcherWalk@2x.plist in Resources */,
+				06679CE11589602B00CC47DF /* LegionArcherWalk.plist in Resources */,
+				06679CE21589602B00CC47DF /* LegionArcherAttack@2x.plist in Resources */,
+				06679CE31589602B00CC47DF /* LegionArcherAttack.plist in Resources */,
 =======
+				4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */,
 				0691ED4A158072F1004451F0 /* DrowWalkingNF@2x.png in Resources */,
 				0691ED4B158072F1004451F0 /* DrowWalkingNF@2x.plist in Resources */,
 				0691ED4E15807952004451F0 /* DrowWalkingLRUD@2x.plist in Resources */,
@@ -7105,7 +7128,7 @@
 				0691ED551580896C004451F0 /* DrowWalkingLRUD.png in Resources */,
 				0691ED561580896C004451F0 /* DrowWalkingNF.plist in Resources */,
 				0691ED571580896C004451F0 /* DrowWalkingNF.png in Resources */,
->>>>>>> Stashed changes
+>>>>>>> dcc48ff05b4a8e72117b3258c79d33ea4a27204d
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7369,6 +7392,7 @@
 				459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */,
 				45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */,
 				45D21E4615803A6000BB4D53 /* Base64Transcoder.c in Sources */,
+				4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

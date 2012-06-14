@@ -523,7 +523,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (self.state == kEquipBuyingState) {
     ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
-    
+
     self.selectedCell = cell;
     self.removeView.hidden = YES;
     [self.purchView updateForMarketPost:cell.mktProto];

@@ -1050,12 +1050,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return self.battleWeightGivenToDefenseStat*defenseStat + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost);
 }
 
++ (void) popupView:(UIView *)targetView
+       onSuperView:(UIView *)superView
+           atPoint:(CGPoint)point
+withCompletionBlock:(void(^)(BOOL))completionBlock
+{
+  [superView addSubview:targetView];
+  [superView bringSubviewToFront:targetView];
+
+  void(^bounceBlock)(BOOL) = ^(BOOL finished) {
+    void (^animationBlock)() = ^(void) {
+      targetView.alpha = 0;
+      CGRect newFrame = targetView.frame;
+      newFrame.origin.y -= 40;
+      [targetView setFrame:newFrame];
+    };
+    
+    [UIView animateWithDuration:2.0 
+                     animations:animationBlock 
+                     completion:completionBlock];
+  };
+
+  [Globals bounceView:targetView 
+  withCompletionBlock:bounceBlock];
+}
+
 + (void) popupMessage: (NSString *)msg {
   //  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
   [GenericPopupController displayViewWithText:msg title:nil];
 }
 
-+ (void) bounceView: (UIView *) view {
++ (void) bounceView: (UIView *) view
+withCompletionBlock:(void(^)(BOOL))completionBlock 
+{
   view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
   
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
@@ -1081,6 +1108,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
   
   view.layer.transform = CATransform3DIdentity;
+  if (completionBlock) {
+    [UIView animateWithDuration:0 delay:0.5 options:UIViewAnimationOptionTransitionNone animations:nil completion:completionBlock];
+  }
+}
+
++ (void) bounceView: (UIView *) view {
+  [Globals bounceView:view withCompletionBlock:nil];
 }
 
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView {
