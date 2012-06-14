@@ -16,7 +16,7 @@
 
 #else
 
-#define HOST_NAME @"10.1.10.31"
+#define HOST_NAME @"10.1.10.13"//@"184.169.148.243"
 #define HOST_PORT 8888
 
 #define UDID @"abcd"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06"//
@@ -29,3 +29,4 @@
 
 #define RECONNECT_TIMEOUT 0.5f
 #define NUM_SILENT_RECONNECTS 5
+
