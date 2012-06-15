@@ -15,6 +15,7 @@
 #import "NibUtils.h"
 #import "RefillMenuController.h"
 #import "ProfileViewController.h"
+#import "SoundEngine.h"
 
 #define PRICE_DIGITS 7
 #define REFRESH_ROWS 20
@@ -112,7 +113,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [coinBar updateLabels];
   [bottomBar updateLabels];
   
-  [Globals playEnterBuildingSound];
+  [[SoundEngine sharedSoundEngine] marketplaceEnter];
   
   self.armoryPriceView.alpha = 0.f;
 }
@@ -157,14 +158,18 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
-  [self.purchView removeFromSuperview];
-  
-  CGRect f = self.view.frame;
-  [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-  } completion:^(BOOL finished) {
-    [MarketplaceViewController removeView];
-  }];
+  if (self.view.superview) {
+    [self.purchView removeFromSuperview];
+    
+    [[SoundEngine sharedSoundEngine] marketplaceLeave];
+    
+    CGRect f = self.view.frame;
+    [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
+      self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+    } completion:^(BOOL finished) {
+      [MarketplaceViewController removeView];
+    }];
+  }
 }
 
 - (IBAction)searchBarClicked:(id)sender {

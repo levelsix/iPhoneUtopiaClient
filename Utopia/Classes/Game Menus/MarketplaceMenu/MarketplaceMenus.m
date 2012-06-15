@@ -13,6 +13,7 @@
 #import "MarketplaceViewController.h"
 #import "ProfileViewController.h"
 #import "OutgoingEventController.h"
+#import "SoundEngine.h"
 #import "EquipDeltaView.h"
 
 @implementation ItemPostView
@@ -336,6 +337,9 @@
     [[OutgoingEventController sharedOutgoingEventController] 
      purchaseFromMarketplace:mktPost.marketplacePostId];
     [Analytics successfulPurchase:mktPost.postedEquip.equipId];
+    [mvc displayLoadingView];
+    
+    [[SoundEngine sharedSoundEngine] marketplaceBuy];
     
     int price = ([Globals sellsForGoldInMarketplace:mktPost.postedEquip]) 
       ? mktPost.diamondCost : mktPost.coinCost;

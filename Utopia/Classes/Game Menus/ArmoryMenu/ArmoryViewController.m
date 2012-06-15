@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "RefillMenuController.h"
+#import "SoundEngine.h"
 #import "EquipDeltaView.h"
 
 #define BUY_SELL_Y_OFFSET 1.f
@@ -420,7 +421,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   }];
   
-  [Globals playEnterBuildingSound];
+  [[SoundEngine sharedSoundEngine] armoryEnter];
 }
 
 - (void) setState:(ArmoryState)state {
@@ -635,6 +636,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     [Analytics notEnoughSilverInArmory:fep.equipId];
     return;
   }
+  
+  int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
+  numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+  
+  [[SoundEngine sharedSoundEngine] armoryBuy];
+  
+  if (updatedQuantity > 0 && fep.diamondPrice == 0) {
+    sellButton.enabled = YES;
+  }
+  
 
   int price = ([Globals sellsForGoldInMarketplace:fep]) 
     ? fep.diamondPrice : fep.coinPrice;
@@ -686,6 +697,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   } completion:^(BOOL finished) {
     [ArmoryViewController removeView];
   }];
+  
+  [[SoundEngine sharedSoundEngine] armoryLeave];
 }
 
 @end

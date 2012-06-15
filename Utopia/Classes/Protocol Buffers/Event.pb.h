@@ -1422,30 +1422,31 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
-  BOOL hasTutorialConstants_:1;
-  BOOL hasStartupConstants_:1;
   BOOL hasSender_:1;
-  BOOL hasUpdateStatus_:1;
+  BOOL hasStartupConstants_:1;
+  BOOL hasTutorialConstants_:1;
   BOOL hasStartupStatus_:1;
+  BOOL hasUpdateStatus_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
-  StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_StartupConstants* startupConstants;
   FullUserProto* sender;
-  StartupResponseProto_UpdateStatus updateStatus;
+  StartupResponseProto_StartupConstants* startupConstants;
+  StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupStatus startupStatus;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableInProgressIncompleteQuestsList;
-  NSMutableArray* mutableInProgressCompleteQuestsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableUserEquipsList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableReferralNotificationsList;
+  StartupResponseProto_UpdateStatus updateStatus;
+  NSMutableArray* mutableAlliesList;
   NSMutableArray* mutablePlayerWallPostNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableInProgressCompleteQuestsList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableAllCitiesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1485,6 +1486,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_ReferralNotificationProto*) referralNotificationsAtIndex:(int32_t) index;
 - (NSArray*) playerWallPostNotificationsList;
 - (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index;
+- (NSArray*) alliesList;
+- (MinimumUserProto*) alliesAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -3123,6 +3126,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (NSString*) appStoreUrl;
 - (StartupResponseProto_Builder*) setAppStoreUrl:(NSString*) value;
 - (StartupResponseProto_Builder*) clearAppStoreUrl;
+
+- (NSArray*) alliesList;
+- (MinimumUserProto*) alliesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceAlliesAtIndex:(int32_t) index with:(MinimumUserProto*) value;
+- (StartupResponseProto_Builder*) addAllies:(MinimumUserProto*) value;
+- (StartupResponseProto_Builder*) addAllAllies:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearAlliesList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {

@@ -128,8 +128,6 @@
   
   int _cityId;
   
-  int _comboBarWindupSound;
-  
   BOOL _cameFromAviary;
   
   BOOL _clickedDone;
@@ -158,6 +156,7 @@
 - (void) attackStart;
 - (void) turnMissed;
 - (void) comboBarClicked;
+- (void) showBattleWordForPercentage:(float)percent;
 - (void) attackAnimationDone;
 - (void) startEnemyTurn;
 - (void) enemyAttackDone;

@@ -290,11 +290,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [self schedule:@selector(update)];
 }
 
-- (void) setIsTouchEnabled:(BOOL)isTouchEnabled {
-  [super setIsTouchEnabled:isTouchEnabled];
-  [_profilePic setIsTouchEnabled:isTouchEnabled];
-}
-
 - (void) registerWithTouchDispatcher {
   [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }

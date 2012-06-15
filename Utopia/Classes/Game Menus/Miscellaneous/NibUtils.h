@@ -26,6 +26,9 @@
 @interface NiceFontLabel6 : UILabel 
 @end
 
+@interface NiceFontLabel7 : UILabel 
+@end
+
 @interface NiceFontButton : UIButton
 @end
 

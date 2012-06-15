@@ -27,22 +27,9 @@
   _closingPhase = NO;
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-  } completion:nil];
-  
   self.curWeaponView.userInteractionEnabled = NO;
   self.curArmorView.userInteractionEnabled = NO;
   self.curAmuletView.userInteractionEnabled = NO;
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
-  
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController incrementProgress];
-  [DialogMenuController displayViewForText:tc.beforeSkillsText callbackTarget:nil action:nil];
 }
 
 - (IBAction)skillButtonClicked:(id)sender {
@@ -82,16 +69,10 @@
   
   // Move arrow to equip top bar button
   [self.view addSubview:_arrow];
-  _arrow.layer.transform = CATransform3DMakeRotation(M_PI/2, 0.0f, 0.0f, 1.0f);
-  
   _arrow.center = CGPointMake(CGRectGetMaxX(self.profileBar.equipSelectedSmallImage.frame), self.profileBar.equipSelectedSmallImage.center.y);
+  [Globals animateUIArrow:_arrow atAngle:M_PI];
   
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-  } completion:nil];
-  
-  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].afterSkillPointsText callbackTarget:nil action:nil];
+  [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].afterSkillPointsText];
   [Analytics tutorialSkillPointsAdded];
 }
 
@@ -103,17 +84,14 @@
     _moveToEquipScreenPhase = NO;
     _equippingPhase = YES;
     
+    [DialogMenuController closeView];
+    
     [_arrow removeFromSuperview];
     [self.equipsScrollView addSubview:_arrow];
-    _arrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
     
     UIView *amuletEquipView = [self.equipsScrollView viewWithTag:2];
     _arrow.center = CGPointMake(CGRectGetMinX(amuletEquipView.frame)-_arrow.frame.size.width/2, amuletEquipView.center.y);
-    
-    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-    } completion:nil];
+    [Globals animateUIArrow:_arrow atAngle:0];
   }
 }
 
@@ -135,11 +113,7 @@
     [self.view addSubview:_arrow];
     UIView *close = [self.view viewWithTag:20];
     _arrow.center = CGPointMake(CGRectGetMinX(close.frame)-_arrow.frame.size.width/2, close.center.y);
-    
-    UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-      _arrow.center = CGPointMake(_arrow.center.x+10, _arrow.center.y);
-    } completion:nil];
+    [Globals animateUIArrow:_arrow atAngle:0];
     
     _equippingPhase = NO;
     _closingPhase = YES;

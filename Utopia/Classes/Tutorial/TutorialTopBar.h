@@ -8,8 +8,15 @@
 
 #import "TopBar.h"
 
-@interface TutorialTopBar : TopBar
+@interface TutorialTopBar : TopBar {
+  BOOL _myCityPhase;
+  BOOL _questsPhase;
+  
+  CCSprite *_arrow;
+}
 
 - (void) updateIcon;
+- (void) beginMyCityPhase;
+- (void) beginQuestsPhase;
 
 @end

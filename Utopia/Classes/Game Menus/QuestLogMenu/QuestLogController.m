@@ -14,7 +14,7 @@
 #import "GameLayer.h"
 #import "OutgoingEventController.h"
 #import "HomeMap.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 #import "BattleLayer.h"
 #import "MapViewController.h"
 #import "ProfileViewController.h"
@@ -120,8 +120,8 @@
 
 @synthesize descriptionLabel, visitView;
 
-- (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated {
-  self.descriptionLabel.text = fqp.description;
+- (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated redeeming:(BOOL)redeeming {
+  self.descriptionLabel.text = redeeming ? fqp.doneResponse : fqp.description;
   self.visitView.hidden = !visitActivated;
   _cityId = fqp.cityId;
   _assetNum = fqp.assetNumWithinCity;
@@ -510,7 +510,7 @@
     
     GameState *gs = [GameState sharedGameState];
     BOOL questIsComplete = [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:quest.questId]] != nil;
-    [dc updateForQuest:quest visitActivated:questIsComplete && !_questRedeem];
+    [dc updateForQuest:quest visitActivated:questIsComplete && !_questRedeem redeeming:_questRedeem];
     return dc;
   } else if (indexPath.section == 1) {
     // The tasks required for this quest
@@ -622,7 +622,7 @@
   [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
   [QuestLogController removeView];
   
-  [[SimpleAudioEngine sharedEngine] playEffect:@"QuestCompleted.m4a"];
+  [[SoundEngine sharedSoundEngine] questComplete];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -709,7 +709,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   self.backButton.hidden = NO;
   
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Quest Scroll Open.m4a"];
+  [[SoundEngine sharedSoundEngine] questLogOpened];
 }
 
 - (void) loadQuest:(FullQuestProto *)fqp {
@@ -737,7 +737,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
   
-  [[SimpleAudioEngine sharedEngine] playEffect:@"QuestNew.m4a"];
+  [[SoundEngine sharedSoundEngine] questAccepted];
 }
 
 - (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp {

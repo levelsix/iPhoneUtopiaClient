@@ -47,6 +47,7 @@
 - (void) doMenuAnimations;
 - (void) closeMenus;
 - (void) upgradeMenuClosed;
+- (void) openMoveMenuOnSelected;
 
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;

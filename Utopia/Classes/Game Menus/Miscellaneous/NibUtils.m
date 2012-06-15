@@ -62,6 +62,14 @@
 
 @end
 
+@implementation NiceFontLabel7
+
+- (void) awakeFromNib {
+  self.font = [UIFont fontWithName:@"SanvitoPro-Semibold" size:self.font.pointSize];
+}
+
+@end
+
 @implementation NiceFontButton
 
 - (void) awakeFromNib {

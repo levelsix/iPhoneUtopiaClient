@@ -10,7 +10,8 @@
 #import "Globals.h"
 #import "GameState.h"
 #import "TutorialCarpenterMenuController.h"
-#import "TopBar.h"
+#import "TutorialTopBar.h"
+#import "TutorialProfilePicture.h"
 #import "TutorialConstants.h"
 #import "DialogMenuController.h"
 #import "GameLayer.h"
@@ -22,116 +23,88 @@
 @synthesize tutCoords;
 
 - (void) refresh {
-//  Globals *gl = [Globals sharedGlobals];
-//  GameState *gs = [GameState sharedGameState];
-  
-  if (_refreshed) {
-    return;
-  }
-  _refreshed = YES;
-  
-  // Add aviary
-//  UserCritStruct *cs = [[UserCritStruct alloc] init];
-//  cs.type = CritStructTypeAviary;
-//  cs.location = CGRectMake(10, 10, gl.aviaryXLength, gl.aviaryYLength);
-//  cs.orientation = StructOrientationPosition1;
-//  cs.name = @"Aviary";
-//  cs.minLevel = 1;
-//  cs.size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
-//  [gs.myCritStructs addObject:cs];
-//  
-//  _av = [[Aviary alloc] initWithFile:@"Aviary.png" location:cs.location map:self];
-//  [self addChild:_av];
-//  [_av release];
-//  
-//  _av.orientation = cs.orientation;
-//  [self changeTiles:_av.location toBuildable:NO];
-//  [cs release];
-//  
-//  // Add carpenter
-//  cs = [[UserCritStruct alloc] init];
-//  cs.type = CritStructTypeCarpenter;
-//  cs.location = CGRectMake(10, 6, gl.carpenterXLength, gl.carpenterYLength);
-//  cs.orientation = StructOrientationPosition1;
-//  cs.name = @"Carpenter";
-//  cs.minLevel = 1;
-//  cs.size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
-//  [gs.myCritStructs addObject:cs];
-//  
-//  _csb = [[CritStructBuilding alloc] initWithFile:[cs.name stringByAppendingString:@".png"] location:cs.location map:self];
-//  [self addChild:_csb];
-//  [_csb release];
-//  
-//  _csb.orientation = cs.orientation;
-//  _csb.critStruct = cs;
-//  [cs release];
-  
-  _carpenterPhase = YES;
-  
-  TopBar *tb = [TopBar sharedTopBar];
-  [tb setIsTouchEnabled:NO];
+  return;
 }
 
 - (void) preparePurchaseOfStruct:(int)structId {
   [super preparePurchaseOfStruct:structId];
+  
+  [_purchBuilding liftBlock];
+  
+  // Move purch building off the road
+  CGRect r = _purchBuilding.location;
+  r.origin = ccpAdd(r.origin, ccp(3, -2));
+  _purchBuilding.location = r;
+  
+  [_purchBuilding placeBlock];
+  
+  [self openMoveMenuOnSelected];
+  
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.beforePlacingText callbackTarget:nil action:nil];
+  [DialogMenuController displayViewForText:tc.beforePlacingText];
 }
 
-- (void) beforeCarpDialog {
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.beforeCarpenterText callbackTarget:nil action:nil];
+- (void) startCarpPhase {
+  _carpenterPhase = YES;
   
-  [self moveToSprite:_csb];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeCarpenterText];
+  
+  [self moveToSprite:_carpenter];
+  self.position = ccpAdd(self.position, ccp(120, 0));
+  
   _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   [self addChild:_ccArrow z:2000];
-  _ccArrow.position = ccp(_csb.position.x, _csb.position.y+_csb.contentSize.height+_ccArrow.contentSize.height/2);
+  _ccArrow.position = ccp(_carpenter.position.x, _carpenter.position.y+_carpenter.contentSize.height+_ccArrow.contentSize.height/2+40);
+  [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
   
-  CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
-  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                         [upAction reverse], nil]]];
+  [TutorialCarpenterMenuController sharedCarpenterMenuController];
 }
 
 - (void) tap:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
-  if (!_visitCarpPhase) {
+  if (!_canMove) {
     [super tap:recognizer node:node];
-    if (_carpenterPhase && _selected == _csb) {
+    
+    CGPoint pt = [recognizer locationInView:recognizer.view];
+    pt = [[CCDirector sharedDirector] convertToGL:pt];
+    if (_carpenterPhase  && [self selectableForPt:pt] == _carpenter) {
       _carpenterPhase = NO;
-      _visitCarpPhase = YES;
       
       // Reset ccArrow
       [_ccArrow stopAllActions];
       _ccArrow.visible = NO;
-      
-//      _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
-//      [self.csMenu addSubview:_uiArrow];
-//      _uiArrow.layer.transform = CATransform3DMakeRotation(-M_PI/2, 0.0f, 0.0f, 1.0f);
-//      
-//      [TutorialCarpenterMenuController sharedCarpenterMenuController];
-//      
-//      UIView *enterButton = [self.csMenu viewWithTag:10];
-//      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, enterButton.center.y);
-//      
-//      UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-//      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-//        _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2, enterButton.center.y);
-//      } completion:nil];
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
-      [_ccArrow stopAllActions];
-      _ccArrow.visible = NO;
-      [_uiArrow removeFromSuperview];
-      [self.hbMenu addSubview:_uiArrow];
-      UIView *finishNowButton = [self.hbMenu viewWithTag:17];
-      _uiArrow.center = CGPointMake(-_uiArrow.frame.size.width/2+10, finishNowButton.center.y);
+      [DialogMenuController closeView];
       
-      UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-      [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-        _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
-      } completion:nil];
+      _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+      UIView *finishNowButton = [self.upgradeMenu.upgradingBottomView viewWithTag:17];
+      [self.upgradeMenu.upgradingBottomView addSubview:_uiArrow];
+      _uiArrow.center = CGPointMake(CGRectGetMinX(finishNowButton.frame)-_uiArrow.frame.size.width/2, finishNowButton.center.y);
+      [Globals animateUIArrow:_uiArrow atAngle:0];
     } else {
       self.selected = nil;
     }
   }
+}
+
+- (SelectableSprite *) selectableForPt:(CGPoint)pt {
+  // Find sprite that has center closest to pt
+  SelectableSprite *node = nil;
+  if (_carpenterPhase) {
+    node = _carpenter;
+  } else if (_canMove) {
+    node = _purchBuilding;
+  } else if (_waitingForBuildPhase) {
+    node = _constrBuilding;
+  }
+  CGRect r = CGRectZero;
+  r.origin = CGPointMake(-20, -5);
+  pt = [node convertToNodeSpace:pt];
+  r.size = CGSizeMake(node.contentSize.width+40, node.contentSize.height+150);
+  if (CGRectContainsPoint(r, pt)) {
+    return node;
+  }
+  return nil;
 }
 
 - (IBAction)criticalStructMoveClicked:(id)sender {
@@ -161,10 +134,6 @@
 - (IBAction)moveCheckClicked:(id)sender {
   MoneyBuilding *moneyBuilding = (MoneyBuilding *)_selected;
   if (moneyBuilding.isSetDown) {
-    _canMove = NO;
-    self.selected = nil;
-    [self doReorder];
-    
     _purchasing = NO;
     _constrBuilding = moneyBuilding;
     
@@ -190,7 +159,7 @@
     
     self.tutCoords = [[[[CoordinateProto builder] setX:moneyBuilding.location.origin.x] setY:moneyBuilding.location.origin.y] build];
     
-    // Update game state
+    // Update game state 
     gs.silver -= fsp.coinPrice;
     gs.gold -= fsp.diamondPrice;
     
@@ -198,25 +167,33 @@
     [self updateTimersForBuilding:_constrBuilding];
     moneyBuilding.isConstructing = YES;
     
-    _visitCarpPhase = NO;
     _waitingForBuildPhase = YES;
     
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    [DialogMenuController displayViewForText:tc.afterPurchaseText callbackTarget:nil action:nil];
+    [DialogMenuController displayViewForText:tc.afterPurchaseText];
     
     _ccArrow.visible = YES;
     _ccArrow.position = ccp(_constrBuilding.position.x, _constrBuilding.position.y+_constrBuilding.contentSize.height+_ccArrow.contentSize.height/2);
-    
-    CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, 20)]];
-    [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                           [upAction reverse], nil]]];
+    [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
     
     // Set the struct coords and time of purchase
     tc.structCoords = moneyBuilding.location.origin;
     tc.structTimeOfPurchase = [NSDate date];
     
+    _canMove = NO;
+    self.selected = nil;
+    [self doReorder];
+    
     [Analytics tutorialPlaceInn];
   }
+}
+
+- (IBAction)beginMoveClicked:(id)sender {
+  return;
+}
+
+- (IBAction)sellClicked:(id)sender {
+  return;
 }
 
 - (void) buildComplete:(NSTimer *)timer {
@@ -227,12 +204,7 @@
   userStruct.lastRetrieved = [NSDate dateWithTimeInterval:fsp.minutesToBuild*60 sinceDate:userStruct.purchaseTime];
   userStruct.isComplete = YES;
   
-  [self updateTimersForBuilding:mb];
-//  if (mb == _selected && self.hbMenu.state != kMoveState) {
-//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-//  }
   mb.isConstructing = NO;
-//  [self updateHomeBuildingMenu];
   _constrBuilding = nil;
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
@@ -245,8 +217,6 @@
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
   UserStruct *userStruct = mb.userStruct;
   GameState *gs = [GameState sharedGameState];
-//  self.hbMenu.finishNowButton.enabled = NO;
-//  self.hbMenu.blueButton.enabled = NO;
   
   int64_t ms = (uint64_t)([[NSDate date] timeIntervalSince1970]*1000);
   userStruct.isComplete = YES;
@@ -256,24 +226,15 @@
   FullStructureProto *fsp = [gs structWithId:userStruct.structId];
   gs.gold -= fsp.instaBuildDiamondCost;
   
+  [_uiArrow removeFromSuperview];
+  
   _constrBuilding = nil;
   
-  [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:NO];
-  // animate bar to top
-//  [self.hbMenu.timer invalidate];
-//  float secs = PROGRESS_BAR_SPEED*(1-[self.hbMenu progressBarProgress]);
-//  [UIView animateWithDuration:secs animations:^{
-//    [self.hbMenu setProgressBarProgress:1.f];
-//  } completion:^(BOOL finished) {
-//    [self.hbMenu updateLabelsForUserStruct:mb.userStruct];
-//    [self.hbMenu startTimer];
-//    self.hbMenu.finishNowButton.enabled = YES;
-//    self.hbMenu.blueButton.enabled = YES;
-//    [[[CCDirector sharedDirector] openGLView] setUserInteractionEnabled:YES];
-//    [self updateHomeBuildingMenu];
-//    mb.isConstructing = NO;
-//    [self buildingComplete];
-//  }];
+  [self.upgradeMenu finishNow:^{
+    mb.isConstructing = NO;
+    [self  buildingComplete];
+  }];
+  
   [self updateTimersForBuilding:mb];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
@@ -285,23 +246,24 @@
 - (void) buildingComplete {
   self.selected = nil;
   
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  GameState *gs = [GameState sharedGameState];
-  [DialogMenuController incrementProgress];
-  [DialogMenuController displayViewForText:[NSString stringWithFormat:tc.afterSpeedUpText, [Globals factionForUserType:gs.type]] callbackTarget:self action:@selector(showReferralDialog)];
+  [self.upgradeMenu closeClicked:nil];
   
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   tc.structTimeOfBuildComplete = [NSDate date];
+  
+  [(TutorialProfilePicture *)[TutorialTopBar sharedTopBar].profilePic beginFaceDialPhase];
   
   _waitingForBuildPhase = NO;
   
   _ccArrow.visible = NO;
   [_uiArrow removeFromSuperview];
-  
 }
 
-- (void) showReferralDialog {
-  [DialogMenuController incrementProgress];
-  [DialogMenuController displayViewForReferral];
+- (void) drag:(UIGestureRecognizer *)recognizer node:(CCNode *)node {
+  [super drag:recognizer node:node];
+  if (_canMove) {
+    [DialogMenuController closeView];
+  }
 }
 
 - (void) startGoToAviaryPhase {

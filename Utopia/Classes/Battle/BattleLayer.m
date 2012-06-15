@@ -15,7 +15,7 @@
 #import "ProfileViewController.h"
 #import "RefillMenuController.h"
 #import "MapViewController.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 #import "MissionMap.h"
 #import "MarketplaceViewController.h"
 #import "Downloader.h"
@@ -244,22 +244,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 +(CCScene *) scene
 {
-  // 'scene' is an autorelease object.
-  CCScene *scene = [CCScene node];
-  
-  // When this scene is removed, it will be deallocated so the background will change..
-  CCSprite *sprite = [CCSprite spriteWithFile:[self getAvailableBackground]];
-  sprite.anchorPoint = ccp(0,0);
-  [scene addChild:sprite];
-  
   // 'layer' is a singleton object.
   BattleLayer *layer = [self sharedBattleLayer];
   
-  // add layer as a child to scene
-  [scene addChild: layer];
-	
-	// return the scene
-	return scene;
+  if (!layer.parent) {
+    // 'scene' is an autorelease object.
+    CCScene *scene = [CCScene node];
+    
+    // When this scene is removed, it will be deallocated so the background will change..
+    CCSprite *sprite = [CCSprite spriteWithFile:[self getAvailableBackground]];
+    sprite.anchorPoint = ccp(0,0);
+    [scene addChild:sprite];
+    
+    
+    // add layer as a child to scene
+    [scene addChild: layer];
+    
+    // return the scene
+    return scene;
+  }
+  return (CCScene *)layer.parent;
 }
 
 - (id) init {
@@ -352,8 +356,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_comboBar addChild:_comboProgressTimer];
     
     CCSprite *max = [CCSprite spriteWithFile:@"max.png"];
-    max.position = ccp(_comboBar.contentSize.width+max.contentSize.width/2, _comboBar.contentSize.height/2);
+    max.anchorPoint = ccp(0.f, 0.5f);
+    max.position = ccp(_comboBar.contentSize.width, _comboBar.contentSize.height/2);
     [_comboBar addChild:max];
+    [max runAction:[CCRepeatForever actionWithAction:
+                   [CCSequence actions:
+                    [CCScaleTo actionWithDuration:0.75f scale:1.2f], 
+                    [CCScaleTo actionWithDuration:0.75f scale:1.f],
+                    nil]]];
     
     _flippedComboBar = [CCSprite spriteWithFile:@"attackcirclebg.png"];
     _flippedComboBar.flipX = YES;
@@ -632,7 +642,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
   _rightHealthBar.position = ccp(_rightHealthBar.parent.contentSize.width, _rightHealthBar.parent.contentSize.height/2);
   
-  [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Battle_Music.m4a"];
+  [[SoundEngine sharedSoundEngine] playBattleMusic];
   
   [_left runAction: [CCMoveBy actionWithDuration:0.6 position:ccp(3*_left.contentSize.width/4,0)]];
   
@@ -674,7 +684,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                    [CCCallBlock actionWithBlock:
                     ^{
                       if (_comboBarMoving) {
-                        _comboBarWindupSound = [[SimpleAudioEngine sharedEngine] playEffect:[Globals comboBarChargeupSound:[GameState sharedGameState].type]];
+                        [Globals playComboBarChargeupSound:[GameState sharedGameState].type];
                       }
                     }], nil]];
   
@@ -688,7 +698,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
   _attackButton.visible = NO;
   _attackMoving = NO;
-  [[SimpleAudioEngine sharedEngine] stopEffect:_comboBarWindupSound];
+  [[SoundEngine sharedSoundEngine] stopCharge];
   [self startEnemyTurn];
 }
 
@@ -698,7 +708,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _comboBarMoving = NO;
     [self stopAllActions];
     
-    [[SimpleAudioEngine sharedEngine] stopEffect:_comboBarWindupSound];
+    [[SoundEngine sharedSoundEngine] stopCharge];
     
     _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
     
@@ -740,15 +750,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   double amountWorseThanMax = (percent <= gl.locationBarMax) ? (gl.locationBarMax-percent) : (percent-gl.locationBarMax)*multiplerWeightForSecondHalf;
   NSLog(@"Got percent: %f", percent);
   
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
   if (amountWorseThanMax < PERFECT_PERCENT_THRESHOLD) {
-    [[SimpleAudioEngine sharedEngine] playEffect:@"PERFECT.m4a"];
+    [se perfectAttack];
     return [CCSprite spriteWithFile:@"perfect.png"];
   } else if (amountWorseThanMax < GREAT_PERCENT_THRESHOLD) {
+    [se greatAttack];
     return [CCSprite spriteWithFile:@"great.png"];
   } else if (amountWorseThanMax < GOOD_PERCENT_THRESHOLD) {
+    [se goodAttack];
     return [CCSprite spriteWithFile:@"good.png"];
   } else {
-    [[SimpleAudioEngine sharedEngine] playEffect:@"WHOOPSIES.m4a"];
+    [se missAttack];
     return [CCSprite spriteWithFile:@"miss.png"];
   }
 }
@@ -806,7 +819,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) leftClassSpecificAnimation {
-  [[SimpleAudioEngine sharedEngine] playEffect:[Globals battleAttackSound:[GameState sharedGameState].type]];
+  [Globals playBattleAttackSound:[GameState sharedGameState].type];
   
   GameState *gs = [GameState sharedGameState];
   UserType type = gs.type;
@@ -922,7 +935,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [self runAction:[CCSequence actions:
                    [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],
                    [CCCallBlock actionWithBlock:^{
-    _comboBarWindupSound = [[SimpleAudioEngine sharedEngine] playEffect:[Globals comboBarChargeupSound:_enemyType]];
+    [Globals playComboBarChargeupSound:_enemyType];
   }], nil]];
 }
 
@@ -941,7 +954,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) doEnemyAttackAnimation {
-  [[SimpleAudioEngine sharedEngine] stopEffect:_comboBarWindupSound];
+  [[SoundEngine sharedSoundEngine] stopCharge];
   
   _flippedComboBar.visible = NO;
   [_right runAction: [CCSequence actions:
@@ -964,7 +977,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   ps.angle = 180 - ps.angle;
   ps.gravity = ccp(-ps.gravity.x, ps.gravity.y);
   [ps release];
-  [[SimpleAudioEngine sharedEngine] playEffect:[Globals battleAttackSound:_enemyType]];
+  
+  [Globals playBattleAttackSound:_enemyType];
   
   CGPoint pos = [self startParticlePositionForType:type];
   ps.position = ccp(self.contentSize.width-pos.x, pos.y);
@@ -1099,8 +1113,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _winLayer.scale = 1.5f;
   [_winLayer runAction:[CCScaleTo actionWithDuration:0.2f scale:1.f]];
   
-  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic]; 
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Success.m4a"];
+  [[SoundEngine sharedSoundEngine] stopBackgroundMusic]; 
+  [[SoundEngine sharedSoundEngine] battleVictory];
   
   // Set the city id to 0 if win, only want it to count as 1 win
   _cityId = 0;
@@ -1135,8 +1149,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _loseLayer.scale = 1.5f;
   [_loseLayer runAction:[CCScaleTo actionWithDuration:0.2f scale:1.f]];
   
-  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Loss.m4a"];
+  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
+  [[SoundEngine sharedSoundEngine] battleLoss];
   
   if (!brp) {
     _loseButton.visible = NO;
@@ -1159,8 +1173,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _pausedLayer.visible = NO;
   _fleeLayer.visible = YES;
   
-  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Loss.m4a"];
+  
+  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
+  [[SoundEngine sharedSoundEngine] battleLoss];
   
   if (!brp) {
     _fleeButton.visible = NO;

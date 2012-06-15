@@ -19,7 +19,7 @@
 #import "MapViewController.h"
 #import "TutorialConstants.h"
 #import "GenericPopupController.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 #import "BattleLayer.h"
 #import "OtherUpdates.h"
 #import "OAHMAC_SHA1SignatureProvider.h"
@@ -73,8 +73,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-amount];
     VaultUpdate *vu = [VaultUpdate updateWithTag:tag change:vaultChange];
     [gs addUnrespondedUpdates:su, vu, nil];
-    
-    [Globals playCoinSound];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to deposit %d coins. Currently only have %d silver.", amount, gs.silver]];
   }
@@ -92,8 +90,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:amount];
     VaultUpdate *vu = [VaultUpdate updateWithTag:tag change:-amount];
     [gs addUnrespondedUpdates:su, vu, nil];
-    
-    [Globals playCoinSound];
   } else {
     [Globals popupMessage:[NSString stringWithFormat:@"Unable to withdraw %d coins. Currently only have %d coins in vault.", amount, gs.vaultBalance]];
   }
@@ -214,8 +210,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [gs addUnrespondedUpdates:ceu, su, gu, nil];
     
     [Globals popupMessage:[NSString stringWithFormat:@"You have sold 1 %@!", fep.name]];
-    
-    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"You do not own this equipment"];
   }
@@ -421,8 +415,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-proto.diamondCost];
           SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-proto.coinCost];
           [gs addUnrespondedUpdates:gu, su, nil];
-          
-          [Globals playCoinSound];
         } else {
           [Globals popupMessage:@"Not enough coins to purchase"];
         }
@@ -447,8 +439,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     gs.marketplaceGoldEarnings = 0;
     gs.marketplaceSilverEarnings = 0;
-    
-    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"Nothing to earn!"];
   }
@@ -525,7 +515,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
     EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
     MaxEnergyUpdate *meu = [MaxEnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
-    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:gl.energyBaseCost];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.energyBaseCost];
     [gs addUnrespondedUpdates:eu, meu, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
@@ -544,7 +534,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.skillPoints -= gl.staminaBaseCost;
     StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
     MaxStaminaUpdate *msu = [MaxStaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
-    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:gl.staminaBaseCost];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.staminaBaseCost];
     [gs addUnrespondedUpdates:su, msu, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
@@ -559,7 +549,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.skillPoints > 0) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
     HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
-    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:gl.healthBaseCost];
+    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.healthBaseCost];
     [gs addUnrespondedUpdates:hu, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
@@ -1216,8 +1206,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     GameMap *map = [Globals mapForQuest:fqp];
     [map questAccepted:fqp];
-    
-    [[SimpleAudioEngine sharedEngine] playEffect:@"QuestNew.m4a"];
     
     [Analytics questAccept:questId];
   } else {

@@ -10,13 +10,10 @@
 
 @interface TutorialHomeMap : HomeMap {
   BOOL _carpenterPhase;
-  BOOL _visitCarpPhase;
   BOOL _waitingForBuildPhase;
   BOOL _goToAviary;
   CCSprite *_ccArrow;
-  CritStructBuilding *_csb;
   UIImageView *_uiArrow;
-  BOOL _arrowDir;
   BOOL _canUnclick;
   
   BOOL _refreshed;
@@ -24,6 +21,7 @@
 
 @property (nonatomic, retain) CoordinateProto *tutCoords;
 
+- (void) startCarpPhase;
 - (void) startGoToAviaryPhase;
 
 @end

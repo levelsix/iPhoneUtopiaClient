@@ -11,7 +11,7 @@
 #import "ProfileViewController.h"
 #import "GameState.h"
 #import "BuildUpgradePopupController.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 
 @implementation LevelUpViewController
 
@@ -79,7 +79,7 @@
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
-  [[SimpleAudioEngine sharedEngine] playEffect:@"levelup.m4a"];
+  [[SoundEngine sharedSoundEngine] levelUp];
   
   UIViewAnimationOptions opt = UIViewAnimationCurveEaseInOut|UIViewAnimationOptionRepeat|UIViewAnimationOptionAutoreverse;
   [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{

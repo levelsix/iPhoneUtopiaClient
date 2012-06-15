@@ -139,8 +139,8 @@
 + (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct;
 + (BOOL) canEquip:(FullEquipProto *)fep;
 
-+ (NSString *) comboBarChargeupSound:(UserType)type;
-+ (NSString *) battleAttackSound:(UserType)type;
++ (void) playComboBarChargeupSound:(UserType)type;
++ (void) playBattleAttackSound:(UserType)type;
 
 + (void) adjustFontSizeForSize:(int)size withUIView:(UIView *)somethingWithText;
 + (void) adjustFontSizeForSize:(int)size withUIViews:(UIView *)field1, ... NS_REQUIRES_NIL_TERMINATION;
@@ -173,9 +173,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (UIColor *)greenColor;
 + (UIColor *)orangeColor;
 + (UIColor *)redColor;
-
-+ (void) playCoinSound;
-+ (void) playEnterBuildingSound;
 
 + (GameMap *)mapForQuest:(FullQuestProto *)fqp;
 + (NSString *) bazaarQuestGiverName;

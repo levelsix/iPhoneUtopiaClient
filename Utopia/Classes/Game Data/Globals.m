@@ -13,7 +13,7 @@
 #import "Protocols.pb.h"
 #import "Downloader.h"
 #import "GenericPopupController.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 #import "GameLayer.h"
 #import "HomeMap.h"
 
@@ -695,6 +695,55 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return !(b1 ^ b2);
 }
 
++ (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
+  switch (speaker) {
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadArcher:
+      return @"Legion Archer";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadMage:
+      return @"Legion Mage";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadWarrior:
+      return @"Legion Warrior";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodArcher:
+      return @"Alliance Archer";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodMage:
+      return @"Alliance Mage";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodWarrior:
+      return @"Alliance Warrior";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadTutorialGirl:
+      return @"Adriana";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
+      return [self bazaarQuestGiverName];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
+      return @"Ruby";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
+      return [[GameState sharedGameState] name];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
+      return @"Farmer Mitch";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
+      return @"Captain Riz";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
+      return @"Sean the Brave";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
+      return @"Captain Riz";
+      break;
+    default:
+      break;
+  }
+}
+
 + (UIImage *) squareImageForUser:(UserType)type {
   switch (type) {
     case UserTypeGoodWarrior:
@@ -912,24 +961,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (NSString *) comboBarChargeupSound:(UserType)type {
++ (void) playComboBarChargeupSound:(UserType)type {
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
   switch (type) {
     case UserTypeGoodWarrior:
     case UserTypeBadWarrior:
-      return @"Warrior_Combo.m4a";
+      [se warriorCharge];
       break;
       
     case UserTypeGoodArcher:
     case UserTypeBadArcher:
-      return @"Archer_Combo.m4a";
+      [se archerCharge];
       break;
       
     case UserTypeGoodMage:
-      return @"Panda_Combo.m4a";
+      [se allianceMageCharge];
       break;
       
     case UserTypeBadMage:
-      return @"Invoker_Combo.m4a";
+      [se legionMageCharge];
       break;
       
     default:
@@ -937,24 +987,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
-+ (NSString *) battleAttackSound:(UserType)type {
++ (void) playBattleAttackSound:(UserType)type {
+  SoundEngine *se = [SoundEngine sharedSoundEngine];
   switch (type) {
     case UserTypeGoodWarrior:
     case UserTypeBadWarrior:
-      return @"Warrior_Attack.m4a";
+      [se warriorAttack];
       break;
       
     case UserTypeGoodArcher:
     case UserTypeBadArcher:
-      return @"Archer_Attack.m4a";
+      [se archerAttack];
       break;
       
     case UserTypeGoodMage:
-      return @"Panda_Attack.m4a";
+      [se allianceMageAttack];
       break;
       
     case UserTypeBadMage:
-      return @"Invoker_Attack.m4a";
+      [se legionMageAttack];
       break;
       
     default:
@@ -1249,14 +1300,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   return [UIColor colorWithRed:255/255.f green:0/255.f blue:0/255.f alpha:1.f];
 }
 
-+ (void) playCoinSound {
-  [[SimpleAudioEngine sharedEngine] playEffect:@"coindeposit.m4a"];
-}
-
-+ (void) playEnterBuildingSound {
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Enter_Store_Bell.m4a"];
-}
-
 + (GameMap *)mapForQuest:(FullQuestProto *)fqp {
   if (fqp.cityId > 0) {
     GameLayer *gLay = [GameLayer sharedGameLayer];
@@ -1289,28 +1332,31 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }
 }
 
+#define ARROW_ANIMATION_DURATION 0.5f
+#define ARROW_ANIMATION_DISTANCE 14
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle {
+  [arrow.layer removeAllAnimations];
   float rotation = -M_PI_2-angle;
   arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
   arrow.layer.transform = CATransform3DScale(arrow.layer.transform, 1.f, 0.9f, 1.f);
   UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
+  [UIView animateWithDuration:ARROW_ANIMATION_DURATION delay:0.f options:opt animations:^{
     arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
-    arrow.center = CGPointMake(arrow.center.x-10*cosf(angle), arrow.center.y+10*sinf(angle));
+    arrow.center = CGPointMake(arrow.center.x-ARROW_ANIMATION_DISTANCE*cosf(angle), arrow.center.y+ARROW_ANIMATION_DISTANCE*sinf(angle));
   } completion:nil];
 }
 
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle {
   [arrow stopAllActions];
-  arrow.rotation = -M_PI_2-angle;
+  arrow.rotation = CC_RADIANS_TO_DEGREES(-M_PI_2-angle);
   
   CCMoveBy *upAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
-                                                          [CCMoveTo actionWithDuration:1.f position:ccpAdd(arrow.position, ccp(-10*cosf(angle), -10*sinf(angle)))],
-                                                          [CCScaleTo actionWithDuration:1.f scaleX:1.f scaleY:1.f],
+                                                          [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:ccpAdd(arrow.position, ccp(-ARROW_ANIMATION_DISTANCE*cosf(angle), -ARROW_ANIMATION_DISTANCE*sinf(angle)))],
+                                                          [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:1.f],
                                                           nil]];
   CCMoveBy *downAction = [CCEaseSineInOut actionWithAction:[CCSpawn actions:
-                                                          [CCMoveTo actionWithDuration:1.f position:arrow.position],
-                                                          [CCScaleTo actionWithDuration:1.f scaleX:1.f scaleY:0.9f],
+                                                          [CCMoveTo actionWithDuration:ARROW_ANIMATION_DURATION position:arrow.position],
+                                                          [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:0.9f],
                                                           nil]];
   [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
 }

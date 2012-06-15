@@ -16,6 +16,7 @@
 #import "GameState.h"
 #import "DialogMenuController.h"
 #import "TutorialTopBar.h"
+#import "TutorialStartLayer.h"
 
 @implementation CharSelectionViewController
 
@@ -125,8 +126,6 @@
   [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
     self.view.alpha = 1.f;
   } completion:nil];
-  
-  [[CCDirector sharedDirector] pause];
 }
 
 - (int) currentPage {
@@ -306,7 +305,6 @@
   
   _submitted = YES;
   
-  [[CCDirector sharedDirector] resume];
   [UIView animateWithDuration:4.f animations:^{
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
@@ -314,9 +312,7 @@
     [self didReceiveMemoryWarning];
     [self release];
     
-    GameState *gs = [GameState sharedGameState];
-    NSString *str = [NSString stringWithFormat:[[TutorialConstants sharedTutorialConstants] beforeBlinkText], gs.name];
-    [DialogMenuController displayViewForText:str callbackTarget:self action:@selector(runGameLayer)];
+    [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
   }];
   
   FullEquipProto *weapon = nil;
@@ -359,18 +355,12 @@
   
   [(TutorialTopBar *)[TutorialTopBar sharedTopBar] updateIcon];
   
-  [[DialogMenuController sharedDialogMenuController].girlImageView awakeFromNib];
-  
   [gs changeQuantityForEquip:weapon.equipId by:1];
   [gs changeQuantityForEquip:armor.equipId by:1];
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
   [Analytics tutorialCharChosen];
-}
-
-- (void) runGameLayer {
-  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
 }
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

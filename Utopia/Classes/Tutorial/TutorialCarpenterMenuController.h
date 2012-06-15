@@ -10,6 +10,8 @@
 
 @interface TutorialCarpenterMenuController : CarpenterMenuController {
   UIImageView *_arrow;
+  
+  BOOL _canClose;
 }
 
 @end

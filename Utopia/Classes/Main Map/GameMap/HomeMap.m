@@ -373,7 +373,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [_purchBuilding release];
   
   self.selected = _purchBuilding;
-  [self openMoveMenuOnSelected];
   _canMove = YES;
   _purchasing = YES;
   _purchStructId = structId;
@@ -659,6 +658,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [_timers removeObject:spr.timer];
     spr.timer = nil;
     [self removeChild:spr cleanup:YES];
+    
+    if (_constrBuilding == spr) {
+      _constrBuilding = nil;
+    }
+    if (_upgrBuilding == spr) {
+      _upgrBuilding = nil;
+    }
     
     // Fix tag fragmentation
     int tag = [self baseTagForStructId:structId];

@@ -11,6 +11,10 @@
 #import "Globals.h"
 #import "GameLayer.h"
 #import "GameMap.h"
+#import "TutorialHomeMap.h"
+#import "DialogMenuController.h"
+#import "TutorialConstants.h"
+#import "TutorialProfilePicture.h"
 
 @implementation TutorialTopBar
 
@@ -21,7 +25,7 @@
     [self removeChild:_profilePic cleanup:YES];
   }
   
-  self.profilePic = [ProfilePicture profileWithType:gs.type];
+  self.profilePic = [TutorialProfilePicture profileWithType:gs.type];
   [self addChild:_profilePic z:2];
   _profilePic.position = ccp(50, self.contentSize.height-50);
   self.isTouchEnabled = NO;
@@ -55,14 +59,24 @@
   
   if (gs.currentEnergy != _curEnergy) {
     int diff = gs.currentEnergy - _curEnergy;
-    int change = MAX(MIN((int)(0.03*gs.maxEnergy), diff), 1);
+    int change = 0;
+    if (diff > 0) {
+      change = MAX(MIN((int)(0.02*gs.maxEnergy), diff), 1);
+    } else if (diff < 0) {
+      change = MIN(MAX((int)(-0.02*gs.maxEnergy), diff), -1);
+    }
     [self setEnergyBarPercentage:(_curEnergy+change)/((float)gs.maxEnergy)];
     _curEnergy += change;
   }
   
   if (gs.currentStamina != _curStamina) {
     int diff = gs.currentStamina - _curStamina;
-    int change = MAX(MIN((int)(0.03*gs.maxStamina), diff), 1);
+    int change = 0;
+    if (diff > 0) {
+      change = MAX(MIN((int)(0.02*gs.maxStamina), diff), 1);
+    } else if (diff < 0) {
+      change = MIN(MAX((int)(-0.02*gs.maxStamina), diff), -1);
+    }
     [self setStaminaBarPercentage:(_curStamina+change)/((float)gs.maxStamina)];
     _curStamina += change;
   }
@@ -86,6 +100,25 @@
   }
 }
 
+- (void) beginMyCityPhase {
+  _myCityPhase = YES;
+  
+  _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
+  [self addChild:_arrow];
+  _arrow.position = ccpAdd(_homeButton.position, ccp(-_homeButton.contentSize.width/2-_arrow.contentSize.width/2, 0));
+  [Globals animateCCArrow:_arrow atAngle:0];
+  
+  [DialogMenuController displayViewForText:[[TutorialConstants sharedTutorialConstants] beforeHomeAviaryText]];
+}
+
+- (void) beginQuestsPhase {
+  _questsPhase = YES;
+  
+  [self addChild:_arrow];
+  _arrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-10, 0));
+  [Globals animateCCArrow:_arrow atAngle:0];
+}
+
 - (void) globeClicked {
   return;
 }
@@ -103,7 +136,15 @@
 }
 
 - (void) questButtonClicked {
-  return;
+  if (_questsPhase) {
+    [super questButtonClicked];
+    _questsPhase = NO;
+    [_arrow removeFromParentAndCleanup:YES];
+    
+    [[TutorialHomeMap sharedHomeMap] performSelector:@selector(endTutorial) withObject:nil afterDelay:0.5f];
+    
+    [DialogMenuController closeView];
+  }
 }
 
 - (void) bazaarClicked {
@@ -111,7 +152,20 @@
 }
 
 - (void) homeClicked {
-  return;
+  if (_myCityPhase) {
+    [super homeClicked];
+    _myCityPhase = NO;
+    [_arrow removeFromParentAndCleanup:YES];
+    
+    [[TutorialHomeMap sharedHomeMap] performSelector:@selector(startCarpPhase) withObject:nil afterDelay:0.5f];
+    
+    [DialogMenuController closeView];
+  }
+}
+
+- (void) dealloc {
+  [_arrow release];
+  [super dealloc];
 }
 
 @end

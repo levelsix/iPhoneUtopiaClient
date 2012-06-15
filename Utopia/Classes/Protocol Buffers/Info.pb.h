@@ -65,6 +65,13 @@
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 typedef enum {
+  AnimationTypeGenericAction = 1,
+  AnimationTypeAttack = 2,
+} AnimationType;
+
+BOOL AnimationTypeIsValidValue(AnimationType value);
+
+typedef enum {
   SpecialQuestActionPurchaseFromArmory = 1,
   SpecialQuestActionPurchaseFromMarketplace = 2,
   SpecialQuestActionSellToArmory = 3,
@@ -1286,6 +1293,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasAssetNumWithinCity_:1;
   BOOL hasName_:1;
   BOOL hasProcessingText_:1;
+  BOOL hasSpriteLandingCoords_:1;
+  BOOL hasAnimationType_:1;
   Float32 chanceOfEquipLoot;
   int32_t taskId;
   int32_t cityId;
@@ -1297,6 +1306,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t assetNumWithinCity;
   NSString* name;
   NSString* processingText;
+  CoordinateProto* spriteLandingCoords;
+  AnimationType animationType;
   NSMutableArray* mutablePotentialLootEquipIdsList;
   NSMutableArray* mutableEquipReqsList;
 }
@@ -1311,6 +1322,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasExpGained;
 - (BOOL) hasAssetNumWithinCity;
 - (BOOL) hasProcessingText;
+- (BOOL) hasSpriteLandingCoords;
+- (BOOL) hasAnimationType;
 @property (readonly) int32_t taskId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t cityId;
@@ -1322,6 +1335,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t expGained;
 @property (readonly) int32_t assetNumWithinCity;
 @property (readonly, retain) NSString* processingText;
+@property (readonly, retain) CoordinateProto* spriteLandingCoords;
+@property (readonly) AnimationType animationType;
 - (NSArray*) potentialLootEquipIdsList;
 - (int32_t) potentialLootEquipIdsAtIndex:(int32_t) index;
 - (NSArray*) equipReqsList;
@@ -1488,6 +1503,18 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) processingText;
 - (FullTaskProto_Builder*) setProcessingText:(NSString*) value;
 - (FullTaskProto_Builder*) clearProcessingText;
+
+- (BOOL) hasSpriteLandingCoords;
+- (CoordinateProto*) spriteLandingCoords;
+- (FullTaskProto_Builder*) setSpriteLandingCoords:(CoordinateProto*) value;
+- (FullTaskProto_Builder*) setSpriteLandingCoordsBuilder:(CoordinateProto_Builder*) builderForValue;
+- (FullTaskProto_Builder*) mergeSpriteLandingCoords:(CoordinateProto*) value;
+- (FullTaskProto_Builder*) clearSpriteLandingCoords;
+
+- (BOOL) hasAnimationType;
+- (AnimationType) animationType;
+- (FullTaskProto_Builder*) setAnimationType:(AnimationType) value;
+- (FullTaskProto_Builder*) clearAnimationType;
 
 - (NSArray*) equipReqsList;
 - (FullTaskProto_FullTaskEquipReqProto*) equipReqsAtIndex:(int32_t) index;
