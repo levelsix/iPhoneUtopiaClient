@@ -392,18 +392,6 @@
   [self moveToSprite:[self assetWithId:a]];
 }
 
-- (void) setPosition:(CGPoint)position {
-  CGPoint oldPos = position_;
-  [super setPosition:position];
-  if (!obMenu.hidden) {
-    CGPoint diff = ccpSub(oldPos, position_);
-    diff.x *= -1;
-    CGRect curRect = obMenu.frame;
-    curRect.origin = ccpAdd(curRect.origin, diff);
-    obMenu.frame = curRect;
-  }
-}
-
 - (void) updateMissionBuildingMenu {
   if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
     CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];

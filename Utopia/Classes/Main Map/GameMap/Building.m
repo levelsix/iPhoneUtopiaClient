@@ -94,7 +94,7 @@
     _isConstructing = isConstructing;
     
     if (_isConstructing) {
-      self.opacity = 1;
+      [self setOpacity:1];
       
       CCSprite *sprite = [CCSprite spriteWithFile:[Globals imageNameForConstructionWithSize:self.location.size]];
       [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];

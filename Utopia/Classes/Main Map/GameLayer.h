@@ -21,11 +21,6 @@
 @class MissionMap;
 @class LoadNeutralCityResponseProto;
 
-typedef enum {
-  kHomeMusic = 1,
-  kMissionMusic
-} MusicState;
-
 // HelloWorldLayer
 @interface GameLayer : CCLayerGradient
 {
@@ -39,8 +34,6 @@ typedef enum {
   
   ProfilePicture *_profileBgd;
   TopBar *_topBar;
-  
-  MusicState _curMusic;
   
   BOOL _shouldCenterOnEnemy;
   

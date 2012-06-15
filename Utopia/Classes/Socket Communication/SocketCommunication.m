@@ -643,6 +643,7 @@ static NSString *udid = nil;
 }
 
 - (int) sendRetrieveUsersForUserIds:(NSArray *)userIds {
+  NSLog(@"%@", userIds);
   RetrieveUsersForUserIdsRequestProto *req = [[[[RetrieveUsersForUserIdsRequestProto builder]
                                                 setSender:_sender]
                                                addAllRequestedUserIds:userIds]

@@ -20,5 +20,7 @@
 }
 
 - (void) loadQuestAcceptScreen;
+- (void) loadQuestCompleteScreen;
+- (void) loadQuestRedeemScreen;
 
 @end

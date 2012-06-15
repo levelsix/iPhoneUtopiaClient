@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "TutorialConstants.h"
 #import "DialogMenuController.h"
+#import "HomeMap.h"
 
 @implementation TutorialCarpenterMenuController
 
@@ -25,14 +26,17 @@
   self.coinBar.userInteractionEnabled = NO;
 }
 
+- (void) viewDidDisappear:(BOOL)animated {
+  [CarpenterMenuController purgeSingleton];
+}
+
 - (void) viewDidAppear:(BOOL)animated {
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.insideCarpenterText1 callbackTarget:self action:@selector(insideCarpDialog)];
-  
   [self.coinBar updateLabels];
   [Analytics tutorialEnterCarpenter];
   
   self.carpTable.scrollEnabled = NO;
+  
+  [self beforePurchaseDialog];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -43,44 +47,27 @@
   }];
 }
 
-- (void) insideCarpDialog {
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.insideCarpenterText2 callbackTarget:self action:@selector(beforePurchaseDialog)];
-}
-
 - (void) beforePurchaseDialog {
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.beforePurchaseText callbackTarget:nil action:nil];
-  
   CarpenterRow *cell = (CarpenterRow *)[self.carpTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-  [_arrow removeFromSuperview];
   
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [cell addSubview:_arrow];
-  _arrow.layer.transform = CATransform3DMakeRotation(M_PI/2, 0.0f, 0.0f, 1.0f);
-  
   _arrow.center = CGPointMake(CGRectGetMaxX(cell.listing1.frame)+_arrow.frame.size.width/2-5, cell.listing1.center.y);
-  
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    _arrow.center = CGPointMake(CGRectGetMaxX(cell.listing1.frame)+_arrow.frame.size.width/2+5, cell.listing1.center.y);
-  } completion:nil];
+  [Globals animateUIArrow:_arrow atAngle:M_PI];
 }
 
 - (IBAction)closeClicked:(id)sender {
-  return;
+  if (_canClose) {
+    [super closeClicked:sender];
+  }
 }
 
 - (void) carpListingClicked:(CarpenterListing *)carp {
   if (carp.fsp.structId == 1) {
+    _canClose = YES;
     [super carpListingClicked:carp];
-    [CarpenterMenuController purgeSingleton];
     [Analytics tutorialPurchaseInn];
   }
-}
-
-- (void) viewDidUnload {
-  [super viewDidUnload];
 }
 
 - (void) dealloc {

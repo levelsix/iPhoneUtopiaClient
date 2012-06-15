@@ -12,6 +12,7 @@
 #import "SBTickerView.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
+#import "SoundEngine.h"
 
 #define BUTTON_FONT_SIZE 14
 
@@ -78,6 +79,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 
 - (IBAction)closeClicked:(id)sender {
   [transferField resignFirstResponder];
+  
+  [[SoundEngine sharedSoundEngine] vaultLeave];
+  
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [VaultMenuController removeView];       
   }];
@@ -92,6 +96,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   } else {
     [[OutgoingEventController sharedOutgoingEventController] vaultDeposit:amount];
     [self updateBalance];
+    
+    [[SoundEngine sharedSoundEngine] vaultDeposit];
   }
   transferField.text = @"0";
   
@@ -107,6 +113,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   } else {
     [[OutgoingEventController sharedOutgoingEventController] vaultWithdrawal:amount];
     [self updateBalance];
+    
+    [[SoundEngine sharedSoundEngine] vaultWithdraw];
   }
   transferField.text = @"0";
   
@@ -175,6 +183,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
   [self performSelector:@selector(updateBalance) withObject:nil afterDelay:0.5];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [[SoundEngine sharedSoundEngine] vaultEnter];
+  
   [Analytics vaultOpen];
 }
 

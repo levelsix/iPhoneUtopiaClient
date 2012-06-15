@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "OutgoingEventController.h"
 #import "RefillMenuController.h"
+#import "SoundEngine.h"
 
 #define BUY_SELL_Y_OFFSET 1.f
 #define BUY_SELL_ANIMATION_DURATION 0.4f
@@ -419,7 +420,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
   }];
   
-  [Globals playEnterBuildingSound];
+  [[SoundEngine sharedSoundEngine] armoryEnter];
 }
 
 - (void) setState:(ArmoryState)state {
@@ -638,6 +639,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
   numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
   
+  [[SoundEngine sharedSoundEngine] armoryBuy];
+  
   if (updatedQuantity > 0 && fep.diamondPrice == 0) {
     sellButton.enabled = YES;
   }
@@ -668,6 +671,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   } completion:^(BOOL finished) {
     [ArmoryViewController removeView];
   }];
+  
+  [[SoundEngine sharedSoundEngine] armoryLeave];
 }
 
 @end

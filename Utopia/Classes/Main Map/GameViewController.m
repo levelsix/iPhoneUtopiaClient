@@ -40,7 +40,7 @@
 #import "GameLayer.h"
 #import "HomeMap.h"
 #import "BattleLayer.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 #import "TopBar.h"
 #import "FAQMenuController.h"
 #import "ConvoMenuController.h"
@@ -63,16 +63,16 @@
   if ([subview isKindOfClass:[EAGLView class]]) {
     self.glView = (EAGLView *)subview;
   }
-  else if (self.glView && subview != self.glView) {
-    self.glView.userInteractionEnabled = NO;
-  }
+//  else if (self.glView && subview != self.glView) {
+//    self.glView.userInteractionEnabled = NO;
+//  }
 }
 
-- (void) willRemoveSubview:(UIView *)subview {
-  if (self.glView && subview != self.glView) {
-    self.glView.userInteractionEnabled = YES;
-  }
-}
+//- (void) willRemoveSubview:(UIView *)subview {
+//  if (self.glView && subview != self.glView) {
+//    self.glView.userInteractionEnabled = YES;
+//  }
+//}
 
 - (void) dealloc {
   self.glView = nil;
@@ -147,8 +147,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     needsToRunScene = YES;
   }
   
-  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
-  [[SimpleAudioEngine sharedEngine] playEffect:@"DoorClosing_Final.m4a"];
+  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
+  [[SoundEngine sharedSoundEngine] closeDoor];
   
   CCLayer *layer = [CCLayer node];
   [scene addChild:layer z:1];
@@ -282,7 +282,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [enterLabel removeFromParentAndCleanup:YES];
     enterLabel = nil;
     
-    [[SimpleAudioEngine sharedEngine] playEffect:@"DoorOpening.m4a" pitch:1.f pan:0.f gain:1.f];
+    [[SoundEngine sharedSoundEngine] openDoor];
     
     [doorleft runAction:[CCSequence actions:
                          [CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(-doorleft.contentSize.width-100, 0)],

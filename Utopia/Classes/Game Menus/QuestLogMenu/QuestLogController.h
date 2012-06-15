@@ -34,7 +34,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet UIView *visitView;
 
-- (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated;
+- (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated redeeming:(BOOL)redeeming;
 
 @end
 

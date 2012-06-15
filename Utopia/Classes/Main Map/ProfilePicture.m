@@ -25,7 +25,8 @@
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
 
-#define FOUR_BUTTONS
+#define THREE_BUTTONS
+
 #ifdef THREE_BUTTONS
 #define START_ANGLE -17.f
 #define TOTAL_ANGLE -81.f
@@ -193,26 +194,21 @@
     
     ProfileButton *button1 = [ProfileButton itemFromNormalImage:@"pathnotifications.png" selectedImage:nil target:self selector:@selector(button1Clicked:)];
     button1.visible = NO;
+    button1.tag = 1;
     [_menuItems addObject:button1];
     
-    ProfileButton *button2 = [ProfileButton itemFromNormalImage:@"pathquests.png" selectedImage:nil target:self selector:@selector(button2Clicked:)];
+    ProfileButton *button2 = [ProfileButton itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
     button2.visible = NO;
+    button2.tag = 2;
     [_menuItems addObject:button2];
     
-    ProfileButton *button3 = [ProfileButton itemFromNormalImage:@"pathprofile.png" selectedImage:nil target:self selector:@selector(button3Clicked:)];
+    ProfileButton *button3 = [ProfileButton itemFromNormalImage:@"pathhelp.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
     button3.visible = NO;
+    button3.tag = 3;
     [_menuItems addObject:button3];
     
     CCMenu *menu = [CCMenu menuWithItems:button1, button2, button3, nil];
     menu.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
-    
-#ifdef FOUR_BUTTONS
-    ProfileButton *button4 = [ProfileButton itemFromNormalImage:@"pathhelp.png" selectedImage:nil target:self selector:@selector(button4Clicked:)];
-    button4.visible = NO;
-    [_menuItems addObject:button4];
-    
-    [menu addChild:button4];
-#endif
     
     [self addChild:menu z:-1];
     

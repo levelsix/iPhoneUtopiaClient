@@ -13,14 +13,14 @@
 #import "GameViewController.h"
 #import "GameState.h"
 #import "TutorialConstants.h"
-#import "TopBar.h"
+#import "TutorialTopBar.h"
 #import "GameLayer.h"
 #import "SimpleAudioEngine.h"
 #import "TutorialCarpenterMenuController.h"
 #import "TutorialHomeMap.h"
 
 #ifdef DEBUG
-#define PAN_DURATION 1.f
+#define PAN_DURATION 0.1f
 #else
 #define PAN_DURATION 25.f
 #endif
@@ -65,6 +65,8 @@
     gs.silver = tc.initSilver;
     
     [[TopBar sharedTopBar] update];
+    
+    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     
     _curLabel = 0;
   }
@@ -129,19 +131,36 @@
 }
 
 - (void) removeBg {
-  [self removeChild:_label cleanup:YES];
+  _label.string = nil;
   [self removeChild:_bgd cleanup:YES];
   [[CCDirector sharedDirector] purgeCachedData];
 }
 
 - (void) flashComplete {
   NSString *text = [[TutorialConstants sharedTutorialConstants] beforeCharSelectionText];
-  [DialogMenuController displayViewForBeginningText:text callbackTarget:self action:@selector(beginCharSelection)];
+  _label.string = text;
+  [_label runAction:[CCFadeIn actionWithDuration:0.3f]];
+  _beforeCharSelectPhase = YES;
 }
 
 - (void) beginCharSelection {
   CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
+//  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
+//  [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startCarpPhase];
+//  [[GameLayer sharedGameLayer] loadHomeMap];
+//  [[TopBar sharedTopBar] start];
+//  [(TutorialTopBar *)[TopBar sharedTopBar] updateIcon];
+}
+
+- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+  if (_beforeCharSelectPhase) {
+    _beforeCharSelectPhase = NO;
+    [self beginCharSelection];
+    [_label runAction:[CCFadeOut actionWithDuration:0.3f]];
+    [[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
+  }
+  return YES;
 }
 
 @end

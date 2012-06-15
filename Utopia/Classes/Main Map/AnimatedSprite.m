@@ -321,10 +321,10 @@
 @implementation TutorialGirl
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-//  GameState *gs = [GameState sharedGameState];
-//  NSString *file = [Globals userTypeIsGood:gs.type] ? @"AllianceTutorialGuide.png" : @"AllianceTutorialGuide.png";
-  if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:nil map:map location:loc])) {
-    
+  GameState *gs = [GameState sharedGameState];
+  NSString *file = [Globals userTypeIsGood:gs.type] ? @"AllianceTutorialGuide.png" : @"AllianceTutorialGuide.png";
+  if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:file map:map location:loc])) {
+    self.name = [Globals homeQuestGiverName];
   }
   return self;
 }

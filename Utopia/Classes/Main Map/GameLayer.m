@@ -24,7 +24,7 @@
 #import "LNSynthesizeSingleton.h"
 #import "MissionMap.h"
 #import "OutgoingEventController.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 #import "CocosDenshion.h"
 #import "CDXPropertyModifierAction.h"
 #import "TutorialMissionMap.h"
@@ -119,10 +119,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _homeMap.visible = NO;
   }
   
-  if (_curMusic != kMissionMusic) {
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
-    _curMusic = kMissionMusic;
-  }
+  [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   
   [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(fadeOut) withObject:nil waitUntilDone:YES];
 }
@@ -144,9 +141,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   _missionMap = map;
   
   [_missionMap moveToCenter];
+  [_topBar loadNormalConfiguration];
   
   [self addChild:_missionMap z:1];
-  [map doBlink];
+  [map allowBlink];
   
   if (_homeMap.visible) {
     _homeMap.selected = nil;
@@ -172,10 +170,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self closeBazaarMap];
   [_topBar loadHomeConfiguration];
   
-  if (_curMusic != kHomeMusic) {
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
-    _curMusic = kHomeMusic;
-  }
+  [[SoundEngine sharedSoundEngine] playHomeMapMusic];
   
   if (_loading) {
     [[MapViewController sharedMapViewController] fadeOut];
@@ -241,11 +236,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) onEnter {
   [super onEnter];
   if (currentCity == 0) {
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Game_Music.m4a"];
-    _curMusic = kHomeMusic;
+    [[SoundEngine sharedSoundEngine] playHomeMapMusic];
   } else {
-    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Mission_Enemy_song.m4a"];
-    _curMusic = kMissionMusic;
+    [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   }
 }
 

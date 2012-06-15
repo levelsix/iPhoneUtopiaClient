@@ -11,8 +11,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "TutorialMissionMap.h"
-#import "DialogMenuController.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
@@ -103,32 +102,42 @@
     _comboBar.visible = NO;
     _bottomMenu.visible = YES;
     
+    _attackProgressTimer.percentage = 68;
+    
     _overLayer = [CCSprite spriteWithFile:@"attackbuttonlight.png"];
     [self addChild:_overLayer z:5];
     _overLayer.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
     
-    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hit attack before the timer runs out!" dimensions:CGSizeMake(100, 100) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:15.f];
+    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hit attack before the timer runs out!" dimensions:CGSizeMake(150, 53) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
     [_overLayer addChild:label];
-    label.position = ccp(250, 160);
+    label.anchorPoint = ccp(0, 0.5f);
+    label.position = ccp(self.contentSize.width/2+75, self.contentSize.height/2+15);
     
-    _firstTurn = NO;
-    return;
+    CCMenuItem *okay = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"visitbutton.png"] selectedSprite:nil block:^(id sender) {
+      [_overLayer removeFromParentAndCleanup:YES];
+      _firstTurn = NO;
+      [self startMyTurn];
+    }];
+    okay.anchorPoint = ccp(0, 0.5f);
+    CCMenu *menu = [CCMenu menuWithItems:okay, nil];
+    menu.anchorPoint = ccp(0, 0.5f);
+    [_overLayer addChild:menu];
+    menu.position = ccpAdd(label.position, ccp(0, -label.contentSize.height));
+    
+    label = [CCLabelFX labelWithString:@"OKAY" fontName:@"DINCond-Black" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.3f shadowColor:ccc4(191, 54, 0, 20) fillColor:ccc4(255, 255, 255, 255)];
+    [okay addChild:label];
+    label.position = ccp(okay.contentSize.width/2, okay.contentSize.height/2);
+  } else {
+    [super startMyTurn];
+    _ccArrow.visible = YES;
+    CGPoint pos = ccp(_attackButton.position.x,
+                      _attackButton.position.y+_attackButton.contentSize.height/2+_ccArrow.contentSize.height/2);
+    _ccArrow.position = pos;
+    [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
+    
+    _tapToAttack.opacity = 0.f;
+    [_tapToAttack stopAllActions];
   }
-  
-  [super startMyTurn];
-  _ccArrow.visible = YES;
-  CGPoint pos = ccp(_attackButton.position.x,
-                    _attackButton.position.y+_attackButton.contentSize.height/2+_ccArrow.contentSize.height/2);
-  _ccArrow.position = pos;
-  
-  CCMoveBy *upAction = [CCMoveTo actionWithDuration:1 position:ccp(pos.x, pos.y+20)];
-  CCMoveBy *downAction = [CCMoveTo actionWithDuration:1 position:pos];
-  [_ccArrow stopAllActions];
-  [_ccArrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, 
-                                                         downAction, nil]]];
-  
-  _tapToAttack.opacity = 0.f;
-  [_tapToAttack stopAllActions];
 }
 
 - (void) turnMissed {
@@ -139,10 +148,14 @@
   
   _tryAgain.opacity = 255;
   [_tryAgain runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f],
-                            [CCFadeOut actionWithDuration:1.f],nil]];
+                        [CCFadeOut actionWithDuration:1.f],nil]];
 }
 
 - (void) attackStart {
+  if (_firstTurn) {
+    return;
+  }
+  
   _ccArrow.visible = NO;
   if (_firstAttack) {
     [_attackProgressTimer stopAllActions];
@@ -151,23 +164,48 @@
     _attackButton.visible = NO;
     
     _comboBar.visible = YES;
-    _comboBarMoving = YES;
+    _comboBarMoving = NO;
     
-    TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    [DialogMenuController displayViewForText:tc.beginAttackText callbackTarget:self action:@selector(attackStart)];
-    _firstAttack = NO;
-    return;
+    _overLayer = [CCSprite spriteWithFile:@"combowheellight.png"];
+    [self addChild:_overLayer z:5];
+    _overLayer.position = ccp(self.contentSize.width/2, self.contentSize.height/2);
+    
+    CCLabelTTF *label = [CCLabelTTF labelWithString:@"Tap anywhere on the screen to engage your attack." dimensions:CGSizeMake(200, 53) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
+    [_overLayer addChild:label];
+    label.anchorPoint = ccp(0, 1.f);
+    label.position = ccp(self.contentSize.width/2, self.contentSize.height/2+15);
+    
+    CCLabelTTF *label2 = [CCLabelTTF labelWithString:@"Aim for the max!" dimensions:CGSizeMake(150, 30) alignment:UITextAlignmentLeft lineBreakMode:UILineBreakModeWordWrap fontName:@"DINCond-Black" fontSize:20.f];
+    label2.color = ccc3(255, 200, 0);
+    [_overLayer addChild:label2];
+    label2.anchorPoint = ccp(0, 1.f);
+    label2.position = ccpAdd(label.position, ccp(0, -label.contentSize.height));
+    
+    CCMenuItem *okay = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"visitbutton.png"] selectedSprite:nil block:^(id sender) {
+      [_overLayer removeFromParentAndCleanup:YES];
+      _firstAttack = NO;
+      [self attackStart];
+    }];
+    okay.anchorPoint = ccp(0, 1.f);
+    CCMenu *menu = [CCMenu menuWithItems:okay, nil];
+    menu.anchorPoint = ccp(0, 1.f);
+    [_overLayer addChild:menu];
+    menu.position = ccpAdd(label2.position, ccp(0, -label2.contentSize.height));
+    
+    label = [CCLabelFX labelWithString:@"OKAY" fontName:@"DINCond-Black" fontSize:16.f shadowOffset:CGSizeMake(0, -1) shadowBlur:0.3f shadowColor:ccc4(191, 54, 0, 20) fillColor:ccc4(255, 255, 255, 255)];
+    [okay addChild:label];
+    label.position = ccp(okay.contentSize.width/2, okay.contentSize.height/2);
+  } else {
+    [super attackStart];
+    [_ccArrow stopAllActions];
+    _tryAgain.opacity = 0;
+    [_tryAgain stopAllActions];
+    
+    _tapToAttack.opacity = 255;
+    CCScaleBy *bigger = [CCScaleBy actionWithDuration:1.f scale:1.1f];
+    [_tapToAttack runAction:[CCRepeatForever actionWithAction:
+                             [CCSequence actions:bigger, [bigger reverse], nil]]];
   }
-  
-  [super attackStart];
-  [_ccArrow stopAllActions];
-  _tryAgain.opacity = 0;
-  [_tryAgain stopAllActions];
-  
-  _tapToAttack.opacity = 255;
-  CCScaleBy *bigger = [CCScaleBy actionWithDuration:1.f scale:1.1f];
-  [_tapToAttack runAction:[CCRepeatForever actionWithAction:
-                            [CCSequence actions:bigger, [bigger reverse], nil]]];
 }
 
 - (void) comboBarClicked {
@@ -178,6 +216,8 @@
     _tapToAttack.opacity = 0;
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
+    
+    [self showBattleWordForPercentage:_comboProgressTimer.percentage];
   }
 }
 
@@ -198,21 +238,17 @@
 }
 
 - (void) displayStolenEquip {
-  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [self loadStolenEquip];
-  [view addSubview:self.stolenEquipView];
+  [Globals displayUIView:self.stolenEquipView];
+  [Globals bounceView:self.stolenEquipView.mainView fadeInBgdView:self.stolenEquipView.bgdView];
 }
 
 - (void) displaySummary {
-  UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
   [self loadBattleSummary];
-  [view addSubview:self.summaryView];
+  [Globals displayUIView:self.summaryView];
+  [Globals bounceView:self.summaryView.mainView fadeInBgdView:self.summaryView.bgdView];
   
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.afterBattleText callbackTarget:nil action:nil];
-  [_uiArrow removeFromSuperview];
-  
-  [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:2.f];
+  [self performSelector:@selector(arrowOnClose) withObject:nil afterDelay:1.f];
 }
 
 - (int) calculateEnemyDamageForPercentage:(float)percent {
@@ -223,20 +259,16 @@
   FullEquipProto *fep = [[[TutorialConstants sharedTutorialConstants] tutorialQuest] firstDefeatTypeJobBattleLootAmulet];
   
   self.stolenEquipView.nameLabel.text = fep.name;
-//  self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
+  //  self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
   [Globals loadImageForEquip:fep.equipId toView:self.stolenEquipView.equipIcon maskedView:nil];
   self.stolenEquipView.attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
   self.stolenEquipView.defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
   
   // Move arrow to close button (tag 20)
-  [self.stolenEquipView addSubview:_uiArrow];
+  [self.stolenEquipView.mainView addSubview:_uiArrow];
   UIView *okayButton = [self.stolenEquipView viewWithTag:20];
   _uiArrow.center = CGPointMake(CGRectGetMinX(okayButton.frame)-_uiArrow.frame.size.width/2-2, okayButton.center.y);
-  
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-    _uiArrow.center = CGPointMake(_uiArrow.center.x-10, _uiArrow.center.y);
-  } completion:nil];
+  [Globals animateUIArrow:_uiArrow atAngle:0];
 }
 
 - (void) loadBattleSummary {
@@ -285,20 +317,10 @@
 
 - (void) arrowOnClose {
   // Move arrow to close button (tag 20)
-  [self.summaryView addSubview:_uiArrow];
+  [self.summaryView.mainView addSubview:_uiArrow];
   UIView *close = [self.summaryView viewWithTag:20];
-  _uiArrow.center = CGPointMake(CGRectGetMinX(close.frame)-_uiArrow.frame.size.width/2+10, close.center.y);
-  
-  _uiArrow.alpha = 0.f;
-  UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
-  // This is confusing, basically fade in, and then do repeated animation
-  [UIView animateWithDuration:0.3f animations:^{
-    _uiArrow.alpha = 1.f;
-  } completion:^(BOOL finished) {
-    [UIView animateWithDuration:1.f delay:0.f options:opt animations:^{
-      _uiArrow.center = CGPointMake(_uiArrow.center.x+10, _uiArrow.center.y);
-    } completion:nil];
-  }];
+  _uiArrow.center = CGPointMake(CGRectGetMinX(close.frame)-_uiArrow.frame.size.width/2+20, close.center.y);
+  [Globals animateUIArrow:_uiArrow atAngle:0];
 }
 
 - (void) myWin {
@@ -310,8 +332,8 @@
   CCParticleSystemQuad *ps = [CCParticleSystemQuad particleWithFile:@"death.plist"];
   [self addChild:ps z:3];
   
-  [[SimpleAudioEngine sharedEngine] stopBackgroundMusic]; 
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Battle_Success.m4a"];
+  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
+  [[SoundEngine sharedSoundEngine] battleVictory];
   
   [_tapToAttack stopAllActions];
   _tapToAttack.visible = NO;
@@ -338,11 +360,6 @@
 
 - (IBAction)attackAgainClicked:(id)sender {
   return;
-}
-
-- (IBAction)closeClicked:(id)sender {
-  [super closeClicked:sender];
-  [[TutorialMissionMap sharedTutorialMissionMap] battleClosed];
 }
 
 - (void) dealloc {

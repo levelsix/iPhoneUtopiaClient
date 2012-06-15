@@ -19,6 +19,15 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL AnimationTypeIsValidValue(AnimationType value) {
+  switch (value) {
+    case AnimationTypeGenericAction:
+    case AnimationTypeAttack:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   switch (value) {
     case SpecialQuestActionPurchaseFromArmory:
@@ -4578,6 +4587,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
 @property int32_t expGained;
 @property int32_t assetNumWithinCity;
 @property (retain) NSString* processingText;
+@property (retain) CoordinateProto* spriteLandingCoords;
+@property AnimationType animationType;
 @property (retain) NSMutableArray* mutableEquipReqsList;
 @end
 
@@ -4661,11 +4672,26 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
   hasProcessingText_ = !!value;
 }
 @synthesize processingText;
+- (BOOL) hasSpriteLandingCoords {
+  return !!hasSpriteLandingCoords_;
+}
+- (void) setHasSpriteLandingCoords:(BOOL) value {
+  hasSpriteLandingCoords_ = !!value;
+}
+@synthesize spriteLandingCoords;
+- (BOOL) hasAnimationType {
+  return !!hasAnimationType_;
+}
+- (void) setHasAnimationType:(BOOL) value {
+  hasAnimationType_ = !!value;
+}
+@synthesize animationType;
 @synthesize mutableEquipReqsList;
 - (void) dealloc {
   self.name = nil;
   self.mutablePotentialLootEquipIdsList = nil;
   self.processingText = nil;
+  self.spriteLandingCoords = nil;
   self.mutableEquipReqsList = nil;
   [super dealloc];
 }
@@ -4682,6 +4708,8 @@ static FullStructureProto* defaultFullStructureProtoInstance = nil;
     self.expGained = 0;
     self.assetNumWithinCity = 0;
     self.processingText = @"";
+    self.spriteLandingCoords = [CoordinateProto defaultInstance];
+    self.animationType = AnimationTypeGenericAction;
   }
   return self;
 }
@@ -4754,6 +4782,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   for (FullTaskProto_FullTaskEquipReqProto* element in self.equipReqsList) {
     [output writeMessage:13 value:element];
   }
+  if (self.hasSpriteLandingCoords) {
+    [output writeMessage:14 value:self.spriteLandingCoords];
+  }
+  if (self.hasAnimationType) {
+    [output writeEnum:15 value:self.animationType];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4806,6 +4840,12 @@ static FullTaskProto* defaultFullTaskProtoInstance = nil;
   }
   for (FullTaskProto_FullTaskEquipReqProto* element in self.equipReqsList) {
     size += computeMessageSize(13, element);
+  }
+  if (self.hasSpriteLandingCoords) {
+    size += computeMessageSize(14, self.spriteLandingCoords);
+  }
+  if (self.hasAnimationType) {
+    size += computeEnumSize(15, self.animationType);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5174,6 +5214,12 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
   if (other.hasProcessingText) {
     [self setProcessingText:other.processingText];
   }
+  if (other.hasSpriteLandingCoords) {
+    [self mergeSpriteLandingCoords:other.spriteLandingCoords];
+  }
+  if (other.hasAnimationType) {
+    [self setAnimationType:other.animationType];
+  }
   if (other.mutableEquipReqsList.count > 0) {
     if (result.mutableEquipReqsList == nil) {
       result.mutableEquipReqsList = [NSMutableArray array];
@@ -5253,6 +5299,24 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
         FullTaskProto_FullTaskEquipReqProto_Builder* subBuilder = [FullTaskProto_FullTaskEquipReqProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addEquipReqs:[subBuilder buildPartial]];
+        break;
+      }
+      case 114: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasSpriteLandingCoords) {
+          [subBuilder mergeFrom:self.spriteLandingCoords];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSpriteLandingCoords:[subBuilder buildPartial]];
+        break;
+      }
+      case 120: {
+        int32_t value = [input readEnum];
+        if (AnimationTypeIsValidValue(value)) {
+          [self setAnimationType:value];
+        } else {
+          [unknownFields mergeVarintField:15 value:value];
+        }
         break;
       }
     }
@@ -5463,6 +5527,52 @@ static FullTaskProto_FullTaskEquipReqProto* defaultFullTaskProto_FullTaskEquipRe
 - (FullTaskProto_Builder*) clearProcessingText {
   result.hasProcessingText = NO;
   result.processingText = @"";
+  return self;
+}
+- (BOOL) hasSpriteLandingCoords {
+  return result.hasSpriteLandingCoords;
+}
+- (CoordinateProto*) spriteLandingCoords {
+  return result.spriteLandingCoords;
+}
+- (FullTaskProto_Builder*) setSpriteLandingCoords:(CoordinateProto*) value {
+  result.hasSpriteLandingCoords = YES;
+  result.spriteLandingCoords = value;
+  return self;
+}
+- (FullTaskProto_Builder*) setSpriteLandingCoordsBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setSpriteLandingCoords:[builderForValue build]];
+}
+- (FullTaskProto_Builder*) mergeSpriteLandingCoords:(CoordinateProto*) value {
+  if (result.hasSpriteLandingCoords &&
+      result.spriteLandingCoords != [CoordinateProto defaultInstance]) {
+    result.spriteLandingCoords =
+      [[[CoordinateProto builderWithPrototype:result.spriteLandingCoords] mergeFrom:value] buildPartial];
+  } else {
+    result.spriteLandingCoords = value;
+  }
+  result.hasSpriteLandingCoords = YES;
+  return self;
+}
+- (FullTaskProto_Builder*) clearSpriteLandingCoords {
+  result.hasSpriteLandingCoords = NO;
+  result.spriteLandingCoords = [CoordinateProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAnimationType {
+  return result.hasAnimationType;
+}
+- (AnimationType) animationType {
+  return result.animationType;
+}
+- (FullTaskProto_Builder*) setAnimationType:(AnimationType) value {
+  result.hasAnimationType = YES;
+  result.animationType = value;
+  return self;
+}
+- (FullTaskProto_Builder*) clearAnimationType {
+  result.hasAnimationType = NO;
+  result.animationType = AnimationTypeGenericAction;
   return self;
 }
 - (NSArray*) equipReqsList {

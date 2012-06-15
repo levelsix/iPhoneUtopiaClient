@@ -80,6 +80,10 @@ typedef enum {
 - (void) setStaminaBarPercentage:(float)perc;
 - (void) start;
 
+- (void) questButtonClicked;
+- (void) mapClicked;
+- (void) homeClicked;
+
 - (void) fadeInBigToolTip:(BOOL)isEnergy;
 - (void) fadeInLittleToolTip:(BOOL)isEnergy;
 - (void) fadeOutToolTip:(BOOL)big;

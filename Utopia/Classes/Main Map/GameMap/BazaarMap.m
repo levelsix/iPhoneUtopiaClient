@@ -58,6 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
     _questGiver = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:@"FemaleFarmer.png" map:self location:r];
+    _questGiver.name = [Globals bazaarQuestGiverName];
     [self addChild:_questGiver];
     [_questGiver release];
     

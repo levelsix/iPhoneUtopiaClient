@@ -2928,6 +2928,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutableReferralNotificationsList;
 @property (retain) NSMutableArray* mutablePlayerWallPostNotificationsList;
 @property (retain) NSString* appStoreUrl;
+@property (retain) NSMutableArray* mutableAlliesList;
 @end
 
 @implementation StartupResponseProto
@@ -2999,6 +3000,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasAppStoreUrl_ = !!value;
 }
 @synthesize appStoreUrl;
+@synthesize mutableAlliesList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3015,6 +3017,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableReferralNotificationsList = nil;
   self.mutablePlayerWallPostNotificationsList = nil;
   self.appStoreUrl = nil;
+  self.mutableAlliesList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3119,6 +3122,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutablePlayerWallPostNotificationsList objectAtIndex:index];
   return value;
 }
+- (NSArray*) alliesList {
+  return mutableAlliesList;
+}
+- (MinimumUserProto*) alliesAtIndex:(int32_t) index {
+  id value = [mutableAlliesList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3152,6 +3162,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasExperienceRequiredForNextLevel) {
     [output writeInt32:10 value:self.experienceRequiredForNextLevel];
+  }
+  for (MinimumUserProto* element in self.alliesList) {
+    [output writeMessage:11 value:element];
   }
   for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
     [output writeMessage:12 value:element];
@@ -3218,6 +3231,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasExperienceRequiredForNextLevel) {
     size += computeInt32Size(10, self.experienceRequiredForNextLevel);
+  }
+  for (MinimumUserProto* element in self.alliesList) {
+    size += computeMessageSize(11, element);
   }
   for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
     size += computeMessageSize(12, element);
@@ -9825,6 +9841,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasAppStoreUrl) {
     [self setAppStoreUrl:other.appStoreUrl];
   }
+  if (other.mutableAlliesList.count > 0) {
+    if (result.mutableAlliesList == nil) {
+      result.mutableAlliesList = [NSMutableArray array];
+    }
+    [result.mutableAlliesList addObjectsFromArray:other.mutableAlliesList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9914,6 +9936,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 80: {
         [self setExperienceRequiredForNextLevel:[input readInt32]];
+        break;
+      }
+      case 90: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAllies:[subBuilder buildPartial]];
         break;
       }
       case 98: {
@@ -10459,6 +10487,35 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_Builder*) clearAppStoreUrl {
   result.hasAppStoreUrl = NO;
   result.appStoreUrl = @"";
+  return self;
+}
+- (NSArray*) alliesList {
+  if (result.mutableAlliesList == nil) { return [NSArray array]; }
+  return result.mutableAlliesList;
+}
+- (MinimumUserProto*) alliesAtIndex:(int32_t) index {
+  return [result alliesAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceAlliesAtIndex:(int32_t) index with:(MinimumUserProto*) value {
+  [result.mutableAlliesList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllAllies:(NSArray*) values {
+  if (result.mutableAlliesList == nil) {
+    result.mutableAlliesList = [NSMutableArray array];
+  }
+  [result.mutableAlliesList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearAlliesList {
+  result.mutableAlliesList = nil;
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllies:(MinimumUserProto*) value {
+  if (result.mutableAlliesList == nil) {
+    result.mutableAlliesList = [NSMutableArray array];
+  }
+  [result.mutableAlliesList addObject:value];
   return self;
 }
 @end

@@ -14,7 +14,7 @@
 #import "BattleLayer.h"
 #import "GameLayer.h"
 #import "ProfileViewController.h"
-#import "SimpleAudioEngine.h"
+#import "SoundEngine.h"
 #import "TopBar.h"
 #import "GameState.h"
 #import "CCLabelFX.h"
@@ -202,7 +202,7 @@
                  [CCMoveByCustom actionWithDuration:SILVER_STACK_BOUNCE_DURATION position:ccp(xPos, 0)],
                  nil]];
   
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Coin_drop.m4a"];
+  [[SoundEngine sharedSoundEngine] coinDrop];
 }
 
 - (void) pickUpSilverDrop:(SilverStack *)ss {
@@ -239,7 +239,7 @@
                  [CCCallBlock actionWithBlock:^{[ss removeFromParentAndCleanup:YES];}],
                  nil]];
   
-  [[SimpleAudioEngine sharedEngine] playEffect:@"Coin_Pickup.m4a"];
+  [[SoundEngine sharedSoundEngine] coinPickup];
 }
 
 - (void) addEquipDrop:(int)equipId fromSprite:(MapSprite *)sprite {
@@ -399,6 +399,7 @@
   if (_selected && ![_selected isPointInArea:pt]) {
     self.selected = nil;
   }
+  
   self.selected = [self selectableForPt:pt];
   
   if (_selected == nil) {

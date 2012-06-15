@@ -34,7 +34,7 @@
   [super viewDidAppear:animated];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.insideAviaryText callbackTarget:self action:@selector(missionsDialog)];
+  [DialogMenuController displayViewForText:tc.insideAviaryText];
   [Analytics tutorialEnterAviary];
 }
 
@@ -44,12 +44,12 @@
   [[TutorialHomeMap sharedHomeMap] performSelectorInBackground:@selector(backgroundRefresh) withObject:nil];
   
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.missionAviaryText callbackTarget:self action:@selector(beforeEnemiesDialog)];
+  [DialogMenuController displayViewForText:tc.missionAviaryText];
 }
 
 - (void) beforeEnemiesDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.beforeEnemiesAviaryText callbackTarget:nil action:nil];
+  [DialogMenuController displayViewForText:tc.beforeEnemiesAviaryText];
   
   _arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [self.view addSubview:_arrow];
@@ -68,7 +68,7 @@
 
 - (void) goHomeDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.beforeHomeAviaryText callbackTarget:nil action:nil];
+  [DialogMenuController displayViewForText:tc.beforeHomeAviaryText];
   
   UIView *homeButton = [self.view viewWithTag:23];
   _arrow.layer.transform = CATransform3DIdentity;
@@ -91,7 +91,7 @@
     _enemyTabPhase = NO;
     _travelHomePhase = YES;
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-    [DialogMenuController displayViewForText:tc.enemiesAviaryText callbackTarget:self action:@selector(determineNextDialog)];
+    [DialogMenuController displayViewForText:tc.enemiesAviaryText];
     
     [_arrow.layer removeAllAnimations];
     _arrow.alpha = 0.f;
@@ -116,7 +116,7 @@
 - (void) viewDidDisappear:(BOOL)animated {
   [super viewDidDisappear:animated];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.insideHomeText callbackTarget:[TutorialHomeMap sharedHomeMap] action:@selector(beforeCarpDialog)];
+  [DialogMenuController displayViewForText:tc.insideHomeText];
   
   [MapViewController purgeSingleton];
 }
@@ -127,7 +127,7 @@
 
 - (void) rejectLocationDialog {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-  [DialogMenuController displayViewForText:tc.rejectLocationText callbackTarget:self action:@selector(goHomeDialog)];
+  [DialogMenuController displayViewForText:tc.rejectLocationText];
 }
 
 - (void) mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error {

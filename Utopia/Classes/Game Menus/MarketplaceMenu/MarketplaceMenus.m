@@ -13,6 +13,7 @@
 #import "MarketplaceViewController.h"
 #import "ProfileViewController.h"
 #import "OutgoingEventController.h"
+#import "SoundEngine.h"
 
 @implementation ItemPostView
 
@@ -326,6 +327,8 @@
     [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:mktPost.marketplacePostId];
     [Analytics successfulPurchase:mktPost.postedEquip.equipId];
     [mvc displayLoadingView];
+    
+    [[SoundEngine sharedSoundEngine] marketplaceBuy];
   }
   
   [self closeClicked:nil];

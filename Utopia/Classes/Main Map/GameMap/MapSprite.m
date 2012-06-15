@@ -131,7 +131,7 @@
 }
 
 -(NSString *) description {
-  return [NSString stringWithFormat:@"%f, %f, %f, %f", self.location.origin.x, self.location.origin.y, self.location.size.width, self.location.size.height];
+  return [NSString stringWithFormat:@"%@: %@", [super description], NSStringFromCGRect(self.location)];
 }
 
 -(void) dealloc {
