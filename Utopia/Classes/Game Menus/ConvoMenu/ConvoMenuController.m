@@ -32,7 +32,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   self.quest = nil;
 }
 
-- (void)showCurrentSpeechSegment {
+- (void) loadDialogueSpeakerImage:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
+  NSString *file = [Globals imageNameForDialogueSpeaker:speaker];
+  speakerImageView.image = [Globals imageNamed: @"dialogueempty.png"];
+  
+  [Globals imageNamed:file withImageView:speakerImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:NO];
+}
+
+- (void) showCurrentSpeechSegment {
   NSArray *speechSegs = self.quest.acceptDialogue.speechSegmentList;
   
   if (speechSegs.count <= curSpeechSegment || curSpeechSegment < 0) {
@@ -48,22 +55,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   
   DialogueProto_SpeechSegmentProto *speechSeg = [speechSegs objectAtIndex:curSpeechSegment];
   self.speechLabel.text = speechSeg.speakerText;
+  self.speakerNameLabel.text = [Globals nameForDialogueSpeaker:speechSeg.speaker].lowercaseString;
 }
 
-- (void)displayQuestConversationForQuest:(FullQuestProto *)fqp {
+- (void) displayQuestConversationForQuest:(FullQuestProto *)fqp {
   self.quest = fqp;
   curSpeechSegment = 0;
   [self showCurrentSpeechSegment];
   [ConvoMenuController displayView];
 }
 
-- (void)dialogComplete {
+- (void) dialogComplete {
   [ConvoMenuController removeView];
   [[OutgoingEventController sharedOutgoingEventController] acceptQuest:self.quest.questId];
   [[QuestLogController sharedQuestLogController] loadQuestAcceptScreen:self.quest];
 }
 
-- (IBAction)nextClicked:(id)sender {
+- (IBAction) nextClicked:(id)sender {
   curSpeechSegment++;
   self.prevButton.hidden = NO;
   
@@ -74,12 +82,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   }
 }
 
-- (IBAction)prevClicked:(id)sender {
+- (IBAction) prevClicked:(id)sender {
   curSpeechSegment = MAX(curSpeechSegment-1, 0);
   [self showCurrentSpeechSegment];
 }
 
-- (void)viewDidUnload
+- (void) viewDidUnload
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.

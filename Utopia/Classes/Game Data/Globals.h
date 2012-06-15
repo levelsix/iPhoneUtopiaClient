@@ -116,7 +116,7 @@
 + (NSString *) pathToMap:(NSString *)mapName;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
-+ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle;
++ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 
 + (UIColor *) colorForUnequippable;
 + (UIColor *) colorForUnknownEquip;
@@ -138,6 +138,9 @@
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
 + (BOOL) class:(UserType)ut canEquip:(FullEquipProto_ClassType) ct;
 + (BOOL) canEquip:(FullEquipProto *)fep;
+
++ (NSString *) nameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;
++ (NSString *) imageNameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker;
 
 + (void) playComboBarChargeupSound:(UserType)type;
 + (void) playBattleAttackSound:(UserType)type;

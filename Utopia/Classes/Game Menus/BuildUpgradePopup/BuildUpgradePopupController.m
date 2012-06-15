@@ -41,7 +41,7 @@
   if (_critStruct) {
     self.titleLabel.text = @"Special Building!";
     self.descriptionLabel.text = [NSString stringWithFormat:@"The %@ has been unlocked! You have 1 available. Visit the carpenter to build it now!", _critStruct];
-    [Globals imageNamed:[_critStruct stringByAppendingString:@".png"] withImageView:self.structIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite];
+    [Globals imageNamed:[_critStruct stringByAppendingString:@".png"] withImageView:self.structIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
     self.critStructLabel.text = _critStruct;
     
     self.critStructLabel.hidden = NO;

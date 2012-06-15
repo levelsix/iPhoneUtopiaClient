@@ -184,8 +184,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                                   cancelButton:@"Store"
                                                         target:self
                                                       selector:@selector(test)];
-    
-    [Globals playCoinSound];
   } else {
     [Globals popupMessage:@"Not enough money to buy this equipment"];
   }
@@ -481,7 +479,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > 0) {
+  if (gs.skillPoints > gl.attackBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeAttack];
     AttackUpdate *au = [AttackUpdate updateWithTag:tag change:gl.attackBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.attackBaseCost];
@@ -496,7 +494,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > 0) {
+  if (gs.skillPoints > gl.defenseBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeDefense];
     DefenseUpdate *au = [DefenseUpdate updateWithTag:tag change:gl.defenseBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.defenseBaseCost];
@@ -511,7 +509,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > 0) {
+  if (gs.skillPoints > gl.energyBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
     EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
     MaxEnergyUpdate *meu = [MaxEnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
@@ -527,11 +525,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > 0) {
+  if (gs.skillPoints > gl.staminaBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
-    gs.maxStamina += gl.staminaBaseGain;
-    gs.currentStamina += gl.staminaBaseGain;
-    gs.skillPoints -= gl.staminaBaseCost;
     StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
     MaxStaminaUpdate *msu = [MaxStaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.staminaBaseCost];
@@ -546,7 +541,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > 0) {
+  if (gs.skillPoints > gl.healthBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
     HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.healthBaseCost];

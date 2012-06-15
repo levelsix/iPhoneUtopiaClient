@@ -208,11 +208,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
-  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:UIActivityIndicatorViewStyleGray];
+  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
 }
 
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
-  [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite];
+  [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   //  if (maskedView) {
   //    [self imageNamed:[self imageNameForEquip:equipId] withImageView:maskedView maskedColor:[self colorForUnequippable] indicator:UIActivityIndicatorViewStyleWhite];
@@ -577,7 +577,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return image;
 }
 
-+ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle {
++ (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", view];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
@@ -598,17 +598,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     return;
   }
   
-  // prevents overloading the autorelease pool
   NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
-  // Added for Utopia project
   if (!fullpath) {
     // Image not in NSBundle: look in documents
     NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsPath = [paths objectAtIndex:0];
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     
+//#warning change
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       if (![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
@@ -618,7 +617,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         [loadingView release];
         loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
       }
-      view.image = nil;
+      
+      if (clear) {
+        view.image = nil;
+      }
       
       [[gl imageViewsWaitingForDownloading] setObject:imageName forKey:key];
       
@@ -738,6 +740,82 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
       return @"Captain Riz";
+      break;
+    default:
+      break;
+  }
+}
+
++ (NSString *) imageNameForDialogueUserType:(UserType)type {
+  switch (type) {
+    case UserTypeBadArcher:
+      return @"dialoguelegionarcher.png";
+      break;
+    case UserTypeBadMage:
+      return @"dialoguelegionmage.png";
+      break;
+    case UserTypeBadWarrior:
+      return @"dialoguewarrior.png";
+      break;
+    case UserTypeGoodArcher:
+      return @"dialoguealliancearcher.png";
+      break;
+    case UserTypeGoodMage:
+      return @"dialoguealliancearcher.png";
+      break;
+    case UserTypeGoodWarrior:
+      return @"dialogueskeleton.png";
+      break;
+      
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) imageNameForDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
+  switch (speaker) {
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadArcher:
+      return [self imageNameForDialogueUserType:UserTypeBadArcher];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadMage:
+      return [self imageNameForDialogueUserType:UserTypeBadMage];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadWarrior:
+      return [self imageNameForDialogueUserType:UserTypeBadWarrior];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodArcher:
+      return [self imageNameForDialogueUserType:UserTypeGoodArcher];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodMage:
+      return [self imageNameForDialogueUserType:UserTypeGoodMage];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodWarrior:
+      return [self imageNameForDialogueUserType:UserTypeGoodWarrior];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadTutorialGirl:
+      return @"dialogueadriana.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
+      return @"dialoguemitch.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
+      return @"dialogueruby.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
+      return [self imageNameForDialogueUserType:[[GameState sharedGameState] type]];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
+      return @"@dialoguemitch.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
+      return @"dialogueriz.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
+      return @"dialoguesean.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
+      return @"dialogueriz.png";
       break;
     default:
       break;
