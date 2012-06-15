@@ -101,7 +101,6 @@
 		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
-		45AAF86015880F9000D1843B /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AAF85E15880F9000D1843B /* OpenUDID.m */; };
 		45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
@@ -1128,6 +1127,7 @@
 		CF41D177158BDF5000A4DBC3 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF41D16D158BDF5000A4DBC3 /* Icon@2x.png */; };
 		CF41D178158BDF5000A4DBC3 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = CF41D16E158BDF5000A4DBC3 /* iTunesArtwork */; };
 		CF41D179158BDF5000A4DBC3 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = CF41D16F158BDF5000A4DBC3 /* iTunesArtwork@2x */; };
+		CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = CF41D194158BFAE900A4DBC3 /* OpenUDID.m */; };
 		CF48CA671575961D00802A39 /* claimit.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF681569F9C100871798 /* claimit.png */; };
 		CF48CA681575961D00802A39 /* claimit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF08AF691569F9C100871798 /* claimit@2x.png */; };
 		CF48CA6B1575F96C00802A39 /* expansiontiles.png in Resources */ = {isa = PBXBuildFile; fileRef = CF48CA691575F96C00802A39 /* expansiontiles.png */; };
@@ -1603,8 +1603,6 @@
 		459A9124157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
 		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
 		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
-		45AAF85D15880F9000D1843B /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
-		45AAF85E15880F9000D1843B /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphonesimulator.a"; sourceTree = "<group>"; };
 		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
 		45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlurryClipsDelegate.m; sourceTree = "<group>"; };
@@ -2871,6 +2869,8 @@
 		CF41D16D158BDF5000A4DBC3 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		CF41D16E158BDF5000A4DBC3 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		CF41D16F158BDF5000A4DBC3 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
+		CF41D193158BFAE900A4DBC3 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
+		CF41D194158BFAE900A4DBC3 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		CF48CA691575F96C00802A39 /* expansiontiles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expansiontiles.png; sourceTree = "<group>"; };
 		CF48CA6A1575F96C00802A39 /* expansiontiles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "expansiontiles@2x.png"; sourceTree = "<group>"; };
 		CF48CA711576FE8900802A39 /* mbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mbarbg.png; sourceTree = "<group>"; };
@@ -3537,15 +3537,6 @@
 			path = universal;
 			sourceTree = "<group>";
 		};
-		45AAF85C15880F9000D1843B /* open_UDID */ = {
-			isa = PBXGroup;
-			children = (
-				45AAF85D15880F9000D1843B /* OpenUDID.h */,
-				45AAF85E15880F9000D1843B /* OpenUDID.m */,
-			);
-			path = open_UDID;
-			sourceTree = "<group>";
-		};
 		45C9A3F2156F0BE000493FDC /* FlurryUniversal */ = {
 			isa = PBXGroup;
 			children = (
@@ -4092,7 +4083,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				45AAF85C15880F9000D1843B /* open_UDID */,
+				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
 				45D21E3F158037F500BB4D53 /* oauth */,
 				459A90FB157D3E62004B7014 /* Kiip */,
 				455BCED81575604300DDE405 /* facebook-ios-sdk */,
@@ -5794,6 +5785,15 @@
 				CF41D134158BDDAC00A4DBC3 /* Vault_Withdraw2.m4a */,
 			);
 			path = Vault;
+			sourceTree = "<group>";
+		};
+		CF41D192158BFAE900A4DBC3 /* OpenUDID */ = {
+			isa = PBXGroup;
+			children = (
+				CF41D193158BFAE900A4DBC3 /* OpenUDID.h */,
+				CF41D194158BFAE900A4DBC3 /* OpenUDID.m */,
+			);
+			path = OpenUDID;
 			sourceTree = "<group>";
 		};
 		CF7FEEDE154085F400716E37 /* FAQMenu */ = {
@@ -7540,9 +7540,9 @@
 				45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */,
 				45D21E4615803A6000BB4D53 /* Base64Transcoder.c in Sources */,
 				4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */,
-				45AAF86015880F9000D1843B /* OpenUDID.m in Sources */,
 				CF41D0F4158BDBBE00A4DBC3 /* SoundEngine.m in Sources */,
 				CF41D163158BDDEE00A4DBC3 /* TutorialProfilePicture.m in Sources */,
+				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
