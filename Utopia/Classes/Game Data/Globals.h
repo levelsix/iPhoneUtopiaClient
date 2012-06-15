@@ -20,7 +20,6 @@
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
 
 @interface Globals : NSObject
-
 @property (nonatomic, assign) float depositPercentCut;
 
 @property (nonatomic, assign) float clericLevelFactor;
@@ -155,9 +154,14 @@
 + (NSString *) commafyNumber:(int) n;
 
 + (void) setFrameForView:(UIView *)view forPoint:(CGPoint)pt;
-
++ (void) popupView:(UIView *)targetView
+       onSuperView:(UIView *)superView
+           atPoint:(CGPoint)point
+withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) popupMessage: (NSString *)msg;
-+ (void) bounceView: (UIView *) view;
++(void)  beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor;
++ (void) endPulseForView:(UIView *)view;
++ (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
 + (void) popOutView:(UIView *)view fadeOutBgdView:(UIView *)bgdView completion:(void (^)(void))completed;
 + (UIImage*) maskImage:(UIImage *)image withColor:(UIColor *)color;

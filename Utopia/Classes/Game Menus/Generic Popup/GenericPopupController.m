@@ -125,7 +125,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gp.titleLabel.text = title ? title : @"Confirmation!";
   gp.descriptionLabel.text = description;
   gp.greenButtonLabel.text = okay ? okay : @"Okay";
-  gp.redButtonLabel.text = cancel ? cancel : @"Cancel";
+  gp.blackButtonLabel.text = cancel ? cancel : @"Cancel";
   
 	NSMethodSignature* sig = [[target class]
                             instanceMethodSignatureForSelector:selector];

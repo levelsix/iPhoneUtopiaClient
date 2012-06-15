@@ -186,7 +186,10 @@
   
   // AdColony
   adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
-  
+
+/*
+ * Disabled Sponsored offers:(Short Term)
+ *
   // TapJoy
   tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
   
@@ -198,12 +201,14 @@
   
   // FlurryAnalytics
   [self setUpFlurryAnalytics];
+ *
+ */
   
   // Kiip.me
   kiipDelegate = [[KiipDelegate create] retain];
   
   [self removeLocalNotifications];
-
+  
   // CrashAlytics
   // ************
   // Note: The setup for CrashAlytics insists that it must be the final program 

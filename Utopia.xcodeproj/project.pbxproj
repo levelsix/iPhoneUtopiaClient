@@ -7,12 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		064D5197157F208A00AF402C /* DrowAnimations@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 064D5195157F208A00AF402C /* DrowAnimations@2x.png */; };
-		064D5198157F208A00AF402C /* DrowAnimations@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 064D5196157F208A00AF402C /* DrowAnimations@2x.plist */; };
+		06679CDC1589602B00CC47DF /* LegionArcherWalk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD41589602B00CC47DF /* LegionArcherWalk@2x.png */; };
+		06679CDD1589602B00CC47DF /* LegionArcherWalk.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD51589602B00CC47DF /* LegionArcherWalk.png */; };
+		06679CDE1589602B00CC47DF /* LegionArcherAttack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD61589602B00CC47DF /* LegionArcherAttack@2x.png */; };
+		06679CDF1589602B00CC47DF /* LegionArcherAttack.png in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD71589602B00CC47DF /* LegionArcherAttack.png */; };
+		06679CE01589602B00CC47DF /* LegionArcherWalk@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD81589602B00CC47DF /* LegionArcherWalk@2x.plist */; };
+		06679CE11589602B00CC47DF /* LegionArcherWalk.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CD91589602B00CC47DF /* LegionArcherWalk.plist */; };
+		06679CE21589602B00CC47DF /* LegionArcherAttack@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CDA1589602B00CC47DF /* LegionArcherAttack@2x.plist */; };
+		06679CE31589602B00CC47DF /* LegionArcherAttack.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06679CDB1589602B00CC47DF /* LegionArcherAttack.plist */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
+		4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4541016915818E3D00F813F4 /* EquipDeltaView.xib */; };
+		4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4541016C158197C600F813F4 /* EquipDeltaView.m */; };
 		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
 		454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FC1565E0DC000380EE /* Delight.framework */; };
@@ -36,6 +44,8 @@
 		455FC6C9157EE683008DB9E4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 455FC6C3157EE683008DB9E4 /* InfoPlist.strings */; };
 		455FC6CB157EE683008DB9E4 /* UtopiaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 455FC6C8157EE683008DB9E4 /* UtopiaTests.m */; };
 		455FC6CD157EEAC7008DB9E4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */; };
+		4562FCDF158A8BC2005206E5 /* round_glow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4562FCDD158A8BC2005206E5 /* round_glow.png */; };
+		4562FCE0158A8BC2005206E5 /* round_glow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4562FCDE158A8BC2005206E5 /* round_glow@2x.png */; };
 		45790205156DD15F0001785B /* AdColonyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45790204156DD15E0001785B /* AdColonyDelegate.m */; };
 		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		45856A86156DB3670005907E /* TJCAdRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A33156DB3670005907E /* TJCAdRequestHandler.m */; };
@@ -91,6 +101,7 @@
 		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
+		45AAF86015880F9000D1843B /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AAF85E15880F9000D1843B /* OpenUDID.m */; };
 		45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
@@ -1398,8 +1409,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		064D5195157F208A00AF402C /* DrowAnimations@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowAnimations@2x.png"; sourceTree = "<group>"; };
-		064D5196157F208A00AF402C /* DrowAnimations@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DrowAnimations@2x.plist"; sourceTree = "<group>"; };
+		06679CD41589602B00CC47DF /* LegionArcherWalk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherWalk@2x.png"; sourceTree = "<group>"; };
+		06679CD51589602B00CC47DF /* LegionArcherWalk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherWalk.png; sourceTree = "<group>"; };
+		06679CD61589602B00CC47DF /* LegionArcherAttack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherAttack@2x.png"; sourceTree = "<group>"; };
+		06679CD71589602B00CC47DF /* LegionArcherAttack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherAttack.png; sourceTree = "<group>"; };
+		06679CD81589602B00CC47DF /* LegionArcherWalk@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherWalk@2x.plist"; sourceTree = "<group>"; };
+		06679CD91589602B00CC47DF /* LegionArcherWalk.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherWalk.plist; sourceTree = "<group>"; };
+		06679CDA1589602B00CC47DF /* LegionArcherAttack@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherAttack@2x.plist"; sourceTree = "<group>"; };
+		06679CDB1589602B00CC47DF /* LegionArcherAttack.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherAttack.plist; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
 		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
@@ -1409,6 +1426,9 @@
 		452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdColonySponsoredOffer.m; sourceTree = "<group>"; };
 		453920A1156B149C00C3944D /* TapJoySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoySponsoredOffer.h; sourceTree = "<group>"; };
 		453920A2156B149C00C3944D /* TapJoySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoySponsoredOffer.m; sourceTree = "<group>"; };
+		4541016915818E3D00F813F4 /* EquipDeltaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipDeltaView.xib; sourceTree = "<group>"; };
+		4541016B158197C600F813F4 /* EquipDeltaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EquipDeltaView.h; sourceTree = "<group>"; };
+		4541016C158197C600F813F4 /* EquipDeltaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EquipDeltaView.m; sourceTree = "<group>"; };
 		454E623E1566D478004EB7E9 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		454E6245156709C9004EB7E9 /* AdColonyPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonyPublic.h; sourceTree = "<group>"; };
 		454E6246156709C9004EB7E9 /* libAdColony.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdColony.a; sourceTree = "<group>"; };
@@ -1447,6 +1467,8 @@
 		455FC6C7157EE683008DB9E4 /* UtopiaTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtopiaTests.h; sourceTree = "<group>"; };
 		455FC6C8157EE683008DB9E4 /* UtopiaTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtopiaTests.m; sourceTree = "<group>"; };
 		455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		4562FCDD158A8BC2005206E5 /* round_glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = round_glow.png; sourceTree = "<group>"; };
+		4562FCDE158A8BC2005206E5 /* round_glow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "round_glow@2x.png"; sourceTree = "<group>"; };
 		457239FC1565E0DC000380EE /* Delight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Delight.framework; sourceTree = "<group>"; };
 		457239FE1565E431000380EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		45723A001565E443000380EE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -1554,6 +1576,8 @@
 		459A9124157D3E62004B7014 /* libKiip.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKiip.a; sourceTree = "<group>"; };
 		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
 		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
+		45AAF85D15880F9000D1843B /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
+		45AAF85E15880F9000D1843B /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphonesimulator.a"; sourceTree = "<group>"; };
 		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
 		45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlurryClipsDelegate.m; sourceTree = "<group>"; };
@@ -3117,6 +3141,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06679CD31589600B00CC47DF /* SpriteSheet */ = {
+			isa = PBXGroup;
+			children = (
+				06679CD41589602B00CC47DF /* LegionArcherWalk@2x.png */,
+				06679CD51589602B00CC47DF /* LegionArcherWalk.png */,
+				06679CD61589602B00CC47DF /* LegionArcherAttack@2x.png */,
+				06679CD71589602B00CC47DF /* LegionArcherAttack.png */,
+				06679CD81589602B00CC47DF /* LegionArcherWalk@2x.plist */,
+				06679CD91589602B00CC47DF /* LegionArcherWalk.plist */,
+				06679CDA1589602B00CC47DF /* LegionArcherAttack@2x.plist */,
+				06679CDB1589602B00CC47DF /* LegionArcherAttack.plist */,
+			);
+			name = SpriteSheet;
+			sourceTree = "<group>";
+		};
 		454E6244156709C9004EB7E9 /* AdColony */ = {
 			isa = PBXGroup;
 			children = (
@@ -3189,6 +3228,15 @@
 				455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4562FCDC158A8BC2005206E5 /* Pulsing Images */ = {
+			isa = PBXGroup;
+			children = (
+				4562FCDD158A8BC2005206E5 /* round_glow.png */,
+				4562FCDE158A8BC2005206E5 /* round_glow@2x.png */,
+			);
+			path = "Pulsing Images";
 			sourceTree = "<group>";
 		};
 		457EBD7F15647A38008C097F /* Alaume */ = {
@@ -3433,6 +3481,15 @@
 				459A9124157D3E62004B7014 /* libKiip.a */,
 			);
 			path = universal;
+			sourceTree = "<group>";
+		};
+		45AAF85C15880F9000D1843B /* open_UDID */ = {
+			isa = PBXGroup;
+			children = (
+				45AAF85D15880F9000D1843B /* OpenUDID.h */,
+				45AAF85E15880F9000D1843B /* OpenUDID.m */,
+			);
+			path = open_UDID;
 			sourceTree = "<group>";
 		};
 		45C9A3F2156F0BE000493FDC /* FlurryUniversal */ = {
@@ -3889,6 +3946,9 @@
 				CF12658F1538ACC400E0C1AD /* ProfileViewController.m */,
 				CF1265901538ACC400E0C1AD /* ProfileViewController.xib */,
 				CFCB4D2D154A7FCF00470054 /* WallPostCell.xib */,
+				4541016915818E3D00F813F4 /* EquipDeltaView.xib */,
+				4541016B158197C600F813F4 /* EquipDeltaView.h */,
+				4541016C158197C600F813F4 /* EquipDeltaView.m */,
 			);
 			path = ProfileMenu;
 			sourceTree = "<group>";
@@ -4082,6 +4142,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				45AAF85C15880F9000D1843B /* open_UDID */,
 				45D21E3F158037F500BB4D53 /* oauth */,
 				459A90FB157D3E62004B7014 /* Kiip */,
 				455BCED81575604300DDE405 /* facebook-ios-sdk */,
@@ -4547,8 +4608,7 @@
 		CF1267741538ACC500E0C1AD /* Utopia Images */ = {
 			isa = PBXGroup;
 			children = (
-				064D5195157F208A00AF402C /* DrowAnimations@2x.png */,
-				064D5196157F208A00AF402C /* DrowAnimations@2x.plist */,
+				4562FCDC158A8BC2005206E5 /* Pulsing Images */,
 				CF1267751538ACC500E0C1AD /* Armory Images */,
 				CF1267981538ACC500E0C1AD /* Battle Images */,
 				CF1267D51538ACC500E0C1AD /* Carpenter Images */,
@@ -5356,6 +5416,7 @@
 		CF1269BE1538ACC600E0C1AD /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				06679CD31589600B00CC47DF /* SpriteSheet */,
 				CF1269BF1538ACC600E0C1AD /* AllianceArcher.png */,
 				CF1269C01538ACC600E0C1AD /* AllianceArcher@2x.png */,
 				CF1269C11538ACC600E0C1AD /* AllianceTutorialGuide.png */,
@@ -7075,8 +7136,17 @@
 				CF15EDF1158064D900A8AAC1 /* attackbuttonlight@2x.png in Resources */,
 				CF15EDF2158064D900A8AAC1 /* combowheellight.png in Resources */,
 				CF15EDF3158064D900A8AAC1 /* combowheellight@2x.png in Resources */,
-				064D5197157F208A00AF402C /* DrowAnimations@2x.png in Resources */,
-				064D5198157F208A00AF402C /* DrowAnimations@2x.plist in Resources */,
+				06679CDC1589602B00CC47DF /* LegionArcherWalk@2x.png in Resources */,
+				06679CDD1589602B00CC47DF /* LegionArcherWalk.png in Resources */,
+				06679CDE1589602B00CC47DF /* LegionArcherAttack@2x.png in Resources */,
+				06679CDF1589602B00CC47DF /* LegionArcherAttack.png in Resources */,
+				06679CE01589602B00CC47DF /* LegionArcherWalk@2x.plist in Resources */,
+				06679CE11589602B00CC47DF /* LegionArcherWalk.plist in Resources */,
+				06679CE21589602B00CC47DF /* LegionArcherAttack@2x.plist in Resources */,
+				06679CE31589602B00CC47DF /* LegionArcherAttack.plist in Resources */,
+				4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */,
+				4562FCDF158A8BC2005206E5 /* round_glow.png in Resources */,
+				4562FCE0158A8BC2005206E5 /* round_glow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7340,6 +7410,8 @@
 				459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */,
 				45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */,
 				45D21E4615803A6000BB4D53 /* Base64Transcoder.c in Sources */,
+				4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */,
+				45AAF86015880F9000D1843B /* OpenUDID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

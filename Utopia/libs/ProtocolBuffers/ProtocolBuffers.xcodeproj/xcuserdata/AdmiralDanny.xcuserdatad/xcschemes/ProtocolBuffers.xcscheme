@@ -13,10 +13,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "45723A0515662CAE000380EE"
-               BuildableName = "Delightio.app"
-               BlueprintName = "Delightio"
-               ReferencedContainer = "container:Utopia.xcodeproj">
+               BlueprintIdentifier = "7461B52D0F94FAF800A0C422"
+               BuildableName = "libProtocolBuffers.a"
+               BlueprintName = "ProtocolBuffers"
+               ReferencedContainer = "container:ProtocolBuffers.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -27,16 +27,17 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7401C1A70F950347006D8281"
+               BuildableName = "UnitTests.octest"
+               BlueprintName = "UnitTests"
+               ReferencedContainer = "container:ProtocolBuffers.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "45723A0515662CAE000380EE"
-            BuildableName = "Delightio.app"
-            BlueprintName = "Delightio"
-            ReferencedContainer = "container:Utopia.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -47,15 +48,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "45723A0515662CAE000380EE"
-            BuildableName = "Delightio.app"
-            BlueprintName = "Delightio"
-            ReferencedContainer = "container:Utopia.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -65,15 +57,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "45723A0515662CAE000380EE"
-            BuildableName = "Delightio.app"
-            BlueprintName = "Delightio"
-            ReferencedContainer = "container:Utopia.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

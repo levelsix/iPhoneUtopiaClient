@@ -44,7 +44,7 @@
 }
 @end
 
-//CCMoveToCustom
+//CClCustom
 @interface CCMoveToCustom : CCMoveTo
 
 - (void) update: (ccTime) t;

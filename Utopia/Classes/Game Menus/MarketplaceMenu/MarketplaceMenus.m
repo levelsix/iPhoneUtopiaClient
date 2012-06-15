@@ -14,6 +14,7 @@
 #import "ProfileViewController.h"
 #import "OutgoingEventController.h"
 #import "SoundEngine.h"
+#import "EquipDeltaView.h"
 
 @implementation ItemPostView
 
@@ -317,23 +318,49 @@
   
   if (gs.userId == mktPost.poster.userId) {
     [Globals popupMessage:@"You can't purchase your own item!"];
+    [self closeClicked:nil];
+    [mvc.coinBar updateLabels];
   } else if (mktPost.coinCost > gs.silver) {
     [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
-    [Analytics notEnoughSilverForMarketplaceBuy:mktPost.postedEquip.equipId cost:mktPost.coinCost];
+    [Analytics notEnoughSilverForMarketplaceBuy:mktPost.postedEquip.equipId
+                                           cost:mktPost.coinCost];
+    [self closeClicked:nil];
+    [mvc.coinBar updateLabels];
   } else if (mktPost.diamondCost > gs.gold) {
-    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:mktPost.diamondCost];
-    [Analytics notEnoughGoldForMarketplaceBuy:mktPost.postedEquip.equipId cost:mktPost.diamondCost];
+    [[RefillMenuController sharedRefillMenuController] 
+     displayBuyGoldView:mktPost.diamondCost];
+    [Analytics notEnoughGoldForMarketplaceBuy:mktPost.postedEquip.equipId
+                                         cost:mktPost.diamondCost];
+    [self closeClicked:nil];
+    [mvc.coinBar updateLabels];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] purchaseFromMarketplace:mktPost.marketplacePostId];
+    [[OutgoingEventController sharedOutgoingEventController] 
+     purchaseFromMarketplace:mktPost.marketplacePostId];
     [Analytics successfulPurchase:mktPost.postedEquip.equipId];
     [mvc displayLoadingView];
     
     [[SoundEngine sharedSoundEngine] marketplaceBuy];
+    
+    int price = ([Globals sellsForGoldInMarketplace:mktPost.postedEquip]) 
+      ? mktPost.diamondCost : mktPost.coinCost;
+    CGPoint startLoc = self.center;
+    UIView *testView = [EquipDeltaView 
+                        createForUpperString:[NSString stringWithFormat:@"- %d", 
+                                              price] 
+                        andLowerString:mktPost.postedEquip.name 
+                        andCenter:startLoc];
+    void(^completionBlock)(BOOL) = ^(BOOL finished){
+      if (finished) {
+        [mvc displayLoadingView];
+        [self closeClicked:nil];
+        [mvc.coinBar updateLabels];
+      }
+    };
+    [Globals popupView:testView 
+           onSuperView:self
+               atPoint:startLoc
+   withCompletionBlock:completionBlock];
   }
-  
-  [self closeClicked:nil];
-  
-  [mvc.coinBar updateLabels];
 }
 
 - (void) dealloc {

@@ -19,6 +19,7 @@
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
+#define PULSE_TIME 0.8f
 
 @implementation Globals
 
@@ -27,6 +28,8 @@ static int fontSize = 12;
 
 static NSString *structureImageString = @"struct%d.png";
 static NSString *equipImageString = @"equip%d.png";
+static NSMutableSet *_donePulsingViews;
+static NSMutableSet *_pulsingViews;
 
 @synthesize depositPercentCut;
 @synthesize clericLevelFactor, clericHealthFactor;
@@ -1101,12 +1104,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return self.battleWeightGivenToDefenseStat*defenseStat + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost);
 }
 
++ (void) popupView:(UIView *)targetView
+       onSuperView:(UIView *)superView
+           atPoint:(CGPoint)point
+withCompletionBlock:(void(^)(BOOL))completionBlock
+{
+  [superView addSubview:targetView];
+  [superView bringSubviewToFront:targetView];
+
+  void(^bounceBlock)(BOOL) = ^(BOOL finished) {
+    void (^animationBlock)() = ^(void) {
+      targetView.alpha = 0;
+      CGRect newFrame = targetView.frame;
+      newFrame.origin.y -= 40;
+      [targetView setFrame:newFrame];
+    };
+    
+    [UIView animateWithDuration:2.0 
+                     animations:animationBlock 
+                     completion:completionBlock];
+  };
+
+  [Globals bounceView:targetView 
+  withCompletionBlock:bounceBlock];
+}
+
 + (void) popupMessage: (NSString *)msg {
   //  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
   [GenericPopupController displayViewWithText:msg title:nil];
 }
 
-+ (void) bounceView: (UIView *) view {
+#pragma mark Bounce View
++ (void) bounceView: (UIView *) view
+withCompletionBlock:(void(^)(BOOL))completionBlock 
+{
   view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
   
   CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
@@ -1132,6 +1163,95 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
   
   view.layer.transform = CATransform3DIdentity;
+  if (completionBlock) {
+    [UIView animateWithDuration:0 delay:0.5 options:UIViewAnimationOptionTransitionNone animations:nil completion:completionBlock];
+  }
+}
+
++ (void) bounceView: (UIView *) view {
+  [Globals bounceView:view withCompletionBlock:nil];
+}
+
+#pragma mark View Pulsing
++(UIImage *)roundGlowForColor:(UIColor *)glowColor
+{
+  UIImage *coloredImage = [Globals imageNamed:@"round_glow.png"];
+  if (glowColor) {
+     coloredImage = [Globals maskImage:coloredImage withColor:glowColor];
+  }
+  return coloredImage;
+}
+
++ (void) pulse:(BOOL)shouldBrighten onView:(UIView *)view 
+{
+  // We must check if this view was signaled to stop glowing
+  if ([_donePulsingViews containsObject:view.superview]) {
+    [_donePulsingViews removeObject:view.superview];
+    [view removeFromSuperview];
+
+    return;
+  }
+
+  // One block either glows or fades
+  void (^pulseBlock)() = ^(void) {
+    view.alpha = shouldBrighten;
+  };
+
+  // The other block repeats the animation in 
+  // the opposite direction
+  void(^completionBlock)(BOOL) = ^(BOOL finished) {
+    [self pulse:!shouldBrighten onView:view];
+  };
+  
+  // Run the animation
+  [UIView animateWithDuration:PULSE_TIME 
+                        delay:0
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:pulseBlock
+                   completion:completionBlock];
+}
+
++(void)clearPulsingViews
+{
+  for (NSObject *curView in _pulsingViews) {
+    if([curView retainCount] == 1) {
+      [_pulsingViews removeObject:curView];
+    }
+  }
+}
+
++(void)setupPulseAnimation {
+  if(!_pulsingViews) {
+    _donePulsingViews = [[NSMutableSet set] retain];
+    _pulsingViews     = [[NSMutableSet set] retain];
+  }
+}
+
++(void)beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor {
+
+  [Globals setupPulseAnimation];
+  [Globals clearPulsingViews];
+
+  UIImageView *glow = [[UIImageView alloc] 
+                       initWithImage:[Globals roundGlowForColor:glowColor]];
+  CGRect frame = view.frame;
+  frame.origin.x = 0;
+  frame.origin.y = 0;
+  [glow setFrame:frame];
+  [view addSubview:glow];
+  [view bringSubviewToFront:glow];
+
+  [_pulsingViews addObject:view];
+  [self pulse:0 onView:glow];
+}
+
++(void)endPulseForView:(UIView *)view {
+  [Globals setupPulseAnimation];
+
+  if ([_pulsingViews    containsObject:view]) {
+    [_donePulsingViews  addObject:view];
+    [_pulsingViews      removeObject:view];
+  }
 }
 
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView {
@@ -1159,6 +1279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }];
 }
 
+#pragma mark Colors
 + (UIColor *)creamColor {
   return [UIColor colorWithRed:236/255.f green:230/255.f blue:195/255.f alpha:1.f];
 }
