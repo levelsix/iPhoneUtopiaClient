@@ -58,21 +58,60 @@
   return stats;  
 }
 
+#define SKILL_DIFFERENTIATOR  4
+
 +(FullUserProto *)userProtoForFakePlayer:(FullUserProto *)enemy 
                             andGameState:(GameState *)gameState
 {
   FullUserProto_Builder *builder = [FullUserProto builder];
  
+  int attackDefenseQuarter 
+    = (gameState.attack + gameState.defense)/SKILL_DIFFERENTIATOR;
+  
+  int enemyAttack  = attackDefenseQuarter;
+  int enemyDefense = attackDefenseQuarter;
+  
+  PlayerClassType enemyClass = [Globals playerClassTypeForUserType:enemy.userType];
+  
+  switch (enemyClass) {
+    case WARRIOR_T:
+      enemyDefense += attackDefenseQuarter;
+      enemyDefense += attackDefenseQuarter;
+      break;
+    case ARCHER_T:
+      enemyDefense += attackDefenseQuarter;
+      enemyAttack  += attackDefenseQuarter;
+      break;
+    case MAGE_T:
+      enemyAttack += attackDefenseQuarter;
+      enemyAttack += attackDefenseQuarter;
+      break;
+      
+    default:
+      break;
+  }
+
+#warning default stats (attack defense) for the mage are busted!
+#warning THIS DELTA OF SIX ISN'T SIGNIFICANT AT HIGHER LEVELS
   int randAtt = arc4random() % 6;
   int randDef = arc4random() % 6;
   if (enemy.level > gameState.level) {
-    [builder setAttack:(gameState.attack  + randAtt)];
-    [builder setDefense:(gameState.defense + randDef)];
+    enemyAttack  += randAtt;
+    enemyDefense += randDef;
   } 
-  else {
-    [builder setAttack:(gameState.attack   - randAtt)];
-    [builder setDefense:(gameState.defense - randDef)];
+  else if (enemy.level == gameState.level) {
+    enemyAttack  = (arc4random() % 1) 
+      ? enemyAttack  - randAtt : enemyAttack + randAtt;
+    enemyDefense = (arc4random() % 1) 
+      ? enemyDefense - randDef : enemyDefense + randDef;
   }
+  else {
+    enemyAttack  -= randAtt;
+    enemyDefense -= randDef;
+  }
+  
+  [builder setAttack:enemyAttack];
+  [builder setDefense:enemyDefense];
 
   return [builder build];
 }

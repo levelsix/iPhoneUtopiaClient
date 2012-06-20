@@ -285,13 +285,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return type >= 3 ? @"Legion" : @"Alliance";
 }
 
++(PlayerClassType) playerClassTypeForUserType:(UserType)userType
+{
+  if (userType % 3 == 0) {
+    return  WARRIOR_T;
+  }
+  else if (userType % 3 == 1) {
+    return ARCHER_T;
+  }
+  return MAGE_T;
+}
+
 + (NSString *) classForUserType:(UserType)type {
-  if (type % 3 == 0) {
-    return @"Warrior";
-  } else if (type % 3 == 1) {
-    return @"Archer";
-  } else if (type % 3 == 2) {
-    return @"Mage";
+  PlayerClassType enemyClass = [Globals playerClassTypeForUserType:type];
+  
+  switch (enemyClass) {
+    case WARRIOR_T:
+      return @"Warrior";
+      break;
+    case ARCHER_T:
+      return @"Archer";
+      break;
+    case MAGE_T:
+      return @"Mage";
+      break;
+      
+    default:
+      break;
   }
   return nil;
 }
