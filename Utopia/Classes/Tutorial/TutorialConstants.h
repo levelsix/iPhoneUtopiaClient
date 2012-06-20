@@ -48,45 +48,37 @@
 @property (nonatomic, retain) NSString *afterBlinkTextGood;
 @property (nonatomic, retain) NSString *afterBlinkTextBad;
 
-@property (nonatomic, retain) NSString *afterQuestAcceptText;
-@property (nonatomic, retain) NSString *afterQuestAcceptClosedText;
-
-@property (nonatomic, retain) NSString *beginBattleText;
-@property (nonatomic, retain) NSString *beginAttackText;
-@property (nonatomic, retain) NSString *afterBattleText;
+@property (nonatomic, retain) NSString *beforeEnemyClickedText;
+@property (nonatomic, retain) NSString *beforeAttackClickedText;
 
 @property (nonatomic, retain) NSString *beforeTaskTextGood;
 @property (nonatomic, retain) NSString *beforeTaskTextBad;
+@property (nonatomic, retain) NSString *beforeRedeemText;
+
 @property (nonatomic, retain) NSString *beforeSkillsText;
 @property (nonatomic, retain) NSString *afterSkillPointsText;
 
-@property (nonatomic, retain) NSString *beforeAviaryText1;
-@property (nonatomic, retain) NSString *beforeAviaryText2;
-@property (nonatomic, retain) NSString *insideAviaryText;
-@property (nonatomic, retain) NSString *missionAviaryText;
-@property (nonatomic, retain) NSString *beforeEnemiesAviaryText;
-@property (nonatomic, retain) NSString *enemiesAviaryText;
-@property (nonatomic, retain) NSString *rejectLocationText;
-@property (nonatomic, retain) NSString *beforeHomeAviaryText;
+@property (nonatomic, retain) NSString *beforeHomeText;
 
 @property (nonatomic, retain) NSString *insideHomeText;
 @property (nonatomic, retain) NSString *beforeCarpenterText;
-@property (nonatomic, retain) NSString *insideCarpenterText1;
-@property (nonatomic, retain) NSString *insideCarpenterText2;
-@property (nonatomic, retain) NSString *beforePurchaseText;
 @property (nonatomic, retain) NSString *beforePlacingText;
 @property (nonatomic, retain) NSString *afterPurchaseText;
 
-@property (nonatomic, retain) NSString *afterSpeedUpText;
+@property (nonatomic, retain) NSString *beforeFaceDialText;
+@property (nonatomic, retain) NSString *beforeWallText;
 
-@property (nonatomic, retain) NSString *createSuccessText;
+@property (nonatomic, retain) NSString *duringCreateText;
+@property (nonatomic, retain) NSString *beforeEndText;
+
 @property (nonatomic, retain) NSString *timeSyncErrorText;
-@property (nonatomic, retain) NSString *invalidReferCodeText;
 @property (nonatomic, retain) NSString *otherFailText;
 
 @property (nonatomic, retain) NSString *enemyName;
 @property (nonatomic, assign) UserType enemyType;
 @property (nonatomic, retain) NSString *questGiverName;
+
+@property (nonatomic, retain) PlayerWallPostProto *firstWallPost;
 
 // Values needed for user create
 @property (nonatomic, retain) NSString *referralCode;

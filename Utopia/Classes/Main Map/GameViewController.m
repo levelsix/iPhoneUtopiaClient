@@ -63,9 +63,9 @@
   if ([subview isKindOfClass:[EAGLView class]]) {
     self.glView = (EAGLView *)subview;
   }
-//  else if (self.glView && subview != self.glView) {
-//    self.glView.userInteractionEnabled = NO;
-//  }
+  //  else if (self.glView && subview != self.glView) {
+  //    self.glView.userInteractionEnabled = NO;
+  //  }
 }
 
 //- (void) willRemoveSubview:(UIView *)subview {
@@ -239,15 +239,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     [loadingLabel removeFromParentAndCleanup:YES];
     loadingLabel = nil;
     
-    if (isTutorial) {
-      enterLabel = [CCSprite spriteWithFile:@"taptoenter.png"];
-      [eyes.parent addChild:enterLabel];
-      enterLabel.position = ccp(enterLabel.parent.contentSize.width/2, -20);
-      [enterLabel runAction:[CCRepeatForever actionWithAction:
-                             [CCSequence actions:
-                              [CCFadeTo actionWithDuration:2.f opacity:120],
-                              [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
-    }
+    enterLabel = [CCSprite spriteWithFile:@"taptoenter.png"];
+    [eyes.parent addChild:enterLabel];
+    enterLabel.position = ccp(enterLabel.parent.contentSize.width/2, -20);
+    [enterLabel runAction:[CCRepeatForever actionWithAction:
+                           [CCSequence actions:
+                            [CCFadeTo actionWithDuration:2.f opacity:120],
+                            [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
     
     float dur = (EYES_END_ALPHA-EYES_START_ALPHA)*EYES_PULSATE_DURATION/(255-eyes.opacity);
     [eyes runAction:[CCFadeTo actionWithDuration:dur opacity:255]];
@@ -267,9 +265,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   loadingLabel.anchorPoint = ccp(0,0);
   loadingLabel.position = ccp(10, 10);
   [loadingLabel runAction:[CCRepeatForever actionWithAction:
-                          [CCSequence actions:
-                           [CCFadeTo actionWithDuration:2.f opacity:120],
-                           [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
+                           [CCSequence actions:
+                            [CCFadeTo actionWithDuration:2.f opacity:120],
+                            [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
   
   [splash removeFromParentAndCleanup:YES];
   splash = nil;
@@ -334,7 +332,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
                                  depthFormat:0];                       // GL_DEPTH_COMPONENT16_OES
   
   // Display link director is causing problems with uiscrollview and table view.
-//  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
+  //  [CCDirector setDirectorType:kCCDirectorTypeDisplayLink];
   [[CCDirector sharedDirector] setOpenGLView:glView];
   
 	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices

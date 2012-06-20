@@ -169,6 +169,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   currentCity = 0;
   [self closeBazaarMap];
   [_topBar loadHomeConfiguration];
+  [_homeMap reloadQuestGivers];
   
   [[SoundEngine sharedSoundEngine] playHomeMapMusic];
   
@@ -204,7 +205,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _homeMap.visible = NO;
     [self addChild:_bazaarMap z:1];
     [_topBar loadBazaarConfiguration];
+    
+    [_bazaarMap reloadQuestGivers];
   }
+  
+  [[SoundEngine sharedSoundEngine] playBazaarMusic];
   
   if (_loading) {
     [[MapViewController sharedMapViewController] fadeOut];

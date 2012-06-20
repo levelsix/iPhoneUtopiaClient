@@ -65,6 +65,7 @@
 @implementation NiceFontLabel7
 
 - (void) awakeFromNib {
+  [Globals adjustFontSizeForUILabel:self];
   self.font = [UIFont fontWithName:@"SanvitoPro-Semibold" size:self.font.pointSize];
 }
 

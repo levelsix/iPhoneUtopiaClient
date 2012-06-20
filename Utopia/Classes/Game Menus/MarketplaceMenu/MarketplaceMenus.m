@@ -337,7 +337,10 @@
     [[OutgoingEventController sharedOutgoingEventController] 
      purchaseFromMarketplace:mktPost.marketplacePostId];
     [Analytics successfulPurchase:mktPost.postedEquip.equipId];
+    
     [mvc displayLoadingView];
+    [self closeClicked:nil];
+    [mvc.coinBar updateLabels];
     
     [[SoundEngine sharedSoundEngine] marketplaceBuy];
     
@@ -349,17 +352,11 @@
                                               price] 
                         andLowerString:mktPost.postedEquip.name 
                         andCenter:startLoc];
-    void(^completionBlock)(BOOL) = ^(BOOL finished){
-      if (finished) {
-        [mvc displayLoadingView];
-        [self closeClicked:nil];
-        [mvc.coinBar updateLabels];
-      }
-    };
+    
     [Globals popupView:testView 
-           onSuperView:self
+           onSuperView:mvc.view
                atPoint:startLoc
-   withCompletionBlock:completionBlock];
+   withCompletionBlock:nil];
   }
 }
 

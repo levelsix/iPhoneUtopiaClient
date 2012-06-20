@@ -470,7 +470,7 @@
 }
 
 - (void) incrementProfileBadge {
-  ProfileButton *pb = [_menuItems objectAtIndex:2];
+  ProfileButton *pb = [_menuItems objectAtIndex:1];
   pb.badgeNum++;
   [_expCircle flashNotification];
 }

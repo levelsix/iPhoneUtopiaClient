@@ -10,11 +10,12 @@
 
 @interface TutorialProfilePicture : ProfilePicture {
   BOOL _faceDialPhase;
-  BOOL _helpPhase;
+  BOOL _wallPhase;
   
   CCSprite *_arrow;
 }
 
 - (void) beginFaceDialPhase;
+- (void) beginWallPhase;
 
 @end

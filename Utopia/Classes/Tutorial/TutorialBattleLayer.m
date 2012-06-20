@@ -12,6 +12,7 @@
 #import "Globals.h"
 #import "TutorialMissionMap.h"
 #import "SoundEngine.h"
+#import "DialogMenuController.h"
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
@@ -235,6 +236,8 @@
                      [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],
                      [CCCallFunc actionWithTarget:self selector:@selector(displayStolenEquip)],
                      nil]];
+  
+  [_ccArrow removeFromParentAndCleanup:YES];
 }
 
 - (void) displayStolenEquip {
@@ -342,6 +345,15 @@
   _winLayer.visible = YES;
   _winButton.visible = YES;
   
+  [_ccArrow removeFromParentAndCleanup:YES];
+  [_winLayer addChild:_ccArrow];
+  _ccArrow.visible = YES;
+  CCNode *buttonMenu = _winButton.parent;
+  CGPoint pos = ccp(buttonMenu.position.x-_winButton.contentSize.width/2-_ccArrow.contentSize.width/2,
+                    buttonMenu.position.y);
+  _ccArrow.position = pos;
+  [Globals animateCCArrow:_ccArrow atAngle:0];
+  
   GameState *gs = [GameState sharedGameState];
   StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
   gs.experience += tutQuest.firstDefeatTypeJobBattleExpGain;
@@ -350,8 +362,6 @@
   gs.battlesWon = 1;
   
   [gs changeQuantityForEquip:tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId by:1];
-  
-  [[TutorialMissionMap sharedTutorialMissionMap] battleDone];
 }
 
 - (IBAction)profileButtonClicked:(id)sender {

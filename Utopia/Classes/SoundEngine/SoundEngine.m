@@ -35,6 +35,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   }
 }
 
+- (void) playBazaarMusic {
+  if (_curMusic != kBazaarMusic) {
+    _curMusic = kBazaarMusic;
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"Medieval Market.m4a" loop:YES];
+  }
+}
+
 - (void) stopBackgroundMusic {
   if (_curMusic != kNoMusic) {
     _curMusic = kNoMusic;

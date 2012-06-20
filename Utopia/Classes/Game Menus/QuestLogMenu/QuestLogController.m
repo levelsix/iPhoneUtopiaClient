@@ -169,12 +169,13 @@
     self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", job.numCompleted, job.total];
   }
   
-  inProgressView.alpha = 1.f;
   if (job.numCompleted >= job.total) {
     // Fade out the visit button if we're done
     [UIView animateWithDuration:0.3f animations:^{
       inProgressView.alpha = 0.f;
     }];
+  } else {
+    inProgressView.alpha = 1.f;
   }
 }
 
@@ -438,9 +439,11 @@
     quest = [q retain];
     
     // Load up jobs
-    self.jobs = [UserJob jobsForQuest:quest];
-    _receivedData = NO;
-    [self updateTasksForUserData:[[QuestLogController sharedQuestLogController] userLogData]];
+    if (quest) {
+      self.jobs = [UserJob jobsForQuest:quest];
+      _receivedData = NO;
+      [self updateTasksForUserData:[[QuestLogController sharedQuestLogController] userLogData]];
+    }
   }
 }
 
@@ -685,9 +688,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
   taskListTable.tableFooterView = view;
   [view release];
-  
-  GameState *gs = [GameState sharedGameState];
-  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -710,6 +710,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.backButton.hidden = NO;
   
   [[SoundEngine sharedSoundEngine] questLogOpened];
+  
+  GameState *gs = [GameState sharedGameState];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void) loadQuest:(FullQuestProto *)fqp {
@@ -722,6 +725,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
   self.backButton.hidden = YES;
+  
+  [Globals imageNamed:@"bigmitch.png" withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) loadQuestAcceptScreen:(FullQuestProto *)fqp {
@@ -738,6 +743,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
   
   [[SoundEngine sharedSoundEngine] questAccepted];
+  
+  [Globals imageNamed:@"bigmitch.png" withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp {
@@ -809,6 +816,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
                                             build];
   
   [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
+  
+  GameState *gs = [GameState sharedGameState];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void) loadQuestRedeemScreen:(FullQuestProto *)fqp {
@@ -820,6 +830,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [taskListTable reloadData];
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
+  
+  [Globals imageNamed:@"bigmitch.png" withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) questSelected:(FullQuestProto *)fqp {
@@ -864,6 +876,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   r = taskListView.frame;
   r.origin = CGPointMake(0, 0);
   taskListView.frame = r;
+  
+  [taskListTable setContentOffset:ccp(0,0) animated:NO];
   
   if (animated) {
     [UIView commitAnimations];

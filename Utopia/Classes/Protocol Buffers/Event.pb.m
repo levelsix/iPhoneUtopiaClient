@@ -7279,6 +7279,7 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 @property (retain) NSMutableArray* mutableCitiesNewlyAvailableToUserAfterLevelupList;
 @property (retain) NSMutableArray* mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
 @property (retain) NSMutableArray* mutableNewlyAvailableStructsAfterLevelupList;
+@property (retain) PlayerWallPostProto* firstWallPost;
 @end
 
 @implementation StartupResponseProto_TutorialConstants
@@ -7464,6 +7465,13 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 @synthesize mutableCitiesNewlyAvailableToUserAfterLevelupList;
 @synthesize mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList;
 @synthesize mutableNewlyAvailableStructsAfterLevelupList;
+- (BOOL) hasFirstWallPost {
+  return !!hasFirstWallPost_;
+}
+- (void) setHasFirstWallPost:(BOOL) value {
+  hasFirstWallPost_ = !!value;
+}
+@synthesize firstWallPost;
 - (void) dealloc {
   self.tutorialQuest = nil;
   self.archerInitWeapon = nil;
@@ -7478,6 +7486,7 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   self.mutableCitiesNewlyAvailableToUserAfterLevelupList = nil;
   self.mutableNewlyEquippableEpicsAndLegendariesForAllClassesAfterLevelupList = nil;
   self.mutableNewlyAvailableStructsAfterLevelupList = nil;
+  self.firstWallPost = nil;
   [super dealloc];
 }
 - (id) init {
@@ -7507,6 +7516,7 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
     self.initDiamonds = 0;
     self.expRequiredForLevelTwo = 0;
     self.expRequiredForLevelThree = 0;
+    self.firstWallPost = [PlayerWallPostProto defaultInstance];
   }
   return self;
 }
@@ -7661,6 +7671,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   for (FullStructureProto* element in self.newlyAvailableStructsAfterLevelupList) {
     [output writeMessage:32 value:element];
   }
+  if (self.hasFirstWallPost) {
+    [output writeMessage:33 value:self.firstWallPost];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -7762,6 +7775,9 @@ static StartupResponseProto_TutorialConstants* defaultStartupResponseProto_Tutor
   }
   for (FullStructureProto* element in self.newlyAvailableStructsAfterLevelupList) {
     size += computeMessageSize(32, element);
+  }
+  if (self.hasFirstWallPost) {
+    size += computeMessageSize(33, self.firstWallPost);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8840,6 +8856,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableNewlyAvailableStructsAfterLevelupList addObjectsFromArray:other.mutableNewlyAvailableStructsAfterLevelupList];
   }
+  if (other.hasFirstWallPost) {
+    [self mergeFirstWallPost:other.firstWallPost];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -9030,6 +9049,15 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         FullStructureProto_Builder* subBuilder = [FullStructureProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addNewlyAvailableStructsAfterLevelup:[subBuilder buildPartial]];
+        break;
+      }
+      case 266: {
+        PlayerWallPostProto_Builder* subBuilder = [PlayerWallPostProto builder];
+        if (self.hasFirstWallPost) {
+          [subBuilder mergeFrom:self.firstWallPost];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFirstWallPost:[subBuilder buildPartial]];
         break;
       }
     }
@@ -9705,6 +9733,36 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableNewlyAvailableStructsAfterLevelupList = [NSMutableArray array];
   }
   [result.mutableNewlyAvailableStructsAfterLevelupList addObject:value];
+  return self;
+}
+- (BOOL) hasFirstWallPost {
+  return result.hasFirstWallPost;
+}
+- (PlayerWallPostProto*) firstWallPost {
+  return result.firstWallPost;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstWallPost:(PlayerWallPostProto*) value {
+  result.hasFirstWallPost = YES;
+  result.firstWallPost = value;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstWallPostBuilder:(PlayerWallPostProto_Builder*) builderForValue {
+  return [self setFirstWallPost:[builderForValue build]];
+}
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFirstWallPost:(PlayerWallPostProto*) value {
+  if (result.hasFirstWallPost &&
+      result.firstWallPost != [PlayerWallPostProto defaultInstance]) {
+    result.firstWallPost =
+      [[[PlayerWallPostProto builderWithPrototype:result.firstWallPost] mergeFrom:value] buildPartial];
+  } else {
+    result.firstWallPost = value;
+  }
+  result.hasFirstWallPost = YES;
+  return self;
+}
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstWallPost {
+  result.hasFirstWallPost = NO;
+  result.firstWallPost = [PlayerWallPostProto defaultInstance];
   return self;
 }
 @end

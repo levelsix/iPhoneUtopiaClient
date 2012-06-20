@@ -16,6 +16,7 @@
 #import "SoundEngine.h"
 #import "GameLayer.h"
 #import "HomeMap.h"
+#import "OutgoingEventController.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -585,8 +586,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
   [loadingView stopAnimating];
   [loadingView removeFromSuperview];
-  
-  UIImage *cachedImage = [gl.imageCache objectForKey:imageName];
+#warning change
+  UIImage *cachedImage = nil;//[gl.imageCache objectForKey:imageName];
   if (cachedImage) {
     if (color) {
       cachedImage = [self maskImage:cachedImage   withColor:color];
@@ -607,8 +608,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSString *documentsPath = [paths objectAtIndex:0];
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     
-//#warning change
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+#warning change
+    if (true) {//![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       if (![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
         loadingView.tag = 150;
@@ -755,7 +756,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialoguelegionmage.png";
       break;
     case UserTypeBadWarrior:
-      return @"dialoguewarrior.png";
+      return @"dialogueskeleton.png";
       break;
     case UserTypeGoodArcher:
       return @"dialoguealliancearcher.png";
@@ -764,11 +765,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialoguealliancearcher.png";
       break;
     case UserTypeGoodWarrior:
-      return @"dialogueskeleton.png";
+      return @"dialoguewarrior.png";
       break;
       
-      
     default:
+      return nil;
       break;
   }
 }
@@ -806,7 +807,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [self imageNameForDialogueUserType:[[GameState sharedGameState] type]];
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
-      return @"@dialoguemitch.png";
+      return @"dialoguemitch.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
       return @"dialogueriz.png";
@@ -818,6 +819,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialogueriz.png";
       break;
     default:
+      return nil;
+      break;
+  }
+}
+
++ (NSString *) imageNameForBigDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
+  switch (speaker) {
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadTutorialGirl:
+      return @"bigadriana.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
+      return @"bigmitch.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
+      return @"bigruby.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
+      return [self imageNameForDialogueUserType:[[GameState sharedGameState] type]];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
+      return @"bigmitch.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
+      return @"bigriz.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
+      return @"bigsean.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
+      return @"bigriz.png";
+      break;
+    default:
+      return nil;
       break;
   }
 }
@@ -1437,6 +1471,25 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
                                                           [CCScaleTo actionWithDuration:ARROW_ANIMATION_DURATION scaleX:1.f scaleY:0.9f],
                                                           nil]];
   [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
+}
+
+- (void) confirmWearEquip:(int)equipId {
+  _equipIdToWear = equipId;
+  
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equipId];
+  if ([Globals canEquip:fep]) {
+    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?", 
+                                                                fep.name]
+                                                         title:@"Equip Item?"
+                                                    okayButton:@"Equip Item"
+                                                  cancelButton:@"No"
+                                                        target:self
+                                                      selector:@selector(wearEquipConfirmed)];
+  }
+}
+
+- (void) wearEquipConfirmed {
+  [[OutgoingEventController sharedOutgoingEventController] wearEquip:_equipIdToWear];
 }
 
 - (void) dealloc {

@@ -644,6 +644,8 @@
     float x = -pt.x*scaleX_+size.width/2;
     float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
     self.position = ccp(x,y);
+    
+    self.selected = nil;
   }
 }
 

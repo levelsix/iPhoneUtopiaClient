@@ -235,7 +235,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
 - (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
   _loaded = YES;
-  [self retrieveAttackListForCurrentBounds];
+  
+  if (self.state == kAttackMap) {
+    [self retrieveAttackListForCurrentBounds];
+  }
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {

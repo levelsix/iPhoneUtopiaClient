@@ -641,9 +641,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWithDiamondsResponseProto_RefillStatStatusSuccess) {
     [Globals popupMessage:@"Server failed to refill stat with diamonds."];
-    [gs removeNonFullUserUpdatesForTag:tag];
-  } else {
     [gs removeAndUndoAllUpdatesForTag:tag];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
 

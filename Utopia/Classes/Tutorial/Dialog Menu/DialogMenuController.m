@@ -60,6 +60,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
   dmc.nameLabel.text = [Globals userTypeIsGood:gs.type] ? @"Ruby" : @"Adriana";
   dmc.girlImageView.highlighted = [Globals userTypeIsBad:gs.type];
   
+  // Make sure that it is set at the center
+  dmc.view.center = ccp(dmc.view.frame.size.width/2, dmc.view.frame.size.height/2);
+  
   [DialogMenuController displayView];
   dmc.view.alpha = 0.f;
   
@@ -76,16 +79,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 + (void) closeView {
   DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
   
-  [UIView animateWithDuration:SPEECH_BUBBLE_ANIMATION_DURATION animations:^{
-    dmc.speechBubble.center = CGPointMake(dmc.speechBubble.center.x-30, dmc.speechBubble.center.y);
-    dmc.view.alpha = 0.f;
-    dmc.speechBubble.transform = CGAffineTransformMakeScale(SPEECH_BUBBLE_SCALE, SPEECH_BUBBLE_SCALE);
-  } completion:^(BOOL finished) {
-    [dmc.view removeFromSuperview];
-    
-    // Move center back to where it originally was
-    dmc.speechBubble.center = CGPointMake(dmc.speechBubble.center.x+30, dmc.speechBubble.center.y);
-  }];
+  if (dmc.view.superview) {
+    [UIView animateWithDuration:SPEECH_BUBBLE_ANIMATION_DURATION animations:^{
+      dmc.speechBubble.center = CGPointMake(dmc.speechBubble.center.x-30, dmc.speechBubble.center.y);
+      dmc.view.alpha = 0.f;
+      dmc.speechBubble.transform = CGAffineTransformMakeScale(SPEECH_BUBBLE_SCALE, SPEECH_BUBBLE_SCALE);
+    } completion:^(BOOL finished) {
+      if (finished) {
+        [dmc.view removeFromSuperview];
+      }
+      
+      // Move center back to where it originally was
+      dmc.speechBubble.center = CGPointMake(dmc.speechBubble.center.x+30, dmc.speechBubble.center.y);
+    }];
+  }
 }
 
 - (void) startLoading {
@@ -128,58 +135,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 }
 
 - (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp {
-//  if (ucrp.status == UserCreateResponseProto_UserCreateStatusSuccess) {
-//    [self registerCallback:self action:@selector(displayUserCreateSuccessDialog)];
-//  } 
-//  else if (ucrp.status == UserCreateResponseProto_UserCreateStatusTimeIssue) {
-//    [self registerCallback:self action:@selector(displayTimeSyncDialog)];
-//  } else if (ucrp.status == UserCreateResponseProto_UserCreateStatusInvalidReferCode) {
-//    [self registerCallback:self action:@selector(displayReferralCodeFailDialog)];
-//  } else {
-//    [self registerCallback:self action:@selector(displayOtherFailDialog)];
-//  }
-  [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
-  
-  [DialogMenuController closeView];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  if (ucrp.status == UserCreateResponseProto_UserCreateStatusSuccess) {
+    [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
+    [Analytics tutorialUserCreated];
+  } else if (ucrp.status == UserCreateResponseProto_UserCreateStatusTimeIssue) {
+    [DialogMenuController displayViewForText:tc.timeSyncErrorText];
+    [Analytics tutorialTimeSync];
+  } else {
+    [DialogMenuController displayViewForText:tc.otherFailText];
+    [Analytics tutorialOtherFail];
+  }
+   
   [self stopLoading];
 }
-
-//- (void) displayUserCreateSuccessDialog {
-////  self.progress++;
-////  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-////  GameState *gs = [GameState sharedGameState];
-////  NSString *string = [NSString stringWithFormat:tc.createSuccessText, gs.name, [Globals factionForUserType:gs.type]];
-////  [DialogMenuController displayViewForText:string callbackTarget:nil action:nil];
-//  
-//  [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startGoToAviaryPhase];
-//  
-//  [Analytics tutorialUserCreated];
-//}
-//
-//- (void) displayTimeSyncDialog {
-//  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-//  [DialogMenuController displayViewForText:tc.timeSyncErrorText callbackTarget:self action:@selector(displayViewForReferral)];
-//  
-////  // Display retry button
-////  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
-////  dmc.retryView.hidden = NO;
-//  
-//  [Analytics tutorialTimeSync];
-//}
-//
-//- (void) displayReferralCodeFailDialog {
-//  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-//  [DialogMenuController displayViewForText:tc.invalidReferCodeText callbackTarget:self action:@selector(displayViewForReferral)];
-//  
-//  [Analytics tutorialInvalidReferral];
-//}
-//
-//- (void) displayOtherFailDialog {
-//  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
-//  [DialogMenuController displayViewForText:tc.otherFailText callbackTarget:self action:@selector(displayViewForReferral)];
-//  
-//  [Analytics tutorialOtherFail];
-//}
 
 - (void) viewDidUnload
 {

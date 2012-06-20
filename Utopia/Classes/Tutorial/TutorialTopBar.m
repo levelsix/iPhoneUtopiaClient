@@ -89,6 +89,10 @@
     _curExp += change;
   }
   
+  if (_profilePic.expLabel.visible) {
+    [_profilePic.expLabel setString:[NSString stringWithFormat:@"%d/%d", _curExp-gs.expRequiredForCurrentLevel, gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
+  }
+  
   [_profilePic setLevel:gs.level];
   
   if (_littleToolTipState == kEnergy) {
@@ -108,7 +112,7 @@
   _arrow.position = ccpAdd(_homeButton.position, ccp(-_homeButton.contentSize.width/2-_arrow.contentSize.width/2, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
   
-  [DialogMenuController displayViewForText:[[TutorialConstants sharedTutorialConstants] beforeHomeAviaryText]];
+  [DialogMenuController displayViewForText:[[TutorialConstants sharedTutorialConstants] beforeHomeText]];
 }
 
 - (void) beginQuestsPhase {
@@ -117,6 +121,9 @@
   [self addChild:_arrow];
   _arrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-10, 0));
   [Globals animateCCArrow:_arrow atAngle:0];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeEndText];
 }
 
 - (void) globeClicked {

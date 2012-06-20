@@ -14,6 +14,7 @@
 #import "RefillMenuController.h"
 #import "SoundEngine.h"
 #import "EquipDeltaView.h"
+#import "GenericPopupController.h"
 
 #define BUY_SELL_Y_OFFSET 1.f
 #define BUY_SELL_ANIMATION_DURATION 0.4f
@@ -637,18 +638,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     return;
   }
   
-  int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
-  numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
-  
   [[SoundEngine sharedSoundEngine] armoryBuy];
   
-  if (updatedQuantity > 0 && fep.diamondPrice == 0) {
-    sellButton.enabled = YES;
-  }
-  
-
   int price = ([Globals sellsForGoldInMarketplace:fep]) 
-    ? fep.diamondPrice : fep.coinPrice;
+  ? fep.diamondPrice : fep.coinPrice;
   CGPoint startLoc = buySellView.center;
   UIView *testView = [EquipDeltaView 
                       createForUpperString:[NSString stringWithFormat:@"- %d", 
@@ -670,7 +663,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
          onSuperView:buySellView
              atPoint:startLoc
  withCompletionBlock:completionBlock];
-
+  
   [coinBar updateLabels];
 }
 

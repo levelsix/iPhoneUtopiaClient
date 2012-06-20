@@ -12,7 +12,8 @@ typedef enum {
   kNoMusic = 0,
   kHomeMapMusic,
   kMissionMapMusic,
-  kBattleMusic
+  kBattleMusic,
+  kBazaarMusic
 } BackgroundMusic;
 
 @interface SoundEngine : NSObject {
@@ -26,6 +27,7 @@ typedef enum {
 - (void) playHomeMapMusic;
 - (void) playMissionMapMusic;
 - (void) playBattleMusic;
+- (void) playBazaarMusic;
 - (void) stopBackgroundMusic;
 
 - (void) archerAttack;

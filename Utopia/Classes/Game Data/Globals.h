@@ -19,7 +19,10 @@
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
 
-@interface Globals : NSObject
+@interface Globals : NSObject {
+  int _equipIdToWear;
+}
+
 @property (nonatomic, assign) float depositPercentCut;
 
 @property (nonatomic, assign) float clericLevelFactor;
@@ -187,6 +190,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (BOOL)userTypeIsGood:(UserType)type;
 + (BOOL)userTypeIsBad:(UserType)type;
 + (BOOL)userType:(UserType)t1 isAlliesWith:(UserType)t2;
+
+- (void) confirmWearEquip:(int)equipId;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;
