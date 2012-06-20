@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "Protocols.pb.h"
 #import "NibUtils.h"
+#import "BattleCalculator.h"
 
 #define HEALTH_BAR_VELOCITY 120.f
 
@@ -131,6 +132,7 @@
   BOOL _cameFromAviary;
   
   BOOL _clickedDone;
+  id<BattleCalculator> _battleCalculator;
 }
 
 @property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;

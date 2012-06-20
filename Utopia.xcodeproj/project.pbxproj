@@ -87,6 +87,9 @@
 		45856AC4156DCA660005907E /* TapJoyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856AC3156DCA660005907E /* TapJoyDelegate.m */; };
 		45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857340157D3B6A0086F70C /* MobileCoreServices.framework */; };
 		45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857342157D3BB80086F70C /* libxml2.dylib */; };
+		458DD2B4158FAF3900BFC543 /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
+		458DD2B7158FB0C900BFC543 /* BattleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DD2B6158FB0C900BFC543 /* BattleCalculator.m */; };
+		458DD2BB158FB10000BFC543 /* BattleCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DD2BA158FB10000BFC543 /* BattleCalculatorTests.m */; };
 		459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */; };
 		4595D861156C4C4000CF4468 /* TapJoySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453920A2156B149C00C3944D /* TapJoySponsoredOffer.m */; };
 		459A9125157D3E62004B7014 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A90FC157D3E62004B7014 /* CHANGELOG.md */; };
@@ -102,6 +105,7 @@
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
 		45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
+		45C53D81158FBF83000997C5 /* UserBattleStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C53D80158FBF83000997C5 /* UserBattleStats.m */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
 		45D21E43158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D21E41158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m */; };
@@ -1583,6 +1587,10 @@
 		45856AC3156DCA660005907E /* TapJoyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoyDelegate.m; sourceTree = "<group>"; };
 		45857340157D3B6A0086F70C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		45857342157D3BB80086F70C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		458DD2B5158FB0C900BFC543 /* BattleCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleCalculator.h; sourceTree = "<group>"; };
+		458DD2B6158FB0C900BFC543 /* BattleCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleCalculator.m; sourceTree = "<group>"; };
+		458DD2B9158FB10000BFC543 /* BattleCalculatorTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleCalculatorTests.h; sourceTree = "<group>"; };
+		458DD2BA158FB10000BFC543 /* BattleCalculatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleCalculatorTests.m; sourceTree = "<group>"; };
 		4592799E156C5E6900FEC3AF /* InAppPurchaseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InAppPurchaseData.h; sourceTree = "<group>"; };
 		4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InAppPurchaseData.m; sourceTree = "<group>"; };
 		459A90FC157D3E62004B7014 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -1604,6 +1612,8 @@
 		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
 		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
 		45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphonesimulator.a"; sourceTree = "<group>"; };
+		45C53D7F158FBF83000997C5 /* UserBattleStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserBattleStats.h; sourceTree = "<group>"; };
+		45C53D80158FBF83000997C5 /* UserBattleStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserBattleStats.m; sourceTree = "<group>"; };
 		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
 		45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlurryClipsDelegate.m; sourceTree = "<group>"; };
 		45C9A3F3156F0BE000493FDC /* FlurryAdDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAdDelegate.h; sourceTree = "<group>"; };
@@ -3154,6 +3164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				458DD2B4158FAF3900BFC543 /* libAlaume-iphonesimulator.a in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
@@ -3258,6 +3269,7 @@
 		455FC6C2157EE683008DB9E4 /* UtopiaTests */ = {
 			isa = PBXGroup;
 			children = (
+				458DD2B8158FB0DE00BFC543 /* Battle */,
 				455FC6CF157EEB7C008DB9E4 /* Frameworks */,
 				455FC6CE157EEB6A008DB9E4 /* libs */,
 				455FC6C3157EE683008DB9E4 /* InfoPlist.strings */,
@@ -3474,6 +3486,15 @@
 			path = TJCVideoAds;
 			sourceTree = "<group>";
 		};
+		458DD2B8158FB0DE00BFC543 /* Battle */ = {
+			isa = PBXGroup;
+			children = (
+				458DD2B9158FB10000BFC543 /* BattleCalculatorTests.h */,
+				458DD2BA158FB10000BFC543 /* BattleCalculatorTests.m */,
+			);
+			name = Battle;
+			sourceTree = "<group>";
+		};
 		459A90FB157D3E62004B7014 /* Kiip */ = {
 			isa = PBXGroup;
 			children = (
@@ -3675,6 +3696,10 @@
 				CF1265171538ACC400E0C1AD /* BattleLayer.h */,
 				CF1265181538ACC400E0C1AD /* BattleLayer.m */,
 				CF1265191538ACC400E0C1AD /* BattleSummaryView.xib */,
+				458DD2B5158FB0C900BFC543 /* BattleCalculator.h */,
+				458DD2B6158FB0C900BFC543 /* BattleCalculator.m */,
+				45C53D7F158FBF83000997C5 /* UserBattleStats.h */,
+				45C53D80158FBF83000997C5 /* UserBattleStats.m */,
 			);
 			path = Battle;
 			sourceTree = "<group>";
@@ -7303,6 +7328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				455FC6CB157EE683008DB9E4 /* UtopiaTests.m in Sources */,
+				458DD2BB158FB10000BFC543 /* BattleCalculatorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7543,6 +7569,8 @@
 				CF41D0F4158BDBBE00A4DBC3 /* SoundEngine.m in Sources */,
 				CF41D163158BDDEE00A4DBC3 /* TutorialProfilePicture.m in Sources */,
 				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,
+				458DD2B7158FB0C900BFC543 /* BattleCalculator.m in Sources */,
+				45C53D81158FBF83000997C5 /* UserBattleStats.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7577,6 +7605,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Lost Nations.app/Lost Nations";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
@@ -7590,6 +7619,7 @@
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -7598,6 +7628,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Lost Nations.app/Lost Nations";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
@@ -7611,6 +7642,7 @@
 					"\"$(SRCROOT)/Utopia/libs/Alaume\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -7688,6 +7720,7 @@
 					"COCOS2D_DEBUG=1",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";
@@ -7736,6 +7769,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Utopia/Utopia-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/Utopia/libs/Headers\"";

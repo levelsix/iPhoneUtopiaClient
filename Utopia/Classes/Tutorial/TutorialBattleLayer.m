@@ -56,6 +56,15 @@
   
   _leftAttack = [[Globals sharedGlobals] calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:0];
   _leftDefense = [[Globals sharedGlobals] calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:0];;
+  
+  [_battleCalculator release];
+  FullUserProto_Builder *builder = [[[FullUserProto builder] setAttack:ENEMY_ATTACK] 
+                                    setDefense:ENEMY_ATTACK];
+  _battleCalculator = [BattleCalculator 
+                       createWithRightStats:[UserBattleStats 
+                                             createWithFullUserProto:[builder build]] 
+                       andLeftStats:[UserBattleStats createFromGameState]];
+  [_battleCalculator retain];
   _rightAttack = ENEMY_ATTACK;
   _rightDefense = ENEMY_DEFENSE;
   
@@ -92,7 +101,6 @@
   _firstAttack = YES;
   
   // Battle will be started when transition completes..
-  
   [Analytics tutorialBattleStart];
 }
 
