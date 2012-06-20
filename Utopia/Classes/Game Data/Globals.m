@@ -1073,6 +1073,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   }
 }
 
++ (NSString *) animatedSpritePrefix:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return @"AllianceWarrior";
+      break;
+      
+    case UserTypeGoodArcher:
+      return @"AllianceArcher";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"AllianceMage";
+      break;
+      
+    case UserTypeBadWarrior:
+      return @"LegionWarrior";
+      break;
+      
+    case UserTypeBadArcher:
+      return @"LegionArcher";
+      break;
+      
+    case UserTypeBadMage:
+      return @"LegionMage";
+      break;
+      
+    default:
+      break;
+  }
+}
+
 + (void) playComboBarChargeupSound:(UserType)type {
   SoundEngine *se = [SoundEngine sharedSoundEngine];
   switch (type) {

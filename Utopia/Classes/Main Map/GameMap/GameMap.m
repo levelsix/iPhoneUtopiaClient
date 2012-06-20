@@ -606,7 +606,7 @@
   // Don't let it infinite loop in case its stuck
   int max = 50;
   while (max > 0) {
-    // 50% chance to go straight, 20% chance to turn (for each way), 10% chance to go back
+    // 75% chance to go straight, 10% chance to turn (for each way), 5% chance to go back
     int x = arc4random() % 100;
     if (x <= 75) x = 0;
     else if (x <= 85) x = 1;

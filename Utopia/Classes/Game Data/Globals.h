@@ -136,6 +136,7 @@
 + (NSString *) battleImageNameForUser:(UserType)type;
 + (NSString *) headshotImageNameForUser:(UserType)type;
 + (NSString *) spriteImageNameForUser:(UserType)type;
++ (NSString *) animatedSpritePrefix:(UserType)type;
 + (NSString *) battleAnimationFileForUser:(UserType)type;
 + (NSString *) stringForTimeSinceNow:(NSDate *)date;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;

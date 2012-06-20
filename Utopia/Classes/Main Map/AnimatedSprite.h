@@ -22,19 +22,20 @@
 
 @interface AnimatedSprite : CharacterSprite
 {
-    CCSprite *_sprite;
-    CCAction *_walkAction;
-    CCAction *_walkActionN;
-    CCAction *_walkActionF;
-    
-    CGPoint _oldMapPos;
-    BOOL _moving;
+  CCSprite *_sprite;
+  CCAction *_curAction;
+  CCAction *_walkActionN;
+  CCAction *_walkActionF;
+  
+  CGPoint _oldMapPos;
+  BOOL _moving;
 }
 
 @property (nonatomic, retain) CCSprite *sprite;
-@property (nonatomic, retain) CCAction *walkAction;
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;
+
+- (void) walk;
 
 @end
 
@@ -45,7 +46,7 @@ typedef enum {
   kCompleted
 } QuestGiverState;
 
-@interface QuestGiver : CharacterSprite {
+@interface QuestGiver : AnimatedSprite {
   CCNode *_aboveHeadMark;
 }
 
@@ -57,7 +58,7 @@ typedef enum {
 
 @end
 
-@interface Enemy : CharacterSprite
+@interface Enemy : AnimatedSprite
 
 @property (nonatomic, retain) FullUserProto *user;
 
@@ -65,7 +66,7 @@ typedef enum {
 
 @end
 
-@interface TutorialGirl :QuestGiver
+@interface TutorialGirl : QuestGiver
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 
@@ -78,6 +79,7 @@ typedef enum {
 @end
 
 @interface MyPlayer : CharacterSprite {
+  //walk animations
   CCAction *_walkActionN;
   CCAction *_walkActionF;
   CCAction *_walkActionLR;
@@ -85,19 +87,29 @@ typedef enum {
   CCAction *_walkActionD;
   CCAction *_currentAction;
   
+  CCAnimation *_agAnimation;
+  
   CCSprite *_sprite;
   CGPoint _oldMapPosition;
+  
+  BOOL _shouldContinueAnimation;
 }
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;
 @property (nonatomic, retain) CCAction *walkActionLR;
 @property (nonatomic, retain) CCAction *walkActionU;
 @property (nonatomic, retain) CCAction *walkActionD;
+
 @property (nonatomic, retain) CCAction *currentAction;
+
+@property (nonatomic, retain) CCAnimation *agAnimation;
 
 @property (nonatomic, retain) CCSprite *sprite;
 
+- (void)stopWalking;
+- (void)stopPerformingAnimation;
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
+- (void) performAnimation:(AnimationType)type atLocation:(CGPoint)point inDirection:(float)angle;
 - (void) moveToLocation:(CGRect)loc;
 
 @end

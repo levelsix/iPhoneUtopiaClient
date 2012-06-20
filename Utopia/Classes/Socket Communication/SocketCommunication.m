@@ -686,7 +686,8 @@ static NSString *udid = nil;
 }
 
 - (int) sendEarnFreeDiamondsKiipMessageClientTime:(uint64_t)time receipt:(NSString *)receipt {
-  EarnFreeDiamondsRequestProto *req = [[[[[EarnFreeDiamondsRequestProto builder]
+  EarnFreeDiamondsRequestProto *req = [[[[[[EarnFreeDiamondsRequestProto builder]
+                                          setSender:_sender]
                                           setFreeDiamondsType:EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip]
                                          setClientTime:time]
                                         setKiipReceipt:receipt]
@@ -696,7 +697,8 @@ static NSString *udid = nil;
 }
 
 - (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold {
-  EarnFreeDiamondsRequestProto *req = [[[[[[EarnFreeDiamondsRequestProto builder]
+  EarnFreeDiamondsRequestProto *req = [[[[[[[EarnFreeDiamondsRequestProto builder]
+                                           setSender:_sender]
                                            setFreeDiamondsType:EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeAdcolony]
                                           setClientTime:time]
                                          setAdColonyDigest:digest]
