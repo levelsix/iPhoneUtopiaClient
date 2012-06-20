@@ -432,6 +432,30 @@
         BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:numTimesActed];
         
         if (success) {
+          CGPoint pt = ccp(ftp.spriteLandingCoords.x, ftp.spriteLandingCoords.y);
+          CGPoint ccPt = pt;
+          // Angle should be relevant to entire building, not origin
+          if (ccPt.x < 0) {
+            ccPt.x = -1;
+          } else if (ccPt.x >= mb.location.size.width) {
+            ccPt.x = 1;
+          } else {
+            ccPt.x = 0;
+          }
+          
+          if (ccPt.y < 0) {
+            ccPt.y = -1;
+          } else if (ccPt.y >= mb.location.size.height) {
+            ccPt.y = 1;
+          } else {
+            ccPt.y = 0;
+          }
+          
+          ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
+          float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
+          [_myPlayer stopWalking];
+          [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(mb.location.origin, pt) inDirection:angle];
+          
           _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
           [_taskProgBar animateBarWithText:ftp.processingText];
           _taskProgBar.visible = YES;
@@ -472,6 +496,7 @@
     _taskProgBar.visible = NO;
     self.selected = nil;
     _performingTask = NO;
+    [_myPlayer stopPerformingAnimation];
   }
 }
 
@@ -485,8 +510,9 @@
       [mb displayCheck];
     }
     self.selected = nil;
-    
     _performingTask = NO;
+    
+    [_myPlayer stopPerformingAnimation];
   }
 }
 
