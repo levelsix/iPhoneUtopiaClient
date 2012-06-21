@@ -55,8 +55,8 @@
   self.position = ccpAdd(self.position, ccp(120, 0));
   
   _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
-  [self addChild:_ccArrow z:2000];
-  _ccArrow.position = ccp(_carpenter.position.x, _carpenter.position.y+_carpenter.contentSize.height+_ccArrow.contentSize.height/2+40);
+  [_carpenter addChild:_ccArrow z:2000];
+  _ccArrow.position = ccp(_carpenter.contentSize.width/2, _carpenter.contentSize.height+_ccArrow.contentSize.height/2+60);
   [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
   
   [TutorialCarpenterMenuController sharedCarpenterMenuController];
@@ -95,6 +95,10 @@
       self.selected = nil;
     }
   }
+}
+
+- (void) createMyPlayer {
+  return;
 }
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {

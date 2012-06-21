@@ -7,76 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		065FABE515900C33008E9B3C /* AllianceMageWalkLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABD915900C33008E9B3C /* AllianceMageWalkLR.plist */; };
-		065FABE615900C33008E9B3C /* AllianceMageWalkLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDA15900C33008E9B3C /* AllianceMageWalkLR.png */; };
-		065FABE715900C33008E9B3C /* AllianceMageWalkLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDB15900C33008E9B3C /* AllianceMageWalkLR@2x.plist */; };
-		065FABE815900C33008E9B3C /* AllianceMageWalkLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDC15900C33008E9B3C /* AllianceMageWalkLR@2x.png */; };
 		065FABE915900C33008E9B3C /* AllianceMageWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDD15900C33008E9B3C /* AllianceMageWalkNF.plist */; };
 		065FABEA15900C33008E9B3C /* AllianceMageWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDE15900C33008E9B3C /* AllianceMageWalkNF.png */; };
 		065FABEB15900C33008E9B3C /* AllianceMageWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDF15900C33008E9B3C /* AllianceMageWalkNF@2x.plist */; };
 		065FABEC15900C33008E9B3C /* AllianceMageWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABE015900C33008E9B3C /* AllianceMageWalkNF@2x.png */; };
-		065FABED15900C33008E9B3C /* AllianceMageWalkUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABE115900C33008E9B3C /* AllianceMageWalkUD.plist */; };
-		065FABEE15900C33008E9B3C /* AllianceMageWalkUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABE215900C33008E9B3C /* AllianceMageWalkUD.png */; };
-		065FABFD15900C4A008E9B3C /* AllianceArcherWalkLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF115900C4A008E9B3C /* AllianceArcherWalkLR.plist */; };
-		065FABFE15900C4A008E9B3C /* AllianceArcherWalkLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF215900C4A008E9B3C /* AllianceArcherWalkLR.png */; };
-		065FABFF15900C4A008E9B3C /* AllianceArcherWalkLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF315900C4A008E9B3C /* AllianceArcherWalkLR@2x.plist */; };
-		065FAC0015900C4A008E9B3C /* AllianceArcherWalkLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF415900C4A008E9B3C /* AllianceArcherWalkLR@2x.png */; };
 		065FAC0115900C4A008E9B3C /* AllianceArcherWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF515900C4A008E9B3C /* AllianceArcherWalkNF.plist */; };
 		065FAC0215900C4A008E9B3C /* AllianceArcherWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF615900C4A008E9B3C /* AllianceArcherWalkNF.png */; };
 		065FAC0315900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF715900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist */; };
 		065FAC0415900C4A008E9B3C /* AllianceArcherWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF815900C4A008E9B3C /* AllianceArcherWalkNF@2x.png */; };
-		065FAC0515900C4A008E9B3C /* AllianceArcherWalkUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF915900C4A008E9B3C /* AllianceArcherWalkUD.plist */; };
-		065FAC0615900C4A008E9B3C /* AllianceArcherWalkUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABFA15900C4A008E9B3C /* AllianceArcherWalkUD.png */; };
-		065FAC0715900C4A008E9B3C /* AllianceArcherWalkUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABFB15900C4A008E9B3C /* AllianceArcherWalkUD@2x.plist */; };
-		065FAC0815900C4A008E9B3C /* AllianceArcherWalkUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABFC15900C4A008E9B3C /* AllianceArcherWalkUD@2x.png */; };
-		065FAC1515900C5D008E9B3C /* AllianceWarriorWalkLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0915900C5D008E9B3C /* AllianceWarriorWalkLR.plist */; };
-		065FAC1615900C5D008E9B3C /* AllianceWarriorWalkLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0A15900C5D008E9B3C /* AllianceWarriorWalkLR.png */; };
-		065FAC1715900C5D008E9B3C /* AllianceWarriorWalkLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0B15900C5D008E9B3C /* AllianceWarriorWalkLR@2x.plist */; };
-		065FAC1815900C5D008E9B3C /* AllianceWarriorWalkLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0C15900C5D008E9B3C /* AllianceWarriorWalkLR@2x.png */; };
 		065FAC1915900C5D008E9B3C /* AllianceWarriorWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0D15900C5D008E9B3C /* AllianceWarriorWalkNF.plist */; };
 		065FAC1A15900C5D008E9B3C /* AllianceWarriorWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0E15900C5D008E9B3C /* AllianceWarriorWalkNF.png */; };
 		065FAC1B15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0F15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist */; };
 		065FAC1C15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC1015900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png */; };
-		065FAC1D15900C5D008E9B3C /* AllianceWarriorWalkUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC1115900C5D008E9B3C /* AllianceWarriorWalkUD.plist */; };
-		065FAC1E15900C5D008E9B3C /* AllianceWarriorWalkUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC1215900C5D008E9B3C /* AllianceWarriorWalkUD.png */; };
-		065FAC1F15900C5D008E9B3C /* AllianceWarriorWalkUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC1315900C5D008E9B3C /* AllianceWarriorWalkUD@2x.plist */; };
-		065FAC2015900C5D008E9B3C /* AllianceWarriorWalkUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC1415900C5D008E9B3C /* AllianceWarriorWalkUD@2x.png */; };
-		065FAC2D15900C70008E9B3C /* LegionArcherWalkLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2115900C6F008E9B3C /* LegionArcherWalkLR.plist */; };
-		065FAC2E15900C70008E9B3C /* LegionArcherWalkLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2215900C6F008E9B3C /* LegionArcherWalkLR.png */; };
-		065FAC2F15900C70008E9B3C /* LegionArcherWalkLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2315900C6F008E9B3C /* LegionArcherWalkLR@2x.plist */; };
-		065FAC3015900C70008E9B3C /* LegionArcherWalkLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2415900C6F008E9B3C /* LegionArcherWalkLR@2x.png */; };
 		065FAC3115900C70008E9B3C /* LegionArcherWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2515900C6F008E9B3C /* LegionArcherWalkNF.plist */; };
 		065FAC3215900C70008E9B3C /* LegionArcherWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2615900C6F008E9B3C /* LegionArcherWalkNF.png */; };
 		065FAC3315900C70008E9B3C /* LegionArcherWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2715900C6F008E9B3C /* LegionArcherWalkNF@2x.plist */; };
 		065FAC3415900C70008E9B3C /* LegionArcherWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2815900C6F008E9B3C /* LegionArcherWalkNF@2x.png */; };
-		065FAC3515900C70008E9B3C /* LegionArcherWalkUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2915900C6F008E9B3C /* LegionArcherWalkUD.plist */; };
-		065FAC3615900C70008E9B3C /* LegionArcherWalkUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2A15900C6F008E9B3C /* LegionArcherWalkUD.png */; };
-		065FAC3715900C70008E9B3C /* LegionArcherWalkUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2B15900C6F008E9B3C /* LegionArcherWalkUD@2x.plist */; };
-		065FAC3815900C70008E9B3C /* LegionArcherWalkUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2C15900C6F008E9B3C /* LegionArcherWalkUD@2x.png */; };
-		065FAC4915900C78008E9B3C /* LegionMageWalkLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC3B15900C78008E9B3C /* LegionMageWalkLR.plist */; };
-		065FAC4A15900C78008E9B3C /* LegionMageWalkLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC3C15900C78008E9B3C /* LegionMageWalkLR.png */; };
-		065FAC4B15900C78008E9B3C /* LegionMageWalkLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC3D15900C78008E9B3C /* LegionMageWalkLR@2x.plist */; };
-		065FAC4C15900C78008E9B3C /* LegionMageWalkLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC3E15900C78008E9B3C /* LegionMageWalkLR@2x.png */; };
 		065FAC4D15900C78008E9B3C /* LegionMageWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC3F15900C78008E9B3C /* LegionMageWalkNF.plist */; };
 		065FAC4E15900C78008E9B3C /* LegionMageWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4015900C78008E9B3C /* LegionMageWalkNF.png */; };
 		065FAC4F15900C78008E9B3C /* LegionMageWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4115900C78008E9B3C /* LegionMageWalkNF@2x.plist */; };
 		065FAC5015900C78008E9B3C /* LegionMageWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4215900C78008E9B3C /* LegionMageWalkNF@2x.png */; };
-		065FAC5115900C78008E9B3C /* LegionMageWalkUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4315900C78008E9B3C /* LegionMageWalkUD.plist */; };
-		065FAC5215900C78008E9B3C /* LegionMageWalkUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4415900C78008E9B3C /* LegionMageWalkUD.png */; };
-		065FAC5315900C78008E9B3C /* LegionMageWalkUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4515900C78008E9B3C /* LegionMageWalkUD@2x.plist */; };
-		065FAC5415900C78008E9B3C /* LegionMageWalkUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4615900C78008E9B3C /* LegionMageWalkUD@2x.png */; };
-		065FAC6115900C90008E9B3C /* LegionWarriorWalkLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5515900C90008E9B3C /* LegionWarriorWalkLR.plist */; };
-		065FAC6215900C90008E9B3C /* LegionWarriorWalkLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5615900C90008E9B3C /* LegionWarriorWalkLR.png */; };
-		065FAC6315900C90008E9B3C /* LegionWarriorWalkLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5715900C90008E9B3C /* LegionWarriorWalkLR@2x.plist */; };
-		065FAC6415900C90008E9B3C /* LegionWarriorWalkLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5815900C90008E9B3C /* LegionWarriorWalkLR@2x.png */; };
 		065FAC6515900C90008E9B3C /* LegionWarriorWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5915900C90008E9B3C /* LegionWarriorWalkNF.plist */; };
 		065FAC6615900C90008E9B3C /* LegionWarriorWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5A15900C90008E9B3C /* LegionWarriorWalkNF.png */; };
 		065FAC6715900C90008E9B3C /* LegionWarriorWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5B15900C90008E9B3C /* LegionWarriorWalkNF@2x.plist */; };
 		065FAC6815900C90008E9B3C /* LegionWarriorWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5C15900C90008E9B3C /* LegionWarriorWalkNF@2x.png */; };
-		065FAC6915900C90008E9B3C /* LegionWarriorWalkUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5D15900C90008E9B3C /* LegionWarriorWalkUD.plist */; };
-		065FAC6A15900C90008E9B3C /* LegionWarriorWalkUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5E15900C90008E9B3C /* LegionWarriorWalkUD.png */; };
-		065FAC6B15900C90008E9B3C /* LegionWarriorWalkUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5F15900C90008E9B3C /* LegionWarriorWalkUD@2x.plist */; };
-		065FAC6C15900C90008E9B3C /* LegionWarriorWalkUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC6015900C90008E9B3C /* LegionWarriorWalkUD@2x.png */; };
 		065FAC7115900C9E008E9B3C /* TutorialGuideBadWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC6D15900C9E008E9B3C /* TutorialGuideBadWalkNF.plist */; };
 		065FAC7215900C9E008E9B3C /* TutorialGuideBadWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC6E15900C9E008E9B3C /* TutorialGuideBadWalkNF.png */; };
 		065FAC7315900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC6F15900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist */; };
@@ -85,152 +39,6 @@
 		065FAC7A15900CA4008E9B3C /* TutorialGuideWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7615900CA4008E9B3C /* TutorialGuideWalkNF.png */; };
 		065FAC7B15900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7715900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist */; };
 		065FAC7C15900CA4008E9B3C /* TutorialGuideWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7815900CA4008E9B3C /* TutorialGuideWalkNF@2x.png */; };
-		065FAC9D159029BB008E9B3C /* AllianceArcherGenericLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC91159029BB008E9B3C /* AllianceArcherGenericLR.plist */; };
-		065FAC9E159029BB008E9B3C /* AllianceArcherGenericLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC92159029BB008E9B3C /* AllianceArcherGenericLR.png */; };
-		065FAC9F159029BB008E9B3C /* AllianceArcherGenericLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC93159029BB008E9B3C /* AllianceArcherGenericLR@2x.plist */; };
-		065FACA0159029BB008E9B3C /* AllianceArcherGenericLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC94159029BB008E9B3C /* AllianceArcherGenericLR@2x.png */; };
-		065FACA1159029BB008E9B3C /* AllianceArcherGenericNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC95159029BB008E9B3C /* AllianceArcherGenericNF.plist */; };
-		065FACA2159029BB008E9B3C /* AllianceArcherGenericNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC96159029BB008E9B3C /* AllianceArcherGenericNF.png */; };
-		065FACA3159029BB008E9B3C /* AllianceArcherGenericNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC97159029BB008E9B3C /* AllianceArcherGenericNF@2x.plist */; };
-		065FACA4159029BB008E9B3C /* AllianceArcherGenericNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC98159029BB008E9B3C /* AllianceArcherGenericNF@2x.png */; };
-		065FACA5159029BB008E9B3C /* AllianceArcherGenericUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC99159029BB008E9B3C /* AllianceArcherGenericUD.plist */; };
-		065FACA6159029BB008E9B3C /* AllianceArcherGenericUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC9A159029BB008E9B3C /* AllianceArcherGenericUD.png */; };
-		065FACA7159029BB008E9B3C /* AllianceArcherGenericUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC9B159029BB008E9B3C /* AllianceArcherGenericUD@2x.plist */; };
-		065FACA8159029BB008E9B3C /* AllianceArcherGenericUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC9C159029BB008E9B3C /* AllianceArcherGenericUD@2x.png */; };
-		065FACB5159029C4008E9B3C /* AllianceArcherAttackLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACA9159029C4008E9B3C /* AllianceArcherAttackLR.plist */; };
-		065FACB6159029C4008E9B3C /* AllianceArcherAttackLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACAA159029C4008E9B3C /* AllianceArcherAttackLR.png */; };
-		065FACB7159029C4008E9B3C /* AllianceArcherAttackLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACAB159029C4008E9B3C /* AllianceArcherAttackLR@2x.plist */; };
-		065FACB8159029C4008E9B3C /* AllianceArcherAttackLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACAC159029C4008E9B3C /* AllianceArcherAttackLR@2x.png */; };
-		065FACB9159029C4008E9B3C /* AllianceArcherAttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACAD159029C4008E9B3C /* AllianceArcherAttackNF.plist */; };
-		065FACBA159029C4008E9B3C /* AllianceArcherAttackNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACAE159029C4008E9B3C /* AllianceArcherAttackNF.png */; };
-		065FACBB159029C4008E9B3C /* AllianceArcherAttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACAF159029C4008E9B3C /* AllianceArcherAttackNF@2x.plist */; };
-		065FACBC159029C4008E9B3C /* AllianceArcherAttackNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACB0159029C4008E9B3C /* AllianceArcherAttackNF@2x.png */; };
-		065FACBD159029C4008E9B3C /* AllianceArcherAttackUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACB1159029C4008E9B3C /* AllianceArcherAttackUD.plist */; };
-		065FACBE159029C4008E9B3C /* AllianceArcherAttackUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACB2159029C4008E9B3C /* AllianceArcherAttackUD.png */; };
-		065FACBF159029C4008E9B3C /* AllianceArcherAttackUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACB3159029C4008E9B3C /* AllianceArcherAttackUD@2x.plist */; };
-		065FACC0159029C4008E9B3C /* AllianceArcherAttackUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACB4159029C4008E9B3C /* AllianceArcherAttackUD@2x.png */; };
-		065FACC31590336F008E9B3C /* LegionMageWalkUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACC11590336F008E9B3C /* LegionMageWalkUD@2x.plist */; };
-		065FACC41590336F008E9B3C /* LegionMageWalkUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACC21590336F008E9B3C /* LegionMageWalkUD@2x.png */; };
-		065FACD41590555A008E9B3C /* AllianceMageAttackLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACC81590555A008E9B3C /* AllianceMageAttackLR.plist */; };
-		065FACD51590555A008E9B3C /* AllianceMageAttackLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACC91590555A008E9B3C /* AllianceMageAttackLR.png */; };
-		065FACD61590555A008E9B3C /* AllianceMageAttackLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACCA1590555A008E9B3C /* AllianceMageAttackLR@2x.plist */; };
-		065FACD71590555A008E9B3C /* AllianceMageAttackLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACCB1590555A008E9B3C /* AllianceMageAttackLR@2x.png */; };
-		065FACD81590555A008E9B3C /* AllianceMageAttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACCC1590555A008E9B3C /* AllianceMageAttackNF.plist */; };
-		065FACD91590555A008E9B3C /* AllianceMageAttackNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACCD1590555A008E9B3C /* AllianceMageAttackNF.png */; };
-		065FACDA1590555A008E9B3C /* AllianceMageAttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACCE1590555A008E9B3C /* AllianceMageAttackNF@2x.plist */; };
-		065FACDB1590555A008E9B3C /* AllianceMageAttackNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACCF1590555A008E9B3C /* AllianceMageAttackNF@2x.png */; };
-		065FACDC1590555A008E9B3C /* AllianceMageAttackUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACD01590555A008E9B3C /* AllianceMageAttackUD.plist */; };
-		065FACDD1590555A008E9B3C /* AllianceMageAttackUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACD11590555A008E9B3C /* AllianceMageAttackUD.png */; };
-		065FACDE1590555A008E9B3C /* AllianceMageAttackUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACD21590555A008E9B3C /* AllianceMageAttackUD@2x.plist */; };
-		065FACDF1590555A008E9B3C /* AllianceMageAttackUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACD31590555A008E9B3C /* AllianceMageAttackUD@2x.png */; };
-		065FACEC15905564008E9B3C /* AllianceMageGenericLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE015905564008E9B3C /* AllianceMageGenericLR.plist */; };
-		065FACED15905564008E9B3C /* AllianceMageGenericLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE115905564008E9B3C /* AllianceMageGenericLR.png */; };
-		065FACEE15905564008E9B3C /* AllianceMageGenericLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE215905564008E9B3C /* AllianceMageGenericLR@2x.plist */; };
-		065FACEF15905564008E9B3C /* AllianceMageGenericLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE315905564008E9B3C /* AllianceMageGenericLR@2x.png */; };
-		065FACF015905564008E9B3C /* AllianceMageGenericNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE415905564008E9B3C /* AllianceMageGenericNF.plist */; };
-		065FACF115905564008E9B3C /* AllianceMageGenericNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE515905564008E9B3C /* AllianceMageGenericNF.png */; };
-		065FACF215905564008E9B3C /* AllianceMageGenericNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE615905564008E9B3C /* AllianceMageGenericNF@2x.plist */; };
-		065FACF315905564008E9B3C /* AllianceMageGenericNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE715905564008E9B3C /* AllianceMageGenericNF@2x.png */; };
-		065FACF415905564008E9B3C /* AllianceMageGenericUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE815905564008E9B3C /* AllianceMageGenericUD.plist */; };
-		065FACF515905564008E9B3C /* AllianceMageGenericUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACE915905564008E9B3C /* AllianceMageGenericUD.png */; };
-		065FACF615905564008E9B3C /* AllianceMageGenericUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACEA15905564008E9B3C /* AllianceMageGenericUD@2x.plist */; };
-		065FACF715905564008E9B3C /* AllianceMageGenericUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACEB15905564008E9B3C /* AllianceMageGenericUD@2x.png */; };
-		065FAD07159055BB008E9B3C /* AllianceWarriorGenericLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACFB159055BB008E9B3C /* AllianceWarriorGenericLR.plist */; };
-		065FAD08159055BB008E9B3C /* AllianceWarriorGenericLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACFC159055BB008E9B3C /* AllianceWarriorGenericLR.png */; };
-		065FAD09159055BB008E9B3C /* AllianceWarriorGenericLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACFD159055BB008E9B3C /* AllianceWarriorGenericLR@2x.plist */; };
-		065FAD0A159055BB008E9B3C /* AllianceWarriorGenericLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FACFE159055BB008E9B3C /* AllianceWarriorGenericLR@2x.png */; };
-		065FAD0B159055BB008E9B3C /* AllianceWarriorGenericNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FACFF159055BB008E9B3C /* AllianceWarriorGenericNF.plist */; };
-		065FAD0C159055BB008E9B3C /* AllianceWarriorGenericNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD00159055BB008E9B3C /* AllianceWarriorGenericNF.png */; };
-		065FAD0D159055BB008E9B3C /* AllianceWarriorGenericNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD01159055BB008E9B3C /* AllianceWarriorGenericNF@2x.plist */; };
-		065FAD0E159055BB008E9B3C /* AllianceWarriorGenericNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD02159055BB008E9B3C /* AllianceWarriorGenericNF@2x.png */; };
-		065FAD0F159055BB008E9B3C /* AllianceWarriorGenericUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD03159055BB008E9B3C /* AllianceWarriorGenericUD.plist */; };
-		065FAD10159055BB008E9B3C /* AllianceWarriorGenericUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD04159055BB008E9B3C /* AllianceWarriorGenericUD.png */; };
-		065FAD11159055BB008E9B3C /* AllianceWarriorGenericUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD05159055BB008E9B3C /* AllianceWarriorGenericUD@2x.plist */; };
-		065FAD12159055BB008E9B3C /* AllianceWarriorGenericUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD06159055BB008E9B3C /* AllianceWarriorGenericUD@2x.png */; };
-		065FAD1F15905606008E9B3C /* AllianceWarriorAttackLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1315905606008E9B3C /* AllianceWarriorAttackLR.plist */; };
-		065FAD2015905606008E9B3C /* AllianceWarriorAttackLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1415905606008E9B3C /* AllianceWarriorAttackLR.png */; };
-		065FAD2115905606008E9B3C /* AllianceWarriorAttackLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1515905606008E9B3C /* AllianceWarriorAttackLR@2x.plist */; };
-		065FAD2215905606008E9B3C /* AllianceWarriorAttackLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1615905606008E9B3C /* AllianceWarriorAttackLR@2x.png */; };
-		065FAD2515905606008E9B3C /* AllianceWarriorAttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1915905606008E9B3C /* AllianceWarriorAttackNF@2x.plist */; };
-		065FAD2615905606008E9B3C /* AllianceWarriorAttackNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1A15905606008E9B3C /* AllianceWarriorAttackNF@2x.png */; };
-		065FAD2715905606008E9B3C /* AllianceWarriorAttackUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1B15905606008E9B3C /* AllianceWarriorAttackUD.plist */; };
-		065FAD2815905606008E9B3C /* AllianceWarriorAttackUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1C15905606008E9B3C /* AllianceWarriorAttackUD.png */; };
-		065FAD2915905606008E9B3C /* AllianceWarriorAttackUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1D15905606008E9B3C /* AllianceWarriorAttackUD@2x.plist */; };
-		065FAD2A15905606008E9B3C /* AllianceWarriorAttackUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD1E15905606008E9B3C /* AllianceWarriorAttackUD@2x.png */; };
-		065FAD301590581A008E9B3C /* AllianceWarriorAttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD2E1590581A008E9B3C /* AllianceWarriorAttackNF.plist */; };
-		065FAD311590581A008E9B3C /* AllianceWarriorAttackNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD2F1590581A008E9B3C /* AllianceWarriorAttackNF.png */; };
-		065FAD3E15905833008E9B3C /* LegionMageGenericLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3215905833008E9B3C /* LegionMageGenericLR.plist */; };
-		065FAD3F15905833008E9B3C /* LegionMageGenericLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3315905833008E9B3C /* LegionMageGenericLR.png */; };
-		065FAD4015905833008E9B3C /* LegionMageGenericLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3415905833008E9B3C /* LegionMageGenericLR@2x.plist */; };
-		065FAD4115905833008E9B3C /* LegionMageGenericLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3515905833008E9B3C /* LegionMageGenericLR@2x.png */; };
-		065FAD4215905833008E9B3C /* LegionMageGenericNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3615905833008E9B3C /* LegionMageGenericNF.plist */; };
-		065FAD4315905833008E9B3C /* LegionMageGenericNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3715905833008E9B3C /* LegionMageGenericNF.png */; };
-		065FAD4415905833008E9B3C /* LegionMageGenericNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3815905833008E9B3C /* LegionMageGenericNF@2x.plist */; };
-		065FAD4515905833008E9B3C /* LegionMageGenericNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3915905833008E9B3C /* LegionMageGenericNF@2x.png */; };
-		065FAD4615905833008E9B3C /* LegionMageGenericUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3A15905833008E9B3C /* LegionMageGenericUD.plist */; };
-		065FAD4715905833008E9B3C /* LegionMageGenericUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3B15905833008E9B3C /* LegionMageGenericUD.png */; };
-		065FAD4815905833008E9B3C /* LegionMageGenericUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3C15905833008E9B3C /* LegionMageGenericUD@2x.plist */; };
-		065FAD4915905833008E9B3C /* LegionMageGenericUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD3D15905833008E9B3C /* LegionMageGenericUD@2x.png */; };
-		065FAD561590583A008E9B3C /* LegionMageAttackLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD4A1590583A008E9B3C /* LegionMageAttackLR.plist */; };
-		065FAD571590583A008E9B3C /* LegionMageAttackLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD4B1590583A008E9B3C /* LegionMageAttackLR.png */; };
-		065FAD581590583A008E9B3C /* LegionMageAttackLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD4C1590583A008E9B3C /* LegionMageAttackLR@2x.plist */; };
-		065FAD591590583A008E9B3C /* LegionMageAttackLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD4D1590583A008E9B3C /* LegionMageAttackLR@2x.png */; };
-		065FAD5A1590583A008E9B3C /* LegionMageAttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD4E1590583A008E9B3C /* LegionMageAttackNF.plist */; };
-		065FAD5B1590583A008E9B3C /* LegionMageAttackNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD4F1590583A008E9B3C /* LegionMageAttackNF.png */; };
-		065FAD5C1590583A008E9B3C /* LegionMageAttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD501590583A008E9B3C /* LegionMageAttackNF@2x.plist */; };
-		065FAD5D1590583A008E9B3C /* LegionMageAttackNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD511590583A008E9B3C /* LegionMageAttackNF@2x.png */; };
-		065FAD5E1590583A008E9B3C /* LegionMageAttackUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD521590583A008E9B3C /* LegionMageAttackUD.plist */; };
-		065FAD5F1590583A008E9B3C /* LegionMageAttackUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD531590583A008E9B3C /* LegionMageAttackUD.png */; };
-		065FAD601590583A008E9B3C /* LegionMageAttackUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD541590583A008E9B3C /* LegionMageAttackUD@2x.plist */; };
-		065FAD611590583A008E9B3C /* LegionMageAttackUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD551590583A008E9B3C /* LegionMageAttackUD@2x.png */; };
-		065FAD7215905927008E9B3C /* LegionArcherGenericLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6615905927008E9B3C /* LegionArcherGenericLR.plist */; };
-		065FAD7315905927008E9B3C /* LegionArcherGenericLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6715905927008E9B3C /* LegionArcherGenericLR.png */; };
-		065FAD7415905927008E9B3C /* LegionArcherGenericLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6815905927008E9B3C /* LegionArcherGenericLR@2x.plist */; };
-		065FAD7515905927008E9B3C /* LegionArcherGenericLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6915905927008E9B3C /* LegionArcherGenericLR@2x.png */; };
-		065FAD7615905927008E9B3C /* LegionArcherGenericNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6A15905927008E9B3C /* LegionArcherGenericNF.plist */; };
-		065FAD7715905927008E9B3C /* LegionArcherGenericNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6B15905927008E9B3C /* LegionArcherGenericNF.png */; };
-		065FAD7815905927008E9B3C /* LegionArcherGenericNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6C15905927008E9B3C /* LegionArcherGenericNF@2x.plist */; };
-		065FAD7915905927008E9B3C /* LegionArcherGenericNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6D15905927008E9B3C /* LegionArcherGenericNF@2x.png */; };
-		065FAD7A15905927008E9B3C /* LegionArcherGenericUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6E15905927008E9B3C /* LegionArcherGenericUD.plist */; };
-		065FAD7B15905927008E9B3C /* LegionArcherGenericUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD6F15905927008E9B3C /* LegionArcherGenericUD.png */; };
-		065FAD7C15905927008E9B3C /* LegionArcherGenericUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD7015905927008E9B3C /* LegionArcherGenericUD@2x.plist */; };
-		065FAD7D15905927008E9B3C /* LegionArcherGenericUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD7115905927008E9B3C /* LegionArcherGenericUD@2x.png */; };
-		065FAD8A15905933008E9B3C /* LegionArcherAttackLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD7E15905933008E9B3C /* LegionArcherAttackLR.plist */; };
-		065FAD8B15905933008E9B3C /* LegionArcherAttackLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD7F15905933008E9B3C /* LegionArcherAttackLR.png */; };
-		065FAD8C15905933008E9B3C /* LegionArcherAttackLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8015905933008E9B3C /* LegionArcherAttackLR@2x.plist */; };
-		065FAD8D15905933008E9B3C /* LegionArcherAttackLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8115905933008E9B3C /* LegionArcherAttackLR@2x.png */; };
-		065FAD8E15905933008E9B3C /* LegionArcherAttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8215905933008E9B3C /* LegionArcherAttackNF.plist */; };
-		065FAD8F15905933008E9B3C /* LegionArcherAttackNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8315905933008E9B3C /* LegionArcherAttackNF.png */; };
-		065FAD9015905933008E9B3C /* LegionArcherAttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8415905933008E9B3C /* LegionArcherAttackNF@2x.plist */; };
-		065FAD9115905933008E9B3C /* LegionArcherAttackNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8515905933008E9B3C /* LegionArcherAttackNF@2x.png */; };
-		065FAD9215905933008E9B3C /* LegionArcherAttackUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8615905933008E9B3C /* LegionArcherAttackUD.plist */; };
-		065FAD9315905933008E9B3C /* LegionArcherAttackUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8715905933008E9B3C /* LegionArcherAttackUD.png */; };
-		065FAD9415905933008E9B3C /* LegionArcherAttackUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8815905933008E9B3C /* LegionArcherAttackUD@2x.plist */; };
-		065FAD9515905933008E9B3C /* LegionArcherAttackUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD8915905933008E9B3C /* LegionArcherAttackUD@2x.png */; };
-		065FADA51590595E008E9B3C /* LegionWarriorGenericLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD991590595E008E9B3C /* LegionWarriorGenericLR.plist */; };
-		065FADA61590595E008E9B3C /* LegionWarriorGenericLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD9A1590595E008E9B3C /* LegionWarriorGenericLR.png */; };
-		065FADA71590595E008E9B3C /* LegionWarriorGenericLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD9B1590595E008E9B3C /* LegionWarriorGenericLR@2x.plist */; };
-		065FADA81590595E008E9B3C /* LegionWarriorGenericLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD9C1590595E008E9B3C /* LegionWarriorGenericLR@2x.png */; };
-		065FADA91590595E008E9B3C /* LegionWarriorGenericNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD9D1590595E008E9B3C /* LegionWarriorGenericNF.plist */; };
-		065FADAA1590595E008E9B3C /* LegionWarriorGenericNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD9E1590595E008E9B3C /* LegionWarriorGenericNF.png */; };
-		065FADAB1590595E008E9B3C /* LegionWarriorGenericNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAD9F1590595E008E9B3C /* LegionWarriorGenericNF@2x.plist */; };
-		065FADAC1590595E008E9B3C /* LegionWarriorGenericNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADA01590595E008E9B3C /* LegionWarriorGenericNF@2x.png */; };
-		065FADAD1590595E008E9B3C /* LegionWarriorGenericUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADA11590595E008E9B3C /* LegionWarriorGenericUD.plist */; };
-		065FADAE1590595E008E9B3C /* LegionWarriorGenericUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADA21590595E008E9B3C /* LegionWarriorGenericUD.png */; };
-		065FADAF1590595E008E9B3C /* LegionWarriorGenericUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADA31590595E008E9B3C /* LegionWarriorGenericUD@2x.plist */; };
-		065FADB01590595E008E9B3C /* LegionWarriorGenericUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADA41590595E008E9B3C /* LegionWarriorGenericUD@2x.png */; };
-		065FADBD15905963008E9B3C /* LegionWarriorAttackLR.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB115905963008E9B3C /* LegionWarriorAttackLR.plist */; };
-		065FADBE15905963008E9B3C /* LegionWarriorAttackLR.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB215905963008E9B3C /* LegionWarriorAttackLR.png */; };
-		065FADBF15905963008E9B3C /* LegionWarriorAttackLR@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB315905963008E9B3C /* LegionWarriorAttackLR@2x.plist */; };
-		065FADC015905963008E9B3C /* LegionWarriorAttackLR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB415905963008E9B3C /* LegionWarriorAttackLR@2x.png */; };
-		065FADC115905963008E9B3C /* LegionWarriorAttackNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB515905963008E9B3C /* LegionWarriorAttackNF.plist */; };
-		065FADC215905963008E9B3C /* LegionWarriorAttackNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB615905963008E9B3C /* LegionWarriorAttackNF.png */; };
-		065FADC315905963008E9B3C /* LegionWarriorAttackNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB715905963008E9B3C /* LegionWarriorAttackNF@2x.plist */; };
-		065FADC415905963008E9B3C /* LegionWarriorAttackNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB815905963008E9B3C /* LegionWarriorAttackNF@2x.png */; };
-		065FADC515905963008E9B3C /* LegionWarriorAttackUD.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADB915905963008E9B3C /* LegionWarriorAttackUD.plist */; };
-		065FADC615905963008E9B3C /* LegionWarriorAttackUD.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADBA15905963008E9B3C /* LegionWarriorAttackUD.png */; };
-		065FADC715905963008E9B3C /* LegionWarriorAttackUD@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FADBB15905963008E9B3C /* LegionWarriorAttackUD@2x.plist */; };
-		065FADC815905963008E9B3C /* LegionWarriorAttackUD@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FADBC15905963008E9B3C /* LegionWarriorAttackUD@2x.png */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
@@ -1003,24 +811,6 @@
 		CF1270591538ACCB00E0C1AD /* taskyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269A81538ACC600E0C1AD /* taskyellowbar@2x.png */; };
 		CF12705A1538ACCB00E0C1AD /* topgradient.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269A91538ACC600E0C1AD /* topgradient.png */; };
 		CF12705B1538ACCB00E0C1AD /* topgradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269AA1538ACC600E0C1AD /* topgradient@2x.png */; };
-		CF1270741538ACCB00E0C1AD /* Bard.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269C51538ACC600E0C1AD /* Bard.png */; };
-		CF1270751538ACCB00E0C1AD /* Bard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269C61538ACC600E0C1AD /* Bard@2x.png */; };
-		CF1270761538ACCB00E0C1AD /* DrowArcher.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269C71538ACC600E0C1AD /* DrowArcher.png */; };
-		CF1270771538ACCB00E0C1AD /* DrowArcher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269C81538ACC600E0C1AD /* DrowArcher@2x.png */; };
-		CF1270781538ACCB00E0C1AD /* Farmer.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269C91538ACC600E0C1AD /* Farmer.png */; };
-		CF1270791538ACCB00E0C1AD /* Farmer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269CA1538ACC600E0C1AD /* Farmer@2x.png */; };
-		CF12707A1538ACCB00E0C1AD /* FemaleFarmer.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269CB1538ACC600E0C1AD /* FemaleFarmer.png */; };
-		CF12707B1538ACCB00E0C1AD /* FemaleFarmer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269CC1538ACC600E0C1AD /* FemaleFarmer@2x.png */; };
-		CF12707C1538ACCB00E0C1AD /* LegionMage.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269CD1538ACC600E0C1AD /* LegionMage.png */; };
-		CF12707D1538ACCB00E0C1AD /* LegionMage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269CE1538ACC600E0C1AD /* LegionMage@2x.png */; };
-		CF12707E1538ACCB00E0C1AD /* PandaMage.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269CF1538ACC600E0C1AD /* PandaMage.png */; };
-		CF12707F1538ACCB00E0C1AD /* PandaMage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269D01538ACC600E0C1AD /* PandaMage@2x.png */; };
-		CF1270801538ACCB00E0C1AD /* Seaman.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269D11538ACC600E0C1AD /* Seaman.png */; };
-		CF1270811538ACCB00E0C1AD /* Seaman@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269D21538ACC600E0C1AD /* Seaman@2x.png */; };
-		CF1270821538ACCB00E0C1AD /* SkeletonWarrior.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269D31538ACC600E0C1AD /* SkeletonWarrior.png */; };
-		CF1270831538ACCB00E0C1AD /* SkeletonWarrior@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269D41538ACC600E0C1AD /* SkeletonWarrior@2x.png */; };
-		CF1270841538ACCB00E0C1AD /* Syndicate.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269D51538ACC600E0C1AD /* Syndicate.png */; };
-		CF1270851538ACCB00E0C1AD /* Syndicate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1269D61538ACC600E0C1AD /* Syndicate@2x.png */; };
 		CF1270CE1538ACCC00E0C1AD /* badgirltall.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A271538ACC600E0C1AD /* badgirltall.png */; };
 		CF1270CF1538ACCC00E0C1AD /* badgirltall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A281538ACC600E0C1AD /* badgirltall@2x.png */; };
 		CF1270D01538ACCC00E0C1AD /* BrokenShield.png in Resources */ = {isa = PBXBuildFile; fileRef = CF126A291538ACC600E0C1AD /* BrokenShield.png */; };
@@ -1515,6 +1305,7 @@
 		CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = CF48CA821576FF3200802A39 /* MarketplaceMenus.m */; };
 		CFDBFEB7153BCE6100DA9206 /* popupglow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB5153BCE6100DA9206 /* popupglow.png */; };
 		CFDBFEB8153BCE6100DA9206 /* popupglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */; };
+		CFE3E9421592BB7400E85701 /* TutorialMyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */; };
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
 		CFECCDDC1550909700171271 /* equipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDA1550909700171271 /* equipped.png */; };
 		CFECCDDD1550909700171271 /* equipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDB1550909700171271 /* equipped@2x.png */; };
@@ -1646,76 +1437,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		065FABD915900C33008E9B3C /* AllianceMageWalkLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageWalkLR.plist; sourceTree = "<group>"; };
-		065FABDA15900C33008E9B3C /* AllianceMageWalkLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageWalkLR.png; sourceTree = "<group>"; };
-		065FABDB15900C33008E9B3C /* AllianceMageWalkLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageWalkLR@2x.plist"; sourceTree = "<group>"; };
-		065FABDC15900C33008E9B3C /* AllianceMageWalkLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageWalkLR@2x.png"; sourceTree = "<group>"; };
 		065FABDD15900C33008E9B3C /* AllianceMageWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageWalkNF.plist; sourceTree = "<group>"; };
 		065FABDE15900C33008E9B3C /* AllianceMageWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageWalkNF.png; sourceTree = "<group>"; };
 		065FABDF15900C33008E9B3C /* AllianceMageWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageWalkNF@2x.plist"; sourceTree = "<group>"; };
 		065FABE015900C33008E9B3C /* AllianceMageWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FABE115900C33008E9B3C /* AllianceMageWalkUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageWalkUD.plist; sourceTree = "<group>"; };
-		065FABE215900C33008E9B3C /* AllianceMageWalkUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageWalkUD.png; sourceTree = "<group>"; };
-		065FABF115900C4A008E9B3C /* AllianceArcherWalkLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherWalkLR.plist; sourceTree = "<group>"; };
-		065FABF215900C4A008E9B3C /* AllianceArcherWalkLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherWalkLR.png; sourceTree = "<group>"; };
-		065FABF315900C4A008E9B3C /* AllianceArcherWalkLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherWalkLR@2x.plist"; sourceTree = "<group>"; };
-		065FABF415900C4A008E9B3C /* AllianceArcherWalkLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherWalkLR@2x.png"; sourceTree = "<group>"; };
 		065FABF515900C4A008E9B3C /* AllianceArcherWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherWalkNF.plist; sourceTree = "<group>"; };
 		065FABF615900C4A008E9B3C /* AllianceArcherWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherWalkNF.png; sourceTree = "<group>"; };
 		065FABF715900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherWalkNF@2x.plist"; sourceTree = "<group>"; };
 		065FABF815900C4A008E9B3C /* AllianceArcherWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FABF915900C4A008E9B3C /* AllianceArcherWalkUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherWalkUD.plist; sourceTree = "<group>"; };
-		065FABFA15900C4A008E9B3C /* AllianceArcherWalkUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherWalkUD.png; sourceTree = "<group>"; };
-		065FABFB15900C4A008E9B3C /* AllianceArcherWalkUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherWalkUD@2x.plist"; sourceTree = "<group>"; };
-		065FABFC15900C4A008E9B3C /* AllianceArcherWalkUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherWalkUD@2x.png"; sourceTree = "<group>"; };
-		065FAC0915900C5D008E9B3C /* AllianceWarriorWalkLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorWalkLR.plist; sourceTree = "<group>"; };
-		065FAC0A15900C5D008E9B3C /* AllianceWarriorWalkLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorWalkLR.png; sourceTree = "<group>"; };
-		065FAC0B15900C5D008E9B3C /* AllianceWarriorWalkLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorWalkLR@2x.plist"; sourceTree = "<group>"; };
-		065FAC0C15900C5D008E9B3C /* AllianceWarriorWalkLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorWalkLR@2x.png"; sourceTree = "<group>"; };
 		065FAC0D15900C5D008E9B3C /* AllianceWarriorWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorWalkNF.plist; sourceTree = "<group>"; };
 		065FAC0E15900C5D008E9B3C /* AllianceWarriorWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorWalkNF.png; sourceTree = "<group>"; };
 		065FAC0F15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorWalkNF@2x.plist"; sourceTree = "<group>"; };
 		065FAC1015900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC1115900C5D008E9B3C /* AllianceWarriorWalkUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorWalkUD.plist; sourceTree = "<group>"; };
-		065FAC1215900C5D008E9B3C /* AllianceWarriorWalkUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorWalkUD.png; sourceTree = "<group>"; };
-		065FAC1315900C5D008E9B3C /* AllianceWarriorWalkUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorWalkUD@2x.plist"; sourceTree = "<group>"; };
-		065FAC1415900C5D008E9B3C /* AllianceWarriorWalkUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorWalkUD@2x.png"; sourceTree = "<group>"; };
-		065FAC2115900C6F008E9B3C /* LegionArcherWalkLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherWalkLR.plist; sourceTree = "<group>"; };
-		065FAC2215900C6F008E9B3C /* LegionArcherWalkLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherWalkLR.png; sourceTree = "<group>"; };
-		065FAC2315900C6F008E9B3C /* LegionArcherWalkLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherWalkLR@2x.plist"; sourceTree = "<group>"; };
-		065FAC2415900C6F008E9B3C /* LegionArcherWalkLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherWalkLR@2x.png"; sourceTree = "<group>"; };
 		065FAC2515900C6F008E9B3C /* LegionArcherWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherWalkNF.plist; sourceTree = "<group>"; };
 		065FAC2615900C6F008E9B3C /* LegionArcherWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherWalkNF.png; sourceTree = "<group>"; };
 		065FAC2715900C6F008E9B3C /* LegionArcherWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherWalkNF@2x.plist"; sourceTree = "<group>"; };
 		065FAC2815900C6F008E9B3C /* LegionArcherWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC2915900C6F008E9B3C /* LegionArcherWalkUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherWalkUD.plist; sourceTree = "<group>"; };
-		065FAC2A15900C6F008E9B3C /* LegionArcherWalkUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherWalkUD.png; sourceTree = "<group>"; };
-		065FAC2B15900C6F008E9B3C /* LegionArcherWalkUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherWalkUD@2x.plist"; sourceTree = "<group>"; };
-		065FAC2C15900C6F008E9B3C /* LegionArcherWalkUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherWalkUD@2x.png"; sourceTree = "<group>"; };
-		065FAC3B15900C78008E9B3C /* LegionMageWalkLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageWalkLR.plist; sourceTree = "<group>"; };
-		065FAC3C15900C78008E9B3C /* LegionMageWalkLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageWalkLR.png; sourceTree = "<group>"; };
-		065FAC3D15900C78008E9B3C /* LegionMageWalkLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageWalkLR@2x.plist"; sourceTree = "<group>"; };
-		065FAC3E15900C78008E9B3C /* LegionMageWalkLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageWalkLR@2x.png"; sourceTree = "<group>"; };
 		065FAC3F15900C78008E9B3C /* LegionMageWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageWalkNF.plist; sourceTree = "<group>"; };
 		065FAC4015900C78008E9B3C /* LegionMageWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageWalkNF.png; sourceTree = "<group>"; };
 		065FAC4115900C78008E9B3C /* LegionMageWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageWalkNF@2x.plist"; sourceTree = "<group>"; };
 		065FAC4215900C78008E9B3C /* LegionMageWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC4315900C78008E9B3C /* LegionMageWalkUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageWalkUD.plist; sourceTree = "<group>"; };
-		065FAC4415900C78008E9B3C /* LegionMageWalkUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageWalkUD.png; sourceTree = "<group>"; };
-		065FAC4515900C78008E9B3C /* LegionMageWalkUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageWalkUD@2x.plist"; sourceTree = "<group>"; };
-		065FAC4615900C78008E9B3C /* LegionMageWalkUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageWalkUD@2x.png"; sourceTree = "<group>"; };
-		065FAC5515900C90008E9B3C /* LegionWarriorWalkLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorWalkLR.plist; sourceTree = "<group>"; };
-		065FAC5615900C90008E9B3C /* LegionWarriorWalkLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorWalkLR.png; sourceTree = "<group>"; };
-		065FAC5715900C90008E9B3C /* LegionWarriorWalkLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorWalkLR@2x.plist"; sourceTree = "<group>"; };
-		065FAC5815900C90008E9B3C /* LegionWarriorWalkLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorWalkLR@2x.png"; sourceTree = "<group>"; };
 		065FAC5915900C90008E9B3C /* LegionWarriorWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorWalkNF.plist; sourceTree = "<group>"; };
 		065FAC5A15900C90008E9B3C /* LegionWarriorWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorWalkNF.png; sourceTree = "<group>"; };
 		065FAC5B15900C90008E9B3C /* LegionWarriorWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorWalkNF@2x.plist"; sourceTree = "<group>"; };
 		065FAC5C15900C90008E9B3C /* LegionWarriorWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC5D15900C90008E9B3C /* LegionWarriorWalkUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorWalkUD.plist; sourceTree = "<group>"; };
-		065FAC5E15900C90008E9B3C /* LegionWarriorWalkUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorWalkUD.png; sourceTree = "<group>"; };
-		065FAC5F15900C90008E9B3C /* LegionWarriorWalkUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorWalkUD@2x.plist"; sourceTree = "<group>"; };
-		065FAC6015900C90008E9B3C /* LegionWarriorWalkUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorWalkUD@2x.png"; sourceTree = "<group>"; };
 		065FAC6D15900C9E008E9B3C /* TutorialGuideBadWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TutorialGuideBadWalkNF.plist; sourceTree = "<group>"; };
 		065FAC6E15900C9E008E9B3C /* TutorialGuideBadWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TutorialGuideBadWalkNF.png; sourceTree = "<group>"; };
 		065FAC6F15900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideBadWalkNF@2x.plist"; sourceTree = "<group>"; };
@@ -1724,152 +1469,6 @@
 		065FAC7615900CA4008E9B3C /* TutorialGuideWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TutorialGuideWalkNF.png; sourceTree = "<group>"; };
 		065FAC7715900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideWalkNF@2x.plist"; sourceTree = "<group>"; };
 		065FAC7815900CA4008E9B3C /* TutorialGuideWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TutorialGuideWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC91159029BB008E9B3C /* AllianceArcherGenericLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherGenericLR.plist; sourceTree = "<group>"; };
-		065FAC92159029BB008E9B3C /* AllianceArcherGenericLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherGenericLR.png; sourceTree = "<group>"; };
-		065FAC93159029BB008E9B3C /* AllianceArcherGenericLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherGenericLR@2x.plist"; sourceTree = "<group>"; };
-		065FAC94159029BB008E9B3C /* AllianceArcherGenericLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherGenericLR@2x.png"; sourceTree = "<group>"; };
-		065FAC95159029BB008E9B3C /* AllianceArcherGenericNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherGenericNF.plist; sourceTree = "<group>"; };
-		065FAC96159029BB008E9B3C /* AllianceArcherGenericNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherGenericNF.png; sourceTree = "<group>"; };
-		065FAC97159029BB008E9B3C /* AllianceArcherGenericNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherGenericNF@2x.plist"; sourceTree = "<group>"; };
-		065FAC98159029BB008E9B3C /* AllianceArcherGenericNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherGenericNF@2x.png"; sourceTree = "<group>"; };
-		065FAC99159029BB008E9B3C /* AllianceArcherGenericUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherGenericUD.plist; sourceTree = "<group>"; };
-		065FAC9A159029BB008E9B3C /* AllianceArcherGenericUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherGenericUD.png; sourceTree = "<group>"; };
-		065FAC9B159029BB008E9B3C /* AllianceArcherGenericUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherGenericUD@2x.plist"; sourceTree = "<group>"; };
-		065FAC9C159029BB008E9B3C /* AllianceArcherGenericUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherGenericUD@2x.png"; sourceTree = "<group>"; };
-		065FACA9159029C4008E9B3C /* AllianceArcherAttackLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherAttackLR.plist; sourceTree = "<group>"; };
-		065FACAA159029C4008E9B3C /* AllianceArcherAttackLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherAttackLR.png; sourceTree = "<group>"; };
-		065FACAB159029C4008E9B3C /* AllianceArcherAttackLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherAttackLR@2x.plist"; sourceTree = "<group>"; };
-		065FACAC159029C4008E9B3C /* AllianceArcherAttackLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherAttackLR@2x.png"; sourceTree = "<group>"; };
-		065FACAD159029C4008E9B3C /* AllianceArcherAttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherAttackNF.plist; sourceTree = "<group>"; };
-		065FACAE159029C4008E9B3C /* AllianceArcherAttackNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherAttackNF.png; sourceTree = "<group>"; };
-		065FACAF159029C4008E9B3C /* AllianceArcherAttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherAttackNF@2x.plist"; sourceTree = "<group>"; };
-		065FACB0159029C4008E9B3C /* AllianceArcherAttackNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherAttackNF@2x.png"; sourceTree = "<group>"; };
-		065FACB1159029C4008E9B3C /* AllianceArcherAttackUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherAttackUD.plist; sourceTree = "<group>"; };
-		065FACB2159029C4008E9B3C /* AllianceArcherAttackUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherAttackUD.png; sourceTree = "<group>"; };
-		065FACB3159029C4008E9B3C /* AllianceArcherAttackUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherAttackUD@2x.plist"; sourceTree = "<group>"; };
-		065FACB4159029C4008E9B3C /* AllianceArcherAttackUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherAttackUD@2x.png"; sourceTree = "<group>"; };
-		065FACC11590336F008E9B3C /* LegionMageWalkUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageWalkUD@2x.plist"; sourceTree = "<group>"; };
-		065FACC21590336F008E9B3C /* LegionMageWalkUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageWalkUD@2x.png"; sourceTree = "<group>"; };
-		065FACC81590555A008E9B3C /* AllianceMageAttackLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageAttackLR.plist; sourceTree = "<group>"; };
-		065FACC91590555A008E9B3C /* AllianceMageAttackLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageAttackLR.png; sourceTree = "<group>"; };
-		065FACCA1590555A008E9B3C /* AllianceMageAttackLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageAttackLR@2x.plist"; sourceTree = "<group>"; };
-		065FACCB1590555A008E9B3C /* AllianceMageAttackLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageAttackLR@2x.png"; sourceTree = "<group>"; };
-		065FACCC1590555A008E9B3C /* AllianceMageAttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageAttackNF.plist; sourceTree = "<group>"; };
-		065FACCD1590555A008E9B3C /* AllianceMageAttackNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageAttackNF.png; sourceTree = "<group>"; };
-		065FACCE1590555A008E9B3C /* AllianceMageAttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageAttackNF@2x.plist"; sourceTree = "<group>"; };
-		065FACCF1590555A008E9B3C /* AllianceMageAttackNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageAttackNF@2x.png"; sourceTree = "<group>"; };
-		065FACD01590555A008E9B3C /* AllianceMageAttackUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageAttackUD.plist; sourceTree = "<group>"; };
-		065FACD11590555A008E9B3C /* AllianceMageAttackUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageAttackUD.png; sourceTree = "<group>"; };
-		065FACD21590555A008E9B3C /* AllianceMageAttackUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageAttackUD@2x.plist"; sourceTree = "<group>"; };
-		065FACD31590555A008E9B3C /* AllianceMageAttackUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageAttackUD@2x.png"; sourceTree = "<group>"; };
-		065FACE015905564008E9B3C /* AllianceMageGenericLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageGenericLR.plist; sourceTree = "<group>"; };
-		065FACE115905564008E9B3C /* AllianceMageGenericLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageGenericLR.png; sourceTree = "<group>"; };
-		065FACE215905564008E9B3C /* AllianceMageGenericLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageGenericLR@2x.plist"; sourceTree = "<group>"; };
-		065FACE315905564008E9B3C /* AllianceMageGenericLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageGenericLR@2x.png"; sourceTree = "<group>"; };
-		065FACE415905564008E9B3C /* AllianceMageGenericNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageGenericNF.plist; sourceTree = "<group>"; };
-		065FACE515905564008E9B3C /* AllianceMageGenericNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageGenericNF.png; sourceTree = "<group>"; };
-		065FACE615905564008E9B3C /* AllianceMageGenericNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageGenericNF@2x.plist"; sourceTree = "<group>"; };
-		065FACE715905564008E9B3C /* AllianceMageGenericNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageGenericNF@2x.png"; sourceTree = "<group>"; };
-		065FACE815905564008E9B3C /* AllianceMageGenericUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageGenericUD.plist; sourceTree = "<group>"; };
-		065FACE915905564008E9B3C /* AllianceMageGenericUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageGenericUD.png; sourceTree = "<group>"; };
-		065FACEA15905564008E9B3C /* AllianceMageGenericUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageGenericUD@2x.plist"; sourceTree = "<group>"; };
-		065FACEB15905564008E9B3C /* AllianceMageGenericUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageGenericUD@2x.png"; sourceTree = "<group>"; };
-		065FACFB159055BB008E9B3C /* AllianceWarriorGenericLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorGenericLR.plist; sourceTree = "<group>"; };
-		065FACFC159055BB008E9B3C /* AllianceWarriorGenericLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorGenericLR.png; sourceTree = "<group>"; };
-		065FACFD159055BB008E9B3C /* AllianceWarriorGenericLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorGenericLR@2x.plist"; sourceTree = "<group>"; };
-		065FACFE159055BB008E9B3C /* AllianceWarriorGenericLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorGenericLR@2x.png"; sourceTree = "<group>"; };
-		065FACFF159055BB008E9B3C /* AllianceWarriorGenericNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorGenericNF.plist; sourceTree = "<group>"; };
-		065FAD00159055BB008E9B3C /* AllianceWarriorGenericNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorGenericNF.png; sourceTree = "<group>"; };
-		065FAD01159055BB008E9B3C /* AllianceWarriorGenericNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorGenericNF@2x.plist"; sourceTree = "<group>"; };
-		065FAD02159055BB008E9B3C /* AllianceWarriorGenericNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorGenericNF@2x.png"; sourceTree = "<group>"; };
-		065FAD03159055BB008E9B3C /* AllianceWarriorGenericUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorGenericUD.plist; sourceTree = "<group>"; };
-		065FAD04159055BB008E9B3C /* AllianceWarriorGenericUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorGenericUD.png; sourceTree = "<group>"; };
-		065FAD05159055BB008E9B3C /* AllianceWarriorGenericUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorGenericUD@2x.plist"; sourceTree = "<group>"; };
-		065FAD06159055BB008E9B3C /* AllianceWarriorGenericUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorGenericUD@2x.png"; sourceTree = "<group>"; };
-		065FAD1315905606008E9B3C /* AllianceWarriorAttackLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorAttackLR.plist; sourceTree = "<group>"; };
-		065FAD1415905606008E9B3C /* AllianceWarriorAttackLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorAttackLR.png; sourceTree = "<group>"; };
-		065FAD1515905606008E9B3C /* AllianceWarriorAttackLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorAttackLR@2x.plist"; sourceTree = "<group>"; };
-		065FAD1615905606008E9B3C /* AllianceWarriorAttackLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorAttackLR@2x.png"; sourceTree = "<group>"; };
-		065FAD1915905606008E9B3C /* AllianceWarriorAttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorAttackNF@2x.plist"; sourceTree = "<group>"; };
-		065FAD1A15905606008E9B3C /* AllianceWarriorAttackNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorAttackNF@2x.png"; sourceTree = "<group>"; };
-		065FAD1B15905606008E9B3C /* AllianceWarriorAttackUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorAttackUD.plist; sourceTree = "<group>"; };
-		065FAD1C15905606008E9B3C /* AllianceWarriorAttackUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorAttackUD.png; sourceTree = "<group>"; };
-		065FAD1D15905606008E9B3C /* AllianceWarriorAttackUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorAttackUD@2x.plist"; sourceTree = "<group>"; };
-		065FAD1E15905606008E9B3C /* AllianceWarriorAttackUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorAttackUD@2x.png"; sourceTree = "<group>"; };
-		065FAD2E1590581A008E9B3C /* AllianceWarriorAttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorAttackNF.plist; sourceTree = "<group>"; };
-		065FAD2F1590581A008E9B3C /* AllianceWarriorAttackNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorAttackNF.png; sourceTree = "<group>"; };
-		065FAD3215905833008E9B3C /* LegionMageGenericLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageGenericLR.plist; sourceTree = "<group>"; };
-		065FAD3315905833008E9B3C /* LegionMageGenericLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageGenericLR.png; sourceTree = "<group>"; };
-		065FAD3415905833008E9B3C /* LegionMageGenericLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageGenericLR@2x.plist"; sourceTree = "<group>"; };
-		065FAD3515905833008E9B3C /* LegionMageGenericLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageGenericLR@2x.png"; sourceTree = "<group>"; };
-		065FAD3615905833008E9B3C /* LegionMageGenericNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageGenericNF.plist; sourceTree = "<group>"; };
-		065FAD3715905833008E9B3C /* LegionMageGenericNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageGenericNF.png; sourceTree = "<group>"; };
-		065FAD3815905833008E9B3C /* LegionMageGenericNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageGenericNF@2x.plist"; sourceTree = "<group>"; };
-		065FAD3915905833008E9B3C /* LegionMageGenericNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageGenericNF@2x.png"; sourceTree = "<group>"; };
-		065FAD3A15905833008E9B3C /* LegionMageGenericUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageGenericUD.plist; sourceTree = "<group>"; };
-		065FAD3B15905833008E9B3C /* LegionMageGenericUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageGenericUD.png; sourceTree = "<group>"; };
-		065FAD3C15905833008E9B3C /* LegionMageGenericUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageGenericUD@2x.plist"; sourceTree = "<group>"; };
-		065FAD3D15905833008E9B3C /* LegionMageGenericUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageGenericUD@2x.png"; sourceTree = "<group>"; };
-		065FAD4A1590583A008E9B3C /* LegionMageAttackLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageAttackLR.plist; sourceTree = "<group>"; };
-		065FAD4B1590583A008E9B3C /* LegionMageAttackLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageAttackLR.png; sourceTree = "<group>"; };
-		065FAD4C1590583A008E9B3C /* LegionMageAttackLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageAttackLR@2x.plist"; sourceTree = "<group>"; };
-		065FAD4D1590583A008E9B3C /* LegionMageAttackLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageAttackLR@2x.png"; sourceTree = "<group>"; };
-		065FAD4E1590583A008E9B3C /* LegionMageAttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageAttackNF.plist; sourceTree = "<group>"; };
-		065FAD4F1590583A008E9B3C /* LegionMageAttackNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageAttackNF.png; sourceTree = "<group>"; };
-		065FAD501590583A008E9B3C /* LegionMageAttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageAttackNF@2x.plist"; sourceTree = "<group>"; };
-		065FAD511590583A008E9B3C /* LegionMageAttackNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageAttackNF@2x.png"; sourceTree = "<group>"; };
-		065FAD521590583A008E9B3C /* LegionMageAttackUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageAttackUD.plist; sourceTree = "<group>"; };
-		065FAD531590583A008E9B3C /* LegionMageAttackUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageAttackUD.png; sourceTree = "<group>"; };
-		065FAD541590583A008E9B3C /* LegionMageAttackUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageAttackUD@2x.plist"; sourceTree = "<group>"; };
-		065FAD551590583A008E9B3C /* LegionMageAttackUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageAttackUD@2x.png"; sourceTree = "<group>"; };
-		065FAD6615905927008E9B3C /* LegionArcherGenericLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherGenericLR.plist; sourceTree = "<group>"; };
-		065FAD6715905927008E9B3C /* LegionArcherGenericLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherGenericLR.png; sourceTree = "<group>"; };
-		065FAD6815905927008E9B3C /* LegionArcherGenericLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherGenericLR@2x.plist"; sourceTree = "<group>"; };
-		065FAD6915905927008E9B3C /* LegionArcherGenericLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherGenericLR@2x.png"; sourceTree = "<group>"; };
-		065FAD6A15905927008E9B3C /* LegionArcherGenericNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherGenericNF.plist; sourceTree = "<group>"; };
-		065FAD6B15905927008E9B3C /* LegionArcherGenericNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherGenericNF.png; sourceTree = "<group>"; };
-		065FAD6C15905927008E9B3C /* LegionArcherGenericNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherGenericNF@2x.plist"; sourceTree = "<group>"; };
-		065FAD6D15905927008E9B3C /* LegionArcherGenericNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherGenericNF@2x.png"; sourceTree = "<group>"; };
-		065FAD6E15905927008E9B3C /* LegionArcherGenericUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherGenericUD.plist; sourceTree = "<group>"; };
-		065FAD6F15905927008E9B3C /* LegionArcherGenericUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherGenericUD.png; sourceTree = "<group>"; };
-		065FAD7015905927008E9B3C /* LegionArcherGenericUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherGenericUD@2x.plist"; sourceTree = "<group>"; };
-		065FAD7115905927008E9B3C /* LegionArcherGenericUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherGenericUD@2x.png"; sourceTree = "<group>"; };
-		065FAD7E15905933008E9B3C /* LegionArcherAttackLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherAttackLR.plist; sourceTree = "<group>"; };
-		065FAD7F15905933008E9B3C /* LegionArcherAttackLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherAttackLR.png; sourceTree = "<group>"; };
-		065FAD8015905933008E9B3C /* LegionArcherAttackLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherAttackLR@2x.plist"; sourceTree = "<group>"; };
-		065FAD8115905933008E9B3C /* LegionArcherAttackLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherAttackLR@2x.png"; sourceTree = "<group>"; };
-		065FAD8215905933008E9B3C /* LegionArcherAttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherAttackNF.plist; sourceTree = "<group>"; };
-		065FAD8315905933008E9B3C /* LegionArcherAttackNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherAttackNF.png; sourceTree = "<group>"; };
-		065FAD8415905933008E9B3C /* LegionArcherAttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherAttackNF@2x.plist"; sourceTree = "<group>"; };
-		065FAD8515905933008E9B3C /* LegionArcherAttackNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherAttackNF@2x.png"; sourceTree = "<group>"; };
-		065FAD8615905933008E9B3C /* LegionArcherAttackUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherAttackUD.plist; sourceTree = "<group>"; };
-		065FAD8715905933008E9B3C /* LegionArcherAttackUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherAttackUD.png; sourceTree = "<group>"; };
-		065FAD8815905933008E9B3C /* LegionArcherAttackUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherAttackUD@2x.plist"; sourceTree = "<group>"; };
-		065FAD8915905933008E9B3C /* LegionArcherAttackUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherAttackUD@2x.png"; sourceTree = "<group>"; };
-		065FAD991590595E008E9B3C /* LegionWarriorGenericLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorGenericLR.plist; sourceTree = "<group>"; };
-		065FAD9A1590595E008E9B3C /* LegionWarriorGenericLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorGenericLR.png; sourceTree = "<group>"; };
-		065FAD9B1590595E008E9B3C /* LegionWarriorGenericLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorGenericLR@2x.plist"; sourceTree = "<group>"; };
-		065FAD9C1590595E008E9B3C /* LegionWarriorGenericLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorGenericLR@2x.png"; sourceTree = "<group>"; };
-		065FAD9D1590595E008E9B3C /* LegionWarriorGenericNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorGenericNF.plist; sourceTree = "<group>"; };
-		065FAD9E1590595E008E9B3C /* LegionWarriorGenericNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorGenericNF.png; sourceTree = "<group>"; };
-		065FAD9F1590595E008E9B3C /* LegionWarriorGenericNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorGenericNF@2x.plist"; sourceTree = "<group>"; };
-		065FADA01590595E008E9B3C /* LegionWarriorGenericNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorGenericNF@2x.png"; sourceTree = "<group>"; };
-		065FADA11590595E008E9B3C /* LegionWarriorGenericUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorGenericUD.plist; sourceTree = "<group>"; };
-		065FADA21590595E008E9B3C /* LegionWarriorGenericUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorGenericUD.png; sourceTree = "<group>"; };
-		065FADA31590595E008E9B3C /* LegionWarriorGenericUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorGenericUD@2x.plist"; sourceTree = "<group>"; };
-		065FADA41590595E008E9B3C /* LegionWarriorGenericUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorGenericUD@2x.png"; sourceTree = "<group>"; };
-		065FADB115905963008E9B3C /* LegionWarriorAttackLR.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorAttackLR.plist; sourceTree = "<group>"; };
-		065FADB215905963008E9B3C /* LegionWarriorAttackLR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorAttackLR.png; sourceTree = "<group>"; };
-		065FADB315905963008E9B3C /* LegionWarriorAttackLR@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorAttackLR@2x.plist"; sourceTree = "<group>"; };
-		065FADB415905963008E9B3C /* LegionWarriorAttackLR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorAttackLR@2x.png"; sourceTree = "<group>"; };
-		065FADB515905963008E9B3C /* LegionWarriorAttackNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorAttackNF.plist; sourceTree = "<group>"; };
-		065FADB615905963008E9B3C /* LegionWarriorAttackNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorAttackNF.png; sourceTree = "<group>"; };
-		065FADB715905963008E9B3C /* LegionWarriorAttackNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorAttackNF@2x.plist"; sourceTree = "<group>"; };
-		065FADB815905963008E9B3C /* LegionWarriorAttackNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorAttackNF@2x.png"; sourceTree = "<group>"; };
-		065FADB915905963008E9B3C /* LegionWarriorAttackUD.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorAttackUD.plist; sourceTree = "<group>"; };
-		065FADBA15905963008E9B3C /* LegionWarriorAttackUD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorAttackUD.png; sourceTree = "<group>"; };
-		065FADBB15905963008E9B3C /* LegionWarriorAttackUD@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorAttackUD@2x.plist"; sourceTree = "<group>"; };
-		065FADBC15905963008E9B3C /* LegionWarriorAttackUD@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorAttackUD@2x.png"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
 		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
@@ -2953,24 +2552,6 @@
 		CF1269A81538ACC600E0C1AD /* taskyellowbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskyellowbar@2x.png"; sourceTree = "<group>"; };
 		CF1269A91538ACC600E0C1AD /* topgradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topgradient.png; sourceTree = "<group>"; };
 		CF1269AA1538ACC600E0C1AD /* topgradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topgradient@2x.png"; sourceTree = "<group>"; };
-		CF1269C51538ACC600E0C1AD /* Bard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bard.png; sourceTree = "<group>"; };
-		CF1269C61538ACC600E0C1AD /* Bard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bard@2x.png"; sourceTree = "<group>"; };
-		CF1269C71538ACC600E0C1AD /* DrowArcher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrowArcher.png; sourceTree = "<group>"; };
-		CF1269C81538ACC600E0C1AD /* DrowArcher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrowArcher@2x.png"; sourceTree = "<group>"; };
-		CF1269C91538ACC600E0C1AD /* Farmer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Farmer.png; sourceTree = "<group>"; };
-		CF1269CA1538ACC600E0C1AD /* Farmer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Farmer@2x.png"; sourceTree = "<group>"; };
-		CF1269CB1538ACC600E0C1AD /* FemaleFarmer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FemaleFarmer.png; sourceTree = "<group>"; };
-		CF1269CC1538ACC600E0C1AD /* FemaleFarmer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FemaleFarmer@2x.png"; sourceTree = "<group>"; };
-		CF1269CD1538ACC600E0C1AD /* LegionMage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMage.png; sourceTree = "<group>"; };
-		CF1269CE1538ACC600E0C1AD /* LegionMage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMage@2x.png"; sourceTree = "<group>"; };
-		CF1269CF1538ACC600E0C1AD /* PandaMage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PandaMage.png; sourceTree = "<group>"; };
-		CF1269D01538ACC600E0C1AD /* PandaMage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PandaMage@2x.png"; sourceTree = "<group>"; };
-		CF1269D11538ACC600E0C1AD /* Seaman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Seaman.png; sourceTree = "<group>"; };
-		CF1269D21538ACC600E0C1AD /* Seaman@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Seaman@2x.png"; sourceTree = "<group>"; };
-		CF1269D31538ACC600E0C1AD /* SkeletonWarrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SkeletonWarrior.png; sourceTree = "<group>"; };
-		CF1269D41538ACC600E0C1AD /* SkeletonWarrior@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SkeletonWarrior@2x.png"; sourceTree = "<group>"; };
-		CF1269D51538ACC600E0C1AD /* Syndicate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Syndicate.png; sourceTree = "<group>"; };
-		CF1269D61538ACC600E0C1AD /* Syndicate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Syndicate@2x.png"; sourceTree = "<group>"; };
 		CF1269FE1538ACC600E0C1AD /* barmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barmask.png; sourceTree = "<group>"; };
 		CF1269FF1538ACC600E0C1AD /* barmask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barmask@2x.png"; sourceTree = "<group>"; };
 		CF126A001538ACC600E0C1AD /* coinbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coinbar.png; sourceTree = "<group>"; };
@@ -3460,6 +3041,8 @@
 		CFCB4D2D154A7FCF00470054 /* WallPostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WallPostCell.xib; sourceTree = "<group>"; };
 		CFDBFEB5153BCE6100DA9206 /* popupglow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popupglow.png; sourceTree = "<group>"; };
 		CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popupglow@2x.png"; sourceTree = "<group>"; };
+		CFE3E9401592BB7200E85701 /* TutorialMyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialMyPlayer.h; sourceTree = "<group>"; };
+		CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialMyPlayer.m; sourceTree = "<group>"; };
 		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
 		CFECCDDA1550909700171271 /* equipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipped.png; sourceTree = "<group>"; };
 		CFECCDDB1550909700171271 /* equipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipped@2x.png"; sourceTree = "<group>"; };
@@ -3664,9 +3247,10 @@
 		065FABD115900BD3008E9B3C /* AllianceWarrior */ = {
 			isa = PBXGroup;
 			children = (
-				065FACFA15905573008E9B3C /* Generic */,
-				065FACF915905570008E9B3C /* Attack */,
-				065FACF81590556E008E9B3C /* Walk */,
+				065FAC0D15900C5D008E9B3C /* AllianceWarriorWalkNF.plist */,
+				065FAC0E15900C5D008E9B3C /* AllianceWarriorWalkNF.png */,
+				065FAC0F15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist */,
+				065FAC1015900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png */,
 			);
 			name = AllianceWarrior;
 			sourceTree = "<group>";
@@ -3674,9 +3258,10 @@
 		065FABD215900BD5008E9B3C /* AllianceArcher */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC9015902973008E9B3C /* Walk */,
-				065FAC8F15902972008E9B3C /* Generic */,
-				065FAC8E15902970008E9B3C /* Attack */,
+				065FABF515900C4A008E9B3C /* AllianceArcherWalkNF.plist */,
+				065FABF615900C4A008E9B3C /* AllianceArcherWalkNF.png */,
+				065FABF715900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist */,
+				065FABF815900C4A008E9B3C /* AllianceArcherWalkNF@2x.png */,
 			);
 			name = AllianceArcher;
 			sourceTree = "<group>";
@@ -3684,9 +3269,10 @@
 		065FABD315900BD7008E9B3C /* AllianceMage */ = {
 			isa = PBXGroup;
 			children = (
-				065FACC715905522008E9B3C /* Generic */,
-				065FACC615905520008E9B3C /* Attack */,
-				065FACC51590551D008E9B3C /* Walk */,
+				065FABDD15900C33008E9B3C /* AllianceMageWalkNF.plist */,
+				065FABDE15900C33008E9B3C /* AllianceMageWalkNF.png */,
+				065FABDF15900C33008E9B3C /* AllianceMageWalkNF@2x.plist */,
+				065FABE015900C33008E9B3C /* AllianceMageWalkNF@2x.png */,
 			);
 			name = AllianceMage;
 			sourceTree = "<group>";
@@ -3694,9 +3280,10 @@
 		065FABD415900BED008E9B3C /* LegionWarrior */ = {
 			isa = PBXGroup;
 			children = (
-				065FAD9815905943008E9B3C /* Attack */,
-				065FAD9715905941008E9B3C /* Generic */,
-				065FAD961590593F008E9B3C /* Walk */,
+				065FAC5915900C90008E9B3C /* LegionWarriorWalkNF.plist */,
+				065FAC5A15900C90008E9B3C /* LegionWarriorWalkNF.png */,
+				065FAC5B15900C90008E9B3C /* LegionWarriorWalkNF@2x.plist */,
+				065FAC5C15900C90008E9B3C /* LegionWarriorWalkNF@2x.png */,
 			);
 			name = LegionWarrior;
 			sourceTree = "<group>";
@@ -3704,9 +3291,10 @@
 		065FABD515900BEF008E9B3C /* LegionArcher */ = {
 			isa = PBXGroup;
 			children = (
-				065FAD65159058CF008E9B3C /* Attack */,
-				065FAD64159058CC008E9B3C /* Generic */,
-				065FAD62159058AB008E9B3C /* Walk */,
+				065FAC2515900C6F008E9B3C /* LegionArcherWalkNF.plist */,
+				065FAC2615900C6F008E9B3C /* LegionArcherWalkNF.png */,
+				065FAC2715900C6F008E9B3C /* LegionArcherWalkNF@2x.plist */,
+				065FAC2815900C6F008E9B3C /* LegionArcherWalkNF@2x.png */,
 			);
 			name = LegionArcher;
 			sourceTree = "<group>";
@@ -3714,9 +3302,10 @@
 		065FABD615900BF1008E9B3C /* LegionMage */ = {
 			isa = PBXGroup;
 			children = (
-				065FAD2D15905701008E9B3C /* Attack */,
-				065FAD2C159056FF008E9B3C /* Generic */,
-				065FAD2B159056E6008E9B3C /* Walk */,
+				065FAC3F15900C78008E9B3C /* LegionMageWalkNF.plist */,
+				065FAC4015900C78008E9B3C /* LegionMageWalkNF.png */,
+				065FAC4115900C78008E9B3C /* LegionMageWalkNF@2x.plist */,
+				065FAC4215900C78008E9B3C /* LegionMageWalkNF@2x.png */,
 			);
 			name = LegionMage;
 			sourceTree = "<group>";
@@ -3741,373 +3330,6 @@
 				065FAC7815900CA4008E9B3C /* TutorialGuideWalkNF@2x.png */,
 			);
 			name = TutorialGuideGood;
-			sourceTree = "<group>";
-		};
-		065FAC7D15900CB6008E9B3C /* Others */ = {
-			isa = PBXGroup;
-			children = (
-				CF1269C51538ACC600E0C1AD /* Bard.png */,
-				CF1269C61538ACC600E0C1AD /* Bard@2x.png */,
-				CF1269C71538ACC600E0C1AD /* DrowArcher.png */,
-				CF1269C81538ACC600E0C1AD /* DrowArcher@2x.png */,
-				CF1269C91538ACC600E0C1AD /* Farmer.png */,
-				CF1269CA1538ACC600E0C1AD /* Farmer@2x.png */,
-				CF1269CB1538ACC600E0C1AD /* FemaleFarmer.png */,
-				CF1269CC1538ACC600E0C1AD /* FemaleFarmer@2x.png */,
-				CF1269CD1538ACC600E0C1AD /* LegionMage.png */,
-				CF1269CE1538ACC600E0C1AD /* LegionMage@2x.png */,
-				CF1269CF1538ACC600E0C1AD /* PandaMage.png */,
-				CF1269D01538ACC600E0C1AD /* PandaMage@2x.png */,
-				CF1269D11538ACC600E0C1AD /* Seaman.png */,
-				CF1269D21538ACC600E0C1AD /* Seaman@2x.png */,
-				CF1269D31538ACC600E0C1AD /* SkeletonWarrior.png */,
-				CF1269D41538ACC600E0C1AD /* SkeletonWarrior@2x.png */,
-				CF1269D51538ACC600E0C1AD /* Syndicate.png */,
-				CF1269D61538ACC600E0C1AD /* Syndicate@2x.png */,
-			);
-			name = Others;
-			sourceTree = "<group>";
-		};
-		065FAC8E15902970008E9B3C /* Attack */ = {
-			isa = PBXGroup;
-			children = (
-				065FACA9159029C4008E9B3C /* AllianceArcherAttackLR.plist */,
-				065FACAA159029C4008E9B3C /* AllianceArcherAttackLR.png */,
-				065FACAB159029C4008E9B3C /* AllianceArcherAttackLR@2x.plist */,
-				065FACAC159029C4008E9B3C /* AllianceArcherAttackLR@2x.png */,
-				065FACAD159029C4008E9B3C /* AllianceArcherAttackNF.plist */,
-				065FACAE159029C4008E9B3C /* AllianceArcherAttackNF.png */,
-				065FACAF159029C4008E9B3C /* AllianceArcherAttackNF@2x.plist */,
-				065FACB0159029C4008E9B3C /* AllianceArcherAttackNF@2x.png */,
-				065FACB1159029C4008E9B3C /* AllianceArcherAttackUD.plist */,
-				065FACB2159029C4008E9B3C /* AllianceArcherAttackUD.png */,
-				065FACB3159029C4008E9B3C /* AllianceArcherAttackUD@2x.plist */,
-				065FACB4159029C4008E9B3C /* AllianceArcherAttackUD@2x.png */,
-			);
-			name = Attack;
-			sourceTree = "<group>";
-		};
-		065FAC8F15902972008E9B3C /* Generic */ = {
-			isa = PBXGroup;
-			children = (
-				065FAC91159029BB008E9B3C /* AllianceArcherGenericLR.plist */,
-				065FAC92159029BB008E9B3C /* AllianceArcherGenericLR.png */,
-				065FAC93159029BB008E9B3C /* AllianceArcherGenericLR@2x.plist */,
-				065FAC94159029BB008E9B3C /* AllianceArcherGenericLR@2x.png */,
-				065FAC95159029BB008E9B3C /* AllianceArcherGenericNF.plist */,
-				065FAC96159029BB008E9B3C /* AllianceArcherGenericNF.png */,
-				065FAC97159029BB008E9B3C /* AllianceArcherGenericNF@2x.plist */,
-				065FAC98159029BB008E9B3C /* AllianceArcherGenericNF@2x.png */,
-				065FAC99159029BB008E9B3C /* AllianceArcherGenericUD.plist */,
-				065FAC9A159029BB008E9B3C /* AllianceArcherGenericUD.png */,
-				065FAC9B159029BB008E9B3C /* AllianceArcherGenericUD@2x.plist */,
-				065FAC9C159029BB008E9B3C /* AllianceArcherGenericUD@2x.png */,
-			);
-			name = Generic;
-			sourceTree = "<group>";
-		};
-		065FAC9015902973008E9B3C /* Walk */ = {
-			isa = PBXGroup;
-			children = (
-				065FABF115900C4A008E9B3C /* AllianceArcherWalkLR.plist */,
-				065FABF215900C4A008E9B3C /* AllianceArcherWalkLR.png */,
-				065FABF315900C4A008E9B3C /* AllianceArcherWalkLR@2x.plist */,
-				065FABF415900C4A008E9B3C /* AllianceArcherWalkLR@2x.png */,
-				065FABF515900C4A008E9B3C /* AllianceArcherWalkNF.plist */,
-				065FABF615900C4A008E9B3C /* AllianceArcherWalkNF.png */,
-				065FABF715900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist */,
-				065FABF815900C4A008E9B3C /* AllianceArcherWalkNF@2x.png */,
-				065FABF915900C4A008E9B3C /* AllianceArcherWalkUD.plist */,
-				065FABFA15900C4A008E9B3C /* AllianceArcherWalkUD.png */,
-				065FABFB15900C4A008E9B3C /* AllianceArcherWalkUD@2x.plist */,
-				065FABFC15900C4A008E9B3C /* AllianceArcherWalkUD@2x.png */,
-			);
-			name = Walk;
-			sourceTree = "<group>";
-		};
-		065FACC51590551D008E9B3C /* Walk */ = {
-			isa = PBXGroup;
-			children = (
-				065FACC11590336F008E9B3C /* LegionMageWalkUD@2x.plist */,
-				065FACC21590336F008E9B3C /* LegionMageWalkUD@2x.png */,
-				065FABD915900C33008E9B3C /* AllianceMageWalkLR.plist */,
-				065FABDA15900C33008E9B3C /* AllianceMageWalkLR.png */,
-				065FABDB15900C33008E9B3C /* AllianceMageWalkLR@2x.plist */,
-				065FABDC15900C33008E9B3C /* AllianceMageWalkLR@2x.png */,
-				065FABDD15900C33008E9B3C /* AllianceMageWalkNF.plist */,
-				065FABDE15900C33008E9B3C /* AllianceMageWalkNF.png */,
-				065FABDF15900C33008E9B3C /* AllianceMageWalkNF@2x.plist */,
-				065FABE015900C33008E9B3C /* AllianceMageWalkNF@2x.png */,
-				065FABE115900C33008E9B3C /* AllianceMageWalkUD.plist */,
-				065FABE215900C33008E9B3C /* AllianceMageWalkUD.png */,
-			);
-			name = Walk;
-			sourceTree = "<group>";
-		};
-		065FACC615905520008E9B3C /* Attack */ = {
-			isa = PBXGroup;
-			children = (
-				065FACC81590555A008E9B3C /* AllianceMageAttackLR.plist */,
-				065FACC91590555A008E9B3C /* AllianceMageAttackLR.png */,
-				065FACCA1590555A008E9B3C /* AllianceMageAttackLR@2x.plist */,
-				065FACCB1590555A008E9B3C /* AllianceMageAttackLR@2x.png */,
-				065FACCC1590555A008E9B3C /* AllianceMageAttackNF.plist */,
-				065FACCD1590555A008E9B3C /* AllianceMageAttackNF.png */,
-				065FACCE1590555A008E9B3C /* AllianceMageAttackNF@2x.plist */,
-				065FACCF1590555A008E9B3C /* AllianceMageAttackNF@2x.png */,
-				065FACD01590555A008E9B3C /* AllianceMageAttackUD.plist */,
-				065FACD11590555A008E9B3C /* AllianceMageAttackUD.png */,
-				065FACD21590555A008E9B3C /* AllianceMageAttackUD@2x.plist */,
-				065FACD31590555A008E9B3C /* AllianceMageAttackUD@2x.png */,
-			);
-			name = Attack;
-			sourceTree = "<group>";
-		};
-		065FACC715905522008E9B3C /* Generic */ = {
-			isa = PBXGroup;
-			children = (
-				065FACE015905564008E9B3C /* AllianceMageGenericLR.plist */,
-				065FACE115905564008E9B3C /* AllianceMageGenericLR.png */,
-				065FACE215905564008E9B3C /* AllianceMageGenericLR@2x.plist */,
-				065FACE315905564008E9B3C /* AllianceMageGenericLR@2x.png */,
-				065FACE415905564008E9B3C /* AllianceMageGenericNF.plist */,
-				065FACE515905564008E9B3C /* AllianceMageGenericNF.png */,
-				065FACE615905564008E9B3C /* AllianceMageGenericNF@2x.plist */,
-				065FACE715905564008E9B3C /* AllianceMageGenericNF@2x.png */,
-				065FACE815905564008E9B3C /* AllianceMageGenericUD.plist */,
-				065FACE915905564008E9B3C /* AllianceMageGenericUD.png */,
-				065FACEA15905564008E9B3C /* AllianceMageGenericUD@2x.plist */,
-				065FACEB15905564008E9B3C /* AllianceMageGenericUD@2x.png */,
-			);
-			name = Generic;
-			sourceTree = "<group>";
-		};
-		065FACF81590556E008E9B3C /* Walk */ = {
-			isa = PBXGroup;
-			children = (
-				065FAC0915900C5D008E9B3C /* AllianceWarriorWalkLR.plist */,
-				065FAC0A15900C5D008E9B3C /* AllianceWarriorWalkLR.png */,
-				065FAC0B15900C5D008E9B3C /* AllianceWarriorWalkLR@2x.plist */,
-				065FAC0C15900C5D008E9B3C /* AllianceWarriorWalkLR@2x.png */,
-				065FAC0D15900C5D008E9B3C /* AllianceWarriorWalkNF.plist */,
-				065FAC0E15900C5D008E9B3C /* AllianceWarriorWalkNF.png */,
-				065FAC0F15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist */,
-				065FAC1015900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png */,
-				065FAC1115900C5D008E9B3C /* AllianceWarriorWalkUD.plist */,
-				065FAC1215900C5D008E9B3C /* AllianceWarriorWalkUD.png */,
-				065FAC1315900C5D008E9B3C /* AllianceWarriorWalkUD@2x.plist */,
-				065FAC1415900C5D008E9B3C /* AllianceWarriorWalkUD@2x.png */,
-			);
-			name = Walk;
-			sourceTree = "<group>";
-		};
-		065FACF915905570008E9B3C /* Attack */ = {
-			isa = PBXGroup;
-			children = (
-				065FAD1315905606008E9B3C /* AllianceWarriorAttackLR.plist */,
-				065FAD1415905606008E9B3C /* AllianceWarriorAttackLR.png */,
-				065FAD2E1590581A008E9B3C /* AllianceWarriorAttackNF.plist */,
-				065FAD2F1590581A008E9B3C /* AllianceWarriorAttackNF.png */,
-				065FAD1515905606008E9B3C /* AllianceWarriorAttackLR@2x.plist */,
-				065FAD1615905606008E9B3C /* AllianceWarriorAttackLR@2x.png */,
-				065FAD1915905606008E9B3C /* AllianceWarriorAttackNF@2x.plist */,
-				065FAD1A15905606008E9B3C /* AllianceWarriorAttackNF@2x.png */,
-				065FAD1B15905606008E9B3C /* AllianceWarriorAttackUD.plist */,
-				065FAD1C15905606008E9B3C /* AllianceWarriorAttackUD.png */,
-				065FAD1D15905606008E9B3C /* AllianceWarriorAttackUD@2x.plist */,
-				065FAD1E15905606008E9B3C /* AllianceWarriorAttackUD@2x.png */,
-			);
-			name = Attack;
-			sourceTree = "<group>";
-		};
-		065FACFA15905573008E9B3C /* Generic */ = {
-			isa = PBXGroup;
-			children = (
-				065FACFB159055BB008E9B3C /* AllianceWarriorGenericLR.plist */,
-				065FACFC159055BB008E9B3C /* AllianceWarriorGenericLR.png */,
-				065FACFD159055BB008E9B3C /* AllianceWarriorGenericLR@2x.plist */,
-				065FACFE159055BB008E9B3C /* AllianceWarriorGenericLR@2x.png */,
-				065FACFF159055BB008E9B3C /* AllianceWarriorGenericNF.plist */,
-				065FAD00159055BB008E9B3C /* AllianceWarriorGenericNF.png */,
-				065FAD01159055BB008E9B3C /* AllianceWarriorGenericNF@2x.plist */,
-				065FAD02159055BB008E9B3C /* AllianceWarriorGenericNF@2x.png */,
-				065FAD03159055BB008E9B3C /* AllianceWarriorGenericUD.plist */,
-				065FAD04159055BB008E9B3C /* AllianceWarriorGenericUD.png */,
-				065FAD05159055BB008E9B3C /* AllianceWarriorGenericUD@2x.plist */,
-				065FAD06159055BB008E9B3C /* AllianceWarriorGenericUD@2x.png */,
-			);
-			name = Generic;
-			sourceTree = "<group>";
-		};
-		065FAD2B159056E6008E9B3C /* Walk */ = {
-			isa = PBXGroup;
-			children = (
-				065FAC3B15900C78008E9B3C /* LegionMageWalkLR.plist */,
-				065FAC3C15900C78008E9B3C /* LegionMageWalkLR.png */,
-				065FAC3D15900C78008E9B3C /* LegionMageWalkLR@2x.plist */,
-				065FAC3E15900C78008E9B3C /* LegionMageWalkLR@2x.png */,
-				065FAC3F15900C78008E9B3C /* LegionMageWalkNF.plist */,
-				065FAC4015900C78008E9B3C /* LegionMageWalkNF.png */,
-				065FAC4115900C78008E9B3C /* LegionMageWalkNF@2x.plist */,
-				065FAC4215900C78008E9B3C /* LegionMageWalkNF@2x.png */,
-				065FAC4315900C78008E9B3C /* LegionMageWalkUD.plist */,
-				065FAC4415900C78008E9B3C /* LegionMageWalkUD.png */,
-				065FAC4515900C78008E9B3C /* LegionMageWalkUD@2x.plist */,
-				065FAC4615900C78008E9B3C /* LegionMageWalkUD@2x.png */,
-			);
-			name = Walk;
-			sourceTree = "<group>";
-		};
-		065FAD2C159056FF008E9B3C /* Generic */ = {
-			isa = PBXGroup;
-			children = (
-				065FAD3215905833008E9B3C /* LegionMageGenericLR.plist */,
-				065FAD3315905833008E9B3C /* LegionMageGenericLR.png */,
-				065FAD3415905833008E9B3C /* LegionMageGenericLR@2x.plist */,
-				065FAD3515905833008E9B3C /* LegionMageGenericLR@2x.png */,
-				065FAD3615905833008E9B3C /* LegionMageGenericNF.plist */,
-				065FAD3715905833008E9B3C /* LegionMageGenericNF.png */,
-				065FAD3815905833008E9B3C /* LegionMageGenericNF@2x.plist */,
-				065FAD3915905833008E9B3C /* LegionMageGenericNF@2x.png */,
-				065FAD3A15905833008E9B3C /* LegionMageGenericUD.plist */,
-				065FAD3B15905833008E9B3C /* LegionMageGenericUD.png */,
-				065FAD3C15905833008E9B3C /* LegionMageGenericUD@2x.plist */,
-				065FAD3D15905833008E9B3C /* LegionMageGenericUD@2x.png */,
-			);
-			name = Generic;
-			sourceTree = "<group>";
-		};
-		065FAD2D15905701008E9B3C /* Attack */ = {
-			isa = PBXGroup;
-			children = (
-				065FAD4A1590583A008E9B3C /* LegionMageAttackLR.plist */,
-				065FAD4B1590583A008E9B3C /* LegionMageAttackLR.png */,
-				065FAD4C1590583A008E9B3C /* LegionMageAttackLR@2x.plist */,
-				065FAD4D1590583A008E9B3C /* LegionMageAttackLR@2x.png */,
-				065FAD4E1590583A008E9B3C /* LegionMageAttackNF.plist */,
-				065FAD4F1590583A008E9B3C /* LegionMageAttackNF.png */,
-				065FAD501590583A008E9B3C /* LegionMageAttackNF@2x.plist */,
-				065FAD511590583A008E9B3C /* LegionMageAttackNF@2x.png */,
-				065FAD521590583A008E9B3C /* LegionMageAttackUD.plist */,
-				065FAD531590583A008E9B3C /* LegionMageAttackUD.png */,
-				065FAD541590583A008E9B3C /* LegionMageAttackUD@2x.plist */,
-				065FAD551590583A008E9B3C /* LegionMageAttackUD@2x.png */,
-			);
-			name = Attack;
-			sourceTree = "<group>";
-		};
-		065FAD62159058AB008E9B3C /* Walk */ = {
-			isa = PBXGroup;
-			children = (
-				065FAC2115900C6F008E9B3C /* LegionArcherWalkLR.plist */,
-				065FAC2215900C6F008E9B3C /* LegionArcherWalkLR.png */,
-				065FAC2315900C6F008E9B3C /* LegionArcherWalkLR@2x.plist */,
-				065FAC2415900C6F008E9B3C /* LegionArcherWalkLR@2x.png */,
-				065FAC2515900C6F008E9B3C /* LegionArcherWalkNF.plist */,
-				065FAC2615900C6F008E9B3C /* LegionArcherWalkNF.png */,
-				065FAC2715900C6F008E9B3C /* LegionArcherWalkNF@2x.plist */,
-				065FAC2815900C6F008E9B3C /* LegionArcherWalkNF@2x.png */,
-				065FAC2915900C6F008E9B3C /* LegionArcherWalkUD.plist */,
-				065FAC2A15900C6F008E9B3C /* LegionArcherWalkUD.png */,
-				065FAC2B15900C6F008E9B3C /* LegionArcherWalkUD@2x.plist */,
-				065FAC2C15900C6F008E9B3C /* LegionArcherWalkUD@2x.png */,
-			);
-			name = Walk;
-			sourceTree = "<group>";
-		};
-		065FAD64159058CC008E9B3C /* Generic */ = {
-			isa = PBXGroup;
-			children = (
-				065FAD6615905927008E9B3C /* LegionArcherGenericLR.plist */,
-				065FAD6715905927008E9B3C /* LegionArcherGenericLR.png */,
-				065FAD6815905927008E9B3C /* LegionArcherGenericLR@2x.plist */,
-				065FAD6915905927008E9B3C /* LegionArcherGenericLR@2x.png */,
-				065FAD6A15905927008E9B3C /* LegionArcherGenericNF.plist */,
-				065FAD6B15905927008E9B3C /* LegionArcherGenericNF.png */,
-				065FAD6C15905927008E9B3C /* LegionArcherGenericNF@2x.plist */,
-				065FAD6D15905927008E9B3C /* LegionArcherGenericNF@2x.png */,
-				065FAD6E15905927008E9B3C /* LegionArcherGenericUD.plist */,
-				065FAD6F15905927008E9B3C /* LegionArcherGenericUD.png */,
-				065FAD7015905927008E9B3C /* LegionArcherGenericUD@2x.plist */,
-				065FAD7115905927008E9B3C /* LegionArcherGenericUD@2x.png */,
-			);
-			name = Generic;
-			sourceTree = "<group>";
-		};
-		065FAD65159058CF008E9B3C /* Attack */ = {
-			isa = PBXGroup;
-			children = (
-				065FAD7E15905933008E9B3C /* LegionArcherAttackLR.plist */,
-				065FAD7F15905933008E9B3C /* LegionArcherAttackLR.png */,
-				065FAD8015905933008E9B3C /* LegionArcherAttackLR@2x.plist */,
-				065FAD8115905933008E9B3C /* LegionArcherAttackLR@2x.png */,
-				065FAD8215905933008E9B3C /* LegionArcherAttackNF.plist */,
-				065FAD8315905933008E9B3C /* LegionArcherAttackNF.png */,
-				065FAD8415905933008E9B3C /* LegionArcherAttackNF@2x.plist */,
-				065FAD8515905933008E9B3C /* LegionArcherAttackNF@2x.png */,
-				065FAD8615905933008E9B3C /* LegionArcherAttackUD.plist */,
-				065FAD8715905933008E9B3C /* LegionArcherAttackUD.png */,
-				065FAD8815905933008E9B3C /* LegionArcherAttackUD@2x.plist */,
-				065FAD8915905933008E9B3C /* LegionArcherAttackUD@2x.png */,
-			);
-			name = Attack;
-			sourceTree = "<group>";
-		};
-		065FAD961590593F008E9B3C /* Walk */ = {
-			isa = PBXGroup;
-			children = (
-				065FAC5515900C90008E9B3C /* LegionWarriorWalkLR.plist */,
-				065FAC5615900C90008E9B3C /* LegionWarriorWalkLR.png */,
-				065FAC5715900C90008E9B3C /* LegionWarriorWalkLR@2x.plist */,
-				065FAC5815900C90008E9B3C /* LegionWarriorWalkLR@2x.png */,
-				065FAC5915900C90008E9B3C /* LegionWarriorWalkNF.plist */,
-				065FAC5A15900C90008E9B3C /* LegionWarriorWalkNF.png */,
-				065FAC5B15900C90008E9B3C /* LegionWarriorWalkNF@2x.plist */,
-				065FAC5C15900C90008E9B3C /* LegionWarriorWalkNF@2x.png */,
-				065FAC5D15900C90008E9B3C /* LegionWarriorWalkUD.plist */,
-				065FAC5E15900C90008E9B3C /* LegionWarriorWalkUD.png */,
-				065FAC5F15900C90008E9B3C /* LegionWarriorWalkUD@2x.plist */,
-				065FAC6015900C90008E9B3C /* LegionWarriorWalkUD@2x.png */,
-			);
-			name = Walk;
-			sourceTree = "<group>";
-		};
-		065FAD9715905941008E9B3C /* Generic */ = {
-			isa = PBXGroup;
-			children = (
-				065FAD991590595E008E9B3C /* LegionWarriorGenericLR.plist */,
-				065FAD9A1590595E008E9B3C /* LegionWarriorGenericLR.png */,
-				065FAD9B1590595E008E9B3C /* LegionWarriorGenericLR@2x.plist */,
-				065FAD9C1590595E008E9B3C /* LegionWarriorGenericLR@2x.png */,
-				065FAD9D1590595E008E9B3C /* LegionWarriorGenericNF.plist */,
-				065FAD9E1590595E008E9B3C /* LegionWarriorGenericNF.png */,
-				065FAD9F1590595E008E9B3C /* LegionWarriorGenericNF@2x.plist */,
-				065FADA01590595E008E9B3C /* LegionWarriorGenericNF@2x.png */,
-				065FADA11590595E008E9B3C /* LegionWarriorGenericUD.plist */,
-				065FADA21590595E008E9B3C /* LegionWarriorGenericUD.png */,
-				065FADA31590595E008E9B3C /* LegionWarriorGenericUD@2x.plist */,
-				065FADA41590595E008E9B3C /* LegionWarriorGenericUD@2x.png */,
-			);
-			name = Generic;
-			sourceTree = "<group>";
-		};
-		065FAD9815905943008E9B3C /* Attack */ = {
-			isa = PBXGroup;
-			children = (
-				065FADB115905963008E9B3C /* LegionWarriorAttackLR.plist */,
-				065FADB215905963008E9B3C /* LegionWarriorAttackLR.png */,
-				065FADB315905963008E9B3C /* LegionWarriorAttackLR@2x.plist */,
-				065FADB415905963008E9B3C /* LegionWarriorAttackLR@2x.png */,
-				065FADB515905963008E9B3C /* LegionWarriorAttackNF.plist */,
-				065FADB615905963008E9B3C /* LegionWarriorAttackNF.png */,
-				065FADB715905963008E9B3C /* LegionWarriorAttackNF@2x.plist */,
-				065FADB815905963008E9B3C /* LegionWarriorAttackNF@2x.png */,
-				065FADB915905963008E9B3C /* LegionWarriorAttackUD.plist */,
-				065FADBA15905963008E9B3C /* LegionWarriorAttackUD.png */,
-				065FADBB15905963008E9B3C /* LegionWarriorAttackUD@2x.plist */,
-				065FADBC15905963008E9B3C /* LegionWarriorAttackUD@2x.png */,
-			);
-			name = Attack;
 			sourceTree = "<group>";
 		};
 		454E6244156709C9004EB7E9 /* AdColony */ = {
@@ -4953,6 +4175,8 @@
 				CF1265EF1538ACC400E0C1AD /* TutorialStartLayer.m */,
 				CF1265F01538ACC400E0C1AD /* TutorialTopBar.h */,
 				CF1265F11538ACC400E0C1AD /* TutorialTopBar.m */,
+				CFE3E9401592BB7200E85701 /* TutorialMyPlayer.h */,
+				CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */,
 			);
 			path = Tutorial;
 			sourceTree = "<group>";
@@ -6234,7 +5458,6 @@
 		CF1269BE1538ACC600E0C1AD /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC7D15900CB6008E9B3C /* Others */,
 				065FABCC15900BAD008E9B3C /* SpriteSheets */,
 			);
 			path = Sprites;
@@ -7557,24 +6780,6 @@
 				CF1270591538ACCB00E0C1AD /* taskyellowbar@2x.png in Resources */,
 				CF12705A1538ACCB00E0C1AD /* topgradient.png in Resources */,
 				CF12705B1538ACCB00E0C1AD /* topgradient@2x.png in Resources */,
-				CF1270741538ACCB00E0C1AD /* Bard.png in Resources */,
-				CF1270751538ACCB00E0C1AD /* Bard@2x.png in Resources */,
-				CF1270761538ACCB00E0C1AD /* DrowArcher.png in Resources */,
-				CF1270771538ACCB00E0C1AD /* DrowArcher@2x.png in Resources */,
-				CF1270781538ACCB00E0C1AD /* Farmer.png in Resources */,
-				CF1270791538ACCB00E0C1AD /* Farmer@2x.png in Resources */,
-				CF12707A1538ACCB00E0C1AD /* FemaleFarmer.png in Resources */,
-				CF12707B1538ACCB00E0C1AD /* FemaleFarmer@2x.png in Resources */,
-				CF12707C1538ACCB00E0C1AD /* LegionMage.png in Resources */,
-				CF12707D1538ACCB00E0C1AD /* LegionMage@2x.png in Resources */,
-				CF12707E1538ACCB00E0C1AD /* PandaMage.png in Resources */,
-				CF12707F1538ACCB00E0C1AD /* PandaMage@2x.png in Resources */,
-				CF1270801538ACCB00E0C1AD /* Seaman.png in Resources */,
-				CF1270811538ACCB00E0C1AD /* Seaman@2x.png in Resources */,
-				CF1270821538ACCB00E0C1AD /* SkeletonWarrior.png in Resources */,
-				CF1270831538ACCB00E0C1AD /* SkeletonWarrior@2x.png in Resources */,
-				CF1270841538ACCB00E0C1AD /* Syndicate.png in Resources */,
-				CF1270851538ACCB00E0C1AD /* Syndicate@2x.png in Resources */,
 				CF1270CE1538ACCC00E0C1AD /* badgirltall.png in Resources */,
 				CF1270CF1538ACCC00E0C1AD /* badgirltall@2x.png in Resources */,
 				CF1270D01538ACCC00E0C1AD /* BrokenShield.png in Resources */,
@@ -8139,76 +7344,30 @@
 				CFF02BD3158C41980072965A /* refilltextbg.png in Resources */,
 				CFF02BD4158C41980072965A /* refilltextbg@2x.png in Resources */,
 				CFF02BD6158C41B80072965A /* RefillMenuController.xib in Resources */,
-				065FABE515900C33008E9B3C /* AllianceMageWalkLR.plist in Resources */,
-				065FABE615900C33008E9B3C /* AllianceMageWalkLR.png in Resources */,
-				065FABE715900C33008E9B3C /* AllianceMageWalkLR@2x.plist in Resources */,
-				065FABE815900C33008E9B3C /* AllianceMageWalkLR@2x.png in Resources */,
 				065FABE915900C33008E9B3C /* AllianceMageWalkNF.plist in Resources */,
 				065FABEA15900C33008E9B3C /* AllianceMageWalkNF.png in Resources */,
 				065FABEB15900C33008E9B3C /* AllianceMageWalkNF@2x.plist in Resources */,
 				065FABEC15900C33008E9B3C /* AllianceMageWalkNF@2x.png in Resources */,
-				065FABED15900C33008E9B3C /* AllianceMageWalkUD.plist in Resources */,
-				065FABEE15900C33008E9B3C /* AllianceMageWalkUD.png in Resources */,
-				065FABFD15900C4A008E9B3C /* AllianceArcherWalkLR.plist in Resources */,
-				065FABFE15900C4A008E9B3C /* AllianceArcherWalkLR.png in Resources */,
-				065FABFF15900C4A008E9B3C /* AllianceArcherWalkLR@2x.plist in Resources */,
-				065FAC0015900C4A008E9B3C /* AllianceArcherWalkLR@2x.png in Resources */,
 				065FAC0115900C4A008E9B3C /* AllianceArcherWalkNF.plist in Resources */,
 				065FAC0215900C4A008E9B3C /* AllianceArcherWalkNF.png in Resources */,
 				065FAC0315900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist in Resources */,
 				065FAC0415900C4A008E9B3C /* AllianceArcherWalkNF@2x.png in Resources */,
-				065FAC0515900C4A008E9B3C /* AllianceArcherWalkUD.plist in Resources */,
-				065FAC0615900C4A008E9B3C /* AllianceArcherWalkUD.png in Resources */,
-				065FAC0715900C4A008E9B3C /* AllianceArcherWalkUD@2x.plist in Resources */,
-				065FAC0815900C4A008E9B3C /* AllianceArcherWalkUD@2x.png in Resources */,
-				065FAC1515900C5D008E9B3C /* AllianceWarriorWalkLR.plist in Resources */,
-				065FAC1615900C5D008E9B3C /* AllianceWarriorWalkLR.png in Resources */,
-				065FAC1715900C5D008E9B3C /* AllianceWarriorWalkLR@2x.plist in Resources */,
-				065FAC1815900C5D008E9B3C /* AllianceWarriorWalkLR@2x.png in Resources */,
 				065FAC1915900C5D008E9B3C /* AllianceWarriorWalkNF.plist in Resources */,
 				065FAC1A15900C5D008E9B3C /* AllianceWarriorWalkNF.png in Resources */,
 				065FAC1B15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist in Resources */,
 				065FAC1C15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png in Resources */,
-				065FAC1D15900C5D008E9B3C /* AllianceWarriorWalkUD.plist in Resources */,
-				065FAC1E15900C5D008E9B3C /* AllianceWarriorWalkUD.png in Resources */,
-				065FAC1F15900C5D008E9B3C /* AllianceWarriorWalkUD@2x.plist in Resources */,
-				065FAC2015900C5D008E9B3C /* AllianceWarriorWalkUD@2x.png in Resources */,
-				065FAC2D15900C70008E9B3C /* LegionArcherWalkLR.plist in Resources */,
-				065FAC2E15900C70008E9B3C /* LegionArcherWalkLR.png in Resources */,
-				065FAC2F15900C70008E9B3C /* LegionArcherWalkLR@2x.plist in Resources */,
-				065FAC3015900C70008E9B3C /* LegionArcherWalkLR@2x.png in Resources */,
 				065FAC3115900C70008E9B3C /* LegionArcherWalkNF.plist in Resources */,
 				065FAC3215900C70008E9B3C /* LegionArcherWalkNF.png in Resources */,
 				065FAC3315900C70008E9B3C /* LegionArcherWalkNF@2x.plist in Resources */,
 				065FAC3415900C70008E9B3C /* LegionArcherWalkNF@2x.png in Resources */,
-				065FAC3515900C70008E9B3C /* LegionArcherWalkUD.plist in Resources */,
-				065FAC3615900C70008E9B3C /* LegionArcherWalkUD.png in Resources */,
-				065FAC3715900C70008E9B3C /* LegionArcherWalkUD@2x.plist in Resources */,
-				065FAC3815900C70008E9B3C /* LegionArcherWalkUD@2x.png in Resources */,
-				065FAC4915900C78008E9B3C /* LegionMageWalkLR.plist in Resources */,
-				065FAC4A15900C78008E9B3C /* LegionMageWalkLR.png in Resources */,
-				065FAC4B15900C78008E9B3C /* LegionMageWalkLR@2x.plist in Resources */,
-				065FAC4C15900C78008E9B3C /* LegionMageWalkLR@2x.png in Resources */,
 				065FAC4D15900C78008E9B3C /* LegionMageWalkNF.plist in Resources */,
 				065FAC4E15900C78008E9B3C /* LegionMageWalkNF.png in Resources */,
 				065FAC4F15900C78008E9B3C /* LegionMageWalkNF@2x.plist in Resources */,
 				065FAC5015900C78008E9B3C /* LegionMageWalkNF@2x.png in Resources */,
-				065FAC5115900C78008E9B3C /* LegionMageWalkUD.plist in Resources */,
-				065FAC5215900C78008E9B3C /* LegionMageWalkUD.png in Resources */,
-				065FAC5315900C78008E9B3C /* LegionMageWalkUD@2x.plist in Resources */,
-				065FAC5415900C78008E9B3C /* LegionMageWalkUD@2x.png in Resources */,
-				065FAC6115900C90008E9B3C /* LegionWarriorWalkLR.plist in Resources */,
-				065FAC6215900C90008E9B3C /* LegionWarriorWalkLR.png in Resources */,
-				065FAC6315900C90008E9B3C /* LegionWarriorWalkLR@2x.plist in Resources */,
-				065FAC6415900C90008E9B3C /* LegionWarriorWalkLR@2x.png in Resources */,
 				065FAC6515900C90008E9B3C /* LegionWarriorWalkNF.plist in Resources */,
 				065FAC6615900C90008E9B3C /* LegionWarriorWalkNF.png in Resources */,
 				065FAC6715900C90008E9B3C /* LegionWarriorWalkNF@2x.plist in Resources */,
 				065FAC6815900C90008E9B3C /* LegionWarriorWalkNF@2x.png in Resources */,
-				065FAC6915900C90008E9B3C /* LegionWarriorWalkUD.plist in Resources */,
-				065FAC6A15900C90008E9B3C /* LegionWarriorWalkUD.png in Resources */,
-				065FAC6B15900C90008E9B3C /* LegionWarriorWalkUD@2x.plist in Resources */,
-				065FAC6C15900C90008E9B3C /* LegionWarriorWalkUD@2x.png in Resources */,
 				065FAC7115900C9E008E9B3C /* TutorialGuideBadWalkNF.plist in Resources */,
 				065FAC7215900C9E008E9B3C /* TutorialGuideBadWalkNF.png in Resources */,
 				065FAC7315900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist in Resources */,
@@ -8217,152 +7376,6 @@
 				065FAC7A15900CA4008E9B3C /* TutorialGuideWalkNF.png in Resources */,
 				065FAC7B15900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist in Resources */,
 				065FAC7C15900CA4008E9B3C /* TutorialGuideWalkNF@2x.png in Resources */,
-				065FAC9D159029BB008E9B3C /* AllianceArcherGenericLR.plist in Resources */,
-				065FAC9E159029BB008E9B3C /* AllianceArcherGenericLR.png in Resources */,
-				065FAC9F159029BB008E9B3C /* AllianceArcherGenericLR@2x.plist in Resources */,
-				065FACA0159029BB008E9B3C /* AllianceArcherGenericLR@2x.png in Resources */,
-				065FACA1159029BB008E9B3C /* AllianceArcherGenericNF.plist in Resources */,
-				065FACA2159029BB008E9B3C /* AllianceArcherGenericNF.png in Resources */,
-				065FACA3159029BB008E9B3C /* AllianceArcherGenericNF@2x.plist in Resources */,
-				065FACA4159029BB008E9B3C /* AllianceArcherGenericNF@2x.png in Resources */,
-				065FACA5159029BB008E9B3C /* AllianceArcherGenericUD.plist in Resources */,
-				065FACA6159029BB008E9B3C /* AllianceArcherGenericUD.png in Resources */,
-				065FACA7159029BB008E9B3C /* AllianceArcherGenericUD@2x.plist in Resources */,
-				065FACA8159029BB008E9B3C /* AllianceArcherGenericUD@2x.png in Resources */,
-				065FACB5159029C4008E9B3C /* AllianceArcherAttackLR.plist in Resources */,
-				065FACB6159029C4008E9B3C /* AllianceArcherAttackLR.png in Resources */,
-				065FACB7159029C4008E9B3C /* AllianceArcherAttackLR@2x.plist in Resources */,
-				065FACB8159029C4008E9B3C /* AllianceArcherAttackLR@2x.png in Resources */,
-				065FACB9159029C4008E9B3C /* AllianceArcherAttackNF.plist in Resources */,
-				065FACBA159029C4008E9B3C /* AllianceArcherAttackNF.png in Resources */,
-				065FACBB159029C4008E9B3C /* AllianceArcherAttackNF@2x.plist in Resources */,
-				065FACBC159029C4008E9B3C /* AllianceArcherAttackNF@2x.png in Resources */,
-				065FACBD159029C4008E9B3C /* AllianceArcherAttackUD.plist in Resources */,
-				065FACBE159029C4008E9B3C /* AllianceArcherAttackUD.png in Resources */,
-				065FACBF159029C4008E9B3C /* AllianceArcherAttackUD@2x.plist in Resources */,
-				065FACC0159029C4008E9B3C /* AllianceArcherAttackUD@2x.png in Resources */,
-				065FACC31590336F008E9B3C /* LegionMageWalkUD@2x.plist in Resources */,
-				065FACC41590336F008E9B3C /* LegionMageWalkUD@2x.png in Resources */,
-				065FACD41590555A008E9B3C /* AllianceMageAttackLR.plist in Resources */,
-				065FACD51590555A008E9B3C /* AllianceMageAttackLR.png in Resources */,
-				065FACD61590555A008E9B3C /* AllianceMageAttackLR@2x.plist in Resources */,
-				065FACD71590555A008E9B3C /* AllianceMageAttackLR@2x.png in Resources */,
-				065FACD81590555A008E9B3C /* AllianceMageAttackNF.plist in Resources */,
-				065FACD91590555A008E9B3C /* AllianceMageAttackNF.png in Resources */,
-				065FACDA1590555A008E9B3C /* AllianceMageAttackNF@2x.plist in Resources */,
-				065FACDB1590555A008E9B3C /* AllianceMageAttackNF@2x.png in Resources */,
-				065FACDC1590555A008E9B3C /* AllianceMageAttackUD.plist in Resources */,
-				065FACDD1590555A008E9B3C /* AllianceMageAttackUD.png in Resources */,
-				065FACDE1590555A008E9B3C /* AllianceMageAttackUD@2x.plist in Resources */,
-				065FACDF1590555A008E9B3C /* AllianceMageAttackUD@2x.png in Resources */,
-				065FACEC15905564008E9B3C /* AllianceMageGenericLR.plist in Resources */,
-				065FACED15905564008E9B3C /* AllianceMageGenericLR.png in Resources */,
-				065FACEE15905564008E9B3C /* AllianceMageGenericLR@2x.plist in Resources */,
-				065FACEF15905564008E9B3C /* AllianceMageGenericLR@2x.png in Resources */,
-				065FACF015905564008E9B3C /* AllianceMageGenericNF.plist in Resources */,
-				065FACF115905564008E9B3C /* AllianceMageGenericNF.png in Resources */,
-				065FACF215905564008E9B3C /* AllianceMageGenericNF@2x.plist in Resources */,
-				065FACF315905564008E9B3C /* AllianceMageGenericNF@2x.png in Resources */,
-				065FACF415905564008E9B3C /* AllianceMageGenericUD.plist in Resources */,
-				065FACF515905564008E9B3C /* AllianceMageGenericUD.png in Resources */,
-				065FACF615905564008E9B3C /* AllianceMageGenericUD@2x.plist in Resources */,
-				065FACF715905564008E9B3C /* AllianceMageGenericUD@2x.png in Resources */,
-				065FAD07159055BB008E9B3C /* AllianceWarriorGenericLR.plist in Resources */,
-				065FAD08159055BB008E9B3C /* AllianceWarriorGenericLR.png in Resources */,
-				065FAD09159055BB008E9B3C /* AllianceWarriorGenericLR@2x.plist in Resources */,
-				065FAD0A159055BB008E9B3C /* AllianceWarriorGenericLR@2x.png in Resources */,
-				065FAD0B159055BB008E9B3C /* AllianceWarriorGenericNF.plist in Resources */,
-				065FAD0C159055BB008E9B3C /* AllianceWarriorGenericNF.png in Resources */,
-				065FAD0D159055BB008E9B3C /* AllianceWarriorGenericNF@2x.plist in Resources */,
-				065FAD0E159055BB008E9B3C /* AllianceWarriorGenericNF@2x.png in Resources */,
-				065FAD0F159055BB008E9B3C /* AllianceWarriorGenericUD.plist in Resources */,
-				065FAD10159055BB008E9B3C /* AllianceWarriorGenericUD.png in Resources */,
-				065FAD11159055BB008E9B3C /* AllianceWarriorGenericUD@2x.plist in Resources */,
-				065FAD12159055BB008E9B3C /* AllianceWarriorGenericUD@2x.png in Resources */,
-				065FAD1F15905606008E9B3C /* AllianceWarriorAttackLR.plist in Resources */,
-				065FAD2015905606008E9B3C /* AllianceWarriorAttackLR.png in Resources */,
-				065FAD2115905606008E9B3C /* AllianceWarriorAttackLR@2x.plist in Resources */,
-				065FAD2215905606008E9B3C /* AllianceWarriorAttackLR@2x.png in Resources */,
-				065FAD2515905606008E9B3C /* AllianceWarriorAttackNF@2x.plist in Resources */,
-				065FAD2615905606008E9B3C /* AllianceWarriorAttackNF@2x.png in Resources */,
-				065FAD2715905606008E9B3C /* AllianceWarriorAttackUD.plist in Resources */,
-				065FAD2815905606008E9B3C /* AllianceWarriorAttackUD.png in Resources */,
-				065FAD2915905606008E9B3C /* AllianceWarriorAttackUD@2x.plist in Resources */,
-				065FAD2A15905606008E9B3C /* AllianceWarriorAttackUD@2x.png in Resources */,
-				065FAD301590581A008E9B3C /* AllianceWarriorAttackNF.plist in Resources */,
-				065FAD311590581A008E9B3C /* AllianceWarriorAttackNF.png in Resources */,
-				065FAD3E15905833008E9B3C /* LegionMageGenericLR.plist in Resources */,
-				065FAD3F15905833008E9B3C /* LegionMageGenericLR.png in Resources */,
-				065FAD4015905833008E9B3C /* LegionMageGenericLR@2x.plist in Resources */,
-				065FAD4115905833008E9B3C /* LegionMageGenericLR@2x.png in Resources */,
-				065FAD4215905833008E9B3C /* LegionMageGenericNF.plist in Resources */,
-				065FAD4315905833008E9B3C /* LegionMageGenericNF.png in Resources */,
-				065FAD4415905833008E9B3C /* LegionMageGenericNF@2x.plist in Resources */,
-				065FAD4515905833008E9B3C /* LegionMageGenericNF@2x.png in Resources */,
-				065FAD4615905833008E9B3C /* LegionMageGenericUD.plist in Resources */,
-				065FAD4715905833008E9B3C /* LegionMageGenericUD.png in Resources */,
-				065FAD4815905833008E9B3C /* LegionMageGenericUD@2x.plist in Resources */,
-				065FAD4915905833008E9B3C /* LegionMageGenericUD@2x.png in Resources */,
-				065FAD561590583A008E9B3C /* LegionMageAttackLR.plist in Resources */,
-				065FAD571590583A008E9B3C /* LegionMageAttackLR.png in Resources */,
-				065FAD581590583A008E9B3C /* LegionMageAttackLR@2x.plist in Resources */,
-				065FAD591590583A008E9B3C /* LegionMageAttackLR@2x.png in Resources */,
-				065FAD5A1590583A008E9B3C /* LegionMageAttackNF.plist in Resources */,
-				065FAD5B1590583A008E9B3C /* LegionMageAttackNF.png in Resources */,
-				065FAD5C1590583A008E9B3C /* LegionMageAttackNF@2x.plist in Resources */,
-				065FAD5D1590583A008E9B3C /* LegionMageAttackNF@2x.png in Resources */,
-				065FAD5E1590583A008E9B3C /* LegionMageAttackUD.plist in Resources */,
-				065FAD5F1590583A008E9B3C /* LegionMageAttackUD.png in Resources */,
-				065FAD601590583A008E9B3C /* LegionMageAttackUD@2x.plist in Resources */,
-				065FAD611590583A008E9B3C /* LegionMageAttackUD@2x.png in Resources */,
-				065FAD7215905927008E9B3C /* LegionArcherGenericLR.plist in Resources */,
-				065FAD7315905927008E9B3C /* LegionArcherGenericLR.png in Resources */,
-				065FAD7415905927008E9B3C /* LegionArcherGenericLR@2x.plist in Resources */,
-				065FAD7515905927008E9B3C /* LegionArcherGenericLR@2x.png in Resources */,
-				065FAD7615905927008E9B3C /* LegionArcherGenericNF.plist in Resources */,
-				065FAD7715905927008E9B3C /* LegionArcherGenericNF.png in Resources */,
-				065FAD7815905927008E9B3C /* LegionArcherGenericNF@2x.plist in Resources */,
-				065FAD7915905927008E9B3C /* LegionArcherGenericNF@2x.png in Resources */,
-				065FAD7A15905927008E9B3C /* LegionArcherGenericUD.plist in Resources */,
-				065FAD7B15905927008E9B3C /* LegionArcherGenericUD.png in Resources */,
-				065FAD7C15905927008E9B3C /* LegionArcherGenericUD@2x.plist in Resources */,
-				065FAD7D15905927008E9B3C /* LegionArcherGenericUD@2x.png in Resources */,
-				065FAD8A15905933008E9B3C /* LegionArcherAttackLR.plist in Resources */,
-				065FAD8B15905933008E9B3C /* LegionArcherAttackLR.png in Resources */,
-				065FAD8C15905933008E9B3C /* LegionArcherAttackLR@2x.plist in Resources */,
-				065FAD8D15905933008E9B3C /* LegionArcherAttackLR@2x.png in Resources */,
-				065FAD8E15905933008E9B3C /* LegionArcherAttackNF.plist in Resources */,
-				065FAD8F15905933008E9B3C /* LegionArcherAttackNF.png in Resources */,
-				065FAD9015905933008E9B3C /* LegionArcherAttackNF@2x.plist in Resources */,
-				065FAD9115905933008E9B3C /* LegionArcherAttackNF@2x.png in Resources */,
-				065FAD9215905933008E9B3C /* LegionArcherAttackUD.plist in Resources */,
-				065FAD9315905933008E9B3C /* LegionArcherAttackUD.png in Resources */,
-				065FAD9415905933008E9B3C /* LegionArcherAttackUD@2x.plist in Resources */,
-				065FAD9515905933008E9B3C /* LegionArcherAttackUD@2x.png in Resources */,
-				065FADA51590595E008E9B3C /* LegionWarriorGenericLR.plist in Resources */,
-				065FADA61590595E008E9B3C /* LegionWarriorGenericLR.png in Resources */,
-				065FADA71590595E008E9B3C /* LegionWarriorGenericLR@2x.plist in Resources */,
-				065FADA81590595E008E9B3C /* LegionWarriorGenericLR@2x.png in Resources */,
-				065FADA91590595E008E9B3C /* LegionWarriorGenericNF.plist in Resources */,
-				065FADAA1590595E008E9B3C /* LegionWarriorGenericNF.png in Resources */,
-				065FADAB1590595E008E9B3C /* LegionWarriorGenericNF@2x.plist in Resources */,
-				065FADAC1590595E008E9B3C /* LegionWarriorGenericNF@2x.png in Resources */,
-				065FADAD1590595E008E9B3C /* LegionWarriorGenericUD.plist in Resources */,
-				065FADAE1590595E008E9B3C /* LegionWarriorGenericUD.png in Resources */,
-				065FADAF1590595E008E9B3C /* LegionWarriorGenericUD@2x.plist in Resources */,
-				065FADB01590595E008E9B3C /* LegionWarriorGenericUD@2x.png in Resources */,
-				065FADBD15905963008E9B3C /* LegionWarriorAttackLR.plist in Resources */,
-				065FADBE15905963008E9B3C /* LegionWarriorAttackLR.png in Resources */,
-				065FADBF15905963008E9B3C /* LegionWarriorAttackLR@2x.plist in Resources */,
-				065FADC015905963008E9B3C /* LegionWarriorAttackLR@2x.png in Resources */,
-				065FADC115905963008E9B3C /* LegionWarriorAttackNF.plist in Resources */,
-				065FADC215905963008E9B3C /* LegionWarriorAttackNF.png in Resources */,
-				065FADC315905963008E9B3C /* LegionWarriorAttackNF@2x.plist in Resources */,
-				065FADC415905963008E9B3C /* LegionWarriorAttackNF@2x.png in Resources */,
-				065FADC515905963008E9B3C /* LegionWarriorAttackUD.plist in Resources */,
-				065FADC615905963008E9B3C /* LegionWarriorAttackUD.png in Resources */,
-				065FADC715905963008E9B3C /* LegionWarriorAttackUD@2x.plist in Resources */,
-				065FADC815905963008E9B3C /* LegionWarriorAttackUD@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8629,6 +7642,7 @@
 				CF41D0F4158BDBBE00A4DBC3 /* SoundEngine.m in Sources */,
 				CF41D163158BDDEE00A4DBC3 /* TutorialProfilePicture.m in Sources */,
 				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,
+				CFE3E9421592BB7400E85701 /* TutorialMyPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

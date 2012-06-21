@@ -100,6 +100,8 @@
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
 @property (retain) NSMutableDictionary *imageViewsWaitingForDownloading;
 
+@property (nonatomic, retain) NSMutableDictionary *animatingSpriteOffsets;
+
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
 
@@ -117,6 +119,7 @@
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
 + (NSString *) pathToMap:(NSString *)mapName;
++ (NSString *) pathToPlist:(NSString *)plistName;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
@@ -166,7 +169,7 @@
            atPoint:(CGPoint)point
 withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) popupMessage: (NSString *)msg;
-+(void)  beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor;
++ (void)  beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor;
 + (void) endPulseForView:(UIView *)view;
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;

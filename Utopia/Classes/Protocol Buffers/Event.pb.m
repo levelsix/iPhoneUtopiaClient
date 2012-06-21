@@ -4286,6 +4286,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
 @property int32_t maxCharLengthForWallPost;
 @property int32_t playerWallPostsRetrieveCap;
+@property (retain) NSMutableArray* mutableAnimatedSpriteOffsetsList;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4635,11 +4636,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasPlayerWallPostsRetrieveCap_ = !!value;
 }
 @synthesize playerWallPostsRetrieveCap;
+@synthesize mutableAnimatedSpriteOffsetsList;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
   self.formulaConstants = nil;
   self.battleConstants = nil;
+  self.mutableAnimatedSpriteOffsetsList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -4721,6 +4724,13 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 - (int32_t) productDiamondsGivenAtIndex:(int32_t) index {
   id value = [mutableProductDiamondsGivenList objectAtIndex:index];
   return [value intValue];
+}
+- (NSArray*) animatedSpriteOffsetsList {
+  return mutableAnimatedSpriteOffsetsList;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index {
+  id value = [mutableAnimatedSpriteOffsetsList objectAtIndex:index];
+  return value;
 }
 - (BOOL) isInitialized {
   return YES;
@@ -4878,6 +4888,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasFormulaConstants) {
     [output writeMessage:59 value:self.formulaConstants];
+  }
+  for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* element in self.animatedSpriteOffsetsList) {
+    [output writeMessage:60 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -5051,6 +5064,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasFormulaConstants) {
     size += computeMessageSize(59, self.formulaConstants);
   }
+  for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* element in self.animatedSpriteOffsetsList) {
+    size += computeMessageSize(60, element);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -5081,6 +5097,242 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto ()
+@property (retain) NSString* imageName;
+@property (retain) CoordinateProto* offSet;
+@end
+
+@implementation StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto
+
+- (BOOL) hasImageName {
+  return !!hasImageName_;
+}
+- (void) setHasImageName:(BOOL) value {
+  hasImageName_ = !!value;
+}
+@synthesize imageName;
+- (BOOL) hasOffSet {
+  return !!hasOffSet_;
+}
+- (void) setHasOffSet:(BOOL) value {
+  hasOffSet_ = !!value;
+}
+@synthesize offSet;
+- (void) dealloc {
+  self.imageName = nil;
+  self.offSet = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.imageName = @"";
+    self.offSet = [CoordinateProto defaultInstance];
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultStartupResponseProto_StartupConstants_AnimatedSpriteOffsetProtoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto class]) {
+    defaultStartupResponseProto_StartupConstants_AnimatedSpriteOffsetProtoInstance = [[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_AnimatedSpriteOffsetProtoInstance;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_AnimatedSpriteOffsetProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasImageName) {
+    [output writeString:55 value:self.imageName];
+  }
+  if (self.hasOffSet) {
+    [output writeMessage:56 value:self.offSet];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasImageName) {
+    size += computeStringSize(55, self.imageName);
+  }
+  if (self.hasOffSet) {
+    size += computeMessageSize(56, self.offSet);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)[[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)[[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)[[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)[[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)[[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*)[[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) prototype {
+  return [[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder()
+@property (retain) StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) buildPartial {
+  StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) other {
+  if (other == [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasImageName) {
+    [self setImageName:other.imageName];
+  }
+  if (other.hasOffSet) {
+    [self mergeOffSet:other.offSet];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 442: {
+        [self setImageName:[input readString]];
+        break;
+      }
+      case 450: {
+        CoordinateProto_Builder* subBuilder = [CoordinateProto builder];
+        if (self.hasOffSet) {
+          [subBuilder mergeFrom:self.offSet];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setOffSet:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasImageName {
+  return result.hasImageName;
+}
+- (NSString*) imageName {
+  return result.imageName;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setImageName:(NSString*) value {
+  result.hasImageName = YES;
+  result.imageName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearImageName {
+  result.hasImageName = NO;
+  result.imageName = @"";
+  return self;
+}
+- (BOOL) hasOffSet {
+  return result.hasOffSet;
+}
+- (CoordinateProto*) offSet {
+  return result.offSet;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSet:(CoordinateProto*) value {
+  result.hasOffSet = YES;
+  result.offSet = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSetBuilder:(CoordinateProto_Builder*) builderForValue {
+  return [self setOffSet:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeOffSet:(CoordinateProto*) value {
+  if (result.hasOffSet &&
+      result.offSet != [CoordinateProto defaultInstance]) {
+    result.offSet =
+      [[[CoordinateProto builderWithPrototype:result.offSet] mergeFrom:value] buildPartial];
+  } else {
+    result.offSet = value;
+  }
+  result.hasOffSet = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearOffSet {
+  result.hasOffSet = NO;
+  result.offSet = [CoordinateProto defaultInstance];
+  return self;
 }
 @end
 
@@ -6133,6 +6385,12 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasPlayerWallPostsRetrieveCap) {
     [self setPlayerWallPostsRetrieveCap:other.playerWallPostsRetrieveCap];
   }
+  if (other.mutableAnimatedSpriteOffsetsList.count > 0) {
+    if (result.mutableAnimatedSpriteOffsetsList == nil) {
+      result.mutableAnimatedSpriteOffsetsList = [NSMutableArray array];
+    }
+    [result.mutableAnimatedSpriteOffsetsList addObjectsFromArray:other.mutableAnimatedSpriteOffsetsList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6366,6 +6624,12 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setFormulaConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 482: {
+        StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addAnimatedSpriteOffsets:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7243,6 +7507,35 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_Builder*) clearPlayerWallPostsRetrieveCap {
   result.hasPlayerWallPostsRetrieveCap = NO;
   result.playerWallPostsRetrieveCap = 0;
+  return self;
+}
+- (NSArray*) animatedSpriteOffsetsList {
+  if (result.mutableAnimatedSpriteOffsetsList == nil) { return [NSArray array]; }
+  return result.mutableAnimatedSpriteOffsetsList;
+}
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index {
+  return [result animatedSpriteOffsetsAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_Builder*) replaceAnimatedSpriteOffsetsAtIndex:(int32_t) index with:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value {
+  [result.mutableAnimatedSpriteOffsetsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addAllAnimatedSpriteOffsets:(NSArray*) values {
+  if (result.mutableAnimatedSpriteOffsetsList == nil) {
+    result.mutableAnimatedSpriteOffsetsList = [NSMutableArray array];
+  }
+  [result.mutableAnimatedSpriteOffsetsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAnimatedSpriteOffsetsList {
+  result.mutableAnimatedSpriteOffsetsList = nil;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) addAnimatedSpriteOffsets:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value {
+  if (result.mutableAnimatedSpriteOffsetsList == nil) {
+    result.mutableAnimatedSpriteOffsetsList = [NSMutableArray array];
+  }
+  [result.mutableAnimatedSpriteOffsetsList addObject:value];
   return self;
 }
 @end

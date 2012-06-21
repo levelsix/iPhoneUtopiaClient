@@ -146,8 +146,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
     [DialogMenuController displayViewForText:tc.otherFailText];
     [Analytics tutorialOtherFail];
   }
-   
-  [self stopLoading];
 }
 
 - (void) viewDidUnload

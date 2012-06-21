@@ -58,6 +58,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize locationBarMax, maxAttackMultiplier;
 @synthesize minPercentOfEnemyHealth, maxPercentOfEnemyHealth;
 @synthesize battleDifferenceTuner, battleDifferenceMultiplier;
+@synthesize animatingSpriteOffsets;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -91,6 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     imageCache = [[NSMutableDictionary alloc] init];
     imageViewsWaitingForDownloading = [[NSMutableDictionary alloc] init];
+    animatingSpriteOffsets = [[NSMutableDictionary alloc] init];
   }
   return self;
 }
@@ -150,6 +152,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxPercentOfEnemyHealth = constants.battleConstants.maxPercentOfEnemyHealth;
   self.battleDifferenceMultiplier = constants.battleConstants.battleDifferenceMultiplier;
   self.battleDifferenceTuner = constants.battleConstants.battleDifferenceTuner;
+  
+  for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
+    [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
+  }
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {
@@ -533,7 +539,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       // Map not in docs: download it
-      [[Downloader sharedDownloader] syncDownloadMap:fullpath.lastPathComponent];
+      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
+    }
+  }
+  
+  return fullpath;
+}
+
++ (NSString *) pathToPlist:(NSString *)plistName {
+  if (!plistName) {
+    return nil;
+  }
+  
+  // prevents overloading the autorelease pool
+  NSString *resName = [CCFileUtils getDoubleResolutionImage:plistName validate:NO];
+  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
+  
+  // Added for Utopia project
+  if (!fullpath) {
+    // Image not in NSBundle: look in documents
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      // File not in docs: download it
+      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
     }
   }
   
@@ -1022,15 +1053,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
       
     case UserTypeGoodMage:
-      return @"PandaMage.png";
+      return @"AllianceMage.png";
       break;
       
     case UserTypeBadWarrior:
-      return @"SkeletonWarrior.png";
+      return @"LegionWarrior.png";
       break;
       
     case UserTypeBadArcher:
-      return @"DrowArcher.png";
+      return @"LegionArcher.png";
       break;
       
     case UserTypeBadMage:
@@ -1527,6 +1558,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   self.productIdentifiers = nil;
   self.imageCache = nil;
   self.imageViewsWaitingForDownloading = nil;
+  self.animatingSpriteOffsets = nil;
   [super dealloc];
 }
 

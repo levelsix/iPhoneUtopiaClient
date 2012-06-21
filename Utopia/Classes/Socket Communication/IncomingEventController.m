@@ -1075,7 +1075,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to validate free gold."];
-    [gs removeFullUserUpdatesForTag:tag];
+    [gs removeAndUndoAllUpdatesForTag:tag];
   }
 }
 

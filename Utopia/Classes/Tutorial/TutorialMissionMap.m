@@ -19,6 +19,7 @@
 #import "DialogMenuController.h"
 #import "GameLayer.h"
 #import "TutorialTopBar.h"
+#import "TutorialMyPlayer.h"
 
 #define ENEMY_TAG 100
 
@@ -149,7 +150,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
     type = [Globals userTypeIsGood:tc.enemyType] ? 1 : 4;
-    Enemy *randEnemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
+    Enemy *randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
     [self addChild:randEnemy z:1];
     [randEnemy release];
     randEnemy.nameLabel.string = @"Ashton Butcher";
@@ -158,7 +159,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
     type = [Globals userTypeIsGood:tc.enemyType] ? 2 : 5;
-    randEnemy = [[Enemy alloc] initWithFile:[Globals spriteImageNameForUser:type] location:r map:self];
+    randEnemy = [[Enemy alloc] initWithFile:[Globals animatedSpritePrefix:type] location:r map:self];
     [self addChild:randEnemy z:1];
     [randEnemy release];
     randEnemy.nameLabel.string = @"Tret Berrill";
@@ -174,6 +175,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
   }
   return self;
+}
+
+- (void) createMyPlayer {
+  // Do this so that tutorial classes can override
+  _myPlayer = [[TutorialMyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
+  [self addChild:_myPlayer];
+  [_myPlayer release];
+  
+  _myPlayer.location = CGRectMake(30, 25, 1, 1);
 }
 
 - (void) removeWithCleanup:(CCNode *)node {
@@ -386,6 +396,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     FullTaskProto *ftp = mb.ftp;
     
     [self closeMenus];
+    
+    CGPoint pt = ccp(ftp.spriteLandingCoords.x, ftp.spriteLandingCoords.y);
+    CGPoint ccPt = pt;
+    // Angle should be relevant to entire building, not origin
+    if (ccPt.x < 0) {
+      ccPt.x = -1;
+    } else if (ccPt.x >= mb.location.size.width) {
+      ccPt.x = 1;
+    } else {
+      ccPt.x = 0;
+    }
+    
+    if (ccPt.y < 0) {
+      ccPt.y = -1;
+    } else if (ccPt.y >= mb.location.size.height) {
+      ccPt.y = 1;
+    } else {
+      ccPt.y = 0;
+    }
+    
+    ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
+    float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
+    [_myPlayer stopWalking];
+    [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(mb.location.origin, pt) inDirection:angle];
     
     _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
     [_taskProgBar animateBarWithText:ftp.processingText];

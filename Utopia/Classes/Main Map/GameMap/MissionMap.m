@@ -106,7 +106,6 @@
     [self removeChild:layer cleanup:YES];
     
     // Add all the buildings, can't add people till after aviary placed
-    NSMutableArray *peopleElems = [NSMutableArray array];
     for (NeutralCityElementProto *ncep in proto.cityElementsList) {
       if (ncep.type == NeutralCityElementProto_NeutralCityElemTypeBuilding) {
         // Add a mission building
@@ -126,96 +125,17 @@
         
         [self changeTiles:s.location canWalk:NO];
       } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypePersonQuestGiver) {
-        [peopleElems addObject:ncep];
+        CGRect r = CGRectZero;
+        r.origin = [self randomWalkablePosition];
+        r.size = CGSizeMake(1, 1);
+        QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:ncep.imgId map:self location:r];
+        [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        qg.name = ncep.name;
+        [qg release];
       }
     }
     
-    // Now add people, first add quest givers
-    for (FullQuestProto *fqp in [gs.availableQuests allValues]) {
-      if (fqp.cityId == fcp.cityId) {
-        NeutralCityElementProto *ncep = nil;
-        for (NeutralCityElementProto *n in peopleElems) {
-          if (n.assetId == fqp.assetNumWithinCity) {
-            ncep = n;
-            break;
-          }
-        }
-        [peopleElems removeObject:ncep];
-        
-        if (ncep) {
-          CGRect r = CGRectZero;
-          r.origin = [self randomWalkablePosition];
-          r.size = CGSizeMake(1, 1);
-          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp questGiverState:kAvailable file:ncep.imgId map:self location:r];
-          [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-          qg.name = ncep.name;
-          [qg release];
-        }
-      }
-    }
-    
-    // Now add the in progress quest givers, peopleElems will hold only the non-quest givers
-    for (FullQuestProto *fqp in [gs.inProgressIncompleteQuests allValues]) {
-      if (fqp.cityId == fcp.cityId) {
-        NeutralCityElementProto *ncep = nil;
-        for (NeutralCityElementProto *n in peopleElems) {
-          if (n.assetId == fqp.assetNumWithinCity) {
-            ncep = n;
-            break;
-          }
-        }
-        [peopleElems removeObject:ncep];
-        
-        if (ncep) {
-          CGRect r = CGRectZero;
-          r.origin = [self randomWalkablePosition];
-          r.size = CGSizeMake(1, 1);
-          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp questGiverState:kInProgress file:ncep.imgId map:self location:r];
-          [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-          qg.name = ncep.name;
-          [qg release];
-        } else {
-          LNLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
-        }
-      }
-    }
-    
-    // Finally add the completed quest givers
-    for (FullQuestProto *fqp in [gs.inProgressCompleteQuests allValues]) {
-      if (fqp.cityId == fcp.cityId) {
-        NeutralCityElementProto *ncep = nil;
-        for (NeutralCityElementProto *n in peopleElems) {
-          if (n.assetId == fqp.assetNumWithinCity) {
-            ncep = n;
-            break;
-          }
-        }
-        [peopleElems removeObject:ncep];
-        
-        if (ncep) {
-          CGRect r = CGRectZero;
-          r.origin = [self randomWalkablePosition];
-          r.size = CGSizeMake(1, 1);
-          QuestGiver *qg = [[QuestGiver alloc] initWithQuest:fqp questGiverState:kCompleted file:ncep.imgId map:self location:r];
-          [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-          qg.name = ncep.name;
-          [qg release];
-        } else {
-          LNLog(@"%d %d", fqp.cityId, fqp.assetNumWithinCity);
-        }
-      }
-    }
-    
-    LNLog(@"%d neutral elems left", peopleElems.count);
-    // Load the rest of the people in case quest becomes available later.
-    for (NeutralCityElementProto *ncep in peopleElems) {
-      CGRect r = CGRectZero;
-      r.origin = [self randomWalkablePosition];
-      r.size = CGSizeMake(1, 1);
-      QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:ncep.imgId map:self location:r];
-      [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
-      [qg release];
-    }
+    [self reloadQuestGivers];
     
     [self addEnemiesFromArray:proto.defeatTypeJobEnemiesList];
     

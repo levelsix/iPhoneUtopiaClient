@@ -233,6 +233,8 @@
 @class StartupResponseProto_ReferralNotificationProto;
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
+@class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto;
+@class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder;
 @class StartupResponseProto_StartupConstants_BattleConstants;
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
@@ -1832,6 +1834,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
+  NSMutableArray* mutableAnimatedSpriteOffsetsList;
 }
 - (BOOL) hasMaxLevelDifferenceForBattle;
 - (BOOL) hasArmoryXlength;
@@ -1935,6 +1938,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
 - (int32_t) productDiamondsGivenAtIndex:(int32_t) index;
+- (NSArray*) animatedSpriteOffsetsList;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -1951,6 +1956,65 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto : PBGeneratedMessage {
+@private
+  BOOL hasImageName_:1;
+  BOOL hasOffSet_:1;
+  NSString* imageName;
+  CoordinateProto* offSet;
+}
+- (BOOL) hasImageName;
+- (BOOL) hasOffSet;
+@property (readonly, retain) NSString* imageName;
+@property (readonly, retain) CoordinateProto* offSet;
+
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) prototype;
+
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* result;
+}
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clear;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) build;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) other;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasImageName;
+- (NSString*) imageName;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setImageName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearImageName;
+
+- (BOOL) hasOffSet;
+- (CoordinateProto*) offSet;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSet:(CoordinateProto*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSetBuilder:(CoordinateProto_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeOffSet:(CoordinateProto*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearOffSet;
 @end
 
 @interface StartupResponseProto_StartupConstants_FormulaConstants : PBGeneratedMessage {
@@ -2445,6 +2509,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (int32_t) playerWallPostsRetrieveCap;
 - (StartupResponseProto_StartupConstants_Builder*) setPlayerWallPostsRetrieveCap:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearPlayerWallPostsRetrieveCap;
+
+- (NSArray*) animatedSpriteOffsetsList;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_Builder*) replaceAnimatedSpriteOffsetsAtIndex:(int32_t) index with:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAnimatedSpriteOffsets:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAllAnimatedSpriteOffsets:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_Builder*) clearAnimatedSpriteOffsetsList;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {

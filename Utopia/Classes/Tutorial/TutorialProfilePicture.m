@@ -49,7 +49,7 @@
 - (void) showArrowOnProfileButton {
   CCMenuItem *profile = [_menuItems objectAtIndex:1];
   [profile addChild:_arrow];
-  _arrow.position = ccp(profile.contentSize.width+_arrow.contentSize.width/2, -_arrow.contentSize.height/2);
+  _arrow.position = ccp(profile.contentSize.width+5, -5);
   [Globals animateCCArrow:_arrow atAngle:3*M_PI_4];
 }
 

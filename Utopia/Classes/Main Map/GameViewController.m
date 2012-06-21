@@ -376,9 +376,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   if (isTutorial) {
     TopBar *tb = [TutorialTopBar sharedTopBar];
     tb.isTouchEnabled = NO;
-    
-    // Startup the tutorial home map
-    [TutorialHomeMap sharedHomeMap];
   }
   
   [self performSelectorInBackground:@selector(preloadLayer) withObject:nil];

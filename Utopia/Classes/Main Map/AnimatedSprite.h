@@ -10,6 +10,15 @@
 #import "MapSprite.h"
 #import "Protocols.pb.h"
 
+#define ABOVE_HEAD_FADE_DURATION 1.5f
+#define ABOVE_HEAD_FADE_OPACITY 100
+#define ANIMATATION_DELAY 0.05f
+#define MOVE_DISTANCE 4.0f
+
+#define WALKING_SPEED 50.f
+
+#define VERTICAL_OFFSET 10.f
+
 @class MissionMap;
 
 @interface CharacterSprite : SelectableSprite {
@@ -72,7 +81,7 @@ typedef enum {
 
 @end
 
-@interface Carpenter : CharacterSprite
+@interface Carpenter : AnimatedSprite
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 

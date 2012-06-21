@@ -153,9 +153,7 @@
       tileSizeInPoints = tileSize_;
     }
     
-    _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
-    [self addChild:_myPlayer];
-    [_myPlayer release];
+    [self createMyPlayer];
     
     // Add the decoration layer for clouds
     decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
@@ -171,6 +169,13 @@
     self.scale = DEFAULT_ZOOM;
   }
   return self;
+}
+
+- (void) createMyPlayer {
+  // Do this so that tutorial classes can override
+  _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
+  [self addChild:_myPlayer];
+  [_myPlayer release];
 }
 
 - (void) setVisible:(BOOL)visible {
@@ -644,8 +649,6 @@
     float x = -pt.x*scaleX_+size.width/2;
     float y = (-pt.y-spr.contentSize.height*3/4)*scaleY_+size.height/2;
     self.position = ccp(x,y);
-    
-    self.selected = nil;
   }
 }
 

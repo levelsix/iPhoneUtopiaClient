@@ -17,6 +17,7 @@
 #import "DialogMenuController.h"
 #import "TutorialTopBar.h"
 #import "TutorialStartLayer.h"
+#import "Downloader.h"
 
 @implementation CharSelectionViewController
 
@@ -361,6 +362,36 @@
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
   [Analytics tutorialCharChosen];
+  
+  [self downloadNecessaryFiles];
+}
+
+- (void) downloadNecessaryFiles {
+  GameState *gs = [GameState sharedGameState];
+  NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+  NSArray *files = [NSArray arrayWithObjects:
+                    [NSString stringWithFormat:@"%@AttackLR.plist", prefix],
+                    [NSString stringWithFormat:@"%@AttackLR.png", prefix],
+                    [NSString stringWithFormat:@"%@AttackNF.plist", prefix],
+                    [NSString stringWithFormat:@"%@AttackNF.png", prefix],
+                    [NSString stringWithFormat:@"%@AttackUD.plist", prefix],
+                    [NSString stringWithFormat:@"%@AttackUD.png", prefix],
+                    [NSString stringWithFormat:@"%@GenericLR.plist", prefix],
+                    [NSString stringWithFormat:@"%@GenericLR.png", prefix],
+                    [NSString stringWithFormat:@"%@GenericNF.plist", prefix],
+                    [NSString stringWithFormat:@"%@GenericNF.png", prefix],
+                    [NSString stringWithFormat:@"%@GenericUD.plist", prefix],
+                    [NSString stringWithFormat:@"%@GenericUD.png", prefix],
+                    [NSString stringWithFormat:@"%@WalkLR.plist", prefix],
+                    [NSString stringWithFormat:@"%@WalkLR.png", prefix],
+                    [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
+                    [NSString stringWithFormat:@"%@WalkUD.png", prefix],
+                    nil];
+  
+  for (NSString *file in files) {
+    NSString *doubleRes = [CCFileUtils getDoubleResolutionImage:file validate:NO];
+    [[Downloader sharedDownloader] downloadImage:doubleRes completion:nil];
+  }
 }
 
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

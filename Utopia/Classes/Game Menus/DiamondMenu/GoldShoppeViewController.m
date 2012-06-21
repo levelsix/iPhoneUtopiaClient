@@ -34,7 +34,7 @@
   
   rect            = self.frame;
   rect.size.width = bigLabel.frame.size.width 
-    + littleLabel.frame.size.width;
+  + littleLabel.frame.size.width;
   self.frame   = rect;
   self.center  = CGPointMake(CGRectGetMidX(self.superview.bounds), 
                              self.center.y);
@@ -45,7 +45,7 @@
   if (price != newPrice) {
     [price release];
     price = [newPrice retain];
-
+    
     if ([newPrice length] > 0) {
       if ([newPrice isEqualToString:[InAppPurchaseData unknownPrice]]) {
         [self setLeftText:newPrice andRightText:@""];
@@ -293,7 +293,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.pkgTableView.rowHeight = 62;
   
   self.state = kPackagesState;
-
+  
   // Initialize the Ad Sponsored deals
   [self resetSponsoredOffers];
   
@@ -319,21 +319,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   if (state != _state) {
     _state = state;
     switch (state) {
-        case kPackagesState:
-          [self.topBar unclickButton:kEarnFreeButton];
-          [self.topBar clickButton:kGoldCoinsButton];
-          break;
+      case kPackagesState:
+        [self.topBar unclickButton:kEarnFreeButton];
+        [self.topBar clickButton:kGoldCoinsButton];
+        break;
       case kEarnFreeState:
         [self.topBar unclickButton:kGoldCoinsButton];
         [self.topBar clickButton:kEarnFreeButton];
-
+        
         [Analytics clickedFreeOffers];
         break;
         
       default:
         break;
     }
-
+    
     [[self pkgTableView] reloadData];
   }
 }
@@ -366,7 +366,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   switch (_state) {
     case kPackagesState:
       cellData = [InAppPurchaseData createWithSKProduct:[[[IAPHelper sharedIAPHelper] products] 
-                                           objectAtIndex:indexPath.row]];
+                                                         objectAtIndex:indexPath.row]];
       break;
     case kEarnFreeState:
       cellData = [_sponsoredOffers objectAtIndex:indexPath.row];
@@ -376,7 +376,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   }
   
   cell.productData = cellData; 
-
+  
   [cell updateForPurchaseData:cellData];
   cell.pkgIcon.image = cellData.rewardPic;
   return cell;
@@ -385,14 +385,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   GoldPackageView *gpv = (GoldPackageView *)[tableView 
                                              cellForRowAtIndexPath:indexPath];
-
+  
   [gpv.productData makePurchaseWithViewController:self];
-
+  
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
-
+  
   if (_state == kPackagesState) {
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate
-                                           dateWithTimeIntervalSinceNow:0.07]];
+                                              dateWithTimeIntervalSinceNow:0.07]];
     [self startLoading];
   }
 }
@@ -439,7 +439,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
   self.mainView = nil;
   self.bgdView = nil;
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+  
   [_sponsoredOffers release];
 }
 

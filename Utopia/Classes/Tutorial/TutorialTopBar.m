@@ -107,6 +107,8 @@
 - (void) beginMyCityPhase {
   _myCityPhase = YES;
   
+  [TutorialHomeMap sharedHomeMap];
+  
   _arrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   [self addChild:_arrow];
   _arrow.position = ccpAdd(_homeButton.position, ccp(-_homeButton.contentSize.width/2-_arrow.contentSize.width/2, 0));

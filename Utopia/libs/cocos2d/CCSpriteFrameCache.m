@@ -41,6 +41,9 @@
 #import "CCSprite.h"
 #import "Support/CCFileUtils.h"
 
+// Added by LVL6 for Utopia project
+#import "Globals.h"
+
 
 @implementation CCSpriteFrameCache
 
@@ -52,7 +55,7 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 {
 	if (!sharedSpriteFrameCache_)
 		sharedSpriteFrameCache_ = [[CCSpriteFrameCache alloc] init];
-		
+  
 	return sharedSpriteFrameCache_;
 }
 
@@ -102,10 +105,10 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	 ZWTCoordinatesFormatOptionXML1_0 = 1, // Desktop Version 0.0 - 0.4b
 	 ZWTCoordinatesFormatOptionXML1_1 = 2, // Desktop Version 1.0.0 - 1.0.1
 	 ZWTCoordinatesFormatOptionXML1_2 = 3, // Desktop Version 1.0.2+
-	*/
+   */
 	NSDictionary *metadataDict = [dictionary objectForKey:@"metadata"];
 	NSDictionary *framesDict = [dictionary objectForKey:@"frames"];
-
+  
 	int format = 0;
 	
 	// get the format
@@ -139,10 +142,10 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 			// create frame
 			
 			spriteFrame = [[CCSpriteFrame alloc] initWithTexture:texture
-													rectInPixels:CGRectMake(x, y, w, h)
-														 rotated:NO
-														  offset:CGPointMake(ox, oy)
-													originalSize:CGSizeMake(ow, oh)];
+                                              rectInPixels:CGRectMake(x, y, w, h)
+                                                   rotated:NO
+                                                    offset:CGPointMake(ox, oy)
+                                              originalSize:CGSizeMake(ow, oh)];
 		} else if(format == 1 || format == 2) {
 			CGRect frame = CCRectFromString([frameDict objectForKey:@"frame"]);
 			BOOL rotated = NO;
@@ -156,10 +159,10 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 			
 			// create frame
 			spriteFrame = [[CCSpriteFrame alloc] initWithTexture:texture
-													rectInPixels:frame
-														 rotated:rotated
-														  offset:offset
-													originalSize:sourceSize];
+                                              rectInPixels:frame
+                                                   rotated:rotated
+                                                    offset:offset
+                                              originalSize:sourceSize];
 		} else if(format == 3) {
 			// get values
 			CGSize spriteSize = CCSizeFromString([frameDict objectForKey:@"spriteSize"]);
@@ -179,12 +182,12 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 			
 			// create frame
 			spriteFrame = [[CCSpriteFrame alloc] initWithTexture:texture 
-													rectInPixels:CGRectMake(textureRect.origin.x, textureRect.origin.y, spriteSize.width, spriteSize.height) 
-														 rotated:textureRotated 
-														  offset:spriteOffset 
-													originalSize:spriteSourceSize];
+                                              rectInPixels:CGRectMake(textureRect.origin.x, textureRect.origin.y, spriteSize.width, spriteSize.height) 
+                                                   rotated:textureRotated 
+                                                    offset:spriteOffset 
+                                              originalSize:spriteSourceSize];
 		}
-
+    
 		// add sprite frame
 		[spriteFrames_ setObject:spriteFrame forKey:frameDictKey];
 		[spriteFrame release];
@@ -195,7 +198,7 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 {
 	NSString *path = [CCFileUtils fullPathFromRelativePath:plist];
 	NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-
+  
 	[self addSpriteFramesWithDictionary:dict texture:texture];
 }
 
@@ -212,30 +215,33 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 
 -(void) addSpriteFramesWithFile:(NSString*)plist
 {
-    NSString *path = [CCFileUtils fullPathFromRelativePath:plist];
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+  // LVL6 Addition
+  NSString *path = [Globals pathToPlist:plist];
+//  NSString *path = [CCFileUtils fullPathFromRelativePath:plist];
+  
+  NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
 	
-    NSString *texturePath = nil;
-    NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
-    if( metadataDict )
-        // try to read  texture file name from meta data
-        texturePath = [metadataDict objectForKey:@"textureFileName"];
+  NSString *texturePath = nil;
+  NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
+  if( metadataDict )
+    // try to read  texture file name from meta data
+    texturePath = [metadataDict objectForKey:@"textureFileName"];
 	
 	
-    if( texturePath )
-    {
-        // build texture path relative to plist file
-        NSString *textureBase = [plist stringByDeletingLastPathComponent];
-        texturePath = [textureBase stringByAppendingPathComponent:texturePath];
-    } else {
-        // build texture path by replacing file extension
-        texturePath = [plist stringByDeletingPathExtension];
-        texturePath = [texturePath stringByAppendingPathExtension:@"png"];
+  if( texturePath )
+  {
+    // build texture path relative to plist file
+    NSString *textureBase = [plist stringByDeletingLastPathComponent];
+    texturePath = [textureBase stringByAppendingPathComponent:texturePath];
+  } else {
+    // build texture path by replacing file extension
+    texturePath = [plist stringByDeletingPathExtension];
+    texturePath = [texturePath stringByAppendingPathExtension:@"png"];
 		
 		CCLOG(@"cocos2d: CCSpriteFrameCache: Trying to use file '%@' as texture", texturePath); 
-    }
+  }
 	
-    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:texturePath];
+  CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:texturePath];
 	
 	if( texture )
 		[self addSpriteFramesWithDictionary:dict texture:texture];
@@ -281,7 +287,7 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	if( key ) {
 		[spriteFrames_ removeObjectForKey:key];
 		[spriteFramesAliases_ removeObjectForKey:name];
-
+    
 	} else
 		[spriteFrames_ removeObjectForKey:name];
 }
