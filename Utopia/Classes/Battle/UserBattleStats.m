@@ -23,6 +23,15 @@
   return _gameState.attack;
 }
 
+-(int)defense
+{
+  if (_userProto) {
+    return _userProto.defense;
+  }
+  
+  return _gameState.defense;
+}
+
 //_leftAttack = [gl calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
 //_leftDefense = [gl calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
 
@@ -92,7 +101,6 @@
   }
 
 #warning default stats (attack defense) for the mage are busted!
-#warning THIS DELTA OF SIX ISN'T SIGNIFICANT AT HIGHER LEVELS
   int randAtt = arc4random() % 6;
   int randDef = arc4random() % 6;
   if (enemy.level > gameState.level) {

@@ -8,23 +8,37 @@
 
 #import "BattleCalculator.h"
 
-#define PERFECT_PERCENT_THRESHOLD 3
-#define GREAT_PERCENT_THRESHOLD   14
-#define GOOD_PERCENT_THRESHOLD    30
+#define DEFENDED_MULT   0.1f
+#define UNDEFENDED_MULT 2.0f
 
 
-//#define PERFECT_MULTIPLIER  1.0f
-#define PERFECT_MULTIPLIER  1.5f
-#define GREAT_MULTIPLIER    0.8f
-#define GOOD_MULTIPLIER     0.4f
+#define PERFECT_MULTIPLIER  2.0f
+#define GREAT_MULTIPLIER    1.45f
+#define GOOD_MULTIPLIER     1.0f
+
+//#define PERFECT_MULTIPLIER  1.55f
+//#define GREAT_MULTIPLIER    1.45f
+//#define GOOD_MULTIPLIER     1.0f
+
+//#define DEFENDED_MULT   0.5f
+//#define UNDEFENDED_MULT 1.0f
+//
+//#define PERFECT_MULTIPLIER  2.0f
+//#define GREAT_MULTIPLIER    1.45f
+//#define GOOD_MULTIPLIER     1.0f
+//
+////#define PERFECT_MULTIPLIER  1.5f
+////#define GREAT_MULTIPLIER    0.8f
+////#define GOOD_MULTIPLIER     0.4f
 
 @implementation BattleCalculator
-
+@synthesize rightUser;
+@synthesize leftUser;
 
 -(CombatDamageType) damageZoneForPercent:(float)percent
 {
   float perfect = _globals.locationBarMax;
-  float distFromPerfect    = abs(perfect - percent);
+  float distFromPerfect    = fabs(perfect - percent);
   float percentFromPerfect = 0;
   
   // Make the attack strength asymetric WRT the target 
@@ -91,7 +105,7 @@
                     andDefender:(id<UserBattleStats>)defender 
 {
   float perfect = _globals.locationBarMax;
-  float distFromPerfect    = abs(perfect - percent);
+  float distFromPerfect    = fabs(perfect - percent);
   float percentFromPerfect = 0;
   
   // Make the attack strength asymetric WRT the target 
@@ -205,26 +219,63 @@
 //  return result;
 //}
 
+//-(int) afterDefenseAttackStrength:(int)attackStrength
+//                      forDefender:(id<UserBattleStats>)defender 
+//{
+//  return (attackStrength*attackStrength/(attackStrength + defender.defense))*1.5;
+//}
+
+-(int) afterDefenseAttackStrength:(int)attackStrength
+                      forDefender:(id<UserBattleStats>)defender 
+{
+  attackStrength = MAX(attackStrength - defender.defense, 0) + 6;
+  
+  return attackStrength;
+//  int difference = attackStrength - defender.defense;
+//  int defendedDamage, undefendedDamage;
+//  if (difference >= 0) {
+//    defendedDamage = defender.defense*DEFENDED_MULT;
+//    undefendedDamage = difference*UNDEFENDED_MULT;
+//  }
+//  else {
+//    defendedDamage = attackStrength*DEFENDED_MULT;
+//    undefendedDamage = 0;
+//  }
+//  return defendedDamage + undefendedDamage;
+}
+
 -(int) attackStrengthForPercent:(float)percent 
                        andRight:(BOOL)rightAttack
 {
   // Get Skill-based attack values
   int skillAttack, userAttack;
+  
+  id<UserBattleStats> attacker, defender;
   if (rightAttack) {
-    skillAttack = [self skillMultForPercent:percent 
-                                     andAttacker:_rightUser 
-                                     andDefender:_leftUser];
-    userAttack  = _rightUser.attack;
+    attacker = rightUser;
+    defender = leftUser;
   }
   else {
-    skillAttack = [self skillMultForPercent:percent 
-                                     andAttacker:_leftUser
-                                     andDefender:_rightUser];
-    userAttack  = _leftUser.attack;
+    attacker = leftUser;
+    defender = rightUser;
   }
 
+  skillAttack = [self skillMultForPercent:percent 
+                              andAttacker:attacker
+                              andDefender:defender];
+  userAttack  = attacker.attack;
+
+//  int attackStrength = (userAttack*skillAttack)/100;
+//  attackStrength = [self afterDefenseAttackStrength:attackStrength
+//                                        forDefender:defender];
+
+  int attackStrength = [self afterDefenseAttackStrength:userAttack
+                                            forDefender:defender];
+  attackStrength = (attackStrength*skillAttack)/100;
+  
+  NSLog(@"attacker attack = %d, defense = %d\n", attacker.attack, attacker.defense);
   // Get User attack values  
-  return (userAttack*skillAttack)/100;
+  return attackStrength;
 }
 
 -(int) rightAttackStrengthForPercent:(float)percent
@@ -258,12 +309,12 @@
   self = [super init];
   
   if (self) {
-    _leftUser  = left;
-    _rightUser = right;
+    leftUser  = left;
+    rightUser = right;
     _globals   = globals;
     
-    [_leftUser  retain];
-    [_rightUser retain];
+    [leftUser  retain];
+    [rightUser retain];
     [_globals   retain];
   }
   
@@ -272,8 +323,8 @@
 
 -(void)dealloc
 {
-  [_leftUser  release];
-  [_rightUser release];
+  [leftUser  release];
+  [rightUser release];
   [_globals   release];
   
   [super dealloc];
