@@ -214,8 +214,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return eqId == 0 ? nil : [self imageNamed:[self imageNameForEquip:eqId]];
 }
 
-+ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
-  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
++ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
+  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:indicator clearImageDuringDownload:YES];
 }
 
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
@@ -617,8 +617,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
   [loadingView stopAnimating];
   [loadingView removeFromSuperview];
-#warning change
-  UIImage *cachedImage = nil;//[gl.imageCache objectForKey:imageName];
+  UIImage *cachedImage = [gl.imageCache objectForKey:imageName];
   if (cachedImage) {
     if (color) {
       cachedImage = [self maskImage:cachedImage   withColor:color];
@@ -639,8 +638,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSString *documentsPath = [paths objectAtIndex:0];
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     
-#warning change
-    if (true) {//![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       if (![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
         loadingView.tag = 150;
@@ -648,6 +646,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         [view addSubview:loadingView];
         [loadingView release];
         loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
+        
+        // Set up scale
+        float scale = MIN(1.f, MIN(view.frame.size.width/loadingView.frame.size.width/2.f, view.frame.size.width/loadingView.frame.size.width/2.f));
+        loadingView.transform = CGAffineTransformMakeScale(scale, scale);
       }
       
       if (clear) {

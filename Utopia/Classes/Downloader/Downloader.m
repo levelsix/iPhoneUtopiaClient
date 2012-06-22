@@ -29,8 +29,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   NSString *urlBase = URL_BASE;
   NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
   NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
-#warning change
-  if (true) {// ![[NSFileManager defaultManager] fileExistsAtPath:pngFilePath]) {
+  if (![[NSFileManager defaultManager] fileExistsAtPath:pngFilePath]) {
     UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
     
     if (image) {

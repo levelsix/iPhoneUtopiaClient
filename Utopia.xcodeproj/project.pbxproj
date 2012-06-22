@@ -1307,6 +1307,8 @@
 		CFDBFEB8153BCE6100DA9206 /* popupglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */; };
 		CFE3E9421592BB7400E85701 /* TutorialMyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */; };
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
+		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
+		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFECCDDC1550909700171271 /* equipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDA1550909700171271 /* equipped.png */; };
 		CFECCDDD1550909700171271 /* equipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDB1550909700171271 /* equipped@2x.png */; };
 		CFECCDE21550971000171271 /* markbuy.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDE1550971000171271 /* markbuy.png */; };
@@ -1755,8 +1757,8 @@
 		CF1265A51538ACC400E0C1AD /* Drops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Drops.m; sourceTree = "<group>"; };
 		CF1265A61538ACC400E0C1AD /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
 		CF1265A71538ACC400E0C1AD /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
-		CF1265AA1538ACC400E0C1AD /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Building.h; sourceTree = "<group>"; };
-		CF1265AB1538ACC400E0C1AD /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Building.m; sourceTree = "<group>"; };
+		CF1265AA1538ACC400E0C1AD /* Building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Building.h; path = GameMap/Building.h; sourceTree = "<group>"; };
+		CF1265AB1538ACC400E0C1AD /* Building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Building.m; path = GameMap/Building.m; sourceTree = "<group>"; };
 		CF1265AD1538ACC400E0C1AD /* EnemyPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnemyPopupView.xib; sourceTree = "<group>"; };
 		CF1265AE1538ACC400E0C1AD /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMap.h; sourceTree = "<group>"; };
 		CF1265AF1538ACC400E0C1AD /* GameMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameMap.m; sourceTree = "<group>"; };
@@ -3044,6 +3046,8 @@
 		CFE3E9401592BB7200E85701 /* TutorialMyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialMyPlayer.h; sourceTree = "<group>"; };
 		CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialMyPlayer.m; sourceTree = "<group>"; };
 		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
+		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
+		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFECCDDA1550909700171271 /* equipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipped.png; sourceTree = "<group>"; };
 		CFECCDDB1550909700171271 /* equipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipped@2x.png"; sourceTree = "<group>"; };
 		CFECCDDE1550971000171271 /* markbuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markbuy.png; sourceTree = "<group>"; };
@@ -4072,6 +4076,8 @@
 			children = (
 				CF1265A21538ACC400E0C1AD /* AnimatedSprite.h */,
 				CF1265A31538ACC400E0C1AD /* AnimatedSprite.m */,
+				CF1265AA1538ACC400E0C1AD /* Building.h */,
+				CF1265AB1538ACC400E0C1AD /* Building.m */,
 				CF8FC83B154541320082473E /* DecorationLayer.h */,
 				CF8FC83C154541330082473E /* DecorationLayer.m */,
 				CF1265A41538ACC400E0C1AD /* Drops.h */,
@@ -4100,8 +4106,6 @@
 			children = (
 				CF36B81B1552305C00B8FD61 /* BazaarMap.h */,
 				CF36B81C1552305C00B8FD61 /* BazaarMap.m */,
-				CF1265AA1538ACC400E0C1AD /* Building.h */,
-				CF1265AB1538ACC400E0C1AD /* Building.m */,
 				CF1265AD1538ACC400E0C1AD /* EnemyPopupView.xib */,
 				CF1265AE1538ACC400E0C1AD /* GameMap.h */,
 				CF1265AF1538ACC400E0C1AD /* GameMap.m */,
@@ -5217,6 +5221,8 @@
 		CF1268F61538ACC500E0C1AD /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
+				CFEB28411593F02500B622FC /* unlockedheader.png */,
+				CFEB28421593F02500B622FC /* unlockedheader@2x.png */,
 				CFAD9CE91565CD5B00922327 /* cancel@2x.png */,
 				CFAD9CEA1565CD5B00922327 /* cancel.png */,
 				CFDBFEB5153BCE6100DA9206 /* popupglow.png */,
@@ -7376,6 +7382,8 @@
 				065FAC7A15900CA4008E9B3C /* TutorialGuideWalkNF.png in Resources */,
 				065FAC7B15900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist in Resources */,
 				065FAC7C15900CA4008E9B3C /* TutorialGuideWalkNF@2x.png in Resources */,
+				CFEB28431593F02500B622FC /* unlockedheader.png in Resources */,
+				CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

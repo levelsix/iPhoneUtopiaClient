@@ -63,17 +63,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) begin {
-  _topBar = [TopBar sharedTopBar];
-  [self addChild:_topBar z:2];
   
   if (![[GameState sharedGameState] isTutorial]) {
     _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
     [_homeMap moveToCenter];
     
+    _topBar = [TopBar sharedTopBar];
+    [self addChild:_topBar z:2];
+    
     _bazaarMap = [BazaarMap sharedBazaarMap];
     
     [self displayHomeMap];
+  } else {
+    _topBar = [TopBar sharedTopBar];
+    [self addChild:_topBar z:2];
   }
 }
 

@@ -780,6 +780,11 @@
 }
 
 - (IBAction)postToWall:(id)sender {
+  if (!wallPosts) {
+    [Globals popupMessage:@"Please wait! Retrieving current wall posts."];
+    return;
+  }
+  
   NSString *content = wallTextField.text;
   if (content.length > 0) {
     int userId = [[ProfileViewController sharedProfileViewController] userId];
@@ -869,7 +874,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   friendLeftView.frame = enemyLeftView.frame;
   [self.mainView addSubview:friendLeftView];
   
-  self.state = kEquipState; 
+  self.state = kEquipState;
+  _curScope = kEquipScopeAll;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -1225,7 +1231,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   [equipViews removeObjectsInRange:NSMakeRange(equips.count, equipViews.count-equips.count)];
   
-  _curScope = kEquipScopeAll;
   curWeaponView.selected = NO;
   curArmorView.selected = NO;
   curAmuletView.selected = NO;
@@ -1281,6 +1286,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:fup.userType], [Globals classForUserType:fup.userType]];
   attackLabel.text = @"?";
   defenseLabel.text = @"?";
+  
+  _curScope = kEquipScopeAll;
   
   equipsScrollView.hidden = isEnemy;
   enemyMiddleView.hidden = !isEnemy;
@@ -1466,6 +1473,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   selfLeftView.hidden = YES;
   enemyLeftView.hidden = YES;
   friendLeftView.hidden = YES;
+  
+  
   
   wallTabView.wallPosts = nil;
   [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];

@@ -38,7 +38,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   
   [Globals imageNamed:file withImageView:speakerImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:NO];
   
-  
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[speakerImageView viewWithTag:150];
   loadingView.center = CGPointMake(speakerImageView.frame.size.width/2, speakerImageView.frame.size.height/2+20);
 }

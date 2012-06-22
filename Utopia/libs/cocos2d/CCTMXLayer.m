@@ -661,6 +661,7 @@ int compareInts (const void * a, const void * b)
 		glAlphaFunc(GL_GREATER, alphaFuncValue_);
 	}
 	
+  NSLog(@"%@", self);
 	[super draw];
 	
 	if( useAutomaticVertexZ_ )

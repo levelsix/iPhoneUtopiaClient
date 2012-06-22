@@ -178,7 +178,7 @@
     notUpgradingMiddleView.hidden = YES;
   }
   
-  [Globals loadImageForStruct:fsp.structId toView:structIcon masked:NO];
+  [Globals loadImageForStruct:fsp.structId toView:structIcon masked:NO indicator:UIActivityIndicatorViewStyleWhiteLarge];
   
   if (!self.superview) {
     [Globals displayUIView:self];
@@ -216,11 +216,11 @@
   // Called from home map to move bar to end
   self.timer = nil;
   float secs = PROGRESS_BAR_SPEED*(1.f-progressBar.percentage);
-  self.userInteractionEnabled = NO;
+  self.mainView.userInteractionEnabled = NO;
   [UIView animateWithDuration:secs animations:^{
     progressBar.percentage = 1.f;
   } completion:^(BOOL finished) {
-    self.userInteractionEnabled = YES;
+    self.mainView.userInteractionEnabled = YES;
     
     Globals *gl = [Globals sharedGlobals];
     if (userStruct.level < gl.maxLevelForStruct) {

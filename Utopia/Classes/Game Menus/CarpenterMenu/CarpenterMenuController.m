@@ -220,11 +220,11 @@
     
     int mins = fsp.minutesToGain;
     tickerView.string = [NSString stringWithFormat:@"%02d:%02d", (mins/60)%100, mins%60];
-    [Globals loadImageForStruct:fsp.structId toView:buildingIcon masked:NO];
+    [Globals loadImageForStruct:fsp.structId toView:buildingIcon masked:NO indicator:UIActivityIndicatorViewStyleGray];
     
     self.state = kIncomeAvailable;
   } else {
-    [Globals loadImageForStruct:fsp.structId toView:buildingIcon masked:YES];
+    [Globals loadImageForStruct:fsp.structId toView:buildingIcon masked:YES indicator:UIActivityIndicatorViewStyleGray];
     lockedPriceLabel.text = [NSString stringWithFormat:@"Unlock at Level %d", fsp.minLevel];
     self.state = kIncomeLocked;
   }

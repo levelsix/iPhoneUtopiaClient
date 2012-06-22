@@ -133,47 +133,57 @@
 
 - (void) walk {
   MissionMap *missionMap = (MissionMap *)_map;
+  NSLog(@"Started walking..");
   CGPoint pt = [missionMap nextWalkablePositionFromPoint:self.location.origin prevPoint:_oldMapPos];
-  _oldMapPos = self.location.origin;
-  
-  CGRect r = self.location;
-  r.origin = pt;
-  CGPoint startPt = [_map convertTilePointToCCPoint:_oldMapPos];
-  CGPoint endPt = [_map convertTilePointToCCPoint:pt];
-  CGFloat diff = ccpDistance(endPt, startPt);
-  
-  float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(endPt, startPt)));
-  
-  CCAction *nextAction = nil;
-  if(angle <= -90 ){
-    _sprite.flipX = NO;
-    nextAction = _walkActionN;
-  } else if(angle <= 0){
-    _sprite.flipX = YES;
-    nextAction = _walkActionN;
-  } else if(angle <= 90) {
-    _sprite.flipX = YES;
-    nextAction = _walkActionF;
-  } else if(angle <= 180){
-    _sprite.flipX = NO;
-    nextAction = _walkActionF;
+  if (CGPointEqualToPoint(self.location.origin, pt)) {
+    CGRect r = self.location;
+    r.origin = [missionMap randomWalkablePosition];
+    self.location = r;
+    _oldMapPos = r.origin;
+    [self walk];
   } else {
-    NSLog(@"No Action");
-  }
-  
-  if (_curAction != nextAction) {
-    _curAction = nextAction;
-    [_sprite stopAllActions];
-    if (_curAction) {
-      [_sprite runAction:_curAction];
+    _oldMapPos = self.location.origin;
+    
+    CGRect r = self.location;
+    r.origin = pt;
+    CGPoint startPt = [_map convertTilePointToCCPoint:_oldMapPos];
+    CGPoint endPt = [_map convertTilePointToCCPoint:pt];
+    CGFloat diff = ccpDistance(endPt, startPt);
+    
+    float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(endPt, startPt)));
+    
+    CCAction *nextAction = nil;
+    if(angle <= -90 ){
+      _sprite.flipX = NO;
+      nextAction = _walkActionN;
+    } else if(angle <= 0){
+      _sprite.flipX = YES;
+      nextAction = _walkActionN;
+    } else if(angle <= 90) {
+      _sprite.flipX = YES;
+      nextAction = _walkActionF;
+    } else if(angle <= 180){
+      _sprite.flipX = NO;
+      nextAction = _walkActionF;
+    } else {
+      NSLog(@"No Action");
     }
+    
+    if (_curAction != nextAction) {
+      _curAction = nextAction;
+      [_sprite stopAllActions];
+      if (_curAction) {
+        [_sprite runAction:_curAction];
+      }
+    }
+    
+    [self runAction:[CCSequence actions:                          
+                     [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
+                     [CCCallFunc actionWithTarget:self selector:@selector(walk)],
+                     nil
+                     ]];
   }
-  
-  [self runAction:[CCSequence actions:                          
-                   [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
-                   [CCCallFunc actionWithTarget:self selector:@selector(walk)],
-                   nil
-                   ]];
+  NSLog(@"Ended walking..");
 }
 
 - (void) dealloc {
@@ -344,6 +354,25 @@
 
 @end
 
+@implementation NeutralEnemy
+
+@synthesize ftp, numTimesActedForTask, numTimesActedForQuest, name, partOfQuest;
+
+- (void) setName:(NSString *)n {
+  if (name != n) {
+    [name release];
+    name = [n retain];
+    _nameLabel.string = name;
+  }
+}
+
+- (void) dealloc {
+  self.ftp = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation MyPlayer
 
 @synthesize walkActionD = _walkActionD;
@@ -365,7 +394,8 @@
     // Create sprite
     self.sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
     _sprite.anchorPoint = ccp(0.5, 0.5);
-    self.sprite.position = ccp(0, 20);
+    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
+    self.sprite.position = ccp(cp.x, cp.y);
     
     [self addChild:_sprite z:5 tag:9999];
     
@@ -593,7 +623,7 @@
     }
     
     [self stopAllActions];
-    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:distance/WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
+    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:distance/MY_WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
       [self.sprite stopAllActions];
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
@@ -620,7 +650,7 @@
     [self.sprite runAction:self.walkActionU];
     
     float dist = ccpDistance([_map convertTilePointToCCPoint:startingPosition.origin], [_map convertTilePointToCCPoint:loc.origin]);
-    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:dist/WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
+    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:dist/MY_WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
       [self.sprite stopAllActions];
       [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
       CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];

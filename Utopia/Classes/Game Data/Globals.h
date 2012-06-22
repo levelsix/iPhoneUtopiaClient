@@ -120,7 +120,7 @@
 + (NSString *) imageNameForEquip:(int)eqId;
 + (NSString *) pathToMap:(NSString *)mapName;
 + (NSString *) pathToPlist:(NSString *)plistName;
-+ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
++ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 

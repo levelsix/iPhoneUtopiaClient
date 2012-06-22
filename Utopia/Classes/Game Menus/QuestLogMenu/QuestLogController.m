@@ -29,6 +29,7 @@
 @synthesize nameLabel, progressLabel, spinner;
 @synthesize inProgressView, availableView;
 @synthesize quest;
+@synthesize questGiverImageView;
 
 - (void) awakeFromNib {
   [self addSubview:availableView];
@@ -57,6 +58,7 @@
   [spinner stopAnimating];
   self.spinner = nil;
   self.quest = nil;
+  self.questGiverImageView = nil;
   [super dealloc];
 }
 
@@ -118,13 +120,30 @@
 
 @implementation DescriptionCell
 
-@synthesize descriptionLabel, visitView;
+@synthesize descriptionLabel, visitView, questGiverImageView;
 
 - (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated redeeming:(BOOL)redeeming {
   self.descriptionLabel.text = redeeming ? fqp.doneResponse : fqp.description;
   self.visitView.hidden = !visitActivated;
+  
+  if (visitActivated) {
+    CGRect r = self.descriptionLabel.frame;
+    r.size.width = CGRectGetMinX(visitView.frame)-CGRectGetMinX(descriptionLabel.frame)-8;
+    self.descriptionLabel.frame = r;
+  } else {
+    CGRect r = self.descriptionLabel.frame;
+    r.size.width = CGRectGetMaxX(visitView.frame)-CGRectGetMinX(descriptionLabel.frame);
+    self.descriptionLabel.frame = r;
+  }
+  
   _cityId = fqp.cityId;
   _assetNum = fqp.assetNumWithinCity;
+  
+  NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  
+  UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[questGiverImageView viewWithTag:150];
+  loadingView.center = CGPointMake(questGiverImageView.frame.size.width/2, questGiverImageView.frame.size.height/2+3);
 }
 
 - (IBAction)visitClicked:(id)sender {
@@ -139,6 +158,7 @@
 - (void) dealloc {
   self.descriptionLabel = nil;
   self.visitView = nil;
+  self.questGiverImageView = nil;
   [super dealloc];
 }
 
@@ -362,6 +382,12 @@
   qc.nameLabel.text = fqp.name;
   qc.quest = fqp;
   
+  NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:qc.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  
+  UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[qc.questGiverImageView viewWithTag:150];
+  loadingView.center = CGPointMake(qc.questGiverImageView.frame.size.width/2, qc.questGiverImageView.frame.size.height/2+3);
+  
   if (indexPath.section == 0) {
     qc.availableView.hidden = YES;
     qc.inProgressView.hidden = NO;
@@ -511,9 +537,11 @@
       dc = self.descriptionCell;
     }
     
-    GameState *gs = [GameState sharedGameState];
-    BOOL questIsComplete = [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:quest.questId]] != nil;
-    [dc updateForQuest:quest visitActivated:questIsComplete && !_questRedeem redeeming:_questRedeem];
+    if (quest) {
+      GameState *gs = [GameState sharedGameState];
+      BOOL questIsComplete = [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:quest.questId]] != nil;
+      [dc updateForQuest:quest visitActivated:questIsComplete && !_questRedeem redeeming:_questRedeem];
+    }
     return dc;
   } else if (indexPath.section == 1) {
     // The tasks required for this quest
@@ -547,7 +575,9 @@
       rc = self.rewardCell;
     }
     
-    [rc updateForQuest:self.quest withClaimButton:_questRedeem];
+    if (quest) {
+      [rc updateForQuest:self.quest withClaimButton:_questRedeem];
+    }
     
     return rc;
   }
@@ -726,7 +756,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [self showTaskListViewAnimated:NO];
   self.backButton.hidden = YES;
   
-  [Globals imageNamed:@"bigmitch.png" withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) loadQuestAcceptScreen:(FullQuestProto *)fqp {
@@ -744,7 +775,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   [[SoundEngine sharedSoundEngine] questAccepted];
   
-  [Globals imageNamed:@"bigmitch.png" withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp {
@@ -831,7 +863,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
   
-  [Globals imageNamed:@"bigmitch.png" withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) questSelected:(FullQuestProto *)fqp {

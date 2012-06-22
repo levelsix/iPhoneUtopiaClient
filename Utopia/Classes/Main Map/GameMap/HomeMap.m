@@ -195,6 +195,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   @synchronized(self) {
     [self refresh];
+    NSLog(@"Home map refreshed.");
   }
 }
 

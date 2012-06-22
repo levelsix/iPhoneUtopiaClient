@@ -132,6 +132,14 @@
         [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
         qg.name = ncep.name;
         [qg release];
+      } else if (ncep.type == NeutralCityElementProto_NeutralCityElemTypePersonNeutralEnemy) {
+        CGRect r = CGRectZero;
+        r.origin = [self randomWalkablePosition];
+        r.size = CGSizeMake(1, 1);
+        NeutralEnemy *ne = [[NeutralEnemy alloc] initWithFile:ncep.imgId location:r map:self];
+        [self addChild:ne z:1 tag:ncep.assetId+ASSET_TAG_BASE];
+        ne.name = ncep.name;
+        [ne release];
       }
     }
     
@@ -144,7 +152,7 @@
     // Load up the full task protos
     for (NSNumber *taskId in fcp.taskIdsList) {
       FullTaskProto *ftp = [gs taskWithId:taskId.intValue];
-      MissionBuilding *asset = (MissionBuilding *)[self getChildByTag:ftp.assetNumWithinCity+ASSET_TAG_BASE];
+      id<TaskElement> asset = (id<TaskElement>)[self getChildByTag:ftp.assetNumWithinCity+ASSET_TAG_BASE];
       if (asset) {
         asset.ftp = ftp;
       } else {
@@ -155,7 +163,7 @@
     // Load up the minimum user task protos
     for (MinimumUserTaskProto *mutp in proto.userTasksInfoList) {
       FullTaskProto *ftp = [gs taskWithId:mutp.taskId];
-      MissionBuilding *asset = [self assetWithId:ftp.assetNumWithinCity];
+      id<TaskElement> asset = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
       if (asset) {
         asset.numTimesActedForTask = mutp.numTimesActed;
       } else {
@@ -175,15 +183,15 @@
       
       for (MinimumUserQuestTaskProto *taskData in questData.requiredTasksProgressList) {
         FullTaskProto *ftp = [gs taskWithId:taskData.taskId];
-        MissionBuilding *mb = (MissionBuilding *)[self assetWithId:ftp.assetNumWithinCity];
+        id<TaskElement> te = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
         
-        mb.partOfQuest = YES;
+        te.partOfQuest = YES;
         if (questData.isComplete) {
-          mb.numTimesActedForQuest = ftp.numRequiredForCompletion;
+          te.numTimesActedForQuest = ftp.numRequiredForCompletion;
         } else {
-          mb.numTimesActedForQuest = taskData.numTimesActed;
-          if (mb.numTimesActedForQuest < ftp.numRequiredForCompletion) {
-            [mb displayArrow];
+          te.numTimesActedForQuest = taskData.numTimesActed;
+          if (te.numTimesActedForQuest < ftp.numRequiredForCompletion) {
+            [te displayArrow];
           }
         }
       }
@@ -313,7 +321,7 @@
 }
 
 - (void) updateMissionBuildingMenu {
-  if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
+  if (_selected && [_selected conformsToProtocol:@protocol(TaskElement)]) {
     CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET)];
     [Globals setFrameForView:obMenu forPoint:pt];
     obMenu.hidden = NO;
@@ -323,9 +331,9 @@
 }
 
 - (void) performCurrentTask {
-  if ([_selected isKindOfClass:[MissionBuilding class]]) {
-    MissionBuilding *mb = (MissionBuilding *)_selected;
-    FullTaskProto *ftp = mb.ftp;
+  if ([_selected conformsToProtocol:@protocol(TaskElement)]) {
+    id<TaskElement> te = (id<TaskElement>)_selected;
+    FullTaskProto *ftp = te.ftp;
     GameState *gs = [GameState sharedGameState];
     
     // Perform checks
@@ -348,7 +356,7 @@
         [Analytics notEnoughEquipsForTasks:ftp.taskId equipReqs:arr];
         self.selected = nil;
       } else {
-        int numTimesActed = mb.partOfQuest ? mb.numTimesActedForQuest : mb.numTimesActedForTask;
+        int numTimesActed = te.partOfQuest ? te.numTimesActedForQuest : te.numTimesActedForTask;
         BOOL success = [[OutgoingEventController sharedOutgoingEventController] taskAction:ftp.taskId curTimesActed:numTimesActed];
         
         if (success) {
@@ -357,7 +365,7 @@
           // Angle should be relevant to entire building, not origin
           if (ccPt.x < 0) {
             ccPt.x = -1;
-          } else if (ccPt.x >= mb.location.size.width) {
+          } else if (ccPt.x >= te.location.size.width) {
             ccPt.x = 1;
           } else {
             ccPt.x = 0;
@@ -365,7 +373,7 @@
           
           if (ccPt.y < 0) {
             ccPt.y = -1;
-          } else if (ccPt.y >= mb.location.size.height) {
+          } else if (ccPt.y >= te.location.size.height) {
             ccPt.y = 1;
           } else {
             ccPt.y = 0;
@@ -374,13 +382,13 @@
           ccPt = ccpSub([self convertTilePointToCCPoint:ccp(0, 0)], [self convertTilePointToCCPoint:ccPt]);
           float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccPt));
           [_myPlayer stopWalking];
-          [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(mb.location.origin, pt) inDirection:angle];
+          [_myPlayer performAnimation:ftp.animationType atLocation:ccpAdd(te.location.origin, pt) inDirection:angle];
           
-          _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
+          _taskProgBar.position = ccp(te.position.x, te.position.y+te.contentSize.height);
           [_taskProgBar animateBarWithText:ftp.processingText];
           _taskProgBar.visible = YES;
-          mb.numTimesActedForTask = MIN(mb.numTimesActedForTask+1, ftp.numRequiredForCompletion);
-          mb.numTimesActedForQuest = MIN(mb.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
+          te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
+          te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
           _receivedTaskActionResponse = NO;
           _performingTask = YES;
         }
@@ -391,8 +399,8 @@
 }
 
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp {
-  MissionBuilding *mb = (MissionBuilding *)_selected;
-  FullTaskProto *ftp = mb.ftp;
+  id<TaskElement> te = (id<TaskElement>)_selected;
+  FullTaskProto *ftp = te.ftp;
   
   CCLabelTTF *expLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Exp.", ftp.expGained] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:expLabel z:1003];
@@ -424,10 +432,10 @@
   if (_receivedTaskActionResponse) {
     _taskProgBar.visible = NO;
     
-    MissionBuilding *mb = (MissionBuilding *)_selected;
-    FullTaskProto *ftp = mb.ftp;
-    if (mb.partOfQuest && mb.numTimesActedForQuest >= ftp.numRequiredForCompletion) {
-      [mb displayCheck];
+    id<TaskElement> te = (id<TaskElement>)_selected;
+    FullTaskProto *ftp = te.ftp;
+    if (te.partOfQuest && te.numTimesActedForQuest >= ftp.numRequiredForCompletion) {
+      [te displayCheck];
     }
     self.selected = nil;
     _performingTask = NO;
@@ -437,16 +445,16 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if ([_selected isKindOfClass:[MissionBuilding class]] && selected == nil) {
+  if ([_selected conformsToProtocol:@protocol(TaskElement)] && selected == nil) {
     [[TopBar sharedTopBar] fadeOutToolTip:NO];
   }
   [super setSelected:selected];
-  if (_selected && [_selected isKindOfClass:[MissionBuilding class]]) {
-    MissionBuilding *mb = (MissionBuilding *)_selected;
-    [summaryMenu updateLabelsForTask:mb.ftp name:mb.name];
+  if (_selected && [_selected conformsToProtocol:@protocol(TaskElement)]) {
+    id<TaskElement> te = (id<TaskElement>)_selected;
+    [summaryMenu updateLabelsForTask:te.ftp name:te.name];
     
-    int numTimesActed = mb.partOfQuest ? mb.numTimesActedForQuest : mb.numTimesActedForTask;
-    [obMenu updateMenuForTotal:mb.ftp.numRequiredForCompletion numTimesActed:numTimesActed isForQuest:mb.partOfQuest];
+    int numTimesActed = te.partOfQuest ? te.numTimesActedForQuest : te.numTimesActedForTask;
+    [obMenu updateMenuForTotal:te.ftp.numRequiredForCompletion numTimesActed:numTimesActed isForQuest:te.partOfQuest];
     
     [self doMenuAnimations];
     [[TopBar sharedTopBar] fadeInLittleToolTip:YES];
@@ -485,7 +493,7 @@
   
   SelectableSprite *oldSelected = _selected;
   [super tap:recognizer node:node];
-  if (oldSelected == _selected && [_selected isKindOfClass:[MissionBuilding class]]) {
+  if (oldSelected == _selected && [_selected conformsToProtocol:@protocol(TaskElement)]) {
     [self performCurrentTask];
     return;
   }
@@ -516,10 +524,10 @@
   GameState *gs = [GameState sharedGameState];
   for (NSNumber *num in fqp.taskReqsList) {
     FullTaskProto *task = [gs taskWithId:num.intValue];
-    MissionBuilding *mb = (MissionBuilding *)[self assetWithId:task.assetNumWithinCity];
-    mb.numTimesActedForQuest = 0;
-    mb.partOfQuest = YES;
-    [mb displayArrow];
+    id<TaskElement> te = (id<TaskElement>)[self assetWithId:task.assetNumWithinCity];
+    te.numTimesActedForQuest = 0;
+    te.partOfQuest = YES;
+    [te displayArrow];
   }
   
   for (NSNumber *num in fqp.defeatTypeReqsList) {
@@ -540,8 +548,8 @@
   GameState *gs = [GameState sharedGameState];
   for (NSNumber *num in fqp.taskReqsList) {
     FullTaskProto *task = [gs taskWithId:num.intValue];
-    MissionBuilding *mb = (MissionBuilding *)[self assetWithId:task.assetNumWithinCity];
-    mb.partOfQuest = NO;
+    id<TaskElement> te = (id<TaskElement>)[self assetWithId:task.assetNumWithinCity];
+    te.partOfQuest = NO;
   }
   
   for (NSNumber *num in fqp.defeatTypeReqsList) {

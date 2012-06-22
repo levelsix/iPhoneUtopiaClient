@@ -69,12 +69,6 @@
 
 @end
 
-@interface MissionBuilding : Building
-
-@property (nonatomic, retain) FullTaskProto *ftp;
-@property (nonatomic, assign) int numTimesActedForTask;
-@property (nonatomic, assign) int numTimesActedForQuest;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, assign) BOOL partOfQuest;
+@interface MissionBuilding : Building <TaskElement>
 
 @end

@@ -13,9 +13,10 @@
 #define ABOVE_HEAD_FADE_DURATION 1.5f
 #define ABOVE_HEAD_FADE_OPACITY 100
 #define ANIMATATION_DELAY 0.05f
-#define MOVE_DISTANCE 4.0f
+#define MOVE_DISTANCE 6.0f
 
-#define WALKING_SPEED 50.f
+#define MY_WALKING_SPEED 75.f
+#define WALKING_SPEED 25.f
 
 #define VERTICAL_OFFSET 10.f
 
@@ -84,6 +85,10 @@ typedef enum {
 @interface Carpenter : AnimatedSprite
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
+
+@end
+
+@interface NeutralEnemy : AnimatedSprite <TaskElement>
 
 @end
 

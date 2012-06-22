@@ -43,7 +43,7 @@
     }
   }
   CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
-  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
+  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]]                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;
 }
 
 - (void) moveToLocation:(CGRect)loc {

@@ -1053,9 +1053,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
+    LNLog(@"Retrieving equip %d.", equipId);
      int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
+}
+
+- (void) retrieveStaticEquipsForUser:(FullUserProto *)fup {
+  [self retrieveStaticEquip:fup.weaponEquipped];
+  [self retrieveStaticEquip:fup.armorEquipped];
+  [self retrieveStaticEquip:fup.amuletEquipped];
 }
 
 - (void) retrieveStructStore {
