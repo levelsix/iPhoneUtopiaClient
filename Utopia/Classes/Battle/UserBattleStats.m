@@ -7,35 +7,68 @@
 //
 
 #import "UserBattleStats.h"
+#import "Globals.h"
 
 @implementation UserBattleStats
+@dynamic level;
 @dynamic attack;
-@synthesize defense;
+@dynamic defense;
 @synthesize maxHealth;
 @synthesize currentHealth;
 
+-(int32_t)level
+{
+  if (_userProto) {    
+    return _userProto.level;
+  }
+    
+  return _gameState.level;
+}
+
 -(int)attack
 {
+#warning REMOVE THIS STATIC GLOBALS CALL
+  Globals *globals =  [Globals sharedGlobals];
+  
   if (_userProto) {
     return _userProto.attack;
+
+//    return [globals calculateAttackForStat:_userProto.attack
+//                                    weapon:_userProto.weaponEquipped
+//                                     armor:_userProto.armorEquipped
+//                                    amulet:_userProto.amuletEquipped];
   }
   
-  return _gameState.attack;
+  return [globals calculateAttackForStat:_gameState.attack
+                                  weapon:_gameState.weaponEquipped
+                                   armor:_gameState.armorEquipped
+                                  amulet:_gameState.amuletEquipped];
 }
 
 -(int)defense
 {
+#warning REMOVE THIS STATIC GLOBALS CALL
+
+  Globals *globals =  [Globals sharedGlobals];
+  
   if (_userProto) {
+    
+//    int defenseStrength = [globals calculateDefenseForStat:_userProto.defense
+//                                                    weapon:_userProto.weaponEquipped
+//                                                     armor:_userProto.armorEquipped
+//                                                    amulet:_userProto.amuletEquipped]; 
+//    return defenseStrength;
     return _userProto.defense;
   }
   
-  return _gameState.defense;
+  int defenseStrength = [globals calculateDefenseForStat:_gameState.defense
+                                                  weapon:_gameState.weaponEquipped
+                                                   armor:_gameState.armorEquipped
+                                                  amulet:_gameState.amuletEquipped]; 
+  return defenseStrength;
+  
+//  return _gameState.defense;
 }
-
-//_leftAttack = [gl calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
-//_leftDefense = [gl calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
-
-
 
 #pragma mark Create/Destroy
 -(id)initWithUserProto:(FullUserProto *)user orGameState:(GameState *)gameState
@@ -61,39 +94,47 @@
 
 +(id<UserBattleStats>)createFromGameState
 {
-  UserBattleStats *stats = [[UserBattleStats alloc] initWithUserProto:nil
-                                                          orGameState:[GameState sharedGameState]];
+  UserBattleStats *stats = [[UserBattleStats alloc] 
+                            initWithUserProto:nil
+                            orGameState:[GameState sharedGameState]];
   [stats autorelease];
   return stats;  
 }
 
-#define SKILL_DIFFERENTIATOR  4
-
 +(FullUserProto *)userProtoForFakePlayer:(FullUserProto *)enemy 
-                            andGameState:(GameState *)gameState
+                              andGlobals:(Globals *)globals
 {
-  FullUserProto_Builder *builder = [FullUserProto builder];
- 
-  int attackDefenseQuarter 
-    = (gameState.attack + gameState.defense)/SKILL_DIFFERENTIATOR;
+  FullUserProto_Builder *builder = [FullUserProto builderWithPrototype:enemy];
   
-  int enemyAttack  = attackDefenseQuarter;
-  int enemyDefense = attackDefenseQuarter;
+  // Adjust the enemy based on their character's level.
+  UserBattleStats *myStats = [UserBattleStats createFromGameState];
+  int levelDiff = enemy.level - myStats.level;
+  int additionalSkillPoints;
+  additionalSkillPoints = ([globals skillPointsGainedOnLevelup]/2)*levelDiff;
   
+
+  int totalSkillPoints = myStats.attack 
+    + myStats.defense + additionalSkillPoints;
+
+//  int totalSkillPoints = gameState.attack 
+//            + gameState.defense + additionalSkillPoints;
+  
+  // Set the enemy's attack/defense
+  int enemyAttack, enemyDefense;
   PlayerClassType enemyClass = [Globals playerClassTypeForUserType:enemy.userType];
   
   switch (enemyClass) {
     case WARRIOR_T:
-      enemyDefense += attackDefenseQuarter;
-      enemyDefense += attackDefenseQuarter;
+      enemyDefense = (totalSkillPoints * IMBALANCE_PERCENT) + 0.5;
+      enemyAttack  = totalSkillPoints - enemyDefense;
       break;
     case ARCHER_T:
-      enemyDefense += attackDefenseQuarter;
-      enemyAttack  += attackDefenseQuarter;
+      enemyAttack  = totalSkillPoints/2;
+      enemyDefense = totalSkillPoints/2;
       break;
     case MAGE_T:
-      enemyAttack += attackDefenseQuarter;
-      enemyAttack += attackDefenseQuarter;
+      enemyAttack  = (totalSkillPoints * IMBALANCE_PERCENT) + 0.5;
+      enemyDefense = totalSkillPoints - enemyAttack;
       break;
       
     default:
@@ -101,23 +142,13 @@
   }
 
 #warning default stats (attack defense) for the mage are busted!
-  int randAtt = arc4random() % 6;
-  int randDef = arc4random() % 6;
-  if (enemy.level > gameState.level) {
-    enemyAttack  += randAtt;
-    enemyDefense += randDef;
-  } 
-  else if (enemy.level == gameState.level) {
-    enemyAttack  = (arc4random() % 1) 
-      ? enemyAttack  - randAtt : enemyAttack + randAtt;
-    enemyDefense = (arc4random() % 1) 
-      ? enemyDefense - randDef : enemyDefense + randDef;
-  }
-  else {
-    enemyAttack  -= randAtt;
-    enemyDefense -= randDef;
-  }
-  
+  int randAtt = arc4random() % 4;
+  int randDef = arc4random() % 4;
+  enemyAttack  = (arc4random() % 2) 
+    ? enemyAttack  - randAtt : enemyAttack + randAtt;
+  enemyDefense = (arc4random() % 2) 
+    ? enemyDefense - randDef : enemyDefense + randDef;
+
   [builder setAttack:enemyAttack];
   [builder setDefense:enemyDefense];
 
@@ -128,7 +159,7 @@
 {
   if (user.isFake) {
     user = [UserBattleStats userProtoForFakePlayer:user 
-                                      andGameState:[GameState sharedGameState]];
+                                        andGlobals:[Globals sharedGlobals]];
   }
 
   UserBattleStats *stats = [[UserBattleStats alloc] initWithUserProto:user 

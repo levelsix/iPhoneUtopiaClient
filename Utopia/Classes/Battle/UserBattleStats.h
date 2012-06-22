@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
 #import "GameState.h"
+#define IMBALANCE_PERCENT     .67f
 
 @protocol UserBattleStats <NSObject>
 @property (readonly) int attack;
 @property (readonly) int defense;
+@property (readonly) int32_t level;
 @property (readonly) int maxHealth;
 @property (readonly) int currentHealth;
 @end
@@ -21,12 +23,6 @@
   FullUserProto *_userProto;
   GameState     *_gameState;
 }
-
-@property (readonly) int attack;
-@property (readonly) int defense;
-@property (readonly) int maxHealth;
-@property (readonly) int currentHealth;
-
 +(id<UserBattleStats>)createWithFullUserProto:(FullUserProto *)user;
 +(id<UserBattleStats>)createFromGameState;
 

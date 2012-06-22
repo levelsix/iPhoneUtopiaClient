@@ -13,23 +13,8 @@
 
 
 #define PERFECT_MULTIPLIER  2.0f
-#define GREAT_MULTIPLIER    1.45f
+#define GREAT_MULTIPLIER    1.5f
 #define GOOD_MULTIPLIER     1.0f
-
-//#define PERFECT_MULTIPLIER  1.55f
-//#define GREAT_MULTIPLIER    1.45f
-//#define GOOD_MULTIPLIER     1.0f
-
-//#define DEFENDED_MULT   0.5f
-//#define UNDEFENDED_MULT 1.0f
-//
-//#define PERFECT_MULTIPLIER  2.0f
-//#define GREAT_MULTIPLIER    1.45f
-//#define GOOD_MULTIPLIER     1.0f
-//
-////#define PERFECT_MULTIPLIER  1.5f
-////#define GREAT_MULTIPLIER    0.8f
-////#define GOOD_MULTIPLIER     0.4f
 
 @implementation BattleCalculator
 @synthesize rightUser;
@@ -89,20 +74,7 @@
 //  return dmgType;
 //}
 
-//-(int)attackStrengthForRandomLuck
-//{
-//  
-//}
-//
-//-(int)attackStrengthForEquippedItems
-//{
-//  
-//}
-
-
--(int) skillMultForPercent:(float)percent 
-                    andAttacker:(id<UserBattleStats>)attacker 
-                    andDefender:(id<UserBattleStats>)defender 
+-(int) skillMultForPercent:(float)percent
 {
   float perfect = _globals.locationBarMax;
   float distFromPerfect    = fabs(perfect - percent);
@@ -219,29 +191,12 @@
 //  return result;
 //}
 
-//-(int) afterDefenseAttackStrength:(int)attackStrength
-//                      forDefender:(id<UserBattleStats>)defender 
-//{
-//  return (attackStrength*attackStrength/(attackStrength + defender.defense))*1.5;
-//}
-
 -(int) afterDefenseAttackStrength:(int)attackStrength
                       forDefender:(id<UserBattleStats>)defender 
 {
   attackStrength = MAX(attackStrength - defender.defense, 0) + 6;
   
   return attackStrength;
-//  int difference = attackStrength - defender.defense;
-//  int defendedDamage, undefendedDamage;
-//  if (difference >= 0) {
-//    defendedDamage = defender.defense*DEFENDED_MULT;
-//    undefendedDamage = difference*UNDEFENDED_MULT;
-//  }
-//  else {
-//    defendedDamage = attackStrength*DEFENDED_MULT;
-//    undefendedDamage = 0;
-//  }
-//  return defendedDamage + undefendedDamage;
 }
 
 -(int) attackStrengthForPercent:(float)percent 
@@ -260,20 +215,15 @@
     defender = rightUser;
   }
 
-  skillAttack = [self skillMultForPercent:percent 
-                              andAttacker:attacker
-                              andDefender:defender];
+  skillAttack = [self skillMultForPercent:percent];
+//  userAttack  = attacker.attack;
   userAttack  = attacker.attack;
-
-//  int attackStrength = (userAttack*skillAttack)/100;
-//  attackStrength = [self afterDefenseAttackStrength:attackStrength
-//                                        forDefender:defender];
 
   int attackStrength = [self afterDefenseAttackStrength:userAttack
                                             forDefender:defender];
   attackStrength = (attackStrength*skillAttack)/100;
-  
-  NSLog(@"attacker attack = %d, defense = %d\n", attacker.attack, attacker.defense);
+  NSLog(@"right attack = %d defense = %d\n", rightUser.attack, rightUser.defense);
+  NSLog(@"left attack = %d defense = %d\n", leftUser.attack, leftUser.defense);
   // Get User attack values  
   return attackStrength;
 }

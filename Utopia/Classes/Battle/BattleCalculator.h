@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "UserBattleStats.h"
 #import "Globals.h"
-#define PERFECT_PERCENT_THRESHOLD 3.0f
-#define GREAT_PERCENT_THRESHOLD   14.0f
-#define GOOD_PERCENT_THRESHOLD    30.0f
 
+#define PERFECT_PERCENT_THRESHOLD 3.0f
+#define GREAT_PERCENT_THRESHOLD   17.0f
+#define GOOD_PERCENT_THRESHOLD    38.0f
 
 typedef enum CombatDamageType 
 {
@@ -28,9 +28,7 @@ typedef enum CombatDamageType
 
 -(int) rightAttackStrengthForPercent:(float)percent;
 -(int) leftAttackStrengthForPercent:(float)percent;
--(int) skillMultForPercent:(float)percent 
-                    andAttacker:(id<UserBattleStats>)attacker 
-                    andDefender:(id<UserBattleStats>)defender ;
+-(int) skillMultForPercent:(float)percent;
 -(CombatDamageType) damageZoneForPercent:(float)percent;
 @end
 
