@@ -16,6 +16,7 @@
   BOOL _acceptQuestPhase;
   BOOL _redeemQuestPhase;
   BOOL _doBattlePhase;
+  BOOL _inBattlePhase;
   BOOL _doTaskPhase;
   BOOL _canUnclick;
   

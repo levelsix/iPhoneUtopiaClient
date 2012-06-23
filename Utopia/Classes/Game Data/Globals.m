@@ -16,6 +16,7 @@
 #import "SoundEngine.h"
 #import "GameLayer.h"
 #import "HomeMap.h"
+#import "OutgoingEventController.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -57,6 +58,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize locationBarMax, maxAttackMultiplier;
 @synthesize minPercentOfEnemyHealth, maxPercentOfEnemyHealth;
 @synthesize battleDifferenceTuner, battleDifferenceMultiplier;
+@synthesize animatingSpriteOffsets;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -90,6 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     imageCache = [[NSMutableDictionary alloc] init];
     imageViewsWaitingForDownloading = [[NSMutableDictionary alloc] init];
+    animatingSpriteOffsets = [[NSMutableDictionary alloc] init];
   }
   return self;
 }
@@ -149,6 +152,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxPercentOfEnemyHealth = constants.battleConstants.maxPercentOfEnemyHealth;
   self.battleDifferenceMultiplier = constants.battleConstants.battleDifferenceMultiplier;
   self.battleDifferenceTuner = constants.battleConstants.battleDifferenceTuner;
+  
+  for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
+    [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
+  }
 }
 
 - (void) setProductIdentifiers:(NSDictionary *)productIds {
@@ -207,8 +214,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return eqId == 0 ? nil : [self imageNamed:[self imageNameForEquip:eqId]];
 }
 
-+ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask {
-  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:UIActivityIndicatorViewStyleGray clearImageDuringDownload:YES];
++ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
+  [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:indicator clearImageDuringDownload:YES];
 }
 
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
@@ -552,7 +559,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       // Map not in docs: download it
-      [[Downloader sharedDownloader] syncDownloadMap:fullpath.lastPathComponent];
+      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
+    }
+  }
+  
+  return fullpath;
+}
+
++ (NSString *) pathToPlist:(NSString *)plistName {
+  if (!plistName) {
+    return nil;
+  }
+  
+  // prevents overloading the autorelease pool
+  NSString *resName = [CCFileUtils getDoubleResolutionImage:plistName validate:NO];
+  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
+  
+  // Added for Utopia project
+  if (!fullpath) {
+    // Image not in NSBundle: look in documents
+    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    fullpath = [documentsPath stringByAppendingPathComponent:resName];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
+      // File not in docs: download it
+      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
     }
   }
   
@@ -605,7 +637,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
   [loadingView stopAnimating];
   [loadingView removeFromSuperview];
-  
   UIImage *cachedImage = [gl.imageCache objectForKey:imageName];
   if (cachedImage) {
     if (color) {
@@ -627,7 +658,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     NSString *documentsPath = [paths objectAtIndex:0];
     fullpath = [documentsPath stringByAppendingPathComponent:resName];
     
-//#warning change
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       if (![view viewWithTag:150]) {
         UIActivityIndicatorView *loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:indicatorStyle];
@@ -636,6 +666,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
         [view addSubview:loadingView];
         [loadingView release];
         loadingView.center = CGPointMake(view.frame.size.width/2, view.frame.size.height/2);
+        
+        // Set up scale
+        float scale = MIN(1.f, MIN(view.frame.size.width/loadingView.frame.size.width/2.f, view.frame.size.width/loadingView.frame.size.width/2.f));
+        loadingView.transform = CGAffineTransformMakeScale(scale, scale);
       }
       
       if (clear) {
@@ -775,7 +809,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialoguelegionmage.png";
       break;
     case UserTypeBadWarrior:
-      return @"dialoguewarrior.png";
+      return @"dialogueskeleton.png";
       break;
     case UserTypeGoodArcher:
       return @"dialoguealliancearcher.png";
@@ -784,11 +818,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialoguealliancearcher.png";
       break;
     case UserTypeGoodWarrior:
-      return @"dialogueskeleton.png";
+      return @"dialoguewarrior.png";
       break;
       
-      
     default:
+      return nil;
       break;
   }
 }
@@ -826,7 +860,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return [self imageNameForDialogueUserType:[[GameState sharedGameState] type]];
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
-      return @"@dialoguemitch.png";
+      return @"dialoguemitch.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
       return @"dialogueriz.png";
@@ -838,6 +872,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialogueriz.png";
       break;
     default:
+      return nil;
+      break;
+  }
+}
+
++ (NSString *) imageNameForBigDialogueSpeaker:(DialogueProto_SpeechSegmentProto_DialogueSpeaker)speaker {
+  switch (speaker) {
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBadTutorialGirl:
+      return @"bigadriana.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
+      return @"bigmitch.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
+      return @"bigruby.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerPlayerType:
+      return [self imageNameForDialogueUserType:[[GameState sharedGameState] type]];
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver1:
+      return @"bigmitch.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
+      return @"bigriz.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
+      return @"bigsean.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
+      return @"bigriz.png";
+      break;
+    default:
+      return nil;
       break;
   }
 }
@@ -1008,15 +1075,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
       
     case UserTypeGoodMage:
-      return @"PandaMage.png";
+      return @"AllianceMage.png";
       break;
       
     case UserTypeBadWarrior:
-      return @"SkeletonWarrior.png";
+      return @"LegionWarrior.png";
       break;
       
     case UserTypeBadArcher:
-      return @"DrowArcher.png";
+      return @"LegionArcher.png";
       break;
       
     case UserTypeBadMage:
@@ -1052,6 +1119,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       
     case UserTypeBadMage:
       return @"invoker.plist";
+      break;
+      
+    default:
+      break;
+  }
+}
+
++ (NSString *) animatedSpritePrefix:(UserType)type {
+  switch (type) {
+    case UserTypeGoodWarrior:
+      return @"AllianceWarrior";
+      break;
+      
+    case UserTypeGoodArcher:
+      return @"AllianceArcher";
+      break;
+      
+    case UserTypeGoodMage:
+      return @"AllianceMage";
+      break;
+      
+    case UserTypeBadWarrior:
+      return @"LegionWarrior";
+      break;
+      
+    case UserTypeBadArcher:
+      return @"LegionArcher";
+      break;
+      
+    case UserTypeBadMage:
+      return @"LegionMage";
       break;
       
     default:
@@ -1459,10 +1557,30 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
 }
 
+- (void) confirmWearEquip:(int)equipId {
+  _equipIdToWear = equipId;
+  
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equipId];
+  if ([Globals canEquip:fep]) {
+    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?", 
+                                                                fep.name]
+                                                         title:@"Equip Item?"
+                                                    okayButton:@"Equip Item"
+                                                  cancelButton:@"No"
+                                                        target:self
+                                                      selector:@selector(wearEquipConfirmed)];
+  }
+}
+
+- (void) wearEquipConfirmed {
+  [[OutgoingEventController sharedOutgoingEventController] wearEquip:_equipIdToWear];
+}
+
 - (void) dealloc {
   self.productIdentifiers = nil;
   self.imageCache = nil;
   self.imageViewsWaitingForDownloading = nil;
+  self.animatingSpriteOffsets = nil;
   [super dealloc];
 }
 

@@ -37,6 +37,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   speakerImageView.image = [Globals imageNamed: @"dialogueempty.png"];
   
   [Globals imageNamed:file withImageView:speakerImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:NO];
+  
+  UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[speakerImageView viewWithTag:150];
+  loadingView.center = CGPointMake(speakerImageView.frame.size.width/2, speakerImageView.frame.size.height/2+20);
 }
 
 - (void) showCurrentSpeechSegment {
@@ -56,6 +59,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
   DialogueProto_SpeechSegmentProto *speechSeg = [speechSegs objectAtIndex:curSpeechSegment];
   self.speechLabel.text = speechSeg.speakerText;
   self.speakerNameLabel.text = [Globals nameForDialogueSpeaker:speechSeg.speaker].lowercaseString;
+  [self loadDialogueSpeakerImage:speechSeg.speaker];
 }
 
 - (void) displayQuestConversationForQuest:(FullQuestProto *)fqp {

@@ -9,6 +9,9 @@
 #import "TutorialProfilePicture.h"
 #import "Globals.h"
 #import "DialogMenuController.h"
+#import "TutorialConstants.h"
+#import "ProfileViewController.h"
+#import "GameState.h"
 
 @implementation TutorialProfilePicture
 
@@ -19,22 +22,39 @@
   [self.parent addChild:_arrow z:1000];
   _arrow.position = ccpAdd(self.position, ccp(self.contentSize.width/2+_arrow.contentSize.width/2, -self.contentSize.height/2-_arrow.contentSize.height/2));
   [Globals animateCCArrow:_arrow atAngle:3*M_PI_4];
+  
+  [self incrementProfileBadge];
+  
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeFaceDialText];
+  
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  dmc.view.center = ccpAdd(dmc.view.center, ccp(0, 40));
 }
 
-- (void) beginHelpPhase {
-  _helpPhase = YES;
+- (void) beginWallPhase {
+  _wallPhase = YES;
   
-  CCMenuItem *help = nil;
-  for (CCMenuItem *item in _menuItems) {
-    if (item.tag == 3) {
-      help = item;
-      break;
-    }
-  }
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  [DialogMenuController displayViewForText:tc.beforeWallText];
   
-  [help addChild:_arrow];
-  _arrow.position = ccp(help.contentSize.width/2, -_arrow.contentSize.height/2);
-  [Globals animateCCArrow:_arrow atAngle:M_PI_2];
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  dmc.view.center = ccpAdd(dmc.view.center, ccp(0, 40));
+  
+  [_arrow removeFromParentAndCleanup:YES];
+  
+  [self performSelector:@selector(showArrowOnProfileButton) withObject:nil afterDelay:0.5f];
+}
+
+- (void) showArrowOnProfileButton {
+  CCMenuItem *profile = [_menuItems objectAtIndex:1];
+  [profile addChild:_arrow];
+  _arrow.position = ccp(profile.contentSize.width+5, -5);
+  [Globals animateCCArrow:_arrow atAngle:3*M_PI_4];
+}
+
+- (void) popInButtons {
+  return;
 }
 
 - (void) popOutButtons {
@@ -42,22 +62,33 @@
     [super popOutButtons];
     _faceDialPhase = NO;
     
-    [_arrow removeFromParentAndCleanup:YES];
-    
-    [self performSelector:@selector(popInButtons) withObject:nil afterDelay:1.5f];
-    
-    [[DialogMenuController sharedDialogMenuController] createUser];
+    [self beginWallPhase];
   }
 }
 
 - (void) buttonClicked:(CCMenuItem *)clickedButton selector:(SEL)sel {
-//  if (_helpPhase && clickedButton.tag == 3) {
-//    [super buttonClicked:clickedButton selector:sel];
-//    
-//    _helpPhase = NO;
-//    [_arrow removeFromParentAndCleanup:YES];
-//  }
+  if (_wallPhase && clickedButton.tag == 2) {
+    [super buttonClicked:clickedButton selector:sel];
+    
+    _wallPhase = NO;
+    [_arrow removeFromParentAndCleanup:YES];
+    
+    [DialogMenuController closeView];
+  }
   return;
+}
+
+- (void) openProfile {
+  [super openProfile];
+  
+  GameState *gs = [GameState sharedGameState];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  RetrievePlayerWallPostsResponseProto_Builder *b = [RetrievePlayerWallPostsResponseProto builder];
+  b.relevantUserId = gs.userId;
+  [b addPlayerWallPosts:tc.firstWallPost];
+  
+  [[ProfileViewController sharedProfileViewController] receivedWallPosts:b.build];
+  [[ProfileViewController sharedProfileViewController] setState:kWallState];
 }
 
 - (void) dealloc {

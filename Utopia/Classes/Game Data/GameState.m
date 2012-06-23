@@ -200,7 +200,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       LNLog(@"Lotsa wait time for this");
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     // Need this in case game state gets deallocated while waiting for static data
     p = [dict objectForKey:num];
   }

@@ -135,7 +135,9 @@ static NSString *udid = nil;
   NSString *selectorStr = [NSString stringWithFormat:@"handle%@:tag:", [typeClass description]];
   SEL handleMethod = NSSelectorFromString(selectorStr);
   if ([ec respondsToSelector:handleMethod]) {
-    [ec performSelector:handleMethod withObject:[typeClass parseFromData: data] withObject:(id)tag];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [ec performSelector:handleMethod withObject:[typeClass parseFromData: data] withObject:(id)tag];
+    });
   } else {
     LNLog(@"Unable to find %@ in IncomingEventController", selectorStr);
   }

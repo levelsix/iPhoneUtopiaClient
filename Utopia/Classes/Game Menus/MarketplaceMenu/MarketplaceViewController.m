@@ -186,7 +186,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [Analytics attemptedPost];
   
   if (gs.numPostsInMarketplace >= gl.maxNumberOfMarketplacePosts) {
-    [Globals popupMessage:@"You already have %d items in the marketplace. Remove a listing to post a new item."];
+    [Globals popupMessage:[NSString stringWithFormat:@"You have %d items in the marketplace. Remove a listing to post.", gs.numPostsInMarketplace]];
     return;
   }
   

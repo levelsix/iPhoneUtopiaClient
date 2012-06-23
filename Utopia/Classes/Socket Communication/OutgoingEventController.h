@@ -64,6 +64,7 @@
 - (void) upgradeNormStruct:(UserStruct *)userStruct;
 - (void) retrieveAllStaticData;
 - (void) retrieveStaticEquip:(int)equipId;
+- (void) retrieveStaticEquipsForUser:(FullUserProto *)fup;
 - (void) retrieveStructStore;
 - (void) retrieveEquipStore;
 

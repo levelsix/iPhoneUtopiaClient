@@ -29,6 +29,7 @@
 @synthesize nameLabel, progressLabel, spinner;
 @synthesize inProgressView, availableView;
 @synthesize quest;
+@synthesize questGiverImageView;
 
 - (void) awakeFromNib {
   [self addSubview:availableView];
@@ -57,6 +58,7 @@
   [spinner stopAnimating];
   self.spinner = nil;
   self.quest = nil;
+  self.questGiverImageView = nil;
   [super dealloc];
 }
 
@@ -118,13 +120,30 @@
 
 @implementation DescriptionCell
 
-@synthesize descriptionLabel, visitView;
+@synthesize descriptionLabel, visitView, questGiverImageView;
 
 - (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated redeeming:(BOOL)redeeming {
   self.descriptionLabel.text = redeeming ? fqp.doneResponse : fqp.description;
   self.visitView.hidden = !visitActivated;
+  
+  if (visitActivated) {
+    CGRect r = self.descriptionLabel.frame;
+    r.size.width = CGRectGetMinX(visitView.frame)-CGRectGetMinX(descriptionLabel.frame)-8;
+    self.descriptionLabel.frame = r;
+  } else {
+    CGRect r = self.descriptionLabel.frame;
+    r.size.width = CGRectGetMaxX(visitView.frame)-CGRectGetMinX(descriptionLabel.frame);
+    self.descriptionLabel.frame = r;
+  }
+  
   _cityId = fqp.cityId;
   _assetNum = fqp.assetNumWithinCity;
+  
+  NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  
+  UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[questGiverImageView viewWithTag:150];
+  loadingView.center = CGPointMake(questGiverImageView.frame.size.width/2, questGiverImageView.frame.size.height/2+3);
 }
 
 - (IBAction)visitClicked:(id)sender {
@@ -139,6 +158,7 @@
 - (void) dealloc {
   self.descriptionLabel = nil;
   self.visitView = nil;
+  self.questGiverImageView = nil;
   [super dealloc];
 }
 
@@ -169,12 +189,13 @@
     self.progressLabel.text = [NSString stringWithFormat:@"%d/%d", job.numCompleted, job.total];
   }
   
-  inProgressView.alpha = 1.f;
   if (job.numCompleted >= job.total) {
     // Fade out the visit button if we're done
     [UIView animateWithDuration:0.3f animations:^{
       inProgressView.alpha = 0.f;
     }];
+  } else {
+    inProgressView.alpha = 1.f;
   }
 }
 
@@ -361,6 +382,12 @@
   qc.nameLabel.text = fqp.name;
   qc.quest = fqp;
   
+  NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:qc.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  
+  UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[qc.questGiverImageView viewWithTag:150];
+  loadingView.center = CGPointMake(qc.questGiverImageView.frame.size.width/2, qc.questGiverImageView.frame.size.height/2+3);
+  
   if (indexPath.section == 0) {
     qc.availableView.hidden = YES;
     qc.inProgressView.hidden = NO;
@@ -438,9 +465,11 @@
     quest = [q retain];
     
     // Load up jobs
-    self.jobs = [UserJob jobsForQuest:quest];
-    _receivedData = NO;
-    [self updateTasksForUserData:[[QuestLogController sharedQuestLogController] userLogData]];
+    if (quest) {
+      self.jobs = [UserJob jobsForQuest:quest];
+      _receivedData = NO;
+      [self updateTasksForUserData:[[QuestLogController sharedQuestLogController] userLogData]];
+    }
   }
 }
 
@@ -508,9 +537,11 @@
       dc = self.descriptionCell;
     }
     
-    GameState *gs = [GameState sharedGameState];
-    BOOL questIsComplete = [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:quest.questId]] != nil;
-    [dc updateForQuest:quest visitActivated:questIsComplete && !_questRedeem redeeming:_questRedeem];
+    if (quest) {
+      GameState *gs = [GameState sharedGameState];
+      BOOL questIsComplete = [gs.inProgressCompleteQuests objectForKey:[NSNumber numberWithInt:quest.questId]] != nil;
+      [dc updateForQuest:quest visitActivated:questIsComplete && !_questRedeem redeeming:_questRedeem];
+    }
     return dc;
   } else if (indexPath.section == 1) {
     // The tasks required for this quest
@@ -544,7 +575,9 @@
       rc = self.rewardCell;
     }
     
-    [rc updateForQuest:self.quest withClaimButton:_questRedeem];
+    if (quest) {
+      [rc updateForQuest:self.quest withClaimButton:_questRedeem];
+    }
     
     return rc;
   }
@@ -685,9 +718,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
   taskListTable.tableFooterView = view;
   [view release];
-  
-  GameState *gs = [GameState sharedGameState];
-  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -710,6 +740,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   self.backButton.hidden = NO;
   
   [[SoundEngine sharedSoundEngine] questLogOpened];
+  
+  GameState *gs = [GameState sharedGameState];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void) loadQuest:(FullQuestProto *)fqp {
@@ -722,6 +755,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
   self.backButton.hidden = YES;
+  
+  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) loadQuestAcceptScreen:(FullQuestProto *)fqp {
@@ -738,6 +774,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
   
   [[SoundEngine sharedSoundEngine] questAccepted];
+  
+  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp {
@@ -809,6 +848,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
                                             build];
   
   [taskListDelegate updateTasksForUserData:[NSArray arrayWithObject:questData]];
+  
+  GameState *gs = [GameState sharedGameState];
+  questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
 }
 
 - (void) loadQuestRedeemScreen:(FullQuestProto *)fqp {
@@ -820,6 +862,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [taskListTable reloadData];
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
+  
+  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
 }
 
 - (void) questSelected:(FullQuestProto *)fqp {
@@ -864,6 +909,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   r = taskListView.frame;
   r.origin = CGPointMake(0, 0);
   taskListView.frame = r;
+  
+  [taskListTable setContentOffset:ccp(0,0) animated:NO];
   
   if (animated) {
     [UIView commitAnimations];

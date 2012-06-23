@@ -7,6 +7,7 @@
 //
 
 #import "CCSprite.h"
+#import "Protocols.pb.h"
 
 @class GameMap;
 
@@ -29,6 +30,28 @@
 }
 
 @property (nonatomic, assign) BOOL isSelected;
+
+- (void) displayArrow;
+- (void) removeArrowAnimated:(BOOL)animated;
+- (void) displayCheck;
+
+@end
+
+@protocol TaskElement <NSObject>
+
+@required
+
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, retain) FullTaskProto *ftp;
+@property (nonatomic, assign) int numTimesActedForTask;
+@property (nonatomic, assign) int numTimesActedForQuest;
+
+@property (nonatomic, assign) BOOL partOfQuest;
+
+// So we can access these
+@property (nonatomic, assign) CGRect location;
+@property (nonatomic, assign) CGPoint position;
+@property (nonatomic, assign) CGSize contentSize;
 
 - (void) displayArrow;
 - (void) removeArrowAnimated:(BOOL)animated;

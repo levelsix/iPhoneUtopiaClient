@@ -33,6 +33,7 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet UIView *visitView;
+@property (nonatomic, retain) IBOutlet UIImageView *questGiverImageView;
 
 - (void) updateForQuest:(FullQuestProto *)fqp visitActivated:(BOOL)visitActivated redeeming:(BOOL)redeeming;
 
@@ -45,6 +46,7 @@
 @property (nonatomic, retain) IBOutlet UIView *availableView;
 @property (nonatomic, retain) IBOutlet UIView *inProgressView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, retain) IBOutlet UIImageView *questGiverImageView;
 
 @property (nonatomic, retain) FullQuestProto *quest;
 

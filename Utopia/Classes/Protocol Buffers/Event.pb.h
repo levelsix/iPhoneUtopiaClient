@@ -233,6 +233,8 @@
 @class StartupResponseProto_ReferralNotificationProto;
 @class StartupResponseProto_ReferralNotificationProto_Builder;
 @class StartupResponseProto_StartupConstants;
+@class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto;
+@class StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder;
 @class StartupResponseProto_StartupConstants_BattleConstants;
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
@@ -1832,6 +1834,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
+  NSMutableArray* mutableAnimatedSpriteOffsetsList;
 }
 - (BOOL) hasMaxLevelDifferenceForBattle;
 - (BOOL) hasArmoryXlength;
@@ -1935,6 +1938,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
 - (int32_t) productDiamondsGivenAtIndex:(int32_t) index;
+- (NSArray*) animatedSpriteOffsetsList;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
 
 + (StartupResponseProto_StartupConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants*) defaultInstance;
@@ -1951,6 +1956,65 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto : PBGeneratedMessage {
+@private
+  BOOL hasImageName_:1;
+  BOOL hasOffSet_:1;
+  NSString* imageName;
+  CoordinateProto* offSet;
+}
+- (BOOL) hasImageName;
+- (BOOL) hasOffSet;
+@property (readonly, retain) NSString* imageName;
+@property (readonly, retain) CoordinateProto* offSet;
+
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builder;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) prototype;
+
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* result;
+}
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clear;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) build;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) other;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasImageName;
+- (NSString*) imageName;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setImageName:(NSString*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearImageName;
+
+- (BOOL) hasOffSet;
+- (CoordinateProto*) offSet;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSet:(CoordinateProto*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) setOffSetBuilder:(CoordinateProto_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) mergeOffSet:(CoordinateProto*) value;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder*) clearOffSet;
 @end
 
 @interface StartupResponseProto_StartupConstants_FormulaConstants : PBGeneratedMessage {
@@ -2445,60 +2509,69 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (int32_t) playerWallPostsRetrieveCap;
 - (StartupResponseProto_StartupConstants_Builder*) setPlayerWallPostsRetrieveCap:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearPlayerWallPostsRetrieveCap;
+
+- (NSArray*) animatedSpriteOffsetsList;
+- (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) animatedSpriteOffsetsAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_Builder*) replaceAnimatedSpriteOffsetsAtIndex:(int32_t) index with:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAnimatedSpriteOffsets:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
+- (StartupResponseProto_StartupConstants_Builder*) addAllAnimatedSpriteOffsets:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_Builder*) clearAnimatedSpriteOffsetsList;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
 @private
-  BOOL hasExpRequiredForLevelThree_:1;
-  BOOL hasExpRequiredForLevelTwo_:1;
-  BOOL hasInitDiamonds_:1;
-  BOOL hasInitCoins_:1;
-  BOOL hasCoinRewardForBeingReferred_:1;
-  BOOL hasMaxNameLength_:1;
   BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasCoinRewardForBeingReferred_:1;
   BOOL hasWarriorInitDefense_:1;
   BOOL hasWarriorInitAttack_:1;
+  BOOL hasInitCoins_:1;
+  BOOL hasInitDiamonds_:1;
   BOOL hasMageInitDefense_:1;
-  BOOL hasInitEnergy_:1;
-  BOOL hasInitStamina_:1;
-  BOOL hasInitHealth_:1;
-  BOOL hasStructToBuild_:1;
-  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
-  BOOL hasArcherInitAttack_:1;
-  BOOL hasArcherInitDefense_:1;
   BOOL hasMageInitAttack_:1;
-  BOOL hasWarriorInitWeapon_:1;
+  BOOL hasExpRequiredForLevelTwo_:1;
+  BOOL hasExpRequiredForLevelThree_:1;
+  BOOL hasArcherInitDefense_:1;
+  BOOL hasArcherInitAttack_:1;
+  BOOL hasDiamondCostToInstabuildFirstStruct_:1;
+  BOOL hasStructToBuild_:1;
+  BOOL hasInitHealth_:1;
+  BOOL hasInitStamina_:1;
+  BOOL hasInitEnergy_:1;
+  BOOL hasFirstWallPost_:1;
   BOOL hasWarriorInitArmor_:1;
-  BOOL hasArcherInitWeapon_:1;
+  BOOL hasWarriorInitWeapon_:1;
   BOOL hasMageInitArmor_:1;
-  BOOL hasTutorialQuest_:1;
   BOOL hasMageInitWeapon_:1;
   BOOL hasArcherInitArmor_:1;
-  int32_t expRequiredForLevelThree;
-  int32_t expRequiredForLevelTwo;
-  int32_t initDiamonds;
-  int32_t initCoins;
-  int32_t coinRewardForBeingReferred;
-  int32_t maxNameLength;
+  BOOL hasArcherInitWeapon_:1;
+  BOOL hasTutorialQuest_:1;
   int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t coinRewardForBeingReferred;
   int32_t warriorInitDefense;
   int32_t warriorInitAttack;
+  int32_t initCoins;
+  int32_t initDiamonds;
   int32_t mageInitDefense;
-  int32_t initEnergy;
-  int32_t initStamina;
-  int32_t initHealth;
-  int32_t structToBuild;
-  int32_t diamondCostToInstabuildFirstStruct;
-  int32_t archerInitAttack;
-  int32_t archerInitDefense;
   int32_t mageInitAttack;
-  FullEquipProto* warriorInitWeapon;
+  int32_t expRequiredForLevelTwo;
+  int32_t expRequiredForLevelThree;
+  int32_t archerInitDefense;
+  int32_t archerInitAttack;
+  int32_t diamondCostToInstabuildFirstStruct;
+  int32_t structToBuild;
+  int32_t initHealth;
+  int32_t initStamina;
+  int32_t initEnergy;
+  PlayerWallPostProto* firstWallPost;
   FullEquipProto* warriorInitArmor;
-  FullEquipProto* archerInitWeapon;
+  FullEquipProto* warriorInitWeapon;
   FullEquipProto* mageInitArmor;
-  StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
   FullEquipProto* mageInitWeapon;
   FullEquipProto* archerInitArmor;
+  FullEquipProto* archerInitWeapon;
+  StartupResponseProto_TutorialConstants_FullTutorialQuestProto* tutorialQuest;
   NSMutableArray* mutableFirstCityElementsForGoodList;
   NSMutableArray* mutableFirstCityElementsForBadList;
   NSMutableArray* mutableCarpenterStructsList;
@@ -2531,6 +2604,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasInitDiamonds;
 - (BOOL) hasExpRequiredForLevelTwo;
 - (BOOL) hasExpRequiredForLevelThree;
+- (BOOL) hasFirstWallPost;
 @property (readonly) int32_t initEnergy;
 @property (readonly) int32_t initStamina;
 @property (readonly) int32_t initHealth;
@@ -2556,6 +2630,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) int32_t initDiamonds;
 @property (readonly) int32_t expRequiredForLevelTwo;
 @property (readonly) int32_t expRequiredForLevelThree;
+@property (readonly, retain) PlayerWallPostProto* firstWallPost;
 - (NSArray*) firstCityElementsForGoodList;
 - (NeutralCityElementProto*) firstCityElementsForGoodAtIndex:(int32_t) index;
 - (NSArray*) firstCityElementsForBadList;
@@ -2985,6 +3060,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_TutorialConstants_Builder*) addNewlyAvailableStructsAfterLevelup:(FullStructureProto*) value;
 - (StartupResponseProto_TutorialConstants_Builder*) addAllNewlyAvailableStructsAfterLevelup:(NSArray*) values;
 - (StartupResponseProto_TutorialConstants_Builder*) clearNewlyAvailableStructsAfterLevelupList;
+
+- (BOOL) hasFirstWallPost;
+- (PlayerWallPostProto*) firstWallPost;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstWallPost:(PlayerWallPostProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) setFirstWallPostBuilder:(PlayerWallPostProto_Builder*) builderForValue;
+- (StartupResponseProto_TutorialConstants_Builder*) mergeFirstWallPost:(PlayerWallPostProto*) value;
+- (StartupResponseProto_TutorialConstants_Builder*) clearFirstWallPost;
 @end
 
 @interface StartupResponseProto_Builder : PBGeneratedMessage_Builder {

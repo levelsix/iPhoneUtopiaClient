@@ -56,8 +56,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 // on "init" you need to initialize your instance
 -(id) init
 {
-	// always call "super" init
-	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super initWithColor:ccc4(0, 140, 140, 255) fadingTo:ccc4(0, 0, 0, 255)])) {
     [self begin];
   }
@@ -65,17 +63,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) begin {
-  // Used by tutorial too
-  _homeMap = [HomeMap sharedHomeMap];
-  [self addChild:_homeMap z:1 tag:2];
-  [_homeMap moveToCenter];
   
-  _bazaarMap = [BazaarMap sharedBazaarMap];
-  
-  _topBar = [TopBar sharedTopBar];
-  [self addChild:_topBar z:2];
-  
-  [self displayHomeMap];
+  if (![[GameState sharedGameState] isTutorial]) {
+    _homeMap = [HomeMap sharedHomeMap];
+    [self addChild:_homeMap z:1 tag:2];
+    [_homeMap moveToCenter];
+    
+    _topBar = [TopBar sharedTopBar];
+    [self addChild:_topBar z:2];
+    
+    _bazaarMap = [BazaarMap sharedBazaarMap];
+    
+    [self displayHomeMap];
+  } else {
+    _topBar = [TopBar sharedTopBar];
+    [self addChild:_topBar z:2];
+  }
 }
 
 - (void) setEnemyType:(DefeatTypeJobProto_DefeatTypeJobEnemyType)type {
@@ -162,6 +165,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) displayHomeMap {
+  if (!_homeMap) {
+    _homeMap = [HomeMap sharedHomeMap];
+    [self addChild:_homeMap];
+  }
+  
   [self unloadCurrentMissionMap];
   [_homeMap refresh];
   [_homeMap beginTimers];
@@ -169,6 +177,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   currentCity = 0;
   [self closeBazaarMap];
   [_topBar loadHomeConfiguration];
+  [_homeMap reloadQuestGivers];
   
   [[SoundEngine sharedSoundEngine] playHomeMapMusic];
   
@@ -204,7 +213,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _homeMap.visible = NO;
     [self addChild:_bazaarMap z:1];
     [_topBar loadBazaarConfiguration];
+    
+    [_bazaarMap reloadQuestGivers];
   }
+  
+  [[SoundEngine sharedSoundEngine] playBazaarMusic];
   
   if (_loading) {
     [[MapViewController sharedMapViewController] fadeOut];

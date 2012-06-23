@@ -15,23 +15,15 @@
 #import "GameState.h"
 #import "CarpenterMenuController.h"
 
-#define ABOVE_HEAD_FADE_DURATION 1.5f
-#define ABOVE_HEAD_FADE_OPACITY 100
-#define ANIMATATION_DELAY 0.05f
-#define MOVE_DISTANCE 4.0f
-
-#define WALKING_SPEED 50.f
-
-#define VERTICAL_OFFSET 10.f
-
 @implementation CharacterSprite
+
 
 @synthesize nameLabel = _nameLabel;
 
 - (id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:file location:loc map:map])) {
     _nameLabel = [[CCLabelTTF alloc] initWithString:@"" fontName:[Globals font] fontSize:[Globals fontSize]];
-    [self addChild:_nameLabel];
+    [self addChild:_nameLabel z:1];
     _nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     _nameLabel.color = ccc3(255,200,0);
     
@@ -65,56 +57,59 @@
 @implementation AnimatedSprite
 
 @synthesize sprite = _sprite;
-@synthesize walkAction = _walkAction;
 @synthesize walkActionF = _walkActionF;
 @synthesize walkActionN = _walkActionN;
 
--(id) initWithFile:(NSString *)file location:(CGRect)loc map:(GameMap *)map {
-  if((self = [super initWithFile:file location:loc map:map])) {
+-(id) initWithFile:(NSString *)prefix location:(CGRect)loc map:(GameMap *)map {
+  prefix = [[prefix.lastPathComponent stringByReplacingOccurrencesOfString:prefix.pathExtension withString:@""] stringByReplacingOccurrencesOfString:@"." withString:@""];
+  if((self = [super initWithFile:nil location:loc map:map])) {
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkNF.plist",prefix]];
     
-    // This loads an image of the same name (but ending in png), and goes through the
-    // plist to add definitions of each frame to the cache.
-    
-    
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"LegionArcherWalk.plist"]; 
-    
-    // Create a sprite sheet with the Happy Bear images
-    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"LegionArcherWalk.png"];
-    [self addChild:spriteSheet];
-    
-    //Creating animation for Near Left
-    NSMutableArray *walkAnimN= [NSMutableArray array];
-    for(int i = 0; i <= 20; ++i) {
-      [walkAnimN addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"LegionArcherWalkN%02d.png", i]]];
+    //create the animation for Near
+    NSMutableArray *walkAnimN = [NSMutableArray array];
+    for(int i = 0; true; ++i) {
+      NSString *file = [NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+      if (frame) {
+        [walkAnimN addObject:frame];
+      } else {
+        break;
+      }
     }
+    
     CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
     self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
     
-    //Creating animation for far left
+    //create the animation for Far
     NSMutableArray *walkAnimF= [NSMutableArray array];
-    for(int i = 0; i <= 20; ++i) {
-      [walkAnimF addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"LegionArcherWalkF%02d.png", i]]];
+    for(int i = 0; true; ++i) {
+      NSString *file = [NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
+      if (frame) {
+        [walkAnimF addObject:frame];
+      } else {
+        break;
+      }
     }
-    CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
-    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF]];
-    
-    
-    // Create sprite
-    self.sprite = [CCSprite spriteWithSpriteFrameName:@"LegionArcherWalkD00.png"];
-    _sprite.anchorPoint = ccp(0, 0);
-    
-    
-    [spriteSheet addChild:_sprite];
     
     // So that it registers touches
-    self.contentSize = self.sprite.contentSize;
-    _glow.position = ccp(self.contentSize.width/2, 0);
+    self.contentSize = CGSizeMake(40, 70);
+    
+    CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
+    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
+    
+    self.sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+    [self addChild:_sprite];
+    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
+    self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y));
     
     _oldMapPos = loc.origin;
     
+    [self walk];
+    
     self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
     
-    [self walk];
+    //    [self addChild:[CCLayerColor layerWithColor:ccc4(255, 0, 0, 255) width:self.contentSize.width height:self.contentSize.height] z:-1];
   }
   return self;
 }
@@ -130,53 +125,70 @@
   if (isSelected) {
     [self stopAllActions];
     [self.sprite stopAllActions];
+    _curAction = nil;
   } else {
-    [self.sprite runAction:self.walkAction];
     [self walk];
   }
 }
 
 - (void) walk {
   MissionMap *missionMap = (MissionMap *)_map;
+  NSLog(@"Started walking..");
   CGPoint pt = [missionMap nextWalkablePositionFromPoint:self.location.origin prevPoint:_oldMapPos];
-  _oldMapPos = self.location.origin;
-  
-  CGRect r = self.location;
-  r.origin = pt;
-  float diff = ccpDistance(_oldMapPos, pt);
-  
-  CGPoint difference = ccpSub(pt, _oldMapPos);
-  CGPoint fr = CGPointMake(1, 0);
-  CGPoint fl = CGPointMake(0, 1);
-  CGPoint nl = CGPointMake(-1, 0);
-  CGPoint nr = CGPointMake(0, -1);
-  
-   [_sprite stopAllActions];
-  if(CGPointEqualToPoint(difference, fr)){
-    _sprite.flipX = YES;
-    [_sprite runAction:_walkActionF];
-  } else if(CGPointEqualToPoint(difference, fl)){
-    _sprite.flipX = NO;
-    [_sprite runAction:_walkActionF];
-  } else if(CGPointEqualToPoint(difference, nl)) {
-    _sprite.flipX = NO;
-    [_sprite runAction:_walkActionN];
-  } else if(CGPointEqualToPoint(difference, nr)){
-    _sprite.flipX = YES;
-    [_sprite runAction:_walkActionN];
+  if (CGPointEqualToPoint(self.location.origin, pt)) {
+    CGRect r = self.location;
+    r.origin = [missionMap randomWalkablePosition];
+    self.location = r;
+    _oldMapPos = r.origin;
+    [self walk];
+  } else {
+    _oldMapPos = self.location.origin;
+    
+    CGRect r = self.location;
+    r.origin = pt;
+    CGPoint startPt = [_map convertTilePointToCCPoint:_oldMapPos];
+    CGPoint endPt = [_map convertTilePointToCCPoint:pt];
+    CGFloat diff = ccpDistance(endPt, startPt);
+    
+    float angle = CC_RADIANS_TO_DEGREES(ccpToAngle(ccpSub(endPt, startPt)));
+    
+    CCAction *nextAction = nil;
+    if(angle <= -90 ){
+      _sprite.flipX = NO;
+      nextAction = _walkActionN;
+    } else if(angle <= 0){
+      _sprite.flipX = YES;
+      nextAction = _walkActionN;
+    } else if(angle <= 90) {
+      _sprite.flipX = YES;
+      nextAction = _walkActionF;
+    } else if(angle <= 180){
+      _sprite.flipX = NO;
+      nextAction = _walkActionF;
+    } else {
+      NSLog(@"No Action");
+    }
+    
+    if (_curAction != nextAction) {
+      _curAction = nextAction;
+      [_sprite stopAllActions];
+      if (_curAction) {
+        [_sprite runAction:_curAction];
+      }
+    }
+    
+    [self runAction:[CCSequence actions:                          
+                     [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
+                     [CCCallFunc actionWithTarget:self selector:@selector(walk)],
+                     nil
+                     ]];
   }
-  
-  [self runAction:[CCSequence actions:                          
-                   [MoveToLocation actionWithDuration:diff/WALKING_SPEED location:r],
-                   [CCCallFunc actionWithTarget:self selector:@selector(walk)],
-                   nil
-                   ]];
+  NSLog(@"Ended walking..");
 }
 
 - (void) dealloc {
   [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
   self.sprite = nil;
-  self.walkAction = nil;
   self.walkActionF = nil;
   self.walkActionN = nil;
 	[super dealloc];
@@ -189,7 +201,7 @@
 @synthesize quest, questGiverState, name;
 
 - (id) initWithQuest:(FullQuestProto *)fqp questGiverState:(QuestGiverState)qgs file:(NSString *)file map:(GameMap *)map location:(CGRect)location {
-  if ((self = [super initWithFile:file location:location map:map])) {
+  if ((self = [super initWithFile:@"TutorialGuide" location:location map:map])) {
     self.quest = fqp;
     self.questGiverState = qgs;
   }
@@ -237,7 +249,7 @@
     [self addChild:_aboveHeadMark];
   }
   _aboveHeadMark.anchorPoint = ccp(0.5, 0.2f);
-  _aboveHeadMark.position = ccp(self.contentSize.width/2, self.contentSize.height+10+_aboveHeadMark.contentSize.height*_aboveHeadMark.anchorPoint.y);
+  _aboveHeadMark.position = ccpAdd(_nameLabel.position, ccp(0, 7+_aboveHeadMark.contentSize.height*_aboveHeadMark.anchorPoint.y));
   
   if (questGiverState == kAvailable || questGiverState == kCompleted) {
     CCRotateBy *right = [CCRotateBy actionWithDuration:0.03f angle:3];
@@ -280,7 +292,7 @@
 @synthesize user;
 
 - (id) initWithUser:(FullUserProto *)fup location:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:[Globals spriteImageNameForUser:fup.userType] location:loc map:map])) {
+  if ((self = [super initWithFile:[Globals animatedSpritePrefix:fup.userType] location:loc map:map])) {
     self.user = fup;
   }
   return self;
@@ -304,10 +316,18 @@
 @implementation TutorialGirl
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:nil map:map location:loc])) {
-    
+  GameState *gs = [GameState sharedGameState];
+  NSString *prefix = [Globals userTypeIsGood:gs.type] ? @"TutorialGuide" : @"TutorialGuideBad";
+  
+  if ((self = [super initWithQuest:nil questGiverState:kNoQuest file:prefix map:map location:loc])) {
+    self.name = [Globals homeQuestGiverName];
   }
   return self;
+}
+
+- (void) dealloc {
+  [[CCSpriteFrameCache sharedSpriteFrameCache] removeUnusedSpriteFrames];
+	[super dealloc];
 }
 
 @end
@@ -315,7 +335,7 @@
 @implementation Carpenter
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:@"Syndicate.png" location:loc map:map])) {
+  if ((self = [super initWithFile:@"TutorialGuideBad.png" location:loc map:map])) {
     CCSprite *carpIcon = [CCSprite spriteWithFile:@"carpentericon.png"];
     [self addChild:carpIcon];
     carpIcon.position = ccp(self.contentSize.width/2, self.contentSize.height+carpIcon.contentSize.height/2);
@@ -334,6 +354,25 @@
 
 @end
 
+@implementation NeutralEnemy
+
+@synthesize ftp, numTimesActedForTask, numTimesActedForQuest, name, partOfQuest;
+
+- (void) setName:(NSString *)n {
+  if (name != n) {
+    [name release];
+    name = [n retain];
+    _nameLabel.string = name;
+  }
+}
+
+- (void) dealloc {
+  self.ftp = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation MyPlayer
 
 @synthesize walkActionD = _walkActionD;
@@ -343,65 +382,199 @@
 @synthesize walkActionU = _walkActionU;
 @synthesize sprite = _sprite;
 @synthesize currentAction = _currentAction;
+@synthesize agAnimation = _agAnimation;
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
+    GameState *gs = [GameState sharedGameState];
+    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
     
-    //[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"LegionArcherAttack.plist"];
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"LegionArcherWalk.plist"];
-    
-    //Creating animation for Near Left
-    NSMutableArray *walkAnimN= [NSMutableArray array];
-    for(int i = 1; i <= 20; ++i) {
-      [walkAnimN addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"LegionArcherWalkN%02d.png", i]]];
-    }
-    CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
-    self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
-    
-    //Creating animation for far left
-    NSMutableArray *walkAnimF= [NSMutableArray array];
-    for(int i = 0; i <= 20; ++i) {
-      [walkAnimF addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"LegionArcherWalkF%02d.png", i]]];
-    }
-    CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
-    self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF]];
-    
-    //creating animation for walking up
-    NSMutableArray *walkAnimU = [NSMutableArray array];
-    for(int i = 0 ; i<=20; ++i){
-      [walkAnimU addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"LegionArcherWalkU%02d.png", i]]];
-    }
-    CCAnimation *walkAnimationU = [CCAnimation animationWithFrames:walkAnimU delay:ANIMATATION_DELAY];
-    self.walkActionU = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationU]];
-    
-    //create animation for walking down
-    NSMutableArray *walkAnimD = [NSMutableArray array];
-    for(int i = 0 ; i<=20; ++i){
-      [walkAnimD addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"LegionArcherWalkD%02d.png", i]]];
-    }
-    CCAnimation *walkAnimationD = [CCAnimation animationWithFrames:walkAnimD delay:ANIMATATION_DELAY];
-    self.walkActionD = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationD]];
-    
-    //create animation for left and right
-    NSMutableArray *walkAnimLR = [NSMutableArray array];
-    for(int i = 0 ; i<=20; ++i){
-      [walkAnimLR addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"LegionArcherWalkLR%02d.png", i]]];
-    }
-    CCAnimation *walkAnimationLR = [CCAnimation animationWithFrames:walkAnimLR delay:ANIMATATION_DELAY];
-    self.walkActionLR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationLR]];
+    [self setUpAnimations];
     
     // Create sprite
-    self.sprite = [CCSprite spriteWithSpriteFrameName:@"LegionArcherWalkD00.png"];
-     _sprite.anchorPoint = ccp(0.5, 0.5);
+    self.sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+    _sprite.anchorPoint = ccp(0.5, 0.5);
+    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
+    self.sprite.position = ccp(cp.x, cp.y);
     
-    [self addChild:_sprite];
+    [self addChild:_sprite z:5 tag:9999];
     
   }
   return self;
 }
 
+- (void) setUpAnimations {
+  GameState *gs = [GameState sharedGameState];
+  NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+  
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkNF.plist",prefix]];
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkLR.plist",prefix]];
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
+  
+  
+  //Creating animation for Near
+  NSMutableArray *walkAnimN= [NSMutableArray array];
+  for(int i = 0; true; ++i) {
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i]];
+    if (frame) {
+      [walkAnimN addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
+  self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
+  
+  //Creating animation for far
+  NSMutableArray *walkAnimF= [NSMutableArray array];
+  for(int i = 0; true; ++i) {
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i]];
+    if (frame) {
+      [walkAnimF addObject:frame];
+    } else {
+      break;
+    }
+  }
+  CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
+  self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
+  
+  //creating animation for walking up
+  NSMutableArray *walkAnimU = [NSMutableArray array];
+  for(int i = 0; true; ++i) {
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkU%02d.png",prefix, i]];
+    if (frame) {
+      [walkAnimU addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  CCAnimation *walkAnimationU = [CCAnimation animationWithFrames:walkAnimU delay:ANIMATATION_DELAY];
+  self.walkActionU = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationU restoreOriginalFrame:NO]];
+  
+  //create animation for walking down
+  NSMutableArray *walkAnimD= [NSMutableArray array];
+  for(int i = 0; true; ++i) {
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD%02d.png",prefix, i]];
+    if (frame) {
+      [walkAnimD addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  CCAnimation *walkAnimationD = [CCAnimation animationWithFrames:walkAnimD delay:ANIMATATION_DELAY];
+  self.walkActionD = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationD restoreOriginalFrame:NO]];
+  
+  //create animation for left and right
+  NSMutableArray *walkAnimLR = [NSMutableArray array];
+  for(int i = 0; true; ++i) {
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkLR%02d.png",prefix, i]];
+    if (frame) {
+      [walkAnimLR addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  CCAnimation *walkAnimationLR = [CCAnimation animationWithFrames:walkAnimLR delay:ANIMATATION_DELAY];
+  self.walkActionLR = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationLR restoreOriginalFrame:NO]];
+}
+
+- (void) performAnimation:(AnimationType)type atLocation:(CGPoint)point inDirection:(float)angle {
+  NSString *dir = nil;
+  NSString *plistDir = nil;
+  
+  if (angle >= 165 || angle <= -165) {
+    self.sprite.flipX = NO;
+    dir = @"LR";
+    plistDir = @"LR";
+  } else if (angle >= 120) {
+    self.sprite.flipX = NO;
+    dir = @"F";
+    plistDir = @"NF";
+  } else if (angle >= 60) {
+    self.sprite.flipX = NO; 
+    dir = @"U";
+    plistDir = @"UD";
+  } else if (angle >= 15) {
+    self.sprite.flipX = YES;
+    dir = @"F";
+    plistDir = @"NF";
+  } else if (angle >= -15) {
+    self.sprite.flipX = YES;
+    dir = @"LR";
+    plistDir = @"LR";
+  } else if (angle >= -60) {
+    self.sprite.flipX = YES;
+    dir = @"N";
+    plistDir = @"NF";
+  } else if (angle >= -120) {
+    self.sprite.flipX = NO;
+    dir = @"D";
+    plistDir = @"UD";
+  } else if (angle >= -165) {
+    self.sprite.flipX = NO;
+    dir = @"N";
+    plistDir = @"NF";
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  NSString *prefix = [NSString stringWithFormat:@"%@%@", [Globals animatedSpritePrefix:gs.type], type == AnimationTypeGenericAction ? @"Generic" : @"Attack"];
+  
+  [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[prefix stringByAppendingFormat:@"%@.plist", plistDir]];
+  
+  //create animation for left and right
+  NSMutableArray *agArray = [NSMutableArray array];
+  for(int i = 0; true; ++i) {
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@%@%02d.png",prefix, dir, i]];
+    if (frame) {
+      [agArray addObject:frame];
+    } else {
+      break;
+    }
+  }
+  
+  self.agAnimation = [CCAnimation animationWithFrames:agArray delay:ANIMATATION_DELAY];
+  _shouldContinueAnimation = YES;
+  
+  [self repeatCurrentAttackAnimation]; 
+  
+  CGRect r = self.location;
+  r.origin = point;
+  self.location = r;
+}
+
+- (void) repeatCurrentAttackAnimation {
+  if(_shouldContinueAnimation) {
+    CCAction *agAction = [CCSequence actions:[CCAnimate actionWithAnimation:_agAnimation restoreOriginalFrame:NO],
+                          [CCCallFunc actionWithTarget:self selector:@selector(repeatCurrentAttackAnimation)], nil];
+    agAction.tag = 9999;
+    
+    [self.sprite runAction:agAction];
+  } else {
+    GameState *gs = [GameState sharedGameState];
+    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+    [self.sprite setDisplayFrame:frame];
+  }
+}
+
+- (void)stopWalking{
+  [self stopAllActions];
+  [self.sprite stopAllActions];
+}
+
+- (void)stopPerformingAnimation {
+  _shouldContinueAnimation = NO;
+}
 
 - (void) moveToLocation:(CGRect)loc {
+  
+  GameState *gs = [GameState sharedGameState];
+  NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+  
   CGPoint startPt = [_map convertTilePointToCCPoint:self.location.origin];
   CGPoint endPt = [_map convertTilePointToCCPoint:loc.origin];
   CGFloat distance = ccpDistance(endPt, startPt);
@@ -450,13 +623,15 @@
     }
     
     [self stopAllActions];
-    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:distance/WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
+    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:distance/MY_WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
       [self.sprite stopAllActions];
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"LegionArcherWalkD00.png"];
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+      frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
       [self.sprite setDisplayFrame:frame];
       self.currentAction = nil;
     }], nil]];
-
+    
   } else {
     CGRect startingLocation = CGRectMake(loc.origin.x-2, loc.origin.y-2,loc.size.width,loc.size.height);
     int num = [[[_map.walkableData objectAtIndex:startingLocation.origin.x]objectAtIndex:startingLocation.origin.y]boolValue];
@@ -475,9 +650,10 @@
     [self.sprite runAction:self.walkActionU];
     
     float dist = ccpDistance([_map convertTilePointToCCPoint:startingPosition.origin], [_map convertTilePointToCCPoint:loc.origin]);
-    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:dist/WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
+    [self runAction:[CCSequence actions:[MoveToLocation actionWithDuration:dist/MY_WALKING_SPEED location:loc], [CCCallBlock actionWithBlock:^{
       [self.sprite stopAllActions];
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"LegionArcherWalkD00.png"];
+      [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
       [self.sprite setDisplayFrame:frame];
     }], nil]];
   }
@@ -491,6 +667,7 @@
   self.walkActionD = nil;
   self.currentAction = nil;
   self.sprite = nil;
+  self.agAnimation = nil;
   [super dealloc];
 }
 

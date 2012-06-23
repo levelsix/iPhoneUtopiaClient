@@ -175,15 +175,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fep.coinPrice];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fep.diamondPrice];
     
-    [gs addUnrespondedUpdates:ceu, su, gu, nil];
+    [[Globals sharedGlobals] confirmWearEquip:fep.equipId];
     
-    [GenericPopupController displayConfirmationWithDescription:@"Confirm" 
-                                                         title:[NSString stringWithFormat:@"Equip %@?", 
-                                                                fep.name]
-                                                    okayButton:@"Equip"
-                                                  cancelButton:@"Store"
-                                                        target:self
-                                                      selector:@selector(test)];
+    [gs addUnrespondedUpdates:ceu, su, gu, nil];
   } else {
     [Globals popupMessage:@"Not enough money to buy this equipment"];
   }
@@ -412,6 +406,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           int tag = [sc sendPurchaseFromMarketplaceMessage:postId poster:proto.poster.userId];
           GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-proto.diamondCost];
           SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-proto.coinCost];
+          
+          [[Globals sharedGlobals] confirmWearEquip:proto.postedEquip.equipId];
+          
           [gs addUnrespondedUpdates:gu, su, nil];
         } else {
           [Globals popupMessage:@"Not enough coins to purchase"];
@@ -479,7 +476,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > gl.attackBaseCost) {
+  if (gs.skillPoints >= gl.attackBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeAttack];
     AttackUpdate *au = [AttackUpdate updateWithTag:tag change:gl.attackBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.attackBaseCost];
@@ -494,7 +491,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > gl.defenseBaseCost) {
+  if (gs.skillPoints >= gl.defenseBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeDefense];
     DefenseUpdate *au = [DefenseUpdate updateWithTag:tag change:gl.defenseBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.defenseBaseCost];
@@ -509,7 +506,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > gl.energyBaseCost) {
+  if (gs.skillPoints >= gl.energyBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
     EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
     MaxEnergyUpdate *meu = [MaxEnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
@@ -525,7 +522,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > gl.staminaBaseCost) {
+  if (gs.skillPoints >= gl.staminaBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
     StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
     MaxStaminaUpdate *msu = [MaxStaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
@@ -541,7 +538,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   Globals *gl = [Globals sharedGlobals];
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints > gl.healthBaseCost) {
+  if (gs.skillPoints >= gl.healthBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
     HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.healthBaseCost];
@@ -1056,9 +1053,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
+    LNLog(@"Retrieving equip %d.", equipId);
      int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
+}
+
+- (void) retrieveStaticEquipsForUser:(FullUserProto *)fup {
+  [self retrieveStaticEquip:fup.weaponEquipped];
+  [self retrieveStaticEquip:fup.armorEquipped];
+  [self retrieveStaticEquip:fup.amuletEquipped];
 }
 
 - (void) retrieveStructStore {
@@ -1352,6 +1356,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   id<OASignatureProviding> signer = [[OAHMAC_SHA1SignatureProvider alloc] init];
   NSString *digest = [signer signClearText:preparedText
                                 withSecret:LVL6_SHARED_SECRET];
+
+  NSLog(@"%@ %@", preparedText, digest);
   
   int tag = [[SocketCommunication sharedSocketCommunication] 
              sendEarnFreeDiamondsAdColonyMessageClientTime:time

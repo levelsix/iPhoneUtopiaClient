@@ -63,20 +63,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   LNLog(@"Download of %@ complete", imageName);
 }
 
-- (void) syncDownloadMap:(NSString *)mapName {
-  LNLog(@"Beginning sync download of map %@", mapName);
+- (void) syncDownloadFile:(NSString *)fileName {
+  LNLog(@"Beginning sync download of file %@", fileName);
   dispatch_sync(_queue, ^{
     NSString *urlBase = URL_BASE;
-    NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:mapName]];
-    NSString *mapFilePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:mapFilePath]) {
-      NSData *map = [NSData dataWithContentsOfURL:url];
-      if (map) {
-        [map writeToFile:mapFilePath atomically:YES];
+    NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:fileName]];
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+      NSData *data = [NSData dataWithContentsOfURL:url];
+      if (data) {
+        [data writeToFile:filePath atomically:YES];
       }
     }
   });
-  LNLog(@"Download of %@ complete", mapName);
+  LNLog(@"Download of %@ complete", fileName);
 }
 
 - (void) dealloc {

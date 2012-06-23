@@ -285,7 +285,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_enstBgd runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_enstBgd.contentSize.height)]]];
   [_coinBar runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.2], [CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:1 position:ccp(0, -_coinBar.contentSize.height)]], nil]];
   
-  [[HomeMap sharedHomeMap] beginTimers];
+  if (![[GameState sharedGameState] isTutorial]) {
+    [[HomeMap sharedHomeMap] beginTimers];
+  }
   
   [self schedule:@selector(update)];
 }

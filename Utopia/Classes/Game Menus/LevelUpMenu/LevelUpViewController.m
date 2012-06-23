@@ -55,7 +55,7 @@
   for (FullStructureProto *fsp in levelUpResponse.newlyAvailableStructsList) {
     [[NSBundle mainBundle] loadNibNamed:@"LevelUpItemView" owner:self options:nil];
     self.itemLabel.text = [fsp.name lowercaseString];
-    [Globals loadImageForStruct:fsp.structId toView:self.itemIcon masked:NO];
+    [Globals loadImageForStruct:fsp.structId toView:self.itemIcon masked:NO indicator:UIActivityIndicatorViewStyleGray];
     [_itemViews addObject:self.itemView];
   }
   

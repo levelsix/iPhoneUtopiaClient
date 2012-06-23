@@ -9,10 +9,13 @@
 #import "ProfileViewController.h"
 
 @interface TutorialProfileViewController : ProfileViewController {
+  // justLoaded is used to determine if this is the first or second time profile has been opened
+  BOOL _justLoaded;
   BOOL _addingStatsPhase;
   BOOL _moveToEquipScreenPhase;
   BOOL _equippingPhase;
   BOOL _closingPhase;
+  BOOL _tutorialEnding;
   
   UIImageView *_arrow;
 }

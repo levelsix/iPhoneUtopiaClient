@@ -11912,6 +11912,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
 @property int32_t numComponentsForBad;
 @property (retain) DialogueProto* acceptDialogue;
 @property (retain) NSString* questGiverName;
+@property (retain) NSString* questGiverImageSuffix;
 @end
 
 @implementation FullQuestProto
@@ -12034,6 +12035,13 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   hasQuestGiverName_ = !!value;
 }
 @synthesize questGiverName;
+- (BOOL) hasQuestGiverImageSuffix {
+  return !!hasQuestGiverImageSuffix_;
+}
+- (void) setHasQuestGiverImageSuffix:(BOOL) value {
+  hasQuestGiverImageSuffix_ = !!value;
+}
+@synthesize questGiverImageSuffix;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -12046,6 +12054,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
   self.mutablePossessEquipJobReqsList = nil;
   self.acceptDialogue = nil;
   self.questGiverName = nil;
+  self.questGiverImageSuffix = nil;
   [super dealloc];
 }
 - (id) init {
@@ -12066,6 +12075,7 @@ static PossessEquipJobProto* defaultPossessEquipJobProtoInstance = nil;
     self.numComponentsForBad = 0;
     self.acceptDialogue = [DialogueProto defaultInstance];
     self.questGiverName = @"";
+    self.questGiverImageSuffix = @"";
   }
   return self;
 }
@@ -12193,6 +12203,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (self.hasCoinRetrievalReq) {
     [output writeInt32:22 value:self.coinRetrievalReq];
   }
+  if (self.hasQuestGiverImageSuffix) {
+    [output writeString:23 value:self.questGiverImageSuffix];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -12297,6 +12310,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   }
   if (self.hasCoinRetrievalReq) {
     size += computeInt32Size(22, self.coinRetrievalReq);
+  }
+  if (self.hasQuestGiverImageSuffix) {
+    size += computeStringSize(23, self.questGiverImageSuffix);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -12457,6 +12473,9 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
   if (other.hasQuestGiverName) {
     [self setQuestGiverName:other.questGiverName];
   }
+  if (other.hasQuestGiverImageSuffix) {
+    [self setQuestGiverImageSuffix:other.questGiverImageSuffix];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -12574,6 +12593,10 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
       }
       case 176: {
         [self setCoinRetrievalReq:[input readInt32]];
+        break;
+      }
+      case 186: {
+        [self setQuestGiverImageSuffix:[input readString]];
         break;
       }
     }
@@ -13033,6 +13056,22 @@ static FullQuestProto* defaultFullQuestProtoInstance = nil;
 - (FullQuestProto_Builder*) clearQuestGiverName {
   result.hasQuestGiverName = NO;
   result.questGiverName = @"";
+  return self;
+}
+- (BOOL) hasQuestGiverImageSuffix {
+  return result.hasQuestGiverImageSuffix;
+}
+- (NSString*) questGiverImageSuffix {
+  return result.questGiverImageSuffix;
+}
+- (FullQuestProto_Builder*) setQuestGiverImageSuffix:(NSString*) value {
+  result.hasQuestGiverImageSuffix = YES;
+  result.questGiverImageSuffix = value;
+  return self;
+}
+- (FullQuestProto_Builder*) clearQuestGiverImageSuffix {
+  result.hasQuestGiverImageSuffix = NO;
+  result.questGiverImageSuffix = @"";
   return self;
 }
 @end

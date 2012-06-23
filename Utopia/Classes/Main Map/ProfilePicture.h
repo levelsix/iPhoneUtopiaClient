@@ -66,6 +66,7 @@
 - (void) button2Clicked:(id)sender;
 - (void) button3Clicked:(id)sender;
 - (void) button4Clicked:(id)sender;
+- (void) openProfile;    
 - (void) incrementNotificationBadge;
 - (void) incrementProfileBadge;
 

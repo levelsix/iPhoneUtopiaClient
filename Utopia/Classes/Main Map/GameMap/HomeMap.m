@@ -195,6 +195,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   
   @synchronized(self) {
     [self refresh];
+    NSLog(@"Home map refreshed.");
   }
 }
 
@@ -400,7 +401,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       } else if (us.state == kRetrieving) {
         // Retrieve the cash!
         [self retrieveFromBuilding:((MoneyBuilding *) selected)];
-        self.selected = nil;
       } else {
         [self.hbMenu updateForUserStruct:us];
         [self.collectMenu updateForUserStruct:us];
@@ -488,7 +488,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         return;
       }
     }
-    [self openMoveMenuOnSelected];
   } else {
     self.selected = nil;
   }
@@ -500,6 +499,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // Reimplement for retrievals and moving buildings
   if (!_canMove) {
     [super tap:recognizer node:node];
+    
+    // If the money building was just retrieved from, set it to unselected
+    if ([self.selected isKindOfClass:[MoneyBuilding class]] && self.collectMenu.alpha == 0.f && self.upgradeMenu.superview == nil) {
+      self.selected = nil;
+    }
+    
     [self doReorder];
   }
 }
@@ -511,6 +516,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     [self setViewForSelected:self.collectMenu];
   } else if (self.moveMenu.alpha > 0.f) {
     [self setViewForSelected:self.moveMenu];
+  }
+}
+
+- (void) setPosition:(CGPoint)position {
+  [super setPosition:position];
+  if (_canMove) {
+    [self openMoveMenuOnSelected];
+  }
+  
+  if (self.collectMenu.alpha > 0.f) {
+    [self setViewForSelected:self.collectMenu];
   }
 }
 
@@ -787,6 +803,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   for (float i = floorf(buildBlock.origin.x); i < ceilf(buildBlock.size.width+buildBlock.origin.x); i++) {
     for (float j = floorf(buildBlock.origin.y); j < ceilf(buildBlock.size.height+buildBlock.origin.y); j++) {
       [[self.buildableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
+      [[self.walkableData objectAtIndex:i] replaceObjectAtIndex:j withObject:[NSNumber numberWithBool:canBuild]];
     }
   }
 }

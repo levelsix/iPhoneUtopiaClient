@@ -19,7 +19,10 @@
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
 
-@interface Globals : NSObject
+@interface Globals : NSObject {
+  int _equipIdToWear;
+}
+
 @property (nonatomic, assign) float depositPercentCut;
 
 @property (nonatomic, assign) float clericLevelFactor;
@@ -97,6 +100,8 @@
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
 @property (retain) NSMutableDictionary *imageViewsWaitingForDownloading;
 
+@property (nonatomic, retain) NSMutableDictionary *animatingSpriteOffsets;
+
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
 
@@ -114,7 +119,8 @@
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
 + (NSString *) pathToMap:(NSString *)mapName;
-+ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask;
++ (NSString *) pathToPlist:(NSString *)plistName;
++ (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
 
@@ -135,6 +141,7 @@
 + (NSString *) battleImageNameForUser:(UserType)type;
 + (NSString *) headshotImageNameForUser:(UserType)type;
 + (NSString *) spriteImageNameForUser:(UserType)type;
++ (NSString *) animatedSpritePrefix:(UserType)type;
 + (NSString *) battleAnimationFileForUser:(UserType)type;
 + (NSString *) stringForTimeSinceNow:(NSDate *)date;
 + (BOOL) sellsForGoldInMarketplace:(FullEquipProto *)fep;
@@ -164,7 +171,7 @@
            atPoint:(CGPoint)point
 withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) popupMessage: (NSString *)msg;
-+(void)  beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor;
++ (void)  beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor;
 + (void) endPulseForView:(UIView *)view;
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;
@@ -189,6 +196,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (BOOL)userTypeIsGood:(UserType)type;
 + (BOOL)userTypeIsBad:(UserType)type;
 + (BOOL)userType:(UserType)t1 isAlliesWith:(UserType)t2;
+
+- (void) confirmWearEquip:(int)equipId;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

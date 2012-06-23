@@ -17,6 +17,7 @@
 #import "GameLayer.h"
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
+#import "ProfileViewController.h"
 
 @implementation TutorialHomeMap
 
@@ -54,8 +55,8 @@
   self.position = ccpAdd(self.position, ccp(120, 0));
   
   _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
-  [self addChild:_ccArrow z:2000];
-  _ccArrow.position = ccp(_carpenter.position.x, _carpenter.position.y+_carpenter.contentSize.height+_ccArrow.contentSize.height/2+40);
+  [_carpenter addChild:_ccArrow z:2000];
+  _ccArrow.position = ccp(_carpenter.contentSize.width/2, _carpenter.contentSize.height+_ccArrow.contentSize.height/2+60);
   [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
   
   [TutorialCarpenterMenuController sharedCarpenterMenuController];
@@ -70,21 +71,34 @@
     if (_carpenterPhase  && [self selectableForPt:pt] == _carpenter) {
       _carpenterPhase = NO;
       
+      [DialogMenuController closeView];
+      
       // Reset ccArrow
       [_ccArrow stopAllActions];
       _ccArrow.visible = NO;
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
       [DialogMenuController closeView];
       
+      [_ccArrow removeAllChildrenWithCleanup:YES];
+      
+      [_uiArrow removeFromSuperview];
+      [_uiArrow release];
+      _uiArrow = nil;
+      
       _uiArrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
       UIView *finishNowButton = [self.upgradeMenu.upgradingBottomView viewWithTag:17];
       [self.upgradeMenu.upgradingBottomView addSubview:_uiArrow];
       _uiArrow.center = CGPointMake(CGRectGetMinX(finishNowButton.frame)-_uiArrow.frame.size.width/2, finishNowButton.center.y);
+      _uiArrow.tag = 111;
       [Globals animateUIArrow:_uiArrow atAngle:0];
     } else {
       self.selected = nil;
     }
   }
+}
+
+- (void) createMyPlayer {
+  return;
 }
 
 - (SelectableSprite *) selectableForPt:(CGPoint)pt {
@@ -274,6 +288,7 @@
   [self removeFromParentAndCleanup:YES];
   [[TopBar sharedTopBar] removeFromParentAndCleanup:YES];
   [TutorialHomeMap purgeSingleton];
+  [ProfileViewController purgeSingleton];
   [TutorialConstants purgeSingleton];
   [TopBar purgeSingleton];
   

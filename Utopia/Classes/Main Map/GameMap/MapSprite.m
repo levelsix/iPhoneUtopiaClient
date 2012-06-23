@@ -112,20 +112,20 @@
 }
 
 - (void) displayCheck {
+  CCSprite *check = [CCSprite spriteWithFile:@"3dcheckmark.png"];
+  [self addChild:check];
+  check.anchorPoint = ccp(0.5, 0.f);
+  check.position = ccp(self.contentSize.width/2, self.contentSize.height+5.f);
+  
+  [check runAction:[CCSequence actions:
+                    [CCDelayTime actionWithDuration:1.5f],
+                    [CCSpawn actions:
+                     [CCMoveBy actionWithDuration:1.5f position:ccp(0, 20.f)],
+                     [CCFadeOut actionWithDuration:1.5f],
+                     nil], 
+                    nil]];
+  
   if (_arrow) {
-    CCSprite *check = [CCSprite spriteWithFile:@"3dcheckmark.png"];
-    [self addChild:check];
-    check.anchorPoint = ccp(0.5, 0.f);
-    check.position = _arrow.position;
-    
-    [check runAction:[CCSequence actions:
-                      [CCDelayTime actionWithDuration:1.5f],
-                      [CCSpawn actions:
-                       [CCMoveBy actionWithDuration:1.5f position:ccp(0, 20.f)],
-                       [CCFadeOut actionWithDuration:1.5f],
-                       nil], 
-                      nil]];
-    
     [self removeArrowAnimated:YES];
   }
 }

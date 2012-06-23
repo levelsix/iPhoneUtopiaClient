@@ -153,9 +153,7 @@
       tileSizeInPoints = tileSize_;
     }
     
-    _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
-    [self addChild:_myPlayer];
-    [_myPlayer release];
+    [self createMyPlayer];
     
     // Add the decoration layer for clouds
     decLayer = [[DecorationLayer alloc] initWithSize:self.contentSize];
@@ -171,6 +169,13 @@
     self.scale = DEFAULT_ZOOM;
   }
   return self;
+}
+
+- (void) createMyPlayer {
+  // Do this so that tutorial classes can override
+  _myPlayer = [[MyPlayer alloc] initWithLocation:CGRectMake(mapSize_.width/2, mapSize_.height/2, 1, 1) map:self];
+  [self addChild:_myPlayer];
+  [_myPlayer release];
 }
 
 - (void) setVisible:(BOOL)visible {
@@ -606,7 +611,7 @@
   // Don't let it infinite loop in case its stuck
   int max = 50;
   while (max > 0) {
-    // 50% chance to go straight, 20% chance to turn (for each way), 10% chance to go back
+    // 75% chance to go straight, 10% chance to turn (for each way), 5% chance to go back
     int x = arc4random() % 100;
     if (x <= 75) x = 0;
     else if (x <= 85) x = 1;

@@ -249,7 +249,7 @@
 					<object class="IBUIButton" id="1016410085">
 						<reference key="NSNextResponder" ref="476832292"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrameSize">{93, 29}</string>
+						<string key="NSFrame">{{106, 0}, {93, 29}}</string>
 						<reference key="NSSuperview" ref="476832292"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="946831539"/>
@@ -274,7 +274,7 @@
 					<object class="IBUIButton" id="168648581">
 						<reference key="NSNextResponder" ref="476832292"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{113, 0}, {93, 30}}</string>
+						<string key="NSFrame">{{7, 0}, {93, 30}}</string>
 						<reference key="NSSuperview" ref="476832292"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="333378389"/>
@@ -299,7 +299,7 @@
 					<object class="IBUILabel" id="946831539">
 						<reference key="NSNextResponder" ref="476832292"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{25, 4}, {42, 21}}</string>
+						<string key="NSFrame">{{106, 3}, {93, 21}}</string>
 						<reference key="NSSuperview" ref="476832292"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="168648581"/>
@@ -316,6 +316,11 @@
 							<reference key="NSCustomColorSpace" ref="717991832"/>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
+						<object class="NSColor" key="IBUIShadowColor" id="3082180">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MCAwLjIAA</bytes>
+						</object>
+						<string key="IBUIShadowOffset">{0, 1}</string>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
@@ -325,7 +330,7 @@
 					<object class="IBUILabel" id="333378389">
 						<reference key="NSNextResponder" ref="476832292"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{136, 3}, {47, 21}}</string>
+						<string key="NSFrame">{{7, 3}, {91, 21}}</string>
 						<reference key="NSSuperview" ref="476832292"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -341,6 +346,8 @@
 							<reference key="NSCustomColorSpace" ref="717991832"/>
 						</object>
 						<nil key="IBUIHighlightedColor"/>
+						<reference key="IBUIShadowColor" ref="3082180"/>
+						<string key="IBUIShadowOffset">{0, 1}</string>
 						<int key="IBUIBaselineAdjustment">0</int>
 						<float key="IBUIMinimumFontSize">10</float>
 						<int key="IBUITextAlignment">1</int>
@@ -547,10 +554,10 @@
 						<int key="objectID">24</int>
 						<reference key="object" ref="476832292"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="168648581"/>
-							<reference ref="333378389"/>
 							<reference ref="1016410085"/>
 							<reference ref="946831539"/>
+							<reference ref="168648581"/>
+							<reference ref="333378389"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
