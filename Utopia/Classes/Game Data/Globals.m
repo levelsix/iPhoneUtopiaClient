@@ -1189,23 +1189,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (amuletId != 0) {
     amulet = [gs equipWithId:amuletId];
   }
-  NSLog(@"attack %d, %d, %d, %d\n", attackStat, weapon.attackBoost, armor.attackBoost, amulet.attackBoost);
+
   return attackStat + weapon.attackBoost + armor.attackBoost + amulet.attackBoost;
-//  GameState *gs = [GameState sharedGameState];
-//  FullEquipProto *weapon = nil;
-//  if (weaponId != 0) {
-//    weapon = [gs equipWithId:weaponId];
-//  }
-//  FullEquipProto *armor = nil;
-//  if (armorId != 0) {
-//    armor = [gs equipWithId:armorId];
-//  }
-//  FullEquipProto *amulet = nil;
-//  if (amuletId != 0) {
-//    amulet = [gs equipWithId:amuletId];
-//  }
-//  
-//  return self.battleWeightGivenToAttackStat*(attackStat) + self.battleWeightGivenToAttackEquipSum*(weapon.attackBoost + armor.attackBoost + amulet.attackBoost);
 }
 
 - (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
@@ -1213,16 +1198,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *weapon = weaponId > 0 ? [gs equipWithId:weaponId] : nil;
   FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
   FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
-  NSLog(@"defense%d, %d, %d, %d\n", defenseStat, weapon.defenseBoost, armor.defenseBoost, amulet.defenseBoost);
 
   return defenseStat + weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost;
-
-//  GameState *gs = [GameState sharedGameState];
-//  FullEquipProto *weapon = weaponId > 0 ? [gs equipWithId:weaponId] : nil;
-//  FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
-//  FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
-//  
-//  return self.battleWeightGivenToDefenseStat*defenseStat + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost);
 }
 
 + (void) popupView:(UIView *)targetView

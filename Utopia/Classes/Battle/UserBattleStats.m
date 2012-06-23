@@ -9,6 +9,9 @@
 #import "UserBattleStats.h"
 #import "Globals.h"
 
+static NSMutableArray *attackLevels  = nil;
+static NSMutableArray *defenseLevels = nil;
+
 @implementation UserBattleStats
 @dynamic level;
 @dynamic attack;
@@ -26,20 +29,12 @@
 }
 
 -(int)attack
-{
-#warning REMOVE THIS STATIC GLOBALS CALL
-  Globals *globals =  [Globals sharedGlobals];
-  
+{  
   if (_userProto) {
     return _userProto.attack;
-
-//    return [globals calculateAttackForStat:_userProto.attack
-//                                    weapon:_userProto.weaponEquipped
-//                                     armor:_userProto.armorEquipped
-//                                    amulet:_userProto.amuletEquipped];
   }
   
-  return [globals calculateAttackForStat:_gameState.attack
+  return [_globals calculateAttackForStat:_gameState.attack
                                   weapon:_gameState.weaponEquipped
                                    armor:_gameState.armorEquipped
                                   amulet:_gameState.amuletEquipped];
@@ -47,40 +42,32 @@
 
 -(int)defense
 {
-#warning REMOVE THIS STATIC GLOBALS CALL
-
-  Globals *globals =  [Globals sharedGlobals];
-  
   if (_userProto) {
-    
-//    int defenseStrength = [globals calculateDefenseForStat:_userProto.defense
-//                                                    weapon:_userProto.weaponEquipped
-//                                                     armor:_userProto.armorEquipped
-//                                                    amulet:_userProto.amuletEquipped]; 
-//    return defenseStrength;
     return _userProto.defense;
   }
   
-  int defenseStrength = [globals calculateDefenseForStat:_gameState.defense
+  int defenseStrength = [_globals calculateDefenseForStat:_gameState.defense
                                                   weapon:_gameState.weaponEquipped
                                                    armor:_gameState.armorEquipped
                                                   amulet:_gameState.amuletEquipped]; 
   return defenseStrength;
-  
-//  return _gameState.defense;
 }
 
 #pragma mark Create/Destroy
--(id)initWithUserProto:(FullUserProto *)user orGameState:(GameState *)gameState
+-(id)initWithUserProto:(FullUserProto *)user 
+           orGameState:(GameState *)gameState
+            andGlobals:(Globals*)globals
 {
   self = [super init];
   
   if (self) {
     _userProto = user;
     _gameState = gameState;
+    _globals   = globals;
     
     [_userProto retain];
     [_gameState retain];
+    [_globals   retain];
   }
   
   return self;
@@ -89,6 +76,9 @@
 -(void)dealloc
 {
   [_userProto release];
+  [_gameState release];
+  [_globals   release];
+  
   [super dealloc];
 }
 
@@ -96,29 +86,111 @@
 {
   UserBattleStats *stats = [[UserBattleStats alloc] 
                             initWithUserProto:nil
-                            orGameState:[GameState sharedGameState]];
+                            orGameState:[GameState sharedGameState] 
+                            andGlobals:[Globals sharedGlobals]];
   [stats autorelease];
   return stats;  
 }
 
++(void)repeatInsertingObject:(NSNumber *)curNum
+                     inArray:(NSMutableArray *)targetArray
+                  untilIndex:(int)index
+{
+  int indexDiff = abs([targetArray count] - index);
+  int prevValue = [[targetArray lastObject] intValue];
+  int strengthDiff = abs(prevValue - [curNum intValue]);
+  float strengthIncrement = strengthDiff/((float)indexDiff);
+  float curAddition = 0;
+  while ([targetArray count] < index) {
+    curAddition += strengthIncrement;
+    NSNumber *nextVal = [NSNumber numberWithInt:prevValue + curAddition];
+    [targetArray addObject:nextVal];
+  }
+}
+
+//FIXME: This equip data should come from a file or server
++(NSArray *)equipAttackLevels
+{
+//  NSMutableArray *attackLevels = [NSMutableArray arrayWithCapacity:40];
+  if (attackLevels == nil) {
+    attackLevels = [NSMutableArray arrayWithCapacity:40];
+    
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:15]
+                                   inArray:attackLevels 
+                                untilIndex:5];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:22]
+                                   inArray:attackLevels 
+                                untilIndex:10];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:31]
+                                   inArray:attackLevels 
+                                untilIndex:15];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:46]
+                                   inArray:attackLevels 
+                                untilIndex:20];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:58]
+                                   inArray:attackLevels 
+                                untilIndex:25];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:71]
+                                   inArray:attackLevels 
+                                untilIndex:30];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:71]
+                                   inArray:attackLevels 
+                                untilIndex:40];    
+    [attackLevels retain];
+  }
+  return attackLevels;
+}
+
++(NSArray *)equipDefenseLevels
+{
+//  NSMutableArray *defenseLevels = [NSMutableArray arrayWithCapacity:40];
+
+  if (defenseLevels == nil) {
+    defenseLevels = [NSMutableArray arrayWithCapacity:40];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:15]
+                                   inArray:defenseLevels 
+                                untilIndex:5];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:20]
+                                   inArray:defenseLevels 
+                                untilIndex:10];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:31]
+                                   inArray:defenseLevels 
+                                untilIndex:15];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:43]
+                                   inArray:defenseLevels 
+                                untilIndex:20];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:55]
+                                   inArray:defenseLevels 
+                                untilIndex:25];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:68]
+                                   inArray:defenseLevels 
+                                untilIndex:30];
+    [UserBattleStats repeatInsertingObject:[NSNumber numberWithInt:68]
+                                   inArray:defenseLevels 
+                                untilIndex:40];
+    [defenseLevels retain];
+  }
+  return defenseLevels;
+}
+
 +(FullUserProto *)userProtoForFakePlayer:(FullUserProto *)enemy 
-                              andGlobals:(Globals *)globals
+                              andGlobals:(Globals *)globals 
+                            andGamestate:(GameState *)gameState
 {
   FullUserProto_Builder *builder = [FullUserProto builderWithPrototype:enemy];
   
   // Adjust the enemy based on their character's level.
-  UserBattleStats *myStats = [UserBattleStats createFromGameState];
-  int levelDiff = enemy.level - myStats.level;
+  int levelDiff = enemy.level - gameState.level;
   int additionalSkillPoints;
   additionalSkillPoints = ([globals skillPointsGainedOnLevelup]/2)*levelDiff;
-  
 
-  int totalSkillPoints = myStats.attack 
-    + myStats.defense + additionalSkillPoints;
+//  int totalSkillPoints = gameState.attack + gameState.defense 
+//    + [[[UserBattleStats equipAttackLevels] objectAtIndex:enemy.level-1] intValue]
+//    + [[[UserBattleStats equipDefenseLevels] objectAtIndex:enemy.level-1] intValue]
+//    + additionalSkillPoints;
+  int totalSkillPoints = gameState.attack + gameState.defense 
+    + additionalSkillPoints;
 
-//  int totalSkillPoints = gameState.attack 
-//            + gameState.defense + additionalSkillPoints;
-  
   // Set the enemy's attack/defense
   int enemyAttack, enemyDefense;
   PlayerClassType enemyClass = [Globals playerClassTypeForUserType:enemy.userType];
@@ -141,9 +213,13 @@
       break;
   }
 
+  enemyAttack  += [[[UserBattleStats equipAttackLevels] objectAtIndex:enemy.level-1] intValue];
+  enemyDefense += [[[UserBattleStats equipDefenseLevels] objectAtIndex:enemy.level-1] intValue];
+
 #warning default stats (attack defense) for the mage are busted!
   int randAtt = arc4random() % 4;
   int randDef = arc4random() % 4;
+
   enemyAttack  = (arc4random() % 2) 
     ? enemyAttack  - randAtt : enemyAttack + randAtt;
   enemyDefense = (arc4random() % 2) 
@@ -159,11 +235,14 @@
 {
   if (user.isFake) {
     user = [UserBattleStats userProtoForFakePlayer:user 
-                                        andGlobals:[Globals sharedGlobals]];
+                                        andGlobals:[Globals sharedGlobals] 
+                                      andGamestate:[GameState sharedGameState]];
   }
 
   UserBattleStats *stats = [[UserBattleStats alloc] initWithUserProto:user 
-                                                          orGameState:nil];
+                                                          orGameState:nil 
+                                                           andGlobals:[Globals
+                                                                       sharedGlobals]];
   [stats autorelease];
   return stats;
 }

@@ -22,6 +22,7 @@
 @interface UserBattleStats : NSObject <UserBattleStats> {
   FullUserProto *_userProto;
   GameState     *_gameState;
+  Globals       *_globals;
 }
 +(id<UserBattleStats>)createWithFullUserProto:(FullUserProto *)user;
 +(id<UserBattleStats>)createFromGameState;

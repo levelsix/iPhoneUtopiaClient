@@ -37,18 +37,18 @@
   return [UserBattleStats createWithFullUserProto:user];
 }
 
--(id<UserBattleStats>)equipWithAttack:(int)attack 
-                           andDefense:(int)defense 
-                              andType:(FullEquipProto_EquipType)equipType
-{
-  FullEquipProto_Builder *builder = [FullEquipProto builder];
-  [builder setAttackBoost:attack];
-  [builder setDefenseBoost:defense];
-  [builder setMinLevel:0];
-
-  FullEquipProto *user = [builder build];
-  return nil;
-}
+//-(id<UserBattleStats>)equipWithAttack:(int)attack 
+//                           andDefense:(int)defense 
+//                              andType:(FullEquipProto_EquipType)equipType
+//{
+//  FullEquipProto_Builder *builder = [FullEquipProto builder];
+//  [builder setAttackBoost:attack];
+//  [builder setDefenseBoost:defense];
+//  [builder setMinLevel:0];
+//
+//  FullEquipProto *user = [builder build];
+//  return nil;
+//}
 
 - (void)setUp
 {
@@ -362,10 +362,22 @@
 - (void)test_skillMultAboveTargetGOOD
 {
   // Set expectations
-  int expected = 135;
+  int expected = 54;
   
   // Run the test
   int result = [testCalculator skillMultForPercent:82];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
+- (void)test_skillMultAboveTargetPERFECT
+{
+  // Set expectations
+  int expected = 144;
+  
+  // Run the test
+  int result = [testCalculator skillMultForPercent:76];
   
   // Check expectations
   STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
@@ -420,18 +432,16 @@
   STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
 }
 
-//- (void)test_skillMultMISS100
-//{
-//  // Set expectations
-//  int expected = 0;
-//  
-//  // Run the test
-//  int result = [testCalculator skillMultForPercent:100
-//                                            andAttacker:rightStats
-//                                            andDefender:leftStats];
-//  
-//  // Check expectations
-//  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
-//}
+- (void)test_skillMultMISS100
+{
+  // Set expectations
+  int expected = 0;
+  
+  // Run the test
+  int result = [testCalculator skillMultForPercent:100];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
 
 @end
