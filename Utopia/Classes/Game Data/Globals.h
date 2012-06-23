@@ -133,6 +133,8 @@
 + (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type;
 + (NSString *) stringForEquipType:(FullEquipProto_EquipType)type;
 + (NSString *) classForUserType:(UserType)type;
++(PlayerClassType) playerClassTypeForUserType:(UserType)userType;
+
 + (UIImage *) squareImageForUser:(UserType)type;
 + (UIImage *) circleImageForUser:(UserType)type;
 + (UIImage *) profileImageForUser:(UserType)type;

@@ -27,10 +27,6 @@
 
 #define NUM_BACKGROUND_IMAGES 8
 
-#define PERFECT_PERCENT_THRESHOLD 3
-#define GREAT_PERCENT_THRESHOLD 14
-#define GOOD_PERCENT_THRESHOLD 30
-
 #define FINAL_BATTLE_WORLD_SCALE 1.4f
 
 @implementation BattleSummaryView
@@ -616,6 +612,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
   _rightHealthBar.position = ccp(_rightHealthBar.parent.contentSize.width, _rightHealthBar.parent.contentSize.height/2);
+  
+  [_battleCalculator release];
+  _battleCalculator = [BattleCalculator createWithRightStats:[UserBattleStats
+                                                              createWithFullUserProto:_fup]
+                                                andLeftStats:[UserBattleStats 
+                                                              createFromGameState]];
+  [_battleCalculator retain];
+
 }
 
 - (void) onEnterTransitionDidFinish {
@@ -726,43 +730,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
 }
 
-- (int) calculateMyDamageForPercentage:(float)percent {
-  Globals *gl = [Globals sharedGlobals];
-  int multiplerWeightForSecondHalf = gl.locationBarMax / (100-gl.locationBarMax);
-  double amountWorseThanMax = (percent <= gl.locationBarMax) ? (gl.locationBarMax-percent)*gl.maxAttackMultiplier/gl.locationBarMax : (percent-gl.locationBarMax)*multiplerWeightForSecondHalf*gl.maxAttackMultiplier/gl.locationBarMax;
-  
-  
-  //assumes linearity from 0-BAR_MAX and BAR_MAX-100 (diff slope magnitudes for each) to calculate attack value
-  double attackMultiplier = gl.maxAttackMultiplier - amountWorseThanMax;
-  
-  double attackStat = _leftAttack * attackMultiplier;
-  double defenseStat = _rightDefense;
-  
-  int minDamage = (int) (_rightMaxHealth * gl.minPercentOfEnemyHealth);
-  int maxDamage = (int) (_rightMaxHealth * gl.maxPercentOfEnemyHealth);
-  
-  return (int)MIN(maxDamage, MAX(minDamage, attackStat-defenseStat));
-}
-
-- (CCSprite *)spriteForPercentage:(float)percent {
-  Globals *gl = [Globals sharedGlobals];
-  int multiplerWeightForSecondHalf = gl.locationBarMax / (100-gl.locationBarMax);
-  double amountWorseThanMax = (percent <= gl.locationBarMax) ? (gl.locationBarMax-percent) : (percent-gl.locationBarMax)*multiplerWeightForSecondHalf;
-  NSLog(@"Got percent: %f", percent);
-  
-  SoundEngine *se = [SoundEngine sharedSoundEngine];
-  if (amountWorseThanMax < PERFECT_PERCENT_THRESHOLD) {
-    [se perfectAttack];
-    return [CCSprite spriteWithFile:@"perfect.png"];
-  } else if (amountWorseThanMax < GREAT_PERCENT_THRESHOLD) {
-    [se greatAttack];
-    return [CCSprite spriteWithFile:@"great.png"];
-  } else if (amountWorseThanMax < GOOD_PERCENT_THRESHOLD) {
-    [se goodAttack];
-    return [CCSprite spriteWithFile:@"good.png"];
-  } else {
-    [se missAttack];
-    return [CCSprite spriteWithFile:@"miss.png"];
+- (CCSprite *)spriteForPercentage:(float)percent {  
+  CombatDamageType dmgType = [_battleCalculator damageZoneForPercent:percent];
+  SoundEngine *se = [SoundEngine sharedSoundEngine];  
+  switch (dmgType) {
+    case DMG_TYPE_PERFECT:
+      [se perfectAttack];
+      return [CCSprite spriteWithFile:@"perfect.png"];
+      break;
+    case DMG_TYPE_GREAT:
+      [se greatAttack];
+      return [CCSprite spriteWithFile:@"great.png"];
+      break;
+    case DMG_TYPE_GOOD:
+      [se goodAttack];
+      return [CCSprite spriteWithFile:@"good.png"];
+      break;
+    case DMG_TYPE_MISS:
+      [se missAttack];
+      return [CCSprite spriteWithFile:@"miss.png"];
+      break;
+      
+    default:
+      break;
   }
 }
 
@@ -1049,21 +1039,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (int) calculateEnemyDamageForPercentage:(float)percent {
-  Globals *gl = [Globals sharedGlobals];
-  int multiplerWeightForSecondHalf = gl.locationBarMax / (100-gl.locationBarMax);
-  double amountWorseThanMax = (percent <= gl.locationBarMax) ? (gl.locationBarMax-percent)*gl.maxAttackMultiplier/gl.locationBarMax : (percent-gl.locationBarMax)*multiplerWeightForSecondHalf*gl.maxAttackMultiplier/gl.locationBarMax;
-  
-  //assumes linearity from 0-BAR_MAX and BAR_MAX-100 (diff slope magnitudes for each) to calculate attack value
-  double attackMultiplier = gl.maxAttackMultiplier - amountWorseThanMax;
-  
-  double attackStat = _rightAttack * attackMultiplier;
-  double defenseStat = _leftDefense;
-  
-  int minDamage = (int) (_leftMaxHealth * gl.minPercentOfEnemyHealth);
-  int maxDamage = (int) (_leftMaxHealth * gl.maxPercentOfEnemyHealth);
-  
-  int statDamage = attackStat-defenseStat;
-  return (int)MIN(maxDamage, MAX(minDamage, gl.battleDifferenceMultiplier*statDamage+gl.battleDifferenceTuner));
+  return [_battleCalculator rightAttackStrengthForPercent:percent];
+}
+
+- (int) calculateMyDamageForPercentage:(float)percent {
+  return [_battleCalculator leftAttackStrengthForPercent:percent];
 }
 
 - (void) setLeftHealthBarPercentage:(float)percentage {
@@ -1337,6 +1317,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [self.summaryView removeFromSuperview];
   self.stolenEquipView = nil;
   self.summaryView = nil;
+  [_battleCalculator release];
   [super dealloc];
 }
 

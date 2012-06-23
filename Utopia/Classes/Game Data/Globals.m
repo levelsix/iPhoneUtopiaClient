@@ -292,13 +292,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return type >= 3 ? @"Legion" : @"Alliance";
 }
 
++(PlayerClassType) playerClassTypeForUserType:(UserType)userType
+{
+  if (userType % 3 == 0) {
+    return  WARRIOR_T;
+  }
+  else if (userType % 3 == 1) {
+    return ARCHER_T;
+  }
+  return MAGE_T;
+}
+
 + (NSString *) classForUserType:(UserType)type {
-  if (type % 3 == 0) {
-    return @"Warrior";
-  } else if (type % 3 == 1) {
-    return @"Archer";
-  } else if (type % 3 == 2) {
-    return @"Mage";
+  PlayerClassType enemyClass = [Globals playerClassTypeForUserType:type];
+  
+  switch (enemyClass) {
+    case WARRIOR_T:
+      return @"Warrior";
+      break;
+    case ARCHER_T:
+      return @"Archer";
+      break;
+    case MAGE_T:
+      return @"Mage";
+      break;
+      
+    default:
+      break;
   }
   return nil;
 }
@@ -1267,8 +1287,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   if (amuletId != 0) {
     amulet = [gs equipWithId:amuletId];
   }
-  
-  return self.battleWeightGivenToAttackStat*(attackStat) + self.battleWeightGivenToAttackEquipSum*(weapon.attackBoost + armor.attackBoost + amulet.attackBoost);
+
+  return attackStat + weapon.attackBoost + armor.attackBoost + amulet.attackBoost;
 }
 
 - (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
@@ -1276,8 +1296,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *weapon = weaponId > 0 ? [gs equipWithId:weaponId] : nil;
   FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
   FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
-  
-  return self.battleWeightGivenToDefenseStat*defenseStat + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost);
+
+  return defenseStat + weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost;
 }
 
 + (void) popupView:(UIView *)targetView

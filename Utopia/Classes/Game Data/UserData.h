@@ -102,6 +102,12 @@ typedef enum {
   kSpecialJob
 } JobItemType;
 
+typedef enum {
+  WARRIOR_T,
+  ARCHER_T,
+  MAGE_T
+} PlayerClassType;
+
 @interface UserJob : NSObject
 
 @property (nonatomic, retain) NSString *title;
