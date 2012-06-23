@@ -405,9 +405,10 @@
     self.selected = nil;
   }
   
-  self.selected = [self selectableForPt:pt];
+  SelectableSprite *ss = [self selectableForPt:pt];
+  self.selected = ss;
   
-  if (_selected == nil) {
+  if (ss == nil) {
     pt = [self convertToNodeSpace:pt];
     pt = [self convertCCPointToTilePoint:pt];
     CGRect loc = CGRectMake(pt.x, pt.y, 1, 1);

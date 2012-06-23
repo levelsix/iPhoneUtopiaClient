@@ -133,7 +133,6 @@
 
 - (void) walk {
   MissionMap *missionMap = (MissionMap *)_map;
-  NSLog(@"Started walking..");
   CGPoint pt = [missionMap nextWalkablePositionFromPoint:self.location.origin prevPoint:_oldMapPos];
   if (CGPointEqualToPoint(self.location.origin, pt)) {
     CGRect r = self.location;
@@ -183,7 +182,6 @@
                      nil
                      ]];
   }
-  NSLog(@"Ended walking..");
 }
 
 - (void) dealloc {
@@ -556,6 +554,7 @@
   } else {
     GameState *gs = [GameState sharedGameState];
     NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
     CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
     [self.sprite setDisplayFrame:frame];
   }

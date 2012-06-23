@@ -1309,6 +1309,7 @@
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
+		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
 		CFECCDDC1550909700171271 /* equipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDA1550909700171271 /* equipped.png */; };
 		CFECCDDD1550909700171271 /* equipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDB1550909700171271 /* equipped@2x.png */; };
 		CFECCDE21550971000171271 /* markbuy.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDE1550971000171271 /* markbuy.png */; };
@@ -3048,6 +3049,8 @@
 		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
+		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
+		CFEB284615951ADB00B622FC /* FullEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullEvent.m; sourceTree = "<group>"; };
 		CFECCDDA1550909700171271 /* equipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipped.png; sourceTree = "<group>"; };
 		CFECCDDB1550909700171271 /* equipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipped@2x.png"; sourceTree = "<group>"; };
 		CFECCDDE1550971000171271 /* markbuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markbuy.png; sourceTree = "<group>"; };
@@ -4150,6 +4153,8 @@
 				CF1265D21538ACC400E0C1AD /* OutgoingEventController.m */,
 				CF1265D31538ACC400E0C1AD /* SocketCommunication.h */,
 				CF1265D41538ACC400E0C1AD /* SocketCommunication.m */,
+				CFEB284515951ADA00B622FC /* FullEvent.h */,
+				CFEB284615951ADB00B622FC /* FullEvent.m */,
 			);
 			path = "Socket Communication";
 			sourceTree = "<group>";
@@ -7651,6 +7656,7 @@
 				CF41D163158BDDEE00A4DBC3 /* TutorialProfilePicture.m in Sources */,
 				CF41D195158BFAE900A4DBC3 /* OpenUDID.m in Sources */,
 				CFE3E9421592BB7400E85701 /* TutorialMyPlayer.m in Sources */,
+				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

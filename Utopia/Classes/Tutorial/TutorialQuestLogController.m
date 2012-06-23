@@ -37,6 +37,7 @@
     [bldr addDefeatTypeReqs:1];
     bldr.numComponentsForBad = 2;
     bldr.numComponentsForGood = 2;
+    bldr.questGiverImageSuffix = @"mitch.png";
     
     _fqp = [[bldr build] retain];
     

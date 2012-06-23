@@ -20,7 +20,7 @@
 #define HOST_PORT 8888
 
 #define UDID @"42d1cadaa64dbf3c3e8133e652a2df06"//@"11066671361393538651-1162233947"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06"//
-//#define FORCE_TUTORIAL
+#define FORCE_TUTORIAL
 #endif
 
 // Tags for keeping state

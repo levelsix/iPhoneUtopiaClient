@@ -12,6 +12,7 @@
 #import "OutgoingEventController.h"
 #import "TopBar.h"
 #import "ActivityFeedController.h"
+#import "ProfileViewController.h"
 
 @implementation GameState
 
@@ -285,9 +286,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
   
-  GameState *gs = [GameState sharedGameState];
-  if ([un.time compare:gs.lastLogoutTime] == NSOrderedDescending) {
-    [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+  if (!_isTutorial) {
+    GameState *gs = [GameState sharedGameState];
+    if ([un.time compare:gs.lastLogoutTime] == NSOrderedDescending) {
+      [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+    }
   }
 }
 
@@ -302,6 +305,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       return NSOrderedAscending;
     }
   }];
+  
+  if (!_isTutorial) {
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000];
+    if ([time compare:_lastLogoutTime] == NSOrderedDescending) {
+      [[[TopBar sharedTopBar] profilePic] incrementProfileBadge];
+      
+      ProfileViewController *pvc = [ProfileViewController sharedProfileViewController];
+      [pvc.wallTabView displayNewWallPost];
+    }
+  }
 }
 
 - (UserEquip *) myEquipWithId:(int)equipId {
@@ -393,21 +406,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (BOOL) hasValidLicense {
   return YES;
-//  Globals *gl = [Globals sharedGlobals];
-//  
-//  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
-//  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
-//  if (shortLic > time) {
-//    return YES;
-//  }
-//  
-//  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
-//  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
-//  if (longLic > time) {
-//    return YES;
-//  }
-//  
-//  return NO;
+  //  Globals *gl = [Globals sharedGlobals];
+  //  
+  //  NSTimeInterval shortLic = [self.lastShortLicensePurchaseTime timeIntervalSinceNow];
+  //  NSTimeInterval time = -((NSTimeInterval)gl.numDaysShortMarketplaceLicenseLastsFor)*24*60*60;
+  //  if (shortLic > time) {
+  //    return YES;
+  //  }
+  //  
+  //  NSTimeInterval longLic = [self.lastLongLicensePurchaseTime timeIntervalSinceNow];
+  //  time = -gl.numDaysLongMarketplaceLicenseLastsFor*24l*60l*60l;
+  //  if (longLic > time) {
+  //    return YES;
+  //  }
+  //  
+  //  return NO;
 }
 
 - (void) changeQuantityForEquip:(int)equipId by:(int)qDelta {
@@ -442,7 +455,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [up update];
   }
   
-  NSLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
+  //  NSLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
 }
 
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ...

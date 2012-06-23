@@ -1273,7 +1273,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) retrieveUsersForUserIds:(NSArray *)userIds {
   GameState *gs = [GameState sharedGameState];
-  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:userIds];
+  int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveUsersForUserIds:[[NSSet setWithArray:userIds] allObjects]];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 

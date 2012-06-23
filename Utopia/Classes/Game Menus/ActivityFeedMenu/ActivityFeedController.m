@@ -54,7 +54,7 @@
     FullEquipProto *fep = [gs equipWithId:notification.marketPost.postedEquip.equipId];
     titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];
     
-    NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*(1-gl.purchasePercentCut))] : [NSString stringWithFormat:@"%d gold", (int)ceilf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
+    NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*(1-gl.purchasePercentCut))] : [NSString stringWithFormat:@"%d gold", (int)floorf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
     
     subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you.", coinStr];
     titleLabel.textColor = [UIColor colorWithRed:255/256.f green:200/256.f blue:0/256.f alpha:1.f];
