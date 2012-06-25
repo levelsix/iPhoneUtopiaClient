@@ -123,7 +123,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   
-  [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(fadeOut) withObject:nil waitUntilDone:YES];
+  [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:YES];
 }
 
 - (void) unloadTutorialMissionMap {
