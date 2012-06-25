@@ -171,7 +171,7 @@
            atPoint:(CGPoint)point
 withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (void) popupMessage: (NSString *)msg;
-+ (void)  beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor;
++ (void) beginPulseForView:(UIView *)view andColor:(UIColor *)glowColor;
 + (void) endPulseForView:(UIView *)view;
 + (void) bounceView:(UIView *)view;
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView;

@@ -878,14 +878,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   _curScope = kEquipScopeAll;
 }
 
+-(void)beginPulseforButton:(UIButton *)curButton
+{
+  UIColor *pulseColor = [UIColor colorWithRed:156/255.f
+                                        green:202/255.f 
+                                         blue:16/255.f 
+                                        alpha:0.4f];
+  
+  if ([curButton isEnabled]) {
+    [Globals beginPulseForView:curButton andColor:pulseColor];
+  }
+}
+
 - (void) viewWillAppear:(BOOL)animated {
   self.spinner.hidden = YES;
   [self.spinner stopAnimating];
   
+  [self beginPulseforButton:attackStatButton];
+  [self beginPulseforButton:defenseStatButton];
+  [self beginPulseforButton:energyStatButton];
+  [self beginPulseforButton:staminaStatButton];
+  [self beginPulseforButton:hpStatButton];
+
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [Globals endPulseForView:attackStatButton];
+  [Globals endPulseForView:defenseStatButton];
+  [Globals endPulseForView:energyStatButton];
+  [Globals endPulseForView:staminaStatButton];
+  [Globals endPulseForView:hpStatButton];
+
   self.fup = nil;
 }
 
