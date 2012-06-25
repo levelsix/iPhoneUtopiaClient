@@ -94,7 +94,6 @@ static NSString *udid = nil;
   } else {
     [self messageReceived:data withType:_nextMsgType tag:tag];
     _nextMsgType = -1;
-    NSLog(@"Reading new data..");
     [self readHeader];
   }
 }
