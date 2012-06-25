@@ -9,7 +9,6 @@
 #import "SocketCommunication.h"
 #import "LNSynthesizeSingleton.h"
 #import "IncomingEventController.h"
-#import "UIDevice+IdentifierAddition.h"
 #import "GameState.h"
 #import "OutgoingEventController.h"
 #import "Globals.h"

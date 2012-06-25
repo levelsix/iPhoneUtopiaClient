@@ -11,7 +11,6 @@
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 #import "GameViewController.h"
-#import "UIDevice+IdentifierAddition.h"
 
 #define UV_KEY @"yn0sMSQNm7eP0FJwTZVNCw"
 #define UV_SECRET @"zSkMY4WSpWw8Ofh2URg9P8aBLdSbOy9yf3ZFpUvmk"
@@ -34,7 +33,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(UVHelper);
                                                   andSite:@"lvl6.uservoice.com"
                                                    andKey:UV_KEY
                                                 andSecret:UV_SECRET
-                                                 andEmail:[NSString stringWithFormat:@"%@%@@lostnations.com", gs.name, gs.referralCode] 
+                                                 andEmail:[NSString stringWithFormat:@"%@_%@@lostnations.com", gs.name, gs.referralCode] 
                                            andDisplayName:gs.name 
                                                   andGUID:[NSString stringWithFormat:@"%d", gs.userId]];
 }
