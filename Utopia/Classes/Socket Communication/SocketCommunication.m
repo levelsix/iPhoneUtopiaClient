@@ -132,7 +132,7 @@ static NSString *udid = nil;
     return;
   }
   
-  NSLog(@"Received %@ with tag %d.", NSStringFromClass(typeClass), tag);
+//  NSLog(@"Received %@ with tag %d.", NSStringFromClass(typeClass), tag);
   
   // Call handle<Proto Class> method in event controller
   NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
@@ -176,7 +176,7 @@ static NSString *udid = nil;
   
   int tag = _currentTagNum;
   [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:_currentTagNum];
-  NSLog(@"Sent %@ with tag %d.", NSStringFromClass(msg.class), tag);
+//  NSLog(@"Sent %@ with tag %d.", NSStringFromClass(msg.class), tag);
   
   _currentTagNum++;
   return tag;

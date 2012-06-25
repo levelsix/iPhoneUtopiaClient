@@ -14,6 +14,12 @@
 #import "ActivityFeedController.h"
 #import "ProfileViewController.h"
 
+#ifdef TAG_LOGS
+#define TagLog(...) LNLog(__VA_ARGS__)
+#else
+#define TagLog(...)
+#endif
+
 @implementation GameState
 
 @synthesize isTutorial = _isTutorial;
@@ -455,7 +461,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     [up update];
   }
   
-  //  NSLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
+  TagLog(@"Added %@ for tag %d", NSStringFromClass([up class]), up.tag);
 }
 
 - (void) addUnrespondedUpdates:(id<GameStateUpdate>)field1, ...
@@ -483,7 +489,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (id<GameStateUpdate> update in updates) {
     [_unrespondedUpdates removeObject:update];
-    NSLog(@"Removed and undid %@ for tag %d", NSStringFromClass([update class]), update.tag);
+    TagLog(@"Removed and undid %@ for tag %d", NSStringFromClass([update class]), update.tag);
   }
 }
 
@@ -497,7 +503,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (id<GameStateUpdate> update in updates) {
     [_unrespondedUpdates removeObject:update];
-    NSLog(@"Removed full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
+    TagLog(@"Removed full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
   }
 }
 
@@ -511,7 +517,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   for (id<GameStateUpdate> update in updates) {
     [_unrespondedUpdates removeObject:update];
-    NSLog(@"Removed non full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
+    TagLog(@"Removed non full user %@ for tag %d", NSStringFromClass([update class]), update.tag);
   }
 }
 
