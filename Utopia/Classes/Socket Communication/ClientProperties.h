@@ -16,10 +16,10 @@
 
 #else
 
-#define HOST_NAME @"10.1.10.30"//@"184.169.148.243"
-#define HOST_PORT 8888
+#define HOST_NAME @"robot.lvl6.com"//@"184.169.148.243"
+#define HOST_PORT 10001
 
-#define UDID @"11066671361393538651-1162233947"//@"11066671361393538651-1162233947"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06"//
+#define UDID [[UIDevice currentDevice] uniqueDeviceIdentifier]
 //#define FORCE_TUTORIAL
 #endif
 
