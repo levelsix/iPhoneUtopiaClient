@@ -79,6 +79,8 @@ typedef enum {
   BOOL _trackingWall;
   
   int _clickedButtons;
+  
+  int _wallBadgeNum;
 }
 
 @property (nonatomic, assign) ProfileBarState state;
@@ -99,6 +101,12 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *wallSelectedLargeImage;
 
 @property (nonatomic, retain) IBOutlet UIImageView *glowIcon;
+
+@property (nonatomic, retain) IBOutlet UIView *wallBadgeView;
+@property (nonatomic, retain) IBOutlet UILabel *wallBadgeLabel;
+
+- (void) incrementWallBadge;
+- (void) clearWallBadge;
 
 @end
 
@@ -172,6 +180,7 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *wallPosts;
 
 - (void) endEditing;
+- (void) displayNewWallPost;
 
 @end
 

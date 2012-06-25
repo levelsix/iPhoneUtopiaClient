@@ -56,7 +56,7 @@
   
   _ccArrow = [[CCSprite spriteWithFile:@"3darrow.png"] retain];
   [_carpenter addChild:_ccArrow z:2000];
-  _ccArrow.position = ccp(_carpenter.contentSize.width/2, _carpenter.contentSize.height+_ccArrow.contentSize.height/2+60);
+  _ccArrow.position = ccp(_carpenter.contentSize.width/2, _carpenter.contentSize.height+_ccArrow.contentSize.height/2+40);
   [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
   
   [TutorialCarpenterMenuController sharedCarpenterMenuController];
@@ -74,12 +74,11 @@
       [DialogMenuController closeView];
       
       // Reset ccArrow
-      [_ccArrow stopAllActions];
-      _ccArrow.visible = NO;
+      [_ccArrow removeFromParentAndCleanup:YES];
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
       [DialogMenuController closeView];
       
-      [_ccArrow removeAllChildrenWithCleanup:YES];
+      [_ccArrow removeFromParentAndCleanup:YES];
       
       [_uiArrow removeFromSuperview];
       [_uiArrow release];
@@ -186,8 +185,9 @@
     TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
     [DialogMenuController displayViewForText:tc.afterPurchaseText];
     
-    _ccArrow.visible = YES;
-    _ccArrow.position = ccp(_constrBuilding.position.x, _constrBuilding.position.y+_constrBuilding.contentSize.height+_ccArrow.contentSize.height/2);
+    [_ccArrow removeFromParentAndCleanup:YES];
+    [_constrBuilding addChild:_ccArrow];
+    _ccArrow.position = ccp(_constrBuilding.contentSize.width/2, _constrBuilding.contentSize.height+_ccArrow.contentSize.height/2);
     [Globals animateCCArrow:_ccArrow atAngle:-M_PI_2];
     
     // Set the struct coords and time of purchase
@@ -286,6 +286,9 @@
 
 - (void) endTutorial {
   [self removeFromParentAndCleanup:YES];
+  
+  [[GameState sharedGameState] setIsTutorial:NO];
+  
   [[TopBar sharedTopBar] removeFromParentAndCleanup:YES];
   [TutorialHomeMap purgeSingleton];
   [ProfileViewController purgeSingleton];
@@ -296,8 +299,6 @@
   [[TopBar sharedTopBar] start];
   [[HomeMap sharedHomeMap] refresh];
   [[CCDirector sharedDirector] purgeCachedData];
-  
-  [[GameState sharedGameState] setIsTutorial:NO];
   
   [Analytics tutorialComplete];
 }

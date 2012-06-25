@@ -464,15 +464,22 @@
 }
 
 - (void) incrementNotificationBadge {
-  ProfileButton *pb = [_menuItems objectAtIndex:0];
-  pb.badgeNum++;
-  [_expCircle flashNotification];
+  if (![[ActivityFeedController sharedActivityFeedController] view].superview) {
+    ProfileButton *pb = [_menuItems objectAtIndex:0];
+    pb.badgeNum++;
+    [_expCircle flashNotification];
+  }
 }
 
 - (void) incrementProfileBadge {
-  ProfileButton *pb = [_menuItems objectAtIndex:1];
-  pb.badgeNum++;
-  [_expCircle flashNotification];
+  ProfileViewController *pvc = [ProfileViewController sharedProfileViewController];
+  if (!pvc.view.superview || pvc.profileBar.state != kMyProfile) {
+    ProfileButton *pb = [_menuItems objectAtIndex:1];
+    pb.badgeNum++;
+    [_expCircle flashNotification];
+  }
+  
+  [pvc.profileBar incrementWallBadge];
 }
 
 - (void) dealloc {

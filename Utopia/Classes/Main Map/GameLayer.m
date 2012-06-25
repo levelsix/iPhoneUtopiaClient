@@ -59,11 +59,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 	if( (self=[super initWithColor:ccc4(0, 140, 140, 255) fadingTo:ccc4(0, 0, 0, 255)])) {
     [self begin];
   }
-  return self;  
+  return self;
 }
 
 - (void) begin {
-  
   if (![[GameState sharedGameState] isTutorial]) {
     _homeMap = [HomeMap sharedHomeMap];
     [self addChild:_homeMap z:1 tag:2];
@@ -124,7 +123,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   
-  [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(fadeOut) withObject:nil waitUntilDone:YES];
+  [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:YES];
 }
 
 - (void) unloadTutorialMissionMap {
@@ -181,8 +180,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [[SoundEngine sharedSoundEngine] playHomeMapMusic];
   
+  NSLog(@"home map displayed");
+  
   if (_loading) {
-    [[MapViewController sharedMapViewController] fadeOut];
+    [[MapViewController sharedMapViewController] close];
     _loading = NO;
   }
 }
@@ -220,7 +221,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [[SoundEngine sharedSoundEngine] playBazaarMusic];
   
   if (_loading) {
-    [[MapViewController sharedMapViewController] fadeOut];
+    [[MapViewController sharedMapViewController] close];
     _loading = NO;
   }
 }

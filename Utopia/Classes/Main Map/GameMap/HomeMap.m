@@ -192,11 +192,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // Need this to be able to run on background thread
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
-  
-  @synchronized(self) {
     [self refresh];
     NSLog(@"Home map refreshed.");
-  }
 }
 
 - (void) beginTimers {
@@ -401,6 +398,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       } else if (us.state == kRetrieving) {
         // Retrieve the cash!
         [self retrieveFromBuilding:((MoneyBuilding *) selected)];
+        self.selected = nil;
       } else {
         [self.hbMenu updateForUserStruct:us];
         [self.collectMenu updateForUserStruct:us];
@@ -499,12 +497,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // Reimplement for retrievals and moving buildings
   if (!_canMove) {
     [super tap:recognizer node:node];
-    
-    // If the money building was just retrieved from, set it to unselected
-    if ([self.selected isKindOfClass:[MoneyBuilding class]] && self.collectMenu.alpha == 0.f && self.upgradeMenu.superview == nil) {
-      self.selected = nil;
-    }
-    
     [self doReorder];
   }
 }

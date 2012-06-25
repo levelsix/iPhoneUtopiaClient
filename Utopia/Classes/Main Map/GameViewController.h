@@ -28,12 +28,12 @@
   CCParticleSystemQuad *rightBurn;
 }
 
-@property (nonatomic, assign) BOOL isTutorial;
 @property (assign) BOOL canLoad;
 
 - (void) startDoorAnimation;
 - (void) setupCocos2D;
 - (void) allowOpeningOfDoor;
+- (void) loadGame:(BOOL)isTutorial;
 
 + (GameViewController *) sharedGameViewController;
 + (void) releaseAllViews;

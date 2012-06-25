@@ -38,6 +38,7 @@
 @synthesize equipSelectedLargeImage, equipSelectedSmallImage, skillsSelectedSmallImage;
 @synthesize wallSelectedSmallImage, wallSelectedLargeImage;
 @synthesize glowIcon;
+@synthesize wallBadgeView, wallBadgeLabel;
 
 - (void) awakeFromNib {
   wallSelectedLargeImage.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
@@ -63,6 +64,8 @@
         skillsIcon.hidden = NO;
         skillsLabel.hidden = NO;
         
+        wallBadgeView.hidden = _wallBadgeNum <= 0;
+        
         _curEquipSelectedImage = equipSelectedSmallImage;
         _curSkillsSelectedImage = skillsSelectedSmallImage;
         _curWallSelectedImage = wallSelectedSmallImage;
@@ -83,6 +86,8 @@
         
         skillsIcon.hidden = YES;
         skillsLabel.hidden = YES;
+        
+        wallBadgeView.hidden = YES;
         
         _curEquipSelectedImage = equipSelectedLargeImage;
         _curSkillsSelectedImage = nil;
@@ -106,6 +111,22 @@
   glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
 }
 
+- (void) incrementWallBadge {
+  if ([ProfileViewController sharedProfileViewController].state != kWallState || _state != kMyProfile) {
+    _wallBadgeNum++;
+    wallBadgeLabel.text = _wallBadgeNum < 10 ? [NSString stringWithFormat:@"%d", _wallBadgeNum] : @"!";
+    
+    if (_state == kMyProfile) {
+      wallBadgeView.hidden = NO;
+    }
+  }
+}
+
+- (void) clearWallBadge {
+  _wallBadgeNum = 0;
+  wallBadgeView.hidden = YES;
+}
+
 - (void) setProfileState:(ProfileState)s {
   if (s == kEquipState) {
     [self clickButton:kEquipButton];
@@ -122,6 +143,10 @@
     [self unclickButton:kEquipButton];
     [self unclickButton:kSkillsButton];
     glowIcon.center = CGPointMake(_curWallSelectedImage.center.x, glowIcon.center.y);
+    
+    if (_state == kMyProfile) {
+      [self clearWallBadge];
+    }
   }
 }
 
@@ -309,6 +334,8 @@
   self.wallSelectedLargeImage = nil;
   self.wallSelectedSmallImage = nil;
   self.glowIcon = nil;
+  self.wallBadgeView = nil;
+  self.wallBadgeLabel = nil;
   [super dealloc];
 }
 
@@ -792,12 +819,21 @@
     
     if (wallPost) {
       [self.wallPosts insertObject:wallPost atIndex:0];
-      [self.wallTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+      [self displayNewWallPost];
     }
     
     wallTextField.text = @"";
   }
   [self endEditing];
+}
+
+- (void) displayNewWallPost {
+  int old = [self.wallTableView numberOfRowsInSection:0];
+  int new = self.wallPosts.count;
+  
+  if (old+1 == new) {
+    [self.wallTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+  }
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {

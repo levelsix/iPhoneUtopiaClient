@@ -289,7 +289,7 @@
   for (CCNode *node in children_) {
     if ([node isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)node;
-      [enemy removeArrowAnimated:YES];
+      [enemy removeArrowAnimated:NO];
     }
   }
   

@@ -101,13 +101,14 @@
 - (void) removeArrowAnimated:(BOOL)animated {
   if (_arrow) {
     if (!animated) {
-      [self removeChild:_arrow cleanup:YES];
+      [_arrow removeFromParentAndCleanup:YES];
+      _arrow = nil;
     } else {
       [_arrow runAction:[CCSequence actions:[CCFadeOut actionWithDuration:0.2f], [CCCallBlock actionWithBlock:^{
         [_arrow removeFromParentAndCleanup:YES];
+        _arrow = nil;
       }], nil]];
     }
-    _arrow = nil;
   }
 }
 

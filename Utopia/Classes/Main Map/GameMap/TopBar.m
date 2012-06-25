@@ -247,10 +247,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [MapViewController displayAttackMap];
 }
 
-- (void) forumClicked {
-  [[UVHelper sharedUVHelper] openUserVoice];
-}
-
 - (void) questButtonClicked {
   [[QuestLogController sharedQuestLogController] loadQuestLog];
 }
@@ -566,106 +562,106 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     if (!_staminaTimer && gs.currentStamina < gs.maxStamina) {
       [self setUpStaminaTimer];
     }
-  }
-  
-  int silver = gs.silver-[[[GameLayer sharedGameLayer] currentMap] silverOnMap];
-  if (silver != _curSilver) {
-    int diff = silver - _curSilver;
+    
+    int silver = gs.silver-[[[GameLayer sharedGameLayer] currentMap] silverOnMap];
+    if (silver != _curSilver) {
+      int diff = silver - _curSilver;
+      int change = 0;
+      if (diff > 0) {
+        change = MAX((int)(0.1*diff), 1);
+      } else if (diff < 0) {
+        change = MIN((int)(0.1*diff), -1);
+      }
+      _silverLabel.string = [Globals commafyNumber:_curSilver+change];
+      _curSilver += change;
+    }
+    if (gs.gold != _curGold) {
+      int diff = gs.gold - _curGold;
+      int change = 0;
+      if (diff > 0) {
+        change = MAX((int)(0.1*diff), 1);
+      } else if (diff < 0) {
+        change = MIN((int)(0.1*diff), -1);
+      }
+      _goldLabel.string = [Globals commafyNumber:_curGold+change];
+      _curGold += change;
+    }
+    
+    if (gs.currentEnergy != _curEnergy) {
+      int diff = gs.currentEnergy - _curEnergy;
+      int change = 0;
+      if (diff > 0) {
+        change = MAX(MIN((int)(0.02*gs.maxEnergy), diff), 1);
+      } else if (diff < 0) {
+        change = MIN(MAX((int)(-0.02*gs.maxEnergy), diff), -1);
+      }
+      [self setEnergyBarPercentage:(_curEnergy+change)/((float)gs.maxEnergy)];
+      _curEnergy += change;
+    }
+    
+    if (gs.currentStamina != _curStamina) {
+      int diff = gs.currentStamina - _curStamina;
+      int change = 0;
+      if (diff > 0) {
+        change = MAX(MIN((int)(0.02*gs.maxStamina), diff), 1);
+      } else if (diff < 0) {
+        change = MIN(MAX((int)(-0.02*gs.maxStamina), diff), -1);
+      }
+      [self setStaminaBarPercentage:(_curStamina+change)/((float)gs.maxStamina)];
+      _curStamina += change;
+    }
+    
+    // Must do this outside if statement in case level up occurred
+    int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
+    int diff = gs.experience - _curExp;
     int change = 0;
     if (diff > 0) {
-      change = MAX((int)(0.1*diff), 1);
+      change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
     } else if (diff < 0) {
-      change = MIN((int)(0.1*diff), -1);
+      change = MIN(MAX((int)(0.01*levelDiff), diff), -1);
     }
-    _silverLabel.string = [Globals commafyNumber:_curSilver+change];
-    _curSilver += change;
-  }
-  if (gs.gold != _curGold) {
-    int diff = gs.gold - _curGold;
-    int change = 0;
-    if (diff > 0) {
-      change = MAX((int)(0.1*diff), 1);
-    } else if (diff < 0) {
-      change = MIN((int)(0.1*diff), -1);
+    [_profilePic setExpPercentage:(_curExp+change-gs.expRequiredForCurrentLevel)/(float)(gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel)];
+    _curExp += change;
+    
+    [_profilePic setLevel:gs.level];
+    
+    if (_profilePic.expLabel.visible) {
+      [_profilePic.expLabel setString:[NSString stringWithFormat:@"%d/%d", _curExp-gs.expRequiredForCurrentLevel, gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
     }
-    _goldLabel.string = [Globals commafyNumber:_curGold+change];
-    _curGold += change;
-  }
-  
-  if (gs.currentEnergy != _curEnergy) {
-    int diff = gs.currentEnergy - _curEnergy;
-    int change = 0;
-    if (diff > 0) {
-      change = MAX(MIN((int)(0.02*gs.maxEnergy), diff), 1);
-    } else if (diff < 0) {
-      change = MIN(MAX((int)(-0.02*gs.maxEnergy), diff), -1);
+    
+    if (_bigToolTipState == kEnergy) {
+      _bigToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
+      _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curEnergy, gs.maxEnergy];
+      if (_curEnergy >= gs.maxEnergy) {
+        [self fadeOutToolTip:YES];
+      } else {
+        int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];
+        _bigTimerLabel.string = [NSString stringWithFormat:@"+1 in %01d:%02d", time/60, time%60];
+      }
+    } else if (_bigToolTipState == kStamina) {
+      _bigToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
+      _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
+      if (_curStamina >= gs.maxStamina) {
+        [self fadeOutToolTip:YES];
+      } else {
+        int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];
+        _bigTimerLabel.string = [NSString stringWithFormat:@"+1 in %01d:%02d", time/60, time%60];
+      }
     }
-    [self setEnergyBarPercentage:(_curEnergy+change)/((float)gs.maxEnergy)];
-    _curEnergy += change;
-  }
-  
-  if (gs.currentStamina != _curStamina) {
-    int diff = gs.currentStamina - _curStamina;
-    int change = 0;
-    if (diff > 0) {
-      change = MAX(MIN((int)(0.02*gs.maxStamina), diff), 1);
-    } else if (diff < 0) {
-      change = MIN(MAX((int)(-0.02*gs.maxStamina), diff), -1);
+    
+    if (_littleToolTipState == kEnergy) {
+      _littleToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
+      _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curEnergy, gs.maxEnergy];
+    } else if (_littleToolTipState == kStamina) {
+      _littleToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
+      _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
     }
-    [self setStaminaBarPercentage:(_curStamina+change)/((float)gs.maxStamina)];
-    _curStamina += change;
-  }
-  
-  // Must do this outside if statement in case level up occurred
-  int levelDiff = gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel;
-  int diff = gs.experience - _curExp;
-  int change = 0;
-  if (diff > 0) {
-    change = MAX(MIN((int)(0.01*levelDiff), diff), 1);
-  } else if (diff < 0) {
-    change = MIN(MAX((int)(0.01*levelDiff), diff), -1);
-  }
-  [_profilePic setExpPercentage:(_curExp+change-gs.expRequiredForCurrentLevel)/(float)(gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel)];
-  _curExp += change;
-  
-  [_profilePic setLevel:gs.level];
-  
-  if (_profilePic.expLabel.visible) {
-    [_profilePic.expLabel setString:[NSString stringWithFormat:@"%d/%d", _curExp-gs.expRequiredForCurrentLevel, gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
-  }
-  
-  if (_bigToolTipState == kEnergy) {
-    _bigToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
-    _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curEnergy, gs.maxEnergy];
-    if (_curEnergy >= gs.maxEnergy) {
-      [self fadeOutToolTip:YES];
+    
+    if (gs.availableQuests.count > 0) {
+      _questNewArrow.visible = YES;
     } else {
-      int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];
-      _bigTimerLabel.string = [NSString stringWithFormat:@"+1 in %01d:%02d", time/60, time%60];
+      _questNewArrow.visible = NO;
     }
-  } else if (_bigToolTipState == kStamina) {
-    _bigToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_bigToolTip.contentSize.height/2);
-    _bigCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
-    if (_curStamina >= gs.maxStamina) {
-      [self fadeOutToolTip:YES];
-    } else {
-      int time = [_toolTipTimerDate timeIntervalSinceDate:[NSDate date]];
-      _bigTimerLabel.string = [NSString stringWithFormat:@"+1 in %01d:%02d", time/60, time%60];
-    }
-  }
-  
-  if (_littleToolTipState == kEnergy) {
-    _littleToolTip.position = ccp((_curEnergyBar.position.x-_curEnergyBar.contentSize.width/2)+_curEnergyBar.contentSize.width*_energyBar.percentage, _curEnergyBar.position.y-_curEnergyBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
-    _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curEnergy, gs.maxEnergy];
-  } else if (_littleToolTipState == kStamina) {
-    _littleToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
-    _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
-  }
-  
-  if (gs.availableQuests.count > 0) {
-    _questNewArrow.visible = YES;
-  } else {
-    _questNewArrow.visible = NO;
   }
 }
 

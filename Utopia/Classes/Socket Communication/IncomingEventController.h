@@ -12,6 +12,5 @@
 
 + (IncomingEventController *) sharedIncomingEventController;
 - (Class) getClassForType: (EventProtocolResponse) type;
-- (void) receivedResponseForMessage:(int)tag;
 
 @end

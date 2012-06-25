@@ -29,7 +29,7 @@
 
 + (void) displayViewForText:(NSString *)str;
 + (void) closeView;
-- (void) stopLoading;
+- (void) stopLoading:(BOOL)continueTut;
 - (void) createUser;
 
 + (DialogMenuController *) sharedDialogMenuController;

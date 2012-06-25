@@ -815,7 +815,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialoguealliancearcher.png";
       break;
     case UserTypeGoodMage:
-      return @"dialoguealliancearcher.png";
+      return @"dialoguealliancemage.png";
       break;
     case UserTypeGoodWarrior:
       return @"dialoguewarrior.png";

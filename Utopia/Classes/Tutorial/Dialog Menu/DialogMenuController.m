@@ -98,15 +98,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 - (void) startLoading {
   [loadingView.actIndView startAnimating];
   
-  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:loadingView];
+  [Globals displayUIView:loadingView];
   _isDisplayingLoadingView = YES;
 }
 
-- (void) stopLoading {
+- (void) stopLoading:(BOOL)continueTut {
   if (_isDisplayingLoadingView) {
     [loadingView.actIndView stopAnimating];
     [loadingView removeFromSuperview];
     _isDisplayingLoadingView = NO;
+    
+    if (continueTut) {
+      [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
+    }
   }
 }
 
@@ -137,14 +141,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
 - (void) receivedUserCreateResponse:(UserCreateResponseProto *)ucrp {
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   if (ucrp.status == UserCreateResponseProto_UserCreateStatusSuccess) {
-    [(TutorialTopBar *)[TutorialTopBar sharedTopBar] beginQuestsPhase];
     [Analytics tutorialUserCreated];
   } else if (ucrp.status == UserCreateResponseProto_UserCreateStatusTimeIssue) {
     [DialogMenuController displayViewForText:tc.timeSyncErrorText];
     [Analytics tutorialTimeSync];
+    [self stopLoading:NO];
   } else {
     [DialogMenuController displayViewForText:tc.otherFailText];
     [Analytics tutorialOtherFail];
+    [self stopLoading:NO];
   }
 }
 

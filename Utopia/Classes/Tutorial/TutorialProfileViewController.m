@@ -106,7 +106,7 @@
   
   // Move arrow to equip top bar button
   [_arrow removeFromSuperview];
-  [self.view addSubview:_arrow];
+  [self.profileBar addSubview:_arrow];
   _arrow.center = CGPointMake(CGRectGetMaxX(self.profileBar.equipSelectedSmallImage.frame), self.profileBar.equipSelectedSmallImage.center.y);
   [Globals animateUIArrow:_arrow atAngle:M_PI];
   

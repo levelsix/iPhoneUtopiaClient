@@ -76,7 +76,7 @@ typedef enum {
 
 - (IBAction)closeClicked:(id)sender;
 
-- (void) fadeOut;
+- (void) close;
 - (void) startLoadingWithText:(NSString *)str;
 - (void) stopLoading;
 
