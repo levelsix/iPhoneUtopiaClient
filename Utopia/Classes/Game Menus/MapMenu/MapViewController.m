@@ -275,7 +275,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [self fadeOut];
+  [self close];
 }
 
 - (void) startLoadingWithText:(NSString *)str {
@@ -304,7 +304,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
               verticalAccuracy:userLocation.location.verticalAccuracy];
 }
 
-- (void) fadeOut {
+- (void) close {
   [self stopLoading];
   if (self.view.superview) {
     [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {

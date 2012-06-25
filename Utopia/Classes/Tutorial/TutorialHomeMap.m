@@ -74,7 +74,7 @@
       [DialogMenuController closeView];
       
       // Reset ccArrow
-      [_ccArrow stopAllActions];
+      [_ccArrow removeFromParentAndCleanup:YES];
     } else if (_waitingForBuildPhase && [_selected isKindOfClass:[MoneyBuilding class]]) {
       [DialogMenuController closeView];
       

@@ -574,7 +574,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     // but record whether we came from there or not
     MapViewController *mvc = [MapViewController sharedMapViewController];
     if (mvc.view.superview) {
-      [[MapViewController sharedMapViewController] fadeOut];
+      [[MapViewController sharedMapViewController] close];
       _cameFromAviary = YES;
     } else {
       _cameFromAviary = NO;

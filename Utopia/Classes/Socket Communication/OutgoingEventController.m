@@ -1095,7 +1095,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
-    [mvc fadeOut];
+    [mvc close];
     return;
   }
   
@@ -1328,7 +1328,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   while (gs.userId == 0) {
     [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
     
-    if ([[GameViewController sharedGameViewController] isTutorial]) {
+    if (gs.isTutorial) {
       return;
     }
   }

@@ -353,6 +353,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     if (gs.isTutorial) {
       [[DialogMenuController sharedDialogMenuController] stopLoading:YES];
+    } else {
+      [[GameViewController sharedGameViewController] loadGame:NO];
     }
   } else {
     // Need to create new player
@@ -362,7 +364,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     NSArray *arr = [NSArray arrayWithObjects:tc.warriorInitWeapon, tc.warriorInitArmor, tc.archerInitWeapon, tc.archerInitArmor, tc.mageInitWeapon, tc.mageInitArmor, tc.tutorialQuest.firstDefeatTypeJobBattleLootAmulet, nil];
     [gs addToStaticEquips:arr];
     
-    [[GameViewController sharedGameViewController] setIsTutorial:YES];
+    [[GameViewController sharedGameViewController] loadGame:YES];
     
     [gs setConnected:YES];
     gs.connected = YES;
@@ -860,13 +862,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     while (![[GameViewController sharedGameViewController] canLoad]) {
       [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
     }
-    dispatch_queue_t queue = dispatch_queue_create(nil, nil);
-    dispatch_async(queue, ^{
-      [[HomeMap sharedHomeMap] backgroundRefresh];
-      gs.connected = YES;
-      [[GameViewController sharedGameViewController] allowOpeningOfDoor];
-    });
-    dispatch_release(queue);
+    
+    [[HomeMap sharedHomeMap] refresh];
+    gs.connected = YES;
+    [[GameViewController sharedGameViewController] allowOpeningOfDoor];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];

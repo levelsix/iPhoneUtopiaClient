@@ -83,7 +83,6 @@
 
 @implementation GameViewController
 
-@synthesize isTutorial;
 @synthesize canLoad;
 
 + (void) releaseAllViews {
@@ -295,7 +294,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (void) openDoorDone {
   [doorright.parent removeFromParentAndCleanup:YES];
   
-  if (self.isTutorial) {
+  GameState *gs = [GameState sharedGameState];
+  if (gs.isTutorial) {
     TutorialStartLayer *tsl = (TutorialStartLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:5];
     [tsl start];
     [Analytics tutorialOpenedDoor];
@@ -348,7 +348,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
   
-  CCLayer *layer = isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
+  GameState *gs = [GameState sharedGameState];
+  CCLayer *layer = gs.isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
   
   if (layer.parent) {
     // We are in the tutorial
@@ -359,15 +360,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   [[[CCDirector sharedDirector] runningScene] addChild:layer];
   
-  if (isTutorial) {
+  if (gs.isTutorial) {
     [self allowOpeningOfDoor];
     [Analytics tutorialStart];
   }
 }
 
-- (void) setIsTutorial:(BOOL)i {
-  isTutorial = i;
-  [[GameState sharedGameState] setIsTutorial:i];
+- (void) loadGame:(BOOL)isTutorial {
+  [[GameState sharedGameState] setIsTutorial:isTutorial];
   
   while (!self.canLoad) {
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
