@@ -126,7 +126,6 @@
 		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
-		45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
 		45C53D81158FBF83000997C5 /* UserBattleStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C53D80158FBF83000997C5 /* UserBattleStats.m */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
@@ -3157,7 +3156,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */,
 				455FC6CD157EEAC7008DB9E4 /* SenTestingKit.framework in Frameworks */,
 				455FC6B3157EE4E2008DB9E4 /* UIKit.framework in Frameworks */,
 				455FC6B4157EE4E2008DB9E4 /* Foundation.framework in Frameworks */,
