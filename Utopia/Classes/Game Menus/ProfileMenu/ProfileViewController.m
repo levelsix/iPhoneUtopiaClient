@@ -917,13 +917,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) viewWillAppear:(BOOL)animated {
   self.spinner.hidden = YES;
   [self.spinner stopAnimating];
-
-  Globals *gl = [Globals sharedGlobals];
-  [self setupSkillPointButton:attackStatButton  forCost:gl.attackBaseCost];
-  [self setupSkillPointButton:defenseStatButton forCost:gl.defenseBaseCost];
-  [self setupSkillPointButton:energyStatButton  forCost:gl.energyBaseCost];
-  [self setupSkillPointButton:staminaStatButton forCost:gl.staminaBaseCost];
-  [self setupSkillPointButton:hpStatButton      forCost:gl.healthBaseCost];
+  
+  [self refreshSkillPointsButtons];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
@@ -1613,6 +1608,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.state = kSkillsState;
 }
 
+-(void)refreshSkillPointsButtons
+{
+  Globals *gl = [Globals sharedGlobals];
+
+  [self setupSkillPointButton:attackStatButton  forCost:gl.attackBaseCost];
+  [self setupSkillPointButton:defenseStatButton forCost:gl.defenseBaseCost];
+  [self setupSkillPointButton:energyStatButton  forCost:gl.energyBaseCost];
+  [self setupSkillPointButton:staminaStatButton forCost:gl.staminaBaseCost];
+  [self setupSkillPointButton:hpStatButton      forCost:gl.healthBaseCost];
+}
+
 - (IBAction)skillButtonClicked:(id)sender {
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
 
@@ -1636,14 +1642,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [oec addHealthSkillPoint];
     [Analytics addedSkillPoint:@"Hp"];
   }
-  Globals *gl = [Globals sharedGlobals];
 
-  [self setupSkillPointButton:attackStatButton  forCost:gl.attackBaseCost];
-  [self setupSkillPointButton:defenseStatButton forCost:gl.defenseBaseCost];
-  [self setupSkillPointButton:energyStatButton  forCost:gl.energyBaseCost];
-  [self setupSkillPointButton:staminaStatButton forCost:gl.staminaBaseCost];
-  [self setupSkillPointButton:hpStatButton      forCost:gl.healthBaseCost];
-
+  [self refreshSkillPointsButtons];
   [self loadSkills];
   [self displayMyCurrentStats];
 }

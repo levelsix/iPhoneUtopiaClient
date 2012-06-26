@@ -91,7 +91,8 @@
     gs.maxHealth += gl.healthBaseGain;
     gs.skillPoints -= gl.healthBaseCost;
   }
-  
+
+  [self refreshSkillPointsButtons];
   [self loadSkills];
   
   if (gs.skillPoints == 0) {

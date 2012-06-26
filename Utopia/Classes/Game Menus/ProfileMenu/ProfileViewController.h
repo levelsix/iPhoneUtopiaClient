@@ -267,6 +267,7 @@ typedef enum {
 @property (nonatomic, retain) FullUserProto *fup;
 @property (nonatomic, assign) int userId;
 
+- (void) refreshSkillPointsButtons;
 - (void) loadMyProfile;
 - (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled;
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense;
