@@ -59,6 +59,22 @@
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
 						<array class="NSMutableArray" key="NSSubviews">
+							<object class="IBUIImageView" id="569454791">
+								<reference key="NSNextResponder" ref="286543111"/>
+								<int key="NSvFlags">256</int>
+								<string key="NSFrame">{{-36, -45}, {252, 438}}</string>
+								<reference key="NSSuperview" ref="286543111"/>
+								<reference key="NSWindow"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">1</int>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">bigcarpenter.png</string>
+								</object>
+							</object>
 							<object class="IBUIImageView" id="347063641">
 								<reference key="NSNextResponder" ref="286543111"/>
 								<int key="NSvFlags">256</int>
@@ -280,27 +296,11 @@
 								<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
 								<float key="IBUIRowHeight">205</float>
 							</object>
-							<object class="IBUIImageView" id="450132703">
-								<reference key="NSNextResponder" ref="286543111"/>
-								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{-3, 9}, {164, 364}}</string>
-								<reference key="NSSuperview" ref="286543111"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="135218458"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<bool key="IBUIMultipleTouchEnabled">YES</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">bigruby.png</string>
-								</object>
-							</object>
 						</array>
 						<string key="NSFrameSize">{480, 320}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="450132703"/>
+						<reference key="NSNextKeyView"/>
 						<reference key="IBUIBackgroundColor" ref="606750262"/>
 						<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 							<int key="IBUIInterfaceOrientation">3</int>
@@ -454,9 +454,9 @@
 							<reference ref="135218458"/>
 							<reference ref="307441988"/>
 							<reference ref="347063641"/>
-							<reference ref="514706865"/>
 							<reference ref="135857397"/>
-							<reference ref="450132703"/>
+							<reference ref="514706865"/>
+							<reference ref="569454791"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -493,11 +493,6 @@
 						<reference key="parent" ref="286543111"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">57</int>
-						<reference key="object" ref="450132703"/>
-						<reference key="parent" ref="286543111"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">67</int>
 						<reference key="object" ref="1027093931"/>
 						<reference key="parent" ref="135857397"/>
@@ -522,6 +517,11 @@
 						<reference key="object" ref="539381430"/>
 						<reference key="parent" ref="135857397"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">78</int>
+						<reference key="object" ref="569454791"/>
+						<reference key="parent" ref="286543111"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -532,7 +532,6 @@
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="55.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="58.CustomClassName">CoinBar</string>
 				<string key="58.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="59.CustomClassName">CancellableTableView</string>
@@ -547,12 +546,13 @@
 				<string key="66.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="67.CustomClassName">NiceFontLabel</string>
 				<string key="67.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">77</int>
+			<int key="maxID">78</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -795,7 +795,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="bigruby.png">{140, 312}</string>
+			<string key="bigcarpenter.png">{248, 497}</string>
 			<string key="close1.png">{30, 30}</string>
 			<string key="constructioncoborder.png">{341, 318}</string>
 			<string key="goldcoin.png">{28, 26}</string>

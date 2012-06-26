@@ -222,6 +222,9 @@
     _taskProgBar = [TaskProgressBar node];
     [self addChild:_taskProgBar z:1002];
     _taskProgBar.visible = NO;
+    
+    _myPlayer.location = CGRectMake(fcp.center.x, fcp.center.y, 1, 1);
+    [self moveToSprite:_myPlayer];
   }
   return self;
 }

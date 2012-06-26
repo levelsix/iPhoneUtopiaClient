@@ -1097,7 +1097,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [[SoundEngine sharedSoundEngine] battleVictory];
   
   // Set the city id to 0 if win, only want it to count as 1 win
-  _cityId = 0;
+  _cityId = -1;
   
   if (!brp) {
     _winButton.visible = NO;

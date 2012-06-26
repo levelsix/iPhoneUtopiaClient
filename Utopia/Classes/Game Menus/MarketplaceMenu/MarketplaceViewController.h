@@ -92,4 +92,6 @@ typedef enum {
 - (IBAction)longLicenseClicked:(id)sender;
 - (IBAction)backClicked:(id)sender;
 
+- (void) close;
+
 @end

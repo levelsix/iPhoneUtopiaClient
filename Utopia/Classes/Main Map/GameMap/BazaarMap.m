@@ -43,15 +43,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     [self removeChild:layer cleanup:YES];
     
     CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeMarketplace];
-    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 35, 2, 2) map:self];
+    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 35, 4, 4) map:self];
     [self addChild:csb z:100];
     
     cs = [[CritStruct alloc] initWithType:CritStructTypeArmory];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 35, 2, 2) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 35, 4, 4) map:self];
     [self addChild:csb z:100];
     
     cs = [[CritStruct alloc] initWithType:CritStructTypeVault];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 42, 2, 2) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 42, 4, 4) map:self];
     [self addChild:csb z:100];
     
     CGRect r = CGRectZero;

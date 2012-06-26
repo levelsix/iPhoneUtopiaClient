@@ -24,6 +24,7 @@
 #import "OtherUpdates.h"
 #import "OAHMAC_SHA1SignatureProvider.h"
 #import "GameViewController.h"
+#import "ArmoryViewController.h"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -244,6 +245,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     int tag = [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:equipId];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+    
+    if ([ArmoryViewController sharedArmoryViewController].view.superview) {
+      [[ArmoryViewController sharedArmoryViewController] refresh];
+    }
   } else {
     [Globals popupMessage:@"You do not own this equip"];
     return NO;

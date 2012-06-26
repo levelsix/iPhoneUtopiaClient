@@ -158,6 +158,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
+  [self close];
+}
+
+- (void) close {
   if (self.view.superview) {
     [self.purchView removeFromSuperview];
     

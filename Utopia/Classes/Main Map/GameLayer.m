@@ -25,10 +25,9 @@
 #import "MissionMap.h"
 #import "OutgoingEventController.h"
 #import "SoundEngine.h"
-#import "CocosDenshion.h"
-#import "CDXPropertyModifierAction.h"
 #import "TutorialMissionMap.h"
 #import "MapViewController.h"
+#import "CarpenterMenuController.h"
 
 // HelloWorldLayer implementation
 @implementation GameLayer
@@ -115,11 +114,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   currentCity = proto.cityId;
   
   [_topBar loadNormalConfiguration];
-  
-  if (_homeMap.visible) {
-    _homeMap.selected = nil;
-    _homeMap.visible = NO;
-  }
+    
+  [self closeHomeMap];
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   
@@ -148,10 +144,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [self addChild:_missionMap z:1];
   [map allowBlink];
   
-  if (_homeMap.visible) {
-    _homeMap.selected = nil;
-    _homeMap.visible = NO;
-  }
+  [self closeHomeMap];
 }
 
 - (void) loadHomeMap {
@@ -180,11 +173,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [[SoundEngine sharedSoundEngine] playHomeMapMusic];
   
-  NSLog(@"home map displayed");
-  
   if (_loading) {
     [[MapViewController sharedMapViewController] close];
     _loading = NO;
+  }
+}
+
+- (void) closeHomeMap {
+  if (_homeMap.visible) {
+    _homeMap.selected = nil;
+    _homeMap.visible = NO;
+    
+    [[CarpenterMenuController sharedCarpenterMenuController] closeClicked:nil];
   }
 }
 

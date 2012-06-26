@@ -78,13 +78,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(VaultMenuController);
 #pragma mark - View lifecycle
 
 - (IBAction)closeClicked:(id)sender {
-  [transferField resignFirstResponder];
-  
-  [[SoundEngine sharedSoundEngine] vaultLeave];
-  
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [VaultMenuController removeView];       
-  }];
+  [self close];
+}
+
+- (void) close {
+  if (self.view.superview) {
+    [transferField resignFirstResponder];
+    
+    [[SoundEngine sharedSoundEngine] vaultLeave];
+    
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [VaultMenuController removeView];       
+    }];
+  }
 }
 
 - (IBAction)depositClicked:(id)sender {

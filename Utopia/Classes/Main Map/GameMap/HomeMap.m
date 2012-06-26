@@ -168,6 +168,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     collectMenu.alpha = 0.f;
     moveMenu.hidden = YES;
     
+    
     _loading = YES;
     
     _timers = [[NSMutableArray alloc] init];
@@ -192,8 +193,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   // Need this to be able to run on background thread
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
-    [self refresh];
-    NSLog(@"Home map refreshed.");
+  
+  [self refresh];
 }
 
 - (void) beginTimers {
@@ -336,11 +337,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) moveToCenter {
-  // Hacky solution.. but w/e
-  // Create new mapsprite at specific location, then move to it
-  MapSprite *ms = [[MapSprite alloc] initWithFile:@"Inn.png" location:CGRectMake(46, 27, 3, 3) map:self];
-  [self moveToSprite:ms];
-  [ms release];
+  // When this is called we want to move the player's sprite to the center too.
+  // Also, center of home map should show gate
+  _myPlayer.location = CGRectMake(47, 28, 1, 1);
+  [self moveToSprite:_myPlayer];
 }
 
 - (void) preparePurchaseOfStruct:(int)structId {
@@ -655,6 +655,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (IBAction)sellClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
+  Globals *gl = [Globals sharedGlobals];
+  FullStructureProto *fsp = [gs structWithId:us.structId];
+  int silver = [gl calculateStructSilverSellCost:us];
+  int gold = [gl calculateStructGoldSellCost:us];
+  
+  NSString *desc = [NSString stringWithFormat:@"Are you sure you would like to sell your %@ for %@?", fsp.name, silver > 0 ? [NSString stringWithFormat:@"%d silver", silver] : [NSString stringWithFormat:@"%d gold", gold]];
+  [GenericPopupController displayConfirmationWithDescription:desc title:@"Sell Building?" okayButton:@"Sell" cancelButton:@"Cancel" target:self selector:@selector(sellSelected)];
+}
+
+- (void) sellSelected {
   UserStruct *us = ((MoneyBuilding *)_selected).userStruct;
   int structId = us.structId;
   [[OutgoingEventController sharedOutgoingEventController] sellNormStruct:us];
@@ -662,27 +674,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   if (![[[GameState sharedGameState] myStructs] containsObject:us]) {
     MoneyBuilding *spr = (MoneyBuilding *)self.selected;
     self.selected = nil;
-    [spr liftBlock];
     [_timers removeObject:spr.timer];
     spr.timer = nil;
-    [self removeChild:spr cleanup:YES];
+    
+    [spr runAction:[CCSequence actions:[CCFadeOut actionWithDuration:1.f],
+                    [CCCallBlock actionWithBlock:
+                     ^{
+                       [spr liftBlock];
+                       [self removeChild:spr cleanup:YES];
+                       
+                       // Fix tag fragmentation
+                       int tag = [self baseTagForStructId:structId];
+                       int renameTag = tag;
+                       for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
+                         CCNode *c = [self getChildByTag:i];
+                         if (c) {
+                           [c setTag:renameTag];
+                           renameTag++;
+                         }
+                       }
+                     }], nil]];
     
     if (_constrBuilding == spr) {
       _constrBuilding = nil;
     }
     if (_upgrBuilding == spr) {
       _upgrBuilding = nil;
-    }
-    
-    // Fix tag fragmentation
-    int tag = [self baseTagForStructId:structId];
-    int renameTag = tag;
-    for (int i = tag; i < tag+[[Globals sharedGlobals] maxRepeatedNormStructs]; i++) {
-      CCNode *c = [self getChildByTag:i];
-      if (c) {
-        [c setTag:renameTag];
-        renameTag++;
-      }
     }
   }
 }

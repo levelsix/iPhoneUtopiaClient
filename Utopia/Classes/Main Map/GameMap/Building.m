@@ -81,6 +81,15 @@
   }
 }
 
+- (void) setOpacity:(GLubyte)opacity {
+  if (_isConstructing) {
+    CCSprite *sprite = (CCSprite *)[self getChildByTag:CONSTRUCTION_TAG];
+    sprite.opacity = opacity;
+  } else {
+    [super setOpacity:opacity];
+  }
+}
+
 - (CGSize) contentSize {
   CCNode *spr = [self getChildByTag:CONSTRUCTION_TAG];
   if (spr) {
@@ -91,16 +100,16 @@
 
 - (void) setIsConstructing:(BOOL)isConstructing {
   if (_isConstructing != isConstructing) {
-    _isConstructing = isConstructing;
-    
-    if (_isConstructing) {
+    if (isConstructing) {
       [self setOpacity:1];
+      _isConstructing = isConstructing;
       
       CCSprite *sprite = [CCSprite spriteWithFile:[Globals imageNameForConstructionWithSize:self.location.size]];
       [self addChild:sprite z:1 tag:CONSTRUCTION_TAG];
       sprite.anchorPoint = ccp(0.5, 0.f);
       sprite.position = ccp(self.contentSize.width/2, 0);
     } else {
+      _isConstructing = isConstructing;
       self.opacity = 255;
       [self removeChildByTag:CONSTRUCTION_TAG cleanup:YES];
     }

@@ -648,21 +648,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
                                             price] 
                       andLowerString:fep.name 
                       andCenter:startLoc];
-  void(^completionBlock)(BOOL) = ^(BOOL finished){
-    if (finished) {
-      int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController]
-                             buyEquip:fep.equipId];
-      numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
-      
-      if (updatedQuantity > 0 && fep.diamondPrice == 0) {
-        sellButton.enabled = YES;
-      }
+    int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController]
+                           buyEquip:fep.equipId];
+    numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+    
+    if (updatedQuantity > 0 && fep.diamondPrice == 0) {
+      sellButton.enabled = YES;
     }
-  };
   [Globals popupView:testView 
          onSuperView:buySellView
              atPoint:startLoc
- withCompletionBlock:completionBlock];
+ withCompletionBlock:nil];
   
   [coinBar updateLabels];
 }
@@ -684,14 +680,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (IBAction)backClicked:(id)sender {
-  CGRect f = self.view.frame;
-  [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-  } completion:^(BOOL finished) {
-    [ArmoryViewController removeView];
-  }];
-  
-  [[SoundEngine sharedSoundEngine] armoryLeave];
+  [self close];
+}
+
+- (void) close {
+  if (self.view.superview) {
+    CGRect f = self.view.frame;
+    [UIView animateWithDuration:FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION animations:^{
+      self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
+    } completion:^(BOOL finished) {
+      [ArmoryViewController removeView];
+    }];
+    
+    [[SoundEngine sharedSoundEngine] armoryLeave];
+  }
 }
 
 @end
