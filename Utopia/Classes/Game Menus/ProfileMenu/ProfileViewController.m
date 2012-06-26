@@ -916,9 +916,22 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+
+  Globals *gl = [Globals sharedGlobals];
+  [self setupSkillPointButton:attackStatButton  forCost:gl.attackBaseCost];
+  [self setupSkillPoinButton:defenseStatButton forCost:gl.defenseBaseCost];
+  [self setupSkillPointButton:energyStatButton  forCost:gl.energyBaseCost];
+  [self setupSkillPointButton:staminaStatButton forCost:gl.staminaBaseCost];
+  [self setupSkillPointButton:hpStatButton      forCost:gl.healthBaseCost];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+  [Globals endPulseForView:attackStatButton];
+  [Globals endPulseForView:defenseStatButton];
+  [Globals endPulseForView:energyStatButton];
+  [Globals endPulseForView:staminaStatButton];
+  [Globals endPulseForView:hpStatButton];
+
   self.fup = nil;
 }
 
@@ -1567,9 +1580,27 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   hpCostLabel.text = [NSString stringWithFormat:@"(%d skill %@ = %d)", gl.healthBaseCost, gl.healthBaseCost != 1 ? @"points" : @"point", gl.healthBaseGain];
 }
 
+-(void)setupSkillPointButton:(UIButton *)curButton forCost:(int)stateCost
+{
+  GameState *gs = [GameState sharedGameState];
+
+  if (stateCost <= gs.skillPoints) {
+    curButton.enabled = YES;
+    UIColor *pulseColor = [UIColor colorWithRed:156/255.f
+                                          green:202/255.f 
+                                           blue:16/255.f 
+                                          alpha:0.8f];
+    
+    [Globals beginPulseForView:curButton andColor:pulseColor];
+  }
+  else {
+    curButton.enabled = NO;
+    [Globals endPulseForView:curButton];
+  }
+}
+
 - (void) loadSkills {
   GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
   
   attackStatLabel.text = [NSString stringWithFormat:@"%d", gs.attack];
   defenseStatLabel.text = [NSString stringWithFormat:@"%d", gs.defense];
@@ -1578,12 +1609,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   hpStatLabel.text = [NSString stringWithFormat:@"%d", gs.maxHealth];
   
   skillPointsLabel.text = [NSString stringWithFormat:@"%d", gs.skillPoints];
-  
-  attackStatButton.enabled = gl.attackBaseCost <= gs.skillPoints;
-  defenseStatButton.enabled = gl.defenseBaseCost <= gs.skillPoints;
-  energyStatButton.enabled = gl.energyBaseCost <= gs.skillPoints;
-  staminaStatButton.enabled = gl.staminaBaseCost <= gs.skillPoints;
-  hpStatButton.enabled = gl.healthBaseCost <= gs.skillPoints;
 }
 
 - (void) openSkillsMenu {
@@ -1592,24 +1617,35 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (IBAction)skillButtonClicked:(id)sender {
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
-  
+
   if (sender == attackStatButton) {
     [oec addAttackSkillPoint];
     [Analytics addedSkillPoint:@"Attack"];
-  } else if (sender == defenseStatButton) {
+  } 
+  else if (sender == defenseStatButton) {
     [oec addDefenseSkillPoint];
     [Analytics addedSkillPoint:@"Defense"];
-  } else if (sender == energyStatButton) {
+  } 
+  else if (sender == energyStatButton) {
     [oec addEnergySkillPoint];
     [Analytics addedSkillPoint:@"Energy"];
-  } else if (sender == staminaStatButton) {
+  } 
+  else if (sender == staminaStatButton) {
     [oec addStaminaSkillPoint];
     [Analytics addedSkillPoint:@"Stamina"];
-  } else if (sender == hpStatButton) {
+  } 
+  else if (sender == hpStatButton) {
     [oec addHealthSkillPoint];
     [Analytics addedSkillPoint:@"Hp"];
   }
-  
+  Globals *gl = [Globals sharedGlobals];
+
+  [self setupSkillPointButton:attackStatButton  forCost:gl.attackBaseCost];
+  [self setupSkillPointButton:defenseStatButton forCost:gl.defenseBaseCost];
+  [self setupSkillPointButton:energyStatButton  forCost:gl.energyBaseCost];
+  [self setupSkillPointButton:staminaStatButton forCost:gl.staminaBaseCost];
+  [self setupSkillPointButton:hpStatButton      forCost:gl.healthBaseCost];
+
   [self loadSkills];
   [self displayMyCurrentStats];
 }

@@ -71,7 +71,6 @@
 		4562FCDF158A8BC2005206E5 /* round_glow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4562FCDD158A8BC2005206E5 /* round_glow.png */; };
 		4562FCE0158A8BC2005206E5 /* round_glow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4562FCDE158A8BC2005206E5 /* round_glow@2x.png */; };
 		45790205156DD15F0001785B /* AdColonyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45790204156DD15E0001785B /* AdColonyDelegate.m */; };
-		457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 457EBD8115647A38008C097F /* libAlaume-iphoneos.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		45856A86156DB3670005907E /* TJCAdRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A33156DB3670005907E /* TJCAdRequestHandler.m */; };
 		45856A87156DB3670005907E /* TJCAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A35156DB3670005907E /* TJCAdView.m */; };
 		45856A88156DB3670005907E /* TJCHardwareUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856A3B156DB3670005907E /* TJCHardwareUtil.m */; };
@@ -111,7 +110,6 @@
 		45856AC4156DCA660005907E /* TapJoyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45856AC3156DCA660005907E /* TapJoyDelegate.m */; };
 		45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857340157D3B6A0086F70C /* MobileCoreServices.framework */; };
 		45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 45857342157D3BB80086F70C /* libxml2.dylib */; };
-		458DD2B4158FAF3900BFC543 /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
 		458DD2B7158FB0C900BFC543 /* BattleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DD2B6158FB0C900BFC543 /* BattleCalculator.m */; };
 		458DD2BB158FB10000BFC543 /* BattleCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 458DD2BA158FB10000BFC543 /* BattleCalculatorTests.m */; };
 		459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */; };
@@ -128,7 +126,6 @@
 		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
-		45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */; };
 		45C53D81158FBF83000997C5 /* UserBattleStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C53D80158FBF83000997C5 /* UserBattleStats.m */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
@@ -3163,7 +3160,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45B4CED315801A6000B4D43D /* libAlaume-iphonesimulator.a in Frameworks */,
 				455FC6CD157EEAC7008DB9E4 /* SenTestingKit.framework in Frameworks */,
 				455FC6B3157EE4E2008DB9E4 /* UIKit.framework in Frameworks */,
 				455FC6B4157EE4E2008DB9E4 /* Foundation.framework in Frameworks */,
@@ -3174,7 +3170,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				458DD2B4158FAF3900BFC543 /* libAlaume-iphonesimulator.a in Frameworks */,
 				45857343157D3BB80086F70C /* libxml2.dylib in Frameworks */,
 				45857341157D3B6A0086F70C /* MobileCoreServices.framework in Frameworks */,
 				4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */,
@@ -3203,7 +3198,6 @@
 				CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */,
 				CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */,
 				CFEDA65C153C04FB00015562 /* libUserVoice.a in Frameworks */,
-				457EBD8315647A38008C097F /* libAlaume-iphoneos.a in Frameworks */,
 				454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */,
 				45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */,
 				CF19297F157EEC4C00D51C70 /* libApsalar.a in Frameworks */,
@@ -7787,6 +7781,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -7809,6 +7804,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -7858,6 +7854,7 @@
 					"-ObjC",
 					"-all_load",
 					"-lKiip",
+					"$(SOURCE_ROOT)/Utopia/libs/Alaume/libAlaume$(EFFECTIVE_PLATFORM_NAME).a",
 				);
 				PRODUCT_NAME = "Lost Nations";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
@@ -7906,6 +7903,7 @@
 					"-ObjC",
 					"-all_load",
 					"-lKiip",
+					"$(SOURCE_ROOT)/Utopia/libs/Alaume/libAlaume$(EFFECTIVE_PLATFORM_NAME).a",
 				);
 				PRODUCT_NAME = "Lost Nations";
 				PROVISIONING_PROFILE = "";

@@ -76,7 +76,6 @@
 
 -(int) skillMultForPercent:(float)percent
 {
-//  int result = [self accuracyPercentForPercent:percent]*100;
   int result = [self percentFromPerfect:percent];
 
   CombatDamageType dmgType = [self damageZoneForPercent:percent];
