@@ -63,9 +63,11 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCChangeUserLocationEvent:
     case EventProtocolRequestCLoadNeutralCityEvent:
     case EventProtocolRequestCRetrieveUsersForUserIdsEvent:
-    case EventProtocolRequestCPostOnPlayerWall:
-    case EventProtocolRequestCRetrievePlayerWallPosts:
-    case EventProtocolRequestCEarnFreeDiamonds:
+    case EventProtocolRequestCPostOnPlayerWallEvent:
+    case EventProtocolRequestCRetrievePlayerWallPostsEvent:
+    case EventProtocolRequestCEarnFreeDiamondsEvent:
+    case EventProtocolRequestCReconnectEvent:
+    case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
     default:
@@ -115,9 +117,10 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSChangeUserLocationEvent:
     case EventProtocolResponseSLoadNeutralCityEvent:
     case EventProtocolResponseSRetrieveUsersForUserIdsEvent:
-    case EventProtocolResponseSPostOnPlayerWall:
-    case EventProtocolResponseSRetrievePlayerWallPosts:
-    case EventProtocolResponseSEarnFreeDiamonds:
+    case EventProtocolResponseSPostOnPlayerWallEvent:
+    case EventProtocolResponseSRetrievePlayerWallPostsEvent:
+    case EventProtocolResponseSEarnFreeDiamondsEvent:
+    case EventProtocolResponseSReconnectEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

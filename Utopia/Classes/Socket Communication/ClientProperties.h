@@ -16,11 +16,11 @@
 
 #else
 
-#define HOST_NAME @"10.1.10.24"//@"184.169.148.243"
-#define HOST_PORT 8888
+#define HOST_NAME @"10.1.10.30"//@"184.169.148.243"
+#define HOST_PORT 10001
 
-#define UDID @"abcde"//[[UIDevice currentDevice] uniqueDeviceIdentifier]//@"m";//@"42d1cadaa64dbf3c3e8133e652a2df06"//
-//#define FORCE_TUTORIAL
+#define UDID [OpenUDID value]
+#define FORCE_TUTORIAL
 #endif
 
 // Tags for keeping state

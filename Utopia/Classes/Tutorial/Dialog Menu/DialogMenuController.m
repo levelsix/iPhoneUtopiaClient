@@ -147,7 +147,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(DialogMenuController);
     [Analytics tutorialTimeSync];
     [self stopLoading:NO];
   } else {
-    [DialogMenuController displayViewForText:tc.otherFailText];
+    [DialogMenuController displayViewForText:[NSString stringWithFormat:tc.otherFailText, ucrp.status]];
     [Analytics tutorialOtherFail];
     [self stopLoading:NO];
   }

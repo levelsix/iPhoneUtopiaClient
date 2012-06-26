@@ -225,6 +225,22 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
 }
 
+- (int) sendReconnectMessage {
+  ReconnectRequestProto *req = [[[ReconnectRequestProto builder]
+                                 setSender:_sender]
+                                build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCReconnectEvent];
+}
+
+- (int) sendLogoutMessage {
+  LogoutRequestProto *req = [[[LogoutRequestProto builder]
+                              setSender:_sender]
+                             build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCLogoutEvent];
+}
+
 - (int) sendChatMessage:(NSString *)message recipient:(int)recipient {
   ChatRequestProto *req = [[[[[ChatRequestProto builder] 
                               setMessage:message] 

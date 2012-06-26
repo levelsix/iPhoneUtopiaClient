@@ -29,6 +29,8 @@
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
 - (void) startup;
+- (void) logout;
+- (void) reconnect;
 - (void) inAppPurchase: (NSString *) receipt goldAmt:(int)gold;
 
 - (void) retrieveMostRecentMarketplacePosts;

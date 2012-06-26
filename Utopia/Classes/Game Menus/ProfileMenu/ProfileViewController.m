@@ -919,7 +919,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
   Globals *gl = [Globals sharedGlobals];
   [self setupSkillPointButton:attackStatButton  forCost:gl.attackBaseCost];
-  [self setupSkillPoinButton:defenseStatButton forCost:gl.defenseBaseCost];
+  [self setupSkillPointButton:defenseStatButton forCost:gl.defenseBaseCost];
   [self setupSkillPointButton:energyStatButton  forCost:gl.energyBaseCost];
   [self setupSkillPointButton:staminaStatButton forCost:gl.staminaBaseCost];
   [self setupSkillPointButton:hpStatButton      forCost:gl.healthBaseCost];

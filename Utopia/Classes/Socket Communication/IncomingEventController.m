@@ -165,18 +165,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSReferralCodeUsedEvent:
       responseClass = [ReferralCodeUsedResponseProto class];
       break;
-    case EventProtocolResponseSRetrievePlayerWallPosts:
+    case EventProtocolResponseSRetrievePlayerWallPostsEvent:
       responseClass = [RetrievePlayerWallPostsResponseProto class];
       break;
-    case EventProtocolResponseSPostOnPlayerWall:
+    case EventProtocolResponseSPostOnPlayerWallEvent:
       responseClass = [PostOnPlayerWallResponseProto class];
       break;
     case EventProtocolResponseSEnableApnsEvent:
       responseClass = [EnableAPNSResponseProto class];
       break;
-    case EventProtocolResponseSEarnFreeDiamonds:
+    case EventProtocolResponseSEarnFreeDiamondsEvent:
       responseClass = [EarnFreeDiamondsResponseProto class];
       break;
+    case EventProtocolResponseSReconnectEvent:
+      responseClass = [ReconnectResponseProto class];
     default:
       responseClass = nil;
       break;
@@ -199,6 +201,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
+}
+
+- (void) handleReconnectResponseProto:(FullEvent *)fe {
+  ReconnectResponseProto *proto = (ReconnectResponseProto *)fe.event;
+  
+  LNLog(@"Received reconnect response with %@incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
 }
 
 - (void) handleChatResponseProto:(FullEvent *)fe {

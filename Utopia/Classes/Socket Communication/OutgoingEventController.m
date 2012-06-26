@@ -61,6 +61,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
+- (void) startup {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) logout {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendLogoutMessage];
+}
+
+- (void) reconnect {
+  int tag = [[SocketCommunication sharedSocketCommunication] sendReconnectMessage];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
 - (void) vaultDeposit:(int)amount {
   if (amount <= 0) {
     return;
@@ -274,11 +288,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                                                    latLowerBound:MAX(CGRectGetMinY(bounds), -90) 
                                                                    lonUpperBound:MIN(CGRectGetMaxX(bounds), 180) 
                                                                    lonLowerBound:MAX(CGRectGetMinX(bounds), -180)];
-  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
-}
-
-- (void) startup {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendStartupMessage:[self getCurrentMilliseconds]];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 

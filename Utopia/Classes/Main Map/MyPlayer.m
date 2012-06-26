@@ -31,7 +31,9 @@
     // Create sprite
     self.contentSize = CGSizeMake(40, 70);
     
-    self.sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+    frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png", prefix]];
+    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
     
     CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
     self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y+5));
