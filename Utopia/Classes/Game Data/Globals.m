@@ -59,6 +59,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize minPercentOfEnemyHealth, maxPercentOfEnemyHealth;
 @synthesize battleDifferenceTuner, battleDifferenceMultiplier;
 @synthesize animatingSpriteOffsets;
+@synthesize kiipRewardConditions;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -153,6 +154,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxPercentOfEnemyHealth = constants.battleConstants.maxPercentOfEnemyHealth;
   self.battleDifferenceMultiplier = constants.battleConstants.battleDifferenceMultiplier;
   self.battleDifferenceTuner = constants.battleConstants.battleDifferenceTuner;
+  
+  self.kiipRewardConditions = constants.kiipRewardConditions;
   
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto *aso in constants.animatedSpriteOffsetsList) {
     [self.animatingSpriteOffsets setObject:aso.offSet forKey:aso.imageName];
@@ -1582,6 +1585,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   self.imageCache = nil;
   self.imageViewsWaitingForDownloading = nil;
   self.animatingSpriteOffsets = nil;
+  self.kiipRewardConditions = nil;
   [super dealloc];
 }
 

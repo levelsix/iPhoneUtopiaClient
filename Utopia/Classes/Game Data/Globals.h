@@ -102,6 +102,8 @@
 
 @property (nonatomic, retain) NSMutableDictionary *animatingSpriteOffsets;
 
+@property (nonatomic, retain) StartupResponseProto_StartupConstants_KiipRewardConditions *kiipRewardConditions;
+
 + (Globals *) sharedGlobals;
 + (void) purgeSingleton;
 

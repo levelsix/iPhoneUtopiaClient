@@ -67,7 +67,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) logout {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendLogoutMessage];
+  [[SocketCommunication sharedSocketCommunication] sendLogoutMessage];
 }
 
 - (void) reconnect {
