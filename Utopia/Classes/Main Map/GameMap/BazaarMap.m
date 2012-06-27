@@ -111,6 +111,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 }
 
 - (void) reloadAllies {
+  // Need to get unique nums
+  NSSet *nums = [NSSet set];
   
 }
 
