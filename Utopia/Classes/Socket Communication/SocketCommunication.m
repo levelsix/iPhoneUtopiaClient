@@ -682,7 +682,7 @@ static NSString *udid = nil;
   
   RetrievePlayerWallPostsRequestProto *req = [bldr build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCRetrievePlayerWallPosts];
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrievePlayerWallPostsEvent];
 }
 
 - (int) sendPostOnPlayerWallMessage:(int)playerId withContent:(NSString *)content {
@@ -692,7 +692,7 @@ static NSString *udid = nil;
                                         setContent:content]
                                        build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCPostOnPlayerWall];
+  return [self sendData:req withMessageType:EventProtocolRequestCPostOnPlayerWallEvent];
 }
 
 - (int) sendAPNSMessage:(NSString *)deviceToken {
@@ -712,7 +712,7 @@ static NSString *udid = nil;
                                         setKiipReceipt:receipt]
                                        build];
   
-  return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamonds];
+  return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
 - (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold {
@@ -723,7 +723,7 @@ static NSString *udid = nil;
                                          setAdColonyDigest:digest]
                                         setAdColonyDiamondsEarned:gold]
                                        build];
-  return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamonds];
+  return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
 - (void) closeDownConnection {
