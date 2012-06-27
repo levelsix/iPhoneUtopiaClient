@@ -108,6 +108,7 @@ typedef enum {
 
 - (void) armoryListingClicked:(ArmoryListing *)al;
 - (void) refresh;
+- (void) close;
 
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;

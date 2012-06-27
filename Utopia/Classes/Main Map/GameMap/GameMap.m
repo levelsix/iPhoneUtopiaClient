@@ -314,11 +314,43 @@
   
   CGRect frontLoc = front.location;
   CGRect backLoc = back.location;
+    
+  BOOL leftX = frontLoc.origin.x < backLoc.origin.x && frontLoc.origin.x+frontLoc.size.width <= backLoc.origin.x;
+  BOOL rightX = frontLoc.origin.x >= backLoc.origin.x+backLoc.size.width && frontLoc.origin.x+frontLoc.size.width > backLoc.origin.x+backLoc.size.width;
   
-  if ((frontLoc.origin.x < backLoc.origin.x && frontLoc.origin.x+frontLoc.size.width-1 < backLoc.origin.x) || (frontLoc.origin.x > backLoc.origin.x+backLoc.size.width-1 && frontLoc.origin.x+frontLoc.size.width-1 > backLoc.origin.x+backLoc.size.width-1)) {
+  if (([front isKindOfClass:[Carpenter class]] || [front isKindOfClass:[MyPlayer class]]) && ([back isKindOfClass:[Carpenter class]] || [back isKindOfClass:[MyPlayer class]])) {
+    NSLog(@"F:%@, B:%@, LX:%d, RX:%d", NSStringFromCGRect(frontLoc), NSStringFromCGRect(backLoc), leftX, rightX);
+  }
+  
+  if (leftX || rightX) {
     return frontLoc.origin.x <= backLoc.origin.x;
   }
-  return frontLoc.origin.y <= backLoc.origin.y;
+  
+  BOOL leftY = frontLoc.origin.y < backLoc.origin.y && frontLoc.origin.y+frontLoc.size.height <= backLoc.origin.y;
+  BOOL rightY = frontLoc.origin.y >= backLoc.origin.y+backLoc.size.height && frontLoc.origin.y+frontLoc.size.height > backLoc.origin.y+backLoc.size.height;
+  
+  if (([front isKindOfClass:[Carpenter class]] || [front isKindOfClass:[MyPlayer class]]) && ([back isKindOfClass:[Carpenter class]] || [back isKindOfClass:[MyPlayer class]])) {
+    NSLog(@"LY:%d, RY:%d", leftY, rightY);
+  }
+  
+  if (leftY || rightY) {
+    return frontLoc.origin.y <= backLoc.origin.y;
+  }
+  return front.position.y <= back.position.y;
+//  // In the case where both x and y are overlapping, we must do some crazy stuff.
+//  // Find the abs of the diff of x and y of both locs and use the one with a bigger diff.
+//  float diffX = ABS(frontLoc.origin.x-backLoc.origin.x);
+//  float diffY = ABS(frontLoc.origin.y-backLoc.origin.y);
+//  
+//  if (([front isKindOfClass:[Carpenter class]] || [front isKindOfClass:[MyPlayer class]]) && ([back isKindOfClass:[Carpenter class]] || [back isKindOfClass:[MyPlayer class]])) {
+//    NSLog(@"DX:%f, DY:%f", diffX, diffY);
+//  }
+//  
+//  if (diffX > diffY) {
+//    return frontLoc.origin.x <= backLoc.origin.x;
+//  } else {
+//    return frontLoc.origin.y <= backLoc.origin.y;
+//  }
 }
 
 - (void) updateEnemyMenu {

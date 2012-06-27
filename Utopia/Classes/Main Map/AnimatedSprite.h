@@ -92,42 +92,6 @@ typedef enum {
 
 @end
 
-@interface MyPlayer : CharacterSprite {
-  //walk animations
-  CCAction *_walkActionN;
-  CCAction *_walkActionF;
-  CCAction *_walkActionLR;
-  CCAction *_walkActionU;
-  CCAction *_walkActionD;
-  CCAction *_currentAction;
-  
-  CCAnimation *_agAnimation;
-  
-  CCSprite *_sprite;
-  CGPoint _oldMapPosition;
-  
-  BOOL _shouldContinueAnimation;
-}
-@property (nonatomic, retain) CCAction *walkActionN;
-@property (nonatomic, retain) CCAction *walkActionF;
-@property (nonatomic, retain) CCAction *walkActionLR;
-@property (nonatomic, retain) CCAction *walkActionU;
-@property (nonatomic, retain) CCAction *walkActionD;
-
-@property (nonatomic, retain) CCAction *currentAction;
-
-@property (nonatomic, retain) CCAnimation *agAnimation;
-
-@property (nonatomic, retain) CCSprite *sprite;
-
-- (void)stopWalking;
-- (void)stopPerformingAnimation;
-- (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
-- (void) performAnimation:(AnimationType)type atLocation:(CGPoint)point inDirection:(float)angle;
-- (void) moveToLocation:(CGRect)loc;
-
-@end
-
 @interface MoveToLocation : CCActionInterval <NSCopying> {
   CGRect startLocation_;
   CGRect endLocation_;

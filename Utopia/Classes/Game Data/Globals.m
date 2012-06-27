@@ -123,6 +123,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxLevelForStruct = constants.maxLevelForStruct;
   self.maxRepeatedNormStructs = constants.maxNumOfSingleStruct;
   self.percentReturnedToUserForSellingEquipInArmory = constants.percentReturnedToUserForSellingEquipInArmory;
+  self.percentReturnedToUserForSellingNormStructure = constants.percentReturnedToUserForSellingNormStructure;
   self.numDaysLongMarketplaceLicenseLastsFor = constants.numDaysLongMarketplaceLicenseLastsFor;
   self.numDaysShortMarketplaceLicenseLastsFor = constants.numDaysShortMarketplaceLicenseLastsFor;
   self.diamondCostOfLongMarketplaceLicense = constants.diamondCostOfLongMarketplaceLicense;
@@ -815,7 +816,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialoguealliancearcher.png";
       break;
     case UserTypeGoodMage:
-      return @"dialoguealliancemage.png";
+      return @"dialoguepanda.png";
       break;
     case UserTypeGoodWarrior:
       return @"dialoguewarrior.png";

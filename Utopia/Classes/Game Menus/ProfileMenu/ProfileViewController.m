@@ -915,8 +915,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  self.spinner.hidden = YES;
-  [self.spinner stopAnimating];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   
   [self refreshSkillPointsButtons];
 }
@@ -1516,14 +1515,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   enemyLeftView.hidden = YES;
   friendLeftView.hidden = YES;
   
-  
-  
   wallTabView.wallPosts = nil;
   [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
   
   // Make equip spinner spin
+  self.enemyMiddleView.hidden = YES;
   self.spinner.hidden = NO;
   [self.spinner startAnimating];
+  _waitingForEquips = YES;
   
   [ProfileViewController displayView];
 }
@@ -1558,6 +1557,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   equipsScrollView.hidden = NO;
   enemyMiddleView.hidden = YES;
+  
+  self.spinner.hidden = YES;
+  [self.spinner stopAnimating];
   
   enemyLeftView.hidden = YES;
   friendLeftView.hidden = YES;

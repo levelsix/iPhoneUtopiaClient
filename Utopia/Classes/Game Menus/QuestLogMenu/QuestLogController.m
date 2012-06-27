@@ -18,6 +18,9 @@
 #import "BattleLayer.h"
 #import "MapViewController.h"
 #import "ProfileViewController.h"
+#import "VaultMenuController.h"
+#import "MarketplaceViewController.h"
+#import "ArmoryViewController.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
@@ -46,6 +49,10 @@
 - (IBAction)visitClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:quest.cityId asset:quest.assetNumWithinCity];
   [[QuestLogController sharedQuestLogController] close];
+  
+  [[VaultMenuController sharedVaultMenuController] close];
+  [[MarketplaceViewController sharedMarketplaceViewController] close];
+  [[ArmoryViewController sharedArmoryViewController] close];
   
   [Analytics clickedVisit];
 }

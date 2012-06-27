@@ -410,9 +410,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [CarpenterMenuController removeView];
-  }];
+  if (self.view.superview) {
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [CarpenterMenuController removeView];
+    }];
+  }
 }
 
 - (void) carpListingClicked:(CarpenterListing *)carp {

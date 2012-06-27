@@ -42,6 +42,8 @@
 + (void) removeView;
 + (void) purgeSingleton;
 
+- (void) close;
+
 - (IBAction)closeClicked:(id)sender;
 - (IBAction)depositClicked:(id)sender;
 - (IBAction)withdrawClicked:(id)sender;

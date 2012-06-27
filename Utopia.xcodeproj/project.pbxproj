@@ -1309,6 +1309,9 @@
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
+		CFEB28561599325400B622FC /* bigcarpenter.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28541599325400B622FC /* bigcarpenter.png */; };
+		CFEB28571599325400B622FC /* bigcarpenter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28551599325400B622FC /* bigcarpenter@2x.png */; };
+		CFEB285B1599407900B622FC /* MyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB285A1599407900B622FC /* MyPlayer.m */; };
 		CFECCDDC1550909700171271 /* equipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDA1550909700171271 /* equipped.png */; };
 		CFECCDDD1550909700171271 /* equipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDB1550909700171271 /* equipped@2x.png */; };
 		CFECCDE21550971000171271 /* markbuy.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDE1550971000171271 /* markbuy.png */; };
@@ -3052,6 +3055,10 @@
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
 		CFEB284615951ADB00B622FC /* FullEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullEvent.m; sourceTree = "<group>"; };
+		CFEB28541599325400B622FC /* bigcarpenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigcarpenter.png; sourceTree = "<group>"; };
+		CFEB28551599325400B622FC /* bigcarpenter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigcarpenter@2x.png"; sourceTree = "<group>"; };
+		CFEB28591599407900B622FC /* MyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPlayer.h; sourceTree = "<group>"; };
+		CFEB285A1599407900B622FC /* MyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPlayer.m; sourceTree = "<group>"; };
 		CFECCDDA1550909700171271 /* equipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipped.png; sourceTree = "<group>"; };
 		CFECCDDB1550909700171271 /* equipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipped@2x.png"; sourceTree = "<group>"; };
 		CFECCDDE1550971000171271 /* markbuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markbuy.png; sourceTree = "<group>"; };
@@ -4090,10 +4097,7 @@
 		CF1265A11538ACC400E0C1AD /* Main Map */ = {
 			isa = PBXGroup;
 			children = (
-				CF1265A21538ACC400E0C1AD /* AnimatedSprite.h */,
-				CF1265A31538ACC400E0C1AD /* AnimatedSprite.m */,
-				CF1265AA1538ACC400E0C1AD /* Building.h */,
-				CF1265AB1538ACC400E0C1AD /* Building.m */,
+				CFEB28581599403500B622FC /* Sprites */,
 				CF8FC83B154541320082473E /* DecorationLayer.h */,
 				CF8FC83C154541330082473E /* DecorationLayer.m */,
 				CF1265A41538ACC400E0C1AD /* Drops.h */,
@@ -4104,8 +4108,6 @@
 				CF1265BA1538ACC400E0C1AD /* GameViewController.h */,
 				CF1265BB1538ACC400E0C1AD /* GameViewController.m */,
 				CFC38FA3156EF92900A6A217 /* HomeMap */,
-				CF1265B31538ACC400E0C1AD /* MapSprite.h */,
-				CF1265B41538ACC400E0C1AD /* MapSprite.m */,
 				CF1265BC1538ACC400E0C1AD /* MaskedSprite.h */,
 				CF1265BD1538ACC400E0C1AD /* MaskedSprite.m */,
 				CFC38FA4156EF94E00A6A217 /* MissionMap */,
@@ -4838,6 +4840,8 @@
 		CF1267D51538ACC500E0C1AD /* Carpenter Images */ = {
 			isa = PBXGroup;
 			children = (
+				CFEB28541599325400B622FC /* bigcarpenter.png */,
+				CFEB28551599325400B622FC /* bigcarpenter@2x.png */,
 				CF8C7A971579C98B003A6AFE /* constructionshelf.png */,
 				CF8C7A981579C98B003A6AFE /* constructionshelf@2x.png */,
 				CF8C7A991579C98B003A6AFE /* constructioncoborder.png */,
@@ -6040,6 +6044,21 @@
 			);
 			name = UpgradeMenu;
 			path = "Upgrade In Progress";
+			sourceTree = "<group>";
+		};
+		CFEB28581599403500B622FC /* Sprites */ = {
+			isa = PBXGroup;
+			children = (
+				CF1265A21538ACC400E0C1AD /* AnimatedSprite.h */,
+				CF1265A31538ACC400E0C1AD /* AnimatedSprite.m */,
+				CF1265AA1538ACC400E0C1AD /* Building.h */,
+				CF1265AB1538ACC400E0C1AD /* Building.m */,
+				CF1265B31538ACC400E0C1AD /* MapSprite.h */,
+				CF1265B41538ACC400E0C1AD /* MapSprite.m */,
+				CFEB28591599407900B622FC /* MyPlayer.h */,
+				CFEB285A1599407900B622FC /* MyPlayer.m */,
+			);
+			name = Sprites;
 			sourceTree = "<group>";
 		};
 		CFEDA617153C04FB00015562 /* UserVoice */ = {
@@ -7390,6 +7409,8 @@
 				065FAC7C15900CA4008E9B3C /* TutorialGuideWalkNF@2x.png in Resources */,
 				CFEB28431593F02500B622FC /* unlockedheader.png in Resources */,
 				CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */,
+				CFEB28561599325400B622FC /* bigcarpenter.png in Resources */,
+				CFEB28571599325400B622FC /* bigcarpenter@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7659,6 +7680,7 @@
 				45C53D81158FBF83000997C5 /* UserBattleStats.m in Sources */,
 				CFE3E9421592BB7400E85701 /* TutorialMyPlayer.m in Sources */,
 				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
+				CFEB285B1599407900B622FC /* MyPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
