@@ -238,7 +238,8 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
     texturePath = [plist stringByDeletingPathExtension];
     texturePath = [texturePath stringByAppendingPathExtension:@"png"];
 		
-		CCLOG(@"cocos2d: CCSpriteFrameCache: Trying to use file '%@' as texture", texturePath); 
+    // LVL6: commented out 
+//		CCLOG(@"cocos2d: CCSpriteFrameCache: Trying to use file '%@' as texture", texturePath); 
   }
 	
   CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:texturePath];
@@ -269,7 +270,8 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	for( id key in keys ) {
 		id value = [spriteFrames_ objectForKey:key];		
 		if( [value retainCount] == 1 ) {
-			CCLOG(@"cocos2d: CCSpriteFrameCache: removing unused frame: %@", key);
+      // LVL6: commented out
+//			CCLOG(@"cocos2d: CCSpriteFrameCache: removing unused frame: %@", key);
 			[spriteFrames_ removeObjectForKey:key];
 		}
 	}	

@@ -2749,8 +2749,8 @@
 		CF2940891565A18F002D9E45 /* grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grey@2x.png"; sourceTree = "<group>"; };
 		CF36B80A15509EBC00B8FD61 /* warningbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warningbg.png; sourceTree = "<group>"; };
 		CF36B80B15509EBC00B8FD61 /* warningbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warningbg@2x.png"; sourceTree = "<group>"; };
-		CF36B81B1552305C00B8FD61 /* BazaarMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BazaarMap.h; sourceTree = "<group>"; };
-		CF36B81C1552305C00B8FD61 /* BazaarMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BazaarMap.m; sourceTree = "<group>"; };
+		CF36B81B1552305C00B8FD61 /* BazaarMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BazaarMap.h; path = GameMap/BazaarMap.h; sourceTree = "<group>"; };
+		CF36B81C1552305C00B8FD61 /* BazaarMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BazaarMap.m; path = GameMap/BazaarMap.m; sourceTree = "<group>"; };
 		CF36B82015523BD300B8FD61 /* bazaar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bazaar.png; sourceTree = "<group>"; };
 		CF36B82115523BD300B8FD61 /* bazaar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bazaar@2x.png"; sourceTree = "<group>"; };
 		CF36B82415523BD300B8FD61 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = map.png; sourceTree = "<group>"; };
@@ -4122,8 +4122,6 @@
 		CF1265A81538ACC400E0C1AD /* GameMap */ = {
 			isa = PBXGroup;
 			children = (
-				CF36B81B1552305C00B8FD61 /* BazaarMap.h */,
-				CF36B81C1552305C00B8FD61 /* BazaarMap.m */,
 				CF1265AD1538ACC400E0C1AD /* EnemyPopupView.xib */,
 				CF1265AE1538ACC400E0C1AD /* GameMap.h */,
 				CF1265AF1538ACC400E0C1AD /* GameMap.m */,
@@ -5951,6 +5949,8 @@
 		CFC38FA3156EF92900A6A217 /* HomeMap */ = {
 			isa = PBXGroup;
 			children = (
+				CF36B81B1552305C00B8FD61 /* BazaarMap.h */,
+				CF36B81C1552305C00B8FD61 /* BazaarMap.m */,
 				CFC38FAA156F1BA400A6A217 /* HomeBuildingMenu.xib */,
 				CFC38FA8156F1B8000A6A217 /* UpgradeBuildingMenu.xib */,
 				CF1265B11538ACC400E0C1AD /* HomeMap.h */,

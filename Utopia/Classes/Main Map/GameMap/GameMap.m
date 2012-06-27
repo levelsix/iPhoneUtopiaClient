@@ -318,20 +318,12 @@
   BOOL leftX = frontLoc.origin.x < backLoc.origin.x && frontLoc.origin.x+frontLoc.size.width <= backLoc.origin.x;
   BOOL rightX = frontLoc.origin.x >= backLoc.origin.x+backLoc.size.width && frontLoc.origin.x+frontLoc.size.width > backLoc.origin.x+backLoc.size.width;
   
-  if (([front isKindOfClass:[Carpenter class]] || [front isKindOfClass:[MyPlayer class]]) && ([back isKindOfClass:[Carpenter class]] || [back isKindOfClass:[MyPlayer class]])) {
-    NSLog(@"F:%@, B:%@, LX:%d, RX:%d", NSStringFromCGRect(frontLoc), NSStringFromCGRect(backLoc), leftX, rightX);
-  }
-  
   if (leftX || rightX) {
     return frontLoc.origin.x <= backLoc.origin.x;
   }
   
   BOOL leftY = frontLoc.origin.y < backLoc.origin.y && frontLoc.origin.y+frontLoc.size.height <= backLoc.origin.y;
   BOOL rightY = frontLoc.origin.y >= backLoc.origin.y+backLoc.size.height && frontLoc.origin.y+frontLoc.size.height > backLoc.origin.y+backLoc.size.height;
-  
-  if (([front isKindOfClass:[Carpenter class]] || [front isKindOfClass:[MyPlayer class]]) && ([back isKindOfClass:[Carpenter class]] || [back isKindOfClass:[MyPlayer class]])) {
-    NSLog(@"LY:%d, RY:%d", leftY, rightY);
-  }
   
   if (leftY || rightY) {
     return frontLoc.origin.y <= backLoc.origin.y;
