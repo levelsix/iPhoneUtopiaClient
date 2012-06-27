@@ -105,7 +105,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.duringCreateText = @"You're doing great! Hold on while we prep the game for your adventures!";
   self.beforeEndText = @"Alright! Be on your way! The townspeople have quests for you.";
   self.timeSyncErrorText = @"Looks like the time on your device is wrong, reset and restart, thx!";
-  self.otherFailText = @"There was an error (code=%d). Email support@lvl6.com for help, thanks!.";
+  self.otherFailText = @"There was an error (code=%d). Email support@lvl6.com for help, thanks!";
 }
 
 - (void) dealloc {

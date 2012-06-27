@@ -4287,6 +4287,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t maxCharLengthForWallPost;
 @property int32_t playerWallPostsRetrieveCap;
 @property (retain) NSMutableArray* mutableAnimatedSpriteOffsetsList;
+@property (retain) StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -4637,12 +4638,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 }
 @synthesize playerWallPostsRetrieveCap;
 @synthesize mutableAnimatedSpriteOffsetsList;
+- (BOOL) hasKiipRewardConditions {
+  return !!hasKiipRewardConditions_;
+}
+- (void) setHasKiipRewardConditions:(BOOL) value {
+  hasKiipRewardConditions_ = !!value;
+}
+@synthesize kiipRewardConditions;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
   self.formulaConstants = nil;
   self.battleConstants = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
+  self.kiipRewardConditions = nil;
   [super dealloc];
 }
 - (id) init {
@@ -4696,6 +4705,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.battleConstants = [StartupResponseProto_StartupConstants_BattleConstants defaultInstance];
     self.maxCharLengthForWallPost = 0;
     self.playerWallPostsRetrieveCap = 0;
+    self.kiipRewardConditions = [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance];
   }
   return self;
 }
@@ -4892,6 +4902,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* element in self.animatedSpriteOffsetsList) {
     [output writeMessage:60 value:element];
   }
+  if (self.hasKiipRewardConditions) {
+    [output writeMessage:61 value:self.kiipRewardConditions];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5067,6 +5080,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   for (StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* element in self.animatedSpriteOffsetsList) {
     size += computeMessageSize(60, element);
   }
+  if (self.hasKiipRewardConditions) {
+    size += computeMessageSize(61, self.kiipRewardConditions);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -5097,6 +5113,269 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_KiipRewardConditions ()
+@property (retain) NSMutableArray* mutableLevelUpConditionsList;
+@property (retain) NSMutableArray* mutableQuestRedeemConditionsList;
+@end
+
+@implementation StartupResponseProto_StartupConstants_KiipRewardConditions
+
+@synthesize mutableLevelUpConditionsList;
+@synthesize mutableQuestRedeemConditionsList;
+- (void) dealloc {
+  self.mutableLevelUpConditionsList = nil;
+  self.mutableQuestRedeemConditionsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_KiipRewardConditions* defaultStartupResponseProto_StartupConstants_KiipRewardConditionsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_KiipRewardConditions class]) {
+    defaultStartupResponseProto_StartupConstants_KiipRewardConditionsInstance = [[StartupResponseProto_StartupConstants_KiipRewardConditions alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_KiipRewardConditionsInstance;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_KiipRewardConditionsInstance;
+}
+- (NSArray*) levelUpConditionsList {
+  return mutableLevelUpConditionsList;
+}
+- (int32_t) levelUpConditionsAtIndex:(int32_t) index {
+  id value = [mutableLevelUpConditionsList objectAtIndex:index];
+  return [value intValue];
+}
+- (NSArray*) questRedeemConditionsList {
+  return mutableQuestRedeemConditionsList;
+}
+- (int32_t) questRedeemConditionsAtIndex:(int32_t) index {
+  id value = [mutableQuestRedeemConditionsList objectAtIndex:index];
+  return [value intValue];
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  for (NSNumber* value in self.mutableLevelUpConditionsList) {
+    [output writeInt32:1 value:[value intValue]];
+  }
+  for (NSNumber* value in self.mutableQuestRedeemConditionsList) {
+    [output writeInt32:2 value:[value intValue]];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableLevelUpConditionsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableLevelUpConditionsList.count;
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSNumber* value in self.mutableQuestRedeemConditionsList) {
+      dataSize += computeInt32SizeNoTag([value intValue]);
+    }
+    size += dataSize;
+    size += 1 * self.mutableQuestRedeemConditionsList.count;
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_KiipRewardConditions*)[[[StartupResponseProto_StartupConstants_KiipRewardConditions builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_KiipRewardConditions*)[[[StartupResponseProto_StartupConstants_KiipRewardConditions builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_KiipRewardConditions*)[[[StartupResponseProto_StartupConstants_KiipRewardConditions builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_KiipRewardConditions*)[[[StartupResponseProto_StartupConstants_KiipRewardConditions builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_KiipRewardConditions*)[[[StartupResponseProto_StartupConstants_KiipRewardConditions builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_KiipRewardConditions*)[[[StartupResponseProto_StartupConstants_KiipRewardConditions builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_KiipRewardConditions_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_KiipRewardConditions*) prototype {
+  return [[StartupResponseProto_StartupConstants_KiipRewardConditions builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_KiipRewardConditions builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_KiipRewardConditions_Builder()
+@property (retain) StartupResponseProto_StartupConstants_KiipRewardConditions* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_KiipRewardConditions_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_KiipRewardConditions alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_KiipRewardConditions alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_KiipRewardConditions builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) buildPartial {
+  StartupResponseProto_StartupConstants_KiipRewardConditions* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_KiipRewardConditions*) other {
+  if (other == [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance]) {
+    return self;
+  }
+  if (other.mutableLevelUpConditionsList.count > 0) {
+    if (result.mutableLevelUpConditionsList == nil) {
+      result.mutableLevelUpConditionsList = [NSMutableArray array];
+    }
+    [result.mutableLevelUpConditionsList addObjectsFromArray:other.mutableLevelUpConditionsList];
+  }
+  if (other.mutableQuestRedeemConditionsList.count > 0) {
+    if (result.mutableQuestRedeemConditionsList == nil) {
+      result.mutableQuestRedeemConditionsList = [NSMutableArray array];
+    }
+    [result.mutableQuestRedeemConditionsList addObjectsFromArray:other.mutableQuestRedeemConditionsList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self addLevelUpConditions:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self addQuestRedeemConditions:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (NSArray*) levelUpConditionsList {
+  if (result.mutableLevelUpConditionsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableLevelUpConditionsList;
+}
+- (int32_t) levelUpConditionsAtIndex:(int32_t) index {
+  return [result levelUpConditionsAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) replaceLevelUpConditionsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableLevelUpConditionsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addLevelUpConditions:(int32_t) value {
+  if (result.mutableLevelUpConditionsList == nil) {
+    result.mutableLevelUpConditionsList = [NSMutableArray array];
+  }
+  [result.mutableLevelUpConditionsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addAllLevelUpConditions:(NSArray*) values {
+  if (result.mutableLevelUpConditionsList == nil) {
+    result.mutableLevelUpConditionsList = [NSMutableArray array];
+  }
+  [result.mutableLevelUpConditionsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clearLevelUpConditionsList {
+  result.mutableLevelUpConditionsList = nil;
+  return self;
+}
+- (NSArray*) questRedeemConditionsList {
+  if (result.mutableQuestRedeemConditionsList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableQuestRedeemConditionsList;
+}
+- (int32_t) questRedeemConditionsAtIndex:(int32_t) index {
+  return [result questRedeemConditionsAtIndex:index];
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) replaceQuestRedeemConditionsAtIndex:(int32_t) index with:(int32_t) value {
+  [result.mutableQuestRedeemConditionsList replaceObjectAtIndex:index withObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addQuestRedeemConditions:(int32_t) value {
+  if (result.mutableQuestRedeemConditionsList == nil) {
+    result.mutableQuestRedeemConditionsList = [NSMutableArray array];
+  }
+  [result.mutableQuestRedeemConditionsList addObject:[NSNumber numberWithInt:value]];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addAllQuestRedeemConditions:(NSArray*) values {
+  if (result.mutableQuestRedeemConditionsList == nil) {
+    result.mutableQuestRedeemConditionsList = [NSMutableArray array];
+  }
+  [result.mutableQuestRedeemConditionsList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clearQuestRedeemConditionsList {
+  result.mutableQuestRedeemConditionsList = nil;
+  return self;
 }
 @end
 
@@ -6391,6 +6670,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
     }
     [result.mutableAnimatedSpriteOffsetsList addObjectsFromArray:other.mutableAnimatedSpriteOffsetsList];
   }
+  if (other.hasKiipRewardConditions) {
+    [self mergeKiipRewardConditions:other.kiipRewardConditions];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6630,6 +6912,15 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto_Builder* subBuilder = [StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAnimatedSpriteOffsets:[subBuilder buildPartial]];
+        break;
+      }
+      case 490: {
+        StartupResponseProto_StartupConstants_KiipRewardConditions_Builder* subBuilder = [StartupResponseProto_StartupConstants_KiipRewardConditions builder];
+        if (self.hasKiipRewardConditions) {
+          [subBuilder mergeFrom:self.kiipRewardConditions];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setKiipRewardConditions:[subBuilder buildPartial]];
         break;
       }
     }
@@ -7536,6 +7827,36 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
     result.mutableAnimatedSpriteOffsetsList = [NSMutableArray array];
   }
   [result.mutableAnimatedSpriteOffsetsList addObject:value];
+  return self;
+}
+- (BOOL) hasKiipRewardConditions {
+  return result.hasKiipRewardConditions;
+}
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) kiipRewardConditions {
+  return result.kiipRewardConditions;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setKiipRewardConditions:(StartupResponseProto_StartupConstants_KiipRewardConditions*) value {
+  result.hasKiipRewardConditions = YES;
+  result.kiipRewardConditions = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setKiipRewardConditionsBuilder:(StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builderForValue {
+  return [self setKiipRewardConditions:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeKiipRewardConditions:(StartupResponseProto_StartupConstants_KiipRewardConditions*) value {
+  if (result.hasKiipRewardConditions &&
+      result.kiipRewardConditions != [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance]) {
+    result.kiipRewardConditions =
+      [[[StartupResponseProto_StartupConstants_KiipRewardConditions builderWithPrototype:result.kiipRewardConditions] mergeFrom:value] buildPartial];
+  } else {
+    result.kiipRewardConditions = value;
+  }
+  result.hasKiipRewardConditions = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearKiipRewardConditions {
+  result.hasKiipRewardConditions = NO;
+  result.kiipRewardConditions = [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance];
   return self;
 }
 @end
@@ -36670,6 +36991,640 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EarnFreeDiamondsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
+  return self;
+}
+@end
+
+@interface ReconnectRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation ReconnectRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static ReconnectRequestProto* defaultReconnectRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReconnectRequestProto class]) {
+    defaultReconnectRequestProtoInstance = [[ReconnectRequestProto alloc] init];
+  }
+}
++ (ReconnectRequestProto*) defaultInstance {
+  return defaultReconnectRequestProtoInstance;
+}
+- (ReconnectRequestProto*) defaultInstance {
+  return defaultReconnectRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ReconnectRequestProto*) parseFromData:(NSData*) data {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromData:data] build];
+}
++ (ReconnectRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectRequestProto*)[[[ReconnectRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectRequestProto_Builder*) builder {
+  return [[[ReconnectRequestProto_Builder alloc] init] autorelease];
+}
++ (ReconnectRequestProto_Builder*) builderWithPrototype:(ReconnectRequestProto*) prototype {
+  return [[ReconnectRequestProto builder] mergeFrom:prototype];
+}
+- (ReconnectRequestProto_Builder*) builder {
+  return [ReconnectRequestProto builder];
+}
+@end
+
+@interface ReconnectRequestProto_Builder()
+@property (retain) ReconnectRequestProto* result;
+@end
+
+@implementation ReconnectRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ReconnectRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReconnectRequestProto_Builder*) clear {
+  self.result = [[[ReconnectRequestProto alloc] init] autorelease];
+  return self;
+}
+- (ReconnectRequestProto_Builder*) clone {
+  return [ReconnectRequestProto builderWithPrototype:result];
+}
+- (ReconnectRequestProto*) defaultInstance {
+  return [ReconnectRequestProto defaultInstance];
+}
+- (ReconnectRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReconnectRequestProto*) buildPartial {
+  ReconnectRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ReconnectRequestProto_Builder*) mergeFrom:(ReconnectRequestProto*) other {
+  if (other == [ReconnectRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ReconnectRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ReconnectRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ReconnectRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ReconnectRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface ReconnectResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property BOOL incomingResponseMessages;
+@end
+
+@implementation ReconnectResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasIncomingResponseMessages {
+  return !!hasIncomingResponseMessages_;
+}
+- (void) setHasIncomingResponseMessages:(BOOL) value {
+  hasIncomingResponseMessages_ = !!value;
+}
+- (BOOL) incomingResponseMessages {
+  return !!incomingResponseMessages_;
+}
+- (void) setIncomingResponseMessages:(BOOL) value {
+  incomingResponseMessages_ = !!value;
+}
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.incomingResponseMessages = NO;
+  }
+  return self;
+}
+static ReconnectResponseProto* defaultReconnectResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ReconnectResponseProto class]) {
+    defaultReconnectResponseProtoInstance = [[ReconnectResponseProto alloc] init];
+  }
+}
++ (ReconnectResponseProto*) defaultInstance {
+  return defaultReconnectResponseProtoInstance;
+}
+- (ReconnectResponseProto*) defaultInstance {
+  return defaultReconnectResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasIncomingResponseMessages) {
+    [output writeBool:2 value:self.incomingResponseMessages];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasIncomingResponseMessages) {
+    size += computeBoolSize(2, self.incomingResponseMessages);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ReconnectResponseProto*) parseFromData:(NSData*) data {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromData:data] build];
+}
++ (ReconnectResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ReconnectResponseProto*)[[[ReconnectResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ReconnectResponseProto_Builder*) builder {
+  return [[[ReconnectResponseProto_Builder alloc] init] autorelease];
+}
++ (ReconnectResponseProto_Builder*) builderWithPrototype:(ReconnectResponseProto*) prototype {
+  return [[ReconnectResponseProto builder] mergeFrom:prototype];
+}
+- (ReconnectResponseProto_Builder*) builder {
+  return [ReconnectResponseProto builder];
+}
+@end
+
+@interface ReconnectResponseProto_Builder()
+@property (retain) ReconnectResponseProto* result;
+@end
+
+@implementation ReconnectResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ReconnectResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ReconnectResponseProto_Builder*) clear {
+  self.result = [[[ReconnectResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ReconnectResponseProto_Builder*) clone {
+  return [ReconnectResponseProto builderWithPrototype:result];
+}
+- (ReconnectResponseProto*) defaultInstance {
+  return [ReconnectResponseProto defaultInstance];
+}
+- (ReconnectResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ReconnectResponseProto*) buildPartial {
+  ReconnectResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ReconnectResponseProto_Builder*) mergeFrom:(ReconnectResponseProto*) other {
+  if (other == [ReconnectResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasIncomingResponseMessages) {
+    [self setIncomingResponseMessages:other.incomingResponseMessages];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setIncomingResponseMessages:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ReconnectResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ReconnectResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ReconnectResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ReconnectResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasIncomingResponseMessages {
+  return result.hasIncomingResponseMessages;
+}
+- (BOOL) incomingResponseMessages {
+  return result.incomingResponseMessages;
+}
+- (ReconnectResponseProto_Builder*) setIncomingResponseMessages:(BOOL) value {
+  result.hasIncomingResponseMessages = YES;
+  result.incomingResponseMessages = value;
+  return self;
+}
+- (ReconnectResponseProto_Builder*) clearIncomingResponseMessages {
+  result.hasIncomingResponseMessages = NO;
+  result.incomingResponseMessages = NO;
+  return self;
+}
+@end
+
+@interface LogoutRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@end
+
+@implementation LogoutRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+  }
+  return self;
+}
+static LogoutRequestProto* defaultLogoutRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [LogoutRequestProto class]) {
+    defaultLogoutRequestProtoInstance = [[LogoutRequestProto alloc] init];
+  }
+}
++ (LogoutRequestProto*) defaultInstance {
+  return defaultLogoutRequestProtoInstance;
+}
+- (LogoutRequestProto*) defaultInstance {
+  return defaultLogoutRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (LogoutRequestProto*) parseFromData:(NSData*) data {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromData:data] build];
+}
++ (LogoutRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromInputStream:input] build];
+}
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (LogoutRequestProto*)[[[LogoutRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (LogoutRequestProto_Builder*) builder {
+  return [[[LogoutRequestProto_Builder alloc] init] autorelease];
+}
++ (LogoutRequestProto_Builder*) builderWithPrototype:(LogoutRequestProto*) prototype {
+  return [[LogoutRequestProto builder] mergeFrom:prototype];
+}
+- (LogoutRequestProto_Builder*) builder {
+  return [LogoutRequestProto builder];
+}
+@end
+
+@interface LogoutRequestProto_Builder()
+@property (retain) LogoutRequestProto* result;
+@end
+
+@implementation LogoutRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[LogoutRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (LogoutRequestProto_Builder*) clear {
+  self.result = [[[LogoutRequestProto alloc] init] autorelease];
+  return self;
+}
+- (LogoutRequestProto_Builder*) clone {
+  return [LogoutRequestProto builderWithPrototype:result];
+}
+- (LogoutRequestProto*) defaultInstance {
+  return [LogoutRequestProto defaultInstance];
+}
+- (LogoutRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (LogoutRequestProto*) buildPartial {
+  LogoutRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (LogoutRequestProto_Builder*) mergeFrom:(LogoutRequestProto*) other {
+  if (other == [LogoutRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (LogoutRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (LogoutRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (LogoutRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (LogoutRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
 @end

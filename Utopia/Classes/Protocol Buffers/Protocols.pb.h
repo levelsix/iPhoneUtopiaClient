@@ -104,6 +104,8 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
+@class LogoutRequestProto;
+@class LogoutRequestProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserDefeatTypeJobProto;
@@ -168,6 +170,10 @@
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
 @class QuestRedeemResponseProto_Builder;
+@class ReconnectRequestProto;
+@class ReconnectRequestProto_Builder;
+@class ReconnectResponseProto;
+@class ReconnectResponseProto_Builder;
 @class RedeemMarketplaceEarningsRequestProto;
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
@@ -240,6 +246,8 @@
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
 @class StartupResponseProto_StartupConstants_FormulaConstants_Builder;
+@class StartupResponseProto_StartupConstants_KiipRewardConditions;
+@class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
 @class StartupResponseProto_TutorialConstants;
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
@@ -314,9 +322,11 @@ typedef enum {
   EventProtocolRequestCChangeUserLocationEvent = 40,
   EventProtocolRequestCLoadNeutralCityEvent = 41,
   EventProtocolRequestCRetrieveUsersForUserIdsEvent = 42,
-  EventProtocolRequestCPostOnPlayerWall = 43,
-  EventProtocolRequestCRetrievePlayerWallPosts = 44,
-  EventProtocolRequestCEarnFreeDiamonds = 45,
+  EventProtocolRequestCPostOnPlayerWallEvent = 43,
+  EventProtocolRequestCRetrievePlayerWallPostsEvent = 44,
+  EventProtocolRequestCEarnFreeDiamondsEvent = 45,
+  EventProtocolRequestCReconnectEvent = 46,
+  EventProtocolRequestCLogoutEvent = 47,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -364,9 +374,10 @@ typedef enum {
   EventProtocolResponseSChangeUserLocationEvent = 40,
   EventProtocolResponseSLoadNeutralCityEvent = 41,
   EventProtocolResponseSRetrieveUsersForUserIdsEvent = 42,
-  EventProtocolResponseSPostOnPlayerWall = 43,
-  EventProtocolResponseSRetrievePlayerWallPosts = 44,
-  EventProtocolResponseSEarnFreeDiamonds = 45,
+  EventProtocolResponseSPostOnPlayerWallEvent = 43,
+  EventProtocolResponseSRetrievePlayerWallPostsEvent = 44,
+  EventProtocolResponseSEarnFreeDiamondsEvent = 45,
+  EventProtocolResponseSReconnectEvent = 46,
   EventProtocolResponseSUpdateClientUserEvent = 51,
   EventProtocolResponseSQuestCompleteEvent = 52,
   EventProtocolResponseSReferralCodeUsedEvent = 53,

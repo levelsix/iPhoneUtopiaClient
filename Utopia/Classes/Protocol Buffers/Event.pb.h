@@ -104,6 +104,8 @@
 @class LoadPlayerCityResponseProto_Builder;
 @class LocationProto;
 @class LocationProto_Builder;
+@class LogoutRequestProto;
+@class LogoutRequestProto_Builder;
 @class MinimumUserBuildStructJobProto;
 @class MinimumUserBuildStructJobProto_Builder;
 @class MinimumUserDefeatTypeJobProto;
@@ -168,6 +170,10 @@
 @class QuestRedeemRequestProto_Builder;
 @class QuestRedeemResponseProto;
 @class QuestRedeemResponseProto_Builder;
+@class ReconnectRequestProto;
+@class ReconnectRequestProto_Builder;
+@class ReconnectResponseProto;
+@class ReconnectResponseProto_Builder;
 @class RedeemMarketplaceEarningsRequestProto;
 @class RedeemMarketplaceEarningsRequestProto_Builder;
 @class RedeemMarketplaceEarningsResponseProto;
@@ -240,6 +246,8 @@
 @class StartupResponseProto_StartupConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
 @class StartupResponseProto_StartupConstants_FormulaConstants_Builder;
+@class StartupResponseProto_StartupConstants_KiipRewardConditions;
+@class StartupResponseProto_StartupConstants_KiipRewardConditions_Builder;
 @class StartupResponseProto_TutorialConstants;
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
@@ -1781,8 +1789,9 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasHealthBaseCost_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasFormulaConstants_:1;
+  BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
+  BOOL hasFormulaConstants_:1;
   Float64 cutOfVaultDepositTaken;
   Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentReturnedToUserForSellingEquipInArmory;
@@ -1830,8 +1839,9 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   int32_t healthBaseCost;
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
-  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -1885,6 +1895,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasBattleConstants;
 - (BOOL) hasMaxCharLengthForWallPost;
 - (BOOL) hasPlayerWallPostsRetrieveCap;
+- (BOOL) hasKiipRewardConditions;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
@@ -1934,6 +1945,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly, retain) StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
 @property (readonly) int32_t maxCharLengthForWallPost;
 @property (readonly) int32_t playerWallPostsRetrieveCap;
+@property (readonly, retain) StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -1956,6 +1968,65 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_KiipRewardConditions : PBGeneratedMessage {
+@private
+  NSMutableArray* mutableLevelUpConditionsList;
+  NSMutableArray* mutableQuestRedeemConditionsList;
+}
+- (NSArray*) levelUpConditionsList;
+- (int32_t) levelUpConditionsAtIndex:(int32_t) index;
+- (NSArray*) questRedeemConditionsList;
+- (int32_t) questRedeemConditionsAtIndex:(int32_t) index;
+
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) defaultInstance;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builder;
++ (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builder;
++ (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_KiipRewardConditions*) prototype;
+
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_KiipRewardConditions*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_KiipRewardConditions_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_KiipRewardConditions* result;
+}
+
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clear;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) build;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_KiipRewardConditions*) other;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (NSArray*) levelUpConditionsList;
+- (int32_t) levelUpConditionsAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) replaceLevelUpConditionsAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addLevelUpConditions:(int32_t) value;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addAllLevelUpConditions:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clearLevelUpConditionsList;
+
+- (NSArray*) questRedeemConditionsList;
+- (int32_t) questRedeemConditionsAtIndex:(int32_t) index;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) replaceQuestRedeemConditionsAtIndex:(int32_t) index with:(int32_t) value;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addQuestRedeemConditions:(int32_t) value;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) addAllQuestRedeemConditions:(NSArray*) values;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) clearQuestRedeemConditionsList;
 @end
 
 @interface StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto : PBGeneratedMessage {
@@ -2516,6 +2587,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_StartupConstants_Builder*) addAnimatedSpriteOffsets:(StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto*) value;
 - (StartupResponseProto_StartupConstants_Builder*) addAllAnimatedSpriteOffsets:(NSArray*) values;
 - (StartupResponseProto_StartupConstants_Builder*) clearAnimatedSpriteOffsetsList;
+
+- (BOOL) hasKiipRewardConditions;
+- (StartupResponseProto_StartupConstants_KiipRewardConditions*) kiipRewardConditions;
+- (StartupResponseProto_StartupConstants_Builder*) setKiipRewardConditions:(StartupResponseProto_StartupConstants_KiipRewardConditions*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setKiipRewardConditionsBuilder:(StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeKiipRewardConditions:(StartupResponseProto_StartupConstants_KiipRewardConditions*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearKiipRewardConditions;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -9223,5 +9301,164 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status;
 - (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value;
 - (EarnFreeDiamondsResponseProto_Builder*) clearStatus;
+@end
+
+@interface ReconnectRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (ReconnectRequestProto*) defaultInstance;
+- (ReconnectRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReconnectRequestProto_Builder*) builder;
++ (ReconnectRequestProto_Builder*) builder;
++ (ReconnectRequestProto_Builder*) builderWithPrototype:(ReconnectRequestProto*) prototype;
+
++ (ReconnectRequestProto*) parseFromData:(NSData*) data;
++ (ReconnectRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReconnectRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReconnectRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReconnectRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ReconnectRequestProto* result;
+}
+
+- (ReconnectRequestProto*) defaultInstance;
+
+- (ReconnectRequestProto_Builder*) clear;
+- (ReconnectRequestProto_Builder*) clone;
+
+- (ReconnectRequestProto*) build;
+- (ReconnectRequestProto*) buildPartial;
+
+- (ReconnectRequestProto_Builder*) mergeFrom:(ReconnectRequestProto*) other;
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReconnectRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ReconnectRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ReconnectRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReconnectRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ReconnectRequestProto_Builder*) clearSender;
+@end
+
+@interface ReconnectResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasIncomingResponseMessages_:1;
+  BOOL hasSender_:1;
+  BOOL incomingResponseMessages_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasIncomingResponseMessages;
+@property (readonly, retain) MinimumUserProto* sender;
+- (BOOL) incomingResponseMessages;
+
++ (ReconnectResponseProto*) defaultInstance;
+- (ReconnectResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ReconnectResponseProto_Builder*) builder;
++ (ReconnectResponseProto_Builder*) builder;
++ (ReconnectResponseProto_Builder*) builderWithPrototype:(ReconnectResponseProto*) prototype;
+
++ (ReconnectResponseProto*) parseFromData:(NSData*) data;
++ (ReconnectResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ReconnectResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ReconnectResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ReconnectResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ReconnectResponseProto* result;
+}
+
+- (ReconnectResponseProto*) defaultInstance;
+
+- (ReconnectResponseProto_Builder*) clear;
+- (ReconnectResponseProto_Builder*) clone;
+
+- (ReconnectResponseProto*) build;
+- (ReconnectResponseProto*) buildPartial;
+
+- (ReconnectResponseProto_Builder*) mergeFrom:(ReconnectResponseProto*) other;
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ReconnectResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ReconnectResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ReconnectResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ReconnectResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ReconnectResponseProto_Builder*) clearSender;
+
+- (BOOL) hasIncomingResponseMessages;
+- (BOOL) incomingResponseMessages;
+- (ReconnectResponseProto_Builder*) setIncomingResponseMessages:(BOOL) value;
+- (ReconnectResponseProto_Builder*) clearIncomingResponseMessages;
+@end
+
+@interface LogoutRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+@property (readonly, retain) MinimumUserProto* sender;
+
++ (LogoutRequestProto*) defaultInstance;
+- (LogoutRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (LogoutRequestProto_Builder*) builder;
++ (LogoutRequestProto_Builder*) builder;
++ (LogoutRequestProto_Builder*) builderWithPrototype:(LogoutRequestProto*) prototype;
+
++ (LogoutRequestProto*) parseFromData:(NSData*) data;
++ (LogoutRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (LogoutRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (LogoutRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface LogoutRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  LogoutRequestProto* result;
+}
+
+- (LogoutRequestProto*) defaultInstance;
+
+- (LogoutRequestProto_Builder*) clear;
+- (LogoutRequestProto_Builder*) clone;
+
+- (LogoutRequestProto*) build;
+- (LogoutRequestProto*) buildPartial;
+
+- (LogoutRequestProto_Builder*) mergeFrom:(LogoutRequestProto*) other;
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (LogoutRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (LogoutRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (LogoutRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (LogoutRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (LogoutRequestProto_Builder*) clearSender;
 @end
 

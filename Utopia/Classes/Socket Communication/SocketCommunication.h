@@ -37,6 +37,8 @@
 - (int) sendBattleMessage:(MinimumUserProto *)defender result:(BattleResult)result curTime:(uint64_t)curTime city:(int)city equips:(NSArray *)equips;
 - (int) sendArmoryMessage:(ArmoryRequestProto_ArmoryRequestType)requestType quantity:(int)quantity equipId:(int)equipId;
 - (int) sendStartupMessage:(uint64_t)clientTime;
+- (int) sendReconnectMessage;
+- (int) sendLogoutMessage;
 - (int) sendTaskActionMessage:(int) taskId curTime:(uint64_t)clientTime ;
 - (int) sendInAppPurchaseMessage: (NSString *) receipt;
 
