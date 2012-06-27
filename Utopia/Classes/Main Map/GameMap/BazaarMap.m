@@ -10,6 +10,8 @@
 #import "LNSynthesizeSingleton.h"
 #import "GameState.h"
 
+#define NUM_ALLIES 8
+
 @implementation BazaarMap
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
@@ -106,6 +108,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     }
   }
   [self moveToSprite:csb];
+}
+
+- (void) reloadAllies {
+  
 }
 
 - (void) reloadQuestGivers {

@@ -97,6 +97,8 @@
 
 @synthesize lastLogoutTime = _lastLogoutTime;
 
+@synthesize allies = _allies;
+
 @synthesize unrespondedUpdates = _unrespondedUpdates;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
@@ -591,6 +593,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastLogoutTime = nil;
   self.unrespondedUpdates = nil;
   self.deviceToken = nil;
+  self.allies = nil;
   [super dealloc];
 }
 

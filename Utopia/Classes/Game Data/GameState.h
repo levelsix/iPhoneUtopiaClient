@@ -87,6 +87,8 @@
   
   NSDate *_lastLogoutTime;
   
+  NSArray *_allies;
+  
   // For the tagging scheme
   NSMutableArray *_unrespondedUpdates;
 }
@@ -168,6 +170,8 @@
 @property (retain) NSMutableArray *unrespondedUpdates;
 
 @property (retain) NSDate *lastLogoutTime;
+
+@property (retain) NSArray *allies;
 
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
