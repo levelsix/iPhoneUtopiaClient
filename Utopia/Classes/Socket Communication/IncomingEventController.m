@@ -33,6 +33,7 @@
 #import "VaultMenuController.h"
 #import "TopBar.h"
 #import "FullEvent.h"
+#import "KiipDelegate.h"
 
 @implementation IncomingEventController
 
@@ -412,6 +413,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
     
     [Analytics levelUp:proto.newLevel];
+    NSArray *levelUpRewards = [[[Globals sharedGlobals] kiipRewardConditions] levelUpConditionsList];
+    NSSet *levelupDict = [NSSet setWithArray:levelUpRewards];
+    
+    if ([levelupDict containsObject:[NSNumber numberWithInt:proto.newLevel]]) {
+      NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
+                                  proto.newLevel];      
+      [KiipDelegate postAchievementNotificationAchievement:curAchievement 
+                                                 andSender:nil];
+    }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle level up"];
