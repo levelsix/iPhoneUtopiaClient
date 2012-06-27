@@ -246,6 +246,7 @@
   // Release all our views
   [[CCDirector sharedDirector] stopAnimation];
   
+  [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   
   if (![[GameState sharedGameState] isTutorial]) {
@@ -284,6 +285,7 @@
 	
 	[director end];
   
+  [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   
   [Analytics terminatedApp];

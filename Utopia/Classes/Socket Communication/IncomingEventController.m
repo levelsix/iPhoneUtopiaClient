@@ -335,6 +335,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [oec loadPlayerCity:gs.userId];
     [oec retrieveAllStaticData];
     
+    [gs setAllies:proto.alliesList];
+    
     gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
     gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
     

@@ -79,7 +79,7 @@ static NSString *udid = nil;
   if (![[GameState sharedGameState] connected]) {
     [[OutgoingEventController sharedOutgoingEventController] startup];
   } else {
-    [[OutgoingEventController sharedOutgoingEventController] retrieveStaticEquip:1];
+    [[OutgoingEventController sharedOutgoingEventController] reconnect];
   }
   [self readHeader];
   _numDisconnects = 0;
