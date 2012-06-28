@@ -8,10 +8,6 @@
 
 #import "BattleCalculator.h"
 
-#define DEFENDED_MULT   0.1f
-#define UNDEFENDED_MULT 2.0f
-
-
 #define PERFECT_MULTIPLIER  2.0f
 #define GREAT_MULTIPLIER    1.5f
 #define GOOD_MULTIPLIER     1.0f

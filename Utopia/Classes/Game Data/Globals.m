@@ -1292,7 +1292,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     amulet = [gs equipWithId:amuletId];
   }
 
-  return attackStat + weapon.attackBoost + armor.attackBoost + amulet.attackBoost;
+  return self.battleWeightGivenToAttackStat*attackStat 
+      + self.battleWeightGivenToAttackEquipSum*(weapon.attackBoost 
+                                                + armor.attackBoost 
+                                                + amulet.attackBoost);
 }
 
 - (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
@@ -1301,7 +1304,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
   FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
 
-  return defenseStat + weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost;
+  return self.battleWeightGivenToDefenseStat*defenseStat 
+      + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost
+                                                 + armor.defenseBoost
+                                                 + amulet.defenseBoost);
 }
 
 + (void) popupView:(UIView *)targetView
