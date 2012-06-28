@@ -241,9 +241,9 @@
     self.userStruct = nil;
     [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
       [self removeFromSuperview];
+      [[HomeMap sharedHomeMap] upgradeMenuClosed];
     }];
     
-    [[HomeMap sharedHomeMap] upgradeMenuClosed];
   }
 }
 

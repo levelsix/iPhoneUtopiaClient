@@ -66,12 +66,19 @@
 
 @implementation EnemyPopupView
 
-@synthesize nameLabel, levelLabel, imageIcon;
+@synthesize nameLabel, levelLabel, imageIcon, enemyView, allyView;
+
+- (void) awakeFromNib {
+  [self addSubview:allyView];
+  allyView.frame = enemyView.frame;
+}
 
 - (void) dealloc {
   self.nameLabel = nil;
   self.levelLabel = nil;
   self.imageIcon = nil;
+  self.enemyView = nil;
+  self.allyView = nil;
   [super dealloc];
 }
 
@@ -334,10 +341,6 @@
 //  float diffX = ABS(frontLoc.origin.x-backLoc.origin.x);
 //  float diffY = ABS(frontLoc.origin.y-backLoc.origin.y);
 //  
-//  if (([front isKindOfClass:[Carpenter class]] || [front isKindOfClass:[MyPlayer class]]) && ([back isKindOfClass:[Carpenter class]] || [back isKindOfClass:[MyPlayer class]])) {
-//    NSLog(@"DX:%f, DY:%f", diffX, diffY);
-//  }
-//  
 //  if (diffX > diffY) {
 //    return frontLoc.origin.x <= backLoc.origin.x;
 //  } else {
@@ -346,7 +349,7 @@
 }
 
 - (void) updateEnemyMenu {
-  if (_selected && [_selected isKindOfClass:[Enemy class]]) {
+  if (_selected && ([_selected isKindOfClass:[Enemy class]] || [_selected isKindOfClass:[Ally class]])) {
     CGPoint pt = [_selected convertToWorldSpace:ccp(_selected.contentSize.width/2, _selected.contentSize.height-OVER_HOME_BUILDING_MENU_OFFSET+5)];
     
     float width = enemyMenu.frame.size.width;
@@ -368,6 +371,15 @@
       [[self.enemyMenu nameLabel] setText:fup.name];
       [[self.enemyMenu levelLabel] setText:[NSString stringWithFormat:@"Lvl %d", fup.level]];
       [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:fup.userType]];
+      self.enemyMenu.enemyView.hidden = NO;
+      self.enemyMenu.allyView.hidden = YES;
+    } else if ([selected isKindOfClass:[Ally class]]) {
+      MinimumUserProto *mup = [(Ally *)selected user];
+      [[self.enemyMenu nameLabel] setText:mup.name];
+      [[self.enemyMenu levelLabel] setText:[NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:mup.userType], [Globals classForUserType:mup.userType]]];
+      [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:mup.userType]];
+      self.enemyMenu.enemyView.hidden = YES;
+      self.enemyMenu.allyView.hidden = NO;
     }
     _selected.isSelected = YES;
     [self updateEnemyMenu];
@@ -545,13 +557,20 @@
   }
 }
 
-- (IBAction)profileClicked:(id)sender {
+- (IBAction)enemyProfileClicked:(id)sender {
   if ([_selected isKindOfClass:[Enemy class]]) {
     Enemy *enemy = (Enemy *)_selected;
     [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:enemy.user buttonsEnabled:YES];
     [ProfileViewController displayView];
     
     [Analytics enemyProfileFromSprite];
+  }
+}
+
+- (IBAction)allyProfileClicked:(id)sender {
+  if ([_selected isKindOfClass:[Ally class]]) {
+    Ally *ally = (Ally *)_selected;
+    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:ally.user withState:kEquipState];
   }
 }
 

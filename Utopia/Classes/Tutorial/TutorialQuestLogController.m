@@ -138,6 +138,8 @@
   
   [TutorialQuestLogController removeView];
   [TutorialQuestLogController purgeSingleton];
+  
+  [Analytics tutorialQuestRedeem];
 }
 
 - (IBAction)closeClicked:(id)sender {

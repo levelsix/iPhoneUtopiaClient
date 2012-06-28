@@ -1255,7 +1255,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrieveQuestLog {
-  GameState *gs = [GameState sharedGameState];
+  GameState *gs = [GameState sharedGameState];  
   int tag = [[SocketCommunication sharedSocketCommunication] sendUserQuestDetailsMessage:0];
   [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }

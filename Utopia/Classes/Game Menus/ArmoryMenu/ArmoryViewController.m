@@ -364,6 +364,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 @synthesize armoryBar;
 @synthesize coinBar;
 @synthesize state = _state;
+@synthesize spinner;
 
 #pragma mark - View lifecycle
 
@@ -461,7 +462,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSArray *equipsList = [self equipListForCurrentState];
-  return (int)ceilf(equipsList.count/3.f);
+  int num = (int)ceilf(equipsList.count/3.f);
+  
+  if (num > 0) {
+    [self.spinner stopAnimating];
+    self.spinner.hidden = YES;
+  } else {
+    [self.spinner startAnimating];
+    self.spinner.hidden = NO;
+  }
+  
+  return num;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -485,7 +496,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 - (void) refresh {
   [self.armoryTableView reloadData];
-  [self.armoryTableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void) loadBuySellViewForEquip:(FullEquipProto *)fep {

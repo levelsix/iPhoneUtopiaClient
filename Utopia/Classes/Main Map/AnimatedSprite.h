@@ -76,6 +76,14 @@ typedef enum {
 
 @end
 
+@interface Ally : AnimatedSprite
+
+@property (nonatomic, retain) MinimumUserProto *user;
+
+- (id) initWithUser:(MinimumUserProto *)mup location:(CGRect)loc map:(GameMap *)map;
+
+@end
+
 @interface TutorialGirl : QuestGiver
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;

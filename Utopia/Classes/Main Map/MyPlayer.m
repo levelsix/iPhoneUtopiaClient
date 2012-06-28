@@ -299,8 +299,6 @@
       [self.sprite setDisplayFrame:frame];
     }], nil]];
   }
-  
-  NSLog(@"MyPlayer: %@", NSStringFromCGRect(loc));
 
 }
 

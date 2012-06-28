@@ -370,6 +370,8 @@
   gs.battlesWon = 1;
   
   [gs changeQuantityForEquip:tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId by:1];
+  
+  [Analytics tutorialBattleComplete];
 }
 
 - (IBAction)profileButtonClicked:(id)sender {

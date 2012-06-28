@@ -102,10 +102,11 @@
 + (void) enemyProfileFromBattle;
 + (void) enemyProfileFromSprite;
 + (void) enemyProfileFromAttackMap;
++ (void) postedToEnemyProfile;
++ (void) postedToAllyProfile;
 
 // Missing Features
 + (void) clickedMarketplaceSearch;
-+ (void) clickedProfileWall;
 + (void) clickedFreeOffers;
 + (void) clickedVisitCity;
 
@@ -121,20 +122,15 @@
 + (void) tutorialQuestRedeem;
 + (void) tutorialSkillPointsAdded;
 + (void) tutorialAmuletEquipped;
-+ (void) tutorialEnterAviary;
-+ (void) tutorialEnemiesTab;
-+ (void) tutorialRejectedLocation;
-+ (void) tutorialEnabledLocation;
 + (void) tutorialGoHome;
 + (void) tutorialEnterCarpenter;
 + (void) tutorialPurchaseInn;
 + (void) tutorialPlaceInn;
 + (void) tutorialFinishNow;
 + (void) tutorialWaitBuild;
-+ (void) tutorialEnterredReferral;
-+ (void) tutorialSkippedReferral;
++ (void) tutorialPathMenu;
++ (void) tutorialProfileButton;
 + (void) tutorialUserCreated;
-+ (void) tutorialInvalidReferral;
 + (void) tutorialTimeSync;
 + (void) tutorialOtherFail;
 + (void) tutorialComplete;

@@ -223,7 +223,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       
       if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
         // Image not in docs: download it
-        [[Downloader sharedDownloader] downloadImage:fullpath.lastPathComponent completion:nil];
+        [[Downloader sharedDownloader] asyncDownloadImage:fullpath.lastPathComponent completion:nil];
         imageExists = NO;
       }
     }
@@ -658,14 +658,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) startMyTurn {
-  _attackButton.visible = YES;
-  _comboBar.visible = NO;
-  _bottomMenu.visible = YES;
-  _isAnimating = NO;
-  _attackMoving = YES;
-  
-  [_attackProgressTimer runAction:[CCSequence actionOne:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:100 to:0]
-                                                    two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
+    _attackButton.visible = YES;
+    _comboBar.visible = NO;
+    _bottomMenu.visible = YES;
+    _isAnimating = NO;
+    _attackMoving = YES;
+    
+    [_attackProgressTimer runAction:[CCSequence actionOne:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:100 to:0]
+                                                      two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
 }
 
 - (void) attackStart {
@@ -702,6 +702,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
   _attackButton.visible = NO;
   _attackMoving = NO;
+  _isAnimating = YES;
   [[SoundEngine sharedSoundEngine] stopCharge];
   [self startEnemyTurn];
 }

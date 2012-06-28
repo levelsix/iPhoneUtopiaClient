@@ -97,6 +97,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *cantEquipView;
 @property (nonatomic, retain) IBOutlet UILabel *numOwnedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipDescriptionLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) IBOutlet CoinBar *coinBar;
 

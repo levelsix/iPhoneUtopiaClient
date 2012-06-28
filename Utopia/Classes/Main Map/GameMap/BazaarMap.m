@@ -59,7 +59,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    _questGiver = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:@"FemaleFarmer.png" map:self location:r];
+    _questGiver = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:@"FarmerMitch.png" map:self location:r];
     _questGiver.name = [Globals bazaarQuestGiverName];
     [self addChild:_questGiver];
     [_questGiver release];
@@ -111,9 +111,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
 }
 
 - (void) reloadAllies {
-  // Need to get unique nums
-  NSSet *nums = [NSSet set];
+  GameState *gs = [GameState sharedGameState];
+  NSArray *allies = gs.allies;
   
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (CCNode *node in children_) {
+    if ([node isKindOfClass:[Ally class]]) {
+      [toRemove addObject:node];
+    }
+  }
+  for (CCNode *node in toRemove) {
+    [node removeFromParentAndCleanup:YES];
+  }
+  
+  // Need to get unique nums
+  NSMutableSet *nums = [NSMutableSet set];
+  while (nums.count < NUM_ALLIES && nums.count != allies.count) {
+    int index = arc4random() % allies.count;
+    [nums addObject:[NSNumber numberWithInt:index]];
+  }
+  
+  for (NSNumber *num in nums) {
+    MinimumUserProto *mup = [allies objectAtIndex:num.intValue];
+    CGRect r = CGRectZero;
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    Ally *ally = [[Ally alloc] initWithUser:mup location:r map:self];
+    [self addChild:ally];
+    [ally release];
+  }
 }
 
 - (void) reloadQuestGivers {

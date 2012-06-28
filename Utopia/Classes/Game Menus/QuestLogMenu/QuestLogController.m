@@ -50,10 +50,6 @@
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:quest.cityId asset:quest.assetNumWithinCity];
   [[QuestLogController sharedQuestLogController] close];
   
-  [[VaultMenuController sharedVaultMenuController] close];
-  [[MarketplaceViewController sharedMarketplaceViewController] close];
-  [[ArmoryViewController sharedArmoryViewController] close];
-  
   [Analytics clickedVisit];
 }
 
@@ -156,6 +152,12 @@
 - (IBAction)visitClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:_cityId asset:_assetNum];
   [[QuestLogController sharedQuestLogController] close];
+  
+  if (_cityId == 0 && _assetNum == 2) {
+    [[VaultMenuController sharedVaultMenuController] close];
+    [[MarketplaceViewController sharedMarketplaceViewController] close];
+    [[ArmoryViewController sharedArmoryViewController] close];
+  }
   
   if ([[BattleLayer sharedBattleLayer] isRunning]) {
     [Globals popupMessage:@"You will be taken there after the battle!"];

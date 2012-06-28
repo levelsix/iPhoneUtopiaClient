@@ -215,6 +215,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [self addChild:_bazaarMap z:1];
     [_topBar loadBazaarConfiguration];
     
+    [_bazaarMap reloadAllies];
     [_bazaarMap reloadQuestGivers];
   }
   

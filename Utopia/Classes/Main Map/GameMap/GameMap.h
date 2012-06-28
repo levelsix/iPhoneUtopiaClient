@@ -28,6 +28,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *imageIcon;
+@property (nonatomic, retain) IBOutlet UIView *enemyView;
+@property (nonatomic, retain) IBOutlet UIView *allyView;
 
 @end
 
@@ -76,7 +78,8 @@
 - (void) pickUpEquipDrop:(EquipDrop *)ed;
 
 - (IBAction)attackClicked:(id)sender;
-- (IBAction)profileClicked:(id)sender;
+- (IBAction)enemyProfileClicked:(id)sender;
+- (IBAction)allyProfileClicked:(id)sender;
 
 - (void) reloadQuestGivers;
 - (void) questRedeemed:(FullQuestProto *)fqp;

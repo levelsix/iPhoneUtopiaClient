@@ -40,11 +40,7 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  CGRect f = self.view.frame;
-  self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
-  [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
-    self.view.center = CGPointMake(f.size.width/2, f.size.height/2);
-  }];
+  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
 }
 
 - (void) beforePurchaseDialog {

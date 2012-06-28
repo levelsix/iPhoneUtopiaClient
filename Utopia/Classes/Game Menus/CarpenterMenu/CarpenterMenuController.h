@@ -76,6 +76,7 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet CarpenterRow *carpRow;
 @property (nonatomic, retain) IBOutlet UITableView *carpTable;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) NSMutableArray *structsList;
 
