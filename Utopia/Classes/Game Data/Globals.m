@@ -141,10 +141,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.upgradeStructCoinCostExponentBase = constants.formulaConstants.upgradeStructCoinCostExponentBase;
   self.upgradeStructDiamondCostExponentBase = constants.formulaConstants.upgradeStructDiamondCostExponentBase;
   self.diamondCostForInstantUpgradeMultiplier = constants.formulaConstants.diamondCostForInstantUpgradeMultiplier;
-  self.battleWeightGivenToAttackStat = constants.formulaConstants.battleWeightGivenToAttackStat;
-  self.battleWeightGivenToAttackEquipSum = constants.formulaConstants.battleWeightGivenToAttackEquipSum;
-  self.battleWeightGivenToDefenseStat = constants.formulaConstants.battleWeightGivenToDefenseStat;
-  self.battleWeightGivenToDefenseEquipSum = constants.formulaConstants.battleWeightGivenToDefenseEquipSum;
+  self.battleWeightGivenToAttackStat = constants.battleConstants.battleWeightGivenToAttackStat;
+  self.battleWeightGivenToAttackEquipSum = constants.battleConstants.battleWeightGivenToAttackEquipSum;
+  self.battleWeightGivenToDefenseStat = constants.battleConstants.battleWeightGivenToDefenseStat;
+  self.battleWeightGivenToDefenseEquipSum = constants.battleConstants.battleWeightGivenToDefenseEquipSum;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
