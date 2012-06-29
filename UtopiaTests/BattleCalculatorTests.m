@@ -37,19 +37,6 @@
   return [UserBattleStats createWithFullUserProto:user];
 }
 
-//-(id<UserBattleStats>)equipWithAttack:(int)attack 
-//                           andDefense:(int)defense 
-//                              andType:(FullEquipProto_EquipType)equipType
-//{
-//  FullEquipProto_Builder *builder = [FullEquipProto builder];
-//  [builder setAttackBoost:attack];
-//  [builder setDefenseBoost:defense];
-//  [builder setMinLevel:0];
-//
-//  FullEquipProto *user = [builder build];
-//  return nil;
-//}
-
 - (void)setUp
 {
   [super setUp];
@@ -64,6 +51,10 @@
                                                    andLeftStats:leftStats
                                                      andGlobals:[Globals sharedGlobals]];
   [Globals sharedGlobals].locationBarMax = 75;
+  [Globals sharedGlobals].battleWeightGivenToDefenseStat     = 1;
+  [Globals sharedGlobals].battleWeightGivenToDefenseEquipSum = 1;
+  [Globals sharedGlobals].battleWeightGivenToAttackStat      = 1;
+  [Globals sharedGlobals].battleWeightGivenToAttackEquipSum  = 1;
 }
 
 - (void)tearDown
@@ -74,32 +65,6 @@
 }
 
 #pragma mark Warrior/Warrior EquipmentTests
-//- (void)test_WarriorAttackWARRIORPERFECTWithEquipment
-//{
-//  [self equipWithAttack:10 andDefense:10];
-//  
-////  // Set expectations
-////  int expected = 12;
-////  testCalculator.rightUser = [self userForAttack:WARRIOR_ATTACK_LVL1
-////                                      andDefense:WARRIOR_DEFENSE_LVL1];
-////  testCalculator.leftUser  = [self userForAttack:WARRIOR_ATTACK_LVL1 
-////                                      andDefense:WARRIOR_DEFENSE_LVL1];
-////  
-////  // Run the test
-////  int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
-////  
-////  // Check expectations
-////  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
-//}
-
-
-
-
-
-
-
-
-
 
 #pragma mark Warrior/Warrior DefenseTests
 - (void)test_WarriorAttackWARRIORPERFECTWithDefense

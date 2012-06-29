@@ -55,9 +55,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize battleWeightGivenToAttackEquipSum, battleWeightGivenToDefenseEquipSum;
 @synthesize diamondCostForInstantUpgradeMultiplier, upgradeStructCoinCostExponentBase;
 @synthesize upgradeStructDiamondCostExponentBase;
-@synthesize locationBarMax, maxAttackMultiplier;
-@synthesize minPercentOfEnemyHealth, maxPercentOfEnemyHealth;
-@synthesize battleDifferenceTuner, battleDifferenceMultiplier;
+@synthesize locationBarMax;
 @synthesize animatingSpriteOffsets;
 @synthesize kiipRewardConditions;
 
@@ -149,11 +147,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.battleWeightGivenToDefenseEquipSum = constants.formulaConstants.battleWeightGivenToDefenseEquipSum;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
-  self.maxAttackMultiplier = constants.battleConstants.maxAttackMultiplier;
-  self.minPercentOfEnemyHealth = constants.battleConstants.minPercentOfEnemyHealth;
-  self.maxPercentOfEnemyHealth = constants.battleConstants.maxPercentOfEnemyHealth;
-  self.battleDifferenceMultiplier = constants.battleConstants.battleDifferenceMultiplier;
-  self.battleDifferenceTuner = constants.battleConstants.battleDifferenceTuner;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
   
@@ -1292,7 +1285,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     amulet = [gs equipWithId:amuletId];
   }
 
-  return attackStat + weapon.attackBoost + armor.attackBoost + amulet.attackBoost;
+  return self.battleWeightGivenToAttackStat*attackStat 
+      + self.battleWeightGivenToAttackEquipSum*(weapon.attackBoost 
+                                                + armor.attackBoost 
+                                                + amulet.attackBoost);
 }
 
 - (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
@@ -1301,7 +1297,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
   FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
 
-  return defenseStat + weapon.defenseBoost + armor.defenseBoost + amulet.defenseBoost;
+  return self.battleWeightGivenToDefenseStat*defenseStat 
+      + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost
+                                                 + armor.defenseBoost
+                                                 + amulet.defenseBoost);
 }
 
 + (void) popupView:(UIView *)targetView
@@ -1432,17 +1431,19 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [Globals setupPulseAnimation];
   [Globals clearPulsingViews];
 
-  UIImageView *glow = [[UIImageView alloc] 
-                       initWithImage:[Globals roundGlowForColor:glowColor]];
-  CGRect frame = view.frame;
-  frame.origin.x = 0;
-  frame.origin.y = 0;
-  [glow setFrame:frame];
-  [view addSubview:glow];
-  [view bringSubviewToFront:glow];
+  if (![_pulsingViews    containsObject:view]) {
+    UIImageView *glow = [[UIImageView alloc] 
+                         initWithImage:[Globals roundGlowForColor:glowColor]];
+    CGRect frame = view.frame;
+    frame.origin.x = 0;
+    frame.origin.y = 0;
+    [glow setFrame:frame];
+    [view addSubview:glow];
+    [view bringSubviewToFront:glow];
 
-  [_pulsingViews addObject:view];
-  [self pulse:0 onView:glow];
+    [_pulsingViews addObject:view];
+    [self pulse:0 onView:glow];
+  }
 }
 
 +(void)endPulseForView:(UIView *)view {
@@ -1454,6 +1455,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }
 }
 
+#pragma mark View Bounce
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView {
   view.alpha = 0;
   bgdView.alpha = 0;
