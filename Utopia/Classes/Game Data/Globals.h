@@ -83,10 +83,19 @@
 @property (nonatomic, assign) float upgradeStructCoinCostExponentBase;
 @property (nonatomic, assign) float upgradeStructDiamondCostExponentBase;
 @property (nonatomic, assign) float diamondCostForInstantUpgradeMultiplier;
+
+// Battle constants
 @property (nonatomic, assign) float battleWeightGivenToAttackStat;
 @property (nonatomic, assign) float battleWeightGivenToAttackEquipSum;
 @property (nonatomic, assign) float battleWeightGivenToDefenseStat;
 @property (nonatomic, assign) float battleWeightGivenToDefenseEquipSum;
+@property (nonatomic, assign) float battlePerfectPercentThreshold;
+@property (nonatomic, assign) float battleGreatPercentThreshold;
+@property (nonatomic, assign) float battleGoodPercentThreshold;
+@property (nonatomic, assign) float battlePerfectMultiplier;
+@property (nonatomic, assign) float battleGreatMultiplier;
+@property (nonatomic, assign) float battleGoodMultiplier;
+@property (nonatomic, assign) float battleImbalancePercent;
 
 @property (nonatomic, assign) float locationBarMax;
 

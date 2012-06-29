@@ -192,9 +192,11 @@
           te.numTimesActedForQuest = ftp.numRequiredForCompletion;
         } else {
           for (MinimumUserQuestTaskProto *taskData in questData.requiredTasksProgressList) {
-            te.numTimesActedForQuest = taskData.numTimesActed;
-            if (te.numTimesActedForQuest < ftp.numRequiredForCompletion) {
-              [te displayArrow];
+            if (taskData.taskId == taskId) {
+              te.numTimesActedForQuest = taskData.numTimesActed;
+              if (te.numTimesActedForQuest < ftp.numRequiredForCompletion) {
+                [te displayArrow];
+              }
             }
           }
         }

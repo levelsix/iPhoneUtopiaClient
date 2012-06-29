@@ -58,6 +58,9 @@ static NSMutableSet *_pulsingViews;
 @synthesize locationBarMax;
 @synthesize animatingSpriteOffsets;
 @synthesize kiipRewardConditions;
+@synthesize battleGoodMultiplier, battleGreatMultiplier, battleImbalancePercent;
+@synthesize battlePerfectMultiplier, battleGoodPercentThreshold, battleGreatPercentThreshold;
+@synthesize battlePerfectPercentThreshold;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -141,10 +144,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.upgradeStructCoinCostExponentBase = constants.formulaConstants.upgradeStructCoinCostExponentBase;
   self.upgradeStructDiamondCostExponentBase = constants.formulaConstants.upgradeStructDiamondCostExponentBase;
   self.diamondCostForInstantUpgradeMultiplier = constants.formulaConstants.diamondCostForInstantUpgradeMultiplier;
+  
   self.battleWeightGivenToAttackStat = constants.battleConstants.battleWeightGivenToAttackStat;
   self.battleWeightGivenToAttackEquipSum = constants.battleConstants.battleWeightGivenToAttackEquipSum;
   self.battleWeightGivenToDefenseStat = constants.battleConstants.battleWeightGivenToDefenseStat;
   self.battleWeightGivenToDefenseEquipSum = constants.battleConstants.battleWeightGivenToDefenseEquipSum;
+  self.battlePerfectPercentThreshold = constants.battleConstants.battlePerfectPercentThreshold;
+  self.battleGreatPercentThreshold = constants.battleConstants.battleGreatPercentThreshold;
+  self.battleGoodPercentThreshold = constants.battleConstants.battleGoodMultiplier;
+  self.battlePerfectMultiplier = constants.battleConstants.battlePerfectMultiplier;
+  self.battleGreatMultiplier = constants.battleConstants.battleGreatMultiplier;
+  self.battleGoodMultiplier = constants.battleConstants.battleGoodMultiplier;
+  self.battleImbalancePercent = constants.battleConstants.battleImbalancePercent;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   

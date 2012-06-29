@@ -662,7 +662,7 @@
 
 - (IBAction)claimRewardClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
-  [QuestLogController removeView];
+  [[QuestLogController sharedQuestLogController] close];
   
   [[SoundEngine sharedSoundEngine] questComplete];
 }
