@@ -168,6 +168,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
   [[OutgoingEventController sharedOutgoingEventController] retrieveUsersForUserIds:userIds];
+  
+  [self.activityTableView reloadData];
 }
 
 - (int) numberOfSectionsInTableView:(UITableView *)tableView {

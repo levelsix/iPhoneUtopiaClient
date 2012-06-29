@@ -360,7 +360,7 @@
 @implementation Carpenter
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:@"TutorialGuideBad.png" location:loc map:map])) {
+  if ((self = [super initWithFile:@"Carpenter.png" location:loc map:map])) {
     CCSprite *carpIcon = [CCSprite spriteWithFile:@"carpentericon.png"];
     [self addChild:carpIcon];
     carpIcon.position = ccp(self.contentSize.width/2, self.contentSize.height+carpIcon.contentSize.height/2);

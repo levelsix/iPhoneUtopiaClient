@@ -522,10 +522,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.skillPoints >= gl.energyBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeEnergy];
-    EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
+    
+    // Make sure max happens before cur, because cur can only be as high as max
     MaxEnergyUpdate *meu = [MaxEnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
+    EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:gl.energyBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.energyBaseCost];
-    [gs addUnrespondedUpdates:eu, meu, spu, nil];
+    [gs addUnrespondedUpdates:meu, eu, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
   }
@@ -538,10 +540,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.skillPoints >= gl.staminaBaseCost) {
     int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeStamina];
-    StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
+    
+    // Make sure max happens before cur, because cur can only be as high as max
     MaxStaminaUpdate *msu = [MaxStaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
+    StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:gl.staminaBaseGain];
     SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.staminaBaseCost];
-    [gs addUnrespondedUpdates:su, msu, spu, nil];
+    [gs addUnrespondedUpdates:msu, su, spu, nil];
   } else {
     [Globals popupMessage:@"No skill points available to add"];
   }
@@ -1380,6 +1384,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You just earned %d Gold", 
                          gold]];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
+  
+  [Analytics watchedAdColony];
 }
 
 @end

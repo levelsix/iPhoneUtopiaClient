@@ -9,6 +9,7 @@
 #import "KiipDelegate.h"
 #import "OutgoingEventController.h"
 #import "SBJSON.h"
+#import "Analytics.h"
 
 @implementation KiipDelegate
 
@@ -22,6 +23,8 @@
   [[OutgoingEventController sharedOutgoingEventController] 
    kiipReward:quantity
    receipt:receiptStr];
+  
+  [Analytics kiipEnteredEmail];
 }
 
 -(void)receivedAchievement:(NSNotification *)notification
@@ -30,6 +33,8 @@
                            objectForKey:[KiipDelegate 
                                          earnedAchievementNotification]];
   [kpManager unlockAchievement:achievement];
+  
+  [Analytics kiipUnlockedAchievement];
 }
 
 +(NSString *)earnedAchievementNotification

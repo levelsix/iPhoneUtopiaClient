@@ -89,8 +89,14 @@
 #define POSTED_TO_ENEMY_PROFILE @"Wall: Posted to Enemy Profile"
 #define POSTED_TO_ALLY_PROFILE @"Wall: Posted to Ally Profile"
 
+#define GOLD_SHOPPE_FREE_OFFERS @"Gold Shoppe: Clicked earn free offers"
+#define GOLD_SHOPPE_AD_COLONY @"Gold Shoppe: Watched Ad Colony"
+#define GOLD_SHOPPE_AD_COLONY_FAILED @"Gold Shoppe: Ad Colony Failed"
+#define KIIP_FAILED @"Kiip: Received Fail Message"
+#define KIIP_UNLOCKED_ACHIEVEMENT @"Kiip: Unlocked achievement"
+#define KIIP_ENTERED_EMAIL @"Kiip: Entered email"
+
 #define CLICKED_SEARCH @"Mkt: Clicked search"
-#define CLICKED_FREE_OFFERS @"Gold Shop: Clicked free offers"
 #define CLICKED_VISIT_CITY @"Profile: Clicked visit city"
 
 #define TUTORIAL_START @"Tutorial: Start"
@@ -98,6 +104,7 @@
 #define TUTORIAL_PAN_DONE @"Tutorial: Pan done"
 #define TUTORIAL_CHAR_CHOSEN @"Tutorial: Character chosen"
 #define TUTORIAL_QUEST_ACCEPTED @"Tutorial: Quest accepted"
+#define TUTORIAL_CLICKED_VISIT @"Tutorial: Clicked visit"
 #define TUTORIAL_BATTLE_START @"Tutorial: Battle started"
 #define TUTORIAL_BATTLE_COMPLETE @"Tutorial: Battle complete"
 #define TUTORIAL_TASK_COMPLETE @"Tutorial: Task complete"
@@ -610,7 +617,12 @@
 }
 
 + (void) clickedVisit {
-  [Analytics event:CLICKED_VISIT];
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.isTutorial) {
+    [Analytics event:CLICKED_VISIT];
+  } else {
+    [Analytics event:TUTORIAL_CLICKED_VISIT];
+  }
 }
 
 + (void) receivedNotification {
@@ -663,16 +675,36 @@
 
 + (void) postedToAllyProfile {
   [Analytics event:POSTED_TO_ALLY_PROFILE];
-   }
+}
+
++ (void) clickedFreeOffers {
+  [Analytics event:GOLD_SHOPPE_FREE_OFFERS];
+}
+
++ (void) watchedAdColony {
+  [Analytics event:GOLD_SHOPPE_AD_COLONY];
+}
+
++ (void) adColonyFailed {
+  [Analytics event:GOLD_SHOPPE_AD_COLONY_FAILED];
+}
+
++ (void) kiipFailed {
+  [Analytics event:KIIP_FAILED];
+}
+
++ (void) kiipUnlockedAchievement {
+  [Analytics event:KIIP_UNLOCKED_ACHIEVEMENT];
+}
+
++ (void) kiipEnteredEmail {
+  [Analytics event:KIIP_ENTERED_EMAIL];
+}
 
 // Missing features
 
 + (void) clickedMarketplaceSearch {
   [Analytics event:CLICKED_SEARCH];
-}
-
-+ (void) clickedFreeOffers {
-  [Analytics event:CLICKED_FREE_OFFERS];
 }
 
 + (void) clickedVisitCity {

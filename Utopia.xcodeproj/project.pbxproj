@@ -1322,6 +1322,10 @@
 		CFEC29DC159BDB6B00F15EDC /* bigmitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DA159BDB6B00F15EDC /* bigmitch@2x.png */; };
 		CFEC29DF159BE4B300F15EDC /* dialoguemitch.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DD159BE4B300F15EDC /* dialoguemitch.png */; };
 		CFEC29E0159BE4B300F15EDC /* dialoguemitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DE159BE4B300F15EDC /* dialoguemitch@2x.png */; };
+		CFEC29FE159D2F2100F15EDC /* CarpenterWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */; };
+		CFEC29FF159D2F2100F15EDC /* CarpenterWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */; };
+		CFEC2A00159D2F2100F15EDC /* CarpenterWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */; };
+		CFEC2A01159D2F2100F15EDC /* CarpenterWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */; };
 		CFECCDDC1550909700171271 /* equipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDA1550909700171271 /* equipped.png */; };
 		CFECCDDD1550909700171271 /* equipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDB1550909700171271 /* equipped@2x.png */; };
 		CFECCDE21550971000171271 /* markbuy.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDE1550971000171271 /* markbuy.png */; };
@@ -3079,6 +3083,10 @@
 		CFEC29DA159BDB6B00F15EDC /* bigmitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigmitch@2x.png"; sourceTree = "<group>"; };
 		CFEC29DD159BE4B300F15EDC /* dialoguemitch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dialoguemitch.png; sourceTree = "<group>"; };
 		CFEC29DE159BE4B300F15EDC /* dialoguemitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguemitch@2x.png"; sourceTree = "<group>"; };
+		CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CarpenterWalkNF.plist; sourceTree = "<group>"; };
+		CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CarpenterWalkNF.png; sourceTree = "<group>"; };
+		CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CarpenterWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CarpenterWalkNF@2x.png"; sourceTree = "<group>"; };
 		CFECCDDA1550909700171271 /* equipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipped.png; sourceTree = "<group>"; };
 		CFECCDDB1550909700171271 /* equipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipped@2x.png"; sourceTree = "<group>"; };
 		CFECCDDE1550971000171271 /* markbuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markbuy.png; sourceTree = "<group>"; };
@@ -3253,6 +3261,7 @@
 		065FABCE15900BBC008E9B3C /* Neutral */ = {
 			isa = PBXGroup;
 			children = (
+				CFEC29F9159D2F1600F15EDC /* Carpenter */,
 				CFEC29CB159BB92200F15EDC /* FarmerMitch */,
 			);
 			name = Neutral;
@@ -6099,6 +6108,17 @@
 			name = FarmerMitch;
 			sourceTree = "<group>";
 		};
+		CFEC29F9159D2F1600F15EDC /* Carpenter */ = {
+			isa = PBXGroup;
+			children = (
+				CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */,
+				CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */,
+				CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */,
+				CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */,
+			);
+			name = Carpenter;
+			sourceTree = "<group>";
+		};
 		CFEDA617153C04FB00015562 /* UserVoice */ = {
 			isa = PBXGroup;
 			children = (
@@ -7459,6 +7479,10 @@
 				CFEC29DC159BDB6B00F15EDC /* bigmitch@2x.png in Resources */,
 				CFEC29DF159BE4B300F15EDC /* dialoguemitch.png in Resources */,
 				CFEC29E0159BE4B300F15EDC /* dialoguemitch@2x.png in Resources */,
+				CFEC29FE159D2F2100F15EDC /* CarpenterWalkNF.plist in Resources */,
+				CFEC29FF159D2F2100F15EDC /* CarpenterWalkNF.png in Resources */,
+				CFEC2A00159D2F2100F15EDC /* CarpenterWalkNF@2x.plist in Resources */,
+				CFEC2A01159D2F2100F15EDC /* CarpenterWalkNF@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

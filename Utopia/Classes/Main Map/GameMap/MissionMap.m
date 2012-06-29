@@ -287,7 +287,10 @@
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userType == enemyType || enemyType == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
-        [enemy displayArrow];
+        // Make sure this enemy wasn't just defeated
+        if (enemy.opacity == 255) {
+          [enemy displayArrow];
+        }
       }
     }
   }

@@ -105,9 +105,15 @@
 + (void) postedToEnemyProfile;
 + (void) postedToAllyProfile;
 
++ (void) clickedFreeOffers;
++ (void) watchedAdColony;
++ (void) adColonyFailed;
++ (void) kiipFailed;
++ (void) kiipUnlockedAchievement;
++ (void) kiipEnteredEmail;
+
 // Missing Features
 + (void) clickedMarketplaceSearch;
-+ (void) clickedFreeOffers;
 + (void) clickedVisitCity;
 
 // Tutorial
