@@ -814,8 +814,16 @@
   
   NSString *content = wallTextField.text;
   if (content.length > 0) {
-    int userId = [[ProfileViewController sharedProfileViewController] userId];
+    ProfileViewController *pvc = [ProfileViewController sharedProfileViewController];
+    int userId = pvc.userId;
     PlayerWallPostProto *wallPost = [[OutgoingEventController sharedOutgoingEventController] postToPlayerWall:userId withContent:content];
+    
+    GameState *gs = [GameState sharedGameState];
+    if ([Globals userType:gs.type isAlliesWith:pvc.fup.userType]) {
+      [Analytics postedToAllyProfile];
+    } else {
+      [Analytics postedToEnemyProfile];
+    }
     
     if (wallPost) {
       [self.wallPosts insertObject:wallPost atIndex:0];
@@ -1350,8 +1358,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   smallAttackButton.enabled = enabled;
   bigAttackButton.enabled = enabled;
   
-  [spinner stopAnimating];
-  self.spinner.hidden = YES;
   
   if (self.state == kSkillsState) {
     self.state = kEquipState;
@@ -1362,8 +1368,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:fup.userId];
   }
   
-  if (!isEnemy) {
+  if (!isEnemy && !_waitingForEquips) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:fup.userId];
+    [spinner startAnimating];
+    self.spinner.hidden = NO;
+  } else {
+    [spinner stopAnimating];
+    self.spinner.hidden = YES;
   }
   
   self.fup = fup;
@@ -1436,6 +1447,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
         _queuedEquips = nil;
       } else {
         _waitingForEquips = YES;
+        
+        GameState *gs = [GameState sharedGameState];
+        if ([Globals userType:fup.userType isAlliesWith:gs.type]) {
+          self.spinner.hidden = NO;
+          [self.spinner startAnimating];
+          
+          [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
+        }
       }
     }
   }
@@ -1499,6 +1518,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   if ([Globals userType:gs.type isAlliesWith:user.userType]) {
     [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
+    _waitingForEquips = YES;
   }
   
   userNameLabel.text = user.name;
@@ -1516,13 +1536,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   friendLeftView.hidden = YES;
   
   wallTabView.wallPosts = nil;
+  
   [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
   
   // Make equip spinner spin
   self.enemyMiddleView.hidden = YES;
   self.spinner.hidden = NO;
   [self.spinner startAnimating];
-  _waitingForEquips = YES;
   
   [ProfileViewController displayView];
 }

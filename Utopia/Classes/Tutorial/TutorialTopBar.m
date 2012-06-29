@@ -168,6 +168,8 @@
     
     [[TutorialHomeMap sharedHomeMap] performSelector:@selector(startCarpPhase) withObject:nil afterDelay:0.5f];
     
+    [Analytics tutorialGoHome];
+    
     [DialogMenuController closeView];
   }
 }

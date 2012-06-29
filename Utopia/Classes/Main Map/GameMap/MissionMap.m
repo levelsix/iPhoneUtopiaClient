@@ -181,17 +181,21 @@
         continue;
       }
       
-      for (MinimumUserQuestTaskProto *taskData in questData.requiredTasksProgressList) {
-        FullTaskProto *ftp = [gs taskWithId:taskData.taskId];
+      for (NSNumber *taskNum in fqp.taskReqsList) {
+        int taskId = taskNum.intValue;
+        FullTaskProto *ftp = [gs taskWithId:taskId];
         id<TaskElement> te = (id<TaskElement>)[self assetWithId:ftp.assetNumWithinCity];
         
         te.partOfQuest = YES;
+        
         if (questData.isComplete) {
           te.numTimesActedForQuest = ftp.numRequiredForCompletion;
         } else {
-          te.numTimesActedForQuest = taskData.numTimesActed;
-          if (te.numTimesActedForQuest < ftp.numRequiredForCompletion) {
-            [te displayArrow];
+          for (MinimumUserQuestTaskProto *taskData in questData.requiredTasksProgressList) {
+            te.numTimesActedForQuest = taskData.numTimesActed;
+            if (te.numTimesActedForQuest < ftp.numRequiredForCompletion) {
+              [te displayArrow];
+            }
           }
         }
       }
@@ -203,7 +207,7 @@
           [self displayArrowsOnEnemies:job.typeOfEnemy];
           
           UserJob *userJob = [[UserJob alloc] initWithDefeatTypeJob:job];
-          userJob.numCompleted = job.numEnemiesToDefeat;
+          userJob.numCompleted = dtData.numDefeated;
           [_jobs addObject:userJob];
         }
       }
@@ -250,6 +254,7 @@
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userId == userId) {
         // Need to delay time so check has time to display
+        [enemy stopAllActions];
         [enemy runAction:[CCSequence actions:
                           [CCFadeOut actionWithDuration:1.5f],
                           [CCDelayTime actionWithDuration:1.5f],
@@ -282,7 +287,10 @@
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userType == enemyType || enemyType == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
-        [enemy displayArrow];
+        // Make sure this enemy wasn't just defeated
+        if (enemy.opacity == 255) {
+          [enemy displayArrow];
+        }
       }
     }
   }
@@ -390,8 +398,6 @@
           _taskProgBar.position = ccp(te.position.x, te.position.y+te.contentSize.height);
           [_taskProgBar animateBarWithText:ftp.processingText];
           _taskProgBar.visible = YES;
-          te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
-          te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
           _receivedTaskActionResponse = NO;
           _performingTask = YES;
         }
@@ -437,9 +443,11 @@
     
     id<TaskElement> te = (id<TaskElement>)_selected;
     FullTaskProto *ftp = te.ftp;
-    if (te.partOfQuest && te.numTimesActedForQuest >= ftp.numRequiredForCompletion) {
+    if (te.partOfQuest && te.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
       [te displayCheck];
     }
+    te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
+    te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
     self.selected = nil;
     _performingTask = NO;
     
@@ -556,11 +564,13 @@
   }
   
   for (NSNumber *num in fqp.defeatTypeReqsList) {
+    UserJob *toDel = nil;
     for (UserJob *job in _jobs) {
       if (job.jobType == kDefeatTypeJob && job.jobId == num.intValue) {
-        [_jobs removeObject:job];
+        toDel = job;
       }
     }
+    [_jobs removeObject:toDel];
   }
   
   [self updateEnemyQuestArrows];

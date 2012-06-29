@@ -14,6 +14,7 @@
 #import "QuestLogController.h"
 #import "GameState.h"
 #import "CarpenterMenuController.h"
+#import "ProfileViewController.h"
 
 @implementation CharacterSprite
 
@@ -96,7 +97,9 @@
     CCAnimation *walkAnimationF = [CCAnimation animationWithFrames:walkAnimF delay:ANIMATATION_DELAY];
     self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
     
-    self.sprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+    frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
+    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
     [self addChild:_sprite];
     CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
     self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y));
@@ -197,7 +200,7 @@
 @synthesize quest, questGiverState, name;
 
 - (id) initWithQuest:(FullQuestProto *)fqp questGiverState:(QuestGiverState)qgs file:(NSString *)file map:(GameMap *)map location:(CGRect)location {
-  if ((self = [super initWithFile:@"TutorialGuide" location:location map:map])) {
+  if ((self = [super initWithFile:file location:location map:map])) {
     self.quest = fqp;
     self.questGiverState = qgs;
   }
@@ -309,6 +312,32 @@
 
 @end
 
+@implementation Ally
+
+@synthesize user;
+
+- (id) initWithUser:(MinimumUserProto *)mup location:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:[Globals animatedSpritePrefix:mup.userType] location:loc map:map])) {
+    self.user = mup;
+  }
+  return self;
+}
+
+- (void) setUser:(MinimumUserProto *)u {
+  if (user != u) {
+    [user release];
+    user = [u retain];
+    _nameLabel.string = u.name;
+  }
+}
+
+- (void) dealloc {
+  self.user = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation TutorialGirl
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
@@ -331,14 +360,13 @@
 @implementation Carpenter
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:@"TutorialGuideBad.png" location:loc map:map])) {
+  if ((self = [super initWithFile:@"Carpenter.png" location:loc map:map])) {
     CCSprite *carpIcon = [CCSprite spriteWithFile:@"carpentericon.png"];
     [self addChild:carpIcon];
     carpIcon.position = ccp(self.contentSize.width/2, self.contentSize.height+carpIcon.contentSize.height/2);
     
     self.touchableArea = CGSizeMake(self.contentSize.width, self.contentSize.height+carpIcon.contentSize.height);
     
-    NSLog(@"Carpenter: %@", NSStringFromCGRect(self.location));
   }
   return self;
 }

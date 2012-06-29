@@ -685,7 +685,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       // Image not in docs: download it
       // Game will crash if view is released before image download completes so retain it
       [view retain];
-      [[Downloader sharedDownloader] downloadImage:fullpath.lastPathComponent completion:^{
+      [[Downloader sharedDownloader] asyncDownloadImage:fullpath.lastPathComponent completion:^{
         NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
           NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];

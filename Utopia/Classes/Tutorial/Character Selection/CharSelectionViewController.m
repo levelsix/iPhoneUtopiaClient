@@ -372,6 +372,8 @@
   NSArray *files = [NSArray arrayWithObjects:
                     [NSString stringWithFormat:@"%@AttackLR.plist", prefix],
                     [NSString stringWithFormat:@"%@AttackLR.png", prefix],
+                    [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
+                    [NSString stringWithFormat:@"%@WalkUD.png", prefix],
                     [NSString stringWithFormat:@"%@AttackNF.plist", prefix],
                     [NSString stringWithFormat:@"%@AttackNF.png", prefix],
                     [NSString stringWithFormat:@"%@AttackUD.plist", prefix],
@@ -384,13 +386,16 @@
                     [NSString stringWithFormat:@"%@GenericUD.png", prefix],
                     [NSString stringWithFormat:@"%@WalkLR.plist", prefix],
                     [NSString stringWithFormat:@"%@WalkLR.png", prefix],
-                    [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
-                    [NSString stringWithFormat:@"%@WalkUD.png", prefix],
                     nil];
   
   for (NSString *file in files) {
     NSString *doubleRes = [CCFileUtils getDoubleResolutionImage:file validate:NO];
-    [[Downloader sharedDownloader] downloadImage:doubleRes completion:nil];
+    
+    if ([doubleRes.pathExtension isEqualToString:@"png"]) {
+      [[Downloader sharedDownloader] asyncDownloadImage:doubleRes completion:nil];
+    } else {
+      [[Downloader sharedDownloader] asyncDownloadFile:doubleRes];
+    }
   }
 }
 

@@ -55,6 +55,8 @@
 SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 @synthesize profilePic = _profilePic;
+@synthesize energyTimer = _energyTimer;
+@synthesize staminaTimer = _staminaTimer;
 
 - (id) init {
   if ((self = [super init])) {
@@ -299,7 +301,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (_bigToolTipState == kEnergy) {
     [Analytics clickedFillEnergy];
     if (gs.gold >= gl.energyRefillCost) {
-      [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
+      if (gs.currentEnergy < gs.maxEnergy) {
+        [[OutgoingEventController sharedOutgoingEventController] refillEnergyWithDiamonds];
+      }
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.energyRefillCost];
       [Analytics notEnoughGoldToRefillEnergyTopBar];
@@ -307,7 +311,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } else if (_bigToolTipState == kStamina) {
     [Analytics clickedFillStamina];
     if (gs.gold >= gl.staminaRefillCost) {
-      [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
+      if (gs.currentStamina < gs.maxStamina) {
+        [[OutgoingEventController sharedOutgoingEventController] refillStaminaWithDiamonds];
+      }
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gl.staminaRefillCost];
       [Analytics notEnoughGoldToRefillStaminaTopBar];

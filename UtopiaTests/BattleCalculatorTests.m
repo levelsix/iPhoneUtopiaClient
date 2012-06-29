@@ -51,6 +51,10 @@
                                                    andLeftStats:leftStats
                                                      andGlobals:[Globals sharedGlobals]];
   [Globals sharedGlobals].locationBarMax = 75;
+  [Globals sharedGlobals].battleWeightGivenToDefenseStat     = 1;
+  [Globals sharedGlobals].battleWeightGivenToDefenseEquipSum = 1;
+  [Globals sharedGlobals].battleWeightGivenToAttackStat      = 1;
+  [Globals sharedGlobals].battleWeightGivenToAttackEquipSum  = 1;
 }
 
 - (void)tearDown

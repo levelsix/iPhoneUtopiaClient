@@ -192,4 +192,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [[SimpleAudioEngine sharedEngine] playEffect:@"Vault_Leave.m4a"];
 }
 
+- (void) notificationAlert {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"notification_alert.m4a"];
+}
+
 @end

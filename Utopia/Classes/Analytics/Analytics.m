@@ -86,10 +86,17 @@
 #define ENEMY_PROFILE_BATTLE @"Enemy Profile: Battle"
 #define ENEMY_PROFILE_ATTACK_MAP @"Enemy Profile: Location map"
 #define ENEMY_PROFILE_SPRITE @"Enemy Profile: Sprite"
+#define POSTED_TO_ENEMY_PROFILE @"Wall: Posted to Enemy Profile"
+#define POSTED_TO_ALLY_PROFILE @"Wall: Posted to Ally Profile"
+
+#define GOLD_SHOPPE_FREE_OFFERS @"Gold Shoppe: Clicked earn free offers"
+#define GOLD_SHOPPE_AD_COLONY @"Gold Shoppe: Watched Ad Colony"
+#define GOLD_SHOPPE_AD_COLONY_FAILED @"Gold Shoppe: Ad Colony Failed"
+#define KIIP_FAILED @"Kiip: Received Fail Message"
+#define KIIP_UNLOCKED_ACHIEVEMENT @"Kiip: Unlocked achievement"
+#define KIIP_ENTERED_EMAIL @"Kiip: Entered email"
 
 #define CLICKED_SEARCH @"Mkt: Clicked search"
-#define CLICKED_WALL @"Profile: Clicked wall"
-#define CLICKED_FREE_OFFERS @"Gold Shop: Clicked free offers"
 #define CLICKED_VISIT_CITY @"Profile: Clicked visit city"
 
 #define TUTORIAL_START @"Tutorial: Start"
@@ -97,26 +104,22 @@
 #define TUTORIAL_PAN_DONE @"Tutorial: Pan done"
 #define TUTORIAL_CHAR_CHOSEN @"Tutorial: Character chosen"
 #define TUTORIAL_QUEST_ACCEPTED @"Tutorial: Quest accepted"
+#define TUTORIAL_CLICKED_VISIT @"Tutorial: Clicked visit"
 #define TUTORIAL_BATTLE_START @"Tutorial: Battle started"
 #define TUTORIAL_BATTLE_COMPLETE @"Tutorial: Battle complete"
 #define TUTORIAL_TASK_COMPLETE @"Tutorial: Task complete"
 #define TUTORIAL_QUEST_REDEEM @"Tutorial: Quest redeemed"
 #define TUTORIAL_SKILL_POINTS_ADDED @"Tutorial: Skill points added"
 #define TUTORIAL_AMULET_EQUIPPED @"Tutorial: Amulet equipped"
-#define TUTORIAL_ENTER_AVIARY @"Tutorial: Enterred aviary"
-#define TUTORIAL_ENEMIES_TAB @"Tutorial: Clicked enemies tab"
-#define TUTORIAL_REJECT_LOCATION_SERVICES @"Tutorial: Rejected location"
-#define TUTORIAL_ENABLED_LOCATION_SERVICES @"Tutorial: Enabled location"
 #define TUTORIAL_GO_HOME @"Tutorial: Clicked home"
 #define TUTORIAL_ENTER_CARPENTER @"Tutorial: Enterred carpenter"
 #define TUTORIAL_PURCHASE_INN @"Tutorial: Clicked Inn"
 #define TUTORIAL_PLACE_INN @"Tutorial: Placed Inn"
 #define TUTORIAL_FINISH_NOW @"Tutorial: Insta build"
 #define TUTORIAL_WAIT_BUILD @"Tutorial: Waited for build"
-#define TUTORIAL_ENTERRED_REFERRAL @"Tutorial: Enterred referral"
-#define TUTORIAL_SKIPPED_REFERRAL @"Tutorial: Skipped referral"
+#define TUTORIAL_PATH_MENU @"Tutorial: Opened path menu"
+#define TUTORIAL_PROFILE_BUTTON @"Tutorial: Clicked profile button"
 #define TUTORIAL_USER_CREATED @"Tutorial: User Created"
-#define TUTORIAL_INVALID_REFERRAL @"Tutorial: Invalid referral"
 #define TUTORIAL_TIME_SYNC @"Tutorial: Time not synced"
 #define TUTORIAL_OTHER_FAIL @"Tutorial: Other fail"
 #define TUTORIAL_COMPLETE @"Tutorial: Complete"
@@ -129,24 +132,32 @@
 #define SUSPENDED_APP @"App: Suspended"
 #define TERMINATED_APP @"App: Terminated"
 
++ (void) event:(NSString *)event {
+  [Apsalar event:event];
+}
+
++ (void) event:(NSString *)event withArgs:(NSDictionary *)args {
+  [Apsalar event:event withArgs:args];
+}
+
 + (void) openedApp {
-  [Apsalar event:OPENED_APP];
+  [Analytics event:OPENED_APP];
 }
 
 + (void) beganApp {
-  [Apsalar event:BEGAN_APP];
+  [Analytics event:BEGAN_APP];
 }
 
 + (void) resumedApp {
-  [Apsalar event:RESUMED_APP];
+  [Analytics event:RESUMED_APP];
 }
 
 + (void) suspendedApp {
-  [Apsalar event:SUSPENDED_APP];
+  [Analytics event:SUSPENDED_APP];
 }
 
 + (void) terminatedApp {
-  [Apsalar event:TERMINATED_APP];
+  [Analytics event:TERMINATED_APP];
 }
 
 + (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold {
@@ -156,7 +167,7 @@
                         [NSNumber numberWithInt:gold], @"gold",
                         nil];
   
-  [Apsalar event:PURCHASED_GOLD withArgs:args];
+  [Analytics event:PURCHASED_GOLD withArgs:args];
 }
 
 + (void) cancelledGoldPackage:(NSString *)package {
@@ -164,11 +175,11 @@
                         package, @"package",
                         nil];
   
-  [Apsalar event:CANCELLED_IAP withArgs:args];
+  [Analytics event:CANCELLED_IAP withArgs:args];
 }
 
 + (void) viewedGoldShopFromTopMenu {
-  [Apsalar event:TOP_BAR_SHOP];
+  [Analytics event:TOP_BAR_SHOP];
 }
 
 + (void) clickedGetMoreGold:(int)goldAmt {
@@ -178,7 +189,7 @@
                         [NSNumber numberWithInt:gs.gold], @"current gold",
                         nil];
   
-  [Apsalar event:GET_MORE_GOLD withArgs:args];
+  [Analytics event:GET_MORE_GOLD withArgs:args];
 }
 
 + (void) clickedGetMoreSilver {
@@ -187,7 +198,7 @@
                         [NSNumber numberWithInt:gs.silver], @"current silver",
                         nil];
   
-  [Apsalar event:GET_MORE_SILVER withArgs:args];
+  [Analytics event:GET_MORE_SILVER withArgs:args];
 }
 
 + (void) notEnoughSilverInArmory:(int)equipId {
@@ -199,7 +210,7 @@
                         [NSNumber numberWithInt:fep.coinPrice], @"silver needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_SILVER_ARMORY withArgs:args];
+  [Analytics event:NOT_ENOUGH_SILVER_ARMORY withArgs:args];
 }
 
 + (void) notEnoughGoldInArmory:(int)equipId {
@@ -211,7 +222,7 @@
                         [NSNumber numberWithInt:fep.diamondPrice], @"gold needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];
 }
 
 + (void) notEnoughGoldToRefillEnergyPopup {
@@ -221,7 +232,7 @@
                         [NSNumber numberWithInt:gs.gold], @"current gold",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_POPUP withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_POPUP withArgs:args];
 }
 
 + (void) notEnoughGoldToRefillStaminaPopup {
@@ -231,7 +242,7 @@
                         [NSNumber numberWithInt:gs.gold], @"current gold",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_POPUP withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_POPUP withArgs:args];
 }
 
 + (void) notEnoughSilverInCarpenter:(int)structId {
@@ -243,7 +254,7 @@
                         [NSNumber numberWithInt:fsp.coinPrice], @"silver needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_SILVER_ARMORY withArgs:args];
+  [Analytics event:NOT_ENOUGH_SILVER_ARMORY withArgs:args];
 }
 
 + (void) notEnoughGoldInCarpenter:(int)structId {
@@ -255,7 +266,7 @@
                         [NSNumber numberWithInt:fsp.diamondPrice], @"gold needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_ARMORY withArgs:args];
 }
 
 + (void) notEnoughSilverForUpgrade:(int)structId cost:(int)cost {
@@ -266,7 +277,7 @@
                         [NSNumber numberWithInt:cost], @"silver needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_SILVER_UPGRADE withArgs:args];
+  [Analytics event:NOT_ENOUGH_SILVER_UPGRADE withArgs:args];
 }
 
 + (void) notEnoughGoldForUpgrade:(int)structId cost:(int)cost {
@@ -277,7 +288,7 @@
                         [NSNumber numberWithInt:cost], @"gold needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_UPGRADE withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_UPGRADE withArgs:args];
 }
 
 + (void) notEnoughGoldForInstaBuild:(int)structId {
@@ -289,7 +300,7 @@
                         [NSNumber numberWithInt:fsp.instaBuildDiamondCost], @"gold needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_INSTA_BUILD withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_INSTA_BUILD withArgs:args];
 }
 
 + (void) notEnoughGoldForInstaUpgrade:(int)structId level:(int)level cost:(int)cost {
@@ -301,7 +312,7 @@
                         [NSNumber numberWithInt:cost], @"gold needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_INSTA_UPGRADE withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_INSTA_UPGRADE withArgs:args];
 }
 
 + (void) notEnoughSilverForMarketplaceBuy:(int)equipId cost:(int)cost {
@@ -312,7 +323,7 @@
                         [NSNumber numberWithInt:cost], @"silver needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_SILVER_MARKETPLACE_BUY withArgs:args];
+  [Analytics event:NOT_ENOUGH_SILVER_MARKETPLACE_BUY withArgs:args];
 }
 
 + (void) notEnoughGoldForMarketplaceBuy:(int)equipId cost:(int)cost {
@@ -323,7 +334,7 @@
                         [NSNumber numberWithInt:cost], @"gold needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_MARKETPLACE_BUY withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_MARKETPLACE_BUY withArgs:args];
 }
 
 + (void) notEnoughSilverForMarketplaceRetract:(int)equipId cost:(int)cost {
@@ -334,7 +345,7 @@
                         [NSNumber numberWithInt:cost], @"silver needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_SILVER_MARKETPLACE_RETRACT withArgs:args];
+  [Analytics event:NOT_ENOUGH_SILVER_MARKETPLACE_RETRACT withArgs:args];
 }
 
 + (void) notEnoughGoldForMarketplaceRetract:(int)equipId cost:(int)cost {
@@ -345,7 +356,7 @@
                         [NSNumber numberWithInt:cost], @"gold needed",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_MARKETPLACE_RETRACT withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_MARKETPLACE_RETRACT withArgs:args];
 }
 
 + (void) notEnoughGoldForMarketplaceShortLicense {
@@ -354,7 +365,7 @@
                         [NSNumber numberWithInt:gs.gold], @"current gold",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_MARKETPLACE_SHORT_LICENSE withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_MARKETPLACE_SHORT_LICENSE withArgs:args];
 }
 
 + (void) notEnoughGoldForMarketplaceLongLicense {
@@ -363,7 +374,7 @@
                         [NSNumber numberWithInt:gs.gold], @"current gold",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_MARKETPLACE_LONG_LICENSE withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_MARKETPLACE_LONG_LICENSE withArgs:args];
 }
 
 + (void) notEnoughGoldToRefillEnergyTopBar {
@@ -373,7 +384,7 @@
                         [NSNumber numberWithInt:gs.gold], @"current gold",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_TOPBAR withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_ENERGY_TOPBAR withArgs:args];
 }
 
 + (void) notEnoughGoldToRefillStaminaTopBar {
@@ -383,7 +394,7 @@
                         [NSNumber numberWithInt:gs.gold], @"current gold",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_TOPBAR withArgs:args];
+  [Analytics event:NOT_ENOUGH_GOLD_TO_REFILL_STAMINA_TOPBAR withArgs:args];
 }
 
 + (void) notEnoughStaminaForBattle {
@@ -392,7 +403,7 @@
                         [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_STAMINA_BATTLE withArgs:args];
+  [Analytics event:NOT_ENOUGH_STAMINA_BATTLE withArgs:args];
 }
 
 + (void) notEnoughEnergyForTasks:(int)taskId {
@@ -402,7 +413,7 @@
                         [NSNumber numberWithInt:gs.currentEnergy], @"current energy",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_ENERGY_TASKS withArgs:args];
+  [Analytics event:NOT_ENOUGH_ENERGY_TASKS withArgs:args];
 }
 
 + (void) notEnoughEquipsForTasks:(int)taskId equipReqs:(NSArray *)reqs {
@@ -413,7 +424,7 @@
                         [NSNumber numberWithInt:gs.currentStamina], @"current stamina",
                         nil];
   
-  [Apsalar event:NOT_ENOUGH_EQUIPS_TASKS withArgs:args];
+  [Analytics event:NOT_ENOUGH_EQUIPS_TASKS withArgs:args];
 }
 
 // Engagement events
@@ -424,7 +435,7 @@
                         [NSNumber numberWithInt:gs.level], @"level",
                         nil];
   
-  [Apsalar event:LEVEL_UP withArgs:args];
+  [Analytics event:LEVEL_UP withArgs:args];
 }
 
 + (void) placedCritStruct:(NSString *)name {
@@ -434,11 +445,11 @@
                         name, @"crit struct",
                         nil];
   
-  [Apsalar event:PLACE_CRIT_STRUCT withArgs:args];
+  [Analytics event:PLACE_CRIT_STRUCT withArgs:args];
 }
 
 + (void) attackAgain {
-  [Apsalar event:ATTACK_AGAIN];
+  [Analytics event:ATTACK_AGAIN];
 }
 
 + (void) fleeWithHealth:(int)curHealth enemyHealth:(int)enemyHealth {
@@ -447,7 +458,7 @@
                         [NSNumber numberWithInt:enemyHealth], @"enemyHealth",
                         nil];
   
-  [Apsalar event:FLEE withArgs:args];
+  [Analytics event:FLEE withArgs:args];
 }
 
 + (void) questAccept:(int)questId {
@@ -455,7 +466,7 @@
                         [NSNumber numberWithInt:questId], @"quest id",
                         nil];
   
-  [Apsalar event:QUEST_ACCEPT withArgs:args];
+  [Analytics event:QUEST_ACCEPT withArgs:args];
 }
 
 + (void) questComplete:(int)questId {
@@ -463,7 +474,7 @@
                         [NSNumber numberWithInt:questId], @"quest id",
                         nil];
   
-  [Apsalar event:QUEST_COMPLETE withArgs:args];
+  [Analytics event:QUEST_COMPLETE withArgs:args];
 }
 
 + (void) questRedeem:(int)questId {
@@ -471,7 +482,7 @@
                         [NSNumber numberWithInt:questId], @"quest id",
                         nil];
   
-  [Apsalar event:QUEST_REDEEM withArgs:args];
+  [Analytics event:QUEST_REDEEM withArgs:args];
 }
 
 + (void) addedSkillPoint:(NSString *)stat {
@@ -479,11 +490,11 @@
                         stat, @"stat",
                         nil];
   
-  [Apsalar event:SKILL_POINT withArgs:args];
+  [Analytics event:SKILL_POINT withArgs:args];
 }
 
 + (void) attemptedPurchase {
-  [Apsalar event:MKT_ATTEMPTED_PURCHASE];
+  [Analytics event:MKT_ATTEMPTED_PURCHASE];
 }
 
 + (void) successfulPurchase:(int)equipId {
@@ -491,11 +502,11 @@
                         [NSNumber numberWithInt:equipId], @"equip id",
                         nil];
   
-  [Apsalar event:MKT_SUCCESSFUL_PURCHASE withArgs:args];
+  [Analytics event:MKT_SUCCESSFUL_PURCHASE withArgs:args];
 }
 
 + (void) attemptedPost {
-  [Apsalar event:MKT_ATTEMPTED_POST];
+  [Analytics event:MKT_ATTEMPTED_POST];
 }
 
 + (void) successfulPost:(int)equipId {
@@ -503,23 +514,23 @@
                         [NSNumber numberWithInt:equipId], @"equip id",
                         nil];
   
-  [Apsalar event:MKT_SUCCESSFUL_POST withArgs:args];
+  [Analytics event:MKT_SUCCESSFUL_POST withArgs:args];
 }
 
 + (void) viewedRetract {
-  [Apsalar event:MKT_VIEW_RETRACT];
+  [Analytics event:MKT_VIEW_RETRACT];
 }
 
 + (void) attemptedRetract {
-  [Apsalar event:MKT_ATTEMPTED_RETRACT];
+  [Analytics event:MKT_ATTEMPTED_RETRACT];
 }
 
 + (void) successfulRetract {
-  [Apsalar event:MKT_SUCCESSFUL_RETRACT];
+  [Analytics event:MKT_SUCCESSFUL_RETRACT];
 }
 
 + (void) licensePopup {
-  [Apsalar event:MKT_LICENSE_POPUP];
+  [Analytics event:MKT_LICENSE_POPUP];
 }
 
 + (void) boughtLicense:(NSString *)type {
@@ -527,23 +538,23 @@
                         type, @"type",
                         nil];
   
-  [Apsalar event:MKT_BOUGHT_LICENSE withArgs:args];
+  [Analytics event:MKT_BOUGHT_LICENSE withArgs:args];
 }
 
 + (void) clickedListAnItem {
-  [Apsalar event:MKT_LIST_AN_ITEM];
+  [Analytics event:MKT_LIST_AN_ITEM];
 }
 
 + (void) vaultOpen {
-  [Apsalar event:VAULT_OPEN];
+  [Analytics event:VAULT_OPEN];
 }
 
 + (void) vaultDeposit {
-  [Apsalar event:VAULT_DEPOSIT];
+  [Analytics event:VAULT_DEPOSIT];
 }
 
 + (void) vaultWithdraw {
-  [Apsalar event:VAULT_WITHDRAW];
+  [Analytics event:VAULT_WITHDRAW];
 }
 
 + (void) normStructUpgrade:(int)structId level:(int)level {
@@ -552,7 +563,7 @@
                         [NSNumber numberWithInt:level], @"level",
                         nil];
   
-  [Apsalar event:NORM_STRUCT_UPGRADE withArgs:args];
+  [Analytics event:NORM_STRUCT_UPGRADE withArgs:args];
 }
 
 + (void) normStructPurchase:(int)structId {
@@ -560,7 +571,7 @@
                         [NSNumber numberWithInt:structId], @"struct id",
                         nil];
   
-  [Apsalar event:NORM_STRUCT_PURCHASE withArgs:args];
+  [Analytics event:NORM_STRUCT_PURCHASE withArgs:args];
 }
 
 + (void) normStructSell:(int)structId level:(int)level {
@@ -569,7 +580,7 @@
                         [NSNumber numberWithInt:level], @"level",
                         nil];
   
-  [Apsalar event:NORM_STRUCT_SELL withArgs:args];
+  [Analytics event:NORM_STRUCT_SELL withArgs:args];
 }
 
 + (void) normStructInstaUpgrade:(int)structId level:(int)level {
@@ -578,7 +589,7 @@
                         [NSNumber numberWithInt:level], @"level",
                         nil];
   
-  [Apsalar event:NORM_STRUCT_INSTA_UPGRADE withArgs:args];
+  [Analytics event:NORM_STRUCT_INSTA_UPGRADE withArgs:args];
 }
 
 + (void) normStructInstaBuild:(int)structId {
@@ -586,39 +597,44 @@
                         [NSNumber numberWithInt:structId], @"struct id",
                         nil];
   
-  [Apsalar event:NORM_STRUCT_INSTA_BUILD withArgs:args];
+  [Analytics event:NORM_STRUCT_INSTA_BUILD withArgs:args];
 }
 
 + (void) openedPathMenu {
-  [Apsalar event:OPENED_PATH_MENU];
+  [Analytics event:OPENED_PATH_MENU];
 }
 
 + (void) openedNotifications {
-  [Apsalar event:OPENED_NOTIFICATIONS];
+  [Analytics event:OPENED_NOTIFICATIONS];
 }
 
 + (void) openedQuestLog {
-  [Apsalar event:OPENED_QUEST_LOG];
+  [Analytics event:OPENED_QUEST_LOG];
 }
 
 + (void) openedMyProfile {
-  [Apsalar event:OPENED_PROFILE];
+  [Analytics event:OPENED_PROFILE];
 }
 
 + (void) clickedVisit {
-  [Apsalar event:CLICKED_VISIT];
+  GameState *gs = [GameState sharedGameState];
+  if (!gs.isTutorial) {
+    [Analytics event:CLICKED_VISIT];
+  } else {
+    [Analytics event:TUTORIAL_CLICKED_VISIT];
+  }
 }
 
 + (void) receivedNotification {
-  [Apsalar event:RECEIVED_NOTIFICATION];
+  [Analytics event:RECEIVED_NOTIFICATION];
 }
 
 + (void) clickedRevenge {
-  [Apsalar event:CLICKED_REVENGE];
+  [Analytics event:CLICKED_REVENGE];
 }
 
 + (void) clickedCollect {
-  [Apsalar event:CLICKED_COLLECT];
+  [Analytics event:CLICKED_COLLECT];
 }
 
 + (void) clickedFillEnergy {
@@ -628,7 +644,7 @@
                         [NSNumber numberWithInt:gs.level], @"level",
                         nil];
   
-  [Apsalar event:CLICKED_FILL_ENERGY withArgs:args];
+  [Analytics event:CLICKED_FILL_ENERGY withArgs:args];
 }
 
 + (void) clickedFillStamina {
@@ -638,151 +654,155 @@
                         [NSNumber numberWithInt:gs.level], @"level",
                         nil];
   
-  [Apsalar event:CLICKED_FILL_STAMINA withArgs:args];
+  [Analytics event:CLICKED_FILL_STAMINA withArgs:args];
 }
 
 + (void) enemyProfileFromBattle {
-  [Apsalar event:ENEMY_PROFILE_BATTLE];
+  [Analytics event:ENEMY_PROFILE_BATTLE];
 }
 
 + (void) enemyProfileFromSprite {
-  [Apsalar event:ENEMY_PROFILE_SPRITE];
+  [Analytics event:ENEMY_PROFILE_SPRITE];
 }
 
 + (void) enemyProfileFromAttackMap {
-  [Apsalar event:ENEMY_PROFILE_ATTACK_MAP];
+  [Analytics event:ENEMY_PROFILE_ATTACK_MAP];
+}
+
++ (void) postedToEnemyProfile {
+  [Analytics event:POSTED_TO_ENEMY_PROFILE];
+}
+
++ (void) postedToAllyProfile {
+  [Analytics event:POSTED_TO_ALLY_PROFILE];
+}
+
++ (void) clickedFreeOffers {
+  [Analytics event:GOLD_SHOPPE_FREE_OFFERS];
+}
+
++ (void) watchedAdColony {
+  [Analytics event:GOLD_SHOPPE_AD_COLONY];
+}
+
++ (void) adColonyFailed {
+  [Analytics event:GOLD_SHOPPE_AD_COLONY_FAILED];
+}
+
++ (void) kiipFailed {
+  [Analytics event:KIIP_FAILED];
+}
+
++ (void) kiipUnlockedAchievement {
+  [Analytics event:KIIP_UNLOCKED_ACHIEVEMENT];
+}
+
++ (void) kiipEnteredEmail {
+  [Analytics event:KIIP_ENTERED_EMAIL];
 }
 
 // Missing features
 
 + (void) clickedMarketplaceSearch {
-  [Apsalar event:CLICKED_SEARCH];
-}
-
-+ (void) clickedProfileWall {
-  [Apsalar event:CLICKED_WALL];
-}
-
-+ (void) clickedFreeOffers {
-  [Apsalar event:CLICKED_FREE_OFFERS];
+  [Analytics event:CLICKED_SEARCH];
 }
 
 + (void) clickedVisitCity {
-  [Apsalar event:CLICKED_VISIT_CITY];
+  [Analytics event:CLICKED_VISIT_CITY];
 }
 
 // Tutorial
 
 + (void) tutorialStart {
-  [Apsalar event:TUTORIAL_START];
+  [Analytics event:TUTORIAL_START];
 }
 
 + (void) tutorialOpenedDoor {
-  [Apsalar event:TUTORIAL_OPENED_DOOR];
+  [Analytics event:TUTORIAL_OPENED_DOOR];
 }
 
 + (void) tutorialPanDone {
-  [Apsalar event:TUTORIAL_PAN_DONE];
+  [Analytics event:TUTORIAL_PAN_DONE];
 }
 
 + (void) tutorialCharChosen {
-  [Apsalar event:TUTORIAL_CHAR_CHOSEN];
+  [Analytics event:TUTORIAL_CHAR_CHOSEN];
 }
 
 + (void) tutorialQuestAccept {
-  [Apsalar event:TUTORIAL_QUEST_ACCEPTED];
+  [Analytics event:TUTORIAL_QUEST_ACCEPTED];
 }
 
 + (void) tutorialBattleStart {
-  [Apsalar event:TUTORIAL_BATTLE_START];
+  [Analytics event:TUTORIAL_BATTLE_START];
 }
 
 + (void) tutorialBattleComplete {
-  [Apsalar event:TUTORIAL_BATTLE_COMPLETE];
+  [Analytics event:TUTORIAL_BATTLE_COMPLETE];
 }
 
 + (void) tutorialTaskComplete {
-  [Apsalar event:TUTORIAL_TASK_COMPLETE];
+  [Analytics event:TUTORIAL_TASK_COMPLETE];
 }
 
 + (void) tutorialQuestRedeem {
-  [Apsalar event:TUTORIAL_QUEST_REDEEM];
+  [Analytics event:TUTORIAL_QUEST_REDEEM];
 }
 
 + (void) tutorialSkillPointsAdded {
-  [Apsalar event:TUTORIAL_SKILL_POINTS_ADDED];
+  [Analytics event:TUTORIAL_SKILL_POINTS_ADDED];
 }
 
 + (void) tutorialAmuletEquipped {
-  [Apsalar event:TUTORIAL_AMULET_EQUIPPED];
-}
-
-+ (void) tutorialEnterAviary {
-  [Apsalar event:TUTORIAL_ENTER_AVIARY];
-}
-
-+ (void) tutorialEnemiesTab {
-  [Apsalar event:TUTORIAL_ENEMIES_TAB];
-}
-
-+ (void) tutorialRejectedLocation {
-  [Apsalar event:TUTORIAL_REJECT_LOCATION_SERVICES];
-}
-
-+ (void) tutorialEnabledLocation {
-  [Apsalar event:TUTORIAL_ENABLED_LOCATION_SERVICES];
+  [Analytics event:TUTORIAL_AMULET_EQUIPPED];
 }
 
 + (void) tutorialGoHome {
-  [Apsalar event:TUTORIAL_GO_HOME];
+  [Analytics event:TUTORIAL_GO_HOME];
 }
 
 + (void) tutorialEnterCarpenter {
-  [Apsalar event:TUTORIAL_ENTER_CARPENTER];
+  [Analytics event:TUTORIAL_ENTER_CARPENTER];
 }
 
 + (void) tutorialPurchaseInn {
-  [Apsalar event:TUTORIAL_PURCHASE_INN];
+  [Analytics event:TUTORIAL_PURCHASE_INN];
 }
 
 + (void) tutorialPlaceInn {
-  [Apsalar event:TUTORIAL_PLACE_INN];
+  [Analytics event:TUTORIAL_PLACE_INN];
 }
 
 + (void) tutorialFinishNow {
-  [Apsalar event:TUTORIAL_FINISH_NOW];
+  [Analytics event:TUTORIAL_FINISH_NOW];
 }
 
 + (void) tutorialWaitBuild {
-  [Apsalar event:TUTORIAL_WAIT_BUILD];
+  [Analytics event:TUTORIAL_WAIT_BUILD];
 }
 
-+ (void) tutorialEnterredReferral {
-  [Apsalar event:TUTORIAL_ENTERRED_REFERRAL];
++ (void) tutorialPathMenu {
+  [Analytics event:TUTORIAL_PATH_MENU];
 }
 
-+ (void) tutorialSkippedReferral {
-  [Apsalar event:TUTORIAL_SKIPPED_REFERRAL];
++ (void) tutorialProfileButton {
+  [Analytics event:TUTORIAL_PROFILE_BUTTON];
 }
 
 + (void) tutorialUserCreated {
-  [Apsalar event:TUTORIAL_USER_CREATED];
-}
-
-+ (void) tutorialInvalidReferral {
-  [Apsalar event:TUTORIAL_INVALID_REFERRAL];
+  [Analytics event:TUTORIAL_USER_CREATED];
 }
 
 + (void) tutorialTimeSync {
-  [Apsalar event:TUTORIAL_TIME_SYNC];
+  [Analytics event:TUTORIAL_TIME_SYNC];
 }
 
 + (void) tutorialOtherFail {
-  [Apsalar event:TUTORIAL_OTHER_FAIL];
+  [Analytics event:TUTORIAL_OTHER_FAIL];
 }
 
 + (void) tutorialComplete {
-  [Apsalar event:TUTORIAL_COMPLETE];
+  [Analytics event:TUTORIAL_COMPLETE];
 }
 
 @end

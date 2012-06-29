@@ -19,4 +19,6 @@
 - (void) moveToCritStruct:(CritStructType)type;
 - (void) moveToQuestGiver;
 
+- (void) reloadAllies;
+
 @end

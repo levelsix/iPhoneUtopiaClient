@@ -21,6 +21,7 @@
 #import "ActivityFeedController.h"
 #import "CCLabelFX.h"
 #import "FAQMenuController.h"
+#import "SoundEngine.h"
 
 #define DELAY_BETWEEN_BUTTONS 0.03
 #define TOTAL_ROTATION_ANGLE 1080
@@ -89,6 +90,8 @@
                                                           [CCFadeTo actionWithDuration:PULSATE_DURATION opacity:255], nil]];
     [_notificationAlert runAction:action];
   }
+  
+  [[SoundEngine sharedSoundEngine] notificationAlert];
 }
 
 - (void) stopNotification {

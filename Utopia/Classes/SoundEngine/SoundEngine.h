@@ -72,4 +72,6 @@ typedef enum {
 - (void) vaultEnter;
 - (void) vaultLeave;
 
+- (void) notificationAlert;
+
 @end

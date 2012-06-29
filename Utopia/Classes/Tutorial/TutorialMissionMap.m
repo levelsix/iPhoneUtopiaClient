@@ -101,7 +101,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     CGRect r = CGRectZero;
     r.origin = ccp(20,18);
     r.size = CGSizeMake(1, 1);
-    QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kAvailable file:@"Farmer.png" map:self location:r];
+    QuestGiver *qg = [[QuestGiver alloc] initWithQuest:nil questGiverState:kAvailable file:@"FarmerMitch.png" map:self location:r];
     [self addChild:qg z:1 tag:ncep.assetId+ASSET_TAG_BASE];
     _questGiver = qg;
     [qg release];
@@ -183,7 +183,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [self addChild:_myPlayer];
   [_myPlayer release];
   
-  _myPlayer.location = CGRectMake(30, 25, 1, 1);
+  _myPlayer.location = CGRectMake(26, 22, 1, 1);
 }
 
 - (void) removeWithCleanup:(CCNode *)node {
@@ -424,7 +424,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _taskProgBar.position = ccp(mb.position.x, mb.position.y+mb.contentSize.height);
     [_taskProgBar animateBarWithText:ftp.processingText];
     _taskProgBar.visible = YES;
-    mb.numTimesActedForQuest = MIN(mb.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
     _receivedTaskActionResponse = YES;
     
     if (mb.numTimesActedForQuest == ftp.numRequiredForCompletion) {
@@ -572,7 +571,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   }
 }
 
-- (IBAction)profileClicked:(id)sender {
+- (IBAction)enemyProfileClicked:(id)sender {
   return;
 }
 

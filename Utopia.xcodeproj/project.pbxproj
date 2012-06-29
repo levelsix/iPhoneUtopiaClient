@@ -1312,6 +1312,20 @@
 		CFEB28561599325400B622FC /* bigcarpenter.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28541599325400B622FC /* bigcarpenter.png */; };
 		CFEB28571599325400B622FC /* bigcarpenter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28551599325400B622FC /* bigcarpenter@2x.png */; };
 		CFEB285B1599407900B622FC /* MyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB285A1599407900B622FC /* MyPlayer.m */; };
+		CFEC29C9159AAA2100F15EDC /* visitprofile.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C7159AAA2100F15EDC /* visitprofile.png */; };
+		CFEC29CA159AAA2100F15EDC /* visitprofile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */; };
+		CFEC29D0159BB93000F15EDC /* FarmerMitchWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CC159BB93000F15EDC /* FarmerMitchWalkNF.plist */; };
+		CFEC29D1159BB93000F15EDC /* FarmerMitchWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CD159BB93000F15EDC /* FarmerMitchWalkNF.png */; };
+		CFEC29D2159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CE159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist */; };
+		CFEC29D3159BB93000F15EDC /* FarmerMitchWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CF159BB93000F15EDC /* FarmerMitchWalkNF@2x.png */; };
+		CFEC29DB159BDB6B00F15EDC /* bigmitch.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29D9159BDB6B00F15EDC /* bigmitch.png */; };
+		CFEC29DC159BDB6B00F15EDC /* bigmitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DA159BDB6B00F15EDC /* bigmitch@2x.png */; };
+		CFEC29DF159BE4B300F15EDC /* dialoguemitch.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DD159BE4B300F15EDC /* dialoguemitch.png */; };
+		CFEC29E0159BE4B300F15EDC /* dialoguemitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DE159BE4B300F15EDC /* dialoguemitch@2x.png */; };
+		CFEC29FE159D2F2100F15EDC /* CarpenterWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */; };
+		CFEC29FF159D2F2100F15EDC /* CarpenterWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */; };
+		CFEC2A00159D2F2100F15EDC /* CarpenterWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */; };
+		CFEC2A01159D2F2100F15EDC /* CarpenterWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */; };
 		CFECCDDC1550909700171271 /* equipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDA1550909700171271 /* equipped.png */; };
 		CFECCDDD1550909700171271 /* equipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDB1550909700171271 /* equipped@2x.png */; };
 		CFECCDE21550971000171271 /* markbuy.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDE1550971000171271 /* markbuy.png */; };
@@ -3059,6 +3073,20 @@
 		CFEB28551599325400B622FC /* bigcarpenter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigcarpenter@2x.png"; sourceTree = "<group>"; };
 		CFEB28591599407900B622FC /* MyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPlayer.h; sourceTree = "<group>"; };
 		CFEB285A1599407900B622FC /* MyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPlayer.m; sourceTree = "<group>"; };
+		CFEC29C7159AAA2100F15EDC /* visitprofile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitprofile.png; sourceTree = "<group>"; };
+		CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitprofile@2x.png"; sourceTree = "<group>"; };
+		CFEC29CC159BB93000F15EDC /* FarmerMitchWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FarmerMitchWalkNF.plist; sourceTree = "<group>"; };
+		CFEC29CD159BB93000F15EDC /* FarmerMitchWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FarmerMitchWalkNF.png; sourceTree = "<group>"; };
+		CFEC29CE159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FarmerMitchWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CFEC29CF159BB93000F15EDC /* FarmerMitchWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FarmerMitchWalkNF@2x.png"; sourceTree = "<group>"; };
+		CFEC29D9159BDB6B00F15EDC /* bigmitch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigmitch.png; sourceTree = "<group>"; };
+		CFEC29DA159BDB6B00F15EDC /* bigmitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigmitch@2x.png"; sourceTree = "<group>"; };
+		CFEC29DD159BE4B300F15EDC /* dialoguemitch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dialoguemitch.png; sourceTree = "<group>"; };
+		CFEC29DE159BE4B300F15EDC /* dialoguemitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguemitch@2x.png"; sourceTree = "<group>"; };
+		CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CarpenterWalkNF.plist; sourceTree = "<group>"; };
+		CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CarpenterWalkNF.png; sourceTree = "<group>"; };
+		CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CarpenterWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CarpenterWalkNF@2x.png"; sourceTree = "<group>"; };
 		CFECCDDA1550909700171271 /* equipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipped.png; sourceTree = "<group>"; };
 		CFECCDDB1550909700171271 /* equipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipped@2x.png"; sourceTree = "<group>"; };
 		CFECCDDE1550971000171271 /* markbuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markbuy.png; sourceTree = "<group>"; };
@@ -3233,6 +3261,8 @@
 		065FABCE15900BBC008E9B3C /* Neutral */ = {
 			isa = PBXGroup;
 			children = (
+				CFEC29F9159D2F1600F15EDC /* Carpenter */,
+				CFEC29CB159BB92200F15EDC /* FarmerMitch */,
 			);
 			name = Neutral;
 			sourceTree = "<group>";
@@ -4977,6 +5007,8 @@
 				CF1268391538ACC500E0C1AD /* overheadprofilebutton@2x.png */,
 				CF12683A1538ACC500E0C1AD /* overpersonbubble.png */,
 				CF12683B1538ACC500E0C1AD /* overpersonbubble@2x.png */,
+				CFEC29C7159AAA2100F15EDC /* visitprofile.png */,
+				CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */,
 			);
 			path = "Game Map Images";
 			sourceTree = "<group>";
@@ -5568,6 +5600,10 @@
 		CF126A241538ACC600E0C1AD /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				CFEC29DD159BE4B300F15EDC /* dialoguemitch.png */,
+				CFEC29DE159BE4B300F15EDC /* dialoguemitch@2x.png */,
+				CFEC29D9159BDB6B00F15EDC /* bigmitch.png */,
+				CFEC29DA159BDB6B00F15EDC /* bigmitch@2x.png */,
 				CF41D0F5158BDD7600A4DBC3 /* adrianaspeech.png */,
 				CF41D0F6158BDD7600A4DBC3 /* adrianaspeech@2x.png */,
 				CF41D0F7158BDD7600A4DBC3 /* rubyspeech.png */,
@@ -6059,6 +6095,28 @@
 				CFEB285A1599407900B622FC /* MyPlayer.m */,
 			);
 			name = Sprites;
+			sourceTree = "<group>";
+		};
+		CFEC29CB159BB92200F15EDC /* FarmerMitch */ = {
+			isa = PBXGroup;
+			children = (
+				CFEC29CC159BB93000F15EDC /* FarmerMitchWalkNF.plist */,
+				CFEC29CD159BB93000F15EDC /* FarmerMitchWalkNF.png */,
+				CFEC29CE159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist */,
+				CFEC29CF159BB93000F15EDC /* FarmerMitchWalkNF@2x.png */,
+			);
+			name = FarmerMitch;
+			sourceTree = "<group>";
+		};
+		CFEC29F9159D2F1600F15EDC /* Carpenter */ = {
+			isa = PBXGroup;
+			children = (
+				CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */,
+				CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */,
+				CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */,
+				CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */,
+			);
+			name = Carpenter;
 			sourceTree = "<group>";
 		};
 		CFEDA617153C04FB00015562 /* UserVoice */ = {
@@ -7411,6 +7469,20 @@
 				CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */,
 				CFEB28561599325400B622FC /* bigcarpenter.png in Resources */,
 				CFEB28571599325400B622FC /* bigcarpenter@2x.png in Resources */,
+				CFEC29C9159AAA2100F15EDC /* visitprofile.png in Resources */,
+				CFEC29CA159AAA2100F15EDC /* visitprofile@2x.png in Resources */,
+				CFEC29D0159BB93000F15EDC /* FarmerMitchWalkNF.plist in Resources */,
+				CFEC29D1159BB93000F15EDC /* FarmerMitchWalkNF.png in Resources */,
+				CFEC29D2159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist in Resources */,
+				CFEC29D3159BB93000F15EDC /* FarmerMitchWalkNF@2x.png in Resources */,
+				CFEC29DB159BDB6B00F15EDC /* bigmitch.png in Resources */,
+				CFEC29DC159BDB6B00F15EDC /* bigmitch@2x.png in Resources */,
+				CFEC29DF159BE4B300F15EDC /* dialoguemitch.png in Resources */,
+				CFEC29E0159BE4B300F15EDC /* dialoguemitch@2x.png in Resources */,
+				CFEC29FE159D2F2100F15EDC /* CarpenterWalkNF.plist in Resources */,
+				CFEC29FF159D2F2100F15EDC /* CarpenterWalkNF.png in Resources */,
+				CFEC2A00159D2F2100F15EDC /* CarpenterWalkNF@2x.plist in Resources */,
+				CFEC2A01159D2F2100F15EDC /* CarpenterWalkNF@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

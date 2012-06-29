@@ -45,6 +45,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 @synthesize licenseBgdView, licenseMainView;
 @synthesize armoryPriceIcon, armoryPriceView, armoryPriceLabel, armoryPriceBottomSubview;
 @synthesize bottomBar;
+@synthesize topBarLabel;
 
 - (void) viewDidLoad {
   [super viewDidLoad];
@@ -102,6 +103,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.postsTableView.contentOffset = CGPointZero;
   
   self.redeemView.hidden = YES;
+  
   CGRect f = self.view.frame;
   self.view.center = CGPointMake(f.size.width/2, f.size.height*3/2);
   [UIView animateWithDuration:FULL_SCREEN_APPEAR_ANIMATION_DURATION animations:^{
@@ -128,9 +130,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     self.redeemGoldLabel.text = [Globals commafyNumber:gs.marketplaceGoldEarnings];
     self.redeemSilverLabel.text = [Globals commafyNumber:gs.marketplaceSilverEarnings];
     
-    CGRect tmp = self.redeemView.frame;
-    tmp.origin.y = CGRectGetMaxY(self.navBar.frame)-13;
-    [UIView animateWithDuration:0.5 animations:^(void) {self.redeemView.frame = tmp;}];
+    [UIView animateWithDuration:0.5 animations:^(void) {
+      CGRect tmp = self.redeemView.frame;
+      tmp.origin.y = CGRectGetMaxY(self.navBar.frame)-13;
+      self.redeemView.frame = tmp;
+    }];
   }
 }
 
@@ -396,11 +400,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 
 - (IBAction)collectClicked:(id)sender {
   [[OutgoingEventController sharedOutgoingEventController] redeemMarketplaceEarnings];
-  CGRect tmp = self.removeView.frame;
-  tmp.origin.y -= tmp.size.height;
-  [UIView animateWithDuration:0.5 animations:^(void) {self.redeemView.frame = tmp;} completion:^(BOOL finished) {
-    self.redeemView.hidden = YES;
-    self.postsTableView.userInteractionEnabled = YES;
+  
+  [UIView animateWithDuration:0.5 animations:^(void) {
+    CGRect tmp = self.redeemView.frame;
+    tmp.origin.y = -tmp.size.height;
+    self.redeemView.frame = tmp;
+  } completion:^(BOOL finished) {
+    if (finished) {
+      self.redeemView.hidden = YES;
+      self.postsTableView.userInteractionEnabled = YES;
+    }
   }];
   
   [coinBar updateLabels];
@@ -470,7 +479,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     }
   }
   // Never return 1
-  return rows == 1? 0:rows;
+  return rows == 1 ? 0 : rows;
 }
 
 // Customize the appearance of table view cells.
@@ -532,7 +541,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (self.state == kEquipBuyingState) {
     ItemPostView *cell = (ItemPostView *)[tableView cellForRowAtIndexPath:indexPath];
-
+    
     self.selectedCell = cell;
     self.removeView.hidden = YES;
     [self.purchView updateForMarketPost:cell.mktProto];
@@ -639,11 +648,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       case kEquipBuyingState:
         self.listAnItemButton.hidden = NO;
         self.doneButton.hidden = YES;
+        self.topBarLabel.text = @"Items for Sale";
         break;
         
       case kEquipSellingState:
         self.listAnItemButton.hidden = YES;
         self.doneButton.hidden = NO;
+        Globals *gl = [Globals sharedGlobals];
+        self.topBarLabel.text = [NSString stringWithFormat:@"There is a %d%% fee on all purchases.", (int)(gl.purchasePercentCut*100)];
         break;
         
       default:

@@ -324,6 +324,7 @@
 @synthesize structsList;
 @synthesize coinBar;
 @synthesize mainView, bgdView;
+@synthesize spinner;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
@@ -388,7 +389,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSArray *list = structsList;
   int rows = (int)ceilf(list.count/3.f);
-  tableView.scrollEnabled = rows != 0;
+  
+  if (rows > 0) {
+    tableView.scrollEnabled = YES;
+    [self.spinner stopAnimating];
+    self.spinner.hidden = YES;
+  } else {
+    tableView.scrollEnabled = NO;
+    [self.spinner startAnimating];
+    self.spinner.hidden = NO;
+  }
+  
   return rows;
 }
 
