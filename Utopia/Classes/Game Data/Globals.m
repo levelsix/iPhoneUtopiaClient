@@ -55,9 +55,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize battleWeightGivenToAttackEquipSum, battleWeightGivenToDefenseEquipSum;
 @synthesize diamondCostForInstantUpgradeMultiplier, upgradeStructCoinCostExponentBase;
 @synthesize upgradeStructDiamondCostExponentBase;
-@synthesize locationBarMax, maxAttackMultiplier;
-@synthesize minPercentOfEnemyHealth, maxPercentOfEnemyHealth;
-@synthesize battleDifferenceTuner, battleDifferenceMultiplier;
+@synthesize locationBarMax;
 @synthesize animatingSpriteOffsets;
 @synthesize kiipRewardConditions;
 
@@ -149,11 +147,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.battleWeightGivenToDefenseEquipSum = constants.formulaConstants.battleWeightGivenToDefenseEquipSum;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
-  self.maxAttackMultiplier = constants.battleConstants.maxAttackMultiplier;
-  self.minPercentOfEnemyHealth = constants.battleConstants.minPercentOfEnemyHealth;
-  self.maxPercentOfEnemyHealth = constants.battleConstants.maxPercentOfEnemyHealth;
-  self.battleDifferenceMultiplier = constants.battleConstants.battleDifferenceMultiplier;
-  self.battleDifferenceTuner = constants.battleConstants.battleDifferenceTuner;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
   
