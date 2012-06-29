@@ -25,6 +25,7 @@
 #import "OAHMAC_SHA1SignatureProvider.h"
 #import "GameViewController.h"
 #import "ArmoryViewController.h"
+#import "EquipDeltaView.h"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -171,10 +172,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"Trying to complete battle without any stamina."];
   }
 }
--(void)test
-{
-  
-}
+
 - (int) buyEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
@@ -186,9 +184,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (gs.silver >= fep.coinPrice && gs.gold >= fep.diamondPrice) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeBuy quantity:1 equipId:equipId];
     
-    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:1];
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fep.coinPrice];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fep.diamondPrice];
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:1];
     
     [[Globals sharedGlobals] confirmWearEquip:fep.equipId];
     
@@ -205,18 +203,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserEquip *ue = [gs myEquipWithId:equipId];
-  FullEquipProto *fep = [gs equipWithId:equipId];
   
   if (ue) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
     
-    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateEquipSilverSellCost:ue]];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateEquipGoldSellCost:ue]];
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
     
     [gs addUnrespondedUpdates:ceu, su, gu, nil];
     
-    [Globals popupMessage:[NSString stringWithFormat:@"You have sold 1 %@!", fep.name]];
   } else {
     [Globals popupMessage:@"You do not own this equipment"];
   }
@@ -413,15 +409,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   NSMutableArray *mktPosts = [mvc postsForState];
   for (int i = 0; i < mktPosts.count; i++) {
-    FullMarketplacePostProto *proto = [mktPosts objectAtIndex:i];
-    if ([proto marketplacePostId] == postId) {
-      if (gs.userId != proto.poster.userId) {
-        if (gs.gold >= proto.diamondCost && gs.silver >= proto.coinCost) {
-          int tag = [sc sendPurchaseFromMarketplaceMessage:postId poster:proto.poster.userId];
-          GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-proto.diamondCost];
-          SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-proto.coinCost];
+    FullMarketplacePostProto *mktPost = [mktPosts objectAtIndex:i];
+    if ([mktPost marketplacePostId] == postId) {
+      if (gs.userId != mktPost.poster.userId) {
+        if (gs.gold >= mktPost.diamondCost && gs.silver >= mktPost.coinCost) {
+          int tag = [sc sendPurchaseFromMarketplaceMessage:postId poster:mktPost.poster.userId];
+          GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-mktPost.diamondCost];
+          SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-mktPost.coinCost];
           
-          [[Globals sharedGlobals] confirmWearEquip:proto.postedEquip.equipId];
+          [[Globals sharedGlobals] confirmWearEquip:mktPost.postedEquip.equipId];
           
           [gs addUnrespondedUpdates:gu, su, nil];
         } else {

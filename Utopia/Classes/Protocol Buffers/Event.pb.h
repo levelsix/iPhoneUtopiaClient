@@ -113,6 +113,8 @@
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserQuestTaskProto;
 @class MinimumUserQuestTaskProto_Builder;
@@ -718,17 +720,6 @@ typedef enum {
 } RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus;
 
 BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidValue(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus value);
-
-typedef enum {
-  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip = 1,
-  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeAdcolony = 2,
-  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFbInvite = 3,
-  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTapjoy = 4,
-  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFlurryVideo = 5,
-  EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTwitter = 6,
-} EarnFreeDiamondsRequestProto_EarnFreeDiamondsType;
-
-BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType value);
 
 typedef enum {
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess = 0,
@@ -1497,7 +1488,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (NSArray*) playerWallPostNotificationsList;
 - (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index;
 - (NSArray*) alliesList;
-- (MinimumUserProto*) alliesAtIndex:(int32_t) index;
+- (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -2095,38 +2086,22 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasUpgradeStructCoinCostExponentBase_:1;
   BOOL hasUpgradeStructDiamondCostExponentBase_:1;
   BOOL hasDiamondCostForInstantUpgradeMultiplier_:1;
-  BOOL hasBattleWeightGivenToAttackStat_:1;
-  BOOL hasBattleWeightGivenToAttackEquipSum_:1;
-  BOOL hasBattleWeightGivenToDefenseStat_:1;
-  BOOL hasBattleWeightGivenToDefenseEquipSum_:1;
   Float64 minutesToUpgradeForNormStructMultiplier;
   Float64 incomeFromNormStructMultiplier;
   Float64 upgradeStructCoinCostExponentBase;
   Float64 upgradeStructDiamondCostExponentBase;
   Float64 diamondCostForInstantUpgradeMultiplier;
-  Float64 battleWeightGivenToAttackStat;
-  Float64 battleWeightGivenToAttackEquipSum;
-  Float64 battleWeightGivenToDefenseStat;
-  Float64 battleWeightGivenToDefenseEquipSum;
 }
 - (BOOL) hasMinutesToUpgradeForNormStructMultiplier;
 - (BOOL) hasIncomeFromNormStructMultiplier;
 - (BOOL) hasUpgradeStructCoinCostExponentBase;
 - (BOOL) hasUpgradeStructDiamondCostExponentBase;
 - (BOOL) hasDiamondCostForInstantUpgradeMultiplier;
-- (BOOL) hasBattleWeightGivenToAttackStat;
-- (BOOL) hasBattleWeightGivenToAttackEquipSum;
-- (BOOL) hasBattleWeightGivenToDefenseStat;
-- (BOOL) hasBattleWeightGivenToDefenseEquipSum;
 @property (readonly) Float64 minutesToUpgradeForNormStructMultiplier;
 @property (readonly) Float64 incomeFromNormStructMultiplier;
 @property (readonly) Float64 upgradeStructCoinCostExponentBase;
 @property (readonly) Float64 upgradeStructDiamondCostExponentBase;
 @property (readonly) Float64 diamondCostForInstantUpgradeMultiplier;
-@property (readonly) Float64 battleWeightGivenToAttackStat;
-@property (readonly) Float64 battleWeightGivenToAttackEquipSum;
-@property (readonly) Float64 battleWeightGivenToDefenseStat;
-@property (readonly) Float64 battleWeightGivenToDefenseEquipSum;
 
 + (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_FormulaConstants*) defaultInstance;
@@ -2186,55 +2161,59 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (Float64) diamondCostForInstantUpgradeMultiplier;
 - (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setDiamondCostForInstantUpgradeMultiplier:(Float64) value;
 - (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearDiamondCostForInstantUpgradeMultiplier;
-
-- (BOOL) hasBattleWeightGivenToAttackStat;
-- (Float64) battleWeightGivenToAttackStat;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackStat:(Float64) value;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackStat;
-
-- (BOOL) hasBattleWeightGivenToAttackEquipSum;
-- (Float64) battleWeightGivenToAttackEquipSum;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackEquipSum:(Float64) value;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackEquipSum;
-
-- (BOOL) hasBattleWeightGivenToDefenseStat;
-- (Float64) battleWeightGivenToDefenseStat;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseStat:(Float64) value;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseStat;
-
-- (BOOL) hasBattleWeightGivenToDefenseEquipSum;
-- (Float64) battleWeightGivenToDefenseEquipSum;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value;
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum;
 @end
 
 @interface StartupResponseProto_StartupConstants_BattleConstants : PBGeneratedMessage {
 @private
-  BOOL hasMaxAttackMultiplier_:1;
-  BOOL hasMinPercentOfEnemyHealth_:1;
-  BOOL hasMaxPercentOfEnemyHealth_:1;
-  BOOL hasBattleDifferenceMultiplier_:1;
-  BOOL hasBattleDifferenceTuner_:1;
+  BOOL hasBattleWeightGivenToAttackStat_:1;
+  BOOL hasBattleWeightGivenToAttackEquipSum_:1;
+  BOOL hasBattleWeightGivenToDefenseStat_:1;
+  BOOL hasBattleWeightGivenToDefenseEquipSum_:1;
   BOOL hasLocationBarMax_:1;
-  Float64 maxAttackMultiplier;
-  Float64 minPercentOfEnemyHealth;
-  Float64 maxPercentOfEnemyHealth;
-  Float64 battleDifferenceMultiplier;
-  Float64 battleDifferenceTuner;
+  BOOL hasBattlePerfectPercentThreshold_:1;
+  BOOL hasBattleGreatPercentThreshold_:1;
+  BOOL hasBattleGoodPercentThreshold_:1;
+  BOOL hasBattlePerfectMultiplier_:1;
+  BOOL hasBattleGreatMultiplier_:1;
+  BOOL hasBattleGoodMultiplier_:1;
+  BOOL hasBattleImbalancePercent_:1;
+  Float64 battleWeightGivenToAttackStat;
+  Float64 battleWeightGivenToAttackEquipSum;
+  Float64 battleWeightGivenToDefenseStat;
+  Float64 battleWeightGivenToDefenseEquipSum;
   Float32 locationBarMax;
+  Float32 battlePerfectPercentThreshold;
+  Float32 battleGreatPercentThreshold;
+  Float32 battleGoodPercentThreshold;
+  Float32 battlePerfectMultiplier;
+  Float32 battleGreatMultiplier;
+  Float32 battleGoodMultiplier;
+  Float32 battleImbalancePercent;
 }
 - (BOOL) hasLocationBarMax;
-- (BOOL) hasMaxAttackMultiplier;
-- (BOOL) hasMinPercentOfEnemyHealth;
-- (BOOL) hasMaxPercentOfEnemyHealth;
-- (BOOL) hasBattleDifferenceMultiplier;
-- (BOOL) hasBattleDifferenceTuner;
+- (BOOL) hasBattleWeightGivenToAttackStat;
+- (BOOL) hasBattleWeightGivenToAttackEquipSum;
+- (BOOL) hasBattleWeightGivenToDefenseStat;
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum;
+- (BOOL) hasBattlePerfectPercentThreshold;
+- (BOOL) hasBattleGreatPercentThreshold;
+- (BOOL) hasBattleGoodPercentThreshold;
+- (BOOL) hasBattlePerfectMultiplier;
+- (BOOL) hasBattleGreatMultiplier;
+- (BOOL) hasBattleGoodMultiplier;
+- (BOOL) hasBattleImbalancePercent;
 @property (readonly) Float32 locationBarMax;
-@property (readonly) Float64 maxAttackMultiplier;
-@property (readonly) Float64 minPercentOfEnemyHealth;
-@property (readonly) Float64 maxPercentOfEnemyHealth;
-@property (readonly) Float64 battleDifferenceMultiplier;
-@property (readonly) Float64 battleDifferenceTuner;
+@property (readonly) Float64 battleWeightGivenToAttackStat;
+@property (readonly) Float64 battleWeightGivenToAttackEquipSum;
+@property (readonly) Float64 battleWeightGivenToDefenseStat;
+@property (readonly) Float64 battleWeightGivenToDefenseEquipSum;
+@property (readonly) Float32 battlePerfectPercentThreshold;
+@property (readonly) Float32 battleGreatPercentThreshold;
+@property (readonly) Float32 battleGoodPercentThreshold;
+@property (readonly) Float32 battlePerfectMultiplier;
+@property (readonly) Float32 battleGreatMultiplier;
+@property (readonly) Float32 battleGoodMultiplier;
+@property (readonly) Float32 battleImbalancePercent;
 
 + (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
@@ -2275,30 +2254,60 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setLocationBarMax:(Float32) value;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearLocationBarMax;
 
-- (BOOL) hasMaxAttackMultiplier;
-- (Float64) maxAttackMultiplier;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxAttackMultiplier:(Float64) value;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxAttackMultiplier;
+- (BOOL) hasBattleWeightGivenToAttackStat;
+- (Float64) battleWeightGivenToAttackStat;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToAttackStat:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToAttackStat;
 
-- (BOOL) hasMinPercentOfEnemyHealth;
-- (Float64) minPercentOfEnemyHealth;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMinPercentOfEnemyHealth:(Float64) value;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMinPercentOfEnemyHealth;
+- (BOOL) hasBattleWeightGivenToAttackEquipSum;
+- (Float64) battleWeightGivenToAttackEquipSum;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToAttackEquipSum:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToAttackEquipSum;
 
-- (BOOL) hasMaxPercentOfEnemyHealth;
-- (Float64) maxPercentOfEnemyHealth;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxPercentOfEnemyHealth:(Float64) value;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxPercentOfEnemyHealth;
+- (BOOL) hasBattleWeightGivenToDefenseStat;
+- (Float64) battleWeightGivenToDefenseStat;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToDefenseStat:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToDefenseStat;
 
-- (BOOL) hasBattleDifferenceMultiplier;
-- (Float64) battleDifferenceMultiplier;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceMultiplier:(Float64) value;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceMultiplier;
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum;
+- (Float64) battleWeightGivenToDefenseEquipSum;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum;
 
-- (BOOL) hasBattleDifferenceTuner;
-- (Float64) battleDifferenceTuner;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceTuner:(Float64) value;
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceTuner;
+- (BOOL) hasBattlePerfectPercentThreshold;
+- (Float32) battlePerfectPercentThreshold;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePerfectPercentThreshold:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePerfectPercentThreshold;
+
+- (BOOL) hasBattleGreatPercentThreshold;
+- (Float32) battleGreatPercentThreshold;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGreatPercentThreshold:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGreatPercentThreshold;
+
+- (BOOL) hasBattleGoodPercentThreshold;
+- (Float32) battleGoodPercentThreshold;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGoodPercentThreshold:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGoodPercentThreshold;
+
+- (BOOL) hasBattlePerfectMultiplier;
+- (Float32) battlePerfectMultiplier;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePerfectMultiplier:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePerfectMultiplier;
+
+- (BOOL) hasBattleGreatMultiplier;
+- (Float32) battleGreatMultiplier;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGreatMultiplier:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGreatMultiplier;
+
+- (BOOL) hasBattleGoodMultiplier;
+- (Float32) battleGoodMultiplier;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGoodMultiplier:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGoodMultiplier;
+
+- (BOOL) hasBattleImbalancePercent;
+- (Float32) battleImbalancePercent;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleImbalancePercent:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleImbalancePercent;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -3288,9 +3297,9 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_Builder*) clearAppStoreUrl;
 
 - (NSArray*) alliesList;
-- (MinimumUserProto*) alliesAtIndex:(int32_t) index;
-- (StartupResponseProto_Builder*) replaceAlliesAtIndex:(int32_t) index with:(MinimumUserProto*) value;
-- (StartupResponseProto_Builder*) addAllies:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceAlliesAtIndex:(int32_t) index with:(MinimumUserProtoWithLevel*) value;
+- (StartupResponseProto_Builder*) addAllies:(MinimumUserProtoWithLevel*) value;
 - (StartupResponseProto_Builder*) addAllAllies:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearAlliesList;
 @end
@@ -9162,7 +9171,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   NSString* kiipReceipt;
   NSString* adColonyDigest;
   MinimumUserProto* sender;
-  EarnFreeDiamondsRequestProto_EarnFreeDiamondsType freeDiamondsType;
+  EarnFreeDiamondsType freeDiamondsType;
 }
 - (BOOL) hasSender;
 - (BOOL) hasFreeDiamondsType;
@@ -9171,7 +9180,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasAdColonyDigest;
 - (BOOL) hasAdColonyDiamondsEarned;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) EarnFreeDiamondsRequestProto_EarnFreeDiamondsType freeDiamondsType;
+@property (readonly) EarnFreeDiamondsType freeDiamondsType;
 @property (readonly) int64_t clientTime;
 @property (readonly, retain) NSString* kiipReceipt;
 @property (readonly, retain) NSString* adColonyDigest;
@@ -9219,8 +9228,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EarnFreeDiamondsRequestProto_Builder*) clearSender;
 
 - (BOOL) hasFreeDiamondsType;
-- (EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) freeDiamondsType;
-- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) value;
+- (EarnFreeDiamondsType) freeDiamondsType;
+- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value;
 - (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType;
 
 - (BOOL) hasClientTime;
@@ -9248,13 +9257,17 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @private
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  BOOL hasFreeDiamondsType_:1;
   MinimumUserProto* sender;
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
+  EarnFreeDiamondsType freeDiamondsType;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasFreeDiamondsType;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
+@property (readonly) EarnFreeDiamondsType freeDiamondsType;
 
 + (EarnFreeDiamondsResponseProto*) defaultInstance;
 - (EarnFreeDiamondsResponseProto*) defaultInstance;
@@ -9301,6 +9314,11 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) status;
 - (EarnFreeDiamondsResponseProto_Builder*) setStatus:(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus) value;
 - (EarnFreeDiamondsResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasFreeDiamondsType;
+- (EarnFreeDiamondsType) freeDiamondsType;
+- (EarnFreeDiamondsResponseProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value;
+- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType;
 @end
 
 @interface ReconnectRequestProto : PBGeneratedMessage {

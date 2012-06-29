@@ -374,10 +374,10 @@
       self.enemyMenu.enemyView.hidden = NO;
       self.enemyMenu.allyView.hidden = YES;
     } else if ([selected isKindOfClass:[Ally class]]) {
-      MinimumUserProto *mup = [(Ally *)selected user];
-      [[self.enemyMenu nameLabel] setText:mup.name];
-      [[self.enemyMenu levelLabel] setText:[NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:mup.userType], [Globals classForUserType:mup.userType]]];
-      [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:mup.userType]];
+      MinimumUserProtoWithLevel *mup = [(Ally *)selected user];
+      [[self.enemyMenu nameLabel] setText:mup.minUserProto.name];
+      [[self.enemyMenu levelLabel] setText:[NSString stringWithFormat:@"Lvl %d", mup.level]];
+      [[self.enemyMenu imageIcon] setImage:[Globals squareImageForUser:mup.minUserProto.userType]];
       self.enemyMenu.enemyView.hidden = YES;
       self.enemyMenu.allyView.hidden = NO;
     }
@@ -570,7 +570,7 @@
 - (IBAction)allyProfileClicked:(id)sender {
   if ([_selected isKindOfClass:[Ally class]]) {
     Ally *ally = (Ally *)_selected;
-    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:ally.user withState:kEquipState];
+    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:ally.user.minUserProto withState:kEquipState];
   }
 }
 

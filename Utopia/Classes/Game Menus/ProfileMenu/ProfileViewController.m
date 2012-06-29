@@ -14,6 +14,7 @@
 #import "BattleLayer.h"
 #import "GenericPopupController.h"
 #import "EquipMenuController.h"
+#import "EquipDeltaView.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -645,6 +646,26 @@
 
 - (void) sellItem {
   [[OutgoingEventController sharedOutgoingEventController] sellEquip:userEquip.equipId];
+  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:userEquip.equipId];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int price = fep.coinPrice > 0 ? [gl calculateEquipSilverSellCost:userEquip] : [gl calculateEquipGoldSellCost:userEquip];
+  CGPoint startLoc = equipIcon.center;
+  startLoc = [self.superview convertPoint:startLoc fromView:self];
+  
+  UIView *testView = [EquipDeltaView
+                      createForUpperString:[NSString stringWithFormat:@"+ %d", 
+                                            price] 
+                      andLowerString:[NSString stringWithFormat:@"-1 %@", fep.name] 
+                      andCenter:startLoc
+                      topColor:[Globals greenColor] 
+                      botColor:[Globals colorForRarity:fep.rarity]];
+  
+  [Globals popupView:testView 
+         onSuperView:self.superview
+             atPoint:startLoc
+ withCompletionBlock:nil];
+  
   if (userEquip.quantity <= 0) {
     [self closeClicked:nil];
   }

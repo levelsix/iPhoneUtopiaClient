@@ -82,14 +82,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.genPopup.mainView fadeInBgdView:self.genPopup.bgdColorView];
-  
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  gpc.view = nil;
-  gpc.genPopup = nil;
 }
 
 + (void) displayViewWithText:(NSString *)string title:(NSString *)title {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  
+  // Get it to reload the nib file
+  gpc.view = nil;
+  [gpc view];
+  
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
   gp.confirmationView.hidden = YES;
@@ -104,6 +105,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  
+  // Get it to reload the nib file
+  gpc.view = nil;
+  [gpc view];
+  
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
   gp.confirmationView.hidden = YES;
@@ -118,6 +124,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  
+  // Get it to reload the nib file
+  gpc.view = nil;
+  [gpc view];
+  
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = YES;
   gp.confirmationView.hidden = NO;

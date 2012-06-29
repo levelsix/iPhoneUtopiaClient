@@ -40,26 +40,14 @@ static NSString *viewName = @"EquipDeltaView";
   return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
-
-+(UIView *)createForUpperString:(NSString *)upper 
-                 andLowerString:(NSString *)lower
-                       andCenter:(CGPoint)curCenter
++ (UIView *) createForUpperString:(NSString *)upper andLowerString:(NSString *)lower andCenter:(CGPoint)curCenter topColor:(UIColor *)topColor botColor:(UIColor *)botColor
 {
   EquipDeltaView *newView = [[EquipDeltaView alloc] initWithCenter:curCenter 
                                                    andUpperString:upper 
                                                    andLowerString:lower];
 
-  newView.upperLabel.textColor = [Globals redColor];
-  newView.lowerLabel.textColor = [Globals greenColor];
+  newView.upperLabel.textColor = topColor;
+  newView.lowerLabel.textColor = botColor;
   [newView autorelease];
   return newView;
 }

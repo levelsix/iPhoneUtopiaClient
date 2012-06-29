@@ -20,6 +20,7 @@
 
 #define PURCHASED_GOLD @"Purchased gold package"
 #define CANCELLED_IAP @"Cancelled gold purchase"
+#define IAP_FAILED @"Gold Shoppe: In app purchase failed"
 #define TOP_BAR_SHOP @"Viewed gold shop from top bar"
 
 #define GET_MORE_GOLD @"Clicked \"Get more gold\""
@@ -54,6 +55,9 @@
 #define QUEST_ACCEPT @"Quest: Accept"
 #define QUEST_COMPLETE @"Quest: Complete"
 #define QUEST_REDEEM @"Quest: Redeem"
+#define TASK_OPENED @"Task: Opened"
+#define TASK_EXECUTED @"Task: Executed"
+#define TASK_CLOSED @"Task: Closed"
 #define SKILL_POINT @"Profile: Skill Point"
 #define MKT_ATTEMPTED_PURCHASE @"Mkt: Attempted Purchase"
 #define MKT_ATTEMPTED_POST @"Mkt: Attempted Post"
@@ -176,6 +180,10 @@
                         nil];
   
   [Analytics event:CANCELLED_IAP withArgs:args];
+}
+
++ (void) inAppPurchaseFailed {
+  [Analytics event:IAP_FAILED];
 }
 
 + (void) viewedGoldShopFromTopMenu {
@@ -483,6 +491,30 @@
                         nil];
   
   [Analytics event:QUEST_REDEEM withArgs:args];
+}
+
++ (void) taskViewed:(int)taskId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:taskId], @"task id",
+                        nil];
+  
+  [Analytics event:TASK_OPENED withArgs:args];
+}
+
++ (void) taskExecuted:(int)taskId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:taskId], @"task id",
+                        nil];
+  
+  [Analytics event:TASK_EXECUTED withArgs:args];
+}
+
++ (void) taskClosed:(int)taskId {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:taskId], @"task id",
+                        nil];
+  
+  [Analytics event:TASK_CLOSED withArgs:args];
 }
 
 + (void) addedSkillPoint:(NSString *)stat {

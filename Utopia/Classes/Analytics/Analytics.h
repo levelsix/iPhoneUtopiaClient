@@ -20,6 +20,7 @@
 // Monetization
 + (void) purchasedGoldPackage:(NSString *)package price:(float)price goldAmount:(int)gold;
 + (void) cancelledGoldPackage:(NSString *)package;
++ (void) inAppPurchaseFailed;
 + (void) viewedGoldShopFromTopMenu;
 
 + (void) clickedGetMoreGold:(int)goldAmt;
@@ -65,6 +66,10 @@
 + (void) questComplete:(int)questId;
 + (void) questRedeem:(int)questId;
 
++ (void) taskViewed:(int)taskId;
++ (void) taskExecuted:(int)taskId;
++ (void) taskClosed:(int)taskId;
+
 + (void) addedSkillPoint:(NSString *)stat;
 
 + (void) attemptedPurchase;
@@ -92,6 +97,7 @@
 + (void) openedNotifications;
 + (void) openedQuestLog;
 + (void) openedMyProfile;
+
 + (void) clickedVisit;
 + (void) receivedNotification;
 + (void) clickedRevenge;

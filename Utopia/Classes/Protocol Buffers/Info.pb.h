@@ -49,6 +49,8 @@
 @class MinimumUserPossessEquipJobProto;
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
+@class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserQuestTaskProto;
 @class MinimumUserQuestTaskProto_Builder;
@@ -70,6 +72,17 @@ typedef enum {
 } AnimationType;
 
 BOOL AnimationTypeIsValidValue(AnimationType value);
+
+typedef enum {
+  EarnFreeDiamondsTypeKiip = 1,
+  EarnFreeDiamondsTypeAdcolony = 2,
+  EarnFreeDiamondsTypeFbInvite = 3,
+  EarnFreeDiamondsTypeTapjoy = 4,
+  EarnFreeDiamondsTypeFlurryVideo = 5,
+  EarnFreeDiamondsTypeTwitter = 6,
+} EarnFreeDiamondsType;
+
+BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value);
 
 typedef enum {
   SpecialQuestActionPurchaseFromArmory = 1,
@@ -278,6 +291,65 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (UserType) userType;
 - (MinimumUserProto_Builder*) setUserType:(UserType) value;
 - (MinimumUserProto_Builder*) clearUserType;
+@end
+
+@interface MinimumUserProtoWithLevel : PBGeneratedMessage {
+@private
+  BOOL hasLevel_:1;
+  BOOL hasMinUserProto_:1;
+  int32_t level;
+  MinimumUserProto* minUserProto;
+}
+- (BOOL) hasMinUserProto;
+- (BOOL) hasLevel;
+@property (readonly, retain) MinimumUserProto* minUserProto;
+@property (readonly) int32_t level;
+
++ (MinimumUserProtoWithLevel*) defaultInstance;
+- (MinimumUserProtoWithLevel*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (MinimumUserProtoWithLevel_Builder*) builder;
++ (MinimumUserProtoWithLevel_Builder*) builder;
++ (MinimumUserProtoWithLevel_Builder*) builderWithPrototype:(MinimumUserProtoWithLevel*) prototype;
+
++ (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data;
++ (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithLevel*) parseFromInputStream:(NSInputStream*) input;
++ (MinimumUserProtoWithLevel*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (MinimumUserProtoWithLevel*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (MinimumUserProtoWithLevel*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface MinimumUserProtoWithLevel_Builder : PBGeneratedMessage_Builder {
+@private
+  MinimumUserProtoWithLevel* result;
+}
+
+- (MinimumUserProtoWithLevel*) defaultInstance;
+
+- (MinimumUserProtoWithLevel_Builder*) clear;
+- (MinimumUserProtoWithLevel_Builder*) clone;
+
+- (MinimumUserProtoWithLevel*) build;
+- (MinimumUserProtoWithLevel*) buildPartial;
+
+- (MinimumUserProtoWithLevel_Builder*) mergeFrom:(MinimumUserProtoWithLevel*) other;
+- (MinimumUserProtoWithLevel_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (MinimumUserProtoWithLevel_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasMinUserProto;
+- (MinimumUserProto*) minUserProto;
+- (MinimumUserProtoWithLevel_Builder*) setMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (MinimumUserProtoWithLevel_Builder*) mergeMinUserProto:(MinimumUserProto*) value;
+- (MinimumUserProtoWithLevel_Builder*) clearMinUserProto;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (MinimumUserProtoWithLevel_Builder*) setLevel:(int32_t) value;
+- (MinimumUserProtoWithLevel_Builder*) clearLevel;
 @end
 
 @interface FullUserProto : PBGeneratedMessage {

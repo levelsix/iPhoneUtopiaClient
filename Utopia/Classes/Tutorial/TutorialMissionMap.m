@@ -207,7 +207,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   _label = [CCLabelTTF labelWithString:str fontName:@"Trajan Pro" fontSize:15.f];
   [self.parent addChild:_label z:6];
   _label.position = ccp(self.parent.contentSize.width/2, 40);
-//  [_label runAction:[CCFadeIn actionWithDuration:0.3f]];
+  [_label runAction:[CCFadeIn actionWithDuration:0.3f]];
+  
+  [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:self selector:@selector(showTapToContinue)], nil]];
   
   // Must do blink separately b/c layer is added to parent
   CCLayer *bot = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 255)];
@@ -218,6 +220,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   top.contentSize = CGSizeMake(top.contentSize.width, top.contentSize.height/2);
   top.position = ccp(0, bot.contentSize.height);
   [self.parent addChild:top z:5 tag:11];
+}
+
+- (void) showTapToContinue {
+  CCLabelTTF *tap = [CCLabelTTF labelWithString:@"Tap to continue..." fontName:@"Trajan Pro" fontSize:15.f];
+  tap.color = ccc3(255, 200, 0);
+  [self.parent addChild:tap z:6 tag:30];
+  tap.position = _label.position;
+  
+  tap.opacity = 0;
+  [tap runAction:[CCRepeatForever actionWithAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.6f opacity:255], [CCFadeTo actionWithDuration:0.6f opacity:120], nil]]];
+  [_label runAction:[CCMoveBy actionWithDuration:0.2f position:ccp(0, 30)]];
 }
 
 - (void) doBlink {
@@ -238,6 +251,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
                    nil]]];
   
   [_label runAction:[CCFadeOut actionWithDuration:0.3f]];
+  
+  CCNode *node = [self.parent getChildByTag:30];
+  [node stopAllActions];
+  [node runAction:[CCFadeOut actionWithDuration:0.3f]];
 }
 
 - (void) beginAfterBlinkConvo {
@@ -426,7 +443,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
     _taskProgBar.visible = YES;
     _receivedTaskActionResponse = YES;
     
-    if (mb.numTimesActedForQuest == ftp.numRequiredForCompletion) {
+    // Use total-1 because we add the num at the end
+    if (mb.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
       _doTaskPhase = NO;
       
       [self performSelectorInBackground:@selector(preloadLevelUp) withObject:nil];
@@ -531,6 +549,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [lurpb addAllNewlyAvailableStructs:tc.levelTwoStructs];
   [lurpb addAllNewlyEquippableEpicsAndLegendaries:tc.levelTwoEquips];
   
+  
+  
   // This will be released after the level up controller closes
   luvc = [[LevelUpViewController alloc] initWithLevelUpResponse:[lurpb build]];
   [luvc view];
@@ -552,6 +572,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   
   [Globals displayUIView:luvc.view];
   [_ccArrow removeFromParentAndCleanup:YES];
+  
+  UIImageView *arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
+  [luvc.mainView addSubview:arrow];
+  
+  UIView *okayButton = [luvc.mainView viewWithTag:50];
+  arrow.center = ccp(CGRectGetMaxX(okayButton.frame)+3, okayButton.center.y);
+  [Globals animateUIArrow:arrow atAngle:M_PI];
 }
 
 - (void) levelUpComplete {

@@ -140,17 +140,37 @@
   NSString *text = [[TutorialConstants sharedTutorialConstants] beforeCharSelectionText];
   _label.string = text;
   [_label runAction:[CCFadeIn actionWithDuration:0.3f]];
+  [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:1.f], [CCCallFunc actionWithTarget:self selector:@selector(showTapToContinue)], nil]];
   _beforeCharSelectPhase = YES;
+}
+
+- (void) showTapToContinue {
+  if (_beforeCharSelectPhase) {
+    CCLabelFX *tap = [CCLabelFX labelWithString:@"Tap to continue..." 
+                                     dimensions:CGSizeMake(self.contentSize.width-40, 40) 
+                                      alignment:UITextAlignmentCenter
+                                       fontName:@"Trajan Pro"
+                                       fontSize:15.f 
+                                   shadowOffset:CGSizeMake(0, -1)
+                                     shadowBlur:1.f];
+    tap.color = ccc3(255, 200, 0);
+    [self addChild:tap z:0 tag:30];
+    tap.position = _label.position;
+    
+    tap.opacity = 0;
+    [tap runAction:[CCRepeatForever actionWithAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.6f opacity:255], [CCFadeTo actionWithDuration:0.6f opacity:120], nil]]];
+    [_label runAction:[CCMoveBy actionWithDuration:0.2f position:ccp(0, 50)]];
+  }
 }
 
 - (void) beginCharSelection {
   CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
-//  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
-//  [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startCarpPhase];
-//  [[GameLayer sharedGameLayer] loadHomeMap];
-//  [[TopBar sharedTopBar] start];
-//  [(TutorialTopBar *)[TopBar sharedTopBar] updateIcon];
+  //  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
+  //  [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startCarpPhase];
+  //  [[GameLayer sharedGameLayer] loadHomeMap];
+  //  [[TopBar sharedTopBar] start];
+  //  [(TutorialTopBar *)[TopBar sharedTopBar] updateIcon];
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
@@ -158,6 +178,10 @@
     _beforeCharSelectPhase = NO;
     [self beginCharSelection];
     [_label runAction:[CCFadeOut actionWithDuration:0.3f]];
+    
+    CCNode *node = [self getChildByTag:30];
+    [node stopAllActions];
+    [node runAction:[CCFadeOut actionWithDuration:0.3f]];
     [[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
   }
   return YES;

@@ -18,7 +18,7 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UILabel *upperLabel;//NiceFontLabel2
 @property (nonatomic, retain) IBOutlet UILabel *lowerLabel;
-+(UIView *)createForUpperString:(NSString *)upper 
-                 andLowerString:(NSString *)lower
-                      andCenter:(CGPoint)curCenter;
+
++ (UIView *) createForUpperString:(NSString *)upper andLowerString:(NSString *)lower andCenter:(CGPoint)curCenter topColor:(UIColor *)topColor botColor:(UIColor *)botColor;
+
 @end

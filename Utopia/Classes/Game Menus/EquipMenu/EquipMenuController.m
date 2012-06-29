@@ -15,6 +15,7 @@
 #import "RefillMenuController.h"
 #import "OutgoingEventController.h"
 #import "GenericPopupController.h"
+#import "EquipDeltaView.h"
 
 @implementation EquipMenuController
 
@@ -120,17 +121,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   } else {
     [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
     
-    NSString *str = [NSString stringWithFormat:@"You have purchased 1 %@.", fep.name];
+    int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
+    CGPoint startLoc = equipIcon.center;
+    
+    UIView *testView = [EquipDeltaView
+                        createForUpperString:[NSString stringWithFormat:@"- %d", 
+                                              price] 
+                        andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                        andCenter:startLoc
+                        topColor:[Globals redColor] 
+                        botColor:[Globals colorForRarity:fep.rarity]];
+    
+    [Globals popupView:testView 
+           onSuperView:self.view
+               atPoint:startLoc
+   withCompletionBlock:nil];
+    
     if ([Globals canEquip:fep]) {
-      [GenericPopupController displayConfirmationWithDescription:str title:@"Congratulations!" okayButton:@"Equip" cancelButton:nil target:self selector:@selector(equipItem)];
+      [[Globals sharedGlobals] confirmWearEquip:fep.equipId];
     } else {
+      NSString *str = [NSString stringWithFormat:@"You have purchased 1 %@.", fep.name];
       [GenericPopupController displayViewWithText:str title:@"Congratulations!"];
     }
   }
-}
-
-- (void) equipItem {
-  [[OutgoingEventController sharedOutgoingEventController] wearEquip:equipId];
 }
 
 - (void)viewDidUnload

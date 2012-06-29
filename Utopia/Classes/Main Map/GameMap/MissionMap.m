@@ -400,6 +400,8 @@
           _taskProgBar.visible = YES;
           _receivedTaskActionResponse = NO;
           _performingTask = YES;
+          
+          [Analytics taskExecuted:ftp.taskId];
         }
       }
     }

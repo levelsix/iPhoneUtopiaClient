@@ -316,18 +316,18 @@
 
 @synthesize user;
 
-- (id) initWithUser:(MinimumUserProto *)mup location:(CGRect)loc map:(GameMap *)map {
-  if ((self = [super initWithFile:[Globals animatedSpritePrefix:mup.userType] location:loc map:map])) {
+- (id) initWithUser:(MinimumUserProtoWithLevel *)mup location:(CGRect)loc map:(GameMap *)map {
+  if ((self = [super initWithFile:[Globals animatedSpritePrefix:mup.minUserProto.userType] location:loc map:map])) {
     self.user = mup;
   }
   return self;
 }
 
-- (void) setUser:(MinimumUserProto *)u {
+- (void) setUser:(MinimumUserProtoWithLevel *)u {
   if (user != u) {
     [user release];
     user = [u retain];
-    _nameLabel.string = u.name;
+    _nameLabel.string = u.minUserProto.name;
   }
 }
 
@@ -383,6 +383,15 @@
 @implementation NeutralEnemy
 
 @synthesize ftp, numTimesActedForTask, numTimesActedForQuest, name, partOfQuest;
+
+- (void) setIsSelected:(BOOL)isSelected {
+  [super setIsSelected:isSelected];
+  if (isSelected) {
+    [Analytics taskViewed:ftp.taskId];
+  } else {
+    [Analytics taskClosed:ftp.taskId];
+  }
+}
 
 - (void) setName:(NSString *)n {
   if (name != n) {

@@ -650,25 +650,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   [[SoundEngine sharedSoundEngine] armoryBuy];
   
-  int price = ([Globals sellsForGoldInMarketplace:fep]) 
-  ? fep.diamondPrice : fep.coinPrice;
-  CGPoint startLoc = buySellView.center;
+  int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController]
+                         buyEquip:fep.equipId];
+  numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+  
+  int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
+  CGPoint startLoc = _clickedAl.equipIcon.center;
+  
   UIView *testView = [EquipDeltaView 
                       createForUpperString:[NSString stringWithFormat:@"- %d", 
                                             price] 
-                      andLowerString:fep.name 
-                      andCenter:startLoc];
-    int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController]
-                           buyEquip:fep.equipId];
-    numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
-    
-    if (updatedQuantity > 0 && fep.diamondPrice == 0) {
-      sellButton.enabled = YES;
-    }
+                      andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                      andCenter:startLoc
+                      topColor:[Globals greenColor] 
+                      botColor:[Globals colorForRarity:fep.rarity]];
+  
   [Globals popupView:testView 
-         onSuperView:buySellView
+         onSuperView:_clickedAl
              atPoint:startLoc
  withCompletionBlock:nil];
+  
+  if (updatedQuantity > 0 && fep.diamondPrice == 0) {
+    sellButton.enabled = YES;
+  }
   
   [coinBar updateLabels];
 }
@@ -678,6 +682,24 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] sellEquip:fep.equipId];
   numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+  
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *ue = [gs myEquipWithId:fep.equipId];
+  int price = fep.coinPrice > 0 ? [gl calculateEquipSilverSellCost:ue] : [gl calculateEquipGoldSellCost:ue];
+  CGPoint startLoc = _clickedAl.equipIcon.center;
+  UIView *testView = [EquipDeltaView 
+                      createForUpperString:[NSString stringWithFormat:@"+ %d", 
+                                            price] 
+                      andLowerString:[NSString stringWithFormat:@"-1 %@", fep.name] 
+                      andCenter:startLoc
+                      topColor:[Globals redColor] 
+                      botColor:[Globals colorForRarity:fep.rarity]];
+  
+  [Globals popupView:testView 
+         onSuperView:_clickedAl
+             atPoint:startLoc
+ withCompletionBlock:nil];
   
   if (updatedQuantity == 0) {
     sellButton.enabled = NO;

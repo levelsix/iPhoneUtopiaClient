@@ -180,6 +180,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSReconnectEvent:
       responseClass = [ReconnectResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -442,6 +443,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
+    
+    [Analytics inAppPurchaseFailed];
   }
 }
 
@@ -1232,6 +1235,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   } else {
     [Globals popupMessage:@"Server failed to validate free gold."];
     [gs removeAndUndoAllUpdatesForTag:tag];
+    
+    if (proto.freeDiamondsType == EarnFreeDiamondsTypeAdcolony) {
+      [Analytics adColonyFailed];
+    } else if (proto.freeDiamondsType == EarnFreeDiamondsTypeKiip) {
+      [Analytics kiipFailed];
+    }
   }
 }
 

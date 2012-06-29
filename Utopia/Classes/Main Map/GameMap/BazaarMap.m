@@ -132,7 +132,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   }
   
   for (NSNumber *num in nums) {
-    MinimumUserProto *mup = [allies objectAtIndex:num.intValue];
+    MinimumUserProtoWithLevel *mup = [allies objectAtIndex:num.intValue];
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);

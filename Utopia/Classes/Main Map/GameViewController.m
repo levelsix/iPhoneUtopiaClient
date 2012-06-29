@@ -127,13 +127,7 @@
   
   [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
   
-  UIView *v = sharedGameViewController.view;
-  UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
-  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
-  imgView.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
-  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
-  [v addSubview:imgView];
-  [imgView release];
+  [sharedGameViewController loadDefaultImage];
 }
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
@@ -265,8 +259,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   loadingLabel.position = ccp(10, 10);
   [loadingLabel runAction:[CCRepeatForever actionWithAction:
                            [CCSequence actions:
-                            [CCFadeTo actionWithDuration:2.f opacity:120],
-                            [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
+                            [CCFadeTo actionWithDuration:1.5f opacity:0],
+                            [CCFadeTo actionWithDuration:1.5f opacity:255], nil]]];
   
   [splash removeFromParentAndCleanup:YES];
   splash = nil;
@@ -389,7 +383,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   self.view = v;
   [v release];
   
+  [self loadDefaultImage];
+  
   [self setupCocos2D];
+}
+
+- (void) loadDefaultImage {
+  UIView *v = self.view;
+  UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
+  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
+  imgView.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
+  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
+  [v addSubview:imgView];
+  [imgView release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

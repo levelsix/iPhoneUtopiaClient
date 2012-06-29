@@ -339,7 +339,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 - (void) moveToCenter {
   // When this is called we want to move the player's sprite to the center too.
   // Also, center of home map should show gate
-  _myPlayer.location = CGRectMake(47, 28, 1, 1);
+  _myPlayer.location = CGRectMake(48, 28, 1, 1);
   [self moveToSprite:_myPlayer];
 }
 

@@ -28,6 +28,19 @@ BOOL AnimationTypeIsValidValue(AnimationType value) {
       return NO;
   }
 }
+BOOL EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsType value) {
+  switch (value) {
+    case EarnFreeDiamondsTypeKiip:
+    case EarnFreeDiamondsTypeAdcolony:
+    case EarnFreeDiamondsTypeFbInvite:
+    case EarnFreeDiamondsTypeTapjoy:
+    case EarnFreeDiamondsTypeFlurryVideo:
+    case EarnFreeDiamondsTypeTwitter:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL SpecialQuestActionIsValidValue(SpecialQuestAction value) {
   switch (value) {
     case SpecialQuestActionPurchaseFromArmory:
@@ -368,6 +381,241 @@ static MinimumUserProto* defaultMinimumUserProtoInstance = nil;
 - (MinimumUserProto_Builder*) clearUserType {
   result.hasUserType = NO;
   result.userType = UserTypeGoodWarrior;
+  return self;
+}
+@end
+
+@interface MinimumUserProtoWithLevel ()
+@property (retain) MinimumUserProto* minUserProto;
+@property int32_t level;
+@end
+
+@implementation MinimumUserProtoWithLevel
+
+- (BOOL) hasMinUserProto {
+  return !!hasMinUserProto_;
+}
+- (void) setHasMinUserProto:(BOOL) value {
+  hasMinUserProto_ = !!value;
+}
+@synthesize minUserProto;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
+- (void) dealloc {
+  self.minUserProto = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.minUserProto = [MinimumUserProto defaultInstance];
+    self.level = 0;
+  }
+  return self;
+}
+static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserProtoWithLevel class]) {
+    defaultMinimumUserProtoWithLevelInstance = [[MinimumUserProtoWithLevel alloc] init];
+  }
+}
++ (MinimumUserProtoWithLevel*) defaultInstance {
+  return defaultMinimumUserProtoWithLevelInstance;
+}
+- (MinimumUserProtoWithLevel*) defaultInstance {
+  return defaultMinimumUserProtoWithLevelInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMinUserProto) {
+    [output writeMessage:1 value:self.minUserProto];
+  }
+  if (self.hasLevel) {
+    [output writeInt32:2 value:self.level];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMinUserProto) {
+    size += computeMessageSize(1, self.minUserProto);
+  }
+  if (self.hasLevel) {
+    size += computeInt32Size(2, self.level);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data {
+  return (MinimumUserProtoWithLevel*)[[[MinimumUserProtoWithLevel builder] mergeFromData:data] build];
+}
++ (MinimumUserProtoWithLevel*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevel*)[[[MinimumUserProtoWithLevel builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevel*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserProtoWithLevel*)[[[MinimumUserProtoWithLevel builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserProtoWithLevel*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevel*)[[[MinimumUserProtoWithLevel builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevel*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserProtoWithLevel*)[[[MinimumUserProtoWithLevel builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserProtoWithLevel*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevel*)[[[MinimumUserProtoWithLevel builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevel_Builder*) builder {
+  return [[[MinimumUserProtoWithLevel_Builder alloc] init] autorelease];
+}
++ (MinimumUserProtoWithLevel_Builder*) builderWithPrototype:(MinimumUserProtoWithLevel*) prototype {
+  return [[MinimumUserProtoWithLevel builder] mergeFrom:prototype];
+}
+- (MinimumUserProtoWithLevel_Builder*) builder {
+  return [MinimumUserProtoWithLevel builder];
+}
+@end
+
+@interface MinimumUserProtoWithLevel_Builder()
+@property (retain) MinimumUserProtoWithLevel* result;
+@end
+
+@implementation MinimumUserProtoWithLevel_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserProtoWithLevel alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserProtoWithLevel_Builder*) clear {
+  self.result = [[[MinimumUserProtoWithLevel alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserProtoWithLevel_Builder*) clone {
+  return [MinimumUserProtoWithLevel builderWithPrototype:result];
+}
+- (MinimumUserProtoWithLevel*) defaultInstance {
+  return [MinimumUserProtoWithLevel defaultInstance];
+}
+- (MinimumUserProtoWithLevel*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserProtoWithLevel*) buildPartial {
+  MinimumUserProtoWithLevel* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserProtoWithLevel_Builder*) mergeFrom:(MinimumUserProtoWithLevel*) other {
+  if (other == [MinimumUserProtoWithLevel defaultInstance]) {
+    return self;
+  }
+  if (other.hasMinUserProto) {
+    [self mergeMinUserProto:other.minUserProto];
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserProtoWithLevel_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserProtoWithLevel_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMinUserProto) {
+          [subBuilder mergeFrom:self.minUserProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinUserProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMinUserProto {
+  return result.hasMinUserProto;
+}
+- (MinimumUserProto*) minUserProto {
+  return result.minUserProto;
+}
+- (MinimumUserProtoWithLevel_Builder*) setMinUserProto:(MinimumUserProto*) value {
+  result.hasMinUserProto = YES;
+  result.minUserProto = value;
+  return self;
+}
+- (MinimumUserProtoWithLevel_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMinUserProto:[builderForValue build]];
+}
+- (MinimumUserProtoWithLevel_Builder*) mergeMinUserProto:(MinimumUserProto*) value {
+  if (result.hasMinUserProto &&
+      result.minUserProto != [MinimumUserProto defaultInstance]) {
+    result.minUserProto =
+      [[[MinimumUserProto builderWithPrototype:result.minUserProto] mergeFrom:value] buildPartial];
+  } else {
+    result.minUserProto = value;
+  }
+  result.hasMinUserProto = YES;
+  return self;
+}
+- (MinimumUserProtoWithLevel_Builder*) clearMinUserProto {
+  result.hasMinUserProto = NO;
+  result.minUserProto = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (MinimumUserProtoWithLevel_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (MinimumUserProtoWithLevel_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
   return self;
 }
 @end

@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSString *link;
 @property (nonatomic, retain) IBOutlet GenericPopup *genPopup;
 
++ (id) sharedGenericPopupController;
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
 + (void) displayViewWithText:(NSString *)string title:(NSString *)title;
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;

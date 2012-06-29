@@ -355,6 +355,15 @@
 
 @synthesize ftp, numTimesActedForTask, numTimesActedForQuest, name, partOfQuest;
 
+- (void) setIsSelected:(BOOL)isSelected {
+  [super setIsSelected:isSelected];
+  if (isSelected) {
+    [Analytics taskViewed:ftp.taskId];
+  } else {
+    [Analytics taskClosed:ftp.taskId];
+  }
+}
+
 - (void) dealloc {
   self.ftp = nil;
   self.name = nil;

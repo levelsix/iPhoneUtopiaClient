@@ -338,25 +338,26 @@
      purchaseFromMarketplace:mktPost.marketplacePostId];
     [Analytics successfulPurchase:mktPost.postedEquip.equipId];
     
+    int price = ([Globals sellsForGoldInMarketplace:mktPost.postedEquip]) ? mktPost.diamondCost : mktPost.coinCost;
+    CGPoint startLoc = ccp(80, self.superview.center.y);;
+    UIView *testView = [EquipDeltaView 
+                        createForUpperString:[NSString stringWithFormat:@"- %d", 
+                                              price] 
+                        andLowerString:[NSString stringWithFormat:@"+1 %@", mktPost.postedEquip.name] 
+                        andCenter:startLoc
+                        topColor:[Globals redColor]
+                        botColor:[Globals colorForRarity:mktPost.postedEquip.rarity]];
+    
+    [Globals popupView:testView 
+           onSuperView:self.superview
+               atPoint:startLoc
+   withCompletionBlock:nil];
+    
     [mvc displayLoadingView];
     [self closeClicked:nil];
     [mvc.coinBar updateLabels];
     
     [[SoundEngine sharedSoundEngine] marketplaceBuy];
-    
-    int price = ([Globals sellsForGoldInMarketplace:mktPost.postedEquip]) 
-      ? mktPost.diamondCost : mktPost.coinCost;
-    CGPoint startLoc = self.center;
-    UIView *testView = [EquipDeltaView 
-                        createForUpperString:[NSString stringWithFormat:@"- %d", 
-                                              price] 
-                        andLowerString:mktPost.postedEquip.name 
-                        andCenter:startLoc];
-    
-    [Globals popupView:testView 
-           onSuperView:mvc.view
-               atPoint:startLoc
-   withCompletionBlock:nil];
   }
 }
 

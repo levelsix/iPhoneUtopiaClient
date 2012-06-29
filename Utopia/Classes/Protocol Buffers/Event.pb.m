@@ -3125,7 +3125,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
 - (NSArray*) alliesList {
   return mutableAlliesList;
 }
-- (MinimumUserProto*) alliesAtIndex:(int32_t) index {
+- (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index {
   id value = [mutableAlliesList objectAtIndex:index];
   return value;
 }
@@ -3163,7 +3163,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasExperienceRequiredForNextLevel) {
     [output writeInt32:10 value:self.experienceRequiredForNextLevel];
   }
-  for (MinimumUserProto* element in self.alliesList) {
+  for (MinimumUserProtoWithLevel* element in self.alliesList) {
     [output writeMessage:11 value:element];
   }
   for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
@@ -3232,7 +3232,7 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasExperienceRequiredForNextLevel) {
     size += computeInt32Size(10, self.experienceRequiredForNextLevel);
   }
-  for (MinimumUserProto* element in self.alliesList) {
+  for (MinimumUserProtoWithLevel* element in self.alliesList) {
     size += computeMessageSize(11, element);
   }
   for (StartupResponseProto_MarketplacePostPurchasedNotificationProto* element in self.marketplacePurchaseNotificationsList) {
@@ -5621,10 +5621,6 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
 @property Float64 upgradeStructCoinCostExponentBase;
 @property Float64 upgradeStructDiamondCostExponentBase;
 @property Float64 diamondCostForInstantUpgradeMultiplier;
-@property Float64 battleWeightGivenToAttackStat;
-@property Float64 battleWeightGivenToAttackEquipSum;
-@property Float64 battleWeightGivenToDefenseStat;
-@property Float64 battleWeightGivenToDefenseEquipSum;
 @end
 
 @implementation StartupResponseProto_StartupConstants_FormulaConstants
@@ -5664,34 +5660,6 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
   hasDiamondCostForInstantUpgradeMultiplier_ = !!value;
 }
 @synthesize diamondCostForInstantUpgradeMultiplier;
-- (BOOL) hasBattleWeightGivenToAttackStat {
-  return !!hasBattleWeightGivenToAttackStat_;
-}
-- (void) setHasBattleWeightGivenToAttackStat:(BOOL) value {
-  hasBattleWeightGivenToAttackStat_ = !!value;
-}
-@synthesize battleWeightGivenToAttackStat;
-- (BOOL) hasBattleWeightGivenToAttackEquipSum {
-  return !!hasBattleWeightGivenToAttackEquipSum_;
-}
-- (void) setHasBattleWeightGivenToAttackEquipSum:(BOOL) value {
-  hasBattleWeightGivenToAttackEquipSum_ = !!value;
-}
-@synthesize battleWeightGivenToAttackEquipSum;
-- (BOOL) hasBattleWeightGivenToDefenseStat {
-  return !!hasBattleWeightGivenToDefenseStat_;
-}
-- (void) setHasBattleWeightGivenToDefenseStat:(BOOL) value {
-  hasBattleWeightGivenToDefenseStat_ = !!value;
-}
-@synthesize battleWeightGivenToDefenseStat;
-- (BOOL) hasBattleWeightGivenToDefenseEquipSum {
-  return !!hasBattleWeightGivenToDefenseEquipSum_;
-}
-- (void) setHasBattleWeightGivenToDefenseEquipSum:(BOOL) value {
-  hasBattleWeightGivenToDefenseEquipSum_ = !!value;
-}
-@synthesize battleWeightGivenToDefenseEquipSum;
 - (void) dealloc {
   [super dealloc];
 }
@@ -5702,10 +5670,6 @@ static StartupResponseProto_StartupConstants_AnimatedSpriteOffsetProto* defaultS
     self.upgradeStructCoinCostExponentBase = 0;
     self.upgradeStructDiamondCostExponentBase = 0;
     self.diamondCostForInstantUpgradeMultiplier = 0;
-    self.battleWeightGivenToAttackStat = 0;
-    self.battleWeightGivenToAttackEquipSum = 0;
-    self.battleWeightGivenToDefenseStat = 0;
-    self.battleWeightGivenToDefenseEquipSum = 0;
   }
   return self;
 }
@@ -5740,18 +5704,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   if (self.hasDiamondCostForInstantUpgradeMultiplier) {
     [output writeDouble:5 value:self.diamondCostForInstantUpgradeMultiplier];
   }
-  if (self.hasBattleWeightGivenToAttackStat) {
-    [output writeDouble:6 value:self.battleWeightGivenToAttackStat];
-  }
-  if (self.hasBattleWeightGivenToAttackEquipSum) {
-    [output writeDouble:7 value:self.battleWeightGivenToAttackEquipSum];
-  }
-  if (self.hasBattleWeightGivenToDefenseStat) {
-    [output writeDouble:8 value:self.battleWeightGivenToDefenseStat];
-  }
-  if (self.hasBattleWeightGivenToDefenseEquipSum) {
-    [output writeDouble:9 value:self.battleWeightGivenToDefenseEquipSum];
-  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5775,18 +5727,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   }
   if (self.hasDiamondCostForInstantUpgradeMultiplier) {
     size += computeDoubleSize(5, self.diamondCostForInstantUpgradeMultiplier);
-  }
-  if (self.hasBattleWeightGivenToAttackStat) {
-    size += computeDoubleSize(6, self.battleWeightGivenToAttackStat);
-  }
-  if (self.hasBattleWeightGivenToAttackEquipSum) {
-    size += computeDoubleSize(7, self.battleWeightGivenToAttackEquipSum);
-  }
-  if (self.hasBattleWeightGivenToDefenseStat) {
-    size += computeDoubleSize(8, self.battleWeightGivenToDefenseStat);
-  }
-  if (self.hasBattleWeightGivenToDefenseEquipSum) {
-    size += computeDoubleSize(9, self.battleWeightGivenToDefenseEquipSum);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -5878,18 +5818,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   if (other.hasDiamondCostForInstantUpgradeMultiplier) {
     [self setDiamondCostForInstantUpgradeMultiplier:other.diamondCostForInstantUpgradeMultiplier];
   }
-  if (other.hasBattleWeightGivenToAttackStat) {
-    [self setBattleWeightGivenToAttackStat:other.battleWeightGivenToAttackStat];
-  }
-  if (other.hasBattleWeightGivenToAttackEquipSum) {
-    [self setBattleWeightGivenToAttackEquipSum:other.battleWeightGivenToAttackEquipSum];
-  }
-  if (other.hasBattleWeightGivenToDefenseStat) {
-    [self setBattleWeightGivenToDefenseStat:other.battleWeightGivenToDefenseStat];
-  }
-  if (other.hasBattleWeightGivenToDefenseEquipSum) {
-    [self setBattleWeightGivenToDefenseEquipSum:other.battleWeightGivenToDefenseEquipSum];
-  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5929,22 +5857,6 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
       }
       case 41: {
         [self setDiamondCostForInstantUpgradeMultiplier:[input readDouble]];
-        break;
-      }
-      case 49: {
-        [self setBattleWeightGivenToAttackStat:[input readDouble]];
-        break;
-      }
-      case 57: {
-        [self setBattleWeightGivenToAttackEquipSum:[input readDouble]];
-        break;
-      }
-      case 65: {
-        [self setBattleWeightGivenToDefenseStat:[input readDouble]];
-        break;
-      }
-      case 73: {
-        [self setBattleWeightGivenToDefenseEquipSum:[input readDouble]];
         break;
       }
     }
@@ -6030,79 +5942,21 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   result.diamondCostForInstantUpgradeMultiplier = 0;
   return self;
 }
-- (BOOL) hasBattleWeightGivenToAttackStat {
-  return result.hasBattleWeightGivenToAttackStat;
-}
-- (Float64) battleWeightGivenToAttackStat {
-  return result.battleWeightGivenToAttackStat;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackStat:(Float64) value {
-  result.hasBattleWeightGivenToAttackStat = YES;
-  result.battleWeightGivenToAttackStat = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackStat {
-  result.hasBattleWeightGivenToAttackStat = NO;
-  result.battleWeightGivenToAttackStat = 0;
-  return self;
-}
-- (BOOL) hasBattleWeightGivenToAttackEquipSum {
-  return result.hasBattleWeightGivenToAttackEquipSum;
-}
-- (Float64) battleWeightGivenToAttackEquipSum {
-  return result.battleWeightGivenToAttackEquipSum;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToAttackEquipSum:(Float64) value {
-  result.hasBattleWeightGivenToAttackEquipSum = YES;
-  result.battleWeightGivenToAttackEquipSum = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToAttackEquipSum {
-  result.hasBattleWeightGivenToAttackEquipSum = NO;
-  result.battleWeightGivenToAttackEquipSum = 0;
-  return self;
-}
-- (BOOL) hasBattleWeightGivenToDefenseStat {
-  return result.hasBattleWeightGivenToDefenseStat;
-}
-- (Float64) battleWeightGivenToDefenseStat {
-  return result.battleWeightGivenToDefenseStat;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseStat:(Float64) value {
-  result.hasBattleWeightGivenToDefenseStat = YES;
-  result.battleWeightGivenToDefenseStat = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseStat {
-  result.hasBattleWeightGivenToDefenseStat = NO;
-  result.battleWeightGivenToDefenseStat = 0;
-  return self;
-}
-- (BOOL) hasBattleWeightGivenToDefenseEquipSum {
-  return result.hasBattleWeightGivenToDefenseEquipSum;
-}
-- (Float64) battleWeightGivenToDefenseEquipSum {
-  return result.battleWeightGivenToDefenseEquipSum;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value {
-  result.hasBattleWeightGivenToDefenseEquipSum = YES;
-  result.battleWeightGivenToDefenseEquipSum = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_FormulaConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum {
-  result.hasBattleWeightGivenToDefenseEquipSum = NO;
-  result.battleWeightGivenToDefenseEquipSum = 0;
-  return self;
-}
 @end
 
 @interface StartupResponseProto_StartupConstants_BattleConstants ()
 @property Float32 locationBarMax;
-@property Float64 maxAttackMultiplier;
-@property Float64 minPercentOfEnemyHealth;
-@property Float64 maxPercentOfEnemyHealth;
-@property Float64 battleDifferenceMultiplier;
-@property Float64 battleDifferenceTuner;
+@property Float64 battleWeightGivenToAttackStat;
+@property Float64 battleWeightGivenToAttackEquipSum;
+@property Float64 battleWeightGivenToDefenseStat;
+@property Float64 battleWeightGivenToDefenseEquipSum;
+@property Float32 battlePerfectPercentThreshold;
+@property Float32 battleGreatPercentThreshold;
+@property Float32 battleGoodPercentThreshold;
+@property Float32 battlePerfectMultiplier;
+@property Float32 battleGreatMultiplier;
+@property Float32 battleGoodMultiplier;
+@property Float32 battleImbalancePercent;
 @end
 
 @implementation StartupResponseProto_StartupConstants_BattleConstants
@@ -6114,52 +5968,100 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   hasLocationBarMax_ = !!value;
 }
 @synthesize locationBarMax;
-- (BOOL) hasMaxAttackMultiplier {
-  return !!hasMaxAttackMultiplier_;
+- (BOOL) hasBattleWeightGivenToAttackStat {
+  return !!hasBattleWeightGivenToAttackStat_;
 }
-- (void) setHasMaxAttackMultiplier:(BOOL) value {
-  hasMaxAttackMultiplier_ = !!value;
+- (void) setHasBattleWeightGivenToAttackStat:(BOOL) value {
+  hasBattleWeightGivenToAttackStat_ = !!value;
 }
-@synthesize maxAttackMultiplier;
-- (BOOL) hasMinPercentOfEnemyHealth {
-  return !!hasMinPercentOfEnemyHealth_;
+@synthesize battleWeightGivenToAttackStat;
+- (BOOL) hasBattleWeightGivenToAttackEquipSum {
+  return !!hasBattleWeightGivenToAttackEquipSum_;
 }
-- (void) setHasMinPercentOfEnemyHealth:(BOOL) value {
-  hasMinPercentOfEnemyHealth_ = !!value;
+- (void) setHasBattleWeightGivenToAttackEquipSum:(BOOL) value {
+  hasBattleWeightGivenToAttackEquipSum_ = !!value;
 }
-@synthesize minPercentOfEnemyHealth;
-- (BOOL) hasMaxPercentOfEnemyHealth {
-  return !!hasMaxPercentOfEnemyHealth_;
+@synthesize battleWeightGivenToAttackEquipSum;
+- (BOOL) hasBattleWeightGivenToDefenseStat {
+  return !!hasBattleWeightGivenToDefenseStat_;
 }
-- (void) setHasMaxPercentOfEnemyHealth:(BOOL) value {
-  hasMaxPercentOfEnemyHealth_ = !!value;
+- (void) setHasBattleWeightGivenToDefenseStat:(BOOL) value {
+  hasBattleWeightGivenToDefenseStat_ = !!value;
 }
-@synthesize maxPercentOfEnemyHealth;
-- (BOOL) hasBattleDifferenceMultiplier {
-  return !!hasBattleDifferenceMultiplier_;
+@synthesize battleWeightGivenToDefenseStat;
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum {
+  return !!hasBattleWeightGivenToDefenseEquipSum_;
 }
-- (void) setHasBattleDifferenceMultiplier:(BOOL) value {
-  hasBattleDifferenceMultiplier_ = !!value;
+- (void) setHasBattleWeightGivenToDefenseEquipSum:(BOOL) value {
+  hasBattleWeightGivenToDefenseEquipSum_ = !!value;
 }
-@synthesize battleDifferenceMultiplier;
-- (BOOL) hasBattleDifferenceTuner {
-  return !!hasBattleDifferenceTuner_;
+@synthesize battleWeightGivenToDefenseEquipSum;
+- (BOOL) hasBattlePerfectPercentThreshold {
+  return !!hasBattlePerfectPercentThreshold_;
 }
-- (void) setHasBattleDifferenceTuner:(BOOL) value {
-  hasBattleDifferenceTuner_ = !!value;
+- (void) setHasBattlePerfectPercentThreshold:(BOOL) value {
+  hasBattlePerfectPercentThreshold_ = !!value;
 }
-@synthesize battleDifferenceTuner;
+@synthesize battlePerfectPercentThreshold;
+- (BOOL) hasBattleGreatPercentThreshold {
+  return !!hasBattleGreatPercentThreshold_;
+}
+- (void) setHasBattleGreatPercentThreshold:(BOOL) value {
+  hasBattleGreatPercentThreshold_ = !!value;
+}
+@synthesize battleGreatPercentThreshold;
+- (BOOL) hasBattleGoodPercentThreshold {
+  return !!hasBattleGoodPercentThreshold_;
+}
+- (void) setHasBattleGoodPercentThreshold:(BOOL) value {
+  hasBattleGoodPercentThreshold_ = !!value;
+}
+@synthesize battleGoodPercentThreshold;
+- (BOOL) hasBattlePerfectMultiplier {
+  return !!hasBattlePerfectMultiplier_;
+}
+- (void) setHasBattlePerfectMultiplier:(BOOL) value {
+  hasBattlePerfectMultiplier_ = !!value;
+}
+@synthesize battlePerfectMultiplier;
+- (BOOL) hasBattleGreatMultiplier {
+  return !!hasBattleGreatMultiplier_;
+}
+- (void) setHasBattleGreatMultiplier:(BOOL) value {
+  hasBattleGreatMultiplier_ = !!value;
+}
+@synthesize battleGreatMultiplier;
+- (BOOL) hasBattleGoodMultiplier {
+  return !!hasBattleGoodMultiplier_;
+}
+- (void) setHasBattleGoodMultiplier:(BOOL) value {
+  hasBattleGoodMultiplier_ = !!value;
+}
+@synthesize battleGoodMultiplier;
+- (BOOL) hasBattleImbalancePercent {
+  return !!hasBattleImbalancePercent_;
+}
+- (void) setHasBattleImbalancePercent:(BOOL) value {
+  hasBattleImbalancePercent_ = !!value;
+}
+@synthesize battleImbalancePercent;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.locationBarMax = 0;
-    self.maxAttackMultiplier = 0;
-    self.minPercentOfEnemyHealth = 0;
-    self.maxPercentOfEnemyHealth = 0;
-    self.battleDifferenceMultiplier = 0;
-    self.battleDifferenceTuner = 0;
+    self.battleWeightGivenToAttackStat = 0;
+    self.battleWeightGivenToAttackEquipSum = 0;
+    self.battleWeightGivenToDefenseStat = 0;
+    self.battleWeightGivenToDefenseEquipSum = 0;
+    self.battlePerfectPercentThreshold = 0;
+    self.battleGreatPercentThreshold = 0;
+    self.battleGoodPercentThreshold = 0;
+    self.battlePerfectMultiplier = 0;
+    self.battleGreatMultiplier = 0;
+    self.battleGoodMultiplier = 0;
+    self.battleImbalancePercent = 0;
   }
   return self;
 }
@@ -6180,22 +6082,40 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
   if (self.hasLocationBarMax) {
-    [output writeFloat:3 value:self.locationBarMax];
+    [output writeFloat:1 value:self.locationBarMax];
   }
-  if (self.hasMaxAttackMultiplier) {
-    [output writeDouble:4 value:self.maxAttackMultiplier];
+  if (self.hasBattleWeightGivenToAttackStat) {
+    [output writeDouble:2 value:self.battleWeightGivenToAttackStat];
   }
-  if (self.hasMinPercentOfEnemyHealth) {
-    [output writeDouble:5 value:self.minPercentOfEnemyHealth];
+  if (self.hasBattleWeightGivenToAttackEquipSum) {
+    [output writeDouble:3 value:self.battleWeightGivenToAttackEquipSum];
   }
-  if (self.hasMaxPercentOfEnemyHealth) {
-    [output writeDouble:6 value:self.maxPercentOfEnemyHealth];
+  if (self.hasBattleWeightGivenToDefenseStat) {
+    [output writeDouble:4 value:self.battleWeightGivenToDefenseStat];
   }
-  if (self.hasBattleDifferenceMultiplier) {
-    [output writeDouble:7 value:self.battleDifferenceMultiplier];
+  if (self.hasBattleWeightGivenToDefenseEquipSum) {
+    [output writeDouble:5 value:self.battleWeightGivenToDefenseEquipSum];
   }
-  if (self.hasBattleDifferenceTuner) {
-    [output writeDouble:8 value:self.battleDifferenceTuner];
+  if (self.hasBattlePerfectPercentThreshold) {
+    [output writeFloat:6 value:self.battlePerfectPercentThreshold];
+  }
+  if (self.hasBattleGreatPercentThreshold) {
+    [output writeFloat:7 value:self.battleGreatPercentThreshold];
+  }
+  if (self.hasBattleGoodPercentThreshold) {
+    [output writeFloat:8 value:self.battleGoodPercentThreshold];
+  }
+  if (self.hasBattlePerfectMultiplier) {
+    [output writeFloat:9 value:self.battlePerfectMultiplier];
+  }
+  if (self.hasBattleGreatMultiplier) {
+    [output writeFloat:10 value:self.battleGreatMultiplier];
+  }
+  if (self.hasBattleGoodMultiplier) {
+    [output writeFloat:11 value:self.battleGoodMultiplier];
+  }
+  if (self.hasBattleImbalancePercent) {
+    [output writeFloat:12 value:self.battleImbalancePercent];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -6207,22 +6127,40 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 
   size = 0;
   if (self.hasLocationBarMax) {
-    size += computeFloatSize(3, self.locationBarMax);
+    size += computeFloatSize(1, self.locationBarMax);
   }
-  if (self.hasMaxAttackMultiplier) {
-    size += computeDoubleSize(4, self.maxAttackMultiplier);
+  if (self.hasBattleWeightGivenToAttackStat) {
+    size += computeDoubleSize(2, self.battleWeightGivenToAttackStat);
   }
-  if (self.hasMinPercentOfEnemyHealth) {
-    size += computeDoubleSize(5, self.minPercentOfEnemyHealth);
+  if (self.hasBattleWeightGivenToAttackEquipSum) {
+    size += computeDoubleSize(3, self.battleWeightGivenToAttackEquipSum);
   }
-  if (self.hasMaxPercentOfEnemyHealth) {
-    size += computeDoubleSize(6, self.maxPercentOfEnemyHealth);
+  if (self.hasBattleWeightGivenToDefenseStat) {
+    size += computeDoubleSize(4, self.battleWeightGivenToDefenseStat);
   }
-  if (self.hasBattleDifferenceMultiplier) {
-    size += computeDoubleSize(7, self.battleDifferenceMultiplier);
+  if (self.hasBattleWeightGivenToDefenseEquipSum) {
+    size += computeDoubleSize(5, self.battleWeightGivenToDefenseEquipSum);
   }
-  if (self.hasBattleDifferenceTuner) {
-    size += computeDoubleSize(8, self.battleDifferenceTuner);
+  if (self.hasBattlePerfectPercentThreshold) {
+    size += computeFloatSize(6, self.battlePerfectPercentThreshold);
+  }
+  if (self.hasBattleGreatPercentThreshold) {
+    size += computeFloatSize(7, self.battleGreatPercentThreshold);
+  }
+  if (self.hasBattleGoodPercentThreshold) {
+    size += computeFloatSize(8, self.battleGoodPercentThreshold);
+  }
+  if (self.hasBattlePerfectMultiplier) {
+    size += computeFloatSize(9, self.battlePerfectMultiplier);
+  }
+  if (self.hasBattleGreatMultiplier) {
+    size += computeFloatSize(10, self.battleGreatMultiplier);
+  }
+  if (self.hasBattleGoodMultiplier) {
+    size += computeFloatSize(11, self.battleGoodMultiplier);
+  }
+  if (self.hasBattleImbalancePercent) {
+    size += computeFloatSize(12, self.battleImbalancePercent);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6302,20 +6240,38 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasLocationBarMax) {
     [self setLocationBarMax:other.locationBarMax];
   }
-  if (other.hasMaxAttackMultiplier) {
-    [self setMaxAttackMultiplier:other.maxAttackMultiplier];
+  if (other.hasBattleWeightGivenToAttackStat) {
+    [self setBattleWeightGivenToAttackStat:other.battleWeightGivenToAttackStat];
   }
-  if (other.hasMinPercentOfEnemyHealth) {
-    [self setMinPercentOfEnemyHealth:other.minPercentOfEnemyHealth];
+  if (other.hasBattleWeightGivenToAttackEquipSum) {
+    [self setBattleWeightGivenToAttackEquipSum:other.battleWeightGivenToAttackEquipSum];
   }
-  if (other.hasMaxPercentOfEnemyHealth) {
-    [self setMaxPercentOfEnemyHealth:other.maxPercentOfEnemyHealth];
+  if (other.hasBattleWeightGivenToDefenseStat) {
+    [self setBattleWeightGivenToDefenseStat:other.battleWeightGivenToDefenseStat];
   }
-  if (other.hasBattleDifferenceMultiplier) {
-    [self setBattleDifferenceMultiplier:other.battleDifferenceMultiplier];
+  if (other.hasBattleWeightGivenToDefenseEquipSum) {
+    [self setBattleWeightGivenToDefenseEquipSum:other.battleWeightGivenToDefenseEquipSum];
   }
-  if (other.hasBattleDifferenceTuner) {
-    [self setBattleDifferenceTuner:other.battleDifferenceTuner];
+  if (other.hasBattlePerfectPercentThreshold) {
+    [self setBattlePerfectPercentThreshold:other.battlePerfectPercentThreshold];
+  }
+  if (other.hasBattleGreatPercentThreshold) {
+    [self setBattleGreatPercentThreshold:other.battleGreatPercentThreshold];
+  }
+  if (other.hasBattleGoodPercentThreshold) {
+    [self setBattleGoodPercentThreshold:other.battleGoodPercentThreshold];
+  }
+  if (other.hasBattlePerfectMultiplier) {
+    [self setBattlePerfectMultiplier:other.battlePerfectMultiplier];
+  }
+  if (other.hasBattleGreatMultiplier) {
+    [self setBattleGreatMultiplier:other.battleGreatMultiplier];
+  }
+  if (other.hasBattleGoodMultiplier) {
+    [self setBattleGoodMultiplier:other.battleGoodMultiplier];
+  }
+  if (other.hasBattleImbalancePercent) {
+    [self setBattleImbalancePercent:other.battleImbalancePercent];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -6338,28 +6294,52 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         }
         break;
       }
-      case 29: {
+      case 13: {
         [self setLocationBarMax:[input readFloat]];
         break;
       }
+      case 17: {
+        [self setBattleWeightGivenToAttackStat:[input readDouble]];
+        break;
+      }
+      case 25: {
+        [self setBattleWeightGivenToAttackEquipSum:[input readDouble]];
+        break;
+      }
       case 33: {
-        [self setMaxAttackMultiplier:[input readDouble]];
+        [self setBattleWeightGivenToDefenseStat:[input readDouble]];
         break;
       }
       case 41: {
-        [self setMinPercentOfEnemyHealth:[input readDouble]];
+        [self setBattleWeightGivenToDefenseEquipSum:[input readDouble]];
         break;
       }
-      case 49: {
-        [self setMaxPercentOfEnemyHealth:[input readDouble]];
+      case 53: {
+        [self setBattlePerfectPercentThreshold:[input readFloat]];
         break;
       }
-      case 57: {
-        [self setBattleDifferenceMultiplier:[input readDouble]];
+      case 61: {
+        [self setBattleGreatPercentThreshold:[input readFloat]];
         break;
       }
-      case 65: {
-        [self setBattleDifferenceTuner:[input readDouble]];
+      case 69: {
+        [self setBattleGoodPercentThreshold:[input readFloat]];
+        break;
+      }
+      case 77: {
+        [self setBattlePerfectMultiplier:[input readFloat]];
+        break;
+      }
+      case 85: {
+        [self setBattleGreatMultiplier:[input readFloat]];
+        break;
+      }
+      case 93: {
+        [self setBattleGoodMultiplier:[input readFloat]];
+        break;
+      }
+      case 101: {
+        [self setBattleImbalancePercent:[input readFloat]];
         break;
       }
     }
@@ -6381,84 +6361,180 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   result.locationBarMax = 0;
   return self;
 }
-- (BOOL) hasMaxAttackMultiplier {
-  return result.hasMaxAttackMultiplier;
+- (BOOL) hasBattleWeightGivenToAttackStat {
+  return result.hasBattleWeightGivenToAttackStat;
 }
-- (Float64) maxAttackMultiplier {
-  return result.maxAttackMultiplier;
+- (Float64) battleWeightGivenToAttackStat {
+  return result.battleWeightGivenToAttackStat;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxAttackMultiplier:(Float64) value {
-  result.hasMaxAttackMultiplier = YES;
-  result.maxAttackMultiplier = value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToAttackStat:(Float64) value {
+  result.hasBattleWeightGivenToAttackStat = YES;
+  result.battleWeightGivenToAttackStat = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxAttackMultiplier {
-  result.hasMaxAttackMultiplier = NO;
-  result.maxAttackMultiplier = 0;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToAttackStat {
+  result.hasBattleWeightGivenToAttackStat = NO;
+  result.battleWeightGivenToAttackStat = 0;
   return self;
 }
-- (BOOL) hasMinPercentOfEnemyHealth {
-  return result.hasMinPercentOfEnemyHealth;
+- (BOOL) hasBattleWeightGivenToAttackEquipSum {
+  return result.hasBattleWeightGivenToAttackEquipSum;
 }
-- (Float64) minPercentOfEnemyHealth {
-  return result.minPercentOfEnemyHealth;
+- (Float64) battleWeightGivenToAttackEquipSum {
+  return result.battleWeightGivenToAttackEquipSum;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMinPercentOfEnemyHealth:(Float64) value {
-  result.hasMinPercentOfEnemyHealth = YES;
-  result.minPercentOfEnemyHealth = value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToAttackEquipSum:(Float64) value {
+  result.hasBattleWeightGivenToAttackEquipSum = YES;
+  result.battleWeightGivenToAttackEquipSum = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMinPercentOfEnemyHealth {
-  result.hasMinPercentOfEnemyHealth = NO;
-  result.minPercentOfEnemyHealth = 0;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToAttackEquipSum {
+  result.hasBattleWeightGivenToAttackEquipSum = NO;
+  result.battleWeightGivenToAttackEquipSum = 0;
   return self;
 }
-- (BOOL) hasMaxPercentOfEnemyHealth {
-  return result.hasMaxPercentOfEnemyHealth;
+- (BOOL) hasBattleWeightGivenToDefenseStat {
+  return result.hasBattleWeightGivenToDefenseStat;
 }
-- (Float64) maxPercentOfEnemyHealth {
-  return result.maxPercentOfEnemyHealth;
+- (Float64) battleWeightGivenToDefenseStat {
+  return result.battleWeightGivenToDefenseStat;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setMaxPercentOfEnemyHealth:(Float64) value {
-  result.hasMaxPercentOfEnemyHealth = YES;
-  result.maxPercentOfEnemyHealth = value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToDefenseStat:(Float64) value {
+  result.hasBattleWeightGivenToDefenseStat = YES;
+  result.battleWeightGivenToDefenseStat = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearMaxPercentOfEnemyHealth {
-  result.hasMaxPercentOfEnemyHealth = NO;
-  result.maxPercentOfEnemyHealth = 0;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToDefenseStat {
+  result.hasBattleWeightGivenToDefenseStat = NO;
+  result.battleWeightGivenToDefenseStat = 0;
   return self;
 }
-- (BOOL) hasBattleDifferenceMultiplier {
-  return result.hasBattleDifferenceMultiplier;
+- (BOOL) hasBattleWeightGivenToDefenseEquipSum {
+  return result.hasBattleWeightGivenToDefenseEquipSum;
 }
-- (Float64) battleDifferenceMultiplier {
-  return result.battleDifferenceMultiplier;
+- (Float64) battleWeightGivenToDefenseEquipSum {
+  return result.battleWeightGivenToDefenseEquipSum;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceMultiplier:(Float64) value {
-  result.hasBattleDifferenceMultiplier = YES;
-  result.battleDifferenceMultiplier = value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value {
+  result.hasBattleWeightGivenToDefenseEquipSum = YES;
+  result.battleWeightGivenToDefenseEquipSum = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceMultiplier {
-  result.hasBattleDifferenceMultiplier = NO;
-  result.battleDifferenceMultiplier = 0;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum {
+  result.hasBattleWeightGivenToDefenseEquipSum = NO;
+  result.battleWeightGivenToDefenseEquipSum = 0;
   return self;
 }
-- (BOOL) hasBattleDifferenceTuner {
-  return result.hasBattleDifferenceTuner;
+- (BOOL) hasBattlePerfectPercentThreshold {
+  return result.hasBattlePerfectPercentThreshold;
 }
-- (Float64) battleDifferenceTuner {
-  return result.battleDifferenceTuner;
+- (Float32) battlePerfectPercentThreshold {
+  return result.battlePerfectPercentThreshold;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleDifferenceTuner:(Float64) value {
-  result.hasBattleDifferenceTuner = YES;
-  result.battleDifferenceTuner = value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePerfectPercentThreshold:(Float32) value {
+  result.hasBattlePerfectPercentThreshold = YES;
+  result.battlePerfectPercentThreshold = value;
   return self;
 }
-- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleDifferenceTuner {
-  result.hasBattleDifferenceTuner = NO;
-  result.battleDifferenceTuner = 0;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePerfectPercentThreshold {
+  result.hasBattlePerfectPercentThreshold = NO;
+  result.battlePerfectPercentThreshold = 0;
+  return self;
+}
+- (BOOL) hasBattleGreatPercentThreshold {
+  return result.hasBattleGreatPercentThreshold;
+}
+- (Float32) battleGreatPercentThreshold {
+  return result.battleGreatPercentThreshold;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGreatPercentThreshold:(Float32) value {
+  result.hasBattleGreatPercentThreshold = YES;
+  result.battleGreatPercentThreshold = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGreatPercentThreshold {
+  result.hasBattleGreatPercentThreshold = NO;
+  result.battleGreatPercentThreshold = 0;
+  return self;
+}
+- (BOOL) hasBattleGoodPercentThreshold {
+  return result.hasBattleGoodPercentThreshold;
+}
+- (Float32) battleGoodPercentThreshold {
+  return result.battleGoodPercentThreshold;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGoodPercentThreshold:(Float32) value {
+  result.hasBattleGoodPercentThreshold = YES;
+  result.battleGoodPercentThreshold = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGoodPercentThreshold {
+  result.hasBattleGoodPercentThreshold = NO;
+  result.battleGoodPercentThreshold = 0;
+  return self;
+}
+- (BOOL) hasBattlePerfectMultiplier {
+  return result.hasBattlePerfectMultiplier;
+}
+- (Float32) battlePerfectMultiplier {
+  return result.battlePerfectMultiplier;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePerfectMultiplier:(Float32) value {
+  result.hasBattlePerfectMultiplier = YES;
+  result.battlePerfectMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePerfectMultiplier {
+  result.hasBattlePerfectMultiplier = NO;
+  result.battlePerfectMultiplier = 0;
+  return self;
+}
+- (BOOL) hasBattleGreatMultiplier {
+  return result.hasBattleGreatMultiplier;
+}
+- (Float32) battleGreatMultiplier {
+  return result.battleGreatMultiplier;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGreatMultiplier:(Float32) value {
+  result.hasBattleGreatMultiplier = YES;
+  result.battleGreatMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGreatMultiplier {
+  result.hasBattleGreatMultiplier = NO;
+  result.battleGreatMultiplier = 0;
+  return self;
+}
+- (BOOL) hasBattleGoodMultiplier {
+  return result.hasBattleGoodMultiplier;
+}
+- (Float32) battleGoodMultiplier {
+  return result.battleGoodMultiplier;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGoodMultiplier:(Float32) value {
+  result.hasBattleGoodMultiplier = YES;
+  result.battleGoodMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGoodMultiplier {
+  result.hasBattleGoodMultiplier = NO;
+  result.battleGoodMultiplier = 0;
+  return self;
+}
+- (BOOL) hasBattleImbalancePercent {
+  return result.hasBattleImbalancePercent;
+}
+- (Float32) battleImbalancePercent {
+  return result.battleImbalancePercent;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleImbalancePercent:(Float32) value {
+  result.hasBattleImbalancePercent = YES;
+  result.battleImbalancePercent = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleImbalancePercent {
+  result.hasBattleImbalancePercent = NO;
+  result.battleImbalancePercent = 0;
   return self;
 }
 @end
@@ -10611,7 +10687,7 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         break;
       }
       case 90: {
-        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        MinimumUserProtoWithLevel_Builder* subBuilder = [MinimumUserProtoWithLevel builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addAllies:[subBuilder buildPartial]];
         break;
@@ -11165,10 +11241,10 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (result.mutableAlliesList == nil) { return [NSArray array]; }
   return result.mutableAlliesList;
 }
-- (MinimumUserProto*) alliesAtIndex:(int32_t) index {
+- (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index {
   return [result alliesAtIndex:index];
 }
-- (StartupResponseProto_Builder*) replaceAlliesAtIndex:(int32_t) index with:(MinimumUserProto*) value {
+- (StartupResponseProto_Builder*) replaceAlliesAtIndex:(int32_t) index with:(MinimumUserProtoWithLevel*) value {
   [result.mutableAlliesList replaceObjectAtIndex:index withObject:value];
   return self;
 }
@@ -11183,7 +11259,7 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   result.mutableAlliesList = nil;
   return self;
 }
-- (StartupResponseProto_Builder*) addAllies:(MinimumUserProto*) value {
+- (StartupResponseProto_Builder*) addAllies:(MinimumUserProtoWithLevel*) value {
   if (result.mutableAlliesList == nil) {
     result.mutableAlliesList = [NSMutableArray array];
   }
@@ -36339,7 +36415,7 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 
 @interface EarnFreeDiamondsRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property EarnFreeDiamondsRequestProto_EarnFreeDiamondsType freeDiamondsType;
+@property EarnFreeDiamondsType freeDiamondsType;
 @property int64_t clientTime;
 @property (retain) NSString* kiipReceipt;
 @property (retain) NSString* adColonyDigest;
@@ -36399,7 +36475,7 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.freeDiamondsType = EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip;
+    self.freeDiamondsType = EarnFreeDiamondsTypeKiip;
     self.clientTime = 0L;
     self.kiipReceipt = @"";
     self.adColonyDigest = @"";
@@ -36501,19 +36577,6 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 }
 @end
 
-BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType value) {
-  switch (value) {
-    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip:
-    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeAdcolony:
-    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFbInvite:
-    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTapjoy:
-    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeFlurryVideo:
-    case EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeTwitter:
-      return YES;
-    default:
-      return NO;
-  }
-}
 @interface EarnFreeDiamondsRequestProto_Builder()
 @property (retain) EarnFreeDiamondsRequestProto* result;
 @end
@@ -36606,7 +36669,7 @@ BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamo
       }
       case 16: {
         int32_t value = [input readEnum];
-        if (EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(value)) {
+        if (EarnFreeDiamondsTypeIsValidValue(value)) {
           [self setFreeDiamondsType:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
@@ -36665,17 +36728,17 @@ BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamo
 - (BOOL) hasFreeDiamondsType {
   return result.hasFreeDiamondsType;
 }
-- (EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) freeDiamondsType {
+- (EarnFreeDiamondsType) freeDiamondsType {
   return result.freeDiamondsType;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsRequestProto_EarnFreeDiamondsType) value {
+- (EarnFreeDiamondsRequestProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value {
   result.hasFreeDiamondsType = YES;
   result.freeDiamondsType = value;
   return self;
 }
 - (EarnFreeDiamondsRequestProto_Builder*) clearFreeDiamondsType {
   result.hasFreeDiamondsType = NO;
-  result.freeDiamondsType = EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeKiip;
+  result.freeDiamondsType = EarnFreeDiamondsTypeKiip;
   return self;
 }
 - (BOOL) hasClientTime {
@@ -36747,6 +36810,7 @@ BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamo
 @interface EarnFreeDiamondsResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus status;
+@property EarnFreeDiamondsType freeDiamondsType;
 @end
 
 @implementation EarnFreeDiamondsResponseProto
@@ -36765,6 +36829,13 @@ BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamo
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasFreeDiamondsType {
+  return !!hasFreeDiamondsType_;
+}
+- (void) setHasFreeDiamondsType:(BOOL) value {
+  hasFreeDiamondsType_ = !!value;
+}
+@synthesize freeDiamondsType;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -36773,6 +36844,7 @@ BOOL EarnFreeDiamondsRequestProto_EarnFreeDiamondsTypeIsValidValue(EarnFreeDiamo
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
+    self.freeDiamondsType = EarnFreeDiamondsTypeKiip;
   }
   return self;
 }
@@ -36798,6 +36870,9 @@ static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstan
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  if (self.hasFreeDiamondsType) {
+    [output writeEnum:3 value:self.freeDiamondsType];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -36812,6 +36887,9 @@ static EarnFreeDiamondsResponseProto* defaultEarnFreeDiamondsResponseProtoInstan
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
+  }
+  if (self.hasFreeDiamondsType) {
+    size += computeEnumSize(3, self.freeDiamondsType);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -36905,6 +36983,9 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasFreeDiamondsType) {
+    [self setFreeDiamondsType:other.freeDiamondsType];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -36941,6 +37022,15 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
           [self setStatus:value];
         } else {
           [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (EarnFreeDiamondsTypeIsValidValue(value)) {
+          [self setFreeDiamondsType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
         }
         break;
       }
@@ -36991,6 +37081,22 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EarnFreeDiamondsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess;
+  return self;
+}
+- (BOOL) hasFreeDiamondsType {
+  return result.hasFreeDiamondsType;
+}
+- (EarnFreeDiamondsType) freeDiamondsType {
+  return result.freeDiamondsType;
+}
+- (EarnFreeDiamondsResponseProto_Builder*) setFreeDiamondsType:(EarnFreeDiamondsType) value {
+  result.hasFreeDiamondsType = YES;
+  result.freeDiamondsType = value;
+  return self;
+}
+- (EarnFreeDiamondsResponseProto_Builder*) clearFreeDiamondsType {
+  result.hasFreeDiamondsType = NO;
+  result.freeDiamondsType = EarnFreeDiamondsTypeKiip;
   return self;
 }
 @end

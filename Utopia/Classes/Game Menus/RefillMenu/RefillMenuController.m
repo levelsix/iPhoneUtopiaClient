@@ -12,7 +12,7 @@
 #import "OutgoingEventController.h"
 #import "LNSynthesizeSingleton.h"
 #import "GoldShoppeViewController.h"
-#import "MapViewController.h"
+#import "QuestLogController.h"
 
 #define REQUIRES_EQUIP_VIEW_OFFSET 5.f
 #define EQUIPS_VIEW_SPACING 1.f
@@ -284,8 +284,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 - (IBAction) goToAviaryClicked:(id)sender {
   [self closeView:silverView];
   [self closeView:itemsView];
-  [MapViewController displayView];
-  [[MapViewController sharedMapViewController] setState:kMissionMap];
+  [[QuestLogController sharedQuestLogController] loadQuestLog];
   [Analytics clickedGetMoreSilver];
 }
 

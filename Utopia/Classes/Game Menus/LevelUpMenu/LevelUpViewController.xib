@@ -85,6 +85,7 @@
 								<reference key="NSNextKeyView" ref="59750677"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
+								<int key="IBUITag">50</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -688,13 +689,13 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="712990473"/>
 							<reference ref="59750677"/>
-							<reference ref="597341896"/>
 							<reference ref="298289569"/>
 							<reference ref="370239721"/>
 							<reference ref="163647630"/>
 							<reference ref="460745278"/>
 							<reference ref="1073101357"/>
 							<reference ref="935054884"/>
+							<reference ref="597341896"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
