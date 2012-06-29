@@ -1438,17 +1438,19 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [Globals setupPulseAnimation];
   [Globals clearPulsingViews];
 
-  UIImageView *glow = [[UIImageView alloc] 
-                       initWithImage:[Globals roundGlowForColor:glowColor]];
-  CGRect frame = view.frame;
-  frame.origin.x = 0;
-  frame.origin.y = 0;
-  [glow setFrame:frame];
-  [view addSubview:glow];
-  [view bringSubviewToFront:glow];
+  if (![_pulsingViews    containsObject:view]) {
+    UIImageView *glow = [[UIImageView alloc] 
+                         initWithImage:[Globals roundGlowForColor:glowColor]];
+    CGRect frame = view.frame;
+    frame.origin.x = 0;
+    frame.origin.y = 0;
+    [glow setFrame:frame];
+    [view addSubview:glow];
+    [view bringSubviewToFront:glow];
 
-  [_pulsingViews addObject:view];
-  [self pulse:0 onView:glow];
+    [_pulsingViews addObject:view];
+    [self pulse:0 onView:glow];
+  }
 }
 
 +(void)endPulseForView:(UIView *)view {
@@ -1460,6 +1462,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }
 }
 
+#pragma mark View Bounce
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView {
   view.alpha = 0;
   bgdView.alpha = 0;
