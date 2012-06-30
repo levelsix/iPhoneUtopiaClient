@@ -815,27 +815,48 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     [bldr addRequiredTasksProgress:[b build]];
   }
   for (NSNumber *n in fqp.possessEquipJobReqsList) {
+    PossessEquipJobProto *p = [gs.staticPossessEquipJobs objectForKey:n];
     MinimumUserPossessEquipJobProto_Builder *b = [MinimumUserPossessEquipJobProto builder];
     b.possessEquipJobId = n.intValue;
     b.userId = gs.userId;
     b.questId = fqp.questId;
+    
     b.numEquipUserHas = 0;
+    for (UserEquip *ue in gs.myEquips) {
+      if (ue.equipId == p.equipId) {
+        b.numEquipUserHas = MIN(ue.quantity, p.quantityReq);
+      }
+    }
     [bldr addRequiredPossessEquipJobProgress:[b build]];
   }
   for (NSNumber *n in fqp.buildStructJobsReqsList) {
+    BuildStructJobProto *p = [gs.staticBuildStructJobs objectForKey:n];
     MinimumUserBuildStructJobProto_Builder *b = [MinimumUserBuildStructJobProto builder];
     b.buildStructJobId = n.intValue;
     b.userId = gs.userId;
     b.questId = fqp.questId;
+    
     b.numOfStructUserHas = 0;
+    for (UserStruct *us in gs.myStructs) {
+      if (us.structId == p.structId) {
+        b.numOfStructUserHas = MIN(b.numOfStructUserHas+1, p.quantityRequired);
+      }
+    }
     [bldr addRequiredBuildStructJobProgress:[b build]];
   }
   for (NSNumber *n in fqp.upgradeStructJobsReqsList) {
+    UpgradeStructJobProto *p = [gs.staticUpgradeStructJobs objectForKey:n];
     MinimumUserUpgradeStructJobProto_Builder *b = [MinimumUserUpgradeStructJobProto builder];
     b.upgradeStructJobId = n.intValue;
     b.userId = gs.userId;
     b.questId = fqp.questId;
+    
     b.currentLevel = 0;
+    for (UserStruct *us in gs.myStructs) {
+      if (us.structId == p.structId) {
+        b.currentLevel = MIN(MAX(b.currentLevel, us.level), p.levelReq);
+      }
+    }
     [bldr addRequiredUpgradeStructJobProgress:[b build]];
   }
   return bldr.build;

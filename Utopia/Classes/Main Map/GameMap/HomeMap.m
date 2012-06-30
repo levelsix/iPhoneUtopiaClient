@@ -720,7 +720,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   FullStructureProto *fsp = [gs structWithId:us.structId];
-  if (us.level < gl.maxLevelForStruct) {
+  
+  if (_upgrBuilding) {
+    [Globals popupMessage:@"The carpenter is already upgrading a building!"];
+  } else if (us.level < gl.maxLevelForStruct) {
     int cost = [gl calculateUpgradeCost:us];
     BOOL isGoldBuilding = fsp.diamondPrice > 0;
     if (!isGoldBuilding) {
@@ -748,6 +751,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [self closeMenus];
       }
     }
+  } else {
+    [Globals popupMessage:@"This building is at the maximum level."];
   }
 }
 
@@ -779,7 +784,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:goldCost];
       [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
     } else {
-      [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:_upgrBuilding.userStruct];
+      [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
     }
   } else if (state == kBuilding) {
     int goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];
