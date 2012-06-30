@@ -26,7 +26,6 @@
 #define WARRIOR_ATTACK_LVL1   MAGE_DEFENSE_LVL1 + .5
 #define WARRIOR_DEFENSE_LVL1  MAGE_ATTACK_LVL1 + .5
 
-
 #define PERFECT_PERCENT_THRESHOLD 3.0f
 #define GREAT_PERCENT_THRESHOLD   17.0f
 #define GOOD_PERCENT_THRESHOLD    38.0f
@@ -75,8 +74,6 @@
   battleConstants.battlePerfectMultiplier = PERFECT_MULTIPLIER;
   battleConstants.battleGreatMultiplier   = GREAT_MULTIPLIER;
   battleConstants.battleGoodMultiplier    = GOOD_MULTIPLIER;
-
-  battleConstants.battleImbalancePercent = IMBALANCE_PERCENT;
   
   testCalculator = [[BattleCalculator alloc] initWithRightStats:rightStats
                                                    andLeftStats:leftStats

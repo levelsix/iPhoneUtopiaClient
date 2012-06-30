@@ -146,7 +146,7 @@
 -(id) initWithRightStats:(id<UserBattleStats>)right
             andLeftStats:(id<UserBattleStats>)left
               andGlobals:(Globals *)globals 
-      andBattleConstants:(id<BattleConstants>)battleContants
+      andBattleConstants:(id<BattleConstants>)battleConstants
 {
   self = [super init];
   
@@ -154,7 +154,7 @@
     leftUser          = left;
     rightUser         = right;
     _globals          = globals;
-    _battleConstants  = battleContants;
+    _battleConstants  = battleConstants;
     
     [leftUser         retain];
     [rightUser        retain];

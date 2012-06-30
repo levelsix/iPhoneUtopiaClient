@@ -35,5 +35,5 @@
 -(id) initWithRightStats:(id<UserBattleStats>)right
             andLeftStats:(id<UserBattleStats>)left
               andGlobals:(Globals *)globals 
-      andBattleConstants:(id<BattleConstants>)battleContants;
+      andBattleConstants:(id<BattleConstants>)battleConstants;
 @end

@@ -27,6 +27,5 @@ typedef enum CombatDamageType
   @property (nonatomic, assign) float battlePerfectMultiplier;
   @property (nonatomic, assign) float battleGreatMultiplier;
   @property (nonatomic, assign) float battleGoodMultiplier;
-  @property (nonatomic, assign) float battleImbalancePercent;
 @end
 

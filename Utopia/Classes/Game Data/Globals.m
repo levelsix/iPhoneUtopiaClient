@@ -58,7 +58,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize locationBarMax;
 @synthesize animatingSpriteOffsets;
 @synthesize kiipRewardConditions;
-@synthesize battleGoodMultiplier, battleGreatMultiplier, battleImbalancePercent;
+@synthesize battleGoodMultiplier, battleGreatMultiplier;
 @synthesize battlePerfectMultiplier, battleGoodPercentThreshold, battleGreatPercentThreshold;
 @synthesize battlePerfectPercentThreshold;
 
@@ -155,7 +155,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.battlePerfectMultiplier = constants.battleConstants.battlePerfectMultiplier;
   self.battleGreatMultiplier = constants.battleConstants.battleGreatMultiplier;
   self.battleGoodMultiplier = constants.battleConstants.battleGoodMultiplier;
-  self.battleImbalancePercent = constants.battleConstants.battleImbalancePercent;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
