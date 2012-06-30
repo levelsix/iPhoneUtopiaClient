@@ -1540,6 +1540,7 @@
 		455FC6CC157EEAC7008DB9E4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		4562FCDD158A8BC2005206E5 /* round_glow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = round_glow.png; sourceTree = "<group>"; };
 		4562FCDE158A8BC2005206E5 /* round_glow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "round_glow@2x.png"; sourceTree = "<group>"; };
+		4567DB77159E7CD600E5DFC3 /* BattleConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleConstants.h; sourceTree = "<group>"; };
 		457239FC1565E0DC000380EE /* Delight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Delight.framework; sourceTree = "<group>"; };
 		457239FE1565E431000380EE /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		45723A001565E443000380EE /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -3854,6 +3855,7 @@
 				458DD2B6158FB0C900BFC543 /* BattleCalculator.m */,
 				45C53D7F158FBF83000997C5 /* UserBattleStats.h */,
 				45C53D80158FBF83000997C5 /* UserBattleStats.m */,
+				4567DB77159E7CD600E5DFC3 /* BattleConstants.h */,
 			);
 			path = Battle;
 			sourceTree = "<group>";

@@ -26,6 +26,18 @@
 #define WARRIOR_ATTACK_LVL1   MAGE_DEFENSE_LVL1 + .5
 #define WARRIOR_DEFENSE_LVL1  MAGE_ATTACK_LVL1 + .5
 
+
+#define PERFECT_PERCENT_THRESHOLD 3.0f
+#define GREAT_PERCENT_THRESHOLD   17.0f
+#define GOOD_PERCENT_THRESHOLD    38.0f
+
+#define PERFECT_MULTIPLIER  2.0f
+#define GREAT_MULTIPLIER    1.5f
+#define GOOD_MULTIPLIER     1.0f
+
+#define IMBALANCE_PERCENT .67f
+
+
 @implementation BattleCalculatorTests
 -(id<UserBattleStats>)userForAttack:(int)attack andDefense:(int)defense
 {
@@ -47,14 +59,29 @@
 
   rightStats = [UserBattleStats createWithFullUserProto:rightUser];
   leftStats  = [UserBattleStats createWithFullUserProto:leftUser];
+
+  [Globals sharedGlobals].locationBarMax = 75;
+  
+  id<BattleConstants> battleConstants = [Globals sharedGlobals];
+  battleConstants.battleWeightGivenToDefenseStat     = 1;
+  battleConstants.battleWeightGivenToDefenseEquipSum = 1;
+  battleConstants.battleWeightGivenToAttackStat      = 1;
+  battleConstants.battleWeightGivenToAttackEquipSum  = 1;
+
+  battleConstants.battlePerfectPercentThreshold = PERFECT_PERCENT_THRESHOLD;
+  battleConstants.battleGreatPercentThreshold   = GREAT_PERCENT_THRESHOLD;
+  battleConstants.battleGoodPercentThreshold    = GOOD_PERCENT_THRESHOLD;
+  
+  battleConstants.battlePerfectMultiplier = PERFECT_MULTIPLIER;
+  battleConstants.battleGreatMultiplier   = GREAT_MULTIPLIER;
+  battleConstants.battleGoodMultiplier    = GOOD_MULTIPLIER;
+
+  battleConstants.battleImbalancePercent = IMBALANCE_PERCENT;
+  
   testCalculator = [[BattleCalculator alloc] initWithRightStats:rightStats
                                                    andLeftStats:leftStats
-                                                     andGlobals:[Globals sharedGlobals]];
-  [Globals sharedGlobals].locationBarMax = 75;
-  [Globals sharedGlobals].battleWeightGivenToDefenseStat     = 1;
-  [Globals sharedGlobals].battleWeightGivenToDefenseEquipSum = 1;
-  [Globals sharedGlobals].battleWeightGivenToAttackStat      = 1;
-  [Globals sharedGlobals].battleWeightGivenToAttackEquipSum  = 1;
+                                                     andGlobals:[Globals sharedGlobals]
+                                             andBattleConstants:battleConstants];
 }
 
 - (void)tearDown

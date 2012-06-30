@@ -8,10 +8,6 @@
 
 #import "BattleCalculator.h"
 
-#define PERFECT_MULTIPLIER  2.0f
-#define GREAT_MULTIPLIER    1.5f
-#define GOOD_MULTIPLIER     1.0f
-
 @implementation BattleCalculator
 @synthesize rightUser;
 @synthesize leftUser;
@@ -24,7 +20,7 @@
   
   // Make the attack strength asymetric WRT the target 
   if (inputPercent > perfect) {
-    int multOfPerfect = perfect/fabs(100 - perfect);
+    int multOfPerfect  = perfect/fabs(100 - perfect);
     percentFromPerfect = distFromPerfect*multOfPerfect;
     percentFromPerfect = perfect - percentFromPerfect;
   }
@@ -48,22 +44,22 @@
   
   // Make the attack strength asymetric WRT the target 
   if (percent > perfect) {
-    int multOfPerfect = perfect/fabs(100 - perfect);
+    int multOfPerfect  = perfect/fabs(100 - perfect);
     percentFromPerfect = distFromPerfect*multOfPerfect;
-    distFromPerfect = percentFromPerfect;
+    distFromPerfect    = percentFromPerfect;
   }
   else {
     percentFromPerfect = (percent/perfect)*100;
   }
 
   CombatDamageType dmgType = DMG_TYPE_MISS;
-  if (distFromPerfect <= PERFECT_PERCENT_THRESHOLD) {
+  if (distFromPerfect <= _battleConstants.battlePerfectPercentThreshold) {
    dmgType = DMG_TYPE_PERFECT;
   }
-  else if (distFromPerfect <= GREAT_PERCENT_THRESHOLD) {
+  else if (distFromPerfect <= _battleConstants.battleGreatPercentThreshold) {
    dmgType = DMG_TYPE_GREAT;
   }
-  else if (distFromPerfect <= GOOD_PERCENT_THRESHOLD) {
+  else if (distFromPerfect <= _battleConstants.battleGoodPercentThreshold) {
    dmgType = DMG_TYPE_GOOD;
   }
   
@@ -77,13 +73,13 @@
   CombatDamageType dmgType = [self damageZoneForPercent:percent];
   switch (dmgType) {
     case DMG_TYPE_PERFECT:
-      result *= PERFECT_MULTIPLIER;
+      result *= _battleConstants.battlePerfectMultiplier;
       break;
     case DMG_TYPE_GREAT:
-      result *= GREAT_MULTIPLIER;
+      result *= _battleConstants.battleGreatMultiplier;
       break;
     case DMG_TYPE_GOOD:
-      result *= GOOD_MULTIPLIER;
+      result *= _battleConstants.battleGoodMultiplier;
       break;
     case DMG_TYPE_MISS:
       result = 0;
@@ -147,41 +143,46 @@
 }
 
 #pragma mark Create/Destroy
+-(id) initWithRightStats:(id<UserBattleStats>)right
+            andLeftStats:(id<UserBattleStats>)left
+              andGlobals:(Globals *)globals 
+      andBattleConstants:(id<BattleConstants>)battleContants
+{
+  self = [super init];
+  
+  if (self) {
+    leftUser          = left;
+    rightUser         = right;
+    _globals          = globals;
+    _battleConstants  = battleContants;
+    
+    [leftUser         retain];
+    [rightUser        retain];
+    [_globals         retain];
+    [_battleConstants retain];
+  }
+  
+  return self;
+}
+
 +(id<BattleCalculator>) createWithRightStats:(id<UserBattleStats>)right
                                 andLeftStats:(id<UserBattleStats>)left
 {
   BattleCalculator *calculator = [[BattleCalculator alloc] 
                                   initWithRightStats:right 
                                   andLeftStats:left
-                                  andGlobals:[Globals sharedGlobals]];
+                                  andGlobals:[Globals sharedGlobals] 
+                                  andBattleConstants:[Globals sharedGlobals]];
   [calculator autorelease];
   return calculator;
 }
 
--(id) initWithRightStats:(id<UserBattleStats>)right
-            andLeftStats:(id<UserBattleStats>)left
-              andGlobals:(Globals *)globals
-{
-  self = [super init];
-  
-  if (self) {
-    leftUser  = left;
-    rightUser = right;
-    _globals   = globals;
-    
-    [leftUser  retain];
-    [rightUser retain];
-    [_globals   retain];
-  }
-  
-  return self;
-}
-
 -(void)dealloc
 {
-  [leftUser  release];
-  [rightUser release];
-  [_globals   release];
+  [leftUser         release];
+  [rightUser        release];
+  [_globals         release];
+  [_battleConstants release];
   
   [super dealloc];
 }

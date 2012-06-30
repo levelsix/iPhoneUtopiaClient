@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Protocols.pb.h"
 #import "GameState.h"
-#define IMBALANCE_PERCENT     .67f
 
 @protocol UserBattleStats <NSObject>
 @property (readonly) int attack;

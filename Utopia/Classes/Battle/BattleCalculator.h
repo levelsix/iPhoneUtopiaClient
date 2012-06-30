@@ -9,18 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UserBattleStats.h"
 #import "Globals.h"
-
-#define PERFECT_PERCENT_THRESHOLD 3.0f
-#define GREAT_PERCENT_THRESHOLD   17.0f
-#define GOOD_PERCENT_THRESHOLD    38.0f
-
-typedef enum CombatDamageType 
-{
-  DMG_TYPE_PERFECT,
-  DMG_TYPE_GREAT,
-  DMG_TYPE_GOOD,
-  DMG_TYPE_MISS
-} CombatDamageType;
+#import "BattleConstants.h"
 
 @protocol BattleCalculator <NSObject>
 @property (retain) id<UserBattleStats> rightUser;
@@ -35,13 +24,16 @@ typedef enum CombatDamageType
 @interface BattleCalculator : NSObject <BattleCalculator> {
   id<UserBattleStats> rightUser;
   id<UserBattleStats> leftUser;
+  id<BattleConstants> _battleConstants;
   Globals *_globals;
 }
+
 #pragma mark Create/Destroy
 +(id<BattleCalculator>) createWithRightStats:(id<UserBattleStats>)right
                                 andLeftStats:(id<UserBattleStats>)left;
 
 -(id) initWithRightStats:(id<UserBattleStats>)right
-            andLeftStats:(id<UserBattleStats>)left 
-              andGlobals:(Globals *)globals;
+            andLeftStats:(id<UserBattleStats>)left
+              andGlobals:(Globals *)globals 
+      andBattleConstants:(id<BattleConstants>)battleContants;
 @end
