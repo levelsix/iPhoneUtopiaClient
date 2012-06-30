@@ -413,7 +413,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  [self.armoryTableView reloadData];
+  [self refresh];
   [self closeBuySellViewClicked:nil];
   [coinBar updateLabels];
   
@@ -431,6 +431,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
     _state = state;
     
     [self refresh];
+    [self closeBuySellViewClicked:nil];
+    [self.armoryTableView setContentOffset:ccp(0,0) animated:YES];
   }
 }
 
@@ -587,8 +589,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   // Center this row
   [armoryTableView setContentOffset:CGPointMake(0, CGRectGetMidY(row.frame)-armoryTableView.frame.size.height/2) animated:YES];
-  
-  armoryBar.userInteractionEnabled = NO;
 }
 
 - (IBAction) closeBuySellViewClicked:(id)sender {
@@ -628,7 +628,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 
 - (void) buySellClosed {
   [buySellView removeFromSuperview];
-  armoryBar.userInteractionEnabled = YES;
   armoryTableView.scrollEnabled = YES;
   _clickedAl.userInteractionEnabled = YES;
   self.equipClicked = NO;
@@ -662,7 +661,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
                                             price] 
                       andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
                       andCenter:startLoc
-                      topColor:[Globals greenColor] 
+                      topColor:[Globals redColor] 
                       botColor:[Globals colorForRarity:fep.rarity]];
   
   [Globals popupView:testView 
@@ -680,9 +679,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 - (IBAction)sellClicked:(id)sender {
   FullEquipProto *fep = _clickedAl.fep;
   
-  int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] sellEquip:fep.equipId];
-  numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
-  
   Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   UserEquip *ue = [gs myEquipWithId:fep.equipId];
@@ -693,13 +689,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
                                             price] 
                       andLowerString:[NSString stringWithFormat:@"-1 %@", fep.name] 
                       andCenter:startLoc
-                      topColor:[Globals redColor] 
+                      topColor:[Globals greenColor] 
                       botColor:[Globals colorForRarity:fep.rarity]];
   
   [Globals popupView:testView 
          onSuperView:_clickedAl
              atPoint:startLoc
  withCompletionBlock:nil];
+  
+  int updatedQuantity = [[OutgoingEventController sharedOutgoingEventController] sellEquip:fep.equipId];
+  numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
   
   if (updatedQuantity == 0) {
     sellButton.enabled = NO;
