@@ -356,10 +356,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     max.position = ccp(_comboBar.contentSize.width, _comboBar.contentSize.height/2);
     [_comboBar addChild:max];
     [max runAction:[CCRepeatForever actionWithAction:
-                   [CCSequence actions:
-                    [CCScaleTo actionWithDuration:0.75f scale:1.2f], 
-                    [CCScaleTo actionWithDuration:0.75f scale:1.f],
-                    nil]]];
+                    [CCSequence actions:
+                     [CCScaleTo actionWithDuration:0.75f scale:1.2f], 
+                     [CCScaleTo actionWithDuration:0.75f scale:1.f],
+                     nil]]];
     
     _flippedComboBar = [CCSprite spriteWithFile:@"attackcirclebg.png"];
     _flippedComboBar.flipX = YES;
@@ -619,7 +619,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
                                                 andLeftStats:[UserBattleStats 
                                                               createFromGameState]];
   [_battleCalculator retain];
-
+  
 }
 
 - (void) onEnterTransitionDidFinish {
@@ -658,14 +658,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) startMyTurn {
-    _attackButton.visible = YES;
-    _comboBar.visible = NO;
-    _bottomMenu.visible = YES;
-    _isAnimating = NO;
-    _attackMoving = YES;
-    
-    [_attackProgressTimer runAction:[CCSequence actionOne:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:100 to:0]
-                                                      two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
+  if (_pausedLayer.visible) {
+    NSLog(@"get outta here");
+    return;
+  }
+  _attackButton.visible = YES;
+  _comboBar.visible = NO;
+  _bottomMenu.visible = YES;
+  _isAnimating = NO;
+  _attackMoving = YES;
+  
+  [_attackProgressTimer runAction:[CCSequence actionOne:[CCProgressFromTo actionWithDuration:ATTACK_BUTTON_ANIMATION from:100 to:0]
+                                                    two:[CCCallFunc actionWithTarget:self selector:@selector(turnMissed)]]];
 }
 
 - (void) attackStart {
@@ -865,9 +869,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   CCTintBy *tintAction = [CCTintBy actionWithDuration:0.25 red:0 green:-255 blue:-255];
   [_right runAction:[CCSpawn actions:
-                    [CCRepeat actionWithAction:[CCSequence actions:tintAction, tintAction.reverse, nil] times:2],
+                     [CCRepeat actionWithAction:[CCSequence actions:tintAction, tintAction.reverse, nil] times:2],
                      nil]];
-                    
+  
 }
 
 - (void) setRightHealthBarPercentage:(float)percentage {
@@ -1021,8 +1025,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   CCTintBy *tintAction = [CCTintBy actionWithDuration:0.25 red:0 green:-255 blue:-255];
   [_left runAction:[CCSpawn actions:
-                     [CCRepeat actionWithAction:[CCSequence actions:tintAction, tintAction.reverse, nil] times:2],
-                     nil]];
+                    [CCRepeat actionWithAction:[CCSequence actions:tintAction, tintAction.reverse, nil] times:2],
+                    nil]];
 }
 
 - (float) calculateEnemyPercentage {
@@ -1182,9 +1186,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (void) resumeClicked {
-  _pausedLayer.visible = NO;
-  _attackButton.visible = YES;
-  [_attackProgressTimer resumeSchedulerAndActions];
+  if (_attackMoving) {
+    _pausedLayer.visible = NO;
+    _attackButton.visible = YES;
+    [_attackProgressTimer resumeSchedulerAndActions];
+  } else {
+    _pausedLayer.visible = NO;
+    [self startMyTurn];
+  }
 }
 
 - (void) setBrp:(BattleResponseProto *)b {
