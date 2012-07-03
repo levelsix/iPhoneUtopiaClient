@@ -40,15 +40,22 @@
 
 
 @implementation BattleCalculatorTests
--(id<UserBattleStats>)userForAttack:(int)attack andDefense:(int)defense
+-(id<UserBattleStats>)userForAttack:(int)attack 
+                         andDefense:(int)defense
+                           andLevel:(int)level
 {
   FullUserProto_Builder *builder = [FullUserProto builder];
   [builder setAttack:attack];
   [builder setDefense:defense];
-  [builder setLevel:1];
+  [builder setLevel:level];
   FullUserProto *user = [builder build];
   
   return [UserBattleStats createWithFullUserProto:user];
+}
+
+-(id<UserBattleStats>)userForAttack:(int)attack andDefense:(int)defense
+{
+  return [self userForAttack:attack andDefense:defense andLevel:1];
 }
 
 - (void)setUp
@@ -143,6 +150,24 @@
 //}
 
 #pragma mark Warrior/Warrior DefenseTests
+- (void)test_WarriorAttackWARRIORPERFECTWithDefenseLevelImbalance
+{
+  // Set expectations
+  int expected = 14;
+  testCalculator.rightUser = [self userForAttack:WARRIOR_ATTACK_LVL1
+                                      andDefense:WARRIOR_DEFENSE_LVL1 
+                                        andLevel:40];
+  testCalculator.leftUser  = [self userForAttack:WARRIOR_ATTACK_LVL1 
+                                      andDefense:WARRIOR_DEFENSE_LVL1 
+                                        andLevel:11];
+  
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
 - (void)test_WarriorAttackWARRIORPERFECTWithDefense
 {
   // Set expectations
@@ -160,6 +185,23 @@
 }
 
 #pragma mark MAGE/MAGE DefenseTests
+- (void)test_MageAttackMagePERFECTWithDefenseLevelImbalance
+{
+  // Set expectations
+  int expected = 48;
+  testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:40];
+  testCalculator.leftUser  = [self userForAttack:MAGE_ATTACK_LVL1 
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:11];
+  
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
 - (void)test_MageAttackMAGEPERFECTWithDefense
 {
   // Set expectations

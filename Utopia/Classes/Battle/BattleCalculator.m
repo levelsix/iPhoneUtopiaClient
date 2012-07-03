@@ -185,10 +185,8 @@
   int attackStrength = [self afterDefenseAttackStrength:userAttack + levelAdjustment
                                             forDefender:defender 
                                              andPercent:percent];
-//  int levelAdjustment = (attacker.level - 1)*_battleConstants.battleWeightGivenToLevel;
-//  attackStrength = ((attackStrength + levelAdjustment)*skillAttack)/100;
   attackStrength = (attackStrength*skillAttack)/100;
-  
+
   // Get User attack values  
   return attackStrength;
 }
