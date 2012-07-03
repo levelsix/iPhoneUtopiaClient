@@ -156,6 +156,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.battleGreatMultiplier = constants.battleConstants.battleGreatMultiplier;
   self.battleGoodMultiplier = constants.battleConstants.battleGoodMultiplier;
   
+  NSLog(@"%f, %f, %f, %f, %f, %f, %f, %f, %f, %f", battleWeightGivenToAttackStat, battleWeightGivenToAttackEquipSum, battleWeightGivenToDefenseStat, battleWeightGivenToDefenseEquipSum, battlePerfectPercentThreshold, battleGreatPercentThreshold, battleGoodPercentThreshold, battlePerfectMultiplier, battleGreatMultiplier, battleGoodMultiplier);
+  
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
   self.kiipRewardConditions = constants.kiipRewardConditions;
