@@ -36,6 +36,8 @@
 
 #define IMBALANCE_PERCENT .67f
 
+#define TEST_MODE     1
+
 
 @implementation BattleCalculatorTests
 -(id<UserBattleStats>)userForAttack:(int)attack andDefense:(int)defense
@@ -43,6 +45,7 @@
   FullUserProto_Builder *builder = [FullUserProto builder];
   [builder setAttack:attack];
   [builder setDefense:defense];
+  [builder setLevel:1];
   FullUserProto *user = [builder build];
   
   return [UserBattleStats createWithFullUserProto:user];
@@ -53,7 +56,7 @@
   [super setUp];
 //  [Globals purgeSingleton];
   FullUserProto_Builder *builder = [FullUserProto builder];
-  FullUserProto *leftUser = [[builder setAttack:40] build];
+  FullUserProto *leftUser  = [[[builder setAttack:40] setLevel:1] build];
   FullUserProto *rightUser = [[builder setAttack:40] build];
 
   rightStats = [UserBattleStats createWithFullUserProto:rightUser];
@@ -66,6 +69,7 @@
   battleConstants.battleWeightGivenToDefenseEquipSum = 1;
   battleConstants.battleWeightGivenToAttackStat      = 1;
   battleConstants.battleWeightGivenToAttackEquipSum  = 1;
+  battleConstants.battleWeightGivenToLevel           = 1;
 
   battleConstants.battlePerfectPercentThreshold = PERFECT_PERCENT_THRESHOLD;
   battleConstants.battleGreatPercentThreshold   = GREAT_PERCENT_THRESHOLD;
@@ -79,6 +83,7 @@
                                                    andLeftStats:leftStats
                                                      andGlobals:[Globals sharedGlobals]
                                              andBattleConstants:battleConstants];
+  srand(4321489024315);
 }
 
 - (void)tearDown
@@ -88,7 +93,54 @@
   [super tearDown];
 }
 
-#pragma mark Warrior/Warrior EquipmentTests
+#pragma mark ComboBar %
+//- (void)test_ComboBarPercentForZero
+//{
+//  // Set expectations
+//  float expected = 10;
+//  
+//  // Run the test
+//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.0];
+//  
+//  // Check expectations
+//  STAssertTrue(expected > result, @"Expected %f got %f", expected, result);
+//}
+//
+//- (void)test_ComboBarPercentFor50
+//{
+//  // Set expectations
+//  float expected = 60;
+//  
+//  // Run the test
+//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.50];
+//  
+//  // Check expectations
+//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
+//}
+//
+//- (void)test_ComboBarPercentFor75
+//{
+//  // Set expectations
+//  float expected = 60;
+//  
+//  // Run the test
+//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.75];
+//  
+//  // Check expectations
+//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
+//}
+//
+//- (void)test_ComboBarPercentFor100
+//{
+//  // Set expectations
+//  float expected = HIGH_PERFECT;
+//  
+//  // Run the test
+//  float result = [testCalculator comboBarPercentageForDifficultyPercent:1.0];
+//  
+//  // Check expectations
+//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
+//}
 
 #pragma mark Warrior/Warrior DefenseTests
 - (void)test_WarriorAttackWARRIORPERFECTWithDefense

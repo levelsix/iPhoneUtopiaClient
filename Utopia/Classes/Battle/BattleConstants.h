@@ -21,6 +21,7 @@ typedef enum CombatDamageType
   @property (nonatomic, assign) float battleWeightGivenToAttackEquipSum;
   @property (nonatomic, assign) float battleWeightGivenToDefenseStat;
   @property (nonatomic, assign) float battleWeightGivenToDefenseEquipSum;
+  @property (nonatomic, assign) float battleWeightGivenToLevel;
   @property (nonatomic, assign) float battlePerfectPercentThreshold;
   @property (nonatomic, assign) float battleGreatPercentThreshold;
   @property (nonatomic, assign) float battleGoodPercentThreshold;

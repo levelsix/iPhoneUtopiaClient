@@ -8,13 +8,72 @@
 
 #import "BattleCalculator.h"
 
+
 @implementation BattleCalculator
 @synthesize rightUser;
 @synthesize leftUser;
 
--(float)percentFromPerfect:(float)inputPercent
+//#define COMBO_BAR_PRECISION 1000
+//
+//#define TOTAL_LIKELIHOOD    100
+//#define PERFECT_LIKELIHOOD  30
+//#define GREAT_LIKELIHOOD    50
+//#define GOOD_LIKELIHOOD     10
+//#define MISS_LIKELIHOOD     TOTAL_LIKELIHOOD - PERFECT_LIKELIHOOD + GREAT_LIKELIHOOD + GOOD_LIKELIHOOD
+//
+////#define PERFECT_PERCENT_THRESHOLD 3.0f
+////#define GREAT_PERCENT_THRESHOLD   17.0f
+////#define GOOD_PERCENT_THRESHOLD    38.0f
+//- (float) comboBarPercentageForDifficultyPercent:(float)difficultyPercent
+//{
+////  int locationOnBar = 0;
+////  float r = [self rand];
+////  
+////  if (r < .40) {                 //give 45-72 75% of the time
+////    locationOnBar = 45 + [self rand] * 27;
+////  } else if (r >= .40 && r < .70) {      //give 78-100 20% of the time
+////    locationOnBar = 78 + [self rand] * 22;
+////  } else if (r >= .70) {     //give 72-78 5% of the time
+////    locationOnBar = 72 + [self rand] * 6;
+////  }
+////  return locationOnBar;
+//  
+////  int precision = difficultyPercent*COMBO_BAR_PRECISION;
+////  int possibleRange = COMBO_BAR_PRECISION - precision;
+////  int targetPercent = _globals.locationBarMax;
+//  
+//#ifndef TEST_MODE
+//  int randomBoundedValue = (rand()%(TOTAL_LIKELIHOOD+1));
+//#else
+//  int randomBoundedValue = (arc4random()%(TOTAL_LIKELIHOOD+1));
+//#endif
+//  
+//  
+////  float result = 1 - ((float)randomBoundedValue)/((float)COMBO_BAR_PRECISION);
+////  return result*targetPercent;
+//  return 0;
+//}
+//
+////- (float) comboBarPercentageForDifficultyPercent:(float)difficultyPercent
+////{
+////  int precision = difficultyPercent*COMBO_BAR_PRECISION;
+////  int possibleRange = COMBO_BAR_PRECISION - precision;
+////  int targetPercent = _globals.locationBarMax;
+////
+////#ifndef TEST_MODE
+////  int randomBoundedValue = (rand()%(possibleRange+1));
+////#else
+////  int randomBoundedValue = (arc4random()%(possibleRange+1));
+////#endif
+////  
+////  float result = 1 - ((float)randomBoundedValue)/((float)COMBO_BAR_PRECISION);
+////  return result*targetPercent;
+////}
+
+#pragma mark Attack/Defense Calculations
+-(float) percentFromPerfect:(float)inputPercent
 {
-  float perfect  = _globals.locationBarMax;
+  float perfect            = _globals.locationBarMax;
   float distFromPerfect    = fabs(perfect - inputPercent);
   float percentFromPerfect = 0;
   
@@ -29,7 +88,8 @@
   }
   return percentFromPerfect;
 }
--(float)accuracyPercentForPercent:(float)percent
+
+-(float) accuracyPercentForPercent:(float)percent
 {
   float accuracy = 0;
   accuracy = [self percentFromPerfect:percent]/100;
@@ -121,10 +181,13 @@
   skillAttack = [self skillMultForPercent:percent];
   userAttack  = attacker.attack;
 
-  int attackStrength = [self afterDefenseAttackStrength:userAttack
+  int levelAdjustment = (attacker.level - 1)*_battleConstants.battleWeightGivenToLevel;
+  int attackStrength = [self afterDefenseAttackStrength:userAttack + levelAdjustment
                                             forDefender:defender 
                                              andPercent:percent];
-  attackStrength = ((attackStrength + attacker.level - 1)*skillAttack)/100;
+//  int levelAdjustment = (attacker.level - 1)*_battleConstants.battleWeightGivenToLevel;
+//  attackStrength = ((attackStrength + levelAdjustment)*skillAttack)/100;
+  attackStrength = (attackStrength*skillAttack)/100;
   
   // Get User attack values  
   return attackStrength;

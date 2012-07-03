@@ -19,6 +19,7 @@
 -(int) leftAttackStrengthForPercent:(float)percent;
 -(int) skillMultForPercent:(float)percent;
 -(CombatDamageType) damageZoneForPercent:(float)percent;
+//-(float) comboBarPercentageForDifficultyPercent:(float)difficultyPercent;
 @end
 
 @interface BattleCalculator : NSObject <BattleCalculator> {

@@ -52,6 +52,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize diamondRewardForReferrer;
 @synthesize incomeFromNormStructMultiplier, minutesToUpgradeForNormStructMultiplier;
 @synthesize battleWeightGivenToAttackStat, battleWeightGivenToDefenseStat;
+@synthesize battleWeightGivenToLevel;
 @synthesize battleWeightGivenToAttackEquipSum, battleWeightGivenToDefenseEquipSum;
 @synthesize diamondCostForInstantUpgradeMultiplier, upgradeStructCoinCostExponentBase;
 @synthesize upgradeStructDiamondCostExponentBase;
@@ -145,6 +146,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.upgradeStructDiamondCostExponentBase = constants.formulaConstants.upgradeStructDiamondCostExponentBase;
   self.diamondCostForInstantUpgradeMultiplier = constants.formulaConstants.diamondCostForInstantUpgradeMultiplier;
   
+  self.battleWeightGivenToLevel = constants.battleConstants.battleWeightGivenToLevel;
   self.battleWeightGivenToAttackStat = constants.battleConstants.battleWeightGivenToAttackStat;
   self.battleWeightGivenToAttackEquipSum = constants.battleConstants.battleWeightGivenToAttackEquipSum;
   self.battleWeightGivenToDefenseStat = constants.battleConstants.battleWeightGivenToDefenseStat;
