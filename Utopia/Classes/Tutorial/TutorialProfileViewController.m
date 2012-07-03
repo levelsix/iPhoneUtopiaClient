@@ -16,7 +16,10 @@
 @implementation TutorialProfileViewController
 
 - (id) init {
-  return [super initWithNibName:@"ProfileViewController" bundle:nil];
+  if ((self = [super initWithNibName:@"ProfileViewController" bundle:nil])) {
+    _justLoaded = YES;
+  }
+  return self;
 }
 
 - (void) viewDidLoad {
@@ -32,8 +35,6 @@
   self.curAmuletView.userInteractionEnabled = NO;
   
   self.wallTabView.userInteractionEnabled = NO;
-  
-  _justLoaded = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {

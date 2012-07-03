@@ -42,14 +42,15 @@
       titleLabel.text = [NSString stringWithFormat:@"You beat %@.", name ];
       subtitleLabel.text = [NSString stringWithFormat:@"You won %d silver%@.", notification.coinsStolen, equipStr];
       titleLabel.textColor = [UIColor colorWithRed:182/256.f green:191/256.f blue:46/256.f alpha:1.f];
+      buttonLabel.text = @"Attack";
     } else {
       titleLabel.text = [NSString stringWithFormat:@"You lost to %@.", name ];
       subtitleLabel.text = [NSString stringWithFormat:@"You lost %d silver%@.", notification.coinsStolen, equipStr];
       titleLabel.textColor = [UIColor colorWithRed:205/256.f green:57/256.f blue:57/256.f alpha:1.f];
+      buttonLabel.text = @"Revenge";
     }
     
     [button setImage:[Globals imageNamed:@"revenge.png"] forState:UIControlStateNormal];
-    buttonLabel.text = @"Revenge";
   } else if (notification.type == kNotificationMarketplace) {
     FullEquipProto *fep = [gs equipWithId:notification.marketPost.postedEquip.equipId];
     titleLabel.text = [NSString stringWithFormat:@"%@ bought your %@.", name, fep.name ];

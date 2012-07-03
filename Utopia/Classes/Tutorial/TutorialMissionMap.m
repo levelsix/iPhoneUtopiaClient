@@ -223,14 +223,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
 }
 
 - (void) showTapToContinue {
-  CCLabelTTF *tap = [CCLabelTTF labelWithString:@"Tap to continue..." fontName:@"Trajan Pro" fontSize:15.f];
-  tap.color = ccc3(255, 200, 0);
-  [self.parent addChild:tap z:6 tag:30];
-  tap.position = _label.position;
-  
-  tap.opacity = 0;
-  [tap runAction:[CCRepeatForever actionWithAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.6f opacity:255], [CCFadeTo actionWithDuration:0.6f opacity:120], nil]]];
-  [_label runAction:[CCMoveBy actionWithDuration:0.2f position:ccp(0, 30)]];
+  if (_label.opacity == 255) {
+    CCLabelTTF *tap = [CCLabelTTF labelWithString:@"Tap to continue..." fontName:@"Trajan Pro" fontSize:15.f];
+    tap.color = ccc3(255, 200, 0);
+    [self.parent addChild:tap z:6 tag:30];
+    tap.position = _label.position;
+    
+    tap.opacity = 0;
+    [tap runAction:[CCRepeatForever actionWithAction:[CCSequence actions:[CCFadeTo actionWithDuration:0.6f opacity:255], [CCFadeTo actionWithDuration:0.6f opacity:120], nil]]];
+    [_label runAction:[CCMoveBy actionWithDuration:0.2f position:ccp(0, 30)]];
+  }
 }
 
 - (void) doBlink {

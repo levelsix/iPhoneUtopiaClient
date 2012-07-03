@@ -9,8 +9,8 @@
 
 #ifndef DEBUG
 
-#define HOST_NAME @"184.169.148.243"
-#define HOST_PORT 8888
+#define HOST_NAME @"prod.lvl6.com"
+#define HOST_PORT 10001
 
 #define UDID [OpenUDID value]
 
@@ -22,11 +22,4 @@
 #define UDID [OpenUDID value]
 //#define FORCE_TUTORIAL
 #endif
-
-// Tags for keeping state
-#define READING_HEADER_TAG -1
-#define HEADER_SIZE 12
-
-#define RECONNECT_TIMEOUT 0.5f
-#define NUM_SILENT_RECONNECTS 5
 

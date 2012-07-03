@@ -128,13 +128,8 @@
 #define TUTORIAL_OTHER_FAIL @"Tutorial: Other fail"
 #define TUTORIAL_COMPLETE @"Tutorial: Complete"
 
-@implementation Analytics
 
-#define OPENED_APP @"App: Opened"
-#define BEGAN_APP @"App: Began"
-#define RESUMED_APP @"App: Resumed"
-#define SUSPENDED_APP @"App: Suspended"
-#define TERMINATED_APP @"App: Terminated"
+@implementation Analytics
 
 + (void) event:(NSString *)event {
   [Apsalar event:event];

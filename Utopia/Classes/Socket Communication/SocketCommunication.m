@@ -16,6 +16,13 @@
 #import "ClientProperties.h"
 #import "FullEvent.h"
 
+// Tags for keeping state
+#define READING_HEADER_TAG -1
+#define HEADER_SIZE 12
+
+#define RECONNECT_TIMEOUT 0.5f
+#define NUM_SILENT_RECONNECTS 5
+
 @implementation SocketCommunication
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SocketCommunication);

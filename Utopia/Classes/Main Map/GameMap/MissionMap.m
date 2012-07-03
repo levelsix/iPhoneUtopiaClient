@@ -243,6 +243,9 @@
     Enemy *enemy = [[Enemy alloc] initWithUser:fup location:r map:self];
     [self addChild:enemy z:1];
     [enemy release];
+    
+    enemy.opacity = 0;
+    [enemy runAction:[CCFadeIn actionWithDuration:0.5f]];
   }
   [self doReorder];
 }
@@ -252,15 +255,7 @@
     if ([child isKindOfClass:[Enemy class]]) {
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userId == userId) {
-        // Need to delay time so check has time to display
-        [enemy stopAllActions];
-        [enemy runAction:[CCSequence actions:
-                          [CCFadeOut actionWithDuration:1.5f],
-                          [CCDelayTime actionWithDuration:1.5f],
-                          [CCCallBlock actionWithBlock:
-                           ^{
-                             [enemy removeFromParentAndCleanup:YES];
-                           }], nil]];
+        [enemy kill];
         
         // This will only actually display check if the arrow is there..
         for (UserJob *job in _jobs) {
@@ -287,7 +282,7 @@
       Enemy *enemy = (Enemy *)child;
       if (enemy.user.userType == enemyType || enemyType == DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide) {
         // Make sure this enemy wasn't just defeated
-        if (enemy.opacity == 255) {
+        if (enemy.isAlive) {
           [enemy displayArrow];
         }
       }
@@ -411,6 +406,10 @@
 - (void) receivedTaskResponse:(TaskActionResponseProto *)tarp {
   id<TaskElement> te = (id<TaskElement>)_selected;
   FullTaskProto *ftp = te.ftp;
+  
+  if (ftp.expGained == 0) {
+    NSLog(@"EXP IS 0");
+  }
   
   CCLabelTTF *expLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Exp.", ftp.expGained] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:expLabel z:1003];

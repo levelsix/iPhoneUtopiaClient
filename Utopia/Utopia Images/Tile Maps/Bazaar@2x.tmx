@@ -41,14 +41,14 @@
       eJzt1iEKACAMQFGb9z+IdzTYVlQGCvoeLFnGD8NSAAAAAAAAAAAAeEW7vQDAQTXM6huDfjn67Yl/FP2AX7l/Ofrl6JejHwAAAAAAAAAAAAAw0wHm3gMb
     </data>
   </layer>
-  <layer name="Trees" width="80" height="80">
-    <data encoding="base64" compression="zlib">
-      eJzt2F0OgyAMAGA9itnbvP/9fFpCzPwhCnPt9x2ApNDSwjAAAAAAAAAA5DCN/71+dnPA/X1vxBQx1icpa3Vvr7fOJ4tX8vhL6zxRo/fTQ+u0up++5bazgWuyzxM8S8sZRr9grcy3nrMLAHF87nl/VMd+1RPNgPWyvBF7xxllLlRT94qSF8A5mWu+V9/Vp6hxJV/kWjtZ3iMcy9w3AQAAAAAAAHpZAHUfBdY=
-    </data>
-  </layer>
   <layer name="Fencing" width="80" height="80">
     <data encoding="base64" compression="zlib">
       eJzt19FqwjAAhlEfw4s9vw8xp3NvNsSbkBFt/Ftr1nMgEGnR9KPBdrcDSqfq888qqxiXfhn9Mvpl9Mvol9Evo19Gv4x+Gf0y+mX0y+iX0S+jX0a/jH4Z/TL6ZfTL6JfRL6NfRr+Mfhn9MvpN890Y5+o8/f6q77F7jo3xtcC6RtHTb8nvGJV+mfraP4t5vS9bx/Rb/ztG9d/6tZ4llhr1M8qlmE89dnrwG7AFr967c+6vre7fOZ5frrb6bjfXf6d+Gf1uLsW859lGv4x+mRH6HZ4Yj/S8O9w7b0q/Z9bfcy3v7GPtBQyobLZfbRXj0ox34V7st2/MmUYzAAAAAAAAABjLL7FVqHw=
+    </data>
+  </layer>
+  <layer name="Trees" width="80" height="80">
+    <data encoding="base64" compression="zlib">
+      eJzt2F0OgyAMAGA9itnbvP/9fFpCzPwhCnPt9x2ApNDSwjAAAAAAAAAA5DCN/71+dnPA/X1vxBQx1icpa3Vvr7fOJ4tX8vhL6zxRo/fTQ+u0up++5bazgWuyzxM8S8sZRr9grcy3nrMLAHF87nl/VMd+1RPNgPWyvBF7xxllLlRT94qSF8A5mWu+V9/Vp6hxJV/kWjtZ3iMcy9w3AQAAAAAAAHpZAHUfBdY=
     </data>
   </layer>
   <layer name="Fencing 2" width="80" height="80">
@@ -63,7 +63,7 @@
   </layer>
   <layer name="Walkable" width="80" height="80">
     <data encoding="base64" compression="zlib">
-      eJzt1kEKwjAUQEFP6f2P4kJXAWvss1TNDAQKf6OPpsnlAgAAAPCbro/FPvo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+r12jWt1+jVjh/F5draqrQ57ZyvZ2oszs9V5/xr9+hn6DetMZ//3X+9XjL9/fJ6drcr3r9naQzOz1Xn/Gv2aVc/NT9HvOBo1+r1n3Jf6vUe/5lU/58a2vf2cyXf6zZu517kXPlfvzfrpV+jX6Nfo1+jX6Ncc3e/fG+rX6NZodzztGl0a/Rr9Gv0a/Rr9Gv0a/Rr9Ov2AI90AtfHTTw==
+      eJzt1TEOgzAQAEFeyf+fkjYVKKyDBZ6RrnJ1K9neNgAAAACAe+1fw+/0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Q7tw+YlenX6Nccdbh6thL9Gv0a/cb8AbNnptm76zd/nupoh6tnK9Gv0a/Rr1n57R9Bv//RqNGu0a9xfxv9Gu0a/Rr3t9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/RDwAAAHiLD/LkiA8=
     </data>
   </layer>
 </map>

@@ -288,11 +288,12 @@
 
 @implementation Enemy
 
-@synthesize user;
+@synthesize user, isAlive;
 
 - (id) initWithUser:(FullUserProto *)fup location:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:[Globals animatedSpritePrefix:fup.userType] location:loc map:map])) {
     self.user = fup;
+    self.isAlive = YES;
   }
   return self;
 }
@@ -303,6 +304,20 @@
     user = [u retain];
     _nameLabel.string = u.name;
   }
+}
+
+- (void) kill {
+  // Need to delay time so check has time to display
+  [self stopAllActions];
+  [self runAction:[CCSequence actions:
+                    [CCFadeOut actionWithDuration:1.5f],
+                    [CCDelayTime actionWithDuration:1.5f],
+                    [CCCallBlock actionWithBlock:
+                     ^{
+                       [self removeFromParentAndCleanup:YES];
+                     }], nil]];
+  
+  self.isAlive = NO;
 }
 
 - (void) dealloc {
