@@ -108,11 +108,6 @@
   int _rightMaxHealth;
   int _rightCurrentHealth;
   
-  int _leftAttack;
-  int _leftDefense;
-  int _rightAttack;
-  int _rightDefense;
-  
   float _damageDone;
   
   UserType _enemyType;

@@ -544,24 +544,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _leftCurHealthLabel.string = [NSString stringWithFormat:@"%d", _leftCurrentHealth];
   _leftMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _leftMaxHealth];
   
-  _leftAttack = [gl calculateAttackForStat:gs.attack weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
-  _leftDefense = [gl calculateDefenseForStat:gs.defense weapon:gs.weaponEquipped armor:gs.armorEquipped amulet:gs.amuletEquipped];
-  
-  if (user.isFake) {
-    int randAtt = arc4random() % 6;
-    int randDef = arc4random() % 6;
-    if (user.level > gs.level) {
-      _rightAttack = _leftAttack + randAtt;
-      _rightDefense = _leftDefense + randDef;
-    } else {
-      _rightAttack = _leftAttack - randAtt;
-      _rightDefense = _leftDefense - randDef;
-    }
-  } else {
-    _rightAttack = [gl calculateAttackForStat:user.attack weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
-    _rightDefense = [gl calculateAttackForStat:user.defense weapon:user.weaponEquipped armor:user.armorEquipped amulet:user.amuletEquipped];
-  }
-  
   _enemyType = user.userType;
   
   CCDirector *dir = [CCDirector sharedDirector];
@@ -1277,7 +1259,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
   
   // Send in attack and defense in case of fake players
-  [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup equips:self.enemyEquips attack:_rightAttack defense:_rightDefense];
+  [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:_fup equips:self.enemyEquips attack:_fup.attack defense:_fup.defense];
   [ProfileViewController displayView];
   
   [Analytics enemyProfileFromBattle];

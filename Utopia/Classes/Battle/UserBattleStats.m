@@ -95,22 +95,6 @@
   return stats;  
 }
 
-+(void)repeatInsertingObject:(NSNumber *)curNum
-                     inArray:(NSMutableArray *)targetArray
-                  untilIndex:(int)index
-{
-  int indexDiff = abs([targetArray count] - index);
-  int prevValue = [[targetArray lastObject] intValue];
-  int strengthDiff = abs(prevValue - [curNum intValue]);
-  float strengthIncrement = strengthDiff/((float)indexDiff);
-  float curAddition = 0;
-  while ([targetArray count] < index) {
-    curAddition += strengthIncrement;
-    NSNumber *nextVal = [NSNumber numberWithInt:prevValue + curAddition];
-    [targetArray addObject:nextVal];
-  }
-}
-
 +(id<UserBattleStats>)createWithFullUserProto:(FullUserProto *)user
 {
   UserBattleStats *stats = [[UserBattleStats alloc] initWithUserProto:user 

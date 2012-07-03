@@ -1434,7 +1434,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   equipsScrollView.hidden = NO;
   enemyMiddleView.hidden = YES;
+  Globals *globals = [Globals sharedGlobals];
+  attack  = [globals calculateAttackForStat:_fup.attack
+                                     weapon:_fup.weaponEquipped
+                                      armor:_fup.armorEquipped
+                                     amulet:_fup.amuletEquipped];
   
+  defense = [globals calculateDefenseForStat:_fup.defense
+                                      weapon:_fup.weaponEquipped
+                                       armor:_fup.armorEquipped
+                                      amulet:_fup.amuletEquipped];
   attackLabel.text = [NSString stringWithFormat:@"%d", attack];
   defenseLabel.text = [NSString stringWithFormat:@"%d", defense];
   
