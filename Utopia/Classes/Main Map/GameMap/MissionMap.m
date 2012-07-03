@@ -243,9 +243,6 @@
     Enemy *enemy = [[Enemy alloc] initWithUser:fup location:r map:self];
     [self addChild:enemy z:1];
     [enemy release];
-    
-    enemy.opacity = 0;
-    [enemy runAction:[CCFadeIn actionWithDuration:0.5f]];
   }
   [self doReorder];
 }

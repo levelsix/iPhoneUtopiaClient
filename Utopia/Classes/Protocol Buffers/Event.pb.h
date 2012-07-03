@@ -2169,6 +2169,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasBattleWeightGivenToAttackEquipSum_:1;
   BOOL hasBattleWeightGivenToDefenseStat_:1;
   BOOL hasBattleWeightGivenToDefenseEquipSum_:1;
+  BOOL hasBattleWeightGivenToLevel_:1;
   BOOL hasLocationBarMax_:1;
   BOOL hasBattlePerfectPercentThreshold_:1;
   BOOL hasBattleGreatPercentThreshold_:1;
@@ -2181,6 +2182,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   Float64 battleWeightGivenToAttackEquipSum;
   Float64 battleWeightGivenToDefenseStat;
   Float64 battleWeightGivenToDefenseEquipSum;
+  Float64 battleWeightGivenToLevel;
   Float32 locationBarMax;
   Float32 battlePerfectPercentThreshold;
   Float32 battleGreatPercentThreshold;
@@ -2195,6 +2197,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasBattleWeightGivenToAttackEquipSum;
 - (BOOL) hasBattleWeightGivenToDefenseStat;
 - (BOOL) hasBattleWeightGivenToDefenseEquipSum;
+- (BOOL) hasBattleWeightGivenToLevel;
 - (BOOL) hasBattlePerfectPercentThreshold;
 - (BOOL) hasBattleGreatPercentThreshold;
 - (BOOL) hasBattleGoodPercentThreshold;
@@ -2207,6 +2210,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) Float64 battleWeightGivenToAttackEquipSum;
 @property (readonly) Float64 battleWeightGivenToDefenseStat;
 @property (readonly) Float64 battleWeightGivenToDefenseEquipSum;
+@property (readonly) Float64 battleWeightGivenToLevel;
 @property (readonly) Float32 battlePerfectPercentThreshold;
 @property (readonly) Float32 battleGreatPercentThreshold;
 @property (readonly) Float32 battleGoodPercentThreshold;
@@ -2273,6 +2277,11 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (Float64) battleWeightGivenToDefenseEquipSum;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToDefenseEquipSum:(Float64) value;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum;
+
+- (BOOL) hasBattleWeightGivenToLevel;
+- (Float64) battleWeightGivenToLevel;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToLevel:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToLevel;
 
 - (BOOL) hasBattlePerfectPercentThreshold;
 - (Float32) battlePerfectPercentThreshold;

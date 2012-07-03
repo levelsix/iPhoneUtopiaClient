@@ -124,7 +124,7 @@
   int attackStrength = [self afterDefenseAttackStrength:userAttack
                                             forDefender:defender 
                                              andPercent:percent];
-  attackStrength = (attackStrength*skillAttack)/100;
+  attackStrength = ((attackStrength + attacker.level - 1)*skillAttack)/100;
   
   // Get User attack values  
   return attackStrength;
