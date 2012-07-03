@@ -544,14 +544,8 @@
 		CF126F0F1538ACCB00E0C1AD /* ConstructionSite2x2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268551538ACC500E0C1AD /* ConstructionSite2x2@2x.png */; };
 		CF126F101538ACCB00E0C1AD /* ConstructionSite3x3.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268561538ACC500E0C1AD /* ConstructionSite3x3.png */; };
 		CF126F111538ACCB00E0C1AD /* ConstructionSite3x3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268571538ACC500E0C1AD /* ConstructionSite3x3@2x.png */; };
-		CF126F141538ACCB00E0C1AD /* emptystar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12685A1538ACC500E0C1AD /* emptystar.png */; };
-		CF126F151538ACCB00E0C1AD /* emptystar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12685B1538ACC500E0C1AD /* emptystar@2x.png */; };
-		CF126F1A1538ACCB00E0C1AD /* fullstar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268601538ACC500E0C1AD /* fullstar.png */; };
-		CF126F1B1538ACCB00E0C1AD /* fullstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268611538ACC500E0C1AD /* fullstar@2x.png */; };
 		CF126F361538ACCB00E0C1AD /* retrievebubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12687C1538ACC500E0C1AD /* retrievebubble.png */; };
 		CF126F371538ACCB00E0C1AD /* retrievebubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12687D1538ACC500E0C1AD /* retrievebubble@2x.png */; };
-		CF126F3A1538ACCB00E0C1AD /* unfilledstar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268801538ACC500E0C1AD /* unfilledstar.png */; };
-		CF126F3B1538ACCB00E0C1AD /* unfilledstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268811538ACC500E0C1AD /* unfilledstar@2x.png */; };
 		CF126F3E1538ACCB00E0C1AD /* oklevelup.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268851538ACC500E0C1AD /* oklevelup.png */; };
 		CF126F3F1538ACCB00E0C1AD /* oklevelup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268861538ACC500E0C1AD /* oklevelup@2x.png */; };
 		CF126F441538ACCB00E0C1AD /* attackborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12688C1538ACC500E0C1AD /* attackborder.png */; };
@@ -2308,14 +2302,8 @@
 		CF1268551538ACC500E0C1AD /* ConstructionSite2x2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ConstructionSite2x2@2x.png"; sourceTree = "<group>"; };
 		CF1268561538ACC500E0C1AD /* ConstructionSite3x3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ConstructionSite3x3.png; sourceTree = "<group>"; };
 		CF1268571538ACC500E0C1AD /* ConstructionSite3x3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ConstructionSite3x3@2x.png"; sourceTree = "<group>"; };
-		CF12685A1538ACC500E0C1AD /* emptystar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emptystar.png; sourceTree = "<group>"; };
-		CF12685B1538ACC500E0C1AD /* emptystar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emptystar@2x.png"; sourceTree = "<group>"; };
-		CF1268601538ACC500E0C1AD /* fullstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullstar.png; sourceTree = "<group>"; };
-		CF1268611538ACC500E0C1AD /* fullstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullstar@2x.png"; sourceTree = "<group>"; };
 		CF12687C1538ACC500E0C1AD /* retrievebubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retrievebubble.png; sourceTree = "<group>"; };
 		CF12687D1538ACC500E0C1AD /* retrievebubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retrievebubble@2x.png"; sourceTree = "<group>"; };
-		CF1268801538ACC500E0C1AD /* unfilledstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unfilledstar.png; sourceTree = "<group>"; };
-		CF1268811538ACC500E0C1AD /* unfilledstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unfilledstar@2x.png"; sourceTree = "<group>"; };
 		CF1268851538ACC500E0C1AD /* oklevelup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = oklevelup.png; sourceTree = "<group>"; };
 		CF1268861538ACC500E0C1AD /* oklevelup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "oklevelup@2x.png"; sourceTree = "<group>"; };
 		CF12688C1538ACC500E0C1AD /* attackborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attackborder.png; sourceTree = "<group>"; };
@@ -5054,14 +5042,8 @@
 				CF1268551538ACC500E0C1AD /* ConstructionSite2x2@2x.png */,
 				CF1268561538ACC500E0C1AD /* ConstructionSite3x3.png */,
 				CF1268571538ACC500E0C1AD /* ConstructionSite3x3@2x.png */,
-				CF12685A1538ACC500E0C1AD /* emptystar.png */,
-				CF12685B1538ACC500E0C1AD /* emptystar@2x.png */,
-				CF1268601538ACC500E0C1AD /* fullstar.png */,
-				CF1268611538ACC500E0C1AD /* fullstar@2x.png */,
 				CF12687C1538ACC500E0C1AD /* retrievebubble.png */,
 				CF12687D1538ACC500E0C1AD /* retrievebubble@2x.png */,
-				CF1268801538ACC500E0C1AD /* unfilledstar.png */,
-				CF1268811538ACC500E0C1AD /* unfilledstar@2x.png */,
 				CF3CF2861574A0DB00CD04D7 /* TheVault@2x.png */,
 				CF3CF2871574A0DB00CD04D7 /* TheVault.png */,
 				CF3CF2881574A0DB00CD04D7 /* TheMarketplace@2x.png */,
@@ -6605,14 +6587,8 @@
 				CF126F0F1538ACCB00E0C1AD /* ConstructionSite2x2@2x.png in Resources */,
 				CF126F101538ACCB00E0C1AD /* ConstructionSite3x3.png in Resources */,
 				CF126F111538ACCB00E0C1AD /* ConstructionSite3x3@2x.png in Resources */,
-				CF126F141538ACCB00E0C1AD /* emptystar.png in Resources */,
-				CF126F151538ACCB00E0C1AD /* emptystar@2x.png in Resources */,
-				CF126F1A1538ACCB00E0C1AD /* fullstar.png in Resources */,
-				CF126F1B1538ACCB00E0C1AD /* fullstar@2x.png in Resources */,
 				CF126F361538ACCB00E0C1AD /* retrievebubble.png in Resources */,
 				CF126F371538ACCB00E0C1AD /* retrievebubble@2x.png in Resources */,
-				CF126F3A1538ACCB00E0C1AD /* unfilledstar.png in Resources */,
-				CF126F3B1538ACCB00E0C1AD /* unfilledstar@2x.png in Resources */,
 				CF126F3E1538ACCB00E0C1AD /* oklevelup.png in Resources */,
 				CF126F3F1538ACCB00E0C1AD /* oklevelup@2x.png in Resources */,
 				CF126F441538ACCB00E0C1AD /* attackborder.png in Resources */,

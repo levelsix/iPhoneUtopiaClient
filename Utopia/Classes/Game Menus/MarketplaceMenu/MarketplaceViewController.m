@@ -655,7 +655,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
         self.listAnItemButton.hidden = YES;
         self.doneButton.hidden = NO;
         Globals *gl = [Globals sharedGlobals];
-        self.topBarLabel.text = [NSString stringWithFormat:@"You will receive %d%% of the posted price.", (int)((1-gl.purchasePercentCut)*100)];
+        self.topBarLabel.text = [NSString stringWithFormat:@"%d%% of your earnings will be taken as tax.", (int)(gl.purchasePercentCut*100)];
         break;
         
       default:

@@ -337,38 +337,38 @@
   if (shouldSendEnergyNotification) {
     // Stamina refilled
     NSString *text = [NSString stringWithFormat:@"Your energy has fully recharged! Hurry back and complete quests in the name of the %@!", [Globals factionForUserType:(gs.type+3)%6]];
-    int badge = shouldSendStaminaNotification && [staminaRefilled compare:energyRefilled] == NSOrderedAscending ? 2 : 1;
+    int badge = 1;//shouldSendStaminaNotification && [staminaRefilled compare:energyRefilled] == NSOrderedAscending ? 2 : 1;
     [self scheduleNotificationWithText:text badge:badge date:energyRefilled];
   }
   
   if (shouldSendStaminaNotification) {
     // Energy refilled
     NSString *text = [NSString stringWithFormat:@"Your stamina has fully recharged! Come back to show the %@ who's superior!", [Globals factionForUserType:(gs.type+3)%6]];
-    int badge = shouldSendEnergyNotification && [energyRefilled compare:staminaRefilled] == NSOrderedAscending ? 2 : 1;
+    int badge = 1;//shouldSendEnergyNotification && [energyRefilled compare:staminaRefilled] == NSOrderedAscending ? 2 : 1;
     [self scheduleNotificationWithText:text badge:badge date:staminaRefilled];
   }
   
-  int curBadgeCount = shouldSendEnergyNotification + shouldSendStaminaNotification + 1;
+  int curBadgeCount = 1;//shouldSendEnergyNotification + shouldSendStaminaNotification + 1;
   NSString *text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
   NSDate *date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
-  curBadgeCount++;
+//  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
   date = [NSDate dateWithTimeIntervalSinceNow:5*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
-  curBadgeCount++;
+//  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
   date = [NSDate dateWithTimeIntervalSinceNow:7*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
-  curBadgeCount++;
+//  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, the %@ needs you! Come back and prevent the %@ from taking over", gs.name, [Globals factionForUserType:gs.type] , [Globals factionForUserType:(gs.type+3)%6]];
   date = [NSDate dateWithTimeIntervalSinceNow:14*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];
   
-  curBadgeCount++;
+//  curBadgeCount++;
   text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
   date = [NSDate dateWithTimeIntervalSinceNow:30*24*60*60];
   [self scheduleNotificationWithText:text badge:curBadgeCount date:date];

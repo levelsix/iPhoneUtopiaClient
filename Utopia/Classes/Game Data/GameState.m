@@ -145,7 +145,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   return self;
 }
 
-- (void) updateUser:(FullUserProto *)user {
+- (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time {
+  if (time == 0) {
+    // Special case: if time is 0, let it go through automatically
+    _lastUserUpdate = 0;
+  } else if (time <= _lastUserUpdate) {
+    return;
+  } else {
+    _lastUserUpdate = time;
+  }
+  
   // Copy over data from full user proto
   if (_userId != user.userId || ![_name isEqualToString:user.name] || _type != user.userType) {
     self.userId = user.userId;

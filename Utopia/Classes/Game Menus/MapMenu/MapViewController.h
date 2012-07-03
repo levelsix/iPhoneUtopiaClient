@@ -56,6 +56,8 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet MapLoadingView *loadingView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
+
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 

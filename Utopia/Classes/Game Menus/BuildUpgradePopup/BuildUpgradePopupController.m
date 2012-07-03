@@ -14,21 +14,12 @@
 @implementation BuildUpgradePopupController
 
 @synthesize titleLabel, descriptionLabel, structIcon;
-@synthesize star1, star2, star3, star4, star5;
-@synthesize critStructLabel, normStructView;
+@synthesize rankLabel;
 @synthesize mainView, bgdView;
 
 - (id) initWithUserStruct:(UserStruct *)us {
   if ((self = [super init])) {
     _userStruct = [us retain];
-    _critStruct = nil;
-  }
-  return self;
-}
-
-- (id) initWithCritStruct:(NSString *)cs {
-  if ((self = [super init])) {
-    _critStruct = [cs retain];
   }
   return self;
 }
@@ -38,15 +29,6 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  if (_critStruct) {
-    self.titleLabel.text = @"Special Building!";
-    self.descriptionLabel.text = [NSString stringWithFormat:@"The %@ has been unlocked! You have 1 available. Visit the carpenter to build it now!", _critStruct];
-    [Globals imageNamed:[_critStruct stringByAppendingString:@".png"] withImageView:self.structIcon maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
-    self.critStructLabel.text = _critStruct;
-    
-    self.critStructLabel.hidden = NO;
-    self.normStructView.hidden = YES;
-  } else {
     FullStructureProto *fsp = [[GameState sharedGameState] structWithId:_userStruct.structId];
     BOOL upgrade = _userStruct.level > 1;
     
@@ -59,15 +41,7 @@
     }
     self.structIcon.image = [Globals imageForStruct:_userStruct.structId];
     
-    self.star1.highlighted = _userStruct.level >= 1;
-    self.star2.highlighted = _userStruct.level >= 2;
-    self.star3.highlighted = _userStruct.level >= 3;
-    self.star4.highlighted = _userStruct.level >= 4;
-    self.star5.highlighted = _userStruct.level >= 5;
-    
-    self.critStructLabel.hidden = YES;
-    self.normStructView.hidden = NO;
-  }
+    self.rankLabel.text = [NSString stringWithFormat:@"rank: %d", _userStruct.level];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -88,17 +62,9 @@
   // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   [_userStruct release];
-  [_critStruct release];
   self.titleLabel = nil;
   self.descriptionLabel = nil;
-  self.critStructLabel = nil;
-  self.normStructView = nil;
   self.structIcon = nil;
-  self.star1 = nil;
-  self.star2 = nil;
-  self.star3 = nil;
-  self.star4 = nil;
-  self.star5 = nil;
   self.mainView = nil;
   self.bgdView = nil;
 }

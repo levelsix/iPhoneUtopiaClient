@@ -87,6 +87,8 @@
   
   NSDate *_lastLogoutTime;
   
+  uint64_t _lastUserUpdate;
+  
   NSArray *_allies;
   
   // For the tagging scheme
@@ -176,7 +178,7 @@
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
-- (void) updateUser:(FullUserProto *)user;
+- (void) updateUser:(FullUserProto *)user timestamp:(uint64_t)time;
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId;
 - (FullEquipProto *) equipWithId:(int)equipId;

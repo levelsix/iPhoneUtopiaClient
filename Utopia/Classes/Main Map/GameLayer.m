@@ -149,7 +149,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadHomeMap {
   if (!_homeMap.visible) {
-    [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling Home"];
+    [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling\nHome"];
     _loading = YES;
     [_homeMap moveToCenter];
     [self performSelector:@selector(displayHomeMap) withObject:nil afterDelay:0.5f];

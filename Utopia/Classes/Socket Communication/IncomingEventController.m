@@ -197,7 +197,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [[DialogMenuController sharedDialogMenuController] receivedUserCreateResponse:proto];
   GameState *gs = [GameState sharedGameState];
   if (proto.status == UserCreateResponseProto_UserCreateStatusSuccess) {
-    [gs updateUser:proto.sender];
+    [gs updateUser:proto.sender timestamp:0];
     [[OutgoingEventController sharedOutgoingEventController] startup];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -316,7 +316,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   [gl updateConstants:proto.startupConstants];
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     // Update user before creating map
-    [gs updateUser:proto.sender];
+    [gs updateUser:proto.sender timestamp:0];
     
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
@@ -503,7 +503,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   [gs removeFullUserUpdatesForTag:tag];
-  [gs updateUser:proto.sender];
+  [gs updateUser:proto.sender timestamp:proto.timeOfUserUpdate];
 }
 
 - (void) handleRetrieveCurrentMarketplacePostsResponseProto:(FullEvent *)fe {

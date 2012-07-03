@@ -162,6 +162,18 @@
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
+							<object class="IBUIActivityIndicatorView" id="784675239">
+								<reference key="NSNextResponder" ref="839807034"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{231, 168}, {20, 20}}</string>
+								<reference key="NSSuperview" ref="839807034"/>
+								<reference key="NSWindow"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIHidesWhenStopped">NO</bool>
+								<int key="IBUIStyle">2</int>
+							</object>
 						</array>
 						<string key="NSFrameSize">{480, 320}</string>
 						<reference key="NSSuperview" ref="191373211"/>
@@ -1197,6 +1209,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">spinner</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="784675239"/>
+					</object>
+					<int key="connectionID">206</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">lumoriaView</string>
 						<reference key="source" ref="657920957"/>
 						<reference key="destination" ref="596374325"/>
@@ -1823,6 +1843,7 @@
 							<reference ref="553365778"/>
 							<reference ref="335544543"/>
 							<reference ref="232564179"/>
+							<reference ref="784675239"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -1844,6 +1865,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">202</int>
 						<reference key="object" ref="232564179"/>
+						<reference key="parent" ref="839807034"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">205</int>
+						<reference key="object" ref="784675239"/>
 						<reference key="parent" ref="839807034"/>
 					</object>
 				</array>
@@ -1914,6 +1940,7 @@
 				<string key="198.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="202.CustomClassName">NiceFontLabel3</string>
 				<string key="202.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="205.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="28.CustomClassName">TravellingMissionMap</string>
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="46.CustomClassName">CloseUpContinentView</string>
@@ -1959,7 +1986,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">204</int>
+			<int key="maxID">206</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2074,6 +2101,7 @@
 						<string key="mainView">UIView</string>
 						<string key="mapView">MKMapView</string>
 						<string key="missionMap">TravellingMissionMap</string>
+						<string key="spinner">UIActivityIndicatorView</string>
 						<string key="titleLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2096,6 +2124,10 @@
 						<object class="IBToOneOutletInfo" key="missionMap">
 							<string key="name">missionMap</string>
 							<string key="candidateClassName">TravellingMissionMap</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="spinner">
+							<string key="name">spinner</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="titleLabel">
 							<string key="name">titleLabel</string>

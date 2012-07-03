@@ -119,6 +119,7 @@
 @synthesize mainView;
 @synthesize bgdView;
 @synthesize titleLabel;
+@synthesize spinner;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
@@ -143,6 +144,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     
     if (_loaded) {
       [self retrieveAttackListForCurrentBounds];
+      [self.spinner startAnimating];
+      self.spinner.hidden = NO;
     }
   } else {
     [missionMap.lumoriaView reloadCities];
@@ -230,6 +233,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     EnemyAnnotation *annotation = [[EnemyAnnotation alloc] initWithPlayer:[arr objectAtIndex:i]];
     [_mapView addAnnotation:annotation];
     [annotation release];
+  }
+  
+  if (arr.count > 0) {
+    [self.spinner stopAnimating];
+    self.spinner.hidden = YES;
   }
 }
 

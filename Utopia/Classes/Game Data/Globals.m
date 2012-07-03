@@ -151,7 +151,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.battleWeightGivenToDefenseEquipSum = constants.battleConstants.battleWeightGivenToDefenseEquipSum;
   self.battlePerfectPercentThreshold = constants.battleConstants.battlePerfectPercentThreshold;
   self.battleGreatPercentThreshold = constants.battleConstants.battleGreatPercentThreshold;
-  self.battleGoodPercentThreshold = constants.battleConstants.battleGoodMultiplier;
+  self.battleGoodPercentThreshold = constants.battleConstants.battleGoodPercentThreshold;
   self.battlePerfectMultiplier = constants.battleConstants.battlePerfectMultiplier;
   self.battleGreatMultiplier = constants.battleConstants.battleGreatMultiplier;
   self.battleGoodMultiplier = constants.battleConstants.battleGoodMultiplier;
