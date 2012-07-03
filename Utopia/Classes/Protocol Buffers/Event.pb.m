@@ -5950,6 +5950,7 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 @property Float64 battleWeightGivenToAttackEquipSum;
 @property Float64 battleWeightGivenToDefenseStat;
 @property Float64 battleWeightGivenToDefenseEquipSum;
+@property Float64 battleWeightGivenToLevel;
 @property Float32 battlePerfectPercentThreshold;
 @property Float32 battleGreatPercentThreshold;
 @property Float32 battleGoodPercentThreshold;
@@ -5996,6 +5997,13 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   hasBattleWeightGivenToDefenseEquipSum_ = !!value;
 }
 @synthesize battleWeightGivenToDefenseEquipSum;
+- (BOOL) hasBattleWeightGivenToLevel {
+  return !!hasBattleWeightGivenToLevel_;
+}
+- (void) setHasBattleWeightGivenToLevel:(BOOL) value {
+  hasBattleWeightGivenToLevel_ = !!value;
+}
+@synthesize battleWeightGivenToLevel;
 - (BOOL) hasBattlePerfectPercentThreshold {
   return !!hasBattlePerfectPercentThreshold_;
 }
@@ -6055,6 +6063,7 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
     self.battleWeightGivenToAttackEquipSum = 0;
     self.battleWeightGivenToDefenseStat = 0;
     self.battleWeightGivenToDefenseEquipSum = 0;
+    self.battleWeightGivenToLevel = 0;
     self.battlePerfectPercentThreshold = 0;
     self.battleGreatPercentThreshold = 0;
     self.battleGoodPercentThreshold = 0;
@@ -6117,6 +6126,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (self.hasBattleImbalancePercent) {
     [output writeFloat:12 value:self.battleImbalancePercent];
   }
+  if (self.hasBattleWeightGivenToLevel) {
+    [output writeDouble:13 value:self.battleWeightGivenToLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6161,6 +6173,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   }
   if (self.hasBattleImbalancePercent) {
     size += computeFloatSize(12, self.battleImbalancePercent);
+  }
+  if (self.hasBattleWeightGivenToLevel) {
+    size += computeDoubleSize(13, self.battleWeightGivenToLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6252,6 +6267,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasBattleWeightGivenToDefenseEquipSum) {
     [self setBattleWeightGivenToDefenseEquipSum:other.battleWeightGivenToDefenseEquipSum];
   }
+  if (other.hasBattleWeightGivenToLevel) {
+    [self setBattleWeightGivenToLevel:other.battleWeightGivenToLevel];
+  }
   if (other.hasBattlePerfectPercentThreshold) {
     [self setBattlePerfectPercentThreshold:other.battlePerfectPercentThreshold];
   }
@@ -6342,6 +6360,10 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         [self setBattleImbalancePercent:[input readFloat]];
         break;
       }
+      case 105: {
+        [self setBattleWeightGivenToLevel:[input readDouble]];
+        break;
+      }
     }
   }
 }
@@ -6423,6 +6445,22 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToDefenseEquipSum {
   result.hasBattleWeightGivenToDefenseEquipSum = NO;
   result.battleWeightGivenToDefenseEquipSum = 0;
+  return self;
+}
+- (BOOL) hasBattleWeightGivenToLevel {
+  return result.hasBattleWeightGivenToLevel;
+}
+- (Float64) battleWeightGivenToLevel {
+  return result.battleWeightGivenToLevel;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleWeightGivenToLevel:(Float64) value {
+  result.hasBattleWeightGivenToLevel = YES;
+  result.battleWeightGivenToLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleWeightGivenToLevel {
+  result.hasBattleWeightGivenToLevel = NO;
+  result.battleWeightGivenToLevel = 0;
   return self;
 }
 - (BOOL) hasBattlePerfectPercentThreshold {

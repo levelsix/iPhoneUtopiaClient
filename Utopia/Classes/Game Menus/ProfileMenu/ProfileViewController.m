@@ -1011,6 +1011,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       [self doEquippingAnimation:ev forType:fep.equipType];
     }
   }
+  
+  [self displayMyCurrentStats];
 }
 
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type {
