@@ -17,14 +17,20 @@
 #define LOW_GOOD      HIGH_PERFECT - GOOD_PERCENT_THRESHOLD
 #define MISS          LOW_GOOD     - 0.1f
 
-#define START_POINTS          24.0f
+#define MAGE_ATTACK_LVL1      16
+#define MAGE_DEFENSE_LVL1     8
+#define ARCHER_ATTACK_LVL1    12
+#define ARCHER_DEFENSE_LVL1   12
+#define WARRIOR_ATTACK_LVL1   8
+#define WARRIOR_DEFENSE_LVL1  16
 
-#define MAGE_ATTACK_LVL1      START_POINTS*IMBALANCE_PERCENT + .5
-#define MAGE_DEFENSE_LVL1     START_POINTS*(1 - IMBALANCE_PERCENT) + .5
-#define ARCHER_ATTACK_LVL1    START_POINTS/2
-#define ARCHER_DEFENSE_LVL1   START_POINTS/2
-#define WARRIOR_ATTACK_LVL1   MAGE_DEFENSE_LVL1 + .5
-#define WARRIOR_DEFENSE_LVL1  MAGE_ATTACK_LVL1 + .5
+//example characters
+#define MAGE_ATTACK_LVL2      17
+#define MAGE_DEFENSE_LVL2     8
+#define MAGE_ATTACK_LVL3      19
+#define MAGE_DEFENSE_LVL3     9
+#define MAGE_ATTACK_LVL4      20 + 6
+#define MAGE_DEFENSE_LVL4     10 + 6
 
 #define PERFECT_PERCENT_THRESHOLD 3.0f
 #define GREAT_PERCENT_THRESHOLD   17.0f
@@ -33,8 +39,6 @@
 #define PERFECT_MULTIPLIER  2.0f
 #define GREAT_MULTIPLIER    1.5f
 #define GOOD_MULTIPLIER     1.0f
-
-#define IMBALANCE_PERCENT .67f
 
 #define TEST_MODE     1
 
@@ -61,15 +65,14 @@
 - (void)setUp
 {
   [super setUp];
-//  [Globals purgeSingleton];
-  FullUserProto_Builder *builder = [FullUserProto builder];
-  FullUserProto *leftUser  = [[[builder setAttack:40] setLevel:1] build];
-  FullUserProto *rightUser = [[builder setAttack:40] build];
+  leftStats = [self userForAttack:40 
+                        andDefense:0 
+                          andLevel:1];
+  rightStats = [self userForAttack:40 
+                        andDefense:0 
+                          andLevel:1];
 
-  rightStats = [UserBattleStats createWithFullUserProto:rightUser];
-  leftStats  = [UserBattleStats createWithFullUserProto:leftUser];
-
-  [Globals sharedGlobals].locationBarMax = 75;
+  [Globals sharedGlobals].locationBarMax = HIGH_PERFECT;
   
   id<BattleConstants> battleConstants = [Globals sharedGlobals];
   battleConstants.battleWeightGivenToDefenseStat     = 1;
@@ -150,10 +153,10 @@
 //}
 
 #pragma mark Warrior/Warrior DefenseTests
-- (void)test_WarriorAttackWARRIORPERFECTWithDefenseLevelImbalance
+- (void)test_WarriorAttackWARRIORPERFECTWithDefenseHighLevel
 {
   // Set expectations
-  int expected = 14;
+  int expected = 16;
   testCalculator.rightUser = [self userForAttack:WARRIOR_ATTACK_LVL1
                                       andDefense:WARRIOR_DEFENSE_LVL1 
                                         andLevel:40];
@@ -185,7 +188,7 @@
 }
 
 #pragma mark MAGE/MAGE DefenseTests
-- (void)test_MageAttackMagePERFECTWithDefenseLevelImbalance
+- (void)test_MageAttackMagePERFECTWithDefenseHighLevel
 {
   // Set expectations
   int expected = 48;
@@ -213,6 +216,80 @@
   
   // Run the test
   int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
+#pragma mark  Tests for fights betweeen characters of different level
+- (void)test_MageAttackLowerLevelMagePERFECTWithDefenseLevelImbalance2
+{
+  // Set expectations
+  int expected = 34;
+  testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1 
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:1];
+  testCalculator.leftUser  = [self userForAttack:MAGE_ATTACK_LVL3 
+                                      andDefense:MAGE_DEFENSE_LVL3 
+                                        andLevel:3];
+  
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
+- (void)test_MageAttackHigherLevelMagePERFECTWithDefenseLevelImbalance2
+{
+  // Set expectations
+  int expected = 26;
+
+  testCalculator.rightUser  = [self userForAttack:MAGE_ATTACK_LVL3 
+                                      andDefense:MAGE_DEFENSE_LVL3 
+                                        andLevel:3];
+  testCalculator.leftUser   = [self userForAttack:MAGE_ATTACK_LVL1 
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:1];
+  
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
+- (void)test_MageAttackLowerLevelMageGREATWithDefenseLevelImbalance3
+{
+  // Set expectations
+  int expected = 34;
+  testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1 
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:1];
+  testCalculator.leftUser  = [self userForAttack:MAGE_ATTACK_LVL4 
+                                      andDefense:MAGE_DEFENSE_LVL4 
+                                        andLevel:4];
+  
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_GREAT];
+
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
+- (void)test_MageAttackHigherLevelMageGREATWithDefenseLevelImbalance
+{
+  // Set expectations
+  int expected = 8;
+  testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL4 
+                                      andDefense:MAGE_DEFENSE_LVL4 
+                                        andLevel:4];
+  testCalculator.leftUser  = [self userForAttack:MAGE_ATTACK_LVL1 
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:1];
+  
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_GREAT];
   
   // Check expectations
   STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
@@ -333,6 +410,43 @@
 }
 
 #pragma mark MAGE/WARRIOR DefenseTests
+- (void)test_WarriorAttackMagePERFECTWithDefenseHighLevel
+{
+  // Set expectations
+  int expected = 14;
+  testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:2];
+  testCalculator.leftUser  = [self userForAttack:WARRIOR_ATTACK_LVL1 
+                                      andDefense:WARRIOR_DEFENSE_LVL1 
+                                        andLevel:2];
+  
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
+- (void)test_MageAttackWarriorPERFECTWithDefenseHighLevel
+{
+  // Set expectations
+  int expected = 14;
+  testCalculator.rightUser = [self userForAttack:WARRIOR_ATTACK_LVL1
+                                      andDefense:WARRIOR_DEFENSE_LVL1 
+                                        andLevel:2];
+  testCalculator.leftUser  = [self userForAttack:MAGE_ATTACK_LVL1 
+                                      andDefense:MAGE_DEFENSE_LVL1 
+                                        andLevel:2];
+  
+
+  // Run the test
+  int result = [testCalculator leftAttackStrengthForPercent:HIGH_PERFECT];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %d got %d", expected, result);
+}
+
 - (void)test_mageAttackWarriorPERFECTWithDefense
 {
   // Set expectations
@@ -434,7 +548,7 @@
 {
   // Set expectations
   int expected = 92;
-  
+
   // Run the test
   int result = [testCalculator leftAttackStrengthForPercent:75];
   
