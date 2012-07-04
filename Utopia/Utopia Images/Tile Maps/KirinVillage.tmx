@@ -58,7 +58,7 @@
  </layer>
  <layer name="Walkable" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztllsKhTAMRF2l+1/KxQ/hImmTTrWZlDkgorY4x/ThcQghhBBC7MEJHmygHmwuMx5MLlamii5veDC4zI4rFhckJ6vLhZWjl4vV5c2aZLmgc4DNJfLuSLZsl/NxbrVBPFa6fFmPlS4jGSNtsmviPd/Jo+Ke8k/Uw2rP4DG6N7b6ZoPs8VbfbHo50P+ADCIez2tGj4veuPeeMXm0aGVk80D3Rpb8N14eb34wMLrWVnRgX2NvIuNp5P5qvG9bpRazHmwgHoxUndcWOzgIIcQX/AAiC4m9
+   eJztllsKhTAMBV2l+1+K9OOCSB9J7DXTcgZEtC2eoY94HEIIIYQQ+3E6LioeB6pLxIHmUsu0ossMD4LLmzVFconkpLoUajl6uaguM+ckyyW6B2gulm9bsmW7nI97q0/E40uXf87Hly6ejJY+2XMyat/JY8WacsfqUetP8PDWxtbYbCI1vjY2m16O6H9ABhaP5zPRo9Bb96M2kkeLVkaaQ7Q2khwKozyj/UHAe9au6EA/Y39Y1pPnfRbeM5U2D3e8HmR2qHGFlfa0hR0chBBiFhdUwYGt
   </data>
  </layer>
  <layer name="Border of Doom" width="50" height="50">

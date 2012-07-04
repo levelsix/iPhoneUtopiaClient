@@ -97,25 +97,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
   
-  [self unloadCurrentMissionMap];
-  _missionMap = [[MissionMap alloc] initWithProto:proto];
+  MissionMap *m = [[MissionMap alloc] initWithProto:proto];
   
-  [_missionMap moveToCenter];
+  [m moveToCenter];
   if (_shouldCenterOnEnemy) {
-    [_missionMap moveToEnemyType:enemyType];
+    [m moveToEnemyType:enemyType];
     _shouldCenterOnEnemy = NO;
   } else if (assetId != 0) {
-    [_missionMap moveToAssetId:assetId];
+    [m moveToAssetId:assetId];
     self.assetId = 0;
   }
   
-  [self addChild:_missionMap z:1];
+  [self addChild:m z:1];
   currentCity = proto.cityId;
   
   [_topBar loadNormalConfiguration];
-    
+  
+  [self unloadCurrentMissionMap];
   [self closeHomeMap];
   [self closeBazaarMap];
+  
+  _missionMap = m;
   
   [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   

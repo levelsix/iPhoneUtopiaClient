@@ -71,8 +71,10 @@ typedef enum {
 @interface Enemy : AnimatedSprite
 
 @property (nonatomic, retain) FullUserProto *user;
+@property (nonatomic, assign) BOOL isAlive;
 
 - (id) initWithUser:(FullUserProto *)fup location:(CGRect)loc map:(GameMap *)map;
+- (void) kill;
 
 @end
 

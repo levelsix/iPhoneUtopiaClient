@@ -31,11 +31,6 @@
  <tileset firstgid="289" name="NEW_Tree_Pack" tilewidth="64" tileheight="72">
   <image source="NEW_Tree_Pack.png" width="512" height="256"/>
  </tileset>
- <layer name="Walkable" width="80" height="80">
-  <data encoding="base64" compression="zlib">
-   eJzt1kEKwjAUQEFP6f2P4kJXAWvss1TNDAQKf6OPpsnlAgAAAPCbro/FPvo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+r12jWt1+jVjh/F5draqrQ57ZyvZ2oszs9V5/xr9+hn6DetMZ//3X+9XjL9/fJ6drcr3r9naQzOz1Xn/Gv2aVc/NT9HvOBo1+r1n3Jf6vUe/5lU/58a2vf2cyXf6zZu517kXPlfvzfrpV+jX6Nfo1+jX6Ncc3e/fG+rX6NZodzztGl0a/Rr9Gv0a/Rr9Gv0a/Rr9Ov2AI90AtfHTTw==
-  </data>
- </layer>
  <layer name="Road" width="80" height="80">
   <data encoding="base64" compression="zlib">
    eJzt2tttwzAMhWGNkEzkSTNFF+xDItRRZVkX8vAi/oDQB6OA+FVxXaMp6e1HegOGe6S330N6IwY70rffIbsdUx2p7heG9x2p7ReG1x2pzy8M/1f63PmF4V81mx6/MLx26fXb2bBlMuK3o+Gdx6jfToY9FjN+Oxj2Osz6eTYcMVjx82g4Ov+qnyfDmdkp/DwYzs5N5WfZcGVmSj+LhqvzUvtZMqSYlcPPgiHVnFx+mg0pZ+T002hIPR+3nyZDjtkQfhoMueZC+Ukacs6E9JMw5J4H7Yc0RMwi4YcwRM0h5cdpiJxB0o/DEL1/aT9KQ849Phvr7Fe7lpdmQ+6f8fNjNLs0P9sgPiPZb+b8aX62QezpaBil4lpOym/EELUfa349hsi9WPRrGaL3UfqV9V6T2HdZ6zmCe139/nid1sj3oVZu5fmBc72KrxpXLs7f+jmM+9/6fTD85u0kDK363RV+83Y5tF95X9b09++oHcowO2h+/zJrhzA8v8cbPX+I93+rdjnkZ6Q8m9qeUWbb0Y+6nfy42sGPO89+qDz6ofPkJ5UHP+ks+2nJop+2LPlpzYKf9jT7WUmjn7U0+VlNg5/1JP28JOHnLaSf1xB+3uP02yUOv92i9Ns1Cr/dW/GL3s34Rd+N+EX1evyidi2/qK+aXzTW2S+aq/b/u5r6BcjlH7U=
@@ -64,6 +59,11 @@
  <layer name="Border of Doom" width="80" height="80">
   <data encoding="base64" compression="zlib">
    eJztnEt2wjAQBPH9L81joQcYf0Y9stVIVRuyo7oWSbCNHg9flt4Cf8yyeoU462Y0jLPXiobnnDWi4T7RNjT8pbYJDd+oLWiYbzBzw1bbZ2zYevNMDa/aOkPDqzeO3PCubSM2vHvTSA17bRmhYe8Nvd8/g4u7i0cNbs5uPke4urp6feLu6Ozn7PaJo6ej0xFOvk4uNTh4Ozhk6On/7+0KPXaM0q5w557R2hXu2DVqu8KV+0ZvV7hi5yztCi33ztau0GL3rO0Kmf2ztysoHWj3TU0P2m0T6UK7Y4760C7GVifa1bHs/AxxaJiHhjr8HtTh77AO/wfq8DlEh8/BOlyH0eE6oA7XoXW4D6LDfTgd7gPr8ByCDs/B6PAclo6Dv4ODgpO3k0sER19Hpy2cPZ3dXrj7vXB1dPXaws3VzSeCi7OLh0Jv997v3wK+Q52H7/Dn4QyJPJxhkoczdPJwhlMezhDLwxl2edQGtHtT24J2v0Sb0G6fsza0O2evEe3irFvRrp5l9Qr1uLd7AkMNAJ8=
+  </data>
+ </layer>
+ <layer name="Walkable" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt1TEOgzAQAEFeyf+fkjYVKKyDBZ6RrnJ1K9neNgAAAACAe+1fw+/0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/Q7tw+YlenX6Nccdbh6thL9Gv0a/cb8AbNnptm76zd/nupoh6tnK9Gv0a/Rr1n57R9Bv//RqNGu0a9xfxv9Gu0a/Rr3t9Gv0a/Rr9Gv0a/Rr9Gv0a/Rr9Gv0a/RDwAAAHiLD/LkiA8=
   </data>
  </layer>
 </map>
