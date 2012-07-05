@@ -180,8 +180,15 @@
 
   skillAttack = [self skillMultForPercent:percent];
   userAttack  = attacker.attack;
-
-  int levelAdjustment = (attacker.level - 1)*_battleConstants.battleWeightGivenToLevel;
+  
+  // Note:It may seem that this Nerf's the stronger character
+  // In reality, the only reason why we given an attack boost
+  // based on level is so that the battle lengths stay consistent.
+  // The risk is that this expandes the difference between levels
+  // (above better gear and skill points).  Thus we take the lower
+  // value as the attack boost
+  int lowerLevel = MIN(attacker.level, defender.level);
+  int levelAdjustment = (lowerLevel - 1)*_battleConstants.battleWeightGivenToLevel;
   int attackStrength = [self afterDefenseAttackStrength:userAttack + levelAdjustment
                                             forDefender:defender 
                                              andPercent:percent];
