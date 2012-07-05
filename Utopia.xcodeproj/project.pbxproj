@@ -45,9 +45,7 @@
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
 		4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4541016915818E3D00F813F4 /* EquipDeltaView.xib */; };
 		4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4541016C158197C600F813F4 /* EquipDeltaView.m */; };
-		454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E623E1566D478004EB7E9 /* Crashlytics.framework */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
-		454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FC1565E0DC000380EE /* Delight.framework */; };
 		454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457239FE1565E431000380EE /* CoreMedia.framework */; };
 		454E6247156709C9004EB7E9 /* libAdColony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E6246156709C9004EB7E9 /* libAdColony.a */; };
 		454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 454E6248156709F9004EB7E9 /* MediaPlayer.framework */; };
@@ -3180,9 +3178,7 @@
 				454E624B15670A15004EB7E9 /* CoreTelephony.framework in Frameworks */,
 				454E6249156709F9004EB7E9 /* MediaPlayer.framework in Frameworks */,
 				454E62431566E0FF004EB7E9 /* CoreMedia.framework in Frameworks */,
-				454E62421566E0EF004EB7E9 /* Delight.framework in Frameworks */,
 				454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */,
-				454E623F1566D478004EB7E9 /* Crashlytics.framework in Frameworks */,
 				CF1273AE1538AD4C00E0C1AD /* Security.framework in Frameworks */,
 				CF7FEF101540C3D000716E37 /* MessageUI.framework in Frameworks */,
 				CF1273D1153902E300E0C1AD /* libz.dylib in Frameworks */,

@@ -89,7 +89,7 @@
 {
   // Note: The setup for CrashAlytics insists that it must be the final program 
   //       in the didFinishLaunching Method
-  [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
+//  [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
 }
 
 -(void) setUpDelightio

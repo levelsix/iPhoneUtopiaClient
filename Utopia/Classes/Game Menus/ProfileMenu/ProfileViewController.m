@@ -939,8 +939,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   friendLeftView.frame = enemyLeftView.frame;
   [self.mainView addSubview:friendLeftView];
   
+  // Start state at 0 so that when it gets unloaded it won't be ignored
+  _state = 0;
   self.state = kEquipState;
   _curScope = kEquipScopeAll;
+}
+
+- (void) didReceiveMemoryWarning {
+  [super didReceiveMemoryWarning];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -1345,6 +1351,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [self loadMyProfile];
     return;
   }
+  NSLog(@"Loading profile for player..");
   
   GameState *gs = [GameState sharedGameState];
   BOOL isEnemy = ![Globals userType:gs.type isAlliesWith:fup.userType];
@@ -1587,6 +1594,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) loadMyProfile {
+  NSLog(@"Loading my profile..");
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
