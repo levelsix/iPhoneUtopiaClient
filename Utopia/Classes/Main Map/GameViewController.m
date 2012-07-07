@@ -125,6 +125,16 @@
   [[TopBar sharedTopBar] invalidateTimers];
   [TopBar purgeSingleton];
   
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (UIView *view in sharedGameViewController.view.subviews) {
+    if (![view isKindOfClass:[EAGLView class]]) {
+      [toRemove addObject:view];
+    }
+  }
+  for (UIView *view in toRemove) {
+    [view removeFromSuperview];
+  }
+  
   [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
   
   [sharedGameViewController loadDefaultImage];

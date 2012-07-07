@@ -128,6 +128,8 @@
     [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kEquipState];
   }
   [ProfileViewController displayView];
+  
+  [[ActivityFeedController sharedActivityFeedController] close];
 }
 
 - (void) dealloc {
@@ -197,6 +199,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
 }
 
 - (IBAction)closeClicked:(id)sender {
+  [self close];
+}
+
+- (void) close {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [ActivityFeedController removeView];
   }];

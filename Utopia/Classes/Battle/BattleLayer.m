@@ -93,7 +93,7 @@
   
   rarityLabel = rightRarityLabel1;
   imgView = rightEquipIcon1;
-  equipId = fup.weaponEquipped;
+  equipId = fup.weaponEquippedUserEquip.equipId;
   if (equipId > 0) {
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
@@ -106,7 +106,7 @@
   
   rarityLabel = rightRarityLabel2;
   imgView = rightEquipIcon2;
-  equipId = fup.armorEquipped;
+  equipId = fup.armorEquippedUserEquip.equipId;
   if (equipId > 0) {
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
@@ -119,7 +119,7 @@
   
   rarityLabel = rightRarityLabel3;
   imgView = rightEquipIcon3;
-  equipId = fup.amuletEquipped;
+  equipId = fup.amuletEquippedUserEquip.equipId;
   if (equipId > 0) {
     FullEquipProto *fep = [gs equipWithId:equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
@@ -573,9 +573,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_fup release];
     _fup = [user retain];
   }
-  
-  [summaryView removeFromSuperview];
-  [stolenEquipView removeFromSuperview];
   
   // Close the menus
   [[GameLayer sharedGameLayer] closeMenus];
@@ -1253,6 +1250,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)attackAgainClicked:(id)sender {
+  [Globals popOutView:summaryView.mainView fadeOutBgdView:summaryView.bgdView completion:^{
+    [summaryView removeFromSuperview];
+  }];
   [self beginBattleAgainst:_fup inCity:_cityId];
   
   [Analytics attackAgain];

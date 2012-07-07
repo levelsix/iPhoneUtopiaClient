@@ -182,6 +182,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) invalidateAllTimers {
   // Invalidate all timers
+  NSLog(@"ending timers");
   [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     NSTimer *t = (NSTimer *)obj;
     [t invalidate];
@@ -198,6 +199,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) beginTimers {
+  NSLog(@"beginning timers");
   for (CCNode *node in children_) {
     if ([node isKindOfClass:[MoneyBuilding class]]) {
       [self updateTimersForBuilding:(MoneyBuilding *)node];

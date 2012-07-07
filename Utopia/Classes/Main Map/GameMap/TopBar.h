@@ -76,6 +76,8 @@ typedef enum {
 @property (nonatomic, retain) NSTimer *energyTimer;
 @property (nonatomic, retain) NSTimer *staminaTimer;
 
+@property (nonatomic, assign) BOOL isStarted;
+
 - (void) setUpEnergyTimer;
 - (void) setUpStaminaTimer;
 - (void) update;

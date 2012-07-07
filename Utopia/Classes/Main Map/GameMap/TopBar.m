@@ -57,6 +57,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 @synthesize profilePic = _profilePic;
 @synthesize energyTimer = _energyTimer;
 @synthesize staminaTimer = _staminaTimer;
+@synthesize isStarted;
 
 - (id) init {
   if ((self = [super init])) {
@@ -237,6 +238,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [self setEnergyBarPercentage:0.f];
     
     self.isTouchEnabled = YES;
+    
+    self.isStarted = NO;
   }
   return self;
 }
@@ -286,6 +289,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (![[GameState sharedGameState] isTutorial]) {
     [[HomeMap sharedHomeMap] beginTimers];
   }
+  
+  self.isStarted = YES;
   
   [self schedule:@selector(update)];
 }

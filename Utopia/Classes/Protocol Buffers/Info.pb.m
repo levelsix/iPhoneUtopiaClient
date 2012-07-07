@@ -650,9 +650,9 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property (retain) LocationProto* userLocation;
 @property int32_t numPostsInMarketplace;
 @property int32_t numMarketplaceSalesUnredeemed;
-@property int32_t weaponEquipped;
-@property int32_t armorEquipped;
-@property int32_t amuletEquipped;
+@property (retain) FullUserEquipProto* weaponEquippedUserEquip;
+@property (retain) FullUserEquipProto* armorEquippedUserEquip;
+@property (retain) FullUserEquipProto* amuletEquippedUserEquip;
 @property int64_t lastLoginTime;
 @property int64_t lastLogoutTime;
 @property int64_t lastShortLicensePurchaseTime;
@@ -876,27 +876,27 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasNumMarketplaceSalesUnredeemed_ = !!value;
 }
 @synthesize numMarketplaceSalesUnredeemed;
-- (BOOL) hasWeaponEquipped {
-  return !!hasWeaponEquipped_;
+- (BOOL) hasWeaponEquippedUserEquip {
+  return !!hasWeaponEquippedUserEquip_;
 }
-- (void) setHasWeaponEquipped:(BOOL) value {
-  hasWeaponEquipped_ = !!value;
+- (void) setHasWeaponEquippedUserEquip:(BOOL) value {
+  hasWeaponEquippedUserEquip_ = !!value;
 }
-@synthesize weaponEquipped;
-- (BOOL) hasArmorEquipped {
-  return !!hasArmorEquipped_;
+@synthesize weaponEquippedUserEquip;
+- (BOOL) hasArmorEquippedUserEquip {
+  return !!hasArmorEquippedUserEquip_;
 }
-- (void) setHasArmorEquipped:(BOOL) value {
-  hasArmorEquipped_ = !!value;
+- (void) setHasArmorEquippedUserEquip:(BOOL) value {
+  hasArmorEquippedUserEquip_ = !!value;
 }
-@synthesize armorEquipped;
-- (BOOL) hasAmuletEquipped {
-  return !!hasAmuletEquipped_;
+@synthesize armorEquippedUserEquip;
+- (BOOL) hasAmuletEquippedUserEquip {
+  return !!hasAmuletEquippedUserEquip_;
 }
-- (void) setHasAmuletEquipped:(BOOL) value {
-  hasAmuletEquipped_ = !!value;
+- (void) setHasAmuletEquippedUserEquip:(BOOL) value {
+  hasAmuletEquippedUserEquip_ = !!value;
 }
-@synthesize amuletEquipped;
+@synthesize amuletEquippedUserEquip;
 - (BOOL) hasLastLoginTime {
   return !!hasLastLoginTime_;
 }
@@ -1023,6 +1023,9 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   self.name = nil;
   self.referralCode = nil;
   self.userLocation = nil;
+  self.weaponEquippedUserEquip = nil;
+  self.armorEquippedUserEquip = nil;
+  self.amuletEquippedUserEquip = nil;
   self.udid = nil;
   self.deviceToken = nil;
   [super dealloc];
@@ -1058,9 +1061,9 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.userLocation = [LocationProto defaultInstance];
     self.numPostsInMarketplace = 0;
     self.numMarketplaceSalesUnredeemed = 0;
-    self.weaponEquipped = 0;
-    self.armorEquipped = 0;
-    self.amuletEquipped = 0;
+    self.weaponEquippedUserEquip = [FullUserEquipProto defaultInstance];
+    self.armorEquippedUserEquip = [FullUserEquipProto defaultInstance];
+    self.amuletEquippedUserEquip = [FullUserEquipProto defaultInstance];
     self.lastLoginTime = 0L;
     self.lastLogoutTime = 0L;
     self.lastShortLicensePurchaseTime = 0L;
@@ -1183,14 +1186,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumMarketplaceSalesUnredeemed) {
     [output writeInt32:32 value:self.numMarketplaceSalesUnredeemed];
   }
-  if (self.hasWeaponEquipped) {
-    [output writeInt32:33 value:self.weaponEquipped];
+  if (self.hasWeaponEquippedUserEquip) {
+    [output writeMessage:33 value:self.weaponEquippedUserEquip];
   }
-  if (self.hasArmorEquipped) {
-    [output writeInt32:34 value:self.armorEquipped];
+  if (self.hasArmorEquippedUserEquip) {
+    [output writeMessage:34 value:self.armorEquippedUserEquip];
   }
-  if (self.hasAmuletEquipped) {
-    [output writeInt32:35 value:self.amuletEquipped];
+  if (self.hasAmuletEquippedUserEquip) {
+    [output writeMessage:35 value:self.amuletEquippedUserEquip];
   }
   if (self.hasLastLoginTime) {
     [output writeInt64:36 value:self.lastLoginTime];
@@ -1336,14 +1339,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumMarketplaceSalesUnredeemed) {
     size += computeInt32Size(32, self.numMarketplaceSalesUnredeemed);
   }
-  if (self.hasWeaponEquipped) {
-    size += computeInt32Size(33, self.weaponEquipped);
+  if (self.hasWeaponEquippedUserEquip) {
+    size += computeMessageSize(33, self.weaponEquippedUserEquip);
   }
-  if (self.hasArmorEquipped) {
-    size += computeInt32Size(34, self.armorEquipped);
+  if (self.hasArmorEquippedUserEquip) {
+    size += computeMessageSize(34, self.armorEquippedUserEquip);
   }
-  if (self.hasAmuletEquipped) {
-    size += computeInt32Size(35, self.amuletEquipped);
+  if (self.hasAmuletEquippedUserEquip) {
+    size += computeMessageSize(35, self.amuletEquippedUserEquip);
   }
   if (self.hasLastLoginTime) {
     size += computeInt64Size(36, self.lastLoginTime);
@@ -1555,14 +1558,14 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasNumMarketplaceSalesUnredeemed) {
     [self setNumMarketplaceSalesUnredeemed:other.numMarketplaceSalesUnredeemed];
   }
-  if (other.hasWeaponEquipped) {
-    [self setWeaponEquipped:other.weaponEquipped];
+  if (other.hasWeaponEquippedUserEquip) {
+    [self mergeWeaponEquippedUserEquip:other.weaponEquippedUserEquip];
   }
-  if (other.hasArmorEquipped) {
-    [self setArmorEquipped:other.armorEquipped];
+  if (other.hasArmorEquippedUserEquip) {
+    [self mergeArmorEquippedUserEquip:other.armorEquippedUserEquip];
   }
-  if (other.hasAmuletEquipped) {
-    [self setAmuletEquipped:other.amuletEquipped];
+  if (other.hasAmuletEquippedUserEquip) {
+    [self mergeAmuletEquippedUserEquip:other.amuletEquippedUserEquip];
   }
   if (other.hasLastLoginTime) {
     [self setLastLoginTime:other.lastLoginTime];
@@ -1759,16 +1762,31 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
         [self setNumMarketplaceSalesUnredeemed:[input readInt32]];
         break;
       }
-      case 264: {
-        [self setWeaponEquipped:[input readInt32]];
+      case 266: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasWeaponEquippedUserEquip) {
+          [subBuilder mergeFrom:self.weaponEquippedUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setWeaponEquippedUserEquip:[subBuilder buildPartial]];
         break;
       }
-      case 272: {
-        [self setArmorEquipped:[input readInt32]];
+      case 274: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasArmorEquippedUserEquip) {
+          [subBuilder mergeFrom:self.armorEquippedUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setArmorEquippedUserEquip:[subBuilder buildPartial]];
         break;
       }
-      case 280: {
-        [self setAmuletEquipped:[input readInt32]];
+      case 282: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasAmuletEquippedUserEquip) {
+          [subBuilder mergeFrom:self.amuletEquippedUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setAmuletEquippedUserEquip:[subBuilder buildPartial]];
         break;
       }
       case 288: {
@@ -2316,52 +2334,94 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.numMarketplaceSalesUnredeemed = 0;
   return self;
 }
-- (BOOL) hasWeaponEquipped {
-  return result.hasWeaponEquipped;
+- (BOOL) hasWeaponEquippedUserEquip {
+  return result.hasWeaponEquippedUserEquip;
 }
-- (int32_t) weaponEquipped {
-  return result.weaponEquipped;
+- (FullUserEquipProto*) weaponEquippedUserEquip {
+  return result.weaponEquippedUserEquip;
 }
-- (FullUserProto_Builder*) setWeaponEquipped:(int32_t) value {
-  result.hasWeaponEquipped = YES;
-  result.weaponEquipped = value;
+- (FullUserProto_Builder*) setWeaponEquippedUserEquip:(FullUserEquipProto*) value {
+  result.hasWeaponEquippedUserEquip = YES;
+  result.weaponEquippedUserEquip = value;
   return self;
 }
-- (FullUserProto_Builder*) clearWeaponEquipped {
-  result.hasWeaponEquipped = NO;
-  result.weaponEquipped = 0;
+- (FullUserProto_Builder*) setWeaponEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setWeaponEquippedUserEquip:[builderForValue build]];
+}
+- (FullUserProto_Builder*) mergeWeaponEquippedUserEquip:(FullUserEquipProto*) value {
+  if (result.hasWeaponEquippedUserEquip &&
+      result.weaponEquippedUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.weaponEquippedUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.weaponEquippedUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.weaponEquippedUserEquip = value;
+  }
+  result.hasWeaponEquippedUserEquip = YES;
   return self;
 }
-- (BOOL) hasArmorEquipped {
-  return result.hasArmorEquipped;
-}
-- (int32_t) armorEquipped {
-  return result.armorEquipped;
-}
-- (FullUserProto_Builder*) setArmorEquipped:(int32_t) value {
-  result.hasArmorEquipped = YES;
-  result.armorEquipped = value;
+- (FullUserProto_Builder*) clearWeaponEquippedUserEquip {
+  result.hasWeaponEquippedUserEquip = NO;
+  result.weaponEquippedUserEquip = [FullUserEquipProto defaultInstance];
   return self;
 }
-- (FullUserProto_Builder*) clearArmorEquipped {
-  result.hasArmorEquipped = NO;
-  result.armorEquipped = 0;
+- (BOOL) hasArmorEquippedUserEquip {
+  return result.hasArmorEquippedUserEquip;
+}
+- (FullUserEquipProto*) armorEquippedUserEquip {
+  return result.armorEquippedUserEquip;
+}
+- (FullUserProto_Builder*) setArmorEquippedUserEquip:(FullUserEquipProto*) value {
+  result.hasArmorEquippedUserEquip = YES;
+  result.armorEquippedUserEquip = value;
   return self;
 }
-- (BOOL) hasAmuletEquipped {
-  return result.hasAmuletEquipped;
+- (FullUserProto_Builder*) setArmorEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setArmorEquippedUserEquip:[builderForValue build]];
 }
-- (int32_t) amuletEquipped {
-  return result.amuletEquipped;
-}
-- (FullUserProto_Builder*) setAmuletEquipped:(int32_t) value {
-  result.hasAmuletEquipped = YES;
-  result.amuletEquipped = value;
+- (FullUserProto_Builder*) mergeArmorEquippedUserEquip:(FullUserEquipProto*) value {
+  if (result.hasArmorEquippedUserEquip &&
+      result.armorEquippedUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.armorEquippedUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.armorEquippedUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.armorEquippedUserEquip = value;
+  }
+  result.hasArmorEquippedUserEquip = YES;
   return self;
 }
-- (FullUserProto_Builder*) clearAmuletEquipped {
-  result.hasAmuletEquipped = NO;
-  result.amuletEquipped = 0;
+- (FullUserProto_Builder*) clearArmorEquippedUserEquip {
+  result.hasArmorEquippedUserEquip = NO;
+  result.armorEquippedUserEquip = [FullUserEquipProto defaultInstance];
+  return self;
+}
+- (BOOL) hasAmuletEquippedUserEquip {
+  return result.hasAmuletEquippedUserEquip;
+}
+- (FullUserEquipProto*) amuletEquippedUserEquip {
+  return result.amuletEquippedUserEquip;
+}
+- (FullUserProto_Builder*) setAmuletEquippedUserEquip:(FullUserEquipProto*) value {
+  result.hasAmuletEquippedUserEquip = YES;
+  result.amuletEquippedUserEquip = value;
+  return self;
+}
+- (FullUserProto_Builder*) setAmuletEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setAmuletEquippedUserEquip:[builderForValue build]];
+}
+- (FullUserProto_Builder*) mergeAmuletEquippedUserEquip:(FullUserEquipProto*) value {
+  if (result.hasAmuletEquippedUserEquip &&
+      result.amuletEquippedUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.amuletEquippedUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.amuletEquippedUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.amuletEquippedUserEquip = value;
+  }
+  result.hasAmuletEquippedUserEquip = YES;
+  return self;
+}
+- (FullUserProto_Builder*) clearAmuletEquippedUserEquip {
+  result.hasAmuletEquippedUserEquip = NO;
+  result.amuletEquippedUserEquip = [FullUserEquipProto defaultInstance];
   return self;
 }
 - (BOOL) hasLastLoginTime {
@@ -3860,13 +3920,20 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 @end
 
 @interface FullUserEquipProto ()
+@property int32_t userEquipId;
 @property int32_t userId;
 @property int32_t equipId;
-@property int32_t quantity;
 @end
 
 @implementation FullUserEquipProto
 
+- (BOOL) hasUserEquipId {
+  return !!hasUserEquipId_;
+}
+- (void) setHasUserEquipId:(BOOL) value {
+  hasUserEquipId_ = !!value;
+}
+@synthesize userEquipId;
 - (BOOL) hasUserId {
   return !!hasUserId_;
 }
@@ -3881,21 +3948,14 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   hasEquipId_ = !!value;
 }
 @synthesize equipId;
-- (BOOL) hasQuantity {
-  return !!hasQuantity_;
-}
-- (void) setHasQuantity:(BOOL) value {
-  hasQuantity_ = !!value;
-}
-@synthesize quantity;
 - (void) dealloc {
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
+    self.userEquipId = 0;
     self.userId = 0;
     self.equipId = 0;
-    self.quantity = 0;
   }
   return self;
 }
@@ -3915,14 +3975,14 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   return YES;
 }
 - (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasUserEquipId) {
+    [output writeInt32:1 value:self.userEquipId];
+  }
   if (self.hasUserId) {
-    [output writeInt32:1 value:self.userId];
+    [output writeInt32:2 value:self.userId];
   }
   if (self.hasEquipId) {
-    [output writeInt32:2 value:self.equipId];
-  }
-  if (self.hasQuantity) {
-    [output writeInt32:3 value:self.quantity];
+    [output writeInt32:3 value:self.equipId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3933,14 +3993,14 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   }
 
   size = 0;
+  if (self.hasUserEquipId) {
+    size += computeInt32Size(1, self.userEquipId);
+  }
   if (self.hasUserId) {
-    size += computeInt32Size(1, self.userId);
+    size += computeInt32Size(2, self.userId);
   }
   if (self.hasEquipId) {
-    size += computeInt32Size(2, self.equipId);
-  }
-  if (self.hasQuantity) {
-    size += computeInt32Size(3, self.quantity);
+    size += computeInt32Size(3, self.equipId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4017,14 +4077,14 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (other == [FullUserEquipProto defaultInstance]) {
     return self;
   }
+  if (other.hasUserEquipId) {
+    [self setUserEquipId:other.userEquipId];
+  }
   if (other.hasUserId) {
     [self setUserId:other.userId];
   }
   if (other.hasEquipId) {
     [self setEquipId:other.equipId];
-  }
-  if (other.hasQuantity) {
-    [self setQuantity:other.quantity];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -4048,19 +4108,35 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
         break;
       }
       case 8: {
-        [self setUserId:[input readInt32]];
+        [self setUserEquipId:[input readInt32]];
         break;
       }
       case 16: {
-        [self setEquipId:[input readInt32]];
+        [self setUserId:[input readInt32]];
         break;
       }
       case 24: {
-        [self setQuantity:[input readInt32]];
+        [self setEquipId:[input readInt32]];
         break;
       }
     }
   }
+}
+- (BOOL) hasUserEquipId {
+  return result.hasUserEquipId;
+}
+- (int32_t) userEquipId {
+  return result.userEquipId;
+}
+- (FullUserEquipProto_Builder*) setUserEquipId:(int32_t) value {
+  result.hasUserEquipId = YES;
+  result.userEquipId = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearUserEquipId {
+  result.hasUserEquipId = NO;
+  result.userEquipId = 0;
+  return self;
 }
 - (BOOL) hasUserId {
   return result.hasUserId;
@@ -4092,22 +4168,6 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 - (FullUserEquipProto_Builder*) clearEquipId {
   result.hasEquipId = NO;
   result.equipId = 0;
-  return self;
-}
-- (BOOL) hasQuantity {
-  return result.hasQuantity;
-}
-- (int32_t) quantity {
-  return result.quantity;
-}
-- (FullUserEquipProto_Builder*) setQuantity:(int32_t) value {
-  result.hasQuantity = YES;
-  result.quantity = value;
-  return self;
-}
-- (FullUserEquipProto_Builder*) clearQuantity {
-  result.hasQuantity = NO;
-  result.quantity = 0;
   return self;
 }
 @end

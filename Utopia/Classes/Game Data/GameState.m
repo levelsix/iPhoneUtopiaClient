@@ -185,9 +185,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.marketplaceSilverEarnings = user.marketplaceCoinsEarnings;
   self.numPostsInMarketplace = user.numPostsInMarketplace;
   self.numMarketplaceSalesUnredeemed = user.numMarketplaceSalesUnredeemed;
-  self.weaponEquipped = user.weaponEquipped;
-  self.armorEquipped = user.armorEquipped;
-  self.amuletEquipped = user.amuletEquipped;
+  self.weaponEquipped = user.weaponEquippedUserEquip.equipId;
+  self.armorEquipped = user.armorEquippedUserEquip.equipId;
+  self.amuletEquipped = user.amuletEquippedUserEquip.equipId;
   self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
   
   self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:user.lastEnergyRefillTime/1000];
@@ -261,7 +261,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyEquips:(NSArray *)equips {
   for (FullUserEquipProto *eq in equips) {
-    [self.myEquips addObject:[UserEquip userEquipWithProto:eq]];
+    [self changeQuantityForEquip:eq.equipId by:1];
   }
 }
 

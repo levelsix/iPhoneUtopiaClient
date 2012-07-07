@@ -356,22 +356,20 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
-  BOOL hasLastLoginTime_:1;
-  BOOL hasLastLogoutTime_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastTimeAttacked_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
-  BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
-  BOOL hasArmorEquipped_:1;
-  BOOL hasWeaponEquipped_:1;
-  BOOL hasNumMarketplaceSalesUnredeemed_:1;
-  BOOL hasNumPostsInMarketplace_:1;
-  BOOL hasNumReferrals_:1;
+  BOOL hasLastLongLicensePurchaseTime_:1;
+  BOOL hasLastShortLicensePurchaseTime_:1;
+  BOOL hasLastLogoutTime_:1;
+  BOOL hasLastLoginTime_:1;
+  BOOL hasBattlesLost_:1;
   BOOL hasFlees_:1;
-  BOOL hasAmuletEquipped_:1;
+  BOOL hasNumReferrals_:1;
+  BOOL hasNumPostsInMarketplace_:1;
+  BOOL hasNumMarketplaceSalesUnredeemed_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
@@ -395,31 +393,31 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasBattlesWon_:1;
-  BOOL hasBattlesLost_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasReferralCode_:1;
   BOOL hasName_:1;
+  BOOL hasAmuletEquippedUserEquip_:1;
+  BOOL hasArmorEquippedUserEquip_:1;
+  BOOL hasWeaponEquippedUserEquip_:1;
   BOOL hasUserLocation_:1;
   BOOL hasUserType_:1;
   BOOL isAdmin_:1;
   BOOL isFake_:1;
-  int64_t lastLoginTime;
-  int64_t lastLogoutTime;
   int64_t createTime;
-  int64_t lastShortLicensePurchaseTime;
   int64_t lastTimeAttacked;
   int64_t lastBattleNotificationTime;
   int64_t lastStaminaRefillTime;
-  int64_t lastLongLicensePurchaseTime;
   int64_t lastEnergyRefillTime;
-  int32_t armorEquipped;
-  int32_t weaponEquipped;
-  int32_t numMarketplaceSalesUnredeemed;
-  int32_t numPostsInMarketplace;
-  int32_t numReferrals;
+  int64_t lastLongLicensePurchaseTime;
+  int64_t lastShortLicensePurchaseTime;
+  int64_t lastLogoutTime;
+  int64_t lastLoginTime;
+  int32_t battlesLost;
   int32_t flees;
-  int32_t amuletEquipped;
+  int32_t numReferrals;
+  int32_t numPostsInMarketplace;
+  int32_t numMarketplaceSalesUnredeemed;
   int32_t numCoinsRetrievedFromStructs;
   int32_t numBadges;
   int32_t apsalarId;
@@ -443,11 +441,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t experience;
   int32_t tasksCompleted;
   int32_t battlesWon;
-  int32_t battlesLost;
   NSString* udid;
   NSString* deviceToken;
   NSString* referralCode;
   NSString* name;
+  FullUserEquipProto* amuletEquippedUserEquip;
+  FullUserEquipProto* armorEquippedUserEquip;
+  FullUserEquipProto* weaponEquippedUserEquip;
   LocationProto* userLocation;
   UserType userType;
 }
@@ -480,9 +480,9 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasUserLocation;
 - (BOOL) hasNumPostsInMarketplace;
 - (BOOL) hasNumMarketplaceSalesUnredeemed;
-- (BOOL) hasWeaponEquipped;
-- (BOOL) hasArmorEquipped;
-- (BOOL) hasAmuletEquipped;
+- (BOOL) hasWeaponEquippedUserEquip;
+- (BOOL) hasArmorEquippedUserEquip;
+- (BOOL) hasAmuletEquippedUserEquip;
 - (BOOL) hasLastLoginTime;
 - (BOOL) hasLastLogoutTime;
 - (BOOL) hasLastShortLicensePurchaseTime;
@@ -528,9 +528,9 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) LocationProto* userLocation;
 @property (readonly) int32_t numPostsInMarketplace;
 @property (readonly) int32_t numMarketplaceSalesUnredeemed;
-@property (readonly) int32_t weaponEquipped;
-@property (readonly) int32_t armorEquipped;
-@property (readonly) int32_t amuletEquipped;
+@property (readonly, retain) FullUserEquipProto* weaponEquippedUserEquip;
+@property (readonly, retain) FullUserEquipProto* armorEquippedUserEquip;
+@property (readonly, retain) FullUserEquipProto* amuletEquippedUserEquip;
 @property (readonly) int64_t lastLoginTime;
 @property (readonly) int64_t lastLogoutTime;
 @property (readonly) int64_t lastShortLicensePurchaseTime;
@@ -729,20 +729,26 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setNumMarketplaceSalesUnredeemed:(int32_t) value;
 - (FullUserProto_Builder*) clearNumMarketplaceSalesUnredeemed;
 
-- (BOOL) hasWeaponEquipped;
-- (int32_t) weaponEquipped;
-- (FullUserProto_Builder*) setWeaponEquipped:(int32_t) value;
-- (FullUserProto_Builder*) clearWeaponEquipped;
+- (BOOL) hasWeaponEquippedUserEquip;
+- (FullUserEquipProto*) weaponEquippedUserEquip;
+- (FullUserProto_Builder*) setWeaponEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) setWeaponEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) mergeWeaponEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) clearWeaponEquippedUserEquip;
 
-- (BOOL) hasArmorEquipped;
-- (int32_t) armorEquipped;
-- (FullUserProto_Builder*) setArmorEquipped:(int32_t) value;
-- (FullUserProto_Builder*) clearArmorEquipped;
+- (BOOL) hasArmorEquippedUserEquip;
+- (FullUserEquipProto*) armorEquippedUserEquip;
+- (FullUserProto_Builder*) setArmorEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) setArmorEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) mergeArmorEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) clearArmorEquippedUserEquip;
 
-- (BOOL) hasAmuletEquipped;
-- (int32_t) amuletEquipped;
-- (FullUserProto_Builder*) setAmuletEquipped:(int32_t) value;
-- (FullUserProto_Builder*) clearAmuletEquipped;
+- (BOOL) hasAmuletEquippedUserEquip;
+- (FullUserEquipProto*) amuletEquippedUserEquip;
+- (FullUserProto_Builder*) setAmuletEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) setAmuletEquippedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (FullUserProto_Builder*) mergeAmuletEquippedUserEquip:(FullUserEquipProto*) value;
+- (FullUserProto_Builder*) clearAmuletEquippedUserEquip;
 
 - (BOOL) hasLastLoginTime;
 - (int64_t) lastLoginTime;
@@ -1114,19 +1120,19 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 
 @interface FullUserEquipProto : PBGeneratedMessage {
 @private
+  BOOL hasUserEquipId_:1;
   BOOL hasUserId_:1;
   BOOL hasEquipId_:1;
-  BOOL hasQuantity_:1;
+  int32_t userEquipId;
   int32_t userId;
   int32_t equipId;
-  int32_t quantity;
 }
+- (BOOL) hasUserEquipId;
 - (BOOL) hasUserId;
 - (BOOL) hasEquipId;
-- (BOOL) hasQuantity;
+@property (readonly) int32_t userEquipId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t equipId;
-@property (readonly) int32_t quantity;
 
 + (FullUserEquipProto*) defaultInstance;
 - (FullUserEquipProto*) defaultInstance;
@@ -1162,6 +1168,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
 - (FullUserEquipProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 
+- (BOOL) hasUserEquipId;
+- (int32_t) userEquipId;
+- (FullUserEquipProto_Builder*) setUserEquipId:(int32_t) value;
+- (FullUserEquipProto_Builder*) clearUserEquipId;
+
 - (BOOL) hasUserId;
 - (int32_t) userId;
 - (FullUserEquipProto_Builder*) setUserId:(int32_t) value;
@@ -1171,11 +1182,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) equipId;
 - (FullUserEquipProto_Builder*) setEquipId:(int32_t) value;
 - (FullUserEquipProto_Builder*) clearEquipId;
-
-- (BOOL) hasQuantity;
-- (int32_t) quantity;
-- (FullUserEquipProto_Builder*) setQuantity:(int32_t) value;
-- (FullUserEquipProto_Builder*) clearQuantity;
 @end
 
 @interface FullStructureProto : PBGeneratedMessage {

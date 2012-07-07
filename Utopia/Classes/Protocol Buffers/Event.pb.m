@@ -4238,6 +4238,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) NSMutableArray* mutableProductIdsList;
 @property (retain) NSMutableArray* mutableProductDiamondsGivenList;
 @property int32_t maxLevelDifferenceForBattle;
+@property int32_t maxLevelForUser;
 @property int32_t armoryXlength;
 @property int32_t armoryYlength;
 @property int32_t vaultXlength;
@@ -4301,6 +4302,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasMaxLevelDifferenceForBattle_ = !!value;
 }
 @synthesize maxLevelDifferenceForBattle;
+- (BOOL) hasMaxLevelForUser {
+  return !!hasMaxLevelForUser_;
+}
+- (void) setHasMaxLevelForUser:(BOOL) value {
+  hasMaxLevelForUser_ = !!value;
+}
+@synthesize maxLevelForUser;
 - (BOOL) hasArmoryXlength {
   return !!hasArmoryXlength_;
 }
@@ -4657,6 +4665,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 - (id) init {
   if ((self = [super init])) {
     self.maxLevelDifferenceForBattle = 0;
+    self.maxLevelForUser = 0;
     self.armoryXlength = 0;
     self.armoryYlength = 0;
     self.vaultXlength = 0;
@@ -4905,6 +4914,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasKiipRewardConditions) {
     [output writeMessage:61 value:self.kiipRewardConditions];
   }
+  if (self.hasMaxLevelForUser) {
+    [output writeInt32:62 value:self.maxLevelForUser];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5082,6 +5094,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasKiipRewardConditions) {
     size += computeMessageSize(61, self.kiipRewardConditions);
+  }
+  if (self.hasMaxLevelForUser) {
+    size += computeInt32Size(62, self.maxLevelForUser);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6634,6 +6649,9 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasMaxLevelDifferenceForBattle) {
     [self setMaxLevelDifferenceForBattle:other.maxLevelDifferenceForBattle];
   }
+  if (other.hasMaxLevelForUser) {
+    [self setMaxLevelForUser:other.maxLevelForUser];
+  }
   if (other.hasArmoryXlength) {
     [self setArmoryXlength:other.armoryXlength];
   }
@@ -7037,6 +7055,10 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         [self setKiipRewardConditions:[subBuilder buildPartial]];
         break;
       }
+      case 496: {
+        [self setMaxLevelForUser:[input readInt32]];
+        break;
+      }
     }
   }
 }
@@ -7116,6 +7138,22 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelDifferenceForBattle {
   result.hasMaxLevelDifferenceForBattle = NO;
   result.maxLevelDifferenceForBattle = 0;
+  return self;
+}
+- (BOOL) hasMaxLevelForUser {
+  return result.hasMaxLevelForUser;
+}
+- (int32_t) maxLevelForUser {
+  return result.maxLevelForUser;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxLevelForUser:(int32_t) value {
+  result.hasMaxLevelForUser = YES;
+  result.maxLevelForUser = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelForUser {
+  result.hasMaxLevelForUser = NO;
+  result.maxLevelForUser = 0;
   return self;
 }
 - (BOOL) hasArmoryXlength {
@@ -21917,6 +21955,7 @@ BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValu
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds:
     case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins:
+    case RetractMarketplacePostResponseProto_RetractMarketplacePostStatusOtherFail:
       return YES;
     default:
       return NO;
