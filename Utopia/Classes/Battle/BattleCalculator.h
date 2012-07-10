@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "UserBattleStats.h"
-#import "Globals.h"
 #import "BattleConstants.h"
 
 @protocol BattleCalculator <NSObject>
@@ -19,14 +18,14 @@
 -(int) leftAttackStrengthForPercent:(float)percent;
 -(int) skillMultForPercent:(float)percent;
 -(CombatDamageType) damageZoneForPercent:(float)percent;
-//-(float) comboBarPercentageForDifficultyPercent:(float)difficultyPercent;
+-(float) calculateEnemyPercentage;
 @end
 
 @interface BattleCalculator : NSObject <BattleCalculator> {
-  id<UserBattleStats> rightUser;
-  id<UserBattleStats> leftUser;
-  id<BattleConstants> _battleConstants;
-  Globals *_globals;
+  id<UserBattleStats>  rightUser;
+  id<UserBattleStats>  leftUser;
+  id<BattleConstants>  _battleConstants;
+  id<EnemyBattleStats> _battleStats;
 }
 
 #pragma mark Create/Destroy
@@ -35,6 +34,6 @@
 
 -(id) initWithRightStats:(id<UserBattleStats>)right
             andLeftStats:(id<UserBattleStats>)left
-              andGlobals:(Globals *)globals 
-      andBattleConstants:(id<BattleConstants>)battleConstants;
+      andBattleConstants:(id<BattleConstants>)battleConstants
+          andBattleStats:(id<EnemyBattleStats>)battleStats;
 @end

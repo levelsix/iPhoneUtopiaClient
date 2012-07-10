@@ -40,9 +40,6 @@
 #define GREAT_MULTIPLIER    1.5f
 #define GOOD_MULTIPLIER     1.0f
 
-#define TEST_MODE     1
-
-
 @implementation BattleCalculatorTests
 -(id<UserBattleStats>)userForAttack:(int)attack 
                          andDefense:(int)defense
@@ -80,6 +77,12 @@
   battleConstants.battleWeightGivenToAttackStat      = 1;
   battleConstants.battleWeightGivenToAttackEquipSum  = 1;
   battleConstants.battleWeightGivenToLevel           = 1;
+  
+  id<EnemyBattleStats> battleStats = [Globals sharedGlobals];
+//  battleStats.perfectLikelihood = 0.25f;
+//  battleStats.greatLikelihood   = 0.5f;
+//  battleStats.goodLikelihood    = 0.15f;
+//  battleStats.missLikelihood    = 0.10f;
 
   battleConstants.battlePerfectPercentThreshold = PERFECT_PERCENT_THRESHOLD;
   battleConstants.battleGreatPercentThreshold   = GREAT_PERCENT_THRESHOLD;
@@ -91,8 +94,8 @@
   
   testCalculator = [[BattleCalculator alloc] initWithRightStats:rightStats
                                                    andLeftStats:leftStats
-                                                     andGlobals:[Globals sharedGlobals]
-                                             andBattleConstants:battleConstants];
+                                             andBattleConstants:battleConstants 
+                                                 andBattleStats:battleStats];
   srand(4321489024315);
 }
 
@@ -104,53 +107,24 @@
 }
 
 #pragma mark ComboBar %
-//- (void)test_ComboBarPercentForZero
-//{
-//  // Set expectations
-//  float expected = 10;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.0];
-//  
-//  // Check expectations
-//  STAssertTrue(expected > result, @"Expected %f got %f", expected, result);
-//}
-//
-//- (void)test_ComboBarPercentFor50
-//{
-//  // Set expectations
-//  float expected = 60;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.50];
-//  
-//  // Check expectations
-//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
-//}
-//
-//- (void)test_ComboBarPercentFor75
-//{
-//  // Set expectations
-//  float expected = 60;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.75];
-//  
-//  // Check expectations
-//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
-//}
-//
-//- (void)test_ComboBarPercentFor100
-//{
-//  // Set expectations
-//  float expected = HIGH_PERFECT;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:1.0];
-//  
-//  // Check expectations
-//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
-//}
+- (void)test_100enemyPercentages
+{
+  // Set expectations
+  float expected = 91.666664;
+  int numTests   = 87;
+  NSMutableArray *percentages = [NSMutableArray arrayWithCapacity:numTests];
+  
+  // Run the test
+  for (int i = 0;  i < numTests; i++) {
+    [percentages addObject:[NSNumber numberWithFloat:[testCalculator
+                                                     calculateEnemyPercentage]]];
+  }
+
+  float result = [testCalculator calculateEnemyPercentage];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
+}
 
 #pragma mark Warrior/Warrior DefenseTests
 - (void)test_WarriorAttackWARRIORPERFECTWithDefenseHighLevel

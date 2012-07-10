@@ -20,7 +20,7 @@
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
 
-@interface Globals : NSObject <BattleConstants> {
+@interface Globals : NSObject <BattleConstants, EnemyBattleStats> {
   int _equipIdToWear;
 }
 
@@ -97,7 +97,6 @@
 @property (nonatomic, assign) float battlePerfectMultiplier;
 @property (nonatomic, assign) float battleGreatMultiplier;
 @property (nonatomic, assign) float battleGoodMultiplier;
-
 @property (nonatomic, assign) float locationBarMax;
 
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
