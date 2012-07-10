@@ -236,6 +236,8 @@
 @class StartupResponseProto_AttackedNotificationProto;
 @class StartupResponseProto_AttackedNotificationProto_Builder;
 @class StartupResponseProto_Builder;
+@class StartupResponseProto_DailyBonusInfo;
+@class StartupResponseProto_DailyBonusInfo_Builder;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
 @class StartupResponseProto_ReferralNotificationProto;
@@ -1424,31 +1426,33 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
+  BOOL hasDailyBonusInfo_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasStartupStatus_:1;
   BOOL hasUpdateStatus_:1;
+  BOOL hasStartupStatus_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
+  StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
-  NSMutableArray* mutableAlliesList;
-  NSMutableArray* mutablePlayerWallPostNotificationsList;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableUserEquipsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableInProgressCompleteQuestsList;
-  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  StartupResponseProto_StartupStatus startupStatus;
   NSMutableArray* mutableUserCityInfosList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableInProgressCompleteQuestsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableEquipsList;
   NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutablePlayerWallPostNotificationsList;
+  NSMutableArray* mutableAlliesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1458,6 +1462,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasExperienceRequiredForNextLevel;
 - (BOOL) hasExperienceRequiredForCurrentLevel;
 - (BOOL) hasAppStoreUrl;
+- (BOOL) hasDailyBonusInfo;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
@@ -1466,6 +1471,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) int32_t experienceRequiredForNextLevel;
 @property (readonly) int32_t experienceRequiredForCurrentLevel;
 @property (readonly, retain) NSString* appStoreUrl;
+@property (readonly, retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
@@ -1506,6 +1512,74 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 + (StartupResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_DailyBonusInfo : PBGeneratedMessage {
+@private
+  BOOL hasNumConsecutiveDaysPlayed_:1;
+  BOOL hasSilverBonus_:1;
+  BOOL hasUserEquipBonus_:1;
+  int32_t numConsecutiveDaysPlayed;
+  int32_t silverBonus;
+  FullUserEquipProto* userEquipBonus;
+}
+- (BOOL) hasNumConsecutiveDaysPlayed;
+- (BOOL) hasSilverBonus;
+- (BOOL) hasUserEquipBonus;
+@property (readonly) int32_t numConsecutiveDaysPlayed;
+@property (readonly) int32_t silverBonus;
+@property (readonly, retain) FullUserEquipProto* userEquipBonus;
+
++ (StartupResponseProto_DailyBonusInfo*) defaultInstance;
+- (StartupResponseProto_DailyBonusInfo*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_DailyBonusInfo_Builder*) builder;
++ (StartupResponseProto_DailyBonusInfo_Builder*) builder;
++ (StartupResponseProto_DailyBonusInfo_Builder*) builderWithPrototype:(StartupResponseProto_DailyBonusInfo*) prototype;
+
++ (StartupResponseProto_DailyBonusInfo*) parseFromData:(NSData*) data;
++ (StartupResponseProto_DailyBonusInfo*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_DailyBonusInfo*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_DailyBonusInfo*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_DailyBonusInfo*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_DailyBonusInfo*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_DailyBonusInfo_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_DailyBonusInfo* result;
+}
+
+- (StartupResponseProto_DailyBonusInfo*) defaultInstance;
+
+- (StartupResponseProto_DailyBonusInfo_Builder*) clear;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clone;
+
+- (StartupResponseProto_DailyBonusInfo*) build;
+- (StartupResponseProto_DailyBonusInfo*) buildPartial;
+
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeFrom:(StartupResponseProto_DailyBonusInfo*) other;
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasNumConsecutiveDaysPlayed;
+- (int32_t) numConsecutiveDaysPlayed;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setNumConsecutiveDaysPlayed:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearNumConsecutiveDaysPlayed;
+
+- (BOOL) hasSilverBonus;
+- (int32_t) silverBonus;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setSilverBonus:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearSilverBonus;
+
+- (BOOL) hasUserEquipBonus;
+- (FullUserEquipProto*) userEquipBonus;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonus:(FullUserEquipProto*) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonusBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeUserEquipBonus:(FullUserEquipProto*) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearUserEquipBonus;
 @end
 
 @interface StartupResponseProto_MarketplacePostPurchasedNotificationProto : PBGeneratedMessage {
@@ -2175,27 +2249,35 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasBattleWeightGivenToDefenseStat_:1;
   BOOL hasBattleWeightGivenToDefenseEquipSum_:1;
   BOOL hasBattleWeightGivenToLevel_:1;
-  BOOL hasLocationBarMax_:1;
-  BOOL hasBattlePerfectPercentThreshold_:1;
-  BOOL hasBattleGreatPercentThreshold_:1;
-  BOOL hasBattleGoodPercentThreshold_:1;
-  BOOL hasBattlePerfectMultiplier_:1;
-  BOOL hasBattleGreatMultiplier_:1;
-  BOOL hasBattleGoodMultiplier_:1;
+  BOOL hasBattleMissLikelihood_:1;
+  BOOL hasBattleGoodLikelihood_:1;
+  BOOL hasBattleGreatLikelihood_:1;
+  BOOL hasBattlePerfectLikelihood_:1;
   BOOL hasBattleImbalancePercent_:1;
+  BOOL hasBattleGoodMultiplier_:1;
+  BOOL hasBattleGreatMultiplier_:1;
+  BOOL hasBattlePerfectMultiplier_:1;
+  BOOL hasBattleGoodPercentThreshold_:1;
+  BOOL hasBattleGreatPercentThreshold_:1;
+  BOOL hasBattlePerfectPercentThreshold_:1;
+  BOOL hasLocationBarMax_:1;
   Float64 battleWeightGivenToAttackStat;
   Float64 battleWeightGivenToAttackEquipSum;
   Float64 battleWeightGivenToDefenseStat;
   Float64 battleWeightGivenToDefenseEquipSum;
   Float64 battleWeightGivenToLevel;
-  Float32 locationBarMax;
-  Float32 battlePerfectPercentThreshold;
-  Float32 battleGreatPercentThreshold;
-  Float32 battleGoodPercentThreshold;
-  Float32 battlePerfectMultiplier;
-  Float32 battleGreatMultiplier;
-  Float32 battleGoodMultiplier;
+  Float32 battleMissLikelihood;
+  Float32 battleGoodLikelihood;
+  Float32 battleGreatLikelihood;
+  Float32 battlePerfectLikelihood;
   Float32 battleImbalancePercent;
+  Float32 battleGoodMultiplier;
+  Float32 battleGreatMultiplier;
+  Float32 battlePerfectMultiplier;
+  Float32 battleGoodPercentThreshold;
+  Float32 battleGreatPercentThreshold;
+  Float32 battlePerfectPercentThreshold;
+  Float32 locationBarMax;
 }
 - (BOOL) hasLocationBarMax;
 - (BOOL) hasBattleWeightGivenToAttackStat;
@@ -2210,6 +2292,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasBattleGreatMultiplier;
 - (BOOL) hasBattleGoodMultiplier;
 - (BOOL) hasBattleImbalancePercent;
+- (BOOL) hasBattlePerfectLikelihood;
+- (BOOL) hasBattleGreatLikelihood;
+- (BOOL) hasBattleGoodLikelihood;
+- (BOOL) hasBattleMissLikelihood;
 @property (readonly) Float32 locationBarMax;
 @property (readonly) Float64 battleWeightGivenToAttackStat;
 @property (readonly) Float64 battleWeightGivenToAttackEquipSum;
@@ -2223,6 +2309,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) Float32 battleGreatMultiplier;
 @property (readonly) Float32 battleGoodMultiplier;
 @property (readonly) Float32 battleImbalancePercent;
+@property (readonly) Float32 battlePerfectLikelihood;
+@property (readonly) Float32 battleGreatLikelihood;
+@property (readonly) Float32 battleGoodLikelihood;
+@property (readonly) Float32 battleMissLikelihood;
 
 + (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
@@ -2322,6 +2412,26 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (Float32) battleImbalancePercent;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleImbalancePercent:(Float32) value;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleImbalancePercent;
+
+- (BOOL) hasBattlePerfectLikelihood;
+- (Float32) battlePerfectLikelihood;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePerfectLikelihood:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePerfectLikelihood;
+
+- (BOOL) hasBattleGreatLikelihood;
+- (Float32) battleGreatLikelihood;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGreatLikelihood:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGreatLikelihood;
+
+- (BOOL) hasBattleGoodLikelihood;
+- (Float32) battleGoodLikelihood;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGoodLikelihood:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGoodLikelihood;
+
+- (BOOL) hasBattleMissLikelihood;
+- (Float32) battleMissLikelihood;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleMissLikelihood:(Float32) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleMissLikelihood;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -3321,6 +3431,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_Builder*) addAllies:(MinimumUserProtoWithLevel*) value;
 - (StartupResponseProto_Builder*) addAllAllies:(NSArray*) values;
 - (StartupResponseProto_Builder*) clearAlliesList;
+
+- (BOOL) hasDailyBonusInfo;
+- (StartupResponseProto_DailyBonusInfo*) dailyBonusInfo;
+- (StartupResponseProto_Builder*) setDailyBonusInfo:(StartupResponseProto_DailyBonusInfo*) value;
+- (StartupResponseProto_Builder*) setDailyBonusInfoBuilder:(StartupResponseProto_DailyBonusInfo_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeDailyBonusInfo:(StartupResponseProto_DailyBonusInfo*) value;
+- (StartupResponseProto_Builder*) clearDailyBonusInfo;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
