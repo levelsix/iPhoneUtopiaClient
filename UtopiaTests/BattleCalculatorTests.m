@@ -17,20 +17,21 @@
 #define LOW_GOOD      HIGH_PERFECT - GOOD_PERCENT_THRESHOLD
 #define MISS          LOW_GOOD     - 0.1f
 
-#define MAGE_ATTACK_LVL1      16
-#define MAGE_DEFENSE_LVL1     8
+
+#define MAGE_ATTACK_LVL1      14
+#define MAGE_DEFENSE_LVL1     10
 #define ARCHER_ATTACK_LVL1    12
 #define ARCHER_DEFENSE_LVL1   12
-#define WARRIOR_ATTACK_LVL1   8
-#define WARRIOR_DEFENSE_LVL1  16
+#define WARRIOR_ATTACK_LVL1   10
+#define WARRIOR_DEFENSE_LVL1  14
 
 //example characters
-#define MAGE_ATTACK_LVL2      17
-#define MAGE_DEFENSE_LVL2     8
-#define MAGE_ATTACK_LVL3      19
-#define MAGE_DEFENSE_LVL3     9
-#define MAGE_ATTACK_LVL4      20 + 6
-#define MAGE_DEFENSE_LVL4     10 + 6
+#define MAGE_ATTACK_LVL2      15
+#define MAGE_DEFENSE_LVL2     10
+#define MAGE_ATTACK_LVL3      17
+#define MAGE_DEFENSE_LVL3     11
+#define MAGE_ATTACK_LVL4      18 + 6
+#define MAGE_DEFENSE_LVL4     12 + 6
 
 #define PERFECT_PERCENT_THRESHOLD 3.0f
 #define GREAT_PERCENT_THRESHOLD   17.0f
@@ -130,7 +131,7 @@
 - (void)test_WarriorAttackWARRIORPERFECTWithDefenseHighLevel
 {
   // Set expectations
-  int expected = 16;
+  int expected = 24;
   testCalculator.rightUser = [self userForAttack:WARRIOR_ATTACK_LVL1
                                       andDefense:WARRIOR_DEFENSE_LVL1 
                                         andLevel:40];
@@ -165,7 +166,7 @@
 - (void)test_MageAttackMagePERFECTWithDefenseHighLevel
 {
   // Set expectations
-  int expected = 48;
+  int expected = 40;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
                                       andDefense:MAGE_DEFENSE_LVL1 
                                         andLevel:40];
@@ -182,7 +183,7 @@
 - (void)test_MageAttackMAGEPERFECTWithDefense
 {
   // Set expectations
-  int expected = 28;
+  int expected = 20;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1 
                                       andDefense:MAGE_DEFENSE_LVL1];
   testCalculator.leftUser  = [self userForAttack:MAGE_ATTACK_LVL1 
@@ -199,7 +200,7 @@
 - (void)test_MageAttackLowerLevelMagePERFECTWithDefenseLevelImbalance2
 {
   // Set expectations
-  int expected = 34;
+  int expected = 26;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1 
                                       andDefense:MAGE_DEFENSE_LVL1 
                                         andLevel:1];
@@ -217,7 +218,7 @@
 - (void)test_MageAttackHigherLevelMagePERFECTWithDefenseLevelImbalance2
 {
   // Set expectations
-  int expected = 26;
+  int expected = 18;
 
   testCalculator.rightUser  = [self userForAttack:MAGE_ATTACK_LVL3 
                                       andDefense:MAGE_DEFENSE_LVL3 
@@ -236,7 +237,7 @@
 - (void)test_MageAttackLowerLevelMageGREATWithDefenseLevelImbalance3
 {
   // Set expectations
-  int expected = 34;
+  int expected = 28;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1 
                                       andDefense:MAGE_DEFENSE_LVL1 
                                         andLevel:1];
@@ -290,7 +291,7 @@
 - (void)test_mageAttackArcherPERFECTWithDefense
 {
   // Set expectations
-  int expected = 20;
+  int expected = 16;
   testCalculator.rightUser = [self userForAttack:ARCHER_ATTACK_LVL1 andDefense:ARCHER_ATTACK_LVL1];
   testCalculator.leftUser  = [self userForAttack:MAGE_ATTACK_LVL1 
                                       andDefense:MAGE_DEFENSE_LVL1];
@@ -305,7 +306,7 @@
 - (void)test_archerAttackMagePERFECTWithDefense
 {
   // Set expectations
-  int expected = 20;
+  int expected = 16;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
                                       andDefense:MAGE_DEFENSE_LVL1];
   testCalculator.leftUser = [self userForAttack:ARCHER_ATTACK_LVL1 
@@ -322,7 +323,7 @@
 - (void)test_archerAttackMageHIGHGREATWithDefense
 {
   // Set expectations
-  int expected = 14;
+  int expected = 11;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
                                       andDefense:MAGE_DEFENSE_LVL1];
   testCalculator.leftUser = [self userForAttack:ARCHER_ATTACK_LVL1 
@@ -338,7 +339,7 @@
 - (void)test_archerAttackMageLOWGREATithDefense
 {
   // Set expectations
-  int expected = 11;
+  int expected = 9;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
                                       andDefense:MAGE_DEFENSE_LVL1];
   testCalculator.leftUser = [self userForAttack:ARCHER_ATTACK_LVL1 
@@ -354,7 +355,7 @@
 - (void)test_archerAttackMageHIGHGOODWithDefense
 {
   // Set expectations
-  int expected = 7;
+  int expected = 6;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
                                       andDefense:MAGE_DEFENSE_LVL1];
   testCalculator.leftUser = [self userForAttack:ARCHER_ATTACK_LVL1 
@@ -370,7 +371,7 @@
 - (void)test_archerAttackMageLOWGOODWithDefense
 {
   // Set expectations
-  int expected = 4;
+  int expected = 3;
   testCalculator.rightUser = [self userForAttack:MAGE_ATTACK_LVL1
                                       andDefense:MAGE_DEFENSE_LVL1];
   testCalculator.leftUser = [self userForAttack:ARCHER_ATTACK_LVL1 
