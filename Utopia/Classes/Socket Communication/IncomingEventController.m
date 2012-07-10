@@ -385,6 +385,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [gs removeNonFullUserUpdatesForTag:tag];
+  
+  [[GameViewController sharedGameViewController] startupComplete];
 }
 
 - (void) handleLevelUpResponseProto:(FullEvent *)fe {
@@ -875,6 +877,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   LNLog(@"Load player city response received with status %d.", proto.status);
   
   GameState *gs = [GameState sharedGameState];
+  
+  [[GameViewController sharedGameViewController] loadPlayerCityComplete];
   
   if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusSuccess) {
     [gs.myStructs removeAllObjects];

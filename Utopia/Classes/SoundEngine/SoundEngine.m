@@ -81,6 +81,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   _curChargeUp = [[SimpleAudioEngine sharedEngine] playEffect:@"Warrior_Combo.m4a"];
 }
 
+- (void) warriorTaskSound {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Swords_Task.m4a"];
+}
+
+- (void) archerTaskSound {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Archer_Task.m4a"];
+}
+
+- (void) mageTaskSound {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Panda_Punch.m4a"];
+}
+
+- (void) genericTaskSound {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"hand_shake.m4a"];
+}
+
 - (void) stopCharge {
   [[SimpleAudioEngine sharedEngine] stopEffect:_curChargeUp];
 }
@@ -194,6 +210,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 
 - (void) vaultLeave {
   [[SimpleAudioEngine sharedEngine] playEffect:@"Vault_Leave.m4a"];
+}
+
+- (void) carpenterEnter {
+  int rand = arc4random() % 3;
+  NSString *file = nil;
+  if (rand == 0) {
+    file = @"Carpenter_Enter.m4a";
+  } else if (rand == 1) {
+    file = @"Carpenter_Enter2.m4a";
+  } else {
+    file = @"Carpenter_Enter3.m4a";
+  }
+  [[SimpleAudioEngine sharedEngine] playEffect:file];
+}
+
+- (void) carpenterComplete {
+  NSString *file = arc4random() % 2 == 0 ? @"Carpenter_Complete.m4a" : @"Carpenter_Complete2.m4a";
+  [[SimpleAudioEngine sharedEngine] playEffect:file];
+}
+
+- (void) carpenterPurchase {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"Carpenter_Purchase.m4a"];
 }
 
 - (void) notificationAlert {

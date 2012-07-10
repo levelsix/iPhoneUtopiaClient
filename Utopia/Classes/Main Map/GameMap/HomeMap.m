@@ -18,6 +18,7 @@
 #import "CritStructPopupController.h"
 #import "BuildUpgradePopupController.h"
 #import "GenericPopupController.h"
+#import "SoundEngine.h"
 
 #define HOME_BUILDING_TAG_OFFSET 123456
 
@@ -182,7 +183,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 
 - (void) invalidateAllTimers {
   // Invalidate all timers
-  NSLog(@"ending timers");
   [_timers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     NSTimer *t = (NSTimer *)obj;
     [t invalidate];
@@ -199,7 +199,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) beginTimers {
-  NSLog(@"beginning timers");
   for (CCNode *node in children_) {
     if ([node isKindOfClass:[MoneyBuilding class]]) {
       [self updateTimersForBuilding:(MoneyBuilding *)node];
@@ -615,6 +614,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           _constrBuilding = moneyBuilding;
           [self updateTimersForBuilding:_constrBuilding];
           moneyBuilding.isConstructing = YES;
+          
+          [[SoundEngine sharedSoundEngine] carpenterPurchase];
         } else {
           [moneyBuilding liftBlock];
           [self removeChild:moneyBuilding cleanup:YES];
@@ -739,6 +740,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu displayForUserStruct:us];
         [self closeMenus];
+        
+        [[SoundEngine sharedSoundEngine] carpenterPurchase];
       }
     } else {
       if (cost > gs.gold) {
@@ -751,6 +754,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu displayForUserStruct:us];
         [self closeMenus];
+        
+        [[SoundEngine sharedSoundEngine] carpenterPurchase];
       }
     }
   } else {

@@ -15,6 +15,7 @@
 #import "HomeMap.h"
 #import "OutgoingEventController.h"
 #import "RefillMenuController.h"
+#import "SoundEngine.h"
 
 #define ROW_HEIGHT 215
 
@@ -353,6 +354,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
   [coinBar updateLabels];
   
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [[SoundEngine sharedSoundEngine] carpenterEnter];
 }
 
 - (void) reloadCarpenterStructs {

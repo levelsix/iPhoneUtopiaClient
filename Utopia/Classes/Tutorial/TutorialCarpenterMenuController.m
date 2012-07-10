@@ -12,6 +12,7 @@
 #import "TutorialConstants.h"
 #import "DialogMenuController.h"
 #import "HomeMap.h"
+#import "SoundEngine.h"
 
 @implementation TutorialCarpenterMenuController
 
@@ -41,6 +42,8 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [[SoundEngine sharedSoundEngine] carpenterEnter];
 }
 
 - (void) beforePurchaseDialog {

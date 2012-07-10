@@ -664,7 +664,7 @@
   [[OutgoingEventController sharedOutgoingEventController] redeemQuest:quest.questId];
   [[QuestLogController sharedQuestLogController] close];
   
-  [[SoundEngine sharedSoundEngine] questComplete];
+  [[SoundEngine sharedSoundEngine] coinDrop];
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -881,6 +881,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   GameState *gs = [GameState sharedGameState];
   questGiverImageView.image = [Globals userTypeIsGood:gs.type] ? [Globals imageNamed:@"bigruby.png"] : [Globals imageNamed:@"bigadriana.png"];
+  
+  [[SoundEngine sharedSoundEngine] questComplete];
 }
 
 - (void) loadQuestRedeemScreen:(FullQuestProto *)fqp {
@@ -895,6 +897,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
   [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  
+  [[SoundEngine sharedSoundEngine] questLogOpened];
 }
 
 - (void) questSelected:(FullQuestProto *)fqp {

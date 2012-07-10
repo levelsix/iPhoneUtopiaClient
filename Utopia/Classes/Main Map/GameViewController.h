@@ -30,6 +30,9 @@
 
 @property (assign) BOOL canLoad;
 
+- (void) connectedToHost;
+- (void) startupComplete;
+- (void) loadPlayerCityComplete;
 - (void) startDoorAnimation;
 - (void) setupCocos2D;
 - (void) allowOpeningOfDoor;

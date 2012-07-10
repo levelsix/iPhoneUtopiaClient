@@ -10,14 +10,13 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TapjoyDelegate.h"
 #import "AdColonyDelegate.h"
-#import "FlurryClipsDelegate.h"
 #import "FacebookDelegate.h"
 #import "KiipDelegate.h"
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
   id<TJCVideoAdDelegate>     tapJoyDelegate;
   id<AdColonyDelegate>       adColonyDelegate;
-  id<FlurryAdDelegate>       flurryClipsDelegate;
+//  id<FlurryAdDelegate>       flurryClipsDelegate;
   id<FacebookGlobalDelegate> facebookDelegate;
   id<KPManagerDelegate>      kiipDelegate;
 	UIWindow			*window;

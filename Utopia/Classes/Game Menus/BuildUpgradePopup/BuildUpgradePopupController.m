@@ -10,6 +10,7 @@
 #import "UserData.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "SoundEngine.h"
 
 @implementation BuildUpgradePopupController
 
@@ -46,6 +47,8 @@
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  
+  [[SoundEngine sharedSoundEngine] carpenterComplete];
 }
 
 - (IBAction)okayClicked:(id)sender {
