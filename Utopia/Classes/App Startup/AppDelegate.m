@@ -30,6 +30,9 @@
 #define APSALAR_SECRET       @"K7kbMwwF"
 
 #define SHOULD_VIDEO_USER    0
+
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+
 @implementation AppDelegate
 
 @synthesize window;
@@ -178,6 +181,11 @@
   
   [[SocketCommunication sharedSocketCommunication] initNetworkCommunication];
   
+  
+  // Cocoa Lumberjack (logging framework)
+  [DDLog addLogger:[DDASLLogger sharedInstance]];
+  [DDLog addLogger:[DDTTYLogger sharedInstance]];
+
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
   

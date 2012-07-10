@@ -124,6 +124,14 @@
 		459A9137157D3E62004B7014 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 459A9122157D3E62004B7014 /* README.md */; };
 		459A9138157D3E62004B7014 /* libKiip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 459A9124157D3E62004B7014 /* libKiip.a */; };
 		459A913B157D52A6004B7014 /* KiipDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 459A913A157D52A6004B7014 /* KiipDelegate.m */; };
+		45C3271D15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3270E15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		45C3271E15ABF7B2009F3C60 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3271015ABF7B2009F3C60 /* DDASLLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		45C3271F15ABF7B2009F3C60 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3271215ABF7B2009F3C60 /* DDFileLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		45C3272015ABF7B2009F3C60 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3271415ABF7B2009F3C60 /* DDLog.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		45C3272115ABF7B2009F3C60 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3271615ABF7B2009F3C60 /* DDTTYLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		45C3272215ABF7B2009F3C60 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3271915ABF7B2009F3C60 /* ContextFilterLogFormatter.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		45C3272315ABF7B2009F3C60 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C3271B15ABF7B2009F3C60 /* DispatchQueueLogFormatter.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		45C3272415ABF7B2009F3C60 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45C3271C15ABF7B2009F3C60 /* README.txt */; };
 		45C53D81158FBF83000997C5 /* UserBattleStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C53D80158FBF83000997C5 /* UserBattleStats.m */; };
 		45C9A3F1156EEEB300493FDC /* FlurryClipsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C9A3F0156EEEB300493FDC /* FlurryClipsDelegate.m */; };
 		45C9A3FB156F0BE000493FDC /* libFlurryUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C9A3FA156F0BE000493FDC /* libFlurryUniversal.a */; };
@@ -1538,7 +1546,7 @@
 		457EBD8115647A38008C097F /* libAlaume-iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphoneos.a"; sourceTree = "<group>"; };
 		45856A31156DB3670005907E /* TJCAdDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCAdDelegateProtocol.h; sourceTree = "<group>"; };
 		45856A32156DB3670005907E /* TJCAdRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCAdRequestHandler.h; sourceTree = "<group>"; };
-		45856A33156DB3670005907E /* TJCAdRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCAdRequestHandler.m; sourceTree = "<group>"; };
+		45856A33156DB3670005907E /* TJCAdRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TJCAdRequestHandler.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		45856A34156DB3670005907E /* TJCAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCAdView.h; sourceTree = "<group>"; };
 		45856A35156DB3670005907E /* TJCAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCAdView.m; sourceTree = "<group>"; };
 		45856A37156DB3670005907E /* TJCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCConstants.h; sourceTree = "<group>"; };
@@ -1566,9 +1574,9 @@
 		45856A4F156DB3670005907E /* TJCViewCommons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCViewCommons.h; sourceTree = "<group>"; };
 		45856A50156DB3670005907E /* TJCViewCommons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCViewCommons.m; sourceTree = "<group>"; };
 		45856A52156DB3670005907E /* TJCCoreFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCCoreFetcher.h; sourceTree = "<group>"; };
-		45856A53156DB3670005907E /* TJCCoreFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCCoreFetcher.m; sourceTree = "<group>"; };
+		45856A53156DB3670005907E /* TJCCoreFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TJCCoreFetcher.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		45856A54156DB3670005907E /* TJCCoreFetcherHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCCoreFetcherHandler.h; sourceTree = "<group>"; };
-		45856A55156DB3670005907E /* TJCCoreFetcherHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCCoreFetcherHandler.m; sourceTree = "<group>"; };
+		45856A55156DB3670005907E /* TJCCoreFetcherHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TJCCoreFetcherHandler.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		45856A56156DB3670005907E /* TJCFetchResponseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCFetchResponseProtocol.h; sourceTree = "<group>"; };
 		45856A58156DB3670005907E /* TJCOpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCOpenUDID.h; sourceTree = "<group>"; };
 		45856A59156DB3670005907E /* TJCOpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCOpenUDID.m; sourceTree = "<group>"; };
@@ -1579,9 +1587,9 @@
 		45856A5F156DB3670005907E /* TJCFeaturedAppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCFeaturedAppModel.h; sourceTree = "<group>"; };
 		45856A60156DB3670005907E /* TJCFeaturedAppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCFeaturedAppModel.m; sourceTree = "<group>"; };
 		45856A61156DB3670005907E /* TJCFeaturedAppRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCFeaturedAppRequestHandler.h; sourceTree = "<group>"; };
-		45856A62156DB3670005907E /* TJCFeaturedAppRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCFeaturedAppRequestHandler.m; sourceTree = "<group>"; };
+		45856A62156DB3670005907E /* TJCFeaturedAppRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TJCFeaturedAppRequestHandler.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		45856A63156DB3670005907E /* TJCFeaturedAppView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCFeaturedAppView.h; sourceTree = "<group>"; };
-		45856A64156DB3670005907E /* TJCFeaturedAppView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCFeaturedAppView.m; sourceTree = "<group>"; };
+		45856A64156DB3670005907E /* TJCFeaturedAppView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TJCFeaturedAppView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		45856A65156DB3670005907E /* TJCFeaturedAppViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCFeaturedAppViewHandler.h; sourceTree = "<group>"; };
 		45856A66156DB3670005907E /* TJCFeaturedAppViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCFeaturedAppViewHandler.m; sourceTree = "<group>"; };
 		45856A68156DB3670005907E /* TJCOffersViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCOffersViewHandler.h; sourceTree = "<group>"; };
@@ -1609,7 +1617,7 @@
 		45856A80156DB3670005907E /* TJCVideoViewHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCVideoViewHandler.h; sourceTree = "<group>"; };
 		45856A81156DB3670005907E /* TJCVideoViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TJCVideoViewHandler.m; sourceTree = "<group>"; };
 		45856A82156DB3670005907E /* TapjoyConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapjoyConnect.h; sourceTree = "<group>"; };
-		45856A83156DB3670005907E /* TapjoyConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapjoyConnect.m; sourceTree = "<group>"; };
+		45856A83156DB3670005907E /* TapjoyConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TapjoyConnect.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		45856A84156DB3670005907E /* TapjoyConnectConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapjoyConnectConstants.h; sourceTree = "<group>"; };
 		45856A85156DB3670005907E /* TJCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCConfig.h; sourceTree = "<group>"; };
 		45856AC2156DCA660005907E /* TapJoyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoyDelegate.h; sourceTree = "<group>"; };
@@ -1641,6 +1649,21 @@
 		459A9139157D52A6004B7014 /* KiipDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KiipDelegate.h; sourceTree = "<group>"; };
 		459A913A157D52A6004B7014 /* KiipDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KiipDelegate.m; sourceTree = "<group>"; };
 		45B4CED01580176200B4D43D /* libAlaume-iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libAlaume-iphonesimulator.a"; sourceTree = "<group>"; };
+		45C3270D15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
+		45C3270E15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
+		45C3270F15ABF7B2009F3C60 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		45C3271015ABF7B2009F3C60 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		45C3271115ABF7B2009F3C60 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		45C3271215ABF7B2009F3C60 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		45C3271315ABF7B2009F3C60 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		45C3271415ABF7B2009F3C60 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		45C3271515ABF7B2009F3C60 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		45C3271615ABF7B2009F3C60 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
+		45C3271815ABF7B2009F3C60 /* ContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextFilterLogFormatter.h; sourceTree = "<group>"; };
+		45C3271915ABF7B2009F3C60 /* ContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextFilterLogFormatter.m; sourceTree = "<group>"; };
+		45C3271A15ABF7B2009F3C60 /* DispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchQueueLogFormatter.h; sourceTree = "<group>"; };
+		45C3271B15ABF7B2009F3C60 /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
+		45C3271C15ABF7B2009F3C60 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		45C53D7F158FBF83000997C5 /* UserBattleStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserBattleStats.h; sourceTree = "<group>"; };
 		45C53D80158FBF83000997C5 /* UserBattleStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserBattleStats.m; sourceTree = "<group>"; };
 		45C9A3EF156EEEB300493FDC /* FlurryClipsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryClipsDelegate.h; sourceTree = "<group>"; };
@@ -3696,6 +3719,36 @@
 			path = universal;
 			sourceTree = "<group>";
 		};
+		45C3270C15ABF7B2009F3C60 /* Lumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				45C3270D15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.h */,
+				45C3270E15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.m */,
+				45C3270F15ABF7B2009F3C60 /* DDASLLogger.h */,
+				45C3271015ABF7B2009F3C60 /* DDASLLogger.m */,
+				45C3271115ABF7B2009F3C60 /* DDFileLogger.h */,
+				45C3271215ABF7B2009F3C60 /* DDFileLogger.m */,
+				45C3271315ABF7B2009F3C60 /* DDLog.h */,
+				45C3271415ABF7B2009F3C60 /* DDLog.m */,
+				45C3271515ABF7B2009F3C60 /* DDTTYLogger.h */,
+				45C3271615ABF7B2009F3C60 /* DDTTYLogger.m */,
+				45C3271715ABF7B2009F3C60 /* Extensions */,
+			);
+			path = Lumberjack;
+			sourceTree = "<group>";
+		};
+		45C3271715ABF7B2009F3C60 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				45C3271815ABF7B2009F3C60 /* ContextFilterLogFormatter.h */,
+				45C3271915ABF7B2009F3C60 /* ContextFilterLogFormatter.m */,
+				45C3271A15ABF7B2009F3C60 /* DispatchQueueLogFormatter.h */,
+				45C3271B15ABF7B2009F3C60 /* DispatchQueueLogFormatter.m */,
+				45C3271C15ABF7B2009F3C60 /* README.txt */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		45C9A3F2156F0BE000493FDC /* FlurryUniversal */ = {
 			isa = PBXGroup;
 			children = (
@@ -4243,6 +4296,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				45C3270C15ABF7B2009F3C60 /* Lumberjack */,
 				CF41D192158BFAE900A4DBC3 /* OpenUDID */,
 				45D21E3F158037F500BB4D53 /* oauth */,
 				459A90FB157D3E62004B7014 /* Kiip */,
@@ -7470,6 +7524,7 @@
 				CF92643915AB88C60062B3CD /* dailybonusbg@2x.png in Resources */,
 				CF13766C15ABB61400D2D2B1 /* level_up_pop_ups.m4a in Resources */,
 				CF13766D15ABB61900D2D2B1 /* questavail_notif.m4a in Resources */,
+				45C3272415ABF7B2009F3C60 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7741,6 +7796,13 @@
 				CFEB284715951ADC00B622FC /* FullEvent.m in Sources */,
 				CFEB285B1599407900B622FC /* MyPlayer.m in Sources */,
 				CF92643315AB87970062B3CD /* DailyBonusMenuController.m in Sources */,
+				45C3271D15ABF7B2009F3C60 /* DDAbstractDatabaseLogger.m in Sources */,
+				45C3271E15ABF7B2009F3C60 /* DDASLLogger.m in Sources */,
+				45C3271F15ABF7B2009F3C60 /* DDFileLogger.m in Sources */,
+				45C3272015ABF7B2009F3C60 /* DDLog.m in Sources */,
+				45C3272115ABF7B2009F3C60 /* DDTTYLogger.m in Sources */,
+				45C3272215ABF7B2009F3C60 /* ContextFilterLogFormatter.m in Sources */,
+				45C3272315ABF7B2009F3C60 /* DispatchQueueLogFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
