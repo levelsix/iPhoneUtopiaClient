@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "HomeMap.h"
+#import "SoundEngine.h"
 
 @implementation HomeBuildingMenu
 
@@ -221,6 +222,8 @@
     progressBar.percentage = 1.f;
   } completion:^(BOOL finished) {
     self.mainView.userInteractionEnabled = YES;
+    
+    [[SoundEngine sharedSoundEngine] carpenterComplete];
     
     Globals *gl = [Globals sharedGlobals];
     if (userStruct.level < gl.maxLevelForStruct) {

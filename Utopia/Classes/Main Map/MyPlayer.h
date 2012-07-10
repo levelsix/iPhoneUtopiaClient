@@ -24,6 +24,8 @@
   CGPoint _oldMapPosition;
   
   BOOL _shouldContinueAnimation;
+  
+  SEL _soundSelector;
 }
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;
@@ -37,8 +39,8 @@
 
 @property (nonatomic, retain) CCSprite *sprite;
 
-- (void)stopWalking;
-- (void)stopPerformingAnimation;
+- (void) stopWalking;
+- (void) stopPerformingAnimation;
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map;
 - (void) performAnimation:(AnimationType)type atLocation:(CGPoint)point inDirection:(float)angle;
 - (void) moveToLocation:(CGRect)loc;

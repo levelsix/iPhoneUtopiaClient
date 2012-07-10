@@ -15,6 +15,7 @@
 #import "Apsalar.h"
 #import "ClientProperties.h"
 #import "FullEvent.h"
+#import "GameViewController.h"
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
@@ -85,6 +86,7 @@ static NSString *udid = nil;
   
   if (![[GameState sharedGameState] connected]) {
     [[OutgoingEventController sharedOutgoingEventController] startup];
+    [[GameViewController sharedGameViewController] connectedToHost];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] reconnect];
   }

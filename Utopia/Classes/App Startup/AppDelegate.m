@@ -18,7 +18,6 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 #import "Apsalar.h"
-#import "FlurryAnalytics.h"
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
 
@@ -80,9 +79,9 @@
 
 -(void) setUpFlurryAnalytics 
 {
-  [FlurryAnalytics startSession:FLURRY_API_KEY];
-  [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
-                              [GameState sharedGameState].userId]];
+//  [FlurryAnalytics startSession:FLURRY_API_KEY];
+//  [FlurryAnalytics setUserID:[NSString stringWithFormat:@"%d", 
+//                              [GameState sharedGameState].userId]];
 }
 
 -(void) setUpCrashAlytics 
@@ -383,7 +382,7 @@
 	[[CCDirector sharedDirector] end];
   [tapJoyDelegate      release];
   [adColonyDelegate    release];
-  [flurryClipsDelegate release];
+//  [flurryClipsDelegate release];
   [facebookDelegate    release];
   [kiipDelegate        release];
 	[window release];

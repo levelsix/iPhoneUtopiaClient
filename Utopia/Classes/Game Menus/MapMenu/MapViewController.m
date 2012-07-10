@@ -18,7 +18,6 @@
 #import "ArmoryViewController.h"
 #import "CarpenterMenuController.h"
 #import "MarketplaceViewController.h"
-#import "FlurryAnalytics.h"
 
 #define THRESHOLD_ENEMIES_IN_BOUNDS 10
 
@@ -306,10 +305,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   [[OutgoingEventController sharedOutgoingEventController] changeUserLocationWithCoordinate:userLocation.location.coordinate];
 
   // We must send the user's location to FlurryAnalytics
-  [FlurryAnalytics setLatitude:userLocation.location.coordinate.latitude 
-                     longitude:userLocation.location.coordinate.longitude 
-            horizontalAccuracy:userLocation.location.horizontalAccuracy
-              verticalAccuracy:userLocation.location.verticalAccuracy];
+//  [FlurryAnalytics setLatitude:userLocation.location.coordinate.latitude 
+//                     longitude:userLocation.location.coordinate.longitude 
+//            horizontalAccuracy:userLocation.location.horizontalAccuracy
+//              verticalAccuracy:userLocation.location.verticalAccuracy];
 }
 
 - (void) close {

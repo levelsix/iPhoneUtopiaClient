@@ -224,9 +224,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   splash.position = ccp(layer.contentSize.width/2, layer.contentSize.height/2);
   splash.rotation = 90;
   
+  loadingLabel = [CCSprite spriteWithFile:@"loadingdoors.png"];//[CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:15.f];
+  loadingLabel.visible = NO;
+  loadingLabel.anchorPoint = ccp(0,0);
+  loadingLabel.position = ccp(10, 10);
+  loadingLabel.color = ccc3(255, 200, 0);
+  [doorleft addChild:loadingLabel];
+  
+//  loadingLabel.string = @"Getting ready to fight...";
+  
   if (needsToRunScene) {
     [[CCDirector sharedDirector] runWithScene:scene];
   }
+}
+
+- (void) connectedToHost {
+//  loadingLabel.string = @"Shining armor, so bright...";
+}
+
+- (void) startupComplete {
+//  loadingLabel.string = @"A little gel in the hair...";
+}
+
+- (void) loadPlayerCityComplete {
+//  loadingLabel.string = @"We're ready for warfare...";
 }
 
 - (void) removeSplashImageView {
@@ -263,13 +284,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 }
 
 - (void) doorClosed {
-  loadingLabel = [CCSprite spriteWithFile:@"loadingdoors.png"];
-  [doorleft addChild:loadingLabel];
-  loadingLabel.anchorPoint = ccp(0,0);
-  loadingLabel.position = ccp(10, 10);
+  loadingLabel.visible = YES;
   [loadingLabel runAction:[CCRepeatForever actionWithAction:
                            [CCSequence actions:
-                            [CCFadeTo actionWithDuration:1.5f opacity:0],
+                            [CCFadeTo actionWithDuration:1.5f opacity:192],
                             [CCFadeTo actionWithDuration:1.5f opacity:255], nil]]];
   
   [splash removeFromParentAndCleanup:YES];

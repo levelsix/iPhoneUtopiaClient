@@ -46,6 +46,11 @@ typedef enum {
 - (void) battleVictory;
 - (void) battleLoss;
 
+- (void) warriorTaskSound;
+- (void) archerTaskSound;
+- (void) mageTaskSound;
+- (void) genericTaskSound;
+
 - (void) coinDrop;
 - (void) coinPickup;
 - (void) shinyItem;
@@ -72,6 +77,10 @@ typedef enum {
 - (void) vaultDeposit;
 - (void) vaultEnter;
 - (void) vaultLeave;
+
+- (void) carpenterEnter;
+- (void) carpenterComplete;
+- (void) carpenterPurchase;
 
 - (void) notificationAlert;
 

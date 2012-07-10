@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FlurryAdDelegate.h"
 
 @interface FlurryClipsDelegate : NSObject <FlurryAdDelegate>
 +(id<FlurryAdDelegate>) createFlurryClipsDelegate;

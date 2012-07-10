@@ -9,6 +9,7 @@
 #import "MyPlayer.h"
 #import "GameState.h"
 #import "Globals.h"
+#import "SoundEngine.h"
 
 @implementation MyPlayer
 
@@ -182,6 +183,31 @@
   self.agAnimation = [CCAnimation animationWithFrames:agArray delay:ANIMATATION_DELAY];
   _shouldContinueAnimation = YES;
   
+  // Play the appropriate sound
+  if (type == AnimationTypeGenericAction) {
+    _soundSelector = @selector(genericTaskSound);
+  } else if (type == AnimationTypeAttack) {
+    switch (gs.type) {
+      case UserTypeBadArcher:
+      case UserTypeGoodArcher:
+        _soundSelector = @selector(archerTaskSound);
+        break;
+        
+      case UserTypeBadMage:
+      case UserTypeGoodMage:
+        _soundSelector = @selector(mageTaskSound);
+        break;
+        
+      case UserTypeBadWarrior:
+      case UserTypeGoodWarrior:
+        _soundSelector = @selector(warriorTaskSound);
+        break;
+        
+      default:
+        break;
+    }
+  }
+  
   [self repeatCurrentAttackAnimation]; 
   
   CGRect r = self.location;
@@ -196,6 +222,8 @@
     agAction.tag = 9999;
     
     [self.sprite runAction:agAction];
+    
+    [[SoundEngine sharedSoundEngine] performSelector:_soundSelector];
   } else {
     GameState *gs = [GameState sharedGameState];
     NSString *prefix = [Globals animatedSpritePrefix:gs.type];
