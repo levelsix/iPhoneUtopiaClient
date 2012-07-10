@@ -166,7 +166,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [self unloadCurrentMissionMap];
   [_homeMap refresh];
-  [_homeMap beginTimers];
+  
+  if (_topBar.isStarted) {
+    [_homeMap beginTimers];
+  }
+  
   _homeMap.visible = YES;
   currentCity = 0;
   [self closeBazaarMap];
@@ -212,8 +216,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   if (!_bazaarMap.parent) {
     [_homeMap setSelected:nil];
     [self unloadCurrentMissionMap];
+    
     currentCity = 0;
     _homeMap.visible = NO;
+    [_homeMap invalidateAllTimers];
+    
     [self addChild:_bazaarMap z:1];
     [_topBar loadBazaarConfiguration];
     

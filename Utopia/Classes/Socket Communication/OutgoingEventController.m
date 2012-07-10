@@ -259,6 +259,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     if ([ArmoryViewController sharedArmoryViewController].view.superview) {
       [[ArmoryViewController sharedArmoryViewController] refresh];
     }
+    
+    if ([MarketplaceViewController sharedMarketplaceViewController].view.superview) {
+      [[MarketplaceViewController sharedMarketplaceViewController].bottomBar updateLabels];
+    }
   } else {
     [Globals popupMessage:@"You do not own this equip"];
     return NO;
@@ -1020,20 +1024,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   for (FullUserProto *fup in gs.attackList) {
-    NSNumber *w = [NSNumber numberWithInt:fup.weaponEquipped];
-    if (fup.weaponEquipped && ![sEquips objectForKey:w]) {
+    int eq = fup.weaponEquippedUserEquip.equipId;
+    NSNumber *w = [NSNumber numberWithInt:eq];
+    if (eq && ![sEquips objectForKey:w]) {
       [rEquips addObject:w];
       shouldSend = YES;
     }
     
-    NSNumber *ar = [NSNumber numberWithInt:fup.armorEquipped];
-    if (fup.armorEquipped && ![sEquips objectForKey:ar]) {
+    eq = fup.weaponEquippedUserEquip.equipId;
+    NSNumber *ar = [NSNumber numberWithInt:eq];
+    if (eq && ![sEquips objectForKey:ar]) {
       [rEquips addObject:ar];
       shouldSend = YES;
     }
     
-    NSNumber *am = [NSNumber numberWithInt:fup.amuletEquipped];
-    if (fup.amuletEquipped && ![sEquips objectForKey:am]) {
+    eq = fup.weaponEquippedUserEquip.equipId;
+    NSNumber *am = [NSNumber numberWithInt:eq];
+    if (eq && ![sEquips objectForKey:am]) {
       [rEquips addObject:am];
       shouldSend = YES;
     }
@@ -1074,9 +1081,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) retrieveStaticEquipsForUser:(FullUserProto *)fup {
-  [self retrieveStaticEquip:fup.weaponEquipped];
-  [self retrieveStaticEquip:fup.armorEquipped];
-  [self retrieveStaticEquip:fup.amuletEquipped];
+  [self retrieveStaticEquip:fup.weaponEquippedUserEquip.equipId];
+  [self retrieveStaticEquip:fup.armorEquippedUserEquip.equipId];
+  [self retrieveStaticEquip:fup.amuletEquippedUserEquip.equipId];
 }
 
 - (void) retrieveStructStore {

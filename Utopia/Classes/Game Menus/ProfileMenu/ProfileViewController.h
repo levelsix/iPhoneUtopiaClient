@@ -50,7 +50,7 @@ typedef enum {
 
 @property (nonatomic, retain) UIView *darkOverlay;
 
-@property (nonatomic, retain) FullUserEquipProto *equip;
+@property (nonatomic, retain) UserEquip *equip;
 
 - (void) updateForEquip:(FullUserEquipProto *)fuep;
 

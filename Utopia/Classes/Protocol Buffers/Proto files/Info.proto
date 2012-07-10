@@ -85,9 +85,9 @@ message FullUserProto {
 	optional LocationProto userLocation = 30;
 	optional int32 numPostsInMarketplace = 31;
 	optional int32 numMarketplaceSalesUnredeemed = 32;
-	optional int32 weaponEquipped = 33;
-	optional int32 armorEquipped = 34;
-	optional int32 amuletEquipped = 35;
+	optional FullUserEquipProto weaponEquippedUserEquip = 33;
+	optional FullUserEquipProto armorEquippedUserEquip = 34;
+	optional FullUserEquipProto amuletEquippedUserEquip = 35;
 	optional int64 lastLoginTime = 36;
 	optional int64 lastLogoutTime = 37;
 	optional int64 lastShortLicensePurchaseTime = 43;
@@ -166,9 +166,9 @@ message FullUserStructureProto {
 //------------------------------------------------------------------------------------------
 
 message FullUserEquipProto {
-	optional int32 userId = 1;
-	optional int32 equipId = 2;
-	optional int32 quantity = 3;
+	optional int32 userEquipId = 1;
+	optional int32 userId = 2;
+	optional int32 equipId = 3;
 }
 
 //------------------------------------------------------------------------------------------

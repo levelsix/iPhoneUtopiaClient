@@ -36,6 +36,8 @@
 + (void) removeView;
 + (void) purgeSingleton;
 
+- (void) close;
+
 - (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto;
 
 @end

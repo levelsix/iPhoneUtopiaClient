@@ -1143,9 +1143,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
   for (FullUserProto *fup in proto.requestedUsersList) {
-    [oec retrieveStaticEquip:fup.weaponEquipped];
-    [oec retrieveStaticEquip:fup.armorEquipped];
-    [oec retrieveStaticEquip:fup.amuletEquipped];
+    [oec retrieveStaticEquipsForUser:fup];
   }
   
   [[ActivityFeedController sharedActivityFeedController] receivedUsers:proto];

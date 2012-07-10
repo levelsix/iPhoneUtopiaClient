@@ -29,9 +29,9 @@
 {  
   if (_userProto) {
     return [_globals calculateAttackForStat:_userProto.attack
-                                     weapon:_userProto.weaponEquipped
-                                      armor:_userProto.armorEquipped
-                                     amulet:_userProto.amuletEquipped];
+                                     weapon:_userProto.weaponEquippedUserEquip.equipId
+                                      armor:_userProto.armorEquippedUserEquip.equipId
+                                     amulet:_userProto.amuletEquippedUserEquip.equipId];
   }
   
   return [_globals calculateAttackForStat:_gameState.attack
@@ -44,9 +44,9 @@
 {
   if (_userProto) {
     return [_globals calculateDefenseForStat:_userProto.defense
-                                                 weapon:_userProto.weaponEquipped
-                                                  armor:_userProto.armorEquipped
-                                                 amulet:_userProto.amuletEquipped];
+                                                 weapon:_userProto.weaponEquippedUserEquip.equipId
+                                                  armor:_userProto.armorEquippedUserEquip.equipId
+                                                 amulet:_userProto.amuletEquippedUserEquip.equipId];
   }
 
   return [_globals calculateDefenseForStat:_gameState.defense

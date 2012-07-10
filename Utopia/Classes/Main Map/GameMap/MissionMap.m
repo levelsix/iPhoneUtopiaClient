@@ -430,29 +430,30 @@
   _receivedTaskActionResponse = YES;
   
   if (!_taskProgBar.isAnimating) {
-    _taskProgBar.visible = NO;
-    self.selected = nil;
-    _performingTask = NO;
-    [_myPlayer stopPerformingAnimation];
+    [self taskComplete];
   }
 }
 
 - (void) taskBarAnimDone {
   if (_receivedTaskActionResponse) {
-    _taskProgBar.visible = NO;
-    
-    id<TaskElement> te = (id<TaskElement>)_selected;
-    FullTaskProto *ftp = te.ftp;
-    if (te.partOfQuest && te.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
-      [te displayCheck];
-    }
-    te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
-    te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
-    self.selected = nil;
-    _performingTask = NO;
-    
-    [_myPlayer stopPerformingAnimation];
+    [self taskComplete];
   }
+}
+
+- (void) taskComplete {
+  _taskProgBar.visible = NO;
+  
+  id<TaskElement> te = (id<TaskElement>)_selected;
+  FullTaskProto *ftp = te.ftp;
+  if (te.partOfQuest && te.numTimesActedForQuest == ftp.numRequiredForCompletion-1) {
+    [te displayCheck];
+  }
+  te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
+  te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
+  self.selected = nil;
+  _performingTask = NO;
+  
+  [_myPlayer stopPerformingAnimation];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {

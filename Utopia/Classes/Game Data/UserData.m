@@ -24,7 +24,7 @@
   if ((self = [super init])){
     self.userId = proto.userId;
     self.equipId = proto.equipId;
-    self.quantity = proto.quantity;
+    self.quantity = 1;
   }
   return self;
 }

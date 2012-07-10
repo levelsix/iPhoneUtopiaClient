@@ -514,6 +514,7 @@ typedef enum {
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusPostNoLongerExists = 2,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughDiamonds = 3,
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatusNotEnoughCoins = 4,
+  RetractMarketplacePostResponseProto_RetractMarketplacePostStatusOtherFail = 5,
 } RetractMarketplacePostResponseProto_RetractMarketplacePostStatus;
 
 BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValue(RetractMarketplacePostResponseProto_RetractMarketplacePostStatus value);
@@ -1759,6 +1760,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
+  BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
   BOOL hasArmoryYlength_:1;
   BOOL hasVaultXlength_:1;
@@ -1809,6 +1811,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   int32_t maxCharLengthForWallPost;
   int32_t playerWallPostsRetrieveCap;
   int32_t maxLevelDifferenceForBattle;
+  int32_t maxLevelForUser;
   int32_t armoryXlength;
   int32_t armoryYlength;
   int32_t vaultXlength;
@@ -1838,6 +1841,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
 }
 - (BOOL) hasMaxLevelDifferenceForBattle;
+- (BOOL) hasMaxLevelForUser;
 - (BOOL) hasArmoryXlength;
 - (BOOL) hasArmoryYlength;
 - (BOOL) hasVaultXlength;
@@ -1888,6 +1892,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasPlayerWallPostsRetrieveCap;
 - (BOOL) hasKiipRewardConditions;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
+@property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
 @property (readonly) int32_t armoryYlength;
 @property (readonly) int32_t vaultXlength;
@@ -2354,6 +2359,11 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (int32_t) maxLevelDifferenceForBattle;
 - (StartupResponseProto_StartupConstants_Builder*) setMaxLevelDifferenceForBattle:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelDifferenceForBattle;
+
+- (BOOL) hasMaxLevelForUser;
+- (int32_t) maxLevelForUser;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxLevelForUser:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxLevelForUser;
 
 - (BOOL) hasArmoryXlength;
 - (int32_t) armoryXlength;
