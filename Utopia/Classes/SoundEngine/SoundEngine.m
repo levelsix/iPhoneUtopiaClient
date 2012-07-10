@@ -137,6 +137,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [[SimpleAudioEngine sharedEngine] playEffect:@"levelup.m4a"];
 }
 
+- (void) levelUpPopUp {
+  [[SimpleAudioEngine sharedEngine] playEffect:@"level_up_pop_ups.m4a"];
+}
+
 - (void) questComplete {
   [[SimpleAudioEngine sharedEngine] playEffect:@"QuestCompleted.m4a"];
 }

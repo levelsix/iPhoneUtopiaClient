@@ -54,6 +54,7 @@ typedef enum {
 - (void) openDoor;
 
 - (void) levelUp;
+- (void) levelUpPopUp;
 
 - (void) questComplete;
 - (void) questAccepted;

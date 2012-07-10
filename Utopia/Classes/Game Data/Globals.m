@@ -62,6 +62,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize battleGoodMultiplier, battleGreatMultiplier;
 @synthesize battlePerfectMultiplier, battleGoodPercentThreshold, battleGreatPercentThreshold;
 @synthesize battlePerfectPercentThreshold;
+@synthesize perfectLikelihood, greatLikelihood, missLikelihood, goodLikelihood;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -157,6 +158,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.battlePerfectMultiplier = constants.battleConstants.battlePerfectMultiplier;
   self.battleGreatMultiplier = constants.battleConstants.battleGreatMultiplier;
   self.battleGoodMultiplier = constants.battleConstants.battleGoodMultiplier;
+  self.perfectLikelihood = constants.battleConstants.battlePerfectLikelihood;
+  self.greatLikelihood = constants.battleConstants.battleGreatLikelihood;
+  self.goodLikelihood = constants.battleConstants.battleGoodLikelihood;
+  self.missLikelihood = constants.battleConstants.battleMissLikelihood;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   

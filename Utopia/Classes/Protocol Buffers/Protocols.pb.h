@@ -236,6 +236,8 @@
 @class StartupResponseProto_AttackedNotificationProto;
 @class StartupResponseProto_AttackedNotificationProto_Builder;
 @class StartupResponseProto_Builder;
+@class StartupResponseProto_DailyBonusInfo;
+@class StartupResponseProto_DailyBonusInfo_Builder;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto;
 @class StartupResponseProto_MarketplacePostPurchasedNotificationProto_Builder;
 @class StartupResponseProto_ReferralNotificationProto;

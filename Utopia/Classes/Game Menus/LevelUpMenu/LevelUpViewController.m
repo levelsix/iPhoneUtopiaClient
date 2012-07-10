@@ -116,6 +116,8 @@
   [UIView animateWithDuration:0.2f animations:^{
     view.alpha = 1.f;
   }];
+  
+  [[SoundEngine sharedSoundEngine] levelUpPopUp];
 }
 
 - (IBAction)okayClicked:(id)sender {

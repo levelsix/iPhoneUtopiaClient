@@ -80,10 +80,10 @@
   battleConstants.battleWeightGivenToLevel           = 1;
   
   id<EnemyBattleStats> battleStats = [Globals sharedGlobals];
-//  battleStats.perfectLikelihood = 0.25f;
-//  battleStats.greatLikelihood   = 0.5f;
-//  battleStats.goodLikelihood    = 0.15f;
-//  battleStats.missLikelihood    = 0.10f;
+  battleStats.perfectLikelihood = 0.25f;
+  battleStats.greatLikelihood   = 0.5f;
+  battleStats.goodLikelihood    = 0.15f;
+  battleStats.missLikelihood    = 0.10f;
 
   battleConstants.battlePerfectPercentThreshold = PERFECT_PERCENT_THRESHOLD;
   battleConstants.battleGreatPercentThreshold   = GREAT_PERCENT_THRESHOLD;

@@ -2929,6 +2929,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSMutableArray* mutablePlayerWallPostNotificationsList;
 @property (retain) NSString* appStoreUrl;
 @property (retain) NSMutableArray* mutableAlliesList;
+@property (retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 @end
 
 @implementation StartupResponseProto
@@ -3001,6 +3002,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 }
 @synthesize appStoreUrl;
 @synthesize mutableAlliesList;
+- (BOOL) hasDailyBonusInfo {
+  return !!hasDailyBonusInfo_;
+}
+- (void) setHasDailyBonusInfo:(BOOL) value {
+  hasDailyBonusInfo_ = !!value;
+}
+@synthesize dailyBonusInfo;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3018,6 +3026,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutablePlayerWallPostNotificationsList = nil;
   self.appStoreUrl = nil;
   self.mutableAlliesList = nil;
+  self.dailyBonusInfo = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3030,6 +3039,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.experienceRequiredForNextLevel = 0;
     self.experienceRequiredForCurrentLevel = 0;
     self.appStoreUrl = @"";
+    self.dailyBonusInfo = [StartupResponseProto_DailyBonusInfo defaultInstance];
   }
   return self;
 }
@@ -3193,6 +3203,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
     [output writeMessage:20 value:element];
   }
+  if (self.hasDailyBonusInfo) {
+    [output writeMessage:21 value:self.dailyBonusInfo];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3262,6 +3275,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (FullQuestProto* element in self.inProgressCompleteQuestsList) {
     size += computeMessageSize(20, element);
   }
+  if (self.hasDailyBonusInfo) {
+    size += computeMessageSize(21, self.dailyBonusInfo);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -3314,6 +3330,279 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
       return NO;
   }
 }
+@interface StartupResponseProto_DailyBonusInfo ()
+@property int32_t numConsecutiveDaysPlayed;
+@property int32_t silverBonus;
+@property (retain) FullUserEquipProto* userEquipBonus;
+@end
+
+@implementation StartupResponseProto_DailyBonusInfo
+
+- (BOOL) hasNumConsecutiveDaysPlayed {
+  return !!hasNumConsecutiveDaysPlayed_;
+}
+- (void) setHasNumConsecutiveDaysPlayed:(BOOL) value {
+  hasNumConsecutiveDaysPlayed_ = !!value;
+}
+@synthesize numConsecutiveDaysPlayed;
+- (BOOL) hasSilverBonus {
+  return !!hasSilverBonus_;
+}
+- (void) setHasSilverBonus:(BOOL) value {
+  hasSilverBonus_ = !!value;
+}
+@synthesize silverBonus;
+- (BOOL) hasUserEquipBonus {
+  return !!hasUserEquipBonus_;
+}
+- (void) setHasUserEquipBonus:(BOOL) value {
+  hasUserEquipBonus_ = !!value;
+}
+@synthesize userEquipBonus;
+- (void) dealloc {
+  self.userEquipBonus = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.numConsecutiveDaysPlayed = 0;
+    self.silverBonus = 0;
+    self.userEquipBonus = [FullUserEquipProto defaultInstance];
+  }
+  return self;
+}
+static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBonusInfoInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_DailyBonusInfo class]) {
+    defaultStartupResponseProto_DailyBonusInfoInstance = [[StartupResponseProto_DailyBonusInfo alloc] init];
+  }
+}
++ (StartupResponseProto_DailyBonusInfo*) defaultInstance {
+  return defaultStartupResponseProto_DailyBonusInfoInstance;
+}
+- (StartupResponseProto_DailyBonusInfo*) defaultInstance {
+  return defaultStartupResponseProto_DailyBonusInfoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasNumConsecutiveDaysPlayed) {
+    [output writeInt32:1 value:self.numConsecutiveDaysPlayed];
+  }
+  if (self.hasSilverBonus) {
+    [output writeInt32:2 value:self.silverBonus];
+  }
+  if (self.hasUserEquipBonus) {
+    [output writeMessage:3 value:self.userEquipBonus];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasNumConsecutiveDaysPlayed) {
+    size += computeInt32Size(1, self.numConsecutiveDaysPlayed);
+  }
+  if (self.hasSilverBonus) {
+    size += computeInt32Size(2, self.silverBonus);
+  }
+  if (self.hasUserEquipBonus) {
+    size += computeMessageSize(3, self.userEquipBonus);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_DailyBonusInfo*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_DailyBonusInfo*)[[[StartupResponseProto_DailyBonusInfo builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_DailyBonusInfo*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_DailyBonusInfo*)[[[StartupResponseProto_DailyBonusInfo builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_DailyBonusInfo*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_DailyBonusInfo*)[[[StartupResponseProto_DailyBonusInfo builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_DailyBonusInfo*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_DailyBonusInfo*)[[[StartupResponseProto_DailyBonusInfo builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_DailyBonusInfo*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_DailyBonusInfo*)[[[StartupResponseProto_DailyBonusInfo builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_DailyBonusInfo*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_DailyBonusInfo*)[[[StartupResponseProto_DailyBonusInfo builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_DailyBonusInfo_Builder*) builder {
+  return [[[StartupResponseProto_DailyBonusInfo_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_DailyBonusInfo_Builder*) builderWithPrototype:(StartupResponseProto_DailyBonusInfo*) prototype {
+  return [[StartupResponseProto_DailyBonusInfo builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) builder {
+  return [StartupResponseProto_DailyBonusInfo builder];
+}
+@end
+
+@interface StartupResponseProto_DailyBonusInfo_Builder()
+@property (retain) StartupResponseProto_DailyBonusInfo* result;
+@end
+
+@implementation StartupResponseProto_DailyBonusInfo_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_DailyBonusInfo alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clear {
+  self.result = [[[StartupResponseProto_DailyBonusInfo alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clone {
+  return [StartupResponseProto_DailyBonusInfo builderWithPrototype:result];
+}
+- (StartupResponseProto_DailyBonusInfo*) defaultInstance {
+  return [StartupResponseProto_DailyBonusInfo defaultInstance];
+}
+- (StartupResponseProto_DailyBonusInfo*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_DailyBonusInfo*) buildPartial {
+  StartupResponseProto_DailyBonusInfo* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeFrom:(StartupResponseProto_DailyBonusInfo*) other {
+  if (other == [StartupResponseProto_DailyBonusInfo defaultInstance]) {
+    return self;
+  }
+  if (other.hasNumConsecutiveDaysPlayed) {
+    [self setNumConsecutiveDaysPlayed:other.numConsecutiveDaysPlayed];
+  }
+  if (other.hasSilverBonus) {
+    [self setSilverBonus:other.silverBonus];
+  }
+  if (other.hasUserEquipBonus) {
+    [self mergeUserEquipBonus:other.userEquipBonus];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setNumConsecutiveDaysPlayed:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setSilverBonus:[input readInt32]];
+        break;
+      }
+      case 26: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasUserEquipBonus) {
+          [subBuilder mergeFrom:self.userEquipBonus];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUserEquipBonus:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasNumConsecutiveDaysPlayed {
+  return result.hasNumConsecutiveDaysPlayed;
+}
+- (int32_t) numConsecutiveDaysPlayed {
+  return result.numConsecutiveDaysPlayed;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setNumConsecutiveDaysPlayed:(int32_t) value {
+  result.hasNumConsecutiveDaysPlayed = YES;
+  result.numConsecutiveDaysPlayed = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearNumConsecutiveDaysPlayed {
+  result.hasNumConsecutiveDaysPlayed = NO;
+  result.numConsecutiveDaysPlayed = 0;
+  return self;
+}
+- (BOOL) hasSilverBonus {
+  return result.hasSilverBonus;
+}
+- (int32_t) silverBonus {
+  return result.silverBonus;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setSilverBonus:(int32_t) value {
+  result.hasSilverBonus = YES;
+  result.silverBonus = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearSilverBonus {
+  result.hasSilverBonus = NO;
+  result.silverBonus = 0;
+  return self;
+}
+- (BOOL) hasUserEquipBonus {
+  return result.hasUserEquipBonus;
+}
+- (FullUserEquipProto*) userEquipBonus {
+  return result.userEquipBonus;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonus:(FullUserEquipProto*) value {
+  result.hasUserEquipBonus = YES;
+  result.userEquipBonus = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setUserEquipBonusBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setUserEquipBonus:[builderForValue build]];
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) mergeUserEquipBonus:(FullUserEquipProto*) value {
+  if (result.hasUserEquipBonus &&
+      result.userEquipBonus != [FullUserEquipProto defaultInstance]) {
+    result.userEquipBonus =
+      [[[FullUserEquipProto builderWithPrototype:result.userEquipBonus] mergeFrom:value] buildPartial];
+  } else {
+    result.userEquipBonus = value;
+  }
+  result.hasUserEquipBonus = YES;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearUserEquipBonus {
+  result.hasUserEquipBonus = NO;
+  result.userEquipBonus = [FullUserEquipProto defaultInstance];
+  return self;
+}
+@end
+
 @interface StartupResponseProto_MarketplacePostPurchasedNotificationProto ()
 @property (retain) FullMarketplacePostProto* marketplacePost;
 @property (retain) MinimumUserProto* buyer;
@@ -5973,6 +6262,10 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 @property Float32 battleGreatMultiplier;
 @property Float32 battleGoodMultiplier;
 @property Float32 battleImbalancePercent;
+@property Float32 battlePerfectLikelihood;
+@property Float32 battleGreatLikelihood;
+@property Float32 battleGoodLikelihood;
+@property Float32 battleMissLikelihood;
 @end
 
 @implementation StartupResponseProto_StartupConstants_BattleConstants
@@ -6068,6 +6361,34 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   hasBattleImbalancePercent_ = !!value;
 }
 @synthesize battleImbalancePercent;
+- (BOOL) hasBattlePerfectLikelihood {
+  return !!hasBattlePerfectLikelihood_;
+}
+- (void) setHasBattlePerfectLikelihood:(BOOL) value {
+  hasBattlePerfectLikelihood_ = !!value;
+}
+@synthesize battlePerfectLikelihood;
+- (BOOL) hasBattleGreatLikelihood {
+  return !!hasBattleGreatLikelihood_;
+}
+- (void) setHasBattleGreatLikelihood:(BOOL) value {
+  hasBattleGreatLikelihood_ = !!value;
+}
+@synthesize battleGreatLikelihood;
+- (BOOL) hasBattleGoodLikelihood {
+  return !!hasBattleGoodLikelihood_;
+}
+- (void) setHasBattleGoodLikelihood:(BOOL) value {
+  hasBattleGoodLikelihood_ = !!value;
+}
+@synthesize battleGoodLikelihood;
+- (BOOL) hasBattleMissLikelihood {
+  return !!hasBattleMissLikelihood_;
+}
+- (void) setHasBattleMissLikelihood:(BOOL) value {
+  hasBattleMissLikelihood_ = !!value;
+}
+@synthesize battleMissLikelihood;
 - (void) dealloc {
   [super dealloc];
 }
@@ -6086,6 +6407,10 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
     self.battleGreatMultiplier = 0;
     self.battleGoodMultiplier = 0;
     self.battleImbalancePercent = 0;
+    self.battlePerfectLikelihood = 0;
+    self.battleGreatLikelihood = 0;
+    self.battleGoodLikelihood = 0;
+    self.battleMissLikelihood = 0;
   }
   return self;
 }
@@ -6144,6 +6469,18 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (self.hasBattleWeightGivenToLevel) {
     [output writeDouble:13 value:self.battleWeightGivenToLevel];
   }
+  if (self.hasBattlePerfectLikelihood) {
+    [output writeFloat:14 value:self.battlePerfectLikelihood];
+  }
+  if (self.hasBattleGreatLikelihood) {
+    [output writeFloat:15 value:self.battleGreatLikelihood];
+  }
+  if (self.hasBattleGoodLikelihood) {
+    [output writeFloat:16 value:self.battleGoodLikelihood];
+  }
+  if (self.hasBattleMissLikelihood) {
+    [output writeFloat:17 value:self.battleMissLikelihood];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6191,6 +6528,18 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   }
   if (self.hasBattleWeightGivenToLevel) {
     size += computeDoubleSize(13, self.battleWeightGivenToLevel);
+  }
+  if (self.hasBattlePerfectLikelihood) {
+    size += computeFloatSize(14, self.battlePerfectLikelihood);
+  }
+  if (self.hasBattleGreatLikelihood) {
+    size += computeFloatSize(15, self.battleGreatLikelihood);
+  }
+  if (self.hasBattleGoodLikelihood) {
+    size += computeFloatSize(16, self.battleGoodLikelihood);
+  }
+  if (self.hasBattleMissLikelihood) {
+    size += computeFloatSize(17, self.battleMissLikelihood);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6306,6 +6655,18 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasBattleImbalancePercent) {
     [self setBattleImbalancePercent:other.battleImbalancePercent];
   }
+  if (other.hasBattlePerfectLikelihood) {
+    [self setBattlePerfectLikelihood:other.battlePerfectLikelihood];
+  }
+  if (other.hasBattleGreatLikelihood) {
+    [self setBattleGreatLikelihood:other.battleGreatLikelihood];
+  }
+  if (other.hasBattleGoodLikelihood) {
+    [self setBattleGoodLikelihood:other.battleGoodLikelihood];
+  }
+  if (other.hasBattleMissLikelihood) {
+    [self setBattleMissLikelihood:other.battleMissLikelihood];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6377,6 +6738,22 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
       }
       case 105: {
         [self setBattleWeightGivenToLevel:[input readDouble]];
+        break;
+      }
+      case 117: {
+        [self setBattlePerfectLikelihood:[input readFloat]];
+        break;
+      }
+      case 125: {
+        [self setBattleGreatLikelihood:[input readFloat]];
+        break;
+      }
+      case 133: {
+        [self setBattleGoodLikelihood:[input readFloat]];
+        break;
+      }
+      case 141: {
+        [self setBattleMissLikelihood:[input readFloat]];
         break;
       }
     }
@@ -6588,6 +6965,70 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleImbalancePercent {
   result.hasBattleImbalancePercent = NO;
   result.battleImbalancePercent = 0;
+  return self;
+}
+- (BOOL) hasBattlePerfectLikelihood {
+  return result.hasBattlePerfectLikelihood;
+}
+- (Float32) battlePerfectLikelihood {
+  return result.battlePerfectLikelihood;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePerfectLikelihood:(Float32) value {
+  result.hasBattlePerfectLikelihood = YES;
+  result.battlePerfectLikelihood = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePerfectLikelihood {
+  result.hasBattlePerfectLikelihood = NO;
+  result.battlePerfectLikelihood = 0;
+  return self;
+}
+- (BOOL) hasBattleGreatLikelihood {
+  return result.hasBattleGreatLikelihood;
+}
+- (Float32) battleGreatLikelihood {
+  return result.battleGreatLikelihood;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGreatLikelihood:(Float32) value {
+  result.hasBattleGreatLikelihood = YES;
+  result.battleGreatLikelihood = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGreatLikelihood {
+  result.hasBattleGreatLikelihood = NO;
+  result.battleGreatLikelihood = 0;
+  return self;
+}
+- (BOOL) hasBattleGoodLikelihood {
+  return result.hasBattleGoodLikelihood;
+}
+- (Float32) battleGoodLikelihood {
+  return result.battleGoodLikelihood;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleGoodLikelihood:(Float32) value {
+  result.hasBattleGoodLikelihood = YES;
+  result.battleGoodLikelihood = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleGoodLikelihood {
+  result.hasBattleGoodLikelihood = NO;
+  result.battleGoodLikelihood = 0;
+  return self;
+}
+- (BOOL) hasBattleMissLikelihood {
+  return result.hasBattleMissLikelihood;
+}
+- (Float32) battleMissLikelihood {
+  return result.battleMissLikelihood;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleMissLikelihood:(Float32) value {
+  result.hasBattleMissLikelihood = YES;
+  result.battleMissLikelihood = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleMissLikelihood {
+  result.hasBattleMissLikelihood = NO;
+  result.battleMissLikelihood = 0;
   return self;
 }
 @end
@@ -10671,6 +11112,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     }
     [result.mutableAlliesList addObjectsFromArray:other.mutableAlliesList];
   }
+  if (other.hasDailyBonusInfo) {
+    [self mergeDailyBonusInfo:other.dailyBonusInfo];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -10819,6 +11263,15 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         FullQuestProto_Builder* subBuilder = [FullQuestProto builder];
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self addInProgressCompleteQuests:[subBuilder buildPartial]];
+        break;
+      }
+      case 170: {
+        StartupResponseProto_DailyBonusInfo_Builder* subBuilder = [StartupResponseProto_DailyBonusInfo builder];
+        if (self.hasDailyBonusInfo) {
+          [subBuilder mergeFrom:self.dailyBonusInfo];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setDailyBonusInfo:[subBuilder buildPartial]];
         break;
       }
     }
@@ -11340,6 +11793,36 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     result.mutableAlliesList = [NSMutableArray array];
   }
   [result.mutableAlliesList addObject:value];
+  return self;
+}
+- (BOOL) hasDailyBonusInfo {
+  return result.hasDailyBonusInfo;
+}
+- (StartupResponseProto_DailyBonusInfo*) dailyBonusInfo {
+  return result.dailyBonusInfo;
+}
+- (StartupResponseProto_Builder*) setDailyBonusInfo:(StartupResponseProto_DailyBonusInfo*) value {
+  result.hasDailyBonusInfo = YES;
+  result.dailyBonusInfo = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setDailyBonusInfoBuilder:(StartupResponseProto_DailyBonusInfo_Builder*) builderForValue {
+  return [self setDailyBonusInfo:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeDailyBonusInfo:(StartupResponseProto_DailyBonusInfo*) value {
+  if (result.hasDailyBonusInfo &&
+      result.dailyBonusInfo != [StartupResponseProto_DailyBonusInfo defaultInstance]) {
+    result.dailyBonusInfo =
+      [[[StartupResponseProto_DailyBonusInfo builderWithPrototype:result.dailyBonusInfo] mergeFrom:value] buildPartial];
+  } else {
+    result.dailyBonusInfo = value;
+  }
+  result.hasDailyBonusInfo = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearDailyBonusInfo {
+  result.hasDailyBonusInfo = NO;
+  result.dailyBonusInfo = [StartupResponseProto_DailyBonusInfo defaultInstance];
   return self;
 }
 @end
