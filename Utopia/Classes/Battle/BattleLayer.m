@@ -1012,17 +1012,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (float) calculateEnemyPercentage {
-  int locationOnBar = 0;
-  float r = [self rand];
-  
-  if (r < .40) {                 //give 45-72 75% of the time
-    locationOnBar = 45 + [self rand] * 27;
-  } else if (r >= .40 && r < .70) {      //give 78-100 20% of the time
-    locationOnBar = 78 + [self rand] * 22;
-  } else if (r >= .70) {     //give 72-78 5% of the time
-    locationOnBar = 72 + [self rand] * 6;
-  }
-  return locationOnBar;
+  return [_battleCalculator calculateEnemyPercentage];
 }
 
 - (int) calculateEnemyDamageForPercentage:(float)percent {

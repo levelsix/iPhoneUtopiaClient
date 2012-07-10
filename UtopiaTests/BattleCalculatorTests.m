@@ -40,9 +40,6 @@
 #define GREAT_MULTIPLIER    1.5f
 #define GOOD_MULTIPLIER     1.0f
 
-#define TEST_MODE     1
-
-
 @implementation BattleCalculatorTests
 -(id<UserBattleStats>)userForAttack:(int)attack 
                          andDefense:(int)defense
@@ -104,53 +101,27 @@
 }
 
 #pragma mark ComboBar %
-//- (void)test_ComboBarPercentForZero
-//{
-//  // Set expectations
-//  float expected = 10;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.0];
-//  
-//  // Check expectations
-//  STAssertTrue(expected > result, @"Expected %f got %f", expected, result);
-//}
-//
-//- (void)test_ComboBarPercentFor50
-//{
-//  // Set expectations
-//  float expected = 60;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.50];
-//  
-//  // Check expectations
-//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
-//}
-//
-//- (void)test_ComboBarPercentFor75
-//{
-//  // Set expectations
-//  float expected = 60;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:0.75];
-//  
-//  // Check expectations
-//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
-//}
-//
-//- (void)test_ComboBarPercentFor100
-//{
-//  // Set expectations
-//  float expected = HIGH_PERFECT;
-//  
-//  // Run the test
-//  float result = [testCalculator comboBarPercentageForDifficultyPercent:1.0];
-//  
-//  // Check expectations
-//  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
-//}
+- (void)test_100enemyPercentages
+{
+  // Set expectations
+  float expected = 91.666664;
+  int numTests   = 87;
+  NSMutableArray *percentages = [NSMutableArray arrayWithCapacity:numTests];
+  
+  // Run the test
+  for (int i = 0;  i < numTests; i++) {
+    [percentages addObject:[NSNumber numberWithFloat:[testCalculator
+                                                     calculateEnemyPercentage]]];
+  }
+//  for (NSNumber *curNum in percentages) {
+//    NSLog(@"%f\n",  [curNum floatValue]);
+//  }
+
+  float result = [testCalculator calculateEnemyPercentage];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
+}
 
 #pragma mark Warrior/Warrior DefenseTests
 - (void)test_WarriorAttackWARRIORPERFECTWithDefenseHighLevel

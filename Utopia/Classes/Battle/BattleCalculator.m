@@ -13,62 +13,60 @@
 @synthesize rightUser;
 @synthesize leftUser;
 
-//#define COMBO_BAR_PRECISION 1000
-//
-//#define TOTAL_LIKELIHOOD    100
-//#define PERFECT_LIKELIHOOD  30
-//#define GREAT_LIKELIHOOD    50
-//#define GOOD_LIKELIHOOD     10
-//#define MISS_LIKELIHOOD     TOTAL_LIKELIHOOD - PERFECT_LIKELIHOOD + GREAT_LIKELIHOOD + GOOD_LIKELIHOOD
-//
-////#define PERFECT_PERCENT_THRESHOLD 3.0f
-////#define GREAT_PERCENT_THRESHOLD   17.0f
-////#define GOOD_PERCENT_THRESHOLD    38.0f
-//- (float) comboBarPercentageForDifficultyPercent:(float)difficultyPercent
-//{
-////  int locationOnBar = 0;
-////  float r = [self rand];
-////  
-////  if (r < .40) {                 //give 45-72 75% of the time
-////    locationOnBar = 45 + [self rand] * 27;
-////  } else if (r >= .40 && r < .70) {      //give 78-100 20% of the time
-////    locationOnBar = 78 + [self rand] * 22;
-////  } else if (r >= .70) {     //give 72-78 5% of the time
-////    locationOnBar = 72 + [self rand] * 6;
-////  }
-////  return locationOnBar;
-//  
-////  int precision = difficultyPercent*COMBO_BAR_PRECISION;
-////  int possibleRange = COMBO_BAR_PRECISION - precision;
-////  int targetPercent = _globals.locationBarMax;
-//  
-//#ifndef TEST_MODE
-//  int randomBoundedValue = (rand()%(TOTAL_LIKELIHOOD+1));
-//#else
-//  int randomBoundedValue = (arc4random()%(TOTAL_LIKELIHOOD+1));
-//#endif
-//  
-//  
-////  float result = 1 - ((float)randomBoundedValue)/((float)COMBO_BAR_PRECISION);
-////  return result*targetPercent;
-//  return 0;
-//}
-//
-////- (float) comboBarPercentageForDifficultyPercent:(float)difficultyPercent
-////{
-////  int precision = difficultyPercent*COMBO_BAR_PRECISION;
-////  int possibleRange = COMBO_BAR_PRECISION - precision;
-////  int targetPercent = _globals.locationBarMax;
-////
-////#ifndef TEST_MODE
-////  int randomBoundedValue = (rand()%(possibleRange+1));
-////#else
-////  int randomBoundedValue = (arc4random()%(possibleRange+1));
-////#endif
-////  
-////  float result = 1 - ((float)randomBoundedValue)/((float)COMBO_BAR_PRECISION);
-////  return result*targetPercent;
-////}
+#define PERFECT 0.25f
+#define GREAT   0.5f
+#define GOOD    0.15f
+#define MISS    0.10f
+#define OVER    0.3f
+
+-(float) randomPercent
+{
+#ifdef UNIT_TESTING
+  return ((float)(abs(rand()) % ((unsigned)RAND_MAX+1))/RAND_MAX);
+#else
+  return ((float)(arc4random()%((unsigned)RAND_MAX+1))/RAND_MAX);
+#endif
+}
+
+-(float) calculateEnemyPercentage
+{
+  float   locationOnBar = 0;
+  float randomPercent = [self randomPercent];
+  id<BattleConstants> battleConstants = [Globals sharedGlobals];
+  
+  int attackRange = 0;
+  if (randomPercent <= PERFECT) {
+    locationOnBar = battleConstants.locationBarMax - battleConstants.battlePerfectPercentThreshold; 
+    attackRange  = battleConstants.battlePerfectPercentThreshold;
+  }
+  else if (randomPercent <= PERFECT + GREAT) {
+    locationOnBar = battleConstants.locationBarMax 
+    - battleConstants.battleGreatPercentThreshold;
+    attackRange = battleConstants.battlePerfectPercentThreshold
+    - battleConstants.battleGreatPercentThreshold;
+  }
+  else if (randomPercent <= PERFECT + GREAT + GOOD) {
+    locationOnBar = battleConstants.locationBarMax 
+    - battleConstants.battleGoodPercentThreshold;
+    
+    attackRange = battleConstants.battleGreatPercentThreshold 
+    - (int)battleConstants.battleGoodPercentThreshold;
+  }
+  else {
+    locationOnBar = 0;
+    attackRange  = battleConstants.battleGoodPercentThreshold;
+  }
+
+  float randomAttack = [self randomPercent]*100;
+  locationOnBar +=  ((int)randomAttack) % (abs(attackRange) + 1);
+  
+  if (OVER < [self randomPercent]) {
+    float multOfPerfect  = battleConstants.locationBarMax/fabs(100 - battleConstants.locationBarMax);
+    locationOnBar = battleConstants.locationBarMax + ((float)locationOnBar)/multOfPerfect; 
+  }
+  
+  return locationOnBar;
+}
 
 #pragma mark Attack/Defense Calculations
 -(float) percentFromPerfect:(float)inputPercent
