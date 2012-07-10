@@ -54,12 +54,13 @@
     attackRange  = _battleConstants.battleGoodPercentThreshold;
   }
 
-  float randomAttack = [self randomPercent]*100;
-  locationOnBar +=  ((int)randomAttack) % (abs(attackRange) + 1);
+  locationOnBar +=  abs(attackRange) * [self randomPercent];
   
-  if (OVER < [self randomPercent]) {
+  if (OVER > [self randomPercent]) {
     float multOfPerfect  = _battleConstants.locationBarMax/fabs(100 - _battleConstants.locationBarMax);
-    locationOnBar = _battleConstants.locationBarMax + ((float)locationOnBar)/multOfPerfect; 
+    locationOnBar = (_battleConstants.locationBarMax - locationOnBar)/multOfPerfect;
+    locationOnBar += _battleConstants.locationBarMax;
+
   }
   
   return locationOnBar;

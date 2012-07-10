@@ -108,10 +108,29 @@
 }
 
 #pragma mark ComboBar %
-- (void)test_100enemyPercentages
+- (void)test_4enemyPercentages
 {
   // Set expectations
-  float expected = 91.666664;
+  float expected = 85.772339;
+  int numTests   = 4;
+  NSMutableArray *percentages = [NSMutableArray arrayWithCapacity:numTests];
+  
+  // Run the test
+  for (int i = 0;  i < numTests; i++) {
+    [percentages addObject:[NSNumber numberWithFloat:[testCalculator
+                                                      calculateEnemyPercentage]]];
+  }
+
+  float result = [testCalculator calculateEnemyPercentage];
+  
+  // Check expectations
+  STAssertTrue(expected == result, @"Expected %f got %f", expected, result);
+}
+
+- (void)test_87enemyPercentages
+{
+  // Set expectations
+  float expected = 44.534901;
   int numTests   = 87;
   NSMutableArray *percentages = [NSMutableArray arrayWithCapacity:numTests];
   
