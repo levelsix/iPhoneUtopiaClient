@@ -13,10 +13,6 @@
 @synthesize rightUser;
 @synthesize leftUser;
 
-#define PERFECT 0.25f
-#define GREAT   0.5f
-#define GOOD    0.15f
-#define MISS    0.10f
 #define OVER    0.3f
 
 -(float) randomPercent
@@ -32,37 +28,38 @@
 {
   float   locationOnBar = 0;
   float randomPercent = [self randomPercent];
-  id<BattleConstants> battleConstants = [Globals sharedGlobals];
   
   int attackRange = 0;
-  if (randomPercent <= PERFECT) {
-    locationOnBar = battleConstants.locationBarMax - battleConstants.battlePerfectPercentThreshold; 
-    attackRange  = battleConstants.battlePerfectPercentThreshold;
+  if (randomPercent <= _battleStats.perfectLikelihood) {
+    locationOnBar = _battleConstants.locationBarMax - _battleConstants.battlePerfectPercentThreshold; 
+    attackRange  = _battleConstants.battlePerfectPercentThreshold;
   }
-  else if (randomPercent <= PERFECT + GREAT) {
-    locationOnBar = battleConstants.locationBarMax 
-    - battleConstants.battleGreatPercentThreshold;
-    attackRange = battleConstants.battlePerfectPercentThreshold
-    - battleConstants.battleGreatPercentThreshold;
+  else if (randomPercent <= _battleStats.perfectLikelihood + 
+           _battleStats.greatLikelihood) {
+    locationOnBar = _battleConstants.locationBarMax 
+    - _battleConstants.battleGreatPercentThreshold;
+    attackRange = _battleConstants.battlePerfectPercentThreshold
+    - _battleConstants.battleGreatPercentThreshold;
   }
-  else if (randomPercent <= PERFECT + GREAT + GOOD) {
-    locationOnBar = battleConstants.locationBarMax 
-    - battleConstants.battleGoodPercentThreshold;
+  else if (randomPercent <= _battleStats.perfectLikelihood + 
+           _battleStats.greatLikelihood + _battleStats.goodLikelihood) {
+    locationOnBar = _battleConstants.locationBarMax 
+    - _battleConstants.battleGoodPercentThreshold;
     
-    attackRange = battleConstants.battleGreatPercentThreshold 
-    - (int)battleConstants.battleGoodPercentThreshold;
+    attackRange = _battleConstants.battleGreatPercentThreshold 
+    - (int)_battleConstants.battleGoodPercentThreshold;
   }
   else {
     locationOnBar = 0;
-    attackRange  = battleConstants.battleGoodPercentThreshold;
+    attackRange  = _battleConstants.battleGoodPercentThreshold;
   }
 
   float randomAttack = [self randomPercent]*100;
   locationOnBar +=  ((int)randomAttack) % (abs(attackRange) + 1);
   
   if (OVER < [self randomPercent]) {
-    float multOfPerfect  = battleConstants.locationBarMax/fabs(100 - battleConstants.locationBarMax);
-    locationOnBar = battleConstants.locationBarMax + ((float)locationOnBar)/multOfPerfect; 
+    float multOfPerfect  = _battleConstants.locationBarMax/fabs(100 - _battleConstants.locationBarMax);
+    locationOnBar = _battleConstants.locationBarMax + ((float)locationOnBar)/multOfPerfect; 
   }
   
   return locationOnBar;
@@ -71,7 +68,7 @@
 #pragma mark Attack/Defense Calculations
 -(float) percentFromPerfect:(float)inputPercent
 {
-  float perfect            = _globals.locationBarMax;
+  float perfect            = _battleConstants.locationBarMax;
   float distFromPerfect    = fabs(perfect - inputPercent);
   float percentFromPerfect = 0;
   
@@ -96,7 +93,7 @@
 
 -(CombatDamageType) damageZoneForPercent:(float)percent
 {
-  float perfect = _globals.locationBarMax;
+  float perfect = _battleConstants.locationBarMax;
   float distFromPerfect    = fabs(perfect - percent);
   float percentFromPerfect = 0;
   
@@ -211,21 +208,21 @@
 #pragma mark Create/Destroy
 -(id) initWithRightStats:(id<UserBattleStats>)right
             andLeftStats:(id<UserBattleStats>)left
-              andGlobals:(Globals *)globals 
       andBattleConstants:(id<BattleConstants>)battleConstants
+          andBattleStats:(id<EnemyBattleStats>)battleStats
 {
   self = [super init];
   
   if (self) {
     leftUser          = left;
     rightUser         = right;
-    _globals          = globals;
     _battleConstants  = battleConstants;
+    _battleStats      = battleStats;
     
     [leftUser         retain];
     [rightUser        retain];
-    [_globals         retain];
     [_battleConstants retain];
+    [_battleStats     retain];
   }
   
   return self;
@@ -237,8 +234,8 @@
   BattleCalculator *calculator = [[BattleCalculator alloc] 
                                   initWithRightStats:right 
                                   andLeftStats:left
-                                  andGlobals:[Globals sharedGlobals] 
-                                  andBattleConstants:[Globals sharedGlobals]];
+                                  andBattleConstants:[Globals sharedGlobals] 
+                                  andBattleStats:[Globals sharedGlobals]];
   [calculator autorelease];
   return calculator;
 }
@@ -247,8 +244,8 @@
 {
   [leftUser         release];
   [rightUser        release];
-  [_globals         release];
   [_battleConstants release];
+  [_battleStats     release];
   
   [super dealloc];
 }

@@ -77,6 +77,12 @@
   battleConstants.battleWeightGivenToAttackStat      = 1;
   battleConstants.battleWeightGivenToAttackEquipSum  = 1;
   battleConstants.battleWeightGivenToLevel           = 1;
+  
+  id<EnemyBattleStats> battleStats = [Globals sharedGlobals];
+//  battleStats.perfectLikelihood = 0.25f;
+//  battleStats.greatLikelihood   = 0.5f;
+//  battleStats.goodLikelihood    = 0.15f;
+//  battleStats.missLikelihood    = 0.10f;
 
   battleConstants.battlePerfectPercentThreshold = PERFECT_PERCENT_THRESHOLD;
   battleConstants.battleGreatPercentThreshold   = GREAT_PERCENT_THRESHOLD;
@@ -88,8 +94,8 @@
   
   testCalculator = [[BattleCalculator alloc] initWithRightStats:rightStats
                                                    andLeftStats:leftStats
-                                                     andGlobals:[Globals sharedGlobals]
-                                             andBattleConstants:battleConstants];
+                                             andBattleConstants:battleConstants 
+                                                 andBattleStats:battleStats];
   srand(4321489024315);
 }
 
@@ -113,9 +119,6 @@
     [percentages addObject:[NSNumber numberWithFloat:[testCalculator
                                                      calculateEnemyPercentage]]];
   }
-//  for (NSNumber *curNum in percentages) {
-//    NSLog(@"%f\n",  [curNum floatValue]);
-//  }
 
   float result = [testCalculator calculateEnemyPercentage];
   

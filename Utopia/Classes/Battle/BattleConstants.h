@@ -31,3 +31,10 @@ typedef enum CombatDamageType
   @property (nonatomic, assign) float locationBarMax;
 @end
 
+@protocol EnemyBattleStats <NSObject>
+  @property (nonatomic, assign) float perfectLikelihood;
+  @property (nonatomic, assign) float greatLikelihood;
+  @property (nonatomic, assign) float goodLikelihood;
+  @property (nonatomic, assign) float missLikelihood;
+@end
+
