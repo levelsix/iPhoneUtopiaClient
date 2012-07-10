@@ -187,12 +187,11 @@
   // AdColony
   adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
 
-/*
- * Disabled Sponsored offers:(Short Term)
- *
   // TapJoy
   tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
-  
+  /*
+   * Disabled Sponsored offers:(Short Term)
+   *  
   // Facebook
   facebookDelegate = [[FacebookDelegate createFacebookDelegate] retain];
 
