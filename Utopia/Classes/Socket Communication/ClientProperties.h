@@ -17,7 +17,8 @@
 #else
 
 #define HOST_NAME @"robot.lvl6.com"//@"184.169.148.243"
-#define HOST_PORT 10002
+#define HOST_PORT 10001
+
 
 #define UDID [OpenUDID value]
 //#define FORCE_TUTORIAL

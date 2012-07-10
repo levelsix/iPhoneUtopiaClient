@@ -52,7 +52,7 @@ typedef enum {
 
 @property (nonatomic, retain) UserEquip *equip;
 
-- (void) updateForEquip:(FullUserEquipProto *)fuep;
+- (void) updateForEquip:(UserEquip *)ue;
 
 @end
 

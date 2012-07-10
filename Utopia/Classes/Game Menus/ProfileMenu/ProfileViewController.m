@@ -1250,7 +1250,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   int i;
   
   for (i = 0; i < equips.count; i++) {
-    FullUserEquipProto *fuep = [equips objectAtIndex:i];
+    UserEquip *ue = [equips objectAtIndex:i];
     if (i < equipViews.count) {
       ev = [equipViews objectAtIndex:i];
     } else {
@@ -1261,11 +1261,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       self.nibEquipView = nil;
     }
     
-    [ev updateForEquip:fuep];
+    [ev updateForEquip:ue];
     
     // check if this item is equipped
-    if (fuep.equipId == weapon) {
-      FullEquipProto *fep = [gs equipWithId:fuep.equipId];
+    if (ue.equipId == weapon) {
+      FullEquipProto *fep = [gs equipWithId:ue.equipId];
       curWeaponView.label.text = fep.name;
       curWeaponView.label.textColor = [Globals colorForRarity:fep.rarity];
       [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
@@ -1275,8 +1275,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       ev.border.alpha = 1.f;
       _weaponEquipView = ev;
       weaponFound = YES;
-    } else if (fuep.equipId == armor) {
-      FullEquipProto *fep = [gs equipWithId:fuep.equipId];
+    } else if (ue.equipId == armor) {
+      FullEquipProto *fep = [gs equipWithId:ue.equipId];
       curArmorView.label.text = fep.name;
       curArmorView.label.textColor = [Globals colorForRarity:fep.rarity];
       [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
@@ -1286,8 +1286,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       ev.border.alpha = 1.f;
       _armorEquipView = ev;
       armorFound = YES;
-    } else if (fuep.equipId == amulet) {
-      FullEquipProto *fep = [gs equipWithId:fuep.equipId];
+    } else if (ue.equipId == amulet) {
+      FullEquipProto *fep = [gs equipWithId:ue.equipId];
       curAmuletView.label.text = fep.name;
       curAmuletView.label.textColor = [Globals colorForRarity:fep.rarity];
       [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
@@ -1468,28 +1468,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (fup.isFake) {
     equips = [self createFakeEquipsForFakePlayer:fup];
   } else if (equips) {
-    // Create user equips and squash into quantities
-    NSMutableArray *newEquips = [NSMutableArray array];
-    for (FullUserEquipProto *fuep in equips) {
-      UserEquip *ue = nil;
-      for (UserEquip *e in newEquips) {
-        if (e.equipId == fuep.equipId) {
-          ue = e;
-          break;
-        }
-      }
-      
-      if (ue) {
-        ue.quantity++;
-      } else {ue = [[UserEquip alloc] init];
-        ue.userId = fup.userId;
-        ue.equipId = fuep.equipId;
-        ue.quantity = 1;
-        [newEquips addObject:ue];
-        [ue release];
-      }
-    }
-    equips = newEquips;
+    equips = [self userEquipArrayFromFullUserEquipProtos:equips];
   }
   
   if (equips) {
@@ -1499,6 +1478,28 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [self.spinner startAnimating];
     _waitingForEquips = YES;
   }
+}
+
+- (NSArray *) userEquipArrayFromFullUserEquipProtos:(NSArray *)equips {
+  // Create user equips and squash into quantities
+  NSMutableArray *newEquips = [NSMutableArray array];
+  for (FullUserEquipProto *fuep in equips) {
+    UserEquip *ue = nil;
+    for (UserEquip *e in newEquips) {
+      if (e.equipId == fuep.equipId) {
+        ue = e;
+        break;
+      }
+    }
+    
+    if (ue) {
+      ue.quantity++;
+    } else {
+      ue = [UserEquip userEquipWithProto:fuep];
+      [newEquips addObject:ue];
+    }
+  }
+  return newEquips;
 }
 
 - (void) receivedFullUserProtos:(NSArray *)protos {
@@ -1554,7 +1555,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (_waitingForEquips) {
     self.spinner.hidden = YES;
     [self.spinner stopAnimating];
-    [self loadEquips:equips curWeapon:_fup.weaponEquippedUserEquip.equipId curArmor:_fup.armorEquippedUserEquip.equipId curAmulet:_fup.amuletEquippedUserEquip.equipId touchEnabled:NO];
+    // Make sure to create UserEquip array
+    [self loadEquips:[self userEquipArrayFromFullUserEquipProtos:equips] curWeapon:_fup.weaponEquippedUserEquip.equipId curArmor:_fup.armorEquippedUserEquip.equipId curAmulet:_fup.amuletEquippedUserEquip.equipId touchEnabled:NO];
     _waitingForEquips = NO;
     
     Globals *gl = [Globals sharedGlobals];
@@ -1640,7 +1642,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [self displayMyCurrentStats];
   
-  // Hacky: Fake my equips as FullUserEquipProtos because they have the same methods..
   [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
   self.profileBar.state = kMyProfile;
   [self loadSkills];

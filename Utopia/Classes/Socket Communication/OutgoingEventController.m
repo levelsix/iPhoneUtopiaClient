@@ -1031,14 +1031,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       shouldSend = YES;
     }
     
-    eq = fup.weaponEquippedUserEquip.equipId;
+    eq = fup.armorEquippedUserEquip.equipId;
     NSNumber *ar = [NSNumber numberWithInt:eq];
     if (eq && ![sEquips objectForKey:ar]) {
       [rEquips addObject:ar];
       shouldSend = YES;
     }
     
-    eq = fup.weaponEquippedUserEquip.equipId;
+    eq = fup.amuletEquippedUserEquip .equipId;
     NSNumber *am = [NSNumber numberWithInt:eq];
     if (eq && ![sEquips objectForKey:am]) {
       [rEquips addObject:am];
