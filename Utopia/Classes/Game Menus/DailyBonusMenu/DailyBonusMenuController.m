@@ -40,6 +40,7 @@
     doneView.hidden = !done;
     notDoneView.hidden = done;
     activeView.hidden = i != _day;
+    NSLog(@"%d: %d, %d, %d T:%d", i, !done, done, i != _day, activeView.tag);
     
     if (_day < 5) {
       rewardIcon.highlighted = NO;
