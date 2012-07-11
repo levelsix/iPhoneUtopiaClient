@@ -20,6 +20,7 @@
 #import "Apsalar.h"
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
+#import "LoggingContextFilter.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -29,8 +30,6 @@
 #define APSALAR_SECRET       @"K7kbMwwF"
 
 #define SHOULD_VIDEO_USER    0
-
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation AppDelegate
 
@@ -183,7 +182,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   // Cocoa Lumberjack (logging framework)
   [DDLog addLogger:[DDASLLogger sharedInstance]];
-  [DDLog addLogger:[DDTTYLogger sharedInstance]];
+  [DDLog addLogger:[DDTTYLogger sharedInstance]];	
+	[[DDTTYLogger sharedInstance] setLogFormatter:[LoggingContextFilter 
+                                                 createTagFilter]];
 
   // Alau.Me
   [self setUpAlauMeRefferalTracking];
@@ -225,17 +226,17 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  LNLog(@"will resign active");
+  DDLogVerbose(@"will resign active");
 	[[CCDirector sharedDirector] pause];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  LNLog(@"did become active");
+  DDLogVerbose(@"did become active");
 	[[CCDirector sharedDirector] resume];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-  LNLog(@"did receive mem warning");
+  DDLogWarn(@"did receive mem warning");
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
   
@@ -245,7 +246,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {
-  LNLog(@"did enter background");
+  DDLogVerbose(@"did enter background");
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
@@ -263,7 +264,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 -(void) applicationWillEnterForeground:(UIApplication*)application {
-  LNLog(@"will enter foreground");
+  DDLogVerbose(@"will enter foreground");
   [self removeLocalNotifications];
   
   [Apsalar reStartSession:APSALAR_API_KEY withKey:APSALAR_SECRET];;
@@ -281,7 +282,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  LNLog(@"will terminate");
+  DDLogVerbose(@"will terminate");
 	CCDirector *director = [CCDirector sharedDirector];
   [self registerLocalNotifications];
 	
@@ -299,19 +300,19 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {
-  LNLog(@"sig time change");
+  DDLogInfo(@"sig time change");
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-	LNLog(@"My token is: %@", deviceToken);
+	DDLogInfo(@"My token is: %@", deviceToken);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:deviceToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
-	LNLog(@"Failed to get token, error: %@", error);
+	DDLogError(@"Failed to get token, error: %@", error);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:nil];
 }
 

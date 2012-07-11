@@ -14,11 +14,7 @@
 #import "ActivityFeedController.h"
 #import "ProfileViewController.h"
 
-#ifdef TAG_LOGS
-#define TagLog(...) LNLog(__VA_ARGS__)
-#else
-#define TagLog(...)
-#endif
+#define TagLog(...) ContextLogInfo(LN_CONTEXT_TAGS, __VA_ARGS__)
 
 @implementation GameState
 
@@ -215,7 +211,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   while (!p) {
     numTimes++;
     if (numTimes == 1000) {
-      LNLog(@"Lotsa wait time for this");
+      ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this");
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];

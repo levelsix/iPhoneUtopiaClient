@@ -43,6 +43,7 @@
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452E24BF15744ADD0048AA57 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */; };
+		452F92FA15AD109C005C156C /* LoggingContextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 452F92F915AD109C005C156C /* LoggingContextFilter.m */; };
 		4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4541016915818E3D00F813F4 /* EquipDeltaView.xib */; };
 		4541016D158197C600F813F4 /* EquipDeltaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4541016C158197C600F813F4 /* EquipDeltaView.m */; };
 		454E62411566E0D8004EB7E9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45723A001565E443000380EE /* CoreVideo.framework */; };
@@ -1497,6 +1498,8 @@
 		4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationWaitCounter.m; sourceTree = "<group>"; };
 		452E24BD15744ADC0048AA57 /* AdColonySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonySponsoredOffer.h; sourceTree = "<group>"; };
 		452E24BE15744ADD0048AA57 /* AdColonySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdColonySponsoredOffer.m; sourceTree = "<group>"; };
+		452F92F315AD0286005C156C /* LoggingContexts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggingContexts.h; sourceTree = "<group>"; };
+		452F92F915AD109C005C156C /* LoggingContextFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggingContextFilter.m; sourceTree = "<group>"; };
 		453920A1156B149C00C3944D /* TapJoySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoySponsoredOffer.h; sourceTree = "<group>"; };
 		453920A2156B149C00C3944D /* TapJoySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoySponsoredOffer.m; sourceTree = "<group>"; };
 		4541016915818E3D00F813F4 /* EquipDeltaView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EquipDeltaView.xib; sourceTree = "<group>"; };
@@ -1672,6 +1675,7 @@
 		45C3271C15ABF7B2009F3C60 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		45C53D7F158FBF83000997C5 /* UserBattleStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserBattleStats.h; sourceTree = "<group>"; };
 		45C53D80158FBF83000997C5 /* UserBattleStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserBattleStats.m; sourceTree = "<group>"; };
+		45D0AC9D15AD149600B58C9F /* LoggingContextFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggingContextFilter.h; sourceTree = "<group>"; };
 		45D21E40158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAHMAC_SHA1SignatureProvider.h; sourceTree = "<group>"; };
 		45D21E41158037F500BB4D53 /* OAHMAC_SHA1SignatureProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAHMAC_SHA1SignatureProvider.m; sourceTree = "<group>"; };
 		45D21E42158037F500BB4D53 /* OASignatureProviding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OASignatureProviding.h; sourceTree = "<group>"; };
@@ -3865,6 +3869,9 @@
 				CF1265131538ACC400E0C1AD /* AppDelegate.m */,
 				CF1265141538ACC400E0C1AD /* GameConfig.h */,
 				CF1265151538ACC400E0C1AD /* MainWindow.xib */,
+				452F92F315AD0286005C156C /* LoggingContexts.h */,
+				45D0AC9D15AD149600B58C9F /* LoggingContextFilter.h */,
+				452F92F915AD109C005C156C /* LoggingContextFilter.m */,
 			);
 			path = "App Startup";
 			sourceTree = "<group>";
@@ -7819,6 +7826,7 @@
 				45C3272115ABF7B2009F3C60 /* DDTTYLogger.m in Sources */,
 				45C3272215ABF7B2009F3C60 /* ContextFilterLogFormatter.m in Sources */,
 				45C3272315ABF7B2009F3C60 /* DispatchQueueLogFormatter.m in Sources */,
+				452F92FA15AD109C005C156C /* LoggingContextFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

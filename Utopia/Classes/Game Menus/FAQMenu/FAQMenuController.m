@@ -61,7 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   NSString *fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:&e];
   
   if (!fileContents) {
-    LNLog(@"%@", e);
+    DDLogError(@"fileContents is nil! error = %@", e);
     return;
   }
   

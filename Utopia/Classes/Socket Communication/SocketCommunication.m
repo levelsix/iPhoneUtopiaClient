@@ -50,11 +50,11 @@ static NSString *udid = nil;
   // Make connection to host
   if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error])
   {
-    LNLog(@"Unable to connect to due to invalid configuration: %@", error);
+    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect to due to invalid configuration: %@", error);
   }
   else
   {
-    LNLog(@"Connecting to \"%@\" on port %hu...", host, port);
+    ContextLogInfo(LN_CONTEXT_COMMUNICATION, @"Connecting to \"%@\" on port %hu...", host, port);
   }
 }
 
@@ -82,7 +82,7 @@ static NSString *udid = nil;
 }
 
 - (void) socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
-  LNLog(@"Connected to host");
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Connected to host");
   
   if (![[GameState sharedGameState] connected]) {
     [[OutgoingEventController sharedOutgoingEventController] startup];
@@ -109,17 +109,17 @@ static NSString *udid = nil;
 
 - (void) socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-	LNLog(@"socketDidDisconnect:withError: \"%@\"", err);
+	ContextLogError(LN_CONTEXT_COMMUNICATION, @"socketDidDisconnect:withError: \"%@\"", err);
   
   if (_shouldReconnect) {
     _numDisconnects++;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {
-      LNLog(@"Asking to reconnect..");
+      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
       UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
       [av show];
       [av release];
     } else {
-      LNLog(@"Silently reconnecting..");
+      ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
       [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
     }
   }
@@ -135,7 +135,7 @@ static NSString *udid = nil;
   // Get the proto class for this event type
   Class typeClass = [iec getClassForType:eventType];
   if (!typeClass) {
-    LNLog(@"Unable to find controller for event type: %d", eventType);
+    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find controller for event type: %d", eventType);
     return;
   }
   
@@ -148,7 +148,7 @@ static NSString *udid = nil;
     FullEvent *fe = [FullEvent createWithEvent:(PBGeneratedMessage *)[typeClass parseFromData:data] tag:tag];
     [iec performSelectorOnMainThread:handleMethod withObject:fe waitUntilDone:NO];
   } else {
-    LNLog(@"Unable to find %@ in IncomingEventController", selectorStr);
+    ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find %@ in IncomingEventController", selectorStr);
   }
 }
 
@@ -157,7 +157,7 @@ static NSString *udid = nil;
   NSData *data = [msg data];
   
   if (_sender.userId == 0) {
-    LNLog(@"User id is 0!!!");
+    ContextLogError(LN_CONTEXT_COMMUNICATION, @"User id is 0!!!");
   }
   
   // Need to reverse bytes for size and type(to account for endianness??)
@@ -229,7 +229,7 @@ static NSString *udid = nil;
                                setVersionNum:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]]
                               build];
   
-  LNLog(@"Sent over udid: %@", udid);
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Sent over udid: %@", udid);
   
   return [self sendData:req withMessageType:EventProtocolRequestCStartupEvent];
 }
@@ -737,7 +737,7 @@ static NSString *udid = nil;
 
 - (void) closeDownConnection {
   if (_asyncSocket) {
-    LNLog(@"Disconnecting from socket..");
+    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Disconnecting from socket..");
     _shouldReconnect = NO;
     [_asyncSocket disconnect];
     [_asyncSocket release];

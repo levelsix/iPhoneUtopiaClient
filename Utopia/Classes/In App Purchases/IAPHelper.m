@@ -39,12 +39,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-  LNLog(@"Received products results for %d products...", response.products.count);
+  ContextLogInfo(LN_CONTEXT_IAP, @"Received products results for %d products...", response.products.count);
   
   self.products = response.products;
   self.request = nil;
   
-  LNLog(@"Invalid product ids: %@", response.invalidProductIdentifiers);
+  ContextLogWarn(LN_CONTEXT_IAP,@"Invalid product ids: %@", response.invalidProductIdentifiers);
   
 //  if (response.products.count == 0) {
 //    [self requestProducts];
@@ -93,7 +93,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)completeTransaction:(SKPaymentTransaction *)transaction {
-  LNLog(@"completeTransaction...");
+  ContextLogVerbose(LN_CONTEXT_IAP,@"completeTransaction...");
   
   NSString *encodedReceipt = [self base64forData:transaction.transactionReceipt];
   NSNumber *goldAmt = [[[Globals sharedGlobals] productIdentifiers] objectForKey:transaction.payment.productIdentifier];
@@ -117,7 +117,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
-    LNLog(@"Transaction error: %@", transaction.error.localizedDescription);
+    ContextLogError(LN_CONTEXT_IAP, @"Transaction error: %@", transaction.error.localizedDescription);
   } else {
     // Transaction was cancelled
     [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
@@ -147,7 +147,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 
 - (void)buyProductIdentifier:(SKProduct *)product {
   
-  LNLog(@"Buying %@...", product.debugDescription);
+  ContextLogInfo(LN_CONTEXT_IAP, @"Buying %@...", product.debugDescription);
   
   SKPayment *payment = [SKPayment paymentWithProduct:product];
   [[SKPaymentQueue defaultQueue] addPayment:payment];
