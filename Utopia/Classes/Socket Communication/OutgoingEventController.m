@@ -1377,7 +1377,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   id<OASignatureProviding> signer = [[OAHMAC_SHA1SignatureProvider alloc] init];
   NSString *digest = [signer signClearText:preparedText
                                 withSecret:LVL6_SHARED_SECRET];
-
+  [signer release];
   NSLog(@"%@ %@", preparedText, digest);
   
   int tag = [[SocketCommunication sharedSocketCommunication] 
