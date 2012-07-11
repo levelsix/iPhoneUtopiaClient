@@ -1451,6 +1451,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   if (![_pulsingViews    containsObject:view]) {
     UIImageView *glow = [[UIImageView alloc] 
                          initWithImage:[Globals roundGlowForColor:glowColor]];
+    [glow autorelease];
     CGRect frame = view.frame;
     frame.origin.x = 0;
     frame.origin.y = 0;
