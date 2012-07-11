@@ -371,6 +371,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
       [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.silverBonus equip:dbi.userEquipBonus];
       [Globals displayUIView:dbmc.view];
+      [dbmc release];
     }
     
     if (gs.isTutorial) {
