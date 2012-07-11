@@ -358,13 +358,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasIsFake_:1;
   BOOL hasCreateTime_:1;
   BOOL hasLastTimeAttacked_:1;
-  BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastStaminaRefillTime_:1;
+  BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
+  BOOL hasLastLoginTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasLastShortLicensePurchaseTime_:1;
   BOOL hasLastLogoutTime_:1;
-  BOOL hasLastLoginTime_:1;
   BOOL hasBattlesLost_:1;
   BOOL hasFlees_:1;
   BOOL hasNumReferrals_:1;
@@ -375,6 +375,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasApsalarId_:1;
   BOOL hasNumAdColonyVideosWatched_:1;
   BOOL hasNumTimesKiipRewarded_:1;
+  BOOL hasNumConsecutiveDaysPlayed_:1;
   BOOL hasUserId_:1;
   BOOL hasLevel_:1;
   BOOL hasAttack_:1;
@@ -406,13 +407,13 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL isFake_:1;
   int64_t createTime;
   int64_t lastTimeAttacked;
-  int64_t lastBattleNotificationTime;
   int64_t lastStaminaRefillTime;
+  int64_t lastBattleNotificationTime;
   int64_t lastEnergyRefillTime;
+  int64_t lastLoginTime;
   int64_t lastLongLicensePurchaseTime;
   int64_t lastShortLicensePurchaseTime;
   int64_t lastLogoutTime;
-  int64_t lastLoginTime;
   int32_t battlesLost;
   int32_t flees;
   int32_t numReferrals;
@@ -423,6 +424,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t apsalarId;
   int32_t numAdColonyVideosWatched;
   int32_t numTimesKiipRewarded;
+  int32_t numConsecutiveDaysPlayed;
   int32_t userId;
   int32_t level;
   int32_t attack;
@@ -499,6 +501,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasApsalarId;
 - (BOOL) hasNumAdColonyVideosWatched;
 - (BOOL) hasNumTimesKiipRewarded;
+- (BOOL) hasNumConsecutiveDaysPlayed;
 @property (readonly) int32_t userId;
 @property (readonly, retain) NSString* name;
 @property (readonly) int32_t level;
@@ -547,6 +550,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t apsalarId;
 @property (readonly) int32_t numAdColonyVideosWatched;
 @property (readonly) int32_t numTimesKiipRewarded;
+@property (readonly) int32_t numConsecutiveDaysPlayed;
 
 + (FullUserProto*) defaultInstance;
 - (FullUserProto*) defaultInstance;
@@ -829,6 +833,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) numTimesKiipRewarded;
 - (FullUserProto_Builder*) setNumTimesKiipRewarded:(int32_t) value;
 - (FullUserProto_Builder*) clearNumTimesKiipRewarded;
+
+- (BOOL) hasNumConsecutiveDaysPlayed;
+- (int32_t) numConsecutiveDaysPlayed;
+- (FullUserProto_Builder*) setNumConsecutiveDaysPlayed:(int32_t) value;
+- (FullUserProto_Builder*) clearNumConsecutiveDaysPlayed;
 @end
 
 @interface FullEquipProto : PBGeneratedMessage {

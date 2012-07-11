@@ -1516,17 +1516,21 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 
 @interface StartupResponseProto_DailyBonusInfo : PBGeneratedMessage {
 @private
+  BOOL hasFirstTimeToday_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
   BOOL hasSilverBonus_:1;
   BOOL hasUserEquipBonus_:1;
+  BOOL firstTimeToday_:1;
   int32_t numConsecutiveDaysPlayed;
   int32_t silverBonus;
   FullUserEquipProto* userEquipBonus;
 }
 - (BOOL) hasNumConsecutiveDaysPlayed;
+- (BOOL) hasFirstTimeToday;
 - (BOOL) hasSilverBonus;
 - (BOOL) hasUserEquipBonus;
 @property (readonly) int32_t numConsecutiveDaysPlayed;
+- (BOOL) firstTimeToday;
 @property (readonly) int32_t silverBonus;
 @property (readonly, retain) FullUserEquipProto* userEquipBonus;
 
@@ -1568,6 +1572,11 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (int32_t) numConsecutiveDaysPlayed;
 - (StartupResponseProto_DailyBonusInfo_Builder*) setNumConsecutiveDaysPlayed:(int32_t) value;
 - (StartupResponseProto_DailyBonusInfo_Builder*) clearNumConsecutiveDaysPlayed;
+
+- (BOOL) hasFirstTimeToday;
+- (BOOL) firstTimeToday;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setFirstTimeToday:(BOOL) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearFirstTimeToday;
 
 - (BOOL) hasSilverBonus;
 - (int32_t) silverBonus;

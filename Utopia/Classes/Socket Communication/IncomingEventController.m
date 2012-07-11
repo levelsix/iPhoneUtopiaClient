@@ -34,6 +34,7 @@
 #import "TopBar.h"
 #import "FullEvent.h"
 #import "KiipDelegate.h"
+#import "DailyBonusMenuController.h"
 
 @implementation IncomingEventController
 
@@ -361,6 +362,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     for (PlayerWallPostProto *wallPost in proto.playerWallPostNotificationsList) {
       [gs addWallPost:wallPost];
+    }
+    
+    //Display daily bonus screen if its applicable
+    StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
+    NSLog(@"%d:%d, %d:%d, %d:%d, %d:%@", dbi.hasFirstTimeToday, dbi.firstTimeToday, dbi.hasNumConsecutiveDaysPlayed, dbi.numConsecutiveDaysPlayed, dbi.hasSilverBonus, dbi.silverBonus, dbi.hasUserEquipBonus, dbi.userEquipBonus);
+    if (dbi.firstTimeToday) {
+      DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
+      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.silverBonus equip:dbi.userEquipBonus];
+      [Globals displayUIView:dbmc.view];
     }
     
     if (gs.isTutorial) {

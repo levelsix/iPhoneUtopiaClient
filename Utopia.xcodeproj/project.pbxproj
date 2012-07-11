@@ -949,6 +949,14 @@
 		CF30103C15ABF7460028A4D9 /* levelup.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF30102D15ABF01F0028A4D9 /* levelup.m4a */; };
 		CF30103F15ABFA880028A4D9 /* loadingdoors.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30103D15ABFA880028A4D9 /* loadingdoors.png */; };
 		CF30104015ABFA880028A4D9 /* loadingdoors@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30103E15ABFA880028A4D9 /* loadingdoors@2x.png */; };
+		CF30104915ACE74F0028A4D9 /* activeborder.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104115ACE74F0028A4D9 /* activeborder.png */; };
+		CF30104A15ACE74F0028A4D9 /* activeborder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104215ACE74F0028A4D9 /* activeborder@2x.png */; };
+		CF30104B15ACE74F0028A4D9 /* checkdb.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104315ACE74F0028A4D9 /* checkdb.png */; };
+		CF30104C15ACE74F0028A4D9 /* checkdb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104415ACE74F0028A4D9 /* checkdb@2x.png */; };
+		CF30104D15ACE74F0028A4D9 /* dailybonusbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104515ACE74F0028A4D9 /* dailybonusbg.png */; };
+		CF30104E15ACE74F0028A4D9 /* dailybonusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104615ACE74F0028A4D9 /* dailybonusbg@2x.png */; };
+		CF30104F15ACE74F0028A4D9 /* mysterybox.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104715ACE74F0028A4D9 /* mysterybox.png */; };
+		CF30105015ACE74F0028A4D9 /* mysterybox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF30104815ACE74F0028A4D9 /* mysterybox@2x.png */; };
 		CF36B80C15509EBC00B8FD61 /* warningbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36B80A15509EBC00B8FD61 /* warningbg.png */; };
 		CF36B80D15509EBC00B8FD61 /* warningbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF36B80B15509EBC00B8FD61 /* warningbg@2x.png */; };
 		CF36B81D1552305C00B8FD61 /* BazaarMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF36B81C1552305C00B8FD61 /* BazaarMap.m */; };
@@ -1228,8 +1236,6 @@
 		CF8FC846154544930082473E /* cloud1shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8FC842154544930082473E /* cloud1shadow@2x.png */; };
 		CF92643315AB87970062B3CD /* DailyBonusMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF92643115AB87970062B3CD /* DailyBonusMenuController.m */; };
 		CF92643415AB87970062B3CD /* DailyBonusMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF92643215AB87970062B3CD /* DailyBonusMenuController.xib */; };
-		CF92643815AB88C60062B3CD /* dailybonusbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF92643615AB88C60062B3CD /* dailybonusbg.png */; };
-		CF92643915AB88C60062B3CD /* dailybonusbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF92643715AB88C60062B3CD /* dailybonusbg@2x.png */; };
 		CFA03DF51565E06900862FF3 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA03DF41565E06900862FF3 /* red.png */; };
 		CFA73EAB1541230A00900045 /* QuestLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA73EAA1541230A00900045 /* QuestLogController.m */; };
 		CFAD9CEB1565CD5B00922327 /* cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFAD9CE91565CD5B00922327 /* cancel@2x.png */; };
@@ -2749,6 +2755,14 @@
 		CF30103515ABF06A0028A4D9 /* Carpenter_Purchase.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Carpenter_Purchase.m4a; sourceTree = "<group>"; };
 		CF30103D15ABFA880028A4D9 /* loadingdoors.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loadingdoors.png; sourceTree = "<group>"; };
 		CF30103E15ABFA880028A4D9 /* loadingdoors@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loadingdoors@2x.png"; sourceTree = "<group>"; };
+		CF30104115ACE74F0028A4D9 /* activeborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = activeborder.png; sourceTree = "<group>"; };
+		CF30104215ACE74F0028A4D9 /* activeborder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activeborder@2x.png"; sourceTree = "<group>"; };
+		CF30104315ACE74F0028A4D9 /* checkdb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkdb.png; sourceTree = "<group>"; };
+		CF30104415ACE74F0028A4D9 /* checkdb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkdb@2x.png"; sourceTree = "<group>"; };
+		CF30104515ACE74F0028A4D9 /* dailybonusbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dailybonusbg.png; sourceTree = "<group>"; };
+		CF30104615ACE74F0028A4D9 /* dailybonusbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dailybonusbg@2x.png"; sourceTree = "<group>"; };
+		CF30104715ACE74F0028A4D9 /* mysterybox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mysterybox.png; sourceTree = "<group>"; };
+		CF30104815ACE74F0028A4D9 /* mysterybox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mysterybox@2x.png"; sourceTree = "<group>"; };
 		CF36B80A15509EBC00B8FD61 /* warningbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warningbg.png; sourceTree = "<group>"; };
 		CF36B80B15509EBC00B8FD61 /* warningbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warningbg@2x.png"; sourceTree = "<group>"; };
 		CF36B81B1552305C00B8FD61 /* BazaarMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BazaarMap.h; path = GameMap/BazaarMap.h; sourceTree = "<group>"; };
@@ -2981,8 +2995,6 @@
 		CF92643015AB87970062B3CD /* DailyBonusMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DailyBonusMenuController.h; sourceTree = "<group>"; };
 		CF92643115AB87970062B3CD /* DailyBonusMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DailyBonusMenuController.m; sourceTree = "<group>"; };
 		CF92643215AB87970062B3CD /* DailyBonusMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DailyBonusMenuController.xib; sourceTree = "<group>"; };
-		CF92643615AB88C60062B3CD /* dailybonusbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dailybonusbg.png; sourceTree = "<group>"; };
-		CF92643715AB88C60062B3CD /* dailybonusbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dailybonusbg@2x.png"; sourceTree = "<group>"; };
 		CFA03DF41565E06900862FF3 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
 		CFA73EA91541230A00900045 /* QuestLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestLogController.h; sourceTree = "<group>"; };
 		CFA73EAA1541230A00900045 /* QuestLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestLogController.m; sourceTree = "<group>"; };
@@ -5984,8 +5996,14 @@
 		CF92643515AB87F90062B3CD /* Daily Bonus Images */ = {
 			isa = PBXGroup;
 			children = (
-				CF92643615AB88C60062B3CD /* dailybonusbg.png */,
-				CF92643715AB88C60062B3CD /* dailybonusbg@2x.png */,
+				CF30104115ACE74F0028A4D9 /* activeborder.png */,
+				CF30104215ACE74F0028A4D9 /* activeborder@2x.png */,
+				CF30104315ACE74F0028A4D9 /* checkdb.png */,
+				CF30104415ACE74F0028A4D9 /* checkdb@2x.png */,
+				CF30104515ACE74F0028A4D9 /* dailybonusbg.png */,
+				CF30104615ACE74F0028A4D9 /* dailybonusbg@2x.png */,
+				CF30104715ACE74F0028A4D9 /* mysterybox.png */,
+				CF30104815ACE74F0028A4D9 /* mysterybox@2x.png */,
 			);
 			path = "Daily Bonus Images";
 			sourceTree = "<group>";
@@ -7473,8 +7491,6 @@
 				CFFB2C7615A2DE8C0042C361 /* BargenHarbor.tmx in Resources */,
 				CFFB2C7715A2DE8C0042C361 /* BargenHarbor@2x.tmx in Resources */,
 				CF92643415AB87970062B3CD /* DailyBonusMenuController.xib in Resources */,
-				CF92643815AB88C60062B3CD /* dailybonusbg.png in Resources */,
-				CF92643915AB88C60062B3CD /* dailybonusbg@2x.png in Resources */,
 				CF13766C15ABB61400D2D2B1 /* level_up_pop_ups.m4a in Resources */,
 				CF13766D15ABB61900D2D2B1 /* questavail_notif.m4a in Resources */,
 				CF30102915ABED170028A4D9 /* Archer_Task.m4a in Resources */,
@@ -7490,6 +7506,14 @@
 				CF30103C15ABF7460028A4D9 /* levelup.m4a in Resources */,
 				CF30103F15ABFA880028A4D9 /* loadingdoors.png in Resources */,
 				CF30104015ABFA880028A4D9 /* loadingdoors@2x.png in Resources */,
+				CF30104915ACE74F0028A4D9 /* activeborder.png in Resources */,
+				CF30104A15ACE74F0028A4D9 /* activeborder@2x.png in Resources */,
+				CF30104B15ACE74F0028A4D9 /* checkdb.png in Resources */,
+				CF30104C15ACE74F0028A4D9 /* checkdb@2x.png in Resources */,
+				CF30104D15ACE74F0028A4D9 /* dailybonusbg.png in Resources */,
+				CF30104E15ACE74F0028A4D9 /* dailybonusbg@2x.png in Resources */,
+				CF30104F15ACE74F0028A4D9 /* mysterybox.png in Resources */,
+				CF30105015ACE74F0028A4D9 /* mysterybox@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

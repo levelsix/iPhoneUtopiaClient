@@ -7,38 +7,84 @@
 //
 
 #import "DailyBonusMenuController.h"
-
-@interface DailyBonusMenuController ()
-
-@end
+#import "cocos2d.h"
+#import "Globals.h"
+#import "GameState.h"
 
 @implementation DailyBonusMenuController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+@synthesize day1Done, day2Done, day3Done, day4Done, day5Done;
+@synthesize day1NotDone, day2NotDone, day3NotDone, day4NotDone, day5NotDone;
+@synthesize day1Active, day2Active, day3Active, day4Active, day5Active;
+@synthesize tutorialGirlIcon, rewardIcon, rewardLabel;
+
+- (void) viewWillAppear:(BOOL)animated {
+  GameState *gs = [GameState sharedGameState];
+  
+  if ([Globals userTypeIsGood:gs.type]) {
+    tutorialGirlIcon.image = [Globals imageNamed:@"rubyspeech.png"];
+  } else {
+    tutorialGirlIcon.image = [Globals imageNamed:@"adrianaspeech.png"];
+  }
+  
+  NSArray *doneViews = [NSArray arrayWithObjects:day1Done, day2Done, day3Done, day4Done, day5Done, nil];
+  NSArray *notDoneViews = [NSArray arrayWithObjects:day1NotDone, day2NotDone, day3NotDone, day4NotDone, day5NotDone, nil];
+  NSArray *activeViews = [NSArray arrayWithObjects:day1Active, day2Active, day3Active, day4Active, day5Active, nil];
+  
+  for (int i = 1; i <= 5; i++) {
+    UIView *doneView = [doneViews objectAtIndex:i-1];
+    UIView *notDoneView = [notDoneViews objectAtIndex:i-1];
+    UIView *activeView = [activeViews objectAtIndex:i-1];
+    
+    BOOL done = i <= _day;
+    doneView.hidden = !done;
+    notDoneView.hidden = done;
+    activeView.hidden = i != _day;
+    
+    if (_day < 5) {
+      rewardIcon.highlighted = NO;
+      rewardLabel.text = [Globals commafyNumber:_silver];
+    } else {
+      rewardIcon.highlighted = YES;
+      rewardLabel.text = @"Loot";
     }
-    return self;
+  }
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+- (void)loadForDay:(int)day silver:(int)silver equip:(FullUserEquipProto *)fuep {
+  _day = day;
+  _silver = silver;
+  [_fuep release];
+  _fuep = [fuep retain];
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+  [super viewDidUnload];
+  // Release any retained subviews of the main view.
+  // e.g. self.myOutlet = nil;
+  
+  self.day1Done = nil;
+  self.day2Done = nil;
+  self.day3Done = nil;
+  self.day4Done = nil;
+  self.day5Done = nil;
+  self.day1NotDone = nil;
+  self.day2NotDone = nil;
+  self.day3NotDone = nil;
+  self.day4NotDone = nil;
+  self.day5NotDone = nil;
+  self.day1Active = nil;
+  self.day2Active = nil;
+  self.day3Active = nil;
+  self.day4Active = nil;
+  self.day5Active = nil;
+  self.tutorialGirlIcon = nil;
+  self.rewardIcon = nil;
+  self.rewardLabel = nil;
+  
+  [_fuep release];
+  _fuep = nil;
 }
 
 @end

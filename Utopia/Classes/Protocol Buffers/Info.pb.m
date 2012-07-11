@@ -669,6 +669,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property int32_t apsalarId;
 @property int32_t numAdColonyVideosWatched;
 @property int32_t numTimesKiipRewarded;
+@property int32_t numConsecutiveDaysPlayed;
 @end
 
 @implementation FullUserProto
@@ -1019,6 +1020,13 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasNumTimesKiipRewarded_ = !!value;
 }
 @synthesize numTimesKiipRewarded;
+- (BOOL) hasNumConsecutiveDaysPlayed {
+  return !!hasNumConsecutiveDaysPlayed_;
+}
+- (void) setHasNumConsecutiveDaysPlayed:(BOOL) value {
+  hasNumConsecutiveDaysPlayed_ = !!value;
+}
+@synthesize numConsecutiveDaysPlayed;
 - (void) dealloc {
   self.name = nil;
   self.referralCode = nil;
@@ -1080,6 +1088,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.apsalarId = 0;
     self.numAdColonyVideosWatched = 0;
     self.numTimesKiipRewarded = 0;
+    self.numConsecutiveDaysPlayed = 0;
   }
   return self;
 }
@@ -1243,6 +1252,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (self.hasNumTimesKiipRewarded) {
     [output writeInt32:52 value:self.numTimesKiipRewarded];
   }
+  if (self.hasNumConsecutiveDaysPlayed) {
+    [output writeInt32:53 value:self.numConsecutiveDaysPlayed];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -1395,6 +1407,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasNumTimesKiipRewarded) {
     size += computeInt32Size(52, self.numTimesKiipRewarded);
+  }
+  if (self.hasNumConsecutiveDaysPlayed) {
+    size += computeInt32Size(53, self.numConsecutiveDaysPlayed);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1614,6 +1629,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasNumTimesKiipRewarded) {
     [self setNumTimesKiipRewarded:other.numTimesKiipRewarded];
+  }
+  if (other.hasNumConsecutiveDaysPlayed) {
+    [self setNumConsecutiveDaysPlayed:other.numConsecutiveDaysPlayed];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -1851,6 +1869,10 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 416: {
         [self setNumTimesKiipRewarded:[input readInt32]];
+        break;
+      }
+      case 424: {
+        [self setNumConsecutiveDaysPlayed:[input readInt32]];
         break;
       }
     }
@@ -2678,6 +2700,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearNumTimesKiipRewarded {
   result.hasNumTimesKiipRewarded = NO;
   result.numTimesKiipRewarded = 0;
+  return self;
+}
+- (BOOL) hasNumConsecutiveDaysPlayed {
+  return result.hasNumConsecutiveDaysPlayed;
+}
+- (int32_t) numConsecutiveDaysPlayed {
+  return result.numConsecutiveDaysPlayed;
+}
+- (FullUserProto_Builder*) setNumConsecutiveDaysPlayed:(int32_t) value {
+  result.hasNumConsecutiveDaysPlayed = YES;
+  result.numConsecutiveDaysPlayed = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumConsecutiveDaysPlayed {
+  result.hasNumConsecutiveDaysPlayed = NO;
+  result.numConsecutiveDaysPlayed = 0;
   return self;
 }
 @end
