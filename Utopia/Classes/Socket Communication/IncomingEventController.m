@@ -414,6 +414,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     // This will be released after the level up controller closes
     LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+    [vc release];
     
     [Analytics levelUp:proto.newLevel];
     NSArray *levelUpRewards = [[[Globals sharedGlobals] kiipRewardConditions] levelUpConditionsList];
@@ -479,6 +480,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       // This will be released after the level up controller closes
       CityRankupViewController *vc = [[CityRankupViewController alloc] initWithRank:city.curRank coins:proto.coinBonusIfCityRankup exp:proto.expBonusIfCityRankup];
       [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
+      [vc release];
       
       if (gLay.currentCity == cityId) {
         NSArray *sprites = [[gLay missionMap] mapSprites];
