@@ -156,7 +156,7 @@
       if (asset) {
         asset.ftp = ftp;
       } else {
-        LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
+        ContextLogError(LN_CONTEXT_MAP, @"Could not find asset number %d.", ftp.assetNumWithinCity);
       }
     }
     
@@ -167,7 +167,7 @@
       if (asset) {
         asset.numTimesActedForTask = mutp.numTimesActed;
       } else {
-        LNLog(@"Could not find asset number %d.", ftp.assetNumWithinCity);
+        ContextLogError(LN_CONTEXT_MAP, @"Could not find asset number %d.", ftp.assetNumWithinCity);
       }
     }
     

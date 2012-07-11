@@ -343,9 +343,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
-    LNLog(@"Firing up energy timer with time %f..", energyComplete);
+    DDLogVerbose(@"Firing up energy timer with time %f..", energyComplete);
   } else {
-    LNLog(@"Reached max energy..");
+    DDLogVerbose(@"Reached max energy..");
     _energyTimer = nil;
   }
   
@@ -371,9 +371,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes;
     _staminaTimer = [NSTimer timerWithTimeInterval:staminaComplete target:self selector:@selector(staminaRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
-    LNLog(@"Firing up stamina timer with time %f..", staminaComplete);
+    DDLogVerbose(@"Firing up stamina timer with time %f..", staminaComplete);
   } else {
-    LNLog(@"Reached max stamina..");
+    DDLogVerbose(@"Reached max stamina..");
     _staminaTimer = nil;
   }
   
@@ -441,7 +441,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   } else if (sender == _littleToolTip) {
     _littleToolTipState = kNotShowing;
   } else {
-    LNLog(@"ERROR IN TOOL TIPS!!!");
+    DDLogError(@"ERROR IN TOOL TIPS!!! sender = %@", [sender description]);
   }
 }
 

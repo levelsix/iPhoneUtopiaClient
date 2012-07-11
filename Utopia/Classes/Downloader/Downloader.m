@@ -47,24 +47,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 
 - (void) asyncDownloadImage:(NSString *)imageName completion:(void (^)(void))completed {
   // Get an image from the URL below
-  LNLog(@"Beginning async download of %@", imageName);
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of %@", imageName);
   dispatch_async(_queue, ^{
     [self downloadImage:imageName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {
         completed();
       }
-      LNLog(@"Download of %@ complete", imageName);
+      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
     });
   });
 }
 
 - (void) syncDownloadImage:(NSString *)imageName {
-  LNLog(@"Beginning sync download of %@", imageName);
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of %@", imageName);
   dispatch_sync(_queue, ^{
     [self downloadImage:imageName];
   });
-  LNLog(@"Download of %@ complete", imageName);
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
 }
 
 - (void) downloadFile:(NSString *)fileName {
@@ -80,19 +80,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
 }
 
 - (void) syncDownloadFile:(NSString *)fileName {
-  LNLog(@"Beginning sync download of file %@", fileName);
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of file %@", fileName);
   dispatch_sync(_queue, ^{
     [self downloadFile:fileName];
   });
-  LNLog(@"Download of %@ complete", fileName);
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", fileName);
 }
 
 - (void) asyncDownloadFile:(NSString *)fileName {
-  LNLog(@"Beginning async download of file %@", fileName);
+  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of file %@", fileName);
   dispatch_async(_queue, ^{
     [self downloadFile:fileName];
     dispatch_async(dispatch_get_main_queue(), ^{
-      LNLog(@"Download of %@ complete", fileName);
+      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", fileName);
     });
   });
 }

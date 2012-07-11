@@ -272,7 +272,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds {
-  LNLog(@"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"%d enemies in rect: %@", numEnemies, [NSValue valueWithCGRect:bounds]);
   if (bounds.size.width <= 0 || bounds.size.height <= 0) {
     [Globals popupMessage:@"Invalid bounds to generate attack list"];
     return;
@@ -1074,7 +1074,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
-    LNLog(@"Retrieving equip %d.", equipId);
+    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieving equip %d.", equipId);
      int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
