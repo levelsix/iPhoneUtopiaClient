@@ -127,6 +127,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"unlockedheader.png"]] autorelease];
   UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 400, headerView.frame.size.height)];
+  [label autorelease];
   label.textColor = [Globals creamColor];
   label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
   label.backgroundColor = [UIColor clearColor];
@@ -175,6 +176,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
     [cell autorelease];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    [label autorelease];
     label.tag = LABEL_TAG;
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 0;
@@ -213,12 +215,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   
   UIFont *font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:TEXT_FONT_SIZE];
   
-  BOOL isSectionTitle = NO;
   if ([text hasSuffix:SECTION_SUFFIX]) {
-    isSectionTitle = YES;
     text = [text stringByReplacingOccurrencesOfString:SECTION_SUFFIX withString:@""];
     font = [UIFont fontWithName:@"AJensonPro-BoldCapt" size:SECTION_FONT_SIZE];
-  } else if ([text hasSuffix:QUESTION_SUFFIX]) {
+  } 
+  else if ([text hasSuffix:QUESTION_SUFFIX]) {
     font = [UIFont fontWithName:@"AJensonPro-BoldCapt" size:QUESTION_FONT_SIZE];
   }
   
