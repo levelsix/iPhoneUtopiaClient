@@ -3332,6 +3332,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 }
 @interface StartupResponseProto_DailyBonusInfo ()
 @property int32_t numConsecutiveDaysPlayed;
+@property BOOL firstTimeToday;
 @property int32_t silverBonus;
 @property (retain) FullUserEquipProto* userEquipBonus;
 @end
@@ -3345,6 +3346,18 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   hasNumConsecutiveDaysPlayed_ = !!value;
 }
 @synthesize numConsecutiveDaysPlayed;
+- (BOOL) hasFirstTimeToday {
+  return !!hasFirstTimeToday_;
+}
+- (void) setHasFirstTimeToday:(BOOL) value {
+  hasFirstTimeToday_ = !!value;
+}
+- (BOOL) firstTimeToday {
+  return !!firstTimeToday_;
+}
+- (void) setFirstTimeToday:(BOOL) value {
+  firstTimeToday_ = !!value;
+}
 - (BOOL) hasSilverBonus {
   return !!hasSilverBonus_;
 }
@@ -3366,6 +3379,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (id) init {
   if ((self = [super init])) {
     self.numConsecutiveDaysPlayed = 0;
+    self.firstTimeToday = NO;
     self.silverBonus = 0;
     self.userEquipBonus = [FullUserEquipProto defaultInstance];
   }
@@ -3390,11 +3404,14 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (self.hasNumConsecutiveDaysPlayed) {
     [output writeInt32:1 value:self.numConsecutiveDaysPlayed];
   }
+  if (self.hasFirstTimeToday) {
+    [output writeBool:2 value:self.firstTimeToday];
+  }
   if (self.hasSilverBonus) {
-    [output writeInt32:2 value:self.silverBonus];
+    [output writeInt32:3 value:self.silverBonus];
   }
   if (self.hasUserEquipBonus) {
-    [output writeMessage:3 value:self.userEquipBonus];
+    [output writeMessage:4 value:self.userEquipBonus];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3408,11 +3425,14 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (self.hasNumConsecutiveDaysPlayed) {
     size += computeInt32Size(1, self.numConsecutiveDaysPlayed);
   }
+  if (self.hasFirstTimeToday) {
+    size += computeBoolSize(2, self.firstTimeToday);
+  }
   if (self.hasSilverBonus) {
-    size += computeInt32Size(2, self.silverBonus);
+    size += computeInt32Size(3, self.silverBonus);
   }
   if (self.hasUserEquipBonus) {
-    size += computeMessageSize(3, self.userEquipBonus);
+    size += computeMessageSize(4, self.userEquipBonus);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3492,6 +3512,9 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (other.hasNumConsecutiveDaysPlayed) {
     [self setNumConsecutiveDaysPlayed:other.numConsecutiveDaysPlayed];
   }
+  if (other.hasFirstTimeToday) {
+    [self setFirstTimeToday:other.firstTimeToday];
+  }
   if (other.hasSilverBonus) {
     [self setSilverBonus:other.silverBonus];
   }
@@ -3524,10 +3547,14 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
         break;
       }
       case 16: {
+        [self setFirstTimeToday:[input readBool]];
+        break;
+      }
+      case 24: {
         [self setSilverBonus:[input readInt32]];
         break;
       }
-      case 26: {
+      case 34: {
         FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
         if (self.hasUserEquipBonus) {
           [subBuilder mergeFrom:self.userEquipBonus];
@@ -3553,6 +3580,22 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
 - (StartupResponseProto_DailyBonusInfo_Builder*) clearNumConsecutiveDaysPlayed {
   result.hasNumConsecutiveDaysPlayed = NO;
   result.numConsecutiveDaysPlayed = 0;
+  return self;
+}
+- (BOOL) hasFirstTimeToday {
+  return result.hasFirstTimeToday;
+}
+- (BOOL) firstTimeToday {
+  return result.firstTimeToday;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) setFirstTimeToday:(BOOL) value {
+  result.hasFirstTimeToday = YES;
+  result.firstTimeToday = value;
+  return self;
+}
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearFirstTimeToday {
+  result.hasFirstTimeToday = NO;
+  result.firstTimeToday = NO;
   return self;
 }
 - (BOOL) hasSilverBonus {

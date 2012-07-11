@@ -18,6 +18,7 @@
 #import "OutgoingEventController.h"
 #import "GameViewController.h"
 #import "ProfileViewController.h"
+#import "SoundEngine.h"
 
 @implementation TutorialHomeMap
 
@@ -199,6 +200,8 @@
     [self doReorder];
     
     [Analytics tutorialPlaceInn];
+    
+    [[SoundEngine sharedSoundEngine] carpenterPurchase];
   }
 }
 
