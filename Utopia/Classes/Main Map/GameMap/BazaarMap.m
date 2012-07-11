@@ -47,14 +47,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeMarketplace];
     CritStructBuilding *csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 35, 4, 4) map:self];
     [self addChild:csb z:100];
+    [cs  release];
+    [csb release];
     
     cs = [[CritStruct alloc] initWithType:CritStructTypeArmory];
     csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 35, 4, 4) map:self];
     [self addChild:csb z:100];
+    [cs  release];
+    [csb release];
     
     cs = [[CritStruct alloc] initWithType:CritStructTypeVault];
     csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 42, 4, 4) map:self];
     [self addChild:csb z:100];
+    [cs  release];
+    [csb release];
     
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
