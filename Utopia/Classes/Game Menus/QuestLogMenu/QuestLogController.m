@@ -319,6 +319,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"questheadertop.png"]] autorelease];
   UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, 400, headerView.frame.size.height)];
+  [label autorelease];
   label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
   label.backgroundColor = [UIColor clearColor];
   [headerView addSubview:label];
@@ -384,7 +385,8 @@
   if (!qc) {
     [[NSBundle mainBundle] loadNibNamed:@"QuestCell" owner:self options:nil];
     qc = self.questCell;
-    qc.selectedBackgroundView = [[UIView alloc] initWithFrame:qc.bounds];
+    qc.selectedBackgroundView = [[[UIView alloc] initWithFrame:qc.bounds] 
+                                 autorelease];
     qc.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.5f];
   }
   
@@ -491,7 +493,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   UIImageView *headerView = [[[UIImageView alloc] initWithImage:[Globals imageNamed:@"questheadertop.png"]] autorelease];
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 400, headerView.frame.size.height)];
+  UILabel *label = [[UILabel alloc]
+                    initWithFrame:CGRectMake(10, 2, 400, headerView.frame.size.height)];
+  [label autorelease];
   label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
   label.backgroundColor = [UIColor clearColor];
   label.textColor = [Globals creamColor];
