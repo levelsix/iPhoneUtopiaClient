@@ -581,6 +581,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   UIView *okayButton = [luvc.mainView viewWithTag:50];
   arrow.center = ccp(CGRectGetMaxX(okayButton.frame)+3, okayButton.center.y);
   [Globals animateUIArrow:arrow atAngle:M_PI];
+  [arrow release];
 }
 
 - (void) levelUpComplete {
