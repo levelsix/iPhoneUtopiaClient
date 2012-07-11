@@ -541,27 +541,55 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) clearAllData {
   _connected = NO;
-  self.marketplaceEquipPosts = [[NSMutableArray alloc] init];
-  self.marketplaceEquipPostsFromSender = [[NSMutableArray alloc] init];
-  self.staticTasks = [[NSMutableDictionary alloc] init];
-  self.staticCities = [[NSMutableDictionary alloc] init];
-  self.staticEquips = [[NSMutableDictionary alloc] init];
-  self.staticQuests = [[NSMutableDictionary alloc] init];
-  self.staticStructs = [[NSMutableDictionary alloc] init];
-  self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
-  self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
-  self.staticPossessEquipJobs = [[NSMutableDictionary alloc] init];
-  self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
-  self.attackList = [[NSMutableArray alloc] init];
-  self.notifications = [[NSMutableArray alloc] init];
-  self.myEquips = [[NSMutableArray alloc] init];
-  self.myStructs = [[NSMutableArray alloc] init];
-  self.myCities = [[NSMutableDictionary alloc] init];
-  self.wallPosts = [[NSMutableArray alloc] init];
+  _marketplaceEquipPosts            = nil;
+  _marketplaceEquipPostsFromSender  = nil;
+  _staticTasks                      = nil;
+  _staticCities                     = nil;
+  _staticEquips                     = nil;
+  _staticQuests                     = nil;
+  _staticStructs                    = nil;
+  _staticDefeatTypeJobs             = nil;
+  _staticBuildStructJobs            = nil;
+  _staticPossessEquipJobs           = nil;
+  _staticUpgradeStructJobs          = nil;
+  _attackList                       = nil;
+  _notifications                    = nil;
+  _myEquips                         = nil;
+  _myStructs                        = nil;
+  _myCities                         = nil;
+  _wallPosts                        = nil;
   
-  self.availableQuests = [[NSMutableDictionary alloc] init];
-  self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
-  self.inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
+  _availableQuests            = nil;
+  _inProgressCompleteQuests   = nil;
+  _inProgressIncompleteQuests = nil;
+}
+
+-(void)resetAllData
+{
+  [self clearAllData];
+
+  _connected = NO;
+  _marketplaceEquipPosts            = [[NSMutableArray alloc] init];
+  _marketplaceEquipPostsFromSender  = [[NSMutableArray alloc] init];
+  _staticTasks                      = [[NSMutableDictionary alloc] init];
+  _staticCities                     = [[NSMutableDictionary alloc] init];
+  _staticEquips                     = [[NSMutableDictionary alloc] init];
+  _staticQuests                     = [[NSMutableDictionary alloc] init];
+  _staticStructs                    = [[NSMutableDictionary alloc] init];
+  _staticDefeatTypeJobs             = [[NSMutableDictionary alloc] init];
+  _staticBuildStructJobs            = [[NSMutableDictionary alloc] init];
+  _staticPossessEquipJobs           = [[NSMutableDictionary alloc] init];
+  _staticUpgradeStructJobs          = [[NSMutableDictionary alloc] init];
+  _attackList                       = [[NSMutableArray alloc] init];
+  _notifications                    = [[NSMutableArray alloc] init];
+  _myEquips                         = [[NSMutableArray alloc] init];
+  _myStructs                        = [[NSMutableArray alloc] init];
+  _myCities                         = [[NSMutableDictionary alloc] init];
+  _wallPosts                        = [[NSMutableArray alloc] init];
+  
+  _availableQuests            = [[NSMutableDictionary alloc] init];
+  _inProgressCompleteQuests   = [[NSMutableDictionary alloc] init];
+  _inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
 }
 
 - (void) dealloc {

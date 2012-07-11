@@ -220,6 +220,6 @@
 - (void) changeQuantityForEquip:(int)equipId by:(int)qDelta;
 
 - (void) purgeStaticData;
-- (void) clearAllData;
+- (void) resetAllData;
 
 @end

@@ -86,7 +86,7 @@
 @synthesize canLoad;
 
 + (void) releaseAllViews {
-  [[GameState sharedGameState] clearAllData];
+  [[GameState sharedGameState] resetAllData];
   
   [sharedGameViewController dismissModalViewControllerAnimated:NO];
   
