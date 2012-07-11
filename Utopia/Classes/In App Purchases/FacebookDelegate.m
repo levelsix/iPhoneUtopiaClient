@@ -147,6 +147,7 @@
   FacebookDelegate *delegate = [[FacebookDelegate alloc] init];
   Facebook *facebk = [[Facebook alloc] initWithAppId:FACEBOOK_APP_ID
                                          andDelegate:delegate];
+  [facebk autorelease];
   [delegate autorelease];
   delegate.facebook = facebk;
 

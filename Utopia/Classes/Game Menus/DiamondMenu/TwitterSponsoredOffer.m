@@ -42,6 +42,7 @@
   // Create the view controller
   TWTweetComposeViewController *twitter = [[TWTweetComposeViewController alloc]
                                            init];
+  [twitter autorelease];
   
   // Optional: set an image, url and initial text
   [twitter addImage:[UIImage imageNamed:GAME_ICON_NAME]];
