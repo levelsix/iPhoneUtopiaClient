@@ -871,6 +871,14 @@ static BOOL configured = FALSE;
 	}	
 }	
 
+-(void) releaseAllLoadedBuffers
+{
+  NSArray *filePaths = [loadedBuffers allKeys];
+  for (NSString *curFile in filePaths) {
+    [self releaseBufferForFile:curFile];
+  }
+}
+
 -(void) releaseBufferForFile:(NSString *) filePath {
 	int bufferId = [self bufferForFile:filePath create:NO];
 	if (bufferId != kCDNoBuffer) {

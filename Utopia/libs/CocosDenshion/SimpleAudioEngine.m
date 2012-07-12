@@ -155,6 +155,11 @@ static CDBufferManager *bufferManager = nil;
 	CDLOGINFO(@"Denshion::SimpleAudioEngine unloadedEffect %@",filePath);
 	[bufferManager releaseBufferForFile:filePath];
 }
+-(void) unloadAllEffects
+{
+  CDLOGINFO(@"Denshion::SimpleAudioEngine unloaded all effects");
+  [bufferManager releaseAllLoadedBuffers];
+}
 
 #pragma mark Audio Interrupt Protocol
 -(BOOL) mute

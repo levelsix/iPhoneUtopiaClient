@@ -21,6 +21,7 @@
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
 #import "LoggingContextFilter.h"
+#import "SoundEngine.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -236,7 +237,9 @@
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-  DDLogWarn(@"did receive mem warning");
+  DDLogWarn(@"Did receive memory warning");
+  [[SoundEngine sharedSoundEngine] releaseAllBuffers];
+
 	[[CCDirector sharedDirector] purgeCachedData];
   [[[Globals sharedGlobals] imageCache] removeAllObjects];
   

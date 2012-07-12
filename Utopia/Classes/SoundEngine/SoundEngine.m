@@ -238,4 +238,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [[SimpleAudioEngine sharedEngine] playEffect:@"notification_alert.m4a"];
 }
 
+-(void)releaseAllBuffers {
+  [[SimpleAudioEngine sharedEngine] unloadAllEffects];
+}
+
 @end

@@ -84,4 +84,7 @@ typedef enum {
 
 - (void) notificationAlert;
 
+- (void) releaseAllBuffers;
+
+
 @end
