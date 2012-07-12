@@ -194,6 +194,7 @@
 @synthesize time, type, otherPlayer;
 @synthesize marketPost;
 @synthesize battleResult, coinsStolen, stolenEquipId;
+@synthesize hasBeenViewed;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto {
   if ((self = [super init])) {

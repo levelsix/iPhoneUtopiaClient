@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "MaskedSprite.h"
 #import "ProfilePicture.h"
+#import "DailyBonusMenuController.h"
 
 typedef enum {
   kNotShowing = 1,
@@ -77,6 +78,9 @@ typedef enum {
 @property (nonatomic, retain) NSTimer *staminaTimer;
 
 @property (nonatomic, assign) BOOL isStarted;
+
+// If it is first day bonus
+@property (nonatomic, retain) DailyBonusMenuController *dbmc;
 
 - (void) setUpEnergyTimer;
 - (void) setUpStaminaTimer;

@@ -120,7 +120,6 @@
 								<string key="NSFrame">{{23, 88}, {436, 214}}</string>
 								<reference key="NSSuperview" ref="333547995"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="896192623">
 									<int key="NSColorSpace">3</int>
@@ -142,7 +141,7 @@
 							<object class="IBUILabel" id="658183633">
 								<reference key="NSNextResponder" ref="333547995"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{143, 19}, {153, 32}}</string>
+								<string key="NSFrame">{{143, 21}, {153, 32}}</string>
 								<reference key="NSSuperview" ref="333547995"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="684204836"/>
@@ -174,7 +173,7 @@
 							<object class="IBUILabel" id="365567309">
 								<reference key="NSNextResponder" ref="333547995"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{143, 44}, {287, 21}}</string>
+								<string key="NSFrame">{{143, 46}, {287, 21}}</string>
 								<reference key="NSSuperview" ref="333547995"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="920207475"/>
@@ -436,6 +435,7 @@
 						<string key="button">UIButton</string>
 						<string key="buttonLabel">UILabel</string>
 						<string key="subtitleLabel">UILabel</string>
+						<string key="timeLabel">UILabel</string>
 						<string key="titleLabel">UILabel</string>
 						<string key="userIcon">UIButton</string>
 					</dictionary>
@@ -450,6 +450,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="subtitleLabel">
 							<string key="name">subtitleLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="timeLabel">
+							<string key="name">timeLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="titleLabel">

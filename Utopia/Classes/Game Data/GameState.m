@@ -297,6 +297,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     return [obj2.time compare:obj1.time];
   }];
   
+  if ([un.time compare:_lastLogoutTime] == NSOrderedDescending) {
+    un.hasBeenViewed = NO;
+  } else {
+    un.hasBeenViewed = YES;
+  }
+  
   [[[ActivityFeedController sharedActivityFeedController] activityTableView] insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
   
   if (!_isTutorial) {

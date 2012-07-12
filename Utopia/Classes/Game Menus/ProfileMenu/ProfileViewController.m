@@ -1374,9 +1374,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   friendLeftView.hidden = isEnemy;
   selfLeftView.hidden = YES;
   
-  [curWeaponView unknownEquip];
-  [curArmorView unknownEquip];
-  [curAmuletView unknownEquip];
+  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
   
   enemyAttackLabel.text = [NSString stringWithFormat:@"Attack %@ to see Equipment", fup.name];
   
@@ -1398,6 +1396,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   
   if (!isEnemy && !_waitingForEquips) {
+    _waitingForEquips = YES;
     [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:fup.userId];
     [spinner startAnimating];
     self.spinner.hidden = NO;

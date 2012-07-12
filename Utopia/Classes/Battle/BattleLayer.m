@@ -29,6 +29,8 @@
 
 #define FINAL_BATTLE_WORLD_SCALE 1.4f
 
+#define MAX_NUM_WINS 3
+
 @implementation BattleSummaryView
 
 @synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon;
@@ -177,7 +179,7 @@
 
 @implementation StolenEquipView
 
-@synthesize nameLabel, equipIcon, attackLabel, defenseLabel;
+@synthesize nameLabel, equipIcon, attackLabel, defenseLabel, titleLabel;
 @synthesize mainView, bgdView;
 
 - (void) loadForEquip:(FullEquipProto *)fep {
@@ -238,7 +240,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   return validImg;
 }
 
-+(CCScene *) scene
++ (CCScene *) scene
 {
   // 'layer' is a singleton object.
   BattleLayer *layer = [self sharedBattleLayer];
@@ -485,6 +487,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     doneLabel.position = ccp(_loseButton.contentSize.width/2, _loseButton.contentSize.height/2);
     
     [[NSBundle mainBundle] loadNibNamed:@"BattleSummaryView" owner:self options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"StolenEquipView" owner:self options:nil];
     
     self.isTouchEnabled = YES;
     
@@ -563,6 +566,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     }
     
     [[MarketplaceViewController sharedMarketplaceViewController] backClicked:nil];
+    
+    _numWins = 0;
   } else {
     [self startBattle];
   }
@@ -1072,6 +1077,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   // Set the city id to 0 if win, only want it to count as 1 win
   _cityId = -1;
+  _numWins++;
   
   if (!brp) {
     _winButton.visible = NO;
@@ -1240,12 +1246,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 }
 
 - (IBAction)attackAgainClicked:(id)sender {
-  [Globals popOutView:summaryView.mainView fadeOutBgdView:summaryView.bgdView completion:^{
-    [summaryView removeFromSuperview];
-  }];
-  [self beginBattleAgainst:_fup inCity:_cityId];
-  
-  [Analytics attackAgain];
+  GameState *gs = [GameState sharedGameState];
+  if (_numWins >= MAX_NUM_WINS) {
+    [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Find another enemy to defeat!", _fup.name]];
+  } else {
+    if (gs.currentStamina > 0) {
+      [Globals popOutView:summaryView.mainView fadeOutBgdView:summaryView.bgdView completion:^{
+        [summaryView removeFromSuperview];
+      }];
+      [self beginBattleAgainst:_fup inCity:_cityId];
+      
+      [Analytics attackAgain];
+    } else {
+      [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
+    }
+  }
 }
 
 - (IBAction)profileButtonClicked:(id)sender {

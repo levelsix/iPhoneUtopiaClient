@@ -14,6 +14,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *userIcon;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *subtitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *timeLabel;
 @property (nonatomic, retain) IBOutlet UILabel *buttonLabel;
 @property (nonatomic, retain) IBOutlet UIButton *button;
 

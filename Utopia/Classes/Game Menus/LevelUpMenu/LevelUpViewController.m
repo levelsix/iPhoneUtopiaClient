@@ -127,12 +127,15 @@
   
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
-    [self didReceiveMemoryWarning];
-    [self release];
   }];
 }
 
-- (void)viewDidUnload
+- (void) viewDidDisappear:(BOOL)animated {
+  [self didReceiveMemoryWarning];
+  [self release];
+}
+
+- (void) viewDidUnload
 {
   [super viewDidUnload];
   // Release any retained subviews of the main view.

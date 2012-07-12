@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
+#import "BattleLayer.h"
 
 @interface DailyBonusMenuController : UIViewController {
   int _day;
@@ -33,9 +34,15 @@
 @property (nonatomic, retain) IBOutlet UIView *day4Active;
 @property (nonatomic, retain) IBOutlet UIView *day5Active;
 
+@property (nonatomic, retain) IBOutlet UIView *mainView;
+@property (nonatomic, retain) IBOutlet UIView *bgdView;
+
 @property (nonatomic, retain) IBOutlet UIImageView *tutorialGirlIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *rewardIcon;
 @property (nonatomic, retain) IBOutlet UILabel *rewardLabel;
+@property (nonatomic, retain) IBOutlet UILabel *okayLabel;
+
+@property (nonatomic, retain) IBOutlet StolenEquipView *stolenEquipView;
 
 - (void)loadForDay:(int)day silver:(int)silver equip:(FullUserEquipProto *)fuep;
 

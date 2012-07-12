@@ -841,7 +841,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
 }
 
 - (void) displayUpgradeBuildPopupForUserStruct:(UserStruct *)us {
-  // This will be released after the level up controller closes
+  // This will be released after the view closes
   BuildUpgradePopupController *vc = [[BuildUpgradePopupController alloc] initWithUserStruct:us];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
 }

@@ -58,6 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 @synthesize energyTimer = _energyTimer;
 @synthesize staminaTimer = _staminaTimer;
 @synthesize isStarted;
+@synthesize dbmc;
 
 - (id) init {
   if ((self = [super init])) {
@@ -288,6 +289,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   if (![[GameState sharedGameState] isTutorial]) {
     [[HomeMap sharedHomeMap] beginTimers];
+  }
+  
+  if (dbmc) {
+    [Globals displayUIView:dbmc.view];
+    self.dbmc = nil;
   }
   
   self.isStarted = YES;
@@ -683,6 +689,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_staminaBar release];
   [_toolTipTimerDate release];
   self.profilePic = nil;
+  self.dbmc = nil;
   [super dealloc];
 }
 

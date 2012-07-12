@@ -63,9 +63,12 @@
 @property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
+
+- (void) loadForEquip:(FullEquipProto *)fep;
 
 @end
 
@@ -123,6 +126,8 @@
   FullUserProto *_fup;
   
   int _cityId;
+  
+  int _numWins;
   
   BOOL _cameFromAviary;
   

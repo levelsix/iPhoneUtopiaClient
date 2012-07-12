@@ -18,7 +18,7 @@
 
 @implementation ActivityFeedCell
 
-@synthesize titleLabel, subtitleLabel, userIcon, button, buttonLabel;
+@synthesize titleLabel, subtitleLabel, userIcon, button, buttonLabel, timeLabel;
 @synthesize notification;
 
 - (void) updateForNotification:(UserNotification *)n {
@@ -29,6 +29,8 @@
   
   NSString *name = notification.otherPlayer.name;
   [userIcon setImage:[Globals squareImageForUser:notification.otherPlayer.userType] forState:UIControlStateNormal];
+  
+  timeLabel.text = [Globals stringForTimeSinceNow:n.time];
   
   if (notification.type == kNotificationBattle) {
     FullEquipProto *fep = nil;
@@ -194,6 +196,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   
   UserNotification *un = [[[GameState sharedGameState] notifications] objectAtIndex:indexPath.row];
   [cell updateForNotification:un];
+  
+  [[cell.contentView viewWithTag:1001] removeFromSuperview];
+  if (!un.hasBeenViewed) {
+    UIView *view = [[UIView alloc] initWithFrame:cell.bounds];
+    view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.08f];
+    view.tag = 1001;
+    [cell.contentView insertSubview:view atIndex:0];
+    
+    un.hasBeenViewed = YES;
+  }
   
   return cell;
 }
