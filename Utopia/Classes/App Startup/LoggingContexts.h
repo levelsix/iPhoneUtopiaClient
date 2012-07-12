@@ -20,6 +20,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 #define LN_CONTEXT_IAP            4
 #define LN_CONTEXT_GAMESTATE      5
 #define LN_CONTEXT_TAGS           6
+#define LN_CONTEXT_IMAGES         7
 
 #define ContextLogError(curContext, frmt, ...)   LOG_OBJC_MAYBE(LOG_ASYNC_ERROR,   ddLogLevel, LOG_FLAG_ERROR,   curContext, frmt, ##__VA_ARGS__)
 #define ContextLogWarn(curContext, frmt, ...)    LOG_OBJC_MAYBE(LOG_ASYNC_WARN,    ddLogLevel, LOG_FLAG_WARN,    curContext, frmt, ##__VA_ARGS__)

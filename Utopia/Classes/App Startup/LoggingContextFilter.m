@@ -44,4 +44,48 @@
   return filter;
 }
 
++(id<DDLogFormatter>)createMapFilter
+{
+  LoggingContextFilter *filter = [[LoggingContextFilter alloc] initWithContextToFilter:LN_CONTEXT_MAP];
+  [filter autorelease];
+  return filter;
+}
+
++(id<DDLogFormatter>)createDownloadFilter
+{
+  LoggingContextFilter *filter = [[LoggingContextFilter alloc] initWithContextToFilter:LN_CONTEXT_DOWNLOAD];
+  [filter autorelease];
+  return filter;
+}
+
++(id<DDLogFormatter>)createIAPFilter
+{
+  LoggingContextFilter *filter = [[LoggingContextFilter alloc] initWithContextToFilter:LN_CONTEXT_IAP];
+  [filter autorelease];
+  return filter;
+}
+
++(id<DDLogFormatter>)createGamestateFilter
+{
+  LoggingContextFilter *filter = [[LoggingContextFilter alloc] initWithContextToFilter:LN_CONTEXT_GAMESTATE];
+  [filter autorelease];
+  return filter;
+}
+
++(id<DDLogFormatter>)createCommunicationFilter
+{
+  LoggingContextFilter *filter = [[LoggingContextFilter alloc] initWithContextToFilter:LN_CONTEXT_COMMUNICATION];
+  [filter autorelease];
+  return filter;
+}
+
++(id<DDLogFormatter>)createImagesFilter
+{
+  LoggingContextFilter *filter = [[LoggingContextFilter alloc] initWithContextToFilter:LN_CONTEXT_IMAGES];
+  [filter autorelease];
+  return filter;
+}
+
+
+
 @end

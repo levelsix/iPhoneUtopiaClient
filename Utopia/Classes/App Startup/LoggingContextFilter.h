@@ -14,4 +14,11 @@
 }
 
 +(id<DDLogFormatter>)createTagFilter;
++(id<DDLogFormatter>)createMapFilter;
++(id<DDLogFormatter>)createDownloadFilter;
++(id<DDLogFormatter>)createIAPFilter;
++(id<DDLogFormatter>)createGamestateFilter;
++(id<DDLogFormatter>)createCommunicationFilter;
++(id<DDLogFormatter>)createImagesFilter;
+
 @end
