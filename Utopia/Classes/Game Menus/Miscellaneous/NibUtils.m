@@ -292,7 +292,7 @@
 
 - (void) awakeFromNib {
   self.userInteractionEnabled = YES;
-  self.darkOverlay = [[UIImageView alloc] initWithFrame:self.bounds];
+  self.darkOverlay = [[[UIImageView alloc] initWithFrame:self.bounds] autorelease];
   self.darkOverlay.contentMode = UIViewContentModeScaleAspectFit;
   
   [self addSubview:darkOverlay];

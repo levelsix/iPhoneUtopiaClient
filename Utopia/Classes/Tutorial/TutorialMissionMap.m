@@ -577,6 +577,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   
   UIImageView *arrow = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"3darrow.png"]];
   [luvc.mainView addSubview:arrow];
+  [arrow release];
   
   UIView *okayButton = [luvc.mainView viewWithTag:50];
   arrow.center = ccp(CGRectGetMaxX(okayButton.frame)+3, okayButton.center.y);

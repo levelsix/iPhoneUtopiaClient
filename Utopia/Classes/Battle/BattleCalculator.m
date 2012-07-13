@@ -104,9 +104,6 @@
     percentFromPerfect = distFromPerfect*multOfPerfect;
     distFromPerfect    = percentFromPerfect;
   }
-  else {
-    percentFromPerfect = (percent/perfect)*100;
-  }
 
   CombatDamageType dmgType = DMG_TYPE_MISS;
   if (distFromPerfect <= _battleConstants.battlePerfectPercentThreshold) {

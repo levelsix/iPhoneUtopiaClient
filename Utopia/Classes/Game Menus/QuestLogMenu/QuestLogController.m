@@ -322,6 +322,7 @@
   label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
   label.backgroundColor = [UIColor clearColor];
   [headerView addSubview:label];
+  [label release];
   
   GameState *gs = [GameState sharedGameState];
   if (section == 0) {
@@ -384,7 +385,7 @@
   if (!qc) {
     [[NSBundle mainBundle] loadNibNamed:@"QuestCell" owner:self options:nil];
     qc = self.questCell;
-    qc.selectedBackgroundView = [[UIView alloc] initWithFrame:qc.bounds];
+    qc.selectedBackgroundView = [[[UIView alloc] initWithFrame:qc.bounds] autorelease];
     qc.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.5f];
   }
   
@@ -496,6 +497,7 @@
   label.backgroundColor = [UIColor clearColor];
   label.textColor = [Globals creamColor];
   [headerView addSubview:label];
+  [label release];
   
   if (section == 0) {
     NSString *name = self.quest.questGiverName;

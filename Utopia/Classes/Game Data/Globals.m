@@ -1456,6 +1456,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
     frame.origin.y = 0;
     [glow setFrame:frame];
     [view addSubview:glow];
+    [glow release];
     [view bringSubviewToFront:glow];
 
     [_pulsingViews addObject:view];

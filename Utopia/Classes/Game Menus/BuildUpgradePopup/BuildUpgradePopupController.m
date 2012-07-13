@@ -54,9 +54,12 @@
 - (IBAction)okayClicked:(id)sender {
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [self.view removeFromSuperview];
-    [self didReceiveMemoryWarning];
-    [self release];
   }];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [self didReceiveMemoryWarning];
+  [self release];
 }
 
 - (void)viewDidUnload

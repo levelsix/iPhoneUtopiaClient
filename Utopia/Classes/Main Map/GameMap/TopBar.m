@@ -19,6 +19,7 @@
 #import "MapViewController.h"
 #import "UVHelper.h"
 #import "QuestLogController.h"
+#import "ActivityFeedController.h"
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -294,6 +295,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   if (dbmc) {
     [Globals displayUIView:dbmc.view];
     self.dbmc = nil;
+  }
+  
+  BOOL showActFeed = NO;
+  NSArray *notifications = [[GameState sharedGameState] notifications];
+  for (UserNotification *un in notifications) {
+    if (!un.hasBeenViewed) {
+      showActFeed = YES;
+      break;
+    }
+  }
+  if (showActFeed) {
+    [ActivityFeedController displayView];
   }
   
   self.isStarted = YES;

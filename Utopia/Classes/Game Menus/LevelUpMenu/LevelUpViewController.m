@@ -21,6 +21,7 @@
 @synthesize staminaView, energyView, statsView;
 @synthesize scrollView, glowingStars;
 @synthesize mainView, bgdView;
+@synthesize tutorialGirlView;
 
 - (id) initWithLevelUpResponse:(LevelUpResponseProto *)lurp {
   if ((self = [super init])) {
@@ -75,6 +76,13 @@
   
   UIView *view = [_itemViews lastObject];
   scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, CGRectGetMaxY(view.frame)+VERT_SEPARATION);
+  
+  GameState *gs = [GameState sharedGameState];
+  if ([Globals userTypeIsGood:gs.type]) {
+    tutorialGirlView.image = [Globals imageNamed:@"bigruby.png"];
+  } else {
+    tutorialGirlView.image = [Globals imageNamed:@"bigadriana.png"];
+  }
 }
 
 - (void) viewWillAppear:(BOOL)animated {

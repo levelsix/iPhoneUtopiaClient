@@ -367,6 +367,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     //Display daily bonus screen if its applicable
     StartupResponseProto_DailyBonusInfo *dbi = proto.dailyBonusInfo;
     if (dbi.firstTimeToday) {
+      // This will 
       DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
       [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.silverBonus equip:dbi.userEquipBonus];
       [[TopBar sharedTopBar] setDbmc:dbmc];

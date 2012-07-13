@@ -211,6 +211,7 @@
           UserJob *userJob = [[UserJob alloc] initWithDefeatTypeJob:job];
           userJob.numCompleted = dtData.numDefeated;
           [_jobs addObject:userJob];
+          [userJob release];
         }
       }
     }
@@ -548,6 +549,7 @@
     job.numCompleted = 0;
     
     [_jobs addObject:job];
+    [job release];
   }
   [self updateEnemyQuestArrows];
 }

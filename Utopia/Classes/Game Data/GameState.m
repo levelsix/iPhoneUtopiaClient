@@ -308,7 +308,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (!_isTutorial) {
     GameState *gs = [GameState sharedGameState];
     if ([un.time compare:gs.lastLogoutTime] == NSOrderedDescending) {
-      [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+      if ([[TopBar sharedTopBar] isStarted]) {
+        [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+      }
     }
   }
 }
@@ -547,27 +549,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) clearAllData {
   _connected = NO;
-  self.marketplaceEquipPosts = [[NSMutableArray alloc] init];
-  self.marketplaceEquipPostsFromSender = [[NSMutableArray alloc] init];
-  self.staticTasks = [[NSMutableDictionary alloc] init];
-  self.staticCities = [[NSMutableDictionary alloc] init];
-  self.staticEquips = [[NSMutableDictionary alloc] init];
-  self.staticQuests = [[NSMutableDictionary alloc] init];
-  self.staticStructs = [[NSMutableDictionary alloc] init];
-  self.staticDefeatTypeJobs = [[NSMutableDictionary alloc] init];
-  self.staticBuildStructJobs = [[NSMutableDictionary alloc] init];
-  self.staticPossessEquipJobs = [[NSMutableDictionary alloc] init];
-  self.staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
-  self.attackList = [[NSMutableArray alloc] init];
-  self.notifications = [[NSMutableArray alloc] init];
-  self.myEquips = [[NSMutableArray alloc] init];
-  self.myStructs = [[NSMutableArray alloc] init];
-  self.myCities = [[NSMutableDictionary alloc] init];
-  self.wallPosts = [[NSMutableArray alloc] init];
+  self.marketplaceEquipPosts = [[[NSMutableArray alloc] init] autorelease];
+  self.marketplaceEquipPostsFromSender = [[[NSMutableArray alloc] init] autorelease];
+  self.staticTasks = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticCities = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticEquips = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticStructs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticDefeatTypeJobs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticBuildStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticPossessEquipJobs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.staticUpgradeStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
+  self.attackList = [[[NSMutableArray alloc] init] autorelease];
+  self.notifications = [[[NSMutableArray alloc] init] autorelease];
+  self.myEquips = [[[NSMutableArray alloc] init] autorelease];
+  self.myStructs = [[[NSMutableArray alloc] init] autorelease];
+  self.myCities = [[[NSMutableDictionary alloc] init] autorelease];
+  self.wallPosts = [[[NSMutableArray alloc] init] autorelease];
   
-  self.availableQuests = [[NSMutableDictionary alloc] init];
-  self.inProgressCompleteQuests = [[NSMutableDictionary alloc] init];
-  self.inProgressIncompleteQuests = [[NSMutableDictionary alloc] init];
+  self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  self.inProgressIncompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
 }
 
 - (void) dealloc {

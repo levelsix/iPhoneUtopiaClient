@@ -198,13 +198,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   [cell updateForNotification:un];
   
   [[cell.contentView viewWithTag:1001] removeFromSuperview];
+  NSLog(@"%d: %d", indexPath.row, un.hasBeenViewed);
   if (!un.hasBeenViewed) {
     UIView *view = [[UIView alloc] initWithFrame:cell.bounds];
     view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.08f];
     view.tag = 1001;
     [cell.contentView insertSubview:view atIndex:0];
-    
-    un.hasBeenViewed = YES;
+    [view release];
   }
   
   return cell;
@@ -218,6 +218,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
     [ActivityFeedController removeView];
   }];
+  
+  // Set all the notifications as viewed.
+  for (UserNotification *un in [GameState sharedGameState].notifications) {
+    un.hasBeenViewed = YES;
+  }
 }
 
 - (void) receivedUsers:(RetrieveUsersForUserIdsResponseProto *)proto {

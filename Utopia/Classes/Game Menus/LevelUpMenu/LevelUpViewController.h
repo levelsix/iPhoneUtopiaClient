@@ -30,6 +30,8 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIImageView *glowingStars;
 
+@property (nonatomic, retain) IBOutlet UIImageView *tutorialGirlView;
+
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 

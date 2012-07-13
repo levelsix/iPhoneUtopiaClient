@@ -131,6 +131,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   label.font = [UIFont fontWithName:@"Trajan Pro" size:12];
   label.backgroundColor = [UIColor clearColor];
   [headerView addSubview:label];
+  [label release];
   
   if (section == 0) {
     label.text = @"How to Play";
@@ -179,6 +180,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 0;
     [cell.contentView addSubview:label];
+    [label release];
     
     if (!isNewline) {
       if (isSectionTitle) {
@@ -213,9 +215,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
   
   UIFont *font = [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:TEXT_FONT_SIZE];
   
-  BOOL isSectionTitle = NO;
   if ([text hasSuffix:SECTION_SUFFIX]) {
-    isSectionTitle = YES;
     text = [text stringByReplacingOccurrencesOfString:SECTION_SUFFIX withString:@""];
     font = [UIFont fontWithName:@"AJensonPro-BoldCapt" size:SECTION_FONT_SIZE];
   } else if ([text hasSuffix:QUESTION_SUFFIX]) {

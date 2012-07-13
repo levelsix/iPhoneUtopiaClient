@@ -147,14 +147,13 @@
   FacebookDelegate *delegate = [[FacebookDelegate alloc] init];
   Facebook *facebk = [[Facebook alloc] initWithAppId:FACEBOOK_APP_ID
                                          andDelegate:delegate];
-  [delegate autorelease];
   delegate.facebook = facebk;
 
   if ([delegate hasCredentials]) {
     [delegate attemptSignOn];
   }
   
-  return delegate;
+  return [delegate autorelease];
 }
 
 -(void) dealloc
