@@ -165,7 +165,6 @@
 
 - (void) beginCharSelection {
   CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
-  [csvc autorelease];
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
   //  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
   //  [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startCarpPhase];
