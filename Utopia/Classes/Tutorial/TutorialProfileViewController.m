@@ -12,6 +12,7 @@
 #import "TutorialMissionMap.h"
 #import "DialogMenuController.h"
 #import "TutorialConstants.h"
+#import "SoundEngine.h"
 
 @implementation TutorialProfileViewController
 
@@ -135,6 +136,14 @@
   }
 }
 
+-(void)clearMemory
+{
+  [[SoundEngine sharedSoundEngine] releaseAllBuffers];
+  
+  [[CCDirector sharedDirector] purgeCachedData];
+  [[[Globals sharedGlobals] imageCache] removeAllObjects];  
+}
+
 - (IBAction)closeClicked:(id)sender {
   if (_closingPhase) {
     [_arrow removeFromSuperview];
@@ -145,7 +154,10 @@
       [DialogMenuController displayViewForText:tc.duringCreateText];
       
       [[DialogMenuController sharedDialogMenuController] createUser];
-    } else {
+    } else {      
+      // This is a bit of a hack that w added to address crashes that would 
+      // happen on iphone/ipds when a memory hadn't been previously thrown
+      [self clearMemory];
       [[TutorialMissionMap sharedTutorialMissionMap] levelUpComplete];
     }
   }
