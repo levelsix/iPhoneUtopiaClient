@@ -8,19 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Protocols.pb.h"
-
-@interface DialogMenuLoadingView : UIView
-
-@property (nonatomic, retain) IBOutlet UIView *darkView;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
-
-@end
+#import "NibUtils.h"
 
 @interface DialogMenuController : UIViewController <UITextFieldDelegate> {
   BOOL _isDisplayingLoadingView;
 }
 
-@property (nonatomic, retain) IBOutlet DialogMenuLoadingView *loadingView;
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
 
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *label;

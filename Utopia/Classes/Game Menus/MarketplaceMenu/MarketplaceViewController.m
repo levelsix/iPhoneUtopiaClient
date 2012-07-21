@@ -96,6 +96,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
   self.postsTableView.scrollEnabled = YES;
   
+  [self removeLoadingView];
+  
   [self setState:kEquipBuyingState];
   
   self.removeView.hidden = YES;
@@ -261,9 +263,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   if (post.equip) {
     [self disableEditing];
     int amount = [post.priceField.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
-    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.equipId price:amount];
+    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.userEquipId price:amount];
     post.state = kListState;
-    if (post.equip.quantity == 0) {
+    
+    GameState *gs = [GameState sharedGameState];
+    if ([gs quantityOfEquip:post.equip.equipId] == 0) {
       [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
     } else {
       [post showEquipListing:post.equip];
@@ -351,6 +355,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   // Looks choppy. change this by finding the correct table cell and updating that alone..
   [self.postsTableView reloadData];
+  
+  [self displayLoadingView];
   
   self.removeView.hidden = YES;
   self.selectedCell = nil;

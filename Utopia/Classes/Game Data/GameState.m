@@ -13,6 +13,7 @@
 #import "TopBar.h"
 #import "ActivityFeedController.h"
 #import "ProfileViewController.h"
+#import "ForgeMenuController.h"
 
 #define TagLog(...) ContextLogInfo(LN_CONTEXT_TAGS, __VA_ARGS__)
 
@@ -30,7 +31,6 @@
 @synthesize maxEnergy = _maxEnergy;
 @synthesize currentStamina = _currentStamina;
 @synthesize maxStamina = _maxStamina;
-@synthesize maxHealth = _maxHealth;
 @synthesize gold = _gold;
 @synthesize silver = _silver;
 @synthesize vaultBalance = _vaultBalance;
@@ -97,6 +97,8 @@
 
 @synthesize unrespondedUpdates = _unrespondedUpdates;
 
+@synthesize forgeAttempt = _forgeAttempt;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (id) init {
@@ -133,7 +135,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _maxEnergy = 3;
     _currentStamina = 1;
     _maxStamina = 3;
-    _maxHealth = 1;
     _level = 12;
     _experience = 30;
     _expRequiredForNextLevel = 40;
@@ -165,7 +166,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.maxEnergy = user.energyMax;
   self.currentStamina = user.stamina;
   self.maxStamina = user.staminaMax;
-  self.maxHealth = user.healthMax;
   self.skillPoints = user.skillPoints;
   self.gold = user.diamonds;
   self.silver = user.coins;
@@ -181,17 +181,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.marketplaceSilverEarnings = user.marketplaceCoinsEarnings;
   self.numPostsInMarketplace = user.numPostsInMarketplace;
   self.numMarketplaceSalesUnredeemed = user.numMarketplaceSalesUnredeemed;
-  self.weaponEquipped = user.weaponEquippedUserEquip.equipId;
-  self.armorEquipped = user.armorEquippedUserEquip.equipId;
-  self.amuletEquipped = user.amuletEquippedUserEquip.equipId;
+  self.weaponEquipped = user.weaponEquippedUserEquip.userEquipId;
+  self.armorEquipped = user.armorEquippedUserEquip.userEquipId;
+  self.amuletEquipped = user.amuletEquippedUserEquip.userEquipId;
   self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
   
-  self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:user.lastEnergyRefillTime/1000];
-  self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000];
-  self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000];
-  self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000];
+  self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:user.lastEnergyRefillTime/1000.f];
+  self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000.f];
+  self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000.f];
+  self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000.f];
   
-  self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000];
+  self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.f];
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
@@ -221,6 +221,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   // Retain and autorelease in case data gets purged
   [p retain];
   return [p autorelease];
+}
+
+- (int) weaponEquippedId {
+  return [self myEquipWithUserEquipId:_weaponEquipped].equipId;
+}
+
+- (int) armorEquippedId {
+  return [self myEquipWithUserEquipId:_armorEquipped].equipId;
+}
+
+- (int) amuletEquippedId {
+  return [self myEquipWithUserEquipId:_amuletEquipped].equipId;
 }
 
 - (FullEquipProto *) equipWithId:(int)equipId {
@@ -257,7 +269,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (void) addToMyEquips:(NSArray *)equips {
   for (FullUserEquipProto *eq in equips) {
-    [self changeQuantityForEquip:eq.equipId by:1];
+    [self.myEquips addObject:[UserEquip userEquipWithProto:eq]];
   }
 }
 
@@ -308,8 +320,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   if (!_isTutorial) {
     GameState *gs = [GameState sharedGameState];
     if ([un.time compare:gs.lastLogoutTime] == NSOrderedDescending) {
+      // If top bar hasnt started, the activity feed will popup anyways so no need to increment badge.
       if ([[TopBar sharedTopBar] isStarted]) {
-        [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+        ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
+        if (fmc.view.superview && un.type == kNotificationForge) {
+          un.hasBeenViewed = YES;
+        } else {
+          [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+        }
       }
     }
   }
@@ -328,7 +346,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }];
   
   if (!_isTutorial) {
-    NSDate *time = [NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000];
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.f];
     if ([time compare:_lastLogoutTime] == NSOrderedDescending) {
       [[[TopBar sharedTopBar] profilePic] incrementProfileBadge];
       
@@ -338,13 +356,52 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
-- (UserEquip *) myEquipWithId:(int)equipId {
+- (UserEquip *) myEquipWithId:(int)equipId level:(int)level {
   for (UserEquip *ue in self.myEquips) {
-    if (ue.equipId == equipId) {
+    if (ue.equipId == equipId && ue.level == level) {
       return ue;
     }
   }
   return nil;
+}
+
+- (NSArray *) myEquipsWithId:(int)equipId level:(int)level {
+  NSMutableArray *array = [NSMutableArray array];
+  for (UserEquip *ue in self.myEquips) {
+    if (ue.equipId == equipId && ue.level == level) {
+      [array addObject:ue];
+    }
+  }
+  return array;
+}
+
+- (UserEquip *) myEquipWithUserEquipId:(int)userEquipId {
+  for (UserEquip *ue in self.myEquips) {
+      if (userEquipId == ue.userEquipId) {
+        return ue;
+      }
+  }
+  return nil;
+}
+
+- (int) quantityOfEquip:(int)equipId {
+  int quantity = 0;
+  for (UserEquip *ue in _myEquips) {
+    if (ue.equipId == equipId) {
+      quantity += 1;
+    }
+  }
+  return quantity;
+}
+
+- (int) quantityOfEquip:(int)equipId level:(int)level {
+  int quantity = 0;
+  for (UserEquip *ue in _myEquips) {
+    if (ue.equipId == equipId && ue.level == level) {
+      quantity += ue.equipId;
+    }
+  }
+  return quantity;
 }
 
 - (UserStruct *) myStructWithId:(int)structId {
@@ -444,31 +501,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   //  return NO;
 }
 
-- (void) changeQuantityForEquip:(int)equipId by:(int)qDelta {
-  UserEquip *ue = [self myEquipWithId:equipId];
-  if (ue) {
-    ue.quantity += qDelta;
-  } else {
-    ue = [[UserEquip alloc] init];
-    ue.userId = self.userId;
-    ue.equipId = equipId;
-    ue.quantity = qDelta;
-    [_myEquips addObject:ue];
-    [ue release];
-  }
-  
-  if (ue.quantity < 1) {
-    [_myEquips removeObject:ue];
-    if (_weaponEquipped == equipId) {
-      _weaponEquipped = 0;
-    } else if (_armorEquipped == equipId) {
-      _armorEquipped = 0;
-    } else if (_amuletEquipped == equipId) {
-      _amuletEquipped = 0;
-    }
-  }
-}
-
 - (void) addUnrespondedUpdate:(id<GameStateUpdate>)up {
   [_unrespondedUpdates addObject:up];
   
@@ -536,6 +568,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
 }
 
+- (void) beginForgeTimer {
+  [self stopForgeTimer];
+  Globals *gl = [Globals sharedGlobals];
+  ForgeAttempt *fa = self.forgeAttempt;
+  
+  if (!fa.isComplete) {
+    float seconds = [gl calculateMinutesForForge:fa.equipId level:fa.level]*60.f;
+    NSDate *endTime = [fa.startTime dateByAddingTimeInterval:seconds];
+    
+    if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
+      _forgeTimer = [[NSTimer timerWithTimeInterval:-endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:nil repeats:NO] retain];
+      [[NSRunLoop mainRunLoop] addTimer:_forgeTimer forMode:NSRunLoopCommonModes];
+    } else {
+      [self forgeWaitTimeComplete];
+    }
+  } else {
+    UserNotification *un = [[UserNotification alloc] initWithForgeAttempt:self.forgeAttempt];
+    [self addNotification:un];
+    [un release];
+  }
+}
+
+- (void) forgeWaitTimeComplete {
+  [[OutgoingEventController sharedOutgoingEventController] forgeAttemptWaitComplete];
+}
+
+- (void) stopForgeTimer {
+  if (_forgeTimer) {
+    [_forgeTimer invalidate];
+    [_forgeTimer release];
+    _forgeTimer = nil;
+  }
+}
+
 - (void) purgeStaticData {
   [_staticQuests removeAllObjects];
   [_staticBuildStructJobs removeAllObjects];
@@ -570,6 +636,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressIncompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  
+  [self stopForgeTimer];
+  self.forgeAttempt = nil;
 }
 
 - (void) dealloc {
@@ -607,6 +676,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.unrespondedUpdates = nil;
   self.deviceToken = nil;
   self.allies = nil;
+  self.forgeAttempt = nil;
   [super dealloc];
 }
 

@@ -31,9 +31,9 @@
 @synthesize attStatLabel, defStatLabel;
 @synthesize state = _state;
 @synthesize mktProto, equip;
-@synthesize quantityLabel, quantityBackground;
 @synthesize leatherBackground;
 @synthesize equipTypeLabel;
+@synthesize levelIcon;
 
 - (void) awakeFromNib {
   [super awakeFromNib];
@@ -63,8 +63,6 @@
         removeButton.hidden = YES;
         buyButton.hidden = YES;
         submitButton.hidden = YES;
-        quantityBackground.hidden = NO;
-        quantityLabel.hidden = NO;
         break;
         
       case kSellingState:
@@ -75,8 +73,6 @@
         removeButton.hidden = YES;
         buyButton.hidden = NO;
         submitButton.hidden = YES;
-        quantityBackground.hidden = YES;
-        quantityLabel.hidden = YES;
         break;
         
       case kMySellingState:
@@ -87,8 +83,6 @@
         removeButton.hidden = NO;
         buyButton.hidden = YES;
         submitButton.hidden = YES;
-        quantityBackground.hidden = YES;
-        quantityLabel.hidden = YES;
         break;
         
       case kSubmitState:
@@ -99,8 +93,6 @@
         removeButton.hidden = YES;
         buyButton.hidden = YES;
         submitButton.hidden = NO;
-        quantityBackground.hidden = NO;
-        quantityLabel.hidden = NO;
         
         self.priceField.label.textColor = [UIColor whiteColor];
         break;
@@ -112,6 +104,7 @@
 }
 
 - (void) showEquipPost: (FullMarketplacePostProto *)proto {
+  Globals *gl = [Globals sharedGlobals];
   if (proto.poster.userId == [[GameState sharedGameState] userId]) {
     self.state = kMySellingState;
   } else {
@@ -124,14 +117,15 @@
     self.priceIcon.highlighted = YES;
     self.priceLabel.text = [Globals commafyNumber:proto.diamondCost];
   }
-  self.attStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.attackBoost];
-  self.defStatLabel.text = [NSString stringWithFormat:@"%d", proto.postedEquip.defenseBoost];
+  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:proto.postedEquip.equipId level:proto.equipLevel]];
+  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:proto.postedEquip.equipId level:proto.equipLevel]];
   self.postTitle.text = proto.postedEquip.name;
   self.postTitle.textColor = [Globals colorForRarity:proto.postedEquip.rarity];
   self.equipTypeLabel.text = [Globals stringForEquipType:proto.postedEquip.equipType];
   [Globals loadImageForEquip:proto.postedEquip.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = proto;
   self.equip = nil;
+  self.levelIcon.level = proto.equipLevel;
   
   if ([Globals canEquip:proto.postedEquip]) {
     self.leatherBackground.highlighted = NO;
@@ -141,19 +135,19 @@
 }
 
 - (void) showEquipListing:(UserEquip *)eq {
+  Globals *gl = [Globals sharedGlobals];
   self.state = kListState;
   
   FullEquipProto *fullEq = [[GameState sharedGameState] equipWithId:eq.equipId];
   self.postTitle.text = fullEq.name;
   self.postTitle.textColor = [Globals colorForRarity:fullEq.rarity];
-  self.quantityLabel.text = [NSString stringWithFormat:@"x%d", eq.quantity];
-  self.quantityLabel.textColor = [Globals colorForRarity:fullEq.rarity];
   self.equipTypeLabel.text = [Globals stringForEquipType:fullEq.equipType];
   [Globals loadImageForEquip:fullEq.equipId toView:self.itemImageView maskedView:nil];
   self.mktProto = nil;
   self.equip = eq;
-  self.attStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.attackBoost];
-  self.defStatLabel.text = [NSString stringWithFormat:@"%d", fullEq.defenseBoost];
+  self.attStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:eq.equipId level:eq.level]];
+  self.defStatLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:eq.equipId level:eq.level]];
+  self.levelIcon.level = eq.level;
   
   if ([Globals canEquip:fullEq]) {
     self.leatherBackground.highlighted = NO;
@@ -171,6 +165,7 @@
   self.submitButton = nil;
   self.buyButton = nil;
   self.listButton = nil;
+  self.levelIcon = nil;
   self.removeButton = nil;
   self.priceField = nil;
   self.priceLabel = nil;
@@ -179,8 +174,6 @@
   self.defStatLabel = nil;
   self.mktProto = nil;
   self.equip = nil;
-  self.quantityLabel = nil;
-  self.quantityBackground = nil;
   self.leatherBackground = nil;
   self.equipTypeLabel = nil;
   [super dealloc];
@@ -191,7 +184,7 @@
 @implementation MarketPurchaseView
 
 @synthesize titleLabel, crossOutView, classLabel, attackLabel, defenseLabel;
-@synthesize typeLabel, levelLabel, playerNameButton;
+@synthesize typeLabel, levelLabel, playerNameButton, levelIcon;
 @synthesize equipIcon, wrongClassView, tooLowLevelView;
 @synthesize armoryPriceIcon, armoryPriceLabel;
 @synthesize postedPriceIcon, postedPriceLabel;
@@ -201,6 +194,7 @@
 
 - (void) updateForMarketPost:(FullMarketplacePostProto *)m {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   self.mktPost = m;
   
@@ -210,9 +204,10 @@
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
-  attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:m.equipLevel]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:m.equipLevel]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
+  levelIcon.level = m.equipLevel;
   [playerNameButton setTitle:m.poster.name forState:UIControlStateNormal];
   
   if ([Globals sellsForGoldInMarketplace:fep]) {
@@ -381,23 +376,7 @@
   self.tooLowLevelView = nil;
   self.mainView = nil;
   self.bgdView = nil;
-  [super dealloc];
-}
-
-@end
-
-@implementation MarketplaceLoadingView
-
-@synthesize darkView, actIndView;
-
-- (void) awakeFromNib {
-  self.darkView.layer.cornerRadius = 10.f;
-}
-
-- (void) dealloc {
-  self.darkView = nil;
-  self.actIndView = nil;
-  
+  self.levelIcon = nil;
   [super dealloc];
 }
 
@@ -419,34 +398,35 @@
 
 - (void) updateLabels {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
-  if (gs.weaponEquipped) {
-    FullEquipProto *equip = [gs equipWithId:gs.weaponEquipped];
-    [Globals loadImageForEquip:gs.weaponEquipped toView:weaponIcon maskedView:nil];
-    weaponAttackLabel.text = [NSString stringWithFormat:@"%d", equip.attackBoost];
-    weaponDefenseLabel.text = [NSString stringWithFormat:@"%d", equip.defenseBoost];
+  UserEquip *ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+  if (ue) {
+    [Globals loadImageForEquip:ue.equipId toView:weaponIcon maskedView:nil];
+    weaponAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
+    weaponDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
   } else {
     weaponIcon.image = nil;
     weaponAttackLabel.text = @"0";
     weaponDefenseLabel.text = @"0";
   }
   
-  if (gs.armorEquipped) {
-    FullEquipProto *equip = [gs equipWithId:gs.armorEquipped];
-    [Globals loadImageForEquip:gs.armorEquipped toView:armorIcon maskedView:nil];
-    armorAttackLabel.text = [NSString stringWithFormat:@"%d", equip.attackBoost];
-    armorDefenseLabel.text = [NSString stringWithFormat:@"%d", equip.defenseBoost];
+  ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
+  if (ue) {
+    [Globals loadImageForEquip:ue.equipId toView:armorIcon maskedView:nil];
+    armorAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
+    armorDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
   } else {
     armorIcon.image = nil;
     armorAttackLabel.text = @"0";
     armorDefenseLabel.text = @"0";
   }
   
-  if (gs.amuletEquipped) {
-    FullEquipProto *equip = [gs equipWithId:gs.amuletEquipped];
-    [Globals loadImageForEquip:gs.amuletEquipped toView:amuletIcon maskedView:nil];
-    amuletAttackLabel.text = [NSString stringWithFormat:@"%d", equip.attackBoost];
-    amuletDefenseLabel.text = [NSString stringWithFormat:@"%d", equip.defenseBoost];
+  ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+  if (ue) {
+    [Globals loadImageForEquip:ue.equipId toView:amuletIcon maskedView:nil];
+    amuletAttackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:ue.equipId level:ue.level]];
+    amuletDefenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
   } else {
     amuletIcon.image = nil;
     amuletAttackLabel.text = @"0";

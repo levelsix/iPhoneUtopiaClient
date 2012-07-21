@@ -23,8 +23,8 @@
 - (BOOL) taskAction:(int)taskId curTimesActed:(int)numTimesActed;
 
 - (void) battle:(FullUserProto *)defender result:(BattleResult)result city:(int)city equips:(NSArray *)equips;
-- (int) buyEquip:(int)equipId;
-- (int) sellEquip:(int)equipId;
+- (void) buyEquip:(int)equipId;
+//- (int) sellEquip:(int)equipId;
 - (BOOL) wearEquip:(int)equipId;
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
@@ -95,5 +95,10 @@
 
 - (void) kiipReward:(int)gold receipt:(NSString *)string;
 - (void) adColonyReward:(int)gold;
+
+- (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed;
+- (void) forgeAttemptWaitComplete;
+- (void) finishForgeAttemptWaittimeWithDiamonds;
+- (void) collectForgeEquips;
 
 @end

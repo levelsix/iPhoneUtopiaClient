@@ -35,16 +35,22 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel1;
 @property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon1;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon1;
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel2;
 @property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon2;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon2;
 @property (nonatomic, retain) IBOutlet UILabel *leftRarityLabel3;
 @property (nonatomic, retain) IBOutlet EquipButton *leftEquipIcon3;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *leftEquipLevelIcon3;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel1;
 @property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon1;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon1;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel2;
 @property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon2;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon2;
 @property (nonatomic, retain) IBOutlet UILabel *rightRarityLabel3;
 @property (nonatomic, retain) IBOutlet EquipButton *rightEquipIcon3;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *rightEquipLevelIcon3;
 
 @property (nonatomic, retain) IBOutlet UILabel *coinsGainedLabel;
 @property (nonatomic, retain) IBOutlet UILabel *coinsLostLabel;
@@ -64,11 +70,12 @@
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
-- (void) loadForEquip:(FullEquipProto *)fep;
+- (void) loadForEquip:(FullUserEquipProto *)fuep;
 
 @end
 
@@ -177,6 +184,8 @@
 - (int) calculateEnemyDamageForPercentage:(float)percent;
 - (float) calculateEnemyPercentage;
 - (float) rand;
+
+- (void) closeSceneFromQuestLog;
 
 - (void)receivedUserEquips:(RetrieveUserEquipForUserResponseProto *)proto;
 

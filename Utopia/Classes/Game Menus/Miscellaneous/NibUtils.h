@@ -96,8 +96,21 @@
 
 @end
 
+@interface EquipLevelIcon : UIImageView
+
+@property (nonatomic, assign) int level;
+
+@end
+
 @interface ProgressBar : UIImageView
 
 @property (nonatomic, assign) float percentage;
+
+@end
+
+@interface LoadingView : UIView
+
+@property (nonatomic, retain) IBOutlet UIView *darkView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
 
 @end

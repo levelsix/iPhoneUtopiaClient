@@ -349,15 +349,32 @@
   }
   
   gs.name = realStr;
-  gs.weaponEquipped = weapon.equipId;
-  gs.armorEquipped = armor.equipId;
   gs.type = _curPage;
   tc.enemyType = [Globals userTypeIsGood:gs.type] ? 3 : 0;
   
   [(TutorialTopBar *)[TutorialTopBar sharedTopBar] updateIcon];
   
-  [gs changeQuantityForEquip:weapon.equipId by:1];
-  [gs changeQuantityForEquip:armor.equipId by:1];
+  // Add the weapon
+  UserEquip *ue = [[UserEquip alloc] init];
+  ue.equipId = weapon.equipId;
+  ue.userId = gs.userId;
+  ue.level = 1;
+  ue.userEquipId = 1;
+  [gs.myEquips addObject:ue];
+  [ue release];
+  
+  // Add the armor
+  ue = [[UserEquip alloc] init];
+  ue.equipId = armor.equipId;
+  ue.userId = gs.userId;
+  ue.level = 1;
+  ue.userEquipId = 2;
+  [gs.myEquips addObject:ue];
+  [ue release];
+  
+  // Fake the userEquipIds
+  gs.weaponEquipped = 1;
+  gs.armorEquipped = 2;
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];

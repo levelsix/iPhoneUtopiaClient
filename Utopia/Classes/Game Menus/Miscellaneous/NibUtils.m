@@ -352,6 +352,24 @@
 
 @end
 
+@implementation EquipLevelIcon
+
+@synthesize level;
+
+- (void) setLevel:(int)l {
+  if (level != l) {
+    level = l;
+    
+    if (level > 0 && level <= 10) {
+      [Globals imageNamed:[NSString stringWithFormat:@"lvl%d.png", l] withImageView:self maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
+    } else {
+      self.image = nil;
+    }
+  }
+}
+
+@end
+
 @implementation ProgressBar
 
 @synthesize percentage;
@@ -367,6 +385,23 @@
   CGRect rect = self.frame;
   rect.size.width = imgSize.width * percentage;
   self.frame = rect;
+}
+
+@end
+
+@implementation LoadingView
+
+@synthesize darkView, actIndView;
+
+- (void) awakeFromNib {
+  self.darkView.layer.cornerRadius = 10.f;
+}
+
+- (void) dealloc {
+  self.darkView = nil;
+  self.actIndView = nil;
+  
+  [super dealloc];
 }
 
 @end

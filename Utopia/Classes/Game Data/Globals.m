@@ -34,8 +34,8 @@ static NSMutableSet *_pulsingViews;
 
 @synthesize depositPercentCut;
 @synthesize clericLevelFactor, clericHealthFactor;
-@synthesize attackBaseGain, defenseBaseGain, energyBaseGain, staminaBaseGain, healthBaseGain;
-@synthesize attackBaseCost, defenseBaseCost, energyBaseCost, staminaBaseCost, healthBaseCost;
+@synthesize attackBaseGain, defenseBaseGain, energyBaseGain, staminaBaseGain;
+@synthesize attackBaseCost, defenseBaseCost, energyBaseCost, staminaBaseCost;
 @synthesize retractPercentCut, purchasePercentCut;
 @synthesize energyRefillWaitMinutes, staminaRefillWaitMinutes;
 @synthesize energyRefillCost, staminaRefillCost;
@@ -72,13 +72,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     defenseBaseCost = 1;
     energyBaseCost = 1;
     staminaBaseCost = 2;
-    healthBaseCost = 1;
     
     attackBaseGain = 1;
     defenseBaseGain = 1;
     energyBaseGain = 1;
     staminaBaseGain = 1;
-    healthBaseGain = 10;
     
     energyRefillWaitMinutes = 3;
     staminaRefillWaitMinutes = 4;
@@ -118,8 +116,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.defenseBaseCost = constants.defenseBaseCost;
   self.energyBaseGain = constants.energyBaseGain;
   self.energyBaseCost = constants.energyBaseCost;
-  self.healthBaseGain = constants.healthBaseGain;
-  self.healthBaseCost = constants.healthBaseCost;
   self.staminaBaseGain = constants.staminaBaseGain;
   self.staminaBaseCost = constants.staminaBaseCost;
   self.skillPointsGainedOnLevelup = constants.skillPointsGainedOnLevelup;
@@ -636,9 +632,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   
   image = [UIImage imageWithContentsOfFile:fullpath];
   
-  if (image) {
-    [gl.imageCache setObject:image forKey:path];
-  }
+//  if (image) {
+//    [gl.imageCache setObject:image forKey:path];
+//  }
   
   return image;
 }
@@ -654,7 +650,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   UIImage *cachedImage = [gl.imageCache objectForKey:imageName];
   if (cachedImage) {
     if (color) {
-      cachedImage = [self maskImage:cachedImage   withColor:color];
+      cachedImage = [self maskImage:cachedImage withColor:color];
     }
     view.image = cachedImage;
     // Do this for equip masked images
@@ -704,9 +700,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName]; 
           UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
           
-          if (img) {
-            [gl.imageCache setObject:img forKey:imageName];
-          }
+//          if (img) {
+//            [gl.imageCache setObject:img forKey:imageName];
+//          }
           if (color) {
             img = [self maskImage:img withColor:color];
           }
@@ -1287,37 +1283,59 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return MAX(1, (int)(fsp.minutesToUpgradeBase * us.level * self.minutesToUpgradeForNormStructMultiplier));
 }
 
-- (float) calculateAttackForStat:(int)attackStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *weapon = nil;
-  if (weaponId != 0) {
-    weapon = [gs equipWithId:weaponId];
-  }
-  FullEquipProto *armor = nil;
-  if (armorId != 0) {
-    armor = [gs equipWithId:armorId];
-  }
-  FullEquipProto *amulet = nil;
-  if (amuletId != 0) {
-    amulet = [gs equipWithId:amuletId];
-  }
+- (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet {
+  int weaponAttack = weapon ? [self calculateAttackForEquip:weapon.equipId level:weapon.level] : 0;
+  int armorAttack = armor ? [self calculateAttackForEquip:armor.equipId level:armor.level] : 0;
+  int amuletAttack = amulet ? [self calculateAttackForEquip:amulet.equipId level:amulet.level] : 0;
 
   return self.battleWeightGivenToAttackStat*attackStat 
-      + self.battleWeightGivenToAttackEquipSum*(weapon.attackBoost 
-                                                + armor.attackBoost 
-                                                + amulet.attackBoost);
+      + self.battleWeightGivenToAttackEquipSum*(weaponAttack+armorAttack+amuletAttack);
 }
 
-- (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId {
-  GameState *gs = [GameState sharedGameState];
-  FullEquipProto *weapon = weaponId > 0 ? [gs equipWithId:weaponId] : nil;
-  FullEquipProto *armor = armorId > 0 ? [gs equipWithId:armorId] : nil;
-  FullEquipProto *amulet = amuletId > 0 ? [gs equipWithId:amuletId] : nil;
+- (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet {
+  int weaponDefense = weapon ? [self calculateDefenseForEquip:weapon.equipId level:weapon.level] : 0;
+  int armorDefense = armor ? [self calculateDefenseForEquip:armor.equipId level:armor.level] : 0;
+  int amuletDefense = amulet ? [self calculateDefenseForEquip:amulet.equipId level:amulet.level] : 0;
+  
+  return self.battleWeightGivenToAttackStat*defenseStat
+  + self.battleWeightGivenToAttackEquipSum*(weaponDefense+armorDefense+amuletDefense);
+}
 
-  return self.battleWeightGivenToDefenseStat*defenseStat 
-      + self.battleWeightGivenToDefenseEquipSum*(weapon.defenseBoost
-                                                 + armor.defenseBoost
-                                                 + amulet.defenseBoost);
+- (int) calculateAttackForEquip:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  return fep.attackBoost*pow(1.5, level-1);
+}
+
+- (int) calculateDefenseForEquip:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  return fep.defenseBoost*pow(1.5, level-1);
+}
+
+- (float) calculateChanceOfSuccess:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  float chanceOfSuccess = 1.f-fep.chanceOfForgeFailureBase;
+  return chanceOfSuccess-(chanceOfSuccess/9)*(level-1);
+}
+
+- (int) calculateMinutesForForge:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  return (int)(fep.minutesToAttemptForgeBase*pow(1.8, level+1));
+}
+
+- (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  return (int)((5+fep.minLevel/5)*pow(level+1, 2));
+}
+
+- (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  return (int)([self calculateMinutesForForge:equipId level:level]/(6+fep.minLevel/5));
 }
 
 + (void) popupView:(UIView *)targetView
@@ -1345,7 +1363,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   withCompletionBlock:bounceBlock];
 }
 
-+ (void) popupMessage: (NSString *)msg {
++ (void) popupMessage:(NSString *)msg {
   //  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
   [GenericPopupController displayViewWithText:msg title:nil];
 }
@@ -1581,11 +1599,27 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [arrow runAction:[CCRepeatForever actionWithAction:[CCSequence actions:upAction, downAction, nil]]];
 }
 
-- (void) confirmWearEquip:(int)equipId {
-  _equipIdToWear = equipId;
+- (void) confirmWearEquip:(int)userEquipId {
+  _equipIdToWear = userEquipId;
   
-  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equipId];
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *equip = [gs myEquipWithUserEquipId:userEquipId];
+  FullEquipProto *fep = [gs equipWithId:equip.equipId];
   if ([Globals canEquip:fep]) {
+    UserEquip *ue = nil;
+    if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
+      ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+    } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
+      ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
+    } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
+      ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+    }
+    
+    // Check that the current equipped item is different item or level.
+    if (ue.equipId == fep.equipId && ue.level == equip.level) {
+      return;
+    }
+    
     [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?", 
                                                                 fep.name]
                                                          title:@"Equip Item?"

@@ -351,8 +351,8 @@
     } else {
       NSMutableArray *arr = [NSMutableArray array];
       for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
-        UserEquip *ue = [gs myEquipWithId:equipReq.equipId];
-        if (!ue || ue.quantity < equipReq.quantity) {
+        int quantity = [gs quantityOfEquip:equipReq.equipId];
+        if (quantity < equipReq.quantity) {
           [arr addObject:[NSNumber numberWithInt:equipReq.equipId]];
         }
       }
@@ -424,8 +424,8 @@
   
   [self addSilverDrop:tarp.coinsGained fromSprite:_selected];
   
-  if (tarp.hasLootEquipId) {
-    [self addEquipDrop:tarp.lootEquipId fromSprite:_selected];
+  if (tarp.hasLootUserEquip) {
+    [self addEquipDrop:tarp.lootUserEquip.equipId fromSprite:_selected];
   }
   
   _receivedTaskActionResponse = YES;

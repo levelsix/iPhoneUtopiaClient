@@ -103,6 +103,7 @@ BOOL CritStructTypeIsValidValue(CritStructType value) {
     case CritStructTypeVault:
     case CritStructTypeArmory:
     case CritStructTypeMarketplace:
+    case CritStructTypeBlacksmith:
       return YES;
     default:
       return NO;
@@ -632,7 +633,6 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property int32_t energy;
 @property int64_t lastEnergyRefillTime;
 @property int32_t skillPoints;
-@property int32_t healthMax;
 @property int32_t energyMax;
 @property int32_t staminaMax;
 @property int32_t diamonds;
@@ -751,13 +751,6 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasSkillPoints_ = !!value;
 }
 @synthesize skillPoints;
-- (BOOL) hasHealthMax {
-  return !!hasHealthMax_;
-}
-- (void) setHasHealthMax:(BOOL) value {
-  hasHealthMax_ = !!value;
-}
-@synthesize healthMax;
 - (BOOL) hasEnergyMax {
   return !!hasEnergyMax_;
 }
@@ -1051,7 +1044,6 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.energy = 0;
     self.lastEnergyRefillTime = 0L;
     self.skillPoints = 0;
-    self.healthMax = 0;
     self.energyMax = 0;
     self.staminaMax = 0;
     self.diamonds = 0;
@@ -1140,9 +1132,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasSkillPoints) {
     [output writeInt32:13 value:self.skillPoints];
-  }
-  if (self.hasHealthMax) {
-    [output writeInt32:14 value:self.healthMax];
   }
   if (self.hasEnergyMax) {
     [output writeInt32:15 value:self.energyMax];
@@ -1296,9 +1285,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (self.hasSkillPoints) {
     size += computeInt32Size(13, self.skillPoints);
-  }
-  if (self.hasHealthMax) {
-    size += computeInt32Size(14, self.healthMax);
   }
   if (self.hasEnergyMax) {
     size += computeInt32Size(15, self.energyMax);
@@ -1519,9 +1505,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasSkillPoints) {
     [self setSkillPoints:other.skillPoints];
   }
-  if (other.hasHealthMax) {
-    [self setHealthMax:other.healthMax];
-  }
   if (other.hasEnergyMax) {
     [self setEnergyMax:other.energyMax];
   }
@@ -1701,10 +1684,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
       }
       case 104: {
         [self setSkillPoints:[input readInt32]];
-        break;
-      }
-      case 112: {
-        [self setHealthMax:[input readInt32]];
         break;
       }
       case 120: {
@@ -2052,22 +2031,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearSkillPoints {
   result.hasSkillPoints = NO;
   result.skillPoints = 0;
-  return self;
-}
-- (BOOL) hasHealthMax {
-  return result.hasHealthMax;
-}
-- (int32_t) healthMax {
-  return result.healthMax;
-}
-- (FullUserProto_Builder*) setHealthMax:(int32_t) value {
-  result.hasHealthMax = YES;
-  result.healthMax = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearHealthMax {
-  result.hasHealthMax = NO;
-  result.healthMax = 0;
   return self;
 }
 - (BOOL) hasEnergyMax {
@@ -2734,6 +2697,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 @property FullEquipProto_ClassType classType;
 @property FullEquipProto_Rarity rarity;
 @property BOOL isBuyableInArmory;
+@property Float32 chanceOfForgeFailureBase;
+@property int32_t minutesToAttemptForgeBase;
 @end
 
 @implementation FullEquipProto
@@ -2834,6 +2799,20 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (void) setIsBuyableInArmory:(BOOL) value {
   isBuyableInArmory_ = !!value;
 }
+- (BOOL) hasChanceOfForgeFailureBase {
+  return !!hasChanceOfForgeFailureBase_;
+}
+- (void) setHasChanceOfForgeFailureBase:(BOOL) value {
+  hasChanceOfForgeFailureBase_ = !!value;
+}
+@synthesize chanceOfForgeFailureBase;
+- (BOOL) hasMinutesToAttemptForgeBase {
+  return !!hasMinutesToAttemptForgeBase_;
+}
+- (void) setHasMinutesToAttemptForgeBase:(BOOL) value {
+  hasMinutesToAttemptForgeBase_ = !!value;
+}
+@synthesize minutesToAttemptForgeBase;
 - (void) dealloc {
   self.name = nil;
   self.description = nil;
@@ -2854,6 +2833,8 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
     self.classType = FullEquipProto_ClassTypeWarrior;
     self.rarity = FullEquipProto_RarityCommon;
     self.isBuyableInArmory = NO;
+    self.chanceOfForgeFailureBase = 0;
+    self.minutesToAttemptForgeBase = 0;
   }
   return self;
 }
@@ -2912,6 +2893,12 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   if (self.hasIsBuyableInArmory) {
     [output writeBool:13 value:self.isBuyableInArmory];
   }
+  if (self.hasChanceOfForgeFailureBase) {
+    [output writeFloat:14 value:self.chanceOfForgeFailureBase];
+  }
+  if (self.hasMinutesToAttemptForgeBase) {
+    [output writeInt32:15 value:self.minutesToAttemptForgeBase];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2959,6 +2946,12 @@ static FullEquipProto* defaultFullEquipProtoInstance = nil;
   }
   if (self.hasIsBuyableInArmory) {
     size += computeBoolSize(13, self.isBuyableInArmory);
+  }
+  if (self.hasChanceOfForgeFailureBase) {
+    size += computeFloatSize(14, self.chanceOfForgeFailureBase);
+  }
+  if (self.hasMinutesToAttemptForgeBase) {
+    size += computeInt32Size(15, self.minutesToAttemptForgeBase);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -3107,6 +3100,12 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
   if (other.hasIsBuyableInArmory) {
     [self setIsBuyableInArmory:other.isBuyableInArmory];
   }
+  if (other.hasChanceOfForgeFailureBase) {
+    [self setChanceOfForgeFailureBase:other.chanceOfForgeFailureBase];
+  }
+  if (other.hasMinutesToAttemptForgeBase) {
+    [self setMinutesToAttemptForgeBase:other.minutesToAttemptForgeBase];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -3193,6 +3192,14 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
       }
       case 104: {
         [self setIsBuyableInArmory:[input readBool]];
+        break;
+      }
+      case 117: {
+        [self setChanceOfForgeFailureBase:[input readFloat]];
+        break;
+      }
+      case 120: {
+        [self setMinutesToAttemptForgeBase:[input readInt32]];
         break;
       }
     }
@@ -3404,6 +3411,38 @@ BOOL FullEquipProto_ClassTypeIsValidValue(FullEquipProto_ClassType value) {
 - (FullEquipProto_Builder*) clearIsBuyableInArmory {
   result.hasIsBuyableInArmory = NO;
   result.isBuyableInArmory = NO;
+  return self;
+}
+- (BOOL) hasChanceOfForgeFailureBase {
+  return result.hasChanceOfForgeFailureBase;
+}
+- (Float32) chanceOfForgeFailureBase {
+  return result.chanceOfForgeFailureBase;
+}
+- (FullEquipProto_Builder*) setChanceOfForgeFailureBase:(Float32) value {
+  result.hasChanceOfForgeFailureBase = YES;
+  result.chanceOfForgeFailureBase = value;
+  return self;
+}
+- (FullEquipProto_Builder*) clearChanceOfForgeFailureBase {
+  result.hasChanceOfForgeFailureBase = NO;
+  result.chanceOfForgeFailureBase = 0;
+  return self;
+}
+- (BOOL) hasMinutesToAttemptForgeBase {
+  return result.hasMinutesToAttemptForgeBase;
+}
+- (int32_t) minutesToAttemptForgeBase {
+  return result.minutesToAttemptForgeBase;
+}
+- (FullEquipProto_Builder*) setMinutesToAttemptForgeBase:(int32_t) value {
+  result.hasMinutesToAttemptForgeBase = YES;
+  result.minutesToAttemptForgeBase = value;
+  return self;
+}
+- (FullEquipProto_Builder*) clearMinutesToAttemptForgeBase {
+  result.hasMinutesToAttemptForgeBase = NO;
+  result.minutesToAttemptForgeBase = 0;
   return self;
 }
 @end
@@ -3961,6 +4000,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
 @property int32_t userEquipId;
 @property int32_t userId;
 @property int32_t equipId;
+@property int32_t level;
 @end
 
 @implementation FullUserEquipProto
@@ -3986,6 +4026,13 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
   hasEquipId_ = !!value;
 }
 @synthesize equipId;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
 - (void) dealloc {
   [super dealloc];
 }
@@ -3994,6 +4041,7 @@ static FullUserStructureProto* defaultFullUserStructureProtoInstance = nil;
     self.userEquipId = 0;
     self.userId = 0;
     self.equipId = 0;
+    self.level = 0;
   }
   return self;
 }
@@ -4022,6 +4070,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (self.hasEquipId) {
     [output writeInt32:3 value:self.equipId];
   }
+  if (self.hasLevel) {
+    [output writeInt32:4 value:self.level];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4039,6 +4090,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   }
   if (self.hasEquipId) {
     size += computeInt32Size(3, self.equipId);
+  }
+  if (self.hasLevel) {
+    size += computeInt32Size(4, self.level);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4124,6 +4178,9 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
   if (other.hasEquipId) {
     [self setEquipId:other.equipId];
   }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4155,6 +4212,10 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
       }
       case 24: {
         [self setEquipId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setLevel:[input readInt32]];
         break;
       }
     }
@@ -4206,6 +4267,22 @@ static FullUserEquipProto* defaultFullUserEquipProtoInstance = nil;
 - (FullUserEquipProto_Builder*) clearEquipId {
   result.hasEquipId = NO;
   result.equipId = 0;
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (FullUserEquipProto_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (FullUserEquipProto_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
   return self;
 }
 @end
@@ -8071,6 +8148,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
 @property (retain) FullEquipProto* postedEquip;
 @property int32_t diamondCost;
 @property int32_t coinCost;
+@property int32_t equipLevel;
 @end
 
 @implementation FullMarketplacePostProto
@@ -8124,6 +8202,13 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
   hasCoinCost_ = !!value;
 }
 @synthesize coinCost;
+- (BOOL) hasEquipLevel {
+  return !!hasEquipLevel_;
+}
+- (void) setHasEquipLevel:(BOOL) value {
+  hasEquipLevel_ = !!value;
+}
+@synthesize equipLevel;
 - (void) dealloc {
   self.poster = nil;
   self.postedEquip = nil;
@@ -8138,6 +8223,7 @@ BOOL NeutralCityElementProto_NeutralCityElemTypeIsValidValue(NeutralCityElementP
     self.postedEquip = [FullEquipProto defaultInstance];
     self.diamondCost = 0;
     self.coinCost = 0;
+    self.equipLevel = 0;
   }
   return self;
 }
@@ -8178,6 +8264,9 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (self.hasCoinCost) {
     [output writeInt32:7 value:self.coinCost];
   }
+  if (self.hasEquipLevel) {
+    [output writeInt32:8 value:self.equipLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -8207,6 +8296,9 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   }
   if (self.hasCoinCost) {
     size += computeInt32Size(7, self.coinCost);
+  }
+  if (self.hasEquipLevel) {
+    size += computeInt32Size(8, self.equipLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8304,6 +8396,9 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
   if (other.hasCoinCost) {
     [self setCoinCost:other.coinCost];
   }
+  if (other.hasEquipLevel) {
+    [self setEquipLevel:other.equipLevel];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8366,6 +8461,10 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
       }
       case 56: {
         [self setCoinCost:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setEquipLevel:[input readInt32]];
         break;
       }
     }
@@ -8509,6 +8608,22 @@ static FullMarketplacePostProto* defaultFullMarketplacePostProtoInstance = nil;
 - (FullMarketplacePostProto_Builder*) clearCoinCost {
   result.hasCoinCost = NO;
   result.coinCost = 0;
+  return self;
+}
+- (BOOL) hasEquipLevel {
+  return result.hasEquipLevel;
+}
+- (int32_t) equipLevel {
+  return result.equipLevel;
+}
+- (FullMarketplacePostProto_Builder*) setEquipLevel:(int32_t) value {
+  result.hasEquipLevel = YES;
+  result.equipLevel = value;
+  return self;
+}
+- (FullMarketplacePostProto_Builder*) clearEquipLevel {
+  result.hasEquipLevel = NO;
+  result.equipLevel = 0;
   return self;
 }
 @end
@@ -14206,6 +14321,497 @@ static PlayerWallPostProto* defaultPlayerWallPostProtoInstance = nil;
 - (PlayerWallPostProto_Builder*) clearContent {
   result.hasContent = NO;
   result.content = @"";
+  return self;
+}
+@end
+
+@interface UnhandledBlacksmithAttemptProto ()
+@property int32_t blacksmithId;
+@property int32_t userId;
+@property int32_t equipId;
+@property int64_t goalLevel;
+@property BOOL guaranteed;
+@property int64_t startTime;
+@property int32_t diamondGuaranteeCost;
+@property int64_t timeOfSpeedup;
+@property BOOL attemptComplete;
+@end
+
+@implementation UnhandledBlacksmithAttemptProto
+
+- (BOOL) hasBlacksmithId {
+  return !!hasBlacksmithId_;
+}
+- (void) setHasBlacksmithId:(BOOL) value {
+  hasBlacksmithId_ = !!value;
+}
+@synthesize blacksmithId;
+- (BOOL) hasUserId {
+  return !!hasUserId_;
+}
+- (void) setHasUserId:(BOOL) value {
+  hasUserId_ = !!value;
+}
+@synthesize userId;
+- (BOOL) hasEquipId {
+  return !!hasEquipId_;
+}
+- (void) setHasEquipId:(BOOL) value {
+  hasEquipId_ = !!value;
+}
+@synthesize equipId;
+- (BOOL) hasGoalLevel {
+  return !!hasGoalLevel_;
+}
+- (void) setHasGoalLevel:(BOOL) value {
+  hasGoalLevel_ = !!value;
+}
+@synthesize goalLevel;
+- (BOOL) hasGuaranteed {
+  return !!hasGuaranteed_;
+}
+- (void) setHasGuaranteed:(BOOL) value {
+  hasGuaranteed_ = !!value;
+}
+- (BOOL) guaranteed {
+  return !!guaranteed_;
+}
+- (void) setGuaranteed:(BOOL) value {
+  guaranteed_ = !!value;
+}
+- (BOOL) hasStartTime {
+  return !!hasStartTime_;
+}
+- (void) setHasStartTime:(BOOL) value {
+  hasStartTime_ = !!value;
+}
+@synthesize startTime;
+- (BOOL) hasDiamondGuaranteeCost {
+  return !!hasDiamondGuaranteeCost_;
+}
+- (void) setHasDiamondGuaranteeCost:(BOOL) value {
+  hasDiamondGuaranteeCost_ = !!value;
+}
+@synthesize diamondGuaranteeCost;
+- (BOOL) hasTimeOfSpeedup {
+  return !!hasTimeOfSpeedup_;
+}
+- (void) setHasTimeOfSpeedup:(BOOL) value {
+  hasTimeOfSpeedup_ = !!value;
+}
+@synthesize timeOfSpeedup;
+- (BOOL) hasAttemptComplete {
+  return !!hasAttemptComplete_;
+}
+- (void) setHasAttemptComplete:(BOOL) value {
+  hasAttemptComplete_ = !!value;
+}
+- (BOOL) attemptComplete {
+  return !!attemptComplete_;
+}
+- (void) setAttemptComplete:(BOOL) value {
+  attemptComplete_ = !!value;
+}
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.blacksmithId = 0;
+    self.userId = 0;
+    self.equipId = 0;
+    self.goalLevel = 0L;
+    self.guaranteed = NO;
+    self.startTime = 0L;
+    self.diamondGuaranteeCost = 0;
+    self.timeOfSpeedup = 0L;
+    self.attemptComplete = NO;
+  }
+  return self;
+}
+static UnhandledBlacksmithAttemptProto* defaultUnhandledBlacksmithAttemptProtoInstance = nil;
++ (void) initialize {
+  if (self == [UnhandledBlacksmithAttemptProto class]) {
+    defaultUnhandledBlacksmithAttemptProtoInstance = [[UnhandledBlacksmithAttemptProto alloc] init];
+  }
+}
++ (UnhandledBlacksmithAttemptProto*) defaultInstance {
+  return defaultUnhandledBlacksmithAttemptProtoInstance;
+}
+- (UnhandledBlacksmithAttemptProto*) defaultInstance {
+  return defaultUnhandledBlacksmithAttemptProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasBlacksmithId) {
+    [output writeInt32:1 value:self.blacksmithId];
+  }
+  if (self.hasUserId) {
+    [output writeInt32:2 value:self.userId];
+  }
+  if (self.hasEquipId) {
+    [output writeInt32:3 value:self.equipId];
+  }
+  if (self.hasGoalLevel) {
+    [output writeInt64:4 value:self.goalLevel];
+  }
+  if (self.hasGuaranteed) {
+    [output writeBool:5 value:self.guaranteed];
+  }
+  if (self.hasStartTime) {
+    [output writeInt64:6 value:self.startTime];
+  }
+  if (self.hasDiamondGuaranteeCost) {
+    [output writeInt32:8 value:self.diamondGuaranteeCost];
+  }
+  if (self.hasTimeOfSpeedup) {
+    [output writeInt64:9 value:self.timeOfSpeedup];
+  }
+  if (self.hasAttemptComplete) {
+    [output writeBool:10 value:self.attemptComplete];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasBlacksmithId) {
+    size += computeInt32Size(1, self.blacksmithId);
+  }
+  if (self.hasUserId) {
+    size += computeInt32Size(2, self.userId);
+  }
+  if (self.hasEquipId) {
+    size += computeInt32Size(3, self.equipId);
+  }
+  if (self.hasGoalLevel) {
+    size += computeInt64Size(4, self.goalLevel);
+  }
+  if (self.hasGuaranteed) {
+    size += computeBoolSize(5, self.guaranteed);
+  }
+  if (self.hasStartTime) {
+    size += computeInt64Size(6, self.startTime);
+  }
+  if (self.hasDiamondGuaranteeCost) {
+    size += computeInt32Size(8, self.diamondGuaranteeCost);
+  }
+  if (self.hasTimeOfSpeedup) {
+    size += computeInt64Size(9, self.timeOfSpeedup);
+  }
+  if (self.hasAttemptComplete) {
+    size += computeBoolSize(10, self.attemptComplete);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (UnhandledBlacksmithAttemptProto*) parseFromData:(NSData*) data {
+  return (UnhandledBlacksmithAttemptProto*)[[[UnhandledBlacksmithAttemptProto builder] mergeFromData:data] build];
+}
++ (UnhandledBlacksmithAttemptProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnhandledBlacksmithAttemptProto*)[[[UnhandledBlacksmithAttemptProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (UnhandledBlacksmithAttemptProto*) parseFromInputStream:(NSInputStream*) input {
+  return (UnhandledBlacksmithAttemptProto*)[[[UnhandledBlacksmithAttemptProto builder] mergeFromInputStream:input] build];
+}
++ (UnhandledBlacksmithAttemptProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnhandledBlacksmithAttemptProto*)[[[UnhandledBlacksmithAttemptProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UnhandledBlacksmithAttemptProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (UnhandledBlacksmithAttemptProto*)[[[UnhandledBlacksmithAttemptProto builder] mergeFromCodedInputStream:input] build];
+}
++ (UnhandledBlacksmithAttemptProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (UnhandledBlacksmithAttemptProto*)[[[UnhandledBlacksmithAttemptProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (UnhandledBlacksmithAttemptProto_Builder*) builder {
+  return [[[UnhandledBlacksmithAttemptProto_Builder alloc] init] autorelease];
+}
++ (UnhandledBlacksmithAttemptProto_Builder*) builderWithPrototype:(UnhandledBlacksmithAttemptProto*) prototype {
+  return [[UnhandledBlacksmithAttemptProto builder] mergeFrom:prototype];
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) builder {
+  return [UnhandledBlacksmithAttemptProto builder];
+}
+@end
+
+@interface UnhandledBlacksmithAttemptProto_Builder()
+@property (retain) UnhandledBlacksmithAttemptProto* result;
+@end
+
+@implementation UnhandledBlacksmithAttemptProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[UnhandledBlacksmithAttemptProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clear {
+  self.result = [[[UnhandledBlacksmithAttemptProto alloc] init] autorelease];
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clone {
+  return [UnhandledBlacksmithAttemptProto builderWithPrototype:result];
+}
+- (UnhandledBlacksmithAttemptProto*) defaultInstance {
+  return [UnhandledBlacksmithAttemptProto defaultInstance];
+}
+- (UnhandledBlacksmithAttemptProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (UnhandledBlacksmithAttemptProto*) buildPartial {
+  UnhandledBlacksmithAttemptProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) mergeFrom:(UnhandledBlacksmithAttemptProto*) other {
+  if (other == [UnhandledBlacksmithAttemptProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasBlacksmithId) {
+    [self setBlacksmithId:other.blacksmithId];
+  }
+  if (other.hasUserId) {
+    [self setUserId:other.userId];
+  }
+  if (other.hasEquipId) {
+    [self setEquipId:other.equipId];
+  }
+  if (other.hasGoalLevel) {
+    [self setGoalLevel:other.goalLevel];
+  }
+  if (other.hasGuaranteed) {
+    [self setGuaranteed:other.guaranteed];
+  }
+  if (other.hasStartTime) {
+    [self setStartTime:other.startTime];
+  }
+  if (other.hasDiamondGuaranteeCost) {
+    [self setDiamondGuaranteeCost:other.diamondGuaranteeCost];
+  }
+  if (other.hasTimeOfSpeedup) {
+    [self setTimeOfSpeedup:other.timeOfSpeedup];
+  }
+  if (other.hasAttemptComplete) {
+    [self setAttemptComplete:other.attemptComplete];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setBlacksmithId:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setUserId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setEquipId:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setGoalLevel:[input readInt64]];
+        break;
+      }
+      case 40: {
+        [self setGuaranteed:[input readBool]];
+        break;
+      }
+      case 48: {
+        [self setStartTime:[input readInt64]];
+        break;
+      }
+      case 64: {
+        [self setDiamondGuaranteeCost:[input readInt32]];
+        break;
+      }
+      case 72: {
+        [self setTimeOfSpeedup:[input readInt64]];
+        break;
+      }
+      case 80: {
+        [self setAttemptComplete:[input readBool]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasBlacksmithId {
+  return result.hasBlacksmithId;
+}
+- (int32_t) blacksmithId {
+  return result.blacksmithId;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setBlacksmithId:(int32_t) value {
+  result.hasBlacksmithId = YES;
+  result.blacksmithId = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearBlacksmithId {
+  result.hasBlacksmithId = NO;
+  result.blacksmithId = 0;
+  return self;
+}
+- (BOOL) hasUserId {
+  return result.hasUserId;
+}
+- (int32_t) userId {
+  return result.userId;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setUserId:(int32_t) value {
+  result.hasUserId = YES;
+  result.userId = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearUserId {
+  result.hasUserId = NO;
+  result.userId = 0;
+  return self;
+}
+- (BOOL) hasEquipId {
+  return result.hasEquipId;
+}
+- (int32_t) equipId {
+  return result.equipId;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setEquipId:(int32_t) value {
+  result.hasEquipId = YES;
+  result.equipId = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearEquipId {
+  result.hasEquipId = NO;
+  result.equipId = 0;
+  return self;
+}
+- (BOOL) hasGoalLevel {
+  return result.hasGoalLevel;
+}
+- (int64_t) goalLevel {
+  return result.goalLevel;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setGoalLevel:(int64_t) value {
+  result.hasGoalLevel = YES;
+  result.goalLevel = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearGoalLevel {
+  result.hasGoalLevel = NO;
+  result.goalLevel = 0L;
+  return self;
+}
+- (BOOL) hasGuaranteed {
+  return result.hasGuaranteed;
+}
+- (BOOL) guaranteed {
+  return result.guaranteed;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setGuaranteed:(BOOL) value {
+  result.hasGuaranteed = YES;
+  result.guaranteed = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearGuaranteed {
+  result.hasGuaranteed = NO;
+  result.guaranteed = NO;
+  return self;
+}
+- (BOOL) hasStartTime {
+  return result.hasStartTime;
+}
+- (int64_t) startTime {
+  return result.startTime;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setStartTime:(int64_t) value {
+  result.hasStartTime = YES;
+  result.startTime = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearStartTime {
+  result.hasStartTime = NO;
+  result.startTime = 0L;
+  return self;
+}
+- (BOOL) hasDiamondGuaranteeCost {
+  return result.hasDiamondGuaranteeCost;
+}
+- (int32_t) diamondGuaranteeCost {
+  return result.diamondGuaranteeCost;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setDiamondGuaranteeCost:(int32_t) value {
+  result.hasDiamondGuaranteeCost = YES;
+  result.diamondGuaranteeCost = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearDiamondGuaranteeCost {
+  result.hasDiamondGuaranteeCost = NO;
+  result.diamondGuaranteeCost = 0;
+  return self;
+}
+- (BOOL) hasTimeOfSpeedup {
+  return result.hasTimeOfSpeedup;
+}
+- (int64_t) timeOfSpeedup {
+  return result.timeOfSpeedup;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setTimeOfSpeedup:(int64_t) value {
+  result.hasTimeOfSpeedup = YES;
+  result.timeOfSpeedup = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearTimeOfSpeedup {
+  result.hasTimeOfSpeedup = NO;
+  result.timeOfSpeedup = 0L;
+  return self;
+}
+- (BOOL) hasAttemptComplete {
+  return result.hasAttemptComplete;
+}
+- (BOOL) attemptComplete {
+  return result.attemptComplete;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) setAttemptComplete:(BOOL) value {
+  result.hasAttemptComplete = YES;
+  result.attemptComplete = value;
+  return self;
+}
+- (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete {
+  result.hasAttemptComplete = NO;
+  result.attemptComplete = NO;
   return self;
 }
 @end

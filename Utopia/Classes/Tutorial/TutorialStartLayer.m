@@ -60,7 +60,6 @@
     gs.maxEnergy = tc.initEnergy;
     gs.currentStamina = tc.initStamina;
     gs.maxStamina = tc.initStamina;
-    gs.maxHealth = tc.initHealth;
     gs.gold = tc.initGold;
     gs.silver = tc.initSilver;
     

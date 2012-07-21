@@ -16,7 +16,7 @@
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
-#define ENEMY_DEFENSE 10
+#define ENEMY_DEFENSE 1
 
 @implementation TutorialBattleLayer
 
@@ -39,11 +39,12 @@
   _flippedComboBar.visible = NO;
   _attackButton.visible = NO;
   _bottomMenu.visible = NO;
-  
-  _leftCurrentHealth = gs.maxHealth;
-  _leftMaxHealth = gs.maxHealth;
-  _rightMaxHealth = ENEMY_HEALTH;
-  _rightCurrentHealth = ENEMY_HEALTH;
+
+#warning change back
+//  _leftCurrentHealth = gs.maxHealth;
+//  _leftMaxHealth = gs.maxHealth;
+//  _rightMaxHealth = ENEMY_HEALTH;
+//  _rightCurrentHealth = ENEMY_HEALTH;
   
   _rightCurHealthLabel.string = [NSString stringWithFormat:@"%d", _rightCurrentHealth];
   _rightMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _rightMaxHealth];
@@ -262,13 +263,14 @@
 }
 
 - (void) loadStolenEquip {
+  Globals *gl = [Globals sharedGlobals];
   FullEquipProto *fep = [[[TutorialConstants sharedTutorialConstants] tutorialQuest] firstDefeatTypeJobBattleLootAmulet];
   
   self.stolenEquipView.nameLabel.text = fep.name;
   //  self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
   [Globals loadImageForEquip:fep.equipId toView:self.stolenEquipView.equipIcon maskedView:nil];
-  self.stolenEquipView.attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
-  self.stolenEquipView.defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+  self.stolenEquipView.attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1]];
+  self.stolenEquipView.defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1]];
   
   // Move arrow to close button (tag 20)
   [self.stolenEquipView.mainView addSubview:_uiArrow];
@@ -289,12 +291,12 @@
   self.summaryView.rightLevelLabel.text = @"Lvl 1";
   self.summaryView.rightPlayerIcon.image = [Globals squareImageForUser:tc.enemyType];
   
-  FullEquipProto *fep = [gs equipWithId:gs.weaponEquipped];
+  FullEquipProto *fep = [gs equipWithId:gs.weaponEquippedId];
   self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.leftRarityLabel1.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.leftEquipIcon1.image = [Globals imageForEquip:fep.equipId];
   
-  fep = [gs equipWithId:gs.armorEquipped];
+  fep = [gs equipWithId:gs.armorEquippedId];
   self.summaryView.leftRarityLabel2.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.leftRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.leftEquipIcon2.image = [Globals imageForEquip:fep.equipId];
@@ -364,7 +366,13 @@
   gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
   gs.battlesWon = 1;
   
-  [gs changeQuantityForEquip:tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId by:1];
+  UserEquip *ue = [[UserEquip alloc] init];
+  ue.equipId = tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId;
+  ue.userId = gs.userId;
+  ue.level = 1;
+  ue.userEquipId = 3;
+  [gs.myEquips addObject:ue];
+  [ue release];
   
   [Analytics tutorialBattleComplete];
 }

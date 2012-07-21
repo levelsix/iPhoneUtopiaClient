@@ -22,6 +22,10 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
+@class CollectForgeEquipsRequestProto;
+@class CollectForgeEquipsRequestProto_Builder;
+@class CollectForgeEquipsResponseProto;
+@class CollectForgeEquipsResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CriticalStructureActionRequestProto;
@@ -50,10 +54,18 @@
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
 @class ExpansionWaitCompleteResponseProto_Builder;
+@class FinishForgeAttemptWaittimeWithDiamondsRequestProto;
+@class FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder;
+@class FinishForgeAttemptWaittimeWithDiamondsResponseProto;
+@class FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsRequestProto;
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
+@class ForgeAttemptWaitCompleteRequestProto;
+@class ForgeAttemptWaitCompleteRequestProto_Builder;
+@class ForgeAttemptWaitCompleteResponseProto;
+@class ForgeAttemptWaitCompleteResponseProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullEquipProto;
@@ -256,10 +268,16 @@
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder;
+@class SubmitEquipsToBlacksmithRequestProto;
+@class SubmitEquipsToBlacksmithRequestProto_Builder;
+@class SubmitEquipsToBlacksmithResponseProto;
+@class SubmitEquipsToBlacksmithResponseProto_Builder;
 @class TaskActionRequestProto;
 @class TaskActionRequestProto_Builder;
 @class TaskActionResponseProto;
 @class TaskActionResponseProto_Builder;
+@class UnhandledBlacksmithAttemptProto;
+@class UnhandledBlacksmithAttemptProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UpgradeNormStructureRequestProto;
@@ -535,7 +553,6 @@ typedef enum {
   UseSkillPointRequestProto_BoostTypeAttack = 0,
   UseSkillPointRequestProto_BoostTypeDefense = 1,
   UseSkillPointRequestProto_BoostTypeEnergy = 2,
-  UseSkillPointRequestProto_BoostTypeHealth = 3,
   UseSkillPointRequestProto_BoostTypeStamina = 4,
 } UseSkillPointRequestProto_BoostType;
 
@@ -732,6 +749,46 @@ typedef enum {
 } EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus;
 
 BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatus value);
+
+typedef enum {
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess = 0,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusNotEnoughDiamondsForGuarantee = 2,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSubmittedEquipsNotSameLevel = 4,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusTryingToSurpassMaxLevel = 5,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusAlreadyForging = 6,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusClientTooApartFromServerTime = 7,
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusOtherFail = 8,
+} SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus;
+
+BOOL SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusIsValidValue(SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus value);
+
+typedef enum {
+  ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess = 0,
+  ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusNotDoneYet = 1,
+  ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusOtherFail = 2,
+  ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusClientTooApartFromServerTime = 3,
+  ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusAlreadyComplete = 4,
+} ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus;
+
+BOOL ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusIsValidValue(ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus value);
+
+typedef enum {
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess = 0,
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusNotEnoughDiamonds = 1,
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusOtherFail = 2,
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusClientTooApartFromServerTime = 3,
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusAlreadyComplete = 4,
+} FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus;
+
+BOOL FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusIsValidValue(FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus value);
+
+typedef enum {
+  CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess = 0,
+  CollectForgeEquipsResponseProto_CollectForgeEquipsStatusOtherFail = 1,
+  CollectForgeEquipsResponseProto_CollectForgeEquipsStatusNotDoneYet = 2,
+} CollectForgeEquipsResponseProto_CollectForgeEquipsStatus;
+
+BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(CollectForgeEquipsResponseProto_CollectForgeEquipsStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -972,6 +1029,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasExpGained_:1;
   BOOL hasAttacker_:1;
   BOOL hasDefender_:1;
+  BOOL hasUserEquipGained_:1;
   BOOL hasEquipGained_:1;
   BOOL hasStatus_:1;
   BOOL hasBattleResult_:1;
@@ -979,6 +1037,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   int32_t expGained;
   MinimumUserProto* attacker;
   MinimumUserProto* defender;
+  FullUserEquipProto* userEquipGained;
   FullEquipProto* equipGained;
   BattleResponseProto_BattleStatus status;
   BattleResult battleResult;
@@ -988,6 +1047,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasStatus;
 - (BOOL) hasBattleResult;
 - (BOOL) hasCoinsGained;
+- (BOOL) hasUserEquipGained;
 - (BOOL) hasEquipGained;
 - (BOOL) hasExpGained;
 @property (readonly, retain) MinimumUserProto* attacker;
@@ -995,6 +1055,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) BattleResponseProto_BattleStatus status;
 @property (readonly) BattleResult battleResult;
 @property (readonly) int32_t coinsGained;
+@property (readonly, retain) FullUserEquipProto* userEquipGained;
 @property (readonly, retain) FullEquipProto* equipGained;
 @property (readonly) int32_t expGained;
 
@@ -1060,6 +1121,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (int32_t) coinsGained;
 - (BattleResponseProto_Builder*) setCoinsGained:(int32_t) value;
 - (BattleResponseProto_Builder*) clearCoinsGained;
+
+- (BOOL) hasUserEquipGained;
+- (FullUserEquipProto*) userEquipGained;
+- (BattleResponseProto_Builder*) setUserEquipGained:(FullUserEquipProto*) value;
+- (BattleResponseProto_Builder*) setUserEquipGainedBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (BattleResponseProto_Builder*) mergeUserEquipGained:(FullUserEquipProto*) value;
+- (BattleResponseProto_Builder*) clearUserEquipGained;
 
 - (BOOL) hasEquipGained;
 - (FullEquipProto*) equipGained;
@@ -1299,14 +1367,18 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @interface ArmoryResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasFullUserEquipOfBoughtItem_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  FullUserEquipProto* fullUserEquipOfBoughtItem;
   ArmoryResponseProto_ArmoryStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasFullUserEquipOfBoughtItem;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) ArmoryResponseProto_ArmoryStatus status;
+@property (readonly, retain) FullUserEquipProto* fullUserEquipOfBoughtItem;
 
 + (ArmoryResponseProto*) defaultInstance;
 - (ArmoryResponseProto*) defaultInstance;
@@ -1353,6 +1425,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (ArmoryResponseProto_ArmoryStatus) status;
 - (ArmoryResponseProto_Builder*) setStatus:(ArmoryResponseProto_ArmoryStatus) value;
 - (ArmoryResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasFullUserEquipOfBoughtItem;
+- (FullUserEquipProto*) fullUserEquipOfBoughtItem;
+- (ArmoryResponseProto_Builder*) setFullUserEquipOfBoughtItem:(FullUserEquipProto*) value;
+- (ArmoryResponseProto_Builder*) setFullUserEquipOfBoughtItemBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (ArmoryResponseProto_Builder*) mergeFullUserEquipOfBoughtItem:(FullUserEquipProto*) value;
+- (ArmoryResponseProto_Builder*) clearFullUserEquipOfBoughtItem;
 @end
 
 @interface StartupRequestProto : PBGeneratedMessage {
@@ -1423,36 +1502,40 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 
 @interface StartupResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasPlayerHasBoughtInAppPurchase_:1;
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
+  BOOL hasUnhandledForgeAttempt_:1;
   BOOL hasDailyBonusInfo_:1;
   BOOL hasSender_:1;
   BOOL hasStartupConstants_:1;
   BOOL hasTutorialConstants_:1;
-  BOOL hasUpdateStatus_:1;
   BOOL hasStartupStatus_:1;
+  BOOL hasUpdateStatus_:1;
+  BOOL playerHasBoughtInAppPurchase_:1;
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
+  UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   FullUserProto* sender;
   StartupResponseProto_StartupConstants* startupConstants;
   StartupResponseProto_TutorialConstants* tutorialConstants;
-  StartupResponseProto_UpdateStatus updateStatus;
   StartupResponseProto_StartupStatus startupStatus;
-  NSMutableArray* mutableUserCityInfosList;
-  NSMutableArray* mutableInProgressIncompleteQuestsList;
-  NSMutableArray* mutableInProgressCompleteQuestsList;
-  NSMutableArray* mutableAvailableQuestsList;
-  NSMutableArray* mutableUserEquipsList;
-  NSMutableArray* mutableEquipsList;
-  NSMutableArray* mutableAllCitiesList;
-  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
-  NSMutableArray* mutableAttackNotificationsList;
-  NSMutableArray* mutableReferralNotificationsList;
-  NSMutableArray* mutablePlayerWallPostNotificationsList;
+  StartupResponseProto_UpdateStatus updateStatus;
   NSMutableArray* mutableAlliesList;
+  NSMutableArray* mutablePlayerWallPostNotificationsList;
+  NSMutableArray* mutableReferralNotificationsList;
+  NSMutableArray* mutableAttackNotificationsList;
+  NSMutableArray* mutableMarketplacePurchaseNotificationsList;
+  NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableEquipsList;
+  NSMutableArray* mutableUserEquipsList;
+  NSMutableArray* mutableAvailableQuestsList;
+  NSMutableArray* mutableInProgressCompleteQuestsList;
+  NSMutableArray* mutableInProgressIncompleteQuestsList;
+  NSMutableArray* mutableUserCityInfosList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1463,6 +1546,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasExperienceRequiredForCurrentLevel;
 - (BOOL) hasAppStoreUrl;
 - (BOOL) hasDailyBonusInfo;
+- (BOOL) hasPlayerHasBoughtInAppPurchase;
+- (BOOL) hasUnhandledForgeAttempt;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
@@ -1472,6 +1557,8 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) int32_t experienceRequiredForCurrentLevel;
 @property (readonly, retain) NSString* appStoreUrl;
 @property (readonly, retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
+- (BOOL) playerHasBoughtInAppPurchase;
+@property (readonly, retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
@@ -1518,20 +1605,20 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @private
   BOOL hasFirstTimeToday_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
-  BOOL hasSilverBonus_:1;
+  BOOL hasCoinBonus_:1;
   BOOL hasUserEquipBonus_:1;
   BOOL firstTimeToday_:1;
   int32_t numConsecutiveDaysPlayed;
-  int32_t silverBonus;
+  int32_t coinBonus;
   FullUserEquipProto* userEquipBonus;
 }
 - (BOOL) hasNumConsecutiveDaysPlayed;
 - (BOOL) hasFirstTimeToday;
-- (BOOL) hasSilverBonus;
+- (BOOL) hasCoinBonus;
 - (BOOL) hasUserEquipBonus;
 @property (readonly) int32_t numConsecutiveDaysPlayed;
 - (BOOL) firstTimeToday;
-@property (readonly) int32_t silverBonus;
+@property (readonly) int32_t coinBonus;
 @property (readonly, retain) FullUserEquipProto* userEquipBonus;
 
 + (StartupResponseProto_DailyBonusInfo*) defaultInstance;
@@ -1578,10 +1665,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_DailyBonusInfo_Builder*) setFirstTimeToday:(BOOL) value;
 - (StartupResponseProto_DailyBonusInfo_Builder*) clearFirstTimeToday;
 
-- (BOOL) hasSilverBonus;
-- (int32_t) silverBonus;
-- (StartupResponseProto_DailyBonusInfo_Builder*) setSilverBonus:(int32_t) value;
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearSilverBonus;
+- (BOOL) hasCoinBonus;
+- (int32_t) coinBonus;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setCoinBonus:(int32_t) value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearCoinBonus;
 
 - (BOOL) hasUserEquipBonus;
 - (FullUserEquipProto*) userEquipBonus;
@@ -1666,11 +1753,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasBattleCompleteTime_:1;
   BOOL hasCoinsStolen_:1;
   BOOL hasStolenEquipId_:1;
+  BOOL hasStolenEquipLevel_:1;
   BOOL hasAttacker_:1;
   BOOL hasBattleResult_:1;
   int64_t battleCompleteTime;
   int32_t coinsStolen;
   int32_t stolenEquipId;
+  int32_t stolenEquipLevel;
   MinimumUserProto* attacker;
   BattleResult battleResult;
 }
@@ -1679,11 +1768,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasBattleCompleteTime;
 - (BOOL) hasCoinsStolen;
 - (BOOL) hasStolenEquipId;
+- (BOOL) hasStolenEquipLevel;
 @property (readonly, retain) MinimumUserProto* attacker;
 @property (readonly) BattleResult battleResult;
 @property (readonly) int64_t battleCompleteTime;
 @property (readonly) int32_t coinsStolen;
 @property (readonly) int32_t stolenEquipId;
+@property (readonly) int32_t stolenEquipLevel;
 
 + (StartupResponseProto_AttackedNotificationProto*) defaultInstance;
 - (StartupResponseProto_AttackedNotificationProto*) defaultInstance;
@@ -1745,6 +1836,11 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (int32_t) stolenEquipId;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) setStolenEquipId:(int32_t) value;
 - (StartupResponseProto_AttackedNotificationProto_Builder*) clearStolenEquipId;
+
+- (BOOL) hasStolenEquipLevel;
+- (int32_t) stolenEquipLevel;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setStolenEquipLevel:(int32_t) value;
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearStolenEquipLevel;
 @end
 
 @interface StartupResponseProto_ReferralNotificationProto : PBGeneratedMessage {
@@ -1857,12 +1953,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasAttackBaseGain_:1;
   BOOL hasDefenseBaseGain_:1;
   BOOL hasEnergyBaseGain_:1;
-  BOOL hasHealthBaseGain_:1;
   BOOL hasStaminaBaseGain_:1;
   BOOL hasAttackBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
-  BOOL hasHealthBaseCost_:1;
   BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasKiipRewardConditions_:1;
@@ -1908,12 +2002,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   int32_t attackBaseGain;
   int32_t defenseBaseGain;
   int32_t energyBaseGain;
-  int32_t healthBaseGain;
   int32_t staminaBaseGain;
   int32_t attackBaseCost;
   int32_t defenseBaseCost;
   int32_t energyBaseCost;
-  int32_t healthBaseCost;
   int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
@@ -1938,12 +2030,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (BOOL) hasAttackBaseGain;
 - (BOOL) hasDefenseBaseGain;
 - (BOOL) hasEnergyBaseGain;
-- (BOOL) hasHealthBaseGain;
 - (BOOL) hasStaminaBaseGain;
 - (BOOL) hasAttackBaseCost;
 - (BOOL) hasDefenseBaseCost;
 - (BOOL) hasEnergyBaseCost;
-- (BOOL) hasHealthBaseCost;
 - (BOOL) hasStaminaBaseCost;
 - (BOOL) hasSkillPointsGainedOnLevelup;
 - (BOOL) hasCutOfVaultDepositTaken;
@@ -1989,12 +2079,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) int32_t attackBaseGain;
 @property (readonly) int32_t defenseBaseGain;
 @property (readonly) int32_t energyBaseGain;
-@property (readonly) int32_t healthBaseGain;
 @property (readonly) int32_t staminaBaseGain;
 @property (readonly) int32_t attackBaseCost;
 @property (readonly) int32_t defenseBaseCost;
 @property (readonly) int32_t energyBaseCost;
-@property (readonly) int32_t healthBaseCost;
 @property (readonly) int32_t staminaBaseCost;
 @property (readonly) int32_t skillPointsGainedOnLevelup;
 @property (readonly) Float64 cutOfVaultDepositTaken;
@@ -2549,11 +2637,6 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_StartupConstants_Builder*) setEnergyBaseGain:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearEnergyBaseGain;
 
-- (BOOL) hasHealthBaseGain;
-- (int32_t) healthBaseGain;
-- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseGain:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseGain;
-
 - (BOOL) hasStaminaBaseGain;
 - (int32_t) staminaBaseGain;
 - (StartupResponseProto_StartupConstants_Builder*) setStaminaBaseGain:(int32_t) value;
@@ -2573,11 +2656,6 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (int32_t) energyBaseCost;
 - (StartupResponseProto_StartupConstants_Builder*) setEnergyBaseCost:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearEnergyBaseCost;
-
-- (BOOL) hasHealthBaseCost;
-- (int32_t) healthBaseCost;
-- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseCost:(int32_t) value;
-- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseCost;
 
 - (BOOL) hasStaminaBaseCost;
 - (int32_t) staminaBaseCost;
@@ -3447,6 +3525,18 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (StartupResponseProto_Builder*) setDailyBonusInfoBuilder:(StartupResponseProto_DailyBonusInfo_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeDailyBonusInfo:(StartupResponseProto_DailyBonusInfo*) value;
 - (StartupResponseProto_Builder*) clearDailyBonusInfo;
+
+- (BOOL) hasPlayerHasBoughtInAppPurchase;
+- (BOOL) playerHasBoughtInAppPurchase;
+- (StartupResponseProto_Builder*) setPlayerHasBoughtInAppPurchase:(BOOL) value;
+- (StartupResponseProto_Builder*) clearPlayerHasBoughtInAppPurchase;
+
+- (BOOL) hasUnhandledForgeAttempt;
+- (UnhandledBlacksmithAttemptProto*) unhandledForgeAttempt;
+- (StartupResponseProto_Builder*) setUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value;
+- (StartupResponseProto_Builder*) setUnhandledForgeAttemptBuilder:(UnhandledBlacksmithAttemptProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value;
+- (StartupResponseProto_Builder*) clearUnhandledForgeAttempt;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -4015,28 +4105,28 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @private
   BOOL hasTaskCompleted_:1;
   BOOL hasCityRankedUp_:1;
-  BOOL hasLootEquipId_:1;
   BOOL hasCoinsGained_:1;
   BOOL hasCoinBonusIfCityRankup_:1;
   BOOL hasExpBonusIfCityRankup_:1;
   BOOL hasCityId_:1;
   BOOL hasSender_:1;
+  BOOL hasLootUserEquip_:1;
   BOOL hasStatus_:1;
   BOOL taskCompleted_:1;
   BOOL cityRankedUp_:1;
-  int32_t lootEquipId;
   int32_t coinsGained;
   int32_t coinBonusIfCityRankup;
   int32_t expBonusIfCityRankup;
   int32_t cityId;
   MinimumUserProto* sender;
+  FullUserEquipProto* lootUserEquip;
   TaskActionResponseProto_TaskActionStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasTaskCompleted;
 - (BOOL) hasCityRankedUp;
-- (BOOL) hasLootEquipId;
+- (BOOL) hasLootUserEquip;
 - (BOOL) hasCoinsGained;
 - (BOOL) hasCoinBonusIfCityRankup;
 - (BOOL) hasExpBonusIfCityRankup;
@@ -4045,7 +4135,7 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @property (readonly) TaskActionResponseProto_TaskActionStatus status;
 - (BOOL) taskCompleted;
 - (BOOL) cityRankedUp;
-@property (readonly) int32_t lootEquipId;
+@property (readonly, retain) FullUserEquipProto* lootUserEquip;
 @property (readonly) int32_t coinsGained;
 @property (readonly) int32_t coinBonusIfCityRankup;
 @property (readonly) int32_t expBonusIfCityRankup;
@@ -4107,10 +4197,12 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (TaskActionResponseProto_Builder*) setCityRankedUp:(BOOL) value;
 - (TaskActionResponseProto_Builder*) clearCityRankedUp;
 
-- (BOOL) hasLootEquipId;
-- (int32_t) lootEquipId;
-- (TaskActionResponseProto_Builder*) setLootEquipId:(int32_t) value;
-- (TaskActionResponseProto_Builder*) clearLootEquipId;
+- (BOOL) hasLootUserEquip;
+- (FullUserEquipProto*) lootUserEquip;
+- (TaskActionResponseProto_Builder*) setLootUserEquip:(FullUserEquipProto*) value;
+- (TaskActionResponseProto_Builder*) setLootUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (TaskActionResponseProto_Builder*) mergeLootUserEquip:(FullUserEquipProto*) value;
+- (TaskActionResponseProto_Builder*) clearLootUserEquip;
 
 - (BOOL) hasCoinsGained;
 - (int32_t) coinsGained;
@@ -5729,21 +5821,21 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 
 @interface PostToMarketplaceRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasPostedEquipId_:1;
+  BOOL hasUserEquipId_:1;
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
   BOOL hasSender_:1;
-  int32_t postedEquipId;
+  int32_t userEquipId;
   int32_t diamondCost;
   int32_t coinCost;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasPostedEquipId;
+- (BOOL) hasUserEquipId;
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t postedEquipId;
+@property (readonly) int32_t userEquipId;
 @property (readonly) int32_t diamondCost;
 @property (readonly) int32_t coinCost;
 
@@ -5788,10 +5880,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (PostToMarketplaceRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (PostToMarketplaceRequestProto_Builder*) clearSender;
 
-- (BOOL) hasPostedEquipId;
-- (int32_t) postedEquipId;
-- (PostToMarketplaceRequestProto_Builder*) setPostedEquipId:(int32_t) value;
-- (PostToMarketplaceRequestProto_Builder*) clearPostedEquipId;
+- (BOOL) hasUserEquipId;
+- (int32_t) userEquipId;
+- (PostToMarketplaceRequestProto_Builder*) setUserEquipId:(int32_t) value;
+- (PostToMarketplaceRequestProto_Builder*) clearUserEquipId;
 
 - (BOOL) hasDiamondCost;
 - (int32_t) diamondCost;
@@ -5925,14 +6017,18 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @interface RetractMarketplacePostResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasRetractedUserEquip_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  FullUserEquipProto* retractedUserEquip;
   RetractMarketplacePostResponseProto_RetractMarketplacePostStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasRetractedUserEquip;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) RetractMarketplacePostResponseProto_RetractMarketplacePostStatus status;
+@property (readonly, retain) FullUserEquipProto* retractedUserEquip;
 
 + (RetractMarketplacePostResponseProto*) defaultInstance;
 - (RetractMarketplacePostResponseProto*) defaultInstance;
@@ -5979,6 +6075,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (RetractMarketplacePostResponseProto_RetractMarketplacePostStatus) status;
 - (RetractMarketplacePostResponseProto_Builder*) setStatus:(RetractMarketplacePostResponseProto_RetractMarketplacePostStatus) value;
 - (RetractMarketplacePostResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasRetractedUserEquip;
+- (FullUserEquipProto*) retractedUserEquip;
+- (RetractMarketplacePostResponseProto_Builder*) setRetractedUserEquip:(FullUserEquipProto*) value;
+- (RetractMarketplacePostResponseProto_Builder*) setRetractedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (RetractMarketplacePostResponseProto_Builder*) mergeRetractedUserEquip:(FullUserEquipProto*) value;
+- (RetractMarketplacePostResponseProto_Builder*) clearRetractedUserEquip;
 @end
 
 @interface PurchaseFromMarketplaceRequestProto : PBGeneratedMessage {
@@ -6054,19 +6157,23 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
   BOOL hasPosterId_:1;
   BOOL hasPurchaser_:1;
   BOOL hasMarketplacePost_:1;
+  BOOL hasFullUserEquipOfBoughtItem_:1;
   BOOL hasStatus_:1;
   int32_t posterId;
   MinimumUserProto* purchaser;
   FullMarketplacePostProto* marketplacePost;
+  FullUserEquipProto* fullUserEquipOfBoughtItem;
   PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 }
 - (BOOL) hasPurchaser;
 - (BOOL) hasPosterId;
 - (BOOL) hasMarketplacePost;
+- (BOOL) hasFullUserEquipOfBoughtItem;
 - (BOOL) hasStatus;
 @property (readonly, retain) MinimumUserProto* purchaser;
 @property (readonly) int32_t posterId;
 @property (readonly, retain) FullMarketplacePostProto* marketplacePost;
+@property (readonly, retain) FullUserEquipProto* fullUserEquipOfBoughtItem;
 @property (readonly) PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 
 + (PurchaseFromMarketplaceResponseProto*) defaultInstance;
@@ -6121,6 +6228,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (PurchaseFromMarketplaceResponseProto_Builder*) setMarketplacePostBuilder:(FullMarketplacePostProto_Builder*) builderForValue;
 - (PurchaseFromMarketplaceResponseProto_Builder*) mergeMarketplacePost:(FullMarketplacePostProto*) value;
 - (PurchaseFromMarketplaceResponseProto_Builder*) clearMarketplacePost;
+
+- (BOOL) hasFullUserEquipOfBoughtItem;
+- (FullUserEquipProto*) fullUserEquipOfBoughtItem;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setFullUserEquipOfBoughtItem:(FullUserEquipProto*) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) setFullUserEquipOfBoughtItemBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (PurchaseFromMarketplaceResponseProto_Builder*) mergeFullUserEquipOfBoughtItem:(FullUserEquipProto*) value;
+- (PurchaseFromMarketplaceResponseProto_Builder*) clearFullUserEquipOfBoughtItem;
 
 - (BOOL) hasStatus;
 - (PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus) status;
@@ -7121,15 +7235,19 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 @interface QuestRedeemResponseProto : PBGeneratedMessage {
 @private
   BOOL hasSender_:1;
+  BOOL hasEquipRewardFromQuest_:1;
   BOOL hasStatus_:1;
   MinimumUserProto* sender;
+  FullUserEquipProto* equipRewardFromQuest;
   QuestRedeemResponseProto_QuestRedeemStatus status;
   NSMutableArray* mutableNewlyAvailableQuestsList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasEquipRewardFromQuest;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) QuestRedeemResponseProto_QuestRedeemStatus status;
+@property (readonly, retain) FullUserEquipProto* equipRewardFromQuest;
 - (NSArray*) newlyAvailableQuestsList;
 - (FullQuestProto*) newlyAvailableQuestsAtIndex:(int32_t) index;
 
@@ -7185,6 +7303,13 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (QuestRedeemResponseProto_QuestRedeemStatus) status;
 - (QuestRedeemResponseProto_Builder*) setStatus:(QuestRedeemResponseProto_QuestRedeemStatus) value;
 - (QuestRedeemResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasEquipRewardFromQuest;
+- (FullUserEquipProto*) equipRewardFromQuest;
+- (QuestRedeemResponseProto_Builder*) setEquipRewardFromQuest:(FullUserEquipProto*) value;
+- (QuestRedeemResponseProto_Builder*) setEquipRewardFromQuestBuilder:(FullUserEquipProto_Builder*) builderForValue;
+- (QuestRedeemResponseProto_Builder*) mergeEquipRewardFromQuest:(FullUserEquipProto*) value;
+- (QuestRedeemResponseProto_Builder*) clearEquipRewardFromQuest;
 @end
 
 @interface UserQuestDetailsRequestProto : PBGeneratedMessage {
@@ -8311,15 +8436,15 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 
 @interface EquipEquipmentRequestProto : PBGeneratedMessage {
 @private
-  BOOL hasEquipId_:1;
+  BOOL hasUserEquipId_:1;
   BOOL hasSender_:1;
-  int32_t equipId;
+  int32_t userEquipId;
   MinimumUserProto* sender;
 }
 - (BOOL) hasSender;
-- (BOOL) hasEquipId;
+- (BOOL) hasUserEquipId;
 @property (readonly, retain) MinimumUserProto* sender;
-@property (readonly) int32_t equipId;
+@property (readonly) int32_t userEquipId;
 
 + (EquipEquipmentRequestProto*) defaultInstance;
 - (EquipEquipmentRequestProto*) defaultInstance;
@@ -8362,10 +8487,10 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (EquipEquipmentRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (EquipEquipmentRequestProto_Builder*) clearSender;
 
-- (BOOL) hasEquipId;
-- (int32_t) equipId;
-- (EquipEquipmentRequestProto_Builder*) setEquipId:(int32_t) value;
-- (EquipEquipmentRequestProto_Builder*) clearEquipId;
+- (BOOL) hasUserEquipId;
+- (int32_t) userEquipId;
+- (EquipEquipmentRequestProto_Builder*) setUserEquipId:(int32_t) value;
+- (EquipEquipmentRequestProto_Builder*) clearUserEquipId;
 @end
 
 @interface EquipEquipmentResponseProto : PBGeneratedMessage {
@@ -9623,5 +9748,543 @@ BOOL EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusIsValidValue(EarnFreeDi
 - (LogoutRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
 - (LogoutRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
 - (LogoutRequestProto_Builder*) clearSender;
+@end
+
+@interface SubmitEquipsToBlacksmithRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasPaidToGuarantee_:1;
+  BOOL hasStartTime_:1;
+  BOOL hasUserEquipOne_:1;
+  BOOL hasUserEquipTwo_:1;
+  BOOL hasSender_:1;
+  BOOL paidToGuarantee_:1;
+  int64_t startTime;
+  int32_t userEquipOne;
+  int32_t userEquipTwo;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasUserEquipOne;
+- (BOOL) hasUserEquipTwo;
+- (BOOL) hasPaidToGuarantee;
+- (BOOL) hasStartTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t userEquipOne;
+@property (readonly) int32_t userEquipTwo;
+- (BOOL) paidToGuarantee;
+@property (readonly) int64_t startTime;
+
++ (SubmitEquipsToBlacksmithRequestProto*) defaultInstance;
+- (SubmitEquipsToBlacksmithRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) builder;
++ (SubmitEquipsToBlacksmithRequestProto_Builder*) builder;
++ (SubmitEquipsToBlacksmithRequestProto_Builder*) builderWithPrototype:(SubmitEquipsToBlacksmithRequestProto*) prototype;
+
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromData:(NSData*) data;
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SubmitEquipsToBlacksmithRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SubmitEquipsToBlacksmithRequestProto* result;
+}
+
+- (SubmitEquipsToBlacksmithRequestProto*) defaultInstance;
+
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clear;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clone;
+
+- (SubmitEquipsToBlacksmithRequestProto*) build;
+- (SubmitEquipsToBlacksmithRequestProto*) buildPartial;
+
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeFrom:(SubmitEquipsToBlacksmithRequestProto*) other;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearSender;
+
+- (BOOL) hasUserEquipOne;
+- (int32_t) userEquipOne;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipOne:(int32_t) value;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearUserEquipOne;
+
+- (BOOL) hasUserEquipTwo;
+- (int32_t) userEquipTwo;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipTwo:(int32_t) value;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearUserEquipTwo;
+
+- (BOOL) hasPaidToGuarantee;
+- (BOOL) paidToGuarantee;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setPaidToGuarantee:(BOOL) value;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearPaidToGuarantee;
+
+- (BOOL) hasStartTime;
+- (int64_t) startTime;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setStartTime:(int64_t) value;
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearStartTime;
+@end
+
+@interface SubmitEquipsToBlacksmithResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasUnhandledBlacksmithAttempt_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  UnhandledBlacksmithAttemptProto* unhandledBlacksmithAttempt;
+  SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasUnhandledBlacksmithAttempt;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus status;
+@property (readonly, retain) UnhandledBlacksmithAttemptProto* unhandledBlacksmithAttempt;
+
++ (SubmitEquipsToBlacksmithResponseProto*) defaultInstance;
+- (SubmitEquipsToBlacksmithResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) builder;
++ (SubmitEquipsToBlacksmithResponseProto_Builder*) builder;
++ (SubmitEquipsToBlacksmithResponseProto_Builder*) builderWithPrototype:(SubmitEquipsToBlacksmithResponseProto*) prototype;
+
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromData:(NSData*) data;
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface SubmitEquipsToBlacksmithResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  SubmitEquipsToBlacksmithResponseProto* result;
+}
+
+- (SubmitEquipsToBlacksmithResponseProto*) defaultInstance;
+
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clear;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clone;
+
+- (SubmitEquipsToBlacksmithResponseProto*) build;
+- (SubmitEquipsToBlacksmithResponseProto*) buildPartial;
+
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeFrom:(SubmitEquipsToBlacksmithResponseProto*) other;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus) status;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setStatus:(SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus) value;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasUnhandledBlacksmithAttempt;
+- (UnhandledBlacksmithAttemptProto*) unhandledBlacksmithAttempt;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setUnhandledBlacksmithAttempt:(UnhandledBlacksmithAttemptProto*) value;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setUnhandledBlacksmithAttemptBuilder:(UnhandledBlacksmithAttemptProto_Builder*) builderForValue;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeUnhandledBlacksmithAttempt:(UnhandledBlacksmithAttemptProto*) value;
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clearUnhandledBlacksmithAttempt;
+@end
+
+@interface ForgeAttemptWaitCompleteRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasCurTime_:1;
+  BOOL hasBlacksmithId_:1;
+  BOOL hasSender_:1;
+  int64_t curTime;
+  int32_t blacksmithId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBlacksmithId;
+- (BOOL) hasCurTime;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t blacksmithId;
+@property (readonly) int64_t curTime;
+
++ (ForgeAttemptWaitCompleteRequestProto*) defaultInstance;
+- (ForgeAttemptWaitCompleteRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) builder;
++ (ForgeAttemptWaitCompleteRequestProto_Builder*) builder;
++ (ForgeAttemptWaitCompleteRequestProto_Builder*) builderWithPrototype:(ForgeAttemptWaitCompleteRequestProto*) prototype;
+
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromData:(NSData*) data;
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ForgeAttemptWaitCompleteRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ForgeAttemptWaitCompleteRequestProto* result;
+}
+
+- (ForgeAttemptWaitCompleteRequestProto*) defaultInstance;
+
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clear;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clone;
+
+- (ForgeAttemptWaitCompleteRequestProto*) build;
+- (ForgeAttemptWaitCompleteRequestProto*) buildPartial;
+
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeFrom:(ForgeAttemptWaitCompleteRequestProto*) other;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBlacksmithId;
+- (int32_t) blacksmithId;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setBlacksmithId:(int32_t) value;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clearBlacksmithId;
+
+- (BOOL) hasCurTime;
+- (int64_t) curTime;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value;
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clearCurTime;
+@end
+
+@interface ForgeAttemptWaitCompleteResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus status;
+
++ (ForgeAttemptWaitCompleteResponseProto*) defaultInstance;
+- (ForgeAttemptWaitCompleteResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) builder;
++ (ForgeAttemptWaitCompleteResponseProto_Builder*) builder;
++ (ForgeAttemptWaitCompleteResponseProto_Builder*) builderWithPrototype:(ForgeAttemptWaitCompleteResponseProto*) prototype;
+
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromData:(NSData*) data;
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface ForgeAttemptWaitCompleteResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  ForgeAttemptWaitCompleteResponseProto* result;
+}
+
+- (ForgeAttemptWaitCompleteResponseProto*) defaultInstance;
+
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clear;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clone;
+
+- (ForgeAttemptWaitCompleteResponseProto*) build;
+- (ForgeAttemptWaitCompleteResponseProto*) buildPartial;
+
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeFrom:(ForgeAttemptWaitCompleteResponseProto*) other;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus) status;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) setStatus:(ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus) value;
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clearStatus;
+@end
+
+@interface FinishForgeAttemptWaittimeWithDiamondsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasTimeOfSpeedup_:1;
+  BOOL hasBlacksmithId_:1;
+  BOOL hasSender_:1;
+  int64_t timeOfSpeedup;
+  int32_t blacksmithId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBlacksmithId;
+- (BOOL) hasTimeOfSpeedup;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t blacksmithId;
+@property (readonly) int64_t timeOfSpeedup;
+
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) defaultInstance;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) builder;
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) builder;
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) builderWithPrototype:(FinishForgeAttemptWaittimeWithDiamondsRequestProto*) prototype;
+
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data;
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FinishForgeAttemptWaittimeWithDiamondsRequestProto* result;
+}
+
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) defaultInstance;
+
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clear;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clone;
+
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) build;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) buildPartial;
+
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeFrom:(FinishForgeAttemptWaittimeWithDiamondsRequestProto*) other;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBlacksmithId;
+- (int32_t) blacksmithId;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setBlacksmithId:(int32_t) value;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clearBlacksmithId;
+
+- (BOOL) hasTimeOfSpeedup;
+- (int64_t) timeOfSpeedup;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setTimeOfSpeedup:(int64_t) value;
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfSpeedup;
+@end
+
+@interface FinishForgeAttemptWaittimeWithDiamondsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus status;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus status;
+
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) defaultInstance;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) builder;
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) builder;
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) builderWithPrototype:(FinishForgeAttemptWaittimeWithDiamondsResponseProto*) prototype;
+
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data;
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto* result;
+}
+
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) defaultInstance;
+
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clear;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clone;
+
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) build;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) buildPartial;
+
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeFrom:(FinishForgeAttemptWaittimeWithDiamondsResponseProto*) other;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus) status;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus) value;
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clearStatus;
+@end
+
+@interface CollectForgeEquipsRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasBlacksmithId_:1;
+  BOOL hasSender_:1;
+  int32_t blacksmithId;
+  MinimumUserProto* sender;
+}
+- (BOOL) hasSender;
+- (BOOL) hasBlacksmithId;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) int32_t blacksmithId;
+
++ (CollectForgeEquipsRequestProto*) defaultInstance;
+- (CollectForgeEquipsRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectForgeEquipsRequestProto_Builder*) builder;
++ (CollectForgeEquipsRequestProto_Builder*) builder;
++ (CollectForgeEquipsRequestProto_Builder*) builderWithPrototype:(CollectForgeEquipsRequestProto*) prototype;
+
++ (CollectForgeEquipsRequestProto*) parseFromData:(NSData*) data;
++ (CollectForgeEquipsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectForgeEquipsRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectForgeEquipsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectForgeEquipsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectForgeEquipsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectForgeEquipsRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CollectForgeEquipsRequestProto* result;
+}
+
+- (CollectForgeEquipsRequestProto*) defaultInstance;
+
+- (CollectForgeEquipsRequestProto_Builder*) clear;
+- (CollectForgeEquipsRequestProto_Builder*) clone;
+
+- (CollectForgeEquipsRequestProto*) build;
+- (CollectForgeEquipsRequestProto*) buildPartial;
+
+- (CollectForgeEquipsRequestProto_Builder*) mergeFrom:(CollectForgeEquipsRequestProto*) other;
+- (CollectForgeEquipsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectForgeEquipsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectForgeEquipsRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectForgeEquipsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectForgeEquipsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectForgeEquipsRequestProto_Builder*) clearSender;
+
+- (BOOL) hasBlacksmithId;
+- (int32_t) blacksmithId;
+- (CollectForgeEquipsRequestProto_Builder*) setBlacksmithId:(int32_t) value;
+- (CollectForgeEquipsRequestProto_Builder*) clearBlacksmithId;
+@end
+
+@interface CollectForgeEquipsResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  MinimumUserProto* sender;
+  CollectForgeEquipsResponseProto_CollectForgeEquipsStatus status;
+  NSMutableArray* mutableNewUserEquipsList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) CollectForgeEquipsResponseProto_CollectForgeEquipsStatus status;
+- (NSArray*) newUserEquipsList;
+- (FullUserEquipProto*) newUserEquipsAtIndex:(int32_t) index;
+
++ (CollectForgeEquipsResponseProto*) defaultInstance;
+- (CollectForgeEquipsResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CollectForgeEquipsResponseProto_Builder*) builder;
++ (CollectForgeEquipsResponseProto_Builder*) builder;
++ (CollectForgeEquipsResponseProto_Builder*) builderWithPrototype:(CollectForgeEquipsResponseProto*) prototype;
+
++ (CollectForgeEquipsResponseProto*) parseFromData:(NSData*) data;
++ (CollectForgeEquipsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectForgeEquipsResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CollectForgeEquipsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CollectForgeEquipsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CollectForgeEquipsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CollectForgeEquipsResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CollectForgeEquipsResponseProto* result;
+}
+
+- (CollectForgeEquipsResponseProto*) defaultInstance;
+
+- (CollectForgeEquipsResponseProto_Builder*) clear;
+- (CollectForgeEquipsResponseProto_Builder*) clone;
+
+- (CollectForgeEquipsResponseProto*) build;
+- (CollectForgeEquipsResponseProto*) buildPartial;
+
+- (CollectForgeEquipsResponseProto_Builder*) mergeFrom:(CollectForgeEquipsResponseProto*) other;
+- (CollectForgeEquipsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CollectForgeEquipsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CollectForgeEquipsResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CollectForgeEquipsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CollectForgeEquipsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CollectForgeEquipsResponseProto_Builder*) clearSender;
+
+- (NSArray*) newUserEquipsList;
+- (FullUserEquipProto*) newUserEquipsAtIndex:(int32_t) index;
+- (CollectForgeEquipsResponseProto_Builder*) replaceNewUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value;
+- (CollectForgeEquipsResponseProto_Builder*) addNewUserEquips:(FullUserEquipProto*) value;
+- (CollectForgeEquipsResponseProto_Builder*) addAllNewUserEquips:(NSArray*) values;
+- (CollectForgeEquipsResponseProto_Builder*) clearNewUserEquipsList;
+
+- (BOOL) hasStatus;
+- (CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) status;
+- (CollectForgeEquipsResponseProto_Builder*) setStatus:(CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) value;
+- (CollectForgeEquipsResponseProto_Builder*) clearStatus;
 @end
 

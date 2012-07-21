@@ -39,10 +39,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *priceLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defStatLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *quantityBackground;
-@property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *leatherBackground;
 @property (nonatomic, retain) IBOutlet UILabel *equipTypeLabel;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 
 @property (nonatomic, assign) MarketCellState state;
 @property (nonatomic, retain) FullMarketplacePostProto *mktProto;
@@ -68,6 +67,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *savePriceLabel;
 @property (nonatomic, retain) IBOutlet UIButton *playerNameButton;
 @property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *armoryPriceIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *postedPriceIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *savePriceIcon;
@@ -78,13 +78,6 @@ typedef enum {
 @property (nonatomic, retain) FullMarketplacePostProto *mktPost;
 
 - (void) updateForMarketPost:(FullMarketplacePostProto *)m;
-
-@end
-
-@interface MarketplaceLoadingView : UIView
-
-@property (nonatomic, retain) IBOutlet UIView *darkView;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
 
 @end
 

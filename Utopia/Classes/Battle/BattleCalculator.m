@@ -76,12 +76,10 @@
   // Make the attack strength asymetric WRT the target 
   if (inputPercent > perfect) {
     int multOfPerfect  = perfect/fabs(100 - perfect);
-    percentFromPerfect = distFromPerfect*multOfPerfect;
-    percentFromPerfect = perfect - percentFromPerfect;
+    inputPercent = perfect - distFromPerfect*multOfPerfect;
   }
-  else {
-    percentFromPerfect = (inputPercent/perfect)*100;
-  }
+  percentFromPerfect = (inputPercent/perfect)*100;
+  NSLog(@"Percent from perfect: %f", percentFromPerfect);
   return percentFromPerfect;
 }
 
@@ -145,7 +143,7 @@
 }
 
 -(int) afterDefenseAttackStrength:(int)attackStrength
-                      forDefender:(id<UserBattleStats>)defender 
+                      forDefender:(UserBattleStats *)defender 
                        andPercent:(float)percent
 {
   float accuracy = [self accuracyPercentForPercent:percent];
@@ -161,7 +159,7 @@
   // Get Skill-based attack values
   int skillAttack, userAttack;
   
-  id<UserBattleStats> attacker, defender;
+  UserBattleStats *attacker, *defender;
   if (rightAttack) {
     attacker = rightUser;
     defender = leftUser;

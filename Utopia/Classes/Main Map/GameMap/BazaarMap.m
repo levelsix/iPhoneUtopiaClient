@@ -55,10 +55,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     [self addChild:csb z:100];
     [cs release];
     [csb release];
-
     
     cs = [[CritStruct alloc] initWithType:CritStructTypeVault];
     csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 42, 4, 4) map:self];
+    [self addChild:csb z:100];
+    [cs release];
+    [csb release];
+    
+    cs = [[CritStruct alloc] initWithType:CritStructTypeBlacksmith];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 42, 4, 4) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];

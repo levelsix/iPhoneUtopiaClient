@@ -41,7 +41,6 @@
     doneView.hidden = !done;
     notDoneView.hidden = done;
     activeView.hidden = i != _day;
-    NSLog(@"%d: %d, %d, %d T:%d", i, !done, done, i != _day, activeView.tag);
     
     if (_day < 5) {
       rewardIcon.highlighted = NO;
@@ -67,8 +66,7 @@
 
 - (IBAction)okayClicked:(id)sender {
   if (_day == 5) {
-    GameState *gs = [GameState sharedGameState];
-    [self.stolenEquipView loadForEquip:[gs equipWithId:_fuep.equipId]];
+    [self.stolenEquipView loadForEquip:_fuep];
     self.stolenEquipView.titleLabel.text = @"You Found an Item!";
     [Globals displayUIView:self.stolenEquipView];
     [Globals bounceView:self.stolenEquipView.mainView fadeInBgdView:self.stolenEquipView.bgdView];

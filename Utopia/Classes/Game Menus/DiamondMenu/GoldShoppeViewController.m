@@ -247,23 +247,6 @@
 
 @end
 
-@implementation GoldShoppeLoadingView
-
-@synthesize darkView, actIndView;
-
-- (void) awakeFromNib {
-  self.darkView.layer.cornerRadius = 10.f;
-}
-
-- (void) dealloc {
-  self.darkView = nil;
-  self.actIndView = nil;
-  
-  [super dealloc];
-}
-
-@end
-
 @implementation GoldShoppeViewController
 
 @synthesize loadingView;

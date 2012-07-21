@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <StoreKit/StoreKit.h>
 #import "InAppPurchaseData.h"
+#import "NibUtils.h"
 
 typedef enum {
   kPackagesState = 1,
@@ -59,13 +60,6 @@ typedef enum {
 
 @end
 
-@interface GoldShoppeLoadingView : UIView
-
-@property (nonatomic, retain) IBOutlet UIView *darkView;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
-
-@end
-
 @interface GoldShoppeViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   UIScrollView    *_scrollView;
   GoldPackageView *_itemView;
@@ -74,7 +68,7 @@ typedef enum {
   NSArray         *_sponsoredOffers;
 }
 
-@property (nonatomic, retain) IBOutlet GoldShoppeLoadingView *loadingView;
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
 @property (nonatomic, retain) IBOutlet UITableView *pkgTableView;
 @property (nonatomic, retain) IBOutlet GoldPackageView *itemView;
 @property (nonatomic, retain) IBOutlet UILabel *curGoldLabel;

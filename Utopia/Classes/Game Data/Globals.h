@@ -33,12 +33,10 @@
 @property (nonatomic, assign) int defenseBaseGain;
 @property (nonatomic, assign) int energyBaseGain;
 @property (nonatomic, assign) int staminaBaseGain;
-@property (nonatomic, assign) int healthBaseGain;
 @property (nonatomic, assign) int attackBaseCost;
 @property (nonatomic, assign) int defenseBaseCost;
 @property (nonatomic, assign) int energyBaseCost;
 @property (nonatomic, assign) int staminaBaseCost;
-@property (nonatomic, assign) int healthBaseCost;
 
 @property (nonatomic, assign) float retractPercentCut;
 @property (nonatomic, assign) float purchasePercentCut;
@@ -203,7 +201,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (BOOL)userTypeIsBad:(UserType)type;
 + (BOOL)userType:(UserType)t1 isAlliesWith:(UserType)t2;
 
-- (void) confirmWearEquip:(int)equipId;
+- (void) confirmWearEquip:(int)userEquipId;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;
@@ -216,7 +214,15 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateDiamondCostForInstaBuild:(UserStruct *)us;
 - (int) calculateDiamondCostForInstaUpgrade:(UserStruct *)us;
 - (int) calculateMinutesToUpgrade:(UserStruct *)us;
-- (float) calculateAttackForStat:(int)attackStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId;
-- (float) calculateDefenseForStat:(int)defenseStat weapon:(int)weaponId armor:(int)armorId amulet:(int)amuletId;
+- (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
+- (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
+
+// Forging formulas
+- (int) calculateAttackForEquip:(int)equipId level:(int)level;
+- (int) calculateDefenseForEquip:(int)equipId level:(int)level;
+- (float) calculateChanceOfSuccess:(int)equipId level:(int)level;
+- (int) calculateMinutesForForge:(int)equipId level:(int)level;
+- (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level;
+- (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level;
 
 @end

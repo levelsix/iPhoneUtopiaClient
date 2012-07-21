@@ -56,8 +56,8 @@
     
     UIViewAnimationOptions opt = UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat;
     [UIView animateWithDuration:0.75f delay:0.f options:opt animations:^{
-      CGPoint base = [self.view convertPoint:self.hpStatButton.center fromView:self.skillTabView];
-      _arrow.center = ccpAdd(base, ccp(self.hpStatButton.frame.size.width/2+_arrow.frame.size.width/2, -(self.hpStatButton.frame.size.height/2+_arrow.frame.size.height/2-15)));
+      CGPoint base = [self.view convertPoint:self.staminaStatButton.center fromView:self.skillTabView];
+      _arrow.center = ccpAdd(base, ccp(self.staminaStatButton.frame.size.width/2+_arrow.frame.size.width/2, -(self.staminaStatButton.frame.size.height/2+_arrow.frame.size.height/2-15)));
       
       float rotation = M_PI_4;
       _arrow.layer.transform = CATransform3DMakeRotation(rotation, 0.0f, 0.0f, 1.0f);
@@ -88,13 +88,11 @@
     gs.maxStamina += gl.staminaBaseGain;
     gs.currentStamina += gl.staminaBaseGain;
     gs.skillPoints -= gl.staminaBaseCost;
-  } else if (sender == self.hpStatButton) {
-    gs.maxHealth += gl.healthBaseGain;
-    gs.skillPoints -= gl.healthBaseCost;
   }
 
   [self refreshSkillPointsButtons];
   [self loadSkills];
+  [self displayMyCurrentStats];
   
   if (gs.skillPoints <= 0) {
     [self addingSkillsDone];
@@ -157,7 +155,7 @@
     [self doEquippingAnimation:ev forType:fep.equipType];
     
     GameState *gs = [GameState sharedGameState];
-    gs.amuletEquipped = fep.equipId;
+    gs.amuletEquipped = ev.equip.userEquipId;
     
     self.unequippableView.hidden = YES;
     

@@ -17,13 +17,13 @@
 @end
 
 @interface ChangeEquipUpdate : NSObject <GameStateUpdate> {
-  int _equipId;
-  int _change;
+  UserEquip *_userEquip;
+  BOOL _remove;
   BOOL _equipped;
 }
 
-+ (id) updateWithTag:(int)tag equipId:(int)equipId change:(int)change;
-- (id) initWithTag:(int)tag equipId:(int)equipId change:(int)change;
++ (id) updateWithTag:(int)tag userEquip:(UserEquip *)ue remove:(BOOL)remove;
+- (id) initWithTag:(int)tag userEquip:(UserEquip *)ue remove:(BOOL)remove;
 
 @end
 

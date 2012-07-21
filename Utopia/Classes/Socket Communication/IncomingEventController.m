@@ -35,6 +35,8 @@
 #import "FullEvent.h"
 #import "KiipDelegate.h"
 #import "DailyBonusMenuController.h"
+#import "EquipMenuController.h"
+#import "ForgeMenuController.h"
 
 @implementation IncomingEventController
 
@@ -182,6 +184,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSReconnectEvent:
       responseClass = [ReconnectResponseProto class];
       break;
+    case EventProtocolResponseSSubmitEquipsToBlacksmith:
+      responseClass = [SubmitEquipsToBlacksmithResponseProto class];
+      break;
+    case EventProtocolResponseSForgeAttemptWaitComplete:
+      responseClass = [ForgeAttemptWaitCompleteResponseProto class];
+      break;
+    case EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds:
+      responseClass = [FinishForgeAttemptWaittimeWithDiamondsResponseProto class];
+      break;
+    case EventProtocolResponseSCollectForgeEquips:
+      responseClass = [CollectForgeEquipsResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -209,7 +223,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
 - (void) handleReconnectResponseProto:(FullEvent *)fe {
   ReconnectResponseProto *proto = (ReconnectResponseProto *)fe.event;
   
-  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received reconnect response with %@ incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Received reconnect response with %@incoming messages.", proto.incomingResponseMessages ? @"" : @"no ");
 }
 
 - (void) handleChatResponseProto:(FullEvent *)fe {
@@ -253,9 +267,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         gs.silver -= proto.coinsGained;
       }
       
-      if (proto.hasEquipGained) {
-        [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        [gs changeQuantityForEquip:proto.equipGained.equipId by:1];
+      if (proto.hasUserEquipGained) {
+        [gs.staticEquips setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
+        [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.userEquipGained]];
       }
       [[BattleLayer sharedBattleLayer] setBrp:proto];
     } else {
@@ -265,9 +279,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         gs.silver += proto.coinsGained;
       }
       
-      if (proto.hasEquipGained) {
+      if (proto.hasUserEquipGained) {
         [[gs staticEquips] setObject:proto.equipGained forKey:[NSNumber numberWithInt:proto.equipGained.equipId]];
-        [gs changeQuantityForEquip:proto.equipGained.equipId by:-1];
+        [gs.myEquips removeObject:[gs myEquipWithUserEquipId:proto.userEquipGained.userEquipId]];
       }
       
       UserNotification *un = [[UserNotification alloc] initWithBattleResponse:proto];
@@ -294,6 +308,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to perform armory action."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   } else {
+    [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
+    
+    [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse];
+    [[ArmoryViewController sharedArmoryViewController] receivedArmoryResponse];
+    [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse];
+    
+    // Don't display this for forge
+    if (![ForgeMenuController sharedForgeMenuController].view.superview) {
+      [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
+    }
+    
     [gs removeNonFullUserUpdatesForTag:tag];
   }
 }
@@ -340,6 +365,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [gs setAllies:proto.alliesList];
     
+    if (proto.hasUnhandledForgeAttempt) {
+      [gs setForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledForgeAttempt]];
+      [gs beginForgeTimer];
+    }
+    
     gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
     gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
     
@@ -369,7 +399,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     if (dbi.firstTimeToday) {
       // This will 
       DailyBonusMenuController *dbmc = [[DailyBonusMenuController alloc] initWithNibName:nil bundle:nil];
-      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.silverBonus equip:dbi.userEquipBonus];
+      [dbmc loadForDay:dbi.numConsecutiveDaysPlayed silver:dbi.coinBonus equip:dbi.userEquipBonus];
       [[TopBar sharedTopBar] setDbmc:dbmc];
     }
     
@@ -473,8 +503,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status == TaskActionResponseProto_TaskActionStatusSuccess) {
     gs.silver +=  proto.coinsGained;
     
-    if (proto.hasLootEquipId && proto.lootEquipId > 0) {
-      [gs changeQuantityForEquip:proto.lootEquipId by:1];
+    if (proto.hasLootUserEquip) {
+      [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.lootUserEquip]];
     }
     
     if (proto.cityRankedUp) {
@@ -600,6 +630,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     } else {
       NSMutableArray *mktPosts = [mvc postsForState];
       
+      [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
+      [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
+      
       for (int i = 0; i < mktPosts.count; i++) {
         FullMarketplacePostProto *p = [mktPosts objectAtIndex:i];
         if (p.marketplacePostId == proto.marketplacePost.marketplacePostId) {
@@ -610,8 +643,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
             NSArray *a = [NSArray arrayWithObjects:y, z, nil];
             [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
           }
-          
-          [gs changeQuantityForEquip:p.postedEquip.equipId by:1];
           break;
         }
       }
@@ -631,12 +662,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retract marketplace response received with status %d", proto.status);
   
   GameState *gs = [GameState sharedGameState];
-  if (proto.status != RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess) {
+  if (proto.status == RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess) {
+    [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.retractedUserEquip]];
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
     [Globals popupMessage:@"Server failed to retract marketplace post."];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
   }
+  
+  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
+  [mvc removeLoadingView];
+  [mvc.postsTableView reloadData];
 }
 
 - (void) handleRedeemMarketplaceEarningsResponseProto:(FullEvent *)fe {
@@ -1254,6 +1290,81 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Analytics kiipFailed];
     }
   }
+}
+
+- (void) handleSubmitEquipsToBlacksmithResponseProto:(FullEvent *)fe {
+  SubmitEquipsToBlacksmithResponseProto *proto = (SubmitEquipsToBlacksmithResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Submit equips to blacksmith response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess) {
+    gs.forgeAttempt = [ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledBlacksmithAttempt];
+    [gs beginForgeTimer];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to submit equips to blacksmith."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
+  [[ForgeMenuController sharedForgeMenuController] receivedSubmitEquipResponse:proto];
+}
+
+- (void) handleForgeAttemptWaitCompleteResponseProto:(FullEvent *)fe {
+  ForgeAttemptWaitCompleteResponseProto *proto = (ForgeAttemptWaitCompleteResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Forge attempt wait complete response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess) {
+    
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to complete wait time for forge attempt."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleFinishForgeAttemptWaittimeWithDiamondsResponseProto:(FullEvent *)fe {
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto *proto = (FinishForgeAttemptWaittimeWithDiamondsResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Finish forge attempt with diamonds response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess) {
+    // Begin the forge timer so that the notification will pop.
+    [gs beginForgeTimer];
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to finish forge attempt with diamonds."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+}
+
+- (void) handleCollectForgeEquipsResponseProto:(FullEvent *)fe {
+  CollectForgeEquipsResponseProto *proto = (CollectForgeEquipsResponseProto *)fe.event;
+  int tag = fe.tag;
+  
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Collect forge equips response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess) {
+    [gs addToMyEquips:proto.newUserEquipsList];
+    gs.forgeAttempt = nil;
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [Globals popupMessage:@"Server failed to collect forge equips."];
+    [gs removeAndUndoAllUpdatesForTag:tag];
+  }
+  
+  [[ForgeMenuController sharedForgeMenuController] receivedCollectForgeEquipsResponse:proto];
 }
 
 @end

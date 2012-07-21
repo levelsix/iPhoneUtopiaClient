@@ -49,8 +49,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
                                  referralCode:tc.referralCode
                                   deviceToken:gs.deviceToken
                                        attack:gs.attack
-                                      defense:gs.defense 
-                                       health:gs.maxHealth
+                                      defense:gs.defense
                                        energy:gs.maxEnergy
                                       stamina:gs.maxStamina
                          timeOfStructPurchase:tc.structTimeOfPurchase.timeIntervalSince1970*1000
@@ -123,8 +122,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
   
   for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
-    UserEquip *ue = [gs myEquipWithId:equipReq.equipId];
-    if (!ue || ue.quantity < equipReq.quantity) {
+    int quantity = [gs quantityOfEquip:equipReq.equipId];
+    if (quantity < equipReq.quantity) {
       [Globals popupMessage:@"Attempting to do task without required equipment"];
       return NO;
     }
@@ -173,7 +172,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   }
 }
 
-- (int) buyEquip:(int)equipId {
+- (void) buyEquip:(int)equipId {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
   
@@ -186,74 +185,63 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-fep.coinPrice];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-fep.diamondPrice];
-    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:1];
     
-    [[Globals sharedGlobals] confirmWearEquip:fep.equipId];
-    
-    [gs addUnrespondedUpdates:ceu, su, gu, nil];
+    [gs addUnrespondedUpdates:su, gu, nil];
   } else {
     [Globals popupMessage:@"Not enough money to buy this equipment"];
   }
-  
-  UserEquip *ue = [gs myEquipWithId:equipId];
-  return ue.quantity;
 }
 
-- (int) sellEquip:(int)equipId {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  UserEquip *ue = [gs myEquipWithId:equipId];
-  
-  if (ue) {
-    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
-    
-    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateEquipSilverSellCost:ue]];
-    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateEquipGoldSellCost:ue]];
-    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
-    
-    [gs addUnrespondedUpdates:ceu, su, gu, nil];
-    
-  } else {
-    [Globals popupMessage:@"You do not own this equipment"];
-  }
-  
-  return [gs myEquipWithId:equipId].quantity;
-}
+//- (int) sellEquip:(int)equipId {
+//  GameState *gs = [GameState sharedGameState];
+//  Globals *gl = [Globals sharedGlobals];
+//  UserEquip *ue = [gs myEquipWithId:equipId];
+//  
+//  if (ue) {
+//    int tag = [[SocketCommunication sharedSocketCommunication] sendArmoryMessage:ArmoryRequestProto_ArmoryRequestTypeSell quantity:1 equipId:equipId];
+//    
+//    SilverUpdate *su = [SilverUpdate updateWithTag:tag change:[gl calculateEquipSilverSellCost:ue]];
+//    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:[gl calculateEquipGoldSellCost:ue]];
+//    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
+//    
+//    [gs addUnrespondedUpdates:ceu, su, gu, nil];
+//    
+//  } else {
+//    [Globals popupMessage:@"You do not own this equipment"];
+//  }
+//  
+//  return [gs myEquipWithId:equipId].quantity;
+//}
 
-- (BOOL) wearEquip:(int)equipId {
+- (BOOL) wearEquip:(int)userEquipId {
   GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equipId];
-  UserEquip *ue = nil;
-  
-  for (UserEquip *u in gs.myEquips) {
-    if (u.equipId == equipId) {
-      ue = u;
-    }
-  }
+  UserEquip *ue = [gs myEquipWithUserEquipId:userEquipId];
   
   if (ue) {
+    FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ue.equipId];
+    
     if (![Globals canEquip:fep]) {
       return NO;
     }
     
     if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
-      if (gs.weaponEquipped == equipId) {
+      if (gs.weaponEquipped == userEquipId) {
         return NO;
       }
-      gs.weaponEquipped = equipId;
+      gs.weaponEquipped = userEquipId;
     } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
-      if (gs.armorEquipped == equipId) {
+      if (gs.armorEquipped == userEquipId) {
         return NO;
       }
-      gs.armorEquipped = equipId;
+      gs.armorEquipped = userEquipId;
     } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
-      if (gs.amuletEquipped == equipId) {
+      if (gs.amuletEquipped == userEquipId) {
         return NO;
       }
-      gs.amuletEquipped = equipId;
+      gs.amuletEquipped = userEquipId;
     }
     
-    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:equipId];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipEquipmentMessage:userEquipId];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
     
     if ([ArmoryViewController sharedArmoryViewController].view.superview) {
@@ -334,7 +322,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
-- (void) equipPostToMarketplace:(int)equipId price:(int)price {
+- (void) equipPostToMarketplace:(int)userEquipId price:(int)price {
   GameState *gs = [GameState sharedGameState];
   
   if (price <= 0) {
@@ -344,16 +332,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     [Globals popupMessage:@"You need a license to make a post"];
   }
   
-  UserEquip *eq = [gs myEquipWithId:equipId];
+  UserEquip *eq = [gs myEquipWithUserEquipId:userEquipId];
   
   if (eq) {
-    FullEquipProto *fep = [gs equipWithId:equipId];
+    FullEquipProto *fep = [gs equipWithId:eq.equipId];
     BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
     int silver = sellsForGold ? 0 : price;
     int gold = sellsForGold ? price : 0;
-    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:equipId coins:silver diamonds:gold];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendEquipPostToMarketplaceMessage:userEquipId coins:silver diamonds:gold];
     
-    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:equipId change:-1];
+    ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag userEquip:eq remove:YES];
     [gs addUnrespondedUpdate:ceu];
     [GenericPopupController displayViewWithText:[NSString stringWithFormat:@"You have posted your %@ for %d %@!", fep.name, silver ? silver : gold, silver ? @"silver" : @"gold"] title:@"Congratulations!"];
   } else {
@@ -396,8 +384,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
       
       FullUserUpdate *fuu = isGold ? [GoldUpdate updateWithTag:tag change:-amount] : [SilverUpdate updateWithTag:tag change:-amount];
-      ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag equipId:proto.postedEquip.equipId change:1];
-      [gs addUnrespondedUpdates:fuu, ceu, nil];
+      [gs addUnrespondedUpdate:fuu];
       
       return;
     }
@@ -420,8 +407,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
           int tag = [sc sendPurchaseFromMarketplaceMessage:postId poster:mktPost.poster.userId];
           GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-mktPost.diamondCost];
           SilverUpdate *su = [SilverUpdate updateWithTag:tag change:-mktPost.coinCost];
-          
-          [[Globals sharedGlobals] confirmWearEquip:mktPost.postedEquip.equipId];
           
           [gs addUnrespondedUpdates:gu, su, nil];
         } else {
@@ -552,18 +537,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) addHealthSkillPoint {
-  GameState *gs = [GameState sharedGameState];
-  Globals *gl = [Globals sharedGlobals];
-  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+//  GameState *gs = [GameState sharedGameState];
+//  Globals *gl = [Globals sharedGlobals];
+//  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-  if (gs.skillPoints >= gl.healthBaseCost) {
-    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
-    HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
-    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.healthBaseCost];
-    [gs addUnrespondedUpdates:hu, spu, nil];
-  } else {
-    [Globals popupMessage:@"No skill points available to add"];
-  }
+//  if (gs.skillPoints >= gl.healthBaseCost) {
+//    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
+//    HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
+//    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.healthBaseCost];
+//    [gs addUnrespondedUpdates:hu, spu, nil];
+//  } else {
+//    [Globals popupMessage:@"No skill points available to add"];
+//  }
 }
 
 - (void) refillEnergyWaitComplete {
@@ -742,7 +727,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendRetrieveCurrencyFromNormStructureMessage:userStruct.userStructId time:ms];
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
     
     // Update game state
     [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:[gl calculateIncomeForUserStruct:userStruct]]];
@@ -766,7 +751,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
     userStruct.isComplete = YES;
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
     
     // Update game state
     FullStructureProto *fsp = [gs structWithId:userStruct.structId];
@@ -793,7 +778,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
     userStruct.isComplete = YES;
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
     userStruct.level++;
     
     // Update game state
@@ -874,7 +859,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         int64_t ms = [self getCurrentMilliseconds];
         int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
         userStruct.isComplete = NO;
-        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];\
+        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];\
         
         // Update game state
         [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-cost]];
@@ -888,7 +873,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         int64_t ms = [self getCurrentMilliseconds];
         int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
         userStruct.isComplete = NO;
-        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000];\
+        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];\
         
         // Update game state
         [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-cost]];
@@ -1161,10 +1146,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
       if (assetId != 0) {
         [[[GameLayer sharedGameLayer] missionMap] moveToAssetId:assetId];
       }
+    } else {
+      [[GameLayer sharedGameLayer] setAssetId: assetId];
+      [self loadNeutralCity:cityId];
     }
-    
-    [[GameLayer sharedGameLayer] setAssetId: assetId];
-    [self loadNeutralCity:cityId];
   }
 }
 
@@ -1174,10 +1159,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if ([[GameLayer sharedGameLayer] currentCity] == city.cityId) {
     [[[GameLayer sharedGameLayer] missionMap] moveToEnemyType:type];
+  } else {
+    [[GameLayer sharedGameLayer] setEnemyType:type];
+    [self loadNeutralCity:cityId];
   }
-  
-  [[GameLayer sharedGameLayer] setEnemyType:type];
-  [self loadNeutralCity:cityId];
 }
 
 - (void) changeUserLocationWithCoordinate:(CLLocationCoordinate2D)coord {
@@ -1245,12 +1230,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     SilverUpdate *su = [SilverUpdate updateWithTag:tag change:fqp.coinsGained];
     ExperienceUpdate *eu = [ExperienceUpdate updateWithTag:tag change:fqp.expGained];
     
-    ChangeEquipUpdate *ceu = nil;
-    if (fqp.equipIdGained > 0) {
-      ceu = [ChangeEquipUpdate updateWithTag:tag equipId:fqp.equipIdGained change:1];
-    }
-    
-    [gs addUnrespondedUpdates:su, eu, ceu, nil];
+    [gs addUnrespondedUpdates:su, eu, nil];
     
     GameMap *map = [Globals mapForQuest:fqp];
     [map questRedeemed:fqp];
@@ -1390,6 +1370,106 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
   
   [Analytics watchedAdColony];
+}
+
+- (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  if (gs.forgeAttempt) {
+    [Globals popupMessage:@"Attempting to forge equip when forging is already taking place."];
+    return NO;
+  }
+  
+  if (equipOne != equipTwo) {
+    UserEquip *ue1 = [gs myEquipWithUserEquipId:equipOne];
+    UserEquip *ue2 = [gs myEquipWithUserEquipId:equipTwo];
+    
+    if (ue1.level > 9) {
+      [Globals popupMessage:@"Attempting to forge two equips that are already at max level."];
+    } else if (ue1.equipId == ue2.equipId && ue1.level == ue2.level) {
+      int goldCost = 0;
+      if (guaranteed) {
+        goldCost = [gl calculateGoldCostToGuaranteeForgingSuccess:ue1.equipId level:ue1.level];
+        if (goldCost > gs.gold) {
+          [Globals popupMessage:@"Attempting to guarantee forge success without enough gold."];
+          return NO;
+        }
+      }
+      
+      int tag = [sc sendSubmitEquipsToBlacksmithMessageWithUserEquipId:equipOne userEquipId:equipTwo guaranteed:guaranteed clientTime:[self getCurrentMilliseconds]];
+      
+      ChangeEquipUpdate *ceu1 = [ChangeEquipUpdate updateWithTag:tag userEquip:ue1 remove:YES];
+      ChangeEquipUpdate *ceu2 = [ChangeEquipUpdate updateWithTag:tag userEquip:ue2 remove:YES];
+      GoldUpdate *gu = guaranteed ? [GoldUpdate updateWithTag:tag change:-goldCost] : nil;
+      [gs addUnrespondedUpdates:ceu1, ceu2, gu, nil];
+      
+      return YES;
+    } else {
+      [Globals popupMessage:@"Attempting to forge two different equips or equips of different level."];
+    }
+  } else {
+    [Globals popupMessage:@"Attempting to forge two equips with the same id."];
+  }
+  
+  return NO;
+}
+
+- (void) forgeAttemptWaitComplete {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int blacksmithId = gs.forgeAttempt.blacksmithId;
+  NSDate *now = [NSDate date];
+  float timeInterval = [now timeIntervalSinceDate:gs.forgeAttempt.startTime]/60.f;
+  int minutes = [gl calculateMinutesForForge:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
+  
+  if (gs.forgeAttempt.isComplete) {
+    [Globals popupMessage:@"Attempting to complete forge when it is already complete."];
+  } else if (timeInterval > minutes) {
+    gs.forgeAttempt.isComplete = YES;
+    [gs stopForgeTimer];
+    
+    int tag = [sc sendForgeAttemptWaitCompleteMessageWithBlacksmithId:blacksmithId clientTime:[self getCurrentMilliseconds]];
+    NoUpdate *nu = [NoUpdate updateWithTag:tag];
+    [gs addUnrespondedUpdate:nu];
+  } else {
+    [Globals popupMessage:@"Attempting to complete forge before it is ready."];
+  }
+}
+
+- (void) finishForgeAttemptWaittimeWithDiamonds {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  
+  int goldCost = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
+  
+  if (gs.forgeAttempt.isComplete) {
+    [Globals popupMessage:@"Attempting to complete forge when it is already complete."];
+  } else if (goldCost <= gs.gold) {
+    gs.forgeAttempt.isComplete = YES;
+    gs.forgeAttempt.speedupTime = [NSDate date];
+    
+    int tag = [sc sendFinishForgeAttemptWaittimeWithDiamondsWithBlacksmithId:gs.forgeAttempt.blacksmithId clientTime:[self getCurrentMilliseconds]];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldCost];
+    [gs addUnrespondedUpdate:gu];
+  } else {
+    [Globals popupMessage:@"Attempting to complete forge before it is ready."];
+  }
+}
+
+- (void) collectForgeEquips {
+  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  GameState *gs = [GameState sharedGameState];
+  
+  if (gs.forgeAttempt.isComplete) {
+    [sc sendCollectForgeEquipsWithBlacksmithId:gs.forgeAttempt.blacksmithId];
+  } else {
+    [Globals popupMessage:@"Attempting to collect forge equips before it is complete."];
+  }
 }
 
 @end

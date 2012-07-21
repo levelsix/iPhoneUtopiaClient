@@ -240,6 +240,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   }
 }
 
+- (void) didReceiveMemoryWarning {
+  if (!self.loadingView.superview) {
+    [super didReceiveMemoryWarning];
+  }
+}
+
 - (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
   _loaded = YES;
   

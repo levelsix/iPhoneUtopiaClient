@@ -30,41 +30,56 @@
 
 @synthesize tag;
 
-+ (id) updateWithTag:(int)tag equipId:(int)equipId change:(int)change {
-  return [[[self alloc] initWithTag:tag equipId:equipId change:change] autorelease];
++ (id) updateWithTag:(int)tag userEquip:(UserEquip *)ue remove:(BOOL)remove {
+  return [[[self alloc] initWithTag:tag userEquip:ue remove:remove] autorelease];
 }
 
-- (id) initWithTag:(int)t equipId:(int)equipId change:(int)change {
+- (id) initWithTag:(int)t userEquip:(UserEquip *)ue remove:(BOOL)remove {
   if ((self = [super init])) {
     self.tag = t;
-    _equipId = equipId;
-    _change = change;
+    _userEquip = [ue retain];
+    _remove = remove;
     
     GameState *gs = [GameState sharedGameState];
+    int equipId = ue.userEquipId;
     if (gs.weaponEquipped == equipId || gs.armorEquipped == equipId || gs.amuletEquipped == equipId) {
       _equipped = YES;
     }
-  
-  [gs changeQuantityForEquip:equipId by:_change];
-}
-return self;
+    
+    if (_remove) {
+      [gs.myEquips removeObject:_userEquip];
+    } else {
+      [gs.myEquips addObject:_userEquip];
+    }
+  }
+  return self;
 }
 
 - (void) undo {
   GameState *gs = [GameState sharedGameState];
-  [gs changeQuantityForEquip:_equipId by:-_change];
+  if (_remove) {
+    [gs.myEquips addObject:_userEquip];
+  } else {
+    [gs.myEquips removeObject:_userEquip];
+  }
   
   if (_equipped) {
-    FullEquipProto *fep = [gs equipWithId:_equipId];
+    FullEquipProto *fep = [gs equipWithId:_userEquip.equipId];
     
+    int userEquipId = _userEquip.userEquipId;
     if (fep.equipType == FullEquipProto_EquipTypeWeapon) {
-      gs.weaponEquipped = _equipId;
+      gs.weaponEquipped = userEquipId;
     } else if (fep.equipType == FullEquipProto_EquipTypeArmor) {
-      gs.armorEquipped = _equipId;
+      gs.armorEquipped = userEquipId;
     } else if (fep.equipType == FullEquipProto_EquipTypeAmulet) {
-      gs.amuletEquipped = _equipId;
+      gs.amuletEquipped = userEquipId;
     }
   }
+}
+
+- (void) dealloc {
+  [_userEquip release];
+  [super dealloc];
 }
 
 @end

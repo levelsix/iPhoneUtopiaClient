@@ -15,6 +15,7 @@
 #import "OutgoingEventController.h"
 #import "BattleLayer.h"
 #import "ProfileViewController.h"
+#import "ForgeMenuController.h"
 
 @implementation ActivityFeedCell
 
@@ -37,18 +38,18 @@
     if (notification.stolenEquipId != 0) {
       fep = [gs equipWithId:notification.stolenEquipId];
     }
-    NSString *equipStr = fep ? [NSString stringWithFormat:@" and a %@", fep.name] : @"";
+    NSString *equipStr = fep ? [NSString stringWithFormat:@" and a lvl %d %@", fep.name, notification.stolenEquipLevel] : @"";
     
     BOOL won = notification.battleResult != BattleResultAttackerWin ? YES : NO;
     if (won) {
       titleLabel.text = [NSString stringWithFormat:@"You beat %@.", name ];
       subtitleLabel.text = [NSString stringWithFormat:@"You won %d silver%@.", notification.coinsStolen, equipStr];
-      titleLabel.textColor = [UIColor colorWithRed:182/256.f green:191/256.f blue:46/256.f alpha:1.f];
+      titleLabel.textColor = [Globals greenColor];
       buttonLabel.text = @"Attack";
     } else {
       titleLabel.text = [NSString stringWithFormat:@"You lost to %@.", name ];
       subtitleLabel.text = [NSString stringWithFormat:@"You lost %d silver%@.", notification.coinsStolen, equipStr];
-      titleLabel.textColor = [UIColor colorWithRed:205/256.f green:57/256.f blue:57/256.f alpha:1.f];
+      titleLabel.textColor = [Globals redColor];
       buttonLabel.text = @"Revenge";
     }
     
@@ -60,7 +61,7 @@
     NSString *coinStr = notification.marketPost.coinCost > 0 ? [NSString stringWithFormat:@"%d silver", (int)floorf(notification.marketPost.coinCost*(1-gl.purchasePercentCut))] : [NSString stringWithFormat:@"%d gold", (int)floorf(notification.marketPost.diamondCost*(1-gl.purchasePercentCut))];
     
     subtitleLabel.text = [NSString stringWithFormat:@"You have %@ waiting for you.", coinStr];
-    titleLabel.textColor = [UIColor colorWithRed:255/256.f green:200/256.f blue:0/256.f alpha:1.f];
+    titleLabel.textColor = [Globals goldColor];
     [button setImage:[Globals imageNamed:@"afcollect.png"] forState:UIControlStateNormal];
     buttonLabel.text = @"Collect";
   } else if (notification.type == kNotificationReferral) {
@@ -70,6 +71,15 @@
     titleLabel.textColor = [UIColor colorWithRed:100/256.f green:200/256.f blue:200/256.f alpha:1.f];
     [button setImage:nil forState:UIControlStateNormal];
     buttonLabel.text = @"";
+  } else if (notification.type == kNotificationForge) {
+    titleLabel.text = @"The blacksmith has completed your forge.";
+    subtitleLabel.text = @"Visit to check if it succeeded.";
+    
+    titleLabel.textColor = [Globals orangeColor];
+    [button setImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
+    [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
+    
+    buttonLabel.text = @"Visit Forge";
   }
   
   NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
@@ -110,28 +120,34 @@
     }
     
     [Analytics clickedRevenge];
+  } else if (notification.type == kNotificationForge) {
+    [ForgeMenuController displayView];
   }
 }
 
 - (IBAction)profilePicClicked:(id)sender {
-  NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
-  
-  FullUserProto *user = nil;
-  for (FullUserProto *fup in users) {
-    if (fup.userId == notification.otherPlayer.userId) {
-      user = fup;
-      break;
-    }
-  }
-  
-  if (user) {
-    [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:user buttonsEnabled:YES];
+  if (self.notification.type == kNotificationBattle) {
+    [ForgeMenuController displayView];
   } else {
-    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kEquipState];
+    NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
+    
+    FullUserProto *user = nil;
+    for (FullUserProto *fup in users) {
+      if (fup.userId == notification.otherPlayer.userId) {
+        user = fup;
+        break;
+      }
+    }
+    
+    if (user) {
+      [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:user buttonsEnabled:YES];
+    } else {
+      [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kEquipState];
+    }
+    [ProfileViewController displayView];
+    
+    [[ActivityFeedController sharedActivityFeedController] close];
   }
-  [ProfileViewController displayView];
-  
-  [[ActivityFeedController sharedActivityFeedController] close];
 }
 
 - (void) dealloc {

@@ -37,8 +37,10 @@
 @synthesize rightNameLabel, rightLevelLabel, rightPlayerIcon;
 @synthesize leftRarityLabel1, leftRarityLabel2, leftRarityLabel3;
 @synthesize leftEquipIcon1, leftEquipIcon2, leftEquipIcon3;
+@synthesize leftEquipLevelIcon1, leftEquipLevelIcon2, leftEquipLevelIcon3;
 @synthesize rightRarityLabel1, rightRarityLabel2, rightRarityLabel3;
 @synthesize rightEquipIcon1, rightEquipIcon2, rightEquipIcon3;
+@synthesize rightEquipLevelIcon1, rightEquipLevelIcon2, rightEquipLevelIcon3;
 @synthesize coinsGainedLabel, coinsLostLabel, expGainedLabel;
 @synthesize winLabelsView, defeatLabelsView;
 @synthesize mainView, bgdView;
@@ -56,12 +58,14 @@
   
   UILabel *rarityLabel = leftRarityLabel1;
   EquipButton *imgView = leftEquipIcon1;
-  int equipId = gs.weaponEquipped;
-  if (equipId > 0) {
-    FullEquipProto *fep = [gs equipWithId:equipId];
+  EquipLevelIcon *levelIcon = leftEquipLevelIcon1;
+  UserEquip *ue = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+  if (ue) {
+    FullEquipProto *fep = [gs equipWithId:ue.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
     imgView.equipId = fep.equipId;
+    levelIcon.level = ue.level;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -69,12 +73,14 @@
   
   rarityLabel = leftRarityLabel2;
   imgView = leftEquipIcon2;
-  equipId = gs.armorEquipped;
-  if (equipId > 0) {
-    FullEquipProto *fep = [gs equipWithId:equipId];
+  levelIcon = leftEquipLevelIcon2;
+  ue = [gs myEquipWithUserEquipId:gs.armorEquipped];
+  if (ue) {
+    FullEquipProto *fep = [gs equipWithId:ue.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
     imgView.equipId = fep.equipId;
+    levelIcon.level = ue.level;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -82,12 +88,14 @@
   
   rarityLabel = leftRarityLabel3;
   imgView = leftEquipIcon3;
-  equipId = gs.amuletEquipped;
-  if (equipId > 0) {
-    FullEquipProto *fep = [gs equipWithId:equipId];
+  levelIcon = leftEquipLevelIcon3;
+  ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+  if (ue) {
+    FullEquipProto *fep = [gs equipWithId:ue.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
     imgView.equipId = fep.equipId;
+    levelIcon.level = ue.level;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -95,12 +103,14 @@
   
   rarityLabel = rightRarityLabel1;
   imgView = rightEquipIcon1;
-  equipId = fup.weaponEquippedUserEquip.equipId;
-  if (equipId > 0) {
-    FullEquipProto *fep = [gs equipWithId:equipId];
+  levelIcon = rightEquipLevelIcon1;
+  FullUserEquipProto *fuep = fup.weaponEquippedUserEquip;
+  if (fup.hasWeaponEquippedUserEquip) {
+    FullEquipProto *fep = [gs equipWithId:fuep.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
     imgView.equipId = fep.equipId;
+    levelIcon.level = fuep.level;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -108,12 +118,14 @@
   
   rarityLabel = rightRarityLabel2;
   imgView = rightEquipIcon2;
-  equipId = fup.armorEquippedUserEquip.equipId;
-  if (equipId > 0) {
-    FullEquipProto *fep = [gs equipWithId:equipId];
+  levelIcon = rightEquipLevelIcon2;
+  fuep = fup.armorEquippedUserEquip;
+  if (fup.hasArmorEquippedUserEquip) {
+    FullEquipProto *fep = [gs equipWithId:fuep.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
     imgView.equipId = fep.equipId;
+    levelIcon.level = fuep.level;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -121,12 +133,14 @@
   
   rarityLabel = rightRarityLabel3;
   imgView = rightEquipIcon3;
-  equipId = fup.amuletEquippedUserEquip.equipId;
-  if (equipId > 0) {
-    FullEquipProto *fep = [gs equipWithId:equipId];
+  levelIcon = rightEquipLevelIcon3;
+  fuep = fup.amuletEquippedUserEquip;
+  if (fup.hasAmuletEquippedUserEquip) {
+    FullEquipProto *fep = [gs equipWithId:fuep.equipId];
     rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
     rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
     imgView.equipId = fep.equipId;
+    levelIcon.level = fuep.level;
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
@@ -159,12 +173,18 @@
   self.leftEquipIcon1 = nil;
   self.leftEquipIcon2 = nil;
   self.leftEquipIcon3 = nil;
+  self.leftEquipLevelIcon1 = nil;
+  self.leftEquipLevelIcon2 = nil;
+  self.leftEquipLevelIcon3 = nil;
   self.rightRarityLabel1 = nil;
   self.rightRarityLabel2 = nil;
   self.rightRarityLabel3 = nil;
   self.rightEquipIcon1 = nil;
   self.rightEquipIcon2 = nil;
   self.rightEquipIcon3 = nil;
+  self.rightEquipLevelIcon1 = nil;
+  self.rightEquipLevelIcon2 = nil;
+  self.rightEquipLevelIcon3 = nil;
   self.coinsGainedLabel = nil;
   self.coinsLostLabel = nil;
   self.expGainedLabel = nil;
@@ -179,15 +199,19 @@
 
 @implementation StolenEquipView
 
-@synthesize nameLabel, equipIcon, attackLabel, defenseLabel, titleLabel;
+@synthesize nameLabel, equipIcon, attackLabel, defenseLabel, titleLabel, levelIcon;
 @synthesize mainView, bgdView;
 
-- (void) loadForEquip:(FullEquipProto *)fep {
+- (void) loadForEquip:(FullUserEquipProto *)fuep {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  FullEquipProto *fep = [gs equipWithId:fuep.equipId];
   nameLabel.text = fep.name;
   nameLabel.textColor = [Globals colorForRarity:fep.rarity];
   equipIcon.equipId = fep.equipId;
-  attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fuep.equipId level:fuep.level]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fuep.equipId level:fuep.level]];
+  levelIcon.level = fuep.level;
 }
 
 - (void) dealloc {
@@ -197,6 +221,7 @@
   self.defenseLabel = nil;
   self.mainView = nil;
   self.bgdView = nil;
+  self.levelIcon = nil;
   [super dealloc];
 }
 
@@ -531,11 +556,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   [self addChild:_left z:1];
   [self addChild:_right z:1];
-  
-  _leftCurrentHealth = gs.maxHealth;
-  _leftMaxHealth = gs.maxHealth;
-  _rightMaxHealth = user.healthMax;
-  _rightCurrentHealth = user.healthMax;
+#warning change back
+//  _leftCurrentHealth = gs.maxHealth;
+//  _leftMaxHealth = gs.maxHealth;
+//  _rightMaxHealth = user.healthMax;
+//  _rightCurrentHealth = user.healthMax;
   
   _leftNameLabel.string = gs.name;
   _leftNameBg.position = ccp(_leftNameBg.contentSize.width+_leftNameLabel.contentSize.width-_leftNameLabel.position.x+15, _leftNameBg.position.y);
@@ -1191,7 +1216,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _isBattling = NO;
   if (_left.opacity > 0) {
     SEL completeAction = nil;
-    if (brp.hasEquipGained) {
+    if (brp.hasUserEquipGained) {
       completeAction = @selector(displayStolenEquip);
     } else {
       completeAction = @selector(displaySummary);
@@ -1212,7 +1237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (void) displayStolenEquip {
   UIView *view = [[[CCDirector sharedDirector] openGLView] superview];
-  [stolenEquipView loadForEquip:brp.equipGained];
+  [stolenEquipView loadForEquip:brp.userEquipGained];
   [view addSubview:stolenEquipView];
   [Globals bounceView:stolenEquipView.mainView fadeInBgdView:stolenEquipView.bgdView];
 }
@@ -1282,11 +1307,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [Analytics enemyProfileFromBattle];
 }
 
+- (void) closeSceneFromQuestLog {
+  _cameFromAviary = NO;
+  [self closeScene];
+}
+
 - (void) closeScene {
   self.enemyEquips = nil;
   [_fup release];
   _fup = nil;
   _isRunning = NO;
+  
+  [self.summaryView removeFromSuperview];
+  [self.stolenEquipView removeFromSuperview];
   
   [[GameLayer sharedGameLayer] startHomeMapTimersIfOkay];
   
@@ -1303,8 +1336,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 - (void) receivedUserEquips:(RetrieveUserEquipForUserResponseProto *)proto {
   if (proto.relevantUserId == _fup.userId) {
     // Make sure it is not null
-    NSArray *empty = [NSArray array];
-    self.enemyEquips = proto.userEquipsList ? proto.userEquipsList : empty;
+    self.enemyEquips = proto.userEquipsList ? proto.userEquipsList : [NSArray array];
     [[ProfileViewController sharedProfileViewController] updateEquips:self.enemyEquips];
   }
 }

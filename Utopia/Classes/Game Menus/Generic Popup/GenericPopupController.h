@@ -23,7 +23,8 @@
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdColorView;
 
-@property (nonatomic, retain) NSInvocation *invocation;
+@property (nonatomic, retain) NSInvocation *okInvocation;
+@property (nonatomic, retain) NSInvocation *cancelInvocation;
 
 @property (nonatomic, assign) BOOL toAppStore;
 
@@ -38,6 +39,7 @@
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
 + (void) displayViewWithText:(NSString *)string title:(NSString *)title;
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
++ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector;
 + (void) removeView;
 + (void) purgeSingleton;
 + (void) openAppStoreLink;

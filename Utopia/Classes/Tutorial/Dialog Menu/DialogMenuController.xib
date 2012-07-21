@@ -85,6 +85,7 @@
 								<string key="NSFrame">{{33, 13}, {144, 67}}</string>
 								<reference key="NSSuperview" ref="147924226"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUIContentMode">7</int>
@@ -152,6 +153,7 @@
 								<string key="NSFrame">{{28, 30}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="94178621"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -327,7 +329,7 @@
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="30.CustomClassName">DialogMenuLoadingView</string>
+				<string key="30.CustomClassName">LoadingView</string>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -351,7 +353,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="girlImageView">UIImageView</string>
 						<string key="label">UILabel</string>
-						<string key="loadingView">DialogMenuLoadingView</string>
+						<string key="loadingView">LoadingView</string>
 						<string key="nameLabel">UILabel</string>
 						<string key="speechBubble">UIView</string>
 					</dictionary>
@@ -366,7 +368,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="loadingView">
 							<string key="name">loadingView</string>
-							<string key="candidateClassName">DialogMenuLoadingView</string>
+							<string key="candidateClassName">LoadingView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="nameLabel">
 							<string key="name">nameLabel</string>
@@ -383,7 +385,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">DialogMenuLoadingView</string>
+					<string key="className">LoadingView</string>
 					<string key="superclassName">UIView</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="actIndView">UIActivityIndicatorView</string>
@@ -401,7 +403,7 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/DialogMenuLoadingView.h</string>
+						<string key="minorKey">./Classes/LoadingView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

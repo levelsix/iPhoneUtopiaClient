@@ -9,11 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.pb.h"
 
+@class ForgeAttempt;
+
 @interface UserEquip : NSObject
 
+@property (nonatomic, assign) int userEquipId;
 @property (nonatomic, assign) int userId;
 @property (nonatomic, assign) int equipId;
-@property (nonatomic, assign) int quantity;
+@property (nonatomic, assign) int level;
+@property (nonatomic, assign) int durability;
 
 + (id) userEquipWithProto:(FullUserEquipProto *)proto;
 
@@ -59,7 +63,6 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, assign) CritStructType type;
-@property (nonatomic, assign) CGSize size;
 
 - (id) initWithType:(CritStructType)t;
 - (void) openMenu;
@@ -69,7 +72,8 @@ typedef enum {
 typedef enum {
   kNotificationBattle = 1,
   kNotificationMarketplace,
-  kNotificationReferral
+  kNotificationReferral,
+  kNotificationForge
 } NotificationType;
 
 @interface UserNotification : NSObject
@@ -81,6 +85,7 @@ typedef enum {
 @property (nonatomic, assign) BattleResult battleResult;
 @property (nonatomic, assign) int coinsStolen;
 @property (nonatomic, assign) int stolenEquipId;
+@property (nonatomic, assign) int stolenEquipLevel;
 @property (nonatomic, assign) BOOL hasBeenViewed;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto;
@@ -89,6 +94,7 @@ typedef enum {
 - (id) initWithBattleResponse:(BattleResponseProto *)proto;
 - (id) initWithMarketplaceResponse:(PurchaseFromMarketplaceResponseProto *)proto;
 - (id) initWithReferralResponse:(ReferralCodeUsedResponseProto *)proto;
+- (id) initWithForgeAttempt:(ForgeAttempt *)fa;
 
 @end
 
@@ -125,5 +131,19 @@ typedef enum {
 - (id) initWithUpgradeStructJob:(UpgradeStructJobProto *)p;
 - (id) initWithCoinRetrieval:(int)amount questId:(int)questId;
 + (NSArray *)jobsForQuest:(FullQuestProto *)fqp;
+
+@end
+
+@interface ForgeAttempt : NSObject
+
+@property (nonatomic, assign) int blacksmithId;
+@property (nonatomic, assign) int equipId;
+@property (nonatomic, assign) int level;
+@property (nonatomic, assign) BOOL guaranteed;
+@property (nonatomic, retain) NSDate *startTime;
+@property (nonatomic, assign) BOOL isComplete;
+@property (nonatomic, retain) NSDate *speedupTime;
+
++ (id) forgeAttemptWithUnhandledBlacksmithAttemptProto:(UnhandledBlacksmithAttemptProto *)attempt;
 
 @end

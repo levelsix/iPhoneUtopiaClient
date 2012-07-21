@@ -10,11 +10,6 @@
 #import "GameState.h"
 
 @protocol UserBattleStats <NSObject>
-  @property (readonly) int attack;
-  @property (readonly) int defense;
-  @property (readonly) int32_t level;
-  @property (readonly) int maxHealth;
-  @property (readonly) int currentHealth;
 @end
 
 @interface UserBattleStats : NSObject <UserBattleStats> {
@@ -22,6 +17,13 @@
   GameState     *_gameState;
   Globals       *_globals;
 }
+
+@property (readonly) int attack;
+@property (readonly) int defense;
+@property (readonly) int32_t level;
+@property (readonly) int maxHealth;
+@property (readonly) int currentHealth;
+
 +(id<UserBattleStats>)createWithFullUserProto:(FullUserProto *)user;
 +(id<UserBattleStats>)createFromGameState;
 

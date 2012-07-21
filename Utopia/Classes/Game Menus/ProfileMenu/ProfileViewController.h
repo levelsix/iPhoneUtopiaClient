@@ -44,9 +44,9 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIImageView *border;
 @property (nonatomic, retain) IBOutlet UIImageView *bgd;
 @property (nonatomic, retain) IBOutlet UILabel *rarityLabel;
-@property (nonatomic, retain) IBOutlet UILabel *quantityLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 
 @property (nonatomic, retain) UIView *darkOverlay;
 
@@ -115,11 +115,12 @@ typedef enum {
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *label;
-@property (nonatomic, retain) IBOutlet UILabel *unknownLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIView *chooseEquipButton;
 @property (nonatomic, retain) IBOutlet UIView *border;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 
+@property (nonatomic, retain) UILabel *unknownLabel;
 @property (nonatomic, assign) BOOL selected;
 
 - (void) unknownEquip;
@@ -139,6 +140,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *levelLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 @property (nonatomic, retain) IBOutlet UIView *wrongClassView;
 @property (nonatomic, retain) IBOutlet UIView *tooLowLevelView;
 @property (nonatomic, retain) IBOutlet UIButton *equipButton;
@@ -215,16 +217,13 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *defenseStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *energyStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *staminaStatLabel;
-@property (nonatomic, retain) IBOutlet UILabel *hpStatLabel;
 @property (nonatomic, retain) IBOutlet UILabel *staminaCostLabel;
-@property (nonatomic, retain) IBOutlet UILabel *hpCostLabel;
 @property (nonatomic, retain) IBOutlet UILabel *skillPointsLabel;
 
 @property (nonatomic, retain) IBOutlet UIButton *attackStatButton;
 @property (nonatomic, retain) IBOutlet UIButton *defenseStatButton;
 @property (nonatomic, retain) IBOutlet UIButton *energyStatButton;
 @property (nonatomic, retain) IBOutlet UIButton *staminaStatButton;
-@property (nonatomic, retain) IBOutlet UIButton *hpStatButton;
 
 @property (nonatomic, retain) IBOutlet ProfileBar *profileBar;
 
@@ -279,6 +278,7 @@ typedef enum {
 - (void) loadSkills;
 - (void) doEquip:(UserEquip *)equip;
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type;
+- (void) displayMyCurrentStats;
 
 - (void) receivedEquips:(RetrieveUserEquipForUserResponseProto *)proto;
 - (void) receivedWallPosts:(RetrievePlayerWallPostsResponseProto *)proto;

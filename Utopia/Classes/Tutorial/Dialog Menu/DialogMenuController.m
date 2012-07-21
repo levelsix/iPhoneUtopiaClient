@@ -19,23 +19,6 @@
 
 #define MASKED_GIRL_TAG 35
 
-@implementation DialogMenuLoadingView
-
-@synthesize darkView, actIndView;
-
-- (void) awakeFromNib {
-  self.darkView.layer.cornerRadius = 10.f;
-}
-
-- (void) dealloc {
-  self.darkView = nil;
-  self.actIndView = nil;
-  
-  [super dealloc];
-}
-
-@end
-
 @implementation DialogMenuController
 
 #define ANIMATION_DURATION 0.5f

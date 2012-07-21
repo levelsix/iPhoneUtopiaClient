@@ -22,6 +22,10 @@
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
 @class ChatResponseProto_Builder;
+@class CollectForgeEquipsRequestProto;
+@class CollectForgeEquipsRequestProto_Builder;
+@class CollectForgeEquipsResponseProto;
+@class CollectForgeEquipsResponseProto_Builder;
 @class CoordinateProto;
 @class CoordinateProto_Builder;
 @class CriticalStructureActionRequestProto;
@@ -50,10 +54,18 @@
 @class ExpansionWaitCompleteRequestProto_Builder;
 @class ExpansionWaitCompleteResponseProto;
 @class ExpansionWaitCompleteResponseProto_Builder;
+@class FinishForgeAttemptWaittimeWithDiamondsRequestProto;
+@class FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder;
+@class FinishForgeAttemptWaittimeWithDiamondsResponseProto;
+@class FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsRequestProto;
 @class FinishNormStructWaittimeWithDiamondsRequestProto_Builder;
 @class FinishNormStructWaittimeWithDiamondsResponseProto;
 @class FinishNormStructWaittimeWithDiamondsResponseProto_Builder;
+@class ForgeAttemptWaitCompleteRequestProto;
+@class ForgeAttemptWaitCompleteRequestProto_Builder;
+@class ForgeAttemptWaitCompleteResponseProto;
+@class ForgeAttemptWaitCompleteResponseProto_Builder;
 @class FullCityProto;
 @class FullCityProto_Builder;
 @class FullEquipProto;
@@ -256,10 +268,16 @@
 @class StartupResponseProto_TutorialConstants_Builder;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto;
 @class StartupResponseProto_TutorialConstants_FullTutorialQuestProto_Builder;
+@class SubmitEquipsToBlacksmithRequestProto;
+@class SubmitEquipsToBlacksmithRequestProto_Builder;
+@class SubmitEquipsToBlacksmithResponseProto;
+@class SubmitEquipsToBlacksmithResponseProto_Builder;
 @class TaskActionRequestProto;
 @class TaskActionRequestProto_Builder;
 @class TaskActionResponseProto;
 @class TaskActionResponseProto_Builder;
+@class UnhandledBlacksmithAttemptProto;
+@class UnhandledBlacksmithAttemptProto_Builder;
 @class UpdateClientUserResponseProto;
 @class UpdateClientUserResponseProto_Builder;
 @class UpgradeNormStructureRequestProto;
@@ -330,7 +348,11 @@ typedef enum {
   EventProtocolRequestCRetrievePlayerWallPostsEvent = 44,
   EventProtocolRequestCEarnFreeDiamondsEvent = 45,
   EventProtocolRequestCReconnectEvent = 46,
-  EventProtocolRequestCLogoutEvent = 47,
+  EventProtocolRequestCSubmitEquipsToBlacksmith = 48,
+  EventProtocolRequestCForgeAttemptWaitComplete = 49,
+  EventProtocolRequestCFinishForgeAttemptWaittimeWithDiamonds = 50,
+  EventProtocolRequestCCollectForgeEquips = 51,
+  EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
 
@@ -382,10 +404,14 @@ typedef enum {
   EventProtocolResponseSRetrievePlayerWallPostsEvent = 44,
   EventProtocolResponseSEarnFreeDiamondsEvent = 45,
   EventProtocolResponseSReconnectEvent = 46,
-  EventProtocolResponseSUpdateClientUserEvent = 51,
-  EventProtocolResponseSQuestCompleteEvent = 52,
-  EventProtocolResponseSReferralCodeUsedEvent = 53,
-  EventProtocolResponseSPurgeStaticDataEvent = 54,
+  EventProtocolResponseSSubmitEquipsToBlacksmith = 48,
+  EventProtocolResponseSForgeAttemptWaitComplete = 49,
+  EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds = 50,
+  EventProtocolResponseSCollectForgeEquips = 51,
+  EventProtocolResponseSUpdateClientUserEvent = 101,
+  EventProtocolResponseSQuestCompleteEvent = 102,
+  EventProtocolResponseSReferralCodeUsedEvent = 103,
+  EventProtocolResponseSPurgeStaticDataEvent = 104,
 } EventProtocolResponse;
 
 BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value);

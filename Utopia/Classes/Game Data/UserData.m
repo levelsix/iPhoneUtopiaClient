@@ -15,22 +15,28 @@
 #import "MapViewController.h"
 #import "ArmoryViewController.h"
 #import "CarpenterMenuController.h"
+#import "ForgeMenuController.h"
 
 @implementation UserEquip
 
-@synthesize userId, equipId, quantity;
+@synthesize userId, equipId, level, durability, userEquipId;
 
 - (id) initWithEquipProto:(FullUserEquipProto *)proto {
   if ((self = [super init])){
     self.userId = proto.userId;
     self.equipId = proto.equipId;
-    self.quantity = 1;
+    self.level = proto.level;
+    self.userEquipId = proto.userEquipId;
   }
   return self;
 }
 
 + (id) userEquipWithProto:(FullUserEquipProto *)proto {
   return [[[self alloc] initWithEquipProto:proto] autorelease];
+}
+
+- (NSString *) description {
+  return [NSString stringWithFormat:@"%p: Level %d %@, UserEquipId:%d", self, level, [[GameState sharedGameState] equipWithId:equipId].name, userEquipId];
 }
 
 @end
@@ -48,9 +54,9 @@
     self.isComplete = proto.isComplete;
     self.coordinates = CGPointMake(proto.coordinates.x, proto.coordinates.y);
     self.orientation = proto.orientation;
-    self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000] : nil;
-    self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000] : nil;
-    self.lastUpgradeTime = proto.hasLastUpgradeTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastUpgradeTime/1000] : nil;
+    self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.f] : nil;
+    self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.f] : nil;
+    self.lastUpgradeTime = proto.hasLastUpgradeTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastUpgradeTime/1000.f] : nil;
   }
   return self;
 }
@@ -113,7 +119,7 @@
 
 @implementation CritStruct
 
-@synthesize name, type, size;
+@synthesize name, type;
 
 - (id) initWithType:(CritStructType)t {
   if ((self = [super init])) {
@@ -123,32 +129,30 @@
 }
 
 - (void) setType:(CritStructType)t {
-  Globals *gl = [Globals sharedGlobals];
   type = t;
   switch (type) {
     case CritStructTypeVault:
       name = @"Vault";
-      size = CGSizeMake(gl.vaultXLength, gl.vaultYLength);
+      break;
+      
+    case CritStructTypeBlacksmith:
+      name = @"Blacksmith";
       break;
       
     case CritStructTypeArmory:
       name = @"Armory";
-      size = CGSizeMake(gl.armoryXLength, gl.armoryYLength);
       break;
       
     case CritStructTypeAviary:
       name = @"Aviary";
-      size = CGSizeMake(gl.aviaryXLength, gl.aviaryYLength);
       break;
       
     case CritStructTypeCarpenter:
       name = @"Carpenter";
-      size = CGSizeMake(gl.carpenterXLength, gl.carpenterYLength);
       break;
       
     case CritStructTypeMarketplace:
       name = @"Marketplace";
-      size = CGSizeMake(gl.marketplaceXLength, gl.marketplaceYLength);
       break;
       
     default:
@@ -160,6 +164,10 @@
   switch (self.type) {
     case CritStructTypeVault:
       [VaultMenuController displayView];
+      break;
+      
+    case CritStructTypeBlacksmith:
+      [ForgeMenuController displayView];
       break;
       
     case CritStructTypeArmory:
@@ -193,16 +201,17 @@
 
 @synthesize time, type, otherPlayer;
 @synthesize marketPost;
-@synthesize battleResult, coinsStolen, stolenEquipId;
+@synthesize battleResult, coinsStolen, stolenEquipId, stolenEquipLevel;
 @synthesize hasBeenViewed;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.attacker;
     self.battleResult = proto.battleResult;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.battleCompleteTime/1000];
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.battleCompleteTime/1000.f];
     self.coinsStolen = proto.coinsStolen;
     self.stolenEquipId = proto.stolenEquipId;
+    self.stolenEquipLevel = proto.stolenEquipLevel;
     self.type = kNotificationBattle;
   }
   return self;
@@ -211,7 +220,7 @@
 - (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.buyer;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000];
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000.f];
     self.marketPost = proto.marketplacePost;
     self.type = kNotificationMarketplace;
   }
@@ -221,7 +230,7 @@
 - (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.referred;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000];
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000.f];
     self.type = kNotificationReferral;
   }
   return self;
@@ -233,7 +242,8 @@
     self.battleResult = proto.battleResult;
     self.time = [NSDate date];
     self.coinsStolen = proto.coinsGained;
-    self.stolenEquipId = proto.equipGained.equipId;
+    self.stolenEquipId = proto.userEquipGained.equipId;
+    self.stolenEquipLevel = proto.userEquipGained.level;
     self.type = kNotificationBattle;
   }
   return self;
@@ -254,6 +264,20 @@
     self.otherPlayer = proto.referredPlayer;
     self.time = [NSDate date];
     self.type = kNotificationReferral;
+  }
+  return self;
+}
+
+- (id) initWithForgeAttempt:(ForgeAttempt *)fa {
+  if ((self = [super init])) {
+    Globals *gl = [Globals sharedGlobals];
+    if (fa.speedupTime) {
+      self.time = fa.speedupTime;
+    } else {
+      float seconds = [gl calculateMinutesForForge:fa.equipId level:fa.level]*60.f;
+      self.time = [fa.startTime dateByAddingTimeInterval:seconds];
+    }
+    self.type = kNotificationForge;
   }
   return self;
 }
@@ -447,6 +471,37 @@
 - (void) dealloc {
   self.title = nil;
   self.subtitle = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation ForgeAttempt
+
+@synthesize blacksmithId, equipId, level;
+@synthesize startTime, isComplete, guaranteed;
+@synthesize speedupTime;
+
+- (id) initWithUnhandledBlacksmithAttemptProto:(UnhandledBlacksmithAttemptProto *)attempt {
+  if ((self = [super init])) {
+    self.blacksmithId = attempt.blacksmithId;
+    self.equipId = attempt.equipId;
+    self.level = attempt.goalLevel-1;
+    self.startTime = [NSDate dateWithTimeIntervalSince1970:attempt.startTime/1000.f];
+    self.isComplete = attempt.attemptComplete;
+    self.guaranteed = attempt.guaranteed;
+    self.speedupTime = attempt.hasTimeOfSpeedup ? [NSDate dateWithTimeIntervalSince1970:attempt.timeOfSpeedup/1000.f] : nil;
+  }
+  return self;
+}
+
++ (id) forgeAttemptWithUnhandledBlacksmithAttemptProto:(UnhandledBlacksmithAttemptProto *)attempt {
+  return [[[self alloc] initWithUnhandledBlacksmithAttemptProto:attempt] autorelease];
+}
+
+- (void) dealloc {
+  self.startTime = nil;
+  self.speedupTime = nil;
   [super dealloc];
 }
 

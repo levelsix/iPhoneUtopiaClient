@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NibUtils.h"
 
 @interface EquipMenuController : UIViewController {
   int equipId;
+  BOOL _isDisplayingLoadingView;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
@@ -29,6 +31,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *buyButton;
 @property (nonatomic, retain) IBOutlet UILabel *buyLabel;
 
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+
 + (EquipMenuController *)sharedEquipMenuController;
 + (void) displayViewForEquip:(int)equipId;
 + (void) displayView;
@@ -36,5 +40,8 @@
 + (void) purgeSingleton;
 
 - (void) updateForEquip:(int)equipId;
+- (void) receivedArmoryResponse;
+- (void) displayLoadingView;
+- (void) removeLoadingView;
 
 @end

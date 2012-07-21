@@ -45,6 +45,7 @@
 #import "FAQMenuController.h"
 #import "ConvoMenuController.h"
 #import "EquipMenuController.h"
+#import "ForgeMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -100,6 +101,8 @@
   [ArmoryViewController purgeSingleton];
   [FAQMenuController removeView];
   [FAQMenuController purgeSingleton];
+  [ForgeMenuController removeView];
+  [ForgeMenuController purgeSingleton];
   [GoldShoppeViewController removeView];
   [GoldShoppeViewController purgeSingleton];
   [MapViewController cleanupAndPurgeSingleton];
@@ -215,6 +218,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   }];
   touchLayer.contentSize = doorright.parent.contentSize;
   
+  // Make this the highest priority
   CCMenu *menu = [CCMenu menuWithItems:touchLayer, nil];
   menu.tag = 199;
   [doorright.parent addChild:menu];
@@ -231,23 +235,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   loadingLabel.color = ccc3(255, 200, 0);
   [doorleft addChild:loadingLabel];
   
-//  loadingLabel.string = @"Getting ready to fight...";
+  //  loadingLabel.string = @"Getting ready to fight...";
   
   if (needsToRunScene) {
     [[CCDirector sharedDirector] runWithScene:scene];
   }
+  
+  // Increase the menu's priority
+  [menu runAction:
+   [CCSequence actions:
+    [CCDelayTime actionWithDuration:1],
+    [CCCallBlock actionWithBlock:^{
+     [[CCTouchDispatcher sharedDispatcher] setPriority:-1000 forDelegate:menu];
+   }], nil]];
 }
 
 - (void) connectedToHost {
-//  loadingLabel.string = @"Shining armor, so bright...";
+  //  loadingLabel.string = @"Shining armor, so bright...";
 }
 
 - (void) startupComplete {
-//  loadingLabel.string = @"A little gel in the hair...";
+  //  loadingLabel.string = @"A little gel in the hair...";
 }
 
 - (void) loadPlayerCityComplete {
-//  loadingLabel.string = @"We're ready for warfare...";
+  //  loadingLabel.string = @"We're ready for warfare...";
 }
 
 - (void) removeSplashImageView {
@@ -256,7 +268,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) allowOpeningOfDoor {
   if (!_isRunning) {
-    [[CCTouchDispatcher sharedDispatcher] setPriority:-1000 forDelegate:[doorright.parent getChildByTag:199]];
     [eyes stopAllActions];
     _canOpenDoor = YES;
     
@@ -418,7 +429,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) loadDefaultImage {
   UIView *v = self.view;
-  UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
+  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"Default.png"]];
   imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
   imgView.tag = DEFAULT_PNG_IMAGE_VIEW_TAG;
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);

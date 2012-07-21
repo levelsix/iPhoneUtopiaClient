@@ -26,6 +26,7 @@
 @synthesize descriptionLabel;
 @synthesize mainView, bgdView;
 @synthesize buyButton, buyLabel;
+@synthesize loadingView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
 
@@ -37,6 +38,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  [self removeLoadingView];
 }
 
 + (void) displayViewForEquip:(int)equipId {
@@ -48,14 +50,15 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   equipId = eq;
   
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   FullEquipProto *fep = [gs equipWithId:equipId];
   
   titleLabel.text = fep.name;
   titleLabel.textColor = [Globals colorForRarity:fep.rarity];
   classLabel.text = [Globals stringForEquipClassType:fep.classType];
   typeLabel.text = [Globals stringForEquipType:fep.equipType];
-  attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
-  defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+  attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1]];
+  defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1]];
   levelLabel.text = [NSString stringWithFormat:@"%d", fep.minLevel];
   descriptionLabel.text = fep.description;
   
@@ -121,12 +124,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   } else {
     [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
     
+    [self displayLoadingView];
+  }
+}
+
+- (void) receivedArmoryResponse {
+  if (self.view.superview) {
+    GameState *gs = [GameState sharedGameState];
+    FullEquipProto *fep = [gs equipWithId:equipId];
+    
+    [self removeLoadingView];
+    
     int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
     CGPoint startLoc = equipIcon.center;
     
     UIView *testView = [EquipDeltaView
-                        createForUpperString:[NSString stringWithFormat:@"- %d", 
-                                              price] 
+                        createForUpperString:[NSString stringWithFormat:@"- %d %@", 
+                                              price, fep.diamondPrice ? @"Gold" : @"Silver"] 
                         andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
                         andCenter:startLoc
                         topColor:[Globals redColor] 
@@ -136,20 +150,28 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
            onSuperView:self.view
                atPoint:startLoc
    withCompletionBlock:nil];
-    
-    if ([Globals canEquip:fep]) {
-      [[Globals sharedGlobals] confirmWearEquip:fep.equipId];
-    } else {
-      NSString *str = [NSString stringWithFormat:@"You have purchased 1 %@.", fep.name];
-      [GenericPopupController displayViewWithText:str title:@"Congratulations!"];
-    }
+  }
+}
+
+- (void) displayLoadingView {
+  [loadingView.actIndView startAnimating];
+  
+  [self.view addSubview:loadingView];
+  _isDisplayingLoadingView = YES;
+}
+
+- (void) removeLoadingView {
+  if (_isDisplayingLoadingView) {
+    [loadingView.actIndView stopAnimating];
+    [loadingView removeFromSuperview];
+    _isDisplayingLoadingView = NO;
   }
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+  [super viewDidUnload];
+  // Release any retained subviews of the main view.
   // e.g. self.myOutlet = nil;
   self.titleLabel = nil;
   self.classLabel = nil;
@@ -167,6 +189,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   self.bgdView = nil;
   self.buyButton = nil;
   self.buyLabel = nil;
+  self.loadingView = nil;
 }
 
 @end

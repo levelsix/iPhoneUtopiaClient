@@ -19,7 +19,7 @@
 @synthesize notificationView, confirmationView;
 @synthesize mainView, bgdColorView;
 @synthesize greenButtonLabel, blackButtonLabel, redButtonLabel;
-@synthesize invocation;
+@synthesize okInvocation, cancelInvocation;
 @synthesize toAppStore;
 
 - (void) awakeFromNib {
@@ -49,11 +49,12 @@
 }
 
 - (IBAction)greenOkayClicked:(id)sender {
-  [self.invocation invoke];
+  [self.okInvocation invoke];
   [self close];
 }
 
 - (IBAction)cancelClicked:(id)sender {
+  [self.cancelInvocation invoke];
   [self close];
 }
 
@@ -67,7 +68,8 @@
   self.bgdColorView = nil;
   self.notificationView = nil;
   self.confirmationView = nil;
-  self.invocation = nil;
+  self.okInvocation = nil;
+  self.cancelInvocation = nil;
   
   [super dealloc];
 }
@@ -133,7 +135,37 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
                               invocationWithMethodSignature:sig];
 	[invocation setTarget:target];
 	[invocation setSelector:selector];
-  gp.invocation = invocation;
+  gp.okInvocation = invocation;
+  
+  [GenericPopupController displayView];
+}
+
++ (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  GenericPopup *gp = [gpc genPopup];
+  gp.notificationView.hidden = YES;
+  gp.confirmationView.hidden = NO;
+  
+  gp.titleLabel.text = title ? title : @"Confirmation!";
+  gp.descriptionLabel.text = description;
+  gp.greenButtonLabel.text = okay ? okay : @"Okay";
+  gp.blackButtonLabel.text = cancel ? cancel : @"Cancel";
+  
+	NSMethodSignature* sig = [[okTarget class]
+                            instanceMethodSignatureForSelector:okSelector];
+	NSInvocation* invocation = [NSInvocation
+                              invocationWithMethodSignature:sig];
+	[invocation setTarget:okTarget];
+	[invocation setSelector:okSelector];
+  gp.okInvocation = invocation;
+  
+	sig = [[cancelTarget class]
+                            instanceMethodSignatureForSelector:cancelSelector];
+	invocation = [NSInvocation
+                              invocationWithMethodSignature:sig];
+	[invocation setTarget:cancelTarget];
+	[invocation setSelector:cancelSelector];
+  gp.cancelInvocation = invocation;
   
   [GenericPopupController displayView];
 }

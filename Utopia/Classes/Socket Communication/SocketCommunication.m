@@ -139,7 +139,7 @@ static NSString *udid = nil;
     return;
   }
   
-//  NSLog(@"Received %@ with tag %d.", NSStringFromClass(typeClass), tag);
+  //  NSLog(@"Received %@ with tag %d.", NSStringFromClass(typeClass), tag);
   
   // Call handle<Proto Class> method in event controller
   NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
@@ -183,13 +183,13 @@ static NSString *udid = nil;
   
   int tag = _currentTagNum;
   [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:_currentTagNum];
-//  NSLog(@"Sent %@ with tag %d.", NSStringFromClass(msg.class), tag);
+  //  NSLog(@"Sent %@ with tag %d.", NSStringFromClass(msg.class), tag);
   
   _currentTagNum++;
   return tag;
 }
 
-- (int) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense health:(int)health energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
+- (int) sendUserCreateMessageWithName:(NSString *)name type:(UserType)type lat:(CGFloat)lat lon:(CGFloat)lon referralCode:(NSString *)refCode deviceToken:(NSString *)deviceToken attack:(int)attack defense:(int)defense energy:(int)energy stamina:(int)stamina timeOfStructPurchase:(uint64_t)timeOfStructPurchase timeOfStructBuild:(uint64_t)timeOfStructBuild structX:(int)structX structY:(int)structY usedDiamonds:(BOOL)usedDiamondsToBuild {
   UserCreateRequestProto_Builder *bldr = [UserCreateRequestProto builder];
   
   bldr.udid = udid;
@@ -210,7 +210,6 @@ static NSString *udid = nil;
   
   bldr.attack = attack;
   bldr.defense = defense;
-  bldr.health = health;
   bldr.energy = energy;
   bldr.stamina = stamina;
   bldr.timeOfStructPurchase = timeOfStructPurchase;
@@ -327,7 +326,7 @@ static NSString *udid = nil;
 
 - (int) sendEquipPostToMarketplaceMessage:(int)equipId coins:(int)coins diamonds:(int)diamonds {
   PostToMarketplaceRequestProto *req = [[[[[[PostToMarketplaceRequestProto builder]
-                                            setPostedEquipId:equipId]
+                                            setUserEquipId:equipId]
                                            setCoinCost:coins]
                                           setDiamondCost:diamonds]
                                          setSender:_sender]
@@ -586,7 +585,7 @@ static NSString *udid = nil;
 - (int) sendEquipEquipmentMessage:(int) equipId {
   EquipEquipmentRequestProto *req = [[[[EquipEquipmentRequestProto builder]
                                        setSender:_sender]
-                                      setEquipId:equipId]
+                                      setUserEquipId:equipId]
                                      build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCEquipEquipmentEvent];
@@ -715,7 +714,7 @@ static NSString *udid = nil;
 
 - (int) sendEarnFreeDiamondsKiipMessageClientTime:(uint64_t)time receipt:(NSString *)receipt {
   EarnFreeDiamondsRequestProto *req = [[[[[[EarnFreeDiamondsRequestProto builder]
-                                          setSender:_sender]
+                                           setSender:_sender]
                                           setFreeDiamondsType:EarnFreeDiamondsTypeKiip]
                                          setClientTime:time]
                                         setKiipReceipt:receipt]
@@ -726,7 +725,7 @@ static NSString *udid = nil;
 
 - (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold {
   EarnFreeDiamondsRequestProto *req = [[[[[[[EarnFreeDiamondsRequestProto builder]
-                                           setSender:_sender]
+                                            setSender:_sender]
                                            setFreeDiamondsType:EarnFreeDiamondsTypeAdcolony]
                                           setClientTime:time]
                                          setAdColonyDigest:digest]
@@ -735,11 +734,48 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
+- (int) sendSubmitEquipsToBlacksmithMessageWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed clientTime:(uint64_t)time {
+  SubmitEquipsToBlacksmithRequestProto *req = [[[[[[[SubmitEquipsToBlacksmithRequestProto builder]
+                                                    setSender:_sender]
+                                                   setUserEquipOne:equipOne]
+                                                  setUserEquipTwo:equipTwo]
+                                                 setPaidToGuarantee:guaranteed]
+                                                setStartTime:time]
+                                               build];
+  return [self sendData:req withMessageType:EventProtocolRequestCSubmitEquipsToBlacksmith];
+}
+
+- (int) sendForgeAttemptWaitCompleteMessageWithBlacksmithId:(int)blacksmithId clientTime:(uint64_t)time {
+  ForgeAttemptWaitCompleteRequestProto *req = [[[[[ForgeAttemptWaitCompleteRequestProto builder]
+                                                  setBlacksmithId:blacksmithId]
+                                                 setCurTime:time]
+                                                setSender:_sender]
+                                               build];
+  return [self sendData:req withMessageType:EventProtocolRequestCForgeAttemptWaitComplete];
+}
+
+- (int) sendFinishForgeAttemptWaittimeWithDiamondsWithBlacksmithId:(int)blacksmithId clientTime:(uint64_t)time {
+  FinishForgeAttemptWaittimeWithDiamondsRequestProto *req = [[[[[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder]
+                                                                setBlacksmithId:blacksmithId]
+                                                               setTimeOfSpeedup:time]
+                                                              setSender:_sender]
+                                                             build];
+  return [self sendData:req withMessageType:EventProtocolRequestCFinishForgeAttemptWaittimeWithDiamonds];
+}
+
+- (int) sendCollectForgeEquipsWithBlacksmithId:(int)blacksmithId {
+  CollectForgeEquipsRequestProto *req = [[[[CollectForgeEquipsRequestProto builder]
+                                           setBlacksmithId:blacksmithId]
+                                          setSender:_sender]
+                                         build];
+  return [self sendData:req withMessageType:EventProtocolRequestCCollectForgeEquips ];
+}
+
 - (void) closeDownConnection {
   if (_asyncSocket) {
-    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Disconnecting from socket..");
     _shouldReconnect = NO;
-    [_asyncSocket disconnect];
+    [_asyncSocket disconnectAfterWriting];
+    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Disconnected from socket..");
     [_asyncSocket release];
     _asyncSocket = nil;
   }

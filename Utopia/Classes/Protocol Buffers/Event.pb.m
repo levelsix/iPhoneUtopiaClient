@@ -986,6 +986,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 @property BattleResponseProto_BattleStatus status;
 @property BattleResult battleResult;
 @property int32_t coinsGained;
+@property (retain) FullUserEquipProto* userEquipGained;
 @property (retain) FullEquipProto* equipGained;
 @property int32_t expGained;
 @end
@@ -1027,6 +1028,13 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
   hasCoinsGained_ = !!value;
 }
 @synthesize coinsGained;
+- (BOOL) hasUserEquipGained {
+  return !!hasUserEquipGained_;
+}
+- (void) setHasUserEquipGained:(BOOL) value {
+  hasUserEquipGained_ = !!value;
+}
+@synthesize userEquipGained;
 - (BOOL) hasEquipGained {
   return !!hasEquipGained_;
 }
@@ -1044,6 +1052,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
 - (void) dealloc {
   self.attacker = nil;
   self.defender = nil;
+  self.userEquipGained = nil;
   self.equipGained = nil;
   [super dealloc];
 }
@@ -1054,6 +1063,7 @@ static BattleRequestProto* defaultBattleRequestProtoInstance = nil;
     self.status = BattleResponseProto_BattleStatusSuccess;
     self.battleResult = BattleResultAttackerWin;
     self.coinsGained = 0;
+    self.userEquipGained = [FullUserEquipProto defaultInstance];
     self.equipGained = [FullEquipProto defaultInstance];
     self.expGained = 0;
   }
@@ -1087,14 +1097,17 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   if (self.hasCoinsGained) {
     [output writeInt32:4 value:self.coinsGained];
   }
-  if (self.hasEquipGained) {
-    [output writeMessage:5 value:self.equipGained];
+  if (self.hasUserEquipGained) {
+    [output writeMessage:5 value:self.userEquipGained];
   }
   if (self.hasExpGained) {
     [output writeInt32:6 value:self.expGained];
   }
   if (self.hasBattleResult) {
     [output writeEnum:7 value:self.battleResult];
+  }
+  if (self.hasEquipGained) {
+    [output writeMessage:8 value:self.equipGained];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -1117,14 +1130,17 @@ static BattleResponseProto* defaultBattleResponseProtoInstance = nil;
   if (self.hasCoinsGained) {
     size += computeInt32Size(4, self.coinsGained);
   }
-  if (self.hasEquipGained) {
-    size += computeMessageSize(5, self.equipGained);
+  if (self.hasUserEquipGained) {
+    size += computeMessageSize(5, self.userEquipGained);
   }
   if (self.hasExpGained) {
     size += computeInt32Size(6, self.expGained);
   }
   if (self.hasBattleResult) {
     size += computeEnumSize(7, self.battleResult);
+  }
+  if (self.hasEquipGained) {
+    size += computeMessageSize(8, self.equipGained);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -1225,6 +1241,9 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   if (other.hasCoinsGained) {
     [self setCoinsGained:other.coinsGained];
   }
+  if (other.hasUserEquipGained) {
+    [self mergeUserEquipGained:other.userEquipGained];
+  }
   if (other.hasEquipGained) {
     [self mergeEquipGained:other.equipGained];
   }
@@ -1284,12 +1303,12 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
         break;
       }
       case 42: {
-        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
-        if (self.hasEquipGained) {
-          [subBuilder mergeFrom:self.equipGained];
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasUserEquipGained) {
+          [subBuilder mergeFrom:self.userEquipGained];
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
-        [self setEquipGained:[subBuilder buildPartial]];
+        [self setUserEquipGained:[subBuilder buildPartial]];
         break;
       }
       case 48: {
@@ -1303,6 +1322,15 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
         } else {
           [unknownFields mergeVarintField:7 value:value];
         }
+        break;
+      }
+      case 66: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasEquipGained) {
+          [subBuilder mergeFrom:self.equipGained];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEquipGained:[subBuilder buildPartial]];
         break;
       }
     }
@@ -1414,6 +1442,36 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
 - (BattleResponseProto_Builder*) clearCoinsGained {
   result.hasCoinsGained = NO;
   result.coinsGained = 0;
+  return self;
+}
+- (BOOL) hasUserEquipGained {
+  return result.hasUserEquipGained;
+}
+- (FullUserEquipProto*) userEquipGained {
+  return result.userEquipGained;
+}
+- (BattleResponseProto_Builder*) setUserEquipGained:(FullUserEquipProto*) value {
+  result.hasUserEquipGained = YES;
+  result.userEquipGained = value;
+  return self;
+}
+- (BattleResponseProto_Builder*) setUserEquipGainedBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setUserEquipGained:[builderForValue build]];
+}
+- (BattleResponseProto_Builder*) mergeUserEquipGained:(FullUserEquipProto*) value {
+  if (result.hasUserEquipGained &&
+      result.userEquipGained != [FullUserEquipProto defaultInstance]) {
+    result.userEquipGained =
+      [[[FullUserEquipProto builderWithPrototype:result.userEquipGained] mergeFrom:value] buildPartial];
+  } else {
+    result.userEquipGained = value;
+  }
+  result.hasUserEquipGained = YES;
+  return self;
+}
+- (BattleResponseProto_Builder*) clearUserEquipGained {
+  result.hasUserEquipGained = NO;
+  result.userEquipGained = [FullUserEquipProto defaultInstance];
   return self;
 }
 - (BOOL) hasEquipGained {
@@ -2404,6 +2462,7 @@ BOOL ArmoryRequestProto_ArmoryRequestTypeIsValidValue(ArmoryRequestProto_ArmoryR
 @interface ArmoryResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property ArmoryResponseProto_ArmoryStatus status;
+@property (retain) FullUserEquipProto* fullUserEquipOfBoughtItem;
 @end
 
 @implementation ArmoryResponseProto
@@ -2422,14 +2481,23 @@ BOOL ArmoryRequestProto_ArmoryRequestTypeIsValidValue(ArmoryRequestProto_ArmoryR
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasFullUserEquipOfBoughtItem {
+  return !!hasFullUserEquipOfBoughtItem_;
+}
+- (void) setHasFullUserEquipOfBoughtItem:(BOOL) value {
+  hasFullUserEquipOfBoughtItem_ = !!value;
+}
+@synthesize fullUserEquipOfBoughtItem;
 - (void) dealloc {
   self.sender = nil;
+  self.fullUserEquipOfBoughtItem = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = ArmoryResponseProto_ArmoryStatusSuccess;
+    self.fullUserEquipOfBoughtItem = [FullUserEquipProto defaultInstance];
   }
   return self;
 }
@@ -2455,6 +2523,9 @@ static ArmoryResponseProto* defaultArmoryResponseProtoInstance = nil;
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  if (self.hasFullUserEquipOfBoughtItem) {
+    [output writeMessage:3 value:self.fullUserEquipOfBoughtItem];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -2469,6 +2540,9 @@ static ArmoryResponseProto* defaultArmoryResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
+  }
+  if (self.hasFullUserEquipOfBoughtItem) {
+    size += computeMessageSize(3, self.fullUserEquipOfBoughtItem);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -2563,6 +2637,9 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasFullUserEquipOfBoughtItem) {
+    [self mergeFullUserEquipOfBoughtItem:other.fullUserEquipOfBoughtItem];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -2600,6 +2677,15 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasFullUserEquipOfBoughtItem) {
+          [subBuilder mergeFrom:self.fullUserEquipOfBoughtItem];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFullUserEquipOfBoughtItem:[subBuilder buildPartial]];
         break;
       }
     }
@@ -2649,6 +2735,36 @@ BOOL ArmoryResponseProto_ArmoryStatusIsValidValue(ArmoryResponseProto_ArmoryStat
 - (ArmoryResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = ArmoryResponseProto_ArmoryStatusSuccess;
+  return self;
+}
+- (BOOL) hasFullUserEquipOfBoughtItem {
+  return result.hasFullUserEquipOfBoughtItem;
+}
+- (FullUserEquipProto*) fullUserEquipOfBoughtItem {
+  return result.fullUserEquipOfBoughtItem;
+}
+- (ArmoryResponseProto_Builder*) setFullUserEquipOfBoughtItem:(FullUserEquipProto*) value {
+  result.hasFullUserEquipOfBoughtItem = YES;
+  result.fullUserEquipOfBoughtItem = value;
+  return self;
+}
+- (ArmoryResponseProto_Builder*) setFullUserEquipOfBoughtItemBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setFullUserEquipOfBoughtItem:[builderForValue build]];
+}
+- (ArmoryResponseProto_Builder*) mergeFullUserEquipOfBoughtItem:(FullUserEquipProto*) value {
+  if (result.hasFullUserEquipOfBoughtItem &&
+      result.fullUserEquipOfBoughtItem != [FullUserEquipProto defaultInstance]) {
+    result.fullUserEquipOfBoughtItem =
+      [[[FullUserEquipProto builderWithPrototype:result.fullUserEquipOfBoughtItem] mergeFrom:value] buildPartial];
+  } else {
+    result.fullUserEquipOfBoughtItem = value;
+  }
+  result.hasFullUserEquipOfBoughtItem = YES;
+  return self;
+}
+- (ArmoryResponseProto_Builder*) clearFullUserEquipOfBoughtItem {
+  result.hasFullUserEquipOfBoughtItem = NO;
+  result.fullUserEquipOfBoughtItem = [FullUserEquipProto defaultInstance];
   return self;
 }
 @end
@@ -2930,6 +3046,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) NSString* appStoreUrl;
 @property (retain) NSMutableArray* mutableAlliesList;
 @property (retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
+@property BOOL playerHasBoughtInAppPurchase;
+@property (retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
 @end
 
 @implementation StartupResponseProto
@@ -3009,6 +3127,25 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasDailyBonusInfo_ = !!value;
 }
 @synthesize dailyBonusInfo;
+- (BOOL) hasPlayerHasBoughtInAppPurchase {
+  return !!hasPlayerHasBoughtInAppPurchase_;
+}
+- (void) setHasPlayerHasBoughtInAppPurchase:(BOOL) value {
+  hasPlayerHasBoughtInAppPurchase_ = !!value;
+}
+- (BOOL) playerHasBoughtInAppPurchase {
+  return !!playerHasBoughtInAppPurchase_;
+}
+- (void) setPlayerHasBoughtInAppPurchase:(BOOL) value {
+  playerHasBoughtInAppPurchase_ = !!value;
+}
+- (BOOL) hasUnhandledForgeAttempt {
+  return !!hasUnhandledForgeAttempt_;
+}
+- (void) setHasUnhandledForgeAttempt:(BOOL) value {
+  hasUnhandledForgeAttempt_ = !!value;
+}
+@synthesize unhandledForgeAttempt;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3027,6 +3164,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.appStoreUrl = nil;
   self.mutableAlliesList = nil;
   self.dailyBonusInfo = nil;
+  self.unhandledForgeAttempt = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3040,6 +3178,8 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.experienceRequiredForCurrentLevel = 0;
     self.appStoreUrl = @"";
     self.dailyBonusInfo = [StartupResponseProto_DailyBonusInfo defaultInstance];
+    self.playerHasBoughtInAppPurchase = NO;
+    self.unhandledForgeAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
   }
   return self;
 }
@@ -3206,6 +3346,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasDailyBonusInfo) {
     [output writeMessage:21 value:self.dailyBonusInfo];
   }
+  if (self.hasPlayerHasBoughtInAppPurchase) {
+    [output writeBool:22 value:self.playerHasBoughtInAppPurchase];
+  }
+  if (self.hasUnhandledForgeAttempt) {
+    [output writeMessage:23 value:self.unhandledForgeAttempt];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3278,6 +3424,12 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   if (self.hasDailyBonusInfo) {
     size += computeMessageSize(21, self.dailyBonusInfo);
   }
+  if (self.hasPlayerHasBoughtInAppPurchase) {
+    size += computeBoolSize(22, self.playerHasBoughtInAppPurchase);
+  }
+  if (self.hasUnhandledForgeAttempt) {
+    size += computeMessageSize(23, self.unhandledForgeAttempt);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -3333,7 +3485,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 @interface StartupResponseProto_DailyBonusInfo ()
 @property int32_t numConsecutiveDaysPlayed;
 @property BOOL firstTimeToday;
-@property int32_t silverBonus;
+@property int32_t coinBonus;
 @property (retain) FullUserEquipProto* userEquipBonus;
 @end
 
@@ -3358,13 +3510,13 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
 - (void) setFirstTimeToday:(BOOL) value {
   firstTimeToday_ = !!value;
 }
-- (BOOL) hasSilverBonus {
-  return !!hasSilverBonus_;
+- (BOOL) hasCoinBonus {
+  return !!hasCoinBonus_;
 }
-- (void) setHasSilverBonus:(BOOL) value {
-  hasSilverBonus_ = !!value;
+- (void) setHasCoinBonus:(BOOL) value {
+  hasCoinBonus_ = !!value;
 }
-@synthesize silverBonus;
+@synthesize coinBonus;
 - (BOOL) hasUserEquipBonus {
   return !!hasUserEquipBonus_;
 }
@@ -3380,7 +3532,7 @@ BOOL StartupResponseProto_StartupStatusIsValidValue(StartupResponseProto_Startup
   if ((self = [super init])) {
     self.numConsecutiveDaysPlayed = 0;
     self.firstTimeToday = NO;
-    self.silverBonus = 0;
+    self.coinBonus = 0;
     self.userEquipBonus = [FullUserEquipProto defaultInstance];
   }
   return self;
@@ -3407,8 +3559,8 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (self.hasFirstTimeToday) {
     [output writeBool:2 value:self.firstTimeToday];
   }
-  if (self.hasSilverBonus) {
-    [output writeInt32:3 value:self.silverBonus];
+  if (self.hasCoinBonus) {
+    [output writeInt32:3 value:self.coinBonus];
   }
   if (self.hasUserEquipBonus) {
     [output writeMessage:4 value:self.userEquipBonus];
@@ -3428,8 +3580,8 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (self.hasFirstTimeToday) {
     size += computeBoolSize(2, self.firstTimeToday);
   }
-  if (self.hasSilverBonus) {
-    size += computeInt32Size(3, self.silverBonus);
+  if (self.hasCoinBonus) {
+    size += computeInt32Size(3, self.coinBonus);
   }
   if (self.hasUserEquipBonus) {
     size += computeMessageSize(4, self.userEquipBonus);
@@ -3515,8 +3667,8 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   if (other.hasFirstTimeToday) {
     [self setFirstTimeToday:other.firstTimeToday];
   }
-  if (other.hasSilverBonus) {
-    [self setSilverBonus:other.silverBonus];
+  if (other.hasCoinBonus) {
+    [self setCoinBonus:other.coinBonus];
   }
   if (other.hasUserEquipBonus) {
     [self mergeUserEquipBonus:other.userEquipBonus];
@@ -3551,7 +3703,7 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
         break;
       }
       case 24: {
-        [self setSilverBonus:[input readInt32]];
+        [self setCoinBonus:[input readInt32]];
         break;
       }
       case 34: {
@@ -3598,20 +3750,20 @@ static StartupResponseProto_DailyBonusInfo* defaultStartupResponseProto_DailyBon
   result.firstTimeToday = NO;
   return self;
 }
-- (BOOL) hasSilverBonus {
-  return result.hasSilverBonus;
+- (BOOL) hasCoinBonus {
+  return result.hasCoinBonus;
 }
-- (int32_t) silverBonus {
-  return result.silverBonus;
+- (int32_t) coinBonus {
+  return result.coinBonus;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) setSilverBonus:(int32_t) value {
-  result.hasSilverBonus = YES;
-  result.silverBonus = value;
+- (StartupResponseProto_DailyBonusInfo_Builder*) setCoinBonus:(int32_t) value {
+  result.hasCoinBonus = YES;
+  result.coinBonus = value;
   return self;
 }
-- (StartupResponseProto_DailyBonusInfo_Builder*) clearSilverBonus {
-  result.hasSilverBonus = NO;
-  result.silverBonus = 0;
+- (StartupResponseProto_DailyBonusInfo_Builder*) clearCoinBonus {
+  result.hasCoinBonus = NO;
+  result.coinBonus = 0;
   return self;
 }
 - (BOOL) hasUserEquipBonus {
@@ -3945,6 +4097,7 @@ static StartupResponseProto_MarketplacePostPurchasedNotificationProto* defaultSt
 @property int64_t battleCompleteTime;
 @property int32_t coinsStolen;
 @property int32_t stolenEquipId;
+@property int32_t stolenEquipLevel;
 @end
 
 @implementation StartupResponseProto_AttackedNotificationProto
@@ -3984,6 +4137,13 @@ static StartupResponseProto_MarketplacePostPurchasedNotificationProto* defaultSt
   hasStolenEquipId_ = !!value;
 }
 @synthesize stolenEquipId;
+- (BOOL) hasStolenEquipLevel {
+  return !!hasStolenEquipLevel_;
+}
+- (void) setHasStolenEquipLevel:(BOOL) value {
+  hasStolenEquipLevel_ = !!value;
+}
+@synthesize stolenEquipLevel;
 - (void) dealloc {
   self.attacker = nil;
   [super dealloc];
@@ -3995,6 +4155,7 @@ static StartupResponseProto_MarketplacePostPurchasedNotificationProto* defaultSt
     self.battleCompleteTime = 0L;
     self.coinsStolen = 0;
     self.stolenEquipId = 0;
+    self.stolenEquipLevel = 0;
   }
   return self;
 }
@@ -4029,6 +4190,9 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   if (self.hasStolenEquipId) {
     [output writeInt32:5 value:self.stolenEquipId];
   }
+  if (self.hasStolenEquipLevel) {
+    [output writeInt32:6 value:self.stolenEquipLevel];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -4052,6 +4216,9 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   }
   if (self.hasStolenEquipId) {
     size += computeInt32Size(5, self.stolenEquipId);
+  }
+  if (self.hasStolenEquipLevel) {
+    size += computeInt32Size(6, self.stolenEquipLevel);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4143,6 +4310,9 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
   if (other.hasStolenEquipId) {
     [self setStolenEquipId:other.stolenEquipId];
   }
+  if (other.hasStolenEquipLevel) {
+    [self setStolenEquipLevel:other.stolenEquipLevel];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4192,6 +4362,10 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
       }
       case 40: {
         [self setStolenEquipId:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setStolenEquipLevel:[input readInt32]];
         break;
       }
     }
@@ -4289,6 +4463,22 @@ static StartupResponseProto_AttackedNotificationProto* defaultStartupResponsePro
 - (StartupResponseProto_AttackedNotificationProto_Builder*) clearStolenEquipId {
   result.hasStolenEquipId = NO;
   result.stolenEquipId = 0;
+  return self;
+}
+- (BOOL) hasStolenEquipLevel {
+  return result.hasStolenEquipLevel;
+}
+- (int32_t) stolenEquipLevel {
+  return result.stolenEquipLevel;
+}
+- (StartupResponseProto_AttackedNotificationProto_Builder*) setStolenEquipLevel:(int32_t) value {
+  result.hasStolenEquipLevel = YES;
+  result.stolenEquipLevel = value;
+  return self;
+}
+- (StartupResponseProto_AttackedNotificationProto_Builder*) clearStolenEquipLevel {
+  result.hasStolenEquipLevel = NO;
+  result.stolenEquipLevel = 0;
   return self;
 }
 @end
@@ -4584,12 +4774,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t attackBaseGain;
 @property int32_t defenseBaseGain;
 @property int32_t energyBaseGain;
-@property int32_t healthBaseGain;
 @property int32_t staminaBaseGain;
 @property int32_t attackBaseCost;
 @property int32_t defenseBaseCost;
 @property int32_t energyBaseCost;
-@property int32_t healthBaseCost;
 @property int32_t staminaBaseCost;
 @property int32_t skillPointsGainedOnLevelup;
 @property Float64 cutOfVaultDepositTaken;
@@ -4732,13 +4920,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasEnergyBaseGain_ = !!value;
 }
 @synthesize energyBaseGain;
-- (BOOL) hasHealthBaseGain {
-  return !!hasHealthBaseGain_;
-}
-- (void) setHasHealthBaseGain:(BOOL) value {
-  hasHealthBaseGain_ = !!value;
-}
-@synthesize healthBaseGain;
 - (BOOL) hasStaminaBaseGain {
   return !!hasStaminaBaseGain_;
 }
@@ -4767,13 +4948,6 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasEnergyBaseCost_ = !!value;
 }
 @synthesize energyBaseCost;
-- (BOOL) hasHealthBaseCost {
-  return !!hasHealthBaseCost_;
-}
-- (void) setHasHealthBaseCost:(BOOL) value {
-  hasHealthBaseCost_ = !!value;
-}
-@synthesize healthBaseCost;
 - (BOOL) hasStaminaBaseCost {
   return !!hasStaminaBaseCost_;
 }
@@ -5011,12 +5185,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.attackBaseGain = 0;
     self.defenseBaseGain = 0;
     self.energyBaseGain = 0;
-    self.healthBaseGain = 0;
     self.staminaBaseGain = 0;
     self.attackBaseCost = 0;
     self.defenseBaseCost = 0;
     self.energyBaseCost = 0;
-    self.healthBaseCost = 0;
     self.staminaBaseCost = 0;
     self.skillPointsGainedOnLevelup = 0;
     self.cutOfVaultDepositTaken = 0;
@@ -5141,9 +5313,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasEnergyBaseGain) {
     [output writeInt32:19 value:self.energyBaseGain];
   }
-  if (self.hasHealthBaseGain) {
-    [output writeInt32:20 value:self.healthBaseGain];
-  }
   if (self.hasStaminaBaseGain) {
     [output writeInt32:21 value:self.staminaBaseGain];
   }
@@ -5155,9 +5324,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasEnergyBaseCost) {
     [output writeInt32:24 value:self.energyBaseCost];
-  }
-  if (self.hasHealthBaseCost) {
-    [output writeInt32:25 value:self.healthBaseCost];
   }
   if (self.hasStaminaBaseCost) {
     [output writeInt32:26 value:self.staminaBaseCost];
@@ -5322,9 +5488,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasEnergyBaseGain) {
     size += computeInt32Size(19, self.energyBaseGain);
   }
-  if (self.hasHealthBaseGain) {
-    size += computeInt32Size(20, self.healthBaseGain);
-  }
   if (self.hasStaminaBaseGain) {
     size += computeInt32Size(21, self.staminaBaseGain);
   }
@@ -5336,9 +5499,6 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasEnergyBaseCost) {
     size += computeInt32Size(24, self.energyBaseCost);
-  }
-  if (self.hasHealthBaseCost) {
-    size += computeInt32Size(25, self.healthBaseCost);
   }
   if (self.hasStaminaBaseCost) {
     size += computeInt32Size(26, self.staminaBaseCost);
@@ -7175,9 +7335,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasEnergyBaseGain) {
     [self setEnergyBaseGain:other.energyBaseGain];
   }
-  if (other.hasHealthBaseGain) {
-    [self setHealthBaseGain:other.healthBaseGain];
-  }
   if (other.hasStaminaBaseGain) {
     [self setStaminaBaseGain:other.staminaBaseGain];
   }
@@ -7189,9 +7346,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   }
   if (other.hasEnergyBaseCost) {
     [self setEnergyBaseCost:other.energyBaseCost];
-  }
-  if (other.hasHealthBaseCost) {
-    [self setHealthBaseCost:other.healthBaseCost];
   }
   if (other.hasStaminaBaseCost) {
     [self setStaminaBaseCost:other.staminaBaseCost];
@@ -7382,10 +7536,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
         [self setEnergyBaseGain:[input readInt32]];
         break;
       }
-      case 160: {
-        [self setHealthBaseGain:[input readInt32]];
-        break;
-      }
       case 168: {
         [self setStaminaBaseGain:[input readInt32]];
         break;
@@ -7400,10 +7550,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
       }
       case 192: {
         [self setEnergyBaseCost:[input readInt32]];
-        break;
-      }
-      case 200: {
-        [self setHealthBaseCost:[input readInt32]];
         break;
       }
       case 208: {
@@ -7848,22 +7994,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   result.energyBaseGain = 0;
   return self;
 }
-- (BOOL) hasHealthBaseGain {
-  return result.hasHealthBaseGain;
-}
-- (int32_t) healthBaseGain {
-  return result.healthBaseGain;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseGain:(int32_t) value {
-  result.hasHealthBaseGain = YES;
-  result.healthBaseGain = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseGain {
-  result.hasHealthBaseGain = NO;
-  result.healthBaseGain = 0;
-  return self;
-}
 - (BOOL) hasStaminaBaseGain {
   return result.hasStaminaBaseGain;
 }
@@ -7926,22 +8056,6 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_Builder*) clearEnergyBaseCost {
   result.hasEnergyBaseCost = NO;
   result.energyBaseCost = 0;
-  return self;
-}
-- (BOOL) hasHealthBaseCost {
-  return result.hasHealthBaseCost;
-}
-- (int32_t) healthBaseCost {
-  return result.healthBaseCost;
-}
-- (StartupResponseProto_StartupConstants_Builder*) setHealthBaseCost:(int32_t) value {
-  result.hasHealthBaseCost = YES;
-  result.healthBaseCost = value;
-  return self;
-}
-- (StartupResponseProto_StartupConstants_Builder*) clearHealthBaseCost {
-  result.hasHealthBaseCost = NO;
-  result.healthBaseCost = 0;
   return self;
 }
 - (BOOL) hasStaminaBaseCost {
@@ -11158,6 +11272,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasDailyBonusInfo) {
     [self mergeDailyBonusInfo:other.dailyBonusInfo];
   }
+  if (other.hasPlayerHasBoughtInAppPurchase) {
+    [self setPlayerHasBoughtInAppPurchase:other.playerHasBoughtInAppPurchase];
+  }
+  if (other.hasUnhandledForgeAttempt) {
+    [self mergeUnhandledForgeAttempt:other.unhandledForgeAttempt];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11315,6 +11435,19 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setDailyBonusInfo:[subBuilder buildPartial]];
+        break;
+      }
+      case 176: {
+        [self setPlayerHasBoughtInAppPurchase:[input readBool]];
+        break;
+      }
+      case 186: {
+        UnhandledBlacksmithAttemptProto_Builder* subBuilder = [UnhandledBlacksmithAttemptProto builder];
+        if (self.hasUnhandledForgeAttempt) {
+          [subBuilder mergeFrom:self.unhandledForgeAttempt];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUnhandledForgeAttempt:[subBuilder buildPartial]];
         break;
       }
     }
@@ -11866,6 +11999,52 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_Builder*) clearDailyBonusInfo {
   result.hasDailyBonusInfo = NO;
   result.dailyBonusInfo = [StartupResponseProto_DailyBonusInfo defaultInstance];
+  return self;
+}
+- (BOOL) hasPlayerHasBoughtInAppPurchase {
+  return result.hasPlayerHasBoughtInAppPurchase;
+}
+- (BOOL) playerHasBoughtInAppPurchase {
+  return result.playerHasBoughtInAppPurchase;
+}
+- (StartupResponseProto_Builder*) setPlayerHasBoughtInAppPurchase:(BOOL) value {
+  result.hasPlayerHasBoughtInAppPurchase = YES;
+  result.playerHasBoughtInAppPurchase = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearPlayerHasBoughtInAppPurchase {
+  result.hasPlayerHasBoughtInAppPurchase = NO;
+  result.playerHasBoughtInAppPurchase = NO;
+  return self;
+}
+- (BOOL) hasUnhandledForgeAttempt {
+  return result.hasUnhandledForgeAttempt;
+}
+- (UnhandledBlacksmithAttemptProto*) unhandledForgeAttempt {
+  return result.unhandledForgeAttempt;
+}
+- (StartupResponseProto_Builder*) setUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value {
+  result.hasUnhandledForgeAttempt = YES;
+  result.unhandledForgeAttempt = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setUnhandledForgeAttemptBuilder:(UnhandledBlacksmithAttemptProto_Builder*) builderForValue {
+  return [self setUnhandledForgeAttempt:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value {
+  if (result.hasUnhandledForgeAttempt &&
+      result.unhandledForgeAttempt != [UnhandledBlacksmithAttemptProto defaultInstance]) {
+    result.unhandledForgeAttempt =
+      [[[UnhandledBlacksmithAttemptProto builderWithPrototype:result.unhandledForgeAttempt] mergeFrom:value] buildPartial];
+  } else {
+    result.unhandledForgeAttempt = value;
+  }
+  result.hasUnhandledForgeAttempt = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearUnhandledForgeAttempt {
+  result.hasUnhandledForgeAttempt = NO;
+  result.unhandledForgeAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
   return self;
 }
 @end
@@ -14267,7 +14446,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
 @property TaskActionResponseProto_TaskActionStatus status;
 @property BOOL taskCompleted;
 @property BOOL cityRankedUp;
-@property int32_t lootEquipId;
+@property (retain) FullUserEquipProto* lootUserEquip;
 @property int32_t coinsGained;
 @property int32_t coinBonusIfCityRankup;
 @property int32_t expBonusIfCityRankup;
@@ -14314,13 +14493,13 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
 - (void) setCityRankedUp:(BOOL) value {
   cityRankedUp_ = !!value;
 }
-- (BOOL) hasLootEquipId {
-  return !!hasLootEquipId_;
+- (BOOL) hasLootUserEquip {
+  return !!hasLootUserEquip_;
 }
-- (void) setHasLootEquipId:(BOOL) value {
-  hasLootEquipId_ = !!value;
+- (void) setHasLootUserEquip:(BOOL) value {
+  hasLootUserEquip_ = !!value;
 }
-@synthesize lootEquipId;
+@synthesize lootUserEquip;
 - (BOOL) hasCoinsGained {
   return !!hasCoinsGained_;
 }
@@ -14351,6 +14530,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
 @synthesize cityId;
 - (void) dealloc {
   self.sender = nil;
+  self.lootUserEquip = nil;
   [super dealloc];
 }
 - (id) init {
@@ -14359,7 +14539,7 @@ static TaskActionRequestProto* defaultTaskActionRequestProtoInstance = nil;
     self.status = TaskActionResponseProto_TaskActionStatusSuccess;
     self.taskCompleted = NO;
     self.cityRankedUp = NO;
-    self.lootEquipId = 0;
+    self.lootUserEquip = [FullUserEquipProto defaultInstance];
     self.coinsGained = 0;
     self.coinBonusIfCityRankup = 0;
     self.expBonusIfCityRankup = 0;
@@ -14395,8 +14575,8 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   if (self.hasCityRankedUp) {
     [output writeBool:4 value:self.cityRankedUp];
   }
-  if (self.hasLootEquipId) {
-    [output writeInt32:5 value:self.lootEquipId];
+  if (self.hasLootUserEquip) {
+    [output writeMessage:5 value:self.lootUserEquip];
   }
   if (self.hasCoinsGained) {
     [output writeInt32:6 value:self.coinsGained];
@@ -14431,8 +14611,8 @@ static TaskActionResponseProto* defaultTaskActionResponseProtoInstance = nil;
   if (self.hasCityRankedUp) {
     size += computeBoolSize(4, self.cityRankedUp);
   }
-  if (self.hasLootEquipId) {
-    size += computeInt32Size(5, self.lootEquipId);
+  if (self.hasLootUserEquip) {
+    size += computeMessageSize(5, self.lootUserEquip);
   }
   if (self.hasCoinsGained) {
     size += computeInt32Size(6, self.coinsGained);
@@ -14545,8 +14725,8 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
   if (other.hasCityRankedUp) {
     [self setCityRankedUp:other.cityRankedUp];
   }
-  if (other.hasLootEquipId) {
-    [self setLootEquipId:other.lootEquipId];
+  if (other.hasLootUserEquip) {
+    [self mergeLootUserEquip:other.lootUserEquip];
   }
   if (other.hasCoinsGained) {
     [self setCoinsGained:other.coinsGained];
@@ -14607,8 +14787,13 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
         [self setCityRankedUp:[input readBool]];
         break;
       }
-      case 40: {
-        [self setLootEquipId:[input readInt32]];
+      case 42: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasLootUserEquip) {
+          [subBuilder mergeFrom:self.lootUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setLootUserEquip:[subBuilder buildPartial]];
         break;
       }
       case 48: {
@@ -14708,20 +14893,34 @@ BOOL TaskActionResponseProto_TaskActionStatusIsValidValue(TaskActionResponseProt
   result.cityRankedUp = NO;
   return self;
 }
-- (BOOL) hasLootEquipId {
-  return result.hasLootEquipId;
+- (BOOL) hasLootUserEquip {
+  return result.hasLootUserEquip;
 }
-- (int32_t) lootEquipId {
-  return result.lootEquipId;
+- (FullUserEquipProto*) lootUserEquip {
+  return result.lootUserEquip;
 }
-- (TaskActionResponseProto_Builder*) setLootEquipId:(int32_t) value {
-  result.hasLootEquipId = YES;
-  result.lootEquipId = value;
+- (TaskActionResponseProto_Builder*) setLootUserEquip:(FullUserEquipProto*) value {
+  result.hasLootUserEquip = YES;
+  result.lootUserEquip = value;
   return self;
 }
-- (TaskActionResponseProto_Builder*) clearLootEquipId {
-  result.hasLootEquipId = NO;
-  result.lootEquipId = 0;
+- (TaskActionResponseProto_Builder*) setLootUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setLootUserEquip:[builderForValue build]];
+}
+- (TaskActionResponseProto_Builder*) mergeLootUserEquip:(FullUserEquipProto*) value {
+  if (result.hasLootUserEquip &&
+      result.lootUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.lootUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.lootUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.lootUserEquip = value;
+  }
+  result.hasLootUserEquip = YES;
+  return self;
+}
+- (TaskActionResponseProto_Builder*) clearLootUserEquip {
+  result.hasLootUserEquip = NO;
+  result.lootUserEquip = [FullUserEquipProto defaultInstance];
   return self;
 }
 - (BOOL) hasCoinsGained {
@@ -21572,7 +21771,7 @@ BOOL RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePost
 
 @interface PostToMarketplaceRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t postedEquipId;
+@property int32_t userEquipId;
 @property int32_t diamondCost;
 @property int32_t coinCost;
 @end
@@ -21586,13 +21785,13 @@ BOOL RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePost
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasPostedEquipId {
-  return !!hasPostedEquipId_;
+- (BOOL) hasUserEquipId {
+  return !!hasUserEquipId_;
 }
-- (void) setHasPostedEquipId:(BOOL) value {
-  hasPostedEquipId_ = !!value;
+- (void) setHasUserEquipId:(BOOL) value {
+  hasUserEquipId_ = !!value;
 }
-@synthesize postedEquipId;
+@synthesize userEquipId;
 - (BOOL) hasDiamondCost {
   return !!hasDiamondCost_;
 }
@@ -21614,7 +21813,7 @@ BOOL RetrieveCurrentMarketplacePostsResponseProto_RetrieveCurrentMarketplacePost
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.postedEquipId = 0;
+    self.userEquipId = 0;
     self.diamondCost = 0;
     self.coinCost = 0;
   }
@@ -21639,8 +21838,8 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasPostedEquipId) {
-    [output writeInt32:2 value:self.postedEquipId];
+  if (self.hasUserEquipId) {
+    [output writeInt32:2 value:self.userEquipId];
   }
   if (self.hasDiamondCost) {
     [output writeInt32:3 value:self.diamondCost];
@@ -21660,8 +21859,8 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasPostedEquipId) {
-    size += computeInt32Size(2, self.postedEquipId);
+  if (self.hasUserEquipId) {
+    size += computeInt32Size(2, self.userEquipId);
   }
   if (self.hasDiamondCost) {
     size += computeInt32Size(3, self.diamondCost);
@@ -21747,8 +21946,8 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasPostedEquipId) {
-    [self setPostedEquipId:other.postedEquipId];
+  if (other.hasUserEquipId) {
+    [self setUserEquipId:other.userEquipId];
   }
   if (other.hasDiamondCost) {
     [self setDiamondCost:other.diamondCost];
@@ -21787,7 +21986,7 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
         break;
       }
       case 16: {
-        [self setPostedEquipId:[input readInt32]];
+        [self setUserEquipId:[input readInt32]];
         break;
       }
       case 24: {
@@ -21831,20 +22030,20 @@ static PostToMarketplaceRequestProto* defaultPostToMarketplaceRequestProtoInstan
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasPostedEquipId {
-  return result.hasPostedEquipId;
+- (BOOL) hasUserEquipId {
+  return result.hasUserEquipId;
 }
-- (int32_t) postedEquipId {
-  return result.postedEquipId;
+- (int32_t) userEquipId {
+  return result.userEquipId;
 }
-- (PostToMarketplaceRequestProto_Builder*) setPostedEquipId:(int32_t) value {
-  result.hasPostedEquipId = YES;
-  result.postedEquipId = value;
+- (PostToMarketplaceRequestProto_Builder*) setUserEquipId:(int32_t) value {
+  result.hasUserEquipId = YES;
+  result.userEquipId = value;
   return self;
 }
-- (PostToMarketplaceRequestProto_Builder*) clearPostedEquipId {
-  result.hasPostedEquipId = NO;
-  result.postedEquipId = 0;
+- (PostToMarketplaceRequestProto_Builder*) clearUserEquipId {
+  result.hasUserEquipId = NO;
+  result.userEquipId = 0;
   return self;
 }
 - (BOOL) hasDiamondCost {
@@ -22375,6 +22574,7 @@ static RetractMarketplacePostRequestProto* defaultRetractMarketplacePostRequestP
 @interface RetractMarketplacePostResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property RetractMarketplacePostResponseProto_RetractMarketplacePostStatus status;
+@property (retain) FullUserEquipProto* retractedUserEquip;
 @end
 
 @implementation RetractMarketplacePostResponseProto
@@ -22393,14 +22593,23 @@ static RetractMarketplacePostRequestProto* defaultRetractMarketplacePostRequestP
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasRetractedUserEquip {
+  return !!hasRetractedUserEquip_;
+}
+- (void) setHasRetractedUserEquip:(BOOL) value {
+  hasRetractedUserEquip_ = !!value;
+}
+@synthesize retractedUserEquip;
 - (void) dealloc {
   self.sender = nil;
+  self.retractedUserEquip = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess;
+    self.retractedUserEquip = [FullUserEquipProto defaultInstance];
   }
   return self;
 }
@@ -22426,6 +22635,9 @@ static RetractMarketplacePostResponseProto* defaultRetractMarketplacePostRespons
   if (self.hasStatus) {
     [output writeEnum:2 value:self.status];
   }
+  if (self.hasRetractedUserEquip) {
+    [output writeMessage:3 value:self.retractedUserEquip];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -22440,6 +22652,9 @@ static RetractMarketplacePostResponseProto* defaultRetractMarketplacePostRespons
   }
   if (self.hasStatus) {
     size += computeEnumSize(2, self.status);
+  }
+  if (self.hasRetractedUserEquip) {
+    size += computeMessageSize(3, self.retractedUserEquip);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -22535,6 +22750,9 @@ BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValu
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasRetractedUserEquip) {
+    [self mergeRetractedUserEquip:other.retractedUserEquip];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -22572,6 +22790,15 @@ BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValu
         } else {
           [unknownFields mergeVarintField:2 value:value];
         }
+        break;
+      }
+      case 26: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasRetractedUserEquip) {
+          [subBuilder mergeFrom:self.retractedUserEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRetractedUserEquip:[subBuilder buildPartial]];
         break;
       }
     }
@@ -22621,6 +22848,36 @@ BOOL RetractMarketplacePostResponseProto_RetractMarketplacePostStatusIsValidValu
 - (RetractMarketplacePostResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = RetractMarketplacePostResponseProto_RetractMarketplacePostStatusSuccess;
+  return self;
+}
+- (BOOL) hasRetractedUserEquip {
+  return result.hasRetractedUserEquip;
+}
+- (FullUserEquipProto*) retractedUserEquip {
+  return result.retractedUserEquip;
+}
+- (RetractMarketplacePostResponseProto_Builder*) setRetractedUserEquip:(FullUserEquipProto*) value {
+  result.hasRetractedUserEquip = YES;
+  result.retractedUserEquip = value;
+  return self;
+}
+- (RetractMarketplacePostResponseProto_Builder*) setRetractedUserEquipBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setRetractedUserEquip:[builderForValue build]];
+}
+- (RetractMarketplacePostResponseProto_Builder*) mergeRetractedUserEquip:(FullUserEquipProto*) value {
+  if (result.hasRetractedUserEquip &&
+      result.retractedUserEquip != [FullUserEquipProto defaultInstance]) {
+    result.retractedUserEquip =
+      [[[FullUserEquipProto builderWithPrototype:result.retractedUserEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.retractedUserEquip = value;
+  }
+  result.hasRetractedUserEquip = YES;
+  return self;
+}
+- (RetractMarketplacePostResponseProto_Builder*) clearRetractedUserEquip {
+  result.hasRetractedUserEquip = NO;
+  result.retractedUserEquip = [FullUserEquipProto defaultInstance];
   return self;
 }
 @end
@@ -22902,6 +23159,7 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
 @property (retain) MinimumUserProto* purchaser;
 @property int32_t posterId;
 @property (retain) FullMarketplacePostProto* marketplacePost;
+@property (retain) FullUserEquipProto* fullUserEquipOfBoughtItem;
 @property PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatus status;
 @end
 
@@ -22928,6 +23186,13 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
   hasMarketplacePost_ = !!value;
 }
 @synthesize marketplacePost;
+- (BOOL) hasFullUserEquipOfBoughtItem {
+  return !!hasFullUserEquipOfBoughtItem_;
+}
+- (void) setHasFullUserEquipOfBoughtItem:(BOOL) value {
+  hasFullUserEquipOfBoughtItem_ = !!value;
+}
+@synthesize fullUserEquipOfBoughtItem;
 - (BOOL) hasStatus {
   return !!hasStatus_;
 }
@@ -22938,6 +23203,7 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
 - (void) dealloc {
   self.purchaser = nil;
   self.marketplacePost = nil;
+  self.fullUserEquipOfBoughtItem = nil;
   [super dealloc];
 }
 - (id) init {
@@ -22945,6 +23211,7 @@ static PurchaseFromMarketplaceRequestProto* defaultPurchaseFromMarketplaceReques
     self.purchaser = [MinimumUserProto defaultInstance];
     self.posterId = 0;
     self.marketplacePost = [FullMarketplacePostProto defaultInstance];
+    self.fullUserEquipOfBoughtItem = [FullUserEquipProto defaultInstance];
     self.status = PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess;
   }
   return self;
@@ -22977,6 +23244,9 @@ static PurchaseFromMarketplaceResponseProto* defaultPurchaseFromMarketplaceRespo
   if (self.hasStatus) {
     [output writeEnum:4 value:self.status];
   }
+  if (self.hasFullUserEquipOfBoughtItem) {
+    [output writeMessage:5 value:self.fullUserEquipOfBoughtItem];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -22997,6 +23267,9 @@ static PurchaseFromMarketplaceResponseProto* defaultPurchaseFromMarketplaceRespo
   }
   if (self.hasStatus) {
     size += computeEnumSize(4, self.status);
+  }
+  if (self.hasFullUserEquipOfBoughtItem) {
+    size += computeMessageSize(5, self.fullUserEquipOfBoughtItem);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -23094,6 +23367,9 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
   if (other.hasMarketplacePost) {
     [self mergeMarketplacePost:other.marketplacePost];
   }
+  if (other.hasFullUserEquipOfBoughtItem) {
+    [self mergeFullUserEquipOfBoughtItem:other.fullUserEquipOfBoughtItem];
+  }
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
@@ -23147,6 +23423,15 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
         } else {
           [unknownFields mergeVarintField:4 value:value];
         }
+        break;
+      }
+      case 42: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasFullUserEquipOfBoughtItem) {
+          [subBuilder mergeFrom:self.fullUserEquipOfBoughtItem];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setFullUserEquipOfBoughtItem:[subBuilder buildPartial]];
         break;
       }
     }
@@ -23226,6 +23511,36 @@ BOOL PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusIsValidVa
 - (PurchaseFromMarketplaceResponseProto_Builder*) clearMarketplacePost {
   result.hasMarketplacePost = NO;
   result.marketplacePost = [FullMarketplacePostProto defaultInstance];
+  return self;
+}
+- (BOOL) hasFullUserEquipOfBoughtItem {
+  return result.hasFullUserEquipOfBoughtItem;
+}
+- (FullUserEquipProto*) fullUserEquipOfBoughtItem {
+  return result.fullUserEquipOfBoughtItem;
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) setFullUserEquipOfBoughtItem:(FullUserEquipProto*) value {
+  result.hasFullUserEquipOfBoughtItem = YES;
+  result.fullUserEquipOfBoughtItem = value;
+  return self;
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) setFullUserEquipOfBoughtItemBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setFullUserEquipOfBoughtItem:[builderForValue build]];
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) mergeFullUserEquipOfBoughtItem:(FullUserEquipProto*) value {
+  if (result.hasFullUserEquipOfBoughtItem &&
+      result.fullUserEquipOfBoughtItem != [FullUserEquipProto defaultInstance]) {
+    result.fullUserEquipOfBoughtItem =
+      [[[FullUserEquipProto builderWithPrototype:result.fullUserEquipOfBoughtItem] mergeFrom:value] buildPartial];
+  } else {
+    result.fullUserEquipOfBoughtItem = value;
+  }
+  result.hasFullUserEquipOfBoughtItem = YES;
+  return self;
+}
+- (PurchaseFromMarketplaceResponseProto_Builder*) clearFullUserEquipOfBoughtItem {
+  result.hasFullUserEquipOfBoughtItem = NO;
+  result.fullUserEquipOfBoughtItem = [FullUserEquipProto defaultInstance];
   return self;
 }
 - (BOOL) hasStatus {
@@ -23353,7 +23668,6 @@ BOOL UseSkillPointRequestProto_BoostTypeIsValidValue(UseSkillPointRequestProto_B
     case UseSkillPointRequestProto_BoostTypeAttack:
     case UseSkillPointRequestProto_BoostTypeDefense:
     case UseSkillPointRequestProto_BoostTypeEnergy:
-    case UseSkillPointRequestProto_BoostTypeHealth:
     case UseSkillPointRequestProto_BoostTypeStamina:
       return YES;
     default:
@@ -27506,6 +27820,7 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableNewlyAvailableQuestsList;
 @property QuestRedeemResponseProto_QuestRedeemStatus status;
+@property (retain) FullUserEquipProto* equipRewardFromQuest;
 @end
 
 @implementation QuestRedeemResponseProto
@@ -27525,15 +27840,24 @@ static QuestRedeemRequestProto* defaultQuestRedeemRequestProtoInstance = nil;
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasEquipRewardFromQuest {
+  return !!hasEquipRewardFromQuest_;
+}
+- (void) setHasEquipRewardFromQuest:(BOOL) value {
+  hasEquipRewardFromQuest_ = !!value;
+}
+@synthesize equipRewardFromQuest;
 - (void) dealloc {
   self.sender = nil;
   self.mutableNewlyAvailableQuestsList = nil;
+  self.equipRewardFromQuest = nil;
   [super dealloc];
 }
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
+    self.equipRewardFromQuest = [FullUserEquipProto defaultInstance];
   }
   return self;
 }
@@ -27569,6 +27893,9 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
+  if (self.hasEquipRewardFromQuest) {
+    [output writeMessage:4 value:self.equipRewardFromQuest];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -27586,6 +27913,9 @@ static QuestRedeemResponseProto* defaultQuestRedeemResponseProtoInstance = nil;
   }
   if (self.hasStatus) {
     size += computeEnumSize(3, self.status);
+  }
+  if (self.hasEquipRewardFromQuest) {
+    size += computeMessageSize(4, self.equipRewardFromQuest);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -27684,6 +28014,9 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasEquipRewardFromQuest) {
+    [self mergeEquipRewardFromQuest:other.equipRewardFromQuest];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -27727,6 +28060,15 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
+        break;
+      }
+      case 34: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        if (self.hasEquipRewardFromQuest) {
+          [subBuilder mergeFrom:self.equipRewardFromQuest];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setEquipRewardFromQuest:[subBuilder buildPartial]];
         break;
       }
     }
@@ -27805,6 +28147,36 @@ BOOL QuestRedeemResponseProto_QuestRedeemStatusIsValidValue(QuestRedeemResponseP
 - (QuestRedeemResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = QuestRedeemResponseProto_QuestRedeemStatusSuccess;
+  return self;
+}
+- (BOOL) hasEquipRewardFromQuest {
+  return result.hasEquipRewardFromQuest;
+}
+- (FullUserEquipProto*) equipRewardFromQuest {
+  return result.equipRewardFromQuest;
+}
+- (QuestRedeemResponseProto_Builder*) setEquipRewardFromQuest:(FullUserEquipProto*) value {
+  result.hasEquipRewardFromQuest = YES;
+  result.equipRewardFromQuest = value;
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) setEquipRewardFromQuestBuilder:(FullUserEquipProto_Builder*) builderForValue {
+  return [self setEquipRewardFromQuest:[builderForValue build]];
+}
+- (QuestRedeemResponseProto_Builder*) mergeEquipRewardFromQuest:(FullUserEquipProto*) value {
+  if (result.hasEquipRewardFromQuest &&
+      result.equipRewardFromQuest != [FullUserEquipProto defaultInstance]) {
+    result.equipRewardFromQuest =
+      [[[FullUserEquipProto builderWithPrototype:result.equipRewardFromQuest] mergeFrom:value] buildPartial];
+  } else {
+    result.equipRewardFromQuest = value;
+  }
+  result.hasEquipRewardFromQuest = YES;
+  return self;
+}
+- (QuestRedeemResponseProto_Builder*) clearEquipRewardFromQuest {
+  result.hasEquipRewardFromQuest = NO;
+  result.equipRewardFromQuest = [FullUserEquipProto defaultInstance];
   return self;
 }
 @end
@@ -32819,7 +33191,7 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
 
 @interface EquipEquipmentRequestProto ()
 @property (retain) MinimumUserProto* sender;
-@property int32_t equipId;
+@property int32_t userEquipId;
 @end
 
 @implementation EquipEquipmentRequestProto
@@ -32831,13 +33203,13 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
   hasSender_ = !!value;
 }
 @synthesize sender;
-- (BOOL) hasEquipId {
-  return !!hasEquipId_;
+- (BOOL) hasUserEquipId {
+  return !!hasUserEquipId_;
 }
-- (void) setHasEquipId:(BOOL) value {
-  hasEquipId_ = !!value;
+- (void) setHasUserEquipId:(BOOL) value {
+  hasUserEquipId_ = !!value;
 }
-@synthesize equipId;
+@synthesize userEquipId;
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -32845,7 +33217,7 @@ static ReferralCodeUsedResponseProto* defaultReferralCodeUsedResponseProtoInstan
 - (id) init {
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
-    self.equipId = 0;
+    self.userEquipId = 0;
   }
   return self;
 }
@@ -32868,8 +33240,8 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   if (self.hasSender) {
     [output writeMessage:1 value:self.sender];
   }
-  if (self.hasEquipId) {
-    [output writeInt32:2 value:self.equipId];
+  if (self.hasUserEquipId) {
+    [output writeInt32:2 value:self.userEquipId];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -32883,8 +33255,8 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   if (self.hasSender) {
     size += computeMessageSize(1, self.sender);
   }
-  if (self.hasEquipId) {
-    size += computeInt32Size(2, self.equipId);
+  if (self.hasUserEquipId) {
+    size += computeInt32Size(2, self.userEquipId);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -32964,8 +33336,8 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   if (other.hasSender) {
     [self mergeSender:other.sender];
   }
-  if (other.hasEquipId) {
-    [self setEquipId:other.equipId];
+  if (other.hasUserEquipId) {
+    [self setUserEquipId:other.userEquipId];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -32998,7 +33370,7 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
         break;
       }
       case 16: {
-        [self setEquipId:[input readInt32]];
+        [self setUserEquipId:[input readInt32]];
         break;
       }
     }
@@ -33034,20 +33406,20 @@ static EquipEquipmentRequestProto* defaultEquipEquipmentRequestProtoInstance = n
   result.sender = [MinimumUserProto defaultInstance];
   return self;
 }
-- (BOOL) hasEquipId {
-  return result.hasEquipId;
+- (BOOL) hasUserEquipId {
+  return result.hasUserEquipId;
 }
-- (int32_t) equipId {
-  return result.equipId;
+- (int32_t) userEquipId {
+  return result.userEquipId;
 }
-- (EquipEquipmentRequestProto_Builder*) setEquipId:(int32_t) value {
-  result.hasEquipId = YES;
-  result.equipId = value;
+- (EquipEquipmentRequestProto_Builder*) setUserEquipId:(int32_t) value {
+  result.hasUserEquipId = YES;
+  result.userEquipId = value;
   return self;
 }
-- (EquipEquipmentRequestProto_Builder*) clearEquipId {
-  result.hasEquipId = NO;
-  result.equipId = 0;
+- (EquipEquipmentRequestProto_Builder*) clearUserEquipId {
+  result.hasUserEquipId = NO;
+  result.userEquipId = 0;
   return self;
 }
 @end
@@ -38334,6 +38706,2264 @@ static LogoutRequestProto* defaultLogoutRequestProtoInstance = nil;
 - (LogoutRequestProto_Builder*) clearSender {
   result.hasSender = NO;
   result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+@end
+
+@interface SubmitEquipsToBlacksmithRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t userEquipOne;
+@property int32_t userEquipTwo;
+@property BOOL paidToGuarantee;
+@property int64_t startTime;
+@end
+
+@implementation SubmitEquipsToBlacksmithRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasUserEquipOne {
+  return !!hasUserEquipOne_;
+}
+- (void) setHasUserEquipOne:(BOOL) value {
+  hasUserEquipOne_ = !!value;
+}
+@synthesize userEquipOne;
+- (BOOL) hasUserEquipTwo {
+  return !!hasUserEquipTwo_;
+}
+- (void) setHasUserEquipTwo:(BOOL) value {
+  hasUserEquipTwo_ = !!value;
+}
+@synthesize userEquipTwo;
+- (BOOL) hasPaidToGuarantee {
+  return !!hasPaidToGuarantee_;
+}
+- (void) setHasPaidToGuarantee:(BOOL) value {
+  hasPaidToGuarantee_ = !!value;
+}
+- (BOOL) paidToGuarantee {
+  return !!paidToGuarantee_;
+}
+- (void) setPaidToGuarantee:(BOOL) value {
+  paidToGuarantee_ = !!value;
+}
+- (BOOL) hasStartTime {
+  return !!hasStartTime_;
+}
+- (void) setHasStartTime:(BOOL) value {
+  hasStartTime_ = !!value;
+}
+@synthesize startTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.userEquipOne = 0;
+    self.userEquipTwo = 0;
+    self.paidToGuarantee = NO;
+    self.startTime = 0L;
+  }
+  return self;
+}
+static SubmitEquipsToBlacksmithRequestProto* defaultSubmitEquipsToBlacksmithRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [SubmitEquipsToBlacksmithRequestProto class]) {
+    defaultSubmitEquipsToBlacksmithRequestProtoInstance = [[SubmitEquipsToBlacksmithRequestProto alloc] init];
+  }
+}
++ (SubmitEquipsToBlacksmithRequestProto*) defaultInstance {
+  return defaultSubmitEquipsToBlacksmithRequestProtoInstance;
+}
+- (SubmitEquipsToBlacksmithRequestProto*) defaultInstance {
+  return defaultSubmitEquipsToBlacksmithRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasUserEquipOne) {
+    [output writeInt32:2 value:self.userEquipOne];
+  }
+  if (self.hasUserEquipTwo) {
+    [output writeInt32:3 value:self.userEquipTwo];
+  }
+  if (self.hasPaidToGuarantee) {
+    [output writeBool:4 value:self.paidToGuarantee];
+  }
+  if (self.hasStartTime) {
+    [output writeInt64:5 value:self.startTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasUserEquipOne) {
+    size += computeInt32Size(2, self.userEquipOne);
+  }
+  if (self.hasUserEquipTwo) {
+    size += computeInt32Size(3, self.userEquipTwo);
+  }
+  if (self.hasPaidToGuarantee) {
+    size += computeBoolSize(4, self.paidToGuarantee);
+  }
+  if (self.hasStartTime) {
+    size += computeInt64Size(5, self.startTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromData:(NSData*) data {
+  return (SubmitEquipsToBlacksmithRequestProto*)[[[SubmitEquipsToBlacksmithRequestProto builder] mergeFromData:data] build];
+}
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipsToBlacksmithRequestProto*)[[[SubmitEquipsToBlacksmithRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SubmitEquipsToBlacksmithRequestProto*)[[[SubmitEquipsToBlacksmithRequestProto builder] mergeFromInputStream:input] build];
+}
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipsToBlacksmithRequestProto*)[[[SubmitEquipsToBlacksmithRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SubmitEquipsToBlacksmithRequestProto*)[[[SubmitEquipsToBlacksmithRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SubmitEquipsToBlacksmithRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipsToBlacksmithRequestProto*)[[[SubmitEquipsToBlacksmithRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipsToBlacksmithRequestProto_Builder*) builder {
+  return [[[SubmitEquipsToBlacksmithRequestProto_Builder alloc] init] autorelease];
+}
++ (SubmitEquipsToBlacksmithRequestProto_Builder*) builderWithPrototype:(SubmitEquipsToBlacksmithRequestProto*) prototype {
+  return [[SubmitEquipsToBlacksmithRequestProto builder] mergeFrom:prototype];
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) builder {
+  return [SubmitEquipsToBlacksmithRequestProto builder];
+}
+@end
+
+@interface SubmitEquipsToBlacksmithRequestProto_Builder()
+@property (retain) SubmitEquipsToBlacksmithRequestProto* result;
+@end
+
+@implementation SubmitEquipsToBlacksmithRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SubmitEquipsToBlacksmithRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clear {
+  self.result = [[[SubmitEquipsToBlacksmithRequestProto alloc] init] autorelease];
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clone {
+  return [SubmitEquipsToBlacksmithRequestProto builderWithPrototype:result];
+}
+- (SubmitEquipsToBlacksmithRequestProto*) defaultInstance {
+  return [SubmitEquipsToBlacksmithRequestProto defaultInstance];
+}
+- (SubmitEquipsToBlacksmithRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SubmitEquipsToBlacksmithRequestProto*) buildPartial {
+  SubmitEquipsToBlacksmithRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeFrom:(SubmitEquipsToBlacksmithRequestProto*) other {
+  if (other == [SubmitEquipsToBlacksmithRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasUserEquipOne) {
+    [self setUserEquipOne:other.userEquipOne];
+  }
+  if (other.hasUserEquipTwo) {
+    [self setUserEquipTwo:other.userEquipTwo];
+  }
+  if (other.hasPaidToGuarantee) {
+    [self setPaidToGuarantee:other.paidToGuarantee];
+  }
+  if (other.hasStartTime) {
+    [self setStartTime:other.startTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setUserEquipOne:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setUserEquipTwo:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setPaidToGuarantee:[input readBool]];
+        break;
+      }
+      case 40: {
+        [self setStartTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasUserEquipOne {
+  return result.hasUserEquipOne;
+}
+- (int32_t) userEquipOne {
+  return result.userEquipOne;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipOne:(int32_t) value {
+  result.hasUserEquipOne = YES;
+  result.userEquipOne = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearUserEquipOne {
+  result.hasUserEquipOne = NO;
+  result.userEquipOne = 0;
+  return self;
+}
+- (BOOL) hasUserEquipTwo {
+  return result.hasUserEquipTwo;
+}
+- (int32_t) userEquipTwo {
+  return result.userEquipTwo;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setUserEquipTwo:(int32_t) value {
+  result.hasUserEquipTwo = YES;
+  result.userEquipTwo = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearUserEquipTwo {
+  result.hasUserEquipTwo = NO;
+  result.userEquipTwo = 0;
+  return self;
+}
+- (BOOL) hasPaidToGuarantee {
+  return result.hasPaidToGuarantee;
+}
+- (BOOL) paidToGuarantee {
+  return result.paidToGuarantee;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setPaidToGuarantee:(BOOL) value {
+  result.hasPaidToGuarantee = YES;
+  result.paidToGuarantee = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearPaidToGuarantee {
+  result.hasPaidToGuarantee = NO;
+  result.paidToGuarantee = NO;
+  return self;
+}
+- (BOOL) hasStartTime {
+  return result.hasStartTime;
+}
+- (int64_t) startTime {
+  return result.startTime;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) setStartTime:(int64_t) value {
+  result.hasStartTime = YES;
+  result.startTime = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithRequestProto_Builder*) clearStartTime {
+  result.hasStartTime = NO;
+  result.startTime = 0L;
+  return self;
+}
+@end
+
+@interface SubmitEquipsToBlacksmithResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus status;
+@property (retain) UnhandledBlacksmithAttemptProto* unhandledBlacksmithAttempt;
+@end
+
+@implementation SubmitEquipsToBlacksmithResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasUnhandledBlacksmithAttempt {
+  return !!hasUnhandledBlacksmithAttempt_;
+}
+- (void) setHasUnhandledBlacksmithAttempt:(BOOL) value {
+  hasUnhandledBlacksmithAttempt_ = !!value;
+}
+@synthesize unhandledBlacksmithAttempt;
+- (void) dealloc {
+  self.sender = nil;
+  self.unhandledBlacksmithAttempt = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess;
+    self.unhandledBlacksmithAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
+  }
+  return self;
+}
+static SubmitEquipsToBlacksmithResponseProto* defaultSubmitEquipsToBlacksmithResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [SubmitEquipsToBlacksmithResponseProto class]) {
+    defaultSubmitEquipsToBlacksmithResponseProtoInstance = [[SubmitEquipsToBlacksmithResponseProto alloc] init];
+  }
+}
++ (SubmitEquipsToBlacksmithResponseProto*) defaultInstance {
+  return defaultSubmitEquipsToBlacksmithResponseProtoInstance;
+}
+- (SubmitEquipsToBlacksmithResponseProto*) defaultInstance {
+  return defaultSubmitEquipsToBlacksmithResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasUnhandledBlacksmithAttempt) {
+    [output writeMessage:3 value:self.unhandledBlacksmithAttempt];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasUnhandledBlacksmithAttempt) {
+    size += computeMessageSize(3, self.unhandledBlacksmithAttempt);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromData:(NSData*) data {
+  return (SubmitEquipsToBlacksmithResponseProto*)[[[SubmitEquipsToBlacksmithResponseProto builder] mergeFromData:data] build];
+}
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipsToBlacksmithResponseProto*)[[[SubmitEquipsToBlacksmithResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (SubmitEquipsToBlacksmithResponseProto*)[[[SubmitEquipsToBlacksmithResponseProto builder] mergeFromInputStream:input] build];
+}
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipsToBlacksmithResponseProto*)[[[SubmitEquipsToBlacksmithResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (SubmitEquipsToBlacksmithResponseProto*)[[[SubmitEquipsToBlacksmithResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (SubmitEquipsToBlacksmithResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (SubmitEquipsToBlacksmithResponseProto*)[[[SubmitEquipsToBlacksmithResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (SubmitEquipsToBlacksmithResponseProto_Builder*) builder {
+  return [[[SubmitEquipsToBlacksmithResponseProto_Builder alloc] init] autorelease];
+}
++ (SubmitEquipsToBlacksmithResponseProto_Builder*) builderWithPrototype:(SubmitEquipsToBlacksmithResponseProto*) prototype {
+  return [[SubmitEquipsToBlacksmithResponseProto builder] mergeFrom:prototype];
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) builder {
+  return [SubmitEquipsToBlacksmithResponseProto builder];
+}
+@end
+
+BOOL SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusIsValidValue(SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus value) {
+  switch (value) {
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusNotEnoughDiamondsForGuarantee:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSubmittedEquipsNotSameLevel:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusTryingToSurpassMaxLevel:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusAlreadyForging:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusClientTooApartFromServerTime:
+    case SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface SubmitEquipsToBlacksmithResponseProto_Builder()
+@property (retain) SubmitEquipsToBlacksmithResponseProto* result;
+@end
+
+@implementation SubmitEquipsToBlacksmithResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[SubmitEquipsToBlacksmithResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clear {
+  self.result = [[[SubmitEquipsToBlacksmithResponseProto alloc] init] autorelease];
+  return self;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clone {
+  return [SubmitEquipsToBlacksmithResponseProto builderWithPrototype:result];
+}
+- (SubmitEquipsToBlacksmithResponseProto*) defaultInstance {
+  return [SubmitEquipsToBlacksmithResponseProto defaultInstance];
+}
+- (SubmitEquipsToBlacksmithResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (SubmitEquipsToBlacksmithResponseProto*) buildPartial {
+  SubmitEquipsToBlacksmithResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeFrom:(SubmitEquipsToBlacksmithResponseProto*) other {
+  if (other == [SubmitEquipsToBlacksmithResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasUnhandledBlacksmithAttempt) {
+    [self mergeUnhandledBlacksmithAttempt:other.unhandledBlacksmithAttempt];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        UnhandledBlacksmithAttemptProto_Builder* subBuilder = [UnhandledBlacksmithAttemptProto builder];
+        if (self.hasUnhandledBlacksmithAttempt) {
+          [subBuilder mergeFrom:self.unhandledBlacksmithAttempt];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setUnhandledBlacksmithAttempt:[subBuilder buildPartial]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus) status {
+  return result.status;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setStatus:(SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess;
+  return self;
+}
+- (BOOL) hasUnhandledBlacksmithAttempt {
+  return result.hasUnhandledBlacksmithAttempt;
+}
+- (UnhandledBlacksmithAttemptProto*) unhandledBlacksmithAttempt {
+  return result.unhandledBlacksmithAttempt;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setUnhandledBlacksmithAttempt:(UnhandledBlacksmithAttemptProto*) value {
+  result.hasUnhandledBlacksmithAttempt = YES;
+  result.unhandledBlacksmithAttempt = value;
+  return self;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) setUnhandledBlacksmithAttemptBuilder:(UnhandledBlacksmithAttemptProto_Builder*) builderForValue {
+  return [self setUnhandledBlacksmithAttempt:[builderForValue build]];
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) mergeUnhandledBlacksmithAttempt:(UnhandledBlacksmithAttemptProto*) value {
+  if (result.hasUnhandledBlacksmithAttempt &&
+      result.unhandledBlacksmithAttempt != [UnhandledBlacksmithAttemptProto defaultInstance]) {
+    result.unhandledBlacksmithAttempt =
+      [[[UnhandledBlacksmithAttemptProto builderWithPrototype:result.unhandledBlacksmithAttempt] mergeFrom:value] buildPartial];
+  } else {
+    result.unhandledBlacksmithAttempt = value;
+  }
+  result.hasUnhandledBlacksmithAttempt = YES;
+  return self;
+}
+- (SubmitEquipsToBlacksmithResponseProto_Builder*) clearUnhandledBlacksmithAttempt {
+  result.hasUnhandledBlacksmithAttempt = NO;
+  result.unhandledBlacksmithAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
+  return self;
+}
+@end
+
+@interface ForgeAttemptWaitCompleteRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t blacksmithId;
+@property int64_t curTime;
+@end
+
+@implementation ForgeAttemptWaitCompleteRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasBlacksmithId {
+  return !!hasBlacksmithId_;
+}
+- (void) setHasBlacksmithId:(BOOL) value {
+  hasBlacksmithId_ = !!value;
+}
+@synthesize blacksmithId;
+- (BOOL) hasCurTime {
+  return !!hasCurTime_;
+}
+- (void) setHasCurTime:(BOOL) value {
+  hasCurTime_ = !!value;
+}
+@synthesize curTime;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.blacksmithId = 0;
+    self.curTime = 0L;
+  }
+  return self;
+}
+static ForgeAttemptWaitCompleteRequestProto* defaultForgeAttemptWaitCompleteRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [ForgeAttemptWaitCompleteRequestProto class]) {
+    defaultForgeAttemptWaitCompleteRequestProtoInstance = [[ForgeAttemptWaitCompleteRequestProto alloc] init];
+  }
+}
++ (ForgeAttemptWaitCompleteRequestProto*) defaultInstance {
+  return defaultForgeAttemptWaitCompleteRequestProtoInstance;
+}
+- (ForgeAttemptWaitCompleteRequestProto*) defaultInstance {
+  return defaultForgeAttemptWaitCompleteRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBlacksmithId) {
+    [output writeInt32:2 value:self.blacksmithId];
+  }
+  if (self.hasCurTime) {
+    [output writeInt64:3 value:self.curTime];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBlacksmithId) {
+    size += computeInt32Size(2, self.blacksmithId);
+  }
+  if (self.hasCurTime) {
+    size += computeInt64Size(3, self.curTime);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromData:(NSData*) data {
+  return (ForgeAttemptWaitCompleteRequestProto*)[[[ForgeAttemptWaitCompleteRequestProto builder] mergeFromData:data] build];
+}
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForgeAttemptWaitCompleteRequestProto*)[[[ForgeAttemptWaitCompleteRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ForgeAttemptWaitCompleteRequestProto*)[[[ForgeAttemptWaitCompleteRequestProto builder] mergeFromInputStream:input] build];
+}
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForgeAttemptWaitCompleteRequestProto*)[[[ForgeAttemptWaitCompleteRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ForgeAttemptWaitCompleteRequestProto*)[[[ForgeAttemptWaitCompleteRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ForgeAttemptWaitCompleteRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForgeAttemptWaitCompleteRequestProto*)[[[ForgeAttemptWaitCompleteRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ForgeAttemptWaitCompleteRequestProto_Builder*) builder {
+  return [[[ForgeAttemptWaitCompleteRequestProto_Builder alloc] init] autorelease];
+}
++ (ForgeAttemptWaitCompleteRequestProto_Builder*) builderWithPrototype:(ForgeAttemptWaitCompleteRequestProto*) prototype {
+  return [[ForgeAttemptWaitCompleteRequestProto builder] mergeFrom:prototype];
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) builder {
+  return [ForgeAttemptWaitCompleteRequestProto builder];
+}
+@end
+
+@interface ForgeAttemptWaitCompleteRequestProto_Builder()
+@property (retain) ForgeAttemptWaitCompleteRequestProto* result;
+@end
+
+@implementation ForgeAttemptWaitCompleteRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ForgeAttemptWaitCompleteRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clear {
+  self.result = [[[ForgeAttemptWaitCompleteRequestProto alloc] init] autorelease];
+  return self;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clone {
+  return [ForgeAttemptWaitCompleteRequestProto builderWithPrototype:result];
+}
+- (ForgeAttemptWaitCompleteRequestProto*) defaultInstance {
+  return [ForgeAttemptWaitCompleteRequestProto defaultInstance];
+}
+- (ForgeAttemptWaitCompleteRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ForgeAttemptWaitCompleteRequestProto*) buildPartial {
+  ForgeAttemptWaitCompleteRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeFrom:(ForgeAttemptWaitCompleteRequestProto*) other {
+  if (other == [ForgeAttemptWaitCompleteRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasBlacksmithId) {
+    [self setBlacksmithId:other.blacksmithId];
+  }
+  if (other.hasCurTime) {
+    [self setCurTime:other.curTime];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setBlacksmithId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setCurTime:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBlacksmithId {
+  return result.hasBlacksmithId;
+}
+- (int32_t) blacksmithId {
+  return result.blacksmithId;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setBlacksmithId:(int32_t) value {
+  result.hasBlacksmithId = YES;
+  result.blacksmithId = value;
+  return self;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clearBlacksmithId {
+  result.hasBlacksmithId = NO;
+  result.blacksmithId = 0;
+  return self;
+}
+- (BOOL) hasCurTime {
+  return result.hasCurTime;
+}
+- (int64_t) curTime {
+  return result.curTime;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) setCurTime:(int64_t) value {
+  result.hasCurTime = YES;
+  result.curTime = value;
+  return self;
+}
+- (ForgeAttemptWaitCompleteRequestProto_Builder*) clearCurTime {
+  result.hasCurTime = NO;
+  result.curTime = 0L;
+  return self;
+}
+@end
+
+@interface ForgeAttemptWaitCompleteResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus status;
+@end
+
+@implementation ForgeAttemptWaitCompleteResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess;
+  }
+  return self;
+}
+static ForgeAttemptWaitCompleteResponseProto* defaultForgeAttemptWaitCompleteResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [ForgeAttemptWaitCompleteResponseProto class]) {
+    defaultForgeAttemptWaitCompleteResponseProtoInstance = [[ForgeAttemptWaitCompleteResponseProto alloc] init];
+  }
+}
++ (ForgeAttemptWaitCompleteResponseProto*) defaultInstance {
+  return defaultForgeAttemptWaitCompleteResponseProtoInstance;
+}
+- (ForgeAttemptWaitCompleteResponseProto*) defaultInstance {
+  return defaultForgeAttemptWaitCompleteResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromData:(NSData*) data {
+  return (ForgeAttemptWaitCompleteResponseProto*)[[[ForgeAttemptWaitCompleteResponseProto builder] mergeFromData:data] build];
+}
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForgeAttemptWaitCompleteResponseProto*)[[[ForgeAttemptWaitCompleteResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (ForgeAttemptWaitCompleteResponseProto*)[[[ForgeAttemptWaitCompleteResponseProto builder] mergeFromInputStream:input] build];
+}
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForgeAttemptWaitCompleteResponseProto*)[[[ForgeAttemptWaitCompleteResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (ForgeAttemptWaitCompleteResponseProto*)[[[ForgeAttemptWaitCompleteResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (ForgeAttemptWaitCompleteResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (ForgeAttemptWaitCompleteResponseProto*)[[[ForgeAttemptWaitCompleteResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (ForgeAttemptWaitCompleteResponseProto_Builder*) builder {
+  return [[[ForgeAttemptWaitCompleteResponseProto_Builder alloc] init] autorelease];
+}
++ (ForgeAttemptWaitCompleteResponseProto_Builder*) builderWithPrototype:(ForgeAttemptWaitCompleteResponseProto*) prototype {
+  return [[ForgeAttemptWaitCompleteResponseProto builder] mergeFrom:prototype];
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) builder {
+  return [ForgeAttemptWaitCompleteResponseProto builder];
+}
+@end
+
+BOOL ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusIsValidValue(ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus value) {
+  switch (value) {
+    case ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess:
+    case ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusNotDoneYet:
+    case ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusOtherFail:
+    case ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusClientTooApartFromServerTime:
+    case ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusAlreadyComplete:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface ForgeAttemptWaitCompleteResponseProto_Builder()
+@property (retain) ForgeAttemptWaitCompleteResponseProto* result;
+@end
+
+@implementation ForgeAttemptWaitCompleteResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[ForgeAttemptWaitCompleteResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clear {
+  self.result = [[[ForgeAttemptWaitCompleteResponseProto alloc] init] autorelease];
+  return self;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clone {
+  return [ForgeAttemptWaitCompleteResponseProto builderWithPrototype:result];
+}
+- (ForgeAttemptWaitCompleteResponseProto*) defaultInstance {
+  return [ForgeAttemptWaitCompleteResponseProto defaultInstance];
+}
+- (ForgeAttemptWaitCompleteResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (ForgeAttemptWaitCompleteResponseProto*) buildPartial {
+  ForgeAttemptWaitCompleteResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeFrom:(ForgeAttemptWaitCompleteResponseProto*) other {
+  if (other == [ForgeAttemptWaitCompleteResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus) status {
+  return result.status;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) setStatus:(ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (ForgeAttemptWaitCompleteResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess;
+  return self;
+}
+@end
+
+@interface FinishForgeAttemptWaittimeWithDiamondsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t blacksmithId;
+@property int64_t timeOfSpeedup;
+@end
+
+@implementation FinishForgeAttemptWaittimeWithDiamondsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasBlacksmithId {
+  return !!hasBlacksmithId_;
+}
+- (void) setHasBlacksmithId:(BOOL) value {
+  hasBlacksmithId_ = !!value;
+}
+@synthesize blacksmithId;
+- (BOOL) hasTimeOfSpeedup {
+  return !!hasTimeOfSpeedup_;
+}
+- (void) setHasTimeOfSpeedup:(BOOL) value {
+  hasTimeOfSpeedup_ = !!value;
+}
+@synthesize timeOfSpeedup;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.blacksmithId = 0;
+    self.timeOfSpeedup = 0L;
+  }
+  return self;
+}
+static FinishForgeAttemptWaittimeWithDiamondsRequestProto* defaultFinishForgeAttemptWaittimeWithDiamondsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [FinishForgeAttemptWaittimeWithDiamondsRequestProto class]) {
+    defaultFinishForgeAttemptWaittimeWithDiamondsRequestProtoInstance = [[FinishForgeAttemptWaittimeWithDiamondsRequestProto alloc] init];
+  }
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) defaultInstance {
+  return defaultFinishForgeAttemptWaittimeWithDiamondsRequestProtoInstance;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) defaultInstance {
+  return defaultFinishForgeAttemptWaittimeWithDiamondsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBlacksmithId) {
+    [output writeInt32:2 value:self.blacksmithId];
+  }
+  if (self.hasTimeOfSpeedup) {
+    [output writeInt64:3 value:self.timeOfSpeedup];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBlacksmithId) {
+    size += computeInt32Size(2, self.blacksmithId);
+  }
+  if (self.hasTimeOfSpeedup) {
+    size += computeInt64Size(3, self.timeOfSpeedup);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data {
+  return (FinishForgeAttemptWaittimeWithDiamondsRequestProto*)[[[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder] mergeFromData:data] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishForgeAttemptWaittimeWithDiamondsRequestProto*)[[[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FinishForgeAttemptWaittimeWithDiamondsRequestProto*)[[[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishForgeAttemptWaittimeWithDiamondsRequestProto*)[[[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FinishForgeAttemptWaittimeWithDiamondsRequestProto*)[[[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishForgeAttemptWaittimeWithDiamondsRequestProto*)[[[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) builder {
+  return [[[FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder alloc] init] autorelease];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) builderWithPrototype:(FinishForgeAttemptWaittimeWithDiamondsRequestProto*) prototype {
+  return [[FinishForgeAttemptWaittimeWithDiamondsRequestProto builder] mergeFrom:prototype];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) builder {
+  return [FinishForgeAttemptWaittimeWithDiamondsRequestProto builder];
+}
+@end
+
+@interface FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder()
+@property (retain) FinishForgeAttemptWaittimeWithDiamondsRequestProto* result;
+@end
+
+@implementation FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FinishForgeAttemptWaittimeWithDiamondsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clear {
+  self.result = [[[FinishForgeAttemptWaittimeWithDiamondsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clone {
+  return [FinishForgeAttemptWaittimeWithDiamondsRequestProto builderWithPrototype:result];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) defaultInstance {
+  return [FinishForgeAttemptWaittimeWithDiamondsRequestProto defaultInstance];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto*) buildPartial {
+  FinishForgeAttemptWaittimeWithDiamondsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeFrom:(FinishForgeAttemptWaittimeWithDiamondsRequestProto*) other {
+  if (other == [FinishForgeAttemptWaittimeWithDiamondsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasBlacksmithId) {
+    [self setBlacksmithId:other.blacksmithId];
+  }
+  if (other.hasTimeOfSpeedup) {
+    [self setTimeOfSpeedup:other.timeOfSpeedup];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setBlacksmithId:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setTimeOfSpeedup:[input readInt64]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBlacksmithId {
+  return result.hasBlacksmithId;
+}
+- (int32_t) blacksmithId {
+  return result.blacksmithId;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setBlacksmithId:(int32_t) value {
+  result.hasBlacksmithId = YES;
+  result.blacksmithId = value;
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clearBlacksmithId {
+  result.hasBlacksmithId = NO;
+  result.blacksmithId = 0;
+  return self;
+}
+- (BOOL) hasTimeOfSpeedup {
+  return result.hasTimeOfSpeedup;
+}
+- (int64_t) timeOfSpeedup {
+  return result.timeOfSpeedup;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) setTimeOfSpeedup:(int64_t) value {
+  result.hasTimeOfSpeedup = YES;
+  result.timeOfSpeedup = value;
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsRequestProto_Builder*) clearTimeOfSpeedup {
+  result.hasTimeOfSpeedup = NO;
+  result.timeOfSpeedup = 0L;
+  return self;
+}
+@end
+
+@interface FinishForgeAttemptWaittimeWithDiamondsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus status;
+@end
+
+@implementation FinishForgeAttemptWaittimeWithDiamondsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess;
+  }
+  return self;
+}
+static FinishForgeAttemptWaittimeWithDiamondsResponseProto* defaultFinishForgeAttemptWaittimeWithDiamondsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [FinishForgeAttemptWaittimeWithDiamondsResponseProto class]) {
+    defaultFinishForgeAttemptWaittimeWithDiamondsResponseProtoInstance = [[FinishForgeAttemptWaittimeWithDiamondsResponseProto alloc] init];
+  }
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) defaultInstance {
+  return defaultFinishForgeAttemptWaittimeWithDiamondsResponseProtoInstance;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) defaultInstance {
+  return defaultFinishForgeAttemptWaittimeWithDiamondsResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data {
+  return (FinishForgeAttemptWaittimeWithDiamondsResponseProto*)[[[FinishForgeAttemptWaittimeWithDiamondsResponseProto builder] mergeFromData:data] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishForgeAttemptWaittimeWithDiamondsResponseProto*)[[[FinishForgeAttemptWaittimeWithDiamondsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (FinishForgeAttemptWaittimeWithDiamondsResponseProto*)[[[FinishForgeAttemptWaittimeWithDiamondsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishForgeAttemptWaittimeWithDiamondsResponseProto*)[[[FinishForgeAttemptWaittimeWithDiamondsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (FinishForgeAttemptWaittimeWithDiamondsResponseProto*)[[[FinishForgeAttemptWaittimeWithDiamondsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (FinishForgeAttemptWaittimeWithDiamondsResponseProto*)[[[FinishForgeAttemptWaittimeWithDiamondsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) builder {
+  return [[[FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder alloc] init] autorelease];
+}
++ (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) builderWithPrototype:(FinishForgeAttemptWaittimeWithDiamondsResponseProto*) prototype {
+  return [[FinishForgeAttemptWaittimeWithDiamondsResponseProto builder] mergeFrom:prototype];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) builder {
+  return [FinishForgeAttemptWaittimeWithDiamondsResponseProto builder];
+}
+@end
+
+BOOL FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusIsValidValue(FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus value) {
+  switch (value) {
+    case FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess:
+    case FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusNotEnoughDiamonds:
+    case FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusOtherFail:
+    case FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusClientTooApartFromServerTime:
+    case FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusAlreadyComplete:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder()
+@property (retain) FinishForgeAttemptWaittimeWithDiamondsResponseProto* result;
+@end
+
+@implementation FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[FinishForgeAttemptWaittimeWithDiamondsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clear {
+  self.result = [[[FinishForgeAttemptWaittimeWithDiamondsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clone {
+  return [FinishForgeAttemptWaittimeWithDiamondsResponseProto builderWithPrototype:result];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) defaultInstance {
+  return [FinishForgeAttemptWaittimeWithDiamondsResponseProto defaultInstance];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto*) buildPartial {
+  FinishForgeAttemptWaittimeWithDiamondsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeFrom:(FinishForgeAttemptWaittimeWithDiamondsResponseProto*) other {
+  if (other == [FinishForgeAttemptWaittimeWithDiamondsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus) status {
+  return result.status;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) setStatus:(FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (FinishForgeAttemptWaittimeWithDiamondsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess;
+  return self;
+}
+@end
+
+@interface CollectForgeEquipsRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property int32_t blacksmithId;
+@end
+
+@implementation CollectForgeEquipsRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasBlacksmithId {
+  return !!hasBlacksmithId_;
+}
+- (void) setHasBlacksmithId:(BOOL) value {
+  hasBlacksmithId_ = !!value;
+}
+@synthesize blacksmithId;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.blacksmithId = 0;
+  }
+  return self;
+}
+static CollectForgeEquipsRequestProto* defaultCollectForgeEquipsRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectForgeEquipsRequestProto class]) {
+    defaultCollectForgeEquipsRequestProtoInstance = [[CollectForgeEquipsRequestProto alloc] init];
+  }
+}
++ (CollectForgeEquipsRequestProto*) defaultInstance {
+  return defaultCollectForgeEquipsRequestProtoInstance;
+}
+- (CollectForgeEquipsRequestProto*) defaultInstance {
+  return defaultCollectForgeEquipsRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasBlacksmithId) {
+    [output writeInt32:2 value:self.blacksmithId];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasBlacksmithId) {
+    size += computeInt32Size(2, self.blacksmithId);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CollectForgeEquipsRequestProto*) parseFromData:(NSData*) data {
+  return (CollectForgeEquipsRequestProto*)[[[CollectForgeEquipsRequestProto builder] mergeFromData:data] build];
+}
++ (CollectForgeEquipsRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectForgeEquipsRequestProto*)[[[CollectForgeEquipsRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectForgeEquipsRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectForgeEquipsRequestProto*)[[[CollectForgeEquipsRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CollectForgeEquipsRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectForgeEquipsRequestProto*)[[[CollectForgeEquipsRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectForgeEquipsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectForgeEquipsRequestProto*)[[[CollectForgeEquipsRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectForgeEquipsRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectForgeEquipsRequestProto*)[[[CollectForgeEquipsRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectForgeEquipsRequestProto_Builder*) builder {
+  return [[[CollectForgeEquipsRequestProto_Builder alloc] init] autorelease];
+}
++ (CollectForgeEquipsRequestProto_Builder*) builderWithPrototype:(CollectForgeEquipsRequestProto*) prototype {
+  return [[CollectForgeEquipsRequestProto builder] mergeFrom:prototype];
+}
+- (CollectForgeEquipsRequestProto_Builder*) builder {
+  return [CollectForgeEquipsRequestProto builder];
+}
+@end
+
+@interface CollectForgeEquipsRequestProto_Builder()
+@property (retain) CollectForgeEquipsRequestProto* result;
+@end
+
+@implementation CollectForgeEquipsRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CollectForgeEquipsRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectForgeEquipsRequestProto_Builder*) clear {
+  self.result = [[[CollectForgeEquipsRequestProto alloc] init] autorelease];
+  return self;
+}
+- (CollectForgeEquipsRequestProto_Builder*) clone {
+  return [CollectForgeEquipsRequestProto builderWithPrototype:result];
+}
+- (CollectForgeEquipsRequestProto*) defaultInstance {
+  return [CollectForgeEquipsRequestProto defaultInstance];
+}
+- (CollectForgeEquipsRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectForgeEquipsRequestProto*) buildPartial {
+  CollectForgeEquipsRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CollectForgeEquipsRequestProto_Builder*) mergeFrom:(CollectForgeEquipsRequestProto*) other {
+  if (other == [CollectForgeEquipsRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasBlacksmithId) {
+    [self setBlacksmithId:other.blacksmithId];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectForgeEquipsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectForgeEquipsRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setBlacksmithId:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectForgeEquipsRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectForgeEquipsRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectForgeEquipsRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectForgeEquipsRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasBlacksmithId {
+  return result.hasBlacksmithId;
+}
+- (int32_t) blacksmithId {
+  return result.blacksmithId;
+}
+- (CollectForgeEquipsRequestProto_Builder*) setBlacksmithId:(int32_t) value {
+  result.hasBlacksmithId = YES;
+  result.blacksmithId = value;
+  return self;
+}
+- (CollectForgeEquipsRequestProto_Builder*) clearBlacksmithId {
+  result.hasBlacksmithId = NO;
+  result.blacksmithId = 0;
+  return self;
+}
+@end
+
+@interface CollectForgeEquipsResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property (retain) NSMutableArray* mutableNewUserEquipsList;
+@property CollectForgeEquipsResponseProto_CollectForgeEquipsStatus status;
+@end
+
+@implementation CollectForgeEquipsResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+@synthesize mutableNewUserEquipsList;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (void) dealloc {
+  self.sender = nil;
+  self.mutableNewUserEquipsList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess;
+  }
+  return self;
+}
+static CollectForgeEquipsResponseProto* defaultCollectForgeEquipsResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CollectForgeEquipsResponseProto class]) {
+    defaultCollectForgeEquipsResponseProtoInstance = [[CollectForgeEquipsResponseProto alloc] init];
+  }
+}
++ (CollectForgeEquipsResponseProto*) defaultInstance {
+  return defaultCollectForgeEquipsResponseProtoInstance;
+}
+- (CollectForgeEquipsResponseProto*) defaultInstance {
+  return defaultCollectForgeEquipsResponseProtoInstance;
+}
+- (NSArray*) newUserEquipsList {
+  return mutableNewUserEquipsList;
+}
+- (FullUserEquipProto*) newUserEquipsAtIndex:(int32_t) index {
+  id value = [mutableNewUserEquipsList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  for (FullUserEquipProto* element in self.newUserEquipsList) {
+    [output writeMessage:2 value:element];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:3 value:self.status];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  for (FullUserEquipProto* element in self.newUserEquipsList) {
+    size += computeMessageSize(2, element);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(3, self.status);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CollectForgeEquipsResponseProto*) parseFromData:(NSData*) data {
+  return (CollectForgeEquipsResponseProto*)[[[CollectForgeEquipsResponseProto builder] mergeFromData:data] build];
+}
++ (CollectForgeEquipsResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectForgeEquipsResponseProto*)[[[CollectForgeEquipsResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CollectForgeEquipsResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CollectForgeEquipsResponseProto*)[[[CollectForgeEquipsResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CollectForgeEquipsResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectForgeEquipsResponseProto*)[[[CollectForgeEquipsResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectForgeEquipsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CollectForgeEquipsResponseProto*)[[[CollectForgeEquipsResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CollectForgeEquipsResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CollectForgeEquipsResponseProto*)[[[CollectForgeEquipsResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CollectForgeEquipsResponseProto_Builder*) builder {
+  return [[[CollectForgeEquipsResponseProto_Builder alloc] init] autorelease];
+}
++ (CollectForgeEquipsResponseProto_Builder*) builderWithPrototype:(CollectForgeEquipsResponseProto*) prototype {
+  return [[CollectForgeEquipsResponseProto builder] mergeFrom:prototype];
+}
+- (CollectForgeEquipsResponseProto_Builder*) builder {
+  return [CollectForgeEquipsResponseProto builder];
+}
+@end
+
+BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(CollectForgeEquipsResponseProto_CollectForgeEquipsStatus value) {
+  switch (value) {
+    case CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess:
+    case CollectForgeEquipsResponseProto_CollectForgeEquipsStatusOtherFail:
+    case CollectForgeEquipsResponseProto_CollectForgeEquipsStatusNotDoneYet:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CollectForgeEquipsResponseProto_Builder()
+@property (retain) CollectForgeEquipsResponseProto* result;
+@end
+
+@implementation CollectForgeEquipsResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CollectForgeEquipsResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CollectForgeEquipsResponseProto_Builder*) clear {
+  self.result = [[[CollectForgeEquipsResponseProto alloc] init] autorelease];
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) clone {
+  return [CollectForgeEquipsResponseProto builderWithPrototype:result];
+}
+- (CollectForgeEquipsResponseProto*) defaultInstance {
+  return [CollectForgeEquipsResponseProto defaultInstance];
+}
+- (CollectForgeEquipsResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CollectForgeEquipsResponseProto*) buildPartial {
+  CollectForgeEquipsResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CollectForgeEquipsResponseProto_Builder*) mergeFrom:(CollectForgeEquipsResponseProto*) other {
+  if (other == [CollectForgeEquipsResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.mutableNewUserEquipsList.count > 0) {
+    if (result.mutableNewUserEquipsList == nil) {
+      result.mutableNewUserEquipsList = [NSMutableArray array];
+    }
+    [result.mutableNewUserEquipsList addObjectsFromArray:other.mutableNewUserEquipsList];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CollectForgeEquipsResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 18: {
+        FullUserEquipProto_Builder* subBuilder = [FullUserEquipProto builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addNewUserEquips:[subBuilder buildPartial]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CollectForgeEquipsResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CollectForgeEquipsResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (NSArray*) newUserEquipsList {
+  if (result.mutableNewUserEquipsList == nil) { return [NSArray array]; }
+  return result.mutableNewUserEquipsList;
+}
+- (FullUserEquipProto*) newUserEquipsAtIndex:(int32_t) index {
+  return [result newUserEquipsAtIndex:index];
+}
+- (CollectForgeEquipsResponseProto_Builder*) replaceNewUserEquipsAtIndex:(int32_t) index with:(FullUserEquipProto*) value {
+  [result.mutableNewUserEquipsList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) addAllNewUserEquips:(NSArray*) values {
+  if (result.mutableNewUserEquipsList == nil) {
+    result.mutableNewUserEquipsList = [NSMutableArray array];
+  }
+  [result.mutableNewUserEquipsList addObjectsFromArray:values];
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) clearNewUserEquipsList {
+  result.mutableNewUserEquipsList = nil;
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) addNewUserEquips:(FullUserEquipProto*) value {
+  if (result.mutableNewUserEquipsList == nil) {
+    result.mutableNewUserEquipsList = [NSMutableArray array];
+  }
+  [result.mutableNewUserEquipsList addObject:value];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) status {
+  return result.status;
+}
+- (CollectForgeEquipsResponseProto_Builder*) setStatus:(CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CollectForgeEquipsResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess;
   return self;
 }
 @end

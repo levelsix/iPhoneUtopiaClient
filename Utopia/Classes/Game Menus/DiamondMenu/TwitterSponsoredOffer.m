@@ -44,7 +44,7 @@
                                            init] autorelease];
   
   // Optional: set an image, url and initial text
-  [twitter addImage:[UIImage imageNamed:GAME_ICON_NAME]];
+  [twitter addImage:[Globals imageNamed:GAME_ICON_NAME]];
   [twitter addURL:[NSURL URLWithString:ITUNES_LINK]];
   [twitter setInitialText:TWEET_TEXT];
   

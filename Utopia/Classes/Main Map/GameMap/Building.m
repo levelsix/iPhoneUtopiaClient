@@ -339,7 +339,7 @@
     
     CCSprite *label = [CCSprite spriteWithFile:[@"The" stringByAppendingString:fileName]];
     [self addChild:label];
-    label.position = ccp(self.contentSize.width/2, self.contentSize.height/4);
+    label.position = ccp(self.contentSize.width/2, 45);
   }
   return self;
 }

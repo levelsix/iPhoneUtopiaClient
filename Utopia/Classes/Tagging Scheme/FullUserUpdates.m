@@ -154,15 +154,15 @@
 
 @implementation HealthUpdate
 
-- (void) update {
-  GameState *gs = [GameState sharedGameState];
-  gs.maxHealth += _change;
-}
-
-- (void) undo {
-  GameState *gs = [GameState sharedGameState];
-  gs.maxHealth -= _change;
-}
+//- (void) update {
+//  GameState *gs = [GameState sharedGameState];
+//  gs.maxHealth += _change;
+//}
+//
+//- (void) undo {
+//  GameState *gs = [GameState sharedGameState];
+//  gs.maxHealth -= _change;
+//}
 
 @end
 

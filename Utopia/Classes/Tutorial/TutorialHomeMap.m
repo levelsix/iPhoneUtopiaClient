@@ -237,7 +237,7 @@
   
   int64_t ms = (uint64_t)([[NSDate date] timeIntervalSince1970]*1000);
   userStruct.isComplete = YES;
-  userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000];
+  userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
   
   // Update game state
   FullStructureProto *fsp = [gs structWithId:userStruct.structId];

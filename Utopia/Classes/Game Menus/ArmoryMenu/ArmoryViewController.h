@@ -84,6 +84,8 @@ typedef enum {
   CGSize _originalBuySellSize;
   
   ArmoryState _state;
+  
+  BOOL _isDisplayingLoadingView;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *armoryTableView;
@@ -107,9 +109,15 @@ typedef enum {
 
 @property (nonatomic, assign) ArmoryState state;
 
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+
 - (void) armoryListingClicked:(ArmoryListing *)al;
 - (void) refresh;
 - (void) close;
+
+- (void) receivedArmoryResponse;
+- (void) displayLoadingView;
+- (void) removeLoadingView;
 
 + (ArmoryViewController *) sharedArmoryViewController;
 + (void) displayView;

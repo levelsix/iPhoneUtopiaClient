@@ -81,6 +81,7 @@
 }
 
 - (void) updateForQuest:(FullQuestProto *)fqp withClaimButton:(BOOL)claimItActivated {
+  Globals *gl = [Globals sharedGlobals];
   GameState *gs = [GameState sharedGameState];
   if (fqp.equipIdGained > 0) {
     withEquipView.hidden = NO;
@@ -89,8 +90,8 @@
     equipIcon.equipId = fqp.equipIdGained;
     
     FullEquipProto *fep = [gs equipWithId:fqp.equipIdGained];
-    attackLabel.text = [NSString stringWithFormat:@"%d", fep.attackBoost];
-    defenseLabel.text = [NSString stringWithFormat:@"%d", fep.defenseBoost];
+    attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1]];
+    defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1]];
     
     smallExpLabel.text = [NSString stringWithFormat:@"%d", fqp.expGained];
     smallCoinLabel.text = [NSString stringWithFormat:@"%d", fqp.coinsGained];
@@ -160,7 +161,7 @@
   }
   
   if ([[BattleLayer sharedBattleLayer] isRunning]) {
-    [Globals popupMessage:@"You will be taken there after the battle!"];
+    [[BattleLayer sharedBattleLayer] closeSceneFromQuestLog];
   }
 }
 
@@ -823,12 +824,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
     b.userId = gs.userId;
     b.questId = fqp.questId;
     
-    b.numEquipUserHas = 0;
-    for (UserEquip *ue in gs.myEquips) {
-      if (ue.equipId == p.equipId) {
-        b.numEquipUserHas = MIN(ue.quantity, p.quantityReq);
-      }
-    }
+    b.numEquipUserHas = MIN([gs quantityOfEquip:p.equipId], p.quantityReq);
     [bldr addRequiredPossessEquipJobProgress:[b build]];
   }
   for (NSNumber *n in fqp.buildStructJobsReqsList) {

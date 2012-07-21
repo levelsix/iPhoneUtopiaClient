@@ -67,6 +67,10 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCRetrievePlayerWallPostsEvent:
     case EventProtocolRequestCEarnFreeDiamondsEvent:
     case EventProtocolRequestCReconnectEvent:
+    case EventProtocolRequestCSubmitEquipsToBlacksmith:
+    case EventProtocolRequestCForgeAttemptWaitComplete:
+    case EventProtocolRequestCFinishForgeAttemptWaittimeWithDiamonds:
+    case EventProtocolRequestCCollectForgeEquips:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -121,6 +125,10 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSRetrievePlayerWallPostsEvent:
     case EventProtocolResponseSEarnFreeDiamondsEvent:
     case EventProtocolResponseSReconnectEvent:
+    case EventProtocolResponseSSubmitEquipsToBlacksmith:
+    case EventProtocolResponseSForgeAttemptWaitComplete:
+    case EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds:
+    case EventProtocolResponseSCollectForgeEquips:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

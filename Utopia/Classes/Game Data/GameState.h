@@ -24,7 +24,6 @@
   int _maxEnergy;
   int _currentStamina;
   int _maxStamina;
-  int _maxHealth;
   int _gold;
   int _silver;
   int _vaultBalance;
@@ -93,6 +92,10 @@
   
   // For the tagging scheme
   NSMutableArray *_unrespondedUpdates;
+  
+  ForgeAttempt *_forgeAttempt;
+  
+  NSTimer *_forgeTimer;
 }
 
 @property (assign) BOOL isTutorial;
@@ -107,7 +110,6 @@
 @property (assign) int maxEnergy;
 @property (assign) int currentStamina;
 @property (assign) int maxStamina;
-@property (assign) int maxHealth;
 @property (assign) int gold;
 @property (assign) int silver;
 @property (assign) int vaultBalance;
@@ -175,6 +177,8 @@
 
 @property (retain) NSArray *allies;
 
+@property (retain) ForgeAttempt *forgeAttempt;
+
 + (GameState *) sharedGameState;
 + (void) purgeSingleton;
 
@@ -187,6 +191,10 @@
 - (FullTaskProto *) taskWithId:(int)taskId;
 - (FullQuestProto *) questForQuestId:(int)questId;
 
+- (int) weaponEquippedId;
+- (int) armorEquippedId;
+- (int) amuletEquippedId;
+
 - (void) addToMyEquips:(NSArray *)myEquips;
 - (void) addToMyStructs:(NSArray *)myStructs;
 - (void) addToMyCities:(NSArray *)cities;
@@ -196,7 +204,11 @@
 - (void) addNotification:(UserNotification *)un;
 - (void) addWallPost:(PlayerWallPostProto *)wallPost;
 
-- (UserEquip *) myEquipWithId:(int)equipId;
+- (UserEquip *) myEquipWithId:(int)equipId level:(int)level;
+- (NSArray *) myEquipsWithId:(int)equipId level:(int)level;
+- (UserEquip *) myEquipWithUserEquipId:(int)userEquipId;  
+- (int) quantityOfEquip:(int)equipId;
+- (int) quantityOfEquip:(int)equipId level:(int)level;
 - (UserStruct *) myStructWithId:(int)structId;
 - (UserCity *) myCityWithId:(int)cityId;
 
@@ -217,7 +229,9 @@
 - (void) removeNonFullUserUpdatesForTag:(int)tag;
 
 - (BOOL) hasValidLicense;
-- (void) changeQuantityForEquip:(int)equipId by:(int)qDelta;
+
+- (void) beginForgeTimer;
+- (void) stopForgeTimer;
 
 - (void) purgeStaticData;
 - (void) clearAllData;

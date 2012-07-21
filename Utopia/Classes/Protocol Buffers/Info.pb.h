@@ -64,6 +64,8 @@
 @class PlayerWallPostProto_Builder;
 @class PossessEquipJobProto;
 @class PossessEquipJobProto_Builder;
+@class UnhandledBlacksmithAttemptProto;
+@class UnhandledBlacksmithAttemptProto_Builder;
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 typedef enum {
@@ -135,6 +137,7 @@ typedef enum {
   CritStructTypeVault = 3,
   CritStructTypeArmory = 4,
   CritStructTypeMarketplace = 5,
+  CritStructTypeBlacksmith = 6,
 } CritStructType;
 
 BOOL CritStructTypeIsValidValue(CritStructType value);
@@ -357,15 +360,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
   BOOL hasCreateTime_:1;
+  BOOL hasLastLoginTime_:1;
   BOOL hasLastTimeAttacked_:1;
   BOOL hasLastStaminaRefillTime_:1;
   BOOL hasLastBattleNotificationTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
-  BOOL hasLastLoginTime_:1;
+  BOOL hasLastLogoutTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
   BOOL hasLastShortLicensePurchaseTime_:1;
-  BOOL hasLastLogoutTime_:1;
-  BOOL hasBattlesLost_:1;
   BOOL hasFlees_:1;
   BOOL hasNumReferrals_:1;
   BOOL hasNumPostsInMarketplace_:1;
@@ -383,7 +385,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasStamina_:1;
   BOOL hasEnergy_:1;
   BOOL hasSkillPoints_:1;
-  BOOL hasHealthMax_:1;
   BOOL hasEnergyMax_:1;
   BOOL hasStaminaMax_:1;
   BOOL hasDiamonds_:1;
@@ -394,6 +395,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasExperience_:1;
   BOOL hasTasksCompleted_:1;
   BOOL hasBattlesWon_:1;
+  BOOL hasBattlesLost_:1;
   BOOL hasUdid_:1;
   BOOL hasDeviceToken_:1;
   BOOL hasReferralCode_:1;
@@ -406,15 +408,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL isAdmin_:1;
   BOOL isFake_:1;
   int64_t createTime;
+  int64_t lastLoginTime;
   int64_t lastTimeAttacked;
   int64_t lastStaminaRefillTime;
   int64_t lastBattleNotificationTime;
   int64_t lastEnergyRefillTime;
-  int64_t lastLoginTime;
+  int64_t lastLogoutTime;
   int64_t lastLongLicensePurchaseTime;
   int64_t lastShortLicensePurchaseTime;
-  int64_t lastLogoutTime;
-  int32_t battlesLost;
   int32_t flees;
   int32_t numReferrals;
   int32_t numPostsInMarketplace;
@@ -432,7 +433,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t stamina;
   int32_t energy;
   int32_t skillPoints;
-  int32_t healthMax;
   int32_t energyMax;
   int32_t staminaMax;
   int32_t diamonds;
@@ -443,6 +443,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t experience;
   int32_t tasksCompleted;
   int32_t battlesWon;
+  int32_t battlesLost;
   NSString* udid;
   NSString* deviceToken;
   NSString* referralCode;
@@ -464,7 +465,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasEnergy;
 - (BOOL) hasLastEnergyRefillTime;
 - (BOOL) hasSkillPoints;
-- (BOOL) hasHealthMax;
 - (BOOL) hasEnergyMax;
 - (BOOL) hasStaminaMax;
 - (BOOL) hasDiamonds;
@@ -513,7 +513,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t energy;
 @property (readonly) int64_t lastEnergyRefillTime;
 @property (readonly) int32_t skillPoints;
-@property (readonly) int32_t healthMax;
 @property (readonly) int32_t energyMax;
 @property (readonly) int32_t staminaMax;
 @property (readonly) int32_t diamonds;
@@ -640,11 +639,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) skillPoints;
 - (FullUserProto_Builder*) setSkillPoints:(int32_t) value;
 - (FullUserProto_Builder*) clearSkillPoints;
-
-- (BOOL) hasHealthMax;
-- (int32_t) healthMax;
-- (FullUserProto_Builder*) setHealthMax:(int32_t) value;
-- (FullUserProto_Builder*) clearHealthMax;
 
 - (BOOL) hasEnergyMax;
 - (int32_t) energyMax;
@@ -844,12 +838,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @private
   BOOL hasIsBuyableInArmory_:1;
   BOOL hasChanceOfLoss_:1;
+  BOOL hasChanceOfForgeFailureBase_:1;
   BOOL hasEquipId_:1;
   BOOL hasAttackBoost_:1;
   BOOL hasDefenseBoost_:1;
   BOOL hasMinLevel_:1;
   BOOL hasCoinPrice_:1;
   BOOL hasDiamondPrice_:1;
+  BOOL hasMinutesToAttemptForgeBase_:1;
   BOOL hasName_:1;
   BOOL hasDescription_:1;
   BOOL hasEquipType_:1;
@@ -857,12 +853,14 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasRarity_:1;
   BOOL isBuyableInArmory_:1;
   Float32 chanceOfLoss;
+  Float32 chanceOfForgeFailureBase;
   int32_t equipId;
   int32_t attackBoost;
   int32_t defenseBoost;
   int32_t minLevel;
   int32_t coinPrice;
   int32_t diamondPrice;
+  int32_t minutesToAttemptForgeBase;
   NSString* name;
   NSString* description;
   FullEquipProto_EquipType equipType;
@@ -882,6 +880,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasClassType;
 - (BOOL) hasRarity;
 - (BOOL) hasIsBuyableInArmory;
+- (BOOL) hasChanceOfForgeFailureBase;
+- (BOOL) hasMinutesToAttemptForgeBase;
 @property (readonly) int32_t equipId;
 @property (readonly, retain) NSString* name;
 @property (readonly) FullEquipProto_EquipType equipType;
@@ -895,6 +895,8 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) FullEquipProto_ClassType classType;
 @property (readonly) FullEquipProto_Rarity rarity;
 - (BOOL) isBuyableInArmory;
+@property (readonly) Float32 chanceOfForgeFailureBase;
+@property (readonly) int32_t minutesToAttemptForgeBase;
 
 + (FullEquipProto*) defaultInstance;
 - (FullEquipProto*) defaultInstance;
@@ -994,6 +996,16 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) isBuyableInArmory;
 - (FullEquipProto_Builder*) setIsBuyableInArmory:(BOOL) value;
 - (FullEquipProto_Builder*) clearIsBuyableInArmory;
+
+- (BOOL) hasChanceOfForgeFailureBase;
+- (Float32) chanceOfForgeFailureBase;
+- (FullEquipProto_Builder*) setChanceOfForgeFailureBase:(Float32) value;
+- (FullEquipProto_Builder*) clearChanceOfForgeFailureBase;
+
+- (BOOL) hasMinutesToAttemptForgeBase;
+- (int32_t) minutesToAttemptForgeBase;
+- (FullEquipProto_Builder*) setMinutesToAttemptForgeBase:(int32_t) value;
+- (FullEquipProto_Builder*) clearMinutesToAttemptForgeBase;
 @end
 
 @interface FullUserStructureProto : PBGeneratedMessage {
@@ -1132,16 +1144,20 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasUserEquipId_:1;
   BOOL hasUserId_:1;
   BOOL hasEquipId_:1;
+  BOOL hasLevel_:1;
   int32_t userEquipId;
   int32_t userId;
   int32_t equipId;
+  int32_t level;
 }
 - (BOOL) hasUserEquipId;
 - (BOOL) hasUserId;
 - (BOOL) hasEquipId;
+- (BOOL) hasLevel;
 @property (readonly) int32_t userEquipId;
 @property (readonly) int32_t userId;
 @property (readonly) int32_t equipId;
+@property (readonly) int32_t level;
 
 + (FullUserEquipProto*) defaultInstance;
 - (FullUserEquipProto*) defaultInstance;
@@ -1191,6 +1207,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) equipId;
 - (FullUserEquipProto_Builder*) setEquipId:(int32_t) value;
 - (FullUserEquipProto_Builder*) clearEquipId;
+
+- (BOOL) hasLevel;
+- (int32_t) level;
+- (FullUserEquipProto_Builder*) setLevel:(int32_t) value;
+- (FullUserEquipProto_Builder*) clearLevel;
 @end
 
 @interface FullStructureProto : PBGeneratedMessage {
@@ -2135,6 +2156,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasMarketplacePostId_:1;
   BOOL hasDiamondCost_:1;
   BOOL hasCoinCost_:1;
+  BOOL hasEquipLevel_:1;
   BOOL hasPoster_:1;
   BOOL hasPostedEquip_:1;
   BOOL hasPostType_:1;
@@ -2142,6 +2164,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t marketplacePostId;
   int32_t diamondCost;
   int32_t coinCost;
+  int32_t equipLevel;
   MinimumUserProto* poster;
   FullEquipProto* postedEquip;
   MarketplacePostType postType;
@@ -2153,6 +2176,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasPostedEquip;
 - (BOOL) hasDiamondCost;
 - (BOOL) hasCoinCost;
+- (BOOL) hasEquipLevel;
 @property (readonly) int32_t marketplacePostId;
 @property (readonly, retain) MinimumUserProto* poster;
 @property (readonly) MarketplacePostType postType;
@@ -2160,6 +2184,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly, retain) FullEquipProto* postedEquip;
 @property (readonly) int32_t diamondCost;
 @property (readonly) int32_t coinCost;
+@property (readonly) int32_t equipLevel;
 
 + (FullMarketplacePostProto*) defaultInstance;
 - (FullMarketplacePostProto*) defaultInstance;
@@ -2233,6 +2258,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) coinCost;
 - (FullMarketplacePostProto_Builder*) setCoinCost:(int32_t) value;
 - (FullMarketplacePostProto_Builder*) clearCoinCost;
+
+- (BOOL) hasEquipLevel;
+- (int32_t) equipLevel;
+- (FullMarketplacePostProto_Builder*) setEquipLevel:(int32_t) value;
+- (FullMarketplacePostProto_Builder*) clearEquipLevel;
 @end
 
 @interface FullUserCritstructProto : PBGeneratedMessage {
@@ -3604,5 +3634,125 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (NSString*) content;
 - (PlayerWallPostProto_Builder*) setContent:(NSString*) value;
 - (PlayerWallPostProto_Builder*) clearContent;
+@end
+
+@interface UnhandledBlacksmithAttemptProto : PBGeneratedMessage {
+@private
+  BOOL hasGuaranteed_:1;
+  BOOL hasAttemptComplete_:1;
+  BOOL hasGoalLevel_:1;
+  BOOL hasStartTime_:1;
+  BOOL hasTimeOfSpeedup_:1;
+  BOOL hasBlacksmithId_:1;
+  BOOL hasUserId_:1;
+  BOOL hasEquipId_:1;
+  BOOL hasDiamondGuaranteeCost_:1;
+  BOOL guaranteed_:1;
+  BOOL attemptComplete_:1;
+  int64_t goalLevel;
+  int64_t startTime;
+  int64_t timeOfSpeedup;
+  int32_t blacksmithId;
+  int32_t userId;
+  int32_t equipId;
+  int32_t diamondGuaranteeCost;
+}
+- (BOOL) hasBlacksmithId;
+- (BOOL) hasUserId;
+- (BOOL) hasEquipId;
+- (BOOL) hasGoalLevel;
+- (BOOL) hasGuaranteed;
+- (BOOL) hasStartTime;
+- (BOOL) hasDiamondGuaranteeCost;
+- (BOOL) hasTimeOfSpeedup;
+- (BOOL) hasAttemptComplete;
+@property (readonly) int32_t blacksmithId;
+@property (readonly) int32_t userId;
+@property (readonly) int32_t equipId;
+@property (readonly) int64_t goalLevel;
+- (BOOL) guaranteed;
+@property (readonly) int64_t startTime;
+@property (readonly) int32_t diamondGuaranteeCost;
+@property (readonly) int64_t timeOfSpeedup;
+- (BOOL) attemptComplete;
+
++ (UnhandledBlacksmithAttemptProto*) defaultInstance;
+- (UnhandledBlacksmithAttemptProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (UnhandledBlacksmithAttemptProto_Builder*) builder;
++ (UnhandledBlacksmithAttemptProto_Builder*) builder;
++ (UnhandledBlacksmithAttemptProto_Builder*) builderWithPrototype:(UnhandledBlacksmithAttemptProto*) prototype;
+
++ (UnhandledBlacksmithAttemptProto*) parseFromData:(NSData*) data;
++ (UnhandledBlacksmithAttemptProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UnhandledBlacksmithAttemptProto*) parseFromInputStream:(NSInputStream*) input;
++ (UnhandledBlacksmithAttemptProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (UnhandledBlacksmithAttemptProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (UnhandledBlacksmithAttemptProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface UnhandledBlacksmithAttemptProto_Builder : PBGeneratedMessage_Builder {
+@private
+  UnhandledBlacksmithAttemptProto* result;
+}
+
+- (UnhandledBlacksmithAttemptProto*) defaultInstance;
+
+- (UnhandledBlacksmithAttemptProto_Builder*) clear;
+- (UnhandledBlacksmithAttemptProto_Builder*) clone;
+
+- (UnhandledBlacksmithAttemptProto*) build;
+- (UnhandledBlacksmithAttemptProto*) buildPartial;
+
+- (UnhandledBlacksmithAttemptProto_Builder*) mergeFrom:(UnhandledBlacksmithAttemptProto*) other;
+- (UnhandledBlacksmithAttemptProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (UnhandledBlacksmithAttemptProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasBlacksmithId;
+- (int32_t) blacksmithId;
+- (UnhandledBlacksmithAttemptProto_Builder*) setBlacksmithId:(int32_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearBlacksmithId;
+
+- (BOOL) hasUserId;
+- (int32_t) userId;
+- (UnhandledBlacksmithAttemptProto_Builder*) setUserId:(int32_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearUserId;
+
+- (BOOL) hasEquipId;
+- (int32_t) equipId;
+- (UnhandledBlacksmithAttemptProto_Builder*) setEquipId:(int32_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearEquipId;
+
+- (BOOL) hasGoalLevel;
+- (int64_t) goalLevel;
+- (UnhandledBlacksmithAttemptProto_Builder*) setGoalLevel:(int64_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearGoalLevel;
+
+- (BOOL) hasGuaranteed;
+- (BOOL) guaranteed;
+- (UnhandledBlacksmithAttemptProto_Builder*) setGuaranteed:(BOOL) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearGuaranteed;
+
+- (BOOL) hasStartTime;
+- (int64_t) startTime;
+- (UnhandledBlacksmithAttemptProto_Builder*) setStartTime:(int64_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearStartTime;
+
+- (BOOL) hasDiamondGuaranteeCost;
+- (int32_t) diamondGuaranteeCost;
+- (UnhandledBlacksmithAttemptProto_Builder*) setDiamondGuaranteeCost:(int32_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearDiamondGuaranteeCost;
+
+- (BOOL) hasTimeOfSpeedup;
+- (int64_t) timeOfSpeedup;
+- (UnhandledBlacksmithAttemptProto_Builder*) setTimeOfSpeedup:(int64_t) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearTimeOfSpeedup;
+
+- (BOOL) hasAttemptComplete;
+- (BOOL) attemptComplete;
+- (UnhandledBlacksmithAttemptProto_Builder*) setAttemptComplete:(BOOL) value;
+- (UnhandledBlacksmithAttemptProto_Builder*) clearAttemptComplete;
 @end
 
