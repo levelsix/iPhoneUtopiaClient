@@ -21,6 +21,7 @@
 #import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
 #import "LoggingContextFilter.h"
+#import "SoundEngine.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -196,7 +197,7 @@
   adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
 
   // TapJoy
-  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
+//  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
   /*
    * Disabled Sponsored offers:(Short Term)
    *  
@@ -255,6 +256,8 @@
   
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
+  
+  [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
   
   if (![[GameState sharedGameState] isTutorial]) {
     [GameViewController releaseAllViews];
@@ -330,7 +333,7 @@
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  if (!gs.connected) {
+  if (!gs.connected || gs.isTutorial) {
     return;
   }
   

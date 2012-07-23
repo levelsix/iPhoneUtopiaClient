@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "Globals.h"
 #import "SoundEngine.h"
+#import "AnimatedSprite.h"
 
 @implementation MyPlayer
 
@@ -24,23 +25,23 @@
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
-    GameState *gs = [GameState sharedGameState];
-    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
-    
-    [self setUpAnimations];
-    
-    // Create sprite
-    self.contentSize = CGSizeMake(40, 70);
-    
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
-    frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png", prefix]];
-    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
-    
-    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
-    self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y+5));
-    
-    [self addChild:_sprite z:5 tag:9999];
-    
+//    GameState *gs = [GameState sharedGameState];
+//    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+//    
+//    [self setUpAnimations];
+//    
+//    // Create sprite
+//    self.contentSize = CGSizeMake(40, 70);
+//    
+//    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+//    frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png", prefix]];
+//    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
+//    
+//    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
+//    self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y+5));
+//    
+//    [self addChild:_sprite z:5 tag:9999];
+//    
 //    CCLayerColor *l = [CCLayerColor layerWithColor:ccc4(255, 0, 0, 255) width:self.contentSize.width height:self.contentSize.height];
 //    [self addChild:l];
   }
@@ -59,8 +60,10 @@
   //Creating animation for Near
   NSMutableArray *walkAnimN= [NSMutableArray array];
   for(int i = 0; true; ++i) {
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i]];
-    if (frame) {
+    NSString *file = [NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i];
+    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+    if (exists) {
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
       [walkAnimN addObject:frame];
     } else {
       break;

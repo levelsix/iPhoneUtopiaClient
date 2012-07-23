@@ -3048,6 +3048,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 @property BOOL playerHasBoughtInAppPurchase;
 @property (retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+@property (retain) NSMutableArray* mutableNoticesToPlayersList;
 @end
 
 @implementation StartupResponseProto
@@ -3146,6 +3147,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasUnhandledForgeAttempt_ = !!value;
 }
 @synthesize unhandledForgeAttempt;
+@synthesize mutableNoticesToPlayersList;
 - (void) dealloc {
   self.sender = nil;
   self.startupConstants = nil;
@@ -3165,6 +3167,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableAlliesList = nil;
   self.dailyBonusInfo = nil;
   self.unhandledForgeAttempt = nil;
+  self.mutableNoticesToPlayersList = nil;
   [super dealloc];
 }
 - (id) init {
@@ -3279,6 +3282,13 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   id value = [mutableAlliesList objectAtIndex:index];
   return value;
 }
+- (NSArray*) noticesToPlayersList {
+  return mutableNoticesToPlayersList;
+}
+- (NSString*) noticesToPlayersAtIndex:(int32_t) index {
+  id value = [mutableNoticesToPlayersList objectAtIndex:index];
+  return value;
+}
 - (BOOL) isInitialized {
   return YES;
 }
@@ -3351,6 +3361,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasUnhandledForgeAttempt) {
     [output writeMessage:23 value:self.unhandledForgeAttempt];
+  }
+  for (NSString* element in self.mutableNoticesToPlayersList) {
+    [output writeString:24 value:element];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -3429,6 +3442,14 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   }
   if (self.hasUnhandledForgeAttempt) {
     size += computeMessageSize(23, self.unhandledForgeAttempt);
+  }
+  {
+    int32_t dataSize = 0;
+    for (NSString* element in self.mutableNoticesToPlayersList) {
+      dataSize += computeStringSizeNoTag(element);
+    }
+    size += dataSize;
+    size += 2 * self.mutableNoticesToPlayersList.count;
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -11278,6 +11299,12 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasUnhandledForgeAttempt) {
     [self mergeUnhandledForgeAttempt:other.unhandledForgeAttempt];
   }
+  if (other.mutableNoticesToPlayersList.count > 0) {
+    if (result.mutableNoticesToPlayersList == nil) {
+      result.mutableNoticesToPlayersList = [NSMutableArray array];
+    }
+    [result.mutableNoticesToPlayersList addObjectsFromArray:other.mutableNoticesToPlayersList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -11448,6 +11475,10 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setUnhandledForgeAttempt:[subBuilder buildPartial]];
+        break;
+      }
+      case 194: {
+        [self addNoticesToPlayers:[input readString]];
         break;
       }
     }
@@ -12047,6 +12078,37 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   result.unhandledForgeAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
   return self;
 }
+- (NSArray*) noticesToPlayersList {
+  if (result.mutableNoticesToPlayersList == nil) {
+    return [NSArray array];
+  }
+  return result.mutableNoticesToPlayersList;
+}
+- (NSString*) noticesToPlayersAtIndex:(int32_t) index {
+  return [result noticesToPlayersAtIndex:index];
+}
+- (StartupResponseProto_Builder*) replaceNoticesToPlayersAtIndex:(int32_t) index with:(NSString*) value {
+  [result.mutableNoticesToPlayersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addNoticesToPlayers:(NSString*) value {
+  if (result.mutableNoticesToPlayersList == nil) {
+    result.mutableNoticesToPlayersList = [NSMutableArray array];
+  }
+  [result.mutableNoticesToPlayersList addObject:value];
+  return self;
+}
+- (StartupResponseProto_Builder*) addAllNoticesToPlayers:(NSArray*) values {
+  if (result.mutableNoticesToPlayersList == nil) {
+    result.mutableNoticesToPlayersList = [NSMutableArray array];
+  }
+  [result.mutableNoticesToPlayersList addObjectsFromArray:values];
+  return self;
+}
+- (StartupResponseProto_Builder*) clearNoticesToPlayersList {
+  result.mutableNoticesToPlayersList = nil;
+  return self;
+}
 @end
 
 @interface UserCreateRequestProto ()
@@ -12058,7 +12120,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 @property (retain) NSString* deviceToken;
 @property int32_t attack;
 @property int32_t defense;
-@property int32_t health;
 @property int32_t energy;
 @property int32_t stamina;
 @property int64_t timeOfStructPurchase;
@@ -12125,13 +12186,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   hasDefense_ = !!value;
 }
 @synthesize defense;
-- (BOOL) hasHealth {
-  return !!hasHealth_;
-}
-- (void) setHasHealth:(BOOL) value {
-  hasHealth_ = !!value;
-}
-@synthesize health;
 - (BOOL) hasEnergy {
   return !!hasEnergy_;
 }
@@ -12198,7 +12252,6 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
     self.deviceToken = @"";
     self.attack = 0;
     self.defense = 0;
-    self.health = 0;
     self.energy = 0;
     self.stamina = 0;
     self.timeOfStructPurchase = 0L;
@@ -12251,9 +12304,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (self.hasDefense) {
     [output writeInt32:10 value:self.defense];
   }
-  if (self.hasHealth) {
-    [output writeInt32:11 value:self.health];
-  }
   if (self.hasEnergy) {
     [output writeInt32:12 value:self.energy];
   }
@@ -12304,9 +12354,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   }
   if (self.hasDefense) {
     size += computeInt32Size(10, self.defense);
-  }
-  if (self.hasHealth) {
-    size += computeInt32Size(11, self.health);
   }
   if (self.hasEnergy) {
     size += computeInt32Size(12, self.energy);
@@ -12422,9 +12469,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
   if (other.hasDefense) {
     [self setDefense:other.defense];
   }
-  if (other.hasHealth) {
-    [self setHealth:other.health];
-  }
   if (other.hasEnergy) {
     [self setEnergy:other.energy];
   }
@@ -12513,10 +12557,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
       }
       case 80: {
         [self setDefense:[input readInt32]];
-        break;
-      }
-      case 88: {
-        [self setHealth:[input readInt32]];
         break;
       }
       case 96: {
@@ -12682,22 +12722,6 @@ static UserCreateRequestProto* defaultUserCreateRequestProtoInstance = nil;
 - (UserCreateRequestProto_Builder*) clearDefense {
   result.hasDefense = NO;
   result.defense = 0;
-  return self;
-}
-- (BOOL) hasHealth {
-  return result.hasHealth;
-}
-- (int32_t) health {
-  return result.health;
-}
-- (UserCreateRequestProto_Builder*) setHealth:(int32_t) value {
-  result.hasHealth = YES;
-  result.health = value;
-  return self;
-}
-- (UserCreateRequestProto_Builder*) clearHealth {
-  result.hasHealth = NO;
-  result.health = 0;
   return self;
 }
 - (BOOL) hasEnergy {

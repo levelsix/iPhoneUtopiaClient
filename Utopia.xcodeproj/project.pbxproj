@@ -7,38 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		065FABE915900C33008E9B3C /* AllianceMageWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDD15900C33008E9B3C /* AllianceMageWalkNF.plist */; };
-		065FABEA15900C33008E9B3C /* AllianceMageWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDE15900C33008E9B3C /* AllianceMageWalkNF.png */; };
-		065FABEB15900C33008E9B3C /* AllianceMageWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABDF15900C33008E9B3C /* AllianceMageWalkNF@2x.plist */; };
-		065FABEC15900C33008E9B3C /* AllianceMageWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABE015900C33008E9B3C /* AllianceMageWalkNF@2x.png */; };
-		065FAC0115900C4A008E9B3C /* AllianceArcherWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF515900C4A008E9B3C /* AllianceArcherWalkNF.plist */; };
-		065FAC0215900C4A008E9B3C /* AllianceArcherWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF615900C4A008E9B3C /* AllianceArcherWalkNF.png */; };
-		065FAC0315900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF715900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist */; };
-		065FAC0415900C4A008E9B3C /* AllianceArcherWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FABF815900C4A008E9B3C /* AllianceArcherWalkNF@2x.png */; };
-		065FAC1915900C5D008E9B3C /* AllianceWarriorWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0D15900C5D008E9B3C /* AllianceWarriorWalkNF.plist */; };
-		065FAC1A15900C5D008E9B3C /* AllianceWarriorWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0E15900C5D008E9B3C /* AllianceWarriorWalkNF.png */; };
-		065FAC1B15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC0F15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist */; };
-		065FAC1C15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC1015900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png */; };
-		065FAC3115900C70008E9B3C /* LegionArcherWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2515900C6F008E9B3C /* LegionArcherWalkNF.plist */; };
-		065FAC3215900C70008E9B3C /* LegionArcherWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2615900C6F008E9B3C /* LegionArcherWalkNF.png */; };
-		065FAC3315900C70008E9B3C /* LegionArcherWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2715900C6F008E9B3C /* LegionArcherWalkNF@2x.plist */; };
-		065FAC3415900C70008E9B3C /* LegionArcherWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC2815900C6F008E9B3C /* LegionArcherWalkNF@2x.png */; };
-		065FAC4D15900C78008E9B3C /* LegionMageWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC3F15900C78008E9B3C /* LegionMageWalkNF.plist */; };
-		065FAC4E15900C78008E9B3C /* LegionMageWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4015900C78008E9B3C /* LegionMageWalkNF.png */; };
-		065FAC4F15900C78008E9B3C /* LegionMageWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4115900C78008E9B3C /* LegionMageWalkNF@2x.plist */; };
-		065FAC5015900C78008E9B3C /* LegionMageWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC4215900C78008E9B3C /* LegionMageWalkNF@2x.png */; };
-		065FAC6515900C90008E9B3C /* LegionWarriorWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5915900C90008E9B3C /* LegionWarriorWalkNF.plist */; };
-		065FAC6615900C90008E9B3C /* LegionWarriorWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5A15900C90008E9B3C /* LegionWarriorWalkNF.png */; };
-		065FAC6715900C90008E9B3C /* LegionWarriorWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5B15900C90008E9B3C /* LegionWarriorWalkNF@2x.plist */; };
-		065FAC6815900C90008E9B3C /* LegionWarriorWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC5C15900C90008E9B3C /* LegionWarriorWalkNF@2x.png */; };
-		065FAC7115900C9E008E9B3C /* TutorialGuideBadWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC6D15900C9E008E9B3C /* TutorialGuideBadWalkNF.plist */; };
-		065FAC7215900C9E008E9B3C /* TutorialGuideBadWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC6E15900C9E008E9B3C /* TutorialGuideBadWalkNF.png */; };
-		065FAC7315900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC6F15900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist */; };
-		065FAC7415900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7015900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.png */; };
-		065FAC7915900CA4008E9B3C /* TutorialGuideWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7515900CA4008E9B3C /* TutorialGuideWalkNF.plist */; };
-		065FAC7A15900CA4008E9B3C /* TutorialGuideWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7615900CA4008E9B3C /* TutorialGuideWalkNF.png */; };
-		065FAC7B15900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7715900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist */; };
-		065FAC7C15900CA4008E9B3C /* TutorialGuideWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065FAC7815900CA4008E9B3C /* TutorialGuideWalkNF@2x.png */; };
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
 		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
@@ -989,6 +957,46 @@
 		CF20735015B69F1500A11A6E /* overlittleweaponstatsbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732A15B69F1500A11A6E /* overlittleweaponstatsbar@2x.png */; };
 		CF20735115B69F1500A11A6E /* percenttimebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732B15B69F1500A11A6E /* percenttimebg.png */; };
 		CF20735215B69F1500A11A6E /* percenttimebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF20732C15B69F1500A11A6E /* percenttimebg@2x.png */; };
+		CF2108FD15BD471E00DAF372 /* AllianceMageWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF2108F915BD471E00DAF372 /* AllianceMageWalkNF.plist */; };
+		CF2108FE15BD471E00DAF372 /* AllianceMageWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF2108FA15BD471E00DAF372 /* AllianceMageWalkNF.pvr.ccz */; };
+		CF2108FF15BD471E00DAF372 /* AllianceMageWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF2108FB15BD471E00DAF372 /* AllianceMageWalkNF@2x.plist */; };
+		CF21090015BD471E00DAF372 /* AllianceMageWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF2108FC15BD471E00DAF372 /* AllianceMageWalkNF@2x.pvr.ccz */; };
+		CF21090915BD474F00DAF372 /* AllianceArcherWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21090115BD473000DAF372 /* AllianceArcherWalkNF.plist */; };
+		CF21090A15BD474F00DAF372 /* AllianceArcherWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21090215BD473000DAF372 /* AllianceArcherWalkNF.pvr.ccz */; };
+		CF21090B15BD474F00DAF372 /* AllianceArcherWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21090315BD473000DAF372 /* AllianceArcherWalkNF@2x.plist */; };
+		CF21090C15BD474F00DAF372 /* AllianceArcherWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21090415BD473000DAF372 /* AllianceArcherWalkNF@2x.pvr.ccz */; };
+		CF21091115BD47A600DAF372 /* AllianceWarriorWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21090D15BD47A600DAF372 /* AllianceWarriorWalkNF.plist */; };
+		CF21091215BD47A600DAF372 /* AllianceWarriorWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21090E15BD47A600DAF372 /* AllianceWarriorWalkNF.pvr.ccz */; };
+		CF21091315BD47A600DAF372 /* AllianceWarriorWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21090F15BD47A600DAF372 /* AllianceWarriorWalkNF@2x.plist */; };
+		CF21091415BD47A600DAF372 /* AllianceWarriorWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21091015BD47A600DAF372 /* AllianceWarriorWalkNF@2x.pvr.ccz */; };
+		CF21091915BD47E400DAF372 /* LegionArcherWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21091515BD47E400DAF372 /* LegionArcherWalkNF.plist */; };
+		CF21091A15BD47E400DAF372 /* LegionArcherWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21091615BD47E400DAF372 /* LegionArcherWalkNF.pvr.ccz */; };
+		CF21091B15BD47E400DAF372 /* LegionArcherWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21091715BD47E400DAF372 /* LegionArcherWalkNF@2x.plist */; };
+		CF21091C15BD47E400DAF372 /* LegionArcherWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21091815BD47E400DAF372 /* LegionArcherWalkNF@2x.pvr.ccz */; };
+		CF21092115BD47F600DAF372 /* LegionMageWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21091D15BD47F600DAF372 /* LegionMageWalkNF.plist */; };
+		CF21092215BD47F600DAF372 /* LegionMageWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21091E15BD47F600DAF372 /* LegionMageWalkNF.pvr.ccz */; };
+		CF21092315BD47F600DAF372 /* LegionMageWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21091F15BD47F600DAF372 /* LegionMageWalkNF@2x.plist */; };
+		CF21092415BD47F600DAF372 /* LegionMageWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21092015BD47F600DAF372 /* LegionMageWalkNF@2x.pvr.ccz */; };
+		CF21092915BD480800DAF372 /* LegionWarriorWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21092515BD480800DAF372 /* LegionWarriorWalkNF.plist */; };
+		CF21092A15BD480800DAF372 /* LegionWarriorWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21092615BD480800DAF372 /* LegionWarriorWalkNF.pvr.ccz */; };
+		CF21092B15BD480800DAF372 /* LegionWarriorWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21092715BD480800DAF372 /* LegionWarriorWalkNF@2x.plist */; };
+		CF21092C15BD480800DAF372 /* LegionWarriorWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21092815BD480800DAF372 /* LegionWarriorWalkNF@2x.pvr.ccz */; };
+		CF21093115BD482800DAF372 /* CarpenterWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21092D15BD482800DAF372 /* CarpenterWalkNF.plist */; };
+		CF21093215BD482800DAF372 /* CarpenterWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21092E15BD482800DAF372 /* CarpenterWalkNF.pvr.ccz */; };
+		CF21093315BD482800DAF372 /* CarpenterWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21092F15BD482800DAF372 /* CarpenterWalkNF@2x.plist */; };
+		CF21093415BD482800DAF372 /* CarpenterWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21093015BD482800DAF372 /* CarpenterWalkNF@2x.pvr.ccz */; };
+		CF21093915BD483D00DAF372 /* FarmerMitchWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21093515BD483D00DAF372 /* FarmerMitchWalkNF.plist */; };
+		CF21093A15BD483D00DAF372 /* FarmerMitchWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21093615BD483D00DAF372 /* FarmerMitchWalkNF.pvr.ccz */; };
+		CF21093B15BD483D00DAF372 /* FarmerMitchWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21093715BD483D00DAF372 /* FarmerMitchWalkNF@2x.plist */; };
+		CF21093C15BD483D00DAF372 /* FarmerMitchWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21093815BD483D00DAF372 /* FarmerMitchWalkNF@2x.pvr.ccz */; };
+		CF21094115BD487000DAF372 /* TutorialGuideWalk.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21093D15BD487000DAF372 /* TutorialGuideWalk.pvr.ccz */; };
+		CF21094215BD487000DAF372 /* TutorialGuideWalk@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21093E15BD487000DAF372 /* TutorialGuideWalk@2x.pvr.ccz */; };
+		CF21094315BD487000DAF372 /* TutorialGuideWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21093F15BD487000DAF372 /* TutorialGuideWalkNF.plist */; };
+		CF21094415BD487000DAF372 /* TutorialGuideWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21094015BD487000DAF372 /* TutorialGuideWalkNF@2x.plist */; };
+		CF21094915BD48A400DAF372 /* TutorialGuideBadWalk.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21094515BD48A400DAF372 /* TutorialGuideBadWalk.pvr.ccz */; };
+		CF21094A15BD48A400DAF372 /* TutorialGuideBadWalk@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF21094615BD48A400DAF372 /* TutorialGuideBadWalk@2x.pvr.ccz */; };
+		CF21094B15BD48A400DAF372 /* TutorialGuideBadWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21094715BD48A400DAF372 /* TutorialGuideBadWalkNF.plist */; };
+		CF21094C15BD48A400DAF372 /* TutorialGuideBadWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF21094815BD48A400DAF372 /* TutorialGuideBadWalkNF@2x.plist */; };
 		CF29408115647BB7002D9E45 /* armorypricebg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29408015647BB7002D9E45 /* armorypricebg.png */; };
 		CF29408315647BBC002D9E45 /* armorypricebg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF29408215647BBC002D9E45 /* armorypricebg@2x.png */; };
 		CF2940871565A186002D9E45 /* red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2940851565A186002D9E45 /* red@2x.png */; };
@@ -1388,18 +1396,10 @@
 		CFEB285B1599407900B622FC /* MyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB285A1599407900B622FC /* MyPlayer.m */; };
 		CFEC29C9159AAA2100F15EDC /* visitprofile.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C7159AAA2100F15EDC /* visitprofile.png */; };
 		CFEC29CA159AAA2100F15EDC /* visitprofile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */; };
-		CFEC29D0159BB93000F15EDC /* FarmerMitchWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CC159BB93000F15EDC /* FarmerMitchWalkNF.plist */; };
-		CFEC29D1159BB93000F15EDC /* FarmerMitchWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CD159BB93000F15EDC /* FarmerMitchWalkNF.png */; };
-		CFEC29D2159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CE159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist */; };
-		CFEC29D3159BB93000F15EDC /* FarmerMitchWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29CF159BB93000F15EDC /* FarmerMitchWalkNF@2x.png */; };
 		CFEC29DB159BDB6B00F15EDC /* bigmitch.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29D9159BDB6B00F15EDC /* bigmitch.png */; };
 		CFEC29DC159BDB6B00F15EDC /* bigmitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DA159BDB6B00F15EDC /* bigmitch@2x.png */; };
 		CFEC29DF159BE4B300F15EDC /* dialoguemitch.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DD159BE4B300F15EDC /* dialoguemitch.png */; };
 		CFEC29E0159BE4B300F15EDC /* dialoguemitch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29DE159BE4B300F15EDC /* dialoguemitch@2x.png */; };
-		CFEC29FE159D2F2100F15EDC /* CarpenterWalkNF.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */; };
-		CFEC29FF159D2F2100F15EDC /* CarpenterWalkNF.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */; };
-		CFEC2A00159D2F2100F15EDC /* CarpenterWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */; };
-		CFEC2A01159D2F2100F15EDC /* CarpenterWalkNF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */; };
 		CFECCDDC1550909700171271 /* equipped.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDA1550909700171271 /* equipped.png */; };
 		CFECCDDD1550909700171271 /* equipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDB1550909700171271 /* equipped@2x.png */; };
 		CFECCDE21550971000171271 /* markbuy.png in Resources */ = {isa = PBXBuildFile; fileRef = CFECCDDE1550971000171271 /* markbuy.png */; };
@@ -1532,38 +1532,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		065FABDD15900C33008E9B3C /* AllianceMageWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageWalkNF.plist; sourceTree = "<group>"; };
-		065FABDE15900C33008E9B3C /* AllianceMageWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceMageWalkNF.png; sourceTree = "<group>"; };
-		065FABDF15900C33008E9B3C /* AllianceMageWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FABE015900C33008E9B3C /* AllianceMageWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceMageWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FABF515900C4A008E9B3C /* AllianceArcherWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherWalkNF.plist; sourceTree = "<group>"; };
-		065FABF615900C4A008E9B3C /* AllianceArcherWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceArcherWalkNF.png; sourceTree = "<group>"; };
-		065FABF715900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FABF815900C4A008E9B3C /* AllianceArcherWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceArcherWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC0D15900C5D008E9B3C /* AllianceWarriorWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorWalkNF.plist; sourceTree = "<group>"; };
-		065FAC0E15900C5D008E9B3C /* AllianceWarriorWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AllianceWarriorWalkNF.png; sourceTree = "<group>"; };
-		065FAC0F15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FAC1015900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AllianceWarriorWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC2515900C6F008E9B3C /* LegionArcherWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherWalkNF.plist; sourceTree = "<group>"; };
-		065FAC2615900C6F008E9B3C /* LegionArcherWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionArcherWalkNF.png; sourceTree = "<group>"; };
-		065FAC2715900C6F008E9B3C /* LegionArcherWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FAC2815900C6F008E9B3C /* LegionArcherWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionArcherWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC3F15900C78008E9B3C /* LegionMageWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageWalkNF.plist; sourceTree = "<group>"; };
-		065FAC4015900C78008E9B3C /* LegionMageWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionMageWalkNF.png; sourceTree = "<group>"; };
-		065FAC4115900C78008E9B3C /* LegionMageWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FAC4215900C78008E9B3C /* LegionMageWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionMageWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC5915900C90008E9B3C /* LegionWarriorWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorWalkNF.plist; sourceTree = "<group>"; };
-		065FAC5A15900C90008E9B3C /* LegionWarriorWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LegionWarriorWalkNF.png; sourceTree = "<group>"; };
-		065FAC5B15900C90008E9B3C /* LegionWarriorWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FAC5C15900C90008E9B3C /* LegionWarriorWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LegionWarriorWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC6D15900C9E008E9B3C /* TutorialGuideBadWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TutorialGuideBadWalkNF.plist; sourceTree = "<group>"; };
-		065FAC6E15900C9E008E9B3C /* TutorialGuideBadWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TutorialGuideBadWalkNF.png; sourceTree = "<group>"; };
-		065FAC6F15900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideBadWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FAC7015900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TutorialGuideBadWalkNF@2x.png"; sourceTree = "<group>"; };
-		065FAC7515900CA4008E9B3C /* TutorialGuideWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TutorialGuideWalkNF.plist; sourceTree = "<group>"; };
-		065FAC7615900CA4008E9B3C /* TutorialGuideWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TutorialGuideWalkNF.png; sourceTree = "<group>"; };
-		065FAC7715900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideWalkNF@2x.plist"; sourceTree = "<group>"; };
-		065FAC7815900CA4008E9B3C /* TutorialGuideWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "TutorialGuideWalkNF@2x.png"; sourceTree = "<group>"; };
 		4509ABAF1577EE1900EC9B44 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterSponsoredOffer.h; sourceTree = "<group>"; };
 		4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterSponsoredOffer.m; sourceTree = "<group>"; };
@@ -2881,6 +2849,46 @@
 		CF20732A15B69F1500A11A6E /* overlittleweaponstatsbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "overlittleweaponstatsbar@2x.png"; sourceTree = "<group>"; };
 		CF20732B15B69F1500A11A6E /* percenttimebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = percenttimebg.png; sourceTree = "<group>"; };
 		CF20732C15B69F1500A11A6E /* percenttimebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "percenttimebg@2x.png"; sourceTree = "<group>"; };
+		CF2108F915BD471E00DAF372 /* AllianceMageWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceMageWalkNF.plist; sourceTree = "<group>"; };
+		CF2108FA15BD471E00DAF372 /* AllianceMageWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = AllianceMageWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF2108FB15BD471E00DAF372 /* AllianceMageWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceMageWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF2108FC15BD471E00DAF372 /* AllianceMageWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AllianceMageWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21090115BD473000DAF372 /* AllianceArcherWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceArcherWalkNF.plist; sourceTree = "<group>"; };
+		CF21090215BD473000DAF372 /* AllianceArcherWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = AllianceArcherWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF21090315BD473000DAF372 /* AllianceArcherWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceArcherWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21090415BD473000DAF372 /* AllianceArcherWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AllianceArcherWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21090D15BD47A600DAF372 /* AllianceWarriorWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AllianceWarriorWalkNF.plist; sourceTree = "<group>"; };
+		CF21090E15BD47A600DAF372 /* AllianceWarriorWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = AllianceWarriorWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF21090F15BD47A600DAF372 /* AllianceWarriorWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AllianceWarriorWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21091015BD47A600DAF372 /* AllianceWarriorWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AllianceWarriorWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21091515BD47E400DAF372 /* LegionArcherWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionArcherWalkNF.plist; sourceTree = "<group>"; };
+		CF21091615BD47E400DAF372 /* LegionArcherWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = LegionArcherWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF21091715BD47E400DAF372 /* LegionArcherWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionArcherWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21091815BD47E400DAF372 /* LegionArcherWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LegionArcherWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21091D15BD47F600DAF372 /* LegionMageWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionMageWalkNF.plist; sourceTree = "<group>"; };
+		CF21091E15BD47F600DAF372 /* LegionMageWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = LegionMageWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF21091F15BD47F600DAF372 /* LegionMageWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionMageWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21092015BD47F600DAF372 /* LegionMageWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LegionMageWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21092515BD480800DAF372 /* LegionWarriorWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LegionWarriorWalkNF.plist; sourceTree = "<group>"; };
+		CF21092615BD480800DAF372 /* LegionWarriorWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = LegionWarriorWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF21092715BD480800DAF372 /* LegionWarriorWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LegionWarriorWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21092815BD480800DAF372 /* LegionWarriorWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LegionWarriorWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21092D15BD482800DAF372 /* CarpenterWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CarpenterWalkNF.plist; sourceTree = "<group>"; };
+		CF21092E15BD482800DAF372 /* CarpenterWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = CarpenterWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF21092F15BD482800DAF372 /* CarpenterWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CarpenterWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21093015BD482800DAF372 /* CarpenterWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CarpenterWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21093515BD483D00DAF372 /* FarmerMitchWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FarmerMitchWalkNF.plist; sourceTree = "<group>"; };
+		CF21093615BD483D00DAF372 /* FarmerMitchWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = FarmerMitchWalkNF.pvr.ccz; sourceTree = "<group>"; };
+		CF21093715BD483D00DAF372 /* FarmerMitchWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FarmerMitchWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21093815BD483D00DAF372 /* FarmerMitchWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FarmerMitchWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21093D15BD487000DAF372 /* TutorialGuideWalk.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = TutorialGuideWalk.pvr.ccz; sourceTree = "<group>"; };
+		CF21093E15BD487000DAF372 /* TutorialGuideWalk@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TutorialGuideWalk@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21093F15BD487000DAF372 /* TutorialGuideWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TutorialGuideWalkNF.plist; sourceTree = "<group>"; };
+		CF21094015BD487000DAF372 /* TutorialGuideWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideWalkNF@2x.plist"; sourceTree = "<group>"; };
+		CF21094515BD48A400DAF372 /* TutorialGuideBadWalk.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = TutorialGuideBadWalk.pvr.ccz; sourceTree = "<group>"; };
+		CF21094615BD48A400DAF372 /* TutorialGuideBadWalk@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TutorialGuideBadWalk@2x.pvr.ccz"; sourceTree = "<group>"; };
+		CF21094715BD48A400DAF372 /* TutorialGuideBadWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = TutorialGuideBadWalkNF.plist; sourceTree = "<group>"; };
+		CF21094815BD48A400DAF372 /* TutorialGuideBadWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideBadWalkNF@2x.plist"; sourceTree = "<group>"; };
 		CF29408015647BB7002D9E45 /* armorypricebg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = armorypricebg.png; sourceTree = "<group>"; };
 		CF29408215647BBC002D9E45 /* armorypricebg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armorypricebg@2x.png"; sourceTree = "<group>"; };
 		CF2940851565A186002D9E45 /* red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red@2x.png"; sourceTree = "<group>"; };
@@ -3238,18 +3246,10 @@
 		CFEB285A1599407900B622FC /* MyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPlayer.m; sourceTree = "<group>"; };
 		CFEC29C7159AAA2100F15EDC /* visitprofile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitprofile.png; sourceTree = "<group>"; };
 		CFEC29C8159AAA2100F15EDC /* visitprofile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitprofile@2x.png"; sourceTree = "<group>"; };
-		CFEC29CC159BB93000F15EDC /* FarmerMitchWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FarmerMitchWalkNF.plist; sourceTree = "<group>"; };
-		CFEC29CD159BB93000F15EDC /* FarmerMitchWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FarmerMitchWalkNF.png; sourceTree = "<group>"; };
-		CFEC29CE159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "FarmerMitchWalkNF@2x.plist"; sourceTree = "<group>"; };
-		CFEC29CF159BB93000F15EDC /* FarmerMitchWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FarmerMitchWalkNF@2x.png"; sourceTree = "<group>"; };
 		CFEC29D9159BDB6B00F15EDC /* bigmitch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bigmitch.png; sourceTree = "<group>"; };
 		CFEC29DA159BDB6B00F15EDC /* bigmitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bigmitch@2x.png"; sourceTree = "<group>"; };
 		CFEC29DD159BE4B300F15EDC /* dialoguemitch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dialoguemitch.png; sourceTree = "<group>"; };
 		CFEC29DE159BE4B300F15EDC /* dialoguemitch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dialoguemitch@2x.png"; sourceTree = "<group>"; };
-		CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CarpenterWalkNF.plist; sourceTree = "<group>"; };
-		CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CarpenterWalkNF.png; sourceTree = "<group>"; };
-		CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CarpenterWalkNF@2x.plist"; sourceTree = "<group>"; };
-		CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CarpenterWalkNF@2x.png"; sourceTree = "<group>"; };
 		CFECCDDA1550909700171271 /* equipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = equipped.png; sourceTree = "<group>"; };
 		CFECCDDB1550909700171271 /* equipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "equipped@2x.png"; sourceTree = "<group>"; };
 		CFECCDDE1550971000171271 /* markbuy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = markbuy.png; sourceTree = "<group>"; };
@@ -3452,10 +3452,10 @@
 		065FABD115900BD3008E9B3C /* AllianceWarrior */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC0D15900C5D008E9B3C /* AllianceWarriorWalkNF.plist */,
-				065FAC0E15900C5D008E9B3C /* AllianceWarriorWalkNF.png */,
-				065FAC0F15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist */,
-				065FAC1015900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png */,
+				CF21090D15BD47A600DAF372 /* AllianceWarriorWalkNF.plist */,
+				CF21090E15BD47A600DAF372 /* AllianceWarriorWalkNF.pvr.ccz */,
+				CF21090F15BD47A600DAF372 /* AllianceWarriorWalkNF@2x.plist */,
+				CF21091015BD47A600DAF372 /* AllianceWarriorWalkNF@2x.pvr.ccz */,
 			);
 			name = AllianceWarrior;
 			sourceTree = "<group>";
@@ -3463,10 +3463,10 @@
 		065FABD215900BD5008E9B3C /* AllianceArcher */ = {
 			isa = PBXGroup;
 			children = (
-				065FABF515900C4A008E9B3C /* AllianceArcherWalkNF.plist */,
-				065FABF615900C4A008E9B3C /* AllianceArcherWalkNF.png */,
-				065FABF715900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist */,
-				065FABF815900C4A008E9B3C /* AllianceArcherWalkNF@2x.png */,
+				CF21090115BD473000DAF372 /* AllianceArcherWalkNF.plist */,
+				CF21090215BD473000DAF372 /* AllianceArcherWalkNF.pvr.ccz */,
+				CF21090315BD473000DAF372 /* AllianceArcherWalkNF@2x.plist */,
+				CF21090415BD473000DAF372 /* AllianceArcherWalkNF@2x.pvr.ccz */,
 			);
 			name = AllianceArcher;
 			sourceTree = "<group>";
@@ -3474,10 +3474,10 @@
 		065FABD315900BD7008E9B3C /* AllianceMage */ = {
 			isa = PBXGroup;
 			children = (
-				065FABDD15900C33008E9B3C /* AllianceMageWalkNF.plist */,
-				065FABDE15900C33008E9B3C /* AllianceMageWalkNF.png */,
-				065FABDF15900C33008E9B3C /* AllianceMageWalkNF@2x.plist */,
-				065FABE015900C33008E9B3C /* AllianceMageWalkNF@2x.png */,
+				CF2108F915BD471E00DAF372 /* AllianceMageWalkNF.plist */,
+				CF2108FA15BD471E00DAF372 /* AllianceMageWalkNF.pvr.ccz */,
+				CF2108FB15BD471E00DAF372 /* AllianceMageWalkNF@2x.plist */,
+				CF2108FC15BD471E00DAF372 /* AllianceMageWalkNF@2x.pvr.ccz */,
 			);
 			name = AllianceMage;
 			sourceTree = "<group>";
@@ -3485,10 +3485,10 @@
 		065FABD415900BED008E9B3C /* LegionWarrior */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC5915900C90008E9B3C /* LegionWarriorWalkNF.plist */,
-				065FAC5A15900C90008E9B3C /* LegionWarriorWalkNF.png */,
-				065FAC5B15900C90008E9B3C /* LegionWarriorWalkNF@2x.plist */,
-				065FAC5C15900C90008E9B3C /* LegionWarriorWalkNF@2x.png */,
+				CF21092515BD480800DAF372 /* LegionWarriorWalkNF.plist */,
+				CF21092615BD480800DAF372 /* LegionWarriorWalkNF.pvr.ccz */,
+				CF21092715BD480800DAF372 /* LegionWarriorWalkNF@2x.plist */,
+				CF21092815BD480800DAF372 /* LegionWarriorWalkNF@2x.pvr.ccz */,
 			);
 			name = LegionWarrior;
 			sourceTree = "<group>";
@@ -3496,10 +3496,10 @@
 		065FABD515900BEF008E9B3C /* LegionArcher */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC2515900C6F008E9B3C /* LegionArcherWalkNF.plist */,
-				065FAC2615900C6F008E9B3C /* LegionArcherWalkNF.png */,
-				065FAC2715900C6F008E9B3C /* LegionArcherWalkNF@2x.plist */,
-				065FAC2815900C6F008E9B3C /* LegionArcherWalkNF@2x.png */,
+				CF21091515BD47E400DAF372 /* LegionArcherWalkNF.plist */,
+				CF21091615BD47E400DAF372 /* LegionArcherWalkNF.pvr.ccz */,
+				CF21091715BD47E400DAF372 /* LegionArcherWalkNF@2x.plist */,
+				CF21091815BD47E400DAF372 /* LegionArcherWalkNF@2x.pvr.ccz */,
 			);
 			name = LegionArcher;
 			sourceTree = "<group>";
@@ -3507,10 +3507,10 @@
 		065FABD615900BF1008E9B3C /* LegionMage */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC3F15900C78008E9B3C /* LegionMageWalkNF.plist */,
-				065FAC4015900C78008E9B3C /* LegionMageWalkNF.png */,
-				065FAC4115900C78008E9B3C /* LegionMageWalkNF@2x.plist */,
-				065FAC4215900C78008E9B3C /* LegionMageWalkNF@2x.png */,
+				CF21091D15BD47F600DAF372 /* LegionMageWalkNF.plist */,
+				CF21091E15BD47F600DAF372 /* LegionMageWalkNF.pvr.ccz */,
+				CF21091F15BD47F600DAF372 /* LegionMageWalkNF@2x.plist */,
+				CF21092015BD47F600DAF372 /* LegionMageWalkNF@2x.pvr.ccz */,
 			);
 			name = LegionMage;
 			sourceTree = "<group>";
@@ -3518,10 +3518,10 @@
 		065FABD715900C09008E9B3C /* TutorialGuideBad */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC6D15900C9E008E9B3C /* TutorialGuideBadWalkNF.plist */,
-				065FAC6E15900C9E008E9B3C /* TutorialGuideBadWalkNF.png */,
-				065FAC6F15900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist */,
-				065FAC7015900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.png */,
+				CF21094515BD48A400DAF372 /* TutorialGuideBadWalk.pvr.ccz */,
+				CF21094615BD48A400DAF372 /* TutorialGuideBadWalk@2x.pvr.ccz */,
+				CF21094715BD48A400DAF372 /* TutorialGuideBadWalkNF.plist */,
+				CF21094815BD48A400DAF372 /* TutorialGuideBadWalkNF@2x.plist */,
 			);
 			name = TutorialGuideBad;
 			sourceTree = "<group>";
@@ -3529,10 +3529,10 @@
 		065FABD815900C0B008E9B3C /* TutorialGuideGood */ = {
 			isa = PBXGroup;
 			children = (
-				065FAC7515900CA4008E9B3C /* TutorialGuideWalkNF.plist */,
-				065FAC7615900CA4008E9B3C /* TutorialGuideWalkNF.png */,
-				065FAC7715900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist */,
-				065FAC7815900CA4008E9B3C /* TutorialGuideWalkNF@2x.png */,
+				CF21093D15BD487000DAF372 /* TutorialGuideWalk.pvr.ccz */,
+				CF21093E15BD487000DAF372 /* TutorialGuideWalk@2x.pvr.ccz */,
+				CF21093F15BD487000DAF372 /* TutorialGuideWalkNF.plist */,
+				CF21094015BD487000DAF372 /* TutorialGuideWalkNF@2x.plist */,
 			);
 			name = TutorialGuideGood;
 			sourceTree = "<group>";
@@ -6407,10 +6407,10 @@
 		CFEC29CB159BB92200F15EDC /* FarmerMitch */ = {
 			isa = PBXGroup;
 			children = (
-				CFEC29CC159BB93000F15EDC /* FarmerMitchWalkNF.plist */,
-				CFEC29CD159BB93000F15EDC /* FarmerMitchWalkNF.png */,
-				CFEC29CE159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist */,
-				CFEC29CF159BB93000F15EDC /* FarmerMitchWalkNF@2x.png */,
+				CF21093515BD483D00DAF372 /* FarmerMitchWalkNF.plist */,
+				CF21093615BD483D00DAF372 /* FarmerMitchWalkNF.pvr.ccz */,
+				CF21093715BD483D00DAF372 /* FarmerMitchWalkNF@2x.plist */,
+				CF21093815BD483D00DAF372 /* FarmerMitchWalkNF@2x.pvr.ccz */,
 			);
 			name = FarmerMitch;
 			sourceTree = "<group>";
@@ -6418,10 +6418,10 @@
 		CFEC29F9159D2F1600F15EDC /* Carpenter */ = {
 			isa = PBXGroup;
 			children = (
-				CFEC29FA159D2F2100F15EDC /* CarpenterWalkNF.plist */,
-				CFEC29FB159D2F2100F15EDC /* CarpenterWalkNF.png */,
-				CFEC29FC159D2F2100F15EDC /* CarpenterWalkNF@2x.plist */,
-				CFEC29FD159D2F2100F15EDC /* CarpenterWalkNF@2x.png */,
+				CF21092D15BD482800DAF372 /* CarpenterWalkNF.plist */,
+				CF21092E15BD482800DAF372 /* CarpenterWalkNF.pvr.ccz */,
+				CF21092F15BD482800DAF372 /* CarpenterWalkNF@2x.plist */,
+				CF21093015BD482800DAF372 /* CarpenterWalkNF@2x.pvr.ccz */,
 			);
 			name = Carpenter;
 			sourceTree = "<group>";
@@ -7719,56 +7719,16 @@
 				CFF02BD3158C41980072965A /* refilltextbg.png in Resources */,
 				CFF02BD4158C41980072965A /* refilltextbg@2x.png in Resources */,
 				CFF02BD6158C41B80072965A /* RefillMenuController.xib in Resources */,
-				065FABE915900C33008E9B3C /* AllianceMageWalkNF.plist in Resources */,
-				065FABEA15900C33008E9B3C /* AllianceMageWalkNF.png in Resources */,
-				065FABEB15900C33008E9B3C /* AllianceMageWalkNF@2x.plist in Resources */,
-				065FABEC15900C33008E9B3C /* AllianceMageWalkNF@2x.png in Resources */,
-				065FAC0115900C4A008E9B3C /* AllianceArcherWalkNF.plist in Resources */,
-				065FAC0215900C4A008E9B3C /* AllianceArcherWalkNF.png in Resources */,
-				065FAC0315900C4A008E9B3C /* AllianceArcherWalkNF@2x.plist in Resources */,
-				065FAC0415900C4A008E9B3C /* AllianceArcherWalkNF@2x.png in Resources */,
-				065FAC1915900C5D008E9B3C /* AllianceWarriorWalkNF.plist in Resources */,
-				065FAC1A15900C5D008E9B3C /* AllianceWarriorWalkNF.png in Resources */,
-				065FAC1B15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.plist in Resources */,
-				065FAC1C15900C5D008E9B3C /* AllianceWarriorWalkNF@2x.png in Resources */,
-				065FAC3115900C70008E9B3C /* LegionArcherWalkNF.plist in Resources */,
-				065FAC3215900C70008E9B3C /* LegionArcherWalkNF.png in Resources */,
-				065FAC3315900C70008E9B3C /* LegionArcherWalkNF@2x.plist in Resources */,
-				065FAC3415900C70008E9B3C /* LegionArcherWalkNF@2x.png in Resources */,
-				065FAC4D15900C78008E9B3C /* LegionMageWalkNF.plist in Resources */,
-				065FAC4E15900C78008E9B3C /* LegionMageWalkNF.png in Resources */,
-				065FAC4F15900C78008E9B3C /* LegionMageWalkNF@2x.plist in Resources */,
-				065FAC5015900C78008E9B3C /* LegionMageWalkNF@2x.png in Resources */,
-				065FAC6515900C90008E9B3C /* LegionWarriorWalkNF.plist in Resources */,
-				065FAC6615900C90008E9B3C /* LegionWarriorWalkNF.png in Resources */,
-				065FAC6715900C90008E9B3C /* LegionWarriorWalkNF@2x.plist in Resources */,
-				065FAC6815900C90008E9B3C /* LegionWarriorWalkNF@2x.png in Resources */,
-				065FAC7115900C9E008E9B3C /* TutorialGuideBadWalkNF.plist in Resources */,
-				065FAC7215900C9E008E9B3C /* TutorialGuideBadWalkNF.png in Resources */,
-				065FAC7315900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.plist in Resources */,
-				065FAC7415900C9E008E9B3C /* TutorialGuideBadWalkNF@2x.png in Resources */,
-				065FAC7915900CA4008E9B3C /* TutorialGuideWalkNF.plist in Resources */,
-				065FAC7A15900CA4008E9B3C /* TutorialGuideWalkNF.png in Resources */,
-				065FAC7B15900CA4008E9B3C /* TutorialGuideWalkNF@2x.plist in Resources */,
-				065FAC7C15900CA4008E9B3C /* TutorialGuideWalkNF@2x.png in Resources */,
 				CFEB28431593F02500B622FC /* unlockedheader.png in Resources */,
 				CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */,
 				CFEB28561599325400B622FC /* bigcarpenter.png in Resources */,
 				CFEB28571599325400B622FC /* bigcarpenter@2x.png in Resources */,
 				CFEC29C9159AAA2100F15EDC /* visitprofile.png in Resources */,
 				CFEC29CA159AAA2100F15EDC /* visitprofile@2x.png in Resources */,
-				CFEC29D0159BB93000F15EDC /* FarmerMitchWalkNF.plist in Resources */,
-				CFEC29D1159BB93000F15EDC /* FarmerMitchWalkNF.png in Resources */,
-				CFEC29D2159BB93000F15EDC /* FarmerMitchWalkNF@2x.plist in Resources */,
-				CFEC29D3159BB93000F15EDC /* FarmerMitchWalkNF@2x.png in Resources */,
 				CFEC29DB159BDB6B00F15EDC /* bigmitch.png in Resources */,
 				CFEC29DC159BDB6B00F15EDC /* bigmitch@2x.png in Resources */,
 				CFEC29DF159BE4B300F15EDC /* dialoguemitch.png in Resources */,
 				CFEC29E0159BE4B300F15EDC /* dialoguemitch@2x.png in Resources */,
-				CFEC29FE159D2F2100F15EDC /* CarpenterWalkNF.plist in Resources */,
-				CFEC29FF159D2F2100F15EDC /* CarpenterWalkNF.png in Resources */,
-				CFEC2A00159D2F2100F15EDC /* CarpenterWalkNF@2x.plist in Resources */,
-				CFEC2A01159D2F2100F15EDC /* CarpenterWalkNF@2x.png in Resources */,
 				CFFB2C7615A2DE8C0042C361 /* BargenHarbor.tmx in Resources */,
 				CFFB2C7715A2DE8C0042C361 /* BargenHarbor@2x.tmx in Resources */,
 				CF92643415AB87970062B3CD /* DailyBonusMenuController.xib in Resources */,
@@ -7860,6 +7820,46 @@
 				CF09725D15BA43EB00F8353B /* blacksmithicon@2x.png in Resources */,
 				CF09725E15BA43EB00F8353B /* checkstatus.png in Resources */,
 				CF09725F15BA43EB00F8353B /* checkstatus@2x.png in Resources */,
+				CF2108FD15BD471E00DAF372 /* AllianceMageWalkNF.plist in Resources */,
+				CF2108FE15BD471E00DAF372 /* AllianceMageWalkNF.pvr.ccz in Resources */,
+				CF2108FF15BD471E00DAF372 /* AllianceMageWalkNF@2x.plist in Resources */,
+				CF21090015BD471E00DAF372 /* AllianceMageWalkNF@2x.pvr.ccz in Resources */,
+				CF21090915BD474F00DAF372 /* AllianceArcherWalkNF.plist in Resources */,
+				CF21090A15BD474F00DAF372 /* AllianceArcherWalkNF.pvr.ccz in Resources */,
+				CF21090B15BD474F00DAF372 /* AllianceArcherWalkNF@2x.plist in Resources */,
+				CF21090C15BD474F00DAF372 /* AllianceArcherWalkNF@2x.pvr.ccz in Resources */,
+				CF21091115BD47A600DAF372 /* AllianceWarriorWalkNF.plist in Resources */,
+				CF21091215BD47A600DAF372 /* AllianceWarriorWalkNF.pvr.ccz in Resources */,
+				CF21091315BD47A600DAF372 /* AllianceWarriorWalkNF@2x.plist in Resources */,
+				CF21091415BD47A600DAF372 /* AllianceWarriorWalkNF@2x.pvr.ccz in Resources */,
+				CF21091915BD47E400DAF372 /* LegionArcherWalkNF.plist in Resources */,
+				CF21091A15BD47E400DAF372 /* LegionArcherWalkNF.pvr.ccz in Resources */,
+				CF21091B15BD47E400DAF372 /* LegionArcherWalkNF@2x.plist in Resources */,
+				CF21091C15BD47E400DAF372 /* LegionArcherWalkNF@2x.pvr.ccz in Resources */,
+				CF21092115BD47F600DAF372 /* LegionMageWalkNF.plist in Resources */,
+				CF21092215BD47F600DAF372 /* LegionMageWalkNF.pvr.ccz in Resources */,
+				CF21092315BD47F600DAF372 /* LegionMageWalkNF@2x.plist in Resources */,
+				CF21092415BD47F600DAF372 /* LegionMageWalkNF@2x.pvr.ccz in Resources */,
+				CF21092915BD480800DAF372 /* LegionWarriorWalkNF.plist in Resources */,
+				CF21092A15BD480800DAF372 /* LegionWarriorWalkNF.pvr.ccz in Resources */,
+				CF21092B15BD480800DAF372 /* LegionWarriorWalkNF@2x.plist in Resources */,
+				CF21092C15BD480800DAF372 /* LegionWarriorWalkNF@2x.pvr.ccz in Resources */,
+				CF21093115BD482800DAF372 /* CarpenterWalkNF.plist in Resources */,
+				CF21093215BD482800DAF372 /* CarpenterWalkNF.pvr.ccz in Resources */,
+				CF21093315BD482800DAF372 /* CarpenterWalkNF@2x.plist in Resources */,
+				CF21093415BD482800DAF372 /* CarpenterWalkNF@2x.pvr.ccz in Resources */,
+				CF21093915BD483D00DAF372 /* FarmerMitchWalkNF.plist in Resources */,
+				CF21093A15BD483D00DAF372 /* FarmerMitchWalkNF.pvr.ccz in Resources */,
+				CF21093B15BD483D00DAF372 /* FarmerMitchWalkNF@2x.plist in Resources */,
+				CF21093C15BD483D00DAF372 /* FarmerMitchWalkNF@2x.pvr.ccz in Resources */,
+				CF21094115BD487000DAF372 /* TutorialGuideWalk.pvr.ccz in Resources */,
+				CF21094215BD487000DAF372 /* TutorialGuideWalk@2x.pvr.ccz in Resources */,
+				CF21094315BD487000DAF372 /* TutorialGuideWalkNF.plist in Resources */,
+				CF21094415BD487000DAF372 /* TutorialGuideWalkNF@2x.plist in Resources */,
+				CF21094915BD48A400DAF372 /* TutorialGuideBadWalk.pvr.ccz in Resources */,
+				CF21094A15BD48A400DAF372 /* TutorialGuideBadWalk@2x.pvr.ccz in Resources */,
+				CF21094B15BD48A400DAF372 /* TutorialGuideBadWalkNF.plist in Resources */,
+				CF21094C15BD48A400DAF372 /* TutorialGuideBadWalkNF@2x.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8338,8 +8338,8 @@
 					"$(ARCHS_STANDARD_32_BIT)",
 					armv6,
 				);
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Utopia/libs\"",

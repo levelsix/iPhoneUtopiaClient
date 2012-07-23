@@ -275,9 +275,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     CCScene *scene = [CCScene node];
     
     // When this scene is removed, it will be deallocated so the background will change..
+    
+    CCTexture2DPixelFormat oldPixelFormat = [CCTexture2D defaultAlphaPixelFormat];
+    [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGB565];
+    
     CCSprite *sprite = [CCSprite spriteWithFile:[self getAvailableBackground]];
     sprite.anchorPoint = ccp(0,0);
     [scene addChild:sprite];
+    
+    [CCTexture2D setDefaultAlphaPixelFormat:oldPixelFormat];
     
     
     // add layer as a child to scene

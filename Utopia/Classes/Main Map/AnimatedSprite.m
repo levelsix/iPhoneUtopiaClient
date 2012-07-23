@@ -16,6 +16,14 @@
 #import "CarpenterMenuController.h"
 #import "ProfileViewController.h"
 
+@implementation CCSpriteFrameCache (FrameCheck)
+
+- (BOOL) containsFrame:(NSString *)frameName {
+  return [spriteFrames_ objectForKey:frameName] != nil;
+}
+
+@end
+
 @implementation CharacterSprite
 
 
@@ -55,6 +63,7 @@
 
 @implementation AnimatedSprite
 
+@synthesize spritesheet = _spritesheet;
 @synthesize sprite = _sprite;
 @synthesize walkActionF = _walkActionF;
 @synthesize walkActionN = _walkActionN;
@@ -62,29 +71,43 @@
 -(id) initWithFile:(NSString *)prefix location:(CGRect)loc map:(GameMap *)map {
   prefix = [[prefix.lastPathComponent stringByReplacingOccurrencesOfString:prefix.pathExtension withString:@""] stringByReplacingOccurrencesOfString:@"." withString:@""];
   if((self = [super initWithFile:nil location:loc map:map])) {
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkNF.plist",prefix]];
+    NSString *plist = [NSString stringWithFormat:@"%@WalkNF.plist",prefix];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:plist];
     
     //create the animation for Near
     NSMutableArray *walkAnimN = [NSMutableArray array];
-    for(int i = 0; true; ++i) {
+    for(int i = 0; true; i++) {
       NSString *file = [NSString stringWithFormat:@"%@WalkN%02d.png",prefix, i];
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-      if (frame) {
+      BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+      if (exists) {
+        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
         [walkAnimN addObject:frame];
       } else {
         break;
       }
     }
     
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToPlist:plist]];
+    NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
+    NSDictionary *targetDict = [metadataDict objectForKey:@"target"];
+    NSString *texturePath = [targetDict objectForKey:@"textureFileName"];
+    NSString *end = [targetDict objectForKey:@"textureFileExtension"];
+    texturePath = [[texturePath stringByDeletingPathExtension] stringByReplacingOccurrencesOfString:@"@2x" withString:@""];
+    texturePath = [texturePath stringByAppendingString:end];
+    
+    self.spritesheet = [CCSpriteBatchNode batchNodeWithFile:texturePath];
+    [self addChild:_spritesheet];
+    
     CCAnimation *walkAnimationN = [CCAnimation animationWithFrames:walkAnimN delay:ANIMATATION_DELAY];
     self.walkActionN = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationN restoreOriginalFrame:NO]];
     
     //create the animation for Far
-    NSMutableArray *walkAnimF= [NSMutableArray array];
-    for(int i = 0; true; ++i) {
+    NSMutableArray *walkAnimF = [NSMutableArray array];
+    for(int i = 0; true; i++) {
       NSString *file = [NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i];
-      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
-      if (frame) {
+      BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+      if (exists) {
+        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
         [walkAnimF addObject:frame];
       } else {
         break;
@@ -98,9 +121,8 @@
     self.walkActionF = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnimationF restoreOriginalFrame:NO]];
     
     CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
-    frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png",prefix]];
     self.sprite = [CCSprite spriteWithSpriteFrame:frame];
-    [self addChild:_sprite];
+    [self.spritesheet addChild:_sprite];
     CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
     self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y));
     
@@ -109,8 +131,6 @@
     [self walk];
     
     self.nameLabel.position = ccp(self.contentSize.width/2, self.contentSize.height+3);
-    
-//    [self addChild:[CCLayerColor layerWithColor:ccc4(255, 0, 0, 255) width:self.contentSize.width height:self.contentSize.height] z:-1];
   }
   return self;
 }
@@ -124,11 +144,12 @@
   [super setIsSelected:isSelected];
   
   if (isSelected) {
-    [self stopAllActions];
-    [self.sprite stopAllActions];
+    [self pauseSchedulerAndActions];
+    [self.sprite pauseSchedulerAndActions];
     _curAction = nil;
   } else {
-    [self walk];
+    [self resumeSchedulerAndActions];
+    [self.sprite resumeSchedulerAndActions];
   }
 }
 

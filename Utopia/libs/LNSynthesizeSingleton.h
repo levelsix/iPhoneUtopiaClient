@@ -73,6 +73,10 @@ static classname *shared##classname = nil; \
   [shared##classname release]; \
   shared##classname = nil; \
 } \
+\
++ (BOOL) isInitialized { \
+  return shared##classname != nil;\
+}\
 
 #define SYNTHESIZE_SINGLETON_FOR_CONTROLLER(controllername) \
 \

@@ -1290,6 +1290,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Analytics kiipFailed];
     }
   }
+  
+  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
 }
 
 - (void) handleSubmitEquipsToBlacksmithResponseProto:(FullEvent *)fe {
@@ -1320,7 +1322,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == ForgeAttemptWaitCompleteResponseProto_ForgeAttemptWaitCompleteStatusSuccess) {
-    
+    // Begin the forge timer so that the notification will pop.
+    [gs beginForgeTimer];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -1337,8 +1340,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == FinishForgeAttemptWaittimeWithDiamondsResponseProto_FinishForgeAttemptWaittimeWithDiamondsStatusSuccess) {
-    // Begin the forge timer so that the notification will pop.
-    [gs beginForgeTimer];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

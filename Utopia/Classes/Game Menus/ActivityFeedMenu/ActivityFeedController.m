@@ -79,7 +79,7 @@
     [button setImage:[Globals imageNamed:@"checkstatus.png"] forState:UIControlStateNormal];
     [userIcon setImage:[Globals imageNamed:@"blacksmithicon.png"] forState:UIControlStateNormal];
     
-    buttonLabel.text = @"Visit Forge";
+    buttonLabel.text = @"Visit";
   }
   
   NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
@@ -122,12 +122,14 @@
     [Analytics clickedRevenge];
   } else if (notification.type == kNotificationForge) {
     [ForgeMenuController displayView];
+    [[ActivityFeedController sharedActivityFeedController] close];
   }
 }
 
 - (IBAction)profilePicClicked:(id)sender {
-  if (self.notification.type == kNotificationBattle) {
+  if (self.notification.type == kNotificationForge) {
     [ForgeMenuController displayView];
+    [[ActivityFeedController sharedActivityFeedController] close];
   } else {
     NSArray *users = [[ActivityFeedController sharedActivityFeedController] users];
     
@@ -214,7 +216,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
   [cell updateForNotification:un];
   
   [[cell.contentView viewWithTag:1001] removeFromSuperview];
-  NSLog(@"%d: %d", indexPath.row, un.hasBeenViewed);
   if (!un.hasBeenViewed) {
     UIView *view = [[UIView alloc] initWithFrame:cell.bounds];
     view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.08f];

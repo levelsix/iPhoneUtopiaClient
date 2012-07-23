@@ -458,6 +458,10 @@
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
+  if (_performingTask) {
+    LNLog(@"PERFORMING TASK..");
+  }
+  
   if ([_selected conformsToProtocol:@protocol(TaskElement)] && selected == nil) {
     [[TopBar sharedTopBar] fadeOutToolTip:NO];
   }

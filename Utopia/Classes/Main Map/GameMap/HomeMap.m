@@ -140,18 +140,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     }
     
     CGRect r = CGRectZero;
-    r.origin = [self randomWalkablePosition];
-    r.size = CGSizeMake(1, 1);
-    _carpenter = [[Carpenter alloc] initWithLocation:r map:self];
-    [self addChild:_carpenter];
-    [_carpenter release];
-    
     r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
     _tutGirl = [[TutorialGirl alloc] initWithLocation:r map:self];
     [self addChild:_tutGirl];
     [_tutGirl release];
+    
+    r.origin = [self randomWalkablePosition];
+    r.size = CGSizeMake(1, 1);
+    _carpenter = [[Carpenter alloc] initWithLocation:r map:self];
+    [self addChild:_carpenter];
+    [_carpenter release];
     
     [self reloadQuestGivers];
     

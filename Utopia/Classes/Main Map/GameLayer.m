@@ -119,7 +119,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   _missionMap = m;
   
-  [[SoundEngine sharedSoundEngine] playMissionMapMusic];
+  if (self.isRunning) {
+    [[SoundEngine sharedSoundEngine] playMissionMapMusic];
+  }
   
   [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:YES];
 }
@@ -154,7 +156,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling\nHome"];
     _loading = YES;
     [_homeMap moveToCenter];
-    [self performSelector:@selector(displayHomeMap) withObject:nil afterDelay:0.5f];
+    [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayHomeMap)], nil]];
   }
 }
 
@@ -177,7 +179,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [_topBar loadHomeConfiguration];
   [_homeMap reloadQuestGivers];
   
-  [[SoundEngine sharedSoundEngine] playHomeMapMusic];
+  if (self.isRunning) {
+    [[SoundEngine sharedSoundEngine] playHomeMapMusic];
+  }
   
   if (_loading) {
     [[MapViewController sharedMapViewController] close];
@@ -190,13 +194,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _homeMap.selected = nil;
     _homeMap.visible = NO;
     
-    [[CarpenterMenuController sharedCarpenterMenuController] closeClicked:nil];
+    [CarpenterMenuController removeView];
   }
 }
 
 - (GameMap *) currentMap {
   if (currentCity == 0) {
-    return _homeMap;
+    if (_bazaarMap.parent) {
+      return _bazaarMap;
+    } else {
+      return _homeMap;
+    }
   } else {
     return _missionMap;
   }
@@ -208,7 +216,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
     [_bazaarMap moveToCenter];
-    [self performSelector:@selector(displayBazaarMap) withObject:nil afterDelay:0.5f];
+    [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayBazaarMap)], nil]];
   }
 }
 
@@ -228,7 +236,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [_bazaarMap reloadQuestGivers];
   }
   
-  [[SoundEngine sharedSoundEngine] playBazaarMusic];
+  if (self.isRunning) {
+    [[SoundEngine sharedSoundEngine] playBazaarMusic];
+  }
   
   if (_loading) {
     [[MapViewController sharedMapViewController] close];
@@ -260,7 +270,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) onEnter {
   [super onEnter];
   if (currentCity == 0) {
-    [[SoundEngine sharedSoundEngine] playHomeMapMusic];
+    if (_bazaarMap.parent) {
+      [[SoundEngine sharedSoundEngine] playBazaarMusic];
+    } else {
+      [[SoundEngine sharedSoundEngine] playHomeMapMusic];
+    }
   } else {
     [[SoundEngine sharedSoundEngine] playMissionMapMusic];
   }

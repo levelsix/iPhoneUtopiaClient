@@ -578,7 +578,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     NSDate *endTime = [fa.startTime dateByAddingTimeInterval:seconds];
     
     if ([endTime compare:[NSDate date]] == NSOrderedDescending) {
-      _forgeTimer = [[NSTimer timerWithTimeInterval:-endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:nil repeats:NO] retain];
+      _forgeTimer = [[NSTimer timerWithTimeInterval:  endTime.timeIntervalSinceNow target:self selector:@selector(forgeWaitTimeComplete) userInfo:nil repeats:NO] retain];
       [[NSRunLoop mainRunLoop] addTimer:_forgeTimer forMode:NSRunLoopCommonModes];
     } else {
       [self forgeWaitTimeComplete];

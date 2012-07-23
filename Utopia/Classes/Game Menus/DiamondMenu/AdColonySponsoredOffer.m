@@ -19,18 +19,18 @@
 @dynamic price;
 @dynamic rewardPic;
 
--(UIImage *) rewardPic
+- (UIImage *) rewardPic
 {
   return [Globals imageNamed:@"stack.png"];
 }
 
 #pragma AdColony
--(void) pauseAudio
+- (void) pauseAudio
 {
   [[SimpleAudioEngine sharedEngine] setMute:YES];
 }
 
--(void) resumeAudio
+- (void) resumeAudio
 {
   [[SimpleAudioEngine sharedEngine] setMute:NO];
 }

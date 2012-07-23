@@ -1524,6 +1524,7 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   StartupResponseProto_TutorialConstants* tutorialConstants;
   StartupResponseProto_StartupStatus startupStatus;
   StartupResponseProto_UpdateStatus updateStatus;
+  NSMutableArray* mutableNoticesToPlayersList;
   NSMutableArray* mutableAlliesList;
   NSMutableArray* mutablePlayerWallPostNotificationsList;
   NSMutableArray* mutableReferralNotificationsList;
@@ -1583,6 +1584,8 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (PlayerWallPostProto*) playerWallPostNotificationsAtIndex:(int32_t) index;
 - (NSArray*) alliesList;
 - (MinimumUserProtoWithLevel*) alliesAtIndex:(int32_t) index;
+- (NSArray*) noticesToPlayersList;
+- (NSString*) noticesToPlayersAtIndex:(int32_t) index;
 
 + (StartupResponseProto*) defaultInstance;
 - (StartupResponseProto*) defaultInstance;
@@ -3537,6 +3540,13 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (StartupResponseProto_Builder*) setUnhandledForgeAttemptBuilder:(UnhandledBlacksmithAttemptProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value;
 - (StartupResponseProto_Builder*) clearUnhandledForgeAttempt;
+
+- (NSArray*) noticesToPlayersList;
+- (NSString*) noticesToPlayersAtIndex:(int32_t) index;
+- (StartupResponseProto_Builder*) replaceNoticesToPlayersAtIndex:(int32_t) index with:(NSString*) value;
+- (StartupResponseProto_Builder*) addNoticesToPlayers:(NSString*) value;
+- (StartupResponseProto_Builder*) addAllNoticesToPlayers:(NSArray*) values;
+- (StartupResponseProto_Builder*) clearNoticesToPlayersList;
 @end
 
 @interface UserCreateRequestProto : PBGeneratedMessage {
@@ -3546,7 +3556,6 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasTimeOfStructBuild_:1;
   BOOL hasAttack_:1;
   BOOL hasDefense_:1;
-  BOOL hasHealth_:1;
   BOOL hasEnergy_:1;
   BOOL hasStamina_:1;
   BOOL hasUdid_:1;
@@ -3561,7 +3570,6 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   int64_t timeOfStructBuild;
   int32_t attack;
   int32_t defense;
-  int32_t health;
   int32_t energy;
   int32_t stamina;
   NSString* udid;
@@ -3580,7 +3588,6 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (BOOL) hasDeviceToken;
 - (BOOL) hasAttack;
 - (BOOL) hasDefense;
-- (BOOL) hasHealth;
 - (BOOL) hasEnergy;
 - (BOOL) hasStamina;
 - (BOOL) hasTimeOfStructPurchase;
@@ -3595,7 +3602,6 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int32_t attack;
 @property (readonly) int32_t defense;
-@property (readonly) int32_t health;
 @property (readonly) int32_t energy;
 @property (readonly) int32_t stamina;
 @property (readonly) int64_t timeOfStructPurchase;
@@ -3678,11 +3684,6 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (int32_t) defense;
 - (UserCreateRequestProto_Builder*) setDefense:(int32_t) value;
 - (UserCreateRequestProto_Builder*) clearDefense;
-
-- (BOOL) hasHealth;
-- (int32_t) health;
-- (UserCreateRequestProto_Builder*) setHealth:(int32_t) value;
-- (UserCreateRequestProto_Builder*) clearHealth;
 
 - (BOOL) hasEnergy;
 - (int32_t) energy;

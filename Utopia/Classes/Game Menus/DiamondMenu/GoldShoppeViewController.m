@@ -406,7 +406,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     _isDisplayingLoadingView = NO;
   }
   
-  curGoldLabel.text = [NSString stringWithFormat:@"%d", [[GameState sharedGameState] gold]];
+  curGoldLabel.text = [Globals commafyNumber:[[GameState sharedGameState] gold]];
 }
 
 - (void)viewDidUnload

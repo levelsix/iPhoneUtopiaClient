@@ -260,6 +260,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   [self loadRightViewForForgeItem:[self.forgeItems objectAtIndex:index] fromItemView:nil];
 }
 
+- (void) reloadCurrentItem {
+  ForgeItem *f = self.curItem;
+  self.curItem = nil;
+  [self loadRightViewForForgeItem:f fromItemView:(ForgeItemView *)[self.forgeTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.forgeItems indexOfObject:f] inSection:0]]];
+}
+
 - (void) loadRightViewForCurrentForgingItem:(ForgeItem *)fi {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -620,6 +626,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
                                                     selector:@selector(finishNow)];
 }
 
+- (IBAction)infoClicked:(id)sender {
+  [GenericPopupController displayViewWithText:@"You need 2 items of the same level to attempt a forge." title:@"Forging Information"];
+}
+
 - (void) finishNow {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
@@ -792,9 +802,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (IBAction)okayClicked:(id)sender {
   // Undo curItem so we can get past check in loadRightView..
   if (!_collectingEquips) {
-    ForgeItem *fi = self.curItem;
-    self.curItem = nil;
-    [self loadRightViewForForgeItem:fi fromItemView:(ForgeItemView *)[self.forgeTableView cellForRowAtIndexPath:self.forgeTableView.indexPathForSelectedRow]];
+    [self reloadCurrentItem];
   }
 }
 
@@ -910,9 +918,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     _collectingEquips = NO;
     [self removeLoadingView];
     
-    ForgeItem *f = self.curItem;
-    self.curItem = nil;
-    [self loadRightViewForForgeItem:f fromItemView:(ForgeItemView *)[self.forgeTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[self.forgeItems indexOfObject:f] inSection:0]]];
+    [self reloadCurrentItem];
   }
 }
 

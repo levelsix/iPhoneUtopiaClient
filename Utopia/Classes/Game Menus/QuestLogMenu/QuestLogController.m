@@ -160,7 +160,7 @@
     [[ArmoryViewController sharedArmoryViewController] close];
   }
   
-  if ([[BattleLayer sharedBattleLayer] isRunning]) {
+  if ([BattleLayer isInitialized] && [[BattleLayer sharedBattleLayer] isRunning]) {
     [[BattleLayer sharedBattleLayer] closeSceneFromQuestLog];
   }
 }

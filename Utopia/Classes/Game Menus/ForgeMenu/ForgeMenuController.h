@@ -82,6 +82,7 @@
 + (void) removeView;
 + (void) purgeSingleton;
 
+- (void) reloadCurrentItem;
 - (IBAction) closeClicked:(id)sender;
 - (IBAction) forgeButtonClicked:(id)sender;
 

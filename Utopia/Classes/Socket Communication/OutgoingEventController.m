@@ -26,6 +26,7 @@
 #import "GameViewController.h"
 #import "ArmoryViewController.h"
 #import "EquipDeltaView.h"
+#import "ForgeMenuController.h"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -1109,7 +1110,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (city.minLevel <= gs.level) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
-    if (![[BattleLayer sharedBattleLayer] isRunning]) {
+    if ([BattleLayer isInitialized] && ![[BattleLayer sharedBattleLayer] isRunning]) {
       [mvc startLoadingWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
     }
     
@@ -1327,7 +1328,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   gs.deviceToken = str;
   
   while (gs.userId == 0) {
-    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
+    [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.f]];
     
     if (gs.isTutorial) {
       return;
@@ -1432,6 +1433,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     gs.forgeAttempt.isComplete = YES;
     [gs stopForgeTimer];
     
+    ForgeMenuController *fmc = [ForgeMenuController sharedForgeMenuController];
+    
+    if (gs.forgeAttempt.level == fmc.curItem.level && gs.forgeAttempt.equipId == fmc.curItem.equipId) {
+      [fmc reloadCurrentItem];
+    }
+    
     int tag = [sc sendForgeAttemptWaitCompleteMessageWithBlacksmithId:blacksmithId clientTime:[self getCurrentMilliseconds]];
     NoUpdate *nu = [NoUpdate updateWithTag:tag];
     [gs addUnrespondedUpdate:nu];
@@ -1448,7 +1455,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   int goldCost = [gl calculateGoldCostToSpeedUpForging:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
   
   if (gs.forgeAttempt.isComplete) {
-    [Globals popupMessage:@"Attempting to complete forge when it is already complete."];
+    [Globals popupMessage:@"Attempting to complete forge with diamonds when it is already complete."];
   } else if (goldCost <= gs.gold) {
     gs.forgeAttempt.isComplete = YES;
     gs.forgeAttempt.speedupTime = [NSDate date];
@@ -1457,7 +1464,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldCost];
     [gs addUnrespondedUpdate:gu];
   } else {
-    [Globals popupMessage:@"Attempting to complete forge before it is ready."];
+    [Globals popupMessage:@"Attempting to complete forge without enough diamonds."];
   }
 }
 

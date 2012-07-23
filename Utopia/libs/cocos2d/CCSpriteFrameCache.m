@@ -223,9 +223,15 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	
   NSString *texturePath = nil;
   NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
-  if( metadataDict )
+  if( metadataDict ) {
     // try to read  texture file name from meta data
-    texturePath = [metadataDict objectForKey:@"textureFileName"];
+    NSDictionary *targetDict = [metadataDict objectForKey:@"target"];
+    texturePath = [targetDict objectForKey:@"textureFileName"];
+    NSString *end = [targetDict objectForKey:@"textureFileExtension"];
+    texturePath = [[texturePath stringByDeletingPathExtension] stringByReplacingOccurrencesOfString:@"@2x" withString:@""];
+    texturePath = [texturePath stringByAppendingString:end];
+//    texturePath = [metadataDict objectForKey:@"textureFileName"];
+  }
 	
 	
   if( texturePath )
@@ -241,7 +247,6 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
     // LVL6: commented out 
 //		CCLOG(@"cocos2d: CCSpriteFrameCache: Trying to use file '%@' as texture", texturePath); 
   }
-	
   CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:texturePath];
 	
 	if( texture )

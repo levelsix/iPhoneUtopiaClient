@@ -22,6 +22,12 @@
 
 @class MissionMap;
 
+@interface CCSpriteFrameCache (FrameCheck)
+
+- (BOOL) containsFrame:(NSString *)frameName;
+
+@end
+
 @interface CharacterSprite : SelectableSprite {
   CCLabelTTF *_nameLabel;
 }
@@ -32,6 +38,7 @@
 
 @interface AnimatedSprite : CharacterSprite
 {
+  CCSpriteBatchNode *_spritesheet;
   CCSprite *_sprite;
   CCAction *_curAction;
   CCAction *_walkActionN;
@@ -41,6 +48,7 @@
   BOOL _moving;
 }
 
+@property (nonatomic, retain) CCSpriteBatchNode *spritesheet;
 @property (nonatomic, retain) CCSprite *sprite;
 @property (nonatomic, retain) CCAction *walkActionN;
 @property (nonatomic, retain) CCAction *walkActionF;
