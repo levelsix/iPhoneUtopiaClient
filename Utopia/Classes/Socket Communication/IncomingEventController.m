@@ -196,6 +196,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSCollectForgeEquips:
       responseClass = [CollectForgeEquipsResponseProto class];
       break;
+    case EventProtocolResponseSPurgeStaticDataEvent:
+      responseClass = [PurgeClientStaticDataResponseProto class];
     default:
       responseClass = nil;
       break;
@@ -369,6 +371,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gs setForgeAttempt:[ForgeAttempt forgeAttemptWithUnhandledBlacksmithAttemptProto:proto.unhandledForgeAttempt]];
       [gs beginForgeTimer];
     }
+    
     
     gs.expRequiredForCurrentLevel = proto.experienceRequiredForCurrentLevel;
     gs.expRequiredForNextLevel = proto.experienceRequiredForNextLevel;
@@ -1366,6 +1369,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   [[ForgeMenuController sharedForgeMenuController] receivedCollectForgeEquipsResponse:proto];
+}
+
+- (void) handlePurgeClientStaticDataResponseProto:(FullEvent *)fe {
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purge static data response received.");
+  
+  [[GameState sharedGameState] reretrieveStaticData];
 }
 
 @end

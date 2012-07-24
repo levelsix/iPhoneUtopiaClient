@@ -1338,6 +1338,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return (int)([self calculateMinutesForForge:equipId level:level]/(6+fep.minLevel/5));
 }
 
+- (int) calculateRetailValueForEquip:(int)equipId level:(int)level {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:equipId];
+  int value = fep.diamondPrice ? fep.diamondPrice : fep.coinPrice;
+  return (int)(value*pow(2.f, level-1));
+}
+
 + (void) popupView:(UIView *)targetView
        onSuperView:(UIView *)superView
            atPoint:(CGPoint)point

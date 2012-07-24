@@ -139,17 +139,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   [self.itemsScrollView addSubview:self.itemsContainerView];
   [view release];
   
-  RequiresEquipView *rev = nil;
+  EquipButton *rev = nil;
   int totalCost = 0;
   
   for (int i = 0; i < equipIds.count; i++) {
-    int equipId = [[equipIds objectAtIndex:i] intValue];
-    rev = [[[RequiresEquipView alloc] initWithEquipId:equipId] autorelease];
-    
     CGRect r = rev.frame;
+    r.size.height = self.itemsScrollView.frame.size.height-4;
+    r.size.width = r.size.height;
     r.origin.x = i*(r.size.width+EQUIPS_VIEW_SPACING);
     r.origin.y = itemsContainerView.frame.size.height/2-r.size.height/2;
     rev.frame = r;
+    
+    int equipId = [[equipIds objectAtIndex:i] intValue];
+    rev = [[EquipButton alloc] initWithFrame:r];
+    rev.equipId = equipId;
+    
     
     [self.itemsContainerView addSubview:rev];
     

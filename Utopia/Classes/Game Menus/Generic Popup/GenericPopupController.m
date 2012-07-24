@@ -109,7 +109,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
   gp.confirmationView.hidden = YES;
-  gp.descriptionLabel.text = @"There is a major update available. Click Okay to be taken to the App store.";
+  gp.descriptionLabel.text = @"There is a major update required to play. Click Okay to be taken to the App store.";
   [GenericPopupController displayView];
   gp.toAppStore = YES;
   gpc.link = appStoreLink;

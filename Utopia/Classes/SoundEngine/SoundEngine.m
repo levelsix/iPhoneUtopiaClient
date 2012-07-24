@@ -57,7 +57,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
 - (void) stopBackgroundMusic {
   if (_curMusic != kNoMusic) {
     _curMusic = kNoMusic;
-    [self stopBackgroundMusic];
+    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
   }
 }
 

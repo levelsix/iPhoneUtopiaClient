@@ -358,6 +358,13 @@
     [self scheduleNotificationWithText:text badge:badge date:staminaRefilled];
   }
   
+  if (gs.forgeAttempt && !gs.forgeAttempt.isComplete) {
+    FullEquipProto *fep = [gs equipWithId:gs.forgeAttempt.equipId];
+    NSString *text = [NSString stringWithFormat:@"The Blacksmith has completed forging your %@  . Come back to check if it succeeded!", fep.name];
+    int minutes = [gl calculateMinutesForForge:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
+    [self scheduleNotificationWithText:text badge:1 date:[gs.forgeAttempt.startTime dateByAddingTimeInterval:minutes*60.f]];
+  }
+  
   int curBadgeCount = 1;//shouldSendEnergyNotification + shouldSendStaminaNotification + 1;
   NSString *text = [NSString stringWithFormat:@"%@, come back and reclaim the world for the all powerful %@!", gs.name, [Globals factionForUserType:gs.type]];
   NSDate *date = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];

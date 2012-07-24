@@ -566,6 +566,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
 - (void) submitEquips:(BOOL)guaranteed {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   NSArray *equips = [gs myEquipsWithId:self.curItem.equipId level:self.curItem.level];
   
   if (equips.count >= 2) {
@@ -588,6 +589,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       } else if (ue2.userEquipId == equipped) {
         ue2 = [equips objectAtIndex:2];
       }
+    }
+    
+    if (guaranteed) {
+      int gold = [gl calculateGoldCostToGuaranteeForgingSuccess:self.curItem.equipId level:self.curItem.level];
+      if (gs.gold < gold) {
+        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gold];
+        
+        [Analytics blacksmithFailedToGuaranteeForgeWithEquipId:curItem.equipId level:curItem.level cost:gold];
+        return;
+      } 
+      
+      [Analytics blacksmithGuaranteedForgeWithEquipId:curItem.equipId level:curItem.level];
+    } else {
+      [Analytics blacksmithNotGuaranteedForgeWithEquipId:curItem.equipId level:curItem.level];
     }
     
     BOOL succeeded = [[OutgoingEventController sharedOutgoingEventController] submitEquipsToBlacksmithWithUserEquipId:ue1.userEquipId userEquipId:ue2.userEquipId guaranteed:guaranteed];
@@ -642,6 +657,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   if (gs.gold < gold) {
     [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:gold];
+    
+    [Analytics blacksmithFailedToSpeedUpWithEquipId:fa.equipId level:fa.level cost:gold];
   } else {
     [[OutgoingEventController sharedOutgoingEventController] finishForgeAttemptWaittimeWithDiamonds];
     
@@ -672,6 +689,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
         [self loadRightViewForCurrentForgingItem:fi];
       }];
     }
+    
+    [Analytics blacksmithSpeedUpWithEquipId:fa.equipId level:fa.level];
   }
 }
 
@@ -704,6 +723,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       [[OutgoingEventController sharedOutgoingEventController] collectForgeEquips];
       
       [self doLoadingForChecking];
+      
+      [Analytics blacksmithCollectedItemsWithEquipId:self.curItem.equipId level:self.curItem.level];
     }
   }
 }
@@ -711,11 +732,30 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (IBAction)goToMarketplaceClicked:(id)sender {
   [self closeClicked:nil];
   [MarketplaceViewController displayView];
+  
+  [Analytics blacksmithGoToMarketplaceWithEquipId:self.curItem.equipId level:self.curItem.level];
 }
 
 - (IBAction)buyOneClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:self.curItem.equipId];
+  
+  if (fep.coinPrice) {
+    if (fep.coinPrice > gs.silver) {
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      return;
+    }
+  } else {
+    if (fep.diamondPrice > gs.gold) {
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fep.diamondPrice];
+      return;
+    }
+  }
+  
   [[OutgoingEventController sharedOutgoingEventController] buyEquip:self.curItem.equipId];
   [self displayLoadingView];
+  
+  [Analytics blacksmithBuyOneWithEquipId:self.curItem.equipId level:self.curItem.level];
 }
 
 - (void) doLoadingForChecking {

@@ -252,7 +252,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
                    [CCCallFuncN actionWithTarget:self selector:@selector(removeWithCleanup:)],
                    nil]]];
   
-  [_label runAction:[CCFadeOut actionWithDuration:0.3f]];
+  _label.opacity = 254;
+  [_label runAction:[CCFadeTo actionWithDuration:0.3f opacity:0]];
   
   CCNode *node = [self.parent getChildByTag:30];
   [node stopAllActions];
@@ -550,8 +551,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   [lurpb addAllCitiesNewlyAvailableToUser:tc.levelTwoCities];
   [lurpb addAllNewlyAvailableStructs:tc.levelTwoStructs];
   [lurpb addAllNewlyEquippableEpicsAndLegendaries:tc.levelTwoEquips];
-  
-  
   
   // This will be released after the level up controller closes
   luvc = [[LevelUpViewController alloc] initWithLevelUpResponse:[lurpb build]];

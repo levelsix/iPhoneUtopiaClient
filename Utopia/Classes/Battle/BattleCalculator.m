@@ -79,7 +79,6 @@
     inputPercent = perfect - distFromPerfect*multOfPerfect;
   }
   percentFromPerfect = (inputPercent/perfect)*100;
-  NSLog(@"Percent from perfect: %f", percentFromPerfect);
   return percentFromPerfect;
 }
 

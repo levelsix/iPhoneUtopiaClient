@@ -17,6 +17,8 @@
   int _curLabel;
   
   BOOL _beforeCharSelectPhase;
+  
+  CCMenuItemImage *_backButton;
 }
 
 + (id) scene;

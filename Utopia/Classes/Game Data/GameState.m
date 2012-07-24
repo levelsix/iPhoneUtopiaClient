@@ -613,6 +613,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
 }
 
+- (void) reretrieveStaticData {
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:_staticStructs.allKeys taskIds:_staticTasks.allKeys questIds:_staticQuests.allKeys cityIds:_staticCities.allKeys equipIds:_staticEquips.allKeys buildStructJobIds:_staticBuildStructJobs.allKeys defeatTypeJobIds:_staticDefeatTypeJobs.allKeys possessEquipJobIds:_staticEquips.allKeys upgradeStructJobIds:_staticUpgradeStructJobs.allKeys];
+  
+  [_staticStructs removeAllObjects];
+  [_staticEquips removeAllObjects];
+  [_staticTasks removeAllObjects];
+  [_staticCities removeAllObjects];
+  [_staticQuests removeAllObjects];
+  [_staticBuildStructJobs removeAllObjects];
+  [_staticDefeatTypeJobs removeAllObjects];
+  [_staticPossessEquipJobs removeAllObjects];
+  [_staticUpgradeStructJobs removeAllObjects];
+}
+
 - (void) clearAllData {
   _connected = NO;
   self.marketplaceEquipPosts = [[[NSMutableArray alloc] init] autorelease];

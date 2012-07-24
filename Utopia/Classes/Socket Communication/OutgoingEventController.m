@@ -1050,6 +1050,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  if (gs.forgeAttempt) {
+    NSNumber *n = [NSNumber numberWithInt:gs.forgeAttempt.equipId];
+    if (![sEquips objectForKey:n]) {
+      [rEquips addObject:n];
+      shouldSend = YES;
+    }
+  }
+  
   if (shouldSend) {
     int tag = [sc sendRetrieveStaticDataMessageWithStructIds:[rStructs allObjects] taskIds:[rTasks allObjects] questIds:nil cityIds:nil equipIds:[rEquips allObjects] buildStructJobIds:[rBuildStructJobs allObjects] defeatTypeJobIds:[rDefeatTypeJobs allObjects] possessEquipJobIds:[rPossessEquipJobs allObjects] upgradeStructJobIds:[rUpgradeStructJobs allObjects]];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
@@ -1110,7 +1118,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   if (city.minLevel <= gs.level) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendLoadNeutralCityMessage:city.cityId];
     
-    if ([BattleLayer isInitialized] && ![[BattleLayer sharedBattleLayer] isRunning]) {
+    if (![BattleLayer isInitialized] || ![[BattleLayer sharedBattleLayer] isRunning]) {
       [mvc startLoadingWithText:[NSString stringWithFormat:@"Traveling to %@", city.name]];
     }
     

@@ -263,14 +263,18 @@
 }
 
 - (void) loadStolenEquip {
-  Globals *gl = [Globals sharedGlobals];
-  FullEquipProto *fep = [[[TutorialConstants sharedTutorialConstants] tutorialQuest] firstDefeatTypeJobBattleLootAmulet];
+  GameState *gs = [GameState sharedGameState];
+  StartupResponseProto_TutorialConstants_FullTutorialQuestProto *tutQuest = [[TutorialConstants sharedTutorialConstants] tutorialQuest];
   
-  self.stolenEquipView.nameLabel.text = fep.name;
-  //  self.stolenEquipView.equipIcon.image = [Globals imageForEquip:fep.equipId];
-  [Globals loadImageForEquip:fep.equipId toView:self.stolenEquipView.equipIcon maskedView:nil];
-  self.stolenEquipView.attackLabel.text = [NSString stringWithFormat:@"%d", [gl calculateAttackForEquip:fep.equipId level:1]];
-  self.stolenEquipView.defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:fep.equipId level:1]];
+  UserEquip *ue = [[UserEquip alloc] init];
+  ue.equipId = tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId;
+  ue.userId = gs.userId;
+  ue.level = 1;
+  ue.userEquipId = 3;
+  [gs.myEquips addObject:ue];
+  [ue release];
+  
+  [self.stolenEquipView loadForEquip:(FullUserEquipProto *)ue];
   
   // Move arrow to close button (tag 20)
   [self.stolenEquipView.mainView addSubview:_uiArrow];
@@ -295,11 +299,13 @@
   self.summaryView.leftRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.leftRarityLabel1.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.leftEquipIcon1.image = [Globals imageForEquip:fep.equipId];
+  self.summaryView.leftEquipLevelIcon1.level = 1;
   
   fep = [gs equipWithId:gs.armorEquippedId];
   self.summaryView.leftRarityLabel2.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.leftRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.leftEquipIcon2.image = [Globals imageForEquip:fep.equipId];
+  self.summaryView.leftEquipLevelIcon2.level = 1;
   
   self.summaryView.leftRarityLabel3.text = @"";
   self.summaryView.leftEquipIcon3.image = nil;
@@ -308,11 +314,13 @@
   self.summaryView.rightRarityLabel1.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.rightRarityLabel1.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.rightEquipIcon1.image = [Globals imageForEquip:fep.equipId];
+  self.summaryView.rightEquipLevelIcon1.level = 1;
   
   fep = tc.warriorInitArmor;
   self.summaryView.rightRarityLabel2.textColor = [Globals colorForRarity:fep.rarity];
   self.summaryView.rightRarityLabel2.text = [Globals shortenedStringForRarity:fep.rarity];
   self.summaryView.rightEquipIcon2.image = [Globals imageForEquip:fep.equipId];
+  self.summaryView.rightEquipLevelIcon2.level = 1;
   
   self.summaryView.rightRarityLabel3.text = @"";
   self.summaryView.rightEquipIcon3.image = nil;
@@ -365,14 +373,6 @@
   gs.currentStamina -= 1;
   gs.silver += tutQuest.firstDefeatTypeJobBattleCoinGain;
   gs.battlesWon = 1;
-  
-  UserEquip *ue = [[UserEquip alloc] init];
-  ue.equipId = tutQuest.firstDefeatTypeJobBattleLootAmulet.equipId;
-  ue.userId = gs.userId;
-  ue.level = 1;
-  ue.userEquipId = 3;
-  [gs.myEquips addObject:ue];
-  [ue release];
   
   [Analytics tutorialBattleComplete];
 }

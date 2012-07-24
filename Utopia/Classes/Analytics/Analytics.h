@@ -118,6 +118,15 @@
 + (void) kiipUnlockedAchievement;
 + (void) kiipEnteredEmail;
 
++ (void) blacksmithGuaranteedForgeWithEquipId:(int)equipId level:(int)level;
++ (void) blacksmithNotGuaranteedForgeWithEquipId:(int)equipId level:(int)level;
++ (void) blacksmithSpeedUpWithEquipId:(int)equipId level:(int)level;
++ (void) blacksmithCollectedItemsWithEquipId:(int)equipId level:(int)level;
++ (void) blacksmithGoToMarketplaceWithEquipId:(int)equipId level:(int)level;
++ (void) blacksmithBuyOneWithEquipId:(int)equipId level:(int)level;
++ (void) blacksmithFailedToGuaranteeForgeWithEquipId:(int)equipId level:(int)level cost:(int)gold;
++ (void) blacksmithFailedToSpeedUpWithEquipId:(int)equipId level:(int)level cost:(int)gold;
+
 // Missing Features
 + (void) clickedMarketplaceSearch;
 + (void) clickedVisitCity;

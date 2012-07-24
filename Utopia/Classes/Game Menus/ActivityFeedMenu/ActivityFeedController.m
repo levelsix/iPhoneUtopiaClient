@@ -72,7 +72,8 @@
     [button setImage:nil forState:UIControlStateNormal];
     buttonLabel.text = @"";
   } else if (notification.type == kNotificationForge) {
-    titleLabel.text = @"The blacksmith has completed your forge.";
+    FullEquipProto *fep = [gs equipWithId:notification.forgeEquipId];
+    titleLabel.text = [NSString stringWithFormat:@"The Blacksmith has forged your %@.", fep.name];
     subtitleLabel.text = @"Visit to check if it succeeded.";
     
     titleLabel.textColor = [Globals orangeColor];

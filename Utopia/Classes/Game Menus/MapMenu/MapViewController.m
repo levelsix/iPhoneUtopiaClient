@@ -246,10 +246,27 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   }
 }
 
+#define MIN_LATITUDE 0.5f
+#define MIN_LONGITUDE MIN_LATITUDE*2
+
 - (void) mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
   _loaded = YES;
   
-  if (self.state == kAttackMap) {
+  // Make sure it doesnt become too zoomed in for privacy purposes
+  MKCoordinateRegion rect = mapView.region;
+  BOOL change = NO;
+  if (rect.span.latitudeDelta < MIN_LATITUDE) {
+    rect.span.latitudeDelta = MIN_LATITUDE;
+    change = YES;
+  }
+  if (rect.span.longitudeDelta < MIN_LONGITUDE) {
+    rect.span.longitudeDelta = MIN_LONGITUDE;
+    change = YES;
+  }
+  
+  if (change) {
+    [mapView setRegion:rect animated:YES];
+  } else if (self.state == kAttackMap) {
     [self retrieveAttackListForCurrentBounds];
   }
 }

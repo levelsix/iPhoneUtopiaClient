@@ -627,7 +627,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   [self.stolenEquipView removeFromSuperview];
   [self.summaryView removeFromSuperview];
-  
+    
   _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
   _rightHealthBar.position = ccp(_rightHealthBar.parent.contentSize.width, _rightHealthBar.parent.contentSize.height/2);
   

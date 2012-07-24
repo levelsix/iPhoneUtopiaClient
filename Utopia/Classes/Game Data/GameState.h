@@ -234,6 +234,7 @@
 - (void) stopForgeTimer;
 
 - (void) purgeStaticData;
+- (void) reretrieveStaticData;
 - (void) clearAllData;
 
 @end

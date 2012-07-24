@@ -202,6 +202,7 @@
 @synthesize time, type, otherPlayer;
 @synthesize marketPost;
 @synthesize battleResult, coinsStolen, stolenEquipId, stolenEquipLevel;
+@synthesize forgeEquipId;
 @synthesize hasBeenViewed;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto {
@@ -278,6 +279,7 @@
       self.time = [fa.startTime dateByAddingTimeInterval:seconds];
     }
     self.type = kNotificationForge;
+    self.forgeEquipId = fa.equipId;
   }
   return self;
 }

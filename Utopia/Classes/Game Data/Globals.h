@@ -224,5 +224,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateMinutesForForge:(int)equipId level:(int)level;
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level;
 - (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level;
+- (int) calculateRetailValueForEquip:(int)equipId level:(int)level;
 
 @end

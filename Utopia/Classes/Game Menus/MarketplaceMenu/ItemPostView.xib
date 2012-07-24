@@ -138,7 +138,7 @@
 											<object class="IBUILabel" id="257064929">
 												<reference key="NSNextResponder" ref="454667086"/>
 												<int key="NSvFlags">292</int>
-												<string key="NSFrame">{{31, 7}, {25, 22}}</string>
+												<string key="NSFrame">{{29, 7}, {25, 22}}</string>
 												<reference key="NSSuperview" ref="454667086"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="885917386"/>
@@ -169,7 +169,7 @@
 											<object class="IBUILabel" id="557325157">
 												<reference key="NSNextResponder" ref="454667086"/>
 												<int key="NSvFlags">292</int>
-												<string key="NSFrame">{{71, 7}, {25, 21}}</string>
+												<string key="NSFrame">{{68, 7}, {25, 21}}</string>
 												<reference key="NSSuperview" ref="454667086"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="157016584"/>
@@ -207,7 +207,7 @@
 											<object class="IBUIImageView" id="885917386">
 												<reference key="NSNextResponder" ref="454667086"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrame">{{53, 12}, {12, 13}}</string>
+												<string key="NSFrame">{{54, 12}, {12, 13}}</string>
 												<reference key="NSSuperview" ref="454667086"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="557325157"/>
@@ -372,7 +372,6 @@
 										<string key="NSFrame">{{15, 4}, {69, 22}}</string>
 										<reference key="NSSuperview" ref="73586500"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -1447,6 +1446,7 @@
 						<string key="crossOutView">UIView</string>
 						<string key="defenseLabel">UILabel</string>
 						<string key="equipIcon">EquipButton</string>
+						<string key="levelIcon">EquipLevelIcon</string>
 						<string key="levelLabel">UILabel</string>
 						<string key="mainView">UIView</string>
 						<string key="playerNameButton">UIButton</string>
@@ -1491,6 +1491,10 @@
 						<object class="IBToOneOutletInfo" key="equipIcon">
 							<string key="name">equipIcon</string>
 							<string key="candidateClassName">EquipButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="levelIcon">
+							<string key="name">levelIcon</string>
+							<string key="candidateClassName">EquipLevelIcon</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="levelLabel">
 							<string key="name">levelLabel</string>

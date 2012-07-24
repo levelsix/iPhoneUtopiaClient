@@ -328,22 +328,6 @@
 							<string key="NSResourceName">equipped.png</string>
 						</object>
 					</object>
-					<object class="IBUIImageView" id="793813825">
-						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{22, 45}, {23, 23}}</string>
-						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSWindow"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<int key="IBUIContentMode">4</int>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">lvl1.png</string>
-						</object>
-					</object>
 				</array>
 				<string key="NSFrameSize">{145, 162}</string>
 				<reference key="NSSuperview"/>
@@ -480,7 +464,6 @@
 							<reference ref="611027439"/>
 							<reference ref="542006948"/>
 							<reference ref="962572047"/>
-							<reference ref="793813825"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -569,11 +552,6 @@
 						<reference key="object" ref="962572047"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">79</int>
-						<reference key="object" ref="793813825"/>
-						<reference key="parent" ref="191373211"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -603,7 +581,6 @@
 				<string key="74.CustomClassName">NiceFontLabel</string>
 				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="79.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
@@ -723,7 +700,6 @@
 			<string key="equipped.png">{55, 55}</string>
 			<string key="goldcoin.png">{28, 26}</string>
 			<string key="itembg.png">{145, 162}</string>
-			<string key="lvl1.png">{23, 23}</string>
 			<string key="silvercoin.png">{28, 26}</string>
 			<string key="statscostdivider.png">{1, 14}</string>
 			<string key="unequipitembg.png">{145, 162}</string>

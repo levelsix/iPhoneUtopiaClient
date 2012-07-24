@@ -103,6 +103,15 @@
 #define CLICKED_SEARCH @"Mkt: Clicked search"
 #define CLICKED_VISIT_CITY @"Profile: Clicked visit city"
 
+#define BLACKSMITH_GUARANTEED_FORGE @"Blksmth: Forge w/ grntee"
+#define BLACKSMITH_FAILED_GUARANTEED_FORGE @"Blksmth: Failed to grntee"
+#define BLACKSMITH_NOT_GUARANTEED_FORGE @"Blksmth: Forge w/o grntee"
+#define BLACKSMITH_SPEED_UP @"Blksmth: Speed Up"
+#define BLACKSMITH_FAILED_SPEED_UP @"Blksmth: Failed Speed Up"
+#define BLACKSMITH_COLLECTED_ITEMS @"Blksmth: Collected Items"
+#define BLACKSMITH_GO_TO_MARKETPLACE @"Blksmth: Went to mktplace"
+#define BLACKSMITH_BUY_ONE @"Blksmth: Buy one clicked"
+
 #define TUTORIAL_START @"Tutorial: Start"
 #define TUTORIAL_OPENED_DOOR @"Tutorial: Opened door"
 #define TUTORIAL_PAN_DONE @"Tutorial: Pan done"
@@ -132,11 +141,15 @@
 @implementation Analytics
 
 + (void) event:(NSString *)event {
+#ifndef DEBUG
   [Apsalar event:event];
+#endif
 }
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
+#ifndef DEBUG
   [Apsalar event:event withArgs:args];
+#endif
 }
 
 + (void) openedApp {
@@ -726,6 +739,84 @@
 
 + (void) kiipEnteredEmail {
   [Analytics event:KIIP_ENTERED_EMAIL];
+}
+
++ (void) blacksmithGuaranteedForgeWithEquipId:(int)equipId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_GUARANTEED_FORGE withArgs:args];
+}
+
++ (void) blacksmithFailedToGuaranteeForgeWithEquipId:(int)equipId level:(int)level cost:(int)gold {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        [NSNumber numberWithInt:gs.gold], @"cur gold",
+                        [NSNumber numberWithInt:gold], @"gold cost",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_FAILED_GUARANTEED_FORGE withArgs:args];
+}
+
++ (void) blacksmithNotGuaranteedForgeWithEquipId:(int)equipId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_NOT_GUARANTEED_FORGE withArgs:args];
+}
+
++ (void) blacksmithSpeedUpWithEquipId:(int)equipId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_SPEED_UP withArgs:args];
+}
+
++ (void) blacksmithFailedToSpeedUpWithEquipId:(int)equipId level:(int)level cost:(int)gold {
+  GameState *gs = [GameState sharedGameState];
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        [NSNumber numberWithInt:gs.gold], @"cur gold",
+                        [NSNumber numberWithInt:gold], @"gold cost",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_SPEED_UP withArgs:args];
+}
+
++ (void) blacksmithCollectedItemsWithEquipId:(int)equipId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_COLLECTED_ITEMS withArgs:args];
+}
+
++ (void) blacksmithGoToMarketplaceWithEquipId:(int)equipId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_GO_TO_MARKETPLACE withArgs:args];
+}
+
++ (void) blacksmithBuyOneWithEquipId:(int)equipId level:(int)level {
+  NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [NSNumber numberWithInt:equipId], @"equip id",
+                        [NSNumber numberWithInt:level], @"level",
+                        nil];
+  
+  [Analytics event:BLACKSMITH_BUY_ONE withArgs:args];
 }
 
 // Missing features

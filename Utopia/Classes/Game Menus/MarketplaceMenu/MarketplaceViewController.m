@@ -140,20 +140,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
 }
 
-- (void) updateArmoryPopupForEquipId:(int)equipId {
+- (void) updateArmoryPopupForEquipId:(UserEquip *)ue {
   GameState *gs = [GameState sharedGameState];
-  FullEquipProto *fep = [gs equipWithId:equipId];
+  FullEquipProto *fep = [gs equipWithId:ue.equipId];
+  Globals *gl = [Globals sharedGlobals];
   
-  if (fep.diamondPrice > 0) {
-    armoryPriceIcon.highlighted = YES;
-    armoryPriceLabel.text = [Globals commafyNumber:fep.diamondPrice];
-  } else if (fep.coinPrice > 0) {
-    armoryPriceIcon.highlighted = NO;
-    armoryPriceLabel.text = [Globals commafyNumber:fep.coinPrice];
-  } else {
-    armoryPriceIcon.highlighted = [Globals sellsForGoldInMarketplace:fep];
-    armoryPriceLabel.text = @"N/A";
-  }
+  BOOL sellsForGold = [Globals sellsForGoldInMarketplace:fep];
+  int retail = [gl calculateRetailValueForEquip:ue.equipId level:ue.level];
+  NSString *price = retail > 0 ? [Globals commafyNumber:retail] : @"N/A";
+  
+  armoryPriceIcon.highlighted = sellsForGold;
+  armoryPriceLabel.text = price;
   
   // Center the bottom subview
   CGSize size = [armoryPriceLabel.text sizeWithFont:armoryPriceLabel.font];
@@ -218,7 +215,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     
     [post.priceField becomeFirstResponder];
     
-    [self updateArmoryPopupForEquipId:fep.equipId];
+    [self updateArmoryPopupForEquipId:post.equip];
     self.armoryPriceView.alpha = 0.f;
     [UIView animateWithDuration:0.3f animations:^{
       self.armoryPriceView.alpha = 1.f;

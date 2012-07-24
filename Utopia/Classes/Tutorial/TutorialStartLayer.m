@@ -20,7 +20,7 @@
 #import "TutorialHomeMap.h"
 
 #ifdef DEBUG
-#define PAN_DURATION 0.1f
+#define PAN_DURATION 25.f
 #else
 #define PAN_DURATION 25.f
 #endif
@@ -67,6 +67,18 @@
     
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     
+    _backButton = [CCMenuItemImage itemFromNormalImage:@"backbutton.png" selectedImage:nil target:self selector:@selector(skipPan)];
+    int fontSize = 15;
+    CCLabelTTF *skip = [CCLabelTTF labelWithString:@"Skip" fontName:@"Trajan Pro" fontSize:fontSize];
+    [_backButton addChild:skip];
+    skip.position = ccp(_backButton.contentSize.width/2, _backButton.contentSize.height/2);
+    [Globals adjustFontSizeForCCLabelTTF:skip size:fontSize];
+    
+    CCMenu *menu = [CCMenu menuWithItems:_backButton, nil];
+    [self addChild:menu];
+    _backButton.visible = NO;
+    _backButton.position = ccp(menu.contentSize.width/2-_backButton.contentSize.width/2-10, menu.contentSize.height/2-_backButton.contentSize.height/2-10);
+    
     _curLabel = 0;
   }
   return self;
@@ -78,8 +90,7 @@
   _incrementor = 0;
   [_bgd runAction: [CCSequence actions:
                     [CCMoveTo actionWithDuration:PAN_DURATION position:ccp(-_bgd.contentSize.width+self.contentSize.width, 0)],
-                    [CCMoveTo actionWithDuration:1.f position:ccp(-_bgd.contentSize.width/2+self.contentSize.width/2, 0)],
-                    [CCCallFunc actionWithTarget:self selector:@selector(panDone)], nil]];
+                    [CCCallFunc actionWithTarget:self selector:@selector(firstPartOfPanDone)], nil]];
   
   NSArray *text = [[TutorialConstants sharedTutorialConstants] duringPanTexts];
   int delayTime = (PAN_DURATION+4.f)/(text.count)-0.4f;
@@ -89,6 +100,34 @@
                      [CCFadeTo actionWithDuration:0.2f opacity:255],
                      [CCDelayTime actionWithDuration:delayTime], nil];
   [_label runAction:[CCRepeat actionWithAction:seq times:text.count]];
+  
+  [_backButton runAction:[CCSequence actions:
+                          [CCDelayTime actionWithDuration:1.f],
+                          [CCCallBlock actionWithBlock:
+                           ^{
+                             _backButton.visible = YES;
+                           }], nil]];
+}
+
+- (void) firstPartOfPanDone {
+  _backButton.visible = NO;
+  [_bgd runAction: [CCSequence actions:
+                    [CCMoveTo actionWithDuration:1.f position:ccp(-_bgd.contentSize.width/2+self.contentSize.width/2, 0)],
+                    [CCCallFunc actionWithTarget:self selector:@selector(panDone)], nil]];
+}
+
+- (void) skipPan {
+  [_bgd stopAllActions];
+  [_label stopAllActions];
+  
+  float curPos = _bgd.position.x;
+  float finalPos = -_bgd.contentSize.width+self.contentSize.width;
+  [_bgd runAction: [CCSequence actions:
+                    [CCMoveTo actionWithDuration:(finalPos-curPos)/finalPos*1.f position:ccp(finalPos,0)],
+                    [CCCallFunc actionWithTarget:self selector:@selector(firstPartOfPanDone)], nil]];
+  
+  _backButton.visible = NO;
+  _label.string = nil;
 }
 
 - (void) changeLabel {
@@ -131,6 +170,7 @@
 
 - (void) removeBg {
   _label.string = nil;
+  // This will stop the shaking as well
   [self removeChild:_bgd cleanup:YES];
   [[CCDirector sharedDirector] purgeCachedData];
 }

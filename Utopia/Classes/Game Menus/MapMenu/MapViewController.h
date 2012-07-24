@@ -49,6 +49,9 @@ typedef enum {
   MapState _state;
   
   BOOL _isDisplayingLoadingView;
+  
+  MKMapRect lastGoodMapRect;
+  BOOL manuallyChangingMapRect;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;

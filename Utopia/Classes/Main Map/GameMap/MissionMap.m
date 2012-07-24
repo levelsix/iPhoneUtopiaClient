@@ -408,10 +408,6 @@
   id<TaskElement> te = (id<TaskElement>)_selected;
   FullTaskProto *ftp = te.ftp;
   
-  if (ftp.expGained == 0) {
-    NSLog(@"EXP IS 0");
-  }
-  
   CCLabelTTF *expLabel =  [CCLabelFX labelWithString:[NSString stringWithFormat:@"+%d Exp.", ftp.expGained] fontName:@"DINCond-Black" fontSize:25 shadowOffset:CGSizeMake(0, -1) shadowBlur:1.f];
   [self addChild:expLabel z:1003];
   expLabel.position = ccp(_taskProgBar.position.x, _taskProgBar.position.y+_taskProgBar.contentSize.height);
@@ -451,17 +447,13 @@
   }
   te.numTimesActedForTask = MIN(te.numTimesActedForTask+1, ftp.numRequiredForCompletion);
   te.numTimesActedForQuest = MIN(te.numTimesActedForQuest+1, ftp.numRequiredForCompletion);
-  self.selected = nil;
   _performingTask = NO;
+  self.selected = nil;
   
   [_myPlayer stopPerformingAnimation];
 }
 
 - (void) setSelected:(SelectableSprite *)selected {
-  if (_performingTask) {
-    LNLog(@"PERFORMING TASK..");
-  }
-  
   if ([_selected conformsToProtocol:@protocol(TaskElement)] && selected == nil) {
     [[TopBar sharedTopBar] fadeOutToolTip:NO];
   }
@@ -524,7 +516,10 @@
   } else if ([recognizer state] == UIGestureRecognizerStateEnded) {
     [self updateMissionBuildingMenu];
   }
-  self.selected = nil;
+  
+  if (!_performingTask) {
+    self.selected = nil;
+  }
   [super drag:recognizer node:node];
 }
 

@@ -86,6 +86,7 @@ typedef enum {
 @property (nonatomic, assign) int coinsStolen;
 @property (nonatomic, assign) int stolenEquipId;
 @property (nonatomic, assign) int stolenEquipLevel;
+@property (nonatomic, assign) int forgeEquipId;
 @property (nonatomic, assign) BOOL hasBeenViewed;
 
 - (id) initBattleNotificationAtStartup:(StartupResponseProto_AttackedNotificationProto *)proto;
