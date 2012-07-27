@@ -199,6 +199,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSPurgeStaticDataEvent:
       responseClass = [PurgeClientStaticDataResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
