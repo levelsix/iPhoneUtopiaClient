@@ -42,7 +42,14 @@
     
     GameState *gs = [GameState sharedGameState];
     int equipId = ue.userEquipId;
-    if (gs.weaponEquipped == equipId || gs.armorEquipped == equipId || gs.amuletEquipped == equipId) {
+    if (gs.weaponEquipped == equipId) {
+      gs.weaponEquipped = 0;
+      _equipped = YES;
+    } else if (gs.armorEquipped == equipId) {
+      gs.armorEquipped = 0;
+      _equipped = YES;
+    } else if (gs.amuletEquipped == equipId) {
+      gs.amuletEquipped = 0;
       _equipped = YES;
     }
     

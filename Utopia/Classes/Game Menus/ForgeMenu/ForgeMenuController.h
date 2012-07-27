@@ -88,6 +88,6 @@
 
 - (void) receivedSubmitEquipResponse:(SubmitEquipsToBlacksmithResponseProto *)proto;
 - (void) receivedCollectForgeEquipsResponse:(CollectForgeEquipsResponseProto *)proto;
-- (void) receivedArmoryResponse;
+- (void) receivedArmoryResponse:(BOOL)success;
 
 @end

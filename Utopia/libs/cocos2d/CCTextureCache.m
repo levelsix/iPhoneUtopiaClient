@@ -289,7 +289,7 @@ static CCTextureCache *sharedTextureCache;
 		}
 		
 		else {
-			UIImage *image = [[Globals imageNamed: path] retain];
+			UIImage *image = [Globals unreleasedImageNamed:path];
 			tex = [ [CCTexture2D alloc] initWithImage: image ];
 			[image release];
 			
@@ -455,7 +455,10 @@ static CCTextureCache *sharedTextureCache;
 	}
 	
 	// Split up directory and filename
-	NSString *fullpath = [CCFileUtils fullPathFromRelativePath:path];
+  // LVL6 Addition
+//	NSString *fullpath = [CCFileUtils fullPathFromRelativePath:path];
+  
+	NSString *fullpath = [Globals pathToFile:path];
 	
 	tex = [[CCTexture2D alloc] initWithPVRFile: fullpath];
 	if( tex )

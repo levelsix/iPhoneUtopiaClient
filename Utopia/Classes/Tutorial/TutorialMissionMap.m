@@ -567,7 +567,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
   gs.currentStamina = gs.maxStamina;
   gs.expRequiredForCurrentLevel = gs.expRequiredForNextLevel;
   gs.expRequiredForNextLevel = tc.expForLevelThree;
-  gs.experience += tc.tutorialQuest.expGained;
   
   [TutorialProfileViewController sharedProfileViewController];
   

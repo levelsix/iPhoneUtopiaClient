@@ -234,14 +234,14 @@
   MoneyBuilding *mb = (MoneyBuilding *)_selected;
   UserStruct *userStruct = mb.userStruct;
   GameState *gs = [GameState sharedGameState];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   
   int64_t ms = (uint64_t)([[NSDate date] timeIntervalSince1970]*1000);
   userStruct.isComplete = YES;
-  userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
+  userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
   
   // Update game state
-  FullStructureProto *fsp = [gs structWithId:userStruct.structId];
-  gs.gold -= fsp.instaBuildDiamondCost;
+  gs.gold -= tc.diamondCostToInstabuildFirstStruct;
   
   [_uiArrow removeFromSuperview];
   
@@ -249,12 +249,11 @@
   
   [self.upgradeMenu finishNow:^{
     mb.isConstructing = NO;
-    [self  buildingComplete];
+    [self buildingComplete];
   }];
   
   [self updateTimersForBuilding:mb];
   
-  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   tc.structUsedDiamonds = YES;
   
   [Analytics tutorialFinishNow];

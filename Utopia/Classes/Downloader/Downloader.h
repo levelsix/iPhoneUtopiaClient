@@ -24,10 +24,8 @@
 @property (nonatomic, retain) IBOutlet DownloaderLoadingView *loadingView;
 
 + (Downloader *) sharedDownloader;
-- (void) syncDownloadImage:(NSString *)imageName;
-- (void) asyncDownloadImage:(NSString *)imageName completion:(void (^)(void))completed;
 
 - (void) syncDownloadFile:(NSString *)fileName;
-- (void) asyncDownloadFile:(NSString *)fileName;
+- (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed;
 
 @end

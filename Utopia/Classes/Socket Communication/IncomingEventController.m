@@ -37,6 +37,7 @@
 #import "DailyBonusMenuController.h"
 #import "EquipMenuController.h"
 #import "ForgeMenuController.h"
+#import "RefillMenuController.h"
 
 @implementation IncomingEventController
 
@@ -306,23 +307,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Armory response received with status %d", proto.status);
   
   GameState *gs =[GameState sharedGameState];
+  BOOL success = YES;
   if (proto.status != ArmoryResponseProto_ArmoryStatusSuccess) {
     [Globals popupMessage:@"Server failed to perform armory action."];
     [gs removeAndUndoAllUpdatesForTag:tag];
+    success = NO;
   } else {
     [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
     
-    [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse];
-    [[ArmoryViewController sharedArmoryViewController] receivedArmoryResponse];
-    [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse];
-    
-    // Don't display this for forge
-    if (![ForgeMenuController sharedForgeMenuController].view.superview) {
-      [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
-    }
-    
     [gs removeNonFullUserUpdatesForTag:tag];
   }
+  
+  [[EquipMenuController sharedEquipMenuController] receivedArmoryResponse:proto];
+  [[ArmoryViewController sharedArmoryViewController] receivedArmoryResponse:proto];
+  [[ForgeMenuController sharedForgeMenuController] receivedArmoryResponse:success];
+  [[RefillMenuController sharedRefillMenuController] receivedArmoryResponse:success equip:proto.fullUserEquipOfBoughtItem.equipId];
 }
 
 - (void) handleStartupResponseProto:(FullEvent *)fe {
@@ -459,15 +458,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
     
     [Analytics levelUp:proto.newLevel];
-    NSArray *levelUpRewards = [[[Globals sharedGlobals] kiipRewardConditions] levelUpConditionsList];
-    NSSet *levelupDict = [NSSet setWithArray:levelUpRewards];
-    
-    if ([levelupDict containsObject:[NSNumber numberWithInt:proto.newLevel]]) {
-      NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
-                                  proto.newLevel];      
-      [KiipDelegate postAchievementNotificationAchievement:curAchievement 
-                                                 andSender:nil];
-    }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"Server failed to handle level up"];
@@ -655,7 +645,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [Globals popupMessage:@"Server failed to purchase from marketplace."];
     [gs removeAndUndoAllUpdatesForTag:tag];
   }
-  [mvc removeLoadingView];
+  [mvc.loadingView stop];
 }
 
 - (void) handleRetractMarketplacePostResponseProto:(FullEvent *)fe {
@@ -674,7 +664,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   }
   
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
-  [mvc removeLoadingView];
+  [mvc.loadingView stop];
   [mvc.postsTableView reloadData];
 }
 
@@ -756,8 +746,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
-    [Globals popupMessage:@"Server failed to refill stat."];
+//    [Globals popupMessage:@"Server failed to refill stat."];
     [gs removeAndUndoAllUpdatesForTag:tag];
+    [[TopBar sharedTopBar] setUpEnergyTimer];
+    [[TopBar sharedTopBar] setUpStaminaTimer];
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
   }

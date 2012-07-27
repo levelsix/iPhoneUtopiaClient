@@ -38,7 +38,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
-  [self removeLoadingView];
+  [self.loadingView stop];
 }
 
 + (void) displayViewForEquip:(int)equipId {
@@ -124,47 +124,36 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(EquipMenuController);
   } else {
     [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
     
-    [self displayLoadingView];
+    [self.loadingView display:self.view];
   }
 }
 
-- (void) receivedArmoryResponse {
+- (void) receivedArmoryResponse:(ArmoryResponseProto *)proto {
   if (self.view.superview) {
-    GameState *gs = [GameState sharedGameState];
-    FullEquipProto *fep = [gs equipWithId:equipId];
+    [self.loadingView stop];
     
-    [self removeLoadingView];
-    
-    int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
-    CGPoint startLoc = equipIcon.center;
-    
-    UIView *testView = [EquipDeltaView
-                        createForUpperString:[NSString stringWithFormat:@"- %d %@", 
-                                              price, fep.diamondPrice ? @"Gold" : @"Silver"] 
-                        andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
-                        andCenter:startLoc
-                        topColor:[Globals redColor] 
-                        botColor:[Globals colorForRarity:fep.rarity]];
-    
-    [Globals popupView:testView 
-           onSuperView:self.view
-               atPoint:startLoc
-   withCompletionBlock:nil];
-  }
-}
-
-- (void) displayLoadingView {
-  [loadingView.actIndView startAnimating];
-  
-  [self.view addSubview:loadingView];
-  _isDisplayingLoadingView = YES;
-}
-
-- (void) removeLoadingView {
-  if (_isDisplayingLoadingView) {
-    [loadingView.actIndView stopAnimating];
-    [loadingView removeFromSuperview];
-    _isDisplayingLoadingView = NO;
+    if (proto.status == ArmoryResponseProto_ArmoryStatusSuccess) {
+      GameState *gs = [GameState sharedGameState];
+      FullEquipProto *fep = [gs equipWithId:equipId];
+      
+      int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
+      CGPoint startLoc = equipIcon.center;
+      
+      UIView *testView = [EquipDeltaView
+                          createForUpperString:[NSString stringWithFormat:@"- %d %@", 
+                                                price, fep.diamondPrice ? @"Gold" : @"Silver"] 
+                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                          andCenter:startLoc
+                          topColor:[Globals redColor] 
+                          botColor:[Globals colorForRarity:fep.rarity]];
+      
+      [Globals popupView:testView 
+             onSuperView:self.view
+                 atPoint:startLoc
+     withCompletionBlock:nil];
+      
+      [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
+    }
   }
 }
 

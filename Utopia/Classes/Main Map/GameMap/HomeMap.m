@@ -190,14 +190,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [_timers removeAllObjects];
 }
 
-- (void) backgroundRefresh {
-  // Need this to be able to run on background thread
-  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
-  [EAGLContext setCurrentContext:k_context];
-  
-  [self refresh];
-}
-
 - (void) beginTimers {
   for (CCNode *node in children_) {
     if ([node isKindOfClass:[MoneyBuilding class]]) {

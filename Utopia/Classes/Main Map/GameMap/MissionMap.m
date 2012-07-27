@@ -350,14 +350,22 @@
       self.selected = nil;
     } else {
       NSMutableArray *arr = [NSMutableArray array];
+      BOOL satisfiesReqs = YES;
       for (FullTaskProto_FullTaskEquipReqProto *equipReq in ftp.equipReqsList) {
         int quantity = [gs quantityOfEquip:equipReq.equipId];
-        if (quantity < equipReq.quantity) {
+        int i = 0;
+        for (; i < quantity && i < equipReq.quantity; i++) {
           [arr addObject:[NSNumber numberWithInt:equipReq.equipId]];
+          [arr addObject:[NSNumber numberWithBool:YES]];
+        }
+        for (; i < equipReq.quantity; i++) {
+          [arr addObject:[NSNumber numberWithInt:equipReq.equipId]];
+          [arr addObject:[NSNumber numberWithBool:NO]];
+          satisfiesReqs = NO;
         }
       }
       
-      if (arr.count > 0) {
+      if (!satisfiesReqs) {
         [[RefillMenuController sharedRefillMenuController] displayEquipsView:arr];
         [Analytics notEnoughEquipsForTasks:ftp.taskId equipReqs:arr];
         self.selected = nil;

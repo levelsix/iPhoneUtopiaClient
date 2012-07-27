@@ -87,7 +87,7 @@
       }
     }
     
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToPlist:plist]];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:[Globals pathToFile:plist]];
     NSDictionary *metadataDict = [dict objectForKey:@"metadata"];
     NSDictionary *targetDict = [metadataDict objectForKey:@"target"];
     NSString *texturePath = [targetDict objectForKey:@"textureFileName"];

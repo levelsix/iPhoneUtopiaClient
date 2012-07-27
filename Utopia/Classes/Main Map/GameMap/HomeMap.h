@@ -51,7 +51,6 @@
 
 - (void) changeTiles: (CGRect) buildBlock toBuildable:(BOOL)canBuild;
 - (BOOL) isBlockBuildable: (CGRect) buildBlock;
-- (void) backgroundRefresh;
 - (void) refresh;
 - (int) baseTagForStructId:(int)structId;
 - (void) preparePurchaseOfStruct:(int)structId;

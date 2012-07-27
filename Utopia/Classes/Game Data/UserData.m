@@ -54,9 +54,9 @@
     self.isComplete = proto.isComplete;
     self.coordinates = CGPointMake(proto.coordinates.x, proto.coordinates.y);
     self.orientation = proto.orientation;
-    self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.f] : nil;
-    self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.f] : nil;
-    self.lastUpgradeTime = proto.hasLastUpgradeTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastUpgradeTime/1000.f] : nil;
+    self.purchaseTime = proto.hasPurchaseTime ? [NSDate dateWithTimeIntervalSince1970:proto.purchaseTime/1000.0] : nil;
+    self.lastRetrieved = proto.hasLastRetrieved ? [NSDate dateWithTimeIntervalSince1970:proto.lastRetrieved/1000.0] : nil;
+    self.lastUpgradeTime = proto.hasLastUpgradeTime ? [NSDate dateWithTimeIntervalSince1970:proto.lastUpgradeTime/1000.0] : nil;
   }
   return self;
 }
@@ -209,7 +209,7 @@
   if ((self = [super init])) {
     self.otherPlayer = proto.attacker;
     self.battleResult = proto.battleResult;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.battleCompleteTime/1000.f];
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.battleCompleteTime/1000.0];
     self.coinsStolen = proto.coinsStolen;
     self.stolenEquipId = proto.stolenEquipId;
     self.stolenEquipLevel = proto.stolenEquipLevel;
@@ -221,7 +221,7 @@
 - (id) initMarketplaceNotificationAtStartup:(StartupResponseProto_MarketplacePostPurchasedNotificationProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.buyer;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000.f];
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.timeOfPurchase/1000.0];
     self.marketPost = proto.marketplacePost;
     self.type = kNotificationMarketplace;
   }
@@ -231,7 +231,7 @@
 - (id) initReferralNotificationAtStartup:(StartupResponseProto_ReferralNotificationProto *)proto {
   if ((self = [super init])) {
     self.otherPlayer = proto.referred;
-    self.time = [NSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000.f];
+    self.time = [NSDate dateWithTimeIntervalSince1970:proto.recruitTime/1000.0];
     self.type = kNotificationReferral;
   }
   return self;
@@ -489,10 +489,10 @@
     self.blacksmithId = attempt.blacksmithId;
     self.equipId = attempt.equipId;
     self.level = attempt.goalLevel-1;
-    self.startTime = [NSDate dateWithTimeIntervalSince1970:attempt.startTime/1000.f];
+    self.startTime = [NSDate dateWithTimeIntervalSince1970:attempt.startTime/1000.0];
     self.isComplete = attempt.attemptComplete;
     self.guaranteed = attempt.guaranteed;
-    self.speedupTime = attempt.hasTimeOfSpeedup ? [NSDate dateWithTimeIntervalSince1970:attempt.timeOfSpeedup/1000.f] : nil;
+    self.speedupTime = attempt.hasTimeOfSpeedup ? [NSDate dateWithTimeIntervalSince1970:attempt.timeOfSpeedup/1000.0] : nil;
   }
   return self;
 }

@@ -51,9 +51,6 @@ static NSMutableSet *_pulsingViews;
 @synthesize maxNumberOfMarketplacePosts, numDaysShortMarketplaceLicenseLastsFor;
 @synthesize diamondRewardForReferrer;
 @synthesize incomeFromNormStructMultiplier, minutesToUpgradeForNormStructMultiplier;
-@synthesize battleWeightGivenToAttackStat, battleWeightGivenToDefenseStat;
-@synthesize battleWeightGivenToLevel;
-@synthesize battleWeightGivenToAttackEquipSum, battleWeightGivenToDefenseEquipSum;
 @synthesize diamondCostForInstantUpgradeMultiplier, upgradeStructCoinCostExponentBase;
 @synthesize upgradeStructDiamondCostExponentBase;
 @synthesize locationBarMax;
@@ -63,6 +60,13 @@ static NSMutableSet *_pulsingViews;
 @synthesize battlePerfectMultiplier, battleGoodPercentThreshold, battleGreatPercentThreshold;
 @synthesize battlePerfectPercentThreshold;
 @synthesize perfectLikelihood, greatLikelihood, missLikelihood, goodLikelihood;
+@synthesize forgeMaxEquipLevel, forgeBaseMinutesToOneGold, forgeMinDiamondCostForGuarantee;
+@synthesize forgeTimeBaseForExponentialMultiplier, forgeDiamondCostForGuaranteeExponentialMultiplier;
+@synthesize averageSizeOfLevelBracket, healthFormulaExponentBase;
+@synthesize battlePercentOfArmor, battlePercentOfAmulet, battlePercentOfWeapon;
+@synthesize battlePercentOfPlayerStats, battleAttackExpoMultiplier;
+@synthesize battleHitAttackerPercentOfHealth, battleHitDefenderPercentOfHealth;
+@synthesize battlePercentOfEquipment, battleIndividualEquipAttackCap;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -143,11 +147,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.upgradeStructDiamondCostExponentBase = constants.formulaConstants.upgradeStructDiamondCostExponentBase;
   self.diamondCostForInstantUpgradeMultiplier = constants.formulaConstants.diamondCostForInstantUpgradeMultiplier;
   
-  self.battleWeightGivenToLevel = constants.battleConstants.battleWeightGivenToLevel;
-  self.battleWeightGivenToAttackStat = constants.battleConstants.battleWeightGivenToAttackStat;
-  self.battleWeightGivenToAttackEquipSum = constants.battleConstants.battleWeightGivenToAttackEquipSum;
-  self.battleWeightGivenToDefenseStat = constants.battleConstants.battleWeightGivenToDefenseStat;
-  self.battleWeightGivenToDefenseEquipSum = constants.battleConstants.battleWeightGivenToDefenseEquipSum;
+  self.battleAttackExpoMultiplier = constants.battleConstants.battleAttackExpoMultiplier;
+  self.battlePercentOfWeapon = constants.battleConstants.battlePercentOfWeapon;
+  self.battlePercentOfArmor = constants.battleConstants.battlePercentOfArmor;
+  self.battlePercentOfPlayerStats = constants.battleConstants.battlePercentOfPlayerStats;
+  self.battlePercentOfEquipment = constants.battleConstants.battlePercentOfEquipment;
+  self.battleIndividualEquipAttackCap = constants.battleConstants.battleIndividualEquipAttackCap;
+  self.battlePercentOfAmulet = constants.battleConstants.battlePercentOfAmulet;
+  self.battleHitAttackerPercentOfHealth = constants.battleConstants.battleHitAttackerPercentOfHealth;
+  self.battleHitDefenderPercentOfHealth = constants.battleConstants.battleHitDefenderPercentOfHealth;
   self.battlePerfectPercentThreshold = constants.battleConstants.battlePerfectPercentThreshold;
   self.battleGreatPercentThreshold = constants.battleConstants.battleGreatPercentThreshold;
   self.battleGoodPercentThreshold = constants.battleConstants.battleGoodPercentThreshold;
@@ -158,6 +166,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.greatLikelihood = constants.battleConstants.battleGreatLikelihood;
   self.goodLikelihood = constants.battleConstants.battleGoodLikelihood;
   self.missLikelihood = constants.battleConstants.battleMissLikelihood;
+  
+  self.forgeBaseMinutesToOneGold = constants.forgeConstants.forgeBaseMinutesToOneGold;
+  self.forgeDiamondCostForGuaranteeExponentialMultiplier = constants.forgeConstants.forgeDiamondCostForGuaranteeExponentialMultiplier;
+  self.forgeMaxEquipLevel = constants.forgeConstants.forgeMaxEquipLevel;
+  self.forgeMinDiamondCostForGuarantee = constants.forgeConstants.forgeMinDiamondCostForGuarantee;
+  self.forgeTimeBaseForExponentialMultiplier = constants.forgeConstants.forgeTimeBaseForExponentialMultiplier;
+  self.averageSizeOfLevelBracket = constants.averageSizeOfLevelBracket;
+  self.healthFormulaExponentBase = constants.healthFormulaExponentBase;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
@@ -225,10 +241,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator {
+  if (!structId || !view) return;
   [self imageNamed:[self imageNameForStruct:structId] withImageView:view maskedColor:mask ? [UIColor colorWithWhite:0.f alpha:0.7f] : nil indicator:indicator clearImageDuringDownload:YES];
 }
 
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView {
+  if (!equipId || !view) return;
   [self imageNamed:[self imageNameForEquip:equipId] withImageView:view maskedColor:nil indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
   
   //  if (maskedView) {
@@ -551,13 +569,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   [[[[CCDirector sharedDirector] openGLView] superview] addSubview:view];
 }
 
-+ (NSString *) pathToMap:(NSString *)mapName {
-  if (!mapName) {
++ (NSString *) pathToFile:(NSString *)fileName {
+  if (!fileName) {
     return nil;
   }
   
   // prevents overloading the autorelease pool
-  NSString *resName = [CCFileUtils getDoubleResolutionImage:mapName validate:NO];
+  NSString *resName = [CCFileUtils getDoubleResolutionImage:fileName validate:NO];
   NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
   
   // Added for Utopia project
@@ -576,32 +594,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fullpath;
 }
 
-+ (NSString *) pathToPlist:(NSString *)plistName {
-  if (!plistName) {
-    return nil;
-  }
-  
-  // prevents overloading the autorelease pool
-  NSString *resName = [CCFileUtils getDoubleResolutionImage:plistName validate:NO];
-  NSString *fullpath = [[NSBundle mainBundle] pathForResource:resName ofType:nil];
-  
-  // Added for Utopia project
-  if (!fullpath) {
-    // Image not in NSBundle: look in documents
-    NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    fullpath = [documentsPath stringByAppendingPathComponent:resName];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
-      // File not in docs: download it
-      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
-    }
-  }
-  
-  return fullpath;
-}
-
-+ (UIImage *) imageNamed:(NSString *)path {
++ (UIImage *) unreleasedImageNamed:(NSString *)path {
   if (!path) {
     return nil;
   }
@@ -626,17 +619,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
       // Image not in docs: download it
-      [[Downloader sharedDownloader] syncDownloadImage:fullpath.lastPathComponent];
+      [[Downloader sharedDownloader] syncDownloadFile:fullpath.lastPathComponent];
     }
   }
   
-  image = [UIImage imageWithContentsOfFile:fullpath];
+  // NOTE: THIS IS INTENTIONALLY NOT RELEASED SO THAT WE CAN AVOID THE AUTORELEASE POOL
+  image = [[UIImage alloc] initWithContentsOfFile:fullpath];
   
 //  if (image) {
 //    [gl.imageCache setObject:image forKey:path];
 //  }
   
   return image;
+}
+
++ (UIImage *) imageNamed:(NSString *)path {
+  return [[self unreleasedImageNamed:path] autorelease];
 }
 
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
@@ -691,14 +689,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       // Image not in docs: download it
       // Game will crash if view is released before image download completes so retain it
       [view retain];
-      [[Downloader sharedDownloader] asyncDownloadImage:fullpath.lastPathComponent completion:^{
+      [[Downloader sharedDownloader] asyncDownloadFile:fullpath.lastPathComponent completion:^{
         NSString *str = [[gl imageViewsWaitingForDownloading] objectForKey:key];
         if ([str isEqualToString:imageName]) {
           NSString *resName = [CCFileUtils getDoubleResolutionImage:imageName validate:NO];
           NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
           NSString *documentsPath = [paths objectAtIndex:0];
           NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName]; 
-          UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
+          UIImage *img = [[UIImage alloc] initWithContentsOfFile:fullpath];
           
 //          if (img) {
 //            [gl.imageCache setObject:img forKey:imageName];
@@ -709,6 +707,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           
           view.image = img;
           [view release];
+          [img release];
           view.hidden = NO;
           
           UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
@@ -1288,8 +1287,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int armorAttack = armor ? [self calculateAttackForEquip:armor.equipId level:armor.level] : 0;
   int amuletAttack = amulet ? [self calculateAttackForEquip:amulet.equipId level:amulet.level] : 0;
 
-  return self.battleWeightGivenToAttackStat*attackStat 
-      + self.battleWeightGivenToAttackEquipSum*(weaponAttack+armorAttack+amuletAttack);
+  return (weaponAttack+armorAttack+amuletAttack);
 }
 
 - (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet {
@@ -1297,8 +1295,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   int armorDefense = armor ? [self calculateDefenseForEquip:armor.equipId level:armor.level] : 0;
   int amuletDefense = amulet ? [self calculateDefenseForEquip:amulet.equipId level:amulet.level] : 0;
   
-  return self.battleWeightGivenToAttackStat*defenseStat
-  + self.battleWeightGivenToAttackEquipSum*(weaponDefense+armorDefense+amuletDefense);
+  return (weaponDefense+armorDefense+amuletDefense);
 }
 
 - (int) calculateAttackForEquip:(int)equipId level:(int)level {
@@ -1317,25 +1314,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
   float chanceOfSuccess = 1.f-fep.chanceOfForgeFailureBase;
-  return chanceOfSuccess-(chanceOfSuccess/9)*(level-1);
+  return chanceOfSuccess-(chanceOfSuccess/(self.forgeMaxEquipLevel-1)*(level-1));
 }
 
 - (int) calculateMinutesForForge:(int)equipId level:(int)level {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  return (int)(fep.minutesToAttemptForgeBase*pow(1.8, level+1));
+  return (int)(fep.minutesToAttemptForgeBase*pow(self.forgeTimeBaseForExponentialMultiplier, level+1));
 }
 
 - (int) calculateGoldCostToGuaranteeForgingSuccess:(int)equipId level:(int)level {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  return (int)((5+fep.minLevel/5)*pow(level+1, 2));
+  return (int)((self.forgeMinDiamondCostForGuarantee+fep.minLevel/self.averageSizeOfLevelBracket)*pow(level+1, self.forgeDiamondCostForGuaranteeExponentialMultiplier));
 }
 
 - (int) calculateGoldCostToSpeedUpForging:(int)equipId level:(int)level {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  return (int)([self calculateMinutesForForge:equipId level:level]/(6+fep.minLevel/5));
+  return (int)([self calculateMinutesForForge:equipId level:level]/(self.forgeBaseMinutesToOneGold+fep.minLevel/self.averageSizeOfLevelBracket));
 }
 
 - (int) calculateRetailValueForEquip:(int)equipId level:(int)level {
@@ -1343,6 +1340,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   FullEquipProto *fep = [gs equipWithId:equipId];
   int value = fep.diamondPrice ? fep.diamondPrice : fep.coinPrice;
   return (int)(value*pow(2.f, level-1));
+}
+
+- (int) calculateHealthForLevel:(int)level {
+  return (int)(30.f * powf(self.healthFormulaExponentBase, level-1));
 }
 
 + (void) popupView:(UIView *)targetView
@@ -1610,6 +1611,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   _equipIdToWear = userEquipId;
   
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   UserEquip *equip = [gs myEquipWithUserEquipId:userEquipId];
   FullEquipProto *fep = [gs equipWithId:equip.equipId];
   if ([Globals canEquip:fep]) {
@@ -1622,18 +1624,20 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
       ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
     }
     
-    // Check that the current equipped item is different item or level.
-    if (ue.equipId == fep.equipId && ue.level == equip.level) {
-      return;
-    }
+    int curAttack = [gl calculateAttackForEquip:ue.equipId level:ue.level];
+    int curDefense = [gl calculateDefenseForEquip:ue.equipId level:ue.level];
+    int newAttack = [gl calculateAttackForEquip:equip.equipId level:equip.level];
+    int newDefense = [gl calculateDefenseForEquip:equip.equipId level:equip.level];
     
-    [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?", 
-                                                                fep.name]
-                                                         title:@"Equip Item?"
-                                                    okayButton:@"Equip Item"
-                                                  cancelButton:@"No"
-                                                        target:self
-                                                      selector:@selector(wearEquipConfirmed)];
+    if (newAttack > curAttack || newDefense > curDefense) {
+      [GenericPopupController displayConfirmationWithDescription:[NSString stringWithFormat:@"Would you like to equip this %@?", 
+                                                                  fep.name]
+                                                           title:@"Equip Item?"
+                                                      okayButton:@"Equip Item"
+                                                    cancelButton:@"No"
+                                                          target:self
+                                                        selector:@selector(wearEquipConfirmed)];
+    }
   }
 }
 

@@ -388,31 +388,26 @@
   NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   NSArray *files = [NSArray arrayWithObjects:
                     [NSString stringWithFormat:@"%@AttackLR.plist", prefix],
-                    [NSString stringWithFormat:@"%@AttackLR.png", prefix],
+                    [NSString stringWithFormat:@"%@AttackLR.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@WalkUD.plist", prefix],
-                    [NSString stringWithFormat:@"%@WalkUD.png", prefix],
+                    [NSString stringWithFormat:@"%@WalkUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@AttackNF.plist", prefix],
-                    [NSString stringWithFormat:@"%@AttackNF.png", prefix],
+                    [NSString stringWithFormat:@"%@AttackNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@AttackUD.plist", prefix],
-                    [NSString stringWithFormat:@"%@AttackUD.png", prefix],
+                    [NSString stringWithFormat:@"%@AttackUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericLR.plist", prefix],
-                    [NSString stringWithFormat:@"%@GenericLR.png", prefix],
+                    [NSString stringWithFormat:@"%@GenericLR.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericNF.plist", prefix],
-                    [NSString stringWithFormat:@"%@GenericNF.png", prefix],
+                    [NSString stringWithFormat:@"%@GenericNF.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@GenericUD.plist", prefix],
-                    [NSString stringWithFormat:@"%@GenericUD.png", prefix],
+                    [NSString stringWithFormat:@"%@GenericUD.pvr.ccz", prefix],
                     [NSString stringWithFormat:@"%@WalkLR.plist", prefix],
-                    [NSString stringWithFormat:@"%@WalkLR.png", prefix],
+                    [NSString stringWithFormat:@"%@WalkLR.pvr.ccz", prefix],
                     nil];
   
   for (NSString *file in files) {
     NSString *doubleRes = [CCFileUtils getDoubleResolutionImage:file validate:NO];
-    
-    if ([doubleRes.pathExtension isEqualToString:@"png"]) {
-      [[Downloader sharedDownloader] asyncDownloadImage:doubleRes completion:nil];
-    } else {
-      [[Downloader sharedDownloader] asyncDownloadFile:doubleRes];
-    }
+    [[Downloader sharedDownloader] asyncDownloadFile:doubleRes completion:nil];
   }
 }
 

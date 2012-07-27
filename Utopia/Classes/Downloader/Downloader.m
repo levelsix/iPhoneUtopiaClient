@@ -23,33 +23,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
     _queue = dispatch_queue_create("Image Downloader", NULL);
     _cacheDir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] copy];
     
-//    [[NSBundle mainBundle] loadNibNamed:@"DownloaderSpinner" owner:self options:nil];
+    //    [[NSBundle mainBundle] loadNibNamed:@"DownloaderSpinner" owner:self options:nil];
   }
   return self;
 }
 
-- (void) downloadImage:(NSString *)imageName {
+- (void) downloadFile:(NSString *)imageName {
   // LNLogs here are NOT thread safe, be careful
   NSString *urlBase = URL_BASE;
-  NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:imageName]];
-  NSString *pngFilePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
-  if (![[NSFileManager defaultManager] fileExistsAtPath:pngFilePath]) {
-    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
-    
-    if (image) {
-      NSData *data1 = [NSData dataWithData:UIImagePNGRepresentation(image)];
-      
-      [data1 writeToFile:pngFilePath atomically:YES];
+  NSURL *url = [[NSURL alloc] initWithString:[urlBase stringByAppendingString:imageName]];
+  NSString *filePath = [[NSString alloc] initWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
+  if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
+    if (data) {
+      [data writeToFile:filePath atomically:YES];
     }
-    [image release];
+    [data release];
   }
+  [url release];
+  [filePath release];
 }
 
-- (void) asyncDownloadImage:(NSString *)imageName completion:(void (^)(void))completed {
+- (void) asyncDownloadFile:(NSString *)imageName completion:(void (^)(void))completed {
   // Get an image from the URL below
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of %@", imageName);
   dispatch_async(_queue, ^{
-    [self downloadImage:imageName];
+    [self downloadFile:imageName];
     dispatch_async(dispatch_get_main_queue(), ^(void) {
       if (completed) {
         completed();
@@ -59,42 +58,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
   });
 }
 
-- (void) syncDownloadImage:(NSString *)imageName {
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of %@", imageName);
-  dispatch_sync(_queue, ^{
-    [self downloadImage:imageName];
-  });
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
-}
-
-- (void) downloadFile:(NSString *)fileName {
-  NSString *urlBase = URL_BASE;
-  NSURL *url = [NSURL URLWithString:[urlBase stringByAppendingString:fileName]];
-  NSString *filePath = [NSString stringWithFormat:@"%@/%@",_cacheDir, [[url pathComponents] lastObject]];
-  if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    if (data) {
-      [data writeToFile:filePath atomically:YES];
-    }
-  }
-}
-
 - (void) syncDownloadFile:(NSString *)fileName {
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning sync download of file %@", fileName);
   dispatch_sync(_queue, ^{
     [self downloadFile:fileName];
   });
   ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", fileName);
-}
-
-- (void) asyncDownloadFile:(NSString *)fileName {
-  ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Beginning async download of file %@", fileName);
-  dispatch_async(_queue, ^{
-    [self downloadFile:fileName];
-    dispatch_async(dispatch_get_main_queue(), ^{
-      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", fileName);
-    });
-  });
 }
 
 //- (void) beginLoading {

@@ -38,7 +38,8 @@
     if (notification.stolenEquipId != 0) {
       fep = [gs equipWithId:notification.stolenEquipId];
     }
-    NSString *equipStr = fep ? [NSString stringWithFormat:@" and a lvl %d %@", fep.name, notification.stolenEquipLevel] : @"";
+    
+    NSString *equipStr = fep ? [NSString stringWithFormat:@" and a lvl %d %@", notification.stolenEquipLevel, fep.name] : @"";
     
     BOOL won = notification.battleResult != BattleResultAttackerWin ? YES : NO;
     if (won) {

@@ -286,6 +286,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.upgrItemView.alpha = 0.f;
   self.backOldItemView.frame = self.backOldForgingPlacerView.frame;
   self.frontOldItemView.frame = self.frontOldForgingPlacerView.frame;
+  self.backOldItemView.alpha = 1.f;
+  self.frontOldItemView.alpha = 1.f;
   
   int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
   int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
@@ -320,7 +322,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   if (gs.forgeAttempt.guaranteed) {
     self.bottomLabel.text = @"This forge is guaranteed to succeed.";
   } else {
-    float chance = [gl calculateChanceOfSuccess:fi.equipId level:fi.level];
+    float chance = roundf([gl calculateChanceOfSuccess:fi.equipId level:fi.level]);
     self.bottomLabel.text = [NSString stringWithFormat:@"This forge will succeed with a %d%% chance.", (int)(chance*100)];
   }
   
@@ -358,11 +360,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   self.frontOldStatsView.hidden = YES;
   
+  self.upgrItemView.alpha = 0.f;
   self.backOldItemView.frame = self.backOldForgingPlacerView.frame;
   self.frontOldItemView.frame = self.frontOldForgingPlacerView.frame;
+  self.backOldItemView.alpha = 1.f;
+  self.frontOldItemView.alpha = 1.f;
   
   self.equalPlusSign.alpha = 0.f;
-  self.upgrItemView.alpha = 0.f;
   
   self.backOldLevelIcon.level = fi.level;
   self.frontOldLevelIcon.level = 0;
@@ -610,7 +614,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     [self.coinBar updateLabels];
     
     if (succeeded) {
-      [self displayLoadingView];
+      [self.loadingView display:self.view];
     }
   }
 }
@@ -753,7 +757,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
   
   [[OutgoingEventController sharedOutgoingEventController] buyEquip:self.curItem.equipId];
-  [self displayLoadingView];
+  [self.loadingView display:self.view];
   
   [Analytics blacksmithBuyOneWithEquipId:self.curItem.equipId level:self.curItem.level];
 }
@@ -904,7 +908,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   if (proto.status == SubmitEquipsToBlacksmithResponseProto_SubmitEquipsToBlacksmithStatusSuccess) {
     [self beginForgingSelectedItem];
   }
-  [self removeLoadingView];
+  [self.loadingView stop];
   [self.forgeTableView reloadData];
   [self selectRow:[self.forgeItems indexOfObject:self.curItem] animated:NO];
 }
@@ -928,52 +932,39 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   _shouldShake = NO;
 }
 
-- (void) receivedArmoryResponse {
-  
+- (void) receivedArmoryResponse:(BOOL)success {
   if (self.view.superview) {
-    GameState *gs = [GameState sharedGameState];
-    FullEquipProto *fep = [gs equipWithId:self.curItem.equipId];
+    [self.loadingView stop];
     
-    int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
-    CGPoint startLoc = ccp(forgeButton.center.x, CGRectGetMinY(forgeButton.frame));
-    
-    UIView *testView = [EquipDeltaView 
-                        createForUpperString:[NSString stringWithFormat:@"- %d %@", 
-                                              price, fep.diamondPrice ? @"Gold" : @"Silver"] 
-                        andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
-                        andCenter:startLoc
-                        topColor:[Globals redColor] 
-                        botColor:[Globals colorForRarity:fep.rarity]];
-    
-    [Globals popupView:testView 
-           onSuperView:self.mainView
-               atPoint:startLoc
-   withCompletionBlock:nil];
-    
-    [coinBar updateLabels];
-    
-    // Set collecting equips to on so that we can reload same item
-    _collectingEquips = YES;
-    [self loadForgeItems];
-    _collectingEquips = NO;
-    [self removeLoadingView];
-    
-    [self reloadCurrentItem];
-  }
-}
-
-- (void) displayLoadingView {
-  [loadingView.actIndView startAnimating];
-  
-  [self.view addSubview:loadingView];
-  _isDisplayingLoadingView = YES;
-}
-
-- (void) removeLoadingView {
-  if (_isDisplayingLoadingView) {
-    [loadingView.actIndView stopAnimating];
-    [loadingView removeFromSuperview];
-    _isDisplayingLoadingView = NO;
+    if (success) {
+      GameState *gs = [GameState sharedGameState];
+      FullEquipProto *fep = [gs equipWithId:self.curItem.equipId];
+      
+      int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
+      CGPoint startLoc = ccp(forgeButton.center.x, CGRectGetMinY(forgeButton.frame));
+      
+      UIView *testView = [EquipDeltaView 
+                          createForUpperString:[NSString stringWithFormat:@"- %d %@", 
+                                                price, fep.diamondPrice ? @"Gold" : @"Silver"] 
+                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                          andCenter:startLoc
+                          topColor:[Globals redColor] 
+                          botColor:[Globals colorForRarity:fep.rarity]];
+      
+      [Globals popupView:testView 
+             onSuperView:self.mainView
+                 atPoint:startLoc
+     withCompletionBlock:nil];
+      
+      [coinBar updateLabels];
+      
+      // Set collecting equips to on so that we can reload same item
+      _collectingEquips = YES;
+      [self loadForgeItems];
+      _collectingEquips = NO;
+      
+      [self reloadCurrentItem];
+    }
   }
 }
 

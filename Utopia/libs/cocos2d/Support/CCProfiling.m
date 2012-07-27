@@ -106,7 +106,7 @@ void CCProfilingEndTimingBlock(CCProfilingTimer* timer) {
 	struct timeval currentTime;
 	gettimeofday(&currentTime, NULL);
 	timersub(&currentTime, &timer->startTime, &currentTime);
-	double duration = currentTime.tv_sec * 1000.0 + currentTime.tv_usec / 1000.0;
+	double duration = currentTime.tv_sec * /1000.0 + currentTime.tv_usec / /1000.0;
 	
 	// return in milliseconds
 	timer->averageTime = (timer->averageTime + duration) / 2.0f;

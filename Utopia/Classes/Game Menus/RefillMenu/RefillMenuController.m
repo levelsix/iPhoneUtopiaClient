@@ -13,33 +13,26 @@
 #import "LNSynthesizeSingleton.h"
 #import "GoldShoppeViewController.h"
 #import "QuestLogController.h"
+#import "EquipDeltaView.h"
 
 #define REQUIRES_EQUIP_VIEW_OFFSET 5.f
-#define EQUIPS_VIEW_SPACING 1.f
+#define EQUIPS_VIEW_SPACING 5.f
 
 @implementation RequiresEquipView
 
-@synthesize equipId;
+@synthesize checkIcon, levelIcon, equipIcon;
 
-- (id) initWithEquipId:(int)eq {
-  if ((self = [super initWithImage:[Globals imageNamed:@"itemsquare.png"]])) {
-    self.equipId = eq;
-    
-    CGRect r = self.bounds;
-    r.origin.x += REQUIRES_EQUIP_VIEW_OFFSET;
-    r.origin.y += REQUIRES_EQUIP_VIEW_OFFSET;
-    r.size.width -= 2*REQUIRES_EQUIP_VIEW_OFFSET;
-    r.size.height -= 2*REQUIRES_EQUIP_VIEW_OFFSET;
-    
-    UIImageView *equipView = [[UIImageView alloc] initWithFrame:r];
-    equipView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    [self addSubview:equipView];
-    [equipView release];
-    
-    [Globals loadImageForEquip:eq toView:equipView maskedView:nil];
-  }
-  return self;
+- (void) loadWithEquipId:(int)eq level:(int)lvl owned:(BOOL)owned {
+  equipIcon.equipId = eq;
+  levelIcon.level = lvl;
+  checkIcon.highlighted = !owned;
+}
+
+- (void) dealloc {
+  self.checkIcon = nil;
+  self.levelIcon = nil;
+  self.equipIcon = nil;
+  [super dealloc];
 }
 
 @end
@@ -51,7 +44,7 @@
 @synthesize enstTitleLabel, enstImageView, enstGoldCostLabel, fillEnstLabel, enstHintLabel;
 @synthesize itemsCostView, itemsSilverLabel;
 @synthesize itemsScrollView, itemsContainerView;
-@synthesize bgdView;
+@synthesize bgdView, rev, loadingView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
 
@@ -90,6 +83,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   self.itemsScrollView = nil;
   self.itemsContainerView = nil;
   self.bgdView = nil;
+  self.rev = nil;
+  self.loadingView = nil;
 }
 
 - (void) displayEnstView:(BOOL)isEnergy {
@@ -136,29 +131,31 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, itemsScrollView.frame.size.height)];
   [self.itemsContainerView removeFromSuperview];
   self.itemsContainerView = view;
+  self.itemsContainerView.backgroundColor = [UIColor clearColor];
   [self.itemsScrollView addSubview:self.itemsContainerView];
   [view release];
   
-  EquipButton *rev = nil;
   int totalCost = 0;
   
-  for (int i = 0; i < equipIds.count; i++) {
+  // Format of array will be EquipId, Owned repeated
+  for (int i = 0; i+1 < equipIds.count; i += 2) {
+    [[NSBundle mainBundle] loadNibNamed:@"RequiredEquipView" owner:self options:nil];
+    
     CGRect r = rev.frame;
-    r.size.height = self.itemsScrollView.frame.size.height-4;
-    r.size.width = r.size.height;
-    r.origin.x = i*(r.size.width+EQUIPS_VIEW_SPACING);
+    r.origin.x = i/2*(r.size.width+EQUIPS_VIEW_SPACING);
     r.origin.y = itemsContainerView.frame.size.height/2-r.size.height/2;
     rev.frame = r;
     
     int equipId = [[equipIds objectAtIndex:i] intValue];
-    rev = [[EquipButton alloc] initWithFrame:r];
-    rev.equipId = equipId;
-    
+    BOOL owned = [[equipIds objectAtIndex:i+1] boolValue];
+    [rev loadWithEquipId:equipId level:1 owned:owned];
     
     [self.itemsContainerView addSubview:rev];
     
-    FullEquipProto *fep = [gs equipWithId:equipId];
-    totalCost += fep.coinPrice;
+    if (! owned) {
+      FullEquipProto *fep = [gs equipWithId:equipId];
+      totalCost += fep.coinPrice;
+    }
   }
   CGRect r = self.itemsContainerView.frame;
   r.size.width = CGRectGetMaxX(rev.frame);
@@ -277,11 +274,48 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(RefillMenuController);
     [self displayBuySilverView];
   } else {
     // Buy items
-    for (RequiresEquipView *rev in itemsContainerView.subviews) {
-      int equipId = rev.equipId;
-      [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
+    _numArmoryResponsesExpected = 0;
+    for (RequiresEquipView *r in itemsContainerView.subviews) {
+      if (r.checkIcon.highlighted) {
+        int equipId = r.equipIcon.equipId;
+        [[OutgoingEventController sharedOutgoingEventController] buyEquip:equipId];
+        _numArmoryResponsesExpected++;
+      }
     }
-    [self closeView:itemsView];
+    [self.loadingView display:self.view];
+  }
+}
+
+- (void) receivedArmoryResponse:(BOOL)success equip:(int)equipId {
+  if (self.view.superview && !self.itemsView.hidden) {
+    _numArmoryResponsesExpected--;
+    if (_numArmoryResponsesExpected <= 0) {
+      [self.loadingView stop];
+      [self closeView:itemsView];
+    }
+    
+    if (success) {
+      GameState *gs = [GameState sharedGameState];
+      FullEquipProto *fep = [gs equipWithId:equipId];
+      
+      int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
+      
+      UIView *contView = [[[CCDirector sharedDirector] openGLView] superview];
+      CGPoint startLoc = contView.center;
+      
+      UIView *testView = [EquipDeltaView
+                          createForUpperString:[NSString stringWithFormat:@"- %d %@", 
+                                                price, fep.diamondPrice ? @"Gold" : @"Silver"] 
+                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                          andCenter:startLoc
+                          topColor:[Globals redColor] 
+                          botColor:[Globals colorForRarity:fep.rarity]];
+      
+      [Globals popupView:testView 
+             onSuperView:contView
+                 atPoint:startLoc
+     withCompletionBlock:nil];
+    }
   }
 }
 

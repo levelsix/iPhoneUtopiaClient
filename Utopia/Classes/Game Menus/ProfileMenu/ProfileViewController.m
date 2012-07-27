@@ -15,6 +15,7 @@
 #import "GenericPopupController.h"
 #import "EquipMenuController.h"
 #import "EquipDeltaView.h"
+#import "KiipDelegate.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -358,7 +359,7 @@
   darkOverlay.layer.cornerRadius = 2.5f;
   darkOverlay.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.3f];
   darkOverlay.hidden = YES;
-  [self addSubview:darkOverlay];
+  [self insertSubview:darkOverlay belowSubview:levelIcon];
 }
 
 - (void) updateForEquip:(UserEquip *)ue {
@@ -462,6 +463,7 @@
   unknownLabel.hidden = NO;
   chooseEquipButton.hidden = YES;
   equipIcon.hidden = YES;
+  levelIcon.level = 0;
 }
 
 - (void) knownEquip {
@@ -732,7 +734,7 @@
 - (void) updateForWallPost:(PlayerWallPostProto *)wallPost {
   [playerIcon setImage:[Globals squareImageForUser:wallPost.poster.userType] forState:UIControlStateNormal];
   [nameLabel setTitle:wallPost.poster.name forState:UIControlStateNormal];
-  timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.f]];
+  timeLabel.text = [Globals stringForTimeSinceNow:[NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.0]];
   postLabel.text = wallPost.content;
   
   CGSize size = postLabel.frame.size;
@@ -1331,6 +1333,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     curWeaponView.label.textColor = [Globals colorForUnknownEquip];
     curWeaponView.equipIcon.hidden = YES;
     curWeaponView.chooseEquipButton.hidden = NO;
+    curWeaponView.levelIcon.level = 0;
     _weaponEquipView = nil;
   }
   if (!armorFound) {
@@ -1341,6 +1344,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     curArmorView.label.textColor = [Globals colorForUnknownEquip];
     curArmorView.equipIcon.hidden = YES;
     curArmorView.chooseEquipButton.hidden = NO;
+    curArmorView.levelIcon.level = 0;
     _armorEquipView = nil;
   }
   if (!amuletFound) {
@@ -1351,6 +1355,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     curAmuletView.label.textColor = [Globals colorForUnknownEquip];
     curAmuletView.equipIcon.hidden = YES;
     curAmuletView.chooseEquipButton.hidden = NO;
+    curAmuletView.levelIcon.level = 0;
     _amuletEquipView = nil;
   }
 }
@@ -1544,8 +1549,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     _waitingForEquips = NO;
     
     Globals *gl = [Globals sharedGlobals];
-    attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForAttackStat:_fup.attack weapon:(UserEquip *)_fup.weaponEquippedUserEquip armor:(UserEquip *)_fup.armorEquippedUserEquip amulet:(UserEquip *)_fup.amuletEquippedUserEquip]];
-    defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForDefenseStat:_fup.defense weapon:(UserEquip *)_fup.weaponEquippedUserEquip armor:(UserEquip *)_fup.armorEquippedUserEquip amulet:(UserEquip *)_fup.amuletEquippedUserEquip]];
+    UserEquip *weapon = _fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil;
+    UserEquip *armor = _fup.hasArmorEquippedUserEquip ? (UserEquip *)_fup.armorEquippedUserEquip : nil;
+    UserEquip *amulet = _fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil;
+    attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForAttackStat:_fup.attack weapon:weapon armor:armor amulet:amulet]];
+    defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForDefenseStat:_fup.defense weapon:weapon armor:armor amulet:amulet]];
   }
 }
 
@@ -1612,6 +1620,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   UserEquip *amuletEquipped = [gs myEquipWithUserEquipId:gs.amuletEquipped];
   attackLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateAttackForAttackStat:gs.attack weapon:weaponEquipped armor:armorEquipped amulet:amuletEquipped]];
   defenseLabel.text = [NSString stringWithFormat:@"%d", (int)[gl calculateDefenseForDefenseStat:gs.defense weapon:weaponEquipped armor:armorEquipped amulet:amuletEquipped]];
+}
+
+- (void) loadMyProfileWithLevelUp {
+  [self loadMyProfile];
+  _displayKiipOnClose = YES;
 }
 
 - (void) loadMyProfile {
@@ -1728,6 +1741,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [ProfileViewController removeView];
   }];
   self.userId = 0;
+  
+  if (_displayKiipOnClose) {
+    _displayKiipOnClose = NO;
+    GameState *gs = [GameState sharedGameState];
+    NSArray *levelUpRewards = [[[Globals sharedGlobals] kiipRewardConditions] levelUpConditionsList];
+    NSSet *levelupDict = [NSSet setWithArray:levelUpRewards];
+    
+    if ([levelupDict containsObject:[NSNumber numberWithInt:gs.level]]) {
+      NSString *curAchievement = [NSString stringWithFormat:@"level_up_%d",
+                                  gs.level];      
+      [KiipDelegate postAchievementNotificationAchievement:curAchievement 
+                                                 andSender:nil];
+    }
+  }
 }
 
 - (IBAction)visitClicked:(id)sender {

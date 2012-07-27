@@ -83,19 +83,15 @@
 @property (nonatomic, assign) float upgradeStructDiamondCostExponentBase;
 @property (nonatomic, assign) float diamondCostForInstantUpgradeMultiplier;
 
-// Battle constants
-@property (nonatomic, assign) float battleWeightGivenToAttackStat;
-@property (nonatomic, assign) float battleWeightGivenToAttackEquipSum;
-@property (nonatomic, assign) float battleWeightGivenToDefenseStat;
-@property (nonatomic, assign) float battleWeightGivenToDefenseEquipSum;
-@property (nonatomic, assign) float battleWeightGivenToLevel;
-@property (nonatomic, assign) float battlePerfectPercentThreshold;
-@property (nonatomic, assign) float battleGreatPercentThreshold;
-@property (nonatomic, assign) float battleGoodPercentThreshold;
-@property (nonatomic, assign) float battlePerfectMultiplier;
-@property (nonatomic, assign) float battleGreatMultiplier;
-@property (nonatomic, assign) float battleGoodMultiplier;
-@property (nonatomic, assign) float locationBarMax;
+// Forge Constants
+@property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
+@property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;
+@property (nonatomic, assign) float forgeDiamondCostForGuaranteeExponentialMultiplier;
+@property (nonatomic, assign) float forgeBaseMinutesToOneGold;
+@property (nonatomic, assign) float forgeMaxEquipLevel;
+
+@property (nonatomic, assign) float averageSizeOfLevelBracket;
+@property (nonatomic, assign) float healthFormulaExponentBase;
 
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
@@ -116,14 +112,14 @@
 
 + (NSString *)convertTimeToString:(int)secs;
 
++ (UIImage *) unreleasedImageNamed:(NSString *)path;
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
 + (UIImage *) imageForStruct:(int)structId;
 + (UIImage *) imageForEquip:(int)eqId;
 + (NSString *) imageNameForStruct:(int)structId;
 + (NSString *) imageNameForEquip:(int)eqId;
-+ (NSString *) pathToMap:(NSString *)mapName;
-+ (NSString *) pathToPlist:(NSString *)plistName;
++ (NSString *) pathToFile:(NSString *)fileName;
 + (void) loadImageForStruct:(int)structId toView:(UIImageView *)view masked:(BOOL)mask indicator:(UIActivityIndicatorViewStyle)indicator;
 + (void) loadImageForEquip:(int)equipId toView:(UIImageView *)view maskedView:(UIImageView *)maskedView;
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator:(UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear;
@@ -137,7 +133,7 @@
 + (NSString *) stringForEquipClassType:(FullEquipProto_ClassType)type;
 + (NSString *) stringForEquipType:(FullEquipProto_EquipType)type;
 + (NSString *) classForUserType:(UserType)type;
-+(PlayerClassType) playerClassTypeForUserType:(UserType)userType;
++ (PlayerClassType) playerClassTypeForUserType:(UserType)userType;
 
 + (UIImage *) squareImageForUser:(UserType)type;
 + (UIImage *) circleImageForUser:(UserType)type;
@@ -216,6 +212,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 - (int) calculateMinutesToUpgrade:(UserStruct *)us;
 - (float) calculateAttackForAttackStat:(int)attackStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
 - (float) calculateDefenseForDefenseStat:(int)defenseStat weapon:(UserEquip *)weapon armor:(UserEquip *)armor amulet:(UserEquip *)amulet;
+- (int) calculateHealthForLevel:(int)level;
 
 // Forging formulas
 - (int) calculateAttackForEquip:(int)equipId level:(int)level;

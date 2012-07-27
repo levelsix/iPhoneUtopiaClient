@@ -25,25 +25,22 @@
 
 - (id) initWithLocation:(CGRect)loc map:(GameMap *)map {
   if ((self = [super initWithFile:nil location:loc map:map])) {
-//    GameState *gs = [GameState sharedGameState];
-//    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
-//    
-//    [self setUpAnimations];
-//    
-//    // Create sprite
-//    self.contentSize = CGSizeMake(40, 70);
-//    
-//    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
-//    frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png", prefix]];
-//    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
-//    
-//    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
-//    self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y+5));
-//    
-//    [self addChild:_sprite z:5 tag:9999];
-//    
-//    CCLayerColor *l = [CCLayerColor layerWithColor:ccc4(255, 0, 0, 255) width:self.contentSize.width height:self.contentSize.height];
-//    [self addChild:l];
+    GameState *gs = [GameState sharedGameState];
+    NSString *prefix = [Globals animatedSpritePrefix:gs.type];
+    
+    [self setUpAnimations];
+    
+    // Create sprite
+    self.contentSize = CGSizeMake(40, 70);
+    
+    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD00.png",prefix]];
+    frame = frame ? frame : [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkN00.png", prefix]];
+    self.sprite = [CCSprite spriteWithSpriteFrame:frame];
+    
+    CoordinateProto *cp = [[Globals sharedGlobals].animatingSpriteOffsets objectForKey:prefix];
+    self.sprite.position = ccpAdd(ccp(self.contentSize.width/2, self.contentSize.height/2), ccp(cp.x, cp.y+5));
+    
+    [self addChild:_sprite z:5 tag:9999];
   }
   return self;
 }
@@ -52,9 +49,14 @@
   GameState *gs = [GameState sharedGameState];
   NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   
+  CCTexture2DPixelFormat format = [CCTexture2D defaultAlphaPixelFormat];
+  [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA4444];
+  
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkNF.plist",prefix]];
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkLR.plist",prefix]];
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
+  
+  [CCTexture2D setDefaultAlphaPixelFormat:format];
   
   
   //Creating animation for Near
@@ -76,8 +78,10 @@
   //Creating animation for far
   NSMutableArray *walkAnimF= [NSMutableArray array];
   for(int i = 0; true; ++i) {
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i]];
-    if (frame) {
+    NSString *file = [NSString stringWithFormat:@"%@WalkF%02d.png",prefix, i];
+    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+    if (exists) {
+        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
       [walkAnimF addObject:frame];
     } else {
       break;
@@ -89,8 +93,10 @@
   //creating animation for walking up
   NSMutableArray *walkAnimU = [NSMutableArray array];
   for(int i = 0; true; ++i) {
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkU%02d.png",prefix, i]];
-    if (frame) {
+    NSString *file = [NSString stringWithFormat:@"%@WalkU%02d.png",prefix, i];
+    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+    if (exists) {
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
       [walkAnimU addObject:frame];
     } else {
       break;
@@ -103,8 +109,10 @@
   //create animation for walking down
   NSMutableArray *walkAnimD= [NSMutableArray array];
   for(int i = 0; true; ++i) {
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkD%02d.png",prefix, i]];
-    if (frame) {
+    NSString *file = [NSString stringWithFormat:@"%@WalkD%02d.png",prefix, i];
+    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+    if (exists) {
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
       [walkAnimD addObject:frame];
     } else {
       break;
@@ -117,8 +125,10 @@
   //create animation for left and right
   NSMutableArray *walkAnimLR = [NSMutableArray array];
   for(int i = 0; true; ++i) {
-    CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"%@WalkLR%02d.png",prefix, i]];
-    if (frame) {
+    NSString *file = [NSString stringWithFormat:@"%@WalkLR%02d.png", prefix, i];
+    BOOL exists = [[CCSpriteFrameCache sharedSpriteFrameCache] containsFrame:file];
+    if (exists) {
+      CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:file];
       [walkAnimLR addObject:frame];
     } else {
       break;

@@ -108,9 +108,14 @@
 
 @end
 
-@interface LoadingView : UIView
+@interface LoadingView : UIView {
+  BOOL _isDisplayingLoadingView;
+}
 
 @property (nonatomic, retain) IBOutlet UIView *darkView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actIndView;
+
+- (void) display:(UIView *)view;
+- (void) stop;
 
 @end

@@ -18,11 +18,15 @@
   Globals       *_globals;
 }
 
-@property (readonly) int attack;
-@property (readonly) int defense;
+@property (readonly) int attackStat;
+@property (readonly) int defenseStat;
 @property (readonly) int32_t level;
-@property (readonly) int maxHealth;
-@property (readonly) int currentHealth;
+@property (readonly) int weaponAttack;
+@property (readonly) int armorAttack;
+@property (readonly) int amuletAttack;
+@property (readonly) int weaponDefense;
+@property (readonly) int armorDefense;
+@property (readonly) int amuletDefense;
 
 +(id<UserBattleStats>)createWithFullUserProto:(FullUserProto *)user;
 +(id<UserBattleStats>)createFromGameState;

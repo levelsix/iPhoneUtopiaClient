@@ -216,7 +216,7 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 -(void) addSpriteFramesWithFile:(NSString*)plist
 {
   // LVL6 Addition
-  NSString *path = [Globals pathToPlist:plist];
+  NSString *path = [Globals pathToFile:plist];
 //  NSString *path = [CCFileUtils fullPathFromRelativePath:plist];
   
   NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];

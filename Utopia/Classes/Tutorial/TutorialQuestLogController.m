@@ -133,6 +133,12 @@
 }
 
 - (void) claimItClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
+  
+  gs.experience += tc.tutorialQuest.expGained;
+  gs.silver += tc.tutorialQuest.coinsGained;
+  
   [[TutorialMissionMap sharedTutorialMissionMap] questRedeemed:_fqp];
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
   

@@ -11,7 +11,6 @@
 #import "Globals.h"
 #import "IAPHelper.h"
 #import "FlurryClipsSponsoredOffer.h"
-#import "AdColonySponsoredOffer.h"
 #import "FacebookSponsoredOffer.h"
 #import "TwitterSponsoredOffer.h"
 
@@ -114,7 +113,7 @@
 +(NSArray *) allSponsoredOffers
 {
   NSMutableArray *offers = [NSMutableArray array];
-  [offers addObject:[AdColonySponsoredOffer    create]];
+//  [offers addObject:[AdColonySponsoredOffer    create]];
 /*
  * Disabled Sponsored offers:(Short Term)
  *  

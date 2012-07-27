@@ -53,14 +53,14 @@
     locationOnBar = 0;
     attackRange  = _battleConstants.battleGoodPercentThreshold;
   }
-
+  
   locationOnBar +=  abs(attackRange) * [self randomPercent];
   
   if (OVER > [self randomPercent]) {
     float multOfPerfect  = _battleConstants.locationBarMax/fabs(100 - _battleConstants.locationBarMax);
     locationOnBar = (_battleConstants.locationBarMax - locationOnBar)/multOfPerfect;
     locationOnBar += _battleConstants.locationBarMax;
-
+    
   }
   
   return locationOnBar;
@@ -78,11 +78,11 @@
     int multOfPerfect  = perfect/fabs(100 - perfect);
     inputPercent = perfect - distFromPerfect*multOfPerfect;
   }
-  percentFromPerfect = (inputPercent/perfect)*100;
+  percentFromPerfect = (inputPercent/perfect)*100.f;
   return percentFromPerfect;
 }
 
--(float) accuracyPercentForPercent:(float)percent
+- (float) accuracyPercentForPercent:(float)percent
 {
   float accuracy = 0;
   accuracy = [self percentFromPerfect:percent]/100;
@@ -101,25 +101,25 @@
     percentFromPerfect = distFromPerfect*multOfPerfect;
     distFromPerfect    = percentFromPerfect;
   }
-
+  
   CombatDamageType dmgType = DMG_TYPE_MISS;
   if (distFromPerfect <= _battleConstants.battlePerfectPercentThreshold) {
-   dmgType = DMG_TYPE_PERFECT;
+    dmgType = DMG_TYPE_PERFECT;
   }
   else if (distFromPerfect <= _battleConstants.battleGreatPercentThreshold) {
-   dmgType = DMG_TYPE_GREAT;
+    dmgType = DMG_TYPE_GREAT;
   }
   else if (distFromPerfect <= _battleConstants.battleGoodPercentThreshold) {
-   dmgType = DMG_TYPE_GOOD;
+    dmgType = DMG_TYPE_GOOD;
   }
   
   return dmgType;
 }
 
--(int) skillMultForPercent:(float)percent
+- (float) skillMultForPercent:(float)percent
 {
   int result = [self percentFromPerfect:percent];
-
+  
   CombatDamageType dmgType = [self damageZoneForPercent:percent];
   switch (dmgType) {
     case DMG_TYPE_PERFECT:
@@ -137,61 +137,76 @@
     default:
       break;
   }
-    
+  
   return result;
 }
 
--(int) afterDefenseAttackStrength:(int)attackStrength
-                      forDefender:(UserBattleStats *)defender 
-                       andPercent:(float)percent
-{
-  float accuracy = [self accuracyPercentForPercent:percent];
-
-  attackStrength = MAX(attackStrength - defender.defense, 0) + 6*ceil(accuracy);
-
-  return attackStrength;
-}
+//-(int) afterDefenseAttackStrength:(int)attackStrength
+//                      forDefender:(UserBattleStats *)defender 
+//                       andPercent:(float)percent
+//{
+//  float accuracy = [self accuracyPercentForPercent:percent];
+//  
+//  attackStrength = MAX(attackStrength - defender.defense, 0) + 6*ceil(accuracy);
+//  
+//  return attackStrength;
+//}
 
 -(int) attackStrengthForPercent:(float)percent 
                        andRight:(BOOL)rightAttack
 {
   // Get Skill-based attack values
-  int skillAttack, userAttack;
+  Globals *gl = [Globals sharedGlobals];
   
   UserBattleStats *attacker, *defender;
+  float healthPercent;
   if (rightAttack) {
     attacker = rightUser;
     defender = leftUser;
+    healthPercent = _battleConstants.battleHitDefenderPercentOfHealth;
   }
   else {
     attacker = leftUser;
     defender = rightUser;
+    healthPercent = _battleConstants.battleHitAttackerPercentOfHealth;
   }
-
-  skillAttack = [self skillMultForPercent:percent];
-  userAttack  = attacker.attack;
   
-  // Note:It may seem that this Nerf's the stronger character
-  // In reality, the only reason why we given an attack boost
-  // based on level is so that the battle lengths stay consistent.
-  // The risk is that this expandes the difference between levels
-  // (above better gear and skill points).  Thus we take the lower
-  // value as the attack boost
-  int lowerLevel = MIN(attacker.level, defender.level);
-  int levelAdjustment = (lowerLevel - 1)*_battleConstants.battleWeightGivenToLevel;
-  int attackStrength = [self afterDefenseAttackStrength:userAttack + levelAdjustment
-                                            forDefender:defender 
-                                             andPercent:percent];
-  attackStrength = (attackStrength*skillAttack)/100;
-
+  int health = [gl calculateHealthForLevel:attacker.level];
+  double hitStrength = health*healthPercent;
+  double totalEquipPortion = MIN(3*_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfEquipment*(((float)(attacker.weaponAttack+attacker.armorAttack+attacker.amuletAttack))/(defender.weaponDefense+defender.armorDefense+defender.amuletDefense)));
+	double weaponPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfWeapon*(((float)attacker.weaponAttack)/defender.weaponDefense));
+  double armorPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfArmor*(((float)attacker.armorAttack)/defender.armorDefense));
+  double amuletPortion = MIN(_battleConstants.battleIndividualEquipAttackCap, _battleConstants.battlePercentOfAmulet*(((float)attacker.amuletAttack)/defender.armorDefense));
+  double statsPortion = _battleConstants.battlePercentOfPlayerStats*(((float)attacker.attackStat)/defender.defenseStat);
+	
+	int battleFormula = (int) (hitStrength*(pow(totalEquipPortion+weaponPortion+armorPortion+amuletPortion+statsPortion,_battleConstants.battleAttackExpoMultiplier)));
+  
+  float skillAttack = [self skillMultForPercent:percent];
+  
+  //  skillAttack = [self skillMultForPercent:percent];
+  //  userAttack  = attacker.attack;
+  //  
+  //  // Note:It may seem that this Nerf's the stronger character
+  //  // In reality, the only reason why we given an attack boost
+  //  // based on level is so that the battle lengths stay consistent.
+  //  // The risk is that this expandes the difference between levels
+  //  // (above better gear and skill points).  Thus we take the lower
+  //  // value as the attack boost
+  //  int lowerLevel = MIN(attacker.level, defender.level);
+  //  int levelAdjustment = (lowerLevel - 1)*_battleConstants.battleWeightGivenToLevel;
+  //  int attackStrength = [self afterDefenseAttackStrength:userAttack + levelAdjustment
+  //                                            forDefender:defender 
+  //                                             andPercent:percent];
+  //  attackStrength = (attackStrength*skillAttack)/100;
+  
   // Get User attack values  
-  return attackStrength;
+  return battleFormula * skillAttack / 100.f;
 }
 
 -(int) rightAttackStrengthForPercent:(float)percent
 {
   return [self attackStrengthForPercent:percent
-                        andRight:YES];
+                               andRight:YES];
 }
 
 -(int) leftAttackStrengthForPercent:(float)percent

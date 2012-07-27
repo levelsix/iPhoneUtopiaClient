@@ -52,11 +52,10 @@
       }
       else {
         // Remember to remove $ sign in front
-        NSString *left  = [price substringWithRange:NSMakeRange(1,
-                                                                price.length-4)];
-        NSString *right  = [price substringFromIndex:price.length-3];
-        
-        [self setLeftText:left andRightText:right];        
+        BOOL signInFront = ![[NSCharacterSet decimalDigitCharacterSet] characterIsMember:[price characterAtIndex:0]];
+        NSString *left  = [price substringWithRange:NSMakeRange(signInFront, price.length-4)];
+        NSString *right  = [price substringWithRange:NSMakeRange(price.length-3-!signInFront,3)];
+        [self setLeftText:left andRightText:right];
       }
     }
     else {
@@ -307,8 +306,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
         [self.topBar clickButton:kGoldCoinsButton];
         break;
       case kEarnFreeState:
-        [self.topBar unclickButton:kGoldCoinsButton];
-        [self.topBar clickButton:kEarnFreeButton];
+//        [self.topBar unclickButton:kGoldCoinsButton];
+//        [self.topBar clickButton:kEarnFreeButton];
+        
+        [Globals popupMessage:@"Sorry, there are no free offers at this time."];
+        self.state = kPackagesState;
         
         [Analytics clickedFreeOffers];
         break;

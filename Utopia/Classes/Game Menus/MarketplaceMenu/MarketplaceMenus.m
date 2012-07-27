@@ -218,12 +218,13 @@
     
     if (fep.diamondPrice > 0) {
       crossOutView.hidden = NO;
-      armoryPriceLabel.text = [Globals commafyNumber:fep.diamondPrice];
+      int retailPrice = [gl calculateRetailValueForEquip:m.postedEquip.equipId level:m.equipLevel];
+      armoryPriceLabel.text = [Globals commafyNumber:retailPrice];
       savePriceLabel.text = [NSString stringWithFormat:@"%@ (%@%%)", 
-                             [Globals commafyNumber:fep.diamondPrice-mktPost.diamondCost], 
-                             [Globals commafyNumber:(int)roundf((fep.diamondPrice-mktPost.diamondCost)/((float)fep.diamondPrice)*100)]];
+                             [Globals commafyNumber:retailPrice-mktPost.diamondCost], 
+                             [Globals commafyNumber:(int)roundf((retailPrice-mktPost.diamondCost)/((float)retailPrice)*100)]];
       
-      if (mktPost.diamondCost < fep.diamondPrice) {
+      if (mktPost.diamondCost < retailPrice) {
         postedPriceLabel.textColor = [Globals greenColor];
         savePriceLabel.textColor = [Globals greenColor];
       } else {
@@ -348,7 +349,7 @@
                atPoint:startLoc
    withCompletionBlock:nil];
     
-    [mvc displayLoadingView];
+    [mvc.loadingView display:mvc.view];
     [self closeClicked:nil];
     [mvc.coinBar updateLabels];
     

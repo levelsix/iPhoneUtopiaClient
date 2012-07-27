@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "NibUtils.h"
+#import "Protocols.pb.h"
 
 @interface EquipMenuController : UIViewController {
   int equipId;
-  BOOL _isDisplayingLoadingView;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
@@ -40,8 +40,6 @@
 + (void) purgeSingleton;
 
 - (void) updateForEquip:(int)equipId;
-- (void) receivedArmoryResponse;
-- (void) displayLoadingView;
-- (void) removeLoadingView;
+- (void) receivedArmoryResponse:(ArmoryResponseProto *)proto;
 
 @end

@@ -11,10 +11,77 @@
 
 @implementation UserBattleStats
 @dynamic level;
-@dynamic attack;
-@dynamic defense;
-@synthesize maxHealth;
-@synthesize currentHealth;
+@dynamic attackStat;
+@dynamic defenseStat;
+@synthesize weaponAttack, weaponDefense;
+@synthesize armorAttack, armorDefense;
+@synthesize amuletAttack, amuletDefense;
+
+- (int) weaponAttack {
+  Globals *gl = [Globals sharedGlobals];
+  if (_userProto) {
+    return _userProto.hasWeaponEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.weaponEquippedUserEquip.equipId level:_userProto.weaponEquippedUserEquip.level] : 1;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *eq = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level] : 1;
+}
+
+- (int) armorAttack {
+  Globals *gl = [Globals sharedGlobals];
+  if (_userProto) {
+    return _userProto.hasArmorEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.armorEquippedUserEquip.equipId level:_userProto.armorEquippedUserEquip.level] : 1;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *eq = [gs myEquipWithUserEquipId:gs.armorEquipped];
+  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level] : 1;
+}
+
+- (int) amuletAttack {
+  Globals *gl = [Globals sharedGlobals];
+  if (_userProto) {
+    return _userProto.hasAmuletEquippedUserEquip ? [gl calculateAttackForEquip:_userProto.amuletEquippedUserEquip.equipId level:_userProto.amuletEquippedUserEquip.level] : 1;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *eq = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+  return eq ? [gl calculateAttackForEquip:eq.equipId level:eq.level] : 1;
+}
+
+- (int) weaponDefense {
+  Globals *gl = [Globals sharedGlobals];
+  if (_userProto) {
+    return _userProto.hasWeaponEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.weaponEquippedUserEquip.equipId level:_userProto.weaponEquippedUserEquip.level] : 1;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *eq = [gs myEquipWithUserEquipId:gs.weaponEquipped];
+  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level] : 1;
+}
+
+- (int) armorDefense {
+  Globals *gl = [Globals sharedGlobals];
+  if (_userProto) {
+    return _userProto.hasArmorEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.armorEquippedUserEquip.equipId level:_userProto.armorEquippedUserEquip.level] : 1;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *eq = [gs myEquipWithUserEquipId:gs.armorEquipped];
+  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level] : 1;
+}
+
+- (int) amuletDefense {
+  Globals *gl = [Globals sharedGlobals];
+  if (_userProto) {
+    return _userProto.hasAmuletEquippedUserEquip ? [gl calculateDefenseForEquip:_userProto.amuletEquippedUserEquip.equipId level:_userProto.amuletEquippedUserEquip.level] : 1;
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  UserEquip *eq = [gs myEquipWithUserEquipId:gs.amuletEquipped];
+  return eq ? [gl calculateDefenseForEquip:eq.equipId level:eq.level] : 1;
+}
 
 -(int32_t)level
 {
@@ -25,45 +92,24 @@
   return _gameState.level;
 }
 
--(int)attack
-{  
-  if (_userProto) {
-    UserEquip *weapon = _userProto.hasWeaponEquippedUserEquip ? (UserEquip *)_userProto.weaponEquippedUserEquip : nil;
-    UserEquip *armor = _userProto.hasArmorEquippedUserEquip ? (UserEquip *)_userProto.armorEquippedUserEquip : nil;
-    UserEquip *amulet = _userProto.hasAmuletEquippedUserEquip ? (UserEquip *)_userProto.amuletEquippedUserEquip : nil;
-    return [_globals calculateAttackForAttackStat:_userProto.attack
-                                           weapon:weapon
-                                            armor:armor
-                                           amulet:amulet];
-  }
-  
-  GameState *gs = [GameState sharedGameState];
-  int attack = [_globals calculateAttackForAttackStat:_gameState.attack
-                                               weapon:[gs myEquipWithUserEquipId:gs.weaponEquipped]
-                                                armor:[gs myEquipWithUserEquipId:gs.armorEquipped]
-                                               amulet:[gs myEquipWithUserEquipId:gs.amuletEquipped]];
-  
-  return attack;
-}
-
--(int)defense
+-(int)attackStat
 {
   if (_userProto) {
-    UserEquip *weapon = _userProto.hasWeaponEquippedUserEquip ? (UserEquip *)_userProto.weaponEquippedUserEquip : nil;
-    UserEquip *armor = _userProto.hasArmorEquippedUserEquip ? (UserEquip *)_userProto.armorEquippedUserEquip : nil;
-    UserEquip *amulet = _userProto.hasAmuletEquippedUserEquip ? (UserEquip *)_userProto.amuletEquippedUserEquip : nil;
-    return [_globals calculateDefenseForDefenseStat:_userProto.defense
-                                             weapon:weapon
-                                              armor:armor
-                                             amulet:amulet];
+    return _userProto.attack;
   }
   
   GameState *gs = [GameState sharedGameState];
-  return [_globals calculateDefenseForDefenseStat:_gameState.defense
-                                           weapon:[gs myEquipWithUserEquipId:gs.weaponEquipped]
-                                            armor:[gs myEquipWithUserEquipId:gs.armorEquipped]
-                                           amulet:[gs myEquipWithUserEquipId:gs.amuletEquipped]]; 
+  return gs.attack;
+}
+
+-(int)defenseStat
+{
+  if (_userProto) {
+    return _userProto.defense;
+  }
   
+  GameState *gs = [GameState sharedGameState];
+  return gs.defense;
 }
 
 #pragma mark Create/Destroy

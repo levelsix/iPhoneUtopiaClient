@@ -418,7 +418,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
 - (void) viewWillAppear:(BOOL)animated {
   [self refresh];
   [self closeBuySellViewClicked:nil];
-  [self removeLoadingView];
+  [self.loadingView stop];
   [coinBar updateLabels];
   
   CGRect f = self.view.frame;
@@ -647,57 +647,46 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   [[SoundEngine sharedSoundEngine] armoryBuy];
   
-  [self displayLoadingView];
+  [self.loadingView display:self.view];
   
   [[OutgoingEventController sharedOutgoingEventController] buyEquip:fep.equipId];
 }
 
-- (void) receivedArmoryResponse {
+- (void) receivedArmoryResponse:(ArmoryResponseProto *)proto {
   if (self.view.superview) {
-    GameState *gs = [GameState sharedGameState];
-    FullEquipProto *fep = _clickedAl.fep;
+    [self.loadingView stop];
     
-    [self removeLoadingView];
-    
-    int updatedQuantity = [gs quantityOfEquip:fep.equipId];
-    numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
-    
-    int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
-    CGPoint startLoc = _clickedAl.equipIcon.center;
-    
-    UIView *testView = [EquipDeltaView 
-                        createForUpperString:[NSString stringWithFormat:@"- %d %@", 
-                                              price, fep.diamondPrice ? @"Gold" : @"Silver"] 
-                        andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
-                        andCenter:startLoc
-                        topColor:[Globals redColor] 
-                        botColor:[Globals colorForRarity:fep.rarity]];
-    
-    [Globals popupView:testView 
-           onSuperView:_clickedAl
-               atPoint:startLoc
-   withCompletionBlock:nil];
-    
-    if (updatedQuantity > 0 && fep.diamondPrice == 0) {
-      sellButton.enabled = YES;
+    if (proto.status == ArmoryResponseProto_ArmoryStatusSuccess) {
+      GameState *gs = [GameState sharedGameState];
+      FullEquipProto *fep = _clickedAl.fep;
+      
+      int updatedQuantity = [gs quantityOfEquip:fep.equipId];
+      numOwnedLabel.text = [NSString stringWithFormat:@"%d", updatedQuantity];
+      
+      int price = fep.diamondPrice > 0 ? fep.diamondPrice : fep.coinPrice;
+      CGPoint startLoc = _clickedAl.equipIcon.center;
+      
+      UIView *testView = [EquipDeltaView 
+                          createForUpperString:[NSString stringWithFormat:@"- %d %@", 
+                                                price, fep.diamondPrice ? @"Gold" : @"Silver"] 
+                          andLowerString:[NSString stringWithFormat:@"+1 %@", fep.name] 
+                          andCenter:startLoc
+                          topColor:[Globals redColor] 
+                          botColor:[Globals colorForRarity:fep.rarity]];
+      
+      [Globals popupView:testView 
+             onSuperView:_clickedAl
+                 atPoint:startLoc
+     withCompletionBlock:nil];
+      
+      if (updatedQuantity > 0 && fep.diamondPrice == 0) {
+        sellButton.enabled = YES;
+      }
+      
+      [coinBar updateLabels];
+      
+      [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
     }
-    
-    [coinBar updateLabels];
-  }
-}
-
-- (void) displayLoadingView {
-  [loadingView.actIndView startAnimating];
-  
-  [self.view addSubview:loadingView];
-  _isDisplayingLoadingView = YES;
-}
-
-- (void) removeLoadingView {
-  if (_isDisplayingLoadingView) {
-    [loadingView.actIndView stopAnimating];
-    [loadingView removeFromSuperview];
-    _isDisplayingLoadingView = NO;
   }
 }
 

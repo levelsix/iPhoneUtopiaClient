@@ -86,9 +86,6 @@ typedef enum {
 - (void) displayRedeemView;
 - (void) doneRefreshing;
 
-- (void) displayLoadingView;
-- (void) removeLoadingView;
-
 - (IBAction)closePurchLicenseView:(id)sender;
 - (IBAction)shortLicenseClicked:(id)sender;
 - (IBAction)longLicenseClicked:(id)sender;

@@ -143,9 +143,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     
     if (_loaded) {
       [self retrieveAttackListForCurrentBounds];
-      [self.spinner startAnimating];
-      self.spinner.hidden = NO;
     }
+    [self.spinner startAnimating];
+    self.spinner.hidden = NO;
   } else {
     [missionMap.lumoriaView reloadCities];
   }

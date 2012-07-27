@@ -16,7 +16,7 @@
 
 #define ENEMY_HEALTH 30
 #define ENEMY_ATTACK 20
-#define ENEMY_DEFENSE 1
+#define ENEMY_DEFENSE 10
 
 @implementation TutorialBattleLayer
 
@@ -39,12 +39,12 @@
   _flippedComboBar.visible = NO;
   _attackButton.visible = NO;
   _bottomMenu.visible = NO;
-
-#warning change back
-//  _leftCurrentHealth = gs.maxHealth;
-//  _leftMaxHealth = gs.maxHealth;
-//  _rightMaxHealth = ENEMY_HEALTH;
-//  _rightCurrentHealth = ENEMY_HEALTH;
+  
+  Globals *gl = [Globals sharedGlobals];
+  _leftMaxHealth = [gl calculateHealthForLevel:gs.level];
+  _leftCurrentHealth = _leftMaxHealth;
+  _rightMaxHealth = ENEMY_HEALTH;
+  _rightCurrentHealth = _rightMaxHealth;
   
   _rightCurHealthLabel.string = [NSString stringWithFormat:@"%d", _rightCurrentHealth];
   _rightMaxHealthLabel.string = [NSString stringWithFormat:@" / %d", _rightMaxHealth];
@@ -235,6 +235,11 @@
 }
 
 - (void) doneClicked {
+  if (_clickedDone) {
+    return;
+  }
+  _clickedDone = YES;
+  
   [_left runAction: [CCSequence actions: 
                      [CCDelayTime actionWithDuration:0.1],
                      [CCMoveBy actionWithDuration:0.2 position:ccp(-3*_right.contentSize.width/4, 0)],

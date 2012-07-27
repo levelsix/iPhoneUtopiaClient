@@ -196,6 +196,8 @@ typedef enum {
   
   NSArray *_queuedEquips;
   BOOL _waitingForEquips;
+  
+  BOOL _displayKiipOnClose;
 }
 
 @property (nonatomic, retain) IBOutlet UILabel *userNameLabel;
@@ -267,6 +269,7 @@ typedef enum {
 @property (nonatomic, assign) int userId;
 
 - (void) refreshSkillPointsButtons;
+- (void) loadMyProfileWithLevelUp;
 - (void) loadMyProfile;
 - (void) loadProfileForPlayer:(FullUserProto *)fup buttonsEnabled:(BOOL)enabled;
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense;

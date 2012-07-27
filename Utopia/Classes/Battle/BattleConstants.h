@@ -17,24 +17,27 @@ typedef enum CombatDamageType
 } CombatDamageType;
 
 @protocol BattleConstants <NSObject>
-  @property (nonatomic, assign) float battleWeightGivenToAttackStat;
-  @property (nonatomic, assign) float battleWeightGivenToAttackEquipSum;
-  @property (nonatomic, assign) float battleWeightGivenToDefenseStat;
-  @property (nonatomic, assign) float battleWeightGivenToDefenseEquipSum;
-  @property (nonatomic, assign) float battleWeightGivenToLevel;
-  @property (nonatomic, assign) float battlePerfectPercentThreshold;
-  @property (nonatomic, assign) float battleGreatPercentThreshold;
-  @property (nonatomic, assign) float battleGoodPercentThreshold;
-  @property (nonatomic, assign) float battlePerfectMultiplier;
-  @property (nonatomic, assign) float battleGreatMultiplier;
-  @property (nonatomic, assign) float battleGoodMultiplier;
-  @property (nonatomic, assign) float locationBarMax;
+@property (nonatomic, assign) float battleHitAttackerPercentOfHealth;
+@property (nonatomic, assign) float battleHitDefenderPercentOfHealth;
+@property (nonatomic, assign) float battlePercentOfWeapon;
+@property (nonatomic, assign) float battlePercentOfArmor;
+@property (nonatomic, assign) float battlePercentOfAmulet;
+@property (nonatomic, assign) float battlePercentOfEquipment;
+@property (nonatomic, assign) float battlePercentOfPlayerStats;
+@property (nonatomic, assign) float battleIndividualEquipAttackCap;
+@property (nonatomic, assign) float battleAttackExpoMultiplier;
+@property (nonatomic, assign) float battlePerfectPercentThreshold;
+@property (nonatomic, assign) float battleGreatPercentThreshold;
+@property (nonatomic, assign) float battleGoodPercentThreshold;
+@property (nonatomic, assign) float battlePerfectMultiplier;
+@property (nonatomic, assign) float battleGreatMultiplier;
+@property (nonatomic, assign) float battleGoodMultiplier;
+@property (nonatomic, assign) float locationBarMax;
 @end
 
 @protocol EnemyBattleStats <NSObject>
-  @property (nonatomic, assign) float perfectLikelihood;
-  @property (nonatomic, assign) float greatLikelihood;
-  @property (nonatomic, assign) float goodLikelihood;
-  @property (nonatomic, assign) float missLikelihood;
+@property (nonatomic, assign) float perfectLikelihood;
+@property (nonatomic, assign) float greatLikelihood;
+@property (nonatomic, assign) float goodLikelihood;
+@property (nonatomic, assign) float missLikelihood;
 @end
-

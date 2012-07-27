@@ -3048,6 +3048,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
 @property (retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 @property BOOL playerHasBoughtInAppPurchase;
 @property (retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+@property (retain) FullEquipProto* forgeAttemptEquip;
 @property (retain) NSMutableArray* mutableNoticesToPlayersList;
 @end
 
@@ -3147,6 +3148,13 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   hasUnhandledForgeAttempt_ = !!value;
 }
 @synthesize unhandledForgeAttempt;
+- (BOOL) hasForgeAttemptEquip {
+  return !!hasForgeAttemptEquip_;
+}
+- (void) setHasForgeAttemptEquip:(BOOL) value {
+  hasForgeAttemptEquip_ = !!value;
+}
+@synthesize forgeAttemptEquip;
 @synthesize mutableNoticesToPlayersList;
 - (void) dealloc {
   self.sender = nil;
@@ -3167,6 +3175,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
   self.mutableAlliesList = nil;
   self.dailyBonusInfo = nil;
   self.unhandledForgeAttempt = nil;
+  self.forgeAttemptEquip = nil;
   self.mutableNoticesToPlayersList = nil;
   [super dealloc];
 }
@@ -3183,6 +3192,7 @@ static StartupRequestProto* defaultStartupRequestProtoInstance = nil;
     self.dailyBonusInfo = [StartupResponseProto_DailyBonusInfo defaultInstance];
     self.playerHasBoughtInAppPurchase = NO;
     self.unhandledForgeAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
+    self.forgeAttemptEquip = [FullEquipProto defaultInstance];
   }
   return self;
 }
@@ -3365,6 +3375,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
   for (NSString* element in self.mutableNoticesToPlayersList) {
     [output writeString:24 value:element];
   }
+  if (self.hasForgeAttemptEquip) {
+    [output writeMessage:25 value:self.forgeAttemptEquip];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -3450,6 +3463,9 @@ static StartupResponseProto* defaultStartupResponseProtoInstance = nil;
     }
     size += dataSize;
     size += 2 * self.mutableNoticesToPlayersList.count;
+  }
+  if (self.hasForgeAttemptEquip) {
+    size += computeMessageSize(25, self.forgeAttemptEquip);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -4830,6 +4846,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t playerWallPostsRetrieveCap;
 @property (retain) NSMutableArray* mutableAnimatedSpriteOffsetsList;
 @property (retain) StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+@property int32_t averageSizeOfLevelBracket;
+@property (retain) StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+@property Float64 healthFormulaExponentBase;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5180,6 +5199,27 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasKiipRewardConditions_ = !!value;
 }
 @synthesize kiipRewardConditions;
+- (BOOL) hasAverageSizeOfLevelBracket {
+  return !!hasAverageSizeOfLevelBracket_;
+}
+- (void) setHasAverageSizeOfLevelBracket:(BOOL) value {
+  hasAverageSizeOfLevelBracket_ = !!value;
+}
+@synthesize averageSizeOfLevelBracket;
+- (BOOL) hasForgeConstants {
+  return !!hasForgeConstants_;
+}
+- (void) setHasForgeConstants:(BOOL) value {
+  hasForgeConstants_ = !!value;
+}
+@synthesize forgeConstants;
+- (BOOL) hasHealthFormulaExponentBase {
+  return !!hasHealthFormulaExponentBase_;
+}
+- (void) setHasHealthFormulaExponentBase:(BOOL) value {
+  hasHealthFormulaExponentBase_ = !!value;
+}
+@synthesize healthFormulaExponentBase;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5187,6 +5227,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.battleConstants = nil;
   self.mutableAnimatedSpriteOffsetsList = nil;
   self.kiipRewardConditions = nil;
+  self.forgeConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5240,6 +5281,9 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.maxCharLengthForWallPost = 0;
     self.playerWallPostsRetrieveCap = 0;
     self.kiipRewardConditions = [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance];
+    self.averageSizeOfLevelBracket = 0;
+    self.forgeConstants = [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance];
+    self.healthFormulaExponentBase = 0;
   }
   return self;
 }
@@ -5436,6 +5480,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasMaxLevelForUser) {
     [output writeInt32:62 value:self.maxLevelForUser];
   }
+  if (self.hasAverageSizeOfLevelBracket) {
+    [output writeInt32:63 value:self.averageSizeOfLevelBracket];
+  }
+  if (self.hasForgeConstants) {
+    [output writeMessage:64 value:self.forgeConstants];
+  }
+  if (self.hasHealthFormulaExponentBase) {
+    [output writeDouble:65 value:self.healthFormulaExponentBase];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5610,6 +5663,15 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasMaxLevelForUser) {
     size += computeInt32Size(62, self.maxLevelForUser);
+  }
+  if (self.hasAverageSizeOfLevelBracket) {
+    size += computeInt32Size(63, self.averageSizeOfLevelBracket);
+  }
+  if (self.hasForgeConstants) {
+    size += computeMessageSize(64, self.forgeConstants);
+  }
+  if (self.hasHealthFormulaExponentBase) {
+    size += computeDoubleSize(65, self.healthFormulaExponentBase);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6490,6 +6552,15 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
 @property Float32 battleGreatLikelihood;
 @property Float32 battleGoodLikelihood;
 @property Float32 battleMissLikelihood;
+@property Float64 battleHitAttackerPercentOfHealth;
+@property Float64 battleHitDefenderPercentOfHealth;
+@property Float64 battlePercentOfWeapon;
+@property Float64 battlePercentOfArmor;
+@property Float64 battlePercentOfAmulet;
+@property Float64 battlePercentOfPlayerStats;
+@property Float64 battleAttackExpoMultiplier;
+@property Float64 battlePercentOfEquipment;
+@property Float64 battleIndividualEquipAttackCap;
 @end
 
 @implementation StartupResponseProto_StartupConstants_BattleConstants
@@ -6613,6 +6684,69 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
   hasBattleMissLikelihood_ = !!value;
 }
 @synthesize battleMissLikelihood;
+- (BOOL) hasBattleHitAttackerPercentOfHealth {
+  return !!hasBattleHitAttackerPercentOfHealth_;
+}
+- (void) setHasBattleHitAttackerPercentOfHealth:(BOOL) value {
+  hasBattleHitAttackerPercentOfHealth_ = !!value;
+}
+@synthesize battleHitAttackerPercentOfHealth;
+- (BOOL) hasBattleHitDefenderPercentOfHealth {
+  return !!hasBattleHitDefenderPercentOfHealth_;
+}
+- (void) setHasBattleHitDefenderPercentOfHealth:(BOOL) value {
+  hasBattleHitDefenderPercentOfHealth_ = !!value;
+}
+@synthesize battleHitDefenderPercentOfHealth;
+- (BOOL) hasBattlePercentOfWeapon {
+  return !!hasBattlePercentOfWeapon_;
+}
+- (void) setHasBattlePercentOfWeapon:(BOOL) value {
+  hasBattlePercentOfWeapon_ = !!value;
+}
+@synthesize battlePercentOfWeapon;
+- (BOOL) hasBattlePercentOfArmor {
+  return !!hasBattlePercentOfArmor_;
+}
+- (void) setHasBattlePercentOfArmor:(BOOL) value {
+  hasBattlePercentOfArmor_ = !!value;
+}
+@synthesize battlePercentOfArmor;
+- (BOOL) hasBattlePercentOfAmulet {
+  return !!hasBattlePercentOfAmulet_;
+}
+- (void) setHasBattlePercentOfAmulet:(BOOL) value {
+  hasBattlePercentOfAmulet_ = !!value;
+}
+@synthesize battlePercentOfAmulet;
+- (BOOL) hasBattlePercentOfPlayerStats {
+  return !!hasBattlePercentOfPlayerStats_;
+}
+- (void) setHasBattlePercentOfPlayerStats:(BOOL) value {
+  hasBattlePercentOfPlayerStats_ = !!value;
+}
+@synthesize battlePercentOfPlayerStats;
+- (BOOL) hasBattleAttackExpoMultiplier {
+  return !!hasBattleAttackExpoMultiplier_;
+}
+- (void) setHasBattleAttackExpoMultiplier:(BOOL) value {
+  hasBattleAttackExpoMultiplier_ = !!value;
+}
+@synthesize battleAttackExpoMultiplier;
+- (BOOL) hasBattlePercentOfEquipment {
+  return !!hasBattlePercentOfEquipment_;
+}
+- (void) setHasBattlePercentOfEquipment:(BOOL) value {
+  hasBattlePercentOfEquipment_ = !!value;
+}
+@synthesize battlePercentOfEquipment;
+- (BOOL) hasBattleIndividualEquipAttackCap {
+  return !!hasBattleIndividualEquipAttackCap_;
+}
+- (void) setHasBattleIndividualEquipAttackCap:(BOOL) value {
+  hasBattleIndividualEquipAttackCap_ = !!value;
+}
+@synthesize battleIndividualEquipAttackCap;
 - (void) dealloc {
   [super dealloc];
 }
@@ -6635,6 +6769,15 @@ static StartupResponseProto_StartupConstants_FormulaConstants* defaultStartupRes
     self.battleGreatLikelihood = 0;
     self.battleGoodLikelihood = 0;
     self.battleMissLikelihood = 0;
+    self.battleHitAttackerPercentOfHealth = 0;
+    self.battleHitDefenderPercentOfHealth = 0;
+    self.battlePercentOfWeapon = 0;
+    self.battlePercentOfArmor = 0;
+    self.battlePercentOfAmulet = 0;
+    self.battlePercentOfPlayerStats = 0;
+    self.battleAttackExpoMultiplier = 0;
+    self.battlePercentOfEquipment = 0;
+    self.battleIndividualEquipAttackCap = 0;
   }
   return self;
 }
@@ -6705,6 +6848,33 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (self.hasBattleMissLikelihood) {
     [output writeFloat:17 value:self.battleMissLikelihood];
   }
+  if (self.hasBattleHitAttackerPercentOfHealth) {
+    [output writeDouble:18 value:self.battleHitAttackerPercentOfHealth];
+  }
+  if (self.hasBattlePercentOfWeapon) {
+    [output writeDouble:19 value:self.battlePercentOfWeapon];
+  }
+  if (self.hasBattlePercentOfArmor) {
+    [output writeDouble:20 value:self.battlePercentOfArmor];
+  }
+  if (self.hasBattlePercentOfAmulet) {
+    [output writeDouble:21 value:self.battlePercentOfAmulet];
+  }
+  if (self.hasBattlePercentOfPlayerStats) {
+    [output writeDouble:22 value:self.battlePercentOfPlayerStats];
+  }
+  if (self.hasBattleAttackExpoMultiplier) {
+    [output writeDouble:23 value:self.battleAttackExpoMultiplier];
+  }
+  if (self.hasBattlePercentOfEquipment) {
+    [output writeDouble:24 value:self.battlePercentOfEquipment];
+  }
+  if (self.hasBattleIndividualEquipAttackCap) {
+    [output writeDouble:25 value:self.battleIndividualEquipAttackCap];
+  }
+  if (self.hasBattleHitDefenderPercentOfHealth) {
+    [output writeDouble:26 value:self.battleHitDefenderPercentOfHealth];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -6764,6 +6934,33 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   }
   if (self.hasBattleMissLikelihood) {
     size += computeFloatSize(17, self.battleMissLikelihood);
+  }
+  if (self.hasBattleHitAttackerPercentOfHealth) {
+    size += computeDoubleSize(18, self.battleHitAttackerPercentOfHealth);
+  }
+  if (self.hasBattlePercentOfWeapon) {
+    size += computeDoubleSize(19, self.battlePercentOfWeapon);
+  }
+  if (self.hasBattlePercentOfArmor) {
+    size += computeDoubleSize(20, self.battlePercentOfArmor);
+  }
+  if (self.hasBattlePercentOfAmulet) {
+    size += computeDoubleSize(21, self.battlePercentOfAmulet);
+  }
+  if (self.hasBattlePercentOfPlayerStats) {
+    size += computeDoubleSize(22, self.battlePercentOfPlayerStats);
+  }
+  if (self.hasBattleAttackExpoMultiplier) {
+    size += computeDoubleSize(23, self.battleAttackExpoMultiplier);
+  }
+  if (self.hasBattlePercentOfEquipment) {
+    size += computeDoubleSize(24, self.battlePercentOfEquipment);
+  }
+  if (self.hasBattleIndividualEquipAttackCap) {
+    size += computeDoubleSize(25, self.battleIndividualEquipAttackCap);
+  }
+  if (self.hasBattleHitDefenderPercentOfHealth) {
+    size += computeDoubleSize(26, self.battleHitDefenderPercentOfHealth);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -6891,6 +7088,33 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   if (other.hasBattleMissLikelihood) {
     [self setBattleMissLikelihood:other.battleMissLikelihood];
   }
+  if (other.hasBattleHitAttackerPercentOfHealth) {
+    [self setBattleHitAttackerPercentOfHealth:other.battleHitAttackerPercentOfHealth];
+  }
+  if (other.hasBattleHitDefenderPercentOfHealth) {
+    [self setBattleHitDefenderPercentOfHealth:other.battleHitDefenderPercentOfHealth];
+  }
+  if (other.hasBattlePercentOfWeapon) {
+    [self setBattlePercentOfWeapon:other.battlePercentOfWeapon];
+  }
+  if (other.hasBattlePercentOfArmor) {
+    [self setBattlePercentOfArmor:other.battlePercentOfArmor];
+  }
+  if (other.hasBattlePercentOfAmulet) {
+    [self setBattlePercentOfAmulet:other.battlePercentOfAmulet];
+  }
+  if (other.hasBattlePercentOfPlayerStats) {
+    [self setBattlePercentOfPlayerStats:other.battlePercentOfPlayerStats];
+  }
+  if (other.hasBattleAttackExpoMultiplier) {
+    [self setBattleAttackExpoMultiplier:other.battleAttackExpoMultiplier];
+  }
+  if (other.hasBattlePercentOfEquipment) {
+    [self setBattlePercentOfEquipment:other.battlePercentOfEquipment];
+  }
+  if (other.hasBattleIndividualEquipAttackCap) {
+    [self setBattleIndividualEquipAttackCap:other.battleIndividualEquipAttackCap];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -6978,6 +7202,42 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
       }
       case 141: {
         [self setBattleMissLikelihood:[input readFloat]];
+        break;
+      }
+      case 145: {
+        [self setBattleHitAttackerPercentOfHealth:[input readDouble]];
+        break;
+      }
+      case 153: {
+        [self setBattlePercentOfWeapon:[input readDouble]];
+        break;
+      }
+      case 161: {
+        [self setBattlePercentOfArmor:[input readDouble]];
+        break;
+      }
+      case 169: {
+        [self setBattlePercentOfAmulet:[input readDouble]];
+        break;
+      }
+      case 177: {
+        [self setBattlePercentOfPlayerStats:[input readDouble]];
+        break;
+      }
+      case 185: {
+        [self setBattleAttackExpoMultiplier:[input readDouble]];
+        break;
+      }
+      case 193: {
+        [self setBattlePercentOfEquipment:[input readDouble]];
+        break;
+      }
+      case 201: {
+        [self setBattleIndividualEquipAttackCap:[input readDouble]];
+        break;
+      }
+      case 209: {
+        [self setBattleHitDefenderPercentOfHealth:[input readDouble]];
         break;
       }
     }
@@ -7255,6 +7515,479 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   result.battleMissLikelihood = 0;
   return self;
 }
+- (BOOL) hasBattleHitAttackerPercentOfHealth {
+  return result.hasBattleHitAttackerPercentOfHealth;
+}
+- (Float64) battleHitAttackerPercentOfHealth {
+  return result.battleHitAttackerPercentOfHealth;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleHitAttackerPercentOfHealth:(Float64) value {
+  result.hasBattleHitAttackerPercentOfHealth = YES;
+  result.battleHitAttackerPercentOfHealth = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleHitAttackerPercentOfHealth {
+  result.hasBattleHitAttackerPercentOfHealth = NO;
+  result.battleHitAttackerPercentOfHealth = 0;
+  return self;
+}
+- (BOOL) hasBattleHitDefenderPercentOfHealth {
+  return result.hasBattleHitDefenderPercentOfHealth;
+}
+- (Float64) battleHitDefenderPercentOfHealth {
+  return result.battleHitDefenderPercentOfHealth;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleHitDefenderPercentOfHealth:(Float64) value {
+  result.hasBattleHitDefenderPercentOfHealth = YES;
+  result.battleHitDefenderPercentOfHealth = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleHitDefenderPercentOfHealth {
+  result.hasBattleHitDefenderPercentOfHealth = NO;
+  result.battleHitDefenderPercentOfHealth = 0;
+  return self;
+}
+- (BOOL) hasBattlePercentOfWeapon {
+  return result.hasBattlePercentOfWeapon;
+}
+- (Float64) battlePercentOfWeapon {
+  return result.battlePercentOfWeapon;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfWeapon:(Float64) value {
+  result.hasBattlePercentOfWeapon = YES;
+  result.battlePercentOfWeapon = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfWeapon {
+  result.hasBattlePercentOfWeapon = NO;
+  result.battlePercentOfWeapon = 0;
+  return self;
+}
+- (BOOL) hasBattlePercentOfArmor {
+  return result.hasBattlePercentOfArmor;
+}
+- (Float64) battlePercentOfArmor {
+  return result.battlePercentOfArmor;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfArmor:(Float64) value {
+  result.hasBattlePercentOfArmor = YES;
+  result.battlePercentOfArmor = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfArmor {
+  result.hasBattlePercentOfArmor = NO;
+  result.battlePercentOfArmor = 0;
+  return self;
+}
+- (BOOL) hasBattlePercentOfAmulet {
+  return result.hasBattlePercentOfAmulet;
+}
+- (Float64) battlePercentOfAmulet {
+  return result.battlePercentOfAmulet;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfAmulet:(Float64) value {
+  result.hasBattlePercentOfAmulet = YES;
+  result.battlePercentOfAmulet = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfAmulet {
+  result.hasBattlePercentOfAmulet = NO;
+  result.battlePercentOfAmulet = 0;
+  return self;
+}
+- (BOOL) hasBattlePercentOfPlayerStats {
+  return result.hasBattlePercentOfPlayerStats;
+}
+- (Float64) battlePercentOfPlayerStats {
+  return result.battlePercentOfPlayerStats;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfPlayerStats:(Float64) value {
+  result.hasBattlePercentOfPlayerStats = YES;
+  result.battlePercentOfPlayerStats = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfPlayerStats {
+  result.hasBattlePercentOfPlayerStats = NO;
+  result.battlePercentOfPlayerStats = 0;
+  return self;
+}
+- (BOOL) hasBattleAttackExpoMultiplier {
+  return result.hasBattleAttackExpoMultiplier;
+}
+- (Float64) battleAttackExpoMultiplier {
+  return result.battleAttackExpoMultiplier;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleAttackExpoMultiplier:(Float64) value {
+  result.hasBattleAttackExpoMultiplier = YES;
+  result.battleAttackExpoMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleAttackExpoMultiplier {
+  result.hasBattleAttackExpoMultiplier = NO;
+  result.battleAttackExpoMultiplier = 0;
+  return self;
+}
+- (BOOL) hasBattlePercentOfEquipment {
+  return result.hasBattlePercentOfEquipment;
+}
+- (Float64) battlePercentOfEquipment {
+  return result.battlePercentOfEquipment;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfEquipment:(Float64) value {
+  result.hasBattlePercentOfEquipment = YES;
+  result.battlePercentOfEquipment = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfEquipment {
+  result.hasBattlePercentOfEquipment = NO;
+  result.battlePercentOfEquipment = 0;
+  return self;
+}
+- (BOOL) hasBattleIndividualEquipAttackCap {
+  return result.hasBattleIndividualEquipAttackCap;
+}
+- (Float64) battleIndividualEquipAttackCap {
+  return result.battleIndividualEquipAttackCap;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleIndividualEquipAttackCap:(Float64) value {
+  result.hasBattleIndividualEquipAttackCap = YES;
+  result.battleIndividualEquipAttackCap = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleIndividualEquipAttackCap {
+  result.hasBattleIndividualEquipAttackCap = NO;
+  result.battleIndividualEquipAttackCap = 0;
+  return self;
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ForgeConstants ()
+@property Float64 forgeTimeBaseForExponentialMultiplier;
+@property int32_t forgeMinDiamondCostForGuarantee;
+@property Float64 forgeDiamondCostForGuaranteeExponentialMultiplier;
+@property int32_t forgeBaseMinutesToOneGold;
+@property int32_t forgeMaxEquipLevel;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ForgeConstants
+
+- (BOOL) hasForgeTimeBaseForExponentialMultiplier {
+  return !!hasForgeTimeBaseForExponentialMultiplier_;
+}
+- (void) setHasForgeTimeBaseForExponentialMultiplier:(BOOL) value {
+  hasForgeTimeBaseForExponentialMultiplier_ = !!value;
+}
+@synthesize forgeTimeBaseForExponentialMultiplier;
+- (BOOL) hasForgeMinDiamondCostForGuarantee {
+  return !!hasForgeMinDiamondCostForGuarantee_;
+}
+- (void) setHasForgeMinDiamondCostForGuarantee:(BOOL) value {
+  hasForgeMinDiamondCostForGuarantee_ = !!value;
+}
+@synthesize forgeMinDiamondCostForGuarantee;
+- (BOOL) hasForgeDiamondCostForGuaranteeExponentialMultiplier {
+  return !!hasForgeDiamondCostForGuaranteeExponentialMultiplier_;
+}
+- (void) setHasForgeDiamondCostForGuaranteeExponentialMultiplier:(BOOL) value {
+  hasForgeDiamondCostForGuaranteeExponentialMultiplier_ = !!value;
+}
+@synthesize forgeDiamondCostForGuaranteeExponentialMultiplier;
+- (BOOL) hasForgeBaseMinutesToOneGold {
+  return !!hasForgeBaseMinutesToOneGold_;
+}
+- (void) setHasForgeBaseMinutesToOneGold:(BOOL) value {
+  hasForgeBaseMinutesToOneGold_ = !!value;
+}
+@synthesize forgeBaseMinutesToOneGold;
+- (BOOL) hasForgeMaxEquipLevel {
+  return !!hasForgeMaxEquipLevel_;
+}
+- (void) setHasForgeMaxEquipLevel:(BOOL) value {
+  hasForgeMaxEquipLevel_ = !!value;
+}
+@synthesize forgeMaxEquipLevel;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.forgeTimeBaseForExponentialMultiplier = 0;
+    self.forgeMinDiamondCostForGuarantee = 0;
+    self.forgeDiamondCostForGuaranteeExponentialMultiplier = 0;
+    self.forgeBaseMinutesToOneGold = 0;
+    self.forgeMaxEquipLevel = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupResponseProto_StartupConstants_ForgeConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_ForgeConstants class]) {
+    defaultStartupResponseProto_StartupConstants_ForgeConstantsInstance = [[StartupResponseProto_StartupConstants_ForgeConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ForgeConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_ForgeConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasForgeTimeBaseForExponentialMultiplier) {
+    [output writeDouble:1 value:self.forgeTimeBaseForExponentialMultiplier];
+  }
+  if (self.hasForgeMinDiamondCostForGuarantee) {
+    [output writeInt32:2 value:self.forgeMinDiamondCostForGuarantee];
+  }
+  if (self.hasForgeDiamondCostForGuaranteeExponentialMultiplier) {
+    [output writeDouble:3 value:self.forgeDiamondCostForGuaranteeExponentialMultiplier];
+  }
+  if (self.hasForgeBaseMinutesToOneGold) {
+    [output writeInt32:4 value:self.forgeBaseMinutesToOneGold];
+  }
+  if (self.hasForgeMaxEquipLevel) {
+    [output writeInt32:5 value:self.forgeMaxEquipLevel];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasForgeTimeBaseForExponentialMultiplier) {
+    size += computeDoubleSize(1, self.forgeTimeBaseForExponentialMultiplier);
+  }
+  if (self.hasForgeMinDiamondCostForGuarantee) {
+    size += computeInt32Size(2, self.forgeMinDiamondCostForGuarantee);
+  }
+  if (self.hasForgeDiamondCostForGuaranteeExponentialMultiplier) {
+    size += computeDoubleSize(3, self.forgeDiamondCostForGuaranteeExponentialMultiplier);
+  }
+  if (self.hasForgeBaseMinutesToOneGold) {
+    size += computeInt32Size(4, self.forgeBaseMinutesToOneGold);
+  }
+  if (self.hasForgeMaxEquipLevel) {
+    size += computeInt32Size(5, self.forgeMaxEquipLevel);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_ForgeConstants*)[[[StartupResponseProto_StartupConstants_ForgeConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ForgeConstants*)[[[StartupResponseProto_StartupConstants_ForgeConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ForgeConstants*)[[[StartupResponseProto_StartupConstants_ForgeConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ForgeConstants*)[[[StartupResponseProto_StartupConstants_ForgeConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_ForgeConstants*)[[[StartupResponseProto_StartupConstants_ForgeConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_ForgeConstants*)[[[StartupResponseProto_StartupConstants_ForgeConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_ForgeConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ForgeConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_ForgeConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_ForgeConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_ForgeConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_ForgeConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_ForgeConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_ForgeConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_ForgeConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_ForgeConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_ForgeConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ForgeConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasForgeTimeBaseForExponentialMultiplier) {
+    [self setForgeTimeBaseForExponentialMultiplier:other.forgeTimeBaseForExponentialMultiplier];
+  }
+  if (other.hasForgeMinDiamondCostForGuarantee) {
+    [self setForgeMinDiamondCostForGuarantee:other.forgeMinDiamondCostForGuarantee];
+  }
+  if (other.hasForgeDiamondCostForGuaranteeExponentialMultiplier) {
+    [self setForgeDiamondCostForGuaranteeExponentialMultiplier:other.forgeDiamondCostForGuaranteeExponentialMultiplier];
+  }
+  if (other.hasForgeBaseMinutesToOneGold) {
+    [self setForgeBaseMinutesToOneGold:other.forgeBaseMinutesToOneGold];
+  }
+  if (other.hasForgeMaxEquipLevel) {
+    [self setForgeMaxEquipLevel:other.forgeMaxEquipLevel];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 9: {
+        [self setForgeTimeBaseForExponentialMultiplier:[input readDouble]];
+        break;
+      }
+      case 16: {
+        [self setForgeMinDiamondCostForGuarantee:[input readInt32]];
+        break;
+      }
+      case 25: {
+        [self setForgeDiamondCostForGuaranteeExponentialMultiplier:[input readDouble]];
+        break;
+      }
+      case 32: {
+        [self setForgeBaseMinutesToOneGold:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setForgeMaxEquipLevel:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasForgeTimeBaseForExponentialMultiplier {
+  return result.hasForgeTimeBaseForExponentialMultiplier;
+}
+- (Float64) forgeTimeBaseForExponentialMultiplier {
+  return result.forgeTimeBaseForExponentialMultiplier;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeTimeBaseForExponentialMultiplier:(Float64) value {
+  result.hasForgeTimeBaseForExponentialMultiplier = YES;
+  result.forgeTimeBaseForExponentialMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeTimeBaseForExponentialMultiplier {
+  result.hasForgeTimeBaseForExponentialMultiplier = NO;
+  result.forgeTimeBaseForExponentialMultiplier = 0;
+  return self;
+}
+- (BOOL) hasForgeMinDiamondCostForGuarantee {
+  return result.hasForgeMinDiamondCostForGuarantee;
+}
+- (int32_t) forgeMinDiamondCostForGuarantee {
+  return result.forgeMinDiamondCostForGuarantee;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeMinDiamondCostForGuarantee:(int32_t) value {
+  result.hasForgeMinDiamondCostForGuarantee = YES;
+  result.forgeMinDiamondCostForGuarantee = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMinDiamondCostForGuarantee {
+  result.hasForgeMinDiamondCostForGuarantee = NO;
+  result.forgeMinDiamondCostForGuarantee = 0;
+  return self;
+}
+- (BOOL) hasForgeDiamondCostForGuaranteeExponentialMultiplier {
+  return result.hasForgeDiamondCostForGuaranteeExponentialMultiplier;
+}
+- (Float64) forgeDiamondCostForGuaranteeExponentialMultiplier {
+  return result.forgeDiamondCostForGuaranteeExponentialMultiplier;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeDiamondCostForGuaranteeExponentialMultiplier:(Float64) value {
+  result.hasForgeDiamondCostForGuaranteeExponentialMultiplier = YES;
+  result.forgeDiamondCostForGuaranteeExponentialMultiplier = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeDiamondCostForGuaranteeExponentialMultiplier {
+  result.hasForgeDiamondCostForGuaranteeExponentialMultiplier = NO;
+  result.forgeDiamondCostForGuaranteeExponentialMultiplier = 0;
+  return self;
+}
+- (BOOL) hasForgeBaseMinutesToOneGold {
+  return result.hasForgeBaseMinutesToOneGold;
+}
+- (int32_t) forgeBaseMinutesToOneGold {
+  return result.forgeBaseMinutesToOneGold;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeBaseMinutesToOneGold:(int32_t) value {
+  result.hasForgeBaseMinutesToOneGold = YES;
+  result.forgeBaseMinutesToOneGold = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeBaseMinutesToOneGold {
+  result.hasForgeBaseMinutesToOneGold = NO;
+  result.forgeBaseMinutesToOneGold = 0;
+  return self;
+}
+- (BOOL) hasForgeMaxEquipLevel {
+  return result.hasForgeMaxEquipLevel;
+}
+- (int32_t) forgeMaxEquipLevel {
+  return result.forgeMaxEquipLevel;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeMaxEquipLevel:(int32_t) value {
+  result.hasForgeMaxEquipLevel = YES;
+  result.forgeMaxEquipLevel = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMaxEquipLevel {
+  result.hasForgeMaxEquipLevel = NO;
+  result.forgeMaxEquipLevel = 0;
+  return self;
+}
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder()
@@ -7463,6 +8196,15 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
   }
   if (other.hasKiipRewardConditions) {
     [self mergeKiipRewardConditions:other.kiipRewardConditions];
+  }
+  if (other.hasAverageSizeOfLevelBracket) {
+    [self setAverageSizeOfLevelBracket:other.averageSizeOfLevelBracket];
+  }
+  if (other.hasForgeConstants) {
+    [self mergeForgeConstants:other.forgeConstants];
+  }
+  if (other.hasHealthFormulaExponentBase) {
+    [self setHealthFormulaExponentBase:other.healthFormulaExponentBase];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -7708,6 +8450,23 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
       }
       case 496: {
         [self setMaxLevelForUser:[input readInt32]];
+        break;
+      }
+      case 504: {
+        [self setAverageSizeOfLevelBracket:[input readInt32]];
+        break;
+      }
+      case 514: {
+        StartupResponseProto_StartupConstants_ForgeConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_ForgeConstants builder];
+        if (self.hasForgeConstants) {
+          [subBuilder mergeFrom:self.forgeConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setForgeConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 521: {
+        [self setHealthFormulaExponentBase:[input readDouble]];
         break;
       }
     }
@@ -8628,6 +9387,68 @@ static StartupResponseProto_StartupConstants_BattleConstants* defaultStartupResp
 - (StartupResponseProto_StartupConstants_Builder*) clearKiipRewardConditions {
   result.hasKiipRewardConditions = NO;
   result.kiipRewardConditions = [StartupResponseProto_StartupConstants_KiipRewardConditions defaultInstance];
+  return self;
+}
+- (BOOL) hasAverageSizeOfLevelBracket {
+  return result.hasAverageSizeOfLevelBracket;
+}
+- (int32_t) averageSizeOfLevelBracket {
+  return result.averageSizeOfLevelBracket;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAverageSizeOfLevelBracket:(int32_t) value {
+  result.hasAverageSizeOfLevelBracket = YES;
+  result.averageSizeOfLevelBracket = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAverageSizeOfLevelBracket {
+  result.hasAverageSizeOfLevelBracket = NO;
+  result.averageSizeOfLevelBracket = 0;
+  return self;
+}
+- (BOOL) hasForgeConstants {
+  return result.hasForgeConstants;
+}
+- (StartupResponseProto_StartupConstants_ForgeConstants*) forgeConstants {
+  return result.forgeConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setForgeConstants:(StartupResponseProto_StartupConstants_ForgeConstants*) value {
+  result.hasForgeConstants = YES;
+  result.forgeConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setForgeConstantsBuilder:(StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builderForValue {
+  return [self setForgeConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeForgeConstants:(StartupResponseProto_StartupConstants_ForgeConstants*) value {
+  if (result.hasForgeConstants &&
+      result.forgeConstants != [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance]) {
+    result.forgeConstants =
+      [[[StartupResponseProto_StartupConstants_ForgeConstants builderWithPrototype:result.forgeConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.forgeConstants = value;
+  }
+  result.hasForgeConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearForgeConstants {
+  result.hasForgeConstants = NO;
+  result.forgeConstants = [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasHealthFormulaExponentBase {
+  return result.hasHealthFormulaExponentBase;
+}
+- (Float64) healthFormulaExponentBase {
+  return result.healthFormulaExponentBase;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setHealthFormulaExponentBase:(Float64) value {
+  result.hasHealthFormulaExponentBase = YES;
+  result.healthFormulaExponentBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearHealthFormulaExponentBase {
+  result.hasHealthFormulaExponentBase = NO;
+  result.healthFormulaExponentBase = 0;
   return self;
 }
 @end
@@ -11299,6 +12120,9 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
   if (other.hasUnhandledForgeAttempt) {
     [self mergeUnhandledForgeAttempt:other.unhandledForgeAttempt];
   }
+  if (other.hasForgeAttemptEquip) {
+    [self mergeForgeAttemptEquip:other.forgeAttemptEquip];
+  }
   if (other.mutableNoticesToPlayersList.count > 0) {
     if (result.mutableNoticesToPlayersList == nil) {
       result.mutableNoticesToPlayersList = [NSMutableArray array];
@@ -11479,6 +12303,15 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
       }
       case 194: {
         [self addNoticesToPlayers:[input readString]];
+        break;
+      }
+      case 202: {
+        FullEquipProto_Builder* subBuilder = [FullEquipProto builder];
+        if (self.hasForgeAttemptEquip) {
+          [subBuilder mergeFrom:self.forgeAttemptEquip];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setForgeAttemptEquip:[subBuilder buildPartial]];
         break;
       }
     }
@@ -12076,6 +12909,36 @@ static StartupResponseProto_TutorialConstants_FullTutorialQuestProto* defaultSta
 - (StartupResponseProto_Builder*) clearUnhandledForgeAttempt {
   result.hasUnhandledForgeAttempt = NO;
   result.unhandledForgeAttempt = [UnhandledBlacksmithAttemptProto defaultInstance];
+  return self;
+}
+- (BOOL) hasForgeAttemptEquip {
+  return result.hasForgeAttemptEquip;
+}
+- (FullEquipProto*) forgeAttemptEquip {
+  return result.forgeAttemptEquip;
+}
+- (StartupResponseProto_Builder*) setForgeAttemptEquip:(FullEquipProto*) value {
+  result.hasForgeAttemptEquip = YES;
+  result.forgeAttemptEquip = value;
+  return self;
+}
+- (StartupResponseProto_Builder*) setForgeAttemptEquipBuilder:(FullEquipProto_Builder*) builderForValue {
+  return [self setForgeAttemptEquip:[builderForValue build]];
+}
+- (StartupResponseProto_Builder*) mergeForgeAttemptEquip:(FullEquipProto*) value {
+  if (result.hasForgeAttemptEquip &&
+      result.forgeAttemptEquip != [FullEquipProto defaultInstance]) {
+    result.forgeAttemptEquip =
+      [[[FullEquipProto builderWithPrototype:result.forgeAttemptEquip] mergeFrom:value] buildPartial];
+  } else {
+    result.forgeAttemptEquip = value;
+  }
+  result.hasForgeAttemptEquip = YES;
+  return self;
+}
+- (StartupResponseProto_Builder*) clearForgeAttemptEquip {
+  result.hasForgeAttemptEquip = NO;
+  result.forgeAttemptEquip = [FullEquipProto defaultInstance];
   return self;
 }
 - (NSArray*) noticesToPlayersList {

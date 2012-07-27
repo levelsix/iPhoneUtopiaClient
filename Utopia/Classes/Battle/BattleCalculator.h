@@ -16,7 +16,7 @@
 
 -(int) rightAttackStrengthForPercent:(float)percent;
 -(int) leftAttackStrengthForPercent:(float)percent;
--(int) skillMultForPercent:(float)percent;
+-(float) skillMultForPercent:(float)percent;
 -(CombatDamageType) damageZoneForPercent:(float)percent;
 -(float) calculateEnemyPercentage;
 @end

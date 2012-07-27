@@ -11,15 +11,19 @@
 
 @interface RequiresEquipView : UIImageView
 
-@property (nonatomic, assign) int equipId;
+@property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
+@property (nonatomic, retain) IBOutlet EquipButton *equipIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *checkIcon;
 
-- (id) initWithEquipId:(int)eq;
+- (void) loadWithEquipId:(int)eq level:(int)lvl owned:(BOOL)owned;
 
 @end
 
 @interface RefillMenuController : UIViewController {
   CGRect _fullRect;
   BOOL _isEnergy;
+  
+  int _numArmoryResponsesExpected;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *goldView;
@@ -42,11 +46,16 @@
 @property (nonatomic, retain) IBOutlet UILabel *itemsSilverLabel;
 
 @property (nonatomic, retain) IBOutlet UIScrollView *itemsScrollView;
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+
+@property (nonatomic, retain) IBOutlet RequiresEquipView *rev;
 
 - (void) displayBuyGoldView:(int)needsGold;
 - (void) displayBuySilverView;
 - (void) displayEnstView:(BOOL)isEnergy;
 - (void) displayEquipsView:(NSArray *)equipIds;
+
+- (void) receivedArmoryResponse:(BOOL)success equip:(int)equipId;
 
 + (RefillMenuController *) sharedRefillMenuController;
 + (void) displayView;

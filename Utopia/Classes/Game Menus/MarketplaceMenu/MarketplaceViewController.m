@@ -96,7 +96,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentMarketplacePosts];
   self.postsTableView.scrollEnabled = YES;
   
-  [self removeLoadingView];
+  [self.loadingView stop];
   
   [self setState:kEquipBuyingState];
   
@@ -353,7 +353,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   // Looks choppy. change this by finding the correct table cell and updating that alone..
   [self.postsTableView reloadData];
   
-  [self displayLoadingView];
+  [self.loadingView display:self.view];
   
   self.removeView.hidden = YES;
   self.selectedCell = nil;
@@ -779,24 +779,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.shouldReload = YES;
 }
 
-- (void) displayLoadingView {
-  [loadingView.actIndView startAnimating];
-  
-  [self.view addSubview:loadingView];
-  _isDisplayingLoadingView = YES;
-}
-
-- (void) removeLoadingView {
-  if (_isDisplayingLoadingView) {
-    [loadingView.actIndView stopAnimating];
-    [loadingView removeFromSuperview];
-    _isDisplayingLoadingView = NO;
-  }
-}
-
 - (void) viewDidUnload {
   [super viewDidUnload];
-  [self removeLoadingView];
   self.navBar = nil;
   self.topBar = nil;
   self.itemView = nil;

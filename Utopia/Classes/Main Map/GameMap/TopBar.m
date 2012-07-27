@@ -230,12 +230,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [self setUpEnergyTimer];
     [self setUpStaminaTimer];
     
-    _curSilver = 0;
-    _curGold = 0;
-    _curEnergy = 0;
-    _curStamina = 0;
-    _curExp = gs.expRequiredForCurrentLevel;
-    
     [self setStaminaBarPercentage:0.f];
     [self setEnergyBarPercentage:0.f];
     
@@ -311,6 +305,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   self.isStarted = YES;
   
+  
+  GameState *gs = [GameState sharedGameState];
+  _curSilver = 0;
+  _curGold = 0;
+  _curEnergy = 0;
+  _curStamina = 0;
+  _curExp = gs.expRequiredForCurrentLevel;
+  
   [self schedule:@selector(update)];
 }
 
@@ -362,9 +364,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
-    DDLogVerbose(@"Firing up energy timer with time %f..", energyComplete);
+    DDLogVerbose(@"Firing up energy timer with time %f.. Last: %@, Now: %@", energyComplete, gs.lastEnergyRefill, [NSDate date]);
   } else {
-    DDLogVerbose(@"Reached max energy..");
     _energyTimer = nil;
   }
   
@@ -392,7 +393,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
     DDLogVerbose(@"Firing up stamina timer with time %f..", staminaComplete);
   } else {
-    DDLogVerbose(@"Reached max stamina..");
     _staminaTimer = nil;
   }
   

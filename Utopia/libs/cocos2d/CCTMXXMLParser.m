@@ -1,4 +1,4 @@
-/*
+   /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
  * Copyright (c) 2009-2010 Ricardo Quesada
@@ -167,7 +167,7 @@
 
 - (void) parseXMLFile:(NSString *)xmlFilename
 {
-  NSString *string = [Globals pathToMap:xmlFilename];
+  NSString *string = [Globals pathToFile:xmlFilename];
   NSURL *url = [NSURL fileURLWithPath:string];
   NSData *data = [NSData dataWithContentsOfURL:url];
   

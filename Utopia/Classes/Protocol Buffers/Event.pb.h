@@ -260,6 +260,8 @@
 @class StartupResponseProto_StartupConstants_BattleConstants;
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
+@class StartupResponseProto_StartupConstants_ForgeConstants;
+@class StartupResponseProto_StartupConstants_ForgeConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
 @class StartupResponseProto_StartupConstants_FormulaConstants_Builder;
 @class StartupResponseProto_StartupConstants_KiipRewardConditions;
@@ -1506,6 +1508,7 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasExperienceRequiredForCurrentLevel_:1;
   BOOL hasExperienceRequiredForNextLevel_:1;
   BOOL hasAppStoreUrl_:1;
+  BOOL hasForgeAttemptEquip_:1;
   BOOL hasUnhandledForgeAttempt_:1;
   BOOL hasDailyBonusInfo_:1;
   BOOL hasSender_:1;
@@ -1517,6 +1520,7 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   int32_t experienceRequiredForCurrentLevel;
   int32_t experienceRequiredForNextLevel;
   NSString* appStoreUrl;
+  FullEquipProto* forgeAttemptEquip;
   UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
   StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
   FullUserProto* sender;
@@ -1531,12 +1535,12 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   NSMutableArray* mutableAttackNotificationsList;
   NSMutableArray* mutableMarketplacePurchaseNotificationsList;
   NSMutableArray* mutableAllCitiesList;
+  NSMutableArray* mutableUserCityInfosList;
   NSMutableArray* mutableEquipsList;
   NSMutableArray* mutableUserEquipsList;
   NSMutableArray* mutableAvailableQuestsList;
   NSMutableArray* mutableInProgressCompleteQuestsList;
   NSMutableArray* mutableInProgressIncompleteQuestsList;
-  NSMutableArray* mutableUserCityInfosList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStartupStatus;
@@ -1549,6 +1553,7 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (BOOL) hasDailyBonusInfo;
 - (BOOL) hasPlayerHasBoughtInAppPurchase;
 - (BOOL) hasUnhandledForgeAttempt;
+- (BOOL) hasForgeAttemptEquip;
 @property (readonly, retain) FullUserProto* sender;
 @property (readonly) StartupResponseProto_StartupStatus startupStatus;
 @property (readonly) StartupResponseProto_UpdateStatus updateStatus;
@@ -1560,6 +1565,7 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @property (readonly, retain) StartupResponseProto_DailyBonusInfo* dailyBonusInfo;
 - (BOOL) playerHasBoughtInAppPurchase;
 @property (readonly, retain) UnhandledBlacksmithAttemptProto* unhandledForgeAttempt;
+@property (readonly, retain) FullEquipProto* forgeAttemptEquip;
 - (NSArray*) allCitiesList;
 - (FullCityProto*) allCitiesAtIndex:(int32_t) index;
 - (NSArray*) userCityInfosList;
@@ -1916,31 +1922,31 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
+  BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
+  BOOL hasAviaryImgVerticalPixelOffset_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasVaultImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
-  BOOL hasAviaryImgVerticalPixelOffset_:1;
-  BOOL hasMaxCharLengthForWallPost_:1;
-  BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
@@ -1952,44 +1958,47 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasCarpenterXlength_:1;
   BOOL hasCarpenterYlength_:1;
   BOOL hasAviaryXlength_:1;
-  BOOL hasAviaryYlength_:1;
-  BOOL hasAttackBaseGain_:1;
-  BOOL hasDefenseBaseGain_:1;
-  BOOL hasEnergyBaseGain_:1;
-  BOOL hasStaminaBaseGain_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasStaminaBaseCost_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMaxLevelForStruct_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasKiipRewardConditions_:1;
-  BOOL hasBattleConstants_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
+  BOOL hasAttackBaseCost_:1;
+  BOOL hasStaminaBaseGain_:1;
+  BOOL hasEnergyBaseGain_:1;
+  BOOL hasDefenseBaseGain_:1;
+  BOOL hasAttackBaseGain_:1;
+  BOOL hasAviaryYlength_:1;
   BOOL hasFormulaConstants_:1;
-  Float64 cutOfVaultDepositTaken;
+  BOOL hasBattleConstants_:1;
+  BOOL hasKiipRewardConditions_:1;
+  BOOL hasForgeConstants_:1;
   Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 cutOfVaultDepositTaken;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
-  int32_t maxLevelForStruct;
-  int32_t maxNumOfSingleStruct;
+  Float64 percentReturnedToUserForSellingEquipInArmory;
+  Float64 healthFormulaExponentBase;
+  int32_t averageSizeOfLevelBracket;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
   int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
+  int32_t playerWallPostsRetrieveCap;
+  int32_t maxCharLengthForWallPost;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
+  int32_t aviaryImgVerticalPixelOffset;
   int32_t maxCityRank;
   int32_t armoryImgVerticalPixelOffset;
   int32_t vaultImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
-  int32_t aviaryImgVerticalPixelOffset;
-  int32_t maxCharLengthForWallPost;
-  int32_t playerWallPostsRetrieveCap;
   int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
@@ -2001,19 +2010,22 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   int32_t carpenterXlength;
   int32_t carpenterYlength;
   int32_t aviaryXlength;
-  int32_t aviaryYlength;
-  int32_t attackBaseGain;
-  int32_t defenseBaseGain;
-  int32_t energyBaseGain;
-  int32_t staminaBaseGain;
-  int32_t attackBaseCost;
-  int32_t defenseBaseCost;
-  int32_t energyBaseCost;
-  int32_t staminaBaseCost;
+  int32_t maxNumOfSingleStruct;
+  int32_t maxLevelForStruct;
   int32_t skillPointsGainedOnLevelup;
-  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
-  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t defenseBaseCost;
+  int32_t attackBaseCost;
+  int32_t staminaBaseGain;
+  int32_t energyBaseGain;
+  int32_t defenseBaseGain;
+  int32_t attackBaseGain;
+  int32_t aviaryYlength;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -2067,6 +2079,9 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (BOOL) hasMaxCharLengthForWallPost;
 - (BOOL) hasPlayerWallPostsRetrieveCap;
 - (BOOL) hasKiipRewardConditions;
+- (BOOL) hasAverageSizeOfLevelBracket;
+- (BOOL) hasForgeConstants;
+- (BOOL) hasHealthFormulaExponentBase;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2116,6 +2131,9 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @property (readonly) int32_t maxCharLengthForWallPost;
 @property (readonly) int32_t playerWallPostsRetrieveCap;
 @property (readonly, retain) StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+@property (readonly) int32_t averageSizeOfLevelBracket;
+@property (readonly, retain) StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+@property (readonly) Float64 healthFormulaExponentBase;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2344,11 +2362,20 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 
 @interface StartupResponseProto_StartupConstants_BattleConstants : PBGeneratedMessage {
 @private
+  BOOL hasBattleIndividualEquipAttackCap_:1;
   BOOL hasBattleWeightGivenToAttackStat_:1;
   BOOL hasBattleWeightGivenToAttackEquipSum_:1;
   BOOL hasBattleWeightGivenToDefenseStat_:1;
   BOOL hasBattleWeightGivenToDefenseEquipSum_:1;
   BOOL hasBattleWeightGivenToLevel_:1;
+  BOOL hasBattlePercentOfEquipment_:1;
+  BOOL hasBattleAttackExpoMultiplier_:1;
+  BOOL hasBattlePercentOfPlayerStats_:1;
+  BOOL hasBattlePercentOfAmulet_:1;
+  BOOL hasBattlePercentOfArmor_:1;
+  BOOL hasBattlePercentOfWeapon_:1;
+  BOOL hasBattleHitDefenderPercentOfHealth_:1;
+  BOOL hasBattleHitAttackerPercentOfHealth_:1;
   BOOL hasBattleMissLikelihood_:1;
   BOOL hasBattleGoodLikelihood_:1;
   BOOL hasBattleGreatLikelihood_:1;
@@ -2361,11 +2388,20 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasBattleGreatPercentThreshold_:1;
   BOOL hasBattlePerfectPercentThreshold_:1;
   BOOL hasLocationBarMax_:1;
+  Float64 battleIndividualEquipAttackCap;
   Float64 battleWeightGivenToAttackStat;
   Float64 battleWeightGivenToAttackEquipSum;
   Float64 battleWeightGivenToDefenseStat;
   Float64 battleWeightGivenToDefenseEquipSum;
   Float64 battleWeightGivenToLevel;
+  Float64 battlePercentOfEquipment;
+  Float64 battleAttackExpoMultiplier;
+  Float64 battlePercentOfPlayerStats;
+  Float64 battlePercentOfAmulet;
+  Float64 battlePercentOfArmor;
+  Float64 battlePercentOfWeapon;
+  Float64 battleHitDefenderPercentOfHealth;
+  Float64 battleHitAttackerPercentOfHealth;
   Float32 battleMissLikelihood;
   Float32 battleGoodLikelihood;
   Float32 battleGreatLikelihood;
@@ -2396,6 +2432,15 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (BOOL) hasBattleGreatLikelihood;
 - (BOOL) hasBattleGoodLikelihood;
 - (BOOL) hasBattleMissLikelihood;
+- (BOOL) hasBattleHitAttackerPercentOfHealth;
+- (BOOL) hasBattleHitDefenderPercentOfHealth;
+- (BOOL) hasBattlePercentOfWeapon;
+- (BOOL) hasBattlePercentOfArmor;
+- (BOOL) hasBattlePercentOfAmulet;
+- (BOOL) hasBattlePercentOfPlayerStats;
+- (BOOL) hasBattleAttackExpoMultiplier;
+- (BOOL) hasBattlePercentOfEquipment;
+- (BOOL) hasBattleIndividualEquipAttackCap;
 @property (readonly) Float32 locationBarMax;
 @property (readonly) Float64 battleWeightGivenToAttackStat;
 @property (readonly) Float64 battleWeightGivenToAttackEquipSum;
@@ -2413,6 +2458,15 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @property (readonly) Float32 battleGreatLikelihood;
 @property (readonly) Float32 battleGoodLikelihood;
 @property (readonly) Float32 battleMissLikelihood;
+@property (readonly) Float64 battleHitAttackerPercentOfHealth;
+@property (readonly) Float64 battleHitDefenderPercentOfHealth;
+@property (readonly) Float64 battlePercentOfWeapon;
+@property (readonly) Float64 battlePercentOfArmor;
+@property (readonly) Float64 battlePercentOfAmulet;
+@property (readonly) Float64 battlePercentOfPlayerStats;
+@property (readonly) Float64 battleAttackExpoMultiplier;
+@property (readonly) Float64 battlePercentOfEquipment;
+@property (readonly) Float64 battleIndividualEquipAttackCap;
 
 + (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
 - (StartupResponseProto_StartupConstants_BattleConstants*) defaultInstance;
@@ -2532,6 +2586,135 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (Float32) battleMissLikelihood;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleMissLikelihood:(Float32) value;
 - (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleMissLikelihood;
+
+- (BOOL) hasBattleHitAttackerPercentOfHealth;
+- (Float64) battleHitAttackerPercentOfHealth;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleHitAttackerPercentOfHealth:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleHitAttackerPercentOfHealth;
+
+- (BOOL) hasBattleHitDefenderPercentOfHealth;
+- (Float64) battleHitDefenderPercentOfHealth;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleHitDefenderPercentOfHealth:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleHitDefenderPercentOfHealth;
+
+- (BOOL) hasBattlePercentOfWeapon;
+- (Float64) battlePercentOfWeapon;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfWeapon:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfWeapon;
+
+- (BOOL) hasBattlePercentOfArmor;
+- (Float64) battlePercentOfArmor;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfArmor:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfArmor;
+
+- (BOOL) hasBattlePercentOfAmulet;
+- (Float64) battlePercentOfAmulet;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfAmulet:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfAmulet;
+
+- (BOOL) hasBattlePercentOfPlayerStats;
+- (Float64) battlePercentOfPlayerStats;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfPlayerStats:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfPlayerStats;
+
+- (BOOL) hasBattleAttackExpoMultiplier;
+- (Float64) battleAttackExpoMultiplier;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleAttackExpoMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleAttackExpoMultiplier;
+
+- (BOOL) hasBattlePercentOfEquipment;
+- (Float64) battlePercentOfEquipment;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattlePercentOfEquipment:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattlePercentOfEquipment;
+
+- (BOOL) hasBattleIndividualEquipAttackCap;
+- (Float64) battleIndividualEquipAttackCap;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) setBattleIndividualEquipAttackCap:(Float64) value;
+- (StartupResponseProto_StartupConstants_BattleConstants_Builder*) clearBattleIndividualEquipAttackCap;
+@end
+
+@interface StartupResponseProto_StartupConstants_ForgeConstants : PBGeneratedMessage {
+@private
+  BOOL hasForgeTimeBaseForExponentialMultiplier_:1;
+  BOOL hasForgeDiamondCostForGuaranteeExponentialMultiplier_:1;
+  BOOL hasForgeMinDiamondCostForGuarantee_:1;
+  BOOL hasForgeBaseMinutesToOneGold_:1;
+  BOOL hasForgeMaxEquipLevel_:1;
+  Float64 forgeTimeBaseForExponentialMultiplier;
+  Float64 forgeDiamondCostForGuaranteeExponentialMultiplier;
+  int32_t forgeMinDiamondCostForGuarantee;
+  int32_t forgeBaseMinutesToOneGold;
+  int32_t forgeMaxEquipLevel;
+}
+- (BOOL) hasForgeTimeBaseForExponentialMultiplier;
+- (BOOL) hasForgeMinDiamondCostForGuarantee;
+- (BOOL) hasForgeDiamondCostForGuaranteeExponentialMultiplier;
+- (BOOL) hasForgeBaseMinutesToOneGold;
+- (BOOL) hasForgeMaxEquipLevel;
+@property (readonly) Float64 forgeTimeBaseForExponentialMultiplier;
+@property (readonly) int32_t forgeMinDiamondCostForGuarantee;
+@property (readonly) Float64 forgeDiamondCostForGuaranteeExponentialMultiplier;
+@property (readonly) int32_t forgeBaseMinutesToOneGold;
+@property (readonly) int32_t forgeMaxEquipLevel;
+
++ (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_ForgeConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_ForgeConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_ForgeConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_ForgeConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_ForgeConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_ForgeConstants*) build;
+- (StartupResponseProto_StartupConstants_ForgeConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_ForgeConstants*) other;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasForgeTimeBaseForExponentialMultiplier;
+- (Float64) forgeTimeBaseForExponentialMultiplier;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeTimeBaseForExponentialMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeTimeBaseForExponentialMultiplier;
+
+- (BOOL) hasForgeMinDiamondCostForGuarantee;
+- (int32_t) forgeMinDiamondCostForGuarantee;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeMinDiamondCostForGuarantee:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMinDiamondCostForGuarantee;
+
+- (BOOL) hasForgeDiamondCostForGuaranteeExponentialMultiplier;
+- (Float64) forgeDiamondCostForGuaranteeExponentialMultiplier;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeDiamondCostForGuaranteeExponentialMultiplier:(Float64) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeDiamondCostForGuaranteeExponentialMultiplier;
+
+- (BOOL) hasForgeBaseMinutesToOneGold;
+- (int32_t) forgeBaseMinutesToOneGold;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeBaseMinutesToOneGold:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeBaseMinutesToOneGold;
+
+- (BOOL) hasForgeMaxEquipLevel;
+- (int32_t) forgeMaxEquipLevel;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) setForgeMaxEquipLevel:(int32_t) value;
+- (StartupResponseProto_StartupConstants_ForgeConstants_Builder*) clearForgeMaxEquipLevel;
 @end
 
 @interface StartupResponseProto_StartupConstants_Builder : PBGeneratedMessage_Builder {
@@ -2822,6 +3005,23 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (StartupResponseProto_StartupConstants_Builder*) setKiipRewardConditionsBuilder:(StartupResponseProto_StartupConstants_KiipRewardConditions_Builder*) builderForValue;
 - (StartupResponseProto_StartupConstants_Builder*) mergeKiipRewardConditions:(StartupResponseProto_StartupConstants_KiipRewardConditions*) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearKiipRewardConditions;
+
+- (BOOL) hasAverageSizeOfLevelBracket;
+- (int32_t) averageSizeOfLevelBracket;
+- (StartupResponseProto_StartupConstants_Builder*) setAverageSizeOfLevelBracket:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAverageSizeOfLevelBracket;
+
+- (BOOL) hasForgeConstants;
+- (StartupResponseProto_StartupConstants_ForgeConstants*) forgeConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setForgeConstants:(StartupResponseProto_StartupConstants_ForgeConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setForgeConstantsBuilder:(StartupResponseProto_StartupConstants_ForgeConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeForgeConstants:(StartupResponseProto_StartupConstants_ForgeConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearForgeConstants;
+
+- (BOOL) hasHealthFormulaExponentBase;
+- (Float64) healthFormulaExponentBase;
+- (StartupResponseProto_StartupConstants_Builder*) setHealthFormulaExponentBase:(Float64) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearHealthFormulaExponentBase;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -3540,6 +3740,13 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (StartupResponseProto_Builder*) setUnhandledForgeAttemptBuilder:(UnhandledBlacksmithAttemptProto_Builder*) builderForValue;
 - (StartupResponseProto_Builder*) mergeUnhandledForgeAttempt:(UnhandledBlacksmithAttemptProto*) value;
 - (StartupResponseProto_Builder*) clearUnhandledForgeAttempt;
+
+- (BOOL) hasForgeAttemptEquip;
+- (FullEquipProto*) forgeAttemptEquip;
+- (StartupResponseProto_Builder*) setForgeAttemptEquip:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) setForgeAttemptEquipBuilder:(FullEquipProto_Builder*) builderForValue;
+- (StartupResponseProto_Builder*) mergeForgeAttemptEquip:(FullEquipProto*) value;
+- (StartupResponseProto_Builder*) clearForgeAttemptEquip;
 
 - (NSArray*) noticesToPlayersList;
 - (NSString*) noticesToPlayersAtIndex:(int32_t) index;

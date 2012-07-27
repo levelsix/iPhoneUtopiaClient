@@ -70,8 +70,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];
     
-    _bazaarMap = [BazaarMap sharedBazaarMap];
-    
     [self displayHomeMap];
   } else {
     _topBar = [TopBar sharedTopBar];
@@ -138,6 +136,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [EAGLContext setCurrentContext:k_context];
   
   [self unloadCurrentMissionMap];
+  CCLayer *layer = [CCLayer node];
+  [self.parent addChild:layer z:1000];
+  
   TutorialMissionMap *map = [TutorialMissionMap sharedTutorialMissionMap];
   currentCity = 1;
   _missionMap = map;
@@ -149,6 +150,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   [map allowBlink];
   
   [self closeHomeMap];
+  [layer removeFromParentAndCleanup:YES];
 }
 
 - (void) loadHomeMap {
@@ -210,11 +212,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   }
 }
 
+- (void) checkBazaarMapExists {
+  if (!_bazaarMap) {
+    _bazaarMap = [BazaarMap sharedBazaarMap];
+  }
+}
+
 - (void) loadBazaarMap {
   if (!_bazaarMap.parent) {
     [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling to Bazaar"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
+    [self checkBazaarMapExists];
     [_bazaarMap moveToCenter];
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayBazaarMap)], nil]];
   }
@@ -222,6 +231,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) displayBazaarMap {
   if (!_bazaarMap.parent) {
+    [self checkBazaarMapExists];
     [_homeMap setSelected:nil];
     [self unloadCurrentMissionMap];
     

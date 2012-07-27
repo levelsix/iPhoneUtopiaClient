@@ -68,7 +68,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) logout {
-  [[SocketCommunication sharedSocketCommunication] sendLogoutMessage];
+  GameState *gs = [GameState sharedGameState];
+  if (gs.connected && gs.userId > 0) {
+    [[SocketCommunication sharedSocketCommunication] sendLogoutMessage];
+  }
 }
 
 - (void) reconnect {
@@ -560,13 +563,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   
   if (gs.currentEnergy >= gs.maxEnergy) {
     [Globals popupMessage:@"Trying to increase energy when at max.."];
-  } else if (tInt >= 0.f) {
+  } else if (tInt >= gl.energyRefillWaitMinutes*60.f) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendRefillStatWaitTimeComplete:RefillStatWaitCompleteRequestProto_RefillStatWaitCompleteTypeEnergy curTime:now.timeIntervalSince1970*1000];
     
     int maxChange = gs.maxEnergy-gs.currentEnergy;
     int change = tInt/(gl.energyRefillWaitMinutes*60);
     int realChange = MIN(maxChange, change);
-    NSDate *nextDate = [gs.lastEnergyRefill dateByAddingTimeInterval:realChange*gl.energyRefillWaitMinutes*60];
+    NSDate *nextDate = [gs.lastEnergyRefill dateByAddingTimeInterval:realChange*gl.energyRefillWaitMinutes*60.f];
     EnergyUpdate *eu = [EnergyUpdate updateWithTag:tag change:realChange];
     LastEnergyRefillUpdate *leru = [LastEnergyRefillUpdate updateWithTag:tag prevDate:gs.lastEnergyRefill nextDate:nextDate];
     [gs addUnrespondedUpdates:eu, leru, nil];
@@ -589,7 +592,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int maxChange = gs.maxStamina-gs.currentStamina;
     int change = tInt/(gl.staminaRefillWaitMinutes*60);
     int realChange = MIN(maxChange, change);
-    NSDate *nextDate = [gs.lastStaminaRefill dateByAddingTimeInterval:realChange*gl.staminaRefillWaitMinutes*60];
+    NSDate *nextDate = [gs.lastStaminaRefill dateByAddingTimeInterval:realChange*gl.staminaRefillWaitMinutes*60+1.f];
     StaminaUpdate *su = [StaminaUpdate updateWithTag:tag change:realChange];
     LastStaminaRefillUpdate *lsru = [LastStaminaRefillUpdate updateWithTag:tag prevDate:gs.lastStaminaRefill nextDate:nextDate];
     [gs addUnrespondedUpdates:su, lsru, nil];
@@ -728,7 +731,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (userStruct.isComplete && userStruct.lastRetrieved) {
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendRetrieveCurrencyFromNormStructureMessage:userStruct.userStructId time:ms];
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
     [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:[gl calculateIncomeForUserStruct:userStruct]]];
@@ -752,7 +755,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:ms type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishConstruction];
     userStruct.isComplete = YES;
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     
     // Update game state
     FullStructureProto *fsp = [gs structWithId:userStruct.structId];
@@ -779,7 +782,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     int64_t ms = [self getCurrentMilliseconds];
     int tag = [sc sendFinishNormStructBuildWithDiamondsMessage:userStruct.userStructId time:[self getCurrentMilliseconds] type:FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeTypeFinishUpgrade];
     userStruct.isComplete = YES;
-    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];
+    userStruct.lastRetrieved = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];
     userStruct.level++;
     
     // Update game state
@@ -860,7 +863,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         int64_t ms = [self getCurrentMilliseconds];
         int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
         userStruct.isComplete = NO;
-        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];\
+        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];\
         
         // Update game state
         [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:-cost]];
@@ -874,7 +877,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         int64_t ms = [self getCurrentMilliseconds];
         int tag = [sc sendUpgradeNormStructureMessage:userStruct.userStructId time:ms];
         userStruct.isComplete = NO;
-        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.f];\
+        userStruct.lastUpgradeTime = [NSDate dateWithTimeIntervalSince1970:ms/1000.0];\
         
         // Update game state
         [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:-cost]];
@@ -1068,7 +1071,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
-    ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Retrieving equip %d.", equipId);
      int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }

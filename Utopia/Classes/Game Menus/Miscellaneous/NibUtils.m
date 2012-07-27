@@ -397,6 +397,21 @@
   self.darkView.layer.cornerRadius = 10.f;
 }
 
+- (void) display:(UIView *)view {
+  [self.actIndView startAnimating];
+  
+  [view addSubview:self];
+  _isDisplayingLoadingView = YES;
+}
+
+- (void) stop {
+  if (_isDisplayingLoadingView) {
+    [self.actIndView stopAnimating];
+    [self removeFromSuperview];
+    _isDisplayingLoadingView = NO;
+  }
+}
+
 - (void) dealloc {
   self.darkView = nil;
   self.actIndView = nil;

@@ -250,7 +250,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       
       if (![[NSFileManager defaultManager] fileExistsAtPath:fullpath]) {
         // Image not in docs: download it
-        [[Downloader sharedDownloader] asyncDownloadImage:fullpath.lastPathComponent completion:nil];
+        [[Downloader sharedDownloader] asyncDownloadFile:fullpath.lastPathComponent completion:nil];
         imageExists = NO;
       }
     }
@@ -562,11 +562,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   [self addChild:_left z:1];
   [self addChild:_right z:1];
-#warning change back
-//  _leftCurrentHealth = gs.maxHealth;
-//  _leftMaxHealth = gs.maxHealth;
-//  _rightMaxHealth = user.healthMax;
-//  _rightCurrentHealth = user.healthMax;
+  
+  _leftMaxHealth = [gl calculateHealthForLevel:gs.level];
+  _leftCurrentHealth = _leftMaxHealth;
+  _rightMaxHealth = [gl calculateHealthForLevel:user.level];
+  _rightCurrentHealth = _rightMaxHealth;
   
   _leftNameLabel.string = gs.name;
   _leftNameBg.position = ccp(_leftNameBg.contentSize.width+_leftNameLabel.contentSize.width-_leftNameLabel.position.x+15, _leftNameBg.position.y);
@@ -677,7 +677,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (void) startMyTurn {
   if (_pausedLayer.visible) {
-    NSLog(@"get outta here");
+    // In case looking at profile
     return;
   }
   _attackButton.visible = YES;
@@ -1315,6 +1315,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (void) closeSceneFromQuestLog {
   _cameFromAviary = NO;
+  _isBattling = NO;
   [self closeScene];
 }
 

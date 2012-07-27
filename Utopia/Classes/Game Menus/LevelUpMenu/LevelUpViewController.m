@@ -129,7 +129,7 @@
 }
 
 - (IBAction)okayClicked:(id)sender {
-  [[ProfileViewController sharedProfileViewController] loadMyProfile];
+  [[ProfileViewController sharedProfileViewController] loadMyProfileWithLevelUp];
   [ProfileViewController displayView];
   [[ProfileViewController sharedProfileViewController] openSkillsMenu];
   

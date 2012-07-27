@@ -186,12 +186,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.amuletEquipped = user.amuletEquippedUserEquip.userEquipId;
   self.location = CLLocationCoordinate2DMake(user.userLocation.latitude, user.userLocation.longitude);
   
-  self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:user.lastEnergyRefillTime/1000.f];
-  self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000.f];
-  self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000.f];
-  self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000.f];
+  NSTimeInterval t = user.lastEnergyRefillTime/1000.0;
+  self.lastEnergyRefill = [NSDate dateWithTimeIntervalSince1970:t];
+  self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000.0];
+  self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000.0];
+  self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000.0];
   
-  self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.f];
+  self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
+  
+  [[TopBar sharedTopBar] setUpEnergyTimer];
+  [[TopBar sharedTopBar] setUpStaminaTimer];
   
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
@@ -346,7 +350,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }];
   
   if (!_isTutorial) {
-    NSDate *time = [NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.f];
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:wallPost.timeOfPost/1000.0];
     if ([time compare:_lastLogoutTime] == NSOrderedDescending) {
       [[[TopBar sharedTopBar] profilePic] incrementProfileBadge];
       
