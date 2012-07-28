@@ -18,12 +18,10 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 #import "Apsalar.h"
-#import "AMConnect.h"
 #import <Crashlytics/Crashlytics.h>
 #import "LoggingContextFilter.h"
 #import "SoundEngine.h"
 #import "DownloadTracker.h"
-#import "TestFlight.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -38,15 +36,15 @@
 @implementation AppDelegate
 
 @synthesize window;
-@synthesize facebookDelegate;
+//@synthesize facebookDelegate;
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  return [facebookDelegate application:application 
-                               openURL:url
-                     sourceApplication:sourceApplication
-                            annotation:annotation];
-}
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+//  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//  return [facebookDelegate application:application 
+//                               openURL:url
+//                     sourceApplication:sourceApplication
+//                            annotation:annotation];
+//}
 
 - (void) removeStartupFlicker
 {
@@ -72,15 +70,15 @@
 
 -(void) setUpAlauMeRefferalTracking
 {
-  AMConnect *alaume = [AMConnect sharedInstance];
-  
-  // Set to YES for debugging purposes. Trace info will be written to console.
-  alaume.isLoggingEnabled = NO;
-  
-  // Set to YES for Lite SKU.
-  alaume.isFreeSKU = NO;
-
-  [alaume initializeWithAppId:ALAUME_APP_ID apiKey:ALAUME_API_KEY];
+//  AMConnect *alaume = [AMConnect sharedInstance];
+//  
+//  // Set to YES for debugging purposes. Trace info will be written to console.
+//  alaume.isLoggingEnabled = NO;
+//  
+//  // Set to YES for Lite SKU.
+//  alaume.isFreeSKU = NO;
+//
+//  [alaume initializeWithAppId:ALAUME_APP_ID apiKey:ALAUME_API_KEY];
 }
 
 -(void) setUpFlurryAnalytics 
@@ -219,7 +217,7 @@
   [DownloadTracker track];
   
   // TestFlight SDK
-  [TestFlight takeOff:TEST_FLIGHT_API_KEY];  
+//  [TestFlight takeOff:TEST_FLIGHT_API_KEY];  
   
   // Kiip.me
   kiipDelegate = [[KiipDelegate create] retain];
@@ -407,9 +405,9 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
-  [tapJoyDelegate      release];
+//  [tapJoyDelegate      release];
 //  [flurryClipsDelegate release];
-  [facebookDelegate    release];
+//  [facebookDelegate    release];
   [kiipDelegate        release];
 	[window release];
 	[super dealloc];

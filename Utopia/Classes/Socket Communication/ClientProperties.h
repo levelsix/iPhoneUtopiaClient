@@ -9,7 +9,7 @@
 
 #ifndef DEBUG
 
-#define HOST_NAME @"prod.lvl6.com"
+#define HOST_NAME @"production.lvl6.com"
 #define HOST_PORT 10001
 
 #define UDID [OpenUDID value]

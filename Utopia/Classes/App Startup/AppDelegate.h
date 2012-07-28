@@ -8,18 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "TapjoyDelegate.h"
-#import "FacebookDelegate.h"
 #import "KiipDelegate.h"
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
-  id<TJCVideoAdDelegate>     tapJoyDelegate; 
+//  id<TJCVideoAdDelegate>     tapJoyDelegate; 
 //  id<FlurryAdDelegate>       flurryClipsDelegate;
-  id<FacebookGlobalDelegate> facebookDelegate;
+//  id<FacebookGlobalDelegate> facebookDelegate;
   id<KPManagerDelegate>      kiipDelegate;
 	UIWindow			*window;
 }
 
 @property (nonatomic, retain) UIWindow *window;
-@property (nonatomic, readonly) id<FacebookGlobalDelegate> facebookDelegate;
 @end

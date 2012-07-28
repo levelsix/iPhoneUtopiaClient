@@ -11,7 +11,6 @@
 #import "Globals.h"
 #import "IAPHelper.h"
 #import "FlurryClipsSponsoredOffer.h"
-#import "FacebookSponsoredOffer.h"
 #import "TwitterSponsoredOffer.h"
 
 @implementation InAppPurchaseData

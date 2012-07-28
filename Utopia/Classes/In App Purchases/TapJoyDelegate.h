@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TJCVideoAdProtocol.h"
 
 @interface TapjoyDelegate : NSObject <TJCVideoAdDelegate>
 +(id<TJCVideoAdDelegate>) createTapJoyDelegate;
