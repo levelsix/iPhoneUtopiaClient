@@ -279,7 +279,7 @@
     [[CCDirector sharedDirector] startAnimation];
     
     if (![[GameState sharedGameState] isTutorial]) {
-      [[GameViewController sharedGameViewController] startDoorAnimation];
+      [[GameViewController sharedGameViewController] fadeToLoadingScreen];
     }
   }
 }

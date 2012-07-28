@@ -928,13 +928,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     
-    while (![[GameViewController sharedGameViewController] canLoad]) {
-      [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
-    }
-    
     [[HomeMap sharedHomeMap] refresh];
     gs.connected = YES;
-    [[GameViewController sharedGameViewController] allowOpeningOfDoor];
+    [[GameViewController sharedGameViewController] startGame];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];

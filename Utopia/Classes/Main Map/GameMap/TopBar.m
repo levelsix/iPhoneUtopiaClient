@@ -191,7 +191,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     CCMenuItemSprite *mapButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(mapClicked)];
     mapButton.position = ccp(self.contentSize.width-s.contentSize.width/2-BOTTOM_BUTTON_OFFSET, s.contentSize.height/2+BOTTOM_BUTTON_OFFSET);
     
-    s = [CCSprite spriteWithFile:@"bazaar.png"];
+    s = [CCSprite spriteWithFile:@"bazaarbutton.png"];
     _bazaarButton = [CCMenuItemSprite itemFromNormalSprite:s selectedSprite:nil target:self selector:@selector(bazaarClicked)];
     _bazaarButton.position = ccp(mapButton.position.x, mapButton.position.y+mapButton.contentSize.height/2+_bazaarButton.contentSize.height/2);
     

@@ -15,27 +15,14 @@
 
 @end
 
-@interface GameViewController : UIViewController {
-  BOOL _isRunning;
-  BOOL _canOpenDoor;
-  CCSprite *doorright;
-  CCSprite *doorleft;
-  CCSprite *splash;
-  CCSprite *eyes;
-  CCSprite *loadingLabel;
-  CCSprite *enterLabel;
-  CCParticleSystemQuad *leftBurn;
-  CCParticleSystemQuad *rightBurn;
-}
+@interface GameViewController : UIViewController
 
-@property (assign) BOOL canLoad;
-
+- (void) fadeToLoadingScreen;
 - (void) connectedToHost;
 - (void) startupComplete;
 - (void) loadPlayerCityComplete;
-- (void) startDoorAnimation;
 - (void) setupCocos2D;
-- (void) allowOpeningOfDoor;
+- (void) startGame;
 - (void) loadGame:(BOOL)isTutorial;
 
 + (GameViewController *) sharedGameViewController;

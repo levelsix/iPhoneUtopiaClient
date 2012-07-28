@@ -186,16 +186,16 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (UIColor *)orangeColor;
 + (UIColor *)redColor;
 
-+ (GameMap *)mapForQuest:(FullQuestProto *)fqp;
++ (GameMap *) mapForQuest:(FullQuestProto *)fqp;
 + (NSString *) bazaarQuestGiverName;
 + (NSString *) homeQuestGiverName;
 
 + (void) animateUIArrow:(UIView *)arrow atAngle:(float)angle;
 + (void) animateCCArrow:(CCNode *)arrow atAngle:(float)angle;
 
-+ (BOOL)userTypeIsGood:(UserType)type;
-+ (BOOL)userTypeIsBad:(UserType)type;
-+ (BOOL)userType:(UserType)t1 isAlliesWith:(UserType)t2;
++ (BOOL) userTypeIsGood:(UserType)type;
++ (BOOL) userTypeIsBad:(UserType)type;
++ (BOOL) userType:(UserType)t1 isAlliesWith:(UserType)t2;
 
 - (void) confirmWearEquip:(int)userEquipId;
 

@@ -16,6 +16,7 @@
 #import "RefillMenuController.h"
 #import "ProfileViewController.h"
 #import "SoundEngine.h"
+#import "GenericPopupController.h"
 
 #define PRICE_DIGITS 7
 #define REFRESH_ROWS 20
@@ -256,22 +257,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (IBAction)submitClicked:(id)sender {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   ItemPostView *post = (ItemPostView *)[[(UIButton *)sender superview] superview];
   if (post.equip) {
     [self disableEditing];
     int amount = [post.priceField.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
-    [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.userEquipId price:amount];
-    post.state = kListState;
     
-    GameState *gs = [GameState sharedGameState];
-    if ([gs quantityOfEquip:post.equip.equipId] == 0) {
-      [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
+    if (!amount) {
+      post.state = kListState;
     } else {
-      [post showEquipListing:post.equip];
+      FullEquipProto *fep = [gs equipWithId:post.equip.equipId];
+      NSString *desc = [NSString stringWithFormat:@"Removing this posting will cost %d %@. Would you like to post it?", (int)ceilf(amount * gl.retractPercentCut), [Globals sellsForGoldInMarketplace:fep] ? @"Gold" : @"Silver"];
+      [GenericPopupController displayConfirmationWithDescription:desc title:@"Post Item" okayButton:@"Post" cancelButton:nil target:self selector:@selector(submitItem)];
     }
-    
-    [Analytics successfulPost:post.equip.equipId];
   }
+}
+
+- (void) submitItem {
+  ItemPostView *post = self.selectedCell;
+  [self disableEditing];
+  int amount = [post.priceField.text stringByReplacingOccurrencesOfString:@"," withString:@""].intValue;
+  [[OutgoingEventController sharedOutgoingEventController] equipPostToMarketplace:post.equip.userEquipId price:amount];
+  post.state = kListState;
+  
+  GameState *gs = [GameState sharedGameState];
+  if ([gs quantityOfEquip:post.equip.equipId] == 0) {
+    [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
+  } else {
+    [post showEquipListing:post.equip];
+  }
+  
+  [Analytics successfulPost:post.equip.equipId];
   [coinBar updateLabels];
   [bottomBar updateLabels];
 }

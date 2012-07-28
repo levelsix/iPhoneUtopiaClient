@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" width="80" height="80" tilewidth="64" tileheight="32">
- <tileset firstgid="1" name="tile_field_grass" tilewidth="64" tileheight="32">
+<map version="1.0" orientation="isometric" width="80" height="80" tilewidth="128" tileheight="64">
+ <tileset firstgid="1" name="tile_field_grass" tilewidth="128" tileheight="64">
   <image source="tile_field_grass.png" width="64" height="32"/>
  </tileset>
- <tileset firstgid="2" name="bazaar" tilewidth="64" tileheight="56">
+ <tileset firstgid="2" name="bazaar" tilewidth="128" tileheight="112">
   <image source="bazaar.png" width="256" height="64"/>
  </tileset>
- <tileset firstgid="6" name="hedgefence" tilewidth="64" tileheight="56">
+ <tileset firstgid="6" name="hedgefence" tilewidth="128" tileheight="112">
   <image source="hedgefence.png" width="512" height="64"/>
  </tileset>
- <tileset firstgid="14" name="blackfence" tilewidth="64" tileheight="56">
+ <tileset firstgid="14" name="blackfence" tilewidth="128" tileheight="112">
   <image source="blackfence.png" width="256" height="64"/>
  </tileset>
- <tileset firstgid="18" name="trees" tilewidth="64" tileheight="72">
+ <tileset firstgid="18" name="trees" tilewidth="128" tileheight="144">
   <image source="trees.png" width="128" height="256"/>
  </tileset>
  <layer name="Tile Layer 1" width="80" height="80">
@@ -50,7 +50,7 @@
    H4sIAAAAAAAAA+3YMQqAMBAAQRv//2Ub6wRcg6gzcFW6heMg2wYAAAAAAAAA6+zncI1+jX6Nfo1+jX6NfnN7nL/Trxl1uPr2J/o1+jX6NfqN1ft6x7zZ0+3e3m/G/jb6Nfo1+jX6NW5ro986GjX6Nfo1+jX6zfkfaPRr9Gv0a/Rr9Gv0AwAAAAAA4GsOr+dGxQBkAAA=
   </data>
  </layer>
- <layer name="Border" width="80" height="80">
+ <layer name="Border of Doom" width="80" height="80">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+2cO5bCMBAECXz/M/MI9ADjz6hHthqpKmEzqivYXWyjx8OXpbfAH7OsXiHOuhkN4+y1ouE5Z41ouE+0DQ1/qW1CwzdqCxrmG8zcsNX2GRu23jxTw6u2ztDw6o0jN7xr24gN7940UsNeW0Zo2HtD7/fP4OLu4lGDm7ObzxGurq5en7g7Ovs5u33i6OnodISTr5NLDQ7eDg4Zevr/e7tCjx2jtCvcuWe0doU7do3arnDlvtHbFa7YOUu7Qsu9s7UrtNg9a7tCZv/s7QpKB9p9U9ODdttEutDumKM+tIux1Yl2dSw7P0McGuahoQ6/B3X4O6zD/4E6fA7R4XOwDtdhdLgOqMN1aB3ug+hwH06H+8A6PIegw3MwOjyHpePg7+Cg4OTt5BLB0dfRaQtnT2e3F+5+L1wdXb22cHN184ng4uziodDbvff7t4DvUOfhO/x5OEMiD2eY5OEMnTyc4ZSHM8TycIZdHrUB7d7UtqDdL9EmtNvnrA3tztlrRLs461a0q2dZvUI97u2e0gjj1ABkAAA=
   </data>

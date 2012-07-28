@@ -322,8 +322,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   if (gs.forgeAttempt.guaranteed) {
     self.bottomLabel.text = @"This forge is guaranteed to succeed.";
   } else {
-    float chance = roundf([gl calculateChanceOfSuccess:fi.equipId level:fi.level]);
-    self.bottomLabel.text = [NSString stringWithFormat:@"This forge will succeed with a %d%% chance.", (int)(chance*100)];
+    float chance = [gl calculateChanceOfSuccess:fi.equipId level:fi.level];
+    self.bottomLabel.text = [NSString stringWithFormat:@"This forge will succeed with a %d%% chance.", (int)roundf(chance*100)];
   }
   
   if (gs.forgeAttempt.isComplete) {
@@ -378,6 +378,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.okayButton.hidden = YES;
   self.collectButton.hidden = YES;
   self.finishNowButton.hidden = YES;
+  
+  self.bottomLabel.text = @"Note: Weapons will be returned if forge fails.";
   
   if (fi.level == 1) {
     self.buyOneView.hidden = NO;
@@ -437,7 +439,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     self.frontOldLevelIcon.level = fi.level;
     self.upgrLevelIcon.level = fi.level+1;
     
-    self.chanceOfSuccessLabel.text = [NSString stringWithFormat:@"%d%%", (int)([gl calculateChanceOfSuccess:fi.equipId level:fi.level]*100)];
+    self.chanceOfSuccessLabel.text = [NSString stringWithFormat:@"%d%%", (int)roundf([gl calculateChanceOfSuccess:fi.equipId level:fi.level]*100)];
     self.forgeTimeLabel.text = [NSString stringWithFormat:@"%d minutes", [gl calculateMinutesForForge:fi.equipId level:fi.level]];
     
     self.notForgingMiddleView.hidden = NO;

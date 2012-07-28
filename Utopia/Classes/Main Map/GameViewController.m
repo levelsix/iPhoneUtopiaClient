@@ -55,6 +55,7 @@
 #define EYES_PULSATE_DURATION 2.f
 
 #define DEFAULT_PNG_IMAGE_VIEW_TAG 103
+#define KINGDOM_PNG_IMAGE_VIEW_TAG 104
 
 @implementation GameView
 
@@ -83,8 +84,6 @@
 @end
 
 @implementation GameViewController
-
-@synthesize canLoad;
 
 + (void) releaseAllViews {
   [[GameState sharedGameState] clearAllData];
@@ -145,109 +144,30 @@
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
-- (void) startDoorAnimation {
-  CCScene *scene = [[CCDirector sharedDirector] runningScene];
-  BOOL needsToRunScene = NO;
-  if (!scene) {
-    scene = [CCScene node];
-    needsToRunScene = YES;
-  }
-  
+- (void) fadeToLoadingScreen {
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
-  [[SoundEngine sharedSoundEngine] closeDoor];
   
-  CCLayer *layer = [CCLayer node];
-  [scene addChild:layer z:1];
+  UIView *v = self.view;
+  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"kingdom.png"]];
+  imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
+  imgView.tag = KINGDOM_PNG_IMAGE_VIEW_TAG;
+  imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
+  [v addSubview:imgView];
+  [imgView release];
   
-  doorleft = [CCSprite spriteWithFile:@"doorleft.png"];
-  doorleft.anchorPoint = ccp(1, 0.5);
-  doorleft.position = ccp(0, doorleft.contentSize.height/2);
-  [layer addChild:doorleft z:11];
+  UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+  // Remember to position at bottom right corner to account for the flip
+  spinner.center = CGPointMake(imgView.frame.size.height-(spinner.frame.size.width/2+5), imgView.frame.size.width-(spinner.frame.size.height/2+5));
+  [imgView addSubview:spinner];
+  [spinner startAnimating];
+  [spinner release];
   
-  doorright = [CCSprite spriteWithFile:@"doorright.png"];
-  doorright.anchorPoint = ccp(0, 0.5);
-  doorright.position = ccp(layer.contentSize.width, doorright.contentSize.height/2);
-  [layer addChild:doorright z:11];
-  
-  CCSprite *crest = [CCSprite spriteWithFile:@"skullmedalnomid.png"];
-  [doorright addChild:crest z:1];
-  crest.position = ccp(0, doorright.contentSize.height/2);
-  
-  eyes = [CCSprite spriteWithFile:@"eyesbig.png"];
-  [crest addChild:eyes ];
-  eyes.opacity = EYES_START_ALPHA;
-  eyes.position = ccp(crest.contentSize.width/2, crest.contentSize.height/2);
-  
-  [doorleft runAction:[CCEaseBounceOut actionWithAction:[CCSequence actions:
-                                                         [CCCallFunc actionWithTarget:self selector:@selector(removeSplashImageView)],
-                                                         [CCMoveBy actionWithDuration:DOOR_CLOSE_DURATION position:ccp(doorleft.contentSize.width, 0)],
-                                                         [CCCallFunc actionWithTarget:self selector:@selector(doorClosed)],
-                                                         nil]]];
-  [doorright runAction:[CCEaseBounceOut actionWithAction:[CCMoveBy actionWithDuration:DOOR_CLOSE_DURATION position:ccp(-doorright.contentSize.width, 0)]]];
-  
-  self.canLoad = NO;
-  _isRunning = NO;
-  
-  leftBurn = [CCParticleSystemQuad particleWithFile:@"eyesburning.plist"];
-  [eyes addChild:leftBurn z:1];
-  leftBurn.position = ccp(56,70);
-  leftBurn.startSize /= 2.5;
-  leftBurn.endSize /= 2.5;
-  
-  rightBurn = [CCParticleSystemQuad particleWithFile:@"eyesburning.plist"];
-  [eyes addChild:rightBurn z:1];
-  rightBurn.position = ccp(93,70);
-  rightBurn.startSize /= 2.5;
-  rightBurn.endSize /= 2.5;
-  
-  [eyes runAction:[CCRepeatForever actionWithAction:
-                   [CCSequence actions:
-                    [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_END_ALPHA],
-                    [CCFadeTo actionWithDuration:EYES_PULSATE_DURATION opacity:EYES_START_ALPHA],
-                    nil]]];
-  
-  CCParticleSystemQuad *around = [CCParticleSystemQuad particleWithFile:@"particlesaround.plist"];
-  [doorright addChild:around];
-  around.position = ccp(0, doorright.contentSize.height/2);
-  
-  _canOpenDoor = NO;
-  CCMenuItem *touchLayer = [CCMenuItem itemWithBlock:^(id sender) {
-    if (_canOpenDoor) {
-      [self openDoor];
-    }
+  imgView.alpha = 0.f;
+  [UIView animateWithDuration:1.f animations:^{
+    imgView.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [self removeSplashImageView];
   }];
-  touchLayer.contentSize = doorright.parent.contentSize;
-  
-  // Make this the highest priority
-  CCMenu *menu = [CCMenu menuWithItems:touchLayer, nil];
-  menu.tag = 199;
-  [doorright.parent addChild:menu];
-  
-  splash= [CCSprite spriteWithFile:@"Default.png"];
-  [layer addChild:splash z:10];
-  splash.position = ccp(layer.contentSize.width/2, layer.contentSize.height/2);
-  splash.rotation = 90;
-  
-  loadingLabel = [CCSprite spriteWithFile:@"loadingdoors.png"];//[CCLabelTTF labelWithString:@"" fontName:@"Trajan Pro" fontSize:15.f];
-  loadingLabel.visible = NO;
-  loadingLabel.anchorPoint = ccp(0,0);
-  loadingLabel.position = ccp(10, 10);
-  loadingLabel.color = ccc3(255, 200, 0);
-  [doorleft addChild:loadingLabel];
-  
-  //  loadingLabel.string = @"Getting ready to fight...";
-  
-  if (needsToRunScene) {
-    [[CCDirector sharedDirector] runWithScene:scene];
-  }
-  
-  // Increase the menu's priority
-  [menu runAction:
-   [CCSequence actions:
-    [CCDelayTime actionWithDuration:1],
-    [CCCallBlock actionWithBlock:^{
-     [[CCTouchDispatcher sharedDispatcher] setPriority:-1000 forDelegate:menu];
-   }], nil]];
 }
 
 - (void) connectedToHost {
@@ -266,68 +186,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [[self.view viewWithTag:DEFAULT_PNG_IMAGE_VIEW_TAG] removeFromSuperview];
 }
 
-- (void) allowOpeningOfDoor {
-  if (!_isRunning) {
-    [eyes stopAllActions];
-    _canOpenDoor = YES;
-    
-    [loadingLabel removeFromParentAndCleanup:YES];
-    loadingLabel = nil;
-    
-    enterLabel = [CCSprite spriteWithFile:@"taptoenter.png"];
-    [eyes.parent addChild:enterLabel];
-    enterLabel.position = ccp(enterLabel.parent.contentSize.width/2, -20);
-    [enterLabel runAction:[CCRepeatForever actionWithAction:
-                           [CCSequence actions:
-                            [CCFadeTo actionWithDuration:2.f opacity:120],
-                            [CCFadeTo actionWithDuration:2.f opacity:255], nil]]];
-    
-    float dur = (EYES_END_ALPHA-EYES_START_ALPHA)*EYES_PULSATE_DURATION/(255-eyes.opacity);
-    [eyes runAction:[CCFadeTo actionWithDuration:dur opacity:255]];
-    
-    leftBurn.startSize *= 4;
-    leftBurn.endSize *= 4;
-    leftBurn.speedVar *= 3;
-    rightBurn.startSize *= 4;
-    rightBurn.endSize *= 4;
-    rightBurn.speedVar *= 3;
-  }
+- (void) removeKingdomImageView {
+  UIView *v = [self.view viewWithTag:KINGDOM_PNG_IMAGE_VIEW_TAG];
+  [UIView animateWithDuration:0.4f animations:^{
+    v.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    [v removeFromSuperview];
+  }];
 }
 
-- (void) doorClosed {
-  loadingLabel.visible = YES;
-  [loadingLabel runAction:[CCRepeatForever actionWithAction:
-                           [CCSequence actions:
-                            [CCFadeTo actionWithDuration:1.5f opacity:192],
-                            [CCFadeTo actionWithDuration:1.5f opacity:255], nil]]];
-  
-  [splash removeFromParentAndCleanup:YES];
-  splash = nil;
-  self.canLoad = YES;
-}
-
-- (void) openDoor {
-  if ([[GameState sharedGameState] connected] && !_isRunning) {
-    // Open door
-    [enterLabel removeFromParentAndCleanup:YES];
-    enterLabel = nil;
-    
-    [[SoundEngine sharedSoundEngine] openDoor];
-    
-    [doorleft runAction:[CCSequence actions:
-                         [CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(-doorleft.contentSize.width-100, 0)],
-                         [CCCallFunc actionWithTarget:self selector:@selector(openDoorDone)],
-                         nil]];
-    [doorright runAction:[CCMoveBy actionWithDuration:DOOR_OPEN_DURATION position:ccp(doorright.contentSize.width+100, 0)]];
-    _isRunning = YES;
-    
-  }
-}
-
-- (void) openDoorDone {
-  [doorright.parent removeFromParentAndCleanup:YES];
-  
+- (void) startGame {
   GameState *gs = [GameState sharedGameState];
+  
+  [self removeKingdomImageView];
+  
   if (gs.isTutorial) {
     TutorialStartLayer *tsl = (TutorialStartLayer *)[[[CCDirector sharedDirector] runningScene] getChildByTag:5];
     [tsl start];
@@ -352,7 +224,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   [self.view insertSubview:glView atIndex:0];
   
-  [self startDoorAnimation];
+  CCScene *scene = [CCScene node];
+  [[CCDirector sharedDirector] runWithScene:scene];
+  
+  [self fadeToLoadingScreen];
 }
 
 - (void) preloadLayer {
@@ -372,17 +247,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [[[CCDirector sharedDirector] runningScene] addChild:layer];
   
   if (gs.isTutorial) {
-    [self allowOpeningOfDoor];
+    [self startGame];
     [Analytics tutorialStart];
   }
 }
 
 - (void) loadGame:(BOOL)isTutorial {
   [[GameState sharedGameState] setIsTutorial:isTutorial];
-  
-  while (!self.canLoad) {
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
-  }
   
   if (isTutorial) {
     TopBar *tb = [TutorialTopBar sharedTopBar];
