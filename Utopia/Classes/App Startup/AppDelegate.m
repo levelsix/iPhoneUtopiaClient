@@ -22,6 +22,8 @@
 #import <Crashlytics/Crashlytics.h>
 #import "LoggingContextFilter.h"
 #import "SoundEngine.h"
+#import "DownloadTracker.h"
+#import "TestFlight.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -29,6 +31,7 @@
 #define ALAUME_APP_ID        @"tk"
 #define APSALAR_API_KEY      @"lvl6"
 #define APSALAR_SECRET       @"K7kbMwwF"
+#define TEST_FLIGHT_API_KEY  @"83db3d95fe7af4e3511206c3e7254a5f_MTExODM4MjAxMi0wNy0xOCAyMTowNjoxOC41MjUzMjc"
 
 #define SHOULD_VIDEO_USER    0
 
@@ -212,6 +215,12 @@
  *
  */
   
+  // Burstley DownloadTracker
+  [DownloadTracker track];
+  
+  // TestFlight SDK
+  [TestFlight takeOff:TEST_FLIGHT_API_KEY];  
+  
   // Kiip.me
   kiipDelegate = [[KiipDelegate create] retain];
   
@@ -360,7 +369,7 @@
   
   if (gs.forgeAttempt && !gs.forgeAttempt.isComplete) {
     FullEquipProto *fep = [gs equipWithId:gs.forgeAttempt.equipId];
-    NSString *text = [NSString stringWithFormat:@"The Blacksmith has completed forging your %@  . Come back to check if it succeeded!", fep.name];
+    NSString *text = [NSString stringWithFormat:@"The Blacksmith has completed forging your %@. Come back to check if it succeeded!", fep.name];
     int minutes = [gl calculateMinutesForForge:gs.forgeAttempt.equipId level:gs.forgeAttempt.level];
     [self scheduleNotificationWithText:text badge:1 date:[gs.forgeAttempt.startTime dateByAddingTimeInterval:minutes*60.f]];
   }

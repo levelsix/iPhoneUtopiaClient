@@ -163,7 +163,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [spinner release];
   
   imgView.alpha = 0.f;
-  [UIView animateWithDuration:1.f animations:^{
+  [UIView animateWithDuration:1.5f delay:1.f options:UIViewAnimationOptionTransitionNone animations:^{
     imgView.alpha = 1.f;
   } completion:^(BOOL finished) {
     [self removeSplashImageView];
@@ -188,7 +188,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 
 - (void) removeKingdomImageView {
   UIView *v = [self.view viewWithTag:KINGDOM_PNG_IMAGE_VIEW_TAG];
-  [UIView animateWithDuration:0.4f animations:^{
+  [UIView animateWithDuration:1.f animations:^{
     v.alpha = 0.f;
   } completion:^(BOOL finished) {
     [v removeFromSuperview];
@@ -231,8 +231,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 }
 
 - (void) preloadLayer {
-  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
-  [EAGLContext setCurrentContext:k_context];
+//  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
+//  [EAGLContext setCurrentContext:k_context];
   
   GameState *gs = [GameState sharedGameState];
   CCLayer *layer = gs.isTutorial ? [TutorialStartLayer node] : [GameLayer sharedGameLayer];
@@ -260,7 +260,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
     tb.isTouchEnabled = NO;
   }
   
-  [self performSelectorInBackground:@selector(preloadLayer) withObject:nil];
+  [self preloadLayer];
+//  [self performSelectorInBackground:@selector(preloadLayer) withObject:nil];
 }
 
 - (void) loadView {

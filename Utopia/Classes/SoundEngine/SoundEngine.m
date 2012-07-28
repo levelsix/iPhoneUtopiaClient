@@ -250,4 +250,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundEngine);
   [self playEffect:@"notification_alert.m4a"];
 }
 
+- (void) forgeEnter {
+  [self playEffect:@"ForgeEnter.m4a"];
+}
+
+- (void) forgeSubmit {
+  [self playEffect:@"ForgeBegin.m4a"];
+}
+
+- (void) forgeCollect {
+  [self playEffect:@"ForgeCheck.m4a"];
+}
+
+- (void) forgeSuccess {
+  [self playEffect:@"Forge_Success.m4a"];
+}
+
+- (void) forgeFailure {
+  [self playEffect:@"ForgeFail.m4a"];
+}
+
 @end

@@ -345,6 +345,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.startupStatus == StartupResponseProto_StartupStatusUserInDb) {
     // Update user before creating map
     [gs updateUser:proto.sender timestamp:0];
+    [gs setPlayerHasBoughtInAppPurchase:proto.playerHasBoughtInAppPurchase];
     
     OutgoingEventController *oec = [OutgoingEventController sharedOutgoingEventController];
     
@@ -411,6 +412,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     } else {
       [[GameViewController sharedGameViewController] loadGame:NO];
     }
+    
+    // Display generic popups for strings that haven't been seen before
+    NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults]; 
+    NSMutableArray *stringsStored = [[NSUserDefaults standardUserDefaults]objectForKey:@"myCurrentStrings5"];
+    NSMutableArray *incomingStrings = [NSMutableArray arrayWithArray:proto.noticesToPlayersList];
+    
+    if (stringsStored == NULL){
+      stringsStored = [[NSMutableArray alloc]init];
+    }
+    for(NSString *incomingString in incomingStrings){
+      BOOL hasStringAlready = NO;
+      for(NSString *currentString in stringsStored){
+        if([currentString isEqualToString:incomingString]){
+          hasStringAlready = YES;
+          break;
+        }
+      }
+      if (!hasStringAlready) {
+        [stringsStored addObject:incomingString];
+        [Globals popupMessage:incomingString];
+        hasStringAlready = YES;
+      }
+    }
+    
+    [standardDefault setObject:stringsStored forKey:@"myCurrentStrings5"];
+    [standardDefault synchronize];
   } else {
     // Need to create new player
     StartupResponseProto_TutorialConstants *tc = proto.tutorialConstants;
@@ -747,7 +774,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
-//    [Globals popupMessage:@"Server failed to refill stat."];
+    //    [Globals popupMessage:@"Server failed to refill stat."];
     [gs removeAndUndoAllUpdatesForTag:tag];
     [[TopBar sharedTopBar] setUpEnergyTimer];
     [[TopBar sharedTopBar] setUpStaminaTimer];
@@ -953,7 +980,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusSuccess) {
-    [[GameLayer sharedGameLayer] performSelectorInBackground:@selector(loadMissionMapWithProto:) withObject:proto];
+    [[GameLayer sharedGameLayer] loadMissionMapWithProto:proto];//performSelectorInBackground:@selector(loadMissionMapWithProto:) withObject:proto];
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else if (proto.status == LoadNeutralCityResponseProto_LoadNeutralCityStatusNotAccessibleToUser) {

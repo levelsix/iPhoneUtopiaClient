@@ -15,6 +15,7 @@
 #import "RefillMenuController.h"
 #import "MarketplaceViewController.h"
 #import "EquipDeltaView.h"
+#import "SoundEngine.h"
 
 @implementation ForgeMenuController
 
@@ -140,6 +141,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   _shouldShake = NO;
   
   [self.coinBar updateLabels];
+  
+  [[SoundEngine sharedSoundEngine] forgeEnter];
 }
 
 - (void) loadForgeItems {
@@ -617,6 +620,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     if (succeeded) {
       [self.loadingView display:self.view];
+      
+      [[SoundEngine sharedSoundEngine] forgeSubmit];
     }
   }
 }
@@ -730,6 +735,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       
       [self doLoadingForChecking];
       
+      [[SoundEngine sharedSoundEngine] forgeCollect];
+      
       [Analytics blacksmithCollectedItemsWithEquipId:self.curItem.equipId level:self.curItem.level];
     }
   }
@@ -775,6 +782,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 
 - (void) forgeFailed {
   [self.statusView displayForgeFailed];
+  [[SoundEngine sharedSoundEngine] forgeFailure];
   [UIView animateWithDuration:0.5f animations:^{
     self.equalPlusSign.alpha = 0.f;
   } completion:^(BOOL finished) {
@@ -789,6 +797,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   view.alpha = 0.f;
   
   self.upgrLevelIcon.level = level-1;
+  
+  [[SoundEngine sharedSoundEngine] forgeSuccess];
   
   [UIView animateWithDuration:0.6f animations:^{
     view.alpha = 1.f;

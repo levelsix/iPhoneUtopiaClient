@@ -53,8 +53,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
           greenGid = [layer tileGIDAt:greenGidPt];
           [layer removeTileAt:redGidPt];
           [layer removeTileAt:greenGidPt];
-        }
-        else {
+        } else {
           [self reorderChild:layer z:-1];
         }
       }

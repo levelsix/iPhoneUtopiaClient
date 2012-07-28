@@ -43,6 +43,7 @@
   int _weaponEquipped;
   int _armorEquipped;
   int _amuletEquipped;
+  int _playerHasBoughtInAppPurchase;
   NSDate *_lastEnergyRefill;
   NSDate *_lastStaminaRefill;
   NSDate *_lastShortLicensePurchaseTime;
@@ -129,6 +130,7 @@
 @property (assign) int weaponEquipped;
 @property (assign) int armorEquipped;
 @property (assign) int amuletEquipped;
+@property (assign) int playerHasBoughtInAppPurchase;
 @property (retain) NSDate *lastEnergyRefill;
 @property (retain) NSDate *lastStaminaRefill;
 

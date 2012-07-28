@@ -89,6 +89,7 @@
 @property (nonatomic, assign) float forgeDiamondCostForGuaranteeExponentialMultiplier;
 @property (nonatomic, assign) float forgeBaseMinutesToOneGold;
 @property (nonatomic, assign) float forgeMaxEquipLevel;
+@property (nonatomic, assign) float levelEquipBoostExponentBase;
 
 @property (nonatomic, assign) float averageSizeOfLevelBracket;
 @property (nonatomic, assign) float healthFormulaExponentBase;

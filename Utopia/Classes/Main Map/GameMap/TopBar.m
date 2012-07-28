@@ -20,6 +20,11 @@
 #import "UVHelper.h"
 #import "QuestLogController.h"
 #import "ActivityFeedController.h"
+#import "Chartboost.h"
+
+#define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
+#define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
+
 
 #define FADE_ANIMATION_DURATION 0.2f
 
@@ -305,8 +310,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   
   self.isStarted = YES;
   
-  
   GameState *gs = [GameState sharedGameState];
+  
+#ifndef DEBUG
+  if (!gs.playerHasBoughtInAppPurchase && !gs.isTutorial) {
+    // Configure Chartboost
+    Chartboost *cb = [Chartboost sharedChartboost];
+    cb.appId = CHART_BOOST_APP_ID;
+    cb.appSignature = CHART_BOOST_APP_SIGNATURE;
+    
+    // Notify the beginning of a user session
+    [cb startSession];
+    // Show an interstitial
+    [cb showInterstitial];
+  }
+#endif
+  
   _curSilver = 0;
   _curGold = 0;
   _curEnergy = 0;

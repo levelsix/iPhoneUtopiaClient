@@ -82,6 +82,12 @@ typedef enum {
 - (void) carpenterComplete;
 - (void) carpenterPurchase;
 
+- (void) forgeEnter;
+- (void) forgeSubmit;
+- (void) forgeCollect;
+- (void) forgeSuccess;
+- (void) forgeFailure;
+
 - (void) notificationAlert;
 
 @end

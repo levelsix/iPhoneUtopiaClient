@@ -140,6 +140,13 @@
 }
 
 - (void) performAnimation:(AnimationType)type atLocation:(CGPoint)point inDirection:(float)angle {
+  GameState *gs = [GameState sharedGameState];
+  
+  // Alliance Warrior, Legion Mage, Both archers
+  if (gs.type == UserTypeGoodWarrior || gs.type == UserTypeGoodArcher || gs.type == UserTypeBadArcher) {
+    type = AnimationTypeGenericAction;
+  }
+  
   NSString *dir = nil;
   NSString *plistDir = nil;
   
@@ -177,7 +184,6 @@
     plistDir = @"NF";
   }
   
-  GameState *gs = [GameState sharedGameState];
   NSString *prefix = [NSString stringWithFormat:@"%@%@", [Globals animatedSpritePrefix:gs.type], type == AnimationTypeGenericAction ? @"Generic" : @"Attack"];
   
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[prefix stringByAppendingFormat:@"%@.plist", plistDir]];

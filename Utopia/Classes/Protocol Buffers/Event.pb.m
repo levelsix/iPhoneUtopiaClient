@@ -4849,6 +4849,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t averageSizeOfLevelBracket;
 @property (retain) StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
 @property Float64 healthFormulaExponentBase;
+@property Float64 levelEquipBoostExponentBase;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5220,6 +5221,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasHealthFormulaExponentBase_ = !!value;
 }
 @synthesize healthFormulaExponentBase;
+- (BOOL) hasLevelEquipBoostExponentBase {
+  return !!hasLevelEquipBoostExponentBase_;
+}
+- (void) setHasLevelEquipBoostExponentBase:(BOOL) value {
+  hasLevelEquipBoostExponentBase_ = !!value;
+}
+@synthesize levelEquipBoostExponentBase;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5284,6 +5292,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.averageSizeOfLevelBracket = 0;
     self.forgeConstants = [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance];
     self.healthFormulaExponentBase = 0;
+    self.levelEquipBoostExponentBase = 0;
   }
   return self;
 }
@@ -5489,6 +5498,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasHealthFormulaExponentBase) {
     [output writeDouble:65 value:self.healthFormulaExponentBase];
   }
+  if (self.hasLevelEquipBoostExponentBase) {
+    [output writeDouble:66 value:self.levelEquipBoostExponentBase];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5672,6 +5684,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasHealthFormulaExponentBase) {
     size += computeDoubleSize(65, self.healthFormulaExponentBase);
+  }
+  if (self.hasLevelEquipBoostExponentBase) {
+    size += computeDoubleSize(66, self.levelEquipBoostExponentBase);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8206,6 +8221,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasHealthFormulaExponentBase) {
     [self setHealthFormulaExponentBase:other.healthFormulaExponentBase];
   }
+  if (other.hasLevelEquipBoostExponentBase) {
+    [self setLevelEquipBoostExponentBase:other.levelEquipBoostExponentBase];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8467,6 +8485,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 521: {
         [self setHealthFormulaExponentBase:[input readDouble]];
+        break;
+      }
+      case 529: {
+        [self setLevelEquipBoostExponentBase:[input readDouble]];
         break;
       }
     }
@@ -9449,6 +9471,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearHealthFormulaExponentBase {
   result.hasHealthFormulaExponentBase = NO;
   result.healthFormulaExponentBase = 0;
+  return self;
+}
+- (BOOL) hasLevelEquipBoostExponentBase {
+  return result.hasLevelEquipBoostExponentBase;
+}
+- (Float64) levelEquipBoostExponentBase {
+  return result.levelEquipBoostExponentBase;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setLevelEquipBoostExponentBase:(Float64) value {
+  result.hasLevelEquipBoostExponentBase = YES;
+  result.levelEquipBoostExponentBase = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearLevelEquipBoostExponentBase {
+  result.hasLevelEquipBoostExponentBase = NO;
+  result.levelEquipBoostExponentBase = 0;
   return self;
 }
 @end

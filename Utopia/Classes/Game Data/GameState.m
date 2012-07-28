@@ -50,6 +50,7 @@
 @synthesize weaponEquipped = _weaponEquipped;
 @synthesize armorEquipped = _armorEquipped;
 @synthesize amuletEquipped = _amuletEquipped;
+@synthesize playerHasBoughtInAppPurchase = _playerHasBoughtInAppPurchase;
 @synthesize lastEnergyRefill = _lastEnergyRefill;
 @synthesize lastStaminaRefill = _lastStaminaRefill;
 @synthesize lastShortLicensePurchaseTime = _lastShortLicensePurchaseTime;

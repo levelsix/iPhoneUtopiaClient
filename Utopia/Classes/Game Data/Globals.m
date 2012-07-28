@@ -62,6 +62,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize perfectLikelihood, greatLikelihood, missLikelihood, goodLikelihood;
 @synthesize forgeMaxEquipLevel, forgeBaseMinutesToOneGold, forgeMinDiamondCostForGuarantee;
 @synthesize forgeTimeBaseForExponentialMultiplier, forgeDiamondCostForGuaranteeExponentialMultiplier;
+@synthesize levelEquipBoostExponentBase;
 @synthesize averageSizeOfLevelBracket, healthFormulaExponentBase;
 @synthesize battlePercentOfArmor, battlePercentOfAmulet, battlePercentOfWeapon;
 @synthesize battlePercentOfPlayerStats, battleAttackExpoMultiplier;
@@ -172,6 +173,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.forgeMaxEquipLevel = constants.forgeConstants.forgeMaxEquipLevel;
   self.forgeMinDiamondCostForGuarantee = constants.forgeConstants.forgeMinDiamondCostForGuarantee;
   self.forgeTimeBaseForExponentialMultiplier = constants.forgeConstants.forgeTimeBaseForExponentialMultiplier;
+  self.levelEquipBoostExponentBase = constants.levelEquipBoostExponentBase;
   self.averageSizeOfLevelBracket = constants.averageSizeOfLevelBracket;
   self.healthFormulaExponentBase = constants.healthFormulaExponentBase;
   
@@ -860,7 +862,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"dialogueadriana.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
-      return @"dialoguemitch.png";
+      return @"dialogueben.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
       return @"dialogueruby.png";
@@ -892,7 +894,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       return @"bigadriana.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
-      return @"bigmitch.png";
+      return @"bigben.png";
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerGoodTutorialGirl:
       return @"bigruby.png";
@@ -1301,13 +1303,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (int) calculateAttackForEquip:(int)equipId level:(int)level {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  return fep.attackBoost*pow(1.5, level-1);
+  return (int)ceilf(fep.attackBoost*pow(self.levelEquipBoostExponentBase, level-1));
 }
 
 - (int) calculateDefenseForEquip:(int)equipId level:(int)level {
   GameState *gs = [GameState sharedGameState];
   FullEquipProto *fep = [gs equipWithId:equipId];
-  return fep.defenseBoost*pow(1.5, level-1);
+  return (int)ceilf(fep.defenseBoost*pow(self.levelEquipBoostExponentBase, level-1));
 }
 
 - (float) calculateChanceOfSuccess:(int)equipId level:(int)level {
@@ -1624,8 +1626,12 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
       ue = [gs myEquipWithUserEquipId:gs.amuletEquipped];
     }
     
-    int curAttack = [gl calculateAttackForEquip:ue.equipId level:ue.level];
-    int curDefense = [gl calculateDefenseForEquip:ue.equipId level:ue.level];
+    int curAttack = 0;
+    int curDefense = 0;
+    if (ue) {
+      curAttack = [gl calculateAttackForEquip:ue.equipId level:ue.level];
+      curDefense = [gl calculateDefenseForEquip:ue.equipId level:ue.level];
+    }
     int newAttack = [gl calculateAttackForEquip:equip.equipId level:equip.level];
     int newDefense = [gl calculateDefenseForEquip:equip.equipId level:equip.level];
     

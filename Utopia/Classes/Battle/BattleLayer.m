@@ -69,6 +69,7 @@
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
+    levelIcon.level = 0;
   }
   
   rarityLabel = leftRarityLabel2;
@@ -84,6 +85,7 @@
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
+    levelIcon.level = 0;
   }
   
   rarityLabel = leftRarityLabel3;
@@ -99,6 +101,7 @@
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
+    levelIcon.level = 0;
   }
   
   rarityLabel = rightRarityLabel1;
@@ -114,6 +117,7 @@
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
+    levelIcon.level = 0;
   }
   
   rarityLabel = rightRarityLabel2;
@@ -129,6 +133,7 @@
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
+    levelIcon.level = 0;
   }
   
   rarityLabel = rightRarityLabel3;
@@ -144,6 +149,7 @@
   } else {
     rarityLabel.text = @"";
     imgView.image = nil;
+    levelIcon.level = 0;
   }
   
   if (brp.hasExpGained) {
@@ -1258,7 +1264,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
 }
 
-- (IBAction)stolenEquipOkayClicked:(id)sender {
+- (IBAction) stolenEquipOkayClicked:(id)sender {
   [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
     [stolenEquipView removeFromSuperview];
   }];
@@ -1279,7 +1285,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [self closeScene];
 }
 
-- (IBAction)attackAgainClicked:(id)sender {
+- (IBAction) attackAgainClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
   if (_numWins >= MAX_NUM_WINS) {
     [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Find another enemy to defeat!", _fup.name]];
@@ -1297,7 +1303,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
 }
 
-- (IBAction)profileButtonClicked:(id)sender {
+- (IBAction) profileButtonClicked:(id)sender {
   if (_isAnimating) {
     return;
   }

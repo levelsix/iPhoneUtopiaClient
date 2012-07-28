@@ -92,8 +92,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto {
   // Need this to be able to run on background thread
-  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
-  [EAGLContext setCurrentContext:k_context];
+//  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
+//  [EAGLContext setCurrentContext:k_context];
   
   MissionMap *m = [[MissionMap alloc] initWithProto:proto];
   

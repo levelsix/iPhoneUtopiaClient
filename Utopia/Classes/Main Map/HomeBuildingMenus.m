@@ -111,7 +111,7 @@
 @synthesize titleLabel;
 @synthesize currentIncomeLabel, upgradedIncomeLabel;
 @synthesize upgradeTimeLabel, upgradePriceLabel;
-@synthesize structIcon;
+@synthesize structIcon, coinIcon;
 @synthesize mainView, bgdView;
 @synthesize upgradingBottomView, upgradingMiddleView;
 @synthesize progressBar, hazardSign, timeLeftLabel;
@@ -160,6 +160,7 @@
     
     upgradeTimeLabel.text = [Globals convertTimeToString:[gl calculateMinutesToUpgrade:us]*60];
     upgradePriceLabel.text = [Globals commafyNumber:[gl calculateUpgradeCost:us]];
+    coinIcon.highlighted = fsp.diamondPrice > 0;
     
     hazardSign.hidden = YES;
     upgradingBottomView.hidden = YES;
@@ -268,6 +269,7 @@
   self.notUpgradingMiddleView = nil;
   self.timer = nil;
   self.userStruct = nil;
+  self.coinIcon = nil;
   [super dealloc];
 }
 
