@@ -1191,8 +1191,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) levelUp {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
-  if (gs.experience >= gs.expRequiredForNextLevel) {
+  if (gs.level >= gl.maxLevelForUser) {
+    [Globals popupMessage:@"Trying to level up when already at maximum level."];
+  } else if (gs.experience >= gs.expRequiredForNextLevel) {
     int tag = [[SocketCommunication sharedSocketCommunication] sendLevelUpMessage];
     
     LevelUpdate *lu = [LevelUpdate updateWithTag:tag change:1];

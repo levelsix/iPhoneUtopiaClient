@@ -68,6 +68,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize battlePercentOfPlayerStats, battleAttackExpoMultiplier;
 @synthesize battleHitAttackerPercentOfHealth, battleHitDefenderPercentOfHealth;
 @synthesize battlePercentOfEquipment, battleIndividualEquipAttackCap;
+@synthesize maxLevelForUser;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -107,6 +108,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 - (void) updateConstants:(StartupResponseProto_StartupConstants *)constants {
   self.productIdentifiers = [NSDictionary dictionaryWithObjects:constants.productDiamondsGivenList forKeys:constants.productIdsList];
   self.maxLevelDiffForBattle = constants.maxLevelDifferenceForBattle;
+  self.maxLevelForUser = constants.maxLevelForUser;
   self.armoryXLength = constants.armoryXlength;
   self.armoryYLength = constants.armoryYlength;
   self.vaultXLength = constants.vaultXlength;
@@ -596,7 +598,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   return fullpath;
 }
 
-+ (UIImage *) unreleasedImageNamed:(NSString *)path {
++ (UIImage *) imageNamed:(NSString *)path {
   if (!path) {
     return nil;
   }
@@ -625,18 +627,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     }
   }
   
-  // NOTE: THIS IS INTENTIONALLY NOT RELEASED SO THAT WE CAN AVOID THE AUTORELEASE POOL
-  image = [[UIImage alloc] initWithContentsOfFile:fullpath];
+  image = [UIImage imageWithContentsOfFile:fullpath];
   
-//  if (image) {
-//    [gl.imageCache setObject:image forKey:path];
-//  }
+  if (image) {
+    [gl.imageCache setObject:image forKey:path];
+  }
   
   return image;
-}
-
-+ (UIImage *) imageNamed:(NSString *)path {
-  return [[self unreleasedImageNamed:path] autorelease];
 }
 
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
@@ -1615,6 +1612,11 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   UserEquip *equip = [gs myEquipWithUserEquipId:userEquipId];
+  
+  if (!equip) {
+    return;
+  }
+  
   FullEquipProto *fep = [gs equipWithId:equip.equipId];
   if ([Globals canEquip:fep]) {
     UserEquip *ue = nil;

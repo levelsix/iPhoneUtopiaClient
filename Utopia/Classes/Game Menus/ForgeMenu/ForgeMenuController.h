@@ -19,6 +19,8 @@
   BOOL _isDisplayingLoadingView;
   BOOL _collectingEquips;
   BOOL _shouldShake;
+  
+  int _forgedUserEquipId;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *topBar;

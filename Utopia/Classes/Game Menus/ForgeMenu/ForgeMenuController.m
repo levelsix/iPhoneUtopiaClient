@@ -139,6 +139,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   _collectingEquips = NO;
   _shouldShake = NO;
+  _forgedUserEquipId = 0;
   
   [self.coinBar updateLabels];
   
@@ -841,8 +842,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     [newLvlIcon release];
     
     _collectingEquips = NO;
+    
+    [self performSelector:@selector(askToConfirmWearForgedEquip) withObject:nil afterDelay:0.3f];
   }];
-  
+}
+
+- (void) askToConfirmForgedEquip {
+  if (_forgedUserEquipId != 0) {
+    [[Globals sharedGlobals] confirmWearEquip:_forgedUserEquipId];
+    _forgedUserEquipId = 0;
+  }
 }
 
 - (void) shakeViews:(NSNumber *) duration {
@@ -930,7 +939,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     if (proto.newUserEquipsList.count == 2) {
       [self forgeFailed];
     } else if (proto.newUserEquipsList.count == 1) {
-      [self forgeSucceeded:[[proto.newUserEquipsList objectAtIndex:0] level]];
+      FullUserEquipProto *fuep = [proto.newUserEquipsList objectAtIndex:0];
+      [self forgeSucceeded:fuep.level];
+      _forgedUserEquipId = fuep.userEquipId;  
     }
     
     self.okayButton.hidden = NO;

@@ -631,6 +631,8 @@
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
     [self removeFromSuperview];
   }];
+  
+  [self.mktPostView closeClicked:nil];
 }
 
 - (IBAction)wrongClassClicked:(id)sender {
@@ -1741,6 +1743,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [ProfileViewController removeView];
   }];
   self.userId = 0;
+  
+  [self.equipPopup closeClicked:nil];
   
   if (_displayKiipOnClose) {
     _displayKiipOnClose = NO;

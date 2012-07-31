@@ -1331,9 +1331,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _fup = nil;
   _isRunning = NO;
   
-  [self.summaryView removeFromSuperview];
-  [self.stolenEquipView removeFromSuperview];
-  
   [[GameLayer sharedGameLayer] startHomeMapTimersIfOkay];
   
   if (_cameFromAviary) {

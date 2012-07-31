@@ -247,12 +247,13 @@
     
     if (fep.coinPrice > 0) {
       crossOutView.hidden = NO;
-      armoryPriceLabel.text = [Globals commafyNumber:fep.coinPrice];
+      int retailPrice = [gl calculateRetailValueForEquip:m.postedEquip.equipId level:m.equipLevel];
+      armoryPriceLabel.text = [Globals commafyNumber:retailPrice];
       savePriceLabel.text = [NSString stringWithFormat:@"%@ (%@%%)", 
-                             [Globals commafyNumber:fep.coinPrice-mktPost.coinCost], 
-                             [Globals commafyNumber:(int)roundf((fep.coinPrice-mktPost.coinCost)/((float)fep.coinPrice)*100)]];
+                             [Globals commafyNumber:retailPrice-mktPost.coinCost], 
+                             [Globals commafyNumber:(int)roundf((retailPrice-mktPost.coinCost)/((float)retailPrice)*100)]];
       
-      if (mktPost.coinCost < fep.coinPrice) {
+      if (mktPost.coinCost < retailPrice) {
         postedPriceLabel.textColor = [Globals greenColor];
         savePriceLabel.textColor = [Globals greenColor];
       } else {

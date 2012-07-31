@@ -383,7 +383,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
-    DDLogVerbose(@"Firing up energy timer with time %f.. Last: %@, Now: %@", energyComplete, gs.lastEnergyRefill, [NSDate date]);
+    DDLogVerbose(@"Firing up energy timer with time %f.", energyComplete);
   } else {
     _energyTimer = nil;
   }
@@ -410,7 +410,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes;
     _staminaTimer = [NSTimer timerWithTimeInterval:staminaComplete target:self selector:@selector(staminaRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
-    DDLogVerbose(@"Firing up stamina timer with time %f..", staminaComplete);
+    DDLogVerbose(@"Firing up stamina timer with time %f.", staminaComplete);
   } else {
     _staminaTimer = nil;
   }
@@ -599,9 +599,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 
 - (void) update {
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
   if (gs.connected) {
-    if (gs.experience >= gs.expRequiredForNextLevel) {
+    if (gs.experience >= gs.expRequiredForNextLevel && gs.level < gl.maxLevelForUser) {
       [[OutgoingEventController sharedOutgoingEventController] levelUp];
     }
     // Check if timers need to be instantiated

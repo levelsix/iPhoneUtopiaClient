@@ -1137,6 +1137,7 @@
 		CF689C2415C3B96E00F2E50E /* libChartboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF689C2215C3B96E00F2E50E /* libChartboost.a */; };
 		CF689C2515C3B96E00F2E50E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CF689C2315C3B96E00F2E50E /* README.md */; };
 		CF689C2915C3B99000F2E50E /* libDownloadTracker_300_101_universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF689C2815C3B99000F2E50E /* libDownloadTracker_300_101_universal.a */; };
+		CF689C7415C8A40A00F2E50E /* AdColonyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C7315C8A40A00F2E50E /* AdColonyDelegate.m */; };
 		CF6BDC75156AFDA80056B45B /* submittomarketbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC74156AFDA80056B45B /* submittomarketbg@2x.png */; };
 		CF6BDC77156AFDAE0056B45B /* submittomarketbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC76156AFDAE0056B45B /* submittomarketbg.png */; };
 		CF6BDC87156C1D800056B45B /* expstars@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BDC86156C1D800056B45B /* expstars@2x.png */; };
@@ -2892,6 +2893,8 @@
 		CF689C2315C3B96E00F2E50E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		CF689C2715C3B99000F2E50E /* DownloadTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadTracker.h; sourceTree = "<group>"; };
 		CF689C2815C3B99000F2E50E /* libDownloadTracker_300_101_universal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDownloadTracker_300_101_universal.a; sourceTree = "<group>"; };
+		CF689C7215C8A40A00F2E50E /* AdColonyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonyDelegate.h; sourceTree = "<group>"; };
+		CF689C7315C8A40A00F2E50E /* AdColonyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdColonyDelegate.m; sourceTree = "<group>"; };
 		CF6BDC74156AFDA80056B45B /* submittomarketbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "submittomarketbg@2x.png"; sourceTree = "<group>"; };
 		CF6BDC76156AFDAE0056B45B /* submittomarketbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = submittomarketbg.png; sourceTree = "<group>"; };
 		CF6BDC86156C1D800056B45B /* expstars@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "expstars@2x.png"; sourceTree = "<group>"; };
@@ -3797,6 +3800,8 @@
 		CF12659E1538ACC400E0C1AD /* In App Purchases */ = {
 			isa = PBXGroup;
 			children = (
+				CF689C7215C8A40A00F2E50E /* AdColonyDelegate.h */,
+				CF689C7315C8A40A00F2E50E /* AdColonyDelegate.m */,
 				CF12659F1538ACC400E0C1AD /* IAPHelper.h */,
 				CF1265A01538ACC400E0C1AD /* IAPHelper.m */,
 				459A9139157D52A6004B7014 /* KiipDelegate.h */,
@@ -7661,6 +7666,7 @@
 				CF689C1C15C3B89400F2E50E /* SBJsonBase.m in Sources */,
 				CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */,
 				CF689C1E15C3B89400F2E50E /* SBJsonWriter.m in Sources */,
+				CF689C7415C8A40A00F2E50E /* AdColonyDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

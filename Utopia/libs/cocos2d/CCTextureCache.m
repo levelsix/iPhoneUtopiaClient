@@ -289,9 +289,8 @@ static CCTextureCache *sharedTextureCache;
 		}
 		
 		else {
-			UIImage *image = [Globals unreleasedImageNamed:path];
+			UIImage *image = [Globals imageNamed:path];
 			tex = [ [CCTexture2D alloc] initWithImage: image ];
-			[image release];
 			
 			if( tex )
 				[textures_ setObject: tex forKey:path];

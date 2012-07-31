@@ -94,6 +94,9 @@
 @property (nonatomic, assign) float averageSizeOfLevelBracket;
 @property (nonatomic, assign) float healthFormulaExponentBase;
 
+@property (nonatomic, assign) float maxLevelForUser;
+
+
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
@@ -113,7 +116,6 @@
 
 + (NSString *)convertTimeToString:(int)secs;
 
-+ (UIImage *) unreleasedImageNamed:(NSString *)path;
 + (UIImage *) imageNamed:(NSString *)path;
 + (NSString *) imageNameForConstructionWithSize:(CGSize)size;
 + (UIImage *) imageForStruct:(int)structId;
