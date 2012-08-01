@@ -27,6 +27,7 @@
 #import "ArmoryViewController.h"
 #import "EquipDeltaView.h"
 #import "ForgeMenuController.h"
+#import "GoldShoppeViewController.h"
 
 #define  LVL6_SHARED_SECRET @"mister8conrad3chan9is1a2very4great5man"
 
@@ -347,7 +348,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     
     ChangeEquipUpdate *ceu = [ChangeEquipUpdate updateWithTag:tag userEquip:eq remove:YES];
     [gs addUnrespondedUpdate:ceu];
-    [GenericPopupController displayViewWithText:[NSString stringWithFormat:@"You have posted your %@ for %d %@!", fep.name, silver ? silver : gold, silver ? @"silver" : @"gold"] title:@"Congratulations!"];
+    [GenericPopupController displayNotificationViewWithText:[NSString stringWithFormat:@"You have posted your %@ for %d %@!", fep.name, silver ? silver : gold, silver ? @"silver" : @"gold"] title:@"Congratulations!"];
   } else {
     [Globals popupMessage:@"Unable to find this equip!"];
   }
@@ -1379,9 +1380,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
              sendEarnFreeDiamondsAdColonyMessageClientTime:time
              digest:digest
              gold:gold];
-  [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You just earned %d Gold", 
-                         gold]];
+  [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You just earned %d Gold", gold]];
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
+  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
   
   [Analytics watchedAdColony];
 }
@@ -1472,6 +1473,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else if (goldCost <= gs.gold) {
     gs.forgeAttempt.isComplete = YES;
     gs.forgeAttempt.speedupTime = [NSDate date];
+    [gs stopForgeTimer];
     
     int tag = [sc sendFinishForgeAttemptWaittimeWithDiamondsWithBlacksmithId:gs.forgeAttempt.blacksmithId clientTime:[self getCurrentMilliseconds]];
     GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-goldCost];

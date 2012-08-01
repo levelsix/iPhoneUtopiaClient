@@ -95,7 +95,7 @@
 @property (nonatomic, assign) float healthFormulaExponentBase;
 
 @property (nonatomic, assign) float maxLevelForUser;
-
+//@property (nonatomic, assign) float numberOfVideosTillGold;
 
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 

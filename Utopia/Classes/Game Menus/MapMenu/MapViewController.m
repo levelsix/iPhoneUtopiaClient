@@ -119,6 +119,7 @@
 @synthesize bgdView;
 @synthesize titleLabel;
 @synthesize spinner;
+@synthesize enstBar, enstIcon;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
 
@@ -148,6 +149,17 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
     self.spinner.hidden = NO;
   } else {
     [missionMap.lumoriaView reloadCities];
+  }
+  
+  GameState *gs = [GameState sharedGameState];
+  if (self.state == kAttackMap) {
+    self.enstIcon.highlighted = NO;
+    self.enstBar.percentage = ((float)gs.currentStamina)/gs.maxStamina;
+    self.enstBar.highlighted = NO;
+  } else if (self.state == kMissionMap) {
+    self.enstIcon.highlighted = YES;
+    self.enstBar.percentage = ((float)gs.currentEnergy)/gs.maxEnergy;
+    self.enstBar.highlighted = YES;
   }
   
   // Just in case the loading screen wasn't removed
@@ -348,6 +360,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MapViewController);
   self.mapView = nil;
   self.missionMap = nil;
   self.loadingView = nil;
+  self.enstBar = nil;
+  self.enstIcon = nil;
 }
 
 + (void) cleanupAndPurgeSingleton {

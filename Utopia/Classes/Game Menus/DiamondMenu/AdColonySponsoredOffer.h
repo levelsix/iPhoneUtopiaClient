@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "InAppPurchaseData.h"
+#import "AdColonyPublic.h"
 
-@interface AdColonySponsoredOffer : NSObject <InAppPurchaseData> {
+@interface AdColonySponsoredOffer : NSObject <InAppPurchaseData, AdColonyTakeoverAdDelegate> {
   NSString *primaryTitle;
   NSString *secondaryTitle;
   NSString *price;

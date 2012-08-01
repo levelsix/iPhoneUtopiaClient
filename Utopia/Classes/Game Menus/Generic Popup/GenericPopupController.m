@@ -44,6 +44,7 @@
   if (toAppStore) {
     [GenericPopupController openAppStoreLink];
   } else {
+    [self.okInvocation invoke];
     [self close];
   }
 }
@@ -90,7 +91,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gpc.view = nil;
 }
 
-+ (void) displayViewWithText:(NSString *)string title:(NSString *)title {
++ (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
@@ -99,6 +100,29 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gp.titleLabel.text = title ? title : @"Notification!";
   [GenericPopupController displayView];
   gp.toAppStore = NO;
+  
+  gpc.view = nil;
+  gpc.genPopup = nil;
+}
+
++ (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  GenericPopup *gp = [gpc genPopup];
+  gp.notificationView.hidden = NO;
+  gp.confirmationView.hidden = YES;
+  gp.descriptionLabel.text = string;
+  gp.titleLabel.text = title ? title : @"Notification!";
+  gp.redButtonLabel.text = okay ? okay : @"Okay";
+  [GenericPopupController displayView];
+  gp.toAppStore = NO;
+  
+	NSMethodSignature* sig = [[target class]
+                            instanceMethodSignatureForSelector:selector];
+	NSInvocation* invocation = [NSInvocation
+                              invocationWithMethodSignature:sig];
+	[invocation setTarget:target];
+	[invocation setSelector:selector];
+  gp.okInvocation = invocation;
   
   gpc.view = nil;
   gpc.genPopup = nil;

@@ -1372,7 +1372,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 + (void) popupMessage:(NSString *)msg {
   //  [[[[UIAlertView alloc] initWithTitle:@"Notification" message:msg  delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
-  [GenericPopupController displayViewWithText:msg title:nil];
+  [GenericPopupController displayNotificationViewWithText:msg title:nil];
 }
 
 #pragma mark Bounce View

@@ -11,7 +11,7 @@
 #import "NibUtils.h"
 #import "BattleCalculator.h"
 
-#define HEALTH_BAR_VELOCITY 120.f
+#define HEALTH_BAR_VELOCITY 100.f
 
 #define ATTACK_BUTTON_ANIMATION 4.f
 

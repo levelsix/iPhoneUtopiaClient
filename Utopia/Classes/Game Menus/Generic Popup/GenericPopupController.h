@@ -37,7 +37,8 @@
 
 + (id) sharedGenericPopupController;
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
-+ (void) displayViewWithText:(NSString *)string title:(NSString *)title;
++ (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title;
++ (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector;
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector;
 + (void) removeView;

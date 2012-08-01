@@ -64,6 +64,12 @@
 		CF09725D15BA43EB00F8353B /* blacksmithicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725915BA43EB00F8353B /* blacksmithicon@2x.png */; };
 		CF09725E15BA43EB00F8353B /* checkstatus.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725A15BA43EB00F8353B /* checkstatus.png */; };
 		CF09725F15BA43EB00F8353B /* checkstatus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF09725B15BA43EB00F8353B /* checkstatus@2x.png */; };
+		CF10773515C8CA7C00409312 /* mapstaminabar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773115C8CA7C00409312 /* mapstaminabar.png */; };
+		CF10773615C8CA7C00409312 /* mapstaminabar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */; };
+		CF10773715C8CA7C00409312 /* mapstaminabarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773315C8CA7C00409312 /* mapstaminabarbg.png */; };
+		CF10773815C8CA7C00409312 /* mapstaminabarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */; };
+		CF10773B15C8CC5500409312 /* mapenergybar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773915C8CC5500409312 /* mapenergybar.png */; };
+		CF10773C15C8CC5500409312 /* mapenergybar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF10773A15C8CC5500409312 /* mapenergybar@2x.png */; };
 		CF1256471538A94D00E0C1AD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256461538A94D00E0C1AD /* UIKit.framework */; };
 		CF1256491538A94D00E0C1AD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1256481538A94D00E0C1AD /* Foundation.framework */; };
 		CF12564B1538A94D00E0C1AD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */; };
@@ -1261,6 +1267,8 @@
 		CF99091615BF7BF50094F672 /* BlackSmithWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF99091215BF7BF50094F672 /* BlackSmithWalkNF@2x.plist */; };
 		CF99091715BF7BF50094F672 /* BlackSmithWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF99091315BF7BF50094F672 /* BlackSmithWalkNF@2x.pvr.ccz */; };
 		CFA03DF51565E06900862FF3 /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA03DF41565E06900862FF3 /* red.png */; };
+		CFA2051D15C8A58900F19238 /* libAdColony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA2051C15C8A58900F19238 /* libAdColony.a */; };
+		CFA2052015C8A5B700F19238 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA2051F15C8A5B700F19238 /* AdColonySponsoredOffer.m */; };
 		CFA2A0FE15B7A1FC00578F6F /* failedx.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F615B7A1FC00578F6F /* failedx.png */; };
 		CFA2A0FF15B7A1FC00578F6F /* failedx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F715B7A1FC00578F6F /* failedx@2x.png */; };
 		CFA2A10015B7A1FC00578F6F /* forgechecknow.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA2A0F815B7A1FC00578F6F /* forgechecknow.png */; };
@@ -1600,6 +1608,12 @@
 		CF09725915BA43EB00F8353B /* blacksmithicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blacksmithicon@2x.png"; sourceTree = "<group>"; };
 		CF09725A15BA43EB00F8353B /* checkstatus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkstatus.png; sourceTree = "<group>"; };
 		CF09725B15BA43EB00F8353B /* checkstatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkstatus@2x.png"; sourceTree = "<group>"; };
+		CF10773115C8CA7C00409312 /* mapstaminabar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapstaminabar.png; sourceTree = "<group>"; };
+		CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapstaminabar@2x.png"; sourceTree = "<group>"; };
+		CF10773315C8CA7C00409312 /* mapstaminabarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapstaminabarbg.png; sourceTree = "<group>"; };
+		CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapstaminabarbg@2x.png"; sourceTree = "<group>"; };
+		CF10773915C8CC5500409312 /* mapenergybar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapenergybar.png; sourceTree = "<group>"; };
+		CF10773A15C8CC5500409312 /* mapenergybar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapenergybar@2x.png"; sourceTree = "<group>"; };
 		CF1256421538A94D00E0C1AD /* Kingdom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kingdom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -3018,6 +3032,10 @@
 		CF99091215BF7BF50094F672 /* BlackSmithWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BlackSmithWalkNF@2x.plist"; sourceTree = "<group>"; };
 		CF99091315BF7BF50094F672 /* BlackSmithWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BlackSmithWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
 		CFA03DF41565E06900862FF3 /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		CFA2051B15C8A58900F19238 /* AdColonyPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonyPublic.h; sourceTree = "<group>"; };
+		CFA2051C15C8A58900F19238 /* libAdColony.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdColony.a; sourceTree = "<group>"; };
+		CFA2051E15C8A5B700F19238 /* AdColonySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdColonySponsoredOffer.h; sourceTree = "<group>"; };
+		CFA2051F15C8A5B700F19238 /* AdColonySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdColonySponsoredOffer.m; sourceTree = "<group>"; };
 		CFA2A0F615B7A1FC00578F6F /* failedx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = failedx.png; sourceTree = "<group>"; };
 		CFA2A0F715B7A1FC00578F6F /* failedx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "failedx@2x.png"; sourceTree = "<group>"; };
 		CFA2A0F815B7A1FC00578F6F /* forgechecknow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forgechecknow.png; sourceTree = "<group>"; };
@@ -3262,6 +3280,7 @@
 				459A9138157D3E62004B7014 /* libKiip.a in Frameworks */,
 				CF689C2415C3B96E00F2E50E /* libChartboost.a in Frameworks */,
 				CF689C2915C3B99000F2E50E /* libDownloadTracker_300_101_universal.a in Frameworks */,
+				CFA2051D15C8A58900F19238 /* libAdColony.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3673,6 +3692,8 @@
 		CF1265671538ACC400E0C1AD /* GoldShoppeMenu */ = {
 			isa = PBXGroup;
 			children = (
+				CFA2051E15C8A5B700F19238 /* AdColonySponsoredOffer.h */,
+				CFA2051F15C8A5B700F19238 /* AdColonySponsoredOffer.m */,
 				CF1265681538ACC400E0C1AD /* GoldPackageView.xib */,
 				CF1265691538ACC400E0C1AD /* GoldShoppeViewController.h */,
 				CF12656A1538ACC400E0C1AD /* GoldShoppeViewController.m */,
@@ -3943,6 +3964,7 @@
 		CF1265F21538ACC400E0C1AD /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				CFA2051A15C8A58900F19238 /* AdColony */,
 				CF689C2615C3B99000F2E50E /* DownloadTracker */,
 				CF689C1F15C3B96E00F2E50E /* Chartboost */,
 				CF689C0B15C3B89400F2E50E /* JSON */,
@@ -4799,6 +4821,12 @@
 		CF1268961538ACC500E0C1AD /* Map Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF10773915C8CC5500409312 /* mapenergybar.png */,
+				CF10773A15C8CC5500409312 /* mapenergybar@2x.png */,
+				CF10773115C8CA7C00409312 /* mapstaminabar.png */,
+				CF10773215C8CA7C00409312 /* mapstaminabar@2x.png */,
+				CF10773315C8CA7C00409312 /* mapstaminabarbg.png */,
+				CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */,
 				CF08AF4E1567639A00871798 /* mapborderbg@2x.png */,
 				CF08AF4F1567639A00871798 /* mapborderbg.png */,
 				CF1268971538ACC500E0C1AD /* africa.png */,
@@ -5881,6 +5909,15 @@
 				CF30104815ACE74F0028A4D9 /* mysterybox@2x.png */,
 			);
 			path = "Daily Bonus Images";
+			sourceTree = "<group>";
+		};
+		CFA2051A15C8A58900F19238 /* AdColony */ = {
+			isa = PBXGroup;
+			children = (
+				CFA2051B15C8A58900F19238 /* AdColonyPublic.h */,
+				CFA2051C15C8A58900F19238 /* libAdColony.a */,
+			);
+			path = AdColony;
 			sourceTree = "<group>";
 		};
 		CFC38FA3156EF92900A6A217 /* HomeMap */ = {
@@ -7429,6 +7466,12 @@
 				CF689C0815C3A69400F2E50E /* ForgeFail.m4a in Resources */,
 				CF689C0A15C3AA4E00F2E50E /* KirinVillage@2x.tmx in Resources */,
 				CF689C2515C3B96E00F2E50E /* README.md in Resources */,
+				CF10773515C8CA7C00409312 /* mapstaminabar.png in Resources */,
+				CF10773615C8CA7C00409312 /* mapstaminabar@2x.png in Resources */,
+				CF10773715C8CA7C00409312 /* mapstaminabarbg.png in Resources */,
+				CF10773815C8CA7C00409312 /* mapstaminabarbg@2x.png in Resources */,
+				CF10773B15C8CC5500409312 /* mapenergybar.png in Resources */,
+				CF10773C15C8CC5500409312 /* mapenergybar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7667,6 +7710,7 @@
 				CF689C1D15C3B89400F2E50E /* SBJsonParser.m in Sources */,
 				CF689C1E15C3B89400F2E50E /* SBJsonWriter.m in Sources */,
 				CF689C7415C8A40A00F2E50E /* AdColonyDelegate.m in Sources */,
+				CFA2052015C8A5B700F19238 /* AdColonySponsoredOffer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7840,6 +7884,7 @@
 					"\"$(SRCROOT)/Utopia/libs/Kiip/universal\"",
 					"\"$(SRCROOT)/Utopia/libs/Chartboost\"",
 					"\"$(SRCROOT)/Utopia/libs/DownloadTracker\"",
+					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -7888,6 +7933,7 @@
 					"\"$(SRCROOT)/Utopia/libs/Kiip/universal\"",
 					"\"$(SRCROOT)/Utopia/libs/Chartboost\"",
 					"\"$(SRCROOT)/Utopia/libs/DownloadTracker\"",
+					"\"$(SRCROOT)/Utopia/libs/AdColony\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

@@ -219,15 +219,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     _questNewArrow = [CCSprite spriteWithFile:@"new.png"];
     [self addChild:_questNewArrow];
-    _questNewArrow.position = ccp(_questButton.position.x-_questButton.contentSize.width/2-_questNewArrow.contentSize.width/2-2, _questButton.position.y);
-    _questNewArrow.visible = NO;
-    
-    CCMoveBy *action = [CCMoveBy actionWithDuration:0.8f position:ccp(-10, 0)];
-    [_questNewArrow runAction:[CCRepeatForever actionWithAction:
-                               [CCSequence actions:
-                                [CCEaseSineInOut actionWithAction:action], 
-                                [CCEaseSineInOut actionWithAction:action.reverse], 
-                                nil]]];
+    _questNewArrow.opacity = 0;
+    _questNewArrow.anchorPoint = ccp(1.f, 0.5f);
     
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
@@ -706,13 +699,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       _littleToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
       _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
     }
-    
-    if (gs.availableQuests.count > 0) {
-      _questNewArrow.visible = YES;
-    } else {
-      _questNewArrow.visible = NO;
-    }
   }
+}
+
+- (void) displayNewQuestArrow {
+  _questNewArrow.scale = 1.f;
+  _questNewArrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-2, 0));
+  _questNewArrow.opacity = 0;
+  
+  CCMoveBy *action = [CCMoveBy actionWithDuration:0.4f position:ccp(-10, 0)];
+  [_questNewArrow runAction:[CCSequence actions:
+                             [CCFadeIn actionWithDuration:0.2f],
+                             [CCRepeat actionWithAction:
+                              [CCSequence actions:
+                               [CCEaseSineInOut actionWithAction:action], 
+                               [CCEaseSineInOut actionWithAction:action.reverse], 
+                               nil] times:6],
+                             [CCCallFunc actionWithTarget:self selector:@selector(setQuestBadge)],
+                             [CCSpawn actions:
+                              [CCFadeOut actionWithDuration:0.3f],
+                              [CCScaleBy actionWithDuration:0.3f scale:1.4f], 
+                              nil], nil]];
+}
+
+- (void) setQuestBadge {
+  
 }
 
 - (void) dealloc {

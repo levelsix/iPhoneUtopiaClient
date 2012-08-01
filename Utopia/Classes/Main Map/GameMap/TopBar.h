@@ -103,6 +103,8 @@ typedef enum {
 
 - (void) invalidateTimers;
 
+- (void) displayNewQuestArrow;
+
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;
 

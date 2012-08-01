@@ -654,7 +654,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (IBAction)infoClicked:(id)sender {
-  [GenericPopupController displayViewWithText:@"You need 2 items of the same level to attempt a forge." title:@"Forging Information"];
+  [GenericPopupController displayNotificationViewWithText:@"You need 2 items of the same level to attempt a forge." title:@"Forging Information"];
 }
 
 - (void) finishNow {
@@ -847,7 +847,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }];
 }
 
-- (void) askToConfirmForgedEquip {
+- (void) askToConfirmWearForgedEquip {
   if (_forgedUserEquipId != 0) {
     [[Globals sharedGlobals] confirmWearEquip:_forgedUserEquipId];
     _forgedUserEquipId = 0;

@@ -16,6 +16,7 @@
 #import "ClientProperties.h"
 #import "FullEvent.h"
 #import "GameViewController.h"
+#import "GenericPopupController.h"
 
 // Tags for keeping state
 #define READING_HEADER_TAG -1
@@ -115,18 +116,17 @@ static NSString *udid = nil;
     _numDisconnects++;
     if (_numDisconnects > NUM_SILENT_RECONNECTS) {
       ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Asking to reconnect..");
-      UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Disconnect" message:@"Disconnected from server" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Reconnect", nil];
-      [av show];
-      [av release];
+      [GenericPopupController displayNotificationViewWithText:@"Sorry, we are unable to connect to the server. Please try again." title:@"Disconnected!" okayButton:@"Reconnect" target:self selector:@selector(tryReconnect)];
+      _numDisconnects = 0;
     } else {
       ContextLogWarn(LN_CONTEXT_COMMUNICATION, @"Silently reconnecting..");
-      [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
+      [self tryReconnect];
     }
   }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-  [self connectToSocket];
+- (void) tryReconnect {
+  [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
 }
 
 -(void) messageReceived:(NSData *)data withType:(EventProtocolResponse) eventType tag:(int)tag {

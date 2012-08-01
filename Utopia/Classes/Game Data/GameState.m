@@ -294,6 +294,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   for (FullQuestProto *fqp in quests) {
     [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
   }
+  
+  [[TopBar sharedTopBar] displayNewQuestArrow];
 }
 
 - (void) addToInProgressCompleteQuests:(NSArray *)quests {

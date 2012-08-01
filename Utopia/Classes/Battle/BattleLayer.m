@@ -912,7 +912,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     afterAction = @selector(myWin);
   }
   float dist = ccpDistance(finalPt, _rightHealthBar.position);
-  [_rightHealthBar runAction:[CCSequence actions:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt],
+  [_rightHealthBar runAction:[CCSequence actions:
+                              [CCEaseSineIn actionWithAction:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt]],
                               [CCCallFuncN actionWithTarget:self selector:@selector(doneWithRightHealthBar)],
                               [CCDelayTime actionWithDuration:0.5],
                               [CCCallFunc actionWithTarget:self selector:afterAction], nil]];
@@ -1080,7 +1081,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   }
   
   float dist = ccpDistance(finalPt, _leftHealthBar.position);
-  [_leftHealthBar runAction:[CCSequence actions:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt],
+  [_leftHealthBar runAction:[CCSequence actions:
+                             [CCEaseSineIn actionWithAction:[CCMoveTo actionWithDuration:dist/HEALTH_BAR_VELOCITY position:finalPt]],
                              [CCCallFuncN actionWithTarget:self selector:@selector(doneWithLeftHealthBar)],
                              [CCCallFunc actionWithTarget:self selector:afterAction], nil]];
   [self schedule:@selector(updateLeftLabel)];
