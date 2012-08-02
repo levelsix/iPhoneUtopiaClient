@@ -291,11 +291,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 }
 
 - (void) addToAvailableQuests:(NSArray *)quests {
-  for (FullQuestProto *fqp in quests) {
-    [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+  if (quests.count > 0) {
+    for (FullQuestProto *fqp in quests) {
+      [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
+    }
+    
+    [[TopBar sharedTopBar] displayNewQuestArrow];
   }
-  
-  [[TopBar sharedTopBar] displayNewQuestArrow];
 }
 
 - (void) addToInProgressCompleteQuests:(NSArray *)quests {

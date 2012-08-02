@@ -57,7 +57,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 
 - (void) parseFile:(NSString *)faqFile {
   NSError *e;
-  NSString* fileRoot = [[NSBundle mainBundle] pathForResource:FAQ_FILE_NAME ofType:nil];
+  NSString* fileRoot = [Globals pathToFile:FAQ_FILE_NAME];
   NSString *fileContents = [NSString stringWithContentsOfFile:fileRoot encoding:NSUTF8StringEncoding error:&e];
   
   if (!fileContents) {

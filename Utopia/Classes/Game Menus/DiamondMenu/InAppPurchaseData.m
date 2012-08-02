@@ -113,7 +113,7 @@
 +(NSArray *) allSponsoredOffers
 {
   NSMutableArray *offers = [NSMutableArray array];
-  [offers addObject:[AdColonySponsoredOffer    create]];
+//  [offers addObject:[AdColonySponsoredOffer    create]];
 /*
  * Disabled Sponsored offers:(Short Term)
  *  

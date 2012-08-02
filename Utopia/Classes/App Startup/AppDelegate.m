@@ -195,10 +195,10 @@
   [self setUpDelightio];
   
   // AdColony
-  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
+//  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
 
   // TapJoy
-//  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
+  tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
   /*
    * Disabled Sponsored offers:(Short Term)
    *  
@@ -405,8 +405,8 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
-  [adColonyDelegate release];
-//  [tapJoyDelegate      release];
+//  [adColonyDelegate release];
+  [tapJoyDelegate      release];
 //  [flurryClipsDelegate release];
 //  [facebookDelegate    release];
   [kiipDelegate        release];

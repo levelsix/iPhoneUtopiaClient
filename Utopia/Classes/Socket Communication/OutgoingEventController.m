@@ -1227,6 +1227,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     GameMap *map = [Globals mapForQuest:fqp];
     [map questAccepted:fqp];
     
+    [[TopBar sharedTopBar] setQuestBadgeAnimated:NO];
+    
     [Analytics questAccept:questId];
   } else {
     [Globals popupMessage:@"Attempting to accept unavailable quest"];

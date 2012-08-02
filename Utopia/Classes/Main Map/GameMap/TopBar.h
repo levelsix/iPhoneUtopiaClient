@@ -54,6 +54,10 @@ typedef enum {
   CCMenu *_bottomButtons;
   
   CCSprite *_questNewArrow;
+  CCSprite *_questProgArrow;
+  CCSprite *_questNewBadge;
+  CCLabelTTF *_questNewLabel;
+  int _questNewBadgeNum;
   
   // For faster comparisons of touch
   CGRect _enstBarRect;
@@ -104,6 +108,10 @@ typedef enum {
 - (void) invalidateTimers;
 
 - (void) displayNewQuestArrow;
+- (void) displayProgressQuestArrow;
+- (void) stopProgressArrow;
+- (void) stopQuestArrow;
+- (void) setQuestBadgeAnimated:(BOOL)animated;
 
 + (TopBar *) sharedTopBar;
 + (void) purgeSingleton;

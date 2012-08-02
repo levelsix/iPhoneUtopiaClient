@@ -215,12 +215,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     _bottomButtons = [CCMenu menuWithItems: mapButton, attackButton, _bazaarButton, _homeButton, _questButton, nil];
     _bottomButtons.contentSize = CGSizeZero;
     _bottomButtons.position = CGPointZero;
-    [self addChild:_bottomButtons];
+    [self addChild:_bottomButtons z:10];
     
     _questNewArrow = [CCSprite spriteWithFile:@"new.png"];
     [self addChild:_questNewArrow];
     _questNewArrow.opacity = 0;
     _questNewArrow.anchorPoint = ccp(1.f, 0.5f);
+    
+    _questProgArrow = [CCSprite spriteWithFile:@"progress.png"];
+    [self addChild:_questProgArrow];
+    _questProgArrow.opacity = 0;
+    _questProgArrow.anchorPoint = ccp(1.f, 0.5f);
+    
+    _questNewBadge = [CCSprite spriteWithFile:@"badgeforquests.png"];
+    [_questButton addChild:_questNewBadge];
+    _questNewBadge.visible = NO;
+    _questNewBadge.position = ccp(4, _questButton.contentSize.height-4);
+    
+    fontSize = 12.f;
+    _questNewLabel = [CCLabelTTF labelWithString:@"1" fontName:@"AJensonPro-BoldCapt" fontSize:fontSize];
+    [_questNewBadge addChild:_questNewLabel];
+    _questNewLabel.position = ccp(_questNewBadge.contentSize.width/2, _questNewBadge.contentSize.height/2-1);
     
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
@@ -702,7 +717,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   }
 }
 
+- (void) displayProgressQuestArrow {
+  [self stopProgressArrow];
+  [self stopQuestArrow];
+  
+  _questProgArrow.scale = 1.f;
+  _questProgArrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-2, 0));
+  _questProgArrow.opacity = 0;
+  
+  CCMoveBy *action = [CCMoveBy actionWithDuration:0.4f position:ccp(-10, 0)];
+  [_questProgArrow runAction:[CCSequence actions:
+                              [CCFadeIn actionWithDuration:0.2f],
+                              [CCRepeat actionWithAction:
+                               [CCSequence actions:
+                                [CCEaseSineInOut actionWithAction:action], 
+                                [CCEaseSineInOut actionWithAction:action.reverse], 
+                                nil] times:3],
+                              [CCSpawn actions:
+                               [CCFadeOut actionWithDuration:0.3f],
+                               [CCScaleBy actionWithDuration:0.3f scale:1.4f], 
+                               nil], nil]];
+}
+
 - (void) displayNewQuestArrow {
+  [self stopProgressArrow];
+  [self stopQuestArrow];
   _questNewArrow.scale = 1.f;
   _questNewArrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-2, 0));
   _questNewArrow.opacity = 0;
@@ -715,15 +754,70 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
                                [CCEaseSineInOut actionWithAction:action], 
                                [CCEaseSineInOut actionWithAction:action.reverse], 
                                nil] times:6],
-                             [CCCallFunc actionWithTarget:self selector:@selector(setQuestBadge)],
+                             [CCCallBlock actionWithBlock:
+                              ^{
+                                [self setQuestBadgeAnimated:YES];
+                              }],
                              [CCSpawn actions:
                               [CCFadeOut actionWithDuration:0.3f],
                               [CCScaleBy actionWithDuration:0.3f scale:1.4f], 
                               nil], nil]];
 }
 
-- (void) setQuestBadge {
+- (void) stopProgressArrow {
+  [_questProgArrow stopAllActions];
+  _questProgArrow.opacity = 0;
+}
+
+- (void) stopQuestArrow {
+  [_questNewArrow stopAllActions];
   
+  if (_questNewArrow.opacity > 0) {
+    _questNewArrow.opacity = 0;
+    [self setQuestBadgeAnimated:NO];
+  }
+}
+
+- (void) setQuestBadgeAnimated:(BOOL)animated {
+  int newBadge = [[GameState sharedGameState] availableQuests].count;
+  
+  if (_questNewBadgeNum != newBadge) {
+    _questNewBadgeNum = newBadge;
+    
+    if (animated) {
+      CCSprite *popQuestBadge = [CCSprite spriteWithFile:@"badgeforquests.png"];
+      [_questNewBadge.parent addChild:popQuestBadge];
+      popQuestBadge.position = _questNewBadge.position;
+      
+      float fontSize = 12.f;
+      CCLabelTTF *label = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", newBadge] fontName:@"AJensonPro-BoldCapt" fontSize:fontSize];
+      [popQuestBadge addChild:label];
+      label.position = ccp(popQuestBadge.contentSize.width/2, popQuestBadge.contentSize.height/2-1);
+      
+      popQuestBadge.scale = 3.f;
+      [popQuestBadge runAction:[CCSpawn actions:
+                                [CCFadeIn actionWithDuration:0.3f], 
+                                [CCScaleTo actionWithDuration:0.3f scale:1.f],
+                                nil]];
+      [label runAction:[CCSequence actions:
+                        [CCFadeIn actionWithDuration:0.3f],
+                        [CCCallBlock actionWithBlock:
+                         ^{
+                           _questNewBadge.visible = YES;
+                           _questNewLabel.string = [NSString stringWithFormat:@"%d", newBadge];
+                           [label removeFromParentAndCleanup:YES];
+                           [popQuestBadge removeFromParentAndCleanup:YES];
+                         }],
+                        nil]];
+    } else {
+      if (newBadge > 0) {
+        _questNewBadge.visible = YES;
+        _questNewLabel.string = [NSString stringWithFormat:@"%d", newBadge];
+      } else {
+        _questNewBadge.visible = NO;
+      }
+    }
+  }
 }
 
 - (void) dealloc {

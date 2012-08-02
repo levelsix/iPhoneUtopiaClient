@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "KiipDelegate.h"
-#import "AdColonyDelegate.h"
+//#import "AdColonyDelegate.h"
+#import "TapJoyDelegate.h"
+#import "TapjoyConnect.h"
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
-  //  id<TJCVideoAdDelegate>     tapJoyDelegate; 
-  id<AdColonyDelegate>       adColonyDelegate;
+  id<TJCVideoAdDelegate>     tapJoyDelegate; 
+//  id<AdColonyDelegate>       adColonyDelegate;
 //  id<FlurryAdDelegate>       flurryClipsDelegate;
 //  id<FacebookGlobalDelegate> facebookDelegate;
   id<KPManagerDelegate>      kiipDelegate;

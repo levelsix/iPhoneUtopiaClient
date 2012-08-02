@@ -415,7 +415,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     
     // Display generic popups for strings that haven't been seen before
     NSUserDefaults *standardDefault = [NSUserDefaults standardUserDefaults]; 
-    NSMutableArray *stringsStored = [[NSUserDefaults standardUserDefaults]objectForKey:@"myCurrentStrings5"];
+    NSMutableArray *stringsStored = [[[NSUserDefaults standardUserDefaults]objectForKey:@"myCurrentString"]mutableCopy];
     NSMutableArray *incomingStrings = [NSMutableArray arrayWithArray:proto.noticesToPlayersList];
     
     if (stringsStored == NULL){
@@ -436,7 +436,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       }
     }
     
-    [standardDefault setObject:stringsStored forKey:@"myCurrentStrings5"];
+    [standardDefault setObject:stringsStored forKey:@"myCurrentString"];
     [standardDefault synchronize];
   } else {
     // Need to create new player

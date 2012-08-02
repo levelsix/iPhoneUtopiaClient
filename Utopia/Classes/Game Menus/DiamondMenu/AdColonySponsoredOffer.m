@@ -27,12 +27,12 @@
 #pragma AdColony
 - (void) pauseAudio
 {
-  [[SimpleAudioEngine sharedEngine] setMute:YES];
+  [[SimpleAudioEngine sharedEngine] pauseBackgroundMusic];
 }
 
 - (void) resumeAudio
 {
-  [[SimpleAudioEngine sharedEngine] setMute:NO];
+  [[SimpleAudioEngine sharedEngine] resumeBackgroundMusic];
 }
 
 - (void) adColonyTakeoverBeganForZone:(NSString *)zone 
