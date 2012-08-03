@@ -19,10 +19,15 @@
 @dynamic secondaryTitle;
 @dynamic price;
 @dynamic rewardPic;
+@dynamic isGold;
 
 -(UIImage *) rewardPic
 {
   return [Globals imageNamed:@"stack.png"];
+}
+
+- (BOOL) isGold {
+  return YES;
 }
 
 +(void) postAdTakeoverResignedNotificationForSender:(id)sender

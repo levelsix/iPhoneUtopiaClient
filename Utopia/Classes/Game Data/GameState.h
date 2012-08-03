@@ -49,6 +49,8 @@
   NSDate *_lastShortLicensePurchaseTime;
   NSDate *_lastLongLicensePurchaseTime;
   
+  int _numAdColonyVideosWatched;
+  
   NSString *_deviceToken;
   
   int _maxCity;
@@ -133,6 +135,7 @@
 @property (assign) int playerHasBoughtInAppPurchase;
 @property (retain) NSDate *lastEnergyRefill;
 @property (retain) NSDate *lastStaminaRefill;
+@property (assign) int numAdColonyVideosWatched;
 
 @property (retain) NSString *deviceToken;
 

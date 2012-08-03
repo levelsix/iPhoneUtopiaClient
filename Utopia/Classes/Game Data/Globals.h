@@ -83,6 +83,8 @@
 @property (nonatomic, assign) float upgradeStructDiamondCostExponentBase;
 @property (nonatomic, assign) float diamondCostForInstantUpgradeMultiplier;
 
+@property (nonatomic, assign) int adColonyVideosRequiredToRedeemGold;
+
 // Forge Constants
 @property (nonatomic, assign) float forgeTimeBaseForExponentialMultiplier;
 @property (nonatomic, assign) float forgeMinDiamondCostForGuarantee;

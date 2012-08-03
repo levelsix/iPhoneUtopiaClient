@@ -723,13 +723,14 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }
 
-- (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest gold:(int)gold {
-  EarnFreeDiamondsRequestProto *req = [[[[[[[EarnFreeDiamondsRequestProto builder]
-                                            setSender:_sender]
-                                           setFreeDiamondsType:EarnFreeDiamondsTypeAdcolony]
-                                          setClientTime:time]
-                                         setAdColonyDigest:digest]
-                                        setAdColonyDiamondsEarned:gold]
+- (int) sendEarnFreeDiamondsAdColonyMessageClientTime:(uint64_t)time digest:(NSString *)digest amount:(int)amount type:(EarnFreeDiamondsRequestProto_AdColonyRewardType)type {
+  EarnFreeDiamondsRequestProto *req = [[[[[[[[EarnFreeDiamondsRequestProto builder]
+                                             setSender:_sender]
+                                            setFreeDiamondsType:EarnFreeDiamondsTypeAdcolony]
+                                           setClientTime:time]
+                                          setAdColonyDigest:digest]
+                                         setAdColonyAmountEarned:amount]
+                                        setAdColonyRewardType:type]
                                        build];
   return [self sendData:req withMessageType:EventProtocolRequestCEarnFreeDiamondsEvent];
 }

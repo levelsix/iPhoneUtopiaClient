@@ -21,7 +21,13 @@
   //NOTE: The currency award transaction will be complete at this point
   //NOTE: This callback can be executed by AdColony at any time
   //NOTE: This is the ideal place for an alert about the successful reward
-  [[OutgoingEventController sharedOutgoingEventController] adColonyReward:amount];
+  EarnFreeDiamondsRequestProto_AdColonyRewardType type = 0;
+  if ([zone isEqualToString:ADZONE1]) {
+    type = EarnFreeDiamondsRequestProto_AdColonyRewardTypeDiamonds;
+  } else if ([zone isEqualToString:ADZONE2]) {
+    type = EarnFreeDiamondsRequestProto_AdColonyRewardTypeCoins;
+  }
+  [[OutgoingEventController sharedOutgoingEventController] adColonyRewardWithAmount:amount type:type];
 }
 
 -(void)adColonyVirtualCurrencyNotAwardedByZone:(NSString *)zone
@@ -44,7 +50,13 @@
 {
   return [NSDictionary dictionaryWithObjectsAndKeys:ADZONE1,
           [NSNumber numberWithInt:1],
+          ADZONE2,
+          [NSNumber numberWithInt:2],
           nil];
+}
+
+- (NSString *) adColonyApplicationVersion {
+  return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 }
 
 +(id<AdColonyDelegate>) createAdColonyDelegate

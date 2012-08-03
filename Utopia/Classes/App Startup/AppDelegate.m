@@ -258,9 +258,6 @@
 	[[CCDirector sharedDirector] stopAnimation];
   [self registerLocalNotifications];
   
-  // Release all our views
-  [[CCDirector sharedDirector] stopAnimation];
-  
   [[OutgoingEventController sharedOutgoingEventController] logout];
   [[SocketCommunication sharedSocketCommunication] closeDownConnection];
   

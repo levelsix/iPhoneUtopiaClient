@@ -72,6 +72,10 @@
 								<int key="IBUIContentMode">4</int>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">goldshoppebg.png</string>
+								</object>
 							</object>
 							<object class="IBUIImageView" id="787668972">
 								<reference key="NSNextResponder" ref="927885321"/>
@@ -165,7 +169,6 @@
 								<string key="NSFrame">{{117, 81}, {345, 202}}</string>
 								<reference key="NSSuperview" ref="927885321"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:418</string>
 								<object class="NSColor" key="IBUIBackgroundColor" id="89946267">
 									<int key="NSColorSpace">3</int>
@@ -205,7 +208,7 @@
 									<object class="IBUIImageView" id="153517701">
 										<reference key="NSNextResponder" ref="150217748"/>
 										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{3, 2}, {165, 30}}</string>
+										<string key="NSFrame">{{2, 2}, {165, 30}}</string>
 										<reference key="NSSuperview" ref="150217748"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="914960749"/>
@@ -236,7 +239,7 @@
 									<object class="IBUIImageView" id="974760698">
 										<reference key="NSNextResponder" ref="150217748"/>
 										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{167, 2}, {165, 30}}</string>
+										<string key="NSFrame">{{166, 2}, {165, 30}}</string>
 										<reference key="NSSuperview" ref="150217748"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="73249771"/>
@@ -406,7 +409,6 @@
 								<string key="NSFrame">{{28, 30}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="482499349"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -729,21 +731,7 @@
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="37.CustomClassName">ServerImageView</string>
-				<object class="NSMutableDictionary" key="37.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-					<object class="IBUIUserDefinedRuntimeAttributesPlaceholder" key="NS.object.0">
-						<string key="name">IBUserDefinedRuntimeAttributesPlaceholderName</string>
-						<reference key="object" ref="669678351"/>
-						<array key="userDefinedRuntimeAttributes">
-							<object class="IBUserDefinedRuntimeAttribute">
-								<string key="typeIdentifier">com.apple.InterfaceBuilder.userDefinedRuntimeAttributeType.string</string>
-								<string key="keyPath">path</string>
-								<string key="value">goldshoppebg.png</string>
-							</object>
-						</array>
-					</object>
-				</object>
+				<dictionary class="NSMutableDictionary" key="37.IBAttributePlaceholdersKey"/>
 				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="39.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -799,6 +787,7 @@
 					<string key="className">GoldPackageView</string>
 					<string key="superclassName">UITableViewCell</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="coinIcon">UIImageView</string>
 						<string key="pkgGoldLabel">UILabel</string>
 						<string key="pkgIcon">UIImageView</string>
 						<string key="pkgNameLabel">UILabel</string>
@@ -806,6 +795,10 @@
 						<string key="selectedView">UIView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="coinIcon">
+							<string key="name">coinIcon</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="pkgGoldLabel">
 							<string key="name">pkgGoldLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -982,14 +975,6 @@
 						<string key="minorKey">./Classes/PriceLabel.h</string>
 					</object>
 				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">ServerImageView</string>
-					<string key="superclassName">UIImageView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ServerImageView.h</string>
-					</object>
-				</object>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
@@ -1004,6 +989,7 @@
 			<string key="activegold.png">{165, 30}</string>
 			<string key="barbg.png">{334, 34}</string>
 			<string key="close1.png">{30, 30}</string>
+			<string key="goldshoppebg.png">{447, 281}</string>
 			<string key="goldshoppelogo.png">{74, 137}</string>
 			<string key="mycoinsbg.png">{54, 46}</string>
 			<string key="packagesbg.png">{334, 208}</string>

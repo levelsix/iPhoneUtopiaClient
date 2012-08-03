@@ -94,7 +94,7 @@
 - (void) enableApns:(NSData *)deviceToken;
 
 - (void) kiipReward:(int)gold receipt:(NSString *)string;
-- (void) adColonyReward:(int)gold;
+- (void) adColonyRewardWithAmount:(int)amount type:(EarnFreeDiamondsRequestProto_AdColonyRewardType)type;
 
 - (BOOL) submitEquipsToBlacksmithWithUserEquipId:(int)equipOne userEquipId:(int)equipTwo guaranteed:(BOOL)guaranteed;
 - (void) forgeAttemptWaitComplete;

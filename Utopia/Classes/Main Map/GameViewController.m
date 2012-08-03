@@ -198,6 +198,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 - (void) startGame {
   GameState *gs = [GameState sharedGameState];
   
+  [self removeSplashImageView];
   [self removeKingdomImageView];
   
   if (gs.isTutorial) {

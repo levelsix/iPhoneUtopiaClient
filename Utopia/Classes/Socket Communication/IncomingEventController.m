@@ -407,6 +407,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [[TopBar sharedTopBar] setDbmc:dbmc];
     }
     
+    // This means we just finished tutorial
     if (gs.isTutorial) {
       [[DialogMenuController sharedDialogMenuController] stopLoading:YES];
     } else {

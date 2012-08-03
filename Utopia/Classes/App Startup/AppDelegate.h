@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "KiipDelegate.h"
-//#import "AdColonyDelegate.h"
+#import "AdColonyDelegate.h"
 #import "TapJoyDelegate.h"
 #import "TapjoyConnect.h"
 

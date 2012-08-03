@@ -76,7 +76,7 @@
 
 @implementation GoldPackageView
 @synthesize productData;
-@synthesize pkgIcon, pkgGoldLabel, pkgNameLabel, priceLabel;
+@synthesize pkgIcon, pkgGoldLabel, pkgNameLabel, priceLabel, coinIcon;
 @synthesize selectedView;
 
 - (void) updateForPurchaseData:(id<InAppPurchaseData>)product 
@@ -89,6 +89,9 @@
   
   // Set the price
   self.priceLabel.price  = product.price;
+  
+  // Set the icon
+  self.coinIcon.highlighted = !product.isGold;
 }
 
 - (void) setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -292,6 +295,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+  [self update];
+}
+
+- (void) update {
   [self.pkgTableView reloadData];
   
   curGoldLabel.text = [Globals commafyNumber:[[GameState sharedGameState] gold]];
@@ -306,11 +313,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
         [self.topBar clickButton:kGoldCoinsButton];
         break;
       case kEarnFreeState:
-        [self.topBar unclickButton:kGoldCoinsButton];
-        [self.topBar clickButton:kEarnFreeButton];
+//        [self.topBar unclickButton:kGoldCoinsButton];
+//        [self.topBar clickButton:kEarnFreeButton];
         
-//        [Globals popupMessage:@"Sorry, there are no free offers at this time."];
-//        self.state = kPackagesState;
+        [Globals popupMessage:@"Sorry, there are no free offers at this time."];
+        self.state = kPackagesState;
         
         [Analytics clickedFreeOffers];
         break;
@@ -408,7 +415,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GoldShoppeViewController);
     _isDisplayingLoadingView = NO;
   }
   
-  curGoldLabel.text = [Globals commafyNumber:[[GameState sharedGameState] gold]];
+  [self update];
 }
 
 - (void)viewDidUnload

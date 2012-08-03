@@ -744,6 +744,13 @@ typedef enum {
 BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidValue(RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatus value);
 
 typedef enum {
+  EarnFreeDiamondsRequestProto_AdColonyRewardTypeDiamonds = 1,
+  EarnFreeDiamondsRequestProto_AdColonyRewardTypeCoins = 2,
+} EarnFreeDiamondsRequestProto_AdColonyRewardType;
+
+BOOL EarnFreeDiamondsRequestProto_AdColonyRewardTypeIsValidValue(EarnFreeDiamondsRequestProto_AdColonyRewardType value);
+
+typedef enum {
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusSuccess = 0,
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusClientTooApartFromServerTime = 1,
   EarnFreeDiamondsResponseProto_EarnFreeDiamondsStatusMethodNotSupported = 2,
@@ -1923,31 +1930,32 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
-  BOOL hasAverageSizeOfLevelBracket_:1;
-  BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
   BOOL hasNumDaysShortMarketplaceLicenseLastsFor_:1;
   BOOL hasDiamondCostOfLongMarketplaceLicense_:1;
   BOOL hasDiamondCostOfShortMarketplaceLicense_:1;
   BOOL hasMaxNumbersOfEnemiesToGenerateAtOnce_:1;
-  BOOL hasMaxCharLengthForWallPost_:1;
   BOOL hasMaxCityRank_:1;
   BOOL hasArmoryImgVerticalPixelOffset_:1;
   BOOL hasVaultImgVerticalPixelOffset_:1;
   BOOL hasMarketplaceImgVerticalPixelOffset_:1;
   BOOL hasCarpenterImgVerticalPixelOffset_:1;
   BOOL hasAviaryImgVerticalPixelOffset_:1;
+  BOOL hasMaxCharLengthForWallPost_:1;
+  BOOL hasPlayerWallPostsRetrieveCap_:1;
+  BOOL hasAverageSizeOfLevelBracket_:1;
+  BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
@@ -1967,8 +1975,8 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasAttackBaseCost_:1;
   BOOL hasDefenseBaseCost_:1;
   BOOL hasEnergyBaseCost_:1;
-  BOOL hasStaminaBaseCost_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasStaminaBaseCost_:1;
   BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
   BOOL hasForgeConstants_:1;
@@ -1976,31 +1984,32 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
   Float64 percentReturnedToUserForSellingNormStructure;
+  Float64 levelEquipBoostExponentBase;
+  Float64 healthFormulaExponentBase;
   Float64 cutOfVaultDepositTaken;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  Float64 levelEquipBoostExponentBase;
-  Float64 healthFormulaExponentBase;
   int32_t minutesToRefillAenergy;
   int32_t minutesToRefillAstamina;
   int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
-  int32_t averageSizeOfLevelBracket;
-  int32_t playerWallPostsRetrieveCap;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
   int32_t numDaysShortMarketplaceLicenseLastsFor;
   int32_t diamondCostOfLongMarketplaceLicense;
   int32_t diamondCostOfShortMarketplaceLicense;
   int32_t maxNumbersOfEnemiesToGenerateAtOnce;
-  int32_t maxCharLengthForWallPost;
   int32_t maxCityRank;
   int32_t armoryImgVerticalPixelOffset;
   int32_t vaultImgVerticalPixelOffset;
   int32_t marketplaceImgVerticalPixelOffset;
   int32_t carpenterImgVerticalPixelOffset;
   int32_t aviaryImgVerticalPixelOffset;
+  int32_t maxCharLengthForWallPost;
+  int32_t playerWallPostsRetrieveCap;
+  int32_t averageSizeOfLevelBracket;
+  int32_t adColonyVideosRequiredToRedeemDiamonds;
   int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
@@ -2020,8 +2029,8 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   int32_t attackBaseCost;
   int32_t defenseBaseCost;
   int32_t energyBaseCost;
-  int32_t staminaBaseCost;
   int32_t maxNumOfSingleStruct;
+  int32_t staminaBaseCost;
   int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
   StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
@@ -2085,6 +2094,7 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (BOOL) hasForgeConstants;
 - (BOOL) hasHealthFormulaExponentBase;
 - (BOOL) hasLevelEquipBoostExponentBase;
+- (BOOL) hasAdColonyVideosRequiredToRedeemDiamonds;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2138,6 +2148,7 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @property (readonly, retain) StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
 @property (readonly) Float64 healthFormulaExponentBase;
 @property (readonly) Float64 levelEquipBoostExponentBase;
+@property (readonly) int32_t adColonyVideosRequiredToRedeemDiamonds;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -3031,6 +3042,11 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (Float64) levelEquipBoostExponentBase;
 - (StartupResponseProto_StartupConstants_Builder*) setLevelEquipBoostExponentBase:(Float64) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearLevelEquipBoostExponentBase;
+
+- (BOOL) hasAdColonyVideosRequiredToRedeemDiamonds;
+- (int32_t) adColonyVideosRequiredToRedeemDiamonds;
+- (StartupResponseProto_StartupConstants_Builder*) setAdColonyVideosRequiredToRedeemDiamonds:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearAdColonyVideosRequiredToRedeemDiamonds;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -9648,30 +9664,34 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @interface EarnFreeDiamondsRequestProto : PBGeneratedMessage {
 @private
   BOOL hasClientTime_:1;
-  BOOL hasAdColonyDiamondsEarned_:1;
+  BOOL hasAdColonyAmountEarned_:1;
   BOOL hasKiipReceipt_:1;
   BOOL hasAdColonyDigest_:1;
   BOOL hasSender_:1;
   BOOL hasFreeDiamondsType_:1;
+  BOOL hasAdColonyRewardType_:1;
   int64_t clientTime;
-  int32_t adColonyDiamondsEarned;
+  int32_t adColonyAmountEarned;
   NSString* kiipReceipt;
   NSString* adColonyDigest;
   MinimumUserProto* sender;
   EarnFreeDiamondsType freeDiamondsType;
+  EarnFreeDiamondsRequestProto_AdColonyRewardType adColonyRewardType;
 }
 - (BOOL) hasSender;
 - (BOOL) hasFreeDiamondsType;
 - (BOOL) hasClientTime;
 - (BOOL) hasKiipReceipt;
 - (BOOL) hasAdColonyDigest;
-- (BOOL) hasAdColonyDiamondsEarned;
+- (BOOL) hasAdColonyAmountEarned;
+- (BOOL) hasAdColonyRewardType;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) EarnFreeDiamondsType freeDiamondsType;
 @property (readonly) int64_t clientTime;
 @property (readonly, retain) NSString* kiipReceipt;
 @property (readonly, retain) NSString* adColonyDigest;
-@property (readonly) int32_t adColonyDiamondsEarned;
+@property (readonly) int32_t adColonyAmountEarned;
+@property (readonly) EarnFreeDiamondsRequestProto_AdColonyRewardType adColonyRewardType;
 
 + (EarnFreeDiamondsRequestProto*) defaultInstance;
 - (EarnFreeDiamondsRequestProto*) defaultInstance;
@@ -9734,10 +9754,15 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (EarnFreeDiamondsRequestProto_Builder*) setAdColonyDigest:(NSString*) value;
 - (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyDigest;
 
-- (BOOL) hasAdColonyDiamondsEarned;
-- (int32_t) adColonyDiamondsEarned;
-- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyDiamondsEarned:(int32_t) value;
-- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyDiamondsEarned;
+- (BOOL) hasAdColonyAmountEarned;
+- (int32_t) adColonyAmountEarned;
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyAmountEarned:(int32_t) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyAmountEarned;
+
+- (BOOL) hasAdColonyRewardType;
+- (EarnFreeDiamondsRequestProto_AdColonyRewardType) adColonyRewardType;
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyRewardType:(EarnFreeDiamondsRequestProto_AdColonyRewardType) value;
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyRewardType;
 @end
 
 @interface EarnFreeDiamondsResponseProto : PBGeneratedMessage {

@@ -15,6 +15,7 @@
 @protocol InAppPurchaseData <NSObject>
 @property(nonatomic, readonly) NSString *primaryTitle;
 @property(nonatomic, readonly) NSString *secondaryTitle;
+@property(nonatomic, readonly) BOOL isGold;
 @property(nonatomic, readonly) NSString *price;
 @property(nonatomic, readonly) UIImage  *rewardPic;
 

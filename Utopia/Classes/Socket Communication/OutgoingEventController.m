@@ -1362,29 +1362,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
 }
 
-- (void) adColonyReward:(int)gold {
+- (void) adColonyRewardWithAmount:(int)amount type:(EarnFreeDiamondsRequestProto_AdColonyRewardType)type {
   GameState *gs = [GameState sharedGameState];
 
   uint64_t time = [self getCurrentMilliseconds];
-  NSString *preparedText = [NSString stringWithFormat:@"%d%@%d%llu",
+  NSString *preparedText = [NSString stringWithFormat:@"%d%@%d%d%llu",
                             gs.userId,
                             gs.referralCode, 
-                            gold,
+                            amount,
+                            type,
                             time];
   id<OASignatureProviding> signer = [[OAHMAC_SHA1SignatureProvider alloc] init];
   NSString *digest = [signer signClearText:preparedText
                                 withSecret:LVL6_SHARED_SECRET];
   [signer release];
-
-  NSLog(@"%@ %@", preparedText, digest);
   
   int tag = [[SocketCommunication sharedSocketCommunication] 
              sendEarnFreeDiamondsAdColonyMessageClientTime:time
              digest:digest
-             gold:gold];
-  [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You just earned %d Gold", gold]];
-  [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
-  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
+             amount:amount
+             type:type];
+  
+  NSString *typeStr = @"";
+  if (type == EarnFreeDiamondsRequestProto_AdColonyRewardTypeCoins) {
+    typeStr = @"Silver";
+    [gs addUnrespondedUpdate:[SilverUpdate updateWithTag:tag change:amount]];
+  } else if (type == EarnFreeDiamondsRequestProto_AdColonyRewardTypeDiamonds) {
+    typeStr = @"Gold";
+    [gs addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:amount]];
+  }
+  [Globals popupMessage:[NSString stringWithFormat:@"Congratulations! You just earned %d %@!", amount, typeStr]];
+  gs.numAdColonyVideosWatched++;
+  
+  // Call this to update the cur gold label UI
+  [[GoldShoppeViewController sharedGoldShoppeViewController] update];
   
   [Analytics watchedAdColony];
 }

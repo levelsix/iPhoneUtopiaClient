@@ -12,7 +12,6 @@
 
 @interface AdColonySponsoredOffer : NSObject <InAppPurchaseData, AdColonyTakeoverAdDelegate> {
   NSString *primaryTitle;
-  NSString *secondaryTitle;
   NSString *price;
   NSLocale *priceLocale;
 }

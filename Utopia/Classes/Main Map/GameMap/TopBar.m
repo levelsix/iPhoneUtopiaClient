@@ -21,6 +21,7 @@
 #import "QuestLogController.h"
 #import "ActivityFeedController.h"
 #import "Chartboost.h"
+#import "GameViewController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -319,6 +320,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   self.isStarted = YES;
   
   GameState *gs = [GameState sharedGameState];
+  
+  if (gs.availableQuests.count > 0) {
+    [self displayNewQuestArrow];
+  }
   
 #ifndef DEBUG
   if (!gs.playerHasBoughtInAppPurchase && !gs.isTutorial) {
@@ -740,28 +745,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) displayNewQuestArrow {
-  [self stopProgressArrow];
-  [self stopQuestArrow];
-  _questNewArrow.scale = 1.f;
-  _questNewArrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-2, 0));
-  _questNewArrow.opacity = 0;
-  
-  CCMoveBy *action = [CCMoveBy actionWithDuration:0.4f position:ccp(-10, 0)];
-  [_questNewArrow runAction:[CCSequence actions:
-                             [CCFadeIn actionWithDuration:0.2f],
-                             [CCRepeat actionWithAction:
-                              [CCSequence actions:
-                               [CCEaseSineInOut actionWithAction:action], 
-                               [CCEaseSineInOut actionWithAction:action.reverse], 
-                               nil] times:6],
-                             [CCCallBlock actionWithBlock:
-                              ^{
-                                [self setQuestBadgeAnimated:YES];
-                              }],
-                             [CCSpawn actions:
-                              [CCFadeOut actionWithDuration:0.3f],
-                              [CCScaleBy actionWithDuration:0.3f scale:1.4f], 
-                              nil], nil]];
+  if (self.isStarted) {
+    [self stopProgressArrow];
+    [self stopQuestArrow];
+    _questNewArrow.scale = 1.f;
+    _questNewArrow.position = ccpAdd(_questButton.position, ccp(-_questButton.contentSize.width/2-2, 0));
+    _questNewArrow.opacity = 0;
+    
+    CCMoveBy *action = [CCMoveBy actionWithDuration:0.4f position:ccp(-10, 0)];
+    [_questNewArrow runAction:[CCSequence actions:
+                               [CCFadeIn actionWithDuration:0.2f],
+                               [CCRepeat actionWithAction:
+                                [CCSequence actions:
+                                 [CCEaseSineInOut actionWithAction:action], 
+                                 [CCEaseSineInOut actionWithAction:action.reverse], 
+                                 nil] times:6],
+                               [CCCallBlock actionWithBlock:
+                                ^{
+                                  [self setQuestBadgeAnimated:YES];
+                                }],
+                               [CCSpawn actions:
+                                [CCFadeOut actionWithDuration:0.3f],
+                                [CCScaleBy actionWithDuration:0.3f scale:1.4f], 
+                                nil], nil]];
+  }
 }
 
 - (void) stopProgressArrow {

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4509ABB01577EE1900EC9B44 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4509ABAF1577EE1900EC9B44 /* Twitter.framework */; };
-		4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */; };
 		4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4509ABB5157830E500EC9B44 /* OperationWaitCounter.m */; };
 		452F92FA15AD109C005C156C /* LoggingContextFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 452F92F915AD109C005C156C /* LoggingContextFilter.m */; };
 		4541016A15818E3E00F813F4 /* EquipDeltaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4541016915818E3D00F813F4 /* EquipDeltaView.xib */; };
@@ -1212,8 +1211,6 @@
 		CF7F17F015C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */; };
 		CF7F17F115C26F47005ED86F /* TutorialGuideWalkNF@2x.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */; };
 		CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */; };
-		CF7F17F515C365FE005ED86F /* kingdom.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17F315C365FE005ED86F /* kingdom.png */; };
-		CF7F17F615C365FE005ED86F /* kingdom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7F17F415C365FE005ED86F /* kingdom@2x.png */; };
 		CF7FEEDC154085F000716E37 /* FAQMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7FEEDA154085F000716E37 /* FAQMenuController.m */; };
 		CF7FEEDD154085F000716E37 /* FAQMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEDB154085F000716E37 /* FAQMenuController.xib */; };
 		CF7FEEF81540BE2D00716E37 /* bigadriana@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FEEE51540BE2D00716E37 /* bigadriana@2x.png */; };
@@ -1390,6 +1387,8 @@
 		CFDBFEB8153BCE6100DA9206 /* popupglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */; };
 		CFE3E9421592BB7400E85701 /* TutorialMyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */; };
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
+		CFE72A0715CB42A60014D5D1 /* kingdom.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72A0515CB42A60014D5D1 /* kingdom.png */; };
+		CFE72A0815CB42A60014D5D1 /* kingdom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -1733,7 +1732,7 @@
 		CF1077B815CA017000409312 /* TJCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCConfig.h; sourceTree = "<group>"; };
 		CF1077DD15CA026A00409312 /* TapJoyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoyDelegate.h; sourceTree = "<group>"; };
 		CF1077DE15CA026A00409312 /* TapJoyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoyDelegate.m; sourceTree = "<group>"; };
-		CF1256421538A94D00E0C1AD /* Kingdom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kingdom.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF1256421538A94D00E0C1AD /* Kingdom Era.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kingdom Era.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -3048,8 +3047,6 @@
 		CF7F17EC15C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = TutorialGuideWalkNF.pvr.ccz; sourceTree = "<group>"; };
 		CF7F17ED15C26F47005ED86F /* TutorialGuideWalkNF@2x.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TutorialGuideWalkNF@2x.plist"; sourceTree = "<group>"; };
 		CF7F17EE15C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TutorialGuideWalkNF@2x.pvr.ccz"; sourceTree = "<group>"; };
-		CF7F17F315C365FE005ED86F /* kingdom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kingdom.png; sourceTree = "<group>"; };
-		CF7F17F415C365FE005ED86F /* kingdom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kingdom@2x.png"; sourceTree = "<group>"; };
 		CF7FEED9154085F000716E37 /* FAQMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAQMenuController.h; path = FAQMenu/FAQMenuController.h; sourceTree = "<group>"; };
 		CF7FEEDA154085F000716E37 /* FAQMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAQMenuController.m; path = FAQMenu/FAQMenuController.m; sourceTree = "<group>"; };
 		CF7FEEDB154085F000716E37 /* FAQMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FAQMenuController.xib; path = FAQMenu/FAQMenuController.xib; sourceTree = "<group>"; };
@@ -3241,6 +3238,8 @@
 		CFE3E9401592BB7200E85701 /* TutorialMyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialMyPlayer.h; sourceTree = "<group>"; };
 		CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialMyPlayer.m; sourceTree = "<group>"; };
 		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
+		CFE72A0515CB42A60014D5D1 /* kingdom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kingdom.png; sourceTree = "<group>"; };
+		CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kingdom@2x.png"; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -3752,7 +3751,7 @@
 		CF1256431538A94D00E0C1AD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CF1256421538A94D00E0C1AD /* Kingdom.app */,
+				CF1256421538A94D00E0C1AD /* Kingdom Era.app */,
 				455FC6B1157EE4E2008DB9E4 /* UtopiaTests.octest */,
 			);
 			name = Products;
@@ -4962,8 +4961,8 @@
 		CF12681C1538ACC500E0C1AD /* Door Images */ = {
 			isa = PBXGroup;
 			children = (
-				CF7F17F315C365FE005ED86F /* kingdom.png */,
-				CF7F17F415C365FE005ED86F /* kingdom@2x.png */,
+				CFE72A0515CB42A60014D5D1 /* kingdom.png */,
+				CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */,
 			);
 			path = "Door Images";
 			sourceTree = "<group>";
@@ -6489,7 +6488,7 @@
 			);
 			name = Utopia;
 			productName = Utopia;
-			productReference = CF1256421538A94D00E0C1AD /* Kingdom.app */;
+			productReference = CF1256421538A94D00E0C1AD /* Kingdom Era.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -7721,8 +7720,6 @@
 				CF7F17F015C26F47005ED86F /* TutorialGuideWalkNF.pvr.ccz in Resources */,
 				CF7F17F115C26F47005ED86F /* TutorialGuideWalkNF@2x.plist in Resources */,
 				CF7F17F215C26F47005ED86F /* TutorialGuideWalkNF@2x.pvr.ccz in Resources */,
-				CF7F17F515C365FE005ED86F /* kingdom.png in Resources */,
-				CF7F17F615C365FE005ED86F /* kingdom@2x.png in Resources */,
 				CF689BE115C3A0A500F2E50E /* bazaar.png in Resources */,
 				CF689BE215C3A0A500F2E50E /* Bazaar.tmx in Resources */,
 				CF689BE315C3A0A500F2E50E /* bazaar@2x.png in Resources */,
@@ -7772,6 +7769,8 @@
 				CF1077C015CA017000409312 /* close_button.png in Resources */,
 				CF1077C315CA017000409312 /* TJCLoadingView.xib in Resources */,
 				CF1077DA15CA017000409312 /* TJCVideoView.xib in Resources */,
+				CFE72A0715CB42A60014D5D1 /* kingdom.png in Resources */,
+				CFE72A0815CB42A60014D5D1 /* kingdom@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7974,7 +7973,6 @@
 				459279A0156C5E6900FEC3AF /* InAppPurchaseData.m in Sources */,
 				CFC38FA7156EF9A100A6A217 /* HomeBuildingMenus.m in Sources */,
 				CFEF7209156F2D80006362A4 /* MissionBuildingMenus.m in Sources */,
-				4509ABB31578243300EC9B44 /* TwitterSponsoredOffer.m in Sources */,
 				4509ABB6157830E500EC9B44 /* OperationWaitCounter.m in Sources */,
 				CFCC91AB15778DD20048BF7D /* MarketplaceMenus.m in Sources */,
 				CF74FB211578A96500E52B81 /* TutorialQuestLogController.m in Sources */,
@@ -8224,7 +8222,7 @@
 					"-all_load",
 					"-lKiip",
 				);
-				PRODUCT_NAME = Kingdom;
+				PRODUCT_NAME = "Kingdom Era";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
 				WARNING_LDFLAGS = (
 					"-ObjC",
@@ -8272,7 +8270,7 @@
 					"-all_load",
 					"-lKiip",
 				);
-				PRODUCT_NAME = Kingdom;
+				PRODUCT_NAME = "Kingdom Era";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;

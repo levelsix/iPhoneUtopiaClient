@@ -12,16 +12,28 @@
 #import "OutgoingEventController.h"
 
 #import "Globals.h"
+#import "GameState.h"
 
 @implementation AdColonySponsoredOffer
 @dynamic primaryTitle;
 @dynamic secondaryTitle;
 @dynamic price;
 @dynamic rewardPic;
+@dynamic isGold;
 
 - (UIImage *) rewardPic
 {
   return [Globals imageNamed:@"stack.png"];
+}
+
+- (BOOL) isGold {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  return ((gs.numAdColonyVideosWatched+1) % gl.adColonyVideosRequiredToRedeemGold) == 0;
+}
+
+- (NSString *) nextZone {
+  return self.isGold ? ADZONE1 : ADZONE2;
 }
 
 #pragma AdColony
@@ -50,15 +62,13 @@
 #pragma InAppPurchaseData
 - (BOOL) purchaseAvailable
 {
-    return [AdColony virtualCurrencyAwardAvailableForZone:ADZONE1];    
+  return [AdColony virtualCurrencyAwardAvailableForZone:[self nextZone]];
 }
 
 -(void) makePurchaseWithViewController:(UIViewController *)controller
 {
-  
-  
   if ([self purchaseAvailable]) {
-    [AdColony playVideoAdForZone:ADZONE1 
+    [AdColony playVideoAdForZone:[self nextZone] 
                     withDelegate:self
                 withV4VCPrePopup:YES
                 andV4VCPostPopup:NO];
@@ -75,29 +85,29 @@
   return price;
 }
 
--(NSString *) secondaryTitle
-{  
-  if (![self purchaseAvailable]) {
-    return NO_CLIPS;
-  }
+- (NSString *) secondaryTitle
+{
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   
-  return secondaryTitle;
+  NSString *firstPart = [self purchaseAvailable] ? [NSString stringWithFormat:@"%d", [AdColony getVirtualCurrencyRewardAmountForZone:[self nextZone]]] : NO_CLIPS;
+  NSString *secondPart = self.isGold ? @"" : [NSString stringWithFormat:@" (%d videos until gold)", gl.adColonyVideosRequiredToRedeemGold - (gs.numAdColonyVideosWatched % gl.adColonyVideosRequiredToRedeemGold)];
+  NSString *title = [NSString stringWithFormat:@"%@%@", firstPart, secondPart];
+  
+  return title;
 }
 
--(id) initWithPrimaryTitle:(NSString *)primary 
-         andSecondaryTitle:(NSString *)secondary
+-(id) initWithPrimaryTitle:(NSString *)primary
                   andPrice:(NSString *)curPrice
                  andLocale:(NSLocale *) locale
 {
   self = [super init];
   if (self) {
     primaryTitle   = primary;
-    secondaryTitle = secondary;
     price          = curPrice;
     priceLocale    = locale;
     
     [primaryTitle   retain];
-    [secondaryTitle retain];
     [price          retain];
     [priceLocale    retain];
   }
@@ -107,7 +117,6 @@
 -(void)dealloc
 {
   [primaryTitle   release];
-  [secondaryTitle release];
   [price          release];
   [priceLocale    release];  
   [super dealloc];
@@ -115,15 +124,11 @@
 
 +(id<InAppPurchaseData>) create
 {
-  NSString *secondary   = [NSString stringWithFormat:@"%d", 
-                           [AdColony 
-                            getVirtualCurrencyRewardAmountForZone:ADZONE1]];
   AdColonySponsoredOffer *offer = [[AdColonySponsoredOffer alloc] 
-                           initWithPrimaryTitle:@"Watch Video"
-                           andSecondaryTitle:secondary
-                           andPrice:@"" 
-                           andLocale:nil];
-
+                                   initWithPrimaryTitle:@"Watch Video"
+                                   andPrice:@"" 
+                                   andLocale:nil];
+  
   [offer autorelease];
   
   return offer;

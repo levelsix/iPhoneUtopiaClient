@@ -55,6 +55,7 @@
 @synthesize lastStaminaRefill = _lastStaminaRefill;
 @synthesize lastShortLicensePurchaseTime = _lastShortLicensePurchaseTime;
 @synthesize lastLongLicensePurchaseTime = _lastLongLicensePurchaseTime;
+@synthesize numAdColonyVideosWatched = _numAdColonyVideosWatched;
 
 @synthesize deviceToken = _deviceToken;
 
@@ -192,6 +193,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.lastStaminaRefill = [NSDate dateWithTimeIntervalSince1970:user.lastStaminaRefillTime/1000.0];
   self.lastShortLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastShortLicensePurchaseTime/1000.0];
   self.lastLongLicensePurchaseTime = [NSDate dateWithTimeIntervalSince1970:user.lastLongLicensePurchaseTime/1000.0];
+  self.numAdColonyVideosWatched = user.numAdColonyVideosWatched;
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
@@ -296,7 +298,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       [self.availableQuests setObject:fqp forKey:[NSNumber numberWithInt:fqp.questId]];
     }
     
-    [[TopBar sharedTopBar] displayNewQuestArrow];
+    if (!self.isTutorial) {
+      [[TopBar sharedTopBar] displayNewQuestArrow];
+    }
   }
 }
 
@@ -386,9 +390,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
 
 - (UserEquip *) myEquipWithUserEquipId:(int)userEquipId {
   for (UserEquip *ue in self.myEquips) {
-      if (userEquipId == ue.userEquipId) {
-        return ue;
-      }
+    if (userEquipId == ue.userEquipId) {
+      return ue;
+    }
   }
   return nil;
 }

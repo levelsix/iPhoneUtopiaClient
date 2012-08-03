@@ -69,6 +69,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize battleHitAttackerPercentOfHealth, battleHitDefenderPercentOfHealth;
 @synthesize battlePercentOfEquipment, battleIndividualEquipAttackCap;
 @synthesize maxLevelForUser;
+@synthesize adColonyVideosRequiredToRedeemGold;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -143,6 +144,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.staminaRefillCost = constants.diamondCostForFullStaminaRefill;
   self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;
   self.staminaRefillWaitMinutes = constants.minutesToRefillAstamina;
+  self.adColonyVideosRequiredToRedeemGold = constants.adColonyVideosRequiredToRedeemDiamonds;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;

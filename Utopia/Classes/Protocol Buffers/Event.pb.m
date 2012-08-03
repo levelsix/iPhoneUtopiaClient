@@ -4850,6 +4850,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property (retain) StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
 @property Float64 healthFormulaExponentBase;
 @property Float64 levelEquipBoostExponentBase;
+@property int32_t adColonyVideosRequiredToRedeemDiamonds;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5228,6 +5229,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasLevelEquipBoostExponentBase_ = !!value;
 }
 @synthesize levelEquipBoostExponentBase;
+- (BOOL) hasAdColonyVideosRequiredToRedeemDiamonds {
+  return !!hasAdColonyVideosRequiredToRedeemDiamonds_;
+}
+- (void) setHasAdColonyVideosRequiredToRedeemDiamonds:(BOOL) value {
+  hasAdColonyVideosRequiredToRedeemDiamonds_ = !!value;
+}
+@synthesize adColonyVideosRequiredToRedeemDiamonds;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5293,6 +5301,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.forgeConstants = [StartupResponseProto_StartupConstants_ForgeConstants defaultInstance];
     self.healthFormulaExponentBase = 0;
     self.levelEquipBoostExponentBase = 0;
+    self.adColonyVideosRequiredToRedeemDiamonds = 0;
   }
   return self;
 }
@@ -5501,6 +5510,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasLevelEquipBoostExponentBase) {
     [output writeDouble:66 value:self.levelEquipBoostExponentBase];
   }
+  if (self.hasAdColonyVideosRequiredToRedeemDiamonds) {
+    [output writeInt32:67 value:self.adColonyVideosRequiredToRedeemDiamonds];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5687,6 +5699,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasLevelEquipBoostExponentBase) {
     size += computeDoubleSize(66, self.levelEquipBoostExponentBase);
+  }
+  if (self.hasAdColonyVideosRequiredToRedeemDiamonds) {
+    size += computeInt32Size(67, self.adColonyVideosRequiredToRedeemDiamonds);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8224,6 +8239,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasLevelEquipBoostExponentBase) {
     [self setLevelEquipBoostExponentBase:other.levelEquipBoostExponentBase];
   }
+  if (other.hasAdColonyVideosRequiredToRedeemDiamonds) {
+    [self setAdColonyVideosRequiredToRedeemDiamonds:other.adColonyVideosRequiredToRedeemDiamonds];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8489,6 +8507,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 529: {
         [self setLevelEquipBoostExponentBase:[input readDouble]];
+        break;
+      }
+      case 536: {
+        [self setAdColonyVideosRequiredToRedeemDiamonds:[input readInt32]];
         break;
       }
     }
@@ -9487,6 +9509,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearLevelEquipBoostExponentBase {
   result.hasLevelEquipBoostExponentBase = NO;
   result.levelEquipBoostExponentBase = 0;
+  return self;
+}
+- (BOOL) hasAdColonyVideosRequiredToRedeemDiamonds {
+  return result.hasAdColonyVideosRequiredToRedeemDiamonds;
+}
+- (int32_t) adColonyVideosRequiredToRedeemDiamonds {
+  return result.adColonyVideosRequiredToRedeemDiamonds;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setAdColonyVideosRequiredToRedeemDiamonds:(int32_t) value {
+  result.hasAdColonyVideosRequiredToRedeemDiamonds = YES;
+  result.adColonyVideosRequiredToRedeemDiamonds = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearAdColonyVideosRequiredToRedeemDiamonds {
+  result.hasAdColonyVideosRequiredToRedeemDiamonds = NO;
+  result.adColonyVideosRequiredToRedeemDiamonds = 0;
   return self;
 }
 @end
@@ -38319,7 +38357,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
 @property int64_t clientTime;
 @property (retain) NSString* kiipReceipt;
 @property (retain) NSString* adColonyDigest;
-@property int32_t adColonyDiamondsEarned;
+@property int32_t adColonyAmountEarned;
+@property EarnFreeDiamondsRequestProto_AdColonyRewardType adColonyRewardType;
 @end
 
 @implementation EarnFreeDiamondsRequestProto
@@ -38359,13 +38398,20 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
   hasAdColonyDigest_ = !!value;
 }
 @synthesize adColonyDigest;
-- (BOOL) hasAdColonyDiamondsEarned {
-  return !!hasAdColonyDiamondsEarned_;
+- (BOOL) hasAdColonyAmountEarned {
+  return !!hasAdColonyAmountEarned_;
 }
-- (void) setHasAdColonyDiamondsEarned:(BOOL) value {
-  hasAdColonyDiamondsEarned_ = !!value;
+- (void) setHasAdColonyAmountEarned:(BOOL) value {
+  hasAdColonyAmountEarned_ = !!value;
 }
-@synthesize adColonyDiamondsEarned;
+@synthesize adColonyAmountEarned;
+- (BOOL) hasAdColonyRewardType {
+  return !!hasAdColonyRewardType_;
+}
+- (void) setHasAdColonyRewardType:(BOOL) value {
+  hasAdColonyRewardType_ = !!value;
+}
+@synthesize adColonyRewardType;
 - (void) dealloc {
   self.sender = nil;
   self.kiipReceipt = nil;
@@ -38379,7 +38425,8 @@ BOOL RetrievePlayerWallPostsResponseProto_RetrievePlayerWallPostsStatusIsValidVa
     self.clientTime = 0L;
     self.kiipReceipt = @"";
     self.adColonyDigest = @"";
-    self.adColonyDiamondsEarned = 0;
+    self.adColonyAmountEarned = 0;
+    self.adColonyRewardType = EarnFreeDiamondsRequestProto_AdColonyRewardTypeDiamonds;
   }
   return self;
 }
@@ -38414,8 +38461,11 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   if (self.hasAdColonyDigest) {
     [output writeString:5 value:self.adColonyDigest];
   }
-  if (self.hasAdColonyDiamondsEarned) {
-    [output writeInt32:6 value:self.adColonyDiamondsEarned];
+  if (self.hasAdColonyAmountEarned) {
+    [output writeInt32:6 value:self.adColonyAmountEarned];
+  }
+  if (self.hasAdColonyRewardType) {
+    [output writeEnum:7 value:self.adColonyRewardType];
   }
   [self.unknownFields writeToCodedOutputStream:output];
 }
@@ -38441,8 +38491,11 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   if (self.hasAdColonyDigest) {
     size += computeStringSize(5, self.adColonyDigest);
   }
-  if (self.hasAdColonyDiamondsEarned) {
-    size += computeInt32Size(6, self.adColonyDiamondsEarned);
+  if (self.hasAdColonyAmountEarned) {
+    size += computeInt32Size(6, self.adColonyAmountEarned);
+  }
+  if (self.hasAdColonyRewardType) {
+    size += computeEnumSize(7, self.adColonyRewardType);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -38477,6 +38530,15 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
 }
 @end
 
+BOOL EarnFreeDiamondsRequestProto_AdColonyRewardTypeIsValidValue(EarnFreeDiamondsRequestProto_AdColonyRewardType value) {
+  switch (value) {
+    case EarnFreeDiamondsRequestProto_AdColonyRewardTypeDiamonds:
+    case EarnFreeDiamondsRequestProto_AdColonyRewardTypeCoins:
+      return YES;
+    default:
+      return NO;
+  }
+}
 @interface EarnFreeDiamondsRequestProto_Builder()
 @property (retain) EarnFreeDiamondsRequestProto* result;
 @end
@@ -38534,8 +38596,11 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   if (other.hasAdColonyDigest) {
     [self setAdColonyDigest:other.adColonyDigest];
   }
-  if (other.hasAdColonyDiamondsEarned) {
-    [self setAdColonyDiamondsEarned:other.adColonyDiamondsEarned];
+  if (other.hasAdColonyAmountEarned) {
+    [self setAdColonyAmountEarned:other.adColonyAmountEarned];
+  }
+  if (other.hasAdColonyRewardType) {
+    [self setAdColonyRewardType:other.adColonyRewardType];
   }
   [self mergeUnknownFields:other.unknownFields];
   return self;
@@ -38589,7 +38654,16 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
         break;
       }
       case 48: {
-        [self setAdColonyDiamondsEarned:[input readInt32]];
+        [self setAdColonyAmountEarned:[input readInt32]];
+        break;
+      }
+      case 56: {
+        int32_t value = [input readEnum];
+        if (EarnFreeDiamondsRequestProto_AdColonyRewardTypeIsValidValue(value)) {
+          [self setAdColonyRewardType:value];
+        } else {
+          [unknownFields mergeVarintField:7 value:value];
+        }
         break;
       }
     }
@@ -38689,20 +38763,36 @@ static EarnFreeDiamondsRequestProto* defaultEarnFreeDiamondsRequestProtoInstance
   result.adColonyDigest = @"";
   return self;
 }
-- (BOOL) hasAdColonyDiamondsEarned {
-  return result.hasAdColonyDiamondsEarned;
+- (BOOL) hasAdColonyAmountEarned {
+  return result.hasAdColonyAmountEarned;
 }
-- (int32_t) adColonyDiamondsEarned {
-  return result.adColonyDiamondsEarned;
+- (int32_t) adColonyAmountEarned {
+  return result.adColonyAmountEarned;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyDiamondsEarned:(int32_t) value {
-  result.hasAdColonyDiamondsEarned = YES;
-  result.adColonyDiamondsEarned = value;
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyAmountEarned:(int32_t) value {
+  result.hasAdColonyAmountEarned = YES;
+  result.adColonyAmountEarned = value;
   return self;
 }
-- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyDiamondsEarned {
-  result.hasAdColonyDiamondsEarned = NO;
-  result.adColonyDiamondsEarned = 0;
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyAmountEarned {
+  result.hasAdColonyAmountEarned = NO;
+  result.adColonyAmountEarned = 0;
+  return self;
+}
+- (BOOL) hasAdColonyRewardType {
+  return result.hasAdColonyRewardType;
+}
+- (EarnFreeDiamondsRequestProto_AdColonyRewardType) adColonyRewardType {
+  return result.adColonyRewardType;
+}
+- (EarnFreeDiamondsRequestProto_Builder*) setAdColonyRewardType:(EarnFreeDiamondsRequestProto_AdColonyRewardType) value {
+  result.hasAdColonyRewardType = YES;
+  result.adColonyRewardType = value;
+  return self;
+}
+- (EarnFreeDiamondsRequestProto_Builder*) clearAdColonyRewardType {
+  result.hasAdColonyRewardType = NO;
+  result.adColonyRewardType = EarnFreeDiamondsRequestProto_AdColonyRewardTypeDiamonds;
   return self;
 }
 @end

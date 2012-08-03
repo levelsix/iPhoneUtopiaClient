@@ -40,6 +40,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel     *pkgGoldLabel;
 @property (nonatomic, retain) IBOutlet PriceLabel  *priceLabel;
 @property (nonatomic, retain) IBOutlet UIImageView *pkgIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *coinIcon;
 @property (nonatomic, retain) IBOutlet UIView      *selectedView;
 
 - (void) updateForPurchaseData:(id<InAppPurchaseData>)product;
@@ -84,6 +85,7 @@ typedef enum {
 + (void) removeView;
 + (void) purgeSingleton;
 
+- (void) update;
 - (IBAction)closeButtonClicked:(id)sender;
 - (void) stopLoading;
 
