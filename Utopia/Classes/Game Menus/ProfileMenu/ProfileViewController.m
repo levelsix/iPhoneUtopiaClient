@@ -35,17 +35,12 @@
 @implementation ProfileBar
 
 @synthesize state = _state;
-@synthesize equipIcon, skillsIcon, wallIcon;
-@synthesize equipLabel, skillsLabel, wallLabel;
-@synthesize equipSelectedLargeImage, equipSelectedSmallImage, skillsSelectedSmallImage;
-@synthesize wallSelectedSmallImage, wallSelectedLargeImage;
-@synthesize glowIcon;
-@synthesize wallBadgeView, wallBadgeLabel;
+@synthesize equipIcon, skillsIcon, profileIcon, specialIcon;
+@synthesize equipLabel, skillsLabel, profileLabel, specialLabel;
+@synthesize equipButton, skillsButton, profileButton, specialButton;
+@synthesize profileBadgeView, profileBadgeLabel;
 
 - (void) awakeFromNib {
-  wallSelectedLargeImage.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
-  wallSelectedSmallImage.layer.transform = CATransform3DMakeRotation(M_PI, 0.0f, 1.0f, 0.0f);
-  
   _clickedButtons = 0;
   
   [self setState:kMyProfile];
@@ -57,124 +52,96 @@
     
     switch (state) {
       case kMyProfile:
-        wallSelectedLargeImage.hidden = YES;
-        equipSelectedLargeImage.hidden = YES;
-        wallSelectedSmallImage.hidden = NO;
-        skillsSelectedSmallImage.hidden = NO;
-        equipSelectedSmallImage.hidden = NO;
         
-        skillsIcon.hidden = NO;
-        skillsLabel.hidden = NO;
-        
-        wallBadgeView.hidden = _wallBadgeNum <= 0;
-        
-        _curEquipSelectedImage = equipSelectedSmallImage;
-        _curSkillsSelectedImage = skillsSelectedSmallImage;
-        _curWallSelectedImage = wallSelectedSmallImage;
-        
-        equipIcon.center = CGPointMake(equipSelectedSmallImage.center.x, equipIcon.center.y);
-        equipLabel.center = CGPointMake(equipSelectedSmallImage.center.x, equipLabel.center.y);
-        
-        wallIcon.center = CGPointMake(wallSelectedSmallImage.center.x, wallIcon.center.y);
-        wallLabel.center = CGPointMake(wallSelectedSmallImage.center.x, wallLabel.center.y);
         break;
         
       case kOtherPlayerProfile:
-        wallSelectedLargeImage.hidden = NO;
-        equipSelectedLargeImage.hidden = NO;
-        wallSelectedSmallImage.hidden = YES;
-        skillsSelectedSmallImage.hidden = YES;
-        equipSelectedSmallImage.hidden = YES;
-        
-        skillsIcon.hidden = YES;
-        skillsLabel.hidden = YES;
-        
-        wallBadgeView.hidden = YES;
-        
-        _curEquipSelectedImage = equipSelectedLargeImage;
-        _curSkillsSelectedImage = nil;
-        _curWallSelectedImage = wallSelectedLargeImage;
-        
-        equipIcon.center = CGPointMake(equipSelectedLargeImage.center.x, equipIcon.center.y);
-        equipLabel.center = CGPointMake(equipSelectedLargeImage.center.x, equipLabel.center.y);
-        
-        wallIcon.center = CGPointMake(wallSelectedLargeImage.center.x, wallIcon.center.y);
-        wallLabel.center = CGPointMake(wallSelectedLargeImage.center.x, wallLabel.center.y);
         break;
         
       default:
         break;
     }
   }
-  [self clickButton:kEquipButton];
+  [self clickButton:kProfileButton];
+  [self unclickButton:kEquipButton];
   [self unclickButton:kSkillsButton];
-  [self unclickButton:kWallButton];
-  
-  glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
+  [self unclickButton:kSpecialButton];
 }
 
-- (void) incrementWallBadge {
-  if ([ProfileViewController sharedProfileViewController].state != kWallState || _state != kMyProfile) {
-    _wallBadgeNum++;
-    wallBadgeLabel.text = _wallBadgeNum < 10 ? [NSString stringWithFormat:@"%d", _wallBadgeNum] : @"!";
+- (void) incrementProfileBadge {
+  if ([ProfileViewController sharedProfileViewController].state != kProfileState || _state != kMyProfile) {
+    _profileBadgeNum++;
+    profileBadgeLabel.text = _profileBadgeNum < 10 ? [NSString stringWithFormat:@"%d", _profileBadgeNum] : @"!";
     
     if (_state == kMyProfile) {
-      wallBadgeView.hidden = NO;
+      profileBadgeView.hidden = NO;
     }
   }
 }
 
-- (void) clearWallBadge {
-  _wallBadgeNum = 0;
-  wallBadgeView.hidden = YES;
+- (void) clearProfileBadge {
+  _profileBadgeNum = 0;
+  profileBadgeView.hidden = YES;
 }
 
 - (void) setProfileState:(ProfileState)s {
-  if (s == kEquipState) {
-    [self clickButton:kEquipButton];
+  if (s == kProfileButton) {
+    [self clickButton:kProfileButton];
+    [self unclickButton:kEquipButton];
     [self unclickButton:kSkillsState];
-    [self unclickButton:kWallButton];
-    glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
+    [self unclickButton:kSpecialButton];
+  } else if (s == kEquipState) {
+    [self clickButton:kEquipButton];
+    [self unclickButton:kProfileButton];
+    [self unclickButton:kSkillsState];
+    [self unclickButton:kSpecialButton];
   } else if (s == kSkillsState) {
     [self clickButton:kSkillsButton];
+    [self unclickButton:kProfileButton];
     [self unclickButton:kEquipButton];
-    [self unclickButton:kWallButton];
-    glowIcon.center = CGPointMake(_curSkillsSelectedImage.center.x, glowIcon.center.y);
-  } else if (s == kWallState) {
-    [self clickButton:kWallButton];
+    [self unclickButton:kSpecialButton];
+  } else if (s == kSpecialButton) {
+    [self clickButton:kSpecialButton];
+    [self unclickButton:kProfileButton];
+    [self unclickButton:kSkillsState];
     [self unclickButton:kEquipButton];
-    [self unclickButton:kSkillsButton];
-    glowIcon.center = CGPointMake(_curWallSelectedImage.center.x, glowIcon.center.y);
     
     if (_state == kMyProfile) {
-      [self clearWallBadge];
+      [self clearProfileBadge];
     }
   }
 }
 
 - (void) clickButton:(ProfileBarButton)button {
   switch (button) {
-    case kEquipButton:
-      equipIcon.highlighted = YES;
-      equipLabel.highlighted = YES;
-      _curEquipSelectedImage.hidden = NO;
-      _clickedButtons |= kEquipButton;
+    case kProfileButton:
+      profileIcon.highlighted = YES;
+      profileLabel.highlighted = YES;
+      profileButton.highlighted = YES;
+      _clickedButtons |= kProfileButton;
       break;
       
     case kSkillsButton:
       if (self.state == kMyProfile) {
         skillsIcon.highlighted = YES;
         skillsLabel.highlighted = YES;
-        _curSkillsSelectedImage.hidden = NO;
+        skillsButton.highlighted = YES;
         _clickedButtons |= kSkillsButton;
       }
       break;
       
-    case kWallButton:
-      wallIcon.highlighted = YES;
-      wallLabel.highlighted = YES;
-      _curWallSelectedImage.hidden = NO;
-      _clickedButtons |= kWallButton;
+    case kEquipButton:
+      equipIcon.highlighted = YES;
+      equipLabel.highlighted = YES;
+      equipButton.highlighted = YES;
+      _clickedButtons |= kEquipButton;
+      break;
+      
+    case kSpecialButton:
+      specialIcon.highlighted = YES;
+      specialLabel.highlighted = YES;
+      specialButton.highlighted = YES;
+      _clickedButtons |= kSpecialButton;
       break;
       
     default:
@@ -184,27 +151,32 @@
 
 - (void) unclickButton:(ProfileBarButton)button {
   switch (button) {
-    case kEquipButton:
-      equipIcon.highlighted = NO;
-      equipLabel.highlighted = NO;
-      _curEquipSelectedImage.hidden = YES;
-      _clickedButtons &= ~kEquipButton;
+    case kProfileButton:
+      profileIcon.highlighted = NO;
+      profileLabel.highlighted = NO;
+      profileButton.highlighted = NO;
+      _clickedButtons &= ~kProfileButton;
       break;
       
     case kSkillsButton:
-      if (_state == kMyProfile) {
-        skillsIcon.highlighted = NO;
-        skillsLabel.highlighted = NO;
-        _curSkillsSelectedImage.hidden = YES;
-        _clickedButtons &= ~kSkillsButton;
-      }
+      skillsIcon.highlighted = NO;
+      skillsLabel.highlighted = NO;
+      skillsButton.highlighted = NO;
+      _clickedButtons &= ~kSkillsButton;
       break;
       
-    case kWallButton:
-      wallIcon.highlighted = NO;
-      wallLabel.highlighted = NO;
-      _curWallSelectedImage.hidden = YES;
-      _clickedButtons &= ~kWallButton;
+    case kEquipButton:
+      equipIcon.highlighted = NO;
+      equipLabel.highlighted = NO;
+      equipButton.highlighted = NO;
+      _clickedButtons &= ~kEquipButton;
+      break;
+      
+    case kSpecialButton:
+      specialIcon.highlighted = NO;
+      specialLabel.highlighted = NO;
+      specialButton.highlighted = NO;
+      _clickedButtons &= ~kSpecialButton;
       break;
       
     default:
@@ -336,8 +308,8 @@
   self.wallSelectedLargeImage = nil;
   self.wallSelectedSmallImage = nil;
   self.glowIcon = nil;
-  self.wallBadgeView = nil;
-  self.wallBadgeLabel = nil;
+  self.profileBadgeView = nil;
+  self.profileBadgeLabel = nil;
   [super dealloc];
 }
 
@@ -1457,14 +1429,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   enemyMiddleView.hidden = YES;
   Globals *globals = [Globals sharedGlobals];
   attack  = [globals calculateAttackForAttackStat:_fup.attack
-                                     weapon:(UserEquip *)_fup.weaponEquippedUserEquip
-                                      armor:(UserEquip *)_fup.armorEquippedUserEquip
-                                     amulet:(UserEquip *)_fup.amuletEquippedUserEquip];
+                                           weapon:(UserEquip *)_fup.weaponEquippedUserEquip
+                                            armor:(UserEquip *)_fup.armorEquippedUserEquip
+                                           amulet:(UserEquip *)_fup.amuletEquippedUserEquip];
   
   defense = [globals calculateDefenseForDefenseStat:_fup.defense
-                                      weapon:(UserEquip *)_fup.weaponEquippedUserEquip
-                                       armor:(UserEquip *)_fup.armorEquippedUserEquip
-                                      amulet:(UserEquip *)_fup.amuletEquippedUserEquip];
+                                             weapon:(UserEquip *)_fup.weaponEquippedUserEquip
+                                              armor:(UserEquip *)_fup.armorEquippedUserEquip
+                                             amulet:(UserEquip *)_fup.amuletEquippedUserEquip];
   attackLabel.text = [NSString stringWithFormat:@"%d", attack];
   defenseLabel.text = [NSString stringWithFormat:@"%d", defense];
   

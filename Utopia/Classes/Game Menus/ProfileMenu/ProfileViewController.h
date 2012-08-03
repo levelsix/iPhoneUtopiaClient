@@ -17,15 +17,17 @@ typedef enum {
 } ProfileBarState;
 
 typedef enum {
-  kEquipButton = 1,
-  kSkillsButton = 1 << 1,
-  kWallButton = 1 << 2
+  kProfileButton = 1,
+  kEquipButton = 1 << 1,
+  kSkillsButton = 1 << 2,
+  kSpecialButton = 1 << 3
 } ProfileBarButton;
 
 typedef enum {
-  kEquipState = 1,
+  kProfileState = 1,
+  kEquipState,
   kSkillsState,
-  kWallState
+  kSpecialState
 } ProfileState;
 
 typedef enum {
@@ -70,43 +72,38 @@ typedef enum {
 @interface ProfileBar : UIView {
   ProfileBarState _state;
   
-  UIImageView *_curEquipSelectedImage;
-  UIImageView *_curSkillsSelectedImage;
-  UIImageView *_curWallSelectedImage;
-  
+  BOOL _trackingProfile;
   BOOL _trackingEquip;
   BOOL _trackingSkills;
-  BOOL _trackingWall;
+  BOOL _trackingSpecial;
   
   int _clickedButtons;
   
-  int _wallBadgeNum;
+  int _profileBadgeNum;
 }
 
 @property (nonatomic, assign) ProfileBarState state;
 
+@property (nonatomic, retain) IBOutlet UILabel *profileLabel;
 @property (nonatomic, retain) IBOutlet UILabel *equipLabel;
 @property (nonatomic, retain) IBOutlet UILabel *skillsLabel;
-@property (nonatomic, retain) IBOutlet UILabel *wallLabel;
+@property (nonatomic, retain) IBOutlet UILabel *specialLabel;
 
+@property (nonatomic, retain) IBOutlet UIImageView *profileIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *skillsIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *wallIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *specialIcon;
 
-@property (nonatomic, retain) IBOutlet UIImageView *equipSelectedSmallImage;
-@property (nonatomic, retain) IBOutlet UIImageView *skillsSelectedSmallImage;
-@property (nonatomic, retain) IBOutlet UIImageView *wallSelectedSmallImage;
+@property (nonatomic, retain) IBOutlet UIImageView *profileButton;
+@property (nonatomic, retain) IBOutlet UIImageView *equipButton;
+@property (nonatomic, retain) IBOutlet UIImageView *skillsButton;
+@property (nonatomic, retain) IBOutlet UIImageView *specialButton;
 
-@property (nonatomic, retain) IBOutlet UIImageView *equipSelectedLargeImage;
-@property (nonatomic, retain) IBOutlet UIImageView *wallSelectedLargeImage;
+@property (nonatomic, retain) IBOutlet UIView *profileBadgeView;
+@property (nonatomic, retain) IBOutlet UILabel *profileBadgeLabel;
 
-@property (nonatomic, retain) IBOutlet UIImageView *glowIcon;
-
-@property (nonatomic, retain) IBOutlet UIView *wallBadgeView;
-@property (nonatomic, retain) IBOutlet UILabel *wallBadgeLabel;
-
-- (void) incrementWallBadge;
-- (void) clearWallBadge;
+- (void) incrementProfileBadge;
+- (void) clearProfileBadge;
 
 @end
 

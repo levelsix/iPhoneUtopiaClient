@@ -396,7 +396,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval energyComplete = gs.lastEnergyRefill.timeIntervalSinceNow+60*gl.energyRefillWaitMinutes;
     _energyTimer = [NSTimer timerWithTimeInterval:energyComplete target:self selector:@selector(energyRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_energyTimer forMode:NSRunLoopCommonModes];
-    DDLogVerbose(@"Firing up energy timer with time %f.", energyComplete);
+    DDLogVerbose(@"Firing up energy timer with time %f. Cur: %d, Max: %d", energyComplete, gs.currentEnergy, gs.maxEnergy);
   } else {
     _energyTimer = nil;
   }
@@ -423,7 +423,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     NSTimeInterval staminaComplete = gs.lastStaminaRefill.timeIntervalSinceNow+60*gl.staminaRefillWaitMinutes;
     _staminaTimer = [NSTimer timerWithTimeInterval:staminaComplete target:self selector:@selector(staminaRefillWaitComplete) userInfo:nil repeats:NO];
     [[NSRunLoop mainRunLoop] addTimer:_staminaTimer forMode:NSRunLoopCommonModes];
-    DDLogVerbose(@"Firing up stamina timer with time %f.", staminaComplete);
+    DDLogVerbose(@"Firing up stamina timer with time %f. Cur: %d, Max: %d", staminaComplete, gs.currentStamina, gs.maxStamina);
   } else {
     _staminaTimer = nil;
   }

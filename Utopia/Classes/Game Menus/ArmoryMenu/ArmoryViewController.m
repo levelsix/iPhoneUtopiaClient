@@ -386,6 +386,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ArmoryViewController);
   
   self.state = kWeaponState;
   
+  _clickedAl = nil;
+  
   // Add rope to the very top
   UIColor *c = [UIColor colorWithPatternImage:[Globals imageNamed:@"rope.png"]];
   UIView *leftRope = [[UIView alloc] initWithFrame:CGRectMake(15, -150, 3, 150)];
