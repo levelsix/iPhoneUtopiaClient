@@ -91,7 +91,7 @@
   Globals *gl = [Globals sharedGlobals];
   
   NSString *firstPart = [self purchaseAvailable] ? [NSString stringWithFormat:@"%d", [AdColony getVirtualCurrencyRewardAmountForZone:[self nextZone]]] : NO_CLIPS;
-  NSString *secondPart = self.isGold ? @"" : [NSString stringWithFormat:@" (%d videos until gold)", gl.adColonyVideosRequiredToRedeemGold - (gs.numAdColonyVideosWatched % gl.adColonyVideosRequiredToRedeemGold)];
+  NSString *secondPart = self.isGold ? @"" : [NSString stringWithFormat:@" (%d videos until gold)", gl.adColonyVideosRequiredToRedeemGold - (gs.numAdColonyVideosWatched % gl.adColonyVideosRequiredToRedeemGold) - 1];
   NSString *title = [NSString stringWithFormat:@"%@%@", firstPart, secondPart];
   
   return title;

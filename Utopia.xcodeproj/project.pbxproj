@@ -1389,6 +1389,10 @@
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
 		CFE72A0715CB42A60014D5D1 /* kingdom.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72A0515CB42A60014D5D1 /* kingdom.png */; };
 		CFE72A0815CB42A60014D5D1 /* kingdom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */; };
+		CFE72A1E15CB4F520014D5D1 /* AdColonyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF689C7315C8A40A00F2E50E /* AdColonyDelegate.m */; };
+		CFE72A1F15CB4F610014D5D1 /* AdColonySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA2051F15C8A5B700F19238 /* AdColonySponsoredOffer.m */; };
+		CFE72A2215CB4F960014D5D1 /* TapJoySponsoredOffer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE72A2115CB4F960014D5D1 /* TapJoySponsoredOffer.m */; };
+		CFE72A2315CB4FFF0014D5D1 /* libAdColony.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA2051C15C8A58900F19238 /* libAdColony.a */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -3240,6 +3244,8 @@
 		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
 		CFE72A0515CB42A60014D5D1 /* kingdom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kingdom.png; sourceTree = "<group>"; };
 		CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kingdom@2x.png"; sourceTree = "<group>"; };
+		CFE72A2015CB4F960014D5D1 /* TapJoySponsoredOffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoySponsoredOffer.h; sourceTree = "<group>"; };
+		CFE72A2115CB4F960014D5D1 /* TapJoySponsoredOffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoySponsoredOffer.m; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -3397,6 +3403,7 @@
 				459A9138157D3E62004B7014 /* libKiip.a in Frameworks */,
 				CF689C2415C3B96E00F2E50E /* libChartboost.a in Frameworks */,
 				CF689C2915C3B99000F2E50E /* libDownloadTracker_300_101_universal.a in Frameworks */,
+				CFE72A2315CB4FFF0014D5D1 /* libAdColony.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3987,6 +3994,8 @@
 				CF12656B1538ACC400E0C1AD /* GoldShoppeViewController.xib */,
 				4592799E156C5E6900FEC3AF /* InAppPurchaseData.h */,
 				4592799F156C5E6900FEC3AF /* InAppPurchaseData.m */,
+				CFE72A2015CB4F960014D5D1 /* TapJoySponsoredOffer.h */,
+				CFE72A2115CB4F960014D5D1 /* TapJoySponsoredOffer.m */,
 				4509ABB11578243300EC9B44 /* TwitterSponsoredOffer.h */,
 				4509ABB21578243300EC9B44 /* TwitterSponsoredOffer.m */,
 				4509ABB4157830E500EC9B44 /* OperationWaitCounter.h */,
@@ -8041,6 +8050,9 @@
 				CF1077DB15CA017000409312 /* TJCVideoViewHandler.m in Sources */,
 				CF1077DC15CA017000409312 /* TapjoyConnect.m in Sources */,
 				CF1077DF15CA026A00409312 /* TapJoyDelegate.m in Sources */,
+				CFE72A1E15CB4F520014D5D1 /* AdColonyDelegate.m in Sources */,
+				CFE72A1F15CB4F610014D5D1 /* AdColonySponsoredOffer.m in Sources */,
+				CFE72A2215CB4F960014D5D1 /* TapJoySponsoredOffer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

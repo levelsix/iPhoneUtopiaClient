@@ -195,7 +195,7 @@
   [self setUpDelightio];
   
   // AdColony
-//  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
+  adColonyDelegate = [[AdColonyDelegate createAdColonyDelegate] retain];
 
   // TapJoy
   tapJoyDelegate = [[TapjoyDelegate createTapJoyDelegate] retain];
@@ -402,7 +402,7 @@
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];
-//  [adColonyDelegate release];
+  [adColonyDelegate release];
   [tapJoyDelegate      release];
 //  [flurryClipsDelegate release];
 //  [facebookDelegate    release];

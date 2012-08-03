@@ -15,7 +15,7 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
   id<TJCVideoAdDelegate>     tapJoyDelegate; 
-//  id<AdColonyDelegate>       adColonyDelegate;
+  id<AdColonyDelegate>       adColonyDelegate;
 //  id<FlurryAdDelegate>       flurryClipsDelegate;
 //  id<FacebookGlobalDelegate> facebookDelegate;
   id<KPManagerDelegate>      kiipDelegate;
