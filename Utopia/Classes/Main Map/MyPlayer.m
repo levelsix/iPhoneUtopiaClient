@@ -49,15 +49,9 @@
   GameState *gs = [GameState sharedGameState];
   NSString *prefix = [Globals animatedSpritePrefix:gs.type];
   
-  CCTexture2DPixelFormat format = [CCTexture2D defaultAlphaPixelFormat];
-  [CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA4444];
-  
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkNF.plist",prefix]];
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkLR.plist",prefix]];
   [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:[NSString stringWithFormat:@"%@WalkUD.plist",prefix]];
-  
-  [CCTexture2D setDefaultAlphaPixelFormat:format];
-  
   
   //Creating animation for Near
   NSMutableArray *walkAnimN= [NSMutableArray array];
