@@ -515,30 +515,18 @@
 		CF126F4B1538ACCB00E0C1AD /* mapnavtopactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268931538ACC500E0C1AD /* mapnavtopactive@2x.png */; };
 		CF126F4C1538ACCB00E0C1AD /* mapprofileicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268941538ACC500E0C1AD /* mapprofileicon.png */; };
 		CF126F4D1538ACCB00E0C1AD /* mapprofileicon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268951538ACC500E0C1AD /* mapprofileicon@2x.png */; };
-		CF126F4E1538ACCB00E0C1AD /* africa.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268971538ACC500E0C1AD /* africa.png */; };
-		CF126F4F1538ACCB00E0C1AD /* africa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268981538ACC500E0C1AD /* africa@2x.png */; };
-		CF126F501538ACCB00E0C1AD /* asia.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268991538ACC500E0C1AD /* asia.png */; };
-		CF126F511538ACCB00E0C1AD /* asia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689A1538ACC500E0C1AD /* asia@2x.png */; };
-		CF126F521538ACCB00E0C1AD /* australia.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689B1538ACC500E0C1AD /* australia.png */; };
-		CF126F531538ACCB00E0C1AD /* australia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689C1538ACC500E0C1AD /* australia@2x.png */; };
 		CF126F541538ACCB00E0C1AD /* citygobutton.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689D1538ACC500E0C1AD /* citygobutton.png */; };
 		CF126F551538ACCB00E0C1AD /* citygobutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */; };
 		CF126F561538ACCB00E0C1AD /* cityprogressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF12689F1538ACC500E0C1AD /* cityprogressbar.png */; };
 		CF126F571538ACCB00E0C1AD /* cityprogressbarbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A01538ACC500E0C1AD /* cityprogressbarbg.png */; };
 		CF126F581538ACCB00E0C1AD /* cityprogressbarbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */; };
 		CF126F591538ACCB00E0C1AD /* cityprogressyellowbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */; };
-		CF126F5A1538ACCB00E0C1AD /* europe.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A31538ACC500E0C1AD /* europe.png */; };
-		CF126F5B1538ACCB00E0C1AD /* europe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A41538ACC500E0C1AD /* europe@2x.png */; };
 		CF126F5C1538ACCB00E0C1AD /* globe.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A51538ACC500E0C1AD /* globe.png */; };
 		CF126F5D1538ACCB00E0C1AD /* globe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A61538ACC500E0C1AD /* globe@2x.png */; };
-		CF126F5E1538ACCB00E0C1AD /* greenland.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A71538ACC500E0C1AD /* greenland.png */; };
-		CF126F5F1538ACCB00E0C1AD /* greenland@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A81538ACC500E0C1AD /* greenland@2x.png */; };
 		CF126F601538ACCB00E0C1AD /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268A91538ACC500E0C1AD /* home.png */; };
 		CF126F611538ACCB00E0C1AD /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AA1538ACC500E0C1AD /* home@2x.png */; };
 		CF126F621538ACCB00E0C1AD /* lockedcity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AB1538ACC500E0C1AD /* lockedcity.png */; };
 		CF126F631538ACCB00E0C1AD /* lockedcity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */; };
-		CF126F641538ACCB00E0C1AD /* lumoria.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AD1538ACC500E0C1AD /* lumoria.png */; };
-		CF126F651538ACCB00E0C1AD /* lumoria@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AE1538ACC500E0C1AD /* lumoria@2x.png */; };
 		CF126F661538ACCB00E0C1AD /* lumoriabg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268AF1538ACC500E0C1AD /* lumoriabg.png */; };
 		CF126F671538ACCB00E0C1AD /* lumoriabg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B01538ACC500E0C1AD /* lumoriabg@2x.png */; };
 		CF126F681538ACCB00E0C1AD /* lumoriasign.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B11538ACC500E0C1AD /* lumoriasign.png */; };
@@ -547,16 +535,10 @@
 		CF126F6B1538ACCB00E0C1AD /* lumoriasignbig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B41538ACC500E0C1AD /* lumoriasignbig@2x.png */; };
 		CF126F6E1538ACCB00E0C1AD /* missionlock.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B71538ACC500E0C1AD /* missionlock.png */; };
 		CF126F6F1538ACCB00E0C1AD /* missionlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B81538ACC500E0C1AD /* missionlock@2x.png */; };
-		CF126F701538ACCB00E0C1AD /* missionmapbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268B91538ACC500E0C1AD /* missionmapbg.png */; };
-		CF126F711538ACCB00E0C1AD /* missionmapbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BA1538ACC500E0C1AD /* missionmapbg@2x.png */; };
 		CF126F721538ACCB00E0C1AD /* opencity.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BB1538ACC500E0C1AD /* opencity.png */; };
 		CF126F731538ACCB00E0C1AD /* opencity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BC1538ACC500E0C1AD /* opencity@2x.png */; };
 		CF126F741538ACCB00E0C1AD /* path.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BD1538ACC500E0C1AD /* path.png */; };
 		CF126F751538ACCB00E0C1AD /* path@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BE1538ACC500E0C1AD /* path@2x.png */; };
-		CF126F761538ACCB00E0C1AD /* russia.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268BF1538ACC500E0C1AD /* russia.png */; };
-		CF126F771538ACCB00E0C1AD /* russia@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C01538ACC500E0C1AD /* russia@2x.png */; };
-		CF126F781538ACCB00E0C1AD /* southamerica.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C11538ACC500E0C1AD /* southamerica.png */; };
-		CF126F791538ACCB00E0C1AD /* southamerica@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C21538ACC500E0C1AD /* southamerica@2x.png */; };
 		CF126F7A1538ACCB00E0C1AD /* visitcitybubble.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C31538ACC500E0C1AD /* visitcitybubble.png */; };
 		CF126F7B1538ACCB00E0C1AD /* visitcitybubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */; };
 		CF126F7C1538ACCB00E0C1AD /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1268C61538ACC500E0C1AD /* arrow.png */; };
@@ -1139,6 +1121,8 @@
 		CF5D3D7F15420D930086234E /* checkdone.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5D3D7D15420D930086234E /* checkdone.png */; };
 		CF66D5BC158028DD005EBAF1 /* carpentericon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF66D5BA158028DD005EBAF1 /* carpentericon.png */; };
 		CF66D5BD158028DD005EBAF1 /* carpentericon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF66D5BB158028DD005EBAF1 /* carpentericon@2x.png */; };
+		CF67838615CE5F4000C65FA0 /* ageofchaos@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF67838415CE5F4000C65FA0 /* ageofchaos@2x.png */; };
+		CF67838715CE5F4000C65FA0 /* ageofchaos.png in Resources */ = {isa = PBXBuildFile; fileRef = CF67838515CE5F4000C65FA0 /* ageofchaos.png */; };
 		CF689BE115C3A0A500F2E50E /* bazaar.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BC415C3A0A500F2E50E /* bazaar.png */; };
 		CF689BE215C3A0A500F2E50E /* Bazaar.tmx in Resources */ = {isa = PBXBuildFile; fileRef = CF689BC515C3A0A500F2E50E /* Bazaar.tmx */; };
 		CF689BE315C3A0A500F2E50E /* bazaar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF689BC615C3A0A500F2E50E /* bazaar@2x.png */; };
@@ -1387,8 +1371,6 @@
 		CFDBFEB8153BCE6100DA9206 /* popupglow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFDBFEB6153BCE6100DA9206 /* popupglow@2x.png */; };
 		CFE3E9421592BB7400E85701 /* TutorialMyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */; };
 		CFE6769D15412C7B006FA813 /* QuestCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFE6769C15412C7B006FA813 /* QuestCell.xib */; };
-		CFE72A0715CB42A60014D5D1 /* kingdom.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72A0515CB42A60014D5D1 /* kingdom.png */; };
-		CFE72A0815CB42A60014D5D1 /* kingdom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */; };
 		CFEB28431593F02500B622FC /* unlockedheader.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28411593F02500B622FC /* unlockedheader.png */; };
 		CFEB28441593F02500B622FC /* unlockedheader@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFEB28421593F02500B622FC /* unlockedheader@2x.png */; };
 		CFEB284715951ADC00B622FC /* FullEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB284615951ADB00B622FC /* FullEvent.m */; };
@@ -1732,7 +1714,7 @@
 		CF1077B815CA017000409312 /* TJCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TJCConfig.h; sourceTree = "<group>"; };
 		CF1077DD15CA026A00409312 /* TapJoyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapJoyDelegate.h; sourceTree = "<group>"; };
 		CF1077DE15CA026A00409312 /* TapJoyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapJoyDelegate.m; sourceTree = "<group>"; };
-		CF1256421538A94D00E0C1AD /* Kingdom Era.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kingdom Era.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF1256421538A94D00E0C1AD /* Age of Chaos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Age of Chaos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF1256461538A94D00E0C1AD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CF1256481538A94D00E0C1AD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CF12564A1538A94D00E0C1AD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -2344,30 +2326,18 @@
 		CF1268931538ACC500E0C1AD /* mapnavtopactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapnavtopactive@2x.png"; sourceTree = "<group>"; };
 		CF1268941538ACC500E0C1AD /* mapprofileicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mapprofileicon.png; sourceTree = "<group>"; };
 		CF1268951538ACC500E0C1AD /* mapprofileicon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapprofileicon@2x.png"; sourceTree = "<group>"; };
-		CF1268971538ACC500E0C1AD /* africa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = africa.png; sourceTree = "<group>"; };
-		CF1268981538ACC500E0C1AD /* africa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "africa@2x.png"; sourceTree = "<group>"; };
-		CF1268991538ACC500E0C1AD /* asia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asia.png; sourceTree = "<group>"; };
-		CF12689A1538ACC500E0C1AD /* asia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "asia@2x.png"; sourceTree = "<group>"; };
-		CF12689B1538ACC500E0C1AD /* australia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = australia.png; sourceTree = "<group>"; };
-		CF12689C1538ACC500E0C1AD /* australia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "australia@2x.png"; sourceTree = "<group>"; };
 		CF12689D1538ACC500E0C1AD /* citygobutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = citygobutton.png; sourceTree = "<group>"; };
 		CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "citygobutton@2x.png"; sourceTree = "<group>"; };
 		CF12689F1538ACC500E0C1AD /* cityprogressbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityprogressbar.png; sourceTree = "<group>"; };
 		CF1268A01538ACC500E0C1AD /* cityprogressbarbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cityprogressbarbg.png; sourceTree = "<group>"; };
 		CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityprogressbarbg@2x.png"; sourceTree = "<group>"; };
 		CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cityprogressyellowbar@2x.png"; sourceTree = "<group>"; };
-		CF1268A31538ACC500E0C1AD /* europe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = europe.png; sourceTree = "<group>"; };
-		CF1268A41538ACC500E0C1AD /* europe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "europe@2x.png"; sourceTree = "<group>"; };
 		CF1268A51538ACC500E0C1AD /* globe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = globe.png; sourceTree = "<group>"; };
 		CF1268A61538ACC500E0C1AD /* globe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "globe@2x.png"; sourceTree = "<group>"; };
-		CF1268A71538ACC500E0C1AD /* greenland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenland.png; sourceTree = "<group>"; };
-		CF1268A81538ACC500E0C1AD /* greenland@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenland@2x.png"; sourceTree = "<group>"; };
 		CF1268A91538ACC500E0C1AD /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		CF1268AA1538ACC500E0C1AD /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		CF1268AB1538ACC500E0C1AD /* lockedcity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lockedcity.png; sourceTree = "<group>"; };
 		CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockedcity@2x.png"; sourceTree = "<group>"; };
-		CF1268AD1538ACC500E0C1AD /* lumoria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoria.png; sourceTree = "<group>"; };
-		CF1268AE1538ACC500E0C1AD /* lumoria@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoria@2x.png"; sourceTree = "<group>"; };
 		CF1268AF1538ACC500E0C1AD /* lumoriabg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoriabg.png; sourceTree = "<group>"; };
 		CF1268B01538ACC500E0C1AD /* lumoriabg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoriabg@2x.png"; sourceTree = "<group>"; };
 		CF1268B11538ACC500E0C1AD /* lumoriasign.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lumoriasign.png; sourceTree = "<group>"; };
@@ -2376,16 +2346,10 @@
 		CF1268B41538ACC500E0C1AD /* lumoriasignbig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lumoriasignbig@2x.png"; sourceTree = "<group>"; };
 		CF1268B71538ACC500E0C1AD /* missionlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missionlock.png; sourceTree = "<group>"; };
 		CF1268B81538ACC500E0C1AD /* missionlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missionlock@2x.png"; sourceTree = "<group>"; };
-		CF1268B91538ACC500E0C1AD /* missionmapbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = missionmapbg.png; sourceTree = "<group>"; };
-		CF1268BA1538ACC500E0C1AD /* missionmapbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "missionmapbg@2x.png"; sourceTree = "<group>"; };
 		CF1268BB1538ACC500E0C1AD /* opencity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opencity.png; sourceTree = "<group>"; };
 		CF1268BC1538ACC500E0C1AD /* opencity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "opencity@2x.png"; sourceTree = "<group>"; };
 		CF1268BD1538ACC500E0C1AD /* path.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = path.png; sourceTree = "<group>"; };
 		CF1268BE1538ACC500E0C1AD /* path@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "path@2x.png"; sourceTree = "<group>"; };
-		CF1268BF1538ACC500E0C1AD /* russia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = russia.png; sourceTree = "<group>"; };
-		CF1268C01538ACC500E0C1AD /* russia@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "russia@2x.png"; sourceTree = "<group>"; };
-		CF1268C11538ACC500E0C1AD /* southamerica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = southamerica.png; sourceTree = "<group>"; };
-		CF1268C21538ACC500E0C1AD /* southamerica@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "southamerica@2x.png"; sourceTree = "<group>"; };
 		CF1268C31538ACC500E0C1AD /* visitcitybubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visitcitybubble.png; sourceTree = "<group>"; };
 		CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "visitcitybubble@2x.png"; sourceTree = "<group>"; };
 		CF1268C61538ACC500E0C1AD /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
@@ -2971,6 +2935,8 @@
 		CF5D3D7D15420D930086234E /* checkdone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkdone.png; sourceTree = "<group>"; };
 		CF66D5BA158028DD005EBAF1 /* carpentericon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carpentericon.png; sourceTree = "<group>"; };
 		CF66D5BB158028DD005EBAF1 /* carpentericon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carpentericon@2x.png"; sourceTree = "<group>"; };
+		CF67838415CE5F4000C65FA0 /* ageofchaos@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ageofchaos@2x.png"; sourceTree = "<group>"; };
+		CF67838515CE5F4000C65FA0 /* ageofchaos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ageofchaos.png; sourceTree = "<group>"; };
 		CF689BC415C3A0A500F2E50E /* bazaar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bazaar.png; sourceTree = "<group>"; };
 		CF689BC515C3A0A500F2E50E /* Bazaar.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Bazaar.tmx; sourceTree = "<group>"; };
 		CF689BC615C3A0A500F2E50E /* bazaar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bazaar@2x.png"; sourceTree = "<group>"; };
@@ -3238,8 +3204,6 @@
 		CFE3E9401592BB7200E85701 /* TutorialMyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialMyPlayer.h; sourceTree = "<group>"; };
 		CFE3E9411592BB7300E85701 /* TutorialMyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialMyPlayer.m; sourceTree = "<group>"; };
 		CFE6769C15412C7B006FA813 /* QuestCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestCell.xib; sourceTree = "<group>"; };
-		CFE72A0515CB42A60014D5D1 /* kingdom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kingdom.png; sourceTree = "<group>"; };
-		CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kingdom@2x.png"; sourceTree = "<group>"; };
 		CFEB28411593F02500B622FC /* unlockedheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlockedheader.png; sourceTree = "<group>"; };
 		CFEB28421593F02500B622FC /* unlockedheader@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unlockedheader@2x.png"; sourceTree = "<group>"; };
 		CFEB284515951ADA00B622FC /* FullEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullEvent.h; sourceTree = "<group>"; };
@@ -3751,7 +3715,7 @@
 		CF1256431538A94D00E0C1AD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CF1256421538A94D00E0C1AD /* Kingdom Era.app */,
+				CF1256421538A94D00E0C1AD /* Age of Chaos.app */,
 				455FC6B1157EE4E2008DB9E4 /* UtopiaTests.octest */,
 			);
 			name = Products;
@@ -4961,8 +4925,8 @@
 		CF12681C1538ACC500E0C1AD /* Door Images */ = {
 			isa = PBXGroup;
 			children = (
-				CFE72A0515CB42A60014D5D1 /* kingdom.png */,
-				CFE72A0615CB42A60014D5D1 /* kingdom@2x.png */,
+				CF67838415CE5F4000C65FA0 /* ageofchaos@2x.png */,
+				CF67838515CE5F4000C65FA0 /* ageofchaos.png */,
 			);
 			path = "Door Images";
 			sourceTree = "<group>";
@@ -5118,30 +5082,18 @@
 				CF10773415C8CA7C00409312 /* mapstaminabarbg@2x.png */,
 				CF08AF4E1567639A00871798 /* mapborderbg@2x.png */,
 				CF08AF4F1567639A00871798 /* mapborderbg.png */,
-				CF1268971538ACC500E0C1AD /* africa.png */,
-				CF1268981538ACC500E0C1AD /* africa@2x.png */,
-				CF1268991538ACC500E0C1AD /* asia.png */,
-				CF12689A1538ACC500E0C1AD /* asia@2x.png */,
-				CF12689B1538ACC500E0C1AD /* australia.png */,
-				CF12689C1538ACC500E0C1AD /* australia@2x.png */,
 				CF12689D1538ACC500E0C1AD /* citygobutton.png */,
 				CF12689E1538ACC500E0C1AD /* citygobutton@2x.png */,
 				CF12689F1538ACC500E0C1AD /* cityprogressbar.png */,
 				CF1268A01538ACC500E0C1AD /* cityprogressbarbg.png */,
 				CF1268A11538ACC500E0C1AD /* cityprogressbarbg@2x.png */,
 				CF1268A21538ACC500E0C1AD /* cityprogressyellowbar@2x.png */,
-				CF1268A31538ACC500E0C1AD /* europe.png */,
-				CF1268A41538ACC500E0C1AD /* europe@2x.png */,
 				CF1268A51538ACC500E0C1AD /* globe.png */,
 				CF1268A61538ACC500E0C1AD /* globe@2x.png */,
-				CF1268A71538ACC500E0C1AD /* greenland.png */,
-				CF1268A81538ACC500E0C1AD /* greenland@2x.png */,
 				CF1268A91538ACC500E0C1AD /* home.png */,
 				CF1268AA1538ACC500E0C1AD /* home@2x.png */,
 				CF1268AB1538ACC500E0C1AD /* lockedcity.png */,
 				CF1268AC1538ACC500E0C1AD /* lockedcity@2x.png */,
-				CF1268AD1538ACC500E0C1AD /* lumoria.png */,
-				CF1268AE1538ACC500E0C1AD /* lumoria@2x.png */,
 				CF1268AF1538ACC500E0C1AD /* lumoriabg.png */,
 				CF1268B01538ACC500E0C1AD /* lumoriabg@2x.png */,
 				CF1268B11538ACC500E0C1AD /* lumoriasign.png */,
@@ -5150,16 +5102,10 @@
 				CF1268B41538ACC500E0C1AD /* lumoriasignbig@2x.png */,
 				CF1268B71538ACC500E0C1AD /* missionlock.png */,
 				CF1268B81538ACC500E0C1AD /* missionlock@2x.png */,
-				CF1268B91538ACC500E0C1AD /* missionmapbg.png */,
-				CF1268BA1538ACC500E0C1AD /* missionmapbg@2x.png */,
 				CF1268BB1538ACC500E0C1AD /* opencity.png */,
 				CF1268BC1538ACC500E0C1AD /* opencity@2x.png */,
 				CF1268BD1538ACC500E0C1AD /* path.png */,
 				CF1268BE1538ACC500E0C1AD /* path@2x.png */,
-				CF1268BF1538ACC500E0C1AD /* russia.png */,
-				CF1268C01538ACC500E0C1AD /* russia@2x.png */,
-				CF1268C11538ACC500E0C1AD /* southamerica.png */,
-				CF1268C21538ACC500E0C1AD /* southamerica@2x.png */,
 				CF1268C31538ACC500E0C1AD /* visitcitybubble.png */,
 				CF1268C41538ACC500E0C1AD /* visitcitybubble@2x.png */,
 			);
@@ -6488,7 +6434,7 @@
 			);
 			name = Utopia;
 			productName = Utopia;
-			productReference = CF1256421538A94D00E0C1AD /* Kingdom Era.app */;
+			productReference = CF1256421538A94D00E0C1AD /* Age of Chaos.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -6807,30 +6753,18 @@
 				CF126F4B1538ACCB00E0C1AD /* mapnavtopactive@2x.png in Resources */,
 				CF126F4C1538ACCB00E0C1AD /* mapprofileicon.png in Resources */,
 				CF126F4D1538ACCB00E0C1AD /* mapprofileicon@2x.png in Resources */,
-				CF126F4E1538ACCB00E0C1AD /* africa.png in Resources */,
-				CF126F4F1538ACCB00E0C1AD /* africa@2x.png in Resources */,
-				CF126F501538ACCB00E0C1AD /* asia.png in Resources */,
-				CF126F511538ACCB00E0C1AD /* asia@2x.png in Resources */,
-				CF126F521538ACCB00E0C1AD /* australia.png in Resources */,
-				CF126F531538ACCB00E0C1AD /* australia@2x.png in Resources */,
 				CF126F541538ACCB00E0C1AD /* citygobutton.png in Resources */,
 				CF126F551538ACCB00E0C1AD /* citygobutton@2x.png in Resources */,
 				CF126F561538ACCB00E0C1AD /* cityprogressbar.png in Resources */,
 				CF126F571538ACCB00E0C1AD /* cityprogressbarbg.png in Resources */,
 				CF126F581538ACCB00E0C1AD /* cityprogressbarbg@2x.png in Resources */,
 				CF126F591538ACCB00E0C1AD /* cityprogressyellowbar@2x.png in Resources */,
-				CF126F5A1538ACCB00E0C1AD /* europe.png in Resources */,
-				CF126F5B1538ACCB00E0C1AD /* europe@2x.png in Resources */,
 				CF126F5C1538ACCB00E0C1AD /* globe.png in Resources */,
 				CF126F5D1538ACCB00E0C1AD /* globe@2x.png in Resources */,
-				CF126F5E1538ACCB00E0C1AD /* greenland.png in Resources */,
-				CF126F5F1538ACCB00E0C1AD /* greenland@2x.png in Resources */,
 				CF126F601538ACCB00E0C1AD /* home.png in Resources */,
 				CF126F611538ACCB00E0C1AD /* home@2x.png in Resources */,
 				CF126F621538ACCB00E0C1AD /* lockedcity.png in Resources */,
 				CF126F631538ACCB00E0C1AD /* lockedcity@2x.png in Resources */,
-				CF126F641538ACCB00E0C1AD /* lumoria.png in Resources */,
-				CF126F651538ACCB00E0C1AD /* lumoria@2x.png in Resources */,
 				CF126F661538ACCB00E0C1AD /* lumoriabg.png in Resources */,
 				CF126F671538ACCB00E0C1AD /* lumoriabg@2x.png in Resources */,
 				CF126F681538ACCB00E0C1AD /* lumoriasign.png in Resources */,
@@ -6839,16 +6773,10 @@
 				CF126F6B1538ACCB00E0C1AD /* lumoriasignbig@2x.png in Resources */,
 				CF126F6E1538ACCB00E0C1AD /* missionlock.png in Resources */,
 				CF126F6F1538ACCB00E0C1AD /* missionlock@2x.png in Resources */,
-				CF126F701538ACCB00E0C1AD /* missionmapbg.png in Resources */,
-				CF126F711538ACCB00E0C1AD /* missionmapbg@2x.png in Resources */,
 				CF126F721538ACCB00E0C1AD /* opencity.png in Resources */,
 				CF126F731538ACCB00E0C1AD /* opencity@2x.png in Resources */,
 				CF126F741538ACCB00E0C1AD /* path.png in Resources */,
 				CF126F751538ACCB00E0C1AD /* path@2x.png in Resources */,
-				CF126F761538ACCB00E0C1AD /* russia.png in Resources */,
-				CF126F771538ACCB00E0C1AD /* russia@2x.png in Resources */,
-				CF126F781538ACCB00E0C1AD /* southamerica.png in Resources */,
-				CF126F791538ACCB00E0C1AD /* southamerica@2x.png in Resources */,
 				CF126F7A1538ACCB00E0C1AD /* visitcitybubble.png in Resources */,
 				CF126F7B1538ACCB00E0C1AD /* visitcitybubble@2x.png in Resources */,
 				CF126F7C1538ACCB00E0C1AD /* arrow.png in Resources */,
@@ -7769,8 +7697,8 @@
 				CF1077C015CA017000409312 /* close_button.png in Resources */,
 				CF1077C315CA017000409312 /* TJCLoadingView.xib in Resources */,
 				CF1077DA15CA017000409312 /* TJCVideoView.xib in Resources */,
-				CFE72A0715CB42A60014D5D1 /* kingdom.png in Resources */,
-				CFE72A0815CB42A60014D5D1 /* kingdom@2x.png in Resources */,
+				CF67838615CE5F4000C65FA0 /* ageofchaos@2x.png in Resources */,
+				CF67838715CE5F4000C65FA0 /* ageofchaos.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8222,7 +8150,7 @@
 					"-all_load",
 					"-lKiip",
 				);
-				PRODUCT_NAME = "Kingdom Era";
+				PRODUCT_NAME = "Age of Chaos";
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/Utopia/libs/Apsalar\" \"$(SRCROOT)\"";
 				WARNING_LDFLAGS = (
 					"-ObjC",
@@ -8270,7 +8198,7 @@
 					"-all_load",
 					"-lKiip",
 				);
-				PRODUCT_NAME = "Kingdom Era";
+				PRODUCT_NAME = "Age of Chaos";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;

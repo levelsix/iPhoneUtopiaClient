@@ -148,7 +148,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   [[SoundEngine sharedSoundEngine] stopBackgroundMusic];
   
   UIView *v = self.view;
-  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"kingdom.png"]];
+  UIImageView *imgView = [[UIImageView alloc] initWithImage:[Globals imageNamed:@"ageofchaos.png"]];
   imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
   imgView.tag = KINGDOM_PNG_IMAGE_VIEW_TAG;
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
