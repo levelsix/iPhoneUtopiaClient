@@ -19,9 +19,30 @@ typedef enum {
   kEquipSellingState
 } MarketplaceState;
 
+typedef enum {
+  kWeapButton = 1,
+  kArmButton = 1 << 1,
+  kAmuButton = 1 << 2,
+  kAllButton = 1 << 3
+} MarketPlaceFilterButton;
+
+typedef enum {
+  kAllFilter = 20,
+  kWeaponFilter,
+  kArmorFilter,
+  kAmuletFilter,
+  kNoneFilterSelected
+} Filters;
+
 @interface MarketplaceViewController : PullRefreshTableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
   BOOL _refreshing;
   BOOL _isDisplayingLoadingView;
+  BOOL _trackingAll;
+  BOOL _trackingWeapon;
+  BOOL _trackingArmor;
+  BOOL _trackingAmulet;
+  int _clickedButtons;
+  Filters currentFilter;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *navBar;
@@ -73,6 +94,18 @@ typedef enum {
 @property (nonatomic, retain) UIView *leftRopeFirstRow;
 @property (nonatomic, retain) UIView *rightRopeFirstRow;
 
+@property (nonatomic, retain) IBOutlet UILabel *allButton;
+@property (nonatomic, retain) IBOutlet UIImageView *weapIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *armIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *amuIcon;
+
+@property (nonatomic, retain) IBOutlet UIImageView *weapButtonClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *armButtonClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *amuButtonClicked;
+@property (nonatomic, retain) IBOutlet UIImageView *allButtonClicked;
+
+@property (nonatomic, retain) NSMutableArray *filtered;
+
 + (MarketplaceViewController *) sharedMarketplaceViewController;
 + (void) displayView;
 + (void) removeView;
@@ -83,6 +116,7 @@ typedef enum {
 - (void) deleteRows:(int)start;
 - (void) resetAllRows;
 - (NSMutableArray *) postsForState;
+- (NSMutableArray *) getCurrentFilterState;
 - (void) displayRedeemView;
 - (void) doneRefreshing;
 

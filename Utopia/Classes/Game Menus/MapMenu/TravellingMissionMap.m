@@ -77,10 +77,11 @@
 - (void) updatePopupForCity:(CityView *)cv {
   _fcp = cv.fcp;
   UserCity *uc = [[GameState sharedGameState] myCityWithId:_fcp.cityId];
+  Globals *gl = [Globals sharedGlobals];
   
   cityNameLabel.text = _fcp.name;
   cityRankLabel.text = [NSString stringWithFormat:@"Rank: %d", uc.curRank];
-  progressLabel.text = [NSString stringWithFormat:@"%d/%d", uc.numTasksComplete, _fcp.taskIdsList.count];
+  progressLabel.text = uc.curRank < gl.maxCityRank ? [NSString stringWithFormat:@"%d/%d", uc.numTasksComplete, _fcp.taskIdsList.count] : @"Max";
   cityPopup.center = CGPointMake(cv.center.x+CITY_POPUP_OFFSET, cv.frame.origin.y-cityPopup.frame.size.height/2);
   
   float fullWidth = progressBar.image.size.width;

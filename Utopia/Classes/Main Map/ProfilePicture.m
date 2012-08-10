@@ -482,7 +482,7 @@
     [_expCircle flashNotification];
   }
   
-  [pvc.profileBar incrementWallBadge];
+  [pvc.profileBar incrementProfileBadge];
 }
 
 - (void) dealloc {

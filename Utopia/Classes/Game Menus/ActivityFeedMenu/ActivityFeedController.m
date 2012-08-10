@@ -146,7 +146,7 @@
     if (user) {
       [[ProfileViewController sharedProfileViewController] loadProfileForPlayer:user buttonsEnabled:YES];
     } else {
-      [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kEquipState];
+      [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:notification.otherPlayer withState:kProfileState];
     }
     [ProfileViewController displayView];
     

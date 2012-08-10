@@ -22,6 +22,7 @@
 #import "ActivityFeedController.h"
 #import "Chartboost.h"
 #import "GameViewController.h"
+#import "AttackMenuController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -236,7 +237,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     fontSize = 12.f;
     _questNewLabel = [CCLabelTTF labelWithString:@"1" fontName:@"AJensonPro-BoldCapt" fontSize:fontSize];
     [_questNewBadge addChild:_questNewLabel];
-    _questNewLabel.position = ccp(_questNewBadge.contentSize.width/2, _questNewBadge.contentSize.height/2-1);
+    _questNewLabel.position = ccp(_questNewBadge.contentSize.width/2, _questNewBadge.contentSize.height/2-2);
     
     _trackingEnstBar = NO;
     _trackingCoinBar = NO;
@@ -259,7 +260,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 }
 
 - (void) attackClicked {
-  [MapViewController displayAttackMap];
+  [AttackMenuController displayView];
 }
 
 - (void) questButtonClicked {

@@ -570,7 +570,7 @@
 - (IBAction)allyProfileClicked:(id)sender {
   if ([_selected isKindOfClass:[Ally class]]) {
     Ally *ally = (Ally *)_selected;
-    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:ally.user.minUserProto withState:kEquipState];
+    [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:ally.user.minUserProto withState:kProfileState];
   }
 }
 

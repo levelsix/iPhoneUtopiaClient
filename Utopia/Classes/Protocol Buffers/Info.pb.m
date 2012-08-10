@@ -19,6 +19,17 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL CharacterModTypeIsValidValue(CharacterModType value) {
+  switch (value) {
+    case CharacterModTypeNewPlayer:
+    case CharacterModTypeResetSkillPoints:
+    case CharacterModTypeChangeCharacterType:
+    case CharacterModTypeChangeName:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL AnimationTypeIsValidValue(AnimationType value) {
   switch (value) {
     case AnimationTypeGenericAction:
@@ -660,6 +671,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property BOOL isFake;
 @property BOOL isAdmin;
 @property int32_t numCoinsRetrievedFromStructs;
+@property int32_t numAdColonyVideosWatched;
 @property (retain) NSString* udid;
 @property (retain) NSString* deviceToken;
 @property int64_t lastBattleNotificationTime;
@@ -667,7 +679,6 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 @property int32_t numBadges;
 @property int64_t createTime;
 @property int32_t apsalarId;
-@property int32_t numAdColonyVideosWatched;
 @property int32_t numTimesKiipRewarded;
 @property int32_t numConsecutiveDaysPlayed;
 @end
@@ -950,6 +961,13 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasNumCoinsRetrievedFromStructs_ = !!value;
 }
 @synthesize numCoinsRetrievedFromStructs;
+- (BOOL) hasNumAdColonyVideosWatched {
+  return !!hasNumAdColonyVideosWatched_;
+}
+- (void) setHasNumAdColonyVideosWatched:(BOOL) value {
+  hasNumAdColonyVideosWatched_ = !!value;
+}
+@synthesize numAdColonyVideosWatched;
 - (BOOL) hasUdid {
   return !!hasUdid_;
 }
@@ -999,13 +1017,6 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
   hasApsalarId_ = !!value;
 }
 @synthesize apsalarId;
-- (BOOL) hasNumAdColonyVideosWatched {
-  return !!hasNumAdColonyVideosWatched_;
-}
-- (void) setHasNumAdColonyVideosWatched:(BOOL) value {
-  hasNumAdColonyVideosWatched_ = !!value;
-}
-@synthesize numAdColonyVideosWatched;
 - (BOOL) hasNumTimesKiipRewarded {
   return !!hasNumTimesKiipRewarded_;
 }
@@ -1071,6 +1082,7 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.isFake = NO;
     self.isAdmin = NO;
     self.numCoinsRetrievedFromStructs = 0;
+    self.numAdColonyVideosWatched = 0;
     self.udid = @"";
     self.deviceToken = @"";
     self.lastBattleNotificationTime = 0L;
@@ -1078,7 +1090,6 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
     self.numBadges = 0;
     self.createTime = 0L;
     self.apsalarId = 0;
-    self.numAdColonyVideosWatched = 0;
     self.numTimesKiipRewarded = 0;
     self.numConsecutiveDaysPlayed = 0;
   }
@@ -1586,6 +1597,9 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   if (other.hasNumCoinsRetrievedFromStructs) {
     [self setNumCoinsRetrievedFromStructs:other.numCoinsRetrievedFromStructs];
   }
+  if (other.hasNumAdColonyVideosWatched) {
+    [self setNumAdColonyVideosWatched:other.numAdColonyVideosWatched];
+  }
   if (other.hasUdid) {
     [self setUdid:other.udid];
   }
@@ -1606,9 +1620,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   }
   if (other.hasApsalarId) {
     [self setApsalarId:other.apsalarId];
-  }
-  if (other.hasNumAdColonyVideosWatched) {
-    [self setNumAdColonyVideosWatched:other.numAdColonyVideosWatched];
   }
   if (other.hasNumTimesKiipRewarded) {
     [self setNumTimesKiipRewarded:other.numTimesKiipRewarded];
@@ -2521,6 +2532,22 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
   result.numCoinsRetrievedFromStructs = 0;
   return self;
 }
+- (BOOL) hasNumAdColonyVideosWatched {
+  return result.hasNumAdColonyVideosWatched;
+}
+- (int32_t) numAdColonyVideosWatched {
+  return result.numAdColonyVideosWatched;
+}
+- (FullUserProto_Builder*) setNumAdColonyVideosWatched:(int32_t) value {
+  result.hasNumAdColonyVideosWatched = YES;
+  result.numAdColonyVideosWatched = value;
+  return self;
+}
+- (FullUserProto_Builder*) clearNumAdColonyVideosWatched {
+  result.hasNumAdColonyVideosWatched = NO;
+  result.numAdColonyVideosWatched = 0;
+  return self;
+}
 - (BOOL) hasUdid {
   return result.hasUdid;
 }
@@ -2631,22 +2658,6 @@ static FullUserProto* defaultFullUserProtoInstance = nil;
 - (FullUserProto_Builder*) clearApsalarId {
   result.hasApsalarId = NO;
   result.apsalarId = 0;
-  return self;
-}
-- (BOOL) hasNumAdColonyVideosWatched {
-  return result.hasNumAdColonyVideosWatched;
-}
-- (int32_t) numAdColonyVideosWatched {
-  return result.numAdColonyVideosWatched;
-}
-- (FullUserProto_Builder*) setNumAdColonyVideosWatched:(int32_t) value {
-  result.hasNumAdColonyVideosWatched = YES;
-  result.numAdColonyVideosWatched = value;
-  return self;
-}
-- (FullUserProto_Builder*) clearNumAdColonyVideosWatched {
-  result.hasNumAdColonyVideosWatched = NO;
-  result.numAdColonyVideosWatched = 0;
   return self;
 }
 - (BOOL) hasNumTimesKiipRewarded {

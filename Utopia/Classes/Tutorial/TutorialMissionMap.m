@@ -465,9 +465,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialMissionMap);
          
          int coins = 0;
          if (_doTaskPhase) {
-           int diff = (ftp.maxCoinsGained-ftp.minCoinsGained)/2;
-           int changeFromMid = arc4random() % diff - diff/2;
-           coins = ftp.minCoinsGained+diff+changeFromMid;
+           int diff = (ftp.maxCoinsGained-ftp.minCoinsGained+1);
+           int changeFromMin = arc4random() % diff;
+           coins = ftp.minCoinsGained+changeFromMin;
          } else {
            coins = tutQuest.firstTaskCompleteCoinGain-_coinsGiven;
          }

@@ -119,7 +119,7 @@
 {
   NSMutableArray *offers = [NSMutableArray array];
   [offers addObject:[AdColonySponsoredOffer    create]];
-  [offers addObject:[TapJoySponsoredOffer      create]];
+//  [offers addObject:[TapJoySponsoredOffer      create]];
 /*
  * Disabled Sponsored offers:(Short Term)
  *  

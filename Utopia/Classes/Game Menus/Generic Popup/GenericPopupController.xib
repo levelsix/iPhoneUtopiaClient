@@ -624,6 +624,25 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">GenericPopup</string>
 					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="cancelClicked:">id</string>
+						<string key="greenOkayClicked:">id</string>
+						<string key="redOkayClicked:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="cancelClicked:">
+							<string key="name">cancelClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="greenOkayClicked:">
+							<string key="name">greenOkayClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="redOkayClicked:">
+							<string key="name">redOkayClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="bgdColorView">UIView</string>
 						<string key="blackButtonLabel">UILabel</string>

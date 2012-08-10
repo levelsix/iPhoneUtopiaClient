@@ -16,6 +16,8 @@
 #import "EquipMenuController.h"
 #import "EquipDeltaView.h"
 #import "KiipDelegate.h"
+#import "RefillMenuController.h"
+#import "CharSelectionViewController.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -28,7 +30,7 @@
 #define WALL_POST_LABEL_MIN_Y 28.75
 #define WALL_POST_CELL_OFFSET 5
 #define WALL_POST_FONT [UIFont fontWithName:@"AJensonPro-SemiboldDisp" size:15]
-#define WALL_POST_LABEL_WIDTH 217
+#define WALL_POST_LABEL_WIDTH 242
 
 #define PRICE_DIGITS 7
 
@@ -53,9 +55,12 @@
     switch (state) {
       case kMyProfile:
         
+        profileBadgeView.hidden = _profileBadgeNum <= 0;
+        
         break;
         
       case kOtherPlayerProfile:
+        profileBadgeView.hidden = YES;
         break;
         
       default:
@@ -138,10 +143,12 @@
       break;
       
     case kSpecialButton:
-      specialIcon.highlighted = YES;
-      specialLabel.highlighted = YES;
-      specialButton.highlighted = YES;
-      _clickedButtons |= kSpecialButton;
+      if (self.state == kMyProfile) {
+        specialIcon.highlighted = YES;
+        specialLabel.highlighted = YES;
+        specialButton.highlighted = YES;
+        _clickedButtons |= kSpecialButton;
+      }
       break;
       
     default:
@@ -186,128 +193,156 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:_curEquipSelectedImage];
-  if (!(_clickedButtons & kEquipButton) && [_curEquipSelectedImage pointInside:pt withEvent:nil]) {
+  CGPoint pt = [touch locationInView:profileButton];
+  if (!(_clickedButtons & kProfileButton) && [profileButton pointInside:pt withEvent:nil]) {
+    _trackingProfile = YES;
+    [self clickButton:kProfileButton];
+  }
+  
+  pt = [touch locationInView:equipButton];
+  if (!(_clickedButtons & kEquipButton) && [equipButton pointInside:pt withEvent:nil]) {
     _trackingEquip = YES;
     [self clickButton:kEquipButton];
   }
   
-  if (_state == kMyProfile) {
-    pt = [touch locationInView:_curSkillsSelectedImage];
-    if (!(_clickedButtons & kSkillsButton) && [_curSkillsSelectedImage pointInside:pt withEvent:nil]) {
+  if (self.state == kMyProfile) {
+    pt = [touch locationInView:skillsButton];
+    if (!(_clickedButtons & kSkillsButton) && [skillsButton pointInside:pt withEvent:nil]) {
       _trackingSkills = YES;
       [self clickButton:kSkillsButton];
     }
-  }
-  
-  pt = [touch locationInView:_curWallSelectedImage];
-  if (!(_clickedButtons & kWallButton) && [_curWallSelectedImage pointInside:pt withEvent:nil]) {
-    _trackingWall = YES;
-    [self clickButton:kWallButton];
+    
+    pt = [touch locationInView:specialButton];
+    if (!(_clickedButtons & kSpecialButton) && [specialButton pointInside:pt withEvent:nil]) {
+      _trackingSpecial = YES;
+      [self clickButton:kSpecialButton];
+    }
   }
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:_curEquipSelectedImage];
+  CGPoint pt = [touch locationInView:profileButton];
+  if (_trackingProfile) {
+    if (CGRectContainsPoint(CGRectInset(profileButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kProfileButton];
+    } else {
+      [self unclickButton:kProfileButton];
+    }
+  }
+  
+  pt = [touch locationInView:skillsButton];
+  if (_trackingSkills) {
+    if (CGRectContainsPoint(CGRectInset(skillsButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kSkillsButton];
+    } else {
+      [self unclickButton:kSkillsButton];
+    }
+  }
+  
+  pt = [touch locationInView:equipButton];
   if (_trackingEquip) {
-    if (CGRectContainsPoint(CGRectInset(_curEquipSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+    if (CGRectContainsPoint(CGRectInset(equipButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
       [self clickButton:kEquipButton];
     } else {
       [self unclickButton:kEquipButton];
     }
   }
   
-  if (_state == kMyProfile) {
-    pt = [touch locationInView:_curSkillsSelectedImage];
-    if (_trackingSkills) {
-      if (CGRectContainsPoint(CGRectInset(_curSkillsSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-        [self clickButton:kSkillsButton];
-      } else {
-        [self unclickButton:kSkillsButton];
-      }
-    }
-  }
-  
-  pt = [touch locationInView:_curWallSelectedImage];
-  if (_trackingWall) {
-    if (CGRectContainsPoint(CGRectInset(_curWallSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kWallButton];
+  pt = [touch locationInView:specialButton];
+  if (_trackingSpecial) {
+    if (CGRectContainsPoint(CGRectInset(specialButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kSpecialButton];
     } else {
-      [self unclickButton:kWallButton];
+      [self unclickButton:kSpecialButton];
     }
   }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
-  CGPoint pt = [touch locationInView:_curEquipSelectedImage];
-  if (_trackingEquip) {
-    if (CGRectContainsPoint(CGRectInset(_curEquipSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kEquipButton];
-      [self unclickButton:kWallButton];
+  CGPoint pt = [touch locationInView:profileButton];
+  if (_trackingProfile) {
+    if (CGRectContainsPoint(CGRectInset(profileButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kProfileButton];
+      [self unclickButton:kEquipButton];
       [self unclickButton:kSkillsButton];
-      glowIcon.center = CGPointMake(_curEquipSelectedImage.center.x, glowIcon.center.y);
+      [self unclickButton:kSpecialButton];
+      [[ProfileViewController sharedProfileViewController] setState:kProfileState];
+    } else {
+      [self unclickButton:kProfileButton];
+    }
+  }
+  
+  pt = [touch locationInView:skillsButton];
+  if (_trackingSkills) {
+    if (CGRectContainsPoint(CGRectInset(skillsButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kSkillsButton];
+      [self unclickButton:kEquipButton];
+      [self unclickButton:kProfileButton];
+      [self unclickButton:kSpecialButton];
+      [[ProfileViewController sharedProfileViewController] setState:kSkillsState];
+    } else {
+      [self unclickButton:kSkillsButton];
+    }
+  }
+  
+  pt = [touch locationInView:equipButton];
+  if (_trackingEquip) {
+    if (CGRectContainsPoint(CGRectInset(equipButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kEquipButton];
+      [self unclickButton:kProfileButton];
+      [self unclickButton:kSkillsButton];
+      [self unclickButton:kSpecialButton];
       [[ProfileViewController sharedProfileViewController] setState:kEquipState];
     } else {
       [self unclickButton:kEquipButton];
     }
   }
   
-  if (_state == kMyProfile) {
-    pt = [touch locationInView:_curSkillsSelectedImage];
-    if (_trackingSkills) {
-      if (CGRectContainsPoint(CGRectInset(_curSkillsSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-        [self clickButton:kSkillsButton];
-        [self unclickButton:kEquipButton];
-        [self unclickButton:kWallButton];
-        glowIcon.center = CGPointMake(_curSkillsSelectedImage.center.x, glowIcon.center.y);
-        [[ProfileViewController sharedProfileViewController] setState:kSkillsState];
-      } else {
-        [self unclickButton:kSkillsButton];
-      }
+  pt = [touch locationInView:specialButton];
+  if (_trackingSpecial) {
+    if (CGRectContainsPoint(CGRectInset(specialButton.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
+      [self clickButton:kSpecialButton];
+      [self unclickButton:kEquipButton];
+      [self unclickButton:kSkillsButton];
+      [self unclickButton:kProfileButton];
+      [[ProfileViewController sharedProfileViewController] setState:kSpecialState];
+    } else {
+      [self unclickButton:kSpecialButton];
     }
   }
   
-  pt = [touch locationInView:_curWallSelectedImage];
-  if (_trackingWall) {
-    if (CGRectContainsPoint(CGRectInset(_curWallSelectedImage.bounds, -BUTTON_CLICKED_LEEWAY, -BUTTON_CLICKED_LEEWAY), pt)) {
-      [self clickButton:kWallButton];
-      [self unclickButton:kEquipButton];
-      [self unclickButton:kSkillsButton];
-      glowIcon.center = CGPointMake(_curWallSelectedImage.center.x, glowIcon.center.y);
-      [[ProfileViewController sharedProfileViewController] setState:kWallState];
-    } else {
-      [self unclickButton:kWallButton];
-    }
-  }
+  _trackingProfile = NO;
   _trackingEquip = NO;
   _trackingSkills = NO;
-  _trackingWall = NO;
+  _trackingSpecial = NO;
 }
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  [self unclickButton:kProfileButton];
   [self unclickButton:kEquipButton];
   [self unclickButton:kSkillsButton];
-  [self unclickButton:kWallButton];
+  [self unclickButton:kProfileButton];
+  _trackingProfile = NO;
   _trackingEquip = NO;
   _trackingSkills = NO;
-  _trackingWall = NO;
+  _trackingSpecial = NO;
 }
 
 - (void) dealloc {
   self.equipIcon = nil;
   self.skillsIcon = nil;
-  self.wallIcon = nil;
+  self.profileIcon = nil;
+  self.specialIcon = nil;
   self.equipLabel = nil;
   self.skillsLabel = nil;
-  self.wallLabel = nil;
-  self.equipSelectedLargeImage = nil;
-  self.equipSelectedSmallImage = nil;
-  self.skillsSelectedSmallImage = nil;
-  self.wallSelectedLargeImage = nil;
-  self.wallSelectedSmallImage = nil;
-  self.glowIcon = nil;
+  self.profileLabel = nil;
+  self.specialLabel = nil;
+  self.equipButton = nil;
+  self.skillsButton = nil;
+  self.profileButton = nil;
+  self.specialButton = nil;
   self.profileBadgeView = nil;
   self.profileBadgeLabel = nil;
   [super dealloc];
@@ -317,9 +352,10 @@
 
 @implementation EquipView
 
-@synthesize bgd;
-@synthesize equipIcon, maskedEquipIcon, border;
-@synthesize rarityLabel, attackLabel, defenseLabel;
+@synthesize bgd, border;
+@synthesize equipIcon;
+@synthesize nameLabel;
+@synthesize attackLabel, defenseLabel;
 @synthesize equip;
 @synthesize darkOverlay;
 @synthesize levelIcon;
@@ -341,19 +377,16 @@
   defenseLabel.text = [NSString stringWithFormat:@"%d", [gl calculateDefenseForEquip:ue.equipId level:ue.level]];
   //  equipIcon.image = [Globals imageForEquip:fuep.equipId];
   [Globals loadImageForEquip:fep.equipId toView:equipIcon maskedView:nil];
-  rarityLabel.text = [Globals shortenedStringForRarity:fep.rarity];
-  rarityLabel.textColor = [Globals colorForRarity:fep.rarity];
+  nameLabel.text = fep.name;
+  nameLabel.textColor = [Globals colorForRarity:fep.rarity];
   levelIcon.level = ue.level;
   
   self.equip = ue;
   
   if ([Globals canEquip:fep]) {
     bgd.highlighted = NO;
-    maskedEquipIcon.hidden = YES;
   } else {
     bgd.highlighted = YES;
-    maskedEquipIcon.image =[Globals maskImage:equipIcon.image withColor:[Globals colorForUnequippable]];
-    maskedEquipIcon.hidden = NO;
   }
 }
 
@@ -385,9 +418,8 @@
 - (void) dealloc {
   self.bgd = nil;
   self.equipIcon = nil;
-  self.maskedEquipIcon = nil;
   self.border = nil;
-  self.rarityLabel = nil;
+  self.nameLabel = nil;
   self.attackLabel = nil;
   self.defenseLabel = nil;
   self.equip = nil;
@@ -400,80 +432,69 @@
 
 @implementation CurrentEquipView
 
-@synthesize equipIcon, label, chooseEquipButton, border, unknownLabel, levelIcon;
+@synthesize equipIcon, levelIcon, selectedView, typeLabel;
 @synthesize selected = _selected;
 
 - (void) awakeFromNib {
-  [super awakeFromNib];
-  
-  unknownLabel = [[UILabel alloc] initWithFrame:equipIcon.frame];
-  CGRect r = unknownLabel.frame;
-  r.origin.y += 5;
-  unknownLabel.frame = r;
-  
-  unknownLabel.clipsToBounds = NO;
-  unknownLabel.font = [UIFont fontWithName:@"Trajan Pro" size:30];
-  unknownLabel.text = @"?";
-  unknownLabel.textColor = [Globals colorForUnknownEquip];
-  unknownLabel.backgroundColor = [UIColor clearColor];
-  unknownLabel.textAlignment = UITextAlignmentCenter;
-  
-  [self.superview addSubview:unknownLabel];
+  self.selectedView.hidden = YES;
 }
 
 - (void) setSelected:(BOOL)selected {
   if (selected != _selected) {
     _selected = selected;
-    border.hidden = _selected ? NO : YES;
+    self.selectedView.hidden = !_selected;
   }
 }
 
 - (void) unknownEquip {
-  label.text = @"Unknown";
-  label.textColor = [Globals colorForUnknownEquip];
-  
-  unknownLabel.hidden = NO;
-  chooseEquipButton.hidden = YES;
   equipIcon.hidden = YES;
   levelIcon.level = 0;
 }
 
 - (void) knownEquip {
-  unknownLabel.hidden = YES;
-  chooseEquipButton.hidden = NO;
   equipIcon.hidden = NO;
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  border.hidden = _selected ? YES : NO;
+  if (!_selected) {
+    selectedView.hidden = NO;
+    typeLabel.highlighted = NO;
+  }
 }
 
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
-    border.hidden = _selected ? YES : NO;
-  } else {
-    border.hidden = _selected ? NO : YES;
+  if (!_selected) {
+    if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
+      selectedView.hidden = NO;
+      typeLabel.highlighted = NO;
+    } else {
+      selectedView.hidden = YES;
+      typeLabel.highlighted = YES;
+    }
   }
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
-    _selected = !_selected;
-    [[ProfileViewController sharedProfileViewController] currentEquipViewSelected:self];
+  if (!_selected) {
+    if ([self pointInside:[[touches anyObject] locationInView:self] withEvent:event]) {
+      self.selected = YES;
+      [[ProfileViewController sharedProfileViewController] currentEquipViewSelected:self];
+    }
   }
 }
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  border.hidden = _selected ? NO : YES;
+  if (!_selected) {
+    selectedView.hidden = YES;
+    typeLabel.highlighted = YES;
+  }
 }
 
 - (void) dealloc {
   self.equipIcon = nil;
-  self.label = nil;
-  self.chooseEquipButton = nil;
-  self.border = nil;
-  self.unknownLabel = nil;
   self.levelIcon = nil;
+  self.selectedView = nil;
+  self.typeLabel = nil;
   
   [super dealloc];
 }
@@ -513,10 +534,12 @@
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [postedPriceTextField resignFirstResponder];
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
-    [self removeFromSuperview];
-  }];
+  if (self.superview) {
+    [postedPriceTextField resignFirstResponder];
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
+      [self removeFromSuperview];
+    }];
+  }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -599,12 +622,14 @@
 }
 
 - (IBAction)closeClicked:(id)sender {
-  [[ProfileViewController sharedProfileViewController] loadMyProfile];
-  [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
-    [self removeFromSuperview];
-  }];
-  
-  [self.mktPostView closeClicked:nil];
+  if (self.superview) {
+    [[ProfileViewController sharedProfileViewController] loadMyProfile];
+    [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^(void) {
+      [self removeFromSuperview];
+    }];
+    
+    [self.mktPostView closeClicked:nil];
+  }
 }
 
 - (IBAction)wrongClassClicked:(id)sender {
@@ -858,7 +883,7 @@
   NSIndexPath *path = [wallTableView indexPathForCell:cell];
   PlayerWallPostProto *proto = [wallPosts objectAtIndex:path.row];
   
-  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster withState:kWallState];
+  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:proto.poster withState:kProfileState];
 }
 
 - (void) dealloc {
@@ -871,6 +896,82 @@
 
 @end
 
+@implementation EquipTableViewDelegate
+
+@synthesize nibEquipView;
+
+- (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
+  [_equips release];
+  _equips = [equips retain];
+  [self setCurWeapon:weapon curArmor:armor curAmulet:amulet];
+}
+
+- (void) setCurWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
+  _weaponId = weapon;
+  _armorId = armor;
+  _amuletId = amulet;
+}
+
+- (int) numberOfSectionsInTableView:(UITableView *)tableView {
+  return 1;
+}
+
+- (void) loadEquipsForScope:(EquipScope)scope {
+  [_equipsForScope release];
+  _equipsForScope = [[NSMutableArray alloc] init];
+  
+  GameState *gs = [GameState sharedGameState];
+  for (UserEquip *ue in _equips) {
+    FullEquipProto *fep = [gs equipWithId:ue.equipId];
+    if (scope == kEquipScopeWeapons && fep.equipType == FullEquipProto_EquipTypeWeapon) {
+      [_equipsForScope addObject:ue];
+    } else if (scope == kEquipScopeArmor && fep.equipType == FullEquipProto_EquipTypeArmor) {
+      [_equipsForScope addObject:ue];
+    } else if (scope == kEquipScopeAmulets && fep.equipType == FullEquipProto_EquipTypeAmulet) {
+      [_equipsForScope addObject:ue];
+    }
+  }
+}
+
+- (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  return _equipsForScope.count;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  EquipView *cell = [tableView dequeueReusableCellWithIdentifier:@"EquipView"];
+  
+  if (!cell) {
+    [[NSBundle mainBundle] loadNibNamed:@"EquipView" owner:self options:nil];
+    cell = self.nibEquipView;
+  }
+  
+  UserEquip *ue = [_equipsForScope objectAtIndex:indexPath.row];
+  [cell updateForEquip:ue];
+  cell.tag = ue.userEquipId;
+  
+  GameState *gs = [GameState sharedGameState];
+  FullEquipProto *fep = [gs equipWithId:ue.equipId];
+  if (fep.equipType == FullEquipProto_EquipTypeWeapon && ue.userEquipId == _weaponId) {
+    cell.border.hidden = NO;
+  } else if (fep.equipType == FullEquipProto_EquipTypeArmor && ue.userEquipId == _armorId) {
+    cell.border.hidden = NO;
+  } else if (fep.equipType == FullEquipProto_EquipTypeAmulet && ue.userEquipId == _amuletId) {
+    cell.border.hidden = NO;
+  } else {
+    cell.border.hidden = YES;
+  }
+  
+  return cell;
+}
+
+- (void) dealloc {
+  [_equips release];
+  self.nibEquipView = nil;
+  [super dealloc];
+}
+
+@end
+
 @implementation ProfileViewController
 
 @synthesize state = _state, curScope = _curScope;
@@ -878,8 +979,7 @@
 @synthesize winsLabel, lossesLabel, fleesLabel;
 @synthesize curArmorView, curAmuletView, curWeaponView;
 @synthesize profilePicture, profileBar;
-@synthesize equipViews, nibEquipView, equipsScrollView;
-@synthesize unequippableView, unequippableLabel;
+@synthesize equipsTableView;
 @synthesize equippingView, equipTabView, skillTabView, wallTabView;
 @synthesize attackStatLabel, defenseStatLabel, staminaStatLabel, energyStatLabel;
 @synthesize attackStatButton, defenseStatButton, staminaStatButton, energyStatButton;
@@ -888,10 +988,13 @@
 @synthesize selfLeftView, enemyLeftView, friendLeftView;
 @synthesize visitButton, smallAttackButton, bigAttackButton;
 @synthesize spinner;
-@synthesize mainView, bgdView;
+@synthesize mainView, bgdView, loadingView;
 @synthesize fup = _fup;
 @synthesize userId;
 @synthesize equipPopup;
+@synthesize specialTabView, profileTabView;
+@synthesize nameChangeView, nameChangeTextField, equipHeaderLabel;
+@synthesize equipsTableDelegate;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -900,36 +1003,40 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [super viewDidLoad];
   // Do any additional setup after loading the view from its nib.
   
-  self.equipViews = [NSMutableArray array];
-  
   equippingView = [[UIImageView alloc] init];
   equippingView.contentMode = UIViewContentModeScaleAspectFit;
   [equipTabView addSubview:equippingView];
   equippingView.hidden = YES;
   
-  skillTabView.frame = equipTabView.frame;
-  [self.mainView addSubview:skillTabView];
+  skillTabView.frame = profileTabView.frame;
+  [self.mainView insertSubview:skillTabView aboveSubview:profileTabView];
   
-  wallTabView.frame = equipTabView.frame;
-  [self.mainView addSubview:wallTabView];
+  specialTabView.frame = profileTabView.frame;
+  [self.mainView insertSubview:specialTabView aboveSubview:profileTabView];
   
-  enemyMiddleView.frame = equipsScrollView.frame;
+  equipTabView.frame = profileTabView.frame;
+  [self.mainView insertSubview:equipTabView aboveSubview:profileTabView];
+  
+  enemyMiddleView.frame = equipsTableView.frame;
   [equipTabView addSubview:enemyMiddleView];
   
-  selfLeftView.frame = enemyLeftView.frame;
-  [self.mainView addSubview:selfLeftView];
+  enemyLeftView.frame = selfLeftView.frame;
+  [selfLeftView.superview addSubview:enemyLeftView];
   
   friendLeftView.frame = enemyLeftView.frame;
-  [self.mainView addSubview:friendLeftView];
+  [selfLeftView.superview addSubview:friendLeftView];
   
   // Start state at 0 so that when it gets unloaded it won't be ignored
   _state = 0;
-  self.state = kEquipState;
-  _curScope = kEquipScopeAll;
-}
-
-- (void) didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
+  self.state = kProfileState;
+  _curScope = kEquipScopeWeapons;
+  self.curWeaponView.selected = YES;
+  
+  EquipTableViewDelegate *del = [[EquipTableViewDelegate alloc] init];
+  self.equipsTableView.delegate = del;
+  self.equipsTableView.dataSource = del;
+  self.equipsTableDelegate = del;
+  [del release];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -951,24 +1058,35 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   if (state != _state) {
     
     switch (state) {
+      case kProfileState:
+        profileTabView.hidden = NO;
+        equipTabView.hidden = YES;
+        skillTabView.hidden = YES;
+        specialTabView.hidden = YES;
+        [self.profileBar setProfileState:state];
+        break;
+        
       case kEquipState:
+        profileTabView.hidden = YES;
         equipTabView.hidden = NO;
         skillTabView.hidden = YES;
-        wallTabView.hidden = YES;
+        specialTabView.hidden = YES;
         [self.profileBar setProfileState:state];
         break;
         
       case kSkillsState:
+        profileTabView.hidden = YES;
         equipTabView.hidden = YES;
         skillTabView.hidden = NO;
-        wallTabView.hidden = YES;
+        specialTabView.hidden = YES;
         [self.profileBar setProfileState:state];
         break;
         
-      case kWallState:
+      case kSpecialState:
+        profileTabView.hidden = YES;
         equipTabView.hidden = YES;
         skillTabView.hidden = YES;
-        wallTabView.hidden = NO;
+        specialTabView.hidden = NO;
         [self.profileBar setProfileState:state];
         break;
         
@@ -982,51 +1100,56 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) setCurScope:(EquipScope)curScope {
   _curScope = curScope;
-  [self updateScrollViewForCurrentScope:YES];
-}
-
-- (CGPoint) centerForCell:(int)cellNum equipView:(EquipView *)ev {
-  int x = equipsScrollView.frame.size.width/2 + ((cellNum % 3)-1)*(ev.frame.size.width+EQUIPS_HORIZONTAL_SEPARATION);
-  int y = (cellNum/3*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+ev.frame.size.height/2+EQUIPS_VERTICAL_SEPARATION;
-  return CGPointMake(x, y);
+  [self updateScrollViewForCurrentScope];
+  
+  if (_curScope == kEquipScopeWeapons) {
+    self.equipHeaderLabel.text = @"ALL WEAPONS";
+  } else if (_curScope == kEquipScopeArmor) {
+    self.equipHeaderLabel.text = @"ALL ARMOR";
+  } else if (_curScope == kEquipScopeAmulets) {
+    self.equipHeaderLabel.text = @"ALL AMULETS";
+  }
 }
 
 - (void) doEquip:(UserEquip *)equip {
   FullEquipProto *fep = [[GameState sharedGameState] equipWithId:equip.equipId];
-  for (EquipView *ev in equipViews) {
+  EquipView *e = nil;
+  for (EquipView *ev in equipsTableView.visibleCells) {
     if (ev.equip == equip) {
-      [[OutgoingEventController sharedOutgoingEventController] wearEquip:equip.userEquipId];
-      [self doEquippingAnimation:ev forType:fep.equipType];
+      e = ev;
     }
   }
   
-  [self displayMyCurrentStats];
+  [[OutgoingEventController sharedOutgoingEventController] wearEquip:equip.userEquipId];
+  if (e) {
+    [self doEquippingAnimation:e forType:fep.equipType];
+    
+    GameState *gs = [GameState sharedGameState];
+    [self.equipsTableDelegate setCurWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped];
+    
+    [self.equipsTableView reloadData];
+    
+    [self displayMyCurrentStats];
+  }
 }
 
 - (void) doEquippingAnimation:(EquipView *)ev forType:(FullEquipProto_EquipType)type {
-  equippingView.frame = [equipTabView convertRect:ev.equipIcon.frame fromView:ev];
+  equippingView.frame = [equipTabView convertRect:ev.equipIcon.frame fromView:ev.equipIcon.superview];
   equippingView.image = ev.equipIcon.image;
   equippingView.hidden = NO;
   [equippingView.layer removeAllAnimations];
   
   CurrentEquipView *cev;
-  EquipView *curBorderView;
   
   switch (type) {
     case FullEquipProto_EquipTypeWeapon:
       cev = curWeaponView;
-      curBorderView = _weaponEquipView;
-      _weaponEquipView = ev;
       break;
     case FullEquipProto_EquipTypeArmor:
       cev = curArmorView;
-      curBorderView = _armorEquipView;
-      _armorEquipView = ev;
       break;
     case FullEquipProto_EquipTypeAmulet:
       cev = curAmuletView;
-      curBorderView = _amuletEquipView;
-      _amuletEquipView = ev;
       break;
       
     default:
@@ -1035,9 +1158,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   cev.equipIcon.image = ev.equipIcon.image;
   cev.equipIcon.alpha = 0.25f;
-  cev.chooseEquipButton.hidden = YES;
   cev.equipIcon.hidden = NO;
-  ev.border.alpha = 0.f;
   
   [UIView beginAnimations:nil context:nil];
   [UIView setAnimationDuration:EQUIPPING_DURATION];
@@ -1045,22 +1166,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [UIView setAnimationDelegate:self];
   [UIView setAnimationDidStopSelector:@selector(finishedEquippingAnimation)];
   
-  equippingView.frame = cev.equipIcon.frame;
-  curBorderView.border.alpha = 0.f;
-  ev.border.alpha = 1.f;
+  equippingView.frame = [equipTabView convertRect:cev.equipIcon.frame fromView:cev.equipIcon.superview];
   
   [UIView commitAnimations];
-  
-  FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ev.equip.equipId];
-  
-  CATransition *labelAnimation = [CATransition animation];
-  labelAnimation.duration = EQUIPPING_DURATION;
-  labelAnimation.type = kCATransitionFade;
-  [cev.label.layer removeAnimationForKey:@"changeTextTransition"];
-  [cev.label.layer addAnimation:labelAnimation forKey:@"changeTextTransition"];
-  
-  cev.label.text = fep.name;
-  cev.label.textColor = [Globals colorForRarity:fep.rarity];
   cev.levelIcon.level = ev.equip.level;
 }
 
@@ -1069,10 +1177,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   curWeaponView.equipIcon.alpha = 1.f;
   curArmorView.equipIcon.alpha = 1.f;
   curAmuletView.equipIcon.alpha = 1.f;
-  
-  [curWeaponView.label.layer removeAnimationForKey:@"changeTextTransition"];
-  [curArmorView.label.layer removeAnimationForKey:@"changeTextTransition"];
-  [curAmuletView.label.layer removeAnimationForKey:@"changeTextTransition"];
 }
 
 - (void) equipViewSelected:(EquipView *)ev {
@@ -1089,56 +1193,30 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) currentEquipViewSelected:(CurrentEquipView *)cev {
-  // Synchronize this method, cuz otherwise there are random race conditions
-  // for letting go of another button while this is being evaluated
   EquipScope scope = 0;
   
   if (cev == curWeaponView) {
     scope = kEquipScopeWeapons;
-    
-    if (scope == _curScope) {
-      scope = kEquipScopeAll;
-      curWeaponView.selected = NO;
-      curArmorView.selected = NO;
-      curAmuletView.selected = NO;
-    } else {
-      curWeaponView.selected = YES;
-      curArmorView.selected = NO;
-      curAmuletView.selected = NO;
-    }
+    curWeaponView.selected = YES;
+    curArmorView.selected = NO;
+    curAmuletView.selected = NO;
   } else if (cev == curArmorView) {
     scope = kEquipScopeArmor;
-    
-    if (scope == _curScope) {
-      scope = kEquipScopeAll;
-      curWeaponView.selected = NO;
-      curArmorView.selected = NO;
-      curAmuletView.selected = NO;
-    } else {
-      curWeaponView.selected = NO;
-      curArmorView.selected = YES;
-      curAmuletView.selected = NO;
-    }
+    curWeaponView.selected = NO;
+    curArmorView.selected = YES;
+    curAmuletView.selected = NO;
   } else if (cev == curAmuletView) {
     scope = kEquipScopeAmulets;
-    
-    if (scope == _curScope) {
-      scope = kEquipScopeAll;
-      curWeaponView.selected = NO;
-      curArmorView.selected = NO;
-      curAmuletView.selected = NO;
-    } else {
-      curWeaponView.selected = NO;
-      curArmorView.selected = NO;
-      curAmuletView.selected = YES;
-    }
+    curWeaponView.selected = NO;
+    curArmorView.selected = NO;
+    curAmuletView.selected = YES;
   } else {
     [Globals popupMessage:@"Error attaining scope value"];
   }
   
   self.curScope = scope;
   
-  [self.equipsScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+  [self.equipsTableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (NSArray *) sortEquips:(NSArray *)equips {
@@ -1172,51 +1250,12 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   return toRet;
 }
 
-- (NSArray *) equipViewsForScope:(EquipScope) scope {
-  if (scope == kEquipScopeAll) {
-    return equipViews;
-  }
-  
-  NSMutableArray *arr = [NSMutableArray array];
-  for (EquipView *ev in equipViews) {
-    FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ev.equip.equipId];
-    if (scope == kEquipScopeWeapons && fep.equipType == FullEquipProto_EquipTypeWeapon) {
-      [arr addObject:ev];
-    } else if (scope == kEquipScopeArmor && fep.equipType == FullEquipProto_EquipTypeArmor) {
-      [arr addObject:ev];
-    } else if (scope == kEquipScopeAmulets && fep.equipType == FullEquipProto_EquipTypeAmulet) {
-      [arr addObject:ev];
-    }
-  }
-  return arr;
+- (void) updateScrollViewForCurrentScope {
+  [self.equipsTableDelegate loadEquipsForScope:self.curScope];
+  [self.equipsTableView reloadData];
 }
 
-- (void) updateScrollViewForCurrentScope:(BOOL)animated {
-  NSArray *toDisplay = [self equipViewsForScope:self.curScope];
-  EquipView *ev = nil;
-  int j = 0;
-  if (animated) {
-    [UIView beginAnimations:nil context:nil];
-  }
-  for (int i = 0; i < equipViews.count; i++) {
-    ev = [equipViews objectAtIndex:i];
-    if ([toDisplay containsObject:ev]) {
-      ev.alpha = 1.0;
-      ev.center = [self centerForCell:j equipView:ev];
-      ev.tag = j;
-      j++;
-    } else {
-      ev.tag = -1;
-      ev.alpha = 0.0;
-    }
-  }
-  if (animated) {
-    [UIView commitAnimations];
-  }
-  equipsScrollView.contentSize = CGSizeMake(equipsScrollView.frame.size.width,(((j+2)/3)*(ev.frame.size.height+EQUIPS_VERTICAL_SEPARATION))+EQUIPS_VERTICAL_SEPARATION);
-}
-
-- (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet touchEnabled:(BOOL)touchEnabled {
+- (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
   GameState *gs = [GameState sharedGameState];
   
   BOOL weaponFound = NO, armorFound = NO, amuletFound = NO;
@@ -1225,112 +1264,67 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [curArmorView knownEquip];
   [curAmuletView knownEquip];
   
-  curWeaponView.userInteractionEnabled = touchEnabled;
-  curArmorView.userInteractionEnabled = touchEnabled;
-  curAmuletView.userInteractionEnabled = touchEnabled;
+  // Sort equips by equippable and then non-equippable.
+  NSMutableArray *equippables = [NSMutableArray array];
+  NSMutableArray *unequippables = [NSMutableArray array];
   
-  equips = [self sortEquips:equips];
-  EquipView *ev;
+  for (UserEquip *ue in equips) {
+    FullEquipProto *fep = [gs equipWithId:ue.equipId];
+    if ([Globals canEquip:fep]) {
+      [equippables addObject:ue];
+    } else {
+      [unequippables addObject:ue];
+    }
+  }
+  
+  equips = [[self sortEquips:equippables].mutableCopy arrayByAddingObjectsFromArray:[self sortEquips:unequippables]];
+  [self.equipsTableDelegate loadEquips:equips curWeapon:weapon curArmor:armor curAmulet:amulet];
+  
   int i;
   
   for (i = 0; i < equips.count; i++) {
     UserEquip *ue = [equips objectAtIndex:i];
     FullEquipProto *fep = [gs equipWithId:ue.equipId];
-    if (i < equipViews.count) {
-      ev = [equipViews objectAtIndex:i];
-    } else {
-      [[NSBundle mainBundle] loadNibNamed:@"EquipView" owner:self options:nil];
-      ev = self.nibEquipView;
-      [equipViews addObject:ev];
-      [equipsScrollView addSubview:ev];
-      self.nibEquipView = nil;
-    }
-    
-    [ev updateForEquip:ue];
     
     // check if this item is equipped
     if (ue.userEquipId == weapon && fep.equipType == FullEquipProto_EquipTypeWeapon) {
-      curWeaponView.label.text = fep.name;
-      curWeaponView.label.textColor = [Globals colorForRarity:fep.rarity];
       curWeaponView.levelIcon.level = ue.level;
       [Globals loadImageForEquip:fep.equipId toView:curWeaponView.equipIcon maskedView:nil];
       curWeaponView.equipIcon.hidden = NO;
-      curWeaponView.chooseEquipButton.hidden = YES;
-      
-      ev.border.alpha = 1.f;
-      _weaponEquipView = ev;
       weaponFound = YES;
     } else if (ue.userEquipId == armor && fep.equipType == FullEquipProto_EquipTypeArmor) {
-      curArmorView.label.text = fep.name;
-      curArmorView.label.textColor = [Globals colorForRarity:fep.rarity];
       curArmorView.levelIcon.level = ue.level;
       [Globals loadImageForEquip:fep.equipId toView:curArmorView.equipIcon maskedView:nil];
       curArmorView.equipIcon.hidden = NO;
-      curArmorView.chooseEquipButton.hidden = YES;
-      
-      ev.border.alpha = 1.f;
-      _armorEquipView = ev;
       armorFound = YES;
     } else if (ue.userEquipId == amulet && fep.equipType == FullEquipProto_EquipTypeAmulet) {
-      curAmuletView.label.text = fep.name;
-      curAmuletView.label.textColor = [Globals colorForRarity:fep.rarity];
       curAmuletView.levelIcon.level = ue.level;
       [Globals loadImageForEquip:fep.equipId toView:curAmuletView.equipIcon maskedView:nil];
       curAmuletView.equipIcon.hidden = NO;
-      curAmuletView.chooseEquipButton.hidden = YES;
-      
-      ev.border.alpha = 1.f;
-      _amuletEquipView = ev;
       amuletFound = YES;
-    } else {
-      ev.border.alpha = 0.f;
     }
   }
   
-  // Now remove the rest of the equipViews..
-  while (i < equipViews.count) {
-    [[equipViews objectAtIndex:i] removeFromSuperview];
-    i++;
-  }
-  [equipViews removeObjectsInRange:NSMakeRange(equips.count, equipViews.count-equips.count)];
-  
-  curWeaponView.selected = NO;
-  curArmorView.selected = NO;
-  curAmuletView.selected = NO;
-  [self updateScrollViewForCurrentScope:NO];
+  // Reload the cur scope
+  self.curScope = self.curScope;
   
   if (!weaponFound) {
     if (weapon > 0) {
       [Globals popupMessage:@"Unable to find equipped weapon for this player"];
     }
-    curWeaponView.label.text = @"No Weapon";
-    curWeaponView.label.textColor = [Globals colorForUnknownEquip];
-    curWeaponView.equipIcon.hidden = YES;
-    curWeaponView.chooseEquipButton.hidden = NO;
-    curWeaponView.levelIcon.level = 0;
-    _weaponEquipView = nil;
+    [curWeaponView unknownEquip];
   }
   if (!armorFound) {
     if (armor > 0) {
       [Globals popupMessage:@"Unable to find equipped armor for this player"];
     }
-    curArmorView.label.text = @"No Armor";
-    curArmorView.label.textColor = [Globals colorForUnknownEquip];
-    curArmorView.equipIcon.hidden = YES;
-    curArmorView.chooseEquipButton.hidden = NO;
-    curArmorView.levelIcon.level = 0;
-    _armorEquipView = nil;
+    [curArmorView unknownEquip];
   }
   if (!amuletFound) {
     if (amulet > 0) {
       [Globals popupMessage:@"Unable to find equipped amulet for this player"];
     }
-    curAmuletView.label.text = @"No Amulet";
-    curAmuletView.label.textColor = [Globals colorForUnknownEquip];
-    curAmuletView.equipIcon.hidden = YES;
-    curAmuletView.chooseEquipButton.hidden = NO;
-    curAmuletView.levelIcon.level = 0;
-    _amuletEquipView = nil;
+    [curAmuletView unknownEquip];
   }
 }
 
@@ -1348,21 +1342,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   winsLabel.text = [NSString stringWithFormat:@"%d", fup.battlesWon];
   lossesLabel.text = [NSString stringWithFormat:@"%d", fup.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", fup.flees];
-  levelLabel.text = [NSString stringWithFormat:@"%d", fup.level];
+  levelLabel.text = [NSString stringWithFormat:@"Level %d", fup.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:fup.userType], [Globals classForUserType:fup.userType]];
   attackLabel.text = @"?";
   defenseLabel.text = @"?";
   
-  _curScope = kEquipScopeAll;
+  _curScope = kEquipScopeWeapons;
   
-  equipsScrollView.hidden = isEnemy;
+  equipsTableView.hidden = isEnemy;
   enemyMiddleView.hidden = !isEnemy;
   
   enemyLeftView.hidden = !isEnemy;
   friendLeftView.hidden = isEnemy;
   selfLeftView.hidden = YES;
   
-  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
+  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0];
   
   enemyAttackLabel.text = [NSString stringWithFormat:@"Attack %@ to see Equipment", fup.name];
   
@@ -1373,6 +1367,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   smallAttackButton.enabled = enabled;
   bigAttackButton.enabled = enabled;
   
+  curWeaponView.selected = YES;
+  curArmorView.selected = NO;
+  curAmuletView.selected = NO;
+  self.curScope = kEquipScopeWeapons;
   
   if (self.state == kSkillsState) {
     self.state = kEquipState;
@@ -1425,7 +1423,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   [self loadProfileForPlayer:fup buttonsEnabled:YES];
   
-  equipsScrollView.hidden = NO;
+  equipsTableView.hidden = NO;
   enemyMiddleView.hidden = YES;
   Globals *globals = [Globals sharedGlobals];
   attack  = [globals calculateAttackForAttackStat:_fup.attack
@@ -1447,7 +1445,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   }
   
   if (equips) {
-    [self loadEquips:equips curWeapon:fup.weaponEquippedUserEquip.userEquipId curArmor:fup.armorEquippedUserEquip.userEquipId curAmulet:fup.amuletEquippedUserEquip.userEquipId touchEnabled:NO];
+    [self loadEquips:equips curWeapon:fup.weaponEquippedUserEquip.userEquipId curArmor:fup.armorEquippedUserEquip.userEquipId curAmulet:fup.amuletEquippedUserEquip.userEquipId];
   } else {
     self.spinner.hidden = NO;
     [self.spinner startAnimating];
@@ -1466,6 +1464,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) receivedFullUserProtos:(NSArray *)protos {
+  GameState *gs = [GameState sharedGameState];
   for (FullUserProto *fup in protos) {
     if (fup.userId == userId) {
       ProfileState st = self.state;
@@ -1473,22 +1472,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       self.state = st;
       
       if (_queuedEquips || _fup.isFake) {
-        // Just set this so that updateEquips runs
-        _waitingForEquips = YES;
-        
-        NSArray *equips = _fup.isFake ? [self createFakeEquipsForFakePlayer:_fup] : _queuedEquips;
-        [self updateEquips:equips];
-        [_queuedEquips release];
-        _queuedEquips = nil;
+        if ([Globals userType:_fup.userType isAlliesWith:gs.type]) {
+          // Just set this so that updateEquips runs
+          _waitingForEquips = YES;
+          
+          NSArray *equips = _fup.isFake ? [self createFakeEquipsForFakePlayer:_fup] : _queuedEquips;
+          [self updateEquips:equips];
+          [_queuedEquips release];
+          _queuedEquips = nil;
+        }
       } else {
         _waitingForEquips = YES;
         
-        GameState *gs = [GameState sharedGameState];
         if ([Globals userType:fup.userType isAlliesWith:gs.type]) {
           self.spinner.hidden = NO;
           [self.spinner startAnimating];
           
-          [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
+          [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0];
         }
       }
     }
@@ -1519,7 +1519,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     self.spinner.hidden = YES;
     [self.spinner stopAnimating];
     // Make sure to create UserEquip array
-    [self loadEquips:[self userEquipArrayFromFullUserEquipProtos:equips] curWeapon:_fup.weaponEquippedUserEquip.userEquipId curArmor:_fup.armorEquippedUserEquip.userEquipId curAmulet:_fup.amuletEquippedUserEquip.userEquipId touchEnabled:NO];
+    [self loadEquips:[self userEquipArrayFromFullUserEquipProtos:equips] curWeapon:_fup.weaponEquippedUserEquip.userEquipId curArmor:_fup.armorEquippedUserEquip.userEquipId curAmulet:_fup.amuletEquippedUserEquip.userEquipId];
     _waitingForEquips = NO;
     
     Globals *gl = [Globals sharedGlobals];
@@ -1576,7 +1576,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   wallTabView.wallPosts = nil;
   
-  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0 touchEnabled:NO];
+  [self loadEquips:nil curWeapon:0 curArmor:0 curAmulet:0];
   
   // Make equip spinner spin
   self.enemyMiddleView.hidden = YES;
@@ -1610,18 +1610,26 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   winsLabel.text = [NSString stringWithFormat:@"%d", gs.battlesWon];
   lossesLabel.text = [NSString stringWithFormat:@"%d", gs.battlesLost];
   fleesLabel.text = [NSString stringWithFormat:@"%d", gs.flees];
-  levelLabel.text = [NSString stringWithFormat:@"%d", gs.level];
+  levelLabel.text = [NSString stringWithFormat:@"Level %d", gs.level];
   typeLabel.text = [NSString stringWithFormat:@"%@ %@", [Globals factionForUserType:gs.type], [Globals classForUserType:gs.type]];
   codeLabel.text = gs.referralCode;
   
   [self displayMyCurrentStats];
   
-  [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped touchEnabled:YES];
-  self.profileBar.state = kMyProfile;
-  [self loadSkills];
-  self.state = kEquipState;
+  [self loadEquips:gs.myEquips curWeapon:gs.weaponEquipped curArmor:gs.armorEquipped curAmulet:gs.amuletEquipped];
   
-  equipsScrollView.hidden = NO;
+  if (self.profileBar.state != kMyProfile) {
+    self.profileBar.state = kMyProfile;
+    self.state = kProfileState;
+    
+    curWeaponView.selected = YES;
+    curArmorView.selected = NO;
+    curAmuletView.selected = NO;
+    self.curScope = kEquipScopeWeapons;
+  }
+  [self loadSkills];
+  
+  equipsTableView.hidden = NO;
   enemyMiddleView.hidden = YES;
   
   self.spinner.hidden = YES;
@@ -1709,6 +1717,123 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   [self displayMyCurrentStats];
 }
 
+// Special screen IBActions
+- (IBAction)resetSkillsClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  int cost = gl.diamondCostToResetSkillPoints;
+  NSString *str = [NSString stringWithFormat:@"Would you like to reset your skill points%@?", cost > 0 ? [NSString stringWithFormat:@" for %d gold", cost] : @""];
+  [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(resetSkills)];
+  
+  [Analytics attemptedStatReset];
+}
+
+- (void) resetSkills {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int cost = gl.diamondCostToResetSkillPoints;
+  if (gs.gold >= cost) {
+    [self.loadingView display:self.view];
+    [[OutgoingEventController sharedOutgoingEventController] resetStats];
+    
+    [Analytics statReset];
+  } else {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+  }
+}
+
+- (IBAction)changeTypeClicked:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  int cost = gl.diamondCostToChangeCharacterType;
+  NSString *str = [NSString stringWithFormat:@"Would you like to reset your skill points%@?", cost > 0 ? [NSString stringWithFormat:@" for %d gold", cost] : @""];
+  [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(changeType)];
+  
+  [Analytics attemptedTypeChange];
+}
+
+- (void) changeType {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int cost = gl.diamondCostToChangeCharacterType;
+  if (gs.gold >= cost) {
+    CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
+    [Globals displayUIView:csvc.view];
+  } else {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+  }
+}
+
+- (IBAction)resetGame:(id)sender {
+  Globals *gl = [Globals sharedGlobals];
+  int cost = gl.diamondCostToResetCharacter;
+  NSString *str = [NSString stringWithFormat:@"Would you like to reset your game%@?", cost > 0 ? [NSString stringWithFormat:@" for %d gold", cost] : @""];
+  [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(resetGame)];
+  
+  [Analytics attemptedResetGame];
+}
+
+- (void) resetGame {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int cost = gl.diamondCostToResetCharacter;
+  if (gs.gold >= cost) {
+    [self.loadingView display:self.view];
+    [[OutgoingEventController sharedOutgoingEventController] resetGame];
+    
+    [Analytics resetGame];
+  } else {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+  }
+}
+
+- (IBAction)changeName:(id)sender {
+  [GenericPopupController displayNotificationViewWithMiddleView:self.nameChangeView title:@"Change Name?" okayButton:nil target:self selector:@selector(changeName)];
+  [self.nameChangeTextField becomeFirstResponder];
+}
+
+- (void) changeName {
+  [self.nameChangeTextField resignFirstResponder];
+  
+  NSString *realStr = nameChangeTextField.text;
+  realStr = [realStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  
+  Globals *gl = [Globals sharedGlobals];
+  if ([gl validateUserName:realStr]) {  
+    int cost = gl.diamondCostToChangeName;
+    NSString *str = [NSString stringWithFormat:@"Would you like to change your name%@?", cost > 0 ? [NSString stringWithFormat:@" for %d gold", cost] : @""];
+    [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(putName)];
+    
+    [Analytics attemptedNameChange];
+  }
+}
+
+- (void) putName {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
+  int cost = gl.diamondCostToChangeName;
+  if (gs.gold >= cost) {
+    [self.loadingView display:self.view];
+    [[OutgoingEventController sharedOutgoingEventController] resetName:self.nameChangeTextField.text];
+    
+    [Analytics nameChange];
+  } else {
+    [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:cost];
+  }
+}
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.nameChangeView.superview.center = ccpAdd(self.nameChangeView.superview.center, ccp(0, -75));
+  }];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+  [UIView animateWithDuration:0.3f animations:^{
+    self.nameChangeView.superview.center = ccpAdd(self.nameChangeView.superview.center, ccp(0, 75));
+  }];
+  [textField resignFirstResponder]; 
+  return YES;
+}
+
 - (IBAction)closeClicked:(id)sender {
   [self.wallTabView endEditing];
   [Globals popOutView:self.mainView fadeOutBgdView:self.bgdView completion:^{
@@ -1744,10 +1869,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  [self setCurScope:kEquipScopeAll];
-  curWeaponView.selected = NO;
-  curArmorView.selected = NO;
-  curAmuletView.selected = NO;
   [wallTabView endEditing];
 }
 
@@ -1771,11 +1892,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.curWeaponView = nil;
   self.profilePicture = nil;
   self.profileBar = nil;
-  self.equipViews = nil;
-  self.nibEquipView = nil;
-  self.equipsScrollView = nil;
-  self.unequippableView = nil;
-  self.unequippableLabel = nil;
+  self.equipsTableView = nil;
   self.equippingView = nil;
   self.equipTabView = nil;
   self.skillTabView = nil;
@@ -1798,10 +1915,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.visitButton = nil;
   self.smallAttackButton = nil;
   self.bigAttackButton = nil;
+  self.equipsTableDelegate = nil;
   self.spinner = nil;
   self.mainView = nil;
   self.bgdView = nil;
   self.equipPopup = nil;
+  self.specialTabView = nil;
+  self.profileTabView = nil;
+  self.nameChangeView = nil;
+  self.nameChangeTextField = nil;
+  self.equipHeaderLabel = nil;
   [_queuedEquips release];
   _queuedEquips = nil;
 }

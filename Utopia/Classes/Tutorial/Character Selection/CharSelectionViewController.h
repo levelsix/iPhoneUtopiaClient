@@ -47,4 +47,6 @@
 
 @property (nonatomic, retain) IBOutlet NiceFontTextField *nameTextField;
 
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+
 @end

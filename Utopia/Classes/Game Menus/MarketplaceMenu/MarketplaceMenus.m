@@ -294,7 +294,7 @@
 }
 
 - (IBAction)profileButtonClicked:(id)sender {
-  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:mktPost.poster withState:kEquipState];
+  [[ProfileViewController sharedProfileViewController] loadProfileForMinimumUser:mktPost.poster withState:kProfileState];
 }
 
 - (IBAction)tooLowLevelClicked:(id)sender {

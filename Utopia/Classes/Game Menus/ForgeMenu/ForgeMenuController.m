@@ -307,7 +307,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.upgrAttackLabel.text = [NSString stringWithFormat:@"%d", newAttack];
   self.upgrDefenseLabel.text = [NSString stringWithFormat:@"%d", newDefense];
   
-  
   [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
   [Globals loadImageForEquip:fi.equipId toView:self.frontOldEquipIcon maskedView:nil];
   [Globals loadImageForEquip:fi.equipId toView:self.upgrEquipIcon maskedView:nil];
@@ -347,15 +346,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   }
 }
 
-- (void) loadRightViewForNotEnoughQuantity:(ForgeItem *)fi {
+- (void) loadRightViewForNotEnoughQuantity:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
   int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
   int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
+  int newAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level+1];
+  int newDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level+1];
   
   self.backOldAttackLabel.text = [NSString stringWithFormat:@"%d", oldAttack];
   self.backOldDefenseLabel.text = [NSString stringWithFormat:@"%d", oldDefense];
+  
+  self.upgrAttackLabel.text = [NSString stringWithFormat:@"%d", newAttack];
+  self.upgrDefenseLabel.text = [NSString stringWithFormat:@"%d", newDefense];
+  [Globals loadImageForEquip:fi.equipId toView:self.upgrEquipIcon maskedView:nil];
   
   self.notForgingMiddleView.hidden = YES;
   self.progressView.hidden = YES;
@@ -364,16 +369,19 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   
   self.frontOldStatsView.hidden = YES;
   
-  self.upgrItemView.alpha = 0.f;
-  self.backOldItemView.frame = self.backOldForgingPlacerView.frame;
-  self.frontOldItemView.frame = self.frontOldForgingPlacerView.frame;
+  self.upgrItemView.frame = upgrFrame;
+  self.backOldItemView.frame = backOldFrame;
+  self.frontOldItemView.frame = frontOldFrame;
   self.backOldItemView.alpha = 1.f;
   self.frontOldItemView.alpha = 1.f;
+  self.upgrItemView.alpha = 1.f;
   
-  self.equalPlusSign.alpha = 0.f;
+  self.equalPlusSign.alpha = 1.f;
+  self.equalPlusSign.highlighted = NO;
   
   self.backOldLevelIcon.level = fi.level;
   self.frontOldLevelIcon.level = 0;
+  self.upgrLevelIcon.level = fi.level+1;
   
   [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
   [Globals imageNamed:[Globals imageNameForEquip:fi.equipId] withImageView:self.frontOldEquipIcon maskedColor:[UIColor colorWithWhite:0.15f alpha:1.f] indicator:UIActivityIndicatorViewStyleWhite clearImageDuringDownload:YES];
@@ -384,6 +392,38 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.finishNowButton.hidden = YES;
   
   self.bottomLabel.text = @"Note: Weapons will be returned if forge fails.";
+  if (fiv) {
+    self.backMovingView.frame = [self.mainView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
+    
+    [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
+    self.backOldEquipIcon.alpha = 0.5f;
+    
+    [Globals loadImageForEquip:fi.equipId toView:self.backMovingView maskedView:nil];
+    
+    self.upgrEquipIcon.alpha = 0.f;
+    self.backOldAttackLabel.alpha = 0.f;
+    self.backOldDefenseLabel.alpha = 0.f;
+    self.upgrAttackLabel.alpha = 0.f;
+    self.upgrDefenseLabel.alpha = 0.f;
+    
+    [UIView animateWithDuration:0.5f delay:0.f options:UIViewAnimationCurveEaseInOut animations:^{
+      self.backMovingView.frame = [self.mainView convertRect:self.backOldEquipIcon.frame fromView:self.backOldEquipIcon.superview];
+      self.upgrEquipIcon.alpha = 1.f;
+      self.backOldAttackLabel.alpha = 1.f;
+      self.backOldDefenseLabel.alpha = 1.f;
+      self.upgrAttackLabel.alpha = 1.f;
+      self.upgrDefenseLabel.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      if (finished && self.curItem == fi) {
+        [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
+        self.backMovingView.hidden = YES;
+        self.backOldEquipIcon.alpha = 1.f;
+      }
+    }];
+  } else {
+    [Globals loadImageForEquip:fi.equipId toView:self.backOldEquipIcon maskedView:nil];
+    self.backOldEquipIcon.alpha = 1.f;
+  }
   
   if (fi.level == 1) {
     self.buyOneView.hidden = NO;
@@ -417,7 +457,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
       [self.progressView stopAnimating];
       
       if (fi.quantity < 2) {
-        [self loadRightViewForNotEnoughQuantity:fi];
+        [self loadRightViewForNotEnoughQuantity:fi fromItemView:fiv];
         return;
       }
     }

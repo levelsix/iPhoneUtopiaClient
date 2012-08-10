@@ -107,10 +107,12 @@
   // Move arrow to equip top bar button
   [_arrow removeFromSuperview];
   [self.profileBar addSubview:_arrow];
-  _arrow.center = CGPointMake(CGRectGetMaxX(self.profileBar.equipSelectedSmallImage.frame), self.profileBar.equipSelectedSmallImage.center.y);
+  _arrow.center = CGPointMake(CGRectGetMaxX(self.profileBar.equipButton.frame), self.profileBar.equipButton.center.y);
   [Globals animateUIArrow:_arrow atAngle:M_PI];
   
   [DialogMenuController displayViewForText:[TutorialConstants sharedTutorialConstants].afterSkillPointsText];
+  DialogMenuController *dmc = [DialogMenuController sharedDialogMenuController];
+  dmc.view.center = ccpAdd(dmc.view.center, ccp(0, -95));
   [Analytics tutorialSkillPointsAdded];
 }
 
@@ -125,10 +127,15 @@
     [DialogMenuController closeView];
     
     [_arrow removeFromSuperview];
-    [self.equipsScrollView addSubview:_arrow];
+    self.curWeaponView.selected = NO;
+    self.curArmorView.selected = NO;
+    self.curAmuletView.selected = YES;
+    self.curScope = kEquipScopeAmulets;
+    [self.mainView addSubview:_arrow];
     
-    UIView *amuletEquipView = [self.equipsScrollView viewWithTag:2];
-    _arrow.center = CGPointMake(CGRectGetMinX(amuletEquipView.frame)-_arrow.frame.size.width/2, amuletEquipView.center.y);
+    UIView *amuletEquipView = [self.equipsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    CGRect rect = [self.mainView convertRect:amuletEquipView.frame fromView:amuletEquipView.superview];
+    _arrow.center = CGPointMake(CGRectGetMinX(rect)-_arrow.frame.size.width/2, CGRectGetMidY(rect));
     [Globals animateUIArrow:_arrow atAngle:0];
   }
 }
@@ -149,15 +156,17 @@
   }
 }
 
+- (IBAction)resetSkillsClicked:(id)sender {
+  return;
+}
+
 - (void) equipViewSelected:(EquipView *)ev {
-  if (_equippingPhase && ev.tag == 2) {
+  if (_equippingPhase) {
     FullEquipProto *fep = [[GameState sharedGameState] equipWithId:ev.equip.equipId];
     [self doEquippingAnimation:ev forType:fep.equipType];
     
     GameState *gs = [GameState sharedGameState];
     gs.amuletEquipped = ev.equip.userEquipId;
-    
-    self.unequippableView.hidden = YES;
     
     [self arrowOnClose];
     

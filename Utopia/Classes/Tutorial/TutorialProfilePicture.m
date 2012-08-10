@@ -88,7 +88,7 @@
   [b addPlayerWallPosts:tc.firstWallPost];
   
   [[ProfileViewController sharedProfileViewController] receivedWallPosts:b.build];
-  [[ProfileViewController sharedProfileViewController] setState:kWallState];
+  [[ProfileViewController sharedProfileViewController] setState:kProfileState];
 }
 
 - (void) dealloc {

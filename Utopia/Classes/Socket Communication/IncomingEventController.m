@@ -38,6 +38,9 @@
 #import "EquipMenuController.h"
 #import "ForgeMenuController.h"
 #import "RefillMenuController.h"
+#import "AppDelegate.h"
+#import "IAPHelper.h"
+#import "AttackMenuController.h"
 
 @implementation IncomingEventController
 
@@ -200,6 +203,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     case EventProtocolResponseSPurgeStaticDataEvent:
       responseClass = [PurgeClientStaticDataResponseProto class];
       break;
+    case EventProtocolResponseSCharacterModEvent:
+      responseClass = [CharacterModResponseProto class];
+      break;
     default:
       responseClass = nil;
       break;
@@ -338,7 +344,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     [GenericPopupController displayMajorUpdatePopup:proto.appStoreUrl];
     return;
   } else if (proto.updateStatus == StartupResponseProto_UpdateStatusMinorUpdate) {
-    [Globals popupMessage:@"There is an update available. Head over to the app store to download it now!"];
+    GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+    gpc.link = proto.appStoreUrl;
+    [GenericPopupController displayConfirmationWithDescription:@"An update is available. Head over to the App Store to download it now!" title:@"Update Available" okayButton:@"Update" cancelButton:@"Later" target:gpc selector:@selector(openAppStoreLink)];
   }
   
   [gl updateConstants:proto.startupConstants];
@@ -505,10 +513,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
     [Globals popupMessage:@"Sorry! Server failed to process in app purchase! Please send us an email at support@lvl6.com"];
     [gs removeAndUndoAllUpdatesForTag:tag];
-  } else {
-    [gs removeNonFullUserUpdatesForTag:tag];
     
     [Analytics inAppPurchaseFailed];
+  } else {
+    [gs removeNonFullUserUpdatesForTag:tag];
+    [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.diamondsGained];
   }
 }
 
@@ -594,7 +603,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
           [eq removeAllObjects];
         }
         
-        int oldCount = [eq count];
+        mvc.filtered = [mvc getCurrentFilterState];
+        int oldCount = mvc.filtered.count;
         
         for (FullMarketplacePostProto *fmpp in proto.marketplacePostsList) {
           [eq addObject:fmpp];
@@ -735,21 +745,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status == GenerateAttackListResponseProto_GenerateAttackListStatusSuccess) {
+    NSMutableArray *list = proto.forMap ? gs.attackMapList : gs.attackList;
     for (FullUserProto *fup in proto.enemiesList) {
       BOOL shouldBeAdded = YES;
       // Make sure this is not a repeat
-      for (FullUserProto *checkFup in gs.attackList) {
+      for (FullUserProto *checkFup in list) {
         if (checkFup.userId == fup.userId) {
           shouldBeAdded = NO;
         }
       }
       
       if (shouldBeAdded) {
-        [gs.attackList addObject:fup];
+        [list addObject:fup];
       }
     }
     [[OutgoingEventController sharedOutgoingEventController] retrieveAllStaticData];
-    [[MapViewController sharedMapViewController] addNewPins];
+    
+    if (proto.forMap) {
+      [[AttackMenuController sharedAttackMenuController] addNewPins];
+    } else {
+      [[[AttackMenuController sharedAttackMenuController] attackTableView] reloadData];
+    }
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
     [Globals popupMessage:@"An error occurred while generating the attack list"];
@@ -775,7 +791,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   GameState *gs = [GameState sharedGameState];
   if (proto.status != RefillStatWaitCompleteResponseProto_RefillStatWaitCompleteStatusSuccess) {
-    //    [Globals popupMessage:@"Server failed to refill stat."];
+    [Globals popupMessage:@"Server failed to refill stat."];
     [gs removeAndUndoAllUpdatesForTag:tag];
     [[TopBar sharedTopBar] setUpEnergyTimer];
     [[TopBar sharedTopBar] setUpStaminaTimer];
@@ -1392,6 +1408,44 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Purge static data response received.");
   
   [[GameState sharedGameState] reretrieveStaticData];
+}
+
+- (void) handleCharacterModResponseProto:(FullEvent *)fe {
+  CharacterModResponseProto *proto = (CharacterModResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Character mod response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == CharacterModResponseProto_CharacterModStatusSuccess) {
+    if (proto.modType == CharacterModTypeNewPlayer) {
+      UIApplication *app = [UIApplication sharedApplication];
+      [app.delegate applicationDidEnterBackground:app];
+      [app.delegate applicationWillEnterForeground:app];
+    } else if (proto.modType == CharacterModTypeResetSkillPoints) {
+      GameState *gs = [GameState sharedGameState];
+      gs.attack = proto.attackNew;
+      gs.defense = proto.defenseNew;
+      gs.skillPoints = proto.skillPointsNew;
+      gs.maxStamina = proto.staminaNew;
+      gs.currentStamina = MIN(gs.currentStamina, gs.maxStamina);
+      gs.maxEnergy = proto.energyNew;
+      gs.currentEnergy = MIN(gs.currentEnergy, gs.maxEnergy);
+      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
+      [[ProfileViewController sharedProfileViewController] loadSkills];
+    } else if (proto.modType == CharacterModTypeChangeName) {
+      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
+      [[ProfileViewController sharedProfileViewController] loadMyProfile];
+    } else if (proto.modType == CharacterModTypeChangeCharacterType) {
+      GameViewController *gvc = [GameViewController sharedGameViewController];
+      [gvc loadGame:NO];
+      [gvc startGame];
+      [gvc removeAllSubviews];
+    }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    [gs removeFullUserUpdatesForTag:tag];
+  }
 }
 
 @end

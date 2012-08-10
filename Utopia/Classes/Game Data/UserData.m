@@ -322,7 +322,7 @@
     BOOL specificEnemy = (p.typeOfEnemy != DefeatTypeJobProto_DefeatTypeJobEnemyTypeAllTypesFromOpposingSide);
     UserType type = specificEnemy ? p.typeOfEnemy : (gs.type+3)%6;
     NSString *character = [NSString stringWithFormat:@"%@%@", specificEnemy ? [Globals classForUserType:p.typeOfEnemy] : @"Player", p.numEnemiesToDefeat == 1 ? @"" : @"s"];
-    NSString *end = p.cityId > 0 ? [NSString stringWithFormat:@"in %@", [gs cityWithId:p.cityId].name] : [NSString stringWithFormat:@"from the Attack Map"];
+    NSString *end = p.cityId > 0 ? [NSString stringWithFormat:@"in %@", [gs cityWithId:p.cityId].name] : [NSString stringWithFormat:@"from the Attack Screen"];
     self.title = [NSString stringWithFormat:@"Defeat %d %@ %@ %@", p.numEnemiesToDefeat, [Globals factionForUserType:type], character, end];
     self.total = p.numEnemiesToDefeat;
   }

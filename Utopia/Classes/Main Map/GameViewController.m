@@ -46,6 +46,7 @@
 #import "ConvoMenuController.h"
 #import "EquipMenuController.h"
 #import "ForgeMenuController.h"
+#import "AttackMenuController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -92,6 +93,8 @@
   
   [ActivityFeedController removeView];
   [ActivityFeedController purgeSingleton];
+  [AttackMenuController removeView];
+  [AttackMenuController purgeSingleton];
   [CarpenterMenuController removeView];
   [CarpenterMenuController purgeSingleton];
   [ConvoMenuController removeView];
@@ -127,6 +130,14 @@
   [[TopBar sharedTopBar] invalidateTimers];
   [TopBar purgeSingleton];
   
+  [sharedGameViewController removeAllSubviews];
+  
+  [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
+  
+  [sharedGameViewController loadDefaultImage];
+}
+
+- (void) removeAllSubviews {
   NSMutableArray *toRemove = [NSMutableArray array];
   for (UIView *view in sharedGameViewController.view.subviews) {
     if (![view isKindOfClass:[EAGLView class]]) {
@@ -136,10 +147,6 @@
   for (UIView *view in toRemove) {
     [view removeFromSuperview];
   }
-  
-  [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
-  
-  [sharedGameViewController loadDefaultImage];
 }
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
@@ -152,6 +159,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   imgView.transform = CGAffineTransformMakeRotation(M_PI/2);
   imgView.tag = KINGDOM_PNG_IMAGE_VIEW_TAG;
   imgView.center = CGPointMake(v.frame.size.width/2, v.frame.size.height/2);
+  imgView.userInteractionEnabled = YES;
   [v addSubview:imgView];
   [imgView release];
   

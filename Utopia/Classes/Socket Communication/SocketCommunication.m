@@ -382,13 +382,24 @@ static NSString *udid = nil;
 }
 
 - (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound {
-  GenerateAttackListRequestProto *req = [[[[[[[[GenerateAttackListRequestProto builder]
-                                               setSender:_sender]
-                                              setNumEnemies:numEnemies]
-                                             setLatLowerBound:latLowerBound]
-                                            setLatUpperBound:latUpperBound]
-                                           setLongLowerBound:lonLowerBound]
-                                          setLongUpperBound:lonUpperBound]
+  GenerateAttackListRequestProto *req = [[[[[[[[[GenerateAttackListRequestProto builder]
+                                                setSender:_sender]
+                                               setNumEnemies:numEnemies]
+                                              setLatLowerBound:latLowerBound]
+                                             setLatUpperBound:latUpperBound]
+                                            setLongLowerBound:lonLowerBound]
+                                           setLongUpperBound:lonUpperBound]
+                                          setForMap:YES]
+                                         build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCGenerateAttackListEvent];
+}
+
+- (int) sendGenerateAttackListMessage:(int)numEnemies {
+  GenerateAttackListRequestProto *req = [[[[[GenerateAttackListRequestProto builder]
+                                            setSender:_sender]
+                                           setNumEnemies:numEnemies]
+                                          setForMap:NO]
                                          build];
   
   return [self sendData:req withMessageType:EventProtocolRequestCGenerateAttackListEvent];
@@ -770,6 +781,23 @@ static NSString *udid = nil;
                                           setSender:_sender]
                                          build];
   return [self sendData:req withMessageType:EventProtocolRequestCCollectForgeEquips ];
+}
+
+- (int) sendCharacterModWithType:(CharacterModType)modType newType:(UserType)userType newName:(NSString *)name {
+  CharacterModRequestProto_Builder *bldr = [[[CharacterModRequestProto builder] 
+                                             setModType:modType] 
+                                            setSender:_sender];
+  
+  if (modType == CharacterModTypeChangeName && name) {
+    [bldr setFutureName:name];
+  }
+  
+  if (modType == CharacterModTypeChangeCharacterType) {
+    [bldr setFutureUserType:userType];
+  }
+  
+  CharacterModRequestProto *req = [bldr build];
+  return [self sendData:req withMessageType:EventProtocolRequestCCharacterModEvent];
 }
 
 - (void) closeDownConnection {

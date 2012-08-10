@@ -1179,6 +1179,7 @@ BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStat
   switch (value) {
     case BattleResponseProto_BattleStatusSuccess:
     case BattleResponseProto_BattleStatusOtherFail:
+    case BattleResponseProto_BattleStatusSameSide:
       return YES;
     default:
       return NO;
@@ -4851,6 +4852,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property Float64 healthFormulaExponentBase;
 @property Float64 levelEquipBoostExponentBase;
 @property int32_t adColonyVideosRequiredToRedeemDiamonds;
+@property (retain) StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
+@property int32_t minNameLength;
+@property int32_t maxNameLength;
+@property int32_t sizeOfAttackList;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5236,6 +5241,34 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasAdColonyVideosRequiredToRedeemDiamonds_ = !!value;
 }
 @synthesize adColonyVideosRequiredToRedeemDiamonds;
+- (BOOL) hasCharModConstants {
+  return !!hasCharModConstants_;
+}
+- (void) setHasCharModConstants:(BOOL) value {
+  hasCharModConstants_ = !!value;
+}
+@synthesize charModConstants;
+- (BOOL) hasMinNameLength {
+  return !!hasMinNameLength_;
+}
+- (void) setHasMinNameLength:(BOOL) value {
+  hasMinNameLength_ = !!value;
+}
+@synthesize minNameLength;
+- (BOOL) hasMaxNameLength {
+  return !!hasMaxNameLength_;
+}
+- (void) setHasMaxNameLength:(BOOL) value {
+  hasMaxNameLength_ = !!value;
+}
+@synthesize maxNameLength;
+- (BOOL) hasSizeOfAttackList {
+  return !!hasSizeOfAttackList_;
+}
+- (void) setHasSizeOfAttackList:(BOOL) value {
+  hasSizeOfAttackList_ = !!value;
+}
+@synthesize sizeOfAttackList;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5244,6 +5277,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   self.mutableAnimatedSpriteOffsetsList = nil;
   self.kiipRewardConditions = nil;
   self.forgeConstants = nil;
+  self.charModConstants = nil;
   [super dealloc];
 }
 - (id) init {
@@ -5302,6 +5336,10 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.healthFormulaExponentBase = 0;
     self.levelEquipBoostExponentBase = 0;
     self.adColonyVideosRequiredToRedeemDiamonds = 0;
+    self.charModConstants = [StartupResponseProto_StartupConstants_CharacterModConstants defaultInstance];
+    self.minNameLength = 0;
+    self.maxNameLength = 0;
+    self.sizeOfAttackList = 0;
   }
   return self;
 }
@@ -5513,6 +5551,18 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasAdColonyVideosRequiredToRedeemDiamonds) {
     [output writeInt32:67 value:self.adColonyVideosRequiredToRedeemDiamonds];
   }
+  if (self.hasCharModConstants) {
+    [output writeMessage:68 value:self.charModConstants];
+  }
+  if (self.hasMinNameLength) {
+    [output writeInt32:69 value:self.minNameLength];
+  }
+  if (self.hasMaxNameLength) {
+    [output writeInt32:70 value:self.maxNameLength];
+  }
+  if (self.hasSizeOfAttackList) {
+    [output writeInt32:71 value:self.sizeOfAttackList];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5703,6 +5753,18 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasAdColonyVideosRequiredToRedeemDiamonds) {
     size += computeInt32Size(67, self.adColonyVideosRequiredToRedeemDiamonds);
   }
+  if (self.hasCharModConstants) {
+    size += computeMessageSize(68, self.charModConstants);
+  }
+  if (self.hasMinNameLength) {
+    size += computeInt32Size(69, self.minNameLength);
+  }
+  if (self.hasMaxNameLength) {
+    size += computeInt32Size(70, self.maxNameLength);
+  }
+  if (self.hasSizeOfAttackList) {
+    size += computeInt32Size(71, self.sizeOfAttackList);
+  }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
   return size;
@@ -5733,6 +5795,297 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
 }
 - (StartupResponseProto_StartupConstants_Builder*) builder {
   return [StartupResponseProto_StartupConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_CharacterModConstants ()
+@property int32_t diamondCostToChangeCharacterType;
+@property int32_t diamondCostToChangeName;
+@property int32_t diamondCostToResetCharacter;
+@property int32_t diamondCostToResetSkillPoints;
+@end
+
+@implementation StartupResponseProto_StartupConstants_CharacterModConstants
+
+- (BOOL) hasDiamondCostToChangeCharacterType {
+  return !!hasDiamondCostToChangeCharacterType_;
+}
+- (void) setHasDiamondCostToChangeCharacterType:(BOOL) value {
+  hasDiamondCostToChangeCharacterType_ = !!value;
+}
+@synthesize diamondCostToChangeCharacterType;
+- (BOOL) hasDiamondCostToChangeName {
+  return !!hasDiamondCostToChangeName_;
+}
+- (void) setHasDiamondCostToChangeName:(BOOL) value {
+  hasDiamondCostToChangeName_ = !!value;
+}
+@synthesize diamondCostToChangeName;
+- (BOOL) hasDiamondCostToResetCharacter {
+  return !!hasDiamondCostToResetCharacter_;
+}
+- (void) setHasDiamondCostToResetCharacter:(BOOL) value {
+  hasDiamondCostToResetCharacter_ = !!value;
+}
+@synthesize diamondCostToResetCharacter;
+- (BOOL) hasDiamondCostToResetSkillPoints {
+  return !!hasDiamondCostToResetSkillPoints_;
+}
+- (void) setHasDiamondCostToResetSkillPoints:(BOOL) value {
+  hasDiamondCostToResetSkillPoints_ = !!value;
+}
+@synthesize diamondCostToResetSkillPoints;
+- (void) dealloc {
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.diamondCostToChangeCharacterType = 0;
+    self.diamondCostToChangeName = 0;
+    self.diamondCostToResetCharacter = 0;
+    self.diamondCostToResetSkillPoints = 0;
+  }
+  return self;
+}
+static StartupResponseProto_StartupConstants_CharacterModConstants* defaultStartupResponseProto_StartupConstants_CharacterModConstantsInstance = nil;
++ (void) initialize {
+  if (self == [StartupResponseProto_StartupConstants_CharacterModConstants class]) {
+    defaultStartupResponseProto_StartupConstants_CharacterModConstantsInstance = [[StartupResponseProto_StartupConstants_CharacterModConstants alloc] init];
+  }
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_CharacterModConstantsInstance;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) defaultInstance {
+  return defaultStartupResponseProto_StartupConstants_CharacterModConstantsInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasDiamondCostToChangeCharacterType) {
+    [output writeInt32:1 value:self.diamondCostToChangeCharacterType];
+  }
+  if (self.hasDiamondCostToChangeName) {
+    [output writeInt32:2 value:self.diamondCostToChangeName];
+  }
+  if (self.hasDiamondCostToResetCharacter) {
+    [output writeInt32:3 value:self.diamondCostToResetCharacter];
+  }
+  if (self.hasDiamondCostToResetSkillPoints) {
+    [output writeInt32:4 value:self.diamondCostToResetSkillPoints];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasDiamondCostToChangeCharacterType) {
+    size += computeInt32Size(1, self.diamondCostToChangeCharacterType);
+  }
+  if (self.hasDiamondCostToChangeName) {
+    size += computeInt32Size(2, self.diamondCostToChangeName);
+  }
+  if (self.hasDiamondCostToResetCharacter) {
+    size += computeInt32Size(3, self.diamondCostToResetCharacter);
+  }
+  if (self.hasDiamondCostToResetSkillPoints) {
+    size += computeInt32Size(4, self.diamondCostToResetSkillPoints);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromData:(NSData*) data {
+  return (StartupResponseProto_StartupConstants_CharacterModConstants*)[[[StartupResponseProto_StartupConstants_CharacterModConstants builder] mergeFromData:data] build];
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_CharacterModConstants*)[[[StartupResponseProto_StartupConstants_CharacterModConstants builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromInputStream:(NSInputStream*) input {
+  return (StartupResponseProto_StartupConstants_CharacterModConstants*)[[[StartupResponseProto_StartupConstants_CharacterModConstants builder] mergeFromInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_CharacterModConstants*)[[[StartupResponseProto_StartupConstants_CharacterModConstants builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (StartupResponseProto_StartupConstants_CharacterModConstants*)[[[StartupResponseProto_StartupConstants_CharacterModConstants builder] mergeFromCodedInputStream:input] build];
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (StartupResponseProto_StartupConstants_CharacterModConstants*)[[[StartupResponseProto_StartupConstants_CharacterModConstants builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builder {
+  return [[[StartupResponseProto_StartupConstants_CharacterModConstants_Builder alloc] init] autorelease];
+}
++ (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_CharacterModConstants*) prototype {
+  return [[StartupResponseProto_StartupConstants_CharacterModConstants builder] mergeFrom:prototype];
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builder {
+  return [StartupResponseProto_StartupConstants_CharacterModConstants builder];
+}
+@end
+
+@interface StartupResponseProto_StartupConstants_CharacterModConstants_Builder()
+@property (retain) StartupResponseProto_StartupConstants_CharacterModConstants* result;
+@end
+
+@implementation StartupResponseProto_StartupConstants_CharacterModConstants_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[StartupResponseProto_StartupConstants_CharacterModConstants alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clear {
+  self.result = [[[StartupResponseProto_StartupConstants_CharacterModConstants alloc] init] autorelease];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clone {
+  return [StartupResponseProto_StartupConstants_CharacterModConstants builderWithPrototype:result];
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) defaultInstance {
+  return [StartupResponseProto_StartupConstants_CharacterModConstants defaultInstance];
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) buildPartial {
+  StartupResponseProto_StartupConstants_CharacterModConstants* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_CharacterModConstants*) other {
+  if (other == [StartupResponseProto_StartupConstants_CharacterModConstants defaultInstance]) {
+    return self;
+  }
+  if (other.hasDiamondCostToChangeCharacterType) {
+    [self setDiamondCostToChangeCharacterType:other.diamondCostToChangeCharacterType];
+  }
+  if (other.hasDiamondCostToChangeName) {
+    [self setDiamondCostToChangeName:other.diamondCostToChangeName];
+  }
+  if (other.hasDiamondCostToResetCharacter) {
+    [self setDiamondCostToResetCharacter:other.diamondCostToResetCharacter];
+  }
+  if (other.hasDiamondCostToResetSkillPoints) {
+    [self setDiamondCostToResetSkillPoints:other.diamondCostToResetSkillPoints];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 8: {
+        [self setDiamondCostToChangeCharacterType:[input readInt32]];
+        break;
+      }
+      case 16: {
+        [self setDiamondCostToChangeName:[input readInt32]];
+        break;
+      }
+      case 24: {
+        [self setDiamondCostToResetCharacter:[input readInt32]];
+        break;
+      }
+      case 32: {
+        [self setDiamondCostToResetSkillPoints:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasDiamondCostToChangeCharacterType {
+  return result.hasDiamondCostToChangeCharacterType;
+}
+- (int32_t) diamondCostToChangeCharacterType {
+  return result.diamondCostToChangeCharacterType;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToChangeCharacterType:(int32_t) value {
+  result.hasDiamondCostToChangeCharacterType = YES;
+  result.diamondCostToChangeCharacterType = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToChangeCharacterType {
+  result.hasDiamondCostToChangeCharacterType = NO;
+  result.diamondCostToChangeCharacterType = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostToChangeName {
+  return result.hasDiamondCostToChangeName;
+}
+- (int32_t) diamondCostToChangeName {
+  return result.diamondCostToChangeName;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToChangeName:(int32_t) value {
+  result.hasDiamondCostToChangeName = YES;
+  result.diamondCostToChangeName = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToChangeName {
+  result.hasDiamondCostToChangeName = NO;
+  result.diamondCostToChangeName = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostToResetCharacter {
+  return result.hasDiamondCostToResetCharacter;
+}
+- (int32_t) diamondCostToResetCharacter {
+  return result.diamondCostToResetCharacter;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToResetCharacter:(int32_t) value {
+  result.hasDiamondCostToResetCharacter = YES;
+  result.diamondCostToResetCharacter = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToResetCharacter {
+  result.hasDiamondCostToResetCharacter = NO;
+  result.diamondCostToResetCharacter = 0;
+  return self;
+}
+- (BOOL) hasDiamondCostToResetSkillPoints {
+  return result.hasDiamondCostToResetSkillPoints;
+}
+- (int32_t) diamondCostToResetSkillPoints {
+  return result.diamondCostToResetSkillPoints;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToResetSkillPoints:(int32_t) value {
+  result.hasDiamondCostToResetSkillPoints = YES;
+  result.diamondCostToResetSkillPoints = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToResetSkillPoints {
+  result.hasDiamondCostToResetSkillPoints = NO;
+  result.diamondCostToResetSkillPoints = 0;
+  return self;
 }
 @end
 
@@ -8242,6 +8595,18 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasAdColonyVideosRequiredToRedeemDiamonds) {
     [self setAdColonyVideosRequiredToRedeemDiamonds:other.adColonyVideosRequiredToRedeemDiamonds];
   }
+  if (other.hasCharModConstants) {
+    [self mergeCharModConstants:other.charModConstants];
+  }
+  if (other.hasMinNameLength) {
+    [self setMinNameLength:other.minNameLength];
+  }
+  if (other.hasMaxNameLength) {
+    [self setMaxNameLength:other.maxNameLength];
+  }
+  if (other.hasSizeOfAttackList) {
+    [self setSizeOfAttackList:other.sizeOfAttackList];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8511,6 +8876,27 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 536: {
         [self setAdColonyVideosRequiredToRedeemDiamonds:[input readInt32]];
+        break;
+      }
+      case 546: {
+        StartupResponseProto_StartupConstants_CharacterModConstants_Builder* subBuilder = [StartupResponseProto_StartupConstants_CharacterModConstants builder];
+        if (self.hasCharModConstants) {
+          [subBuilder mergeFrom:self.charModConstants];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setCharModConstants:[subBuilder buildPartial]];
+        break;
+      }
+      case 552: {
+        [self setMinNameLength:[input readInt32]];
+        break;
+      }
+      case 560: {
+        [self setMaxNameLength:[input readInt32]];
+        break;
+      }
+      case 568: {
+        [self setSizeOfAttackList:[input readInt32]];
         break;
       }
     }
@@ -9525,6 +9911,84 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearAdColonyVideosRequiredToRedeemDiamonds {
   result.hasAdColonyVideosRequiredToRedeemDiamonds = NO;
   result.adColonyVideosRequiredToRedeemDiamonds = 0;
+  return self;
+}
+- (BOOL) hasCharModConstants {
+  return result.hasCharModConstants;
+}
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) charModConstants {
+  return result.charModConstants;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setCharModConstants:(StartupResponseProto_StartupConstants_CharacterModConstants*) value {
+  result.hasCharModConstants = YES;
+  result.charModConstants = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setCharModConstantsBuilder:(StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builderForValue {
+  return [self setCharModConstants:[builderForValue build]];
+}
+- (StartupResponseProto_StartupConstants_Builder*) mergeCharModConstants:(StartupResponseProto_StartupConstants_CharacterModConstants*) value {
+  if (result.hasCharModConstants &&
+      result.charModConstants != [StartupResponseProto_StartupConstants_CharacterModConstants defaultInstance]) {
+    result.charModConstants =
+      [[[StartupResponseProto_StartupConstants_CharacterModConstants builderWithPrototype:result.charModConstants] mergeFrom:value] buildPartial];
+  } else {
+    result.charModConstants = value;
+  }
+  result.hasCharModConstants = YES;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearCharModConstants {
+  result.hasCharModConstants = NO;
+  result.charModConstants = [StartupResponseProto_StartupConstants_CharacterModConstants defaultInstance];
+  return self;
+}
+- (BOOL) hasMinNameLength {
+  return result.hasMinNameLength;
+}
+- (int32_t) minNameLength {
+  return result.minNameLength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinNameLength:(int32_t) value {
+  result.hasMinNameLength = YES;
+  result.minNameLength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinNameLength {
+  result.hasMinNameLength = NO;
+  result.minNameLength = 0;
+  return self;
+}
+- (BOOL) hasMaxNameLength {
+  return result.hasMaxNameLength;
+}
+- (int32_t) maxNameLength {
+  return result.maxNameLength;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNameLength:(int32_t) value {
+  result.hasMaxNameLength = YES;
+  result.maxNameLength = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNameLength {
+  result.hasMaxNameLength = NO;
+  result.maxNameLength = 0;
+  return self;
+}
+- (BOOL) hasSizeOfAttackList {
+  return result.hasSizeOfAttackList;
+}
+- (int32_t) sizeOfAttackList {
+  return result.sizeOfAttackList;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setSizeOfAttackList:(int32_t) value {
+  result.hasSizeOfAttackList = YES;
+  result.sizeOfAttackList = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearSizeOfAttackList {
+  result.hasSizeOfAttackList = NO;
+  result.sizeOfAttackList = 0;
   return self;
 }
 @end
@@ -21549,6 +22013,8 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property (retain) MinimumUserProto* sender;
 @property InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property int32_t diamondsGained;
+@property (retain) NSString* packageName;
+@property Float64 packagePrice;
 @end
 
 @implementation InAppPurchaseResponseProto
@@ -21574,8 +22040,23 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   hasDiamondsGained_ = !!value;
 }
 @synthesize diamondsGained;
+- (BOOL) hasPackageName {
+  return !!hasPackageName_;
+}
+- (void) setHasPackageName:(BOOL) value {
+  hasPackageName_ = !!value;
+}
+@synthesize packageName;
+- (BOOL) hasPackagePrice {
+  return !!hasPackagePrice_;
+}
+- (void) setHasPackagePrice:(BOOL) value {
+  hasPackagePrice_ = !!value;
+}
+@synthesize packagePrice;
 - (void) dealloc {
   self.sender = nil;
+  self.packageName = nil;
   [super dealloc];
 }
 - (id) init {
@@ -21583,6 +22064,8 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
     self.sender = [MinimumUserProto defaultInstance];
     self.status = InAppPurchaseResponseProto_InAppPurchaseStatusSuccess;
     self.diamondsGained = 0;
+    self.packageName = @"";
+    self.packagePrice = 0;
   }
   return self;
 }
@@ -21611,6 +22094,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasDiamondsGained) {
     [output writeInt32:3 value:self.diamondsGained];
   }
+  if (self.hasPackageName) {
+    [output writeString:4 value:self.packageName];
+  }
+  if (self.hasPackagePrice) {
+    [output writeDouble:5 value:self.packagePrice];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -21628,6 +22117,12 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }
   if (self.hasDiamondsGained) {
     size += computeInt32Size(3, self.diamondsGained);
+  }
+  if (self.hasPackageName) {
+    size += computeStringSize(4, self.packageName);
+  }
+  if (self.hasPackagePrice) {
+    size += computeDoubleSize(5, self.packagePrice);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -21722,6 +22217,12 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   if (other.hasDiamondsGained) {
     [self setDiamondsGained:other.diamondsGained];
   }
+  if (other.hasPackageName) {
+    [self setPackageName:other.packageName];
+  }
+  if (other.hasPackagePrice) {
+    [self setPackagePrice:other.packagePrice];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -21763,6 +22264,14 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
       }
       case 24: {
         [self setDiamondsGained:[input readInt32]];
+        break;
+      }
+      case 34: {
+        [self setPackageName:[input readString]];
+        break;
+      }
+      case 41: {
+        [self setPackagePrice:[input readDouble]];
         break;
       }
     }
@@ -21828,6 +22337,38 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (InAppPurchaseResponseProto_Builder*) clearDiamondsGained {
   result.hasDiamondsGained = NO;
   result.diamondsGained = 0;
+  return self;
+}
+- (BOOL) hasPackageName {
+  return result.hasPackageName;
+}
+- (NSString*) packageName {
+  return result.packageName;
+}
+- (InAppPurchaseResponseProto_Builder*) setPackageName:(NSString*) value {
+  result.hasPackageName = YES;
+  result.packageName = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearPackageName {
+  result.hasPackageName = NO;
+  result.packageName = @"";
+  return self;
+}
+- (BOOL) hasPackagePrice {
+  return result.hasPackagePrice;
+}
+- (Float64) packagePrice {
+  return result.packagePrice;
+}
+- (InAppPurchaseResponseProto_Builder*) setPackagePrice:(Float64) value {
+  result.hasPackagePrice = YES;
+  result.packagePrice = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearPackagePrice {
+  result.hasPackagePrice = NO;
+  result.packagePrice = 0;
   return self;
 }
 @end
@@ -25032,6 +25573,7 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
 @property Float64 latUpperBound;
 @property Float64 longLowerBound;
 @property Float64 longUpperBound;
+@property BOOL forMap;
 @end
 
 @implementation GenerateAttackListRequestProto
@@ -25078,6 +25620,18 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
   hasLongUpperBound_ = !!value;
 }
 @synthesize longUpperBound;
+- (BOOL) hasForMap {
+  return !!hasForMap_;
+}
+- (void) setHasForMap:(BOOL) value {
+  hasForMap_ = !!value;
+}
+- (BOOL) forMap {
+  return !!forMap_;
+}
+- (void) setForMap:(BOOL) value {
+  forMap_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   [super dealloc];
@@ -25090,6 +25644,7 @@ BOOL UseSkillPointResponseProto_UseSkillPointStatusIsValidValue(UseSkillPointRes
     self.latUpperBound = 0;
     self.longLowerBound = 0;
     self.longUpperBound = 0;
+    self.forMap = NO;
   }
   return self;
 }
@@ -25127,6 +25682,9 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (self.hasLongUpperBound) {
     [output writeDouble:6 value:self.longUpperBound];
   }
+  if (self.hasForMap) {
+    [output writeBool:7 value:self.forMap];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -25153,6 +25711,9 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   }
   if (self.hasLongUpperBound) {
     size += computeDoubleSize(6, self.longUpperBound);
+  }
+  if (self.hasForMap) {
+    size += computeBoolSize(7, self.forMap);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -25247,6 +25808,9 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if (other.hasLongUpperBound) {
     [self setLongUpperBound:other.longUpperBound];
   }
+  if (other.hasForMap) {
+    [self setForMap:other.forMap];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -25295,6 +25859,10 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
       }
       case 49: {
         [self setLongUpperBound:[input readDouble]];
+        break;
+      }
+      case 56: {
+        [self setForMap:[input readBool]];
         break;
       }
     }
@@ -25410,12 +25978,29 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   result.longUpperBound = 0;
   return self;
 }
+- (BOOL) hasForMap {
+  return result.hasForMap;
+}
+- (BOOL) forMap {
+  return result.forMap;
+}
+- (GenerateAttackListRequestProto_Builder*) setForMap:(BOOL) value {
+  result.hasForMap = YES;
+  result.forMap = value;
+  return self;
+}
+- (GenerateAttackListRequestProto_Builder*) clearForMap {
+  result.hasForMap = NO;
+  result.forMap = NO;
+  return self;
+}
 @end
 
 @interface GenerateAttackListResponseProto ()
 @property (retain) MinimumUserProto* sender;
 @property (retain) NSMutableArray* mutableEnemiesList;
 @property GenerateAttackListResponseProto_GenerateAttackListStatus status;
+@property BOOL forMap;
 @end
 
 @implementation GenerateAttackListResponseProto
@@ -25435,6 +26020,18 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   hasStatus_ = !!value;
 }
 @synthesize status;
+- (BOOL) hasForMap {
+  return !!hasForMap_;
+}
+- (void) setHasForMap:(BOOL) value {
+  hasForMap_ = !!value;
+}
+- (BOOL) forMap {
+  return !!forMap_;
+}
+- (void) setForMap:(BOOL) value {
+  forMap_ = !!value;
+}
 - (void) dealloc {
   self.sender = nil;
   self.mutableEnemiesList = nil;
@@ -25444,6 +26041,7 @@ static GenerateAttackListRequestProto* defaultGenerateAttackListRequestProtoInst
   if ((self = [super init])) {
     self.sender = [MinimumUserProto defaultInstance];
     self.status = GenerateAttackListResponseProto_GenerateAttackListStatusSuccess;
+    self.forMap = NO;
   }
   return self;
 }
@@ -25479,6 +26077,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   if (self.hasStatus) {
     [output writeEnum:3 value:self.status];
   }
+  if (self.hasForMap) {
+    [output writeBool:4 value:self.forMap];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -25496,6 +26097,9 @@ static GenerateAttackListResponseProto* defaultGenerateAttackListResponseProtoIn
   }
   if (self.hasStatus) {
     size += computeEnumSize(3, self.status);
+  }
+  if (self.hasForMap) {
+    size += computeBoolSize(4, self.forMap);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -25595,6 +26199,9 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
   if (other.hasStatus) {
     [self setStatus:other.status];
   }
+  if (other.hasForMap) {
+    [self setForMap:other.forMap];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -25638,6 +26245,10 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
         } else {
           [unknownFields mergeVarintField:3 value:value];
         }
+        break;
+      }
+      case 32: {
+        [self setForMap:[input readBool]];
         break;
       }
     }
@@ -25716,6 +26327,22 @@ BOOL GenerateAttackListResponseProto_GenerateAttackListStatusIsValidValue(Genera
 - (GenerateAttackListResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = GenerateAttackListResponseProto_GenerateAttackListStatusSuccess;
+  return self;
+}
+- (BOOL) hasForMap {
+  return result.hasForMap;
+}
+- (BOOL) forMap {
+  return result.forMap;
+}
+- (GenerateAttackListResponseProto_Builder*) setForMap:(BOOL) value {
+  result.hasForMap = YES;
+  result.forMap = value;
+  return self;
+}
+- (GenerateAttackListResponseProto_Builder*) clearForMap {
+  result.hasForMap = NO;
+  result.forMap = NO;
   return self;
 }
 @end
@@ -41979,6 +42606,813 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (CollectForgeEquipsResponseProto_Builder*) clearStatus {
   result.hasStatus = NO;
   result.status = CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess;
+  return self;
+}
+@end
+
+@interface CharacterModRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property CharacterModType modType;
+@property UserType futureUserType;
+@property (retain) NSString* futureName;
+@end
+
+@implementation CharacterModRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasModType {
+  return !!hasModType_;
+}
+- (void) setHasModType:(BOOL) value {
+  hasModType_ = !!value;
+}
+@synthesize modType;
+- (BOOL) hasFutureUserType {
+  return !!hasFutureUserType_;
+}
+- (void) setHasFutureUserType:(BOOL) value {
+  hasFutureUserType_ = !!value;
+}
+@synthesize futureUserType;
+- (BOOL) hasFutureName {
+  return !!hasFutureName_;
+}
+- (void) setHasFutureName:(BOOL) value {
+  hasFutureName_ = !!value;
+}
+@synthesize futureName;
+- (void) dealloc {
+  self.sender = nil;
+  self.futureName = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.modType = CharacterModTypeNewPlayer;
+    self.futureUserType = UserTypeGoodWarrior;
+    self.futureName = @"";
+  }
+  return self;
+}
+static CharacterModRequestProto* defaultCharacterModRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [CharacterModRequestProto class]) {
+    defaultCharacterModRequestProtoInstance = [[CharacterModRequestProto alloc] init];
+  }
+}
++ (CharacterModRequestProto*) defaultInstance {
+  return defaultCharacterModRequestProtoInstance;
+}
+- (CharacterModRequestProto*) defaultInstance {
+  return defaultCharacterModRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasModType) {
+    [output writeEnum:2 value:self.modType];
+  }
+  if (self.hasFutureUserType) {
+    [output writeEnum:3 value:self.futureUserType];
+  }
+  if (self.hasFutureName) {
+    [output writeString:4 value:self.futureName];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasModType) {
+    size += computeEnumSize(2, self.modType);
+  }
+  if (self.hasFutureUserType) {
+    size += computeEnumSize(3, self.futureUserType);
+  }
+  if (self.hasFutureName) {
+    size += computeStringSize(4, self.futureName);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CharacterModRequestProto*) parseFromData:(NSData*) data {
+  return (CharacterModRequestProto*)[[[CharacterModRequestProto builder] mergeFromData:data] build];
+}
++ (CharacterModRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CharacterModRequestProto*)[[[CharacterModRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CharacterModRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CharacterModRequestProto*)[[[CharacterModRequestProto builder] mergeFromInputStream:input] build];
+}
++ (CharacterModRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CharacterModRequestProto*)[[[CharacterModRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CharacterModRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CharacterModRequestProto*)[[[CharacterModRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CharacterModRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CharacterModRequestProto*)[[[CharacterModRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CharacterModRequestProto_Builder*) builder {
+  return [[[CharacterModRequestProto_Builder alloc] init] autorelease];
+}
++ (CharacterModRequestProto_Builder*) builderWithPrototype:(CharacterModRequestProto*) prototype {
+  return [[CharacterModRequestProto builder] mergeFrom:prototype];
+}
+- (CharacterModRequestProto_Builder*) builder {
+  return [CharacterModRequestProto builder];
+}
+@end
+
+@interface CharacterModRequestProto_Builder()
+@property (retain) CharacterModRequestProto* result;
+@end
+
+@implementation CharacterModRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CharacterModRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CharacterModRequestProto_Builder*) clear {
+  self.result = [[[CharacterModRequestProto alloc] init] autorelease];
+  return self;
+}
+- (CharacterModRequestProto_Builder*) clone {
+  return [CharacterModRequestProto builderWithPrototype:result];
+}
+- (CharacterModRequestProto*) defaultInstance {
+  return [CharacterModRequestProto defaultInstance];
+}
+- (CharacterModRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CharacterModRequestProto*) buildPartial {
+  CharacterModRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CharacterModRequestProto_Builder*) mergeFrom:(CharacterModRequestProto*) other {
+  if (other == [CharacterModRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasModType) {
+    [self setModType:other.modType];
+  }
+  if (other.hasFutureUserType) {
+    [self setFutureUserType:other.futureUserType];
+  }
+  if (other.hasFutureName) {
+    [self setFutureName:other.futureName];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CharacterModRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CharacterModRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (CharacterModTypeIsValidValue(value)) {
+          [self setModType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (UserTypeIsValidValue(value)) {
+          [self setFutureUserType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 34: {
+        [self setFutureName:[input readString]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CharacterModRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CharacterModRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CharacterModRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CharacterModRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasModType {
+  return result.hasModType;
+}
+- (CharacterModType) modType {
+  return result.modType;
+}
+- (CharacterModRequestProto_Builder*) setModType:(CharacterModType) value {
+  result.hasModType = YES;
+  result.modType = value;
+  return self;
+}
+- (CharacterModRequestProto_Builder*) clearModType {
+  result.hasModType = NO;
+  result.modType = CharacterModTypeNewPlayer;
+  return self;
+}
+- (BOOL) hasFutureUserType {
+  return result.hasFutureUserType;
+}
+- (UserType) futureUserType {
+  return result.futureUserType;
+}
+- (CharacterModRequestProto_Builder*) setFutureUserType:(UserType) value {
+  result.hasFutureUserType = YES;
+  result.futureUserType = value;
+  return self;
+}
+- (CharacterModRequestProto_Builder*) clearFutureUserType {
+  result.hasFutureUserType = NO;
+  result.futureUserType = UserTypeGoodWarrior;
+  return self;
+}
+- (BOOL) hasFutureName {
+  return result.hasFutureName;
+}
+- (NSString*) futureName {
+  return result.futureName;
+}
+- (CharacterModRequestProto_Builder*) setFutureName:(NSString*) value {
+  result.hasFutureName = YES;
+  result.futureName = value;
+  return self;
+}
+- (CharacterModRequestProto_Builder*) clearFutureName {
+  result.hasFutureName = NO;
+  result.futureName = @"";
+  return self;
+}
+@end
+
+@interface CharacterModResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property CharacterModResponseProto_CharacterModStatus status;
+@property CharacterModType modType;
+@property int32_t skillPointsNew;
+@property int32_t attackNew;
+@property int32_t defenseNew;
+@property int32_t staminaNew;
+@property int32_t energyNew;
+@end
+
+@implementation CharacterModResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasModType {
+  return !!hasModType_;
+}
+- (void) setHasModType:(BOOL) value {
+  hasModType_ = !!value;
+}
+@synthesize modType;
+- (BOOL) hasSkillPointsNew {
+  return !!hasSkillPointsNew_;
+}
+- (void) setHasSkillPointsNew:(BOOL) value {
+  hasSkillPointsNew_ = !!value;
+}
+@synthesize skillPointsNew;
+- (BOOL) hasAttackNew {
+  return !!hasAttackNew_;
+}
+- (void) setHasAttackNew:(BOOL) value {
+  hasAttackNew_ = !!value;
+}
+@synthesize attackNew;
+- (BOOL) hasDefenseNew {
+  return !!hasDefenseNew_;
+}
+- (void) setHasDefenseNew:(BOOL) value {
+  hasDefenseNew_ = !!value;
+}
+@synthesize defenseNew;
+- (BOOL) hasStaminaNew {
+  return !!hasStaminaNew_;
+}
+- (void) setHasStaminaNew:(BOOL) value {
+  hasStaminaNew_ = !!value;
+}
+@synthesize staminaNew;
+- (BOOL) hasEnergyNew {
+  return !!hasEnergyNew_;
+}
+- (void) setHasEnergyNew:(BOOL) value {
+  hasEnergyNew_ = !!value;
+}
+@synthesize energyNew;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = CharacterModResponseProto_CharacterModStatusSuccess;
+    self.modType = CharacterModTypeNewPlayer;
+    self.skillPointsNew = 0;
+    self.attackNew = 0;
+    self.defenseNew = 0;
+    self.staminaNew = 0;
+    self.energyNew = 0;
+  }
+  return self;
+}
+static CharacterModResponseProto* defaultCharacterModResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [CharacterModResponseProto class]) {
+    defaultCharacterModResponseProtoInstance = [[CharacterModResponseProto alloc] init];
+  }
+}
++ (CharacterModResponseProto*) defaultInstance {
+  return defaultCharacterModResponseProtoInstance;
+}
+- (CharacterModResponseProto*) defaultInstance {
+  return defaultCharacterModResponseProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasModType) {
+    [output writeEnum:3 value:self.modType];
+  }
+  if (self.hasSkillPointsNew) {
+    [output writeInt32:4 value:self.skillPointsNew];
+  }
+  if (self.hasAttackNew) {
+    [output writeInt32:5 value:self.attackNew];
+  }
+  if (self.hasDefenseNew) {
+    [output writeInt32:6 value:self.defenseNew];
+  }
+  if (self.hasStaminaNew) {
+    [output writeInt32:7 value:self.staminaNew];
+  }
+  if (self.hasEnergyNew) {
+    [output writeInt32:8 value:self.energyNew];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasModType) {
+    size += computeEnumSize(3, self.modType);
+  }
+  if (self.hasSkillPointsNew) {
+    size += computeInt32Size(4, self.skillPointsNew);
+  }
+  if (self.hasAttackNew) {
+    size += computeInt32Size(5, self.attackNew);
+  }
+  if (self.hasDefenseNew) {
+    size += computeInt32Size(6, self.defenseNew);
+  }
+  if (self.hasStaminaNew) {
+    size += computeInt32Size(7, self.staminaNew);
+  }
+  if (self.hasEnergyNew) {
+    size += computeInt32Size(8, self.energyNew);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (CharacterModResponseProto*) parseFromData:(NSData*) data {
+  return (CharacterModResponseProto*)[[[CharacterModResponseProto builder] mergeFromData:data] build];
+}
++ (CharacterModResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CharacterModResponseProto*)[[[CharacterModResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (CharacterModResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (CharacterModResponseProto*)[[[CharacterModResponseProto builder] mergeFromInputStream:input] build];
+}
++ (CharacterModResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CharacterModResponseProto*)[[[CharacterModResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CharacterModResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (CharacterModResponseProto*)[[[CharacterModResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (CharacterModResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (CharacterModResponseProto*)[[[CharacterModResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (CharacterModResponseProto_Builder*) builder {
+  return [[[CharacterModResponseProto_Builder alloc] init] autorelease];
+}
++ (CharacterModResponseProto_Builder*) builderWithPrototype:(CharacterModResponseProto*) prototype {
+  return [[CharacterModResponseProto builder] mergeFrom:prototype];
+}
+- (CharacterModResponseProto_Builder*) builder {
+  return [CharacterModResponseProto builder];
+}
+@end
+
+BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModResponseProto_CharacterModStatus value) {
+  switch (value) {
+    case CharacterModResponseProto_CharacterModStatusSuccess:
+    case CharacterModResponseProto_CharacterModStatusInvalidName:
+    case CharacterModResponseProto_CharacterModStatusNotEnoughDiamonds:
+    case CharacterModResponseProto_CharacterModStatusOtherFail:
+    case CharacterModResponseProto_CharacterModStatusCannotChangeToOpposingSideWhenInClan:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface CharacterModResponseProto_Builder()
+@property (retain) CharacterModResponseProto* result;
+@end
+
+@implementation CharacterModResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[CharacterModResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (CharacterModResponseProto_Builder*) clear {
+  self.result = [[[CharacterModResponseProto alloc] init] autorelease];
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clone {
+  return [CharacterModResponseProto builderWithPrototype:result];
+}
+- (CharacterModResponseProto*) defaultInstance {
+  return [CharacterModResponseProto defaultInstance];
+}
+- (CharacterModResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (CharacterModResponseProto*) buildPartial {
+  CharacterModResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (CharacterModResponseProto_Builder*) mergeFrom:(CharacterModResponseProto*) other {
+  if (other == [CharacterModResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasModType) {
+    [self setModType:other.modType];
+  }
+  if (other.hasSkillPointsNew) {
+    [self setSkillPointsNew:other.skillPointsNew];
+  }
+  if (other.hasAttackNew) {
+    [self setAttackNew:other.attackNew];
+  }
+  if (other.hasDefenseNew) {
+    [self setDefenseNew:other.defenseNew];
+  }
+  if (other.hasStaminaNew) {
+    [self setStaminaNew:other.staminaNew];
+  }
+  if (other.hasEnergyNew) {
+    [self setEnergyNew:other.energyNew];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (CharacterModResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (CharacterModResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (CharacterModResponseProto_CharacterModStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (CharacterModTypeIsValidValue(value)) {
+          [self setModType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 32: {
+        [self setSkillPointsNew:[input readInt32]];
+        break;
+      }
+      case 40: {
+        [self setAttackNew:[input readInt32]];
+        break;
+      }
+      case 48: {
+        [self setDefenseNew:[input readInt32]];
+        break;
+      }
+      case 56: {
+        [self setStaminaNew:[input readInt32]];
+        break;
+      }
+      case 64: {
+        [self setEnergyNew:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (CharacterModResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (CharacterModResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (CharacterModResponseProto_CharacterModStatus) status {
+  return result.status;
+}
+- (CharacterModResponseProto_Builder*) setStatus:(CharacterModResponseProto_CharacterModStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = CharacterModResponseProto_CharacterModStatusSuccess;
+  return self;
+}
+- (BOOL) hasModType {
+  return result.hasModType;
+}
+- (CharacterModType) modType {
+  return result.modType;
+}
+- (CharacterModResponseProto_Builder*) setModType:(CharacterModType) value {
+  result.hasModType = YES;
+  result.modType = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearModType {
+  result.hasModType = NO;
+  result.modType = CharacterModTypeNewPlayer;
+  return self;
+}
+- (BOOL) hasSkillPointsNew {
+  return result.hasSkillPointsNew;
+}
+- (int32_t) skillPointsNew {
+  return result.skillPointsNew;
+}
+- (CharacterModResponseProto_Builder*) setSkillPointsNew:(int32_t) value {
+  result.hasSkillPointsNew = YES;
+  result.skillPointsNew = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearSkillPointsNew {
+  result.hasSkillPointsNew = NO;
+  result.skillPointsNew = 0;
+  return self;
+}
+- (BOOL) hasAttackNew {
+  return result.hasAttackNew;
+}
+- (int32_t) attackNew {
+  return result.attackNew;
+}
+- (CharacterModResponseProto_Builder*) setAttackNew:(int32_t) value {
+  result.hasAttackNew = YES;
+  result.attackNew = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearAttackNew {
+  result.hasAttackNew = NO;
+  result.attackNew = 0;
+  return self;
+}
+- (BOOL) hasDefenseNew {
+  return result.hasDefenseNew;
+}
+- (int32_t) defenseNew {
+  return result.defenseNew;
+}
+- (CharacterModResponseProto_Builder*) setDefenseNew:(int32_t) value {
+  result.hasDefenseNew = YES;
+  result.defenseNew = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearDefenseNew {
+  result.hasDefenseNew = NO;
+  result.defenseNew = 0;
+  return self;
+}
+- (BOOL) hasStaminaNew {
+  return result.hasStaminaNew;
+}
+- (int32_t) staminaNew {
+  return result.staminaNew;
+}
+- (CharacterModResponseProto_Builder*) setStaminaNew:(int32_t) value {
+  result.hasStaminaNew = YES;
+  result.staminaNew = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearStaminaNew {
+  result.hasStaminaNew = NO;
+  result.staminaNew = 0;
+  return self;
+}
+- (BOOL) hasEnergyNew {
+  return result.hasEnergyNew;
+}
+- (int32_t) energyNew {
+  return result.energyNew;
+}
+- (CharacterModResponseProto_Builder*) setEnergyNew:(int32_t) value {
+  result.hasEnergyNew = YES;
+  result.energyNew = value;
+  return self;
+}
+- (CharacterModResponseProto_Builder*) clearEnergyNew {
+  result.hasEnergyNew = NO;
+  result.energyNew = 0;
   return self;
 }
 @end

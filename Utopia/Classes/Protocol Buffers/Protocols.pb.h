@@ -18,6 +18,10 @@
 @class ChangeUserLocationRequestProto_Builder;
 @class ChangeUserLocationResponseProto;
 @class ChangeUserLocationResponseProto_Builder;
+@class CharacterModRequestProto;
+@class CharacterModRequestProto_Builder;
+@class CharacterModResponseProto;
+@class CharacterModResponseProto_Builder;
 @class ChatRequestProto;
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
@@ -260,6 +264,8 @@
 @class StartupResponseProto_StartupConstants_BattleConstants;
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
+@class StartupResponseProto_StartupConstants_CharacterModConstants;
+@class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;
 @class StartupResponseProto_StartupConstants_ForgeConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
@@ -354,6 +360,7 @@ typedef enum {
   EventProtocolRequestCForgeAttemptWaitComplete = 49,
   EventProtocolRequestCFinishForgeAttemptWaittimeWithDiamonds = 50,
   EventProtocolRequestCCollectForgeEquips = 51,
+  EventProtocolRequestCCharacterModEvent = 52,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -410,6 +417,7 @@ typedef enum {
   EventProtocolResponseSForgeAttemptWaitComplete = 49,
   EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds = 50,
   EventProtocolResponseSCollectForgeEquips = 51,
+  EventProtocolResponseSCharacterModEvent = 52,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

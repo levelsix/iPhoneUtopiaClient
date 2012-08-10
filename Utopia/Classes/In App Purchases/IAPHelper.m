@@ -99,18 +99,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
   NSNumber *goldAmt = [[[Globals sharedGlobals] productIdentifiers] objectForKey:transaction.payment.productIdentifier];
   [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:encodedReceipt goldAmt:goldAmt.intValue];
   [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
-  
-  
-  // Find the SKProduct so we can send it in to analytics
-  SKProduct *product = nil;
-  for (SKProduct *p in self.products) {
-    if ([p.productIdentifier isEqualToString:transaction.payment.productIdentifier]) {
-      product = p;
-      break;
-    }
-  }
-  float price = [[[self priceForProduct:product] substringFromIndex:1] floatValue];
-  [Analytics purchasedGoldPackage:product.productIdentifier price:price goldAmount:goldAmt.intValue];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {

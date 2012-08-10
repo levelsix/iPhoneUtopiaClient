@@ -93,6 +93,15 @@
 #define POSTED_TO_ENEMY_PROFILE @"Wall: Posted to Enemy Profile"
 #define POSTED_TO_ALLY_PROFILE @"Wall: Posted to Ally Profile"
 
+#define CHARMOD_ATTEMPTED_NAME @"CharMod: Attempted Name"
+#define CHARMOD_CHANGED_NAME @"CharMod: Changed Name"
+#define CHARMOD_ATTEMPTED_STATS @"CharMod: Attempted Stats"
+#define CHARMOD_CHANGED_STATS @"CharMod: Reset Stats"
+#define CHARMOD_ATTEMPTED_TYPE @"CharMod: Attempted Type"
+#define CHARMOD_CHANGED_TYPE @"CharMod: Changed Type"
+#define CHARMOD_ATTEMPTED_GAME @"CharMod: Attempted Reset"
+#define CHARMOD_RESET_GAME @"CharMod: Reset Game"
+
 #define GOLD_SHOPPE_FREE_OFFERS @"Gold Shoppe: Clicked earn free offers"
 #define GOLD_SHOPPE_AD_COLONY @"Gold Shoppe: Watched Ad Colony"
 #define GOLD_SHOPPE_AD_COLONY_FAILED @"Gold Shoppe: Ad Colony Failed"
@@ -110,6 +119,8 @@
 #define BLACKSMITH_FAILED_SPEED_UP @"Blksmth: Failed Speed Up"
 #define BLACKSMITH_COLLECTED_ITEMS @"Blksmth: Collected Items"
 #define BLACKSMITH_GO_TO_MARKETPLACE @"Blksmth: Went to mktplace"
+#define BLACKSMITH_BUY_ONE @"Blksmth: Buy one clicked"
+
 #define BLACKSMITH_BUY_ONE @"Blksmth: Buy one clicked"
 
 #define TUTORIAL_START @"Tutorial: Start"
@@ -739,6 +750,38 @@
 
 + (void) kiipEnteredEmail {
   [Analytics event:KIIP_ENTERED_EMAIL];
+}
+
++ (void) attemptedNameChange {
+  [Analytics event:CHARMOD_ATTEMPTED_NAME];
+}
+
++ (void) nameChange {
+  [Analytics event:CHARMOD_CHANGED_NAME];
+}
+
++ (void) attemptedStatReset {
+  [Analytics event:CHARMOD_ATTEMPTED_STATS];
+}
+
++ (void) statReset {
+  [Analytics event:CHARMOD_CHANGED_STATS];
+}
+
++ (void) attemptedTypeChange {
+  [Analytics event:CHARMOD_ATTEMPTED_TYPE];
+}
+
++ (void) typeChange {
+  [Analytics event:CHARMOD_CHANGED_TYPE];
+}
+
++ (void) attemptedResetGame {
+  [Analytics event:CHARMOD_ATTEMPTED_GAME];
+}
+
++ (void) resetGame {
+  [Analytics event:CHARMOD_RESET_GAME];
 }
 
 + (void) blacksmithGuaranteedForgeWithEquipId:(int)equipId level:(int)level {

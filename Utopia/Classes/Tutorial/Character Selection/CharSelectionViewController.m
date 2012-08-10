@@ -18,6 +18,7 @@
 #import "TutorialTopBar.h"
 #import "TutorialStartLayer.h"
 #import "Downloader.h"
+#import "OutgoingEventController.h"
 
 @implementation CharSelectionViewController
 
@@ -32,6 +33,7 @@
 @synthesize bottomBar, chooseNameView;
 @synthesize nameTextField;
 @synthesize submitButton;
+@synthesize loadingView;
 
 //SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CharSelectionViewController);
 
@@ -127,6 +129,11 @@
   [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
     self.view.alpha = 1.f;
   } completion:nil];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [self didReceiveMemoryWarning];
+  [self release];
 }
 
 - (int) currentPage {
@@ -260,14 +267,26 @@
 }
 
 - (IBAction)selectedClicked:(id)sender {
-  for (UIView *view in self.view.subviews) {
-    if (view.tag != 10) {
-      view.hidden = YES;
+  GameState *gs = [GameState sharedGameState];
+  // If it is tutorial, show name screen
+  // Otherwise send the change user type message
+  if (gs.isTutorial) {
+    for (UIView *view in self.view.subviews) {
+      if (view.tag != 10) {
+        view.hidden = YES;
+      }
     }
+    [self.view addSubview:chooseNameView];
+    
+    [nameTextField becomeFirstResponder];
+  } else {
+    [self.loadingView display:self.view];
+    [[OutgoingEventController sharedOutgoingEventController] changeUserType:_curPage];
+    
+    [Analytics typeChange];
+    
+    [self downloadNecessaryFiles];
   }
-  [self.view addSubview:chooseNameView];
-  
-  [nameTextField becomeFirstResponder];
 }
 
 - (IBAction)backClicked:(id)sender {
@@ -283,25 +302,15 @@
   }
   
   GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   TutorialConstants *tc = [TutorialConstants sharedTutorialConstants];
   [nameTextField resignFirstResponder];
   
   NSString *realStr = nameTextField.text;
   realStr = [realStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   
-  // make sure length is okay
-  if (realStr.length < tc.minNameLength || realStr.length > tc.maxNameLength) {
+  if (![gl validateUserName:realStr]) {
     return;
-  }
-  
-  // make sure there are no obvious swear words
-  NSString *lowerStr = [realStr lowercaseString];
-  NSArray *swearWords = [NSArray arrayWithObjects:@"fuck", @"shit", @"bitch", nil];
-  for (NSString *swear in swearWords) {
-    if ([lowerStr rangeOfString:swear].location != NSNotFound) {
-      [Globals popupMessage:@"Please refrain from using vulgar language within this game."];
-      return;
-    }
   }
   
   _submitted = YES;
@@ -310,8 +319,6 @@
     self.view.alpha = 0.f;
   } completion:^(BOOL finished) {
     [self.view removeFromSuperview];
-    [self didReceiveMemoryWarning];
-    [self release];
     
     [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
   }];
@@ -375,6 +382,7 @@
   // Fake the userEquipIds
   gs.weaponEquipped = 1;
   gs.armorEquipped = 2;
+  gs.amuletEquipped = 0;
   
   GameLayer *gLay = [GameLayer sharedGameLayer];
   [gLay performSelectorInBackground:@selector(loadTutorialMissionMap) withObject:nil];
@@ -415,13 +423,13 @@
   if (![string isEqualToString:@"\n"]) {
     NSString *oldStr = [textField.text stringByReplacingCharactersInRange:range withString:string];
     NSString *str = [oldStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if (str.length < [[TutorialConstants sharedTutorialConstants] minNameLength]) {
+    if (str.length < [[Globals sharedGlobals] minNameLength]) {
       self.submitButton.hidden = YES;
     } else {
       self.submitButton.hidden = NO;
     }
     
-    if (str.length <= [[TutorialConstants sharedTutorialConstants] maxNameLength]) {
+    if (str.length <= [[Globals sharedGlobals] maxNameLength]) {
       [[(NiceFontTextField *)textField label] setText:oldStr];
       return YES;
     }
@@ -461,6 +469,7 @@
   self.chooseNameView = nil;
   self.nameTextField = nil;
   self.submitButton = nil;
+  self.loadingView = nil;
 }
 
 @end

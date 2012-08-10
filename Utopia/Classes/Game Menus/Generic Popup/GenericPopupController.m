@@ -42,7 +42,8 @@
 
 - (IBAction)redOkayClicked:(id)sender {
   if (toAppStore) {
-    [GenericPopupController openAppStoreLink];
+    GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+    [gpc openAppStoreLink];
   } else {
     [self.okInvocation invoke];
     [self close];
@@ -128,12 +129,39 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   gpc.genPopup = nil;
 }
 
++ (void) displayNotificationViewWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector {
+  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
+  GenericPopup *gp = [gpc genPopup];
+  gp.notificationView.hidden = NO;
+  gp.confirmationView.hidden = YES;
+  gp.descriptionLabel.hidden = YES;
+  [gp.mainView addSubview:view];
+  view.center = gp.descriptionLabel.center;
+  gp.titleLabel.text = title ? title : @"Notification!";
+  gp.redButtonLabel.text = okay ? okay : @"Okay";
+  [GenericPopupController displayView];
+  gp.toAppStore = NO;
+  
+	NSMethodSignature* sig = [[target class]
+                            instanceMethodSignatureForSelector:selector];
+	NSInvocation* invocation = [NSInvocation
+                              invocationWithMethodSignature:sig];
+	[invocation setTarget:target];
+	[invocation setSelector:selector];
+  gp.okInvocation = invocation;
+  
+  gpc.view = nil;
+  gpc.genPopup = nil;
+}
+
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink {
   GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
   GenericPopup *gp = [gpc genPopup];
   gp.notificationView.hidden = NO;
   gp.confirmationView.hidden = YES;
-  gp.descriptionLabel.text = @"There is a major update required to play. Click Okay to be taken to the App store.";
+  gp.descriptionLabel.text = @"We've added a slew of new features! Update now to check them out.";
+  gp.redButtonLabel.text = @"Update";
+  gp.titleLabel.text = @"Update Now";
   [GenericPopupController displayView];
   gp.toAppStore = YES;
   gpc.link = appStoreLink;
@@ -194,9 +222,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
   [GenericPopupController displayView];
 }
 
-+ (void) openAppStoreLink {
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:gpc.link]];
+- (void) openAppStoreLink {
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.link]];
 }
 
 - (void) dealloc {

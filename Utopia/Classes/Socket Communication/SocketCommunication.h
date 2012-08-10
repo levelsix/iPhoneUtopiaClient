@@ -50,6 +50,7 @@
 - (int) sendRedeemMarketplaceEarningsMessage;
 - (int) sendPurchaseMarketplaceLicenseMessage: (uint64_t)clientTime type:(PurchaseMarketplaceLicenseRequestProto_LicenseType)type;
 
+- (int) sendGenerateAttackListMessage:(int)numEnemies;
 - (int) sendGenerateAttackListMessage:(int)numEnemies latUpperBound:(CGFloat)latUpperBound latLowerBound:(CGFloat)latLowerBound lonUpperBound:(CGFloat)lonUpperBound lonLowerBound:(CGFloat)lonLowerBound;
 - (int) sendUseSkillPointMessage: (UseSkillPointRequestProto_BoostType) boostType;
 
@@ -99,5 +100,7 @@
 - (int) sendForgeAttemptWaitCompleteMessageWithBlacksmithId:(int)blacksmithId clientTime:(uint64_t)time;
 - (int) sendFinishForgeAttemptWaittimeWithDiamondsWithBlacksmithId:(int)blacksmithId clientTime:(uint64_t)time;
 - (int) sendCollectForgeEquipsWithBlacksmithId:(int)blacksmithId;
+
+- (int) sendCharacterModWithType:(CharacterModType)modType newType:(UserType)userType newName:(NSString *)name;
 
 @end

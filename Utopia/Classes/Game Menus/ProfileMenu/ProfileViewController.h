@@ -31,21 +31,19 @@ typedef enum {
 } ProfileState;
 
 typedef enum {
-  kEquipScopeAll = 1,
-  kEquipScopeWeapons,
+  kEquipScopeWeapons = 1,
   kEquipScopeArmor,
   kEquipScopeAmulets
 } EquipScope;
 
 @class MarketplacePostView;
 
-@interface EquipView : UIView
+@interface EquipView : UITableViewCell
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *maskedEquipIcon;
-@property (nonatomic, retain) IBOutlet UIImageView *border;
 @property (nonatomic, retain) IBOutlet UIImageView *bgd;
-@property (nonatomic, retain) IBOutlet UILabel *rarityLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *border;
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *attackLabel;
 @property (nonatomic, retain) IBOutlet UILabel *defenseLabel;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
@@ -111,13 +109,10 @@ typedef enum {
   BOOL _selected;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *label;
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
-@property (nonatomic, retain) IBOutlet UIView *chooseEquipButton;
-@property (nonatomic, retain) IBOutlet UIView *border;
+@property (nonatomic, retain) IBOutlet UIImageView *selectedView;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
-
-@property (nonatomic, retain) UILabel *unknownLabel;
+@property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, assign) BOOL selected;
 
 - (void) unknownEquip;
@@ -183,12 +178,21 @@ typedef enum {
 
 @end
 
-@interface ProfileViewController : UIViewController {
+@interface EquipTableViewDelegate : NSObject <UITableViewDelegate, UITableViewDataSource> {
+  NSArray *_equips;
+  NSMutableArray *_equipsForScope;
+  int _weaponId;
+  int _armorId;
+  int _amuletId;
+}
+
+@property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
+
+@end
+
+@interface ProfileViewController : UIViewController <UITextFieldDelegate> {
   ProfileState _state;
   EquipScope _curScope;
-  EquipView *_weaponEquipView;
-  EquipView *_armorEquipView;
-  EquipView *_amuletEquipView;
   FullUserProto *_fup;
   
   NSArray *_queuedEquips;
@@ -226,18 +230,18 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet ProfileBar *profileBar;
 
+@property (nonatomic, retain) IBOutlet UIView *profileTabView;
 @property (nonatomic, retain) IBOutlet UIView *equipTabView;
 @property (nonatomic, retain) IBOutlet UIView *skillTabView;
+@property (nonatomic, retain) IBOutlet UIView *specialTabView;
 @property (nonatomic, retain) IBOutlet WallTabView *wallTabView;
 
 @property (nonatomic, assign) ProfileState state;
 @property (nonatomic, assign) EquipScope curScope;
 
-@property (nonatomic, retain) IBOutlet UIScrollView *equipsScrollView;
-@property (nonatomic, retain) NSMutableArray *equipViews;
-@property (nonatomic, retain) IBOutlet EquipView *nibEquipView;
-@property (nonatomic, retain) IBOutlet UIView *unequippableView;
-@property (nonatomic, retain) IBOutlet UILabel *unequippableLabel;
+@property (nonatomic, retain) IBOutlet UITableView *equipsTableView;
+@property (nonatomic, retain) EquipTableViewDelegate *equipsTableDelegate;
+@property (nonatomic, retain) IBOutlet UILabel *equipHeaderLabel;
 
 @property (nonatomic, retain) IBOutlet UILabel *enemyAttackLabel;
 @property (nonatomic, retain) IBOutlet UIView *enemyMiddleView;
@@ -252,12 +256,17 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
+@property (nonatomic, retain) IBOutlet LoadingView *loadingView;
+
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
 
 @property (nonatomic, retain) IBOutlet ProfileEquipPopup *equipPopup;
 
 @property (nonatomic, retain) UIImageView *equippingView;
+
+@property (nonatomic, retain) IBOutlet UITextField *nameChangeTextField;
+@property (nonatomic, retain) IBOutlet UIView *nameChangeView;
 
 
 // UserId will usually be equal to fup.userId unless we are loading current

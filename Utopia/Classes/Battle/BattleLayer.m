@@ -14,7 +14,7 @@
 #import "OutgoingEventController.h"
 #import "ProfileViewController.h"
 #import "RefillMenuController.h"
-#import "MapViewController.h"
+#import "AttackMenuController.h"
 #import "SoundEngine.h"
 #import "MissionMap.h"
 #import "MarketplaceViewController.h"
@@ -594,9 +594,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     // Remove mapviewcontroller in case we were called from there
     // but record whether we came from there or not
-    MapViewController *mvc = [MapViewController sharedMapViewController];
-    if (mvc.view.superview) {
-      [[MapViewController sharedMapViewController] close];
+    AttackMenuController *avc = [AttackMenuController sharedAttackMenuController];
+    if (avc.view.superview) {
+      [[AttackMenuController sharedAttackMenuController] close];
       _cameFromAviary = YES;
     } else {
       _cameFromAviary = NO;
@@ -1336,8 +1336,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   [[GameLayer sharedGameLayer] startHomeMapTimersIfOkay];
   
   if (_cameFromAviary) {
-    [MapViewController displayView];
-    [MapViewController displayAttackMap];
+    [AttackMenuController displayView];
     [[CCDirector sharedDirector] popScene];
   } else {
     // This will cause the scene to be deallocated since there are no more references to it.

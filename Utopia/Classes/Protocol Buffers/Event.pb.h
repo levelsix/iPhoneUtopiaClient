@@ -18,6 +18,10 @@
 @class ChangeUserLocationRequestProto_Builder;
 @class ChangeUserLocationResponseProto;
 @class ChangeUserLocationResponseProto_Builder;
+@class CharacterModRequestProto;
+@class CharacterModRequestProto_Builder;
+@class CharacterModResponseProto;
+@class CharacterModResponseProto_Builder;
 @class ChatRequestProto;
 @class ChatRequestProto_Builder;
 @class ChatResponseProto;
@@ -260,6 +264,8 @@
 @class StartupResponseProto_StartupConstants_BattleConstants;
 @class StartupResponseProto_StartupConstants_BattleConstants_Builder;
 @class StartupResponseProto_StartupConstants_Builder;
+@class StartupResponseProto_StartupConstants_CharacterModConstants;
+@class StartupResponseProto_StartupConstants_CharacterModConstants_Builder;
 @class StartupResponseProto_StartupConstants_ForgeConstants;
 @class StartupResponseProto_StartupConstants_ForgeConstants_Builder;
 @class StartupResponseProto_StartupConstants_FormulaConstants;
@@ -307,6 +313,7 @@
 typedef enum {
   BattleResponseProto_BattleStatusSuccess = 0,
   BattleResponseProto_BattleStatusOtherFail = 1,
+  BattleResponseProto_BattleStatusSameSide = 2,
 } BattleResponseProto_BattleStatus;
 
 BOOL BattleResponseProto_BattleStatusIsValidValue(BattleResponseProto_BattleStatus value);
@@ -798,6 +805,16 @@ typedef enum {
 } CollectForgeEquipsResponseProto_CollectForgeEquipsStatus;
 
 BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(CollectForgeEquipsResponseProto_CollectForgeEquipsStatus value);
+
+typedef enum {
+  CharacterModResponseProto_CharacterModStatusSuccess = 0,
+  CharacterModResponseProto_CharacterModStatusInvalidName = 1,
+  CharacterModResponseProto_CharacterModStatusNotEnoughDiamonds = 2,
+  CharacterModResponseProto_CharacterModStatusOtherFail = 3,
+  CharacterModResponseProto_CharacterModStatusCannotChangeToOpposingSideWhenInClan = 4,
+} CharacterModResponseProto_CharacterModStatus;
+
+BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModResponseProto_CharacterModStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -1936,8 +1953,6 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasMinutesToRefillAstamina_:1;
   BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
@@ -1956,6 +1971,9 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasPlayerWallPostsRetrieveCap_:1;
   BOOL hasAverageSizeOfLevelBracket_:1;
   BOOL hasAdColonyVideosRequiredToRedeemDiamonds_:1;
+  BOOL hasMinNameLength_:1;
+  BOOL hasMaxNameLength_:1;
+  BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasArmoryXlength_:1;
@@ -1968,21 +1986,24 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   BOOL hasCarpenterYlength_:1;
   BOOL hasAviaryXlength_:1;
   BOOL hasAviaryYlength_:1;
-  BOOL hasAttackBaseGain_:1;
-  BOOL hasDefenseBaseGain_:1;
-  BOOL hasEnergyBaseGain_:1;
-  BOOL hasStaminaBaseGain_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
+  BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
   BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
   BOOL hasMaxLevelForStruct_:1;
-  BOOL hasForgeConstants_:1;
-  BOOL hasKiipRewardConditions_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
+  BOOL hasAttackBaseCost_:1;
+  BOOL hasStaminaBaseGain_:1;
+  BOOL hasEnergyBaseGain_:1;
+  BOOL hasDefenseBaseGain_:1;
+  BOOL hasAttackBaseGain_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
+  BOOL hasKiipRewardConditions_:1;
+  BOOL hasForgeConstants_:1;
+  BOOL hasCharModConstants_:1;
   Float64 percentReturnedToUserForSellingNormStructure;
   Float64 levelEquipBoostExponentBase;
   Float64 healthFormulaExponentBase;
@@ -1990,8 +2011,6 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  int32_t minutesToRefillAenergy;
-  int32_t minutesToRefillAstamina;
   int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
@@ -2010,6 +2029,9 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   int32_t playerWallPostsRetrieveCap;
   int32_t averageSizeOfLevelBracket;
   int32_t adColonyVideosRequiredToRedeemDiamonds;
+  int32_t minNameLength;
+  int32_t maxNameLength;
+  int32_t sizeOfAttackList;
   int32_t maxLevelDifferenceForBattle;
   int32_t maxLevelForUser;
   int32_t armoryXlength;
@@ -2022,21 +2044,24 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
   int32_t carpenterYlength;
   int32_t aviaryXlength;
   int32_t aviaryYlength;
-  int32_t attackBaseGain;
-  int32_t defenseBaseGain;
-  int32_t energyBaseGain;
-  int32_t staminaBaseGain;
-  int32_t attackBaseCost;
-  int32_t defenseBaseCost;
-  int32_t energyBaseCost;
+  int32_t minutesToRefillAstamina;
+  int32_t minutesToRefillAenergy;
   int32_t maxNumOfSingleStruct;
-  int32_t staminaBaseCost;
-  int32_t skillPointsGainedOnLevelup;
   int32_t maxLevelForStruct;
-  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
-  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t staminaBaseCost;
+  int32_t energyBaseCost;
+  int32_t defenseBaseCost;
+  int32_t attackBaseCost;
+  int32_t staminaBaseGain;
+  int32_t energyBaseGain;
+  int32_t defenseBaseGain;
+  int32_t attackBaseGain;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
+  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -2095,6 +2120,10 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (BOOL) hasHealthFormulaExponentBase;
 - (BOOL) hasLevelEquipBoostExponentBase;
 - (BOOL) hasAdColonyVideosRequiredToRedeemDiamonds;
+- (BOOL) hasCharModConstants;
+- (BOOL) hasMinNameLength;
+- (BOOL) hasMaxNameLength;
+- (BOOL) hasSizeOfAttackList;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2149,6 +2178,10 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 @property (readonly) Float64 healthFormulaExponentBase;
 @property (readonly) Float64 levelEquipBoostExponentBase;
 @property (readonly) int32_t adColonyVideosRequiredToRedeemDiamonds;
+@property (readonly, retain) StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
+@property (readonly) int32_t minNameLength;
+@property (readonly) int32_t maxNameLength;
+@property (readonly) int32_t sizeOfAttackList;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -2171,6 +2204,81 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 + (StartupResponseProto_StartupConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
 + (StartupResponseProto_StartupConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_CharacterModConstants : PBGeneratedMessage {
+@private
+  BOOL hasDiamondCostToChangeCharacterType_:1;
+  BOOL hasDiamondCostToChangeName_:1;
+  BOOL hasDiamondCostToResetCharacter_:1;
+  BOOL hasDiamondCostToResetSkillPoints_:1;
+  int32_t diamondCostToChangeCharacterType;
+  int32_t diamondCostToChangeName;
+  int32_t diamondCostToResetCharacter;
+  int32_t diamondCostToResetSkillPoints;
+}
+- (BOOL) hasDiamondCostToChangeCharacterType;
+- (BOOL) hasDiamondCostToChangeName;
+- (BOOL) hasDiamondCostToResetCharacter;
+- (BOOL) hasDiamondCostToResetSkillPoints;
+@property (readonly) int32_t diamondCostToChangeCharacterType;
+@property (readonly) int32_t diamondCostToChangeName;
+@property (readonly) int32_t diamondCostToResetCharacter;
+@property (readonly) int32_t diamondCostToResetSkillPoints;
+
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) defaultInstance;
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builder;
++ (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builderWithPrototype:(StartupResponseProto_StartupConstants_CharacterModConstants*) prototype;
+
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromData:(NSData*) data;
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromInputStream:(NSInputStream*) input;
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (StartupResponseProto_StartupConstants_CharacterModConstants*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface StartupResponseProto_StartupConstants_CharacterModConstants_Builder : PBGeneratedMessage_Builder {
+@private
+  StartupResponseProto_StartupConstants_CharacterModConstants* result;
+}
+
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) defaultInstance;
+
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clear;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clone;
+
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) build;
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) buildPartial;
+
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) mergeFrom:(StartupResponseProto_StartupConstants_CharacterModConstants*) other;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasDiamondCostToChangeCharacterType;
+- (int32_t) diamondCostToChangeCharacterType;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToChangeCharacterType:(int32_t) value;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToChangeCharacterType;
+
+- (BOOL) hasDiamondCostToChangeName;
+- (int32_t) diamondCostToChangeName;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToChangeName:(int32_t) value;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToChangeName;
+
+- (BOOL) hasDiamondCostToResetCharacter;
+- (int32_t) diamondCostToResetCharacter;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToResetCharacter:(int32_t) value;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToResetCharacter;
+
+- (BOOL) hasDiamondCostToResetSkillPoints;
+- (int32_t) diamondCostToResetSkillPoints;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) setDiamondCostToResetSkillPoints:(int32_t) value;
+- (StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) clearDiamondCostToResetSkillPoints;
 @end
 
 @interface StartupResponseProto_StartupConstants_KiipRewardConditions : PBGeneratedMessage {
@@ -3047,6 +3155,28 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (int32_t) adColonyVideosRequiredToRedeemDiamonds;
 - (StartupResponseProto_StartupConstants_Builder*) setAdColonyVideosRequiredToRedeemDiamonds:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearAdColonyVideosRequiredToRedeemDiamonds;
+
+- (BOOL) hasCharModConstants;
+- (StartupResponseProto_StartupConstants_CharacterModConstants*) charModConstants;
+- (StartupResponseProto_StartupConstants_Builder*) setCharModConstants:(StartupResponseProto_StartupConstants_CharacterModConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) setCharModConstantsBuilder:(StartupResponseProto_StartupConstants_CharacterModConstants_Builder*) builderForValue;
+- (StartupResponseProto_StartupConstants_Builder*) mergeCharModConstants:(StartupResponseProto_StartupConstants_CharacterModConstants*) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearCharModConstants;
+
+- (BOOL) hasMinNameLength;
+- (int32_t) minNameLength;
+- (StartupResponseProto_StartupConstants_Builder*) setMinNameLength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinNameLength;
+
+- (BOOL) hasMaxNameLength;
+- (int32_t) maxNameLength;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNameLength:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNameLength;
+
+- (BOOL) hasSizeOfAttackList;
+- (int32_t) sizeOfAttackList;
+- (StartupResponseProto_StartupConstants_Builder*) setSizeOfAttackList:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearSizeOfAttackList;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -5772,19 +5902,27 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 
 @interface InAppPurchaseResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasPackagePrice_:1;
   BOOL hasDiamondsGained_:1;
+  BOOL hasPackageName_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  Float64 packagePrice;
   int32_t diamondsGained;
+  NSString* packageName;
   MinimumUserProto* sender;
   InAppPurchaseResponseProto_InAppPurchaseStatus status;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
 - (BOOL) hasDiamondsGained;
+- (BOOL) hasPackageName;
+- (BOOL) hasPackagePrice;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property (readonly) int32_t diamondsGained;
+@property (readonly, retain) NSString* packageName;
+@property (readonly) Float64 packagePrice;
 
 + (InAppPurchaseResponseProto*) defaultInstance;
 - (InAppPurchaseResponseProto*) defaultInstance;
@@ -5836,6 +5974,16 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (int32_t) diamondsGained;
 - (InAppPurchaseResponseProto_Builder*) setDiamondsGained:(int32_t) value;
 - (InAppPurchaseResponseProto_Builder*) clearDiamondsGained;
+
+- (BOOL) hasPackageName;
+- (NSString*) packageName;
+- (InAppPurchaseResponseProto_Builder*) setPackageName:(NSString*) value;
+- (InAppPurchaseResponseProto_Builder*) clearPackageName;
+
+- (BOOL) hasPackagePrice;
+- (Float64) packagePrice;
+- (InAppPurchaseResponseProto_Builder*) setPackagePrice:(Float64) value;
+- (InAppPurchaseResponseProto_Builder*) clearPackagePrice;
 @end
 
 @interface UpdateClientUserResponseProto : PBGeneratedMessage {
@@ -6595,12 +6743,14 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 
 @interface GenerateAttackListRequestProto : PBGeneratedMessage {
 @private
+  BOOL hasForMap_:1;
   BOOL hasLatLowerBound_:1;
   BOOL hasLatUpperBound_:1;
   BOOL hasLongLowerBound_:1;
   BOOL hasLongUpperBound_:1;
   BOOL hasNumEnemies_:1;
   BOOL hasSender_:1;
+  BOOL forMap_:1;
   Float64 latLowerBound;
   Float64 latUpperBound;
   Float64 longLowerBound;
@@ -6614,12 +6764,14 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (BOOL) hasLatUpperBound;
 - (BOOL) hasLongLowerBound;
 - (BOOL) hasLongUpperBound;
+- (BOOL) hasForMap;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) int32_t numEnemies;
 @property (readonly) Float64 latLowerBound;
 @property (readonly) Float64 latUpperBound;
 @property (readonly) Float64 longLowerBound;
 @property (readonly) Float64 longUpperBound;
+- (BOOL) forMap;
 
 + (GenerateAttackListRequestProto*) defaultInstance;
 - (GenerateAttackListRequestProto*) defaultInstance;
@@ -6686,20 +6838,29 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (Float64) longUpperBound;
 - (GenerateAttackListRequestProto_Builder*) setLongUpperBound:(Float64) value;
 - (GenerateAttackListRequestProto_Builder*) clearLongUpperBound;
+
+- (BOOL) hasForMap;
+- (BOOL) forMap;
+- (GenerateAttackListRequestProto_Builder*) setForMap:(BOOL) value;
+- (GenerateAttackListRequestProto_Builder*) clearForMap;
 @end
 
 @interface GenerateAttackListResponseProto : PBGeneratedMessage {
 @private
+  BOOL hasForMap_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
+  BOOL forMap_:1;
   MinimumUserProto* sender;
   GenerateAttackListResponseProto_GenerateAttackListStatus status;
   NSMutableArray* mutableEnemiesList;
 }
 - (BOOL) hasSender;
 - (BOOL) hasStatus;
+- (BOOL) hasForMap;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) GenerateAttackListResponseProto_GenerateAttackListStatus status;
+- (BOOL) forMap;
 - (NSArray*) enemiesList;
 - (FullUserProto*) enemiesAtIndex:(int32_t) index;
 
@@ -6755,6 +6916,11 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (GenerateAttackListResponseProto_GenerateAttackListStatus) status;
 - (GenerateAttackListResponseProto_Builder*) setStatus:(GenerateAttackListResponseProto_GenerateAttackListStatus) value;
 - (GenerateAttackListResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasForMap;
+- (BOOL) forMap;
+- (GenerateAttackListResponseProto_Builder*) setForMap:(BOOL) value;
+- (GenerateAttackListResponseProto_Builder*) clearForMap;
 @end
 
 @interface RefillStatWithDiamondsRequestProto : PBGeneratedMessage {
@@ -10528,5 +10694,195 @@ BOOL CollectForgeEquipsResponseProto_CollectForgeEquipsStatusIsValidValue(Collec
 - (CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) status;
 - (CollectForgeEquipsResponseProto_Builder*) setStatus:(CollectForgeEquipsResponseProto_CollectForgeEquipsStatus) value;
 - (CollectForgeEquipsResponseProto_Builder*) clearStatus;
+@end
+
+@interface CharacterModRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasFutureName_:1;
+  BOOL hasSender_:1;
+  BOOL hasModType_:1;
+  BOOL hasFutureUserType_:1;
+  NSString* futureName;
+  MinimumUserProto* sender;
+  CharacterModType modType;
+  UserType futureUserType;
+}
+- (BOOL) hasSender;
+- (BOOL) hasModType;
+- (BOOL) hasFutureUserType;
+- (BOOL) hasFutureName;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) CharacterModType modType;
+@property (readonly) UserType futureUserType;
+@property (readonly, retain) NSString* futureName;
+
++ (CharacterModRequestProto*) defaultInstance;
+- (CharacterModRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CharacterModRequestProto_Builder*) builder;
++ (CharacterModRequestProto_Builder*) builder;
++ (CharacterModRequestProto_Builder*) builderWithPrototype:(CharacterModRequestProto*) prototype;
+
++ (CharacterModRequestProto*) parseFromData:(NSData*) data;
++ (CharacterModRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CharacterModRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (CharacterModRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CharacterModRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CharacterModRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CharacterModRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CharacterModRequestProto* result;
+}
+
+- (CharacterModRequestProto*) defaultInstance;
+
+- (CharacterModRequestProto_Builder*) clear;
+- (CharacterModRequestProto_Builder*) clone;
+
+- (CharacterModRequestProto*) build;
+- (CharacterModRequestProto*) buildPartial;
+
+- (CharacterModRequestProto_Builder*) mergeFrom:(CharacterModRequestProto*) other;
+- (CharacterModRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CharacterModRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CharacterModRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CharacterModRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CharacterModRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CharacterModRequestProto_Builder*) clearSender;
+
+- (BOOL) hasModType;
+- (CharacterModType) modType;
+- (CharacterModRequestProto_Builder*) setModType:(CharacterModType) value;
+- (CharacterModRequestProto_Builder*) clearModType;
+
+- (BOOL) hasFutureUserType;
+- (UserType) futureUserType;
+- (CharacterModRequestProto_Builder*) setFutureUserType:(UserType) value;
+- (CharacterModRequestProto_Builder*) clearFutureUserType;
+
+- (BOOL) hasFutureName;
+- (NSString*) futureName;
+- (CharacterModRequestProto_Builder*) setFutureName:(NSString*) value;
+- (CharacterModRequestProto_Builder*) clearFutureName;
+@end
+
+@interface CharacterModResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasSkillPointsNew_:1;
+  BOOL hasAttackNew_:1;
+  BOOL hasDefenseNew_:1;
+  BOOL hasStaminaNew_:1;
+  BOOL hasEnergyNew_:1;
+  BOOL hasSender_:1;
+  BOOL hasStatus_:1;
+  BOOL hasModType_:1;
+  int32_t skillPointsNew;
+  int32_t attackNew;
+  int32_t defenseNew;
+  int32_t staminaNew;
+  int32_t energyNew;
+  MinimumUserProto* sender;
+  CharacterModResponseProto_CharacterModStatus status;
+  CharacterModType modType;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasModType;
+- (BOOL) hasSkillPointsNew;
+- (BOOL) hasAttackNew;
+- (BOOL) hasDefenseNew;
+- (BOOL) hasStaminaNew;
+- (BOOL) hasEnergyNew;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) CharacterModResponseProto_CharacterModStatus status;
+@property (readonly) CharacterModType modType;
+@property (readonly) int32_t skillPointsNew;
+@property (readonly) int32_t attackNew;
+@property (readonly) int32_t defenseNew;
+@property (readonly) int32_t staminaNew;
+@property (readonly) int32_t energyNew;
+
++ (CharacterModResponseProto*) defaultInstance;
+- (CharacterModResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (CharacterModResponseProto_Builder*) builder;
++ (CharacterModResponseProto_Builder*) builder;
++ (CharacterModResponseProto_Builder*) builderWithPrototype:(CharacterModResponseProto*) prototype;
+
++ (CharacterModResponseProto*) parseFromData:(NSData*) data;
++ (CharacterModResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CharacterModResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (CharacterModResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (CharacterModResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (CharacterModResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface CharacterModResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  CharacterModResponseProto* result;
+}
+
+- (CharacterModResponseProto*) defaultInstance;
+
+- (CharacterModResponseProto_Builder*) clear;
+- (CharacterModResponseProto_Builder*) clone;
+
+- (CharacterModResponseProto*) build;
+- (CharacterModResponseProto*) buildPartial;
+
+- (CharacterModResponseProto_Builder*) mergeFrom:(CharacterModResponseProto*) other;
+- (CharacterModResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (CharacterModResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (CharacterModResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (CharacterModResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (CharacterModResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (CharacterModResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (CharacterModResponseProto_CharacterModStatus) status;
+- (CharacterModResponseProto_Builder*) setStatus:(CharacterModResponseProto_CharacterModStatus) value;
+- (CharacterModResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasModType;
+- (CharacterModType) modType;
+- (CharacterModResponseProto_Builder*) setModType:(CharacterModType) value;
+- (CharacterModResponseProto_Builder*) clearModType;
+
+- (BOOL) hasSkillPointsNew;
+- (int32_t) skillPointsNew;
+- (CharacterModResponseProto_Builder*) setSkillPointsNew:(int32_t) value;
+- (CharacterModResponseProto_Builder*) clearSkillPointsNew;
+
+- (BOOL) hasAttackNew;
+- (int32_t) attackNew;
+- (CharacterModResponseProto_Builder*) setAttackNew:(int32_t) value;
+- (CharacterModResponseProto_Builder*) clearAttackNew;
+
+- (BOOL) hasDefenseNew;
+- (int32_t) defenseNew;
+- (CharacterModResponseProto_Builder*) setDefenseNew:(int32_t) value;
+- (CharacterModResponseProto_Builder*) clearDefenseNew;
+
+- (BOOL) hasStaminaNew;
+- (int32_t) staminaNew;
+- (CharacterModResponseProto_Builder*) setStaminaNew:(int32_t) value;
+- (CharacterModResponseProto_Builder*) clearStaminaNew;
+
+- (BOOL) hasEnergyNew;
+- (int32_t) energyNew;
+- (CharacterModResponseProto_Builder*) setEnergyNew:(int32_t) value;
+- (CharacterModResponseProto_Builder*) clearEnergyNew;
 @end
 

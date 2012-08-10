@@ -21,6 +21,7 @@
 #import "VaultMenuController.h"
 #import "MarketplaceViewController.h"
 #import "ArmoryViewController.h"
+#import "AttackMenuController.h"
 
 #define QUEST_LOG_TRANSITION_DURATION 0.4f
 
@@ -223,7 +224,7 @@
     if (p.cityId > 0) {
       [[OutgoingEventController sharedOutgoingEventController] loadNeutralCity:p.cityId enemyType:p.typeOfEnemy];
     } else {
-      [MapViewController displayAttackMap];
+      [AttackMenuController displayView];
     }
   } else if (type == kUpgradeStructJob) {
     UpgradeStructJobProto *p = [gs.staticUpgradeStructJobs objectForKey:[NSNumber numberWithInt:jobId]];
@@ -270,7 +271,7 @@
         break;
         
       case SpecialQuestActionWriteOnEnemyWall:
-        [MapViewController displayAttackMap];
+        [AttackMenuController displayView];
         break;
         
       default:

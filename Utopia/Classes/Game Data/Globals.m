@@ -47,6 +47,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize diamondCostOfShortMarketplaceLicense, diamondCostOfLongMarketplaceLicense;
 @synthesize cutOfVaultDepositTaken, skillPointsGainedOnLevelup, percentReturnedToUserForSellingEquipInArmory;
 @synthesize percentReturnedToUserForSellingNormStructure, numDaysLongMarketplaceLicenseLastsFor;
+@synthesize maxCityRank, sizeOfAttackList;
 @synthesize maxLevelForStruct, maxNumbersOfEnemiesToGenerateAtOnce, maxLevelDiffForBattle;
 @synthesize maxNumberOfMarketplacePosts, numDaysShortMarketplaceLicenseLastsFor;
 @synthesize diamondRewardForReferrer;
@@ -54,6 +55,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize diamondCostForInstantUpgradeMultiplier, upgradeStructCoinCostExponentBase;
 @synthesize upgradeStructDiamondCostExponentBase;
 @synthesize locationBarMax;
+@synthesize minNameLength, maxNameLength;
 @synthesize animatingSpriteOffsets;
 @synthesize kiipRewardConditions;
 @synthesize battleGoodMultiplier, battleGreatMultiplier;
@@ -70,6 +72,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize battlePercentOfEquipment, battleIndividualEquipAttackCap;
 @synthesize maxLevelForUser;
 @synthesize adColonyVideosRequiredToRedeemGold;
+@synthesize diamondCostToChangeName, diamondCostToResetCharacter, diamondCostToResetSkillPoints, diamondCostToChangeCharacterType;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -145,6 +148,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.energyRefillWaitMinutes = constants.minutesToRefillAenergy;
   self.staminaRefillWaitMinutes = constants.minutesToRefillAstamina;
   self.adColonyVideosRequiredToRedeemGold = constants.adColonyVideosRequiredToRedeemDiamonds;
+  self.minNameLength = constants.minNameLength;
+  self.maxNameLength = constants.maxNameLength;
+  self.maxCityRank = constants.maxCityRank;
+  self.sizeOfAttackList = constants.sizeOfAttackList;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -180,6 +187,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.levelEquipBoostExponentBase = constants.levelEquipBoostExponentBase;
   self.averageSizeOfLevelBracket = constants.averageSizeOfLevelBracket;
   self.healthFormulaExponentBase = constants.healthFormulaExponentBase;
+  
+  self.diamondCostToResetCharacter = constants.charModConstants.diamondCostToResetCharacter;
+  self.diamondCostToChangeName = constants.charModConstants.diamondCostToChangeName;
+  self.diamondCostToResetSkillPoints = constants.charModConstants.diamondCostToResetSkillPoints;
+  self.diamondCostToChangeCharacterType = constants.charModConstants.diamondCostToChangeCharacterType;
   
   self.locationBarMax = constants.battleConstants.locationBarMax;
   
@@ -1377,44 +1389,6 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   [GenericPopupController displayNotificationViewWithText:msg title:nil];
 }
 
-#pragma mark Bounce View
-+ (void) bounceView: (UIView *) view
-withCompletionBlock:(void(^)(BOOL))completionBlock 
-{
-  view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
-  
-  CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-  bounceAnimation.values = [NSArray arrayWithObjects:
-                            [NSNumber numberWithFloat:0.3],
-                            [NSNumber numberWithFloat:1.1],
-                            [NSNumber numberWithFloat:0.95],
-                            [NSNumber numberWithFloat:1.0], nil];
-  
-  bounceAnimation.keyTimes = [NSArray arrayWithObjects:
-                              [NSNumber numberWithFloat:0],
-                              [NSNumber numberWithFloat:0.4],
-                              [NSNumber numberWithFloat:0.7],
-                              [NSNumber numberWithFloat:0.9],
-                              [NSNumber numberWithFloat:1.0], nil];
-  
-  bounceAnimation.timingFunctions = [NSArray arrayWithObjects:
-                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], 
-                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
-                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], nil];
-  
-  bounceAnimation.duration = 0.5;
-  [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
-  
-  view.layer.transform = CATransform3DIdentity;
-  if (completionBlock) {
-    [UIView animateWithDuration:0 delay:0.5 options:UIViewAnimationOptionTransitionNone animations:nil completion:completionBlock];
-  }
-}
-
-+ (void) bounceView: (UIView *) view {
-  [Globals bounceView:view withCompletionBlock:nil];
-}
-
 #pragma mark View Pulsing
 +(UIImage *)roundGlowForColor:(UIColor *)glowColor
 {
@@ -1456,10 +1430,14 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 +(void)clearPulsingViews
 {
-  for (NSObject *curView in _pulsingViews) {
+  NSMutableArray *toRemove = [NSMutableArray array];
+  for (id curView in _pulsingViews) {
     if([curView retainCount] == 1) {
-      [_pulsingViews removeObject:curView];
+      [toRemove addObject:curView];
     }
+  }
+  for (id rem in toRemove) {
+    [_pulsingViews removeObject:rem];
   }
 }
 
@@ -1500,7 +1478,44 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   }
 }
 
-#pragma mark View Bounce
+#pragma mark Bounce View
++ (void) bounceView: (UIView *) view
+withCompletionBlock:(void(^)(BOOL))completionBlock 
+{
+  view.layer.transform = CATransform3DMakeScale(0.3, 0.3, 1.0);
+  
+  CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+  bounceAnimation.values = [NSArray arrayWithObjects:
+                            [NSNumber numberWithFloat:0.3],
+                            [NSNumber numberWithFloat:1.1],
+                            [NSNumber numberWithFloat:0.95],
+                            [NSNumber numberWithFloat:1.0], nil];
+  
+  bounceAnimation.keyTimes = [NSArray arrayWithObjects:
+                              [NSNumber numberWithFloat:0],
+                              [NSNumber numberWithFloat:0.4],
+                              [NSNumber numberWithFloat:0.7],
+                              [NSNumber numberWithFloat:0.9],
+                              [NSNumber numberWithFloat:1.0], nil];
+  
+  bounceAnimation.timingFunctions = [NSArray arrayWithObjects:
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], 
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], nil];
+  
+  bounceAnimation.duration = 0.5;
+  [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
+  
+  view.layer.transform = CATransform3DIdentity;
+  if (completionBlock) {
+    [UIView animateWithDuration:0 delay:0.5 options:UIViewAnimationOptionTransitionNone animations:nil completion:completionBlock];
+  }
+}
+
++ (void) bounceView: (UIView *) view {
+  [Globals bounceView:view withCompletionBlock:nil];
+}
+
 + (void) bounceView:(UIView *)view fadeInBgdView: (UIView *)bgdView {
   view.alpha = 0;
   bgdView.alpha = 0;
@@ -1653,6 +1668,28 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 - (void) wearEquipConfirmed {
   [[OutgoingEventController sharedOutgoingEventController] wearEquip:_equipIdToWear];
+}
+
+- (BOOL) validateUserName:(NSString *)name {
+  // make sure length is okay
+  if (name.length < minNameLength) {
+    [Globals popupMessage:@"This name is too short."];
+    return NO;
+  } else if (name.length > maxNameLength) {
+    [Globals popupMessage:@"This name is too long."];
+    return NO;
+  }
+  
+  // make sure there are no obvious swear words
+  NSString *lowerStr = [name lowercaseString];
+  NSArray *swearWords = [NSArray arrayWithObjects:@"fuck", @"shit", @"bitch", nil];
+  for (NSString *swear in swearWords) {
+    if ([lowerStr rangeOfString:swear].location != NSNotFound) {
+      [Globals popupMessage:@"Please refrain from using vulgar language within this game."];
+      return NO;
+    }
+  }
+  return YES;
 }
 
 - (void) dealloc {

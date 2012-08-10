@@ -90,6 +90,7 @@
 @synthesize inProgressIncompleteQuests = _inProgressIncompleteQuests;
 
 @synthesize attackList = _attackList;
+@synthesize attackMapList = _attackMapList;
 @synthesize notifications = _notifications;
 @synthesize wallPosts = _wallPosts;
 
@@ -118,6 +119,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     _staticPossessEquipJobs = [[NSMutableDictionary alloc] init];
     _staticUpgradeStructJobs = [[NSMutableDictionary alloc] init];
     _attackList = [[NSMutableArray alloc] init];
+    _attackMapList = [[NSMutableArray alloc] init];
     _notifications = [[NSMutableArray alloc] init];
     _myEquips = [[NSMutableArray alloc] init];
     _myStructs = [[NSMutableArray alloc] init];
@@ -654,6 +656,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.staticPossessEquipJobs = [[[NSMutableDictionary alloc] init] autorelease];
   self.staticUpgradeStructJobs = [[[NSMutableDictionary alloc] init] autorelease];
   self.attackList = [[[NSMutableArray alloc] init] autorelease];
+  self.attackMapList = [[[NSMutableArray alloc] init] autorelease];
   self.notifications = [[[NSMutableArray alloc] init] autorelease];
   self.myEquips = [[[NSMutableArray alloc] init] autorelease];
   self.myStructs = [[[NSMutableArray alloc] init] autorelease];
@@ -663,6 +666,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.availableQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressCompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
   self.inProgressIncompleteQuests = [[[NSMutableDictionary alloc] init] autorelease];
+  
+  self.unrespondedUpdates = [[[NSMutableArray alloc] init] autorelease];
   
   [self stopForgeTimer];
   self.forgeAttempt = nil;
@@ -697,6 +702,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   self.inProgressCompleteQuests = nil;
   self.inProgressIncompleteQuests = nil;
   self.attackList = nil;
+  self.attackMapList = nil;
   self.notifications = nil;
   self.wallPosts = nil;
   self.lastLogoutTime = nil;

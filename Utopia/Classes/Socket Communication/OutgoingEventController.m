@@ -276,11 +276,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     return;
   }
   
-  int tag = [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies 
-                                                                   latUpperBound:MIN(CGRectGetMaxY(bounds), 90)
-                                                                   latLowerBound:MAX(CGRectGetMinY(bounds), -90) 
-                                                                   lonUpperBound:MIN(CGRectGetMaxX(bounds), 180) 
-                                                                   lonLowerBound:MAX(CGRectGetMinX(bounds), -180)];
+  int tag = [[SocketCommunication sharedSocketCommunication] 
+             sendGenerateAttackListMessage:numEnemies 
+             latUpperBound:MIN(CGRectGetMaxY(bounds), 90)
+             latLowerBound:MAX(CGRectGetMinY(bounds), -90) 
+             lonUpperBound:MIN(CGRectGetMaxX(bounds), 180) 
+             lonLowerBound:MAX(CGRectGetMinX(bounds), -180)];
+  [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
+}
+
+- (void) generateAttackList:(int)numEnemies {
+  if (numEnemies <= 0) {
+    [Globals popupMessage:@"Invalid number of enemies to retrieve"];
+    return;
+  }
+  
+  int tag = [[SocketCommunication sharedSocketCommunication] sendGenerateAttackListMessage:numEnemies];
   [[GameState sharedGameState] addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
 }
 
@@ -542,18 +553,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) addHealthSkillPoint {
-//  GameState *gs = [GameState sharedGameState];
-//  Globals *gl = [Globals sharedGlobals];
-//  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+  //  GameState *gs = [GameState sharedGameState];
+  //  Globals *gl = [Globals sharedGlobals];
+  //  SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
   
-//  if (gs.skillPoints >= gl.healthBaseCost) {
-//    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
-//    HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
-//    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.healthBaseCost];
-//    [gs addUnrespondedUpdates:hu, spu, nil];
-//  } else {
-//    [Globals popupMessage:@"No skill points available to add"];
-//  }
+  //  if (gs.skillPoints >= gl.healthBaseCost) {
+  //    int tag = [sc sendUseSkillPointMessage:UseSkillPointRequestProto_BoostTypeHealth];
+  //    HealthUpdate *hu = [HealthUpdate updateWithTag:tag change:gl.healthBaseGain];
+  //    SkillPointsUpdate *spu = [SkillPointsUpdate updateWithTag:tag change:-gl.healthBaseCost];
+  //    [gs addUnrespondedUpdates:hu, spu, nil];
+  //  } else {
+  //    [Globals popupMessage:@"No skill points available to add"];
+  //  }
 }
 
 - (void) refillEnergyWaitComplete {
@@ -1036,6 +1047,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
     }
   }
   
+  for (FullUserProto *fup in gs.attackMapList) {
+    int eq = fup.weaponEquippedUserEquip.equipId;
+    NSNumber *w = [NSNumber numberWithInt:eq];
+    if (eq && ![sEquips objectForKey:w]) {
+      [rEquips addObject:w];
+      shouldSend = YES;
+    }
+    
+    eq = fup.armorEquippedUserEquip.equipId;
+    NSNumber *ar = [NSNumber numberWithInt:eq];
+    if (eq && ![sEquips objectForKey:ar]) {
+      [rEquips addObject:ar];
+      shouldSend = YES;
+    }
+    
+    eq = fup.amuletEquippedUserEquip .equipId;
+    NSNumber *am = [NSNumber numberWithInt:eq];
+    if (eq && ![sEquips objectForKey:am]) {
+      [rEquips addObject:am];
+      shouldSend = YES;
+    }
+  }
+  
   for (UserNotification *un in gs.notifications) {
     if (un.stolenEquipId != 0) {
       NSNumber *n = [NSNumber numberWithInt:un.stolenEquipId];
@@ -1072,7 +1106,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   NSNumber *n = [NSNumber numberWithInt:equipId];
   if (![gs.staticEquips objectForKey:n] && equipId != 0) {
-     int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+    int tag = [[SocketCommunication sharedSocketCommunication] sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:[NSArray arrayWithObject:[NSNumber numberWithInt:equipId]] buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
     [gs addUnrespondedUpdate:[NoUpdate updateWithTag:tag]];
   }
 }
@@ -1364,7 +1398,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) adColonyRewardWithAmount:(int)amount type:(EarnFreeDiamondsRequestProto_AdColonyRewardType)type {
   GameState *gs = [GameState sharedGameState];
-
+  
   uint64_t time = [self getCurrentMilliseconds];
   NSString *preparedText = [NSString stringWithFormat:@"%d%@%d%d%llu",
                             gs.userId,
@@ -1501,9 +1535,79 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   
   if (gs.forgeAttempt.isComplete) {
-    [sc sendCollectForgeEquipsWithBlacksmithId:gs.forgeAttempt.blacksmithId];
+    int tag = [sc sendCollectForgeEquipsWithBlacksmithId:gs.forgeAttempt.blacksmithId];
+    NoUpdate *nu = [NoUpdate updateWithTag:tag];
+    [gs addUnrespondedUpdate:nu];
   } else {
     [Globals popupMessage:@"Attempting to collect forge equips before it is complete."];
+  }
+}
+
+- (void) resetStats {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  int cost = gl.diamondCostToResetSkillPoints;
+  if (gs.gold >= cost) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeResetSkillPoints newType:0 newName:nil];
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-cost];
+    [gs addUnrespondedUpdate:gu];
+  } else {
+    [Globals popupMessage:@"Attempting to reset stats without enough gold"];
+  }
+}
+
+- (void) resetName:(NSString *)name {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  int cost = gl.diamondCostToChangeName;
+  if (gs.gold >= cost) {
+    int tag =  [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeChangeName newType:0 newName:name];;
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-cost];
+    [gs addUnrespondedUpdate:gu];
+    
+    gs.name = name;
+  } else {
+    [Globals popupMessage:@"Attempting to reset name without enough gold"];
+  }
+}
+
+- (void) changeUserType:(UserType)type {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  int cost = gl.diamondCostToChangeCharacterType;
+  if (gs.gold >= cost) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeChangeCharacterType newType:type newName:nil];;
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-cost];
+    [gs addUnrespondedUpdate:gu];
+    
+    gs.type = type;
+    
+    [GameLayer purgeSingleton];
+    [[TopBar sharedTopBar] invalidateTimers];
+    [TopBar purgeSingleton];
+    [[HomeMap sharedHomeMap] invalidateAllTimers];
+    [HomeMap purgeSingleton];
+    [BazaarMap purgeSingleton];
+    [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
+  } else {
+    [Globals popupMessage:@"Attempting to change user type without enough gold"];
+  }
+}
+
+- (void) resetGame {
+  Globals *gl = [Globals sharedGlobals];
+  GameState *gs = [GameState sharedGameState];
+  
+  int cost = gl.diamondCostToResetCharacter;
+  if (gs.gold >= cost) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendCharacterModWithType:CharacterModTypeNewPlayer newType:0 newName:nil];;
+    GoldUpdate *gu = [GoldUpdate updateWithTag:tag change:-cost];
+    [gs addUnrespondedUpdate:gu];
+  } else {
+    [Globals popupMessage:@"Attempting to reset character without enough gold"];
   }
 }
 

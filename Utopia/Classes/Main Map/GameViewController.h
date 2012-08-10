@@ -27,5 +27,6 @@
 
 + (GameViewController *) sharedGameViewController;
 + (void) releaseAllViews;
+- (void) removeAllSubviews;
 
 @end

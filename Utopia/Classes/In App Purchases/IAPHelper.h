@@ -12,5 +12,6 @@
 + (IAPHelper *) sharedIAPHelper;
 - (void)requestProducts;
 - (void)buyProductIdentifier:(SKProduct *)product;
+- (NSString *) priceForProduct:(SKProduct *)product;
 
 @end

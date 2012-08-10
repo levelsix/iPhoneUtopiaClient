@@ -28,6 +28,11 @@
 
 @property (nonatomic, assign) BOOL toAppStore;
 
+- (void) close;
+- (IBAction)redOkayClicked:(id)sender;
+- (IBAction)greenOkayClicked:(id)sender;
+- (IBAction)cancelClicked:(id)sender;
+
 @end
 
 @interface GenericPopupController : UIViewController
@@ -39,10 +44,11 @@
 + (void) displayMajorUpdatePopup:(NSString *)appStoreLink;
 + (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title;
 + (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector;
++ (void) displayNotificationViewWithMiddleView:(UIView *)view title:(NSString *)title okayButton:(NSString *)okay target:(id)target selector:(SEL)selector;
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel target:(id)target selector:(SEL)selector;
 + (void) displayConfirmationWithDescription:(NSString *)description title:(NSString *)title okayButton:(NSString *)okay cancelButton:(NSString *)cancel okTarget:(id)okTarget okSelector:(SEL)okSelector cancelTarget:(id)cancelTarget cancelSelector:(SEL)cancelSelector;
 + (void) removeView;
 + (void) purgeSingleton;
-+ (void) openAppStoreLink;
+- (void) openAppStoreLink;
 
 @end

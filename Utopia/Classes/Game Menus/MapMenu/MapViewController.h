@@ -12,28 +12,9 @@
 #import "TravellingMissionMap.h"
 
 typedef enum {
-  kMissionMap = 1,
-  kAttackMap
-} MapState;
-
-typedef enum {
   kMissionButton = 1,
   kEnemyButton = 1 << 1
 } MapBarButton;
-
-@interface EnemyAnnotation : MKUserLocation
-
-@property (nonatomic, retain) FullUserProto *fup;
-
-@end
-
-@interface PinView : MKAnnotationView
-
-@property (nonatomic, retain) IBOutlet UIView *view;
-@property (nonatomic, retain) IBOutlet UILabel *levelLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *imgView;
-
-@end
 
 @interface MapLoadingView : UIView
 
@@ -43,35 +24,19 @@ typedef enum {
 
 @end
 
-@interface MapViewController : UIViewController <MKMapViewDelegate> {
-  MKMapView *_mapView;
-  BOOL _loaded;
-  MapState _state;
-  
+@interface MapViewController : UIViewController {
   BOOL _isDisplayingLoadingView;
-  
-  MKMapRect lastGoodMapRect;
-  BOOL manuallyChangingMapRect;
 }
 
-@property (nonatomic, retain) IBOutlet MKMapView *mapView;
 @property (nonatomic, retain) IBOutlet TravellingMissionMap *missionMap;
 @property (nonatomic, retain) IBOutlet MapLoadingView *loadingView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, retain) IBOutlet ProgressBar *enstBar;
 @property (nonatomic, retain) IBOutlet UIImageView *enstIcon;
 
 @property (nonatomic, retain) IBOutlet UIView *mainView;
 @property (nonatomic, retain) IBOutlet UIView *bgdView;
-
-@property (nonatomic, assign) MapState state;
-
-- (void) retrieveAttackListForCurrentBounds;
-- (void) removeAllPins;
-- (void) addNewPins;
 
 + (MapViewController *) sharedMapViewController;
 + (void) displayView;
@@ -80,7 +45,6 @@ typedef enum {
 + (void) cleanupAndPurgeSingleton;
 
 + (void) displayMissionMap;
-+ (void) displayAttackMap;
 
 - (IBAction)closeClicked:(id)sender;
 

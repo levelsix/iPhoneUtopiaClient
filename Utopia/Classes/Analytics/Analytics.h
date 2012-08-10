@@ -118,6 +118,15 @@
 + (void) kiipUnlockedAchievement;
 + (void) kiipEnteredEmail;
 
++ (void) attemptedNameChange;
++ (void) nameChange;
++ (void) attemptedStatReset;
++ (void) statReset;
++ (void) attemptedTypeChange;
++ (void) typeChange;
++ (void) attemptedResetGame;
++ (void) resetGame;
+
 + (void) blacksmithGuaranteedForgeWithEquipId:(int)equipId level:(int)level;
 + (void) blacksmithNotGuaranteedForgeWithEquipId:(int)equipId level:(int)level;
 + (void) blacksmithSpeedUpWithEquipId:(int)equipId level:(int)level;

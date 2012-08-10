@@ -84,6 +84,7 @@
   NSMutableDictionary *_availableQuests;
   
   NSMutableArray *_attackList;
+  NSMutableArray *_attackMapList;
   NSMutableArray *_notifications;
   NSMutableArray *_wallPosts;
   
@@ -173,6 +174,7 @@
 @property (retain) NSMutableDictionary *availableQuests;
 
 @property (retain) NSMutableArray *attackList;
+@property (retain) NSMutableArray *attackMapList;
 @property (retain) NSMutableArray *notifications;
 @property (retain) NSMutableArray *wallPosts;
 

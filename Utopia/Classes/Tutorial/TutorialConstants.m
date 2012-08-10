@@ -18,7 +18,6 @@
 @synthesize archerInitWeapon, archerInitDefense;
 @synthesize mageInitArmor, mageInitAttack, mageInitWeapon, mageInitDefense;
 @synthesize warriorInitArmor, warriorInitAttack, warriorInitWeapon, warriorInitDefense;
-@synthesize minNameLength, maxNameLength;
 @synthesize tutorialQuest;
 @synthesize expForLevelThree;
 @synthesize levelTwoCities, levelTwoEquips, levelTwoStructs;
@@ -62,8 +61,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TutorialConstants);
   self.warriorInitAttack = constants.warriorInitAttack;
   self.warriorInitWeapon = constants.warriorInitWeapon;
   self.warriorInitDefense = constants.warriorInitDefense;
-  self.minNameLength = constants.minNameLength;
-  self.maxNameLength = constants.maxNameLength;
   self.tutorialQuest = constants.tutorialQuest;
   self.expForLevelThree = constants.expRequiredForLevelThree;
   self.firstCityElementsForBad = constants.firstCityElementsForBadList;

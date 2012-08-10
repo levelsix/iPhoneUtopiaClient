@@ -57,16 +57,20 @@
 @property (nonatomic, assign) int vaultXLength;
 @property (nonatomic, assign) int vaultYLength;
 
+@property (nonatomic, assign) int minNameLength;
+@property (nonatomic, assign) int maxNameLength;
+
 @property (nonatomic, assign) int maxLevelDiffForBattle;
 @property (nonatomic, assign) int skillPointsGainedOnLevelup;
 @property (nonatomic, assign) float cutOfVaultDepositTaken;
 
 @property (nonatomic, assign) int maxLevelForStruct;
+@property (nonatomic, assign) int maxCityRank;
 @property (nonatomic, assign) int maxRepeatedNormStructs;
 @property (nonatomic, assign) float percentReturnedToUserForSellingNormStructure;
 
 @property (nonatomic, assign) int maxNumberOfMarketplacePosts;
-
+@property (nonatomic, assign) int sizeOfAttackList;
 @property (nonatomic, assign) int numDaysLongMarketplaceLicenseLastsFor;
 @property (nonatomic, assign) int numDaysShortMarketplaceLicenseLastsFor;
 @property (nonatomic, assign) int diamondCostOfLongMarketplaceLicense;
@@ -98,6 +102,12 @@
 
 @property (nonatomic, assign) float maxLevelForUser;
 //@property (nonatomic, assign) float numberOfVideosTillGold;
+
+// Char mod constants
+@property (nonatomic, assign) int diamondCostToChangeCharacterType;
+@property (nonatomic, assign) int diamondCostToChangeName;
+@property (nonatomic, assign) int diamondCostToResetCharacter;
+@property (nonatomic, assign) int diamondCostToResetSkillPoints;
 
 @property (nonatomic, retain) NSDictionary *productIdentifiers;
 
@@ -203,6 +213,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (BOOL) userType:(UserType)t1 isAlliesWith:(UserType)t2;
 
 - (void) confirmWearEquip:(int)userEquipId;
+
+- (BOOL) validateUserName:(NSString *)name;
 
 // Formulas
 - (int) calculateEquipSilverSellCost:(UserEquip *)ue;

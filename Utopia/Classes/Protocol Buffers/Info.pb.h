@@ -69,6 +69,15 @@
 @class UpgradeStructJobProto;
 @class UpgradeStructJobProto_Builder;
 typedef enum {
+  CharacterModTypeNewPlayer = 1,
+  CharacterModTypeResetSkillPoints = 2,
+  CharacterModTypeChangeCharacterType = 3,
+  CharacterModTypeChangeName = 4,
+} CharacterModType;
+
+BOOL CharacterModTypeIsValidValue(CharacterModType value);
+
+typedef enum {
   AnimationTypeGenericAction = 1,
   AnimationTypeAttack = 2,
 } AnimationType;
@@ -360,10 +369,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasIsAdmin_:1;
   BOOL hasIsFake_:1;
   BOOL hasCreateTime_:1;
-  BOOL hasLastLoginTime_:1;
   BOOL hasLastTimeAttacked_:1;
-  BOOL hasLastStaminaRefillTime_:1;
   BOOL hasLastBattleNotificationTime_:1;
+  BOOL hasLastStaminaRefillTime_:1;
+  BOOL hasLastLoginTime_:1;
   BOOL hasLastEnergyRefillTime_:1;
   BOOL hasLastLogoutTime_:1;
   BOOL hasLastLongLicensePurchaseTime_:1;
@@ -373,9 +382,9 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL hasNumPostsInMarketplace_:1;
   BOOL hasNumMarketplaceSalesUnredeemed_:1;
   BOOL hasNumCoinsRetrievedFromStructs_:1;
+  BOOL hasNumAdColonyVideosWatched_:1;
   BOOL hasNumBadges_:1;
   BOOL hasApsalarId_:1;
-  BOOL hasNumAdColonyVideosWatched_:1;
   BOOL hasNumTimesKiipRewarded_:1;
   BOOL hasNumConsecutiveDaysPlayed_:1;
   BOOL hasUserId_:1;
@@ -408,10 +417,10 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   BOOL isAdmin_:1;
   BOOL isFake_:1;
   int64_t createTime;
-  int64_t lastLoginTime;
   int64_t lastTimeAttacked;
-  int64_t lastStaminaRefillTime;
   int64_t lastBattleNotificationTime;
+  int64_t lastStaminaRefillTime;
+  int64_t lastLoginTime;
   int64_t lastEnergyRefillTime;
   int64_t lastLogoutTime;
   int64_t lastLongLicensePurchaseTime;
@@ -421,9 +430,9 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
   int32_t numPostsInMarketplace;
   int32_t numMarketplaceSalesUnredeemed;
   int32_t numCoinsRetrievedFromStructs;
+  int32_t numAdColonyVideosWatched;
   int32_t numBadges;
   int32_t apsalarId;
-  int32_t numAdColonyVideosWatched;
   int32_t numTimesKiipRewarded;
   int32_t numConsecutiveDaysPlayed;
   int32_t userId;
@@ -492,6 +501,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasIsFake;
 - (BOOL) hasIsAdmin;
 - (BOOL) hasNumCoinsRetrievedFromStructs;
+- (BOOL) hasNumAdColonyVideosWatched;
 - (BOOL) hasUdid;
 - (BOOL) hasDeviceToken;
 - (BOOL) hasLastBattleNotificationTime;
@@ -499,7 +509,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) hasNumBadges;
 - (BOOL) hasCreateTime;
 - (BOOL) hasApsalarId;
-- (BOOL) hasNumAdColonyVideosWatched;
 - (BOOL) hasNumTimesKiipRewarded;
 - (BOOL) hasNumConsecutiveDaysPlayed;
 @property (readonly) int32_t userId;
@@ -540,6 +549,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (BOOL) isFake;
 - (BOOL) isAdmin;
 @property (readonly) int32_t numCoinsRetrievedFromStructs;
+@property (readonly) int32_t numAdColonyVideosWatched;
 @property (readonly, retain) NSString* udid;
 @property (readonly, retain) NSString* deviceToken;
 @property (readonly) int64_t lastBattleNotificationTime;
@@ -547,7 +557,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 @property (readonly) int32_t numBadges;
 @property (readonly) int64_t createTime;
 @property (readonly) int32_t apsalarId;
-@property (readonly) int32_t numAdColonyVideosWatched;
 @property (readonly) int32_t numTimesKiipRewarded;
 @property (readonly) int32_t numConsecutiveDaysPlayed;
 
@@ -783,6 +792,11 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (FullUserProto_Builder*) setNumCoinsRetrievedFromStructs:(int32_t) value;
 - (FullUserProto_Builder*) clearNumCoinsRetrievedFromStructs;
 
+- (BOOL) hasNumAdColonyVideosWatched;
+- (int32_t) numAdColonyVideosWatched;
+- (FullUserProto_Builder*) setNumAdColonyVideosWatched:(int32_t) value;
+- (FullUserProto_Builder*) clearNumAdColonyVideosWatched;
+
 - (BOOL) hasUdid;
 - (NSString*) udid;
 - (FullUserProto_Builder*) setUdid:(NSString*) value;
@@ -817,11 +831,6 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
 - (int32_t) apsalarId;
 - (FullUserProto_Builder*) setApsalarId:(int32_t) value;
 - (FullUserProto_Builder*) clearApsalarId;
-
-- (BOOL) hasNumAdColonyVideosWatched;
-- (int32_t) numAdColonyVideosWatched;
-- (FullUserProto_Builder*) setNumAdColonyVideosWatched:(int32_t) value;
-- (FullUserProto_Builder*) clearNumAdColonyVideosWatched;
 
 - (BOOL) hasNumTimesKiipRewarded;
 - (int32_t) numTimesKiipRewarded;

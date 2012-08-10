@@ -71,6 +71,7 @@ BOOL EventProtocolRequestIsValidValue(EventProtocolRequest value) {
     case EventProtocolRequestCForgeAttemptWaitComplete:
     case EventProtocolRequestCFinishForgeAttemptWaittimeWithDiamonds:
     case EventProtocolRequestCCollectForgeEquips:
+    case EventProtocolRequestCCharacterModEvent:
     case EventProtocolRequestCLogoutEvent:
     case EventProtocolRequestAAdminUpdate:
       return YES;
@@ -129,6 +130,7 @@ BOOL EventProtocolResponseIsValidValue(EventProtocolResponse value) {
     case EventProtocolResponseSForgeAttemptWaitComplete:
     case EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds:
     case EventProtocolResponseSCollectForgeEquips:
+    case EventProtocolResponseSCharacterModEvent:
     case EventProtocolResponseSUpdateClientUserEvent:
     case EventProtocolResponseSQuestCompleteEvent:
     case EventProtocolResponseSReferralCodeUsedEvent:

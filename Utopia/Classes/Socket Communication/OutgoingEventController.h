@@ -26,6 +26,8 @@
 - (void) buyEquip:(int)equipId;
 //- (int) sellEquip:(int)equipId;
 - (BOOL) wearEquip:(int)equipId;
+
+- (void) generateAttackList:(int)numEnemies;
 - (void) generateAttackList:(int)numEnemies bounds:(CGRect)bounds;
 
 - (void) startup;
@@ -100,5 +102,10 @@
 - (void) forgeAttemptWaitComplete;
 - (void) finishForgeAttemptWaittimeWithDiamonds;
 - (void) collectForgeEquips;
+
+- (void) resetStats;
+- (void) resetName:(NSString *)name;
+- (void) changeUserType:(UserType)type;
+- (void) resetGame;
 
 @end
