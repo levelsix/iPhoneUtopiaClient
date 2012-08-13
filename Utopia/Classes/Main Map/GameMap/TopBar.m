@@ -67,6 +67,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 @synthesize staminaTimer = _staminaTimer;
 @synthesize isStarted;
 @synthesize dbmc;
+@synthesize inGameNotification;
 
 - (id) init {
   if ((self = [super init])) {
@@ -251,6 +252,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     self.isTouchEnabled = YES;
     
     self.isStarted = NO;
+    
+    _notificationsToDisplay = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -720,7 +723,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
       _littleToolTip.position = ccp((_curStaminaBar.position.x-_curStaminaBar.contentSize.width/2)+_curStaminaBar.contentSize.width*_staminaBar.percentage, _curStaminaBar.position.y-_curStaminaBar.contentSize.height/2-_littleToolTip.contentSize.height/2);
       _littleCurValLabel.string = [NSString stringWithFormat:@"%d/%d", _curStamina, gs.maxStamina];
     }
+    
+    // Display notifications
+    if (!inGameNotification && _notificationsToDisplay.count > 0) {
+      UserNotification *un = [_notificationsToDisplay objectAtIndex:0];
+      [[NSBundle mainBundle] loadNibNamed:@"InGameNotification" owner:self options:nil];
+      [self.inGameNotification updateForNotification:un];
+      [_notificationsToDisplay removeObjectAtIndex:0];
+      [Globals displayUIView:self.inGameNotification];
+      self.inGameNotification.center = ccp(self.inGameNotification.superview.frame.size.width/2,-self.inGameNotification.frame.size.height/2);
+      [UIView animateWithDuration:0.3f animations:^{
+        self.inGameNotification.center = ccp(self.inGameNotification.superview.frame.size.width/2,self.inGameNotification.frame.size.height/2+5);
+      } completion:^(BOOL finished) {
+        // Animate back up after 5 seconds.
+        // Must use block otherwise can't interact with view for 5s
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5.f * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+          [UIView animateWithDuration:0.3f animations:^{
+            self.inGameNotification.center = ccp(self.inGameNotification.superview.frame.size.width/2,-self.inGameNotification.frame.size.height/2);
+          } completion:^(BOOL finished) {
+            [self.inGameNotification removeFromSuperview];
+            self.inGameNotification = nil;
+          }];
+        });
+      }];
+    }
   }
+}
+
+- (void) addNotificationToDisplayQueue:(UserNotification *)un {
+  [_notificationsToDisplay addObject:un];
 }
 
 - (void) displayProgressQuestArrow {
@@ -836,6 +867,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   [_toolTipTimerDate release];
   self.profilePic = nil;
   self.dbmc = nil;
+  self.inGameNotification = nil;
+  [_notificationsToDisplay release];
   [super dealloc];
 }
 

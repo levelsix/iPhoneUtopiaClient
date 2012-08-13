@@ -199,14 +199,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   
   self.lastLogoutTime = [NSDate dateWithTimeIntervalSince1970:user.lastLogoutTime/1000.0];
   
-  [[TopBar sharedTopBar] setUpEnergyTimer];
-  [[TopBar sharedTopBar] setUpStaminaTimer];
-  
   for (id<GameStateUpdate> gsu in _unrespondedUpdates) {
     if ([gsu respondsToSelector:@selector(update)]) {
       [gsu update];
     }
   }
+  
+  [[TopBar sharedTopBar] setUpEnergyTimer];
+  [[TopBar sharedTopBar] setUpStaminaTimer];
 }
 
 - (id) getStaticDataFrom:(NSDictionary *)dict withId:(int)itemId {
@@ -221,6 +221,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
     numTimes++;
     if (numTimes == 1000) {
       ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this");
+    } else if (numTimes > 100000) {
+      return nil;
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
@@ -342,6 +344,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
           un.hasBeenViewed = YES;
         } else {
           [[[TopBar sharedTopBar] profilePic] incrementNotificationBadge];
+          [[TopBar sharedTopBar] addNotificationToDisplayQueue:un];
         }
       }
     }

@@ -1692,6 +1692,8 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
   return YES;
 }
 
+
+
 - (void) dealloc {
   self.productIdentifiers = nil;
   self.imageCache = nil;

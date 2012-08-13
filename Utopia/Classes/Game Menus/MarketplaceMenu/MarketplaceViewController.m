@@ -355,6 +355,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (gs.gold >= amount) {
       [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
       [Analytics successfulRetract];
+      
+      [self.loadingView display:self.view];
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:fmpp.diamondCost];
       [Analytics notEnoughGoldForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.diamondCost];
@@ -364,6 +366,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
     if (gs.silver >= amount) {
       [[OutgoingEventController sharedOutgoingEventController] retractMarketplacePost:fmpp.marketplacePostId];
       [Analytics successfulRetract];
+      
+      [self.loadingView display:self.view];
     } else {
       [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
       [Analytics notEnoughSilverForMarketplaceRetract:fmpp.postedEquip.equipId cost:fmpp.coinCost];
@@ -372,8 +376,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   // Looks choppy. change this by finding the correct table cell and updating that alone..
   [self.postsTableView reloadData];
-  
-  [self.loadingView display:self.view];
   
   self.removeView.hidden = YES;
   self.selectedCell = nil;
@@ -541,11 +543,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
   
   if ([cell isKindOfClass:[ItemPostView class]]) {
-    NSMutableArray *a = [[NSMutableArray alloc]init];
-    if(state == kEquipBuyingState) {
-      a = [self getCurrentFilterState];
-    }
-    else if (state == kEquipSellingState && indexPath.row > (a.count+displayLicense)) {
+    NSMutableArray *a = self.filtered;
+    if (state == kEquipSellingState && indexPath.row > (a.count+displayLicense)) {
       [(ItemPostView *)cell showEquipListing:[[gs myEquips] objectAtIndex:indexPath.row-a.count-displayLicense-1]];
       return cell;
     }
@@ -684,6 +683,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
       default:
         break;
     }
+    self.filtered = [self getCurrentFilterState];
     [self stopLoading];
     self.postsTableView.contentOffset = CGPointMake(0, 0);
     [self resetAllRows];

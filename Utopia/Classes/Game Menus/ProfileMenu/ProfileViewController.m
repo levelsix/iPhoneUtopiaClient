@@ -433,6 +433,7 @@
 @implementation CurrentEquipView
 
 @synthesize equipIcon, levelIcon, selectedView, typeLabel;
+@synthesize knownView, unknownView;
 @synthesize selected = _selected;
 
 - (void) awakeFromNib {
@@ -449,10 +450,14 @@
 - (void) unknownEquip {
   equipIcon.hidden = YES;
   levelIcon.level = 0;
+  self.knownView.hidden = YES;
+  self.unknownView.hidden = NO;
 }
 
 - (void) knownEquip {
   equipIcon.hidden = NO;
+  self.knownView.hidden = NO;
+  self.unknownView.hidden = YES;
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -495,6 +500,8 @@
   self.levelIcon = nil;
   self.selectedView = nil;
   self.typeLabel = nil;
+  self.knownView = nil;
+  self.unknownView = nil;
   
   [super dealloc];
 }
@@ -641,8 +648,8 @@
 }
 
 - (IBAction)equipItemClicked:(id)sender {
-  [self closeClicked:nil];
   [[ProfileViewController sharedProfileViewController] doEquip:userEquip];
+  [self closeClicked:nil];
 }
 
 //- (IBAction)sellClicked:(id)sender {

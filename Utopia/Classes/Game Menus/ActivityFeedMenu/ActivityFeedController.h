@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UserData.h"
 
-@interface ActivityFeedCell : UITableViewCell
+@interface NotificationView : UIView
 
 @property (nonatomic, retain) IBOutlet UIButton *userIcon;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
@@ -19,6 +19,14 @@
 @property (nonatomic, retain) IBOutlet UIButton *button;
 
 @property (nonatomic, retain) UserNotification *notification;
+
+- (void) updateForNotification:(UserNotification *)n;
+
+@end
+
+@interface ActivityFeedCell : UITableViewCell
+
+@property (nonatomic, retain) IBOutlet NotificationView *notiView;
 
 @end
 

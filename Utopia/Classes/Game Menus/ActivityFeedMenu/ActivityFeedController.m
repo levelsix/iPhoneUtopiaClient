@@ -19,6 +19,21 @@
 
 @implementation ActivityFeedCell
 
+@synthesize notiView;
+
+- (void) updateForNotification:(UserNotification *)n {
+  [self.notiView updateForNotification:n];
+}
+
+- (void) dealloc {
+  self.notiView = nil;
+  [super dealloc];
+}
+
+@end
+
+@implementation NotificationView
+
 @synthesize titleLabel, subtitleLabel, userIcon, button, buttonLabel, timeLabel;
 @synthesize notification;
 

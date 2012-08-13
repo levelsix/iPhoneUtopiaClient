@@ -111,6 +111,8 @@ typedef enum {
 
 @property (nonatomic, retain) IBOutlet UIImageView *equipIcon;
 @property (nonatomic, retain) IBOutlet UIImageView *selectedView;
+@property (nonatomic, retain) IBOutlet UIView *knownView;
+@property (nonatomic, retain) IBOutlet UIView *unknownView;
 @property (nonatomic, retain) IBOutlet EquipLevelIcon *levelIcon;
 @property (nonatomic, retain) IBOutlet UILabel *typeLabel;
 @property (nonatomic, assign) BOOL selected;

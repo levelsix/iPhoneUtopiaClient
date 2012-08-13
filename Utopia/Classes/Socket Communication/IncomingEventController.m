@@ -651,6 +651,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   GameState *gs = [GameState sharedGameState];
+  [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
   if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess) {
     if (proto.posterId == gs.userId) {
       // This is a notification
@@ -661,8 +662,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [Analytics receivedNotification];
     } else {
       NSMutableArray *mktPosts = [mvc postsForState];
-      
-      [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
       [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
       
       for (int i = 0; i < mktPosts.count; i++) {

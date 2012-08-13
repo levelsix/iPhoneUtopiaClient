@@ -901,6 +901,10 @@
 		CF2940871565A186002D9E45 /* red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2940851565A186002D9E45 /* red@2x.png */; };
 		CF29408A1565A18F002D9E45 /* grey.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2940881565A18F002D9E45 /* grey.png */; };
 		CF29408B1565A18F002D9E45 /* grey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2940891565A18F002D9E45 /* grey@2x.png */; };
+		CF2F40C815D5DC5900D0CC76 /* notification.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2F40C615D5DC5900D0CC76 /* notification.png */; };
+		CF2F40C915D5DC5900D0CC76 /* notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2F40C715D5DC5900D0CC76 /* notification@2x.png */; };
+		CF2F40CC15D5DCA300D0CC76 /* InGameNotification.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF2F40CB15D5DCA300D0CC76 /* InGameNotification.xib */; };
+		CF2F40CF15D5E59B00D0CC76 /* InGameNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2F40CE15D5E59B00D0CC76 /* InGameNotification.m */; };
 		CF30102915ABED170028A4D9 /* Archer_Task.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF30102115ABEB830028A4D9 /* Archer_Task.m4a */; };
 		CF30102A15ABED170028A4D9 /* hand_shake.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF30102215ABEB830028A4D9 /* hand_shake.m4a */; };
 		CF30102B15ABED170028A4D9 /* Panda_Punch.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CF30102315ABEB830028A4D9 /* Panda_Punch.m4a */; };
@@ -2820,6 +2824,11 @@
 		CF2940851565A186002D9E45 /* red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red@2x.png"; sourceTree = "<group>"; };
 		CF2940881565A18F002D9E45 /* grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grey.png; sourceTree = "<group>"; };
 		CF2940891565A18F002D9E45 /* grey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grey@2x.png"; sourceTree = "<group>"; };
+		CF2F40C615D5DC5900D0CC76 /* notification.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification.png; sourceTree = "<group>"; };
+		CF2F40C715D5DC5900D0CC76 /* notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification@2x.png"; sourceTree = "<group>"; };
+		CF2F40CB15D5DCA300D0CC76 /* InGameNotification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InGameNotification.xib; sourceTree = "<group>"; };
+		CF2F40CD15D5E59B00D0CC76 /* InGameNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InGameNotification.h; sourceTree = "<group>"; };
+		CF2F40CE15D5E59B00D0CC76 /* InGameNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InGameNotification.m; sourceTree = "<group>"; };
 		CF30102115ABEB830028A4D9 /* Archer_Task.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Archer_Task.m4a; sourceTree = "<group>"; };
 		CF30102215ABEB830028A4D9 /* hand_shake.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = hand_shake.m4a; sourceTree = "<group>"; };
 		CF30102315ABEB830028A4D9 /* Panda_Punch.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Panda_Punch.m4a; sourceTree = "<group>"; };
@@ -4208,6 +4217,7 @@
 		CF1265A11538ACC400E0C1AD /* Main Map */ = {
 			isa = PBXGroup;
 			children = (
+				CF2F40CA15D5DC8300D0CC76 /* TopBar */,
 				CFEB28581599403500B622FC /* Sprites */,
 				CF8FC83B154541320082473E /* DecorationLayer.h */,
 				CF8FC83C154541330082473E /* DecorationLayer.m */,
@@ -4219,13 +4229,7 @@
 				CF1265BA1538ACC400E0C1AD /* GameViewController.h */,
 				CF1265BB1538ACC400E0C1AD /* GameViewController.m */,
 				CFC38FA3156EF92900A6A217 /* HomeMap */,
-				CF1265BC1538ACC400E0C1AD /* MaskedSprite.h */,
-				CF1265BD1538ACC400E0C1AD /* MaskedSprite.m */,
 				CFC38FA4156EF94E00A6A217 /* MissionMap */,
-				CF1265BE1538ACC400E0C1AD /* ProfilePicture.h */,
-				CF1265BF1538ACC400E0C1AD /* ProfilePicture.m */,
-				CF1265B81538ACC400E0C1AD /* TopBar.h */,
-				CF1265B91538ACC400E0C1AD /* TopBar.m */,
 			);
 			path = "Main Map";
 			sourceTree = "<group>";
@@ -5373,6 +5377,8 @@
 		CF1269281538ACC600E0C1AD /* Notification Images */ = {
 			isa = PBXGroup;
 			children = (
+				CF2F40C615D5DC5900D0CC76 /* notification.png */,
+				CF2F40C715D5DC5900D0CC76 /* notification@2x.png */,
 				CF09725815BA43EB00F8353B /* blacksmithicon.png */,
 				CF09725915BA43EB00F8353B /* blacksmithicon@2x.png */,
 				CF09725A15BA43EB00F8353B /* checkstatus.png */,
@@ -5933,6 +5939,22 @@
 				CF20732C15B69F1500A11A6E /* percenttimebg@2x.png */,
 			);
 			path = "Forge Images";
+			sourceTree = "<group>";
+		};
+		CF2F40CA15D5DC8300D0CC76 /* TopBar */ = {
+			isa = PBXGroup;
+			children = (
+				CF1265BC1538ACC400E0C1AD /* MaskedSprite.h */,
+				CF1265BD1538ACC400E0C1AD /* MaskedSprite.m */,
+				CF1265BE1538ACC400E0C1AD /* ProfilePicture.h */,
+				CF1265BF1538ACC400E0C1AD /* ProfilePicture.m */,
+				CF1265B81538ACC400E0C1AD /* TopBar.h */,
+				CF1265B91538ACC400E0C1AD /* TopBar.m */,
+				CF2F40CB15D5DCA300D0CC76 /* InGameNotification.xib */,
+				CF2F40CD15D5E59B00D0CC76 /* InGameNotification.h */,
+				CF2F40CE15D5E59B00D0CC76 /* InGameNotification.m */,
+			);
+			name = TopBar;
 			sourceTree = "<group>";
 		};
 		CF30102015ABEB710028A4D9 /* Tasks */ = {
@@ -7961,6 +7983,9 @@
 				CF7F596C15D4C8C90048CB77 /* listpulltorefresh@2x.png in Resources */,
 				CF7F596F15D4CC3C0048CB77 /* listprofilebutton.png in Resources */,
 				CF7F597015D4CC3C0048CB77 /* listprofilebutton@2x.png in Resources */,
+				CF2F40C815D5DC5900D0CC76 /* notification.png in Resources */,
+				CF2F40C915D5DC5900D0CC76 /* notification@2x.png in Resources */,
+				CF2F40CC15D5DCA300D0CC76 /* InGameNotification.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8235,6 +8260,7 @@
 				CFE72A1F15CB4F610014D5D1 /* AdColonySponsoredOffer.m in Sources */,
 				CFE72A2215CB4F960014D5D1 /* TapJoySponsoredOffer.m in Sources */,
 				CFA3711215D302220066D72E /* AttackMenuController.m in Sources */,
+				CF2F40CF15D5E59B00D0CC76 /* InGameNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

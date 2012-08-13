@@ -10,6 +10,7 @@
 #import "MaskedSprite.h"
 #import "ProfilePicture.h"
 #import "DailyBonusMenuController.h"
+#import "InGameNotification.h"
 
 typedef enum {
   kNotShowing = 1,
@@ -74,7 +75,11 @@ typedef enum {
   int _curEnergy;
   int _curStamina;
   int _curExp;
+  
+  NSMutableArray *_notificationsToDisplay;
 }
+
+@property (nonatomic, retain) IBOutlet InGameNotification *inGameNotification;
 
 @property (nonatomic, retain) ProfilePicture *profilePic;
 
@@ -92,6 +97,8 @@ typedef enum {
 - (void) setEnergyBarPercentage:(float)perc;
 - (void) setStaminaBarPercentage:(float)perc;
 - (void) start;
+
+- (void) addNotificationToDisplayQueue:(UserNotification *)un;
 
 - (void) questButtonClicked;
 - (void) mapClicked;
