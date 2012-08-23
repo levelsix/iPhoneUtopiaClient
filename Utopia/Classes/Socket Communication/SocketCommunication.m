@@ -129,7 +129,11 @@ static NSString *udid = nil;
   [[NSRunLoop mainRunLoop] addTimer:[NSTimer timerWithTimeInterval:RECONNECT_TIMEOUT target:self selector:@selector(connectToSocket) userInfo:nil repeats:NO] forMode:NSRunLoopCommonModes];
 }
 
--(void) messageReceived:(NSData *)data withType:(EventProtocolResponse) eventType tag:(int)tag {
+-(void) messageReceived:(NSData *)data withType:(EventProtocolResponse)eventType tag:(int)tag {
+  if (!_asyncSocket) {
+    return;
+  }
+  
   IncomingEventController *iec = [IncomingEventController sharedIncomingEventController];
   
   // Get the proto class for this event type
@@ -138,8 +142,6 @@ static NSString *udid = nil;
     ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to find controller for event type: %d", eventType);
     return;
   }
-  
-  //  NSLog(@"Received %@ with tag %d.", NSStringFromClass(typeClass), tag);
   
   // Call handle<Proto Class> method in event controller
   NSString *selectorStr = [NSString stringWithFormat:@"handle%@:", [typeClass description]];
@@ -183,7 +185,6 @@ static NSString *udid = nil;
   
   int tag = _currentTagNum;
   [_asyncSocket writeData:messageWithHeader withTimeout:-1 tag:_currentTagNum];
-  //  NSLog(@"Sent %@ with tag %d.", NSStringFromClass(msg.class), tag);
   
   _currentTagNum++;
   return tag;
@@ -500,45 +501,6 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCSellNormStructureEvent];
 }
 
-- (int) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y {
-  CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
-                                                  setSender:_sender]
-                                                 setActionType:CriticalStructureActionRequestProto_CritStructActionTypePlace]
-                                                setCritStructType:type]
-                                               setCritStructCoordinates:[[[[CoordinateProto builder]
-                                                                           setX:x]
-                                                                          setY:y]
-                                                                         build]]
-                                              build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCCritStructureActionEvent];
-}
-
-- (int) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y {
-  CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
-                                                  setSender:_sender]
-                                                 setActionType:CriticalStructureActionRequestProto_CritStructActionTypeMove]
-                                                setCritStructType:type]
-                                               setCritStructCoordinates:[[[[CoordinateProto builder]
-                                                                           setX:x]
-                                                                          setY:y]
-                                                                         build]]
-                                              build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCCritStructureActionEvent];
-}
-
-- (int) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation {
-  CriticalStructureActionRequestProto *req = [[[[[[CriticalStructureActionRequestProto builder]
-                                                  setSender:_sender]
-                                                 setActionType:CriticalStructureActionRequestProto_CritStructActionTypeRotate]
-                                                setCritStructType:type]
-                                               setOrientation:orientation] 
-                                              build];
-  
-  return [self sendData:req withMessageType:EventProtocolRequestCCritStructureActionEvent];
-}
-
 - (int) sendLoadPlayerCityMessage:(int)userId {
   LoadPlayerCityRequestProto *req = [[[[LoadPlayerCityRequestProto builder]
                                        setSender:_sender]
@@ -800,10 +762,20 @@ static NSString *udid = nil;
   return [self sendData:req withMessageType:EventProtocolRequestCCharacterModEvent];
 }
 
+- (int) sendRetrieveLeaderboardMessage:(LeaderboardType)type afterRank:(int)rank {
+  RetrieveLeaderboardRequestProto *req = [[[[[RetrieveLeaderboardRequestProto builder]
+                                             setLeaderboardType:type]
+                                            setAfterThisRank:rank]
+                                           setSender:_sender]
+                                          build];
+  
+  return [self sendData:req withMessageType:EventProtocolRequestCRetrieveLeaderboardEvent];
+}
+
 - (void) closeDownConnection {
   if (_asyncSocket) {
     _shouldReconnect = NO;
-    [_asyncSocket disconnectAfterWriting];
+    [_asyncSocket disconnectAfterReadingAndWriting];
     ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Disconnected from socket..");
     [_asyncSocket release];
     _asyncSocket = nil;

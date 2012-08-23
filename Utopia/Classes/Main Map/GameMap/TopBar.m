@@ -17,12 +17,14 @@
 #import "GameMap.h"
 #import "HomeMap.h"
 #import "MapViewController.h"
-#import "UVHelper.h"
 #import "QuestLogController.h"
 #import "ActivityFeedController.h"
 #import "Chartboost.h"
 #import "GameViewController.h"
 #import "AttackMenuController.h"
+#import "Crittercism.h"
+#import "LeaderboardController.h"
+#import "TutorialQuestLogController.h"
 
 #define CHART_BOOST_APP_ID @"500674d49c890d7455000005"
 #define CHART_BOOST_APP_SIGNATURE @"061147e1537ade60161207c29179ec95bece5f9c"
@@ -269,7 +271,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
 - (void) questButtonClicked {
   [[QuestLogController sharedQuestLogController] loadQuestLog];
 }
-
+  
 - (void) bazaarClicked {
   [[GameLayer sharedGameLayer] loadBazaarMap];
 }
@@ -324,6 +326,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   self.isStarted = YES;
   
   GameState *gs = [GameState sharedGameState];
+  
+  [Crittercism setUsername:gs.name];
   
   if (gs.availableQuests.count > 0) {
     [self displayNewQuestArrow];

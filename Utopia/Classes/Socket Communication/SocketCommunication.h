@@ -61,9 +61,6 @@
 - (int) sendPurchaseNormStructureMessage:(int)structId x:(int)x y:(int)y time:(uint64_t)time;
 - (int) sendMoveNormStructureMessage:(int)userStructId x:(int)x y:(int)y;
 - (int) sendRotateNormStructureMessage:(int)userStructId orientation:(StructOrientation)orientation;
-- (int) sendCritStructPlace:(CritStructType)type x:(int)x y:(int)y;
-- (int) sendCritStructMove:(CritStructType)type x:(int)x y:(int)y;
-- (int) sendCritStructRotate:(CritStructType)type orientation:(StructOrientation)orientation;
 - (int) sendUpgradeNormStructureMessage:(int)userStructId time:(uint64_t)curTime;
 - (int) sendNormStructBuildsCompleteMessage:(NSArray *)userStructIds time:(uint64_t)curTime;
 - (int) sendFinishNormStructBuildWithDiamondsMessage:(int)userStructId time:(uint64_t)milliseconds type:(FinishNormStructWaittimeWithDiamondsRequestProto_NormStructWaitTimeType) type;
@@ -102,5 +99,7 @@
 - (int) sendCollectForgeEquipsWithBlacksmithId:(int)blacksmithId;
 
 - (int) sendCharacterModWithType:(CharacterModType)modType newType:(UserType)userType newName:(NSString *)name;
+
+- (int) sendRetrieveLeaderboardMessage:(LeaderboardType)type afterRank:(int)rank;
 
 @end

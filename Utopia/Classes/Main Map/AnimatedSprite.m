@@ -187,7 +187,7 @@
       _sprite.flipX = NO;
       nextAction = _walkActionF;
     } else {
-      NSLog(@"No Action");
+      LNLog(@"No Action");
     }
     
     if (_curAction != nextAction) {

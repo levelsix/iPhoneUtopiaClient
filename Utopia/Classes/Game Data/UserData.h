@@ -59,12 +59,22 @@ typedef enum {
 
 @end
 
+typedef enum {
+  BazaarStructTypeAviary = 1,
+  BazaarStructTypeCarpenter,
+  BazaarStructTypeVault,
+  BazaarStructTypeArmory,
+  BazaarStructTypeMarketplace,
+  BazaarStructTypeBlacksmith,
+  BazaarStructTypeLeaderboard,
+} BazaarStructType;
+
 @interface CritStruct : NSObject 
 
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, assign) CritStructType type;
+@property (nonatomic, assign) BazaarStructType type;
 
-- (id) initWithType:(CritStructType)t;
+- (id) initWithType:(BazaarStructType)t;
 - (void) openMenu;
 
 @end

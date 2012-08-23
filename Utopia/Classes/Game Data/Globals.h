@@ -103,6 +103,9 @@
 @property (nonatomic, assign) float maxLevelForUser;
 //@property (nonatomic, assign) float numberOfVideosTillGold;
 
+@property (nonatomic, assign) int maxNumTimesAttackedByOneInProtectionPeriod;
+@property (nonatomic, assign) int hoursInAttackedByOneProtectionPeriod;
+
 // Char mod constants
 @property (nonatomic, assign) int diamondCostToChangeCharacterType;
 @property (nonatomic, assign) int diamondCostToChangeName;

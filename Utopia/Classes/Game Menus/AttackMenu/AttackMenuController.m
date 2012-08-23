@@ -135,8 +135,8 @@
 }
 
 - (void) dealloc {
-  [super dealloc];
   self.fup = nil;
+  [super dealloc];
 }
 
 @end
@@ -277,6 +277,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   self.refreshHeaderView = nil;
   self.refreshLabel = nil;
   self.refreshSpinner = nil;
+  self.refreshArrow = nil;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -290,8 +291,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   if (_loaded) {
     [self retrieveAttackListForCurrentBounds];
   }
-  [self.listSpinner startAnimating];
-  self.listSpinner.hidden = NO;
   [self.mapSpinner startAnimating];
   self.mapSpinner.hidden = NO;
   
@@ -451,7 +450,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   if (ct > 0) {
     [self.listSpinner stopAnimating];
     self.listSpinner.hidden = YES;
-    [self stopLoading];
+  } else {
+    [self.listSpinner startAnimating];
+    self.listSpinner.hidden = NO;
   }
   
   return ct;
@@ -479,6 +480,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(AttackMenuController);
   [[OutgoingEventController sharedOutgoingEventController] generateAttackList:THRESHOLD_ENEMIES_ATTACK_LIST];
   [[[GameState sharedGameState] attackList] removeAllObjects];
   [self.attackTableView reloadData];
+  [self stopLoading];
 }
 
 - (void) close {

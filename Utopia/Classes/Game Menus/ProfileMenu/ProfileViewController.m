@@ -18,6 +18,7 @@
 #import "KiipDelegate.h"
 #import "RefillMenuController.h"
 #import "CharSelectionViewController.h"
+#import "ArmoryViewController.h"
 
 #define EQUIPS_VERTICAL_SEPARATION 3.f
 #define EQUIPS_HORIZONTAL_SEPARATION 1.f
@@ -1002,6 +1003,7 @@
 @synthesize specialTabView, profileTabView;
 @synthesize nameChangeView, nameChangeTextField, equipHeaderLabel;
 @synthesize equipsTableDelegate;
+@synthesize noEquipLabel, noEquipMiddleView, noEquipButtonView;
 
 SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
@@ -1026,6 +1028,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   enemyMiddleView.frame = equipsTableView.frame;
   [equipTabView addSubview:enemyMiddleView];
+  
+  noEquipMiddleView.frame = equipsTableView.frame;
+  [equipTabView addSubview:noEquipMiddleView];
   
   enemyLeftView.frame = selfLeftView.frame;
   [selfLeftView.superview addSubview:enemyLeftView];
@@ -1260,6 +1265,44 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (void) updateScrollViewForCurrentScope {
   [self.equipsTableDelegate loadEquipsForScope:self.curScope];
   [self.equipsTableView reloadData];
+  
+  int numRows = [self.equipsTableView numberOfRowsInSection:0];
+  if (numRows == 0) {
+    GameState *gs = [GameState sharedGameState];
+    
+    NSString *equipType = nil;
+    if (self.curScope == kEquipScopeWeapons) {
+      equipType = @"Weapons";
+    } else if (self.curScope == kEquipScopeArmor) {
+      equipType = @"Armor";
+    } else if (self.curScope == kEquipScopeAmulets) {
+      equipType = @"Amulets";
+    }
+    
+    if (self.userId == gs.userId) {
+      self.noEquipMiddleView.hidden = NO;
+      self.noEquipButtonView.hidden = NO;
+      
+      self.noEquipLabel.text = [NSString stringWithFormat:@"You do not have any %@ to equip.", equipType];
+    } else if (_fup) {
+      BOOL isEnemy = ![Globals userType:gs.type isAlliesWith:_fup.userType];
+      if (!isEnemy) {
+        self.noEquipMiddleView.hidden = NO;
+        self.noEquipButtonView.hidden = YES;
+        self.noEquipLabel.text = [NSString stringWithFormat:@"%@ does not have any %@.", _fup.name, equipType];
+      } else {
+        self.noEquipMiddleView.hidden = YES;
+      }
+    } else {
+      self.noEquipMiddleView.hidden = YES;
+    }
+  } else {
+    self.noEquipMiddleView.hidden = YES;
+  }
+}
+
+- (IBAction)goToArmoryClicked:(id)sender {
+  [ArmoryViewController displayView];
 }
 
 - (void) loadEquips:(NSArray *)equips curWeapon:(int)weapon curArmor:(int)armor curAmulet:(int)amulet {
@@ -1344,6 +1387,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   BOOL isEnemy = ![Globals userType:gs.type isAlliesWith:fup.userType];
   
+  self.fup = fup;
+  self.userId = fup.userId;
+  
   userNameLabel.text = fup.name;
   profilePicture.image = [Globals profileImageForUser:fup.userType];
   winsLabel.text = [NSString stringWithFormat:@"%d", fup.battlesWon];
@@ -1380,7 +1426,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.curScope = kEquipScopeWeapons;
   
   if (self.state == kSkillsState) {
-    self.state = kEquipState;
+    self.state = kProfileState;
   }
   
   if (userId != fup.userId) {
@@ -1397,9 +1443,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     [spinner stopAnimating];
     self.spinner.hidden = YES;
   }
-  
-  self.fup = fup;
-  self.userId = fup.userId;
 }
 
 - (NSArray *) createFakeEquipsForFakePlayer:(FullUserProto *)fup {
@@ -1434,14 +1477,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   enemyMiddleView.hidden = YES;
   Globals *globals = [Globals sharedGlobals];
   attack  = [globals calculateAttackForAttackStat:_fup.attack
-                                           weapon:(UserEquip *)_fup.weaponEquippedUserEquip
-                                            armor:(UserEquip *)_fup.armorEquippedUserEquip
-                                           amulet:(UserEquip *)_fup.amuletEquippedUserEquip];
+                                           weapon:_fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil
+                                            armor:_fup.hasArmorEquippedUserEquip ? (UserEquip *)_fup.armorEquippedUserEquip : nil
+                                           amulet:_fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil];
   
   defense = [globals calculateDefenseForDefenseStat:_fup.defense
-                                             weapon:(UserEquip *)_fup.weaponEquippedUserEquip
-                                              armor:(UserEquip *)_fup.armorEquippedUserEquip
-                                             amulet:(UserEquip *)_fup.amuletEquippedUserEquip];
+                                             weapon:_fup.hasWeaponEquippedUserEquip ? (UserEquip *)_fup.weaponEquippedUserEquip : nil
+                                              armor:_fup.hasArmorEquippedUserEquip ? (UserEquip *)_fup.armorEquippedUserEquip : nil
+                                             amulet:_fup.hasAmuletEquippedUserEquip ? (UserEquip *)_fup.amuletEquippedUserEquip : nil];
   attackLabel.text = [NSString stringWithFormat:@"%d", attack];
   defenseLabel.text = [NSString stringWithFormat:@"%d", defense];
   
@@ -1612,6 +1655,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
+  self.fup = nil;
+  self.userId = gs.userId;
+  
   userNameLabel.text = gs.name;
   profilePicture.image = [Globals profileImageForUser:gs.type];
   winsLabel.text = [NSString stringWithFormat:@"%d", gs.battlesWon];
@@ -1645,9 +1691,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   enemyLeftView.hidden = YES;
   friendLeftView.hidden = YES;
   selfLeftView.hidden = NO;
-  
-  self.fup = nil;
-  self.userId = gs.userId;
   
   wallTabView.wallPosts = [[GameState sharedGameState] wallPosts];
   
@@ -1751,7 +1794,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 - (IBAction)changeTypeClicked:(id)sender {
   Globals *gl = [Globals sharedGlobals];
   int cost = gl.diamondCostToChangeCharacterType;
-  NSString *str = [NSString stringWithFormat:@"Would you like to reset your skill points%@?", cost > 0 ? [NSString stringWithFormat:@" for %d gold", cost] : @""];
+  NSString *str = [NSString stringWithFormat:@"Would you like to change your character%@?", cost > 0 ? [NSString stringWithFormat:@" for %d gold", cost] : @""];
   [GenericPopupController displayConfirmationWithDescription:str title:nil okayButton:@"Yes" cancelButton:@"No" target:self selector:@selector(changeType)];
   
   [Analytics attemptedTypeChange];
@@ -1932,6 +1975,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   self.nameChangeView = nil;
   self.nameChangeTextField = nil;
   self.equipHeaderLabel = nil;
+  self.noEquipButtonView = nil;
+  self.noEquipLabel = nil;
+  self.noEquipMiddleView = nil;
   [_queuedEquips release];
   _queuedEquips = nil;
 }

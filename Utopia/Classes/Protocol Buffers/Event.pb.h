@@ -130,6 +130,8 @@
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevelForLeaderboard;
+@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserQuestTaskProto;
@@ -218,6 +220,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
+@class RetrieveLeaderboardRequestProto;
+@class RetrieveLeaderboardRequestProto_Builder;
+@class RetrieveLeaderboardResponseProto;
+@class RetrieveLeaderboardResponseProto_Builder;
 @class RetrievePlayerWallPostsRequestProto;
 @class RetrievePlayerWallPostsRequestProto_Builder;
 @class RetrievePlayerWallPostsResponseProto;
@@ -815,6 +821,13 @@ typedef enum {
 } CharacterModResponseProto_CharacterModStatus;
 
 BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModResponseProto_CharacterModStatus value);
+
+typedef enum {
+  RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusSuccess = 0,
+  RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusOtherFail = 1,
+} RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus;
+
+BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus value);
 
 
 @interface EventRoot : NSObject {
@@ -1947,13 +1960,12 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
   BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
-  BOOL hasLevelEquipBoostExponentBase_:1;
-  BOOL hasHealthFormulaExponentBase_:1;
-  BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
+  BOOL hasCutOfVaultDepositTaken_:1;
+  BOOL hasLevelEquipBoostExponentBase_:1;
+  BOOL hasHealthFormulaExponentBase_:1;
   BOOL hasPercentReturnedToUserForSellingEquipInArmory_:1;
-  BOOL hasDiamondCostForFullStaminaRefill_:1;
   BOOL hasDiamondCostForFullEnergyRefill_:1;
   BOOL hasMaxNumberOfMarketplacePosts_:1;
   BOOL hasNumDaysLongMarketplaceLicenseLastsFor_:1;
@@ -1974,44 +1986,46 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
   BOOL hasMinNameLength_:1;
   BOOL hasMaxNameLength_:1;
   BOOL hasSizeOfAttackList_:1;
-  BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasMaxLevelForUser_:1;
-  BOOL hasArmoryXlength_:1;
-  BOOL hasArmoryYlength_:1;
+  BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
+  BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
   BOOL hasVaultXlength_:1;
   BOOL hasVaultYlength_:1;
+  BOOL hasArmoryYlength_:1;
   BOOL hasMarketplaceXlength_:1;
+  BOOL hasArmoryXlength_:1;
   BOOL hasMarketplaceYlength_:1;
   BOOL hasCarpenterXlength_:1;
+  BOOL hasMaxLevelForUser_:1;
+  BOOL hasMaxLevelDifferenceForBattle_:1;
   BOOL hasCarpenterYlength_:1;
   BOOL hasAviaryXlength_:1;
   BOOL hasAviaryYlength_:1;
-  BOOL hasMinutesToRefillAstamina_:1;
-  BOOL hasMinutesToRefillAenergy_:1;
-  BOOL hasMaxNumOfSingleStruct_:1;
-  BOOL hasMaxLevelForStruct_:1;
-  BOOL hasSkillPointsGainedOnLevelup_:1;
-  BOOL hasStaminaBaseCost_:1;
-  BOOL hasEnergyBaseCost_:1;
-  BOOL hasDefenseBaseCost_:1;
-  BOOL hasAttackBaseCost_:1;
-  BOOL hasStaminaBaseGain_:1;
-  BOOL hasEnergyBaseGain_:1;
-  BOOL hasDefenseBaseGain_:1;
   BOOL hasAttackBaseGain_:1;
+  BOOL hasDefenseBaseGain_:1;
+  BOOL hasEnergyBaseGain_:1;
+  BOOL hasStaminaBaseGain_:1;
+  BOOL hasAttackBaseCost_:1;
+  BOOL hasDefenseBaseCost_:1;
+  BOOL hasEnergyBaseCost_:1;
+  BOOL hasStaminaBaseCost_:1;
+  BOOL hasSkillPointsGainedOnLevelup_:1;
+  BOOL hasMaxLevelForStruct_:1;
+  BOOL hasMaxNumOfSingleStruct_:1;
+  BOOL hasMinutesToRefillAenergy_:1;
+  BOOL hasMinutesToRefillAstamina_:1;
+  BOOL hasDiamondCostForFullStaminaRefill_:1;
+  BOOL hasCharModConstants_:1;
+  BOOL hasForgeConstants_:1;
+  BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
-  BOOL hasKiipRewardConditions_:1;
-  BOOL hasForgeConstants_:1;
-  BOOL hasCharModConstants_:1;
   Float64 percentReturnedToUserForSellingNormStructure;
-  Float64 levelEquipBoostExponentBase;
-  Float64 healthFormulaExponentBase;
-  Float64 cutOfVaultDepositTaken;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
+  Float64 cutOfVaultDepositTaken;
+  Float64 levelEquipBoostExponentBase;
+  Float64 healthFormulaExponentBase;
   Float64 percentReturnedToUserForSellingEquipInArmory;
-  int32_t diamondCostForFullStaminaRefill;
   int32_t diamondCostForFullEnergyRefill;
   int32_t maxNumberOfMarketplacePosts;
   int32_t numDaysLongMarketplaceLicenseLastsFor;
@@ -2032,36 +2046,39 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
   int32_t minNameLength;
   int32_t maxNameLength;
   int32_t sizeOfAttackList;
-  int32_t maxLevelDifferenceForBattle;
-  int32_t maxLevelForUser;
-  int32_t armoryXlength;
-  int32_t armoryYlength;
+  int32_t maxNumTimesAttackedByOneInProtectionPeriod;
+  int32_t hoursInAttackedByOneProtectionPeriod;
   int32_t vaultXlength;
   int32_t vaultYlength;
+  int32_t armoryYlength;
   int32_t marketplaceXlength;
+  int32_t armoryXlength;
   int32_t marketplaceYlength;
   int32_t carpenterXlength;
+  int32_t maxLevelForUser;
+  int32_t maxLevelDifferenceForBattle;
   int32_t carpenterYlength;
   int32_t aviaryXlength;
   int32_t aviaryYlength;
-  int32_t minutesToRefillAstamina;
-  int32_t minutesToRefillAenergy;
-  int32_t maxNumOfSingleStruct;
-  int32_t maxLevelForStruct;
-  int32_t skillPointsGainedOnLevelup;
-  int32_t staminaBaseCost;
-  int32_t energyBaseCost;
-  int32_t defenseBaseCost;
-  int32_t attackBaseCost;
-  int32_t staminaBaseGain;
-  int32_t energyBaseGain;
-  int32_t defenseBaseGain;
   int32_t attackBaseGain;
+  int32_t defenseBaseGain;
+  int32_t energyBaseGain;
+  int32_t staminaBaseGain;
+  int32_t attackBaseCost;
+  int32_t defenseBaseCost;
+  int32_t energyBaseCost;
+  int32_t staminaBaseCost;
+  int32_t skillPointsGainedOnLevelup;
+  int32_t maxLevelForStruct;
+  int32_t maxNumOfSingleStruct;
+  int32_t minutesToRefillAenergy;
+  int32_t minutesToRefillAstamina;
+  int32_t diamondCostForFullStaminaRefill;
+  StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
+  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
+  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
   StartupResponseProto_StartupConstants_BattleConstants* battleConstants;
   StartupResponseProto_StartupConstants_FormulaConstants* formulaConstants;
-  StartupResponseProto_StartupConstants_KiipRewardConditions* kiipRewardConditions;
-  StartupResponseProto_StartupConstants_ForgeConstants* forgeConstants;
-  StartupResponseProto_StartupConstants_CharacterModConstants* charModConstants;
   NSMutableArray* mutableProductDiamondsGivenList;
   NSMutableArray* mutableProductIdsList;
   NSMutableArray* mutableAnimatedSpriteOffsetsList;
@@ -2124,6 +2141,8 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
 - (BOOL) hasMinNameLength;
 - (BOOL) hasMaxNameLength;
 - (BOOL) hasSizeOfAttackList;
+- (BOOL) hasMaxNumTimesAttackedByOneInProtectionPeriod;
+- (BOOL) hasHoursInAttackedByOneProtectionPeriod;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2182,6 +2201,8 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
 @property (readonly) int32_t minNameLength;
 @property (readonly) int32_t maxNameLength;
 @property (readonly) int32_t sizeOfAttackList;
+@property (readonly) int32_t maxNumTimesAttackedByOneInProtectionPeriod;
+@property (readonly) int32_t hoursInAttackedByOneProtectionPeriod;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -3177,6 +3198,16 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
 - (int32_t) sizeOfAttackList;
 - (StartupResponseProto_StartupConstants_Builder*) setSizeOfAttackList:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearSizeOfAttackList;
+
+- (BOOL) hasMaxNumTimesAttackedByOneInProtectionPeriod;
+- (int32_t) maxNumTimesAttackedByOneInProtectionPeriod;
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumTimesAttackedByOneInProtectionPeriod:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumTimesAttackedByOneInProtectionPeriod;
+
+- (BOOL) hasHoursInAttackedByOneProtectionPeriod;
+- (int32_t) hoursInAttackedByOneProtectionPeriod;
+- (StartupResponseProto_StartupConstants_Builder*) setHoursInAttackedByOneProtectionPeriod:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearHoursInAttackedByOneProtectionPeriod;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -10884,5 +10915,171 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
 - (int32_t) energyNew;
 - (CharacterModResponseProto_Builder*) setEnergyNew:(int32_t) value;
 - (CharacterModResponseProto_Builder*) clearEnergyNew;
+@end
+
+@interface RetrieveLeaderboardRequestProto : PBGeneratedMessage {
+@private
+  BOOL hasAfterThisRank_:1;
+  BOOL hasSender_:1;
+  BOOL hasLeaderboardType_:1;
+  int32_t afterThisRank;
+  MinimumUserProto* sender;
+  LeaderboardType leaderboardType;
+}
+- (BOOL) hasSender;
+- (BOOL) hasLeaderboardType;
+- (BOOL) hasAfterThisRank;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) LeaderboardType leaderboardType;
+@property (readonly) int32_t afterThisRank;
+
++ (RetrieveLeaderboardRequestProto*) defaultInstance;
+- (RetrieveLeaderboardRequestProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveLeaderboardRequestProto_Builder*) builder;
++ (RetrieveLeaderboardRequestProto_Builder*) builder;
++ (RetrieveLeaderboardRequestProto_Builder*) builderWithPrototype:(RetrieveLeaderboardRequestProto*) prototype;
+
++ (RetrieveLeaderboardRequestProto*) parseFromData:(NSData*) data;
++ (RetrieveLeaderboardRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardRequestProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveLeaderboardRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveLeaderboardRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveLeaderboardRequestProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveLeaderboardRequestProto* result;
+}
+
+- (RetrieveLeaderboardRequestProto*) defaultInstance;
+
+- (RetrieveLeaderboardRequestProto_Builder*) clear;
+- (RetrieveLeaderboardRequestProto_Builder*) clone;
+
+- (RetrieveLeaderboardRequestProto*) build;
+- (RetrieveLeaderboardRequestProto*) buildPartial;
+
+- (RetrieveLeaderboardRequestProto_Builder*) mergeFrom:(RetrieveLeaderboardRequestProto*) other;
+- (RetrieveLeaderboardRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveLeaderboardRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveLeaderboardRequestProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveLeaderboardRequestProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardRequestProto_Builder*) clearSender;
+
+- (BOOL) hasLeaderboardType;
+- (LeaderboardType) leaderboardType;
+- (RetrieveLeaderboardRequestProto_Builder*) setLeaderboardType:(LeaderboardType) value;
+- (RetrieveLeaderboardRequestProto_Builder*) clearLeaderboardType;
+
+- (BOOL) hasAfterThisRank;
+- (int32_t) afterThisRank;
+- (RetrieveLeaderboardRequestProto_Builder*) setAfterThisRank:(int32_t) value;
+- (RetrieveLeaderboardRequestProto_Builder*) clearAfterThisRank;
+@end
+
+@interface RetrieveLeaderboardResponseProto : PBGeneratedMessage {
+@private
+  BOOL hasAfterThisRank_:1;
+  BOOL hasSender_:1;
+  BOOL hasRetriever_:1;
+  BOOL hasStatus_:1;
+  BOOL hasLeaderboardType_:1;
+  int32_t afterThisRank;
+  MinimumUserProto* sender;
+  MinimumUserProtoWithLevelForLeaderboard* retriever;
+  RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus status;
+  LeaderboardType leaderboardType;
+  NSMutableArray* mutableResultPlayersList;
+}
+- (BOOL) hasSender;
+- (BOOL) hasStatus;
+- (BOOL) hasLeaderboardType;
+- (BOOL) hasAfterThisRank;
+- (BOOL) hasRetriever;
+@property (readonly, retain) MinimumUserProto* sender;
+@property (readonly) RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus status;
+@property (readonly) LeaderboardType leaderboardType;
+@property (readonly) int32_t afterThisRank;
+@property (readonly, retain) MinimumUserProtoWithLevelForLeaderboard* retriever;
+- (NSArray*) resultPlayersList;
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index;
+
++ (RetrieveLeaderboardResponseProto*) defaultInstance;
+- (RetrieveLeaderboardResponseProto*) defaultInstance;
+
+- (BOOL) isInitialized;
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output;
+- (RetrieveLeaderboardResponseProto_Builder*) builder;
++ (RetrieveLeaderboardResponseProto_Builder*) builder;
++ (RetrieveLeaderboardResponseProto_Builder*) builderWithPrototype:(RetrieveLeaderboardResponseProto*) prototype;
+
++ (RetrieveLeaderboardResponseProto*) parseFromData:(NSData*) data;
++ (RetrieveLeaderboardResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardResponseProto*) parseFromInputStream:(NSInputStream*) input;
++ (RetrieveLeaderboardResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
++ (RetrieveLeaderboardResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input;
++ (RetrieveLeaderboardResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+@end
+
+@interface RetrieveLeaderboardResponseProto_Builder : PBGeneratedMessage_Builder {
+@private
+  RetrieveLeaderboardResponseProto* result;
+}
+
+- (RetrieveLeaderboardResponseProto*) defaultInstance;
+
+- (RetrieveLeaderboardResponseProto_Builder*) clear;
+- (RetrieveLeaderboardResponseProto_Builder*) clone;
+
+- (RetrieveLeaderboardResponseProto*) build;
+- (RetrieveLeaderboardResponseProto*) buildPartial;
+
+- (RetrieveLeaderboardResponseProto_Builder*) mergeFrom:(RetrieveLeaderboardResponseProto*) other;
+- (RetrieveLeaderboardResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input;
+- (RetrieveLeaderboardResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry;
+
+- (BOOL) hasSender;
+- (MinimumUserProto*) sender;
+- (RetrieveLeaderboardResponseProto_Builder*) setSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue;
+- (RetrieveLeaderboardResponseProto_Builder*) mergeSender:(MinimumUserProto*) value;
+- (RetrieveLeaderboardResponseProto_Builder*) clearSender;
+
+- (BOOL) hasStatus;
+- (RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus) status;
+- (RetrieveLeaderboardResponseProto_Builder*) setStatus:(RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus) value;
+- (RetrieveLeaderboardResponseProto_Builder*) clearStatus;
+
+- (BOOL) hasLeaderboardType;
+- (LeaderboardType) leaderboardType;
+- (RetrieveLeaderboardResponseProto_Builder*) setLeaderboardType:(LeaderboardType) value;
+- (RetrieveLeaderboardResponseProto_Builder*) clearLeaderboardType;
+
+- (BOOL) hasAfterThisRank;
+- (int32_t) afterThisRank;
+- (RetrieveLeaderboardResponseProto_Builder*) setAfterThisRank:(int32_t) value;
+- (RetrieveLeaderboardResponseProto_Builder*) clearAfterThisRank;
+
+- (BOOL) hasRetriever;
+- (MinimumUserProtoWithLevelForLeaderboard*) retriever;
+- (RetrieveLeaderboardResponseProto_Builder*) setRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardResponseProto_Builder*) setRetrieverBuilder:(MinimumUserProtoWithLevelForLeaderboard_Builder*) builderForValue;
+- (RetrieveLeaderboardResponseProto_Builder*) mergeRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardResponseProto_Builder*) clearRetriever;
+
+- (NSArray*) resultPlayersList;
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index;
+- (RetrieveLeaderboardResponseProto_Builder*) replaceResultPlayersAtIndex:(int32_t) index with:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value;
+- (RetrieveLeaderboardResponseProto_Builder*) addAllResultPlayers:(NSArray*) values;
+- (RetrieveLeaderboardResponseProto_Builder*) clearResultPlayersList;
 @end
 

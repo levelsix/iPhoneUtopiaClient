@@ -144,8 +144,10 @@
   _cityId = fqp.cityId;
   _assetNum = fqp.assetNumWithinCity;
   
-  NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
-  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  if (fqp.questGiverImageSuffix) {
+    NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
+    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  }
   
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[questGiverImageView viewWithTag:150];
   loadingView.center = CGPointMake(questGiverImageView.frame.size.width/2, questGiverImageView.frame.size.height/2+3);
@@ -242,32 +244,32 @@
     switch (fqp.specialQuestActionReq) {
       case SpecialQuestActionSellToArmory:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:CritStructTypeArmory];
+        [bm moveToCritStruct:BazaarStructTypeArmory];
         break;
         
       case SpecialQuestActionDepositInVault:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:CritStructTypeVault];
+        [bm moveToCritStruct:BazaarStructTypeVault];
         break;
         
       case SpecialQuestActionWithdrawFromVault:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:CritStructTypeVault];
+        [bm moveToCritStruct:BazaarStructTypeVault];
         break;
         
       case SpecialQuestActionPostToMarketplace:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:CritStructTypeMarketplace];
+        [bm moveToCritStruct:BazaarStructTypeMarketplace];
         break;
         
       case SpecialQuestActionPurchaseFromMarketplace:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:CritStructTypeMarketplace];
+        [bm moveToCritStruct:BazaarStructTypeMarketplace];
         break;
         
       case SpecialQuestActionPurchaseFromArmory:
         [glay loadBazaarMap];
-        [bm moveToCritStruct:CritStructTypeArmory];
+        [bm moveToCritStruct:BazaarStructTypeArmory];
         break;
         
       case SpecialQuestActionWriteOnEnemyWall:
@@ -394,8 +396,10 @@
   qc.nameLabel.text = fqp.name;
   qc.quest = fqp;
   
-  NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
-  [Globals imageNamed:file withImageView:qc.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  if (fqp.questGiverImageSuffix) {
+    NSString *file = [@"dialogue" stringByAppendingString:fqp.questGiverImageSuffix];
+    [Globals imageNamed:file withImageView:qc.questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  }
   
   UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[qc.questGiverImageView viewWithTag:150];
   loadingView.center = CGPointMake(qc.questGiverImageView.frame.size.width/2, qc.questGiverImageView.frame.size.height/2+3);
@@ -769,8 +773,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [self showTaskListViewAnimated:NO];
   self.backButton.hidden = YES;
   
-  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
-  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  if (fqp.questGiverImageSuffix) {
+    NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  }
 }
 
 - (void) loadQuestAcceptScreen:(FullQuestProto *)fqp {
@@ -788,8 +794,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   
   [[SoundEngine sharedSoundEngine] questAccepted];
   
-  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
-  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  if (fqp.questGiverImageSuffix) {
+    NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  }
 }
 
 - (FullUserQuestDataLargeProto *) loadFakeQuest:(FullQuestProto *)fqp {
@@ -894,8 +902,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(QuestLogController);
   [QuestLogController displayView];
   [self showTaskListViewAnimated:NO];
   
-  NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
-  [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  if (fqp.questGiverImageSuffix) {
+    NSString *file = [@"big" stringByAppendingString:fqp.questGiverImageSuffix];
+    [Globals imageNamed:file withImageView:questGiverImageView maskedColor:nil indicator:UIActivityIndicatorViewStyleWhiteLarge clearImageDuringDownload:YES];
+  }
   
   [[SoundEngine sharedSoundEngine] questLogOpened];
 }

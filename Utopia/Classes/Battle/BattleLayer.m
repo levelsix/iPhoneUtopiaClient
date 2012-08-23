@@ -31,6 +31,8 @@
 
 #define MAX_NUM_WINS 3
 
+#define BATTLE_USER_DEFAULTS_KEY [NSString stringWithFormat:@"Battle%d", _fup.userId]
+
 @implementation BattleSummaryView
 
 @synthesize leftNameLabel, leftLevelLabel, leftPlayerIcon;
@@ -378,43 +380,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [_attackButton addChild:menu];
     menu.position = ccp(_attackButton.contentSize.width/2, _attackButton.contentSize.height/2);
     
-    _comboBar = [CCSprite spriteWithFile:@"attackcirclebg.png"];
+    _comboBar = [CCSprite spriteWithFile:@"combobar.png"];
     _comboBar.position = ccp(COMBO_BAR_X_POSITION, self.contentSize.height/2);
-    [self addChild:_comboBar];
+    [self addChild:_comboBar z:3];
     
-    _comboProgressTimer = [CCProgressTimer progressWithFile:@"attackchecks.png"];
-    _comboProgressTimer.position = ccp(_comboBar.contentSize.width/2-2, _comboBar.contentSize.height/2);
-    _comboProgressTimer.type = kCCProgressTimerTypeRadialCW;
-    _comboProgressTimer.percentage = 75;
-    _comboProgressTimer.rotation = 180;
-    [_comboProgressTimer.sprite.texture setAntiAliasTexParameters];
-    [_comboBar addChild:_comboProgressTimer];
+    _triangle = [CCSprite spriteWithFile:@"triangle.png"];
+    _triangle.position = ccp(_comboBar.contentSize.width/2, _comboBar.contentSize.height/2);
+    _triangle.anchorPoint = ccp(0.5, _comboBar.contentSize.height/_triangle.contentSize.height/2+0.4);
+    [_comboBar addChild:_triangle];
+    
+    CCSprite *maxLine = [CCSprite spriteWithFile:@"maxyellow.png"];
+    maxLine.position = ccp(_comboBar.contentSize.width/2, _comboBar.contentSize.height-10.f);
+    [_comboBar addChild:maxLine];
     
     CCSprite *max = [CCSprite spriteWithFile:@"max.png"];
-    max.anchorPoint = ccp(0.f, 0.5f);
-    max.position = ccp(_comboBar.contentSize.width, _comboBar.contentSize.height/2);
-    [_comboBar addChild:max];
+    max.position = ccp(_comboBar.contentSize.width/2, _comboBar.contentSize.height-30.f);
+    [_comboBar addChild:max z:1];
     [max runAction:[CCRepeatForever actionWithAction:
                     [CCSequence actions:
                      [CCScaleTo actionWithDuration:0.75f scale:1.2f], 
                      [CCScaleTo actionWithDuration:0.75f scale:1.f],
                      nil]]];
     
-    _flippedComboBar = [CCSprite spriteWithFile:@"attackcirclebg.png"];
+    _flippedComboBar = [CCSprite spriteWithFile:@"combobar.png"];
     _flippedComboBar.flipX = YES;
     _flippedComboBar.position = ccp(self.contentSize.width-COMBO_BAR_X_POSITION, self.contentSize.height/2);
-    [self addChild:_flippedComboBar];
+    [self addChild:_flippedComboBar z:3];
     
-    _flippedComboProgressTimer = [CCProgressTimer progressWithFile:@"attackchecksflipped.png"];
-    _flippedComboProgressTimer.position = ccp(_flippedComboBar.contentSize.width/2+2, _flippedComboBar.contentSize.height/2);
-    _flippedComboProgressTimer.type = kCCProgressTimerTypeRadialCCW;
-    _flippedComboProgressTimer.percentage = 75;
-    _flippedComboProgressTimer.rotation = 180;
-    [_flippedComboBar addChild:_flippedComboProgressTimer];
+    _flippedTriangle = [CCSprite spriteWithFile:@"triangle.png"];
+    _flippedTriangle.position = ccp(_flippedComboBar.contentSize.width/2, _flippedComboBar.contentSize.height/2);
+    _flippedTriangle.anchorPoint = _triangle.anchorPoint;
+    [_flippedComboBar addChild:_flippedTriangle];
+    
+    CCSprite *flippedMaxLine = [CCSprite spriteWithFile:@"maxyellow.png"];
+    flippedMaxLine.position = maxLine.position;
+    [_flippedComboBar addChild:flippedMaxLine];
     
     CCSprite *flippedMax = [CCSprite spriteWithFile:@"max.png"];
-    flippedMax.position = ccp(-max.contentSize.width/2, _flippedComboBar.contentSize.height/2);
-    [_flippedComboBar addChild:flippedMax];
+    flippedMax.position = max.position;
+    [_flippedComboBar addChild:flippedMax z:1];
     
     CCSprite *pause = [CCSprite spriteWithFile:@"pause.png"];
     CCMenuItemSprite *pauseButton = [CCMenuItemSprite itemFromNormalSprite:pause selectedSprite:nil target:self selector:@selector(pauseClicked)];
@@ -553,6 +557,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     return;
   }
   
+  if (_fup != user) {
+    [_fup release];
+    _fup = [user retain];
+  }
+  
+  if (![self battleOkayThroughUserDefaults]) {
+    [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Try again later.", user.name]];
+    return;
+  }
+  
   self.enemyEquips = nil;
   [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:user.userId];
   
@@ -602,19 +616,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       _cameFromAviary = NO;
     }
     
-    [[MarketplaceViewController sharedMarketplaceViewController] backClicked:nil];
-    
-    _numWins = 0;
+    if ([MarketplaceViewController isInitialized]) {
+      [[MarketplaceViewController sharedMarketplaceViewController] backClicked:nil];
+    }
   } else {
     [self startBattle];
   }
   
   self.brp = nil;
-  
-  if (_fup != user) {
-    [_fup release];
-    _fup = [user retain];
-  }
   
   // Close the menus
   [[GameLayer sharedGameLayer] closeMenus];
@@ -631,9 +640,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _loseLayer.visible = NO;
   _isBattling = YES;
   
-  [self.stolenEquipView removeFromSuperview];
-  [self.summaryView removeFromSuperview];
-    
+  // Pop out the end views
+  if (stolenEquipView.superview) {
+    [Globals popOutView:stolenEquipView.mainView fadeOutBgdView:stolenEquipView.bgdView completion:^{
+      [stolenEquipView removeFromSuperview];
+    }];
+  }
+  if (summaryView.superview) {
+    [Globals popOutView:summaryView.mainView fadeOutBgdView:summaryView.bgdView completion:^{
+      [summaryView removeFromSuperview];
+    }];
+  }
+  
   _leftHealthBar.position = ccp(0, _leftHealthBar.parent.contentSize.height/2);
   _rightHealthBar.position = ccp(_rightHealthBar.parent.contentSize.width, _rightHealthBar.parent.contentSize.height/2);
   
@@ -708,8 +726,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _isAnimating = YES;
   
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
-  [_comboProgressTimer runAction:[CCSequence actionOne:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:duration from:0 to:100] rate:2.5]
-                                                   two:[CCCallFunc actionWithTarget:self selector:@selector(comboBarClicked)]]];
+  _triangle.rotation = START_TRIANGLE_ROTATION;
+  [_triangle runAction:
+   [CCSequence actionOne:[CCEaseIn actionWithAction:
+                          [CCRotateBy actionWithDuration:duration angle:END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION] rate:2.5]
+                     two:[CCCallFunc actionWithTarget:self selector:@selector(comboBarClicked)]]];
+  //  [_comboProgressTimer runAction:[CCSequence actionOne:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:duration from:0 to:100] rate:2.5]
+  //                                                   two:[CCCallFunc actionWithTarget:self selector:@selector(comboBarClicked)]]];
   
   [self runAction:[CCSequence actions:
                    [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],
@@ -737,13 +760,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (void) comboBarClicked {
   if (_comboBarMoving) {
-    [_comboProgressTimer stopAllActions];
+    [_triangle stopAllActions];
     _comboBarMoving = NO;
     [self stopAllActions];
     
     [[SoundEngine sharedSoundEngine] stopCharge];
     
-    _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
+    float percentage = (_triangle.rotation-START_TRIANGLE_ROTATION)/(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION)*100;
+    NSLog(@"Me: %f", percentage);
+    _damageDone = [self calculateMyDamageForPercentage:percentage];
     
     if (_rightCurrentHealth - _damageDone <= 0) {
       [[OutgoingEventController sharedOutgoingEventController] battle:_fup result:BattleResultAttackerWin city:_cityId equips:enemyEquips];
@@ -753,7 +778,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
       }
     }
     
-    [self showBattleWordForPercentage:_comboProgressTimer.percentage];
+    [self showBattleWordForPercentage:percentage];
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
   }
@@ -944,13 +969,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _bottomMenu.visible = NO;
   _attackButton.visible = NO;
   _flippedComboBar.visible = YES;
-  
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
-  [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
-                                         [CCCallBlock actionWithBlock:^{[self showEnemyBattleWordForPercentage:perc];}],
-                                         [CCDelayTime actionWithDuration:0.5],
-                                         [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
-                                         nil]];
+  float end = -START_TRIANGLE_ROTATION+(-END_TRIANGLE_ROTATION+START_TRIANGLE_ROTATION)*perc/100.f;
+  NSLog(@"Enemy: %f, %f", perc, end);
+  _flippedTriangle.rotation = -START_TRIANGLE_ROTATION;
+  [_flippedTriangle runAction:[CCSequence actions:
+                               [CCEaseIn actionWithAction:
+                                [CCRotateBy actionWithDuration:perc*duration/100 angle:end] rate:2.5],
+                               [CCCallBlock actionWithBlock:^{[self showEnemyBattleWordForPercentage:perc];}],
+                               [CCDelayTime actionWithDuration:0.5],
+                               [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
+                               nil]];
+  
+  //  float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
+  //  [_flippedComboProgressTimer runAction:[CCSequence actions:[CCEaseIn actionWithAction:[CCProgressFromTo actionWithDuration:perc*duration/100 from:0 to:perc] rate:2.5],
+  //                                         [CCCallBlock actionWithBlock:^{[self showEnemyBattleWordForPercentage:perc];}],
+  //                 
+  //  [CCDelayTime actionWithDuration:02.5],
+  //                                         [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
+  //                                         nil]];
   
   [self runAction:[CCSequence actions:
                    [CCDelayTime actionWithDuration:DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND],
@@ -1119,7 +1156,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   // Set the city id to 0 if win, only want it to count as 1 win
   _cityId = -1;
-  _numWins++;
   
   if (!brp) {
     _winButton.visible = NO;
@@ -1218,6 +1254,50 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _clickedDone = NO;
     [brp release];
     brp = [b retain];
+    
+    if (brp) {
+      [self registerBattleInUserDefaults];
+    }
+  }
+}
+
+- (void) registerBattleInUserDefaults {
+  NSString *key = BATTLE_USER_DEFAULTS_KEY;
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSArray *arr = [defaults arrayForKey:key];
+  NSMutableArray *mut = arr ? [arr mutableCopy] : [NSMutableArray array];
+  [mut addObject:[NSDate date]];
+  [defaults setObject:mut forKey:BATTLE_USER_DEFAULTS_KEY];
+  [defaults synchronize];
+}
+
+- (BOOL) battleOkayThroughUserDefaults {
+  Globals *gl = [Globals sharedGlobals];
+  NSString *key = BATTLE_USER_DEFAULTS_KEY;
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
+  int origCount = arr.count;
+  int numTimes = 0;
+  NSLog(@"C: %d", arr.count);
+  if (arr.count >= gl.maxNumTimesAttackedByOneInProtectionPeriod) {
+    for (NSDate *date in arr) {
+      NSLog(@"%@ T:%f", date, date.timeIntervalSinceNow);
+      if ([date timeIntervalSinceNow] > -gl.hoursInAttackedByOneProtectionPeriod*3600) {
+        numTimes++;
+      } else {
+        [arr removeObject:date];
+      }
+    }
+  }
+  if (arr.count < origCount) {
+    [defaults setObject:arr forKey:BATTLE_USER_DEFAULTS_KEY];
+    [defaults synchronize];
+  }
+  
+  if (numTimes < 5) {
+    return YES;
+  } else {
+    return NO;
   }
 }
 
@@ -1289,19 +1369,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
 
 - (IBAction) attackAgainClicked:(id)sender {
   GameState *gs = [GameState sharedGameState];
-  if (_numWins >= MAX_NUM_WINS) {
-    [Globals popupMessage:[NSString stringWithFormat:@"%@ has run away. Find another enemy to defeat!", _fup.name]];
+  if (gs.currentStamina > 0) {
+    [self beginBattleAgainst:_fup inCity:_cityId];
+    
+    [Analytics attackAgain];
   } else {
-    if (gs.currentStamina > 0) {
-      [Globals popOutView:summaryView.mainView fadeOutBgdView:summaryView.bgdView completion:^{
-        [summaryView removeFromSuperview];
-      }];
-      [self beginBattleAgainst:_fup inCity:_cityId];
-      
-      [Analytics attackAgain];
-    } else {
-      [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
-    }
+    [[RefillMenuController sharedRefillMenuController] displayEnstView:NO];
   }
 }
 

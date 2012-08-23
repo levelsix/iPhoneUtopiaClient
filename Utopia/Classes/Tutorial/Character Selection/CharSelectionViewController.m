@@ -111,21 +111,15 @@
   _curPage = 0;
   
   submitButton.hidden = YES;
-  self.view.alpha = 0.f;
-  
-  
-  // Preload the keyboard so its not super slow
-  UITextField *dummyTextField = [[UITextField alloc] init];
-  dummyTextField.hidden = YES;
-  dummyTextField.userInteractionEnabled = NO;
-  [dummyTextField becomeFirstResponder];
-  [dummyTextField resignFirstResponder];
-  [dummyTextField release];
   
   nameTextField.label.textColor = [UIColor whiteColor];
+  
+  
+  [Globals popupMessage:@"Meep"];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated {
+  self.view.alpha = 0.f;
   [UIView animateWithDuration:5.f delay:0.f options:UIViewAnimationOptionAllowUserInteraction animations:^{
     self.view.alpha = 1.f;
   } completion:nil];

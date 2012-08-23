@@ -47,6 +47,7 @@
 #import "EquipMenuController.h"
 #import "ForgeMenuController.h"
 #import "AttackMenuController.h"
+#import "LeaderboardController.h"
 
 #define DOOR_CLOSE_DURATION 1.5f
 #define DOOR_OPEN_DURATION 1.f
@@ -107,6 +108,8 @@
   [ForgeMenuController purgeSingleton];
   [GoldShoppeViewController removeView];
   [GoldShoppeViewController purgeSingleton];
+  [LeaderboardController removeView];
+  [LeaderboardController purgeSingleton];
   [MapViewController cleanupAndPurgeSingleton];
   [MarketplaceViewController removeView];
   [MarketplaceViewController purgeSingleton];
@@ -135,6 +138,14 @@
   [[[CCDirector sharedDirector] runningScene] removeAllChildrenWithCleanup:YES];
   
   [sharedGameViewController loadDefaultImage];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
 }
 
 - (void) removeAllSubviews {
@@ -297,7 +308,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return ( UIInterfaceOrientationIsLandscape( interfaceOrientation ) );
+  BOOL should =  UIInterfaceOrientationIsLandscape(interfaceOrientation);
+	return should;
 }
 
 - (void)didReceiveMemoryWarning {

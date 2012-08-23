@@ -21,6 +21,14 @@
 @class MissionMap;
 @class LoadNeutralCityResponseProto;
 
+@interface WelcomeView : UIView
+
+@property (nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property (nonatomic, retain) IBOutlet UILabel *rankLabel;
+@property (nonatomic, retain) IBOutlet UIImageView *middleLine;
+
+@end
+
 // HelloWorldLayer
 @interface GameLayer : CCLayerGradient
 {
@@ -44,6 +52,8 @@
 @property (nonatomic, assign) DefeatTypeJobProto_DefeatTypeJobEnemyType enemyType;
 @property (nonatomic, assign) int currentCity;
 @property (nonatomic, retain) MissionMap *missionMap;
+
+@property (nonatomic, retain) IBOutlet WelcomeView *welcomeView;
 
 - (void) begin;
 - (void) loadHomeMap;

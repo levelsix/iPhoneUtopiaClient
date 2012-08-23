@@ -116,7 +116,7 @@
 
 - (IBAction)buttonClicked:(id)sender {
   if (notification.type == kNotificationMarketplace) {
-    [ActivityFeedController removeView];
+    [[ActivityFeedController sharedActivityFeedController] close];
     [MarketplaceViewController displayView];
     
     [Analytics clickedCollect];
@@ -133,7 +133,7 @@
     
     if (user) {
       [[BattleLayer sharedBattleLayer] beginBattleAgainst:user];
-      [ActivityFeedController removeView];
+      [[ActivityFeedController sharedActivityFeedController] close];
     }
     
     [Analytics clickedRevenge];
@@ -239,6 +239,23 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ActivityFeedController);
     view.tag = 1001;
     [cell.contentView insertSubview:view atIndex:0];
     [view release];
+  }
+  
+  if (un.type == kNotificationBattle) {
+    FullUserProto *user = nil;
+    for (FullUserProto *fup in users) {
+      if (fup.userId == un.otherPlayer.userId) {
+        user = fup;
+        break;
+      }
+    }
+    if (user) {
+      cell.notiView.button.hidden = NO;
+      cell.notiView.buttonLabel.hidden = NO;
+    } else {
+      cell.notiView.button.hidden = YES;
+      cell.notiView.buttonLabel.hidden = YES;
+    }
   }
   
   return cell;

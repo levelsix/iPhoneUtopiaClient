@@ -108,4 +108,7 @@
 - (void) changeUserType:(UserType)type;
 - (void) resetGame;
 
+- (void) retrieveLeaderboardForType:(LeaderboardType)type;
+- (void) retrieveLeaderboardForType:(LeaderboardType)type afterRank:(int)afterRank;
+
 @end

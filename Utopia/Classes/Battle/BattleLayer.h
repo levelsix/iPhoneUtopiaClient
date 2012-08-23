@@ -15,14 +15,17 @@
 
 #define ATTACK_BUTTON_ANIMATION 4.f
 
-#define MIN_COMBO_BAR_DURATION 1.5f
-#define MAX_COMBO_BAR_DURATION 2.8f
+#define MIN_COMBO_BAR_DURATION 2.f
+#define MAX_COMBO_BAR_DURATION 3.5f
 
 #define BIG_HEALTH_FONT 14.f
 #define SMALL_HEALTH_FONT 10.f
 
-#define COMBO_BAR_X_POSITION 100
+#define COMBO_BAR_X_POSITION 110
 #define DELAY_BEFORE_COMBO_BAR_WINDUP_SOUND 0.7f
+
+#define START_TRIANGLE_ROTATION -45.f
+#define END_TRIANGLE_ROTATION 225.f
 
 @interface BattleSummaryView : UIView
 
@@ -99,9 +102,11 @@
   CCProgressTimer *_attackProgressTimer;
   
   CCSprite *_comboBar;
-  CCProgressTimer *_comboProgressTimer;
+  CCSprite *_triangle;
+//  CCProgressTimer *_comboProgressTimer;
   CCSprite *_flippedComboBar;
-  CCProgressTimer *_flippedComboProgressTimer;
+  CCSprite *_flippedTriangle;
+//  CCProgressTimer *_flippedComboProgressTimer;
   
   CCLabelTTF *_leftMaxHealthLabel;
   CCLabelTTF *_leftCurHealthLabel;
@@ -133,8 +138,6 @@
   FullUserProto *_fup;
   
   int _cityId;
-  
-  int _numWins;
   
   BOOL _cameFromAviary;
   

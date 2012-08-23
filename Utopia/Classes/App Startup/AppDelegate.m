@@ -18,10 +18,10 @@
 #import "OutgoingEventController.h"
 #import "Globals.h"
 #import "Apsalar.h"
-#import <Crashlytics/Crashlytics.h>
 #import "LoggingContextFilter.h"
 #import "SoundEngine.h"
 #import "DownloadTracker.h"
+#import "Crittercism.h"
 
 #define CRASHALYTICS_API_KEY @"79eb314cfcf6a7b860185d2629d2c2791ee7f174"
 #define FLURRY_API_KEY       @"2VNGQV9NXJ5GMBRZ5MTX"
@@ -88,11 +88,14 @@
 //                              [GameState sharedGameState].userId]];
 }
 
--(void) setUpCrashAlytics 
+-(void) setUpCrittercism
 {
   // Note: The setup for CrashAlytics insists that it must be the final program 
   //       in the didFinishLaunching Method
-//  [Crashlytics startWithAPIKey:CRASHALYTICS_API_KEY];
+  [Crittercism initWithAppID:@"5029a2f0eeaf4125dd000001"
+                      andKey:@"4vg6tx28tlhoec3mwjygcaudav9p"
+                   andSecret:@"wu1ubhpzmgikrpsnbfyvk8qtr93noe47"
+       andMainViewController:nil];
 }
 
 -(void) setUpDelightio
@@ -224,11 +227,7 @@
   
   [self removeLocalNotifications];
   
-  // CrashAlytics
-  // ************
-  // Note: The setup for CrashAlytics insists that it must be the final program 
-  //       in the didFinishLaunching Method
-  [self setUpCrashAlytics];
+//  [self setUpCrittercism];
 
   return YES;
 }

@@ -11,6 +11,7 @@
 #import "Globals.h"
 #import "GameState.h"
 #import <StoreKit/StoreKit.h>
+#import "Crittercism.h"
 
 #define OPENED_APP @"App: Opened"
 #define BEGAN_APP @"App: Began"
@@ -155,12 +156,14 @@
 #ifndef DEBUG
   [Apsalar event:event];
 #endif
+  [Crittercism leaveBreadcrumb:event];
 }
 
 + (void) event:(NSString *)event withArgs:(NSDictionary *)args {
 #ifndef DEBUG
   [Apsalar event:event withArgs:args];
 #endif
+  [Crittercism leaveBreadcrumb:event];
 }
 
 + (void) openedApp {

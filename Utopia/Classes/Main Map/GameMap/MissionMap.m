@@ -72,11 +72,9 @@
 
 - (id) initWithProto:(LoadNeutralCityResponseProto *)proto {
   //  NSString *tmxFile = @"villa_montalvo.tmx";
-  FullCityProto *fcp = [[GameState sharedGameState] cityWithId:proto.cityId];
+  GameState *gs = [GameState sharedGameState];
+  FullCityProto *fcp = [gs cityWithId:proto.cityId];
   if ((self = [super initWithTMXFile:fcp.mapImgName])) {
-    GameState *gs = [GameState sharedGameState];
-    FullCityProto *fcp = [gs cityWithId:proto.cityId];
-    
     _cityId = proto.cityId;
     
     self.walkableData = [NSMutableArray arrayWithCapacity:[self mapSize].width];

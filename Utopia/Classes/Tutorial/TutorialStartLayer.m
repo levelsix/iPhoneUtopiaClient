@@ -18,6 +18,7 @@
 #import "SimpleAudioEngine.h"
 #import "TutorialCarpenterMenuController.h"
 #import "TutorialHomeMap.h"
+#import "ProfileViewController.h"
 
 #ifdef DEBUG
 #define PAN_DURATION 25.f
@@ -204,12 +205,7 @@
 
 - (void) beginCharSelection {
   CharSelectionViewController *csvc = [[CharSelectionViewController alloc] initWithNibName:nil bundle:nil];
-  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:csvc.view];
-  //  [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
-  //  [(TutorialHomeMap *)[TutorialHomeMap sharedHomeMap] startCarpPhase];
-  //  [[GameLayer sharedGameLayer] loadHomeMap];
-  //  [[TopBar sharedTopBar] start];
-  //  [(TutorialTopBar *)[TopBar sharedTopBar] updateIcon];
+  [Globals displayUIView:csvc.view];
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {

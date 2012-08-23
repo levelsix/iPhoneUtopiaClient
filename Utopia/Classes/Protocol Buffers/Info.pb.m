@@ -19,6 +19,17 @@ static PBExtensionRegistry* extensionRegistry = nil;
 }
 @end
 
+BOOL LeaderboardTypeIsValidValue(LeaderboardType value) {
+  switch (value) {
+    case LeaderboardTypeMostBattlesWon:
+    case LeaderboardTypeMostCoins:
+    case LeaderboardTypeMostExp:
+    case LeaderboardTypeBestKdr:
+      return YES;
+    default:
+      return NO;
+  }
+}
 BOOL CharacterModTypeIsValidValue(CharacterModType value) {
   switch (value) {
     case CharacterModTypeNewPlayer:
@@ -628,6 +639,360 @@ static MinimumUserProtoWithLevel* defaultMinimumUserProtoWithLevelInstance = nil
 - (MinimumUserProtoWithLevel_Builder*) clearLevel {
   result.hasLevel = NO;
   result.level = 0;
+  return self;
+}
+@end
+
+@interface MinimumUserProtoWithLevelForLeaderboard ()
+@property (retain) MinimumUserProto* minUserProto;
+@property int32_t level;
+@property LeaderboardType leaderboardType;
+@property int32_t leaderboardRank;
+@property Float64 leaderboardScore;
+@end
+
+@implementation MinimumUserProtoWithLevelForLeaderboard
+
+- (BOOL) hasMinUserProto {
+  return !!hasMinUserProto_;
+}
+- (void) setHasMinUserProto:(BOOL) value {
+  hasMinUserProto_ = !!value;
+}
+@synthesize minUserProto;
+- (BOOL) hasLevel {
+  return !!hasLevel_;
+}
+- (void) setHasLevel:(BOOL) value {
+  hasLevel_ = !!value;
+}
+@synthesize level;
+- (BOOL) hasLeaderboardType {
+  return !!hasLeaderboardType_;
+}
+- (void) setHasLeaderboardType:(BOOL) value {
+  hasLeaderboardType_ = !!value;
+}
+@synthesize leaderboardType;
+- (BOOL) hasLeaderboardRank {
+  return !!hasLeaderboardRank_;
+}
+- (void) setHasLeaderboardRank:(BOOL) value {
+  hasLeaderboardRank_ = !!value;
+}
+@synthesize leaderboardRank;
+- (BOOL) hasLeaderboardScore {
+  return !!hasLeaderboardScore_;
+}
+- (void) setHasLeaderboardScore:(BOOL) value {
+  hasLeaderboardScore_ = !!value;
+}
+@synthesize leaderboardScore;
+- (void) dealloc {
+  self.minUserProto = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.minUserProto = [MinimumUserProto defaultInstance];
+    self.level = 0;
+    self.leaderboardType = LeaderboardTypeMostBattlesWon;
+    self.leaderboardRank = 0;
+    self.leaderboardScore = 0;
+  }
+  return self;
+}
+static MinimumUserProtoWithLevelForLeaderboard* defaultMinimumUserProtoWithLevelForLeaderboardInstance = nil;
++ (void) initialize {
+  if (self == [MinimumUserProtoWithLevelForLeaderboard class]) {
+    defaultMinimumUserProtoWithLevelForLeaderboardInstance = [[MinimumUserProtoWithLevelForLeaderboard alloc] init];
+  }
+}
++ (MinimumUserProtoWithLevelForLeaderboard*) defaultInstance {
+  return defaultMinimumUserProtoWithLevelForLeaderboardInstance;
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) defaultInstance {
+  return defaultMinimumUserProtoWithLevelForLeaderboardInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasMinUserProto) {
+    [output writeMessage:1 value:self.minUserProto];
+  }
+  if (self.hasLevel) {
+    [output writeInt32:2 value:self.level];
+  }
+  if (self.hasLeaderboardType) {
+    [output writeEnum:3 value:self.leaderboardType];
+  }
+  if (self.hasLeaderboardRank) {
+    [output writeInt32:4 value:self.leaderboardRank];
+  }
+  if (self.hasLeaderboardScore) {
+    [output writeDouble:5 value:self.leaderboardScore];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasMinUserProto) {
+    size += computeMessageSize(1, self.minUserProto);
+  }
+  if (self.hasLevel) {
+    size += computeInt32Size(2, self.level);
+  }
+  if (self.hasLeaderboardType) {
+    size += computeEnumSize(3, self.leaderboardType);
+  }
+  if (self.hasLeaderboardRank) {
+    size += computeInt32Size(4, self.leaderboardRank);
+  }
+  if (self.hasLeaderboardScore) {
+    size += computeDoubleSize(5, self.leaderboardScore);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (MinimumUserProtoWithLevelForLeaderboard*) parseFromData:(NSData*) data {
+  return (MinimumUserProtoWithLevelForLeaderboard*)[[[MinimumUserProtoWithLevelForLeaderboard builder] mergeFromData:data] build];
+}
++ (MinimumUserProtoWithLevelForLeaderboard*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevelForLeaderboard*)[[[MinimumUserProtoWithLevelForLeaderboard builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevelForLeaderboard*) parseFromInputStream:(NSInputStream*) input {
+  return (MinimumUserProtoWithLevelForLeaderboard*)[[[MinimumUserProtoWithLevelForLeaderboard builder] mergeFromInputStream:input] build];
+}
++ (MinimumUserProtoWithLevelForLeaderboard*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevelForLeaderboard*)[[[MinimumUserProtoWithLevelForLeaderboard builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevelForLeaderboard*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (MinimumUserProtoWithLevelForLeaderboard*)[[[MinimumUserProtoWithLevelForLeaderboard builder] mergeFromCodedInputStream:input] build];
+}
++ (MinimumUserProtoWithLevelForLeaderboard*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (MinimumUserProtoWithLevelForLeaderboard*)[[[MinimumUserProtoWithLevelForLeaderboard builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (MinimumUserProtoWithLevelForLeaderboard_Builder*) builder {
+  return [[[MinimumUserProtoWithLevelForLeaderboard_Builder alloc] init] autorelease];
+}
++ (MinimumUserProtoWithLevelForLeaderboard_Builder*) builderWithPrototype:(MinimumUserProtoWithLevelForLeaderboard*) prototype {
+  return [[MinimumUserProtoWithLevelForLeaderboard builder] mergeFrom:prototype];
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) builder {
+  return [MinimumUserProtoWithLevelForLeaderboard builder];
+}
+@end
+
+@interface MinimumUserProtoWithLevelForLeaderboard_Builder()
+@property (retain) MinimumUserProtoWithLevelForLeaderboard* result;
+@end
+
+@implementation MinimumUserProtoWithLevelForLeaderboard_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[MinimumUserProtoWithLevelForLeaderboard alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clear {
+  self.result = [[[MinimumUserProtoWithLevelForLeaderboard alloc] init] autorelease];
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clone {
+  return [MinimumUserProtoWithLevelForLeaderboard builderWithPrototype:result];
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) defaultInstance {
+  return [MinimumUserProtoWithLevelForLeaderboard defaultInstance];
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) buildPartial {
+  MinimumUserProtoWithLevelForLeaderboard* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeFrom:(MinimumUserProtoWithLevelForLeaderboard*) other {
+  if (other == [MinimumUserProtoWithLevelForLeaderboard defaultInstance]) {
+    return self;
+  }
+  if (other.hasMinUserProto) {
+    [self mergeMinUserProto:other.minUserProto];
+  }
+  if (other.hasLevel) {
+    [self setLevel:other.level];
+  }
+  if (other.hasLeaderboardType) {
+    [self setLeaderboardType:other.leaderboardType];
+  }
+  if (other.hasLeaderboardRank) {
+    [self setLeaderboardRank:other.leaderboardRank];
+  }
+  if (other.hasLeaderboardScore) {
+    [self setLeaderboardScore:other.leaderboardScore];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasMinUserProto) {
+          [subBuilder mergeFrom:self.minUserProto];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setMinUserProto:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setLevel:[input readInt32]];
+        break;
+      }
+      case 24: {
+        int32_t value = [input readEnum];
+        if (LeaderboardTypeIsValidValue(value)) {
+          [self setLeaderboardType:value];
+        } else {
+          [unknownFields mergeVarintField:3 value:value];
+        }
+        break;
+      }
+      case 32: {
+        [self setLeaderboardRank:[input readInt32]];
+        break;
+      }
+      case 41: {
+        [self setLeaderboardScore:[input readDouble]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasMinUserProto {
+  return result.hasMinUserProto;
+}
+- (MinimumUserProto*) minUserProto {
+  return result.minUserProto;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setMinUserProto:(MinimumUserProto*) value {
+  result.hasMinUserProto = YES;
+  result.minUserProto = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setMinUserProtoBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setMinUserProto:[builderForValue build]];
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) mergeMinUserProto:(MinimumUserProto*) value {
+  if (result.hasMinUserProto &&
+      result.minUserProto != [MinimumUserProto defaultInstance]) {
+    result.minUserProto =
+      [[[MinimumUserProto builderWithPrototype:result.minUserProto] mergeFrom:value] buildPartial];
+  } else {
+    result.minUserProto = value;
+  }
+  result.hasMinUserProto = YES;
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearMinUserProto {
+  result.hasMinUserProto = NO;
+  result.minUserProto = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLevel {
+  return result.hasLevel;
+}
+- (int32_t) level {
+  return result.level;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setLevel:(int32_t) value {
+  result.hasLevel = YES;
+  result.level = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearLevel {
+  result.hasLevel = NO;
+  result.level = 0;
+  return self;
+}
+- (BOOL) hasLeaderboardType {
+  return result.hasLeaderboardType;
+}
+- (LeaderboardType) leaderboardType {
+  return result.leaderboardType;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setLeaderboardType:(LeaderboardType) value {
+  result.hasLeaderboardType = YES;
+  result.leaderboardType = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearLeaderboardType {
+  result.hasLeaderboardType = NO;
+  result.leaderboardType = LeaderboardTypeMostBattlesWon;
+  return self;
+}
+- (BOOL) hasLeaderboardRank {
+  return result.hasLeaderboardRank;
+}
+- (int32_t) leaderboardRank {
+  return result.leaderboardRank;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setLeaderboardRank:(int32_t) value {
+  result.hasLeaderboardRank = YES;
+  result.leaderboardRank = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearLeaderboardRank {
+  result.hasLeaderboardRank = NO;
+  result.leaderboardRank = 0;
+  return self;
+}
+- (BOOL) hasLeaderboardScore {
+  return result.hasLeaderboardScore;
+}
+- (Float64) leaderboardScore {
+  return result.leaderboardScore;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) setLeaderboardScore:(Float64) value {
+  result.hasLeaderboardScore = YES;
+  result.leaderboardScore = value;
+  return self;
+}
+- (MinimumUserProtoWithLevelForLeaderboard_Builder*) clearLeaderboardScore {
+  result.hasLeaderboardScore = NO;
+  result.leaderboardScore = 0;
   return self;
 }
 @end
@@ -13752,6 +14117,7 @@ BOOL DialogueProto_SpeechSegmentProto_DialogueSpeakerIsValidValue(DialogueProto_
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver2:
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver3:
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerBazaar:
       return YES;
     default:

@@ -384,7 +384,7 @@
 
 @end
 
-#define OPEN_CLOSE_BAR_DURATION 1.f
+#define OPEN_CLOSE_BAR_DURATION 0.5f
 #define ROTATION_DEGREES M_PI_4 * 11.f
 
 @implementation MarketplaceBottomBar

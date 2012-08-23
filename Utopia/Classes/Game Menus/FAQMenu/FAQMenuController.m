@@ -10,9 +10,9 @@
 #import "Globals.h"
 #import "LNSynthesizeSingleton.h"
 #import "cocos2d.h"
-#import "UVHelper.h"
 #import "GameState.h"
 #import "GameViewController.h"
+#import "Crittercism.h"
 
 #define FAQ_FILE_NAME @"FAQ.txt"
 #define HOW_TO_PLAY_HEADER @"How to play:"
@@ -51,8 +51,10 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  if (!self.view.superview) {
+    [super viewWillAppear:animated];
+    [Globals bounceView:self.mainView fadeInBgdView:self.bgdView];
+  }
 }
 
 - (void) parseFile:(NSString *)faqFile {
@@ -262,7 +264,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(FAQMenuController);
 }
 
 - (IBAction)feedbackButtonClicked:(id)sender {
-  [[UVHelper sharedUVHelper] openUserVoice];
+  //  [[UVHelper sharedUVHelper] openUserVoice];
+  [[Crittercism sharedInstance] setNavTitle:@"Age of Chaos Feedback"];
+  [Crittercism showCrittercism:[GameViewController sharedGameViewController]];
 }
 
 - (IBAction)forumButtonClicked:(id)sender {

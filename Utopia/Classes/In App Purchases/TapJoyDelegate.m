@@ -31,7 +31,6 @@
 {
   TapjoyDelegate *delegate = [[TapjoyDelegate alloc] init];
   [TapjoyConnect requestTapjoyConnect:TAPJOY_APPID secretKey:TAPJOY_SECRET];
-  [TapjoyConnect initVideoAdWithDelegate:delegate];
   [delegate autorelease];
   return delegate;
 }

@@ -29,11 +29,43 @@
 #import "MapViewController.h"
 #import "CarpenterMenuController.h"
 
+@implementation WelcomeView
+
+@synthesize nameLabel, rankLabel, middleLine;
+
+- (void) awakeFromNib {
+  self.alpha = 0.f;
+}
+
+- (void) displayForName:(NSString *)name rank:(int)rank {
+  nameLabel.text = name;
+  rankLabel.text = rank > 0 ? [NSString stringWithFormat:@"Rank %d", rank] : @"";
+  
+  self.alpha = 0.f;
+  [UIView animateWithDuration:1.2f delay:0.5f options:UIViewAnimationOptionTransitionNone animations:^{
+    self.alpha = 1.f;
+  } completion:^(BOOL finished) {
+    [UIView animateWithDuration:1.2f delay:1.f options:UIViewAnimationOptionTransitionNone animations:^{
+      self.alpha = 0.f;
+    } completion:nil];
+  }];
+}
+
+- (void) dealloc {
+  self.nameLabel = nil;
+  self.rankLabel = nil;
+  self.middleLine = nil;
+  [super dealloc];
+}
+
+@end
+
 // HelloWorldLayer implementation
 @implementation GameLayer
 
 @synthesize assetId, enemyType, currentCity;
 @synthesize missionMap = _missionMap;
+@synthesize welcomeView;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
@@ -56,6 +88,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 -(id) init
 {
 	if( (self=[super initWithColor:ccc4(0, 140, 140, 255) fadingTo:ccc4(0, 0, 0, 255)])) {
+    [[NSBundle mainBundle] loadNibNamed:@"WelcomeView" owner:self options:nil];
+    [[[[CCDirector sharedDirector] openGLView] superview] insertSubview:self.welcomeView atIndex:1];
+    
     [self begin];
   }
   return self;
@@ -63,9 +98,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) begin {
   if (![[GameState sharedGameState] isTutorial]) {
-    _homeMap = [HomeMap sharedHomeMap];
-    [self addChild:_homeMap z:1 tag:2];
-    [_homeMap moveToCenter];
+    [self checkHomeMapExists];
     
     _topBar = [TopBar sharedTopBar];
     [self addChild:_topBar z:2];
@@ -92,10 +125,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto {
   // Need this to be able to run on background thread
-//  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
-//  [EAGLContext setCurrentContext:k_context];
+  //  EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
+  //  [EAGLContext setCurrentContext:k_context];
+  
+  [self unloadCurrentMissionMap];
+  [self closeHomeMap];
+  [self closeBazaarMap];
   
   MissionMap *m = [[MissionMap alloc] initWithProto:proto];
+  GameState *gs = [GameState sharedGameState];
+  FullCityProto *fcp = [gs cityWithId:proto.cityId];
+  UserCity *uc = [gs myCityWithId:proto.cityId];
   
   [m moveToCenter];
   if (_shouldCenterOnEnemy) {
@@ -111,10 +151,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [_topBar loadNormalConfiguration];
   
-  [self unloadCurrentMissionMap];
-  [self closeHomeMap];
-  [self closeBazaarMap];
-  
   _missionMap = m;
   
   if (self.isRunning) {
@@ -122,6 +158,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   }
   
   [[MapViewController sharedMapViewController] performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:YES];
+  
+  [welcomeView displayForName:fcp.name rank:uc.curRank];
 }
 
 - (void) unloadTutorialMissionMap {
@@ -131,6 +169,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 }
 
 - (void) loadTutorialMissionMap {
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  
   // Need this to be able to run on background thread
   EAGLContext *k_context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]] autorelease];
   [EAGLContext setCurrentContext:k_context];
@@ -151,22 +191,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
   
   [self closeHomeMap];
   [layer removeFromParentAndCleanup:YES];
+  
+  [pool release];
+}
+
+- (void) checkHomeMapExists {
+  if (!_homeMap) {
+    _homeMap = [HomeMap sharedHomeMap];
+    [self addChild:_homeMap z:1 tag:2];
+    [_homeMap moveToCenter];
+    _homeMap.visible = NO;
+  }
 }
 
 - (void) loadHomeMap {
   if (!_homeMap.visible) {
     [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling\nHome"];
     _loading = YES;
+    // Do move in load so that other classes can move it elsewhere
     [_homeMap moveToCenter];
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayHomeMap)], nil]];
   }
+  
+  [self performSelectorOnMainThread:@selector(checkHomeMapExists) withObject:nil waitUntilDone:NO];
 }
 
 - (void) displayHomeMap {
-  if (!_homeMap) {
-    _homeMap = [HomeMap sharedHomeMap];
-    [self addChild:_homeMap];
-  }
+  [self checkHomeMapExists];
   
   [self unloadCurrentMissionMap];
   [_homeMap refresh];
@@ -175,11 +226,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [_homeMap beginTimers];
   }
   
-  _homeMap.visible = YES;
   currentCity = 0;
   [self closeBazaarMap];
   [_topBar loadHomeConfiguration];
   [_homeMap reloadQuestGivers];
+  _homeMap.visible = YES;
   
   if (self.isRunning) {
     [[SoundEngine sharedSoundEngine] playHomeMapMusic];
@@ -189,12 +240,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [[MapViewController sharedMapViewController] close];
     _loading = NO;
   }
+  
+  [welcomeView displayForName:@"My City" rank:0];
 }
 
 - (void) closeHomeMap {
-  if (_homeMap.visible) {
+  if (_homeMap) {
     _homeMap.selected = nil;
-    _homeMap.visible = NO;
+    
+    [_homeMap removeFromParentAndCleanup:YES];
+    [_homeMap invalidateAllTimers];
+    [HomeMap purgeSingleton];
+    _homeMap = nil;
     
     [CarpenterMenuController removeView];
   }
@@ -215,6 +272,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 - (void) checkBazaarMapExists {
   if (!_bazaarMap) {
     _bazaarMap = [BazaarMap sharedBazaarMap];
+    [_bazaarMap moveToCenter];
   }
 }
 
@@ -223,21 +281,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [[MapViewController sharedMapViewController] startLoadingWithText:@"Traveling to Bazaar"];
     _loading = YES;
     // Do move in load so that other classes can move it elsewhere
-    [self checkBazaarMapExists];
     [_bazaarMap moveToCenter];
     [self runAction:[CCSequence actions:[CCDelayTime actionWithDuration:0.5f], [CCCallFunc actionWithTarget:self selector:@selector(displayBazaarMap)], nil]];
   }
+  
+  [self performSelectorOnMainThread:@selector(checkBazaarMapExists) withObject:nil waitUntilDone:NO];
 }
 
 - (void) displayBazaarMap {
   if (!_bazaarMap.parent) {
     [self checkBazaarMapExists];
-    [_homeMap setSelected:nil];
     [self unloadCurrentMissionMap];
+    [self closeHomeMap];
     
     currentCity = 0;
-    _homeMap.visible = NO;
-    [_homeMap invalidateAllTimers];
     
     [self addChild:_bazaarMap z:1];
     [_topBar loadBazaarConfiguration];
@@ -254,12 +311,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
     [[MapViewController sharedMapViewController] close];
     _loading = NO;
   }
+  
+  [welcomeView displayForName:@"Bazaar" rank:0];
 }
 
 - (void) closeBazaarMap {
   if (_bazaarMap.parent) {
-    [self removeChild:_bazaarMap cleanup:NO];
-    [[self currentMap] setVisible:YES];
+    [self removeChild:_bazaarMap cleanup:YES];
+    
+    [BazaarMap purgeSingleton];
+    _bazaarMap = nil;
   }
 }
 
@@ -297,6 +358,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameLayer);
 
 - (void) dealloc {
   self.missionMap = nil;
+  self.welcomeView = nil;
   [super dealloc];
 }
 

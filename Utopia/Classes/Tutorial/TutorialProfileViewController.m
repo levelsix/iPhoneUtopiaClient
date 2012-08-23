@@ -168,6 +168,8 @@
     GameState *gs = [GameState sharedGameState];
     gs.amuletEquipped = ev.equip.userEquipId;
     
+    [self loadMyProfile];
+    
     [self arrowOnClose];
     
     _equippingPhase = NO;

@@ -41,6 +41,7 @@
 #import "AppDelegate.h"
 #import "IAPHelper.h"
 #import "AttackMenuController.h"
+#import "LeaderboardController.h"
 
 @implementation IncomingEventController
 
@@ -205,6 +206,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       break;
     case EventProtocolResponseSCharacterModEvent:
       responseClass = [CharacterModResponseProto class];
+      break;
+    case EventProtocolResponseSRetrieveLeaderboardEvent:
+      responseClass = [RetrieveLeaderboardResponseProto class];
       break;
     default:
       responseClass = nil;
@@ -612,6 +616,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
         }
         [gs addToStaticEquips:staticEquips];
         
+        mvc.filtered = [mvc getCurrentFilterState];
         [mvc insertRowsFrom:oldCount+![[GameState sharedGameState] hasValidLicense]+1];
       }
     }
@@ -651,24 +656,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   
   MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   GameState *gs = [GameState sharedGameState];
-  [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
+  Globals *gl = [Globals sharedGlobals];
   if (proto.status == PurchaseFromMarketplaceResponseProto_PurchaseFromMarketplaceStatusSuccess) {
     if (proto.posterId == gs.userId) {
       // This is a notification
       UserNotification *un = [[UserNotification alloc] initWithMarketplaceResponse:proto];
       [gs addNotification:un];
       [un release];
+      gs.marketplaceGoldEarnings += (int)floorf(proto.marketplacePost.diamondCost * (1.f-gl.purchasePercentCut));
+      gs.marketplaceSilverEarnings += (int)floorf(proto.marketplacePost.coinCost * (1.f-gl.purchasePercentCut));
       
       [Analytics receivedNotification];
     } else {
-      NSMutableArray *mktPosts = [mvc postsForState];
+      [gs.myEquips addObject:[UserEquip userEquipWithProto:proto.fullUserEquipOfBoughtItem]];
+      
+      mvc.filtered = [mvc getCurrentFilterState];
+      NSMutableArray *mktPosts = mvc.filtered;
       [[Globals sharedGlobals] confirmWearEquip:proto.fullUserEquipOfBoughtItem.userEquipId];
       
       for (int i = 0; i < mktPosts.count; i++) {
         FullMarketplacePostProto *p = [mktPosts objectAtIndex:i];
         if (p.marketplacePostId == proto.marketplacePost.marketplacePostId) {
           if (mvc.view.superview) {
+            // Add one to account for the empty cell at the top
             [mktPosts removeObject:p];
+            [gs.marketplaceEquipPosts removeObject:p];
             NSIndexPath *y = [NSIndexPath indexPathForRow:i+1 inSection:0];
             NSIndexPath *z = mktPosts.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
             NSArray *a = [NSArray arrayWithObjects:y, z, nil];
@@ -1440,6 +1452,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
       [gvc startGame];
       [gvc removeAllSubviews];
     }
+    
+    [gs removeNonFullUserUpdatesForTag:tag];
+  } else {
+    if (proto.modType == CharacterModTypeNewPlayer) {
+      UIApplication *app = [UIApplication sharedApplication];
+      [app.delegate applicationDidEnterBackground:app];
+      [app.delegate applicationWillEnterForeground:app];
+    } else if (proto.modType == CharacterModTypeResetSkillPoints) {
+      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
+      [[ProfileViewController sharedProfileViewController] loadSkills];
+    } else if (proto.modType == CharacterModTypeChangeName) {
+      [[[ProfileViewController sharedProfileViewController] loadingView] stop];
+      [[ProfileViewController sharedProfileViewController] loadMyProfile];
+    } else if (proto.modType == CharacterModTypeChangeCharacterType) {
+      GameViewController *gvc = [GameViewController sharedGameViewController];
+      [gvc loadGame:NO];
+      [gvc startGame];
+      [gvc removeAllSubviews];
+    }
+    [Globals popupMessage:@"Server failed to modify character."];
+    
+    [gs removeFullUserUpdatesForTag:tag];
+  }
+}
+
+- (void) handleRetrieveLeaderboardResponseProto:(FullEvent *)fe {
+  RetrieveLeaderboardResponseProto *proto = (RetrieveLeaderboardResponseProto *)fe.event;
+  int tag = fe.tag;
+  ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"Leaderboard response received with status %d.", proto.status);
+  
+  GameState *gs = [GameState sharedGameState];
+  if (proto.status == RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusSuccess) {
+    [[LeaderboardController sharedLeaderboardController] receivedLeaderboardResponse:proto];
     
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {

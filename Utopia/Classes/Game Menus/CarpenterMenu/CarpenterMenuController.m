@@ -391,7 +391,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 
 - (int) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSArray *list = structsList;
-  int rows = (int)ceilf(list.count/3.f);
+  int rows = (int)ceilf(list.count/2.f);
   
   if (rows > 0) {
     tableView.scrollEnabled = YES;
@@ -407,18 +407,16 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *cellId = @"CarpenterRow";
-  
-  CarpenterRow *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+  CarpenterRow *cell = [tableView dequeueReusableCellWithIdentifier:@"CarpenterRow"];
   if (cell == nil) {
     [[NSBundle mainBundle] loadNibNamed:@"CarpenterRow" owner:self options:nil];
     cell = self.carpRow;
   }
   
-    int baseIndex = 2*indexPath.row;
-    int count = structsList.count;
-    cell.listing1.carpListing.fsp = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
-    cell.listing2.carpListing.fsp = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
+  int baseIndex = 2*indexPath.row;
+  int count = structsList.count;
+  cell.listing1.carpListing.fsp = baseIndex<count ? [structsList objectAtIndex:baseIndex] : nil;
+  cell.listing2.carpListing.fsp = baseIndex+1<count ? [structsList objectAtIndex:baseIndex+1] : nil;
   
   return cell;
 }
@@ -432,20 +430,20 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(CarpenterMenuController);
 }
 
 - (void) carpListingClicked:(CarpenterListing *)carp {
-    GameState *gs = [GameState sharedGameState];
-    if (gs.silver >= carp.fsp.coinPrice && gs.gold >= carp.fsp.diamondPrice) {
-      [[HomeMap sharedHomeMap] preparePurchaseOfStruct:carp.fsp.structId];
-      [self closeClicked:nil];
+  GameState *gs = [GameState sharedGameState];
+  if (gs.silver >= carp.fsp.coinPrice && gs.gold >= carp.fsp.diamondPrice) {
+    [[HomeMap sharedHomeMap] preparePurchaseOfStruct:carp.fsp.structId];
+    [self closeClicked:nil];
+  } else {
+    if (carp.fsp.coinPrice) {
+      [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
+      [Analytics notEnoughSilverInCarpenter:carp.fsp.structId];
     } else {
-      if (carp.fsp.coinPrice) {
-        [[RefillMenuController sharedRefillMenuController] displayBuySilverView];
-        [Analytics notEnoughSilverInCarpenter:carp.fsp.structId];
-      } else {
-        [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];
-        [Analytics notEnoughGoldInCarpenter:carp.fsp.structId];
-      }
+      [[RefillMenuController sharedRefillMenuController] displayBuyGoldView:carp.fsp.diamondPrice];
+      [Analytics notEnoughGoldInCarpenter:carp.fsp.structId];
     }
-    [coinBar updateLabels];
+  }
+  [coinBar updateLabels];
 }
 
 - (void) viewDidUnload {

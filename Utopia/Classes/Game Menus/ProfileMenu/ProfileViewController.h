@@ -248,6 +248,10 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *enemyAttackLabel;
 @property (nonatomic, retain) IBOutlet UIView *enemyMiddleView;
 
+@property (nonatomic, retain) IBOutlet UIView *noEquipMiddleView;
+@property (nonatomic, retain) IBOutlet UILabel *noEquipLabel;
+@property (nonatomic, retain) IBOutlet UIView *noEquipButtonView;
+
 @property (nonatomic, retain) IBOutlet UIView *enemyLeftView;
 @property (nonatomic, retain) IBOutlet UIView *selfLeftView;
 @property (nonatomic, retain) IBOutlet UIView *friendLeftView;
@@ -297,6 +301,7 @@ typedef enum {
 
 - (IBAction)skillButtonClicked:(id)sender;
 - (IBAction)closeClicked:(id)sender;
+- (IBAction)goToArmoryClicked:(id)sender;
 
 + (ProfileViewController *) sharedProfileViewController;
 + (void) purgeSingleton;

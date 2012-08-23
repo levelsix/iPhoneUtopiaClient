@@ -371,10 +371,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
   
-  NSMutableArray *mktPostsFromSender = [mvc postsForState];
+  NSMutableArray *mktPostsFromSender = mvc.filtered;
   for (int i = 0; i < mktPostsFromSender.count; i++) {
     FullMarketplacePostProto *proto = [mktPostsFromSender objectAtIndex:i];
-    if ([proto marketplacePostId] == postId) {
+    if (proto.marketplacePostId == postId) {
       BOOL isGold = NO;
       int amount = 0;
       if (proto.diamondCost > 0) {
@@ -393,9 +393,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
         }
       }
       int tag = [sc sendRetractMarketplacePostMessage:postId];
+      
       [mktPostsFromSender removeObject:proto];
+      // Might be in either list depending on current state
+      [gs.marketplaceEquipPostsFromSender removeObject:proto];
+      [gs.marketplaceEquipPosts removeObject:proto];
+      
       NSIndexPath *y = [NSIndexPath indexPathForRow:i+1+![[GameState sharedGameState] hasValidLicense] inSection:0];
-      NSIndexPath *z = mktPostsFromSender.count+gs.myEquips.count == 0 ? [NSIndexPath indexPathForRow:0 inSection:0]:nil;
+      NSIndexPath *z = nil;
+      if (mvc.state == kEquipBuyingState && mktPostsFromSender.count == 0) {
+        z = [NSIndexPath indexPathForRow:0 inSection:0];
+      } else if (mvc.state == kEquipSellingState && mktPostsFromSender.count+gs.myEquips.count == 0) {
+        z = [NSIndexPath indexPathForRow:0 inSection:0];
+      }
       NSArray *a = [NSArray arrayWithObjects:y, z, nil];
       [mvc.postsTableView deleteRowsAtIndexPaths:a withRowAnimation:UITableViewRowAnimationTop];
       
@@ -411,10 +421,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 
 - (void) purchaseFromMarketplace:(int)postId {
   SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
-  MarketplaceViewController *mvc = [MarketplaceViewController sharedMarketplaceViewController];
   GameState *gs = [GameState sharedGameState];
   
-  NSMutableArray *mktPosts = [mvc postsForState];
+  NSMutableArray *mktPosts = gs.marketplaceEquipPosts;
   for (int i = 0; i < mktPosts.count; i++) {
     FullMarketplacePostProto *mktPost = [mktPosts objectAtIndex:i];
     if ([mktPost marketplacePostId] == postId) {
@@ -1609,6 +1618,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
   } else {
     [Globals popupMessage:@"Attempting to reset character without enough gold"];
   }
+}
+
+- (void) retrieveLeaderboardForType:(LeaderboardType)type {
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveLeaderboardMessage:type afterRank:0];
+}
+
+- (void) retrieveLeaderboardForType:(LeaderboardType)type afterRank:(int)afterRank {
+  [[SocketCommunication sharedSocketCommunication] sendRetrieveLeaderboardMessage:type afterRank:afterRank];
 }
 
 @end

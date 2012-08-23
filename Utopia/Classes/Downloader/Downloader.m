@@ -53,7 +53,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Downloader);
       if (completed) {
         completed();
       }
-      ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
+        ContextLogInfo(LN_CONTEXT_DOWNLOAD, @"Download of %@ complete", imageName);
     });
   });
 }

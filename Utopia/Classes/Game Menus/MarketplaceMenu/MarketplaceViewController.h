@@ -110,12 +110,12 @@ typedef enum {
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 - (void) disableEditing;
 - (void) insertRowsFrom:(int)start;
 - (void) deleteRows:(int)start;
 - (void) resetAllRows;
-- (NSMutableArray *) postsForState;
 - (NSMutableArray *) getCurrentFilterState;
 - (void) displayRedeemView;
 - (void) doneRefreshing;

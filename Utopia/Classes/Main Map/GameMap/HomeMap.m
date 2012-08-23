@@ -15,7 +15,6 @@
 #import "OutgoingEventController.h"
 #import "GameLayer.h"
 #import "RefillMenuController.h"
-#import "CritStructPopupController.h"
 #import "BuildUpgradePopupController.h"
 #import "GenericPopupController.h"
 #import "SoundEngine.h"
@@ -285,6 +284,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
     if ([node isKindOfClass:[HomeBuilding class]]) {
       [(HomeBuilding *)node placeBlock];
     }
+  }
+  
+  if (_upgrBuilding) {
+    [_upgrBuilding displayUpgradeIcon];
   }
   
   [self doReorder];
@@ -558,6 +561,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
   [[OutgoingEventController sharedOutgoingEventController] normStructWaitComplete:mb.userStruct];
   [self updateTimersForBuilding:mb];
   [self displayUpgradeBuildPopupForUserStruct:mb.userStruct];
+  [_upgrBuilding removeUpgradeIcon];
   _upgrBuilding = nil;
 }
 
@@ -731,6 +735,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu displayForUserStruct:us];
         [self closeMenus];
+        [_upgrBuilding displayUpgradeIcon]; 
         
         [[SoundEngine sharedSoundEngine] carpenterPurchase];
       }
@@ -745,6 +750,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
         [self updateTimersForBuilding:_upgrBuilding];
         [self.upgradeMenu displayForUserStruct:us];
         [self closeMenus];
+        [_upgrBuilding displayUpgradeIcon];
         
         [[SoundEngine sharedSoundEngine] carpenterPurchase];
       }
@@ -783,6 +789,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(HomeMap);
       [Analytics notEnoughGoldForInstaUpgrade:us.structId level:us.level cost:goldCost];
     } else {
       [[OutgoingEventController sharedOutgoingEventController] instaUpgrade:mb.userStruct];
+      [_upgrBuilding removeUpgradeIcon];
     }
   } else if (state == kBuilding) {
     int goldCost = [gl calculateDiamondCostForInstaBuild:_constrBuilding.userStruct];

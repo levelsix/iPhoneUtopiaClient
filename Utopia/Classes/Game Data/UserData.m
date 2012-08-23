@@ -16,6 +16,7 @@
 #import "ArmoryViewController.h"
 #import "CarpenterMenuController.h"
 #import "ForgeMenuController.h"
+#import "LeaderboardController.h"
 
 @implementation UserEquip
 
@@ -121,38 +122,42 @@
 
 @synthesize name, type;
 
-- (id) initWithType:(CritStructType)t {
+- (id) initWithType:(BazaarStructType)t {
   if ((self = [super init])) {
     self.type = t;
   }
   return self;
 }
 
-- (void) setType:(CritStructType)t {
+- (void) setType:(BazaarStructType)t {
   type = t;
   switch (type) {
-    case CritStructTypeVault:
+    case BazaarStructTypeVault:
       name = @"Vault";
       break;
       
-    case CritStructTypeBlacksmith:
+    case BazaarStructTypeBlacksmith:
       name = @"Blacksmith";
       break;
       
-    case CritStructTypeArmory:
+    case BazaarStructTypeArmory:
       name = @"Armory";
       break;
       
-    case CritStructTypeAviary:
+    case BazaarStructTypeAviary:
       name = @"Aviary";
       break;
       
-    case CritStructTypeCarpenter:
+    case BazaarStructTypeCarpenter:
       name = @"Carpenter";
       break;
       
-    case CritStructTypeMarketplace:
+    case BazaarStructTypeMarketplace:
       name = @"Marketplace";
+      break;
+      
+    case BazaarStructTypeLeaderboard:
+      name = @"Leaderboard";
       break;
       
     default:
@@ -162,28 +167,33 @@
 
 - (void) openMenu {
   switch (self.type) {
-    case CritStructTypeVault:
+    case BazaarStructTypeVault:
       [VaultMenuController displayView];
       break;
       
-    case CritStructTypeBlacksmith:
+    case BazaarStructTypeBlacksmith:
       [ForgeMenuController displayView];
       break;
       
-    case CritStructTypeArmory:
+    case BazaarStructTypeArmory:
       [ArmoryViewController displayView];
       break;
       
-    case CritStructTypeAviary:
+    case BazaarStructTypeAviary:
       [MapViewController displayView];
       break;
       
-    case CritStructTypeCarpenter:
+    case BazaarStructTypeCarpenter:
       [CarpenterMenuController displayView];
       break;
       
-    case CritStructTypeMarketplace:
+    case BazaarStructTypeMarketplace:
       [MarketplaceViewController displayView];
+      break;
+      
+    case BazaarStructTypeLeaderboard:
+      [LeaderboardController displayView];
+      break;
       
     default:
       break;

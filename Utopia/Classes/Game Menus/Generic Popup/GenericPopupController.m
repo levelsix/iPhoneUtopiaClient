@@ -86,10 +86,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(GenericPopupController);
 
 - (void) viewWillAppear:(BOOL)animated {
   [Globals bounceView:self.genPopup.mainView fadeInBgdView:self.genPopup.bgdColorView];
-  
-  GenericPopupController *gpc = [GenericPopupController sharedGenericPopupController];
-  gpc.genPopup = nil;
-  gpc.view = nil;
 }
 
 + (void) displayNotificationViewWithText:(NSString *)string title:(NSString *)title {

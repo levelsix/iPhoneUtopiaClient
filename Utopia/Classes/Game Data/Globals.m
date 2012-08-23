@@ -17,6 +17,7 @@
 #import "GameLayer.h"
 #import "HomeMap.h"
 #import "OutgoingEventController.h"
+#import "GameViewController.h"
 
 #define FONT_LABEL_OFFSET 3.f
 #define SHAKE_DURATION 0.05f
@@ -73,6 +74,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize maxLevelForUser;
 @synthesize adColonyVideosRequiredToRedeemGold;
 @synthesize diamondCostToChangeName, diamondCostToResetCharacter, diamondCostToResetSkillPoints, diamondCostToChangeCharacterType;
+@synthesize maxNumTimesAttackedByOneInProtectionPeriod, hoursInAttackedByOneProtectionPeriod;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -152,6 +154,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.maxNameLength = constants.maxNameLength;
   self.maxCityRank = constants.maxCityRank;
   self.sizeOfAttackList = constants.sizeOfAttackList;
+  self.maxNumTimesAttackedByOneInProtectionPeriod = constants.maxNumTimesAttackedByOneInProtectionPeriod;
+  self.hoursInAttackedByOneProtectionPeriod = constants.hoursInAttackedByOneProtectionPeriod;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -584,7 +588,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) displayUIView:(UIView *)view {
-  [[[[CCDirector sharedDirector] openGLView] superview] addSubview:view];
+  [[[GameViewController sharedGameViewController] view] addSubview:view];
 }
 
 + (NSString *) pathToFile:(NSString *)fileName {
@@ -651,6 +655,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 }
 
 + (void) imageNamed:(NSString *)imageName withImageView:(UIImageView *)view maskedColor:(UIColor *)color indicator: (UIActivityIndicatorViewStyle)indicatorStyle clearImageDuringDownload:(BOOL)clear {
+  if (!imageName || !view) {
+    return;
+  }
+  
   Globals *gl = [Globals sharedGlobals];
   NSString *key = [NSString stringWithFormat:@"%p", view];
   [[gl imageViewsWaitingForDownloading] removeObjectForKey:key];
@@ -709,18 +717,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
           NSArray *paths = NSSearchPathForDirectoriesInDomains (NSCachesDirectory, NSUserDomainMask, YES);
           NSString *documentsPath = [paths objectAtIndex:0];
           NSString *fullpath = [documentsPath stringByAppendingPathComponent:resName]; 
-          UIImage *img = [[UIImage alloc] initWithContentsOfFile:fullpath];
+          UIImage *img = [UIImage imageWithContentsOfFile:fullpath];
           
-//          if (img) {
-//            [gl.imageCache setObject:img forKey:imageName];
-//          }
+          if (img) {
+            [gl.imageCache setObject:img forKey:imageName];
+          }
           if (color) {
             img = [self maskImage:img withColor:color];
           }
           
           view.image = img;
           [view release];
-          [img release];
           view.hidden = NO;
           
           UIActivityIndicatorView *loadingView = (UIActivityIndicatorView *)[view viewWithTag:150];
@@ -817,6 +824,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
       return @"Captain Riz";
       break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
+      return @"Sailor Steve";
     default:
       break;
   }
@@ -893,6 +902,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
       return @"dialogueriz.png";
       break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
+      return @"dialoguesteve.png";
+      break;
     default:
       return nil;
       break;
@@ -924,6 +936,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
       break;
     case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver4:
       return @"bigriz.png";
+      break;
+    case DialogueProto_SpeechSegmentProto_DialogueSpeakerQuestgiver5:
+      return @"bigsteve.png";
       break;
     default:
       return nil;

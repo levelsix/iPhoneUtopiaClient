@@ -16,7 +16,7 @@
 + (BazaarMap *) sharedBazaarMap;
 + (void) purgeSingleton;
 
-- (void) moveToCritStruct:(CritStructType)type;
+- (void) moveToCritStruct:(BazaarStructType)type;
 - (void) moveToQuestGiver;
 
 - (void) reloadAllies;

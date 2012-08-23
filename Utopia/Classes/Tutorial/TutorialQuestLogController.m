@@ -64,11 +64,13 @@
 }
 
 - (void) loadQuestAcceptScreen {
-  [super loadQuestAcceptScreen:_fqp];
+  [Globals popupMessage:@"Meep"];
+//  [super loadQuestAcceptScreen:_fqp];
   
   [Analytics tutorialQuestAccept];
   
   [self visitBattlePhase];
+  
 }
 
 - (void) loadQuestCompleteScreen {
@@ -138,7 +140,7 @@
   
   gs.experience += tc.tutorialQuest.expGained;
   gs.silver += tc.tutorialQuest.coinsGained;
-  
+  	
   [[TutorialMissionMap sharedTutorialMissionMap] questRedeemed:_fqp];
   [[TutorialMissionMap sharedTutorialMissionMap] redeemComplete];
   

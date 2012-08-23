@@ -4856,6 +4856,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t minNameLength;
 @property int32_t maxNameLength;
 @property int32_t sizeOfAttackList;
+@property int32_t maxNumTimesAttackedByOneInProtectionPeriod;
+@property int32_t hoursInAttackedByOneProtectionPeriod;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5269,6 +5271,20 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasSizeOfAttackList_ = !!value;
 }
 @synthesize sizeOfAttackList;
+- (BOOL) hasMaxNumTimesAttackedByOneInProtectionPeriod {
+  return !!hasMaxNumTimesAttackedByOneInProtectionPeriod_;
+}
+- (void) setHasMaxNumTimesAttackedByOneInProtectionPeriod:(BOOL) value {
+  hasMaxNumTimesAttackedByOneInProtectionPeriod_ = !!value;
+}
+@synthesize maxNumTimesAttackedByOneInProtectionPeriod;
+- (BOOL) hasHoursInAttackedByOneProtectionPeriod {
+  return !!hasHoursInAttackedByOneProtectionPeriod_;
+}
+- (void) setHasHoursInAttackedByOneProtectionPeriod:(BOOL) value {
+  hasHoursInAttackedByOneProtectionPeriod_ = !!value;
+}
+@synthesize hoursInAttackedByOneProtectionPeriod;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5340,6 +5356,8 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.minNameLength = 0;
     self.maxNameLength = 0;
     self.sizeOfAttackList = 0;
+    self.maxNumTimesAttackedByOneInProtectionPeriod = 0;
+    self.hoursInAttackedByOneProtectionPeriod = 0;
   }
   return self;
 }
@@ -5563,6 +5581,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasSizeOfAttackList) {
     [output writeInt32:71 value:self.sizeOfAttackList];
   }
+  if (self.hasMaxNumTimesAttackedByOneInProtectionPeriod) {
+    [output writeInt32:72 value:self.maxNumTimesAttackedByOneInProtectionPeriod];
+  }
+  if (self.hasHoursInAttackedByOneProtectionPeriod) {
+    [output writeInt32:73 value:self.hoursInAttackedByOneProtectionPeriod];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5764,6 +5788,12 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasSizeOfAttackList) {
     size += computeInt32Size(71, self.sizeOfAttackList);
+  }
+  if (self.hasMaxNumTimesAttackedByOneInProtectionPeriod) {
+    size += computeInt32Size(72, self.maxNumTimesAttackedByOneInProtectionPeriod);
+  }
+  if (self.hasHoursInAttackedByOneProtectionPeriod) {
+    size += computeInt32Size(73, self.hoursInAttackedByOneProtectionPeriod);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8607,6 +8637,12 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasSizeOfAttackList) {
     [self setSizeOfAttackList:other.sizeOfAttackList];
   }
+  if (other.hasMaxNumTimesAttackedByOneInProtectionPeriod) {
+    [self setMaxNumTimesAttackedByOneInProtectionPeriod:other.maxNumTimesAttackedByOneInProtectionPeriod];
+  }
+  if (other.hasHoursInAttackedByOneProtectionPeriod) {
+    [self setHoursInAttackedByOneProtectionPeriod:other.hoursInAttackedByOneProtectionPeriod];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8897,6 +8933,14 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 568: {
         [self setSizeOfAttackList:[input readInt32]];
+        break;
+      }
+      case 576: {
+        [self setMaxNumTimesAttackedByOneInProtectionPeriod:[input readInt32]];
+        break;
+      }
+      case 584: {
+        [self setHoursInAttackedByOneProtectionPeriod:[input readInt32]];
         break;
       }
     }
@@ -9989,6 +10033,38 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearSizeOfAttackList {
   result.hasSizeOfAttackList = NO;
   result.sizeOfAttackList = 0;
+  return self;
+}
+- (BOOL) hasMaxNumTimesAttackedByOneInProtectionPeriod {
+  return result.hasMaxNumTimesAttackedByOneInProtectionPeriod;
+}
+- (int32_t) maxNumTimesAttackedByOneInProtectionPeriod {
+  return result.maxNumTimesAttackedByOneInProtectionPeriod;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMaxNumTimesAttackedByOneInProtectionPeriod:(int32_t) value {
+  result.hasMaxNumTimesAttackedByOneInProtectionPeriod = YES;
+  result.maxNumTimesAttackedByOneInProtectionPeriod = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMaxNumTimesAttackedByOneInProtectionPeriod {
+  result.hasMaxNumTimesAttackedByOneInProtectionPeriod = NO;
+  result.maxNumTimesAttackedByOneInProtectionPeriod = 0;
+  return self;
+}
+- (BOOL) hasHoursInAttackedByOneProtectionPeriod {
+  return result.hasHoursInAttackedByOneProtectionPeriod;
+}
+- (int32_t) hoursInAttackedByOneProtectionPeriod {
+  return result.hoursInAttackedByOneProtectionPeriod;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setHoursInAttackedByOneProtectionPeriod:(int32_t) value {
+  result.hasHoursInAttackedByOneProtectionPeriod = YES;
+  result.hoursInAttackedByOneProtectionPeriod = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearHoursInAttackedByOneProtectionPeriod {
+  result.hasHoursInAttackedByOneProtectionPeriod = NO;
+  result.hoursInAttackedByOneProtectionPeriod = 0;
   return self;
 }
 @end
@@ -43413,6 +43489,729 @@ BOOL CharacterModResponseProto_CharacterModStatusIsValidValue(CharacterModRespon
 - (CharacterModResponseProto_Builder*) clearEnergyNew {
   result.hasEnergyNew = NO;
   result.energyNew = 0;
+  return self;
+}
+@end
+
+@interface RetrieveLeaderboardRequestProto ()
+@property (retain) MinimumUserProto* sender;
+@property LeaderboardType leaderboardType;
+@property int32_t afterThisRank;
+@end
+
+@implementation RetrieveLeaderboardRequestProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasLeaderboardType {
+  return !!hasLeaderboardType_;
+}
+- (void) setHasLeaderboardType:(BOOL) value {
+  hasLeaderboardType_ = !!value;
+}
+@synthesize leaderboardType;
+- (BOOL) hasAfterThisRank {
+  return !!hasAfterThisRank_;
+}
+- (void) setHasAfterThisRank:(BOOL) value {
+  hasAfterThisRank_ = !!value;
+}
+@synthesize afterThisRank;
+- (void) dealloc {
+  self.sender = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.leaderboardType = LeaderboardTypeMostBattlesWon;
+    self.afterThisRank = 0;
+  }
+  return self;
+}
+static RetrieveLeaderboardRequestProto* defaultRetrieveLeaderboardRequestProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveLeaderboardRequestProto class]) {
+    defaultRetrieveLeaderboardRequestProtoInstance = [[RetrieveLeaderboardRequestProto alloc] init];
+  }
+}
++ (RetrieveLeaderboardRequestProto*) defaultInstance {
+  return defaultRetrieveLeaderboardRequestProtoInstance;
+}
+- (RetrieveLeaderboardRequestProto*) defaultInstance {
+  return defaultRetrieveLeaderboardRequestProtoInstance;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasLeaderboardType) {
+    [output writeEnum:2 value:self.leaderboardType];
+  }
+  if (self.hasAfterThisRank) {
+    [output writeInt32:3 value:self.afterThisRank];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasLeaderboardType) {
+    size += computeEnumSize(2, self.leaderboardType);
+  }
+  if (self.hasAfterThisRank) {
+    size += computeInt32Size(3, self.afterThisRank);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveLeaderboardRequestProto*) parseFromData:(NSData*) data {
+  return (RetrieveLeaderboardRequestProto*)[[[RetrieveLeaderboardRequestProto builder] mergeFromData:data] build];
+}
++ (RetrieveLeaderboardRequestProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRequestProto*)[[[RetrieveLeaderboardRequestProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRequestProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveLeaderboardRequestProto*)[[[RetrieveLeaderboardRequestProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveLeaderboardRequestProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRequestProto*)[[[RetrieveLeaderboardRequestProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveLeaderboardRequestProto*)[[[RetrieveLeaderboardRequestProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveLeaderboardRequestProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardRequestProto*)[[[RetrieveLeaderboardRequestProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardRequestProto_Builder*) builder {
+  return [[[RetrieveLeaderboardRequestProto_Builder alloc] init] autorelease];
+}
++ (RetrieveLeaderboardRequestProto_Builder*) builderWithPrototype:(RetrieveLeaderboardRequestProto*) prototype {
+  return [[RetrieveLeaderboardRequestProto builder] mergeFrom:prototype];
+}
+- (RetrieveLeaderboardRequestProto_Builder*) builder {
+  return [RetrieveLeaderboardRequestProto builder];
+}
+@end
+
+@interface RetrieveLeaderboardRequestProto_Builder()
+@property (retain) RetrieveLeaderboardRequestProto* result;
+@end
+
+@implementation RetrieveLeaderboardRequestProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveLeaderboardRequestProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) clear {
+  self.result = [[[RetrieveLeaderboardRequestProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) clone {
+  return [RetrieveLeaderboardRequestProto builderWithPrototype:result];
+}
+- (RetrieveLeaderboardRequestProto*) defaultInstance {
+  return [RetrieveLeaderboardRequestProto defaultInstance];
+}
+- (RetrieveLeaderboardRequestProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveLeaderboardRequestProto*) buildPartial {
+  RetrieveLeaderboardRequestProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) mergeFrom:(RetrieveLeaderboardRequestProto*) other {
+  if (other == [RetrieveLeaderboardRequestProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasLeaderboardType) {
+    [self setLeaderboardType:other.leaderboardType];
+  }
+  if (other.hasAfterThisRank) {
+    [self setAfterThisRank:other.afterThisRank];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveLeaderboardRequestProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (LeaderboardTypeIsValidValue(value)) {
+          [self setLeaderboardType:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 24: {
+        [self setAfterThisRank:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveLeaderboardRequestProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasLeaderboardType {
+  return result.hasLeaderboardType;
+}
+- (LeaderboardType) leaderboardType {
+  return result.leaderboardType;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) setLeaderboardType:(LeaderboardType) value {
+  result.hasLeaderboardType = YES;
+  result.leaderboardType = value;
+  return self;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) clearLeaderboardType {
+  result.hasLeaderboardType = NO;
+  result.leaderboardType = LeaderboardTypeMostBattlesWon;
+  return self;
+}
+- (BOOL) hasAfterThisRank {
+  return result.hasAfterThisRank;
+}
+- (int32_t) afterThisRank {
+  return result.afterThisRank;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) setAfterThisRank:(int32_t) value {
+  result.hasAfterThisRank = YES;
+  result.afterThisRank = value;
+  return self;
+}
+- (RetrieveLeaderboardRequestProto_Builder*) clearAfterThisRank {
+  result.hasAfterThisRank = NO;
+  result.afterThisRank = 0;
+  return self;
+}
+@end
+
+@interface RetrieveLeaderboardResponseProto ()
+@property (retain) MinimumUserProto* sender;
+@property RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus status;
+@property LeaderboardType leaderboardType;
+@property int32_t afterThisRank;
+@property (retain) MinimumUserProtoWithLevelForLeaderboard* retriever;
+@property (retain) NSMutableArray* mutableResultPlayersList;
+@end
+
+@implementation RetrieveLeaderboardResponseProto
+
+- (BOOL) hasSender {
+  return !!hasSender_;
+}
+- (void) setHasSender:(BOOL) value {
+  hasSender_ = !!value;
+}
+@synthesize sender;
+- (BOOL) hasStatus {
+  return !!hasStatus_;
+}
+- (void) setHasStatus:(BOOL) value {
+  hasStatus_ = !!value;
+}
+@synthesize status;
+- (BOOL) hasLeaderboardType {
+  return !!hasLeaderboardType_;
+}
+- (void) setHasLeaderboardType:(BOOL) value {
+  hasLeaderboardType_ = !!value;
+}
+@synthesize leaderboardType;
+- (BOOL) hasAfterThisRank {
+  return !!hasAfterThisRank_;
+}
+- (void) setHasAfterThisRank:(BOOL) value {
+  hasAfterThisRank_ = !!value;
+}
+@synthesize afterThisRank;
+- (BOOL) hasRetriever {
+  return !!hasRetriever_;
+}
+- (void) setHasRetriever:(BOOL) value {
+  hasRetriever_ = !!value;
+}
+@synthesize retriever;
+@synthesize mutableResultPlayersList;
+- (void) dealloc {
+  self.sender = nil;
+  self.retriever = nil;
+  self.mutableResultPlayersList = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.sender = [MinimumUserProto defaultInstance];
+    self.status = RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusSuccess;
+    self.leaderboardType = LeaderboardTypeMostBattlesWon;
+    self.afterThisRank = 0;
+    self.retriever = [MinimumUserProtoWithLevelForLeaderboard defaultInstance];
+  }
+  return self;
+}
+static RetrieveLeaderboardResponseProto* defaultRetrieveLeaderboardResponseProtoInstance = nil;
++ (void) initialize {
+  if (self == [RetrieveLeaderboardResponseProto class]) {
+    defaultRetrieveLeaderboardResponseProtoInstance = [[RetrieveLeaderboardResponseProto alloc] init];
+  }
+}
++ (RetrieveLeaderboardResponseProto*) defaultInstance {
+  return defaultRetrieveLeaderboardResponseProtoInstance;
+}
+- (RetrieveLeaderboardResponseProto*) defaultInstance {
+  return defaultRetrieveLeaderboardResponseProtoInstance;
+}
+- (NSArray*) resultPlayersList {
+  return mutableResultPlayersList;
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index {
+  id value = [mutableResultPlayersList objectAtIndex:index];
+  return value;
+}
+- (BOOL) isInitialized {
+  return YES;
+}
+- (void) writeToCodedOutputStream:(PBCodedOutputStream*) output {
+  if (self.hasSender) {
+    [output writeMessage:1 value:self.sender];
+  }
+  if (self.hasStatus) {
+    [output writeEnum:2 value:self.status];
+  }
+  if (self.hasRetriever) {
+    [output writeMessage:3 value:self.retriever];
+  }
+  for (MinimumUserProtoWithLevelForLeaderboard* element in self.resultPlayersList) {
+    [output writeMessage:4 value:element];
+  }
+  if (self.hasLeaderboardType) {
+    [output writeEnum:5 value:self.leaderboardType];
+  }
+  if (self.hasAfterThisRank) {
+    [output writeInt32:6 value:self.afterThisRank];
+  }
+  [self.unknownFields writeToCodedOutputStream:output];
+}
+- (int32_t) serializedSize {
+  int32_t size = memoizedSerializedSize;
+  if (size != -1) {
+    return size;
+  }
+
+  size = 0;
+  if (self.hasSender) {
+    size += computeMessageSize(1, self.sender);
+  }
+  if (self.hasStatus) {
+    size += computeEnumSize(2, self.status);
+  }
+  if (self.hasRetriever) {
+    size += computeMessageSize(3, self.retriever);
+  }
+  for (MinimumUserProtoWithLevelForLeaderboard* element in self.resultPlayersList) {
+    size += computeMessageSize(4, element);
+  }
+  if (self.hasLeaderboardType) {
+    size += computeEnumSize(5, self.leaderboardType);
+  }
+  if (self.hasAfterThisRank) {
+    size += computeInt32Size(6, self.afterThisRank);
+  }
+  size += self.unknownFields.serializedSize;
+  memoizedSerializedSize = size;
+  return size;
+}
++ (RetrieveLeaderboardResponseProto*) parseFromData:(NSData*) data {
+  return (RetrieveLeaderboardResponseProto*)[[[RetrieveLeaderboardResponseProto builder] mergeFromData:data] build];
+}
++ (RetrieveLeaderboardResponseProto*) parseFromData:(NSData*) data extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardResponseProto*)[[[RetrieveLeaderboardResponseProto builder] mergeFromData:data extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardResponseProto*) parseFromInputStream:(NSInputStream*) input {
+  return (RetrieveLeaderboardResponseProto*)[[[RetrieveLeaderboardResponseProto builder] mergeFromInputStream:input] build];
+}
++ (RetrieveLeaderboardResponseProto*) parseFromInputStream:(NSInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardResponseProto*)[[[RetrieveLeaderboardResponseProto builder] mergeFromInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input {
+  return (RetrieveLeaderboardResponseProto*)[[[RetrieveLeaderboardResponseProto builder] mergeFromCodedInputStream:input] build];
+}
++ (RetrieveLeaderboardResponseProto*) parseFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  return (RetrieveLeaderboardResponseProto*)[[[RetrieveLeaderboardResponseProto builder] mergeFromCodedInputStream:input extensionRegistry:extensionRegistry] build];
+}
++ (RetrieveLeaderboardResponseProto_Builder*) builder {
+  return [[[RetrieveLeaderboardResponseProto_Builder alloc] init] autorelease];
+}
++ (RetrieveLeaderboardResponseProto_Builder*) builderWithPrototype:(RetrieveLeaderboardResponseProto*) prototype {
+  return [[RetrieveLeaderboardResponseProto builder] mergeFrom:prototype];
+}
+- (RetrieveLeaderboardResponseProto_Builder*) builder {
+  return [RetrieveLeaderboardResponseProto builder];
+}
+@end
+
+BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus value) {
+  switch (value) {
+    case RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusSuccess:
+    case RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusOtherFail:
+      return YES;
+    default:
+      return NO;
+  }
+}
+@interface RetrieveLeaderboardResponseProto_Builder()
+@property (retain) RetrieveLeaderboardResponseProto* result;
+@end
+
+@implementation RetrieveLeaderboardResponseProto_Builder
+@synthesize result;
+- (void) dealloc {
+  self.result = nil;
+  [super dealloc];
+}
+- (id) init {
+  if ((self = [super init])) {
+    self.result = [[[RetrieveLeaderboardResponseProto alloc] init] autorelease];
+  }
+  return self;
+}
+- (PBGeneratedMessage*) internalGetResult {
+  return result;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clear {
+  self.result = [[[RetrieveLeaderboardResponseProto alloc] init] autorelease];
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clone {
+  return [RetrieveLeaderboardResponseProto builderWithPrototype:result];
+}
+- (RetrieveLeaderboardResponseProto*) defaultInstance {
+  return [RetrieveLeaderboardResponseProto defaultInstance];
+}
+- (RetrieveLeaderboardResponseProto*) build {
+  [self checkInitialized];
+  return [self buildPartial];
+}
+- (RetrieveLeaderboardResponseProto*) buildPartial {
+  RetrieveLeaderboardResponseProto* returnMe = [[result retain] autorelease];
+  self.result = nil;
+  return returnMe;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) mergeFrom:(RetrieveLeaderboardResponseProto*) other {
+  if (other == [RetrieveLeaderboardResponseProto defaultInstance]) {
+    return self;
+  }
+  if (other.hasSender) {
+    [self mergeSender:other.sender];
+  }
+  if (other.hasStatus) {
+    [self setStatus:other.status];
+  }
+  if (other.hasLeaderboardType) {
+    [self setLeaderboardType:other.leaderboardType];
+  }
+  if (other.hasAfterThisRank) {
+    [self setAfterThisRank:other.afterThisRank];
+  }
+  if (other.hasRetriever) {
+    [self mergeRetriever:other.retriever];
+  }
+  if (other.mutableResultPlayersList.count > 0) {
+    if (result.mutableResultPlayersList == nil) {
+      result.mutableResultPlayersList = [NSMutableArray array];
+    }
+    [result.mutableResultPlayersList addObjectsFromArray:other.mutableResultPlayersList];
+  }
+  [self mergeUnknownFields:other.unknownFields];
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input {
+  return [self mergeFromCodedInputStream:input extensionRegistry:[PBExtensionRegistry emptyRegistry]];
+}
+- (RetrieveLeaderboardResponseProto_Builder*) mergeFromCodedInputStream:(PBCodedInputStream*) input extensionRegistry:(PBExtensionRegistry*) extensionRegistry {
+  PBUnknownFieldSet_Builder* unknownFields = [PBUnknownFieldSet builderWithUnknownFields:self.unknownFields];
+  while (YES) {
+    int32_t tag = [input readTag];
+    switch (tag) {
+      case 0:
+        [self setUnknownFields:[unknownFields build]];
+        return self;
+      default: {
+        if (![self parseUnknownField:input unknownFields:unknownFields extensionRegistry:extensionRegistry tag:tag]) {
+          [self setUnknownFields:[unknownFields build]];
+          return self;
+        }
+        break;
+      }
+      case 10: {
+        MinimumUserProto_Builder* subBuilder = [MinimumUserProto builder];
+        if (self.hasSender) {
+          [subBuilder mergeFrom:self.sender];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setSender:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        int32_t value = [input readEnum];
+        if (RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(value)) {
+          [self setStatus:value];
+        } else {
+          [unknownFields mergeVarintField:2 value:value];
+        }
+        break;
+      }
+      case 26: {
+        MinimumUserProtoWithLevelForLeaderboard_Builder* subBuilder = [MinimumUserProtoWithLevelForLeaderboard builder];
+        if (self.hasRetriever) {
+          [subBuilder mergeFrom:self.retriever];
+        }
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self setRetriever:[subBuilder buildPartial]];
+        break;
+      }
+      case 34: {
+        MinimumUserProtoWithLevelForLeaderboard_Builder* subBuilder = [MinimumUserProtoWithLevelForLeaderboard builder];
+        [input readMessage:subBuilder extensionRegistry:extensionRegistry];
+        [self addResultPlayers:[subBuilder buildPartial]];
+        break;
+      }
+      case 40: {
+        int32_t value = [input readEnum];
+        if (LeaderboardTypeIsValidValue(value)) {
+          [self setLeaderboardType:value];
+        } else {
+          [unknownFields mergeVarintField:5 value:value];
+        }
+        break;
+      }
+      case 48: {
+        [self setAfterThisRank:[input readInt32]];
+        break;
+      }
+    }
+  }
+}
+- (BOOL) hasSender {
+  return result.hasSender;
+}
+- (MinimumUserProto*) sender {
+  return result.sender;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) setSender:(MinimumUserProto*) value {
+  result.hasSender = YES;
+  result.sender = value;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) setSenderBuilder:(MinimumUserProto_Builder*) builderForValue {
+  return [self setSender:[builderForValue build]];
+}
+- (RetrieveLeaderboardResponseProto_Builder*) mergeSender:(MinimumUserProto*) value {
+  if (result.hasSender &&
+      result.sender != [MinimumUserProto defaultInstance]) {
+    result.sender =
+      [[[MinimumUserProto builderWithPrototype:result.sender] mergeFrom:value] buildPartial];
+  } else {
+    result.sender = value;
+  }
+  result.hasSender = YES;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clearSender {
+  result.hasSender = NO;
+  result.sender = [MinimumUserProto defaultInstance];
+  return self;
+}
+- (BOOL) hasStatus {
+  return result.hasStatus;
+}
+- (RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus) status {
+  return result.status;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) setStatus:(RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatus) value {
+  result.hasStatus = YES;
+  result.status = value;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clearStatus {
+  result.hasStatus = NO;
+  result.status = RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusSuccess;
+  return self;
+}
+- (BOOL) hasLeaderboardType {
+  return result.hasLeaderboardType;
+}
+- (LeaderboardType) leaderboardType {
+  return result.leaderboardType;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) setLeaderboardType:(LeaderboardType) value {
+  result.hasLeaderboardType = YES;
+  result.leaderboardType = value;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clearLeaderboardType {
+  result.hasLeaderboardType = NO;
+  result.leaderboardType = LeaderboardTypeMostBattlesWon;
+  return self;
+}
+- (BOOL) hasAfterThisRank {
+  return result.hasAfterThisRank;
+}
+- (int32_t) afterThisRank {
+  return result.afterThisRank;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) setAfterThisRank:(int32_t) value {
+  result.hasAfterThisRank = YES;
+  result.afterThisRank = value;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clearAfterThisRank {
+  result.hasAfterThisRank = NO;
+  result.afterThisRank = 0;
+  return self;
+}
+- (BOOL) hasRetriever {
+  return result.hasRetriever;
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) retriever {
+  return result.retriever;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) setRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  result.hasRetriever = YES;
+  result.retriever = value;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) setRetrieverBuilder:(MinimumUserProtoWithLevelForLeaderboard_Builder*) builderForValue {
+  return [self setRetriever:[builderForValue build]];
+}
+- (RetrieveLeaderboardResponseProto_Builder*) mergeRetriever:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  if (result.hasRetriever &&
+      result.retriever != [MinimumUserProtoWithLevelForLeaderboard defaultInstance]) {
+    result.retriever =
+      [[[MinimumUserProtoWithLevelForLeaderboard builderWithPrototype:result.retriever] mergeFrom:value] buildPartial];
+  } else {
+    result.retriever = value;
+  }
+  result.hasRetriever = YES;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clearRetriever {
+  result.hasRetriever = NO;
+  result.retriever = [MinimumUserProtoWithLevelForLeaderboard defaultInstance];
+  return self;
+}
+- (NSArray*) resultPlayersList {
+  if (result.mutableResultPlayersList == nil) { return [NSArray array]; }
+  return result.mutableResultPlayersList;
+}
+- (MinimumUserProtoWithLevelForLeaderboard*) resultPlayersAtIndex:(int32_t) index {
+  return [result resultPlayersAtIndex:index];
+}
+- (RetrieveLeaderboardResponseProto_Builder*) replaceResultPlayersAtIndex:(int32_t) index with:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  [result.mutableResultPlayersList replaceObjectAtIndex:index withObject:value];
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) addAllResultPlayers:(NSArray*) values {
+  if (result.mutableResultPlayersList == nil) {
+    result.mutableResultPlayersList = [NSMutableArray array];
+  }
+  [result.mutableResultPlayersList addObjectsFromArray:values];
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) clearResultPlayersList {
+  result.mutableResultPlayersList = nil;
+  return self;
+}
+- (RetrieveLeaderboardResponseProto_Builder*) addResultPlayers:(MinimumUserProtoWithLevelForLeaderboard*) value {
+  if (result.mutableResultPlayersList == nil) {
+    result.mutableResultPlayersList = [NSMutableArray array];
+  }
+  [result.mutableResultPlayersList addObject:value];
   return self;
 }
 @end

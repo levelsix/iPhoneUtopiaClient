@@ -286,7 +286,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   
   GameState *gs = [GameState sharedGameState];
   if ([gs quantityOfEquip:post.equip.equipId] == 0) {
-    [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[postsTableView indexPathForCell:post]] withRowAnimation:UITableViewRowAnimationTop];
+    NSIndexPath *path = [postsTableView numberOfRowsInSection:0] <= 2 ? [NSIndexPath indexPathForRow:0 inSection:0] : nil;
+    [postsTableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[postsTableView indexPathForCell:post], path, nil] withRowAnimation:UITableViewRowAnimationTop];
   } else {
     [post showEquipListing:post.equip];
   }
@@ -487,9 +488,9 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  NSArray *a = [self getCurrentFilterState];
+  self.filtered = [self getCurrentFilterState];
   int extra = state == kEquipSellingState ? [[[GameState sharedGameState] myEquips] count] + ![[GameState sharedGameState] hasValidLicense]: 0;
-  int rows = [a count]+extra+1;
+  int rows = [self.filtered count]+extra+1;
   if (rows > 1) {
     self.leftRope.alpha = 1.f;
     self.rightRope.alpha = 1.f;
@@ -698,7 +699,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   int old = [self.postsTableView numberOfRowsInSection:0];
   int numRows = new - old;
   [self.postsTableView beginUpdates];
-  if (old ==  0) {
+  if (old == 0 && new > 0) {
     [self.postsTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     start = 1;
     numRows -= 1;
@@ -776,15 +777,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   [insNoAnim release];
 }
 
-- (NSMutableArray *) postsForState {
-  if (state == kEquipBuyingState) {
-    return [[GameState sharedGameState] marketplaceEquipPosts];
-  } else if (state == kEquipSellingState) {
-    return [[GameState sharedGameState] marketplaceEquipPostsFromSender];
-  }
-  return nil;
-}
-
 - (void) doneRefreshing {
   _refreshing = NO;
 }
@@ -839,6 +831,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   self.amuButtonClicked = nil;
   self.weapButtonClicked = nil;
   self.allButton = nil;
+  self.filtered = nil;
 }
 
 #pragma mark FILTERMETHODS
@@ -1103,9 +1096,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(MarketplaceViewController);
   }
   return nil;
 }
-
-
-
 
 @end
 

@@ -86,6 +86,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
   controllername *c = [controllername shared##controllername];\
   if (!c.view.superview) {\
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:c.view];\
+    NSArray *versionCompatibility = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."]; \
+    if ( 5 > [[versionCompatibility objectAtIndex:0] intValue] ) { \
+      [c viewWillAppear:YES]; \
+    } \
   } else { \
     [[[[CCDirector sharedDirector] openGLView] superview] bringSubviewToFront:c.view]; \
   }\
@@ -93,4 +97,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(controllername) \
 \
 + (void) removeView {\
   [shared##controllername.view removeFromSuperview];\
+  NSArray *versionCompatibility = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."]; \
+  if ( 5 > [[versionCompatibility objectAtIndex:0] intValue] ) { \
+    [shared##controllername viewDidDisappear:YES]; \
+  } \
 }

@@ -44,26 +44,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     }
     [self removeChild:layer cleanup:YES];
     
-    CritStruct *cs = [[CritStruct alloc] initWithType:CritStructTypeMarketplace];
-    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 35, 4, 4) map:self];
+    CritStruct *cs = [[CritStruct alloc] initWithType:BazaarStructTypeMarketplace];
+    CritStructBuilding *csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 31, 4, 4) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
-    cs = [[CritStruct alloc] initWithType:CritStructTypeArmory];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 35, 4, 4) map:self];
+    cs = [[CritStruct alloc] initWithType:BazaarStructTypeArmory];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 31, 4, 4) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
-    cs = [[CritStruct alloc] initWithType:CritStructTypeVault];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(35, 42, 4, 4) map:self];
+    cs = [[CritStruct alloc] initWithType:BazaarStructTypeVault];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(31, 35, 4, 4) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
-    cs = [[CritStruct alloc] initWithType:CritStructTypeBlacksmith];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(42, 42, 4, 4) map:self];
+    cs = [[CritStruct alloc] initWithType:BazaarStructTypeBlacksmith];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(31, 42, 4, 4) map:self];
+    [self addChild:csb z:100];
+    [cs release];
+    [csb release];
+    
+    cs = [[CritStruct alloc] initWithType:BazaarStructTypeLeaderboard];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(39, 39, 3, 3) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
@@ -71,7 +77,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     CGRect r = CGRectZero;
     r.origin = [self randomWalkablePosition];
     r.size = CGSizeMake(1, 1);
-    _questGiver = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:@"BlackSmith.png" map:self location:r];
+    _questGiver = [[QuestGiver alloc] initWithQuest:nil questGiverState:kNoQuest file:@"BlackSmith" map:self location:r];
     _questGiver.name = [Globals bazaarQuestGiverName];
     [self addChild:_questGiver];
     [_questGiver release];
@@ -108,7 +114,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
   [self moveToSprite:_questGiver];
 }
 
-- (void) moveToCritStruct:(CritStructType)type {
+- (void) moveToCritStruct:(BazaarStructType)type {
   CCSprite *csb = nil;
   for (CCNode *c in children_) {
     if ([c isKindOfClass:[CritStructBuilding class]]) {

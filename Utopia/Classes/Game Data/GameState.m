@@ -216,12 +216,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
   }
   NSNumber *num = [NSNumber numberWithInt:itemId];
   id p = [dict objectForKey:num];
-  int numTimes = 0;
+  int numTimes = 1;
   while (!p) {
     numTimes++;
-    if (numTimes == 1000) {
-      ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this");
-    } else if (numTimes > 100000) {
+    if (numTimes == 500 || (numTimes %= 1500) == 0) {
+      ContextLogWarn(LN_CONTEXT_GAMESTATE, @"Lotsa wait time for this. Re-retrieving.");
+      
+      LNLog(@"Looking for item: %d\nCurrent keys: %@", itemId, dict.allKeys);
+      
+      // Lets try to retrieve the data by forcing a call
+      SocketCommunication *sc = [SocketCommunication sharedSocketCommunication];
+      NSArray *arr = [NSArray arrayWithObject:[NSNumber numberWithInt:itemId]];
+      if (dict == _staticStructs) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:arr taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+      } else if (dict == _staticTasks) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:arr questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+      } else if (dict == _staticQuests) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:arr cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+      } else if (dict == _staticCities) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:arr equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+      } else if (dict == _staticEquips) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:arr buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+      } else if (dict == _staticBuildStructJobs) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:arr defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:nil];
+      } else if (dict == _staticDefeatTypeJobs) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:arr possessEquipJobIds:nil upgradeStructJobIds:nil];
+      } else if (dict == _staticPossessEquipJobs) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:arr upgradeStructJobIds:nil];
+      } else if (dict == _staticUpgradeStructJobs) {
+        [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr];
+      }
+    } else if (self.connected || numTimes > 10000) {
       return nil;
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);

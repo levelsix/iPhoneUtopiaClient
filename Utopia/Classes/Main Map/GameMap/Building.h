@@ -65,6 +65,9 @@
 @property (nonatomic, assign) BOOL retrievable;
 @property (nonatomic, retain) NSTimer *timer;
 
+- (void) displayUpgradeIcon;
+- (void) removeUpgradeIcon;
+
 - (void) createTimerForCurrentState;
 
 @end

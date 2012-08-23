@@ -130,6 +130,8 @@
 @class MinimumUserPossessEquipJobProto_Builder;
 @class MinimumUserProto;
 @class MinimumUserProtoWithLevel;
+@class MinimumUserProtoWithLevelForLeaderboard;
+@class MinimumUserProtoWithLevelForLeaderboard_Builder;
 @class MinimumUserProtoWithLevel_Builder;
 @class MinimumUserProto_Builder;
 @class MinimumUserQuestTaskProto;
@@ -218,6 +220,10 @@
 @class RetrieveCurrentMarketplacePostsRequestProto_Builder;
 @class RetrieveCurrentMarketplacePostsResponseProto;
 @class RetrieveCurrentMarketplacePostsResponseProto_Builder;
+@class RetrieveLeaderboardRequestProto;
+@class RetrieveLeaderboardRequestProto_Builder;
+@class RetrieveLeaderboardResponseProto;
+@class RetrieveLeaderboardResponseProto_Builder;
 @class RetrievePlayerWallPostsRequestProto;
 @class RetrievePlayerWallPostsRequestProto_Builder;
 @class RetrievePlayerWallPostsResponseProto;
@@ -361,6 +367,7 @@ typedef enum {
   EventProtocolRequestCFinishForgeAttemptWaittimeWithDiamonds = 50,
   EventProtocolRequestCCollectForgeEquips = 51,
   EventProtocolRequestCCharacterModEvent = 52,
+  EventProtocolRequestCRetrieveLeaderboardEvent = 53,
   EventProtocolRequestCLogoutEvent = 101,
   EventProtocolRequestAAdminUpdate = 300,
 } EventProtocolRequest;
@@ -418,6 +425,7 @@ typedef enum {
   EventProtocolResponseSFinishForgeAttemptWaittimeWithDiamonds = 50,
   EventProtocolResponseSCollectForgeEquips = 51,
   EventProtocolResponseSCharacterModEvent = 52,
+  EventProtocolResponseSRetrieveLeaderboardEvent = 53,
   EventProtocolResponseSUpdateClientUserEvent = 101,
   EventProtocolResponseSQuestCompleteEvent = 102,
   EventProtocolResponseSReferralCodeUsedEvent = 103,

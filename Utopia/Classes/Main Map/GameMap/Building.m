@@ -272,6 +272,20 @@
   }
 }
 
+#define UPGRADING_TAG 123
+
+- (void) displayUpgradeIcon {
+  if (![self getChildByTag:UPGRADING_TAG]) {
+    CCSprite *upgrIcon = [CCSprite spriteWithFile:@"upgrading.png"];
+    [self addChild:upgrIcon z:1 tag:UPGRADING_TAG];
+    upgrIcon.position = ccp(self.contentSize.width/2, self.contentSize.height);
+  }
+}
+
+- (void) removeUpgradeIcon {
+  [self removeChildByTag:UPGRADING_TAG cleanup:YES];
+}
+
 - (void) setTimer:(NSTimer *)timer {
   if (_timer) {
     [_timer invalidate];

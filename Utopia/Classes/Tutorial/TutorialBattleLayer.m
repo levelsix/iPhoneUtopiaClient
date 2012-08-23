@@ -215,14 +215,17 @@
 
 - (void) comboBarClicked {
   if (_comboBarMoving) {
-    [_comboProgressTimer stopAllActions];
+    [_triangle stopAllActions];
     _comboBarMoving = NO;
-    _damageDone = [self calculateMyDamageForPercentage:_comboProgressTimer.percentage];
+    
+    float percentage = (_triangle.rotation-START_TRIANGLE_ROTATION)/(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION)*100;
+    _damageDone = [self calculateMyDamageForPercentage:percentage];
+    
     _tapToAttack.opacity = 0;
     
     [self runAction:[CCSequence actionOne:[CCDelayTime actionWithDuration:0.5] two:[CCCallFunc actionWithTarget:self selector:@selector(doAttackAnimation)]]];
     
-    [self showBattleWordForPercentage:_comboProgressTimer.percentage];
+    [self showBattleWordForPercentage:percentage];
   }
 }
 
