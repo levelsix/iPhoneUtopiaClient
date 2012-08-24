@@ -176,20 +176,20 @@
   
   // Images
   if (direction == SBTickerViewTickDirectionDown) {
-    [_topFaceLayer setContents:(__bridge id)backImage.CGImage];
-    [_bottomFaceLayer setContents:(__bridge id)frontImage.CGImage];
-    [_tickLayer.frontLayer setContents:(__bridge id)frontImage.CGImage];
-    [_tickLayer.backLayer setContents:(__bridge id)backImage.CGImage];
+    [_topFaceLayer setContents:(id)backImage.CGImage];
+    [_bottomFaceLayer setContents:(id)frontImage.CGImage];
+    [_tickLayer.frontLayer setContents:(id)frontImage.CGImage];
+    [_tickLayer.backLayer setContents:(id)backImage.CGImage];
     
     [_topFaceLayer setGradientOpacity:1.];
     
     [_tickLayer setTransform:CATransform3DIdentity];    
   }
   else if (direction == SBTickerViewTickDirectionUp) {
-    [_topFaceLayer setContents:(__bridge id)frontImage.CGImage];
-    [_bottomFaceLayer setContents:(__bridge id)backImage.CGImage];
-    [_tickLayer.frontLayer setContents:(__bridge id)backImage.CGImage];
-    [_tickLayer.backLayer setContents:(__bridge id)frontImage.CGImage];
+    [_topFaceLayer setContents:(id)frontImage.CGImage];
+    [_bottomFaceLayer setContents:(id)backImage.CGImage];
+    [_tickLayer.frontLayer setContents:(id)backImage.CGImage];
+    [_tickLayer.backLayer setContents:(id)frontImage.CGImage];
     
     [_bottomFaceLayer setGradientOpacity:1.];
     

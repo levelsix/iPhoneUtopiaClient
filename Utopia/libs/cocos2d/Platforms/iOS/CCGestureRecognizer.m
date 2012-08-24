@@ -217,7 +217,7 @@
 
 - (NSString*) description
 {
-  return [NSString stringWithFormat:@"<%@ = %08X | %@ | Node = %@ >", [self class], self, [gestureRecognizer_ class], node_];
+  return [NSString stringWithFormat:@"<%@ = %p | %@ | Node = %@ >", [self class], self, [gestureRecognizer_ class], node_];
 }
 
 @end

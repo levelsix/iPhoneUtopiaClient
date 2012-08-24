@@ -57,6 +57,7 @@
 
 - (void) begin;
 - (void) loadHomeMap;
+- (void) closeHomeMap;
 - (void) loadBazaarMap;
 - (void) loadHomeMap;
 - (void) loadMissionMapWithProto:(LoadNeutralCityResponseProto *)proto;

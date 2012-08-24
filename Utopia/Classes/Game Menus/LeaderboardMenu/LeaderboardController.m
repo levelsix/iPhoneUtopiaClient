@@ -267,9 +267,13 @@
   
   NSString *str = nil;
   if (type == LeaderboardTypeBestKdr) {
-    str = [NSString stringWithFormat:@"%.1f%%", u.leaderboardScore*100.f];
+    if (u.leaderboardScore == 0.f) {
+      str = @"Need 100 Battles";
+    } else {
+      str = [NSString stringWithFormat:@"%.1f%%", u.leaderboardScore*100.f];
+    }
   } else if (type == LeaderboardTypeMostBattlesWon) {
-    str = [NSString stringWithFormat:@"%@ Wins", [Globals commafyNumber:(int)u.leaderboardScore]];
+    str = [NSString stringWithFormat:@"%@ Win%@", [Globals commafyNumber:(int)u.leaderboardScore], u.leaderboardScore != 1 ? @"s" : @""];
   } else if (type == LeaderboardTypeMostCoins) {
     str = [NSString stringWithFormat:@"%@ Silver", [Globals commafyNumber:(int)u.leaderboardScore]];
   } else if (type == LeaderboardTypeMostExp) {

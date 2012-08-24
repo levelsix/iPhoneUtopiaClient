@@ -171,6 +171,8 @@
     _comboBar.visible = YES;
     _comboBarMoving = NO;
     
+    _triangle.rotation = 180;
+    
     _overLayer = [CCSprite spriteWithFile:@"combowheellight.png"];
     [self addChild:_overLayer z:5];
     _overLayer.position = ccp(self.contentSize.width/2, self.contentSize.height/2);

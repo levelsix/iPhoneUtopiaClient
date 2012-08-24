@@ -66,8 +66,8 @@
         
 		if (type == SBGradientOverlayLayerTypeFace) {
 			[_gradientLayer setColors:[NSArray arrayWithObjects:
-                                       (__bridge id)[UIColor colorWithWhite:0. alpha:.5].CGColor,
-                                       (__bridge id)[UIColor colorWithWhite:0. alpha:1.].CGColor,
+                                       (id)[UIColor colorWithWhite:0. alpha:.5].CGColor,
+                                       (id)[UIColor colorWithWhite:0. alpha:1.].CGColor,
                                        nil]];
             
 			[_gradientLayer setLocations:[NSArray arrayWithObjects:
@@ -78,9 +78,9 @@
 			_maximumOpacity = .75;
 		} else {
 			[_gradientLayer setColors:[NSArray arrayWithObjects:
-									 (__bridge id)[UIColor colorWithWhite:0. alpha:0.].CGColor,
-									 (__bridge id)[UIColor colorWithWhite:0. alpha:.5].CGColor,
-									 (__bridge id)[UIColor colorWithWhite:0. alpha:1.].CGColor,
+									 (id)[UIColor colorWithWhite:0. alpha:0.].CGColor,
+									 (id)[UIColor colorWithWhite:0. alpha:.5].CGColor,
+									 (id)[UIColor colorWithWhite:0. alpha:1.].CGColor,
 									 nil]];
             
 			[_gradientLayer setLocations:[NSArray arrayWithObjects:

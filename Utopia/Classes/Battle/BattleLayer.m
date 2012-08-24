@@ -387,7 +387,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _triangle = [CCSprite spriteWithFile:@"triangle.png"];
     _triangle.position = ccp(_comboBar.contentSize.width/2, _comboBar.contentSize.height/2);
     _triangle.anchorPoint = ccp(0.5, _comboBar.contentSize.height/_triangle.contentSize.height/2+0.4);
-    [_comboBar addChild:_triangle];
+    [_comboBar addChild:_triangle z:1];
     
     CCSprite *maxLine = [CCSprite spriteWithFile:@"maxyellow.png"];
     maxLine.position = ccp(_comboBar.contentSize.width/2, _comboBar.contentSize.height-10.f);
@@ -395,7 +395,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     CCSprite *max = [CCSprite spriteWithFile:@"max.png"];
     max.position = ccp(_comboBar.contentSize.width/2, _comboBar.contentSize.height-30.f);
-    [_comboBar addChild:max z:1];
+    [_comboBar addChild:max];
     [max runAction:[CCRepeatForever actionWithAction:
                     [CCSequence actions:
                      [CCScaleTo actionWithDuration:0.75f scale:1.2f], 
@@ -410,7 +410,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     _flippedTriangle = [CCSprite spriteWithFile:@"triangle.png"];
     _flippedTriangle.position = ccp(_flippedComboBar.contentSize.width/2, _flippedComboBar.contentSize.height/2);
     _flippedTriangle.anchorPoint = _triangle.anchorPoint;
-    [_flippedComboBar addChild:_flippedTriangle];
+    [_flippedComboBar addChild:_flippedTriangle z:1];
     
     CCSprite *flippedMaxLine = [CCSprite spriteWithFile:@"maxyellow.png"];
     flippedMaxLine.position = maxLine.position;
@@ -418,7 +418,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     CCSprite *flippedMax = [CCSprite spriteWithFile:@"max.png"];
     flippedMax.position = max.position;
-    [_flippedComboBar addChild:flippedMax z:1];
+    [_flippedComboBar addChild:flippedMax];
     
     CCSprite *pause = [CCSprite spriteWithFile:@"pause.png"];
     CCMenuItemSprite *pauseButton = [CCMenuItemSprite itemFromNormalSprite:pause selectedSprite:nil target:self selector:@selector(pauseClicked)];
@@ -600,6 +600,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   _enemyType = user.userType;
   
+  _cityId = -1;
+  
   CCDirector *dir = [CCDirector sharedDirector];
   if (!_isRunning) {
     _isRunning = YES;
@@ -608,12 +610,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     // Remove mapviewcontroller in case we were called from there
     // but record whether we came from there or not
-    AttackMenuController *avc = [AttackMenuController sharedAttackMenuController];
-    if (avc.view.superview) {
-      [[AttackMenuController sharedAttackMenuController] close];
-      _cameFromAviary = YES;
-    } else {
-      _cameFromAviary = NO;
+    if ([AttackMenuController isInitialized]) {
+      AttackMenuController *avc = [AttackMenuController sharedAttackMenuController];
+      if (avc.view.superview) {
+        [[AttackMenuController sharedAttackMenuController] close];
+        _cameFromAviary = YES;
+        
+        // Set city id to 0 so that it works even in the event that you attack from profile
+        _cityId = 0;
+      } else {
+        _cameFromAviary = NO;
+      }
     }
     
     if ([MarketplaceViewController isInitialized]) {
@@ -627,8 +634,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   
   // Close the menus
   [[GameLayer sharedGameLayer] closeMenus];
-  
-  _cityId = -1;
   
   _attackButton.visible = NO;
   _comboBar.visible = NO;
@@ -767,7 +772,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     [[SoundEngine sharedSoundEngine] stopCharge];
     
     float percentage = (_triangle.rotation-START_TRIANGLE_ROTATION)/(END_TRIANGLE_ROTATION-START_TRIANGLE_ROTATION)*100;
-    NSLog(@"Me: %f", percentage);
     _damageDone = [self calculateMyDamageForPercentage:percentage];
     
     if (_rightCurrentHealth - _damageDone <= 0) {
@@ -971,11 +975,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   _flippedComboBar.visible = YES;
   float duration = [self rand]*(MAX_COMBO_BAR_DURATION-MIN_COMBO_BAR_DURATION)+MIN_COMBO_BAR_DURATION;
   float end = -START_TRIANGLE_ROTATION+(-END_TRIANGLE_ROTATION+START_TRIANGLE_ROTATION)*perc/100.f;
-  NSLog(@"Enemy: %f, %f", perc, end);
   _flippedTriangle.rotation = -START_TRIANGLE_ROTATION;
   [_flippedTriangle runAction:[CCSequence actions:
                                [CCEaseIn actionWithAction:
-                                [CCRotateBy actionWithDuration:perc*duration/100 angle:end] rate:2.5],
+                                [CCRotateBy actionWithDuration:perc*duration/100 angle:end+START_TRIANGLE_ROTATION] rate:2.5],
                                [CCCallBlock actionWithBlock:^{[self showEnemyBattleWordForPercentage:perc];}],
                                [CCDelayTime actionWithDuration:0.5],
                                [CCCallFunc actionWithTarget:self selector:@selector(doEnemyAttackAnimation)],
@@ -1278,10 +1281,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
   int origCount = arr.count;
   int numTimes = 0;
-  NSLog(@"C: %d", arr.count);
   if (arr.count >= gl.maxNumTimesAttackedByOneInProtectionPeriod) {
     for (NSDate *date in arr) {
-      NSLog(@"%@ T:%f", date, date.timeIntervalSinceNow);
       if ([date timeIntervalSinceNow] > -gl.hoursInAttackedByOneProtectionPeriod*3600) {
         numTimes++;
       } else {

@@ -113,9 +113,6 @@
   submitButton.hidden = YES;
   
   nameTextField.label.textColor = [UIColor whiteColor];
-  
-  
-  [Globals popupMessage:@"Meep"];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

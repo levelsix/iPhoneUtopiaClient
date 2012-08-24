@@ -71,7 +71,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ConvoMenuController);
 
 - (void) dialogComplete {
   [ConvoMenuController removeView];
-//  [[OutgoingEventController sharedOutgoingEventController] acceptQuest:self.quest.questId];
+  [[OutgoingEventController sharedOutgoingEventController] acceptQuest:self.quest.questId];
   [[QuestLogController sharedQuestLogController] loadQuestAcceptScreen:self.quest];
 }
 

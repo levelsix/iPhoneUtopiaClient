@@ -646,6 +646,8 @@ static CGSize drawOrSizeTextConstrainedToSize(BOOL performDraw, NSString *string
 						case UITextAlignmentRight:
 							drawPoint.x = constrainedSize.width - lineSize.width;
 							break;
+            default:
+              break;
 					}
 					NSUInteger stopGlyphIdx = glyphIdx;
 					NSUInteger lastRunIdx = currentRunIdx;

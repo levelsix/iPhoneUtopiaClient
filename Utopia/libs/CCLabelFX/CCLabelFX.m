@@ -150,7 +150,7 @@
 
 - (NSString*) description
 {
-	return [NSString stringWithFormat:@"<%@ = %08X | FontName = %@, FontSize = %.1f, ShadowOffset = %@, ShadowBlur = %f>", 
+	return [NSString stringWithFormat:@"<%@ = %p | FontName = %@, FontSize = %.1f, ShadowOffset = %@, ShadowBlur = %f>", 
             [self class], self, fontName_, fontSize_, NSStringFromCGSize(shadowOffset_), shadowBlur_];
 }
 

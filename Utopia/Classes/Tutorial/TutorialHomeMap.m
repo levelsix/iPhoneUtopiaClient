@@ -292,6 +292,7 @@
   [[GameState sharedGameState] setIsTutorial:NO];
   
   [[TopBar sharedTopBar] removeFromParentAndCleanup:YES];
+  [[GameLayer sharedGameLayer] closeHomeMap];
   [TutorialHomeMap purgeSingleton];
   [ProfileViewController purgeSingleton];
   [TutorialConstants purgeSingleton];

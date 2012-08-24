@@ -1387,6 +1387,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   GameState *gs = [GameState sharedGameState];
   BOOL isEnemy = ![Globals userType:gs.type isAlliesWith:fup.userType];
   
+  if (userId != fup.userId) {
+    wallTabView.wallPosts = nil;
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:fup.userId];
+  }
+  
   self.fup = fup;
   self.userId = fup.userId;
   
@@ -1429,11 +1434,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
     self.state = kProfileState;
   }
   
-  if (userId != fup.userId) {
-    wallTabView.wallPosts = nil;
-    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:fup.userId];
-  }
-  
   if (!isEnemy && !_waitingForEquips) {
     _waitingForEquips = YES;
     [[OutgoingEventController sharedOutgoingEventController] retrieveEquipsForUser:fup.userId];
@@ -1470,6 +1470,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 
 - (void) loadProfileForPlayer:(FullUserProto *)fup equips:(NSArray *)equips attack:(int)attack defense:(int)defense {
   // This method is only used from battle
+  
+  if (userId != fup.userId) {
+    wallTabView.wallPosts = nil;
+    [[OutgoingEventController sharedOutgoingEventController] retrieveMostRecentWallPostsForPlayer:fup.userId];
+  }
+  
+  self.fup = fup;
+  self.userId = fup.userId;
   
   [self loadProfileForPlayer:fup buttonsEnabled:YES];
   

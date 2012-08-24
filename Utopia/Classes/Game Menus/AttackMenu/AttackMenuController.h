@@ -85,6 +85,7 @@ typedef enum {
 + (void) displayView;
 + (void) removeView;
 + (void) purgeSingleton;
++ (BOOL) isInitialized;
 
 - (IBAction)closeClicked:(id)sender;
 - (void) close;

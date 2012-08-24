@@ -48,6 +48,7 @@
     
     attackRange = _battleConstants.battleGreatPercentThreshold 
     - (int)_battleConstants.battleGoodPercentThreshold;
+    
   }
   else {
     locationOnBar = 0;

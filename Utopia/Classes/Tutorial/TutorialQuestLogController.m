@@ -64,8 +64,7 @@
 }
 
 - (void) loadQuestAcceptScreen {
-  [Globals popupMessage:@"Meep"];
-//  [super loadQuestAcceptScreen:_fqp];
+  [super loadQuestAcceptScreen:_fqp];
   
   [Analytics tutorialQuestAccept];
   
