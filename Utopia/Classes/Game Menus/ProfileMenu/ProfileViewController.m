@@ -450,6 +450,7 @@
 
 - (void) unknownEquip {
   equipIcon.hidden = YES;
+  equipIcon.image = nil;
   levelIcon.level = 0;
   self.knownView.hidden = YES;
   self.unknownView.hidden = NO;
@@ -457,6 +458,7 @@
 
 - (void) knownEquip {
   equipIcon.hidden = NO;
+  equipIcon.image = nil;
   self.knownView.hidden = NO;
   self.unknownView.hidden = YES;
 }
@@ -1284,7 +1286,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
       self.noEquipButtonView.hidden = NO;
       
       self.noEquipLabel.text = [NSString stringWithFormat:@"You do not have any %@ to equip.", equipType];
-    } else if (_fup) {
+    } else if (_fup && !_waitingForEquips) {
       BOOL isEnemy = ![Globals userType:gs.type isAlliesWith:_fup.userType];
       if (!isEnemy) {
         self.noEquipMiddleView.hidden = NO;
@@ -1329,6 +1331,8 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   
   equips = [[self sortEquips:equippables].mutableCopy arrayByAddingObjectsFromArray:[self sortEquips:unequippables]];
   [self.equipsTableDelegate loadEquips:equips curWeapon:weapon curArmor:armor curAmulet:amulet];
+  
+  NSLog(@"%@, %d, %d, %d", equips, weapon, armor, amulet);
   
   int i;
   
@@ -1590,6 +1594,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) loadProfileForMinimumUser:(MinimumUserProto *)user withState:(ProfileState)pState {
+  pState = kEquipState;
   if (userId == user.userId) {
     [ProfileViewController displayView];
     return;

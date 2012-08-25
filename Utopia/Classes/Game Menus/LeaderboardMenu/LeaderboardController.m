@@ -269,6 +269,7 @@
   if (type == LeaderboardTypeBestKdr) {
     if (u.leaderboardScore == 0.f) {
       str = @"Need 100 Battles";
+      self.rankLabel.text = @"N/A";
     } else {
       str = [NSString stringWithFormat:@"%.1f%%", u.leaderboardScore*100.f];
     }

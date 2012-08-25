@@ -246,7 +246,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameState);
       } else if (dict == _staticUpgradeStructJobs) {
         [sc sendRetrieveStaticDataMessageWithStructIds:nil taskIds:nil questIds:nil cityIds:nil equipIds:nil buildStructJobIds:nil defeatTypeJobIds:nil possessEquipJobIds:nil upgradeStructJobIds:arr];
       }
-    } else if (self.connected || numTimes > 10000) {
+    } else if (self.connected && numTimes > 10000) {
       return nil;
     }
     //    NSAssert(numTimes < 1000000, @"Waiting too long for static data.. Probably not retrieved!", itemId);
