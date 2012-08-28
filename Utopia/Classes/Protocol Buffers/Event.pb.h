@@ -518,6 +518,7 @@ BOOL LevelUpResponseProto_LevelUpStatusIsValidValue(LevelUpResponseProto_LevelUp
 typedef enum {
   InAppPurchaseResponseProto_InAppPurchaseStatusSuccess = 0,
   InAppPurchaseResponseProto_InAppPurchaseStatusFail = 1,
+  InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt = 2,
 } InAppPurchaseResponseProto_InAppPurchaseStatus;
 
 BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseResponseProto_InAppPurchaseStatus value);
@@ -1959,8 +1960,8 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 
 @interface StartupResponseProto_StartupConstants : PBGeneratedMessage {
 @private
-  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplacePurchase_:1;
+  BOOL hasPercentReturnedToUserForSellingNormStructure_:1;
   BOOL hasPercentOfSellingCostTakenFromSellerOnMarketplaceRetract_:1;
   BOOL hasCutOfVaultDepositTaken_:1;
   BOOL hasLevelEquipBoostExponentBase_:1;
@@ -1988,16 +1989,17 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   BOOL hasSizeOfAttackList_:1;
   BOOL hasMaxNumTimesAttackedByOneInProtectionPeriod_:1;
   BOOL hasHoursInAttackedByOneProtectionPeriod_:1;
+  BOOL hasMinBattlesRequiredForKdrconsideration_:1;
   BOOL hasVaultXlength_:1;
   BOOL hasVaultYlength_:1;
-  BOOL hasArmoryYlength_:1;
   BOOL hasMarketplaceXlength_:1;
-  BOOL hasArmoryXlength_:1;
   BOOL hasMarketplaceYlength_:1;
+  BOOL hasArmoryYlength_:1;
+  BOOL hasArmoryXlength_:1;
   BOOL hasCarpenterXlength_:1;
+  BOOL hasCarpenterYlength_:1;
   BOOL hasMaxLevelForUser_:1;
   BOOL hasMaxLevelDifferenceForBattle_:1;
-  BOOL hasCarpenterYlength_:1;
   BOOL hasAviaryXlength_:1;
   BOOL hasAviaryYlength_:1;
   BOOL hasAttackBaseGain_:1;
@@ -2019,8 +2021,8 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   BOOL hasKiipRewardConditions_:1;
   BOOL hasBattleConstants_:1;
   BOOL hasFormulaConstants_:1;
-  Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplacePurchase;
+  Float64 percentReturnedToUserForSellingNormStructure;
   Float64 percentOfSellingCostTakenFromSellerOnMarketplaceRetract;
   Float64 cutOfVaultDepositTaken;
   Float64 levelEquipBoostExponentBase;
@@ -2048,16 +2050,17 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   int32_t sizeOfAttackList;
   int32_t maxNumTimesAttackedByOneInProtectionPeriod;
   int32_t hoursInAttackedByOneProtectionPeriod;
+  int32_t minBattlesRequiredForKdrconsideration;
   int32_t vaultXlength;
   int32_t vaultYlength;
-  int32_t armoryYlength;
   int32_t marketplaceXlength;
-  int32_t armoryXlength;
   int32_t marketplaceYlength;
+  int32_t armoryYlength;
+  int32_t armoryXlength;
   int32_t carpenterXlength;
+  int32_t carpenterYlength;
   int32_t maxLevelForUser;
   int32_t maxLevelDifferenceForBattle;
-  int32_t carpenterYlength;
   int32_t aviaryXlength;
   int32_t aviaryYlength;
   int32_t attackBaseGain;
@@ -2143,6 +2146,7 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 - (BOOL) hasSizeOfAttackList;
 - (BOOL) hasMaxNumTimesAttackedByOneInProtectionPeriod;
 - (BOOL) hasHoursInAttackedByOneProtectionPeriod;
+- (BOOL) hasMinBattlesRequiredForKdrconsideration;
 @property (readonly) int32_t maxLevelDifferenceForBattle;
 @property (readonly) int32_t maxLevelForUser;
 @property (readonly) int32_t armoryXlength;
@@ -2203,6 +2207,7 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 @property (readonly) int32_t sizeOfAttackList;
 @property (readonly) int32_t maxNumTimesAttackedByOneInProtectionPeriod;
 @property (readonly) int32_t hoursInAttackedByOneProtectionPeriod;
+@property (readonly) int32_t minBattlesRequiredForKdrconsideration;
 - (NSArray*) productIdsList;
 - (NSString*) productIdsAtIndex:(int32_t) index;
 - (NSArray*) productDiamondsGivenList;
@@ -3208,6 +3213,11 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 - (int32_t) hoursInAttackedByOneProtectionPeriod;
 - (StartupResponseProto_StartupConstants_Builder*) setHoursInAttackedByOneProtectionPeriod:(int32_t) value;
 - (StartupResponseProto_StartupConstants_Builder*) clearHoursInAttackedByOneProtectionPeriod;
+
+- (BOOL) hasMinBattlesRequiredForKdrconsideration;
+- (int32_t) minBattlesRequiredForKdrconsideration;
+- (StartupResponseProto_StartupConstants_Builder*) setMinBattlesRequiredForKdrconsideration:(int32_t) value;
+- (StartupResponseProto_StartupConstants_Builder*) clearMinBattlesRequiredForKdrconsideration;
 @end
 
 @interface StartupResponseProto_TutorialConstants : PBGeneratedMessage {
@@ -5936,11 +5946,13 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
   BOOL hasPackagePrice_:1;
   BOOL hasDiamondsGained_:1;
   BOOL hasPackageName_:1;
+  BOOL hasReceipt_:1;
   BOOL hasSender_:1;
   BOOL hasStatus_:1;
   Float64 packagePrice;
   int32_t diamondsGained;
   NSString* packageName;
+  NSString* receipt;
   MinimumUserProto* sender;
   InAppPurchaseResponseProto_InAppPurchaseStatus status;
 }
@@ -5949,11 +5961,13 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 - (BOOL) hasDiamondsGained;
 - (BOOL) hasPackageName;
 - (BOOL) hasPackagePrice;
+- (BOOL) hasReceipt;
 @property (readonly, retain) MinimumUserProto* sender;
 @property (readonly) InAppPurchaseResponseProto_InAppPurchaseStatus status;
 @property (readonly) int32_t diamondsGained;
 @property (readonly, retain) NSString* packageName;
 @property (readonly) Float64 packagePrice;
+@property (readonly, retain) NSString* receipt;
 
 + (InAppPurchaseResponseProto*) defaultInstance;
 - (InAppPurchaseResponseProto*) defaultInstance;
@@ -6015,6 +6029,11 @@ BOOL RetrieveLeaderboardResponseProto_RetrieveLeaderboardStatusIsValidValue(Retr
 - (Float64) packagePrice;
 - (InAppPurchaseResponseProto_Builder*) setPackagePrice:(Float64) value;
 - (InAppPurchaseResponseProto_Builder*) clearPackagePrice;
+
+- (BOOL) hasReceipt;
+- (NSString*) receipt;
+- (InAppPurchaseResponseProto_Builder*) setReceipt:(NSString*) value;
+- (InAppPurchaseResponseProto_Builder*) clearReceipt;
 @end
 
 @interface UpdateClientUserResponseProto : PBGeneratedMessage {

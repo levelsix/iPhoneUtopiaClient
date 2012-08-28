@@ -37,7 +37,6 @@ static NSString *udid = nil;
     udid = [[NSString stringWithFormat:@"%d%d%d", arc4random(), arc4random(), arc4random()] retain];
 #else
     udid = [UDID retain];
-    
 #endif
   }
   return self;
@@ -49,12 +48,9 @@ static NSString *udid = nil;
   uint16_t port = HOST_PORT;
   
   // Make connection to host
-  if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error])
-  {
+  if (![_asyncSocket connectToHost:host onPort:port withTimeout:20.f error:&error]) {
     ContextLogError(LN_CONTEXT_COMMUNICATION, @"Unable to connect to due to invalid configuration: %@", error);
-  }
-  else
-  {
+  } else {
     ContextLogInfo(LN_CONTEXT_COMMUNICATION, @"Connecting to \"%@\" on port %hu...", host, port);
   }
 }
@@ -92,6 +88,7 @@ static NSString *udid = nil;
     [[OutgoingEventController sharedOutgoingEventController] reconnect];
   }
   [self readHeader];
+  
   _numDisconnects = 0;
 }
 

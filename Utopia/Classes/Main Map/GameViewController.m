@@ -176,7 +176,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameViewController);
   
   UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
   // Remember to position at bottom right corner to account for the flip
-  spinner.center = CGPointMake(imgView.frame.size.height-(spinner.frame.size.width/2+5), imgView.frame.size.width-(spinner.frame.size.height/2+5));
+  spinner.center = CGPointMake(imgView.frame.size.height/2+70, imgView.frame.size.width/2);
   [imgView addSubview:spinner];
   [spinner startAnimating];
   [spinner release];

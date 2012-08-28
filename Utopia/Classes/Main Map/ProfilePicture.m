@@ -178,7 +178,7 @@
 
 @implementation ProfilePicture
 
-@synthesize expLabel = _expLabel;
+@synthesize expLabelTop, expLabelBot;
 
 + (id) profileWithType: (UserType) type {
   return [[[self alloc] initWithType: type] autorelease];
@@ -215,16 +215,28 @@
     
     [self addChild:menu z:-1];
     
-    self.expLabel = [CCLabelFX labelWithString:@"" 
+    self.expLabelTop = [CCLabelFX labelWithString:@"" 
                                   fontName:[Globals font]
                                   fontSize:12.f 
                               shadowOffset:CGSizeMake(0, -1) 
                                 shadowBlur:1.f 
                                shadowColor:ccc4(0, 0, 0, 100) 
                                  fillColor:ccc4(236, 230, 195, 255)];
-    [self addChild:_expLabel];
-    _expLabel.position = ccp(self.contentSize.width/2, self.contentSize.height/2-2);
-    _expLabel.visible = NO;
+    
+    [self addChild:expLabelTop];
+    expLabelTop.position = ccp(self.contentSize.width/2, self.contentSize.height/2+3);
+    expLabelTop.visible = NO;
+    
+    self.expLabelBot = [CCLabelFX labelWithString:@"" 
+                                         fontName:[Globals font]
+                                         fontSize:12.f 
+                                     shadowOffset:CGSizeMake(0, -1) 
+                                       shadowBlur:1.f 
+                                      shadowColor:ccc4(0, 0, 0, 100) 
+                                        fillColor:ccc4(236, 230, 195, 255)];
+    [self addChild:expLabelBot];
+    expLabelBot.position = ccp(self.contentSize.width/2, self.contentSize.height/2-9);
+    expLabelBot.visible = NO;
     
     self.isTouchEnabled = YES;
   }
@@ -374,7 +386,8 @@
   
   clickedButton.badgeNum = 0;
   
-  _expLabel.visible = NO;
+  expLabelTop.visible = NO;
+  expLabelBot.visible = NO;
   [_expCircle runAction: [CCRotateBy actionWithDuration:0.2 angle:-90]];
   
   _inAction = YES;
@@ -447,19 +460,28 @@
 }
 
 - (void) fadeInExpLabel {
-  _expLabel.visible = YES;
+  expLabelTop.visible = YES;
   [self runAction:[CCTintTo actionWithDuration:0.3f red:65 green:65 blue:65]];
-  [_expLabel runAction:[CCFadeIn actionWithDuration:0.3f]];
+  [expLabelTop runAction:[CCFadeIn actionWithDuration:0.3f]];
+  
+  expLabelBot.visible = YES;
+  [expLabelBot runAction:[CCFadeIn actionWithDuration:0.3f]];
 }
 
 - (void) fadeOutExpLabel {
   [self runAction:[CCTintTo actionWithDuration:0.3f red:255 green:255 blue:255]];
-  [_expLabel runAction:[CCSequence actions:
+  [expLabelTop runAction:[CCSequence actions:
                         [CCFadeOut actionWithDuration:0.3f],
                         [CCCallBlock actionWithBlock:
                          ^{
-                           _expLabel.visible = NO;
+                           expLabelTop.visible = NO;
                          }], nil]];
+  [expLabelBot runAction:[CCSequence actions:
+                          [CCFadeOut actionWithDuration:0.3f],
+                          [CCCallBlock actionWithBlock:
+                           ^{
+                             expLabelBot.visible = NO;
+                           }], nil]];
 }
 
 - (void) setInvisible: (CCMenuItem *) sender {
@@ -488,7 +510,8 @@
 - (void) dealloc {
   // Must do this to make sure touch dispatcher removes me
   self.isTouchEnabled = NO;
-  self.expLabel = nil;
+  self.expLabelTop = nil;
+  self.expLabelBot = nil;
   [_menuItems release];
   [super dealloc];
 }

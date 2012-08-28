@@ -12,6 +12,8 @@
 
 #define NUM_ALLIES 8
 
+#define DEFAULT_BAZAAR_ZOOM 0.6
+
 @implementation BazaarMap
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
@@ -57,13 +59,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     [csb release];
     
     cs = [[CritStruct alloc] initWithType:BazaarStructTypeVault];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(31, 35, 4, 4) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(31, 42, 4, 4) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
     
     cs = [[CritStruct alloc] initWithType:BazaarStructTypeBlacksmith];
-    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(31, 42, 4, 4) map:self];
+    csb = [[CritStructBuilding alloc] initWithCritStruct:cs location:CGRectMake(31, 35, 4, 4) map:self];
     [self addChild:csb z:100];
     [cs release];
     [csb release];
@@ -85,6 +87,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BazaarMap);
     [self reloadQuestGivers];
     
     [self doReorder];
+    
+    self.scale = DEFAULT_BAZAAR_ZOOM;
   }
   return self;
 }

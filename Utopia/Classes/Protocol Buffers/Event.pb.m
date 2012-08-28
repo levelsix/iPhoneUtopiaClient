@@ -4858,6 +4858,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
 @property int32_t sizeOfAttackList;
 @property int32_t maxNumTimesAttackedByOneInProtectionPeriod;
 @property int32_t hoursInAttackedByOneProtectionPeriod;
+@property int32_t minBattlesRequiredForKdrconsideration;
 @end
 
 @implementation StartupResponseProto_StartupConstants
@@ -5285,6 +5286,13 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
   hasHoursInAttackedByOneProtectionPeriod_ = !!value;
 }
 @synthesize hoursInAttackedByOneProtectionPeriod;
+- (BOOL) hasMinBattlesRequiredForKdrconsideration {
+  return !!hasMinBattlesRequiredForKdrconsideration_;
+}
+- (void) setHasMinBattlesRequiredForKdrconsideration:(BOOL) value {
+  hasMinBattlesRequiredForKdrconsideration_ = !!value;
+}
+@synthesize minBattlesRequiredForKdrconsideration;
 - (void) dealloc {
   self.mutableProductIdsList = nil;
   self.mutableProductDiamondsGivenList = nil;
@@ -5358,6 +5366,7 @@ static StartupResponseProto_ReferralNotificationProto* defaultStartupResponsePro
     self.sizeOfAttackList = 0;
     self.maxNumTimesAttackedByOneInProtectionPeriod = 0;
     self.hoursInAttackedByOneProtectionPeriod = 0;
+    self.minBattlesRequiredForKdrconsideration = 0;
   }
   return self;
 }
@@ -5587,6 +5596,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   if (self.hasHoursInAttackedByOneProtectionPeriod) {
     [output writeInt32:73 value:self.hoursInAttackedByOneProtectionPeriod];
   }
+  if (self.hasMinBattlesRequiredForKdrconsideration) {
+    [output writeInt32:74 value:self.minBattlesRequiredForKdrconsideration];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -5794,6 +5806,9 @@ static StartupResponseProto_StartupConstants* defaultStartupResponseProto_Startu
   }
   if (self.hasHoursInAttackedByOneProtectionPeriod) {
     size += computeInt32Size(73, self.hoursInAttackedByOneProtectionPeriod);
+  }
+  if (self.hasMinBattlesRequiredForKdrconsideration) {
+    size += computeInt32Size(74, self.minBattlesRequiredForKdrconsideration);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -8643,6 +8658,9 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
   if (other.hasHoursInAttackedByOneProtectionPeriod) {
     [self setHoursInAttackedByOneProtectionPeriod:other.hoursInAttackedByOneProtectionPeriod];
   }
+  if (other.hasMinBattlesRequiredForKdrconsideration) {
+    [self setMinBattlesRequiredForKdrconsideration:other.minBattlesRequiredForKdrconsideration];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -8941,6 +8959,10 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
       }
       case 584: {
         [self setHoursInAttackedByOneProtectionPeriod:[input readInt32]];
+        break;
+      }
+      case 592: {
+        [self setMinBattlesRequiredForKdrconsideration:[input readInt32]];
         break;
       }
     }
@@ -10065,6 +10087,22 @@ static StartupResponseProto_StartupConstants_ForgeConstants* defaultStartupRespo
 - (StartupResponseProto_StartupConstants_Builder*) clearHoursInAttackedByOneProtectionPeriod {
   result.hasHoursInAttackedByOneProtectionPeriod = NO;
   result.hoursInAttackedByOneProtectionPeriod = 0;
+  return self;
+}
+- (BOOL) hasMinBattlesRequiredForKdrconsideration {
+  return result.hasMinBattlesRequiredForKdrconsideration;
+}
+- (int32_t) minBattlesRequiredForKdrconsideration {
+  return result.minBattlesRequiredForKdrconsideration;
+}
+- (StartupResponseProto_StartupConstants_Builder*) setMinBattlesRequiredForKdrconsideration:(int32_t) value {
+  result.hasMinBattlesRequiredForKdrconsideration = YES;
+  result.minBattlesRequiredForKdrconsideration = value;
+  return self;
+}
+- (StartupResponseProto_StartupConstants_Builder*) clearMinBattlesRequiredForKdrconsideration {
+  result.hasMinBattlesRequiredForKdrconsideration = NO;
+  result.minBattlesRequiredForKdrconsideration = 0;
   return self;
 }
 @end
@@ -22091,6 +22129,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
 @property int32_t diamondsGained;
 @property (retain) NSString* packageName;
 @property Float64 packagePrice;
+@property (retain) NSString* receipt;
 @end
 
 @implementation InAppPurchaseResponseProto
@@ -22130,9 +22169,17 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
   hasPackagePrice_ = !!value;
 }
 @synthesize packagePrice;
+- (BOOL) hasReceipt {
+  return !!hasReceipt_;
+}
+- (void) setHasReceipt:(BOOL) value {
+  hasReceipt_ = !!value;
+}
+@synthesize receipt;
 - (void) dealloc {
   self.sender = nil;
   self.packageName = nil;
+  self.receipt = nil;
   [super dealloc];
 }
 - (id) init {
@@ -22142,6 +22189,7 @@ static InAppPurchaseRequestProto* defaultInAppPurchaseRequestProtoInstance = nil
     self.diamondsGained = 0;
     self.packageName = @"";
     self.packagePrice = 0;
+    self.receipt = @"";
   }
   return self;
 }
@@ -22176,6 +22224,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   if (self.hasPackagePrice) {
     [output writeDouble:5 value:self.packagePrice];
   }
+  if (self.hasReceipt) {
+    [output writeString:6 value:self.receipt];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (int32_t) serializedSize {
@@ -22199,6 +22250,9 @@ static InAppPurchaseResponseProto* defaultInAppPurchaseResponseProtoInstance = n
   }
   if (self.hasPackagePrice) {
     size += computeDoubleSize(5, self.packagePrice);
+  }
+  if (self.hasReceipt) {
+    size += computeStringSize(6, self.receipt);
   }
   size += self.unknownFields.serializedSize;
   memoizedSerializedSize = size;
@@ -22237,6 +22291,7 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   switch (value) {
     case InAppPurchaseResponseProto_InAppPurchaseStatusSuccess:
     case InAppPurchaseResponseProto_InAppPurchaseStatusFail:
+    case InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt:
       return YES;
     default:
       return NO;
@@ -22299,6 +22354,9 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
   if (other.hasPackagePrice) {
     [self setPackagePrice:other.packagePrice];
   }
+  if (other.hasReceipt) {
+    [self setReceipt:other.receipt];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -22348,6 +22406,10 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
       }
       case 41: {
         [self setPackagePrice:[input readDouble]];
+        break;
+      }
+      case 50: {
+        [self setReceipt:[input readString]];
         break;
       }
     }
@@ -22445,6 +22507,22 @@ BOOL InAppPurchaseResponseProto_InAppPurchaseStatusIsValidValue(InAppPurchaseRes
 - (InAppPurchaseResponseProto_Builder*) clearPackagePrice {
   result.hasPackagePrice = NO;
   result.packagePrice = 0;
+  return self;
+}
+- (BOOL) hasReceipt {
+  return result.hasReceipt;
+}
+- (NSString*) receipt {
+  return result.receipt;
+}
+- (InAppPurchaseResponseProto_Builder*) setReceipt:(NSString*) value {
+  result.hasReceipt = YES;
+  result.receipt = value;
+  return self;
+}
+- (InAppPurchaseResponseProto_Builder*) clearReceipt {
+  result.hasReceipt = NO;
+  result.receipt = @"";
   return self;
 }
 @end

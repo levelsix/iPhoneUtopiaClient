@@ -90,12 +90,8 @@
 
 -(void) setUpCrittercism
 {
-  // Note: The setup for CrashAlytics insists that it must be the final program 
-  //       in the didFinishLaunching Method
   [Crittercism initWithAppID:@"5029a2f0eeaf4125dd000001"
-                      andKey:@"4vg6tx28tlhoec3mwjygcaudav9p"
-                   andSecret:@"wu1ubhpzmgikrpsnbfyvk8qtr93noe47"
-       andMainViewController:nil];
+    andMainViewController:nil];
 }
 
 -(void) setUpDelightio
@@ -227,7 +223,7 @@
   
   [self removeLocalNotifications];
   
-//  [self setUpCrittercism];
+  [self setUpCrittercism];
 
   return YES;
 }
@@ -282,6 +278,7 @@
     [[CCDirector sharedDirector] startAnimation];
     
     if (![[GameState sharedGameState] isTutorial]) {
+      [[GameState sharedGameState] clearAllData];
       [[GameViewController sharedGameViewController] fadeToLoadingScreen];
     }
   }
@@ -314,6 +311,7 @@
 {
 	DDLogInfo(@"My token is: %@", deviceToken);
   [[OutgoingEventController sharedOutgoingEventController] enableApns:deviceToken];
+  [Crittercism configurePushNotification:deviceToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

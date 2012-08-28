@@ -251,7 +251,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 			
 			glBindRenderbufferOES(GL_RENDERBUFFER_OES, [renderer_ colorRenderBuffer]);
 	
-		}	
+		}
 		
 		// not MSAA
 		else if (depthFormat_ ) {

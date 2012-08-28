@@ -19,6 +19,7 @@
 #import "MissionMap.h"
 #import "MarketplaceViewController.h"
 #import "Downloader.h"
+#import "LeaderboardController.h"
 
 #define FAKE_PLAYER_RAND 6
 #define NAME_LABEL_FONT_SIZE 11.f
@@ -396,11 +397,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     CCSprite *max = [CCSprite spriteWithFile:@"max.png"];
     max.position = ccp(_comboBar.contentSize.width/2, _comboBar.contentSize.height-30.f);
     [_comboBar addChild:max];
-    [max runAction:[CCRepeatForever actionWithAction:
-                    [CCSequence actions:
-                     [CCScaleTo actionWithDuration:0.75f scale:1.2f], 
-                     [CCScaleTo actionWithDuration:0.75f scale:1.f],
-                     nil]]];
     
     _flippedComboBar = [CCSprite spriteWithFile:@"combobar.png"];
     _flippedComboBar.flipX = YES;
@@ -625,6 +621,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
     
     if ([MarketplaceViewController isInitialized]) {
       [[MarketplaceViewController sharedMarketplaceViewController] backClicked:nil];
+    }
+    
+    if ([LeaderboardController isInitialized]) {
+      [[LeaderboardController sharedLeaderboardController] closeClicked:nil];
     }
   } else {
     [self startBattle];
@@ -1281,15 +1281,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(BattleLayer);
   NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
   int origCount = arr.count;
   int numTimes = 0;
+  NSMutableArray *x = [NSMutableArray array];
   if (arr.count >= gl.maxNumTimesAttackedByOneInProtectionPeriod) {
     for (NSDate *date in arr) {
       if ([date timeIntervalSinceNow] > -gl.hoursInAttackedByOneProtectionPeriod*3600) {
         numTimes++;
       } else {
-        [arr removeObject:date];
+        [x addObject:date];
       }
     }
   }
+  [arr removeObjectsInArray:x];
   if (arr.count < origCount) {
     [defaults setObject:arr forKey:BATTLE_USER_DEFAULTS_KEY];
     [defaults synchronize];

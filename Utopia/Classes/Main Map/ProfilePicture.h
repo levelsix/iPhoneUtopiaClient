@@ -46,11 +46,10 @@
   BOOL _menuOut;
   NSMutableArray *_menuItems;
   ExperienceCircle *_expCircle;
-  
-  CCLabelTTF *_expLabel;
 }
 
-@property (nonatomic, retain) CCLabelTTF *expLabel;
+@property (nonatomic, retain) CCLabelTTF *expLabelTop;
+@property (nonatomic, retain) CCLabelTTF *expLabelBot;
 
 + (id) profileWithType: (UserType) type;
 - (id) initWithType: (UserType) type;

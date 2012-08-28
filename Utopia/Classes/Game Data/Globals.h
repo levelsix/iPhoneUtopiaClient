@@ -20,6 +20,8 @@
 #define FULL_SCREEN_APPEAR_ANIMATION_DURATION 0.4f
 #define FULL_SCREEN_DISAPPEAR_ANIMATION_DURATION 0.7f
 
+#define IAP_DEFAULTS_KEY @"Unresponded In Apps"
+
 @interface Globals : NSObject <BattleConstants, EnemyBattleStats> {
   int _equipIdToWear;
 }
@@ -101,10 +103,11 @@
 @property (nonatomic, assign) float healthFormulaExponentBase;
 
 @property (nonatomic, assign) float maxLevelForUser;
-//@property (nonatomic, assign) float numberOfVideosTillGold;
 
 @property (nonatomic, assign) int maxNumTimesAttackedByOneInProtectionPeriod;
 @property (nonatomic, assign) int hoursInAttackedByOneProtectionPeriod;
+
+@property (nonatomic, assign) int minBattlesRequiredForKDRConsideration;
 
 // Char mod constants
 @property (nonatomic, assign) int diamondCostToChangeCharacterType;
@@ -203,6 +206,7 @@ withCompletionBlock:(void(^)(BOOL))completionBlock;
 + (UIColor *)greenColor;
 + (UIColor *)orangeColor;
 + (UIColor *)redColor;
++ (UIColor *)blueColor;
 
 + (GameMap *) mapForQuest:(FullQuestProto *)fqp;
 + (NSString *) bazaarQuestGiverName;

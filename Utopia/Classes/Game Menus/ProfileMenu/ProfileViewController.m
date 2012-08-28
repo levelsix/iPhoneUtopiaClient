@@ -1332,8 +1332,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
   equips = [[self sortEquips:equippables].mutableCopy arrayByAddingObjectsFromArray:[self sortEquips:unequippables]];
   [self.equipsTableDelegate loadEquips:equips curWeapon:weapon curArmor:armor curAmulet:amulet];
   
-  NSLog(@"%@, %d, %d, %d", equips, weapon, armor, amulet);
-  
   int i;
   
   for (i = 0; i < equips.count; i++) {
@@ -1594,7 +1592,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ProfileViewController);
 }
 
 - (void) loadProfileForMinimumUser:(MinimumUserProto *)user withState:(ProfileState)pState {
-  pState = kEquipState;
   if (userId == user.userId) {
     [ProfileViewController displayView];
     return;

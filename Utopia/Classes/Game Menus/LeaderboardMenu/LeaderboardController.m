@@ -259,16 +259,30 @@
 }
 
 - (void) updateForUser:(MinimumUserProtoWithLevelForLeaderboard *)u forState:(LeaderboardType)type {
+  GameState *gs = [GameState sharedGameState];
+  Globals *gl = [Globals sharedGlobals];
   self.user = u;
   [self.nameLabel setTitle:user.minUserProto.name forState:UIControlStateNormal];
   self.typeLabel.text = [NSString stringWithFormat:@"Level %d %@ %@", user.level, [Globals factionForUserType:user.minUserProto.userType], [Globals classForUserType:user.minUserProto.userType]];
   [userIcon setImage:[Globals squareImageForUser:user.minUserProto.userType] forState:UIControlStateNormal];
   self.rankLabel.text = [Globals commafyNumber:user.leaderboardRank];
   
+  if ([Globals userTypeIsGood:u.minUserProto.userType]) {
+    [self.nameLabel setTitleColor:[Globals blueColor] forState:UIControlStateNormal];
+  } else {
+    [self.nameLabel setTitleColor:[Globals redColor] forState:UIControlStateNormal];
+  }
+  
+  if (u.minUserProto.userId == gs.userId) {
+    self.rankLabel.textColor = [Globals greenColor];
+  } else {
+    self.rankLabel.textColor = [Globals creamColor];
+  }
+  
   NSString *str = nil;
   if (type == LeaderboardTypeBestKdr) {
     if (u.leaderboardScore == 0.f) {
-      str = @"Need 100 Battles";
+      str = [NSString stringWithFormat:@"Need %d Battles", gl.minBattlesRequiredForKDRConsideration];
       self.rankLabel.text = @"N/A";
     } else {
       str = [NSString stringWithFormat:@"%.1f%%", u.leaderboardScore*100.f];
@@ -528,9 +542,11 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(LeaderboardController);
 }
 
 - (IBAction) closeClicked:(id)sender {
-  [Globals popOutView:mainView fadeOutBgdView:bgdView completion:^{
-    [self.view removeFromSuperview];
-  }];
+  if (self.view.superview) {
+    [Globals popOutView:mainView fadeOutBgdView:bgdView completion:^{
+      [self.view removeFromSuperview];
+    }];
+  }
 }
 
 - (void)viewDidUnload

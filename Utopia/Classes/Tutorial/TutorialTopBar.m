@@ -89,8 +89,9 @@
     _curExp += change;
   }
   
-  if (_profilePic.expLabel.visible) {
-    [_profilePic.expLabel setString:[NSString stringWithFormat:@"%d/%d", _curExp-gs.expRequiredForCurrentLevel, gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
+  if (_profilePic.expLabelTop.visible) {
+    [_profilePic.expLabelTop setString:[NSString stringWithFormat:@"%d/", _curExp-gs.expRequiredForCurrentLevel]];
+    [_profilePic.expLabelBot setString:[NSString stringWithFormat:@"%d", gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
   }
   
   [_profilePic setLevel:gs.level];

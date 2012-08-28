@@ -75,6 +75,7 @@ static NSMutableSet *_pulsingViews;
 @synthesize adColonyVideosRequiredToRedeemGold;
 @synthesize diamondCostToChangeName, diamondCostToResetCharacter, diamondCostToResetSkillPoints, diamondCostToChangeCharacterType;
 @synthesize maxNumTimesAttackedByOneInProtectionPeriod, hoursInAttackedByOneProtectionPeriod;
+@synthesize minBattlesRequiredForKDRConsideration;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
 
@@ -156,6 +157,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Globals);
   self.sizeOfAttackList = constants.sizeOfAttackList;
   self.maxNumTimesAttackedByOneInProtectionPeriod = constants.maxNumTimesAttackedByOneInProtectionPeriod;
   self.hoursInAttackedByOneProtectionPeriod = constants.hoursInAttackedByOneProtectionPeriod;
+  self.minBattlesRequiredForKDRConsideration = constants.minBattlesRequiredForKdrconsideration;
   
   self.minutesToUpgradeForNormStructMultiplier = constants.formulaConstants.minutesToUpgradeForNormStructMultiplier;
   self.incomeFromNormStructMultiplier = constants.formulaConstants.incomeFromNormStructMultiplier;
@@ -1575,6 +1577,10 @@ withCompletionBlock:(void(^)(BOOL))completionBlock
 
 + (UIColor *)redColor {
   return [UIColor colorWithRed:255/255.f green:0/255.f blue:0/255.f alpha:1.f];
+}
+
++ (UIColor *)blueColor {
+  return [UIColor colorWithRed:15/255.f green:177/255.f blue:224/255.f alpha:1.f];
 }
 
 + (GameMap *)mapForQuest:(FullQuestProto *)fqp {

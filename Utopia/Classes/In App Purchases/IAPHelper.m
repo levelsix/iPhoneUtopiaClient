@@ -102,13 +102,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IAPHelper);
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
-  
+  [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
   if (transaction.error.code != SKErrorPaymentCancelled)
   {
     ContextLogError(LN_CONTEXT_IAP, @"Transaction error: %@", transaction.error.localizedDescription);
   } else {
     // Transaction was cancelled
-    [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
     [Analytics cancelledGoldPackage:transaction.payment.productIdentifier];
   }
   

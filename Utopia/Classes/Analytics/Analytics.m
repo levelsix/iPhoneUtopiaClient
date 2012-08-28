@@ -19,7 +19,7 @@
 #define SUSPENDED_APP @"App: Suspended"
 #define TERMINATED_APP @"App: Terminated"
 
-#define PURCHASED_GOLD @"Purchased gold package"
+#define PURCHASED_GOLD @"Purchased %@"
 #define CANCELLED_IAP @"Cancelled gold purchase"
 #define IAP_FAILED @"Gold Shoppe: In app purchase failed"
 #define TOP_BAR_SHOP @"Viewed gold shop from top bar"
@@ -193,7 +193,7 @@
                         [NSNumber numberWithInt:gold], @"gold",
                         nil];
   
-  [Analytics event:PURCHASED_GOLD withArgs:args];
+  [Analytics event:[NSString stringWithFormat:PURCHASED_GOLD, package] withArgs:args];
 }
 
 + (void) cancelledGoldPackage:(NSString *)package {

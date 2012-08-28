@@ -42,6 +42,7 @@
 #import "IAPHelper.h"
 #import "AttackMenuController.h"
 #import "LeaderboardController.h"
+#import "Crittercism.h"
 
 @implementation IncomingEventController
 
@@ -498,6 +499,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     LevelUpViewController *vc = [[LevelUpViewController alloc] initWithLevelUpResponse:proto];
     [[[[CCDirector sharedDirector] openGLView] superview] addSubview:vc.view];
     
+    [[Crittercism sharedInstance] addVote];
+    [[Crittercism sharedInstance] updateVotes];
+    
     [Analytics levelUp:proto.newLevel];
     [gs removeNonFullUserUpdatesForTag:tag];
   } else {
@@ -513,12 +517,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
   ContextLogInfo( LN_CONTEXT_COMMUNICATION, @"In App Purchase response received with status %d.", proto.status);
   
   [[GoldShoppeViewController sharedGoldShoppeViewController] stopLoading];
+  
+  NSString *key = IAP_DEFAULTS_KEY;
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSMutableArray *arr = [[defaults arrayForKey:key] mutableCopy];
+  int origCount = arr.count;
+  NSString *x = nil;
+  for (NSString *str in arr) {
+    if ([str isEqualToString:proto.receipt]) {
+      x = str;
+    }
+  }
+  if (x) [arr removeObject:x];
+  if (arr.count < origCount) {
+    [defaults setObject:arr forKey:IAP_DEFAULTS_KEY];
+    [defaults synchronize];
+  }
+  
   GameState *gs = [GameState sharedGameState];
   if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusSuccess) {
-    [Globals popupMessage:@"Sorry! Server failed to process in app purchase! Please send us an email at support@lvl6.com"];
+    // Duplicate receipt might occur if you close app before response comes back
+    if (proto.status != InAppPurchaseResponseProto_InAppPurchaseStatusDuplicateReceipt) {
+      [Globals popupMessage:@"Sorry! Server failed to process in app purchase! Please send us an email at support@lvl6.com"];
+      [Analytics inAppPurchaseFailed];
+    }
     [gs removeAndUndoAllUpdatesForTag:tag];
-    
-    [Analytics inAppPurchaseFailed];
   } else {
     [gs removeNonFullUserUpdatesForTag:tag];
     [Analytics purchasedGoldPackage:proto.packageName price:proto.packagePrice goldAmount:proto.diamondsGained];
@@ -987,6 +1010,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(IncomingEventController);
     gs.connected = YES;
     [[GameViewController sharedGameViewController] startGame];
     [gs removeNonFullUserUpdatesForTag:tag];
+    
+    // Check for unresponded in app purchases
+    NSString *key = IAP_DEFAULTS_KEY;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSArray *arr = [defaults arrayForKey:key];
+    [defaults removeObjectForKey:key];
+    for (NSString *receipt in arr) {
+      LNLog(@"Sending over unresponded receipt.");
+      [[OutgoingEventController sharedOutgoingEventController] inAppPurchase:receipt goldAmt:0];
+    }
   } else if (proto.status == LoadPlayerCityResponseProto_LoadPlayerCityStatusNoSuchPlayer) {
     [Globals popupMessage:@"Trying to reach a nonexistent player's city."];
     [gs removeAndUndoAllUpdatesForTag:tag];

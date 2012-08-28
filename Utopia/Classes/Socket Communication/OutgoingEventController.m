@@ -296,8 +296,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(OutgoingEventController);
 }
 
 - (void) inAppPurchase:(NSString *)receipt goldAmt:(int)gold {
-  int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt];
-  [[GameState sharedGameState] addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
+  GameState *gs = [GameState sharedGameState];
+  if (gs.connected) {
+    int tag = [[SocketCommunication sharedSocketCommunication] sendInAppPurchaseMessage:receipt];
+    [[GameState sharedGameState] addUnrespondedUpdate:[GoldUpdate updateWithTag:tag change:gold]];
+  }
+  
+  NSString *key = IAP_DEFAULTS_KEY;
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSArray *arr = [defaults arrayForKey:key];
+  NSMutableArray *mut = arr ? [arr mutableCopy] : [NSMutableArray array];
+  [mut addObject:receipt];
+  [defaults setObject:mut forKey:IAP_DEFAULTS_KEY];
+  [defaults synchronize];
 }
 
 - (void) retrieveMostRecentMarketplacePosts {

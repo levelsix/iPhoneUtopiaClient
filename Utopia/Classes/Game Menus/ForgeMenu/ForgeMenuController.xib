@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1296</int>
-		<string key="IBDocument.SystemVersion">11D50b</string>
+		<string key="IBDocument.SystemVersion">11E53</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.AppKitVersion">1138.47</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">1179</string>
@@ -326,27 +326,10 @@
 									<string key="NSResourceName">forgebg.png</string>
 								</object>
 							</object>
-							<object class="IBUIImageView" id="853762253">
-								<reference key="NSNextResponder" ref="90351005"/>
-								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{233, 197}, {226, 51}}</string>
-								<reference key="NSSuperview" ref="90351005"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="41783865"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<bool key="IBUIClipsSubviews">YES</bool>
-								<int key="IBUIContentMode">4</int>
-								<bool key="IBUIMultipleTouchEnabled">YES</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">forgebuttonbg.png</string>
-								</object>
-							</object>
 							<object class="IBUIButton" id="792123677">
 								<reference key="NSNextResponder" ref="90351005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{145, 9}, {36, 30}}</string>
+								<string key="NSFrame">{{144, 10}, {36, 30}}</string>
 								<reference key="NSSuperview" ref="90351005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="899652399"/>
@@ -368,10 +351,27 @@
 								<reference key="IBUIFontDescription" ref="378635543"/>
 								<reference key="IBUIFont" ref="77373220"/>
 							</object>
+							<object class="IBUIImageView" id="853762253">
+								<reference key="NSNextResponder" ref="90351005"/>
+								<int key="NSvFlags">256</int>
+								<string key="NSFrame">{{233, 214}, {226, 51}}</string>
+								<reference key="NSSuperview" ref="90351005"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="41783865"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">4</int>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">forgebuttonbg.png</string>
+								</object>
+							</object>
 							<object class="IBUIButton" id="41783865">
 								<reference key="NSNextResponder" ref="90351005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{237, 200}, {218, 45}}</string>
+								<string key="NSFrame">{{237, 217}, {218, 45}}</string>
 								<reference key="NSSuperview" ref="90351005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="607097380"/>
@@ -396,7 +396,7 @@
 							<object class="IBUIButton" id="607097380">
 								<reference key="NSNextResponder" ref="90351005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{237, 200}, {218, 45}}</string>
+								<string key="NSFrame">{{237, 217}, {218, 45}}</string>
 								<reference key="NSSuperview" ref="90351005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="604639517"/>
@@ -421,7 +421,7 @@
 							<object class="IBUIButton" id="604639517">
 								<reference key="NSNextResponder" ref="90351005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{237, 200}, {218, 45}}</string>
+								<string key="NSFrame">{{237, 217}, {218, 45}}</string>
 								<reference key="NSSuperview" ref="90351005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="61820905"/>
@@ -446,7 +446,7 @@
 							<object class="IBUIButton" id="61820905">
 								<reference key="NSNextResponder" ref="90351005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{237, 200}, {218, 45}}</string>
+								<string key="NSFrame">{{237, 217}, {218, 45}}</string>
 								<reference key="NSSuperview" ref="90351005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="35247478"/>
@@ -471,7 +471,7 @@
 							<object class="IBUIButton" id="35247478">
 								<reference key="NSNextResponder" ref="90351005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{237, 200}, {218, 45}}</string>
+								<string key="NSFrame">{{237, 217}, {218, 45}}</string>
 								<reference key="NSSuperview" ref="90351005"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="82071606"/>
@@ -998,7 +998,7 @@
 							<object class="IBUILabel" id="82071606">
 								<reference key="NSNextResponder" ref="90351005"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{237, 249}, {218, 19}}</string>
+								<string key="NSFrame">{{237, 192}, {218, 19}}</string>
 								<reference key="NSSuperview" ref="90351005"/>
 								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -2115,22 +2115,22 @@
 						<reference key="object" ref="90351005"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="901804088"/>
-							<reference ref="792123677"/>
 							<reference ref="899652399"/>
 							<reference ref="942030146"/>
 							<reference ref="44858836"/>
 							<reference ref="392334315"/>
-							<reference ref="82071606"/>
-							<reference ref="607097380"/>
 							<reference ref="977532237"/>
 							<reference ref="904426246"/>
-							<reference ref="853762253"/>
 							<reference ref="883736173"/>
 							<reference ref="467971076"/>
+							<reference ref="853762253"/>
 							<reference ref="41783865"/>
-							<reference ref="35247478"/>
+							<reference ref="607097380"/>
 							<reference ref="604639517"/>
 							<reference ref="61820905"/>
+							<reference ref="35247478"/>
+							<reference ref="792123677"/>
+							<reference ref="82071606"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>

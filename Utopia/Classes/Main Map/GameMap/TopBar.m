@@ -328,6 +328,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
   GameState *gs = [GameState sharedGameState];
   
   [Crittercism setUsername:gs.name];
+  [Crittercism setValue:gs.referralCode forKey:@"Referral Code"];
   
   if (gs.availableQuests.count > 0) {
     [self displayNewQuestArrow];
@@ -696,8 +697,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TopBar);
     
     [_profilePic setLevel:gs.level];
     
-    if (_profilePic.expLabel.visible) {
-      [_profilePic.expLabel setString:[NSString stringWithFormat:@"%d/%d", _curExp-gs.expRequiredForCurrentLevel, gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
+    if (_profilePic.expLabelTop.visible) {
+      [_profilePic.expLabelTop setString:[NSString stringWithFormat:@"%d/", _curExp-gs.expRequiredForCurrentLevel]];
+      [_profilePic.expLabelBot setString:[NSString stringWithFormat:@"%d", gs.expRequiredForNextLevel-gs.expRequiredForCurrentLevel]];
     }
     
     if (_bigToolTipState == kEnergy) {

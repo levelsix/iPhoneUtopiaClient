@@ -328,6 +328,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     float chance = [gl calculateChanceOfSuccess:fi.equipId level:fi.level];
     self.bottomLabel.text = [NSString stringWithFormat:@"This forge will succeed with a %d%% chance.", (int)roundf(chance*100)];
   }
+  self.bottomLabel.textColor = [Globals creamColor];
   
   if (gs.forgeAttempt.isComplete) {
     self.progressView.hidden = YES;
@@ -349,6 +350,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) loadRightViewForNotEnoughQuantity:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   
   int oldAttack = [gl calculateAttackForEquip:fi.equipId level:fi.level];
   int oldDefense = [gl calculateDefenseForEquip:fi.equipId level:fi.level];
@@ -391,7 +393,14 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   self.collectButton.hidden = YES;
   self.finishNowButton.hidden = YES;
   
-  self.bottomLabel.text = @"Note: Weapons will be returned if forge fails.";
+  if (fep.diamondPrice > 0 || fi.level == 1) {
+    self.bottomLabel.text = @"Equips will be returned if forge fails.";
+    self.bottomLabel.textColor = [Globals creamColor];
+  } else {
+    self.bottomLabel.text = @"One equip will drop a level if forge fails.";
+    self.bottomLabel.textColor = [Globals goldColor];
+  }
+  
   if (fiv) {
     self.backMovingView.frame = [self.mainView convertRect:fiv.equipIcon.frame fromView:fiv.equipIcon.superview];
     
@@ -446,6 +455,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) loadRightViewForForgeItem:(ForgeItem *)fi fromItemView:(ForgeItemView *)fiv {
   GameState *gs = [GameState sharedGameState];
   Globals *gl = [Globals sharedGlobals];
+  FullEquipProto *fep = [gs equipWithId:fi.equipId];
   if (self.curItem != fi) {
     self.curItem = fi;
     
@@ -511,7 +521,13 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     
     self.twinkleIcon.hidden = YES;
     
-    self.bottomLabel.text = @"Note: Weapons will be returned if forge fails.";
+    if (fep.diamondPrice > 0 || fi.level == 1) {
+      self.bottomLabel.text = @"Equips will be returned if forge fails.";
+      self.bottomLabel.textColor = [Globals creamColor];
+    } else {
+      self.bottomLabel.text = @"One equip will drop a level if forge fails.";
+      self.bottomLabel.textColor = [Globals goldColor];
+    }
     
     // If fiv is not nil, then animate it
     if (fiv) {
@@ -821,9 +837,32 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
   [self shakeViews:[NSNumber numberWithFloat:1.5f]];
 }
 
-- (void) forgeFailed {
+- (void) forgeFailed:(NSArray *)equips {
   [self.statusView displayForgeFailed];
   [[SoundEngine sharedSoundEngine] forgeFailure];
+  
+  Globals *gl = [Globals sharedGlobals];
+  FullUserEquipProto *fuep1 = [equips objectAtIndex:0];
+  FullUserEquipProto *fuep2 = [equips objectAtIndex:1];
+  int attack1 = [gl calculateAttackForEquip:fuep1.equipId level:fuep1.level];
+  int defense1 = [gl calculateDefenseForEquip:fuep1.equipId level:fuep1.level];
+  int attack2 = [gl calculateAttackForEquip:fuep2.equipId level:fuep2.level];
+  int defense2 = [gl calculateDefenseForEquip:fuep2.equipId level:fuep2.level];
+  
+  self.backOldAttackLabel.text = [NSString stringWithFormat:@"%d", attack1];
+  self.backOldDefenseLabel.text = [NSString stringWithFormat:@"%d", defense1];
+  
+  self.frontOldAttackLabel.text = [NSString stringWithFormat:@"%d", attack2];
+  self.frontOldDefenseLabel.text = [NSString stringWithFormat:@"%d", defense2];
+  
+  self.backOldLevelIcon.level = fuep1.level;
+  
+  if (self.frontOldLevelIcon.level > fuep2.level) {
+    [self doLevelImplode:fuep2.level];
+  } else {
+    self.frontOldLevelIcon.level = fuep2.level;
+  }
+  
   [UIView animateWithDuration:0.5f animations:^{
     self.equalPlusSign.alpha = 0.f;
   } completion:^(BOOL finished) {
@@ -865,7 +904,6 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 }
 
 - (void) doLevelPop:(int)level {
-  self.upgrItemView.transform = CGAffineTransformIdentity;
   EquipLevelIcon *newLvlIcon = [[EquipLevelIcon alloc] initWithFrame:self.upgrLevelIcon.frame];
   [self.upgrLevelIcon.superview addSubview:newLvlIcon];
   newLvlIcon.level = level;
@@ -884,6 +922,21 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
     _collectingEquips = NO;
     
     [self performSelector:@selector(askToConfirmWearForgedEquip) withObject:nil afterDelay:0.3f];
+  }];
+}
+
+- (void) doLevelImplode:(int)level {
+  self.frontOldLevelIcon.level = level+1;
+  [UIView animateWithDuration:0.7f animations:^{
+    frontOldLevelIcon.transform = CGAffineTransformMakeScale(0.2f, 0.2f);
+    frontOldLevelIcon.alpha = 0.f;
+  } completion:^(BOOL finished) {
+    self.frontOldLevelIcon.level = level;
+    self.frontOldLevelIcon.transform = CGAffineTransformIdentity;
+    
+    [UIView animateWithDuration:0.3f animations:^{
+      self.frontOldLevelIcon.alpha = 1.f;
+    }];
   }];
 }
 
@@ -977,7 +1030,7 @@ SYNTHESIZE_SINGLETON_FOR_CONTROLLER(ForgeMenuController);
 - (void) receivedCollectForgeEquipsResponse:(CollectForgeEquipsResponseProto *)proto {
   if (proto.status == CollectForgeEquipsResponseProto_CollectForgeEquipsStatusSuccess) {
     if (proto.newUserEquipsList.count == 2) {
-      [self forgeFailed];
+      [self forgeFailed:proto.newUserEquipsList];
     } else if (proto.newUserEquipsList.count == 1) {
       FullUserEquipProto *fuep = [proto.newUserEquipsList objectAtIndex:0];
       [self forgeSucceeded:fuep.level];

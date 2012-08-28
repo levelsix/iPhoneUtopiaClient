@@ -82,9 +82,12 @@ typedef enum {
 
 - (void) receivedLeaderboardResponse:(RetrieveLeaderboardResponseProto *)proto;
 
+- (IBAction) closeClicked:(id)sender;
+
 + (LeaderboardController *) sharedLeaderboardController;
 + (void) purgeSingleton;
 + (void) displayView;
 + (void) removeView;
++ (BOOL) isInitialized;
 
 @end
